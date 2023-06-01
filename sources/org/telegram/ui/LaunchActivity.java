@@ -8857,37 +8857,38 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         baseFragment = arrayList4.get(arrayList4.size() - 1);
                     }
                     if (baseFragment == null || MessagesController.getInstance(i).checkCanOpenChat(bundle3, baseFragment)) {
-                        if (z3 && (baseFragment instanceof ChatActivity)) {
-                            ChatActivity chatActivity = (ChatActivity) baseFragment;
-                            if (chatActivity.getDialogId() == longValue) {
-                                chatActivity.setBotUser(str9);
-                            }
-                        }
-                        long j = -longValue;
-                        TLRPC$Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(j));
-                        if (chat != null && chat.forum) {
-                            Integer num4 = num2 == null ? num : num2;
-                            if (num4 != null && num4.intValue() != 0) {
-                                openForumFromLink(longValue, num4.intValue(), num, new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda29
-                                    @Override // java.lang.Runnable
-                                    public final void run() {
-                                        LaunchActivity.lambda$runLinkRequest$61(runnable);
-                                    }
-                                });
-                            } else {
-                                Bundle bundle4 = new Bundle();
-                                bundle4.putLong("chat_id", j);
-                                lambda$runLinkRequest$77(new TopicsFragment(bundle4));
-                                try {
-                                    runnable.run();
-                                } catch (Exception e2) {
-                                    FileLog.e(e2);
-                                }
-                            }
+                        boolean z5 = (baseFragment instanceof ChatActivity) && ((ChatActivity) baseFragment).getDialogId() == longValue;
+                        if (z3 && z5) {
+                            ((ChatActivity) baseFragment).setBotUser(str9);
+                        } else if (str23 != null && z5) {
+                            ((ChatActivity) baseFragment).askToAttachBot(str23, str22);
                         } else {
-                            MessagesController.getInstance(i).ensureMessagesLoaded(longValue, num == null ? 0 : num.intValue(), new 18(runnable, str3, baseFragment, longValue, num, bundle3));
+                            long j = -longValue;
+                            TLRPC$Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(j));
+                            if (chat != null && chat.forum) {
+                                Integer num4 = num2 == null ? num : num2;
+                                if (num4 != null && num4.intValue() != 0) {
+                                    openForumFromLink(longValue, num4.intValue(), num, new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda29
+                                        @Override // java.lang.Runnable
+                                        public final void run() {
+                                            LaunchActivity.lambda$runLinkRequest$61(runnable);
+                                        }
+                                    });
+                                } else {
+                                    Bundle bundle4 = new Bundle();
+                                    bundle4.putLong("chat_id", j);
+                                    lambda$runLinkRequest$77(new TopicsFragment(bundle4));
+                                    try {
+                                        runnable.run();
+                                    } catch (Exception e2) {
+                                        FileLog.e(e2);
+                                    }
+                                }
+                            } else {
+                                MessagesController.getInstance(i).ensureMessagesLoaded(longValue, num == null ? 0 : num.intValue(), new 18(runnable, str3, baseFragment, longValue, num, bundle3));
+                            }
+                            z4 = false;
                         }
-                        z4 = false;
                     }
                 }
             }
@@ -9006,6 +9007,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 bundle.putInt("dialogsType", 14);
                 bundle.putBoolean("onlySelect", true);
                 bundle.putBoolean("allowGroups", arrayList2.contains("groups"));
+                bundle.putBoolean("allowMegagroups", arrayList2.contains("groups"));
+                bundle.putBoolean("allowLegacyGroups", arrayList2.contains("groups"));
                 bundle.putBoolean("allowUsers", arrayList2.contains("users"));
                 bundle.putBoolean("allowChannels", arrayList2.contains("channels"));
                 bundle.putBoolean("allowBots", arrayList2.contains("bots"));

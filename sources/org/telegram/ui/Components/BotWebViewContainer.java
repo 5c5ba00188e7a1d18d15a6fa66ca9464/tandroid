@@ -458,7 +458,7 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
                 dialog.dismiss();
                 this.lastPermissionsDialog = null;
             }
-            String[] resources = permissionRequest.getResources();
+            final String[] resources = permissionRequest.getResources();
             if (resources.length == 1) {
                 final String str = resources[0];
                 if (BotWebViewContainer.this.parentActivity == null) {
@@ -484,6 +484,17 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
                     });
                     this.lastPermissionsDialog = createWebViewPermissionsRequestDialog2;
                     createWebViewPermissionsRequestDialog2.show();
+                }
+            } else if (resources.length == 2) {
+                if (("android.webkit.resource.AUDIO_CAPTURE".equals(resources[0]) && "android.webkit.resource.VIDEO_CAPTURE".equals(resources[1])) || ("android.webkit.resource.AUDIO_CAPTURE".equals(resources[1]) && "android.webkit.resource.VIDEO_CAPTURE".equals(resources[0]))) {
+                    Dialog createWebViewPermissionsRequestDialog3 = AlertsCreator.createWebViewPermissionsRequestDialog(BotWebViewContainer.this.parentActivity, BotWebViewContainer.this.resourcesProvider, new String[]{"android.permission.CAMERA", "android.permission.RECORD_AUDIO"}, R.raw.permission_request_camera, LocaleController.formatString(R.string.BotWebViewRequestCameraMicrophonePermission, UserObject.getUserName(BotWebViewContainer.this.botUser)), LocaleController.formatString(R.string.BotWebViewRequestCameraMicrophonePermissionWithHint, UserObject.getUserName(BotWebViewContainer.this.botUser)), new Consumer() { // from class: org.telegram.ui.Components.BotWebViewContainer$4$$ExternalSyntheticLambda7
+                        @Override // androidx.core.util.Consumer
+                        public final void accept(Object obj) {
+                            BotWebViewContainer.4.this.lambda$onPermissionRequest$7(permissionRequest, resources, (Boolean) obj);
+                        }
+                    });
+                    this.lastPermissionsDialog = createWebViewPermissionsRequestDialog3;
+                    createWebViewPermissionsRequestDialog3.show();
                 }
             }
         }
@@ -536,6 +547,33 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
         public /* synthetic */ void lambda$onPermissionRequest$4(PermissionRequest permissionRequest, String str, Boolean bool) {
             if (bool.booleanValue()) {
                 permissionRequest.grant(new String[]{str});
+                BotWebViewContainer.this.hasUserPermissions = true;
+                return;
+            }
+            permissionRequest.deny();
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$onPermissionRequest$7(final PermissionRequest permissionRequest, final String[] strArr, Boolean bool) {
+            if (this.lastPermissionsDialog != null) {
+                this.lastPermissionsDialog = null;
+                if (bool.booleanValue()) {
+                    BotWebViewContainer.this.runWithPermissions(new String[]{"android.permission.CAMERA", "android.permission.RECORD_AUDIO"}, new Consumer() { // from class: org.telegram.ui.Components.BotWebViewContainer$4$$ExternalSyntheticLambda6
+                        @Override // androidx.core.util.Consumer
+                        public final void accept(Object obj) {
+                            BotWebViewContainer.4.this.lambda$onPermissionRequest$6(permissionRequest, strArr, (Boolean) obj);
+                        }
+                    });
+                } else {
+                    permissionRequest.deny();
+                }
+            }
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$onPermissionRequest$6(PermissionRequest permissionRequest, String[] strArr, Boolean bool) {
+            if (bool.booleanValue()) {
+                permissionRequest.grant(strArr);
                 BotWebViewContainer.this.hasUserPermissions = true;
                 return;
             }

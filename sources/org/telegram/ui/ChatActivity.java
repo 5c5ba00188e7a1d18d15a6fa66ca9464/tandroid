@@ -22946,29 +22946,33 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         if (TextUtils.isEmpty(this.attachMenuBotToOpen)) {
             return;
         }
-        TLRPC$TL_contacts_resolveUsername tLRPC$TL_contacts_resolveUsername = new TLRPC$TL_contacts_resolveUsername();
-        tLRPC$TL_contacts_resolveUsername.username = this.attachMenuBotToOpen;
-        getConnectionsManager().sendRequest(tLRPC$TL_contacts_resolveUsername, new RequestDelegate() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda253
-            @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                ChatActivity.this.lambda$onTransitionAnimationEnd$152(tLObject, tLRPC$TL_error);
-            }
-        });
+        askToAttachBot(this.attachMenuBotToOpen, this.attachMenuBotStartCommand);
         this.attachMenuBotToOpen = null;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onTransitionAnimationEnd$152(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda212
-            @Override // java.lang.Runnable
-            public final void run() {
-                ChatActivity.this.lambda$onTransitionAnimationEnd$151(tLObject);
+    public void askToAttachBot(String str, final String str2) {
+        TLRPC$TL_contacts_resolveUsername tLRPC$TL_contacts_resolveUsername = new TLRPC$TL_contacts_resolveUsername();
+        tLRPC$TL_contacts_resolveUsername.username = str;
+        getConnectionsManager().sendRequest(tLRPC$TL_contacts_resolveUsername, new RequestDelegate() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda257
+            @Override // org.telegram.tgnet.RequestDelegate
+            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                ChatActivity.this.lambda$askToAttachBot$152(str2, tLObject, tLRPC$TL_error);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onTransitionAnimationEnd$151(TLObject tLObject) {
+    public /* synthetic */ void lambda$askToAttachBot$152(final String str, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda212
+            @Override // java.lang.Runnable
+            public final void run() {
+                ChatActivity.this.lambda$askToAttachBot$151(tLObject, str);
+            }
+        });
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$askToAttachBot$151(TLObject tLObject, final String str) {
         if (tLObject != null) {
             TLRPC$TL_contacts_resolvedPeer tLRPC$TL_contacts_resolvedPeer = (TLRPC$TL_contacts_resolvedPeer) tLObject;
             if (tLRPC$TL_contacts_resolvedPeer.users.isEmpty()) {
@@ -22978,10 +22982,10 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             if (tLRPC$User.bot && tLRPC$User.bot_attach_menu) {
                 TLRPC$TL_messages_getAttachMenuBot tLRPC$TL_messages_getAttachMenuBot = new TLRPC$TL_messages_getAttachMenuBot();
                 tLRPC$TL_messages_getAttachMenuBot.bot = MessagesController.getInstance(this.currentAccount).getInputUser(tLRPC$User.id);
-                ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_getAttachMenuBot, new RequestDelegate() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda262
+                ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_getAttachMenuBot, new RequestDelegate() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda263
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject2, TLRPC$TL_error tLRPC$TL_error) {
-                        ChatActivity.this.lambda$onTransitionAnimationEnd$150(tLRPC$User, tLObject2, tLRPC$TL_error);
+                        ChatActivity.this.lambda$askToAttachBot$150(tLRPC$User, str, tLObject2, tLRPC$TL_error);
                     }
                 });
             }
@@ -22989,17 +22993,17 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onTransitionAnimationEnd$150(final TLRPC$User tLRPC$User, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$askToAttachBot$150(final TLRPC$User tLRPC$User, final String str, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda214
             @Override // java.lang.Runnable
             public final void run() {
-                ChatActivity.this.lambda$onTransitionAnimationEnd$149(tLObject, tLRPC$User);
+                ChatActivity.this.lambda$askToAttachBot$149(tLObject, tLRPC$User, str);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onTransitionAnimationEnd$149(TLObject tLObject, final TLRPC$User tLRPC$User) {
+    public /* synthetic */ void lambda$askToAttachBot$149(TLObject tLObject, final TLRPC$User tLRPC$User, final String str) {
         if (tLObject instanceof TLRPC$TL_attachMenuBotsBot) {
             TLRPC$TL_attachMenuBotsBot tLRPC$TL_attachMenuBotsBot = (TLRPC$TL_attachMenuBotsBot) tLObject;
             MessagesController.getInstance(this.currentAccount).putUsers(tLRPC$TL_attachMenuBotsBot.users, false);
@@ -23025,7 +23029,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     BulletinFactory.of(this).createErrorBulletin(LocaleController.getString(R.string.BotCantOpenAttachMenuChannel)).show();
                 }
             } else if (!tLRPC$TL_attachMenuBot.inactive) {
-                openAttachBotLayout(tLRPC$User.id, this.attachMenuBotStartCommand);
+                openAttachBotLayout(tLRPC$User.id, str);
             } else {
                 AttachBotIntroTopView attachBotIntroTopView = new AttachBotIntroTopView(getParentActivity());
                 attachBotIntroTopView.setColor(Theme.getColor(Theme.key_chat_attachIcon));
@@ -23035,7 +23039,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 AlertDialog.Builder negativeButton = new AlertDialog.Builder(getParentActivity()).setTopView(attachBotIntroTopView).setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("BotRequestAttachPermission", R.string.BotRequestAttachPermission, UserObject.getUserName(tLRPC$User)))).setPositiveButton(LocaleController.getString(R.string.BotAddToMenu), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda43
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface, int i) {
-                        ChatActivity.this.lambda$onTransitionAnimationEnd$147(tLRPC$User, atomicBoolean, dialogInterface, i);
+                        ChatActivity.this.lambda$askToAttachBot$147(tLRPC$User, atomicBoolean, str, dialogInterface, i);
                     }
                 }).setNegativeButton(LocaleController.getString(R.string.Cancel), null);
                 if (tLRPC$TL_attachMenuBot.request_write_access) {
@@ -23049,7 +23053,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     checkBoxCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda60
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view) {
-                            ChatActivity.lambda$onTransitionAnimationEnd$148(CheckBoxCell.this, atomicBoolean, view);
+                            ChatActivity.lambda$askToAttachBot$148(CheckBoxCell.this, atomicBoolean, view);
                         }
                     });
                     negativeButton.setCustomViewOffset(6);
@@ -23061,39 +23065,39 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onTransitionAnimationEnd$147(final TLRPC$User tLRPC$User, AtomicBoolean atomicBoolean, DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$askToAttachBot$147(final TLRPC$User tLRPC$User, AtomicBoolean atomicBoolean, final String str, DialogInterface dialogInterface, int i) {
         TLRPC$TL_messages_toggleBotInAttachMenu tLRPC$TL_messages_toggleBotInAttachMenu = new TLRPC$TL_messages_toggleBotInAttachMenu();
         tLRPC$TL_messages_toggleBotInAttachMenu.bot = MessagesController.getInstance(this.currentAccount).getInputUser(tLRPC$User.id);
         tLRPC$TL_messages_toggleBotInAttachMenu.enabled = true;
         tLRPC$TL_messages_toggleBotInAttachMenu.write_allowed = atomicBoolean.get();
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_toggleBotInAttachMenu, new RequestDelegate() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda263
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_toggleBotInAttachMenu, new RequestDelegate() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda262
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                ChatActivity.this.lambda$onTransitionAnimationEnd$146(tLRPC$User, tLObject, tLRPC$TL_error);
+                ChatActivity.this.lambda$askToAttachBot$146(tLRPC$User, str, tLObject, tLRPC$TL_error);
             }
         }, 66);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onTransitionAnimationEnd$146(final TLRPC$User tLRPC$User, TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$askToAttachBot$146(final TLRPC$User tLRPC$User, final String str, TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda218
             @Override // java.lang.Runnable
             public final void run() {
-                ChatActivity.this.lambda$onTransitionAnimationEnd$145(tLRPC$TL_error, tLRPC$User);
+                ChatActivity.this.lambda$askToAttachBot$145(tLRPC$TL_error, tLRPC$User, str);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onTransitionAnimationEnd$145(TLRPC$TL_error tLRPC$TL_error, TLRPC$User tLRPC$User) {
+    public /* synthetic */ void lambda$askToAttachBot$145(TLRPC$TL_error tLRPC$TL_error, TLRPC$User tLRPC$User, String str) {
         if (tLRPC$TL_error == null) {
             MediaDataController.getInstance(this.currentAccount).loadAttachMenuBots(false, true);
-            openAttachBotLayout(tLRPC$User.id, this.attachMenuBotStartCommand);
+            openAttachBotLayout(tLRPC$User.id, str);
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$onTransitionAnimationEnd$148(CheckBoxCell checkBoxCell, AtomicBoolean atomicBoolean, View view) {
+    public static /* synthetic */ void lambda$askToAttachBot$148(CheckBoxCell checkBoxCell, AtomicBoolean atomicBoolean, View view) {
         boolean z = !checkBoxCell.isChecked();
         checkBoxCell.setChecked(z, true);
         atomicBoolean.set(z);
@@ -29501,7 +29505,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         tLRPC$TL_messages_rateTranscribedAudio.peer = getMessagesController().getInputPeer(this.selectedObject.messageOwner.peer_id);
         tLRPC$TL_messages_rateTranscribedAudio.transcription_id = this.selectedObject.messageOwner.voiceTranscriptionId;
         tLRPC$TL_messages_rateTranscribedAudio.good = zArr2[0];
-        getConnectionsManager().sendRequest(tLRPC$TL_messages_rateTranscribedAudio, new RequestDelegate() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda257
+        getConnectionsManager().sendRequest(tLRPC$TL_messages_rateTranscribedAudio, new RequestDelegate() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda256
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 ChatActivity.this.lambda$createMenu$183(runnable, jArr, tLObject, tLRPC$TL_error);
@@ -30884,7 +30888,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             tLRPC$TL_channels_exportMessageLink.channel = MessagesController.getInputChannel(this.currentChat);
                             tLRPC$TL_channels_exportMessageLink.thread = isReplyChatComment() || this.isTopic;
                         }
-                        getConnectionsManager().sendRequest(tLRPC$TL_channels_exportMessageLink, new RequestDelegate() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda254
+                        getConnectionsManager().sendRequest(tLRPC$TL_channels_exportMessageLink, new RequestDelegate() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda253
                             @Override // org.telegram.tgnet.RequestDelegate
                             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                                 ChatActivity.this.lambda$processSelectedOption$226(tLObject, tLRPC$TL_error);
@@ -32224,7 +32228,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         }
         final int i5 = this.commentLoadingGuid + 1;
         this.commentLoadingGuid = i5;
-        this.commentRequestId = getConnectionsManager().sendRequest(tLRPC$TL_messages_getDiscussionMessage, new RequestDelegate() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda255
+        this.commentRequestId = getConnectionsManager().sendRequest(tLRPC$TL_messages_getDiscussionMessage, new RequestDelegate() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda254
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 ChatActivity.this.lambda$openDiscussionMessageChat$254(i5, i2, j2, i3, messageObject2, tLRPC$TL_messages_getDiscussionMessage, chat, messageObject, tLObject, tLRPC$TL_error);
@@ -32288,7 +32292,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             }
             final int i5 = 1 + this.commentMessagesLoadingGuid;
             this.commentMessagesLoadingGuid = i5;
-            this.commentMessagesRequestId = getConnectionsManager().sendRequest(tLRPC$TL_messages_getReplies, new RequestDelegate() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda256
+            this.commentMessagesRequestId = getConnectionsManager().sendRequest(tLRPC$TL_messages_getReplies, new RequestDelegate() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda255
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject2, TLRPC$TL_error tLRPC$TL_error) {
                     ChatActivity.this.lambda$openDiscussionMessageChat$251(i5, i2, messageObject, tLRPC$TL_messages_getDiscussionMessage, tLRPC$Chat, i3, messageObject2, tLObject2, tLRPC$TL_error);

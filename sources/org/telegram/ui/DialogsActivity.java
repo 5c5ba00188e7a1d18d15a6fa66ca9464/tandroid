@@ -2718,77 +2718,45 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         return actionBar;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:105:0x03b9, code lost:
-        if (r0 == 3) goto L64;
-     */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:112:0x03ca  */
-    /* JADX WARN: Removed duplicated region for block: B:151:0x05f2  */
-    /* JADX WARN: Removed duplicated region for block: B:152:0x05f4  */
-    /* JADX WARN: Removed duplicated region for block: B:166:0x0693  */
-    /* JADX WARN: Removed duplicated region for block: B:167:0x0696  */
-    /* JADX WARN: Removed duplicated region for block: B:169:0x069a  */
-    /* JADX WARN: Removed duplicated region for block: B:170:0x069d  */
-    /* JADX WARN: Removed duplicated region for block: B:173:0x06a4  */
-    /* JADX WARN: Removed duplicated region for block: B:174:0x06a6  */
-    /* JADX WARN: Removed duplicated region for block: B:177:0x06ab  */
-    /* JADX WARN: Removed duplicated region for block: B:178:0x06b0  */
-    /* JADX WARN: Removed duplicated region for block: B:181:0x06b6  */
-    /* JADX WARN: Removed duplicated region for block: B:182:0x06b9  */
-    /* JADX WARN: Removed duplicated region for block: B:185:0x06f6  */
-    /* JADX WARN: Removed duplicated region for block: B:186:0x070b  */
-    /* JADX WARN: Removed duplicated region for block: B:189:0x0727  */
-    /* JADX WARN: Removed duplicated region for block: B:190:0x078c  */
-    /* JADX WARN: Removed duplicated region for block: B:193:0x07a4  */
-    /* JADX WARN: Removed duplicated region for block: B:194:0x07d1  */
-    /* JADX WARN: Removed duplicated region for block: B:202:0x0898  */
-    /* JADX WARN: Removed duplicated region for block: B:243:0x0aac  */
-    /* JADX WARN: Removed duplicated region for block: B:246:0x0aba  */
-    /* JADX WARN: Removed duplicated region for block: B:250:0x0aca  */
-    /* JADX WARN: Removed duplicated region for block: B:256:0x0adb  */
-    /* JADX WARN: Removed duplicated region for block: B:259:0x0af3  */
-    /* JADX WARN: Removed duplicated region for block: B:263:0x0b17  */
-    /* JADX WARN: Removed duplicated region for block: B:267:0x0bc5  */
-    /* JADX WARN: Removed duplicated region for block: B:270:0x0c12  */
-    /* JADX WARN: Removed duplicated region for block: B:274:0x0c23  */
-    /* JADX WARN: Removed duplicated region for block: B:278:0x0c6a  */
-    /* JADX WARN: Removed duplicated region for block: B:279:0x0c6d  */
-    /* JADX WARN: Removed duplicated region for block: B:282:0x0c7a  */
-    /* JADX WARN: Removed duplicated region for block: B:290:0x0cff  */
-    /* JADX WARN: Removed duplicated region for block: B:291:0x0d0a  */
-    /* JADX WARN: Removed duplicated region for block: B:299:0x0d34  */
-    /* JADX WARN: Type inference failed for: r10v0 */
-    /* JADX WARN: Type inference failed for: r10v1, types: [boolean] */
-    /* JADX WARN: Type inference failed for: r10v10 */
-    /* JADX WARN: Type inference failed for: r10v13 */
-    /* JADX WARN: Type inference failed for: r10v2, types: [boolean, int] */
-    /* JADX WARN: Type inference failed for: r10v9 */
+    /* JADX WARN: Removed duplicated region for block: B:269:0x0b1b  */
+    /* JADX WARN: Removed duplicated region for block: B:282:0x0b4a  */
+    /* JADX WARN: Removed duplicated region for block: B:289:0x0b86  */
+    /* JADX WARN: Removed duplicated region for block: B:293:0x0c34  */
+    /* JADX WARN: Removed duplicated region for block: B:300:0x0c92  */
+    /* JADX WARN: Removed duplicated region for block: B:304:0x0cd9  */
+    /* JADX WARN: Removed duplicated region for block: B:305:0x0cdc  */
+    /* JADX WARN: Removed duplicated region for block: B:308:0x0ce9  */
+    /* JADX WARN: Removed duplicated region for block: B:316:0x0d6e  */
+    /* JADX WARN: Removed duplicated region for block: B:317:0x0d79  */
+    /* JADX WARN: Removed duplicated region for block: B:325:0x0da3  */
+    /* JADX WARN: Type inference failed for: r10v3 */
+    /* JADX WARN: Type inference failed for: r10v4, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r10v5 */
     /* JADX WARN: Type inference failed for: r13v0 */
     /* JADX WARN: Type inference failed for: r13v1, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r13v4 */
-    /* JADX WARN: Type inference failed for: r9v2 */
-    /* JADX WARN: Type inference failed for: r9v3, types: [boolean, int] */
-    /* JADX WARN: Type inference failed for: r9v4 */
+    /* JADX WARN: Type inference failed for: r7v0 */
+    /* JADX WARN: Type inference failed for: r7v1, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r7v9 */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public View createView(final Context context) {
-        ?? r10;
         int i;
+        boolean z;
         int i2;
+        CombinedDrawable combinedDrawable;
+        ?? r10;
         int i3;
         int i4;
-        boolean z;
-        int i5;
-        CombinedDrawable combinedDrawable;
-        ?? r9;
-        int i6;
-        int i7;
         FilterTabsView filterTabsView;
         FrameLayout.LayoutParams createFrame;
+        int i5;
         TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto;
         Drawable drawable;
+        final Context context2 = context;
         ?? r13 = 0;
         this.searching = false;
         this.searchWas = false;
@@ -2798,14 +2766,14 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda41
             @Override // java.lang.Runnable
             public final void run() {
-                Theme.createChatResources(context, false);
+                Theme.createChatResources(context2, false);
             }
         });
         ActionBarMenu createMenu = this.actionBar.createMenu();
-        String str = "Done";
-        int i8 = 8;
+        float f = 0.0f;
+        int i6 = 8;
+        ?? r7 = 1;
         if (!this.onlySelect && this.searchString == null && this.folderId == 0) {
-            r10 = 1;
             ActionBarMenuItem actionBarMenuItem = new ActionBarMenuItem(context, (ActionBarMenu) null, Theme.getColor(Theme.key_actionBarDefaultSelector), Theme.getColor(Theme.key_actionBarDefaultIcon), true);
             this.doneItem = actionBarMenuItem;
             actionBarMenuItem.setText(LocaleController.getString("Done", R.string.Done).toUpperCase());
@@ -2818,7 +2786,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             });
             this.doneItem.setAlpha(0.0f);
             this.doneItem.setVisibility(8);
-            ProxyDrawable proxyDrawable = new ProxyDrawable(context);
+            ProxyDrawable proxyDrawable = new ProxyDrawable(context2);
             this.proxyDrawable = proxyDrawable;
             ActionBarMenuItem addItem = createMenu.addItem(2, proxyDrawable);
             this.proxyItem = addItem;
@@ -2830,31 +2798,48 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             addItem2.setContentDescription(LocaleController.getString("AccDescrPasscodeLock", R.string.AccDescrPasscodeLock));
             ActionBarMenuItem addItem3 = createMenu.addItem(3, new ColorDrawable(0));
             this.downloadsItem = addItem3;
-            addItem3.addView(new DownloadProgressIcon(this.currentAccount, context));
+            addItem3.addView(new DownloadProgressIcon(this.currentAccount, context2));
             this.downloadsItem.setContentDescription(LocaleController.getString("DownloadsTabs", R.string.DownloadsTabs));
             this.downloadsItem.setVisibility(8);
             updatePasscodeButton();
             updateProxyButton(false, false);
-        } else {
-            r10 = 1;
         }
-        ActionBarMenuItem actionBarMenuItemSearchListener = createMenu.addItem(0, R.drawable.ic_ab_search).setIsSearchField(r10, false).setActionBarMenuItemSearchListener(new 4(context, createMenu));
+        ActionBarMenuItem actionBarMenuItemSearchListener = createMenu.addItem(0, R.drawable.ic_ab_search).setIsSearchField(true, false).setActionBarMenuItemSearchListener(new 4(context2, createMenu));
         this.searchItem = actionBarMenuItemSearchListener;
-        int i9 = this.initialDialogsType;
-        if (i9 == 2 || i9 == 14) {
+        int i7 = this.initialDialogsType;
+        if (i7 == 2 || i7 == 14) {
             actionBarMenuItemSearchListener.setVisibility(8);
         }
         ActionBarMenuItem actionBarMenuItem2 = this.searchItem;
-        int i10 = R.string.Search;
-        actionBarMenuItem2.setSearchFieldHint(LocaleController.getString("Search", i10));
-        this.searchItem.setContentDescription(LocaleController.getString("Search", i10));
+        int i8 = R.string.Search;
+        actionBarMenuItem2.setSearchFieldHint(LocaleController.getString("Search", i8));
+        this.searchItem.setContentDescription(LocaleController.getString("Search", i8));
         if (this.onlySelect) {
             this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
-            int i11 = this.initialDialogsType;
-            if (i11 == 3 && this.selectAlertString == null) {
+            int i9 = this.initialDialogsType;
+            if (i9 == 3 && this.selectAlertString == null) {
                 this.actionBar.setTitle(LocaleController.getString("ForwardTo", R.string.ForwardTo));
-            } else if (i11 == 10) {
+            } else if (i9 == 10) {
                 this.actionBar.setTitle(LocaleController.getString("SelectChats", R.string.SelectChats));
+            } else if (i9 == 14) {
+                boolean z2 = this.allowBots;
+                if (z2 && !this.allowUsers && !this.allowGroups && !this.allowChannels) {
+                    this.actionBar.setTitle(LocaleController.getString("ChooseBot", R.string.ChooseBot));
+                } else {
+                    boolean z3 = this.allowUsers;
+                    if (z3 && !z2 && !this.allowGroups && !this.allowChannels) {
+                        this.actionBar.setTitle(LocaleController.getString("ChooseUser", R.string.ChooseUser));
+                    } else {
+                        boolean z4 = this.allowGroups;
+                        if (z4 && !z3 && !z2 && !this.allowChannels) {
+                            this.actionBar.setTitle(LocaleController.getString("ChooseGroup", R.string.ChooseGroup));
+                        } else if (this.allowChannels && !z3 && !z2 && !z4) {
+                            this.actionBar.setTitle(LocaleController.getString("ChooseChannel", R.string.ChooseChannel));
+                        } else {
+                            this.actionBar.setTitle(LocaleController.getString("SelectChat", R.string.SelectChat));
+                        }
+                    }
+                }
             } else {
                 TLRPC$RequestPeerType tLRPC$RequestPeerType = this.requestPeerType;
                 if (tLRPC$RequestPeerType instanceof TLRPC$TL_requestPeerTypeUser) {
@@ -2895,7 +2880,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             } else {
                 AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(null, AndroidUtilities.dp(26.0f));
                 this.statusDrawable = swapAnimatedEmojiDrawable;
-                swapAnimatedEmojiDrawable.center = r10;
+                swapAnimatedEmojiDrawable.center = true;
                 if (BuildVars.DEBUG_VERSION) {
                     this.actionBar.setTitle(LocaleController.getString("AppNameBeta", R.string.AppNameBeta), this.statusDrawable);
                 } else {
@@ -2904,13 +2889,13 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 updateStatus(UserConfig.getInstance(this.currentAccount).getCurrentUser(), false);
             }
             if (this.folderId == 0) {
-                this.actionBar.setSupportsHolidayImage(r10);
+                this.actionBar.setSupportsHolidayImage(true);
             }
         }
         if (!this.onlySelect || this.initialDialogsType == 3) {
             this.actionBar.setAddToContainer(false);
             this.actionBar.setCastShadows(false);
-            this.actionBar.setClipContent(r10);
+            this.actionBar.setClipContent(true);
         }
         this.actionBar.setTitleActionRunnable(new Runnable() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda54
             @Override // java.lang.Runnable
@@ -2918,1423 +2903,329 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 DialogsActivity.this.lambda$createView$6();
             }
         });
-        int i12 = this.initialDialogsType;
-        if (((i12 == 0 && !this.onlySelect) || i12 == 3) && this.folderId == 0 && TextUtils.isEmpty(this.searchString)) {
-            5 r0 = new 5(context);
+        int i10 = this.initialDialogsType;
+        if (((i10 == 0 && !this.onlySelect) || i10 == 3) && this.folderId == 0 && TextUtils.isEmpty(this.searchString)) {
+            5 r0 = new 5(context2);
             this.filterTabsView = r0;
             r0.setVisibility(8);
             this.canShowFilterTabsView = false;
-            this.filterTabsView.setDelegate(new 6(context));
+            this.filterTabsView.setDelegate(new 6(context2));
         }
-        int i13 = 17;
-        if (this.allowSwitchAccount && UserConfig.getActivatedAccountsCount() > r10) {
-            this.switchItem = createMenu.addItemWithWidth(r10 == true ? 1 : 0, 0, AndroidUtilities.dp(56.0f));
+        int i11 = 17;
+        if (this.allowSwitchAccount && UserConfig.getActivatedAccountsCount() > 1) {
+            this.switchItem = createMenu.addItemWithWidth(1, 0, AndroidUtilities.dp(56.0f));
             AvatarDrawable avatarDrawable = new AvatarDrawable();
             avatarDrawable.setTextSize(AndroidUtilities.dp(12.0f));
-            BackupImageView backupImageView = new BackupImageView(context);
+            BackupImageView backupImageView = new BackupImageView(context2);
             backupImageView.setRoundRadius(AndroidUtilities.dp(18.0f));
             this.switchItem.addView(backupImageView, LayoutHelper.createFrame(36, 36, 17));
             TLRPC$User currentUser = getUserConfig().getCurrentUser();
             avatarDrawable.setInfo(currentUser);
             backupImageView.getImageReceiver().setCurrentAccount(this.currentAccount);
-            backupImageView.setImage(ImageLocation.getForUserOrChat(currentUser, r10 == true ? 1 : 0), "50_50", ImageLocation.getForUserOrChat(currentUser, 2), "50_50", (currentUser == null || (tLRPC$UserProfilePhoto = currentUser.photo) == null || (drawable = tLRPC$UserProfilePhoto.strippedBitmap) == null) ? avatarDrawable : drawable, currentUser);
-            int i14 = 0;
-            for (int i15 = 4; i14 < i15; i15 = 4) {
-                if (AccountInstance.getInstance(i14).getUserConfig().getCurrentUser() != null) {
-                    AccountSelectCell accountSelectCell = new AccountSelectCell(context, false);
-                    accountSelectCell.setAccount(i14, r10);
-                    this.switchItem.addSubItem(i14 + 10, accountSelectCell, AndroidUtilities.dp(230.0f), AndroidUtilities.dp(48.0f));
+            backupImageView.setImage(ImageLocation.getForUserOrChat(currentUser, 1), "50_50", ImageLocation.getForUserOrChat(currentUser, 2), "50_50", (currentUser == null || (tLRPC$UserProfilePhoto = currentUser.photo) == null || (drawable = tLRPC$UserProfilePhoto.strippedBitmap) == null) ? avatarDrawable : drawable, currentUser);
+            int i12 = 0;
+            for (int i13 = 4; i12 < i13; i13 = 4) {
+                if (AccountInstance.getInstance(i12).getUserConfig().getCurrentUser() != null) {
+                    AccountSelectCell accountSelectCell = new AccountSelectCell(context2, false);
+                    accountSelectCell.setAccount(i12, true);
+                    this.switchItem.addSubItem(i12 + 10, accountSelectCell, AndroidUtilities.dp(230.0f), AndroidUtilities.dp(48.0f));
                 }
-                i14++;
+                i12++;
             }
         }
-        this.actionBar.setAllowOverlayTitle(r10);
+        this.actionBar.setAllowOverlayTitle(true);
         RecyclerView recyclerView = this.sideMenu;
         if (recyclerView != null) {
-            int i16 = Theme.key_chats_menuBackground;
-            recyclerView.setBackgroundColor(Theme.getColor(i16));
-            this.sideMenu.setGlowColor(Theme.getColor(i16));
+            int i14 = Theme.key_chats_menuBackground;
+            recyclerView.setBackgroundColor(Theme.getColor(i14));
+            this.sideMenu.setGlowColor(Theme.getColor(i14));
             this.sideMenu.getAdapter().notifyDataSetChanged();
         }
         createActionMode(null);
-        final ContentView contentView = new ContentView(context);
+        final ContentView contentView = new ContentView(context2);
         this.fragmentView = contentView;
-        if (this.folderId == 0) {
-            int i17 = this.initialDialogsType;
-            if (i17 == 0) {
-                if (!this.onlySelect) {
-                    i = 2;
-                    this.viewPages = new ViewPage[i];
-                    i2 = 0;
-                    ?? r102 = r10;
-                    while (i2 < i) {
-                        final ViewPage viewPage = new ViewPage(context) { // from class: org.telegram.ui.DialogsActivity.7
-                            @Override // android.view.View
-                            public void setTranslationX(float f) {
-                                if (getTranslationX() != f) {
-                                    super.setTranslationX(f);
-                                    if (DialogsActivity.this.tabsAnimationInProgress && DialogsActivity.this.viewPages[0] == this) {
-                                        DialogsActivity.this.filterTabsView.selectTabWithId(DialogsActivity.this.viewPages[1].selectedType, Math.abs(DialogsActivity.this.viewPages[0].getTranslationX()) / DialogsActivity.this.viewPages[0].getMeasuredWidth());
-                                    }
-                                    contentView.invalidateBlur();
-                                }
-                            }
-                        };
-                        contentView.addView(viewPage, LayoutHelper.createFrame(-1, -1.0f));
-                        viewPage.dialogsType = this.initialDialogsType;
-                        this.viewPages[i2] = viewPage;
-                        viewPage.progressView = new FlickerLoadingView(context);
-                        viewPage.progressView.setViewType(7);
-                        viewPage.progressView.setVisibility(i8);
-                        viewPage.addView(viewPage.progressView, LayoutHelper.createFrame(-2, -2, i13));
-                        viewPage.listView = new DialogsRecyclerView(context, viewPage);
-                        viewPage.listView.setAllowStopHeaveOperations(r102);
-                        viewPage.listView.setAccessibilityEnabled(r13);
-                        viewPage.listView.setAnimateEmptyView(r102, r13);
-                        viewPage.listView.setClipToPadding(r13);
-                        viewPage.listView.setPivotY(0.0f);
-                        if (this.initialDialogsType == 15) {
-                            viewPage.listView.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundGray));
+        int i15 = (this.folderId != 0 || (((i5 = this.initialDialogsType) != 0 || this.onlySelect) && i5 != 3)) ? 1 : 2;
+        this.viewPages = new ViewPage[i15];
+        int i16 = 0;
+        while (i16 < i15) {
+            final ViewPage viewPage = new ViewPage(context2) { // from class: org.telegram.ui.DialogsActivity.7
+                @Override // android.view.View
+                public void setTranslationX(float f2) {
+                    if (getTranslationX() != f2) {
+                        super.setTranslationX(f2);
+                        if (DialogsActivity.this.tabsAnimationInProgress && DialogsActivity.this.viewPages[0] == this) {
+                            DialogsActivity.this.filterTabsView.selectTabWithId(DialogsActivity.this.viewPages[1].selectedType, Math.abs(DialogsActivity.this.viewPages[0].getTranslationX()) / DialogsActivity.this.viewPages[0].getMeasuredWidth());
                         }
-                        viewPage.dialogsItemAnimator = new DialogsItemAnimator(this, viewPage.listView) { // from class: org.telegram.ui.DialogsActivity.8
-                            @Override // androidx.recyclerview.widget.SimpleItemAnimator
-                            public void onRemoveStarting(RecyclerView.ViewHolder viewHolder) {
-                                super.onRemoveStarting(viewHolder);
-                                if (viewPage.layoutManager.findFirstVisibleItemPosition() == 0) {
-                                    View findViewByPosition = viewPage.layoutManager.findViewByPosition(0);
-                                    if (findViewByPosition != null) {
-                                        findViewByPosition.invalidate();
-                                    }
-                                    if (viewPage.archivePullViewState == 2) {
-                                        viewPage.archivePullViewState = 1;
-                                    }
-                                    if (viewPage.pullForegroundDrawable != null) {
-                                        viewPage.pullForegroundDrawable.doNotShow();
-                                    }
-                                }
-                            }
-                        };
-                        viewPage.listView.setVerticalScrollBarEnabled(r102);
-                        viewPage.listView.setInstantClick(r102);
-                        viewPage.layoutManager = new 9(context, viewPage);
-                        viewPage.layoutManager.setOrientation(r102);
-                        viewPage.listView.setLayoutManager(viewPage.layoutManager);
-                        viewPage.listView.setVerticalScrollbarPosition(LocaleController.isRTL ? 1 : 2);
-                        viewPage.addView(viewPage.listView, LayoutHelper.createFrame(-1, -1.0f));
-                        viewPage.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda92
-                            @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
-                            public final void onItemClick(View view, int i18) {
-                                DialogsActivity.this.lambda$createView$7(viewPage, view, i18);
-                            }
-                        });
-                        viewPage.listView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListenerExtended() { // from class: org.telegram.ui.DialogsActivity.11
-                            @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListenerExtended
-                            public boolean onItemClick(View view, int i18, float f, float f2) {
-                                if (DialogsActivity.this.filterTabsView != null && DialogsActivity.this.filterTabsView.getVisibility() == 0 && DialogsActivity.this.filterTabsView.isEditing()) {
-                                    return false;
-                                }
-                                return DialogsActivity.this.onItemLongClick(viewPage.listView, view, i18, f, f2, viewPage.dialogsType, viewPage.dialogsAdapter);
-                            }
-
-                            @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListenerExtended
-                            public void onMove(float f, float f2) {
-                                Point point = AndroidUtilities.displaySize;
-                                if (point.x > point.y) {
-                                    DialogsActivity.this.movePreviewFragment(f2);
-                                }
-                            }
-
-                            @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListenerExtended
-                            public void onLongClickRelease() {
-                                Point point = AndroidUtilities.displaySize;
-                                if (point.x > point.y) {
-                                    DialogsActivity.this.finishPreviewFragment();
-                                }
-                            }
-                        });
-                        viewPage.swipeController = new SwipeController(viewPage);
-                        viewPage.recyclerItemsEnterAnimator = new RecyclerItemsEnterAnimator(viewPage.listView, r13);
-                        viewPage.itemTouchhelper = new ItemTouchHelper(viewPage.swipeController);
-                        viewPage.itemTouchhelper.attachToRecyclerView(viewPage.listView);
-                        viewPage.listView.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.DialogsActivity.12
-                            private boolean wasManualScroll;
-
-                            @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
-                            public void onScrollStateChanged(RecyclerView recyclerView2, int i18) {
-                                if (i18 != 1) {
-                                    DialogsActivity.this.scrollingManually = false;
-                                } else {
-                                    this.wasManualScroll = true;
-                                    DialogsActivity.this.scrollingManually = true;
-                                }
-                                if (i18 == 0) {
-                                    this.wasManualScroll = false;
-                                    DialogsActivity.this.disableActionBarScrolling = false;
-                                    if (DialogsActivity.this.waitingForScrollFinished) {
-                                        DialogsActivity.this.waitingForScrollFinished = false;
-                                        if (DialogsActivity.this.updatePullAfterScroll) {
-                                            viewPage.listView.updatePullState();
-                                            DialogsActivity.this.updatePullAfterScroll = false;
-                                        }
-                                        viewPage.dialogsAdapter.notifyDataSetChanged();
-                                    }
-                                    if (DialogsActivity.this.filterTabsView != null && DialogsActivity.this.filterTabsView.getVisibility() == 0 && DialogsActivity.this.viewPages[0].listView == recyclerView2) {
-                                        int i19 = (int) (-((BaseFragment) DialogsActivity.this).actionBar.getTranslationY());
-                                        int currentActionBarHeight = ActionBar.getCurrentActionBarHeight();
-                                        if (i19 == 0 || i19 == currentActionBarHeight) {
-                                            return;
-                                        }
-                                        if (i19 < currentActionBarHeight / 2) {
-                                            if (DialogsActivity.this.viewPages[0].listView.canScrollVertically(-1)) {
-                                                recyclerView2.smoothScrollBy(0, -i19);
-                                            }
-                                        } else if (DialogsActivity.this.viewPages[0].listView.canScrollVertically(1)) {
-                                            recyclerView2.smoothScrollBy(0, currentActionBarHeight - i19);
-                                        }
-                                    }
-                                }
-                            }
-
-                            @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
-                            public void onScrolled(RecyclerView recyclerView2, int i18, int i19) {
-                                View childAt;
-                                int findFirstVisibleItemPosition;
-                                boolean z2;
-                                boolean z3;
-                                viewPage.dialogsItemAnimator.onListScroll(-i19);
-                                DialogsActivity.this.checkListLoad(viewPage);
-                                if (DialogsActivity.this.initialDialogsType != 10 && this.wasManualScroll && DialogsActivity.this.floatingButtonContainer.getVisibility() != 8 && recyclerView2.getChildCount() > 0 && (findFirstVisibleItemPosition = viewPage.layoutManager.findFirstVisibleItemPosition()) != -1) {
-                                    RecyclerView.ViewHolder findViewHolderForAdapterPosition = recyclerView2.findViewHolderForAdapterPosition(findFirstVisibleItemPosition);
-                                    if (!DialogsActivity.this.hasHiddenArchive() || (findViewHolderForAdapterPosition != null && findViewHolderForAdapterPosition.getAdapterPosition() != 0)) {
-                                        int top = findViewHolderForAdapterPosition != null ? findViewHolderForAdapterPosition.itemView.getTop() : 0;
-                                        if (DialogsActivity.this.prevPosition == findFirstVisibleItemPosition) {
-                                            int i20 = DialogsActivity.this.prevTop - top;
-                                            z2 = top < DialogsActivity.this.prevTop;
-                                            if (Math.abs(i20) <= 1) {
-                                                z3 = false;
-                                                if (z3 && DialogsActivity.this.scrollUpdated && (z2 || DialogsActivity.this.scrollingManually)) {
-                                                    DialogsActivity.this.hideFloatingButton(z2);
-                                                }
-                                                DialogsActivity.this.prevPosition = findFirstVisibleItemPosition;
-                                                DialogsActivity.this.prevTop = top;
-                                                DialogsActivity.this.scrollUpdated = true;
-                                            }
-                                        } else {
-                                            z2 = findFirstVisibleItemPosition > DialogsActivity.this.prevPosition;
-                                        }
-                                        z3 = true;
-                                        if (z3) {
-                                            DialogsActivity.this.hideFloatingButton(z2);
-                                        }
-                                        DialogsActivity.this.prevPosition = findFirstVisibleItemPosition;
-                                        DialogsActivity.this.prevTop = top;
-                                        DialogsActivity.this.scrollUpdated = true;
-                                    }
-                                }
-                                if (DialogsActivity.this.filterTabsView != null && DialogsActivity.this.filterTabsView.getVisibility() == 0 && recyclerView2 == DialogsActivity.this.viewPages[0].listView && !DialogsActivity.this.searching && !((BaseFragment) DialogsActivity.this).actionBar.isActionModeShowed() && !DialogsActivity.this.disableActionBarScrolling && DialogsActivity.this.filterTabsViewIsVisible && !DialogsActivity.this.rightSlidingDialogContainer.hasFragment()) {
-                                    if (i19 > 0 && DialogsActivity.this.hasHiddenArchive() && DialogsActivity.this.viewPages[0].dialogsType == 0 && (childAt = recyclerView2.getChildAt(0)) != null && recyclerView2.getChildViewHolder(childAt).getAdapterPosition() == 0) {
-                                        int measuredHeight = childAt.getMeasuredHeight() + (childAt.getTop() - recyclerView2.getPaddingTop());
-                                        if (measuredHeight + i19 > 0) {
-                                            if (measuredHeight >= 0) {
-                                                return;
-                                            }
-                                            i19 = -measuredHeight;
-                                        }
-                                    }
-                                    float translationY = ((BaseFragment) DialogsActivity.this).actionBar.getTranslationY();
-                                    float f = translationY - i19;
-                                    if (f < (-ActionBar.getCurrentActionBarHeight())) {
-                                        f = -ActionBar.getCurrentActionBarHeight();
-                                    } else if (f > 0.0f) {
-                                        f = 0.0f;
-                                    }
-                                    if (f != translationY) {
-                                        DialogsActivity.this.setScrollY(f);
-                                    }
-                                }
-                                if (((BaseFragment) DialogsActivity.this).fragmentView != null) {
-                                    ((SizeNotifierFrameLayout) ((BaseFragment) DialogsActivity.this).fragmentView).invalidateBlur();
-                                }
-                                RightSlidingDialogContainer rightSlidingDialogContainer = DialogsActivity.this.rightSlidingDialogContainer;
-                                if (rightSlidingDialogContainer == null || !rightSlidingDialogContainer.hasFragment()) {
-                                    return;
-                                }
-                                viewPage.listView.invalidate();
-                            }
-                        });
-                        viewPage.archivePullViewState = SharedConfig.archiveHidden ? 2 : 0;
-                        if (viewPage.pullForegroundDrawable == null && this.folderId == 0) {
-                            viewPage.pullForegroundDrawable = new PullForegroundDrawable(this, LocaleController.getString("AccSwipeForArchive", R.string.AccSwipeForArchive), LocaleController.getString("AccReleaseForArchive", R.string.AccReleaseForArchive)) { // from class: org.telegram.ui.DialogsActivity.13
-                                @Override // org.telegram.ui.Components.PullForegroundDrawable
-                                protected float getViewOffset() {
-                                    return viewPage.listView.getViewOffset();
-                                }
-                            };
-                            if (hasHiddenArchive()) {
-                                viewPage.pullForegroundDrawable.showHidden();
-                            } else {
-                                viewPage.pullForegroundDrawable.doNotShow();
-                            }
-                            viewPage.pullForegroundDrawable.setWillDraw(viewPage.archivePullViewState != 0);
-                        }
-                        int i18 = i2;
-                        int i19 = i;
-                        ContentView contentView2 = contentView;
-                        String str2 = str;
-                        viewPage.dialogsAdapter = new DialogsAdapter(this, context, viewPage.dialogsType, this.folderId, this.onlySelect, this.selectedDialogs, this.currentAccount, this.requestPeerType) { // from class: org.telegram.ui.DialogsActivity.14
-                            @Override // org.telegram.ui.Adapters.DialogsAdapter, androidx.recyclerview.widget.RecyclerView.Adapter
-                            public void notifyDataSetChanged() {
-                                viewPage.lastItemsCount = getItemCount();
-                                try {
-                                    super.notifyDataSetChanged();
-                                } catch (Exception e) {
-                                    FileLog.e(e);
-                                }
-                                if (DialogsActivity.this.initialDialogsType == 15) {
-                                    DialogsActivity.this.searchItem.setVisibility(this.isEmpty ? 8 : 0);
-                                }
-                            }
-
-                            @Override // org.telegram.ui.Adapters.DialogsAdapter, org.telegram.ui.Cells.DialogCell.DialogCellDelegate
-                            public void onButtonClicked(DialogCell dialogCell) {
-                                TLRPC$TL_forumTopic findTopic;
-                                if (dialogCell.getMessage() == null || (findTopic = DialogsActivity.this.getMessagesController().getTopicsController().findTopic(-dialogCell.getDialogId(), MessageObject.getTopicId(dialogCell.getMessage().messageOwner, true))) == null) {
-                                    return;
-                                }
-                                if (DialogsActivity.this.onlySelect) {
-                                    DialogsActivity.this.didSelectResult(dialogCell.getDialogId(), findTopic.id, false, false);
-                                } else {
-                                    ForumUtilities.openTopic(DialogsActivity.this, -dialogCell.getDialogId(), findTopic, 0);
-                                }
-                            }
-
-                            @Override // org.telegram.ui.Adapters.DialogsAdapter, org.telegram.ui.Cells.DialogCell.DialogCellDelegate
-                            public void onButtonLongPress(DialogCell dialogCell) {
-                                DialogsActivity.this.onItemLongClick(viewPage.listView, dialogCell, viewPage.listView.getChildAdapterPosition(dialogCell), 0.0f, 0.0f, viewPage.dialogsType, viewPage.dialogsAdapter);
-                            }
-
-                            @Override // org.telegram.ui.Adapters.DialogsAdapter
-                            public void onCreateGroupForThisClick() {
-                                DialogsActivity.this.createGroupForThis();
-                            }
-                        };
-                        viewPage.dialogsAdapter.setRecyclerListView(viewPage.listView);
-                        viewPage.dialogsAdapter.setForceShowEmptyCell(this.afterSignup);
-                        if (AndroidUtilities.isTablet() && this.openedDialogId.dialogId != 0) {
-                            viewPage.dialogsAdapter.setOpenedDialogId(this.openedDialogId.dialogId);
-                        }
-                        viewPage.dialogsAdapter.setArchivedPullDrawable(viewPage.pullForegroundDrawable);
-                        viewPage.listView.setAdapter(viewPage.dialogsAdapter);
-                        viewPage.listView.setEmptyView(this.folderId == 0 ? viewPage.progressView : null);
-                        viewPage.scrollHelper = new RecyclerAnimationScrollHelper(viewPage.listView, viewPage.layoutManager);
-                        if (i18 != 0) {
-                            this.viewPages[i18].setVisibility(8);
-                        }
-                        i2 = i18 + 1;
-                        contentView = contentView2;
-                        str = str2;
-                        i = i19;
-                        i13 = 17;
-                        i8 = 8;
-                        r102 = 1;
-                        r13 = 0;
+                        contentView.invalidateBlur();
                     }
-                    final ContentView contentView3 = contentView;
-                    String str3 = str;
-                    if (this.searchString == null) {
-                        i3 = 2;
-                    } else {
-                        i3 = !this.onlySelect ? 1 : 0;
-                    }
-                    SearchViewPager searchViewPager = new SearchViewPager(context, this, i3, this.initialDialogsType, this.folderId, new SearchViewPager.ChatPreviewDelegate() { // from class: org.telegram.ui.DialogsActivity.15
-                        @Override // org.telegram.ui.Components.SearchViewPager.ChatPreviewDelegate
-                        public void startChatPreview(RecyclerListView recyclerListView, DialogCell dialogCell) {
-                            DialogsActivity.this.showChatPreview(dialogCell);
-                        }
-
-                        @Override // org.telegram.ui.Components.SearchViewPager.ChatPreviewDelegate
-                        public void move(float f) {
-                            Point point = AndroidUtilities.displaySize;
-                            if (point.x > point.y) {
-                                DialogsActivity.this.movePreviewFragment(f);
-                            }
-                        }
-
-                        @Override // org.telegram.ui.Components.SearchViewPager.ChatPreviewDelegate
-                        public void finish() {
-                            Point point = AndroidUtilities.displaySize;
-                            if (point.x > point.y) {
-                                DialogsActivity.this.finishPreviewFragment();
-                            }
-                        }
-                    }) { // from class: org.telegram.ui.DialogsActivity.16
-                        @Override // org.telegram.ui.Components.ViewPagerFixed
-                        protected boolean onBackProgress(float f) {
-                            return false;
-                        }
-
-                        @Override // org.telegram.ui.Components.ViewPagerFixed
-                        protected void onTabPageSelected(int i20) {
-                            DialogsActivity.this.updateSpeedItem(i20 == 2);
-                        }
-
-                        @Override // org.telegram.ui.Components.SearchViewPager
-                        protected boolean includeDownloads() {
-                            RightSlidingDialogContainer rightSlidingDialogContainer = DialogsActivity.this.rightSlidingDialogContainer;
-                            return rightSlidingDialogContainer == null || !rightSlidingDialogContainer.hasFragment();
-                        }
-                    };
-                    this.searchViewPager = searchViewPager;
-                    contentView3.addView(searchViewPager);
-                    this.searchViewPager.dialogsSearchAdapter.setDelegate(new 17());
-                    this.searchViewPager.searchListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda91
-                        @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
-                        public final void onItemClick(View view, int i20) {
-                            DialogsActivity.this.lambda$createView$8(view, i20);
-                        }
-                    });
-                    this.searchViewPager.searchListView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListenerExtended() { // from class: org.telegram.ui.DialogsActivity.18
-                        @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListenerExtended
-                        public boolean onItemClick(View view, int i20, float f, float f2) {
-                            DialogsActivity dialogsActivity = DialogsActivity.this;
-                            return dialogsActivity.onItemLongClick(dialogsActivity.searchViewPager.searchListView, view, i20, f, f2, -1, DialogsActivity.this.searchViewPager.dialogsSearchAdapter);
-                        }
-
-                        @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListenerExtended
-                        public void onMove(float f, float f2) {
-                            Point point = AndroidUtilities.displaySize;
-                            if (point.x > point.y) {
-                                DialogsActivity.this.movePreviewFragment(f2);
-                            }
-                        }
-
-                        @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListenerExtended
-                        public void onLongClickRelease() {
-                            Point point = AndroidUtilities.displaySize;
-                            if (point.x > point.y) {
-                                DialogsActivity.this.finishPreviewFragment();
-                            }
-                        }
-                    });
-                    this.searchViewPager.setFilteredSearchViewDelegate(new FilteredSearchView.Delegate() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda93
-                        @Override // org.telegram.ui.FilteredSearchView.Delegate
-                        public final void updateFiltersView(boolean z2, ArrayList arrayList, ArrayList arrayList2, boolean z3) {
-                            DialogsActivity.this.lambda$createView$9(z2, arrayList, arrayList2, z3);
-                        }
-                    });
-                    this.searchViewPager.setVisibility(8);
-                    FiltersView filtersView = new FiltersView(getParentActivity(), null);
-                    this.filtersView = filtersView;
-                    filtersView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda90
-                        @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
-                        public final void onItemClick(View view, int i20) {
-                            DialogsActivity.this.lambda$createView$10(view, i20);
-                        }
-                    });
-                    contentView3.addView(this.filtersView, LayoutHelper.createFrame(-1, -2, 48));
-                    this.filtersView.setVisibility(8);
-                    FrameLayout frameLayout = new FrameLayout(context);
-                    this.floatingButtonContainer = frameLayout;
-                    frameLayout.setVisibility(((this.onlySelect || this.initialDialogsType == 10) && this.folderId == 0) ? 0 : 8);
-                    FrameLayout frameLayout2 = this.floatingButtonContainer;
-                    i4 = Build.VERSION.SDK_INT;
-                    int i20 = i4 < 21 ? 56 : 60;
-                    float f = i4 < 21 ? 56 : 60;
-                    boolean z2 = LocaleController.isRTL;
-                    contentView3.addView(frameLayout2, LayoutHelper.createFrame(i20, f, (!z2 ? 3 : 5) | 80, !z2 ? 14.0f : 0.0f, 0.0f, !z2 ? 0.0f : 14.0f, 14.0f));
-                    this.floatingButtonContainer.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda29
-                        @Override // android.view.View.OnClickListener
-                        public final void onClick(View view) {
-                            DialogsActivity.this.lambda$createView$11(view);
-                        }
-                    });
-                    RLottieImageView rLottieImageView = new RLottieImageView(context);
-                    this.floatingButton = rLottieImageView;
-                    rLottieImageView.setScaleType(ImageView.ScaleType.CENTER);
-                    RLottieImageView rLottieImageView2 = this.floatingButton;
-                    int i21 = Theme.key_chats_actionIcon;
-                    rLottieImageView2.setColorFilter(new PorterDuffColorFilter(Theme.getColor(i21), PorterDuff.Mode.MULTIPLY));
-                    if (this.initialDialogsType != 10) {
-                        this.floatingButton.setImageResource(R.drawable.floating_check);
-                        this.floatingButtonContainer.setContentDescription(LocaleController.getString(str3, R.string.Done));
-                    } else {
-                        this.floatingButton.setAnimation(R.raw.write_contacts_fab_icon, 52, 52);
-                        this.floatingButtonContainer.setContentDescription(LocaleController.getString("NewMessageTitle", R.string.NewMessageTitle));
-                    }
-                    if (i4 < 21) {
-                        StateListAnimator stateListAnimator = new StateListAnimator();
-                        z = true;
-                        FrameLayout frameLayout3 = this.floatingButtonContainer;
-                        Property property = View.TRANSLATION_Z;
-                        i5 = 2;
-                        stateListAnimator.addState(new int[]{16842919}, ObjectAnimator.ofFloat(frameLayout3, property, AndroidUtilities.dp(2.0f), AndroidUtilities.dp(4.0f)).setDuration(200L));
-                        stateListAnimator.addState(new int[0], ObjectAnimator.ofFloat(this.floatingButtonContainer, property, AndroidUtilities.dp(4.0f), AndroidUtilities.dp(2.0f)).setDuration(200L));
-                        this.floatingButtonContainer.setStateListAnimator(stateListAnimator);
-                        this.floatingButtonContainer.setOutlineProvider(new ViewOutlineProvider(this) { // from class: org.telegram.ui.DialogsActivity.19
-                            @Override // android.view.ViewOutlineProvider
-                            @SuppressLint({"NewApi"})
-                            public void getOutline(View view, Outline outline) {
-                                outline.setOval(0, 0, AndroidUtilities.dp(56.0f), AndroidUtilities.dp(56.0f));
-                            }
-                        });
-                    } else {
-                        z = true;
-                        i5 = 2;
-                    }
-                    Drawable createSimpleSelectorCircleDrawable = Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(56.0f), Theme.getColor(Theme.key_chats_actionBackground), Theme.getColor(Theme.key_chats_actionPressedBackground));
-                    if (i4 >= 21) {
-                        Drawable mutate = context.getResources().getDrawable(R.drawable.floating_shadow).mutate();
-                        mutate.setColorFilter(new PorterDuffColorFilter(-16777216, PorterDuff.Mode.MULTIPLY));
-                        CombinedDrawable combinedDrawable2 = new CombinedDrawable(mutate, createSimpleSelectorCircleDrawable, 0, 0);
-                        combinedDrawable2.setIconSize(AndroidUtilities.dp(56.0f), AndroidUtilities.dp(56.0f));
-                        combinedDrawable = combinedDrawable2;
-                    } else {
-                        combinedDrawable = createSimpleSelectorCircleDrawable;
-                    }
-                    updateFloatingButtonColor();
-                    this.floatingButtonContainer.addView(this.floatingButton, LayoutHelper.createFrame(-1, -1.0f));
-                    RadialProgressView radialProgressView = new RadialProgressView(context);
-                    this.floatingProgressView = radialProgressView;
-                    radialProgressView.setProgressColor(Theme.getColor(i21));
-                    this.floatingProgressView.setScaleX(0.1f);
-                    this.floatingProgressView.setScaleY(0.1f);
-                    this.floatingProgressView.setAlpha(0.0f);
-                    this.floatingProgressView.setVisibility(8);
-                    this.floatingProgressView.setSize(AndroidUtilities.dp(22.0f));
-                    this.floatingButtonContainer.addView(this.floatingProgressView, LayoutHelper.createFrame(-1, -1.0f));
-                    this.searchTabsView = null;
-                    if (this.onlySelect && this.initialDialogsType == 0) {
-                        FragmentContextView fragmentContextView = new FragmentContextView(context, this, z);
-                        this.fragmentLocationContextView = fragmentContextView;
-                        fragmentContextView.setLayoutParams(LayoutHelper.createFrame(-1, 38.0f, 51, 0.0f, -36.0f, 0.0f, 0.0f));
-                        contentView3.addView(this.fragmentLocationContextView);
-                        FragmentContextView fragmentContextView2 = new FragmentContextView(context, this, false);
-                        this.fragmentContextView = fragmentContextView2;
-                        fragmentContextView2.setLayoutParams(LayoutHelper.createFrame(-1, 38.0f, 51, 0.0f, -36.0f, 0.0f, 0.0f));
-                        contentView3.addView(this.fragmentContextView);
-                        this.fragmentContextView.setAdditionalContextView(this.fragmentLocationContextView);
-                        this.fragmentLocationContextView.setAdditionalContextView(this.fragmentContextView);
-                        this.dialogsHintCell = new DialogsHintCell(context);
-                        updateDialogsHint();
-                        CacheControlActivity.calculateTotalSize(new Utilities.Callback() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda78
-                            @Override // org.telegram.messenger.Utilities.Callback
-                            public final void run(Object obj) {
-                                DialogsActivity.this.lambda$createView$12((Long) obj);
-                            }
-                        });
-                        CacheControlActivity.getDeviceTotalSize(new Utilities.Callback2() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda76
-                            @Override // org.telegram.messenger.Utilities.Callback2
-                            public final void run(Object obj, Object obj2) {
-                                DialogsActivity.this.lambda$createView$13((Long) obj, (Long) obj2);
-                            }
-                        });
-                        contentView3.addView(this.dialogsHintCell);
-                    } else if (this.initialDialogsType == 3) {
-                        ChatActivityEnterView chatActivityEnterView = this.commentView;
-                        if (chatActivityEnterView != null) {
-                            chatActivityEnterView.onDestroy();
-                        }
-                        r9 = 1;
-                        i6 = 21;
-                        this.commentView = new ChatActivityEnterView(getParentActivity(), contentView3, null, false) { // from class: org.telegram.ui.DialogsActivity.20
-                            @Override // android.view.ViewGroup, android.view.View
-                            public boolean dispatchTouchEvent(MotionEvent motionEvent) {
-                                if (motionEvent.getAction() == 0) {
-                                    AndroidUtilities.requestAdjustResize(DialogsActivity.this.getParentActivity(), ((BaseFragment) DialogsActivity.this).classGuid);
-                                }
-                                return super.dispatchTouchEvent(motionEvent);
-                            }
-
-                            @Override // android.view.View
-                            public void setTranslationY(float f2) {
-                                super.setTranslationY(f2);
-                            }
-                        };
-                        contentView3.setClipChildren(false);
-                        contentView3.setClipToPadding(false);
-                        ChatActivityEnterView chatActivityEnterView2 = this.commentView;
-                        chatActivityEnterView2.allowBlur = false;
-                        chatActivityEnterView2.forceSmoothKeyboard(true);
-                        this.commentView.setAllowStickersAndGifs(true, false, false);
-                        this.commentView.setForceShowSendButton(true, false);
-                        this.commentView.setPadding(0, 0, AndroidUtilities.dp(20.0f), 0);
-                        this.commentView.setVisibility(8);
-                        this.commentView.getSendButton().setAlpha(0.0f);
-                        View view = new View(getParentActivity());
-                        this.commentViewBg = view;
-                        view.setBackgroundColor(getThemedColor(Theme.key_chat_messagePanelBackground));
-                        contentView3.addView(this.commentViewBg, LayoutHelper.createFrame(-1, 1600.0f, 87, 0.0f, 0.0f, 0.0f, -1600.0f));
-                        contentView3.addView(this.commentView, LayoutHelper.createFrame(-1, -2, 83));
-                        this.commentView.setDelegate(new ChatActivityEnterView.ChatActivityEnterViewDelegate() { // from class: org.telegram.ui.DialogsActivity.21
-                            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-                            public void bottomPanelTranslationYChanged(float f2) {
-                            }
-
-                            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-                            public void didPressAttachButton() {
-                            }
-
-                            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-                            public /* synthetic */ int getContentViewHeight() {
-                                return ChatActivityEnterView.ChatActivityEnterViewDelegate.-CC.$default$getContentViewHeight(this);
-                            }
-
-                            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-                            public /* synthetic */ TLRPC$TL_channels_sendAsPeers getSendAsPeers() {
-                                return ChatActivityEnterView.ChatActivityEnterViewDelegate.-CC.$default$getSendAsPeers(this);
-                            }
-
-                            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-                            public /* synthetic */ boolean hasForwardingMessages() {
-                                return ChatActivityEnterView.ChatActivityEnterViewDelegate.-CC.$default$hasForwardingMessages(this);
-                            }
-
-                            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-                            public /* synthetic */ boolean hasScheduledMessages() {
-                                return ChatActivityEnterView.ChatActivityEnterViewDelegate.-CC.$default$hasScheduledMessages(this);
-                            }
-
-                            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-                            public /* synthetic */ int measureKeyboardHeight() {
-                                return ChatActivityEnterView.ChatActivityEnterViewDelegate.-CC.$default$measureKeyboardHeight(this);
-                            }
-
-                            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-                            public void needChangeVideoPreviewState(int i22, float f2) {
-                            }
-
-                            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-                            public void needSendTyping() {
-                            }
-
-                            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-                            public void needShowMediaBanHint() {
-                            }
-
-                            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-                            public void needStartRecordAudio(int i22) {
-                            }
-
-                            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-                            public void needStartRecordVideo(int i22, boolean z3, int i23) {
-                            }
-
-                            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-                            public void onAttachButtonHidden() {
-                            }
-
-                            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-                            public void onAttachButtonShow() {
-                            }
-
-                            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-                            public void onAudioVideoInterfaceUpdated() {
-                            }
-
-                            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-                            public /* synthetic */ void onContextMenuClose() {
-                                ChatActivityEnterView.ChatActivityEnterViewDelegate.-CC.$default$onContextMenuClose(this);
-                            }
-
-                            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-                            public /* synthetic */ void onContextMenuOpen() {
-                                ChatActivityEnterView.ChatActivityEnterViewDelegate.-CC.$default$onContextMenuOpen(this);
-                            }
-
-                            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-                            public /* synthetic */ void onEditTextScroll() {
-                                ChatActivityEnterView.ChatActivityEnterViewDelegate.-CC.$default$onEditTextScroll(this);
-                            }
-
-                            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-                            public void onMessageEditEnd(boolean z3) {
-                            }
-
-                            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-                            public void onPreAudioVideoRecord() {
-                            }
-
-                            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-                            public void onSendLongClick() {
-                            }
-
-                            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-                            public void onStickersExpandedChange() {
-                            }
-
-                            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-                            public void onStickersTab(boolean z3) {
-                            }
-
-                            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-                            public void onSwitchRecordMode(boolean z3) {
-                            }
-
-                            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-                            public void onTextChanged(CharSequence charSequence, boolean z3) {
-                            }
-
-                            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-                            public void onTextSelectionChanged(int i22, int i23) {
-                            }
-
-                            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-                            public void onTextSpansChanged(CharSequence charSequence) {
-                            }
-
-                            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-                            public /* synthetic */ void onTrendingStickersShowed(boolean z3) {
-                                ChatActivityEnterView.ChatActivityEnterViewDelegate.-CC.$default$onTrendingStickersShowed(this, z3);
-                            }
-
-                            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-                            public void onUpdateSlowModeButton(View view2, boolean z3, CharSequence charSequence) {
-                            }
-
-                            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-                            public void onWindowSizeChanged(int i22) {
-                            }
-
-                            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-                            public /* synthetic */ void openScheduledMessages() {
-                                ChatActivityEnterView.ChatActivityEnterViewDelegate.-CC.$default$openScheduledMessages(this);
-                            }
-
-                            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-                            public /* synthetic */ void prepareMessageSending() {
-                                ChatActivityEnterView.ChatActivityEnterViewDelegate.-CC.$default$prepareMessageSending(this);
-                            }
-
-                            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-                            public /* synthetic */ void scrollToSendingMessage() {
-                                ChatActivityEnterView.ChatActivityEnterViewDelegate.-CC.$default$scrollToSendingMessage(this);
-                            }
-
-                            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-                            public void onMessageSend(CharSequence charSequence, boolean z3, int i22) {
-                                if (DialogsActivity.this.delegate == null || DialogsActivity.this.selectedDialogs.isEmpty()) {
-                                    return;
-                                }
-                                ArrayList<MessagesStorage.TopicKey> arrayList = new ArrayList<>();
-                                for (int i23 = 0; i23 < DialogsActivity.this.selectedDialogs.size(); i23++) {
-                                    arrayList.add(MessagesStorage.TopicKey.of(((Long) DialogsActivity.this.selectedDialogs.get(i23)).longValue(), 0));
-                                }
-                                DialogsActivity.this.delegate.didSelectDialogs(DialogsActivity.this, arrayList, charSequence, false, null);
-                            }
-                        });
-                        FrameLayout frameLayout4 = new FrameLayout(context) { // from class: org.telegram.ui.DialogsActivity.22
-                            @Override // android.view.View
-                            public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
-                                super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
-                                accessibilityNodeInfo.setText(LocaleController.formatPluralString("AccDescrShareInChats", DialogsActivity.this.selectedDialogs.size(), new Object[0]));
-                                accessibilityNodeInfo.setClassName(Button.class.getName());
-                                accessibilityNodeInfo.setLongClickable(true);
-                                accessibilityNodeInfo.setClickable(true);
-                            }
-                        };
-                        this.writeButtonContainer = frameLayout4;
-                        frameLayout4.setFocusable(true);
-                        this.writeButtonContainer.setFocusableInTouchMode(true);
-                        i7 = 4;
-                        this.writeButtonContainer.setVisibility(4);
-                        this.writeButtonContainer.setScaleX(0.2f);
-                        this.writeButtonContainer.setScaleY(0.2f);
-                        this.writeButtonContainer.setAlpha(0.0f);
-                        contentView3.addView(this.writeButtonContainer, LayoutHelper.createFrame(60, 60.0f, 85, 0.0f, 0.0f, 6.0f, 10.0f));
-                        this.textPaint.setTextSize(AndroidUtilities.dp(12.0f));
-                        this.textPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-                        View view2 = new View(context) { // from class: org.telegram.ui.DialogsActivity.23
-                            @Override // android.view.View
-                            protected void onDraw(Canvas canvas) {
-                                String format = String.format("%d", Integer.valueOf(Math.max(1, DialogsActivity.this.selectedDialogs.size())));
-                                int ceil = (int) Math.ceil(DialogsActivity.this.textPaint.measureText(format));
-                                int max = Math.max(AndroidUtilities.dp(16.0f) + ceil, AndroidUtilities.dp(24.0f));
-                                int measuredWidth = getMeasuredWidth() / 2;
-                                int measuredHeight = getMeasuredHeight() / 2;
-                                DialogsActivity.this.textPaint.setColor(DialogsActivity.this.getThemedColor(Theme.key_dialogRoundCheckBoxCheck));
-                                DialogsActivity.this.paint.setColor(DialogsActivity.this.getThemedColor(Theme.isCurrentThemeDark() ? Theme.key_voipgroup_inviteMembersBackground : Theme.key_dialogBackground));
-                                int i22 = max / 2;
-                                int i23 = measuredWidth - i22;
-                                int i24 = i22 + measuredWidth;
-                                DialogsActivity.this.rect.set(i23, 0.0f, i24, getMeasuredHeight());
-                                canvas.drawRoundRect(DialogsActivity.this.rect, AndroidUtilities.dp(12.0f), AndroidUtilities.dp(12.0f), DialogsActivity.this.paint);
-                                DialogsActivity.this.paint.setColor(DialogsActivity.this.getThemedColor(Theme.key_dialogRoundCheckBox));
-                                DialogsActivity.this.rect.set(i23 + AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f), i24 - AndroidUtilities.dp(2.0f), getMeasuredHeight() - AndroidUtilities.dp(2.0f));
-                                canvas.drawRoundRect(DialogsActivity.this.rect, AndroidUtilities.dp(10.0f), AndroidUtilities.dp(10.0f), DialogsActivity.this.paint);
-                                canvas.drawText(format, measuredWidth - (ceil / 2), AndroidUtilities.dp(16.2f), DialogsActivity.this.textPaint);
-                            }
-                        };
-                        this.selectedCountView = view2;
-                        view2.setAlpha(0.0f);
-                        this.selectedCountView.setScaleX(0.2f);
-                        this.selectedCountView.setScaleY(0.2f);
-                        contentView3.addView(this.selectedCountView, LayoutHelper.createFrame(42, 24.0f, 85, 0.0f, 0.0f, -8.0f, 9.0f));
-                        final FrameLayout frameLayout5 = new FrameLayout(context);
-                        int dp = AndroidUtilities.dp(56.0f);
-                        int i22 = Theme.key_dialogFloatingButton;
-                        int themedColor = getThemedColor(i22);
-                        if (i4 >= 21) {
-                            i22 = Theme.key_dialogFloatingButtonPressed;
-                        }
-                        Drawable createSimpleSelectorCircleDrawable2 = Theme.createSimpleSelectorCircleDrawable(dp, themedColor, getThemedColor(i22));
-                        if (i4 < 21) {
-                            Drawable mutate2 = context.getResources().getDrawable(R.drawable.floating_shadow_profile).mutate();
-                            mutate2.setColorFilter(new PorterDuffColorFilter(-16777216, PorterDuff.Mode.MULTIPLY));
-                            CombinedDrawable combinedDrawable3 = new CombinedDrawable(mutate2, combinedDrawable, 0, 0);
-                            combinedDrawable3.setIconSize(AndroidUtilities.dp(56.0f), AndroidUtilities.dp(56.0f));
-                            createSimpleSelectorCircleDrawable2 = combinedDrawable3;
-                        }
-                        frameLayout5.setBackgroundDrawable(createSimpleSelectorCircleDrawable2);
-                        frameLayout5.setImportantForAccessibility(i5);
-                        if (i4 >= 21) {
-                            frameLayout5.setOutlineProvider(new ViewOutlineProvider(this) { // from class: org.telegram.ui.DialogsActivity.24
-                                @Override // android.view.ViewOutlineProvider
-                                @SuppressLint({"NewApi"})
-                                public void getOutline(View view3, Outline outline) {
-                                    outline.setOval(0, 0, AndroidUtilities.dp(56.0f), AndroidUtilities.dp(56.0f));
-                                }
-                            });
-                        }
-                        frameLayout5.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda23
-                            @Override // android.view.View.OnClickListener
-                            public final void onClick(View view3) {
-                                DialogsActivity.this.lambda$createView$14(view3);
-                            }
-                        });
-                        frameLayout5.setOnLongClickListener(new View.OnLongClickListener() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda38
-                            @Override // android.view.View.OnLongClickListener
-                            public final boolean onLongClick(View view3) {
-                                boolean lambda$createView$15;
-                                lambda$createView$15 = DialogsActivity.this.lambda$createView$15(frameLayout5, view3);
-                                return lambda$createView$15;
-                            }
-                        });
-                        this.writeButton = new ImageView[i5];
-                        int i23 = 0;
-                        while (i23 < i5) {
-                            this.writeButton[i23] = new ImageView(context);
-                            this.writeButton[i23].setImageResource(i23 == 1 ? R.drawable.msg_arrow_forward : R.drawable.attach_send);
-                            this.writeButton[i23].setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_dialogFloatingIcon), PorterDuff.Mode.MULTIPLY));
-                            this.writeButton[i23].setScaleType(ImageView.ScaleType.CENTER);
-                            ImageView imageView = this.writeButton[i23];
-                            int i24 = Build.VERSION.SDK_INT;
-                            frameLayout5.addView(imageView, LayoutHelper.createFrame(i24 >= 21 ? 56 : 60, i24 >= 21 ? 56 : 60, 17));
-                            i23++;
-                        }
-                        AndroidUtilities.updateViewVisibilityAnimated(this.writeButton[0], true, 0.5f, false);
-                        AndroidUtilities.updateViewVisibilityAnimated(this.writeButton[1], false, 0.5f, false);
-                        FrameLayout frameLayout6 = this.writeButtonContainer;
-                        int i25 = Build.VERSION.SDK_INT;
-                        frameLayout6.addView(frameLayout5, LayoutHelper.createFrame(i25 >= 21 ? 56 : 60, i25 >= 21 ? 56.0f : 60.0f, 51, i25 >= 21 ? 2.0f : 0.0f, 0.0f, 0.0f, 0.0f));
-                        filterTabsView = this.filterTabsView;
-                        if (filterTabsView != null) {
-                            contentView3.addView(filterTabsView, LayoutHelper.createFrame(-1, 44.0f));
-                        }
-                        if (this.onlySelect || this.initialDialogsType == 3) {
-                            createFrame = LayoutHelper.createFrame(-1, -2.0f);
-                            if (this.inPreviewMode && Build.VERSION.SDK_INT >= i6) {
-                                createFrame.topMargin = AndroidUtilities.statusBarHeight;
-                            }
-                            contentView3.addView(this.actionBar, createFrame);
-                        }
-                        if (!this.onlySelect) {
-                            DrawerProfileCell.AnimatedStatusView animatedStatusView = new DrawerProfileCell.AnimatedStatusView(context, 20, 60);
-                            this.animatedStatusView = animatedStatusView;
-                            contentView3.addView(animatedStatusView, LayoutHelper.createFrame(20, 20, 51));
-                        }
-                        if (this.searchString == null && this.initialDialogsType == 0) {
-                            FrameLayout frameLayout7 = new FrameLayout(context) { // from class: org.telegram.ui.DialogsActivity.25
-                                private int lastGradientWidth;
-                                private LinearGradient updateGradient;
-                                private Paint paint = new Paint();
-                                private Matrix matrix = new Matrix();
-
-                                @Override // android.view.View
-                                public void draw(Canvas canvas) {
-                                    if (this.updateGradient != null) {
-                                        this.paint.setColor(-1);
-                                        this.paint.setShader(this.updateGradient);
-                                        this.updateGradient.setLocalMatrix(this.matrix);
-                                        canvas.drawRect(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), this.paint);
-                                        DialogsActivity.this.updateLayoutIcon.setBackgroundGradientDrawable(this.updateGradient);
-                                        DialogsActivity.this.updateLayoutIcon.draw(canvas);
-                                    }
-                                    super.draw(canvas);
-                                }
-
-                                @Override // android.widget.FrameLayout, android.view.View
-                                protected void onMeasure(int i26, int i27) {
-                                    super.onMeasure(i26, i27);
-                                    int size = View.MeasureSpec.getSize(i26);
-                                    if (this.lastGradientWidth != size) {
-                                        this.updateGradient = new LinearGradient(0.0f, 0.0f, size, 0.0f, new int[]{-9846926, -11291731}, new float[]{0.0f, 1.0f}, Shader.TileMode.CLAMP);
-                                        this.lastGradientWidth = size;
-                                    }
-                                    int measuredWidth = (getMeasuredWidth() - DialogsActivity.this.updateTextView.getMeasuredWidth()) / 2;
-                                    DialogsActivity.this.updateLayoutIcon.setProgressRect(measuredWidth, AndroidUtilities.dp(13.0f), AndroidUtilities.dp(22.0f) + measuredWidth, AndroidUtilities.dp(35.0f));
-                                }
-
-                                @Override // android.view.View
-                                public void setTranslationY(float f2) {
-                                    super.setTranslationY(f2);
-                                    DialogsActivity.this.additionalFloatingTranslation2 = AndroidUtilities.dp(48.0f) - f2;
-                                    if (DialogsActivity.this.additionalFloatingTranslation2 < 0.0f) {
-                                        DialogsActivity.this.additionalFloatingTranslation2 = 0.0f;
-                                    }
-                                    if (DialogsActivity.this.floatingHidden) {
-                                        return;
-                                    }
-                                    DialogsActivity.this.updateFloatingButtonOffset();
-                                }
-                            };
-                            this.updateLayout = frameLayout7;
-                            frameLayout7.setWillNotDraw(false);
-                            this.updateLayout.setVisibility(i7);
-                            this.updateLayout.setTranslationY(AndroidUtilities.dp(48.0f));
-                            if (Build.VERSION.SDK_INT >= i6) {
-                                this.updateLayout.setBackground(Theme.getSelectorDrawable(1090519039, false));
-                            }
-                            contentView3.addView(this.updateLayout, LayoutHelper.createFrame(-1, 48, 83));
-                            this.updateLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda22
-                                @Override // android.view.View.OnClickListener
-                                public final void onClick(View view3) {
-                                    DialogsActivity.this.lambda$createView$16(view3);
-                                }
-                            });
-                            RadialProgress2 radialProgress2 = new RadialProgress2(this.updateLayout);
-                            this.updateLayoutIcon = radialProgress2;
-                            radialProgress2.setColors(-1, -1, -1, -1);
-                            this.updateLayoutIcon.setCircleRadius(AndroidUtilities.dp(11.0f));
-                            this.updateLayoutIcon.setAsMini();
-                            this.updateLayoutIcon.setIcon(15, r9, false);
-                            TextView textView = new TextView(context);
-                            this.updateTextView = textView;
-                            textView.setTextSize(r9, 15.0f);
-                            this.updateTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-                            this.updateTextView.setText(LocaleController.getString("AppUpdateNow", R.string.AppUpdateNow).toUpperCase());
-                            this.updateTextView.setTextColor(-1);
-                            this.updateTextView.setPadding(AndroidUtilities.dp(30.0f), 0, 0, 0);
-                            this.updateLayout.addView(this.updateTextView, LayoutHelper.createFrame(-2, -2.0f, 17, 0.0f, 0.0f, 0.0f, 0.0f));
-                        }
-                        this.undoViewIndex = contentView3.getChildCount();
-                        UndoView[] undoViewArr = this.undoView;
-                        undoViewArr[0] = null;
-                        undoViewArr[r9] = null;
-                        if (this.folderId != 0) {
-                            this.viewPages[0].listView.setGlowColor(Theme.getColor(Theme.key_actionBarDefaultArchived));
-                            this.actionBar.setTitleColor(Theme.getColor(Theme.key_actionBarDefaultArchivedTitle));
-                            this.actionBar.setItemsColor(Theme.getColor(Theme.key_actionBarDefaultArchivedIcon), false);
-                            this.actionBar.setItemsBackgroundColor(Theme.getColor(Theme.key_actionBarDefaultArchivedSelector), false);
-                            this.actionBar.setSearchTextColor(Theme.getColor(Theme.key_actionBarDefaultArchivedSearch), false);
-                            this.actionBar.setSearchTextColor(Theme.getColor(Theme.key_actionBarDefaultArchivedSearchPlaceholder), r9);
-                        }
-                        if (!this.onlySelect && this.initialDialogsType == 0) {
-                            View view3 = new View(context) { // from class: org.telegram.ui.DialogsActivity.26
-                                @Override // android.view.View
-                                public void setAlpha(float f2) {
-                                    super.setAlpha(f2);
-                                    if (((BaseFragment) DialogsActivity.this).fragmentView != null) {
-                                        ((BaseFragment) DialogsActivity.this).fragmentView.invalidate();
-                                    }
-                                }
-                            };
-                            this.blurredView = view3;
-                            if (Build.VERSION.SDK_INT >= 23) {
-                                view3.setForeground(new ColorDrawable(ColorUtils.setAlphaComponent(getThemedColor(Theme.key_windowBackgroundWhite), 100)));
-                            }
-                            this.blurredView.setFocusable(false);
-                            this.blurredView.setImportantForAccessibility(i5);
-                            this.blurredView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda26
-                                @Override // android.view.View.OnClickListener
-                                public final void onClick(View view4) {
-                                    DialogsActivity.this.lambda$createView$17(view4);
-                                }
-                            });
-                            this.blurredView.setVisibility(8);
-                            this.blurredView.setFitsSystemWindows(r9);
-                            contentView3.addView(this.blurredView, LayoutHelper.createFrame(-1, -1.0f));
-                        }
-                        this.actionBarDefaultPaint.setColor(Theme.getColor(this.folderId == 0 ? Theme.key_actionBarDefault : Theme.key_actionBarDefaultArchived));
-                        if (this.inPreviewMode) {
-                            TLRPC$User currentUser2 = getUserConfig().getCurrentUser();
-                            ChatAvatarContainer chatAvatarContainer = new ChatAvatarContainer(this.actionBar.getContext(), null, false);
-                            this.avatarContainer = chatAvatarContainer;
-                            chatAvatarContainer.setTitle(UserObject.getUserName(currentUser2));
-                            this.avatarContainer.setSubtitle(LocaleController.formatUserStatus(this.currentAccount, currentUser2));
-                            this.avatarContainer.setUserAvatar(currentUser2, r9);
-                            this.avatarContainer.setOccupyStatusBar(false);
-                            this.avatarContainer.setLeftPadding(AndroidUtilities.dp(10.0f));
-                            this.actionBar.addView(this.avatarContainer, 0, LayoutHelper.createFrame(-2, -1.0f, 51, 0.0f, 0.0f, 40.0f, 0.0f));
-                            this.floatingButton.setVisibility(i7);
-                            this.actionBar.setOccupyStatusBar(false);
-                            this.actionBar.setBackgroundColor(Theme.getColor(Theme.key_actionBarDefault));
-                            FragmentContextView fragmentContextView3 = this.fragmentContextView;
-                            if (fragmentContextView3 != null) {
-                                contentView3.removeView(fragmentContextView3);
-                            }
-                            FragmentContextView fragmentContextView4 = this.fragmentLocationContextView;
-                            if (fragmentContextView4 != null) {
-                                contentView3.removeView(fragmentContextView4);
-                            }
-                        }
-                        this.searchIsShowed = false;
-                        updateFilterTabs(r9, false);
-                        if (this.searchString != null) {
-                            showSearch(r9, false, false);
-                            this.actionBar.openSearchField(this.searchString, false);
-                        } else if (this.initialSearchString != null) {
-                            showSearch(r9, false, false);
-                            this.actionBar.openSearchField(this.initialSearchString, false);
-                            this.initialSearchString = null;
-                            FilterTabsView filterTabsView2 = this.filterTabsView;
-                            if (filterTabsView2 != null) {
-                                filterTabsView2.setTranslationY(-AndroidUtilities.dp(44.0f));
-                            }
-                        } else {
-                            showSearch(false, false, false);
-                        }
-                        if (Build.VERSION.SDK_INT >= 30) {
-                            FilesMigrationService.checkBottomSheet(this);
-                        }
-                        updateMenuButton(false);
-                        this.actionBar.setDrawBlurBackground(contentView3);
-                        RightSlidingDialogContainer rightSlidingDialogContainer = new RightSlidingDialogContainer(context) { // from class: org.telegram.ui.DialogsActivity.27
-                            boolean anotherFragmentOpened;
-                            float fromScrollYProperty;
-                            ViewPage transitionPage;
-
-                            @Override // org.telegram.ui.RightSlidingDialogContainer
-                            boolean getOccupyStatusbar() {
-                                return ((BaseFragment) DialogsActivity.this).actionBar != null && ((BaseFragment) DialogsActivity.this).actionBar.getOccupyStatusBar();
-                            }
-
-                            @Override // org.telegram.ui.RightSlidingDialogContainer
-                            public void openAnimationStarted(boolean z3) {
-                                if (!DialogsActivity.this.isArchive()) {
-                                    ((BaseFragment) DialogsActivity.this).actionBar.setBackButtonDrawable(DialogsActivity.this.menuDrawable = new MenuDrawable());
-                                    DialogsActivity.this.menuDrawable.setRoundCap();
-                                }
-                                DialogsActivity.this.rightFragmentTransitionInProgress = true;
-                                contentView3.requestLayout();
-                                this.fromScrollYProperty = ((BaseFragment) DialogsActivity.this).actionBar.getTranslationY();
-                                if (DialogsActivity.this.canShowFilterTabsView && DialogsActivity.this.filterTabsView != null) {
-                                    DialogsActivity.this.filterTabsView.setVisibility(0);
-                                }
-                                ViewPage viewPage2 = DialogsActivity.this.viewPages[0];
-                                this.transitionPage = viewPage2;
-                                if (viewPage2.animationSupportListView == null) {
-                                    this.transitionPage.animationSupportListView = new BlurredRecyclerView(this, context) { // from class: org.telegram.ui.DialogsActivity.27.1
-                                        /* JADX INFO: Access modifiers changed from: protected */
-                                        @Override // org.telegram.ui.Components.BlurredRecyclerView, org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
-                                        public void dispatchDraw(Canvas canvas) {
-                                        }
-
-                                        @Override // org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
-                                        public boolean dispatchTouchEvent(MotionEvent motionEvent) {
-                                            return false;
-                                        }
-
-                                        @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup
-                                        public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
-                                            return false;
-                                        }
-
-                                        @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View
-                                        public boolean onTouchEvent(MotionEvent motionEvent) {
-                                            return false;
-                                        }
-                                    };
-                                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
-                                    linearLayoutManager.setNeedFixEndGap(false);
-                                    this.transitionPage.animationSupportListView.setLayoutManager(linearLayoutManager);
-                                    ViewPage viewPage3 = this.transitionPage;
-                                    viewPage3.animationSupportDialogsAdapter = new DialogsAdapter(DialogsActivity.this, context, viewPage3.dialogsType, DialogsActivity.this.folderId, DialogsActivity.this.onlySelect, DialogsActivity.this.selectedDialogs, ((BaseFragment) DialogsActivity.this).currentAccount, DialogsActivity.this.requestPeerType);
-                                    this.transitionPage.animationSupportDialogsAdapter.setIsTransitionSupport();
-                                    this.transitionPage.animationSupportListView.setAdapter(this.transitionPage.animationSupportDialogsAdapter);
-                                    ViewPage viewPage4 = this.transitionPage;
-                                    viewPage4.addView(viewPage4.animationSupportListView);
-                                }
-                                this.transitionPage.animationSupportDialogsAdapter.setDialogsType(this.transitionPage.dialogsType);
-                                this.transitionPage.dialogsAdapter.setCollapsedView(false, this.transitionPage.listView);
-                                this.transitionPage.dialogsAdapter.setDialogsListFrozen(true);
-                                this.transitionPage.animationSupportDialogsAdapter.setDialogsListFrozen(true);
-                                this.transitionPage.layoutManager.setNeedFixEndGap(false);
-                                DialogsActivity.this.setDialogsListFrozen(true);
-                                DialogsActivity.this.hideFloatingButton(this.anotherFragmentOpened);
-                                this.transitionPage.dialogsAdapter.notifyDataSetChanged();
-                                this.transitionPage.animationSupportDialogsAdapter.notifyDataSetChanged();
-                                this.transitionPage.listView.setAnimationSupportView(this.transitionPage.animationSupportListView, -((BaseFragment) DialogsActivity.this).actionBar.getTranslationY(), z3);
-                                this.transitionPage.listView.setClipChildren(false);
-                                ((BaseFragment) DialogsActivity.this).actionBar.setAllowOverlayTitle(false);
-                                this.transitionPage.listView.stopScroll();
-                                DialogsActivity.this.updateDrawerSwipeEnabled();
-                            }
-
-                            @Override // org.telegram.ui.RightSlidingDialogContainer
-                            public void openAnimationFinished() {
-                                if (!DialogsActivity.this.canShowFilterTabsView && DialogsActivity.this.filterTabsView != null) {
-                                    DialogsActivity.this.filterTabsView.setVisibility(8);
-                                }
-                                this.transitionPage.layoutManager.setNeedFixGap(true);
-                                this.transitionPage.dialogsAdapter.setCollapsedView(hasFragment(), this.transitionPage.listView);
-                                this.transitionPage.dialogsAdapter.setDialogsListFrozen(false);
-                                this.transitionPage.animationSupportDialogsAdapter.setDialogsListFrozen(false);
-                                DialogsActivity.this.setDialogsListFrozen(false);
-                                this.transitionPage.listView.setClipChildren(true);
-                                this.transitionPage.listView.invalidate();
-                                this.transitionPage.dialogsAdapter.notifyDataSetChanged();
-                                this.transitionPage.animationSupportDialogsAdapter.notifyDataSetChanged();
-                                this.transitionPage.listView.setAnimationSupportView(null, 0.0f, hasFragment());
-                                DialogsActivity.this.rightFragmentTransitionInProgress = false;
-                                ((BaseFragment) DialogsActivity.this).actionBar.setAllowOverlayTitle(true ^ hasFragment());
-                                contentView3.requestLayout();
-                                DialogsActivity.this.setScrollY(0.0f);
-                                DialogsActivity.this.searchViewPager.updateTabs();
-                                DialogsActivity.this.updateDrawerSwipeEnabled();
-                            }
-
-                            @Override // org.telegram.ui.RightSlidingDialogContainer
-                            void setOpenProgress(float f2) {
-                                boolean z3 = f2 > 0.0f;
-                                if (this.anotherFragmentOpened != z3) {
-                                    this.anotherFragmentOpened = z3;
-                                }
-                                DialogsActivity.this.filterTabsMoveFrom = AndroidUtilities.dp(44.0f);
-                                DialogsActivity dialogsActivity = DialogsActivity.this;
-                                dialogsActivity.filterTabsProgress = dialogsActivity.canShowFilterTabsView ? 1.0f - f2 : 0.0f;
-                                if (((BaseFragment) DialogsActivity.this).fragmentView != null) {
-                                    ((BaseFragment) DialogsActivity.this).fragmentView.invalidate();
-                                }
-                                DialogsActivity.this.setScrollY(AndroidUtilities.lerp(this.fromScrollYProperty, 0.0f, f2));
-                                DialogsActivity.this.updateDrawerSwipeEnabled();
-                                if (DialogsActivity.this.menuDrawable != null && hasFragment()) {
-                                    DialogsActivity.this.menuDrawable.setRotation(f2, false);
-                                }
-                                if (((BaseFragment) DialogsActivity.this).actionBar.getTitleTextView() != null) {
-                                    ((BaseFragment) DialogsActivity.this).actionBar.getTitleTextView().setAlpha(1.0f - f2);
-                                    if (((BaseFragment) DialogsActivity.this).actionBar.getTitleTextView().getAlpha() > 0.0f) {
-                                        ((BaseFragment) DialogsActivity.this).actionBar.getTitleTextView().setVisibility(0);
-                                    }
-                                }
-                                if (DialogsActivity.this.proxyItem != null) {
-                                    DialogsActivity.this.proxyItem.setAlpha(1.0f - f2);
-                                }
-                                if (DialogsActivity.this.downloadsItem != null) {
-                                    DialogsActivity.this.downloadsItem.setAlpha(1.0f - f2);
-                                }
-                                if (DialogsActivity.this.passcodeItem != null) {
-                                    DialogsActivity.this.passcodeItem.setAlpha(1.0f - f2);
-                                }
-                                if (DialogsActivity.this.searchItem != null) {
-                                    DialogsActivity.this.searchItem.setAlpha(this.anotherFragmentOpened ? 0.0f : 1.0f);
-                                }
-                                if (((BaseFragment) DialogsActivity.this).actionBar.getBackButton() != null) {
-                                    ((BaseFragment) DialogsActivity.this).actionBar.getBackButton().setAlpha(f2 != 1.0f ? 1.0f : 0.0f);
-                                }
-                                if (DialogsActivity.this.folderId != 0) {
-                                    DialogsActivity.this.actionBarDefaultPaint.setColor(ColorUtils.blendARGB(Theme.getColor(Theme.key_actionBarDefaultArchived), Theme.getColor(Theme.key_actionBarDefault), f2));
-                                }
-                                ViewPage viewPage2 = this.transitionPage;
-                                if (viewPage2 != null) {
-                                    viewPage2.listView.setOpenRightFragmentProgress(f2);
-                                }
-                            }
-                        };
-                        this.rightSlidingDialogContainer = rightSlidingDialogContainer;
-                        rightSlidingDialogContainer.setOpenProgress(0.0f);
-                        contentView3.addView(this.rightSlidingDialogContainer, LayoutHelper.createFrame(-1, -1.0f));
-                        return this.fragmentView;
-                    }
-                    i7 = 4;
-                    r9 = 1;
-                    i6 = 21;
-                    filterTabsView = this.filterTabsView;
-                    if (filterTabsView != null) {
-                    }
-                    if (this.onlySelect) {
-                    }
-                    createFrame = LayoutHelper.createFrame(-1, -2.0f);
-                    if (this.inPreviewMode) {
-                        createFrame.topMargin = AndroidUtilities.statusBarHeight;
-                    }
-                    contentView3.addView(this.actionBar, createFrame);
-                    if (!this.onlySelect) {
-                    }
-                    if (this.searchString == null) {
-                        FrameLayout frameLayout72 = new FrameLayout(context) { // from class: org.telegram.ui.DialogsActivity.25
-                            private int lastGradientWidth;
-                            private LinearGradient updateGradient;
-                            private Paint paint = new Paint();
-                            private Matrix matrix = new Matrix();
-
-                            @Override // android.view.View
-                            public void draw(Canvas canvas) {
-                                if (this.updateGradient != null) {
-                                    this.paint.setColor(-1);
-                                    this.paint.setShader(this.updateGradient);
-                                    this.updateGradient.setLocalMatrix(this.matrix);
-                                    canvas.drawRect(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), this.paint);
-                                    DialogsActivity.this.updateLayoutIcon.setBackgroundGradientDrawable(this.updateGradient);
-                                    DialogsActivity.this.updateLayoutIcon.draw(canvas);
-                                }
-                                super.draw(canvas);
-                            }
-
-                            @Override // android.widget.FrameLayout, android.view.View
-                            protected void onMeasure(int i26, int i27) {
-                                super.onMeasure(i26, i27);
-                                int size = View.MeasureSpec.getSize(i26);
-                                if (this.lastGradientWidth != size) {
-                                    this.updateGradient = new LinearGradient(0.0f, 0.0f, size, 0.0f, new int[]{-9846926, -11291731}, new float[]{0.0f, 1.0f}, Shader.TileMode.CLAMP);
-                                    this.lastGradientWidth = size;
-                                }
-                                int measuredWidth = (getMeasuredWidth() - DialogsActivity.this.updateTextView.getMeasuredWidth()) / 2;
-                                DialogsActivity.this.updateLayoutIcon.setProgressRect(measuredWidth, AndroidUtilities.dp(13.0f), AndroidUtilities.dp(22.0f) + measuredWidth, AndroidUtilities.dp(35.0f));
-                            }
-
-                            @Override // android.view.View
-                            public void setTranslationY(float f2) {
-                                super.setTranslationY(f2);
-                                DialogsActivity.this.additionalFloatingTranslation2 = AndroidUtilities.dp(48.0f) - f2;
-                                if (DialogsActivity.this.additionalFloatingTranslation2 < 0.0f) {
-                                    DialogsActivity.this.additionalFloatingTranslation2 = 0.0f;
-                                }
-                                if (DialogsActivity.this.floatingHidden) {
-                                    return;
-                                }
-                                DialogsActivity.this.updateFloatingButtonOffset();
-                            }
-                        };
-                        this.updateLayout = frameLayout72;
-                        frameLayout72.setWillNotDraw(false);
-                        this.updateLayout.setVisibility(i7);
-                        this.updateLayout.setTranslationY(AndroidUtilities.dp(48.0f));
-                        if (Build.VERSION.SDK_INT >= i6) {
-                        }
-                        contentView3.addView(this.updateLayout, LayoutHelper.createFrame(-1, 48, 83));
-                        this.updateLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda22
-                            @Override // android.view.View.OnClickListener
-                            public final void onClick(View view32) {
-                                DialogsActivity.this.lambda$createView$16(view32);
-                            }
-                        });
-                        RadialProgress2 radialProgress22 = new RadialProgress2(this.updateLayout);
-                        this.updateLayoutIcon = radialProgress22;
-                        radialProgress22.setColors(-1, -1, -1, -1);
-                        this.updateLayoutIcon.setCircleRadius(AndroidUtilities.dp(11.0f));
-                        this.updateLayoutIcon.setAsMini();
-                        this.updateLayoutIcon.setIcon(15, r9, false);
-                        TextView textView2 = new TextView(context);
-                        this.updateTextView = textView2;
-                        textView2.setTextSize(r9, 15.0f);
-                        this.updateTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-                        this.updateTextView.setText(LocaleController.getString("AppUpdateNow", R.string.AppUpdateNow).toUpperCase());
-                        this.updateTextView.setTextColor(-1);
-                        this.updateTextView.setPadding(AndroidUtilities.dp(30.0f), 0, 0, 0);
-                        this.updateLayout.addView(this.updateTextView, LayoutHelper.createFrame(-2, -2.0f, 17, 0.0f, 0.0f, 0.0f, 0.0f));
-                    }
-                    this.undoViewIndex = contentView3.getChildCount();
-                    UndoView[] undoViewArr2 = this.undoView;
-                    undoViewArr2[0] = null;
-                    undoViewArr2[r9] = null;
-                    if (this.folderId != 0) {
-                    }
-                    if (!this.onlySelect) {
-                        View view32 = new View(context) { // from class: org.telegram.ui.DialogsActivity.26
-                            @Override // android.view.View
-                            public void setAlpha(float f2) {
-                                super.setAlpha(f2);
-                                if (((BaseFragment) DialogsActivity.this).fragmentView != null) {
-                                    ((BaseFragment) DialogsActivity.this).fragmentView.invalidate();
-                                }
-                            }
-                        };
-                        this.blurredView = view32;
-                        if (Build.VERSION.SDK_INT >= 23) {
-                        }
-                        this.blurredView.setFocusable(false);
-                        this.blurredView.setImportantForAccessibility(i5);
-                        this.blurredView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda26
-                            @Override // android.view.View.OnClickListener
-                            public final void onClick(View view4) {
-                                DialogsActivity.this.lambda$createView$17(view4);
-                            }
-                        });
-                        this.blurredView.setVisibility(8);
-                        this.blurredView.setFitsSystemWindows(r9);
-                        contentView3.addView(this.blurredView, LayoutHelper.createFrame(-1, -1.0f));
-                    }
-                    this.actionBarDefaultPaint.setColor(Theme.getColor(this.folderId == 0 ? Theme.key_actionBarDefault : Theme.key_actionBarDefaultArchived));
-                    if (this.inPreviewMode) {
-                    }
-                    this.searchIsShowed = false;
-                    updateFilterTabs(r9, false);
-                    if (this.searchString != null) {
-                    }
-                    if (Build.VERSION.SDK_INT >= 30) {
-                    }
-                    updateMenuButton(false);
-                    this.actionBar.setDrawBlurBackground(contentView3);
-                    RightSlidingDialogContainer rightSlidingDialogContainer2 = new RightSlidingDialogContainer(context) { // from class: org.telegram.ui.DialogsActivity.27
-                        boolean anotherFragmentOpened;
-                        float fromScrollYProperty;
-                        ViewPage transitionPage;
-
-                        @Override // org.telegram.ui.RightSlidingDialogContainer
-                        boolean getOccupyStatusbar() {
-                            return ((BaseFragment) DialogsActivity.this).actionBar != null && ((BaseFragment) DialogsActivity.this).actionBar.getOccupyStatusBar();
-                        }
-
-                        @Override // org.telegram.ui.RightSlidingDialogContainer
-                        public void openAnimationStarted(boolean z3) {
-                            if (!DialogsActivity.this.isArchive()) {
-                                ((BaseFragment) DialogsActivity.this).actionBar.setBackButtonDrawable(DialogsActivity.this.menuDrawable = new MenuDrawable());
-                                DialogsActivity.this.menuDrawable.setRoundCap();
-                            }
-                            DialogsActivity.this.rightFragmentTransitionInProgress = true;
-                            contentView3.requestLayout();
-                            this.fromScrollYProperty = ((BaseFragment) DialogsActivity.this).actionBar.getTranslationY();
-                            if (DialogsActivity.this.canShowFilterTabsView && DialogsActivity.this.filterTabsView != null) {
-                                DialogsActivity.this.filterTabsView.setVisibility(0);
-                            }
-                            ViewPage viewPage2 = DialogsActivity.this.viewPages[0];
-                            this.transitionPage = viewPage2;
-                            if (viewPage2.animationSupportListView == null) {
-                                this.transitionPage.animationSupportListView = new BlurredRecyclerView(this, context) { // from class: org.telegram.ui.DialogsActivity.27.1
-                                    /* JADX INFO: Access modifiers changed from: protected */
-                                    @Override // org.telegram.ui.Components.BlurredRecyclerView, org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
-                                    public void dispatchDraw(Canvas canvas) {
-                                    }
-
-                                    @Override // org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
-                                    public boolean dispatchTouchEvent(MotionEvent motionEvent) {
-                                        return false;
-                                    }
-
-                                    @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup
-                                    public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
-                                        return false;
-                                    }
-
-                                    @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View
-                                    public boolean onTouchEvent(MotionEvent motionEvent) {
-                                        return false;
-                                    }
-                                };
-                                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
-                                linearLayoutManager.setNeedFixEndGap(false);
-                                this.transitionPage.animationSupportListView.setLayoutManager(linearLayoutManager);
-                                ViewPage viewPage3 = this.transitionPage;
-                                viewPage3.animationSupportDialogsAdapter = new DialogsAdapter(DialogsActivity.this, context, viewPage3.dialogsType, DialogsActivity.this.folderId, DialogsActivity.this.onlySelect, DialogsActivity.this.selectedDialogs, ((BaseFragment) DialogsActivity.this).currentAccount, DialogsActivity.this.requestPeerType);
-                                this.transitionPage.animationSupportDialogsAdapter.setIsTransitionSupport();
-                                this.transitionPage.animationSupportListView.setAdapter(this.transitionPage.animationSupportDialogsAdapter);
-                                ViewPage viewPage4 = this.transitionPage;
-                                viewPage4.addView(viewPage4.animationSupportListView);
-                            }
-                            this.transitionPage.animationSupportDialogsAdapter.setDialogsType(this.transitionPage.dialogsType);
-                            this.transitionPage.dialogsAdapter.setCollapsedView(false, this.transitionPage.listView);
-                            this.transitionPage.dialogsAdapter.setDialogsListFrozen(true);
-                            this.transitionPage.animationSupportDialogsAdapter.setDialogsListFrozen(true);
-                            this.transitionPage.layoutManager.setNeedFixEndGap(false);
-                            DialogsActivity.this.setDialogsListFrozen(true);
-                            DialogsActivity.this.hideFloatingButton(this.anotherFragmentOpened);
-                            this.transitionPage.dialogsAdapter.notifyDataSetChanged();
-                            this.transitionPage.animationSupportDialogsAdapter.notifyDataSetChanged();
-                            this.transitionPage.listView.setAnimationSupportView(this.transitionPage.animationSupportListView, -((BaseFragment) DialogsActivity.this).actionBar.getTranslationY(), z3);
-                            this.transitionPage.listView.setClipChildren(false);
-                            ((BaseFragment) DialogsActivity.this).actionBar.setAllowOverlayTitle(false);
-                            this.transitionPage.listView.stopScroll();
-                            DialogsActivity.this.updateDrawerSwipeEnabled();
-                        }
-
-                        @Override // org.telegram.ui.RightSlidingDialogContainer
-                        public void openAnimationFinished() {
-                            if (!DialogsActivity.this.canShowFilterTabsView && DialogsActivity.this.filterTabsView != null) {
-                                DialogsActivity.this.filterTabsView.setVisibility(8);
-                            }
-                            this.transitionPage.layoutManager.setNeedFixGap(true);
-                            this.transitionPage.dialogsAdapter.setCollapsedView(hasFragment(), this.transitionPage.listView);
-                            this.transitionPage.dialogsAdapter.setDialogsListFrozen(false);
-                            this.transitionPage.animationSupportDialogsAdapter.setDialogsListFrozen(false);
-                            DialogsActivity.this.setDialogsListFrozen(false);
-                            this.transitionPage.listView.setClipChildren(true);
-                            this.transitionPage.listView.invalidate();
-                            this.transitionPage.dialogsAdapter.notifyDataSetChanged();
-                            this.transitionPage.animationSupportDialogsAdapter.notifyDataSetChanged();
-                            this.transitionPage.listView.setAnimationSupportView(null, 0.0f, hasFragment());
-                            DialogsActivity.this.rightFragmentTransitionInProgress = false;
-                            ((BaseFragment) DialogsActivity.this).actionBar.setAllowOverlayTitle(true ^ hasFragment());
-                            contentView3.requestLayout();
-                            DialogsActivity.this.setScrollY(0.0f);
-                            DialogsActivity.this.searchViewPager.updateTabs();
-                            DialogsActivity.this.updateDrawerSwipeEnabled();
-                        }
-
-                        @Override // org.telegram.ui.RightSlidingDialogContainer
-                        void setOpenProgress(float f2) {
-                            boolean z3 = f2 > 0.0f;
-                            if (this.anotherFragmentOpened != z3) {
-                                this.anotherFragmentOpened = z3;
-                            }
-                            DialogsActivity.this.filterTabsMoveFrom = AndroidUtilities.dp(44.0f);
-                            DialogsActivity dialogsActivity = DialogsActivity.this;
-                            dialogsActivity.filterTabsProgress = dialogsActivity.canShowFilterTabsView ? 1.0f - f2 : 0.0f;
-                            if (((BaseFragment) DialogsActivity.this).fragmentView != null) {
-                                ((BaseFragment) DialogsActivity.this).fragmentView.invalidate();
-                            }
-                            DialogsActivity.this.setScrollY(AndroidUtilities.lerp(this.fromScrollYProperty, 0.0f, f2));
-                            DialogsActivity.this.updateDrawerSwipeEnabled();
-                            if (DialogsActivity.this.menuDrawable != null && hasFragment()) {
-                                DialogsActivity.this.menuDrawable.setRotation(f2, false);
-                            }
-                            if (((BaseFragment) DialogsActivity.this).actionBar.getTitleTextView() != null) {
-                                ((BaseFragment) DialogsActivity.this).actionBar.getTitleTextView().setAlpha(1.0f - f2);
-                                if (((BaseFragment) DialogsActivity.this).actionBar.getTitleTextView().getAlpha() > 0.0f) {
-                                    ((BaseFragment) DialogsActivity.this).actionBar.getTitleTextView().setVisibility(0);
-                                }
-                            }
-                            if (DialogsActivity.this.proxyItem != null) {
-                                DialogsActivity.this.proxyItem.setAlpha(1.0f - f2);
-                            }
-                            if (DialogsActivity.this.downloadsItem != null) {
-                                DialogsActivity.this.downloadsItem.setAlpha(1.0f - f2);
-                            }
-                            if (DialogsActivity.this.passcodeItem != null) {
-                                DialogsActivity.this.passcodeItem.setAlpha(1.0f - f2);
-                            }
-                            if (DialogsActivity.this.searchItem != null) {
-                                DialogsActivity.this.searchItem.setAlpha(this.anotherFragmentOpened ? 0.0f : 1.0f);
-                            }
-                            if (((BaseFragment) DialogsActivity.this).actionBar.getBackButton() != null) {
-                                ((BaseFragment) DialogsActivity.this).actionBar.getBackButton().setAlpha(f2 != 1.0f ? 1.0f : 0.0f);
-                            }
-                            if (DialogsActivity.this.folderId != 0) {
-                                DialogsActivity.this.actionBarDefaultPaint.setColor(ColorUtils.blendARGB(Theme.getColor(Theme.key_actionBarDefaultArchived), Theme.getColor(Theme.key_actionBarDefault), f2));
-                            }
-                            ViewPage viewPage2 = this.transitionPage;
-                            if (viewPage2 != null) {
-                                viewPage2.listView.setOpenRightFragmentProgress(f2);
-                            }
-                        }
-                    };
-                    this.rightSlidingDialogContainer = rightSlidingDialogContainer2;
-                    rightSlidingDialogContainer2.setOpenProgress(0.0f);
-                    contentView3.addView(this.rightSlidingDialogContainer, LayoutHelper.createFrame(-1, -1.0f));
-                    return this.fragmentView;
                 }
+            };
+            contentView.addView(viewPage, LayoutHelper.createFrame(-1, -1.0f));
+            viewPage.dialogsType = this.initialDialogsType;
+            this.viewPages[i16] = viewPage;
+            viewPage.progressView = new FlickerLoadingView(context2);
+            viewPage.progressView.setViewType(7);
+            viewPage.progressView.setVisibility(i6);
+            viewPage.addView(viewPage.progressView, LayoutHelper.createFrame(-2, -2, i11));
+            viewPage.listView = new DialogsRecyclerView(context2, viewPage);
+            viewPage.listView.setAllowStopHeaveOperations(r7);
+            viewPage.listView.setAccessibilityEnabled(r13);
+            viewPage.listView.setAnimateEmptyView(r7, r13);
+            viewPage.listView.setClipToPadding(r13);
+            viewPage.listView.setPivotY(f);
+            if (this.initialDialogsType == 15) {
+                viewPage.listView.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundGray));
             }
+            viewPage.dialogsItemAnimator = new DialogsItemAnimator(this, viewPage.listView) { // from class: org.telegram.ui.DialogsActivity.8
+                @Override // androidx.recyclerview.widget.SimpleItemAnimator
+                public void onRemoveStarting(RecyclerView.ViewHolder viewHolder) {
+                    super.onRemoveStarting(viewHolder);
+                    if (viewPage.layoutManager.findFirstVisibleItemPosition() == 0) {
+                        View findViewByPosition = viewPage.layoutManager.findViewByPosition(0);
+                        if (findViewByPosition != null) {
+                            findViewByPosition.invalidate();
+                        }
+                        if (viewPage.archivePullViewState == 2) {
+                            viewPage.archivePullViewState = 1;
+                        }
+                        if (viewPage.pullForegroundDrawable != null) {
+                            viewPage.pullForegroundDrawable.doNotShow();
+                        }
+                    }
+                }
+            };
+            viewPage.listView.setVerticalScrollBarEnabled(r7);
+            viewPage.listView.setInstantClick(r7);
+            viewPage.layoutManager = new 9(context2, viewPage);
+            viewPage.layoutManager.setOrientation(r7);
+            viewPage.listView.setLayoutManager(viewPage.layoutManager);
+            viewPage.listView.setVerticalScrollbarPosition(LocaleController.isRTL ? 1 : 2);
+            viewPage.addView(viewPage.listView, LayoutHelper.createFrame(-1, -1.0f));
+            viewPage.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda92
+                @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
+                public final void onItemClick(View view, int i17) {
+                    DialogsActivity.this.lambda$createView$7(viewPage, view, i17);
+                }
+            });
+            viewPage.listView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListenerExtended() { // from class: org.telegram.ui.DialogsActivity.11
+                @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListenerExtended
+                public boolean onItemClick(View view, int i17, float f2, float f3) {
+                    if (DialogsActivity.this.filterTabsView != null && DialogsActivity.this.filterTabsView.getVisibility() == 0 && DialogsActivity.this.filterTabsView.isEditing()) {
+                        return false;
+                    }
+                    return DialogsActivity.this.onItemLongClick(viewPage.listView, view, i17, f2, f3, viewPage.dialogsType, viewPage.dialogsAdapter);
+                }
+
+                @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListenerExtended
+                public void onMove(float f2, float f3) {
+                    Point point = AndroidUtilities.displaySize;
+                    if (point.x > point.y) {
+                        DialogsActivity.this.movePreviewFragment(f3);
+                    }
+                }
+
+                @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListenerExtended
+                public void onLongClickRelease() {
+                    Point point = AndroidUtilities.displaySize;
+                    if (point.x > point.y) {
+                        DialogsActivity.this.finishPreviewFragment();
+                    }
+                }
+            });
+            viewPage.swipeController = new SwipeController(viewPage);
+            viewPage.recyclerItemsEnterAnimator = new RecyclerItemsEnterAnimator(viewPage.listView, r13);
+            viewPage.itemTouchhelper = new ItemTouchHelper(viewPage.swipeController);
+            viewPage.itemTouchhelper.attachToRecyclerView(viewPage.listView);
+            viewPage.listView.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.DialogsActivity.12
+                private boolean wasManualScroll;
+
+                @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
+                public void onScrollStateChanged(RecyclerView recyclerView2, int i17) {
+                    if (i17 != 1) {
+                        DialogsActivity.this.scrollingManually = false;
+                    } else {
+                        this.wasManualScroll = true;
+                        DialogsActivity.this.scrollingManually = true;
+                    }
+                    if (i17 == 0) {
+                        this.wasManualScroll = false;
+                        DialogsActivity.this.disableActionBarScrolling = false;
+                        if (DialogsActivity.this.waitingForScrollFinished) {
+                            DialogsActivity.this.waitingForScrollFinished = false;
+                            if (DialogsActivity.this.updatePullAfterScroll) {
+                                viewPage.listView.updatePullState();
+                                DialogsActivity.this.updatePullAfterScroll = false;
+                            }
+                            viewPage.dialogsAdapter.notifyDataSetChanged();
+                        }
+                        if (DialogsActivity.this.filterTabsView != null && DialogsActivity.this.filterTabsView.getVisibility() == 0 && DialogsActivity.this.viewPages[0].listView == recyclerView2) {
+                            int i18 = (int) (-((BaseFragment) DialogsActivity.this).actionBar.getTranslationY());
+                            int currentActionBarHeight = ActionBar.getCurrentActionBarHeight();
+                            if (i18 == 0 || i18 == currentActionBarHeight) {
+                                return;
+                            }
+                            if (i18 < currentActionBarHeight / 2) {
+                                if (DialogsActivity.this.viewPages[0].listView.canScrollVertically(-1)) {
+                                    recyclerView2.smoothScrollBy(0, -i18);
+                                }
+                            } else if (DialogsActivity.this.viewPages[0].listView.canScrollVertically(1)) {
+                                recyclerView2.smoothScrollBy(0, currentActionBarHeight - i18);
+                            }
+                        }
+                    }
+                }
+
+                @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
+                public void onScrolled(RecyclerView recyclerView2, int i17, int i18) {
+                    View childAt;
+                    int findFirstVisibleItemPosition;
+                    boolean z5;
+                    boolean z6;
+                    viewPage.dialogsItemAnimator.onListScroll(-i18);
+                    DialogsActivity.this.checkListLoad(viewPage);
+                    if (DialogsActivity.this.initialDialogsType != 10 && this.wasManualScroll && DialogsActivity.this.floatingButtonContainer.getVisibility() != 8 && recyclerView2.getChildCount() > 0 && (findFirstVisibleItemPosition = viewPage.layoutManager.findFirstVisibleItemPosition()) != -1) {
+                        RecyclerView.ViewHolder findViewHolderForAdapterPosition = recyclerView2.findViewHolderForAdapterPosition(findFirstVisibleItemPosition);
+                        if (!DialogsActivity.this.hasHiddenArchive() || (findViewHolderForAdapterPosition != null && findViewHolderForAdapterPosition.getAdapterPosition() != 0)) {
+                            int top = findViewHolderForAdapterPosition != null ? findViewHolderForAdapterPosition.itemView.getTop() : 0;
+                            if (DialogsActivity.this.prevPosition == findFirstVisibleItemPosition) {
+                                int i19 = DialogsActivity.this.prevTop - top;
+                                z5 = top < DialogsActivity.this.prevTop;
+                                if (Math.abs(i19) <= 1) {
+                                    z6 = false;
+                                    if (z6 && DialogsActivity.this.scrollUpdated && (z5 || DialogsActivity.this.scrollingManually)) {
+                                        DialogsActivity.this.hideFloatingButton(z5);
+                                    }
+                                    DialogsActivity.this.prevPosition = findFirstVisibleItemPosition;
+                                    DialogsActivity.this.prevTop = top;
+                                    DialogsActivity.this.scrollUpdated = true;
+                                }
+                            } else {
+                                z5 = findFirstVisibleItemPosition > DialogsActivity.this.prevPosition;
+                            }
+                            z6 = true;
+                            if (z6) {
+                                DialogsActivity.this.hideFloatingButton(z5);
+                            }
+                            DialogsActivity.this.prevPosition = findFirstVisibleItemPosition;
+                            DialogsActivity.this.prevTop = top;
+                            DialogsActivity.this.scrollUpdated = true;
+                        }
+                    }
+                    if (DialogsActivity.this.filterTabsView != null && DialogsActivity.this.filterTabsView.getVisibility() == 0 && recyclerView2 == DialogsActivity.this.viewPages[0].listView && !DialogsActivity.this.searching && !((BaseFragment) DialogsActivity.this).actionBar.isActionModeShowed() && !DialogsActivity.this.disableActionBarScrolling && DialogsActivity.this.filterTabsViewIsVisible && !DialogsActivity.this.rightSlidingDialogContainer.hasFragment()) {
+                        if (i18 > 0 && DialogsActivity.this.hasHiddenArchive() && DialogsActivity.this.viewPages[0].dialogsType == 0 && (childAt = recyclerView2.getChildAt(0)) != null && recyclerView2.getChildViewHolder(childAt).getAdapterPosition() == 0) {
+                            int measuredHeight = childAt.getMeasuredHeight() + (childAt.getTop() - recyclerView2.getPaddingTop());
+                            if (measuredHeight + i18 > 0) {
+                                if (measuredHeight >= 0) {
+                                    return;
+                                }
+                                i18 = -measuredHeight;
+                            }
+                        }
+                        float translationY = ((BaseFragment) DialogsActivity.this).actionBar.getTranslationY();
+                        float f2 = translationY - i18;
+                        if (f2 < (-ActionBar.getCurrentActionBarHeight())) {
+                            f2 = -ActionBar.getCurrentActionBarHeight();
+                        } else if (f2 > 0.0f) {
+                            f2 = 0.0f;
+                        }
+                        if (f2 != translationY) {
+                            DialogsActivity.this.setScrollY(f2);
+                        }
+                    }
+                    if (((BaseFragment) DialogsActivity.this).fragmentView != null) {
+                        ((SizeNotifierFrameLayout) ((BaseFragment) DialogsActivity.this).fragmentView).invalidateBlur();
+                    }
+                    RightSlidingDialogContainer rightSlidingDialogContainer = DialogsActivity.this.rightSlidingDialogContainer;
+                    if (rightSlidingDialogContainer == null || !rightSlidingDialogContainer.hasFragment()) {
+                        return;
+                    }
+                    viewPage.listView.invalidate();
+                }
+            });
+            viewPage.archivePullViewState = SharedConfig.archiveHidden ? 2 : 0;
+            if (viewPage.pullForegroundDrawable == null && this.folderId == 0) {
+                viewPage.pullForegroundDrawable = new PullForegroundDrawable(this, LocaleController.getString("AccSwipeForArchive", R.string.AccSwipeForArchive), LocaleController.getString("AccReleaseForArchive", R.string.AccReleaseForArchive)) { // from class: org.telegram.ui.DialogsActivity.13
+                    @Override // org.telegram.ui.Components.PullForegroundDrawable
+                    protected float getViewOffset() {
+                        return viewPage.listView.getViewOffset();
+                    }
+                };
+                if (hasHiddenArchive()) {
+                    viewPage.pullForegroundDrawable.showHidden();
+                } else {
+                    viewPage.pullForegroundDrawable.doNotShow();
+                }
+                viewPage.pullForegroundDrawable.setWillDraw(viewPage.archivePullViewState != 0);
+            }
+            int i17 = i16;
+            int i18 = i15;
+            ContentView contentView2 = contentView;
+            viewPage.dialogsAdapter = new DialogsAdapter(this, context, viewPage.dialogsType, this.folderId, this.onlySelect, this.selectedDialogs, this.currentAccount, this.requestPeerType) { // from class: org.telegram.ui.DialogsActivity.14
+                @Override // org.telegram.ui.Adapters.DialogsAdapter, androidx.recyclerview.widget.RecyclerView.Adapter
+                public void notifyDataSetChanged() {
+                    viewPage.lastItemsCount = getItemCount();
+                    try {
+                        super.notifyDataSetChanged();
+                    } catch (Exception e) {
+                        FileLog.e(e);
+                    }
+                    if (DialogsActivity.this.initialDialogsType == 15) {
+                        DialogsActivity.this.searchItem.setVisibility(this.isEmpty ? 8 : 0);
+                    }
+                }
+
+                @Override // org.telegram.ui.Adapters.DialogsAdapter, org.telegram.ui.Cells.DialogCell.DialogCellDelegate
+                public void onButtonClicked(DialogCell dialogCell) {
+                    TLRPC$TL_forumTopic findTopic;
+                    if (dialogCell.getMessage() == null || (findTopic = DialogsActivity.this.getMessagesController().getTopicsController().findTopic(-dialogCell.getDialogId(), MessageObject.getTopicId(dialogCell.getMessage().messageOwner, true))) == null) {
+                        return;
+                    }
+                    if (DialogsActivity.this.onlySelect) {
+                        DialogsActivity.this.didSelectResult(dialogCell.getDialogId(), findTopic.id, false, false);
+                    } else {
+                        ForumUtilities.openTopic(DialogsActivity.this, -dialogCell.getDialogId(), findTopic, 0);
+                    }
+                }
+
+                @Override // org.telegram.ui.Adapters.DialogsAdapter, org.telegram.ui.Cells.DialogCell.DialogCellDelegate
+                public void onButtonLongPress(DialogCell dialogCell) {
+                    DialogsActivity.this.onItemLongClick(viewPage.listView, dialogCell, viewPage.listView.getChildAdapterPosition(dialogCell), 0.0f, 0.0f, viewPage.dialogsType, viewPage.dialogsAdapter);
+                }
+
+                @Override // org.telegram.ui.Adapters.DialogsAdapter
+                public void onCreateGroupForThisClick() {
+                    DialogsActivity.this.createGroupForThis();
+                }
+            };
+            viewPage.dialogsAdapter.setRecyclerListView(viewPage.listView);
+            viewPage.dialogsAdapter.setForceShowEmptyCell(this.afterSignup);
+            if (AndroidUtilities.isTablet() && this.openedDialogId.dialogId != 0) {
+                viewPage.dialogsAdapter.setOpenedDialogId(this.openedDialogId.dialogId);
+            }
+            viewPage.dialogsAdapter.setArchivedPullDrawable(viewPage.pullForegroundDrawable);
+            viewPage.listView.setAdapter(viewPage.dialogsAdapter);
+            viewPage.listView.setEmptyView(this.folderId == 0 ? viewPage.progressView : null);
+            viewPage.scrollHelper = new RecyclerAnimationScrollHelper(viewPage.listView, viewPage.layoutManager);
+            if (i17 != 0) {
+                this.viewPages[i17].setVisibility(8);
+            }
+            i16 = i17 + 1;
+            context2 = context;
+            contentView = contentView2;
+            i15 = i18;
+            i11 = 17;
+            r7 = 1;
+            i6 = 8;
+            f = 0.0f;
+            r13 = 0;
         }
-        i = 1;
-        this.viewPages = new ViewPage[i];
-        i2 = 0;
-        ?? r1022 = r10;
-        while (i2 < i) {
+        final ContentView contentView3 = contentView;
+        if (this.searchString != null) {
+            i = 2;
+        } else {
+            i = !this.onlySelect ? 1 : 0;
         }
-        final ContentView contentView32 = contentView;
-        String str32 = str;
-        if (this.searchString == null) {
-        }
-        SearchViewPager searchViewPager2 = new SearchViewPager(context, this, i3, this.initialDialogsType, this.folderId, new SearchViewPager.ChatPreviewDelegate() { // from class: org.telegram.ui.DialogsActivity.15
+        SearchViewPager searchViewPager = new SearchViewPager(context, this, i, this.initialDialogsType, this.folderId, new SearchViewPager.ChatPreviewDelegate() { // from class: org.telegram.ui.DialogsActivity.15
             @Override // org.telegram.ui.Components.SearchViewPager.ChatPreviewDelegate
             public void startChatPreview(RecyclerListView recyclerListView, DialogCell dialogCell) {
                 DialogsActivity.this.showChatPreview(dialogCell);
@@ -4362,37 +3253,37 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             }
 
             @Override // org.telegram.ui.Components.ViewPagerFixed
-            protected void onTabPageSelected(int i202) {
-                DialogsActivity.this.updateSpeedItem(i202 == 2);
+            protected void onTabPageSelected(int i19) {
+                DialogsActivity.this.updateSpeedItem(i19 == 2);
             }
 
             @Override // org.telegram.ui.Components.SearchViewPager
             protected boolean includeDownloads() {
-                RightSlidingDialogContainer rightSlidingDialogContainer3 = DialogsActivity.this.rightSlidingDialogContainer;
-                return rightSlidingDialogContainer3 == null || !rightSlidingDialogContainer3.hasFragment();
+                RightSlidingDialogContainer rightSlidingDialogContainer = DialogsActivity.this.rightSlidingDialogContainer;
+                return rightSlidingDialogContainer == null || !rightSlidingDialogContainer.hasFragment();
             }
         };
-        this.searchViewPager = searchViewPager2;
-        contentView32.addView(searchViewPager2);
+        this.searchViewPager = searchViewPager;
+        contentView3.addView(searchViewPager);
         this.searchViewPager.dialogsSearchAdapter.setDelegate(new 17());
         this.searchViewPager.searchListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda91
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
-            public final void onItemClick(View view4, int i202) {
-                DialogsActivity.this.lambda$createView$8(view4, i202);
+            public final void onItemClick(View view, int i19) {
+                DialogsActivity.this.lambda$createView$8(view, i19);
             }
         });
         this.searchViewPager.searchListView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListenerExtended() { // from class: org.telegram.ui.DialogsActivity.18
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListenerExtended
-            public boolean onItemClick(View view4, int i202, float f2, float f22) {
+            public boolean onItemClick(View view, int i19, float f2, float f3) {
                 DialogsActivity dialogsActivity = DialogsActivity.this;
-                return dialogsActivity.onItemLongClick(dialogsActivity.searchViewPager.searchListView, view4, i202, f2, f22, -1, DialogsActivity.this.searchViewPager.dialogsSearchAdapter);
+                return dialogsActivity.onItemLongClick(dialogsActivity.searchViewPager.searchListView, view, i19, f2, f3, -1, DialogsActivity.this.searchViewPager.dialogsSearchAdapter);
             }
 
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListenerExtended
-            public void onMove(float f2, float f22) {
+            public void onMove(float f2, float f3) {
                 Point point = AndroidUtilities.displaySize;
                 if (point.x > point.y) {
-                    DialogsActivity.this.movePreviewFragment(f22);
+                    DialogsActivity.this.movePreviewFragment(f3);
                 }
             }
 
@@ -4406,55 +3297,84 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         });
         this.searchViewPager.setFilteredSearchViewDelegate(new FilteredSearchView.Delegate() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda93
             @Override // org.telegram.ui.FilteredSearchView.Delegate
-            public final void updateFiltersView(boolean z22, ArrayList arrayList, ArrayList arrayList2, boolean z3) {
-                DialogsActivity.this.lambda$createView$9(z22, arrayList, arrayList2, z3);
+            public final void updateFiltersView(boolean z5, ArrayList arrayList, ArrayList arrayList2, boolean z6) {
+                DialogsActivity.this.lambda$createView$9(z5, arrayList, arrayList2, z6);
             }
         });
         this.searchViewPager.setVisibility(8);
-        FiltersView filtersView2 = new FiltersView(getParentActivity(), null);
-        this.filtersView = filtersView2;
-        filtersView2.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda90
+        FiltersView filtersView = new FiltersView(getParentActivity(), null);
+        this.filtersView = filtersView;
+        filtersView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda90
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
-            public final void onItemClick(View view4, int i202) {
-                DialogsActivity.this.lambda$createView$10(view4, i202);
+            public final void onItemClick(View view, int i19) {
+                DialogsActivity.this.lambda$createView$10(view, i19);
             }
         });
-        contentView32.addView(this.filtersView, LayoutHelper.createFrame(-1, -2, 48));
+        contentView3.addView(this.filtersView, LayoutHelper.createFrame(-1, -2, 48));
         this.filtersView.setVisibility(8);
-        FrameLayout frameLayout8 = new FrameLayout(context);
-        this.floatingButtonContainer = frameLayout8;
-        frameLayout8.setVisibility(((this.onlySelect || this.initialDialogsType == 10) && this.folderId == 0) ? 0 : 8);
-        FrameLayout frameLayout22 = this.floatingButtonContainer;
-        i4 = Build.VERSION.SDK_INT;
-        if (i4 < 21) {
-        }
-        float f2 = i4 < 21 ? 56 : 60;
-        boolean z22 = LocaleController.isRTL;
-        contentView32.addView(frameLayout22, LayoutHelper.createFrame(i20, f2, (!z22 ? 3 : 5) | 80, !z22 ? 14.0f : 0.0f, 0.0f, !z22 ? 0.0f : 14.0f, 14.0f));
+        FrameLayout frameLayout = new FrameLayout(context);
+        this.floatingButtonContainer = frameLayout;
+        frameLayout.setVisibility(((!this.onlySelect || this.initialDialogsType == 10) && this.folderId == 0) ? 0 : 8);
+        FrameLayout frameLayout2 = this.floatingButtonContainer;
+        int i19 = Build.VERSION.SDK_INT;
+        int i20 = i19 >= 21 ? 56 : 60;
+        float f2 = i19 >= 21 ? 56 : 60;
+        boolean z5 = LocaleController.isRTL;
+        contentView3.addView(frameLayout2, LayoutHelper.createFrame(i20, f2, (z5 ? 3 : 5) | 80, z5 ? 14.0f : 0.0f, 0.0f, z5 ? 0.0f : 14.0f, 14.0f));
         this.floatingButtonContainer.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda29
             @Override // android.view.View.OnClickListener
-            public final void onClick(View view4) {
-                DialogsActivity.this.lambda$createView$11(view4);
+            public final void onClick(View view) {
+                DialogsActivity.this.lambda$createView$11(view);
             }
         });
-        RLottieImageView rLottieImageView3 = new RLottieImageView(context);
-        this.floatingButton = rLottieImageView3;
-        rLottieImageView3.setScaleType(ImageView.ScaleType.CENTER);
-        RLottieImageView rLottieImageView22 = this.floatingButton;
-        int i212 = Theme.key_chats_actionIcon;
-        rLottieImageView22.setColorFilter(new PorterDuffColorFilter(Theme.getColor(i212), PorterDuff.Mode.MULTIPLY));
-        if (this.initialDialogsType != 10) {
+        RLottieImageView rLottieImageView = new RLottieImageView(context);
+        this.floatingButton = rLottieImageView;
+        rLottieImageView.setScaleType(ImageView.ScaleType.CENTER);
+        RLottieImageView rLottieImageView2 = this.floatingButton;
+        int i21 = Theme.key_chats_actionIcon;
+        rLottieImageView2.setColorFilter(new PorterDuffColorFilter(Theme.getColor(i21), PorterDuff.Mode.MULTIPLY));
+        if (this.initialDialogsType == 10) {
+            this.floatingButton.setImageResource(R.drawable.floating_check);
+            this.floatingButtonContainer.setContentDescription(LocaleController.getString("Done", R.string.Done));
+        } else {
+            this.floatingButton.setAnimation(R.raw.write_contacts_fab_icon, 52, 52);
+            this.floatingButtonContainer.setContentDescription(LocaleController.getString("NewMessageTitle", R.string.NewMessageTitle));
         }
-        if (i4 < 21) {
+        if (i19 >= 21) {
+            StateListAnimator stateListAnimator = new StateListAnimator();
+            z = true;
+            FrameLayout frameLayout3 = this.floatingButtonContainer;
+            Property property = View.TRANSLATION_Z;
+            i2 = 2;
+            stateListAnimator.addState(new int[]{16842919}, ObjectAnimator.ofFloat(frameLayout3, property, AndroidUtilities.dp(2.0f), AndroidUtilities.dp(4.0f)).setDuration(200L));
+            stateListAnimator.addState(new int[0], ObjectAnimator.ofFloat(this.floatingButtonContainer, property, AndroidUtilities.dp(4.0f), AndroidUtilities.dp(2.0f)).setDuration(200L));
+            this.floatingButtonContainer.setStateListAnimator(stateListAnimator);
+            this.floatingButtonContainer.setOutlineProvider(new ViewOutlineProvider(this) { // from class: org.telegram.ui.DialogsActivity.19
+                @Override // android.view.ViewOutlineProvider
+                @SuppressLint({"NewApi"})
+                public void getOutline(View view, Outline outline) {
+                    outline.setOval(0, 0, AndroidUtilities.dp(56.0f), AndroidUtilities.dp(56.0f));
+                }
+            });
+        } else {
+            z = true;
+            i2 = 2;
         }
-        Drawable createSimpleSelectorCircleDrawable3 = Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(56.0f), Theme.getColor(Theme.key_chats_actionBackground), Theme.getColor(Theme.key_chats_actionPressedBackground));
-        if (i4 >= 21) {
+        Drawable createSimpleSelectorCircleDrawable = Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(56.0f), Theme.getColor(Theme.key_chats_actionBackground), Theme.getColor(Theme.key_chats_actionPressedBackground));
+        if (i19 < 21) {
+            Drawable mutate = context.getResources().getDrawable(R.drawable.floating_shadow).mutate();
+            mutate.setColorFilter(new PorterDuffColorFilter(-16777216, PorterDuff.Mode.MULTIPLY));
+            CombinedDrawable combinedDrawable2 = new CombinedDrawable(mutate, createSimpleSelectorCircleDrawable, 0, 0);
+            combinedDrawable2.setIconSize(AndroidUtilities.dp(56.0f), AndroidUtilities.dp(56.0f));
+            combinedDrawable = combinedDrawable2;
+        } else {
+            combinedDrawable = createSimpleSelectorCircleDrawable;
         }
         updateFloatingButtonColor();
         this.floatingButtonContainer.addView(this.floatingButton, LayoutHelper.createFrame(-1, -1.0f));
-        RadialProgressView radialProgressView2 = new RadialProgressView(context);
-        this.floatingProgressView = radialProgressView2;
-        radialProgressView2.setProgressColor(Theme.getColor(i212));
+        RadialProgressView radialProgressView = new RadialProgressView(context);
+        this.floatingProgressView = radialProgressView;
+        radialProgressView.setProgressColor(Theme.getColor(i21));
         this.floatingProgressView.setScaleX(0.1f);
         this.floatingProgressView.setScaleY(0.1f);
         this.floatingProgressView.setAlpha(0.0f);
@@ -4462,13 +3382,651 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         this.floatingProgressView.setSize(AndroidUtilities.dp(22.0f));
         this.floatingButtonContainer.addView(this.floatingProgressView, LayoutHelper.createFrame(-1, -1.0f));
         this.searchTabsView = null;
-        if (this.onlySelect) {
+        if (!this.onlySelect && this.initialDialogsType == 0) {
+            FragmentContextView fragmentContextView = new FragmentContextView(context, this, z);
+            this.fragmentLocationContextView = fragmentContextView;
+            fragmentContextView.setLayoutParams(LayoutHelper.createFrame(-1, 38.0f, 51, 0.0f, -36.0f, 0.0f, 0.0f));
+            contentView3.addView(this.fragmentLocationContextView);
+            FragmentContextView fragmentContextView2 = new FragmentContextView(context, this, false);
+            this.fragmentContextView = fragmentContextView2;
+            fragmentContextView2.setLayoutParams(LayoutHelper.createFrame(-1, 38.0f, 51, 0.0f, -36.0f, 0.0f, 0.0f));
+            contentView3.addView(this.fragmentContextView);
+            this.fragmentContextView.setAdditionalContextView(this.fragmentLocationContextView);
+            this.fragmentLocationContextView.setAdditionalContextView(this.fragmentContextView);
+            this.dialogsHintCell = new DialogsHintCell(context);
+            updateDialogsHint();
+            CacheControlActivity.calculateTotalSize(new Utilities.Callback() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda78
+                @Override // org.telegram.messenger.Utilities.Callback
+                public final void run(Object obj) {
+                    DialogsActivity.this.lambda$createView$12((Long) obj);
+                }
+            });
+            CacheControlActivity.getDeviceTotalSize(new Utilities.Callback2() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda76
+                @Override // org.telegram.messenger.Utilities.Callback2
+                public final void run(Object obj, Object obj2) {
+                    DialogsActivity.this.lambda$createView$13((Long) obj, (Long) obj2);
+                }
+            });
+            contentView3.addView(this.dialogsHintCell);
+        } else if (this.initialDialogsType == 3) {
+            ChatActivityEnterView chatActivityEnterView = this.commentView;
+            if (chatActivityEnterView != null) {
+                chatActivityEnterView.onDestroy();
+            }
+            r10 = 1;
+            i3 = 21;
+            this.commentView = new ChatActivityEnterView(getParentActivity(), contentView3, null, false) { // from class: org.telegram.ui.DialogsActivity.20
+                @Override // android.view.ViewGroup, android.view.View
+                public boolean dispatchTouchEvent(MotionEvent motionEvent) {
+                    if (motionEvent.getAction() == 0) {
+                        AndroidUtilities.requestAdjustResize(DialogsActivity.this.getParentActivity(), ((BaseFragment) DialogsActivity.this).classGuid);
+                    }
+                    return super.dispatchTouchEvent(motionEvent);
+                }
+
+                @Override // android.view.View
+                public void setTranslationY(float f3) {
+                    super.setTranslationY(f3);
+                }
+            };
+            contentView3.setClipChildren(false);
+            contentView3.setClipToPadding(false);
+            ChatActivityEnterView chatActivityEnterView2 = this.commentView;
+            chatActivityEnterView2.allowBlur = false;
+            chatActivityEnterView2.forceSmoothKeyboard(true);
+            this.commentView.setAllowStickersAndGifs(true, false, false);
+            this.commentView.setForceShowSendButton(true, false);
+            this.commentView.setPadding(0, 0, AndroidUtilities.dp(20.0f), 0);
+            this.commentView.setVisibility(8);
+            this.commentView.getSendButton().setAlpha(0.0f);
+            View view = new View(getParentActivity());
+            this.commentViewBg = view;
+            view.setBackgroundColor(getThemedColor(Theme.key_chat_messagePanelBackground));
+            contentView3.addView(this.commentViewBg, LayoutHelper.createFrame(-1, 1600.0f, 87, 0.0f, 0.0f, 0.0f, -1600.0f));
+            contentView3.addView(this.commentView, LayoutHelper.createFrame(-1, -2, 83));
+            this.commentView.setDelegate(new ChatActivityEnterView.ChatActivityEnterViewDelegate() { // from class: org.telegram.ui.DialogsActivity.21
+                @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+                public void bottomPanelTranslationYChanged(float f3) {
+                }
+
+                @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+                public void didPressAttachButton() {
+                }
+
+                @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+                public /* synthetic */ int getContentViewHeight() {
+                    return ChatActivityEnterView.ChatActivityEnterViewDelegate.-CC.$default$getContentViewHeight(this);
+                }
+
+                @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+                public /* synthetic */ TLRPC$TL_channels_sendAsPeers getSendAsPeers() {
+                    return ChatActivityEnterView.ChatActivityEnterViewDelegate.-CC.$default$getSendAsPeers(this);
+                }
+
+                @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+                public /* synthetic */ boolean hasForwardingMessages() {
+                    return ChatActivityEnterView.ChatActivityEnterViewDelegate.-CC.$default$hasForwardingMessages(this);
+                }
+
+                @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+                public /* synthetic */ boolean hasScheduledMessages() {
+                    return ChatActivityEnterView.ChatActivityEnterViewDelegate.-CC.$default$hasScheduledMessages(this);
+                }
+
+                @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+                public /* synthetic */ int measureKeyboardHeight() {
+                    return ChatActivityEnterView.ChatActivityEnterViewDelegate.-CC.$default$measureKeyboardHeight(this);
+                }
+
+                @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+                public void needChangeVideoPreviewState(int i22, float f3) {
+                }
+
+                @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+                public void needSendTyping() {
+                }
+
+                @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+                public void needShowMediaBanHint() {
+                }
+
+                @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+                public void needStartRecordAudio(int i22) {
+                }
+
+                @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+                public void needStartRecordVideo(int i22, boolean z6, int i23) {
+                }
+
+                @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+                public void onAttachButtonHidden() {
+                }
+
+                @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+                public void onAttachButtonShow() {
+                }
+
+                @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+                public void onAudioVideoInterfaceUpdated() {
+                }
+
+                @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+                public /* synthetic */ void onContextMenuClose() {
+                    ChatActivityEnterView.ChatActivityEnterViewDelegate.-CC.$default$onContextMenuClose(this);
+                }
+
+                @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+                public /* synthetic */ void onContextMenuOpen() {
+                    ChatActivityEnterView.ChatActivityEnterViewDelegate.-CC.$default$onContextMenuOpen(this);
+                }
+
+                @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+                public /* synthetic */ void onEditTextScroll() {
+                    ChatActivityEnterView.ChatActivityEnterViewDelegate.-CC.$default$onEditTextScroll(this);
+                }
+
+                @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+                public void onMessageEditEnd(boolean z6) {
+                }
+
+                @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+                public void onPreAudioVideoRecord() {
+                }
+
+                @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+                public void onSendLongClick() {
+                }
+
+                @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+                public void onStickersExpandedChange() {
+                }
+
+                @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+                public void onStickersTab(boolean z6) {
+                }
+
+                @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+                public void onSwitchRecordMode(boolean z6) {
+                }
+
+                @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+                public void onTextChanged(CharSequence charSequence, boolean z6) {
+                }
+
+                @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+                public void onTextSelectionChanged(int i22, int i23) {
+                }
+
+                @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+                public void onTextSpansChanged(CharSequence charSequence) {
+                }
+
+                @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+                public /* synthetic */ void onTrendingStickersShowed(boolean z6) {
+                    ChatActivityEnterView.ChatActivityEnterViewDelegate.-CC.$default$onTrendingStickersShowed(this, z6);
+                }
+
+                @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+                public void onUpdateSlowModeButton(View view2, boolean z6, CharSequence charSequence) {
+                }
+
+                @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+                public void onWindowSizeChanged(int i22) {
+                }
+
+                @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+                public /* synthetic */ void openScheduledMessages() {
+                    ChatActivityEnterView.ChatActivityEnterViewDelegate.-CC.$default$openScheduledMessages(this);
+                }
+
+                @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+                public /* synthetic */ void prepareMessageSending() {
+                    ChatActivityEnterView.ChatActivityEnterViewDelegate.-CC.$default$prepareMessageSending(this);
+                }
+
+                @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+                public /* synthetic */ void scrollToSendingMessage() {
+                    ChatActivityEnterView.ChatActivityEnterViewDelegate.-CC.$default$scrollToSendingMessage(this);
+                }
+
+                @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+                public void onMessageSend(CharSequence charSequence, boolean z6, int i22) {
+                    if (DialogsActivity.this.delegate == null || DialogsActivity.this.selectedDialogs.isEmpty()) {
+                        return;
+                    }
+                    ArrayList<MessagesStorage.TopicKey> arrayList = new ArrayList<>();
+                    for (int i23 = 0; i23 < DialogsActivity.this.selectedDialogs.size(); i23++) {
+                        arrayList.add(MessagesStorage.TopicKey.of(((Long) DialogsActivity.this.selectedDialogs.get(i23)).longValue(), 0));
+                    }
+                    DialogsActivity.this.delegate.didSelectDialogs(DialogsActivity.this, arrayList, charSequence, false, null);
+                }
+            });
+            FrameLayout frameLayout4 = new FrameLayout(context) { // from class: org.telegram.ui.DialogsActivity.22
+                @Override // android.view.View
+                public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
+                    super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
+                    accessibilityNodeInfo.setText(LocaleController.formatPluralString("AccDescrShareInChats", DialogsActivity.this.selectedDialogs.size(), new Object[0]));
+                    accessibilityNodeInfo.setClassName(Button.class.getName());
+                    accessibilityNodeInfo.setLongClickable(true);
+                    accessibilityNodeInfo.setClickable(true);
+                }
+            };
+            this.writeButtonContainer = frameLayout4;
+            frameLayout4.setFocusable(true);
+            this.writeButtonContainer.setFocusableInTouchMode(true);
+            i4 = 4;
+            this.writeButtonContainer.setVisibility(4);
+            this.writeButtonContainer.setScaleX(0.2f);
+            this.writeButtonContainer.setScaleY(0.2f);
+            this.writeButtonContainer.setAlpha(0.0f);
+            contentView3.addView(this.writeButtonContainer, LayoutHelper.createFrame(60, 60.0f, 85, 0.0f, 0.0f, 6.0f, 10.0f));
+            this.textPaint.setTextSize(AndroidUtilities.dp(12.0f));
+            this.textPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            View view2 = new View(context) { // from class: org.telegram.ui.DialogsActivity.23
+                @Override // android.view.View
+                protected void onDraw(Canvas canvas) {
+                    String format = String.format("%d", Integer.valueOf(Math.max(1, DialogsActivity.this.selectedDialogs.size())));
+                    int ceil = (int) Math.ceil(DialogsActivity.this.textPaint.measureText(format));
+                    int max = Math.max(AndroidUtilities.dp(16.0f) + ceil, AndroidUtilities.dp(24.0f));
+                    int measuredWidth = getMeasuredWidth() / 2;
+                    int measuredHeight = getMeasuredHeight() / 2;
+                    DialogsActivity.this.textPaint.setColor(DialogsActivity.this.getThemedColor(Theme.key_dialogRoundCheckBoxCheck));
+                    DialogsActivity.this.paint.setColor(DialogsActivity.this.getThemedColor(Theme.isCurrentThemeDark() ? Theme.key_voipgroup_inviteMembersBackground : Theme.key_dialogBackground));
+                    int i22 = max / 2;
+                    int i23 = measuredWidth - i22;
+                    int i24 = i22 + measuredWidth;
+                    DialogsActivity.this.rect.set(i23, 0.0f, i24, getMeasuredHeight());
+                    canvas.drawRoundRect(DialogsActivity.this.rect, AndroidUtilities.dp(12.0f), AndroidUtilities.dp(12.0f), DialogsActivity.this.paint);
+                    DialogsActivity.this.paint.setColor(DialogsActivity.this.getThemedColor(Theme.key_dialogRoundCheckBox));
+                    DialogsActivity.this.rect.set(i23 + AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f), i24 - AndroidUtilities.dp(2.0f), getMeasuredHeight() - AndroidUtilities.dp(2.0f));
+                    canvas.drawRoundRect(DialogsActivity.this.rect, AndroidUtilities.dp(10.0f), AndroidUtilities.dp(10.0f), DialogsActivity.this.paint);
+                    canvas.drawText(format, measuredWidth - (ceil / 2), AndroidUtilities.dp(16.2f), DialogsActivity.this.textPaint);
+                }
+            };
+            this.selectedCountView = view2;
+            view2.setAlpha(0.0f);
+            this.selectedCountView.setScaleX(0.2f);
+            this.selectedCountView.setScaleY(0.2f);
+            contentView3.addView(this.selectedCountView, LayoutHelper.createFrame(42, 24.0f, 85, 0.0f, 0.0f, -8.0f, 9.0f));
+            final FrameLayout frameLayout5 = new FrameLayout(context);
+            int dp = AndroidUtilities.dp(56.0f);
+            int i22 = Theme.key_dialogFloatingButton;
+            int themedColor = getThemedColor(i22);
+            if (i19 >= 21) {
+                i22 = Theme.key_dialogFloatingButtonPressed;
+            }
+            Drawable createSimpleSelectorCircleDrawable2 = Theme.createSimpleSelectorCircleDrawable(dp, themedColor, getThemedColor(i22));
+            if (i19 < 21) {
+                Drawable mutate2 = context.getResources().getDrawable(R.drawable.floating_shadow_profile).mutate();
+                mutate2.setColorFilter(new PorterDuffColorFilter(-16777216, PorterDuff.Mode.MULTIPLY));
+                CombinedDrawable combinedDrawable3 = new CombinedDrawable(mutate2, combinedDrawable, 0, 0);
+                combinedDrawable3.setIconSize(AndroidUtilities.dp(56.0f), AndroidUtilities.dp(56.0f));
+                createSimpleSelectorCircleDrawable2 = combinedDrawable3;
+            }
+            frameLayout5.setBackgroundDrawable(createSimpleSelectorCircleDrawable2);
+            frameLayout5.setImportantForAccessibility(i2);
+            if (i19 >= 21) {
+                frameLayout5.setOutlineProvider(new ViewOutlineProvider(this) { // from class: org.telegram.ui.DialogsActivity.24
+                    @Override // android.view.ViewOutlineProvider
+                    @SuppressLint({"NewApi"})
+                    public void getOutline(View view3, Outline outline) {
+                        outline.setOval(0, 0, AndroidUtilities.dp(56.0f), AndroidUtilities.dp(56.0f));
+                    }
+                });
+            }
+            frameLayout5.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda23
+                @Override // android.view.View.OnClickListener
+                public final void onClick(View view3) {
+                    DialogsActivity.this.lambda$createView$14(view3);
+                }
+            });
+            frameLayout5.setOnLongClickListener(new View.OnLongClickListener() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda38
+                @Override // android.view.View.OnLongClickListener
+                public final boolean onLongClick(View view3) {
+                    boolean lambda$createView$15;
+                    lambda$createView$15 = DialogsActivity.this.lambda$createView$15(frameLayout5, view3);
+                    return lambda$createView$15;
+                }
+            });
+            this.writeButton = new ImageView[i2];
+            int i23 = 0;
+            while (i23 < i2) {
+                this.writeButton[i23] = new ImageView(context);
+                this.writeButton[i23].setImageResource(i23 == 1 ? R.drawable.msg_arrow_forward : R.drawable.attach_send);
+                this.writeButton[i23].setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_dialogFloatingIcon), PorterDuff.Mode.MULTIPLY));
+                this.writeButton[i23].setScaleType(ImageView.ScaleType.CENTER);
+                ImageView imageView = this.writeButton[i23];
+                int i24 = Build.VERSION.SDK_INT;
+                frameLayout5.addView(imageView, LayoutHelper.createFrame(i24 >= 21 ? 56 : 60, i24 >= 21 ? 56 : 60, 17));
+                i23++;
+            }
+            AndroidUtilities.updateViewVisibilityAnimated(this.writeButton[0], true, 0.5f, false);
+            AndroidUtilities.updateViewVisibilityAnimated(this.writeButton[1], false, 0.5f, false);
+            FrameLayout frameLayout6 = this.writeButtonContainer;
+            int i25 = Build.VERSION.SDK_INT;
+            frameLayout6.addView(frameLayout5, LayoutHelper.createFrame(i25 >= 21 ? 56 : 60, i25 >= 21 ? 56.0f : 60.0f, 51, i25 >= 21 ? 2.0f : 0.0f, 0.0f, 0.0f, 0.0f));
+            filterTabsView = this.filterTabsView;
+            if (filterTabsView != null) {
+                contentView3.addView(filterTabsView, LayoutHelper.createFrame(-1, 44.0f));
+            }
+            if (this.onlySelect || this.initialDialogsType == 3) {
+                createFrame = LayoutHelper.createFrame(-1, -2.0f);
+                if (this.inPreviewMode && Build.VERSION.SDK_INT >= i3) {
+                    createFrame.topMargin = AndroidUtilities.statusBarHeight;
+                }
+                contentView3.addView(this.actionBar, createFrame);
+            }
+            if (!this.onlySelect) {
+                DrawerProfileCell.AnimatedStatusView animatedStatusView = new DrawerProfileCell.AnimatedStatusView(context, 20, 60);
+                this.animatedStatusView = animatedStatusView;
+                contentView3.addView(animatedStatusView, LayoutHelper.createFrame(20, 20, 51));
+            }
+            if (this.searchString == null && this.initialDialogsType == 0) {
+                FrameLayout frameLayout7 = new FrameLayout(context) { // from class: org.telegram.ui.DialogsActivity.25
+                    private int lastGradientWidth;
+                    private LinearGradient updateGradient;
+                    private Paint paint = new Paint();
+                    private Matrix matrix = new Matrix();
+
+                    @Override // android.view.View
+                    public void draw(Canvas canvas) {
+                        if (this.updateGradient != null) {
+                            this.paint.setColor(-1);
+                            this.paint.setShader(this.updateGradient);
+                            this.updateGradient.setLocalMatrix(this.matrix);
+                            canvas.drawRect(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), this.paint);
+                            DialogsActivity.this.updateLayoutIcon.setBackgroundGradientDrawable(this.updateGradient);
+                            DialogsActivity.this.updateLayoutIcon.draw(canvas);
+                        }
+                        super.draw(canvas);
+                    }
+
+                    @Override // android.widget.FrameLayout, android.view.View
+                    protected void onMeasure(int i26, int i27) {
+                        super.onMeasure(i26, i27);
+                        int size = View.MeasureSpec.getSize(i26);
+                        if (this.lastGradientWidth != size) {
+                            this.updateGradient = new LinearGradient(0.0f, 0.0f, size, 0.0f, new int[]{-9846926, -11291731}, new float[]{0.0f, 1.0f}, Shader.TileMode.CLAMP);
+                            this.lastGradientWidth = size;
+                        }
+                        int measuredWidth = (getMeasuredWidth() - DialogsActivity.this.updateTextView.getMeasuredWidth()) / 2;
+                        DialogsActivity.this.updateLayoutIcon.setProgressRect(measuredWidth, AndroidUtilities.dp(13.0f), AndroidUtilities.dp(22.0f) + measuredWidth, AndroidUtilities.dp(35.0f));
+                    }
+
+                    @Override // android.view.View
+                    public void setTranslationY(float f3) {
+                        super.setTranslationY(f3);
+                        DialogsActivity.this.additionalFloatingTranslation2 = AndroidUtilities.dp(48.0f) - f3;
+                        if (DialogsActivity.this.additionalFloatingTranslation2 < 0.0f) {
+                            DialogsActivity.this.additionalFloatingTranslation2 = 0.0f;
+                        }
+                        if (DialogsActivity.this.floatingHidden) {
+                            return;
+                        }
+                        DialogsActivity.this.updateFloatingButtonOffset();
+                    }
+                };
+                this.updateLayout = frameLayout7;
+                frameLayout7.setWillNotDraw(false);
+                this.updateLayout.setVisibility(i4);
+                this.updateLayout.setTranslationY(AndroidUtilities.dp(48.0f));
+                if (Build.VERSION.SDK_INT >= i3) {
+                    this.updateLayout.setBackground(Theme.getSelectorDrawable(1090519039, false));
+                }
+                contentView3.addView(this.updateLayout, LayoutHelper.createFrame(-1, 48, 83));
+                this.updateLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda22
+                    @Override // android.view.View.OnClickListener
+                    public final void onClick(View view3) {
+                        DialogsActivity.this.lambda$createView$16(view3);
+                    }
+                });
+                RadialProgress2 radialProgress2 = new RadialProgress2(this.updateLayout);
+                this.updateLayoutIcon = radialProgress2;
+                radialProgress2.setColors(-1, -1, -1, -1);
+                this.updateLayoutIcon.setCircleRadius(AndroidUtilities.dp(11.0f));
+                this.updateLayoutIcon.setAsMini();
+                this.updateLayoutIcon.setIcon(15, r10, false);
+                TextView textView = new TextView(context);
+                this.updateTextView = textView;
+                textView.setTextSize(r10, 15.0f);
+                this.updateTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                this.updateTextView.setText(LocaleController.getString("AppUpdateNow", R.string.AppUpdateNow).toUpperCase());
+                this.updateTextView.setTextColor(-1);
+                this.updateTextView.setPadding(AndroidUtilities.dp(30.0f), 0, 0, 0);
+                this.updateLayout.addView(this.updateTextView, LayoutHelper.createFrame(-2, -2.0f, 17, 0.0f, 0.0f, 0.0f, 0.0f));
+            }
+            this.undoViewIndex = contentView3.getChildCount();
+            UndoView[] undoViewArr = this.undoView;
+            undoViewArr[0] = null;
+            undoViewArr[r10] = null;
+            if (this.folderId != 0) {
+                this.viewPages[0].listView.setGlowColor(Theme.getColor(Theme.key_actionBarDefaultArchived));
+                this.actionBar.setTitleColor(Theme.getColor(Theme.key_actionBarDefaultArchivedTitle));
+                this.actionBar.setItemsColor(Theme.getColor(Theme.key_actionBarDefaultArchivedIcon), false);
+                this.actionBar.setItemsBackgroundColor(Theme.getColor(Theme.key_actionBarDefaultArchivedSelector), false);
+                this.actionBar.setSearchTextColor(Theme.getColor(Theme.key_actionBarDefaultArchivedSearch), false);
+                this.actionBar.setSearchTextColor(Theme.getColor(Theme.key_actionBarDefaultArchivedSearchPlaceholder), r10);
+            }
+            if (!this.onlySelect && this.initialDialogsType == 0) {
+                View view3 = new View(context) { // from class: org.telegram.ui.DialogsActivity.26
+                    @Override // android.view.View
+                    public void setAlpha(float f3) {
+                        super.setAlpha(f3);
+                        if (((BaseFragment) DialogsActivity.this).fragmentView != null) {
+                            ((BaseFragment) DialogsActivity.this).fragmentView.invalidate();
+                        }
+                    }
+                };
+                this.blurredView = view3;
+                if (Build.VERSION.SDK_INT >= 23) {
+                    view3.setForeground(new ColorDrawable(ColorUtils.setAlphaComponent(getThemedColor(Theme.key_windowBackgroundWhite), 100)));
+                }
+                this.blurredView.setFocusable(false);
+                this.blurredView.setImportantForAccessibility(i2);
+                this.blurredView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda26
+                    @Override // android.view.View.OnClickListener
+                    public final void onClick(View view4) {
+                        DialogsActivity.this.lambda$createView$17(view4);
+                    }
+                });
+                this.blurredView.setVisibility(8);
+                this.blurredView.setFitsSystemWindows(r10);
+                contentView3.addView(this.blurredView, LayoutHelper.createFrame(-1, -1.0f));
+            }
+            this.actionBarDefaultPaint.setColor(Theme.getColor(this.folderId != 0 ? Theme.key_actionBarDefault : Theme.key_actionBarDefaultArchived));
+            if (this.inPreviewMode) {
+                TLRPC$User currentUser2 = getUserConfig().getCurrentUser();
+                ChatAvatarContainer chatAvatarContainer = new ChatAvatarContainer(this.actionBar.getContext(), null, false);
+                this.avatarContainer = chatAvatarContainer;
+                chatAvatarContainer.setTitle(UserObject.getUserName(currentUser2));
+                this.avatarContainer.setSubtitle(LocaleController.formatUserStatus(this.currentAccount, currentUser2));
+                this.avatarContainer.setUserAvatar(currentUser2, r10);
+                this.avatarContainer.setOccupyStatusBar(false);
+                this.avatarContainer.setLeftPadding(AndroidUtilities.dp(10.0f));
+                this.actionBar.addView(this.avatarContainer, 0, LayoutHelper.createFrame(-2, -1.0f, 51, 0.0f, 0.0f, 40.0f, 0.0f));
+                this.floatingButton.setVisibility(i4);
+                this.actionBar.setOccupyStatusBar(false);
+                this.actionBar.setBackgroundColor(Theme.getColor(Theme.key_actionBarDefault));
+                FragmentContextView fragmentContextView3 = this.fragmentContextView;
+                if (fragmentContextView3 != null) {
+                    contentView3.removeView(fragmentContextView3);
+                }
+                FragmentContextView fragmentContextView4 = this.fragmentLocationContextView;
+                if (fragmentContextView4 != null) {
+                    contentView3.removeView(fragmentContextView4);
+                }
+            }
+            this.searchIsShowed = false;
+            updateFilterTabs(r10, false);
+            if (this.searchString == null) {
+                showSearch(r10, false, false);
+                this.actionBar.openSearchField(this.searchString, false);
+            } else if (this.initialSearchString != null) {
+                showSearch(r10, false, false);
+                this.actionBar.openSearchField(this.initialSearchString, false);
+                this.initialSearchString = null;
+                FilterTabsView filterTabsView2 = this.filterTabsView;
+                if (filterTabsView2 != null) {
+                    filterTabsView2.setTranslationY(-AndroidUtilities.dp(44.0f));
+                }
+            } else {
+                showSearch(false, false, false);
+            }
+            if (Build.VERSION.SDK_INT >= 30) {
+                FilesMigrationService.checkBottomSheet(this);
+            }
+            updateMenuButton(false);
+            this.actionBar.setDrawBlurBackground(contentView3);
+            RightSlidingDialogContainer rightSlidingDialogContainer = new RightSlidingDialogContainer(context) { // from class: org.telegram.ui.DialogsActivity.27
+                boolean anotherFragmentOpened;
+                float fromScrollYProperty;
+                ViewPage transitionPage;
+
+                @Override // org.telegram.ui.RightSlidingDialogContainer
+                boolean getOccupyStatusbar() {
+                    return ((BaseFragment) DialogsActivity.this).actionBar != null && ((BaseFragment) DialogsActivity.this).actionBar.getOccupyStatusBar();
+                }
+
+                @Override // org.telegram.ui.RightSlidingDialogContainer
+                public void openAnimationStarted(boolean z6) {
+                    if (!DialogsActivity.this.isArchive()) {
+                        ((BaseFragment) DialogsActivity.this).actionBar.setBackButtonDrawable(DialogsActivity.this.menuDrawable = new MenuDrawable());
+                        DialogsActivity.this.menuDrawable.setRoundCap();
+                    }
+                    DialogsActivity.this.rightFragmentTransitionInProgress = true;
+                    contentView3.requestLayout();
+                    this.fromScrollYProperty = ((BaseFragment) DialogsActivity.this).actionBar.getTranslationY();
+                    if (DialogsActivity.this.canShowFilterTabsView && DialogsActivity.this.filterTabsView != null) {
+                        DialogsActivity.this.filterTabsView.setVisibility(0);
+                    }
+                    ViewPage viewPage2 = DialogsActivity.this.viewPages[0];
+                    this.transitionPage = viewPage2;
+                    if (viewPage2.animationSupportListView == null) {
+                        this.transitionPage.animationSupportListView = new BlurredRecyclerView(this, context) { // from class: org.telegram.ui.DialogsActivity.27.1
+                            /* JADX INFO: Access modifiers changed from: protected */
+                            @Override // org.telegram.ui.Components.BlurredRecyclerView, org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
+                            public void dispatchDraw(Canvas canvas) {
+                            }
+
+                            @Override // org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
+                            public boolean dispatchTouchEvent(MotionEvent motionEvent) {
+                                return false;
+                            }
+
+                            @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup
+                            public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
+                                return false;
+                            }
+
+                            @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View
+                            public boolean onTouchEvent(MotionEvent motionEvent) {
+                                return false;
+                            }
+                        };
+                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+                        linearLayoutManager.setNeedFixEndGap(false);
+                        this.transitionPage.animationSupportListView.setLayoutManager(linearLayoutManager);
+                        ViewPage viewPage3 = this.transitionPage;
+                        viewPage3.animationSupportDialogsAdapter = new DialogsAdapter(DialogsActivity.this, context, viewPage3.dialogsType, DialogsActivity.this.folderId, DialogsActivity.this.onlySelect, DialogsActivity.this.selectedDialogs, ((BaseFragment) DialogsActivity.this).currentAccount, DialogsActivity.this.requestPeerType);
+                        this.transitionPage.animationSupportDialogsAdapter.setIsTransitionSupport();
+                        this.transitionPage.animationSupportListView.setAdapter(this.transitionPage.animationSupportDialogsAdapter);
+                        ViewPage viewPage4 = this.transitionPage;
+                        viewPage4.addView(viewPage4.animationSupportListView);
+                    }
+                    this.transitionPage.animationSupportDialogsAdapter.setDialogsType(this.transitionPage.dialogsType);
+                    this.transitionPage.dialogsAdapter.setCollapsedView(false, this.transitionPage.listView);
+                    this.transitionPage.dialogsAdapter.setDialogsListFrozen(true);
+                    this.transitionPage.animationSupportDialogsAdapter.setDialogsListFrozen(true);
+                    this.transitionPage.layoutManager.setNeedFixEndGap(false);
+                    DialogsActivity.this.setDialogsListFrozen(true);
+                    DialogsActivity.this.hideFloatingButton(this.anotherFragmentOpened);
+                    this.transitionPage.dialogsAdapter.notifyDataSetChanged();
+                    this.transitionPage.animationSupportDialogsAdapter.notifyDataSetChanged();
+                    this.transitionPage.listView.setAnimationSupportView(this.transitionPage.animationSupportListView, -((BaseFragment) DialogsActivity.this).actionBar.getTranslationY(), z6);
+                    this.transitionPage.listView.setClipChildren(false);
+                    ((BaseFragment) DialogsActivity.this).actionBar.setAllowOverlayTitle(false);
+                    this.transitionPage.listView.stopScroll();
+                    DialogsActivity.this.updateDrawerSwipeEnabled();
+                }
+
+                @Override // org.telegram.ui.RightSlidingDialogContainer
+                public void openAnimationFinished() {
+                    if (!DialogsActivity.this.canShowFilterTabsView && DialogsActivity.this.filterTabsView != null) {
+                        DialogsActivity.this.filterTabsView.setVisibility(8);
+                    }
+                    this.transitionPage.layoutManager.setNeedFixGap(true);
+                    this.transitionPage.dialogsAdapter.setCollapsedView(hasFragment(), this.transitionPage.listView);
+                    this.transitionPage.dialogsAdapter.setDialogsListFrozen(false);
+                    this.transitionPage.animationSupportDialogsAdapter.setDialogsListFrozen(false);
+                    DialogsActivity.this.setDialogsListFrozen(false);
+                    this.transitionPage.listView.setClipChildren(true);
+                    this.transitionPage.listView.invalidate();
+                    this.transitionPage.dialogsAdapter.notifyDataSetChanged();
+                    this.transitionPage.animationSupportDialogsAdapter.notifyDataSetChanged();
+                    this.transitionPage.listView.setAnimationSupportView(null, 0.0f, hasFragment());
+                    DialogsActivity.this.rightFragmentTransitionInProgress = false;
+                    ((BaseFragment) DialogsActivity.this).actionBar.setAllowOverlayTitle(true ^ hasFragment());
+                    contentView3.requestLayout();
+                    DialogsActivity.this.setScrollY(0.0f);
+                    DialogsActivity.this.searchViewPager.updateTabs();
+                    DialogsActivity.this.updateDrawerSwipeEnabled();
+                }
+
+                @Override // org.telegram.ui.RightSlidingDialogContainer
+                void setOpenProgress(float f3) {
+                    boolean z6 = f3 > 0.0f;
+                    if (this.anotherFragmentOpened != z6) {
+                        this.anotherFragmentOpened = z6;
+                    }
+                    DialogsActivity.this.filterTabsMoveFrom = AndroidUtilities.dp(44.0f);
+                    DialogsActivity dialogsActivity = DialogsActivity.this;
+                    dialogsActivity.filterTabsProgress = dialogsActivity.canShowFilterTabsView ? 1.0f - f3 : 0.0f;
+                    if (((BaseFragment) DialogsActivity.this).fragmentView != null) {
+                        ((BaseFragment) DialogsActivity.this).fragmentView.invalidate();
+                    }
+                    DialogsActivity.this.setScrollY(AndroidUtilities.lerp(this.fromScrollYProperty, 0.0f, f3));
+                    DialogsActivity.this.updateDrawerSwipeEnabled();
+                    if (DialogsActivity.this.menuDrawable != null && hasFragment()) {
+                        DialogsActivity.this.menuDrawable.setRotation(f3, false);
+                    }
+                    if (((BaseFragment) DialogsActivity.this).actionBar.getTitleTextView() != null) {
+                        ((BaseFragment) DialogsActivity.this).actionBar.getTitleTextView().setAlpha(1.0f - f3);
+                        if (((BaseFragment) DialogsActivity.this).actionBar.getTitleTextView().getAlpha() > 0.0f) {
+                            ((BaseFragment) DialogsActivity.this).actionBar.getTitleTextView().setVisibility(0);
+                        }
+                    }
+                    if (DialogsActivity.this.proxyItem != null) {
+                        DialogsActivity.this.proxyItem.setAlpha(1.0f - f3);
+                    }
+                    if (DialogsActivity.this.downloadsItem != null) {
+                        DialogsActivity.this.downloadsItem.setAlpha(1.0f - f3);
+                    }
+                    if (DialogsActivity.this.passcodeItem != null) {
+                        DialogsActivity.this.passcodeItem.setAlpha(1.0f - f3);
+                    }
+                    if (DialogsActivity.this.searchItem != null) {
+                        DialogsActivity.this.searchItem.setAlpha(this.anotherFragmentOpened ? 0.0f : 1.0f);
+                    }
+                    if (((BaseFragment) DialogsActivity.this).actionBar.getBackButton() != null) {
+                        ((BaseFragment) DialogsActivity.this).actionBar.getBackButton().setAlpha(f3 != 1.0f ? 1.0f : 0.0f);
+                    }
+                    if (DialogsActivity.this.folderId != 0) {
+                        DialogsActivity.this.actionBarDefaultPaint.setColor(ColorUtils.blendARGB(Theme.getColor(Theme.key_actionBarDefaultArchived), Theme.getColor(Theme.key_actionBarDefault), f3));
+                    }
+                    ViewPage viewPage2 = this.transitionPage;
+                    if (viewPage2 != null) {
+                        viewPage2.listView.setOpenRightFragmentProgress(f3);
+                    }
+                }
+            };
+            this.rightSlidingDialogContainer = rightSlidingDialogContainer;
+            rightSlidingDialogContainer.setOpenProgress(0.0f);
+            contentView3.addView(this.rightSlidingDialogContainer, LayoutHelper.createFrame(-1, -1.0f));
+            return this.fragmentView;
         }
-        if (this.initialDialogsType == 3) {
-        }
-        i7 = 4;
-        r9 = 1;
-        i6 = 21;
+        i4 = 4;
+        r10 = 1;
+        i3 = 21;
         filterTabsView = this.filterTabsView;
         if (filterTabsView != null) {
         }
@@ -4476,32 +4034,127 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         }
         createFrame = LayoutHelper.createFrame(-1, -2.0f);
         if (this.inPreviewMode) {
+            createFrame.topMargin = AndroidUtilities.statusBarHeight;
         }
-        contentView32.addView(this.actionBar, createFrame);
+        contentView3.addView(this.actionBar, createFrame);
         if (!this.onlySelect) {
         }
         if (this.searchString == null) {
+            FrameLayout frameLayout72 = new FrameLayout(context) { // from class: org.telegram.ui.DialogsActivity.25
+                private int lastGradientWidth;
+                private LinearGradient updateGradient;
+                private Paint paint = new Paint();
+                private Matrix matrix = new Matrix();
+
+                @Override // android.view.View
+                public void draw(Canvas canvas) {
+                    if (this.updateGradient != null) {
+                        this.paint.setColor(-1);
+                        this.paint.setShader(this.updateGradient);
+                        this.updateGradient.setLocalMatrix(this.matrix);
+                        canvas.drawRect(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), this.paint);
+                        DialogsActivity.this.updateLayoutIcon.setBackgroundGradientDrawable(this.updateGradient);
+                        DialogsActivity.this.updateLayoutIcon.draw(canvas);
+                    }
+                    super.draw(canvas);
+                }
+
+                @Override // android.widget.FrameLayout, android.view.View
+                protected void onMeasure(int i26, int i27) {
+                    super.onMeasure(i26, i27);
+                    int size = View.MeasureSpec.getSize(i26);
+                    if (this.lastGradientWidth != size) {
+                        this.updateGradient = new LinearGradient(0.0f, 0.0f, size, 0.0f, new int[]{-9846926, -11291731}, new float[]{0.0f, 1.0f}, Shader.TileMode.CLAMP);
+                        this.lastGradientWidth = size;
+                    }
+                    int measuredWidth = (getMeasuredWidth() - DialogsActivity.this.updateTextView.getMeasuredWidth()) / 2;
+                    DialogsActivity.this.updateLayoutIcon.setProgressRect(measuredWidth, AndroidUtilities.dp(13.0f), AndroidUtilities.dp(22.0f) + measuredWidth, AndroidUtilities.dp(35.0f));
+                }
+
+                @Override // android.view.View
+                public void setTranslationY(float f3) {
+                    super.setTranslationY(f3);
+                    DialogsActivity.this.additionalFloatingTranslation2 = AndroidUtilities.dp(48.0f) - f3;
+                    if (DialogsActivity.this.additionalFloatingTranslation2 < 0.0f) {
+                        DialogsActivity.this.additionalFloatingTranslation2 = 0.0f;
+                    }
+                    if (DialogsActivity.this.floatingHidden) {
+                        return;
+                    }
+                    DialogsActivity.this.updateFloatingButtonOffset();
+                }
+            };
+            this.updateLayout = frameLayout72;
+            frameLayout72.setWillNotDraw(false);
+            this.updateLayout.setVisibility(i4);
+            this.updateLayout.setTranslationY(AndroidUtilities.dp(48.0f));
+            if (Build.VERSION.SDK_INT >= i3) {
+            }
+            contentView3.addView(this.updateLayout, LayoutHelper.createFrame(-1, 48, 83));
+            this.updateLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda22
+                @Override // android.view.View.OnClickListener
+                public final void onClick(View view32) {
+                    DialogsActivity.this.lambda$createView$16(view32);
+                }
+            });
+            RadialProgress2 radialProgress22 = new RadialProgress2(this.updateLayout);
+            this.updateLayoutIcon = radialProgress22;
+            radialProgress22.setColors(-1, -1, -1, -1);
+            this.updateLayoutIcon.setCircleRadius(AndroidUtilities.dp(11.0f));
+            this.updateLayoutIcon.setAsMini();
+            this.updateLayoutIcon.setIcon(15, r10, false);
+            TextView textView2 = new TextView(context);
+            this.updateTextView = textView2;
+            textView2.setTextSize(r10, 15.0f);
+            this.updateTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            this.updateTextView.setText(LocaleController.getString("AppUpdateNow", R.string.AppUpdateNow).toUpperCase());
+            this.updateTextView.setTextColor(-1);
+            this.updateTextView.setPadding(AndroidUtilities.dp(30.0f), 0, 0, 0);
+            this.updateLayout.addView(this.updateTextView, LayoutHelper.createFrame(-2, -2.0f, 17, 0.0f, 0.0f, 0.0f, 0.0f));
         }
-        this.undoViewIndex = contentView32.getChildCount();
-        UndoView[] undoViewArr22 = this.undoView;
-        undoViewArr22[0] = null;
-        undoViewArr22[r9] = null;
+        this.undoViewIndex = contentView3.getChildCount();
+        UndoView[] undoViewArr2 = this.undoView;
+        undoViewArr2[0] = null;
+        undoViewArr2[r10] = null;
         if (this.folderId != 0) {
         }
         if (!this.onlySelect) {
+            View view32 = new View(context) { // from class: org.telegram.ui.DialogsActivity.26
+                @Override // android.view.View
+                public void setAlpha(float f3) {
+                    super.setAlpha(f3);
+                    if (((BaseFragment) DialogsActivity.this).fragmentView != null) {
+                        ((BaseFragment) DialogsActivity.this).fragmentView.invalidate();
+                    }
+                }
+            };
+            this.blurredView = view32;
+            if (Build.VERSION.SDK_INT >= 23) {
+            }
+            this.blurredView.setFocusable(false);
+            this.blurredView.setImportantForAccessibility(i2);
+            this.blurredView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda26
+                @Override // android.view.View.OnClickListener
+                public final void onClick(View view4) {
+                    DialogsActivity.this.lambda$createView$17(view4);
+                }
+            });
+            this.blurredView.setVisibility(8);
+            this.blurredView.setFitsSystemWindows(r10);
+            contentView3.addView(this.blurredView, LayoutHelper.createFrame(-1, -1.0f));
         }
-        this.actionBarDefaultPaint.setColor(Theme.getColor(this.folderId == 0 ? Theme.key_actionBarDefault : Theme.key_actionBarDefaultArchived));
+        this.actionBarDefaultPaint.setColor(Theme.getColor(this.folderId != 0 ? Theme.key_actionBarDefault : Theme.key_actionBarDefaultArchived));
         if (this.inPreviewMode) {
         }
         this.searchIsShowed = false;
-        updateFilterTabs(r9, false);
-        if (this.searchString != null) {
+        updateFilterTabs(r10, false);
+        if (this.searchString == null) {
         }
         if (Build.VERSION.SDK_INT >= 30) {
         }
         updateMenuButton(false);
-        this.actionBar.setDrawBlurBackground(contentView32);
-        RightSlidingDialogContainer rightSlidingDialogContainer22 = new RightSlidingDialogContainer(context) { // from class: org.telegram.ui.DialogsActivity.27
+        this.actionBar.setDrawBlurBackground(contentView3);
+        RightSlidingDialogContainer rightSlidingDialogContainer2 = new RightSlidingDialogContainer(context) { // from class: org.telegram.ui.DialogsActivity.27
             boolean anotherFragmentOpened;
             float fromScrollYProperty;
             ViewPage transitionPage;
@@ -4512,13 +4165,13 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             }
 
             @Override // org.telegram.ui.RightSlidingDialogContainer
-            public void openAnimationStarted(boolean z3) {
+            public void openAnimationStarted(boolean z6) {
                 if (!DialogsActivity.this.isArchive()) {
                     ((BaseFragment) DialogsActivity.this).actionBar.setBackButtonDrawable(DialogsActivity.this.menuDrawable = new MenuDrawable());
                     DialogsActivity.this.menuDrawable.setRoundCap();
                 }
                 DialogsActivity.this.rightFragmentTransitionInProgress = true;
-                contentView32.requestLayout();
+                contentView3.requestLayout();
                 this.fromScrollYProperty = ((BaseFragment) DialogsActivity.this).actionBar.getTranslationY();
                 if (DialogsActivity.this.canShowFilterTabsView && DialogsActivity.this.filterTabsView != null) {
                     DialogsActivity.this.filterTabsView.setVisibility(0);
@@ -4566,7 +4219,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 DialogsActivity.this.hideFloatingButton(this.anotherFragmentOpened);
                 this.transitionPage.dialogsAdapter.notifyDataSetChanged();
                 this.transitionPage.animationSupportDialogsAdapter.notifyDataSetChanged();
-                this.transitionPage.listView.setAnimationSupportView(this.transitionPage.animationSupportListView, -((BaseFragment) DialogsActivity.this).actionBar.getTranslationY(), z3);
+                this.transitionPage.listView.setAnimationSupportView(this.transitionPage.animationSupportListView, -((BaseFragment) DialogsActivity.this).actionBar.getTranslationY(), z6);
                 this.transitionPage.listView.setClipChildren(false);
                 ((BaseFragment) DialogsActivity.this).actionBar.setAllowOverlayTitle(false);
                 this.transitionPage.listView.stopScroll();
@@ -4590,62 +4243,62 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 this.transitionPage.listView.setAnimationSupportView(null, 0.0f, hasFragment());
                 DialogsActivity.this.rightFragmentTransitionInProgress = false;
                 ((BaseFragment) DialogsActivity.this).actionBar.setAllowOverlayTitle(true ^ hasFragment());
-                contentView32.requestLayout();
+                contentView3.requestLayout();
                 DialogsActivity.this.setScrollY(0.0f);
                 DialogsActivity.this.searchViewPager.updateTabs();
                 DialogsActivity.this.updateDrawerSwipeEnabled();
             }
 
             @Override // org.telegram.ui.RightSlidingDialogContainer
-            void setOpenProgress(float f22) {
-                boolean z3 = f22 > 0.0f;
-                if (this.anotherFragmentOpened != z3) {
-                    this.anotherFragmentOpened = z3;
+            void setOpenProgress(float f3) {
+                boolean z6 = f3 > 0.0f;
+                if (this.anotherFragmentOpened != z6) {
+                    this.anotherFragmentOpened = z6;
                 }
                 DialogsActivity.this.filterTabsMoveFrom = AndroidUtilities.dp(44.0f);
                 DialogsActivity dialogsActivity = DialogsActivity.this;
-                dialogsActivity.filterTabsProgress = dialogsActivity.canShowFilterTabsView ? 1.0f - f22 : 0.0f;
+                dialogsActivity.filterTabsProgress = dialogsActivity.canShowFilterTabsView ? 1.0f - f3 : 0.0f;
                 if (((BaseFragment) DialogsActivity.this).fragmentView != null) {
                     ((BaseFragment) DialogsActivity.this).fragmentView.invalidate();
                 }
-                DialogsActivity.this.setScrollY(AndroidUtilities.lerp(this.fromScrollYProperty, 0.0f, f22));
+                DialogsActivity.this.setScrollY(AndroidUtilities.lerp(this.fromScrollYProperty, 0.0f, f3));
                 DialogsActivity.this.updateDrawerSwipeEnabled();
                 if (DialogsActivity.this.menuDrawable != null && hasFragment()) {
-                    DialogsActivity.this.menuDrawable.setRotation(f22, false);
+                    DialogsActivity.this.menuDrawable.setRotation(f3, false);
                 }
                 if (((BaseFragment) DialogsActivity.this).actionBar.getTitleTextView() != null) {
-                    ((BaseFragment) DialogsActivity.this).actionBar.getTitleTextView().setAlpha(1.0f - f22);
+                    ((BaseFragment) DialogsActivity.this).actionBar.getTitleTextView().setAlpha(1.0f - f3);
                     if (((BaseFragment) DialogsActivity.this).actionBar.getTitleTextView().getAlpha() > 0.0f) {
                         ((BaseFragment) DialogsActivity.this).actionBar.getTitleTextView().setVisibility(0);
                     }
                 }
                 if (DialogsActivity.this.proxyItem != null) {
-                    DialogsActivity.this.proxyItem.setAlpha(1.0f - f22);
+                    DialogsActivity.this.proxyItem.setAlpha(1.0f - f3);
                 }
                 if (DialogsActivity.this.downloadsItem != null) {
-                    DialogsActivity.this.downloadsItem.setAlpha(1.0f - f22);
+                    DialogsActivity.this.downloadsItem.setAlpha(1.0f - f3);
                 }
                 if (DialogsActivity.this.passcodeItem != null) {
-                    DialogsActivity.this.passcodeItem.setAlpha(1.0f - f22);
+                    DialogsActivity.this.passcodeItem.setAlpha(1.0f - f3);
                 }
                 if (DialogsActivity.this.searchItem != null) {
                     DialogsActivity.this.searchItem.setAlpha(this.anotherFragmentOpened ? 0.0f : 1.0f);
                 }
                 if (((BaseFragment) DialogsActivity.this).actionBar.getBackButton() != null) {
-                    ((BaseFragment) DialogsActivity.this).actionBar.getBackButton().setAlpha(f22 != 1.0f ? 1.0f : 0.0f);
+                    ((BaseFragment) DialogsActivity.this).actionBar.getBackButton().setAlpha(f3 != 1.0f ? 1.0f : 0.0f);
                 }
                 if (DialogsActivity.this.folderId != 0) {
-                    DialogsActivity.this.actionBarDefaultPaint.setColor(ColorUtils.blendARGB(Theme.getColor(Theme.key_actionBarDefaultArchived), Theme.getColor(Theme.key_actionBarDefault), f22));
+                    DialogsActivity.this.actionBarDefaultPaint.setColor(ColorUtils.blendARGB(Theme.getColor(Theme.key_actionBarDefaultArchived), Theme.getColor(Theme.key_actionBarDefault), f3));
                 }
                 ViewPage viewPage2 = this.transitionPage;
                 if (viewPage2 != null) {
-                    viewPage2.listView.setOpenRightFragmentProgress(f22);
+                    viewPage2.listView.setOpenRightFragmentProgress(f3);
                 }
             }
         };
-        this.rightSlidingDialogContainer = rightSlidingDialogContainer22;
-        rightSlidingDialogContainer22.setOpenProgress(0.0f);
-        contentView32.addView(this.rightSlidingDialogContainer, LayoutHelper.createFrame(-1, -1.0f));
+        this.rightSlidingDialogContainer = rightSlidingDialogContainer2;
+        rightSlidingDialogContainer2.setOpenProgress(0.0f);
+        contentView3.addView(this.rightSlidingDialogContainer, LayoutHelper.createFrame(-1, -1.0f));
         return this.fragmentView;
     }
 

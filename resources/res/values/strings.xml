@@ -978,6 +978,8 @@
     <string name="BotWebViewOpenBot">Open bot</string>
     <string name="BotWebViewReloadPage">Reload page</string>
     <string name="BotWebViewRequestAllow">Allow</string>
+    <string name="BotWebViewRequestCameraMicrophonePermission">Allow **%1$s** to access to your camera and microphone?\n\nThe developer of **%1$s** will be able to access your camera and microphone when this web app is open.</string>
+    <string name="BotWebViewRequestCameraMicrophonePermissionWithHint">Allow **%1$s** to access to your camera and microphone?\n\nThe developer of **%1$s** will be able to access your camera and microphone when this web app is open.\n\nEnable camera access in Settings &gt; Permissions &gt; Camera.</string>
     <string name="BotWebViewRequestCameraPermission">Allow **%1$s** to access to your camera?\n\nThe developer of **%1$s** will be able to access your camera when this web app is open.</string>
     <string name="BotWebViewRequestCameraPermissionWithHint">Allow **%1$s** to access to your camera?\n\nThe developer of **%1$s** will be able to access your camera when this web app is open.\n\nEnable camera access in Settings &gt; Permissions &gt; Camera.</string>
     <string name="BotWebViewRequestDontAllow">Don\'t Allow</string>

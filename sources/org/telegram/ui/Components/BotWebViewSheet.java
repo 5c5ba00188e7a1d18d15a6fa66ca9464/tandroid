@@ -615,6 +615,8 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
             bundle.putInt("dialogsType", 14);
             bundle.putBoolean("onlySelect", true);
             bundle.putBoolean("allowGroups", list.contains("groups"));
+            bundle.putBoolean("allowMegagroups", list.contains("groups"));
+            bundle.putBoolean("allowLegacyGroups", list.contains("groups"));
             bundle.putBoolean("allowUsers", list.contains("users"));
             bundle.putBoolean("allowChannels", list.contains("channels"));
             bundle.putBoolean("allowBots", list.contains("bots"));
