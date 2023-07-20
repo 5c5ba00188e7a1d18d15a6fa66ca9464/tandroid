@@ -33,7 +33,7 @@ import org.telegram.tgnet.TLRPC$TL_jsonString;
 import org.telegram.ui.ActionBar.AlertDialog;
 /* loaded from: classes4.dex */
 public class DualCameraView extends CameraView implements CameraController.ErrorCallback {
-    private static final int[] dualWhitelistByDevice = {1893745684, -215458996, -862041025, -1258375037, -1320049076, 976847578, -713271737, -2010722764, 1407170066, -1394190055, 1407170066, 1231389747};
+    private static final int[] dualWhitelistByDevice = {1893745684, -215458996, -862041025, -1258375037, -1320049076, -215749424, 1901578030, -215451421, 1908491424, -1321491332, -1155551678, 976847578, -713271737, -2010722764, 1407170066, -1394190055, 1407170066, 1231389747, -2076538925, 41497626};
     private static final int[] dualWhitelistByModel = new int[0];
     private boolean allowRotation;
     private float angle;

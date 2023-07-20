@@ -1149,9 +1149,9 @@ public class FileRefController extends BaseController {
         getSendMessagesHelper().performSendMessageRequest((TLObject) objArr[0], (MessageObject) objArr[1], (String) objArr[2], (SendMessagesHelper.DelayedMessage) objArr[3], ((Boolean) objArr[4]).booleanValue(), (SendMessagesHelper.DelayedMessage) objArr[5], null, null, ((Boolean) objArr[6]).booleanValue());
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:304:0x06d2  */
-    /* JADX WARN: Removed duplicated region for block: B:311:0x06e7  */
-    /* JADX WARN: Removed duplicated region for block: B:326:0x01a8 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:306:0x06d6  */
+    /* JADX WARN: Removed duplicated region for block: B:313:0x06eb  */
+    /* JADX WARN: Removed duplicated region for block: B:328:0x01a8 A[SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:43:0x009e A[RETURN] */
     /* JADX WARN: Removed duplicated region for block: B:44:0x009f  */
     /* JADX WARN: Removed duplicated region for block: B:93:0x01b9 A[LOOP:2: B:66:0x0137->B:93:0x01b9, LOOP_END] */
@@ -1588,20 +1588,23 @@ public class FileRefController extends BaseController {
                                                 }
                                             }
                                             if (requester2.args[1] instanceof FileLoadOperation) {
-                                                TLRPC$StoryItem tLRPC$StoryItem2 = (TLRPC$StoryItem) ((FileLoadOperation) requester2.args[1]).parentObject;
-                                                if (tLRPC$StoryItem == null) {
-                                                    TLRPC$TL_updateStory tLRPC$TL_updateStory = new TLRPC$TL_updateStory();
-                                                    tLRPC$TL_updateStory.user_id = tLRPC$StoryItem2.dialogId;
-                                                    TLRPC$TL_storyItemDeleted tLRPC$TL_storyItemDeleted = new TLRPC$TL_storyItemDeleted();
-                                                    tLRPC$TL_updateStory.story = tLRPC$TL_storyItemDeleted;
-                                                    tLRPC$TL_storyItemDeleted.id = tLRPC$StoryItem2.id;
-                                                    ArrayList<TLRPC$Update> arrayList10 = new ArrayList<>();
-                                                    arrayList10.add(tLRPC$TL_updateStory);
-                                                    getMessagesController().processUpdateArray(arrayList10, null, null, false, 0);
-                                                } else {
-                                                    TLRPC$User user = getMessagesController().getUser(Long.valueOf(tLRPC$StoryItem2.dialogId));
-                                                    if (user != null && user.contact) {
-                                                        MessagesController.getInstance(this.currentAccount).getStoriesController().getStoriesStorage().updateStoryItem(tLRPC$StoryItem2.dialogId, tLRPC$StoryItem);
+                                                Object obj2 = ((FileLoadOperation) requester2.args[1]).parentObject;
+                                                if (obj2 instanceof TLRPC$StoryItem) {
+                                                    TLRPC$StoryItem tLRPC$StoryItem2 = (TLRPC$StoryItem) obj2;
+                                                    if (tLRPC$StoryItem == null) {
+                                                        TLRPC$TL_updateStory tLRPC$TL_updateStory = new TLRPC$TL_updateStory();
+                                                        tLRPC$TL_updateStory.user_id = tLRPC$StoryItem2.dialogId;
+                                                        TLRPC$TL_storyItemDeleted tLRPC$TL_storyItemDeleted = new TLRPC$TL_storyItemDeleted();
+                                                        tLRPC$TL_updateStory.story = tLRPC$TL_storyItemDeleted;
+                                                        tLRPC$TL_storyItemDeleted.id = tLRPC$StoryItem2.id;
+                                                        ArrayList<TLRPC$Update> arrayList10 = new ArrayList<>();
+                                                        arrayList10.add(tLRPC$TL_updateStory);
+                                                        getMessagesController().processUpdateArray(arrayList10, null, null, false, 0);
+                                                    } else {
+                                                        TLRPC$User user = getMessagesController().getUser(Long.valueOf(tLRPC$StoryItem2.dialogId));
+                                                        if (user != null && user.contact) {
+                                                            MessagesController.getInstance(this.currentAccount).getStoriesController().getStoriesStorage().updateStoryItem(tLRPC$StoryItem2.dialogId, tLRPC$StoryItem);
+                                                        }
                                                     }
                                                 }
                                             }

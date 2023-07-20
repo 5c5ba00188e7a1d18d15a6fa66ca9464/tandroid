@@ -583,7 +583,6 @@ public class StoryEntry extends IStoryPart {
         int i3 = options.outWidth;
         int i4 = options.outHeight;
         if (!((((long) (i3 * i4)) * 4) * 2 <= maxMemory) || Math.max(i3, i4) > 4200 || SharedConfig.getDevicePerformanceClass() <= 0) {
-            options.inSampleSize = calculateInSampleSize(options, i, i2);
             options.inScaled = true;
             options.inDensity = options.outWidth;
             options.inTargetDensity = i;

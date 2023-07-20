@@ -1731,9 +1731,9 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         }, this.currentAccount, this.windowView, this.resourcesProvider);
         this.downloadButton = downloadButton;
         this.actionBarContainer.addView(downloadButton, LayoutHelper.createFrame(56, 56, 53));
-        HintView2 bounce = new HintView2(this.activity, 1).setJoint(1.0f, -68.0f).setDuration(2000L).setBounce(false);
-        this.muteHint = bounce;
-        bounce.setPadding(AndroidUtilities.dp(8.0f), 0, AndroidUtilities.dp(8.0f), 0);
+        HintView2 animatedTextHacks = new HintView2(this.activity, 1).setJoint(1.0f, -68.0f).setDuration(2000L).setBounce(false).setAnimatedTextHacks(true, true, false);
+        this.muteHint = animatedTextHacks;
+        animatedTextHacks.setPadding(AndroidUtilities.dp(8.0f), 0, AndroidUtilities.dp(8.0f), 0);
         this.actionBarContainer.addView(this.muteHint, LayoutHelper.createFrame(-1, -1.0f, 48, 0.0f, 52.0f, 0.0f, 0.0f));
         RLottieImageView rLottieImageView = new RLottieImageView(context);
         this.muteButton = rLottieImageView;
@@ -3869,7 +3869,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             this.paintViewBitmap = null;
         }
         StoryEntry storyEntry = this.outputEntry;
-        if (storyEntry.isDraft && (file = storyEntry.paintFile) != null) {
+        if (storyEntry != null && storyEntry.isDraft && (file = storyEntry.paintFile) != null) {
             this.paintViewBitmap = BitmapFactory.decodeFile(file.getPath());
         }
         if (this.paintViewBitmap == null) {
@@ -4423,7 +4423,9 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             if (StoryRecorder.this.takingVideo || StoryRecorder.this.takingPhoto || StoryRecorder.this.cameraView == null || StoryRecorder.this.currentPage != 0 || StoryRecorder.this.savedDualHint == null) {
                 return;
             }
-            StoryRecorder.this.savedDualHint.setText(LocaleController.getString(isFrontface() ? R.string.StoryCameraSavedDualBackHint : R.string.StoryCameraSavedDualFrontHint));
+            String string = LocaleController.getString(isFrontface() ? R.string.StoryCameraSavedDualBackHint : R.string.StoryCameraSavedDualFrontHint);
+            StoryRecorder.this.savedDualHint.setMaxWidthPx(HintView2.cutInFancyHalf(string, StoryRecorder.this.savedDualHint.getTextPaint()));
+            StoryRecorder.this.savedDualHint.setText(string);
             StoryRecorder.this.savedDualHint.show();
             MessagesController.getGlobalMainSettings().edit().putInt("storysvddualhint", MessagesController.getGlobalMainSettings().getInt("storysvddualhint", 0) + 1).apply();
         }

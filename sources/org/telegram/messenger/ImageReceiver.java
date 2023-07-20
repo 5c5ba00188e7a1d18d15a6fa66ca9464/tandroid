@@ -1122,6 +1122,13 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         }
         SetImageBackup setImageBackup2 = this.setImageBackup;
         this.setImageBackup = null;
+        Drawable drawable = setImageBackup2.thumb;
+        if (drawable instanceof BitmapDrawable) {
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
+            if (!(bitmapDrawable instanceof RLottieDrawable) && !(bitmapDrawable instanceof AnimatedFileDrawable) && bitmapDrawable.getBitmap() != null && bitmapDrawable.getBitmap().isRecycled()) {
+                setImageBackup2.thumb = null;
+            }
+        }
         setImage(setImageBackup2.mediaLocation, setImageBackup2.mediaFilter, setImageBackup2.imageLocation, setImageBackup2.imageFilter, setImageBackup2.thumbLocation, setImageBackup2.thumbFilter, setImageBackup2.thumb, setImageBackup2.size, setImageBackup2.ext, setImageBackup2.parentObject, setImageBackup2.cacheType);
         setImageBackup2.clear();
         this.setImageBackup = setImageBackup2;

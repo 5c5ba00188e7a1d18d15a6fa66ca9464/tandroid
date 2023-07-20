@@ -6033,7 +6033,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
     }
 
     public void setScrimDrawable(AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable, View view) {
-        this.scrimColor = swapAnimatedEmojiDrawable == null ? 0 : swapAnimatedEmojiDrawable.getColor().intValue();
+        this.scrimColor = (swapAnimatedEmojiDrawable == null || swapAnimatedEmojiDrawable.getColor() == null) ? 0 : swapAnimatedEmojiDrawable.getColor().intValue();
         this.scrimDrawable = swapAnimatedEmojiDrawable;
         this.scrimDrawableParent = view;
         if (this.isAttached && swapAnimatedEmojiDrawable != null) {

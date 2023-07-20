@@ -250,6 +250,11 @@ public class HintView2 extends View {
         return this;
     }
 
+    public HintView2 setAnimatedTextHacks(boolean z, boolean z2, boolean z3) {
+        this.textDrawable.setHacks(z, z2, z3);
+        return this;
+    }
+
     public HintView2 setTextColor(int i) {
         this.textDrawable.setTextColor(i);
         this.textPaint.setColor(i);

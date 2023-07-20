@@ -222,6 +222,7 @@ public class AndroidUtilities {
     public static boolean incorrectDisplaySizeFix;
     public static boolean isInMultiwindow;
     public static int leftBaseline;
+    private static Pattern linksPattern;
     private static Field mAttachInfoField;
     private static Field mStableInsetsField;
     private static HashMap<Window, ValueAnimator> navigationBarColorAnimators;
@@ -636,9 +637,10 @@ public class AndroidUtilities {
     }
 
     public static void removeFromParent(View view) {
-        if (view.getParent() != null) {
-            ((ViewGroup) view.getParent()).removeView(view);
+        if (view == null || view.getParent() == null) {
+            return;
         }
+        ((ViewGroup) view.getParent()).removeView(view);
     }
 
     public static boolean isFilNotFoundException(Throwable th) {
@@ -2751,6 +2753,36 @@ public class AndroidUtilities {
         }
     }
 
+    public static SpannableStringBuilder replaceLinks(String str, final Theme.ResourcesProvider resourcesProvider) {
+        if (linksPattern == null) {
+            linksPattern = Pattern.compile("\\[(.+?)\\]\\((.+?)\\)");
+        }
+        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
+        Matcher matcher = linksPattern.matcher(str);
+        int i = 0;
+        while (matcher.find()) {
+            spannableStringBuilder.append((CharSequence) str, i, matcher.start());
+            String group = matcher.group(1);
+            final String group2 = matcher.group(2);
+            spannableStringBuilder.append((CharSequence) group);
+            spannableStringBuilder.setSpan(new ClickableSpan() { // from class: org.telegram.messenger.AndroidUtilities.3
+                @Override // android.text.style.ClickableSpan
+                public void onClick(View view) {
+                    Browser.openUrl(ApplicationLoader.applicationContext, group2);
+                }
+
+                @Override // android.text.style.ClickableSpan, android.text.style.CharacterStyle
+                public void updateDrawState(TextPaint textPaint) {
+                    textPaint.setColor(Theme.getColor(Theme.key_chat_messageLinkIn, resourcesProvider));
+                    textPaint.setUnderlineText(false);
+                }
+            }, spannableStringBuilder.length() - group.length(), spannableStringBuilder.length(), 33);
+            i = matcher.end();
+        }
+        spannableStringBuilder.append((CharSequence) str, i, str.length());
+        return spannableStringBuilder;
+    }
+
     /* loaded from: classes.dex */
     public static class LinkMovementMethodMy extends LinkMovementMethod {
         @Override // android.text.method.LinkMovementMethod, android.text.method.ScrollingMovementMethod, android.text.method.BaseMovementMethod, android.text.method.MovementMethod
@@ -2800,7 +2832,7 @@ public class AndroidUtilities {
                 AndroidUtilities.lambda$shakeView$8(view, valueAnimator);
             }
         });
-        ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.messenger.AndroidUtilities.3
+        ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.messenger.AndroidUtilities.4
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationEnd(Animator animator) {
                 view.setTranslationX(0.0f);
@@ -3909,7 +3941,7 @@ public class AndroidUtilities {
             }
             if (!TextUtils.isEmpty(charSequence2)) {
                 final AtomicReference atomicReference = new AtomicReference();
-                final TextDetailSettingsCell textDetailSettingsCell = new TextDetailSettingsCell(activity) { // from class: org.telegram.messenger.AndroidUtilities.4
+                final TextDetailSettingsCell textDetailSettingsCell = new TextDetailSettingsCell(activity) { // from class: org.telegram.messenger.AndroidUtilities.5
                     @Override // android.view.ViewGroup, android.view.View
                     protected void onAttachedToWindow() {
                         super.onAttachedToWindow();
@@ -4467,7 +4499,7 @@ public class AndroidUtilities {
                     AndroidUtilities.lambda$setNavigationBarColor$16(AndroidUtilities.IntColorCallback.this, window, valueAnimator2);
                 }
             });
-            ofArgb.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.messenger.AndroidUtilities.5
+            ofArgb.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.messenger.AndroidUtilities.6
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationEnd(Animator animator) {
                     if (AndroidUtilities.navigationBarColorAnimators != null) {

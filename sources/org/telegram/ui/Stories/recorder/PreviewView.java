@@ -387,6 +387,10 @@ public class PreviewView extends FrameLayout {
                     }
                 }
             }
+            if (j < 0 && storyEntry.isVideo && storyEntry.thumbPath == null) {
+                invalidate();
+                return;
+            }
             if (this.bitmap == null) {
                 String path = storyEntry.getOriginalFile().getPath();
                 BitmapFactory.Options options = new BitmapFactory.Options();
@@ -396,7 +400,13 @@ public class PreviewView extends FrameLayout {
                     if (str2 != null) {
                         BitmapFactory.decodeFile(str2, options);
                     } else {
-                        MediaStore.Video.Thumbnails.getThumbnail(getContext().getContentResolver(), j, 1, options);
+                        try {
+                            MediaStore.Video.Thumbnails.getThumbnail(getContext().getContentResolver(), j, 1, options);
+                        } catch (Throwable unused2) {
+                            this.bitmap = null;
+                            invalidate();
+                            return;
+                        }
                     }
                 } else {
                     BitmapFactory.decodeFile(path, options);
@@ -408,7 +418,13 @@ public class PreviewView extends FrameLayout {
                     if (str3 != null) {
                         BitmapFactory.decodeFile(str3, options);
                     } else {
-                        this.bitmap = MediaStore.Video.Thumbnails.getThumbnail(getContext().getContentResolver(), j, 1, options);
+                        try {
+                            this.bitmap = MediaStore.Video.Thumbnails.getThumbnail(getContext().getContentResolver(), j, 1, options);
+                        } catch (Throwable unused3) {
+                            this.bitmap = null;
+                            invalidate();
+                            return;
+                        }
                     }
                 } else {
                     this.bitmap = BitmapFactory.decodeFile(path, options);
@@ -649,7 +665,10 @@ public class PreviewView extends FrameLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setupVideoPlayer$2(StoryEntry.HDRInfo hDRInfo) {
-        this.textureView.setHDRInfo(hDRInfo);
+        VideoEditTextureView videoEditTextureView = this.textureView;
+        if (videoEditTextureView != null) {
+            videoEditTextureView.setHDRInfo(hDRInfo);
+        }
     }
 
     public long release() {

@@ -118,7 +118,7 @@ public class StoryViewer {
     private boolean isHintVisible;
     private boolean isInPinchToZoom;
     private boolean isInTouchMode;
-    private boolean isLongpressed;
+    public boolean isLongpressed;
     private boolean isOverlayVisible;
     private boolean isPopupVisible;
     private boolean isRecording;
@@ -223,10 +223,15 @@ public class StoryViewer {
 
     /* JADX INFO: Access modifiers changed from: private */
     public void setLongPressed(boolean z) {
+        PeerStoriesView currentPeerView;
         if (this.isLongpressed != z) {
             this.isLongpressed = z;
             updatePlayingMode();
-            this.storiesViewPager.getCurrentPeerView().setLongpressed(this.isLongpressed);
+            StoriesViewPager storiesViewPager = this.storiesViewPager;
+            if (storiesViewPager == null || (currentPeerView = storiesViewPager.getCurrentPeerView()) == null) {
+                return;
+            }
+            currentPeerView.setLongpressed(this.isLongpressed);
         }
     }
 
@@ -375,14 +380,6 @@ public class StoryViewer {
                     super.onMeasure(i3, i4);
                 }
 
-                @Override // android.view.ViewGroup
-                protected boolean drawChild(Canvas canvas, View view, long j) {
-                    if (view == StoryViewer.this.aspectRatioFrameLayout) {
-                        return true;
-                    }
-                    return super.drawChild(canvas, view, j);
-                }
-
                 @Override // android.view.ViewGroup, android.view.View
                 protected void dispatchDraw(Canvas canvas) {
                     float measuredHeight;
@@ -442,20 +439,13 @@ public class StoryViewer {
             this.containerView.addView(this.storiesViewPager, LayoutHelper.createFrame(-1, -1, 1));
             this.aspectRatioFrameLayout = new AspectRatioFrameLayout(context);
             if (this.USE_SURFACE_VIEW) {
-                SurfaceView surfaceView = new SurfaceView(context) { // from class: org.telegram.ui.Stories.StoryViewer.6
-                    @Override // android.view.View
-                    public void invalidate() {
-                        super.invalidate();
-                        PeerStoriesView.VideoPlayerSharedScope videoPlayerSharedScope = StoryViewer.this.currentPlayerScope;
-                        if (videoPlayerSharedScope != null) {
-                            videoPlayerSharedScope.invalidate();
-                        }
-                    }
-                };
+                SurfaceView surfaceView = new SurfaceView(context);
                 this.surfaceView = surfaceView;
-                this.aspectRatioFrameLayout.addView(surfaceView);
+                surfaceView.setZOrderMediaOverlay(false);
+                this.surfaceView.setZOrderOnTop(false);
+                this.aspectRatioFrameLayout.addView(this.surfaceView);
             } else {
-                HwTextureView hwTextureView = new HwTextureView(context) { // from class: org.telegram.ui.Stories.StoryViewer.7
+                HwTextureView hwTextureView = new HwTextureView(context) { // from class: org.telegram.ui.Stories.StoryViewer.6
                     @Override // org.telegram.ui.Stories.HwTextureView, android.view.View
                     public void invalidate() {
                         super.invalidate();
@@ -468,13 +458,14 @@ public class StoryViewer {
                 this.textureView = hwTextureView;
                 this.aspectRatioFrameLayout.addView(hwTextureView);
             }
-            this.containerView.addView(this.aspectRatioFrameLayout);
             StoriesVolumeContorl storiesVolumeContorl = new StoriesVolumeContorl(context);
             this.volumeControl = storiesVolumeContorl;
             this.containerView.addView(storiesVolumeContorl, LayoutHelper.createFrame(-1, -1.0f, 0, 4.0f, 0.0f, 4.0f, 0.0f));
         }
         AndroidUtilities.removeFromParent(this.containerView);
         this.windowView.addView(this.containerView);
+        AndroidUtilities.removeFromParent(this.aspectRatioFrameLayout);
+        this.windowView.addView(this.aspectRatioFrameLayout);
         this.windowView.setClipChildren(false);
         if (this.ATTACH_TO_FRAGMENT && (lastFragment.getParentActivity() instanceof LaunchActivity)) {
             ((LaunchActivity) lastFragment.getParentActivity()).requestCustomNavigationBar();
@@ -493,7 +484,7 @@ public class StoryViewer {
             this.containerView.setFocusable(false);
             if (i2 >= 21) {
                 this.windowView.setFitsSystemWindows(true);
-                this.containerView.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() { // from class: org.telegram.ui.Stories.StoryViewer.8
+                this.containerView.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() { // from class: org.telegram.ui.Stories.StoryViewer.7
                     @Override // android.view.View.OnApplyWindowInsetsListener
                     public WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
                         ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) StoryViewer.this.containerView.getLayoutParams();
@@ -687,6 +678,14 @@ public class StoryViewer {
             this.outFromRectAvatar = new RectF();
             this.outFromRectContainer = new RectF();
             this.lastX = new SparseArray<>();
+        }
+
+        @Override // android.view.ViewGroup
+        protected boolean drawChild(Canvas canvas, View view, long j) {
+            if (view == StoryViewer.this.aspectRatioFrameLayout) {
+                return false;
+            }
+            return super.drawChild(canvas, view, j);
         }
 
         /* JADX WARN: Removed duplicated region for block: B:152:0x0720  */
@@ -1553,7 +1552,7 @@ public class StoryViewer {
                     StoryViewer.this.lambda$cancelSwipeToViews$1(valueAnimator);
                 }
             });
-            this.swipeToViewsAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Stories.StoryViewer.9
+            this.swipeToViewsAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Stories.StoryViewer.8
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationEnd(Animator animator) {
                     StoryViewer.this.locker.unlock();
@@ -1632,7 +1631,7 @@ public class StoryViewer {
                 StoryViewer.this.lambda$cancelSwipeToReply$3(valueAnimator);
             }
         });
-        this.swipeToReplyBackAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Stories.StoryViewer.10
+        this.swipeToReplyBackAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Stories.StoryViewer.9
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationEnd(Animator animator) {
                 StoryViewer storyViewer = StoryViewer.this;
@@ -1657,7 +1656,11 @@ public class StoryViewer {
         if (storiesViewPager == null || (currentPeerView = storiesViewPager.getCurrentPeerView()) == null || currentPeerView.storyContainer == null) {
             return false;
         }
-        rectF.set(this.windowView.getX() + this.swipeToDismissHorizontalOffset + this.containerView.getLeft() + currentPeerView.getX() + currentPeerView.storyContainer.getX(), this.windowView.getY() + this.swipeToDismissOffset + this.containerView.getTop() + currentPeerView.getY() + currentPeerView.storyContainer.getY(), (((this.windowView.getX() + this.swipeToDismissHorizontalOffset) + this.containerView.getRight()) - (this.containerView.getWidth() - currentPeerView.getRight())) - (currentPeerView.getWidth() - currentPeerView.storyContainer.getRight()), (((this.windowView.getY() + this.swipeToDismissOffset) + this.containerView.getBottom()) - (this.containerView.getHeight() - currentPeerView.getBottom())) - (currentPeerView.getHeight() - currentPeerView.storyContainer.getBottom()));
+        SizeNotifierFrameLayout sizeNotifierFrameLayout = this.windowView;
+        float x = sizeNotifierFrameLayout == null ? 0.0f : sizeNotifierFrameLayout.getX();
+        SizeNotifierFrameLayout sizeNotifierFrameLayout2 = this.windowView;
+        float y = sizeNotifierFrameLayout2 != null ? sizeNotifierFrameLayout2.getY() : 0.0f;
+        rectF.set(this.swipeToDismissHorizontalOffset + x + this.containerView.getLeft() + currentPeerView.getX() + currentPeerView.storyContainer.getX(), this.swipeToDismissOffset + y + this.containerView.getTop() + currentPeerView.getY() + currentPeerView.storyContainer.getY(), (((x + this.swipeToDismissHorizontalOffset) + this.containerView.getRight()) - (this.containerView.getWidth() - currentPeerView.getRight())) - (currentPeerView.getWidth() - currentPeerView.storyContainer.getRight()), (((y + this.swipeToDismissOffset) + this.containerView.getBottom()) - (this.containerView.getHeight() - currentPeerView.getBottom())) - (currentPeerView.getHeight() - currentPeerView.storyContainer.getBottom()));
         return true;
     }
 
@@ -1996,7 +1999,7 @@ public class StoryViewer {
         });
         this.locker.lock();
         this.containerView.enableHwAcceleration();
-        this.openCloseAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Stories.StoryViewer.11
+        this.openCloseAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Stories.StoryViewer.10
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationEnd(Animator animator) {
                 StoryViewer storyViewer = StoryViewer.this;
@@ -2139,8 +2142,8 @@ public class StoryViewer {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes4.dex */
-    public class 12 extends AnimatorListenerAdapter {
-        12() {
+    public class 11 extends AnimatorListenerAdapter {
+        11() {
         }
 
         @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -2171,10 +2174,10 @@ public class StoryViewer {
             }
             StoryViewer.this.release();
             try {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoryViewer$12$$ExternalSyntheticLambda0
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoryViewer$11$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
-                        StoryViewer.12.this.lambda$onAnimationEnd$0();
+                        StoryViewer.11.this.lambda$onAnimationEnd$0();
                     }
                 });
             } catch (Exception unused) {
@@ -2207,7 +2210,7 @@ public class StoryViewer {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$startCloseAnimation$7() {
         this.containerView.enableHwAcceleration();
-        this.openCloseAnimator.addListener(new 12());
+        this.openCloseAnimator.addListener(new 11());
         this.openCloseAnimator.setDuration(400L);
         this.openCloseAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
         this.openCloseAnimator.start();
@@ -2405,13 +2408,16 @@ public class StoryViewer {
             surfaceView.setSecure(!z);
         }
         if (this.ATTACH_TO_FRAGMENT) {
-            if (z) {
-                this.fragment.getParentActivity().getWindow().clearFlags(LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM);
-                return;
-            } else {
-                this.fragment.getParentActivity().getWindow().addFlags(LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM);
-                return;
+            if (this.fragment.getParentActivity() != null) {
+                if (z) {
+                    this.fragment.getParentActivity().getWindow().clearFlags(LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM);
+                    return;
+                } else {
+                    this.fragment.getParentActivity().getWindow().addFlags(LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM);
+                    return;
+                }
             }
+            return;
         }
         if (z) {
             this.windowLayoutParams.flags &= -8193;
@@ -2427,13 +2433,14 @@ public class StoryViewer {
 
     public void openFor(BaseFragment baseFragment, RecyclerListView recyclerListView, ChatActionCell chatActionCell) {
         MessageObject messageObject = chatActionCell.getMessageObject();
-        if (messageObject.type == 24) {
-            TLRPC$MessageMedia tLRPC$MessageMedia = messageObject.messageOwner.media;
-            TLRPC$StoryItem tLRPC$StoryItem = tLRPC$MessageMedia.storyItem;
-            tLRPC$StoryItem.dialogId = tLRPC$MessageMedia.user_id;
-            tLRPC$StoryItem.messageId = messageObject.getId();
-            open(baseFragment.getContext(), messageObject.messageOwner.media.storyItem, StoriesListPlaceProvider.of(recyclerListView));
+        if (baseFragment == null || baseFragment.getContext() == null || messageObject.type != 24) {
+            return;
         }
+        TLRPC$MessageMedia tLRPC$MessageMedia = messageObject.messageOwner.media;
+        TLRPC$StoryItem tLRPC$StoryItem = tLRPC$MessageMedia.storyItem;
+        tLRPC$StoryItem.dialogId = tLRPC$MessageMedia.user_id;
+        tLRPC$StoryItem.messageId = messageObject.getId();
+        open(baseFragment.getContext(), messageObject.messageOwner.media.storyItem, StoriesListPlaceProvider.of(recyclerListView));
     }
 
     public void doOnAnimationReady(Runnable runnable) {

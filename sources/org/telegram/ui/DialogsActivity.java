@@ -6270,7 +6270,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     public final void run() {
                         DialogsActivity.29.this.lambda$onUserLongPressed$7(sharedPrefKey, j);
                     }
-                }, DialogsActivity$29$$ExternalSyntheticLambda3.INSTANCE).addIf(!DialogsActivity.this.isArchive(), R.drawable.msg_archive, LocaleController.getString("ArchiveStories", R.string.ArchiveStories), new Runnable() { // from class: org.telegram.ui.DialogsActivity$29$$ExternalSyntheticLambda9
+                }, DialogsActivity$29$$ExternalSyntheticLambda3.INSTANCE).addIf(!DialogsActivity.this.isArchive(), R.drawable.msg_archive, LocaleController.getString("ArchivePeerStories", R.string.ArchivePeerStories), new Runnable() { // from class: org.telegram.ui.DialogsActivity$29$$ExternalSyntheticLambda9
                     @Override // java.lang.Runnable
                     public final void run() {
                         DialogsActivity.29.this.lambda$onUserLongPressed$9(j);

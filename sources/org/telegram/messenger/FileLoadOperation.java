@@ -873,7 +873,7 @@ public class FileLoadOperation {
 
     /* JADX INFO: Access modifiers changed from: protected */
     public File getCurrentFileFast() {
-        if (this.state == 3) {
+        if (this.state == 3 && !this.preloadFinished) {
             return this.cacheFileFinal;
         }
         return this.cacheFileTemp;

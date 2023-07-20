@@ -1193,7 +1193,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                     }
                     if (user.contact) {
                         if (!user.stories_hidden) {
-                            ActionBarMenuItem.addItem(actionBarPopupWindowLayout, R.drawable.msg_archive, LocaleController.getString("ArchiveStories", R.string.ArchiveStories), false, this.val$resourcesProvider).setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.PeerStoriesView$6$$ExternalSyntheticLambda5
+                            ActionBarMenuItem.addItem(actionBarPopupWindowLayout, R.drawable.msg_archive, LocaleController.getString("ArchivePeerStories", R.string.ArchivePeerStories), false, this.val$resourcesProvider).setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.PeerStoriesView$6$$ExternalSyntheticLambda5
                                 @Override // android.view.View.OnClickListener
                                 public final void onClick(View view) {
                                     PeerStoriesView.6.this.lambda$onCreate$14(view);
@@ -3002,29 +3002,33 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
     }
 
     /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Code restructure failed: missing block: B:26:0x011d, code lost:
+        if (r13 > (r42.storyItems.size() - 1)) goto L340;
+     */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:231:0x0613  */
-    /* JADX WARN: Removed duplicated region for block: B:234:0x061e  */
-    /* JADX WARN: Removed duplicated region for block: B:235:0x0628  */
+    /* JADX WARN: Removed duplicated region for block: B:238:0x0625  */
+    /* JADX WARN: Removed duplicated region for block: B:241:0x0630  */
+    /* JADX WARN: Removed duplicated region for block: B:242:0x063a  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void updatePosition() {
         boolean z;
         boolean z2;
+        boolean z3;
         int i;
         ImageReceiver imageReceiver;
-        boolean z3;
+        boolean z4;
         TLRPC$StoryItem tLRPC$StoryItem;
         ArrayList<TLRPC$PhotoSize> arrayList;
-        boolean z4;
-        Drawable drawable;
         boolean z5;
+        Drawable drawable;
+        boolean z6;
         TLRPC$StoryItem tLRPC$StoryItem2;
         TLRPC$StoryItem tLRPC$StoryItem3;
         int i2;
         StoriesController.UploadingStory uploadingStory;
-        boolean z6;
+        boolean z7;
         TLRPC$StoryItem tLRPC$StoryItem4;
         CharSequence charSequence;
         ChatActivityEnterView chatActivityEnterView;
@@ -3033,7 +3037,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
         FrameLayout frameLayout2;
         ChatActivityEnterView chatActivityEnterView2;
         TLRPC$StoryItem tLRPC$StoryItem5;
-        boolean z7;
+        boolean z8;
         int i4;
         int i5;
         int i6;
@@ -3041,7 +3045,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
         TLRPC$StoryItem tLRPC$StoryItem6;
         BitmapDrawable bitmapDrawable;
         StoriesController.UploadingStory uploadingStory2;
-        boolean z8;
+        boolean z9;
         int i7;
         if (this.storyItems.isEmpty() && this.uploadingStories.isEmpty()) {
             return;
@@ -3053,11 +3057,11 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
         String storyImageFilter = StoriesUtilities.getStoryImageFilter();
         this.lastNoThumb = false;
         this.unsupported = false;
-        boolean z9 = this.allowScreenshots;
+        boolean z10 = this.allowScreenshots;
         this.allowScreenshots = true;
         int i8 = this.selectedPosition;
-        boolean z10 = this.isUploading;
-        boolean z11 = this.isEditing;
+        boolean z11 = this.isUploading;
+        boolean z12 = this.isEditing;
         if (this.isActive) {
             ImageLoader.getInstance().cancelLoadingForImageReceiver(this.leftPreloadImageReceiver, true);
             ImageLoader.getInstance().cancelLoadingForImageReceiver(this.rightPreloadImageReceiver, true);
@@ -3082,32 +3086,38 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
             }
             if (uploadingStory4.isVideo) {
                 uploadingStory2 = uploadingStory4;
-                z8 = z11;
-                z = z10;
+                z9 = z12;
+                z = z11;
                 i7 = size;
-                z2 = z9;
+                z2 = z10;
                 this.imageReceiver.setImage(null, null, ImageLocation.getForPath(uploadingStory4.firstFramePath), storyImageFilter, null, null, bitmapDrawable, 0L, null, null, 0);
             } else {
                 uploadingStory2 = uploadingStory4;
-                z8 = z11;
-                z = z10;
+                z9 = z12;
+                z = z11;
                 i7 = size;
-                z2 = z9;
+                z2 = z10;
                 this.imageReceiver.setImage(null, null, ImageLocation.getForPath(uploadingStory2.path), storyImageFilter, null, null, bitmapDrawable, 0L, null, null, 0);
             }
             this.currentStory.set(uploadingStory2);
             this.allowShare = false;
             i2 = i7;
-            z3 = z8;
+            z4 = z9;
         } else {
-            z = z10;
-            z2 = z9;
+            z = z11;
+            z2 = z10;
             this.isUploading = false;
             this.isEditing = false;
+            if (i8 >= 0) {
+                z3 = true;
+            } else {
+                z3 = true;
+            }
+            this.storyViewer.close(z3);
             TLRPC$StoryItem tLRPC$StoryItem8 = this.storyItems.get(i8);
             StoriesController.UploadingStory findEditingStory = this.storiesController.findEditingStory(tLRPC$StoryItem8);
             if (findEditingStory != null) {
-                this.isEditing = true;
+                this.isEditing = z3;
                 this.imageReceiver.setCrossfadeWithOldImage(false);
                 ImageReceiver imageReceiver2 = this.imageReceiver;
                 if (this.onImageReceiverThumbLoaded != null) {
@@ -3126,73 +3136,73 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                 this.currentStory.set(uploadingStory);
                 this.currentStory.editingSourceItem = tLRPC$StoryItem8;
                 this.allowShare = false;
-                z3 = z11;
+                z4 = z12;
             } else {
                 i = i8;
                 TLRPC$MessageMedia tLRPC$MessageMedia = tLRPC$StoryItem8.media;
-                boolean z12 = tLRPC$MessageMedia != null && MessageObject.isVideoDocument(tLRPC$MessageMedia.document);
+                boolean z13 = tLRPC$MessageMedia != null && MessageObject.isVideoDocument(tLRPC$MessageMedia.document);
                 tLRPC$StoryItem8.dialogId = this.dialogId;
-                this.imageReceiver.setCrossfadeWithOldImage(z11);
+                this.imageReceiver.setCrossfadeWithOldImage(z12);
                 this.imageReceiver.setCrossfadeDuration(ImageReceiver.DEFAULT_CROSSFADE_DURATION);
                 TLRPC$MessageMedia tLRPC$MessageMedia2 = tLRPC$StoryItem8.media;
                 if (tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaUnsupported) {
                     this.unsupported = true;
-                    z3 = z11;
+                    z4 = z12;
                     tLRPC$StoryItem = tLRPC$StoryItem8;
                 } else {
                     String str2 = tLRPC$StoryItem8.attachPath;
                     if (str2 != null) {
                         if (tLRPC$MessageMedia2 == null) {
-                            z12 = str2.toLowerCase().endsWith(".mp4");
+                            z13 = str2.toLowerCase().endsWith(".mp4");
                         }
-                        if (z12) {
+                        if (z13) {
                             TLRPC$MessageMedia tLRPC$MessageMedia3 = tLRPC$StoryItem8.media;
                             Drawable createStripedBitmap = tLRPC$MessageMedia3 != null ? ImageLoader.createStripedBitmap(tLRPC$MessageMedia3.document.thumbs) : null;
                             if (tLRPC$StoryItem8.firstFramePath != null) {
                                 if (ImageLoader.getInstance().isInMemCache(ImageLocation.getForPath(tLRPC$StoryItem8.firstFramePath).getKey(null, null, false) + "@" + storyImageFilter, false)) {
-                                    z5 = z11;
+                                    z6 = z12;
                                     tLRPC$StoryItem2 = tLRPC$StoryItem8;
                                     this.imageReceiver.setImage(null, null, ImageLocation.getForPath(tLRPC$StoryItem8.firstFramePath), storyImageFilter, null, null, createStripedBitmap, 0L, null, null, 0);
                                     tLRPC$StoryItem = tLRPC$StoryItem2;
-                                    z3 = z5;
+                                    z4 = z6;
                                 }
                             }
-                            z5 = z11;
+                            z6 = z12;
                             tLRPC$StoryItem2 = tLRPC$StoryItem8;
                             this.imageReceiver.setImage(null, null, ImageLocation.getForPath(tLRPC$StoryItem2.attachPath), storyImageFilter + "_pframe", null, null, createStripedBitmap, 0L, null, null, 0);
                             tLRPC$StoryItem = tLRPC$StoryItem2;
-                            z3 = z5;
+                            z4 = z6;
                         } else {
                             TLRPC$MessageMedia tLRPC$MessageMedia4 = tLRPC$StoryItem8.media;
                             TLRPC$Photo tLRPC$Photo = tLRPC$MessageMedia4 != null ? tLRPC$MessageMedia4.photo : null;
                             if (tLRPC$Photo != null) {
                                 drawable = ImageLoader.createStripedBitmap(tLRPC$Photo.sizes);
-                                z4 = z11;
+                                z5 = z12;
                             } else {
-                                z4 = z11;
+                                z5 = z12;
                                 drawable = null;
                             }
-                            if (z4) {
+                            if (z5) {
                                 this.imageReceiver.setImage(ImageLocation.getForPath(tLRPC$StoryItem8.attachPath), storyImageFilter, ImageLocation.getForPath(tLRPC$StoryItem8.firstFramePath), storyImageFilter, drawable, 0L, null, null, 0);
                             } else {
                                 this.imageReceiver.setImage(ImageLocation.getForPath(tLRPC$StoryItem8.attachPath), storyImageFilter, null, null, drawable, 0L, null, null, 0);
                             }
                             tLRPC$StoryItem = tLRPC$StoryItem8;
-                            z3 = z4;
+                            z4 = z5;
                         }
                     } else {
                         StoryViewer storyViewer = this.storyViewer;
                         Drawable drawable2 = ((!storyViewer.isSingleStory && storyViewer.storiesList == null) || (imageReceiver = storyViewer.transitionViewHolder.storyImage) == null || storyViewer.reversed) ? null : imageReceiver.getDrawable();
                         tLRPC$StoryItem8.dialogId = this.dialogId;
-                        if (z12) {
+                        if (z13) {
                             TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tLRPC$StoryItem8.media.document.thumbs, 1000);
                             Drawable createStripedBitmap2 = drawable2 == null ? ImageLoader.createStripedBitmap(tLRPC$StoryItem8.media.document.thumbs) : drawable2;
                             ImageLocation forDocument = ImageLocation.getForDocument(closestPhotoSizeWithSize, tLRPC$StoryItem8.media.document);
                             tLRPC$StoryItem = tLRPC$StoryItem8;
-                            z3 = z11;
+                            z4 = z12;
                             this.imageReceiver.setImage(ImageLocation.getForDocument(tLRPC$StoryItem8.media.document), storyImageFilter + "_pframe", forDocument, storyImageFilter, null, null, createStripedBitmap2, 0L, null, tLRPC$StoryItem, 0);
                         } else {
-                            z3 = z11;
+                            z4 = z12;
                             TLRPC$MessageMedia tLRPC$MessageMedia5 = tLRPC$StoryItem8.media;
                             TLRPC$Photo tLRPC$Photo2 = tLRPC$MessageMedia5 != null ? tLRPC$MessageMedia5.photo : null;
                             if (tLRPC$Photo2 != null && (arrayList = tLRPC$Photo2.sizes) != null) {
@@ -3208,9 +3218,9 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                 TLRPC$StoryItem tLRPC$StoryItem9 = tLRPC$StoryItem;
                 tLRPC$StoryItem9.dialogId = this.dialogId;
                 this.currentStory.set(tLRPC$StoryItem9);
-                boolean z13 = (this.unsupported || (tLRPC$StoryItem3 = this.currentStory.storyItem) == null || (tLRPC$StoryItem3 instanceof TLRPC$TL_storyItemDeleted) || (tLRPC$StoryItem3 instanceof TLRPC$TL_storyItemSkipped)) ? false : true;
-                this.allowShare = z13;
-                if (z13) {
+                boolean z14 = (this.unsupported || (tLRPC$StoryItem3 = this.currentStory.storyItem) == null || (tLRPC$StoryItem3 instanceof TLRPC$TL_storyItemDeleted) || (tLRPC$StoryItem3 instanceof TLRPC$TL_storyItemSkipped)) ? false : true;
+                this.allowShare = z14;
+                if (z14) {
                     TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(this.dialogId));
                     TLRPC$StoryItem tLRPC$StoryItem10 = this.currentStory.storyItem;
                     this.allowShare = (tLRPC$StoryItem10.noforwards || !tLRPC$StoryItem10.isPublic || user == null || UserObject.getPublicUsername(user) == null) ? false : true;
@@ -3229,8 +3239,8 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
             updateUserViews();
         }
         StoryItemHolder storyItemHolder2 = this.currentStory;
-        boolean z14 = getStoryId(storyItemHolder2.storyItem, storyItemHolder2.uploadingStory) == getStoryId(tLRPC$StoryItem7, uploadingStory3) || !(uploadingStory3 == null || (tLRPC$StoryItem6 = this.currentStory.storyItem) == null || !TextUtils.equals(uploadingStory3.path, tLRPC$StoryItem6.attachPath));
-        boolean z15 = z14 && !(this.isEditing == z3 && this.isUploading == z);
+        boolean z15 = getStoryId(storyItemHolder2.storyItem, storyItemHolder2.uploadingStory) == getStoryId(tLRPC$StoryItem7, uploadingStory3) || !(uploadingStory3 == null || (tLRPC$StoryItem6 = this.currentStory.storyItem) == null || !TextUtils.equals(uploadingStory3.path, tLRPC$StoryItem6.attachPath));
+        boolean z16 = z15 && !(this.isEditing == z4 && this.isUploading == z);
         if ((uploadingStory3 == null || (str = uploadingStory3.path) == null || !str.equals(this.currentStory.getLocalPath())) && (tLRPC$StoryItem7 == null || (tLRPC$StoryItem4 = this.currentStory.storyItem) == null || tLRPC$StoryItem7.id != tLRPC$StoryItem4.id)) {
             ChatActivityEnterView chatActivityEnterView3 = this.chatActivityEnterView;
             if (chatActivityEnterView3 != null) {
@@ -3245,21 +3255,21 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                     radialProgress.setProgress(uploadingStory5.progress, false);
                 }
                 this.headerView.backupImageView.invalidate();
-            } else if (!z15) {
+            } else if (!z16) {
                 this.headerView.progressToUploading = 0.0f;
             }
             Bulletin.hideVisible();
             this.storyCaptionView.reset();
             cancelWaiting();
-            z6 = true;
+            z7 = true;
         } else {
-            z6 = false;
+            z7 = false;
         }
-        if (z6 || (uploadingStory3 != null && this.currentStory.uploadingStory == null)) {
+        if (z7 || (uploadingStory3 != null && this.currentStory.uploadingStory == null)) {
             StoryItemHolder storyItemHolder3 = this.currentStory;
             if (storyItemHolder3.uploadingStory != null) {
                 PeerHeaderView peerHeaderView = this.headerView;
-                peerHeaderView.setSubtitle(StoriesUtilities.getUploadingStr(peerHeaderView.subtitleView[0], false, this.isEditing), z15);
+                peerHeaderView.setSubtitle(StoriesUtilities.getUploadingStr(peerHeaderView.subtitleView[0], false, this.isEditing), z16);
             } else {
                 TLRPC$StoryItem tLRPC$StoryItem11 = storyItemHolder3.storyItem;
                 if (tLRPC$StoryItem11 != null) {
@@ -3278,7 +3288,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                             valueOf.append((CharSequence) LocaleController.getString("EditedMessage", R.string.EditedMessage));
                             str3 = valueOf;
                         }
-                        this.headerView.setSubtitle(str3, z15);
+                        this.headerView.setSubtitle(str3, z16);
                     }
                 }
             }
@@ -3419,22 +3429,22 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
         StoryItemHolder storyItemHolder5 = this.currentStory;
         StoriesController.UploadingStory uploadingStory7 = storyItemHolder5.uploadingStory;
         if (uploadingStory7 != null) {
-            this.privacyButton.set(this.isSelf, uploadingStory7, z14 && this.editedPrivacy);
+            this.privacyButton.set(this.isSelf, uploadingStory7, z15 && this.editedPrivacy);
         } else {
             TLRPC$StoryItem tLRPC$StoryItem13 = storyItemHolder5.storyItem;
             if (tLRPC$StoryItem13 != null) {
-                this.privacyButton.set(this.isSelf, tLRPC$StoryItem13, z14 && this.editedPrivacy);
+                this.privacyButton.set(this.isSelf, tLRPC$StoryItem13, z15 && this.editedPrivacy);
             } else {
                 StoryPrivacyButton storyPrivacyButton = this.privacyButton;
-                boolean z16 = this.isSelf;
-                if (z14 && this.editedPrivacy) {
+                boolean z17 = this.isSelf;
+                if (z15 && this.editedPrivacy) {
                     tLRPC$StoryItem5 = null;
-                    z7 = true;
+                    z8 = true;
                 } else {
                     tLRPC$StoryItem5 = null;
-                    z7 = false;
+                    z8 = false;
                 }
-                storyPrivacyButton.set(z16, tLRPC$StoryItem5, z7);
+                storyPrivacyButton.set(z17, tLRPC$StoryItem5, z8);
             }
         }
         this.editedPrivacy = false;
