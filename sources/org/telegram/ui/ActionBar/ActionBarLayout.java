@@ -57,6 +57,7 @@ import org.telegram.ui.Components.FloatingDebug.FloatingDebugController;
 import org.telegram.ui.Components.FloatingDebug.FloatingDebugProvider;
 import org.telegram.ui.Components.GroupCallPip;
 import org.telegram.ui.Components.LayoutHelper;
+import org.telegram.ui.Stories.StoryViewer;
 /* loaded from: classes3.dex */
 public class ActionBarLayout extends FrameLayout implements INavigationLayout, FloatingDebugProvider {
     private static Drawable headerShadowDrawable;
@@ -115,6 +116,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
     private List<BackButtonMenu.PulledDialog> pulledDialogs;
     private boolean rebuildAfterAnimation;
     private boolean rebuildLastAfterAnimation;
+    private Rect rect;
     private boolean removeActionBarExtraHeight;
     private boolean showLastAfterAnimation;
     INavigationLayout.StartColorsProvider startColorsProvider;
@@ -267,7 +269,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         removeFragmentFromStack(baseFragment, false);
     }
 
-    static /* synthetic */ float access$1116(ActionBarLayout actionBarLayout, float f) {
+    static /* synthetic */ float access$1216(ActionBarLayout actionBarLayout, float f) {
         float f2 = actionBarLayout.animationProgress + f;
         actionBarLayout.animationProgress = f2;
         return f2;
@@ -276,6 +278,18 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
     @Override // org.telegram.ui.ActionBar.INavigationLayout
     public void setHighlightActionButtons(boolean z) {
         this.highlightActionButtons = z;
+    }
+
+    public boolean storyViewerAttached() {
+        BaseFragment baseFragment;
+        StoryViewer storyViewer;
+        if (this.fragmentsStack.isEmpty()) {
+            baseFragment = null;
+        } else {
+            List<BaseFragment> list = this.fragmentsStack;
+            baseFragment = list.get(list.size() - 1);
+        }
+        return (baseFragment == null || (storyViewer = baseFragment.storyViewer) == null || !storyViewer.attachedToParent()) ? false : true;
     }
 
     /* loaded from: classes3.dex */
@@ -301,6 +315,10 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         protected boolean drawChild(Canvas canvas, View view, long j) {
             int i;
             int i2;
+            BaseFragment baseFragment = !ActionBarLayout.this.fragmentsStack.isEmpty() ? (BaseFragment) ActionBarLayout.this.fragmentsStack.get(ActionBarLayout.this.fragmentsStack.size() - 1) : null;
+            if (ActionBarLayout.this.storyViewerAttached() && baseFragment.storyViewer.isFullyVisible() && !baseFragment.isStoryViewer(view)) {
+                return true;
+            }
             if (view instanceof ActionBar) {
                 return super.drawChild(canvas, view, j);
             }
@@ -544,7 +562,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         this.themeAnimatorDescriptions = new ArrayList<>();
         this.themeAnimatorDelegate = new ArrayList<>();
         this.notificationsLocker = new AnimationNotificationsLocker();
-        new Rect();
+        this.rect = new Rect();
         this.overrideWidthOffset = -1;
         this.measureSpec = new int[2];
         this.lastActions = new ArrayList<>();
@@ -605,6 +623,19 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
 
     @Override // android.widget.FrameLayout, android.view.View
     protected void onMeasure(int i, int i2) {
+        BaseFragment baseFragment;
+        if (this.fragmentsStack.isEmpty()) {
+            baseFragment = null;
+        } else {
+            List<BaseFragment> list = this.fragmentsStack;
+            baseFragment = list.get(list.size() - 1);
+        }
+        if (baseFragment != null && storyViewerAttached()) {
+            int measureKeyboardHeight = measureKeyboardHeight();
+            baseFragment.setKeyboardHeightFromParent(measureKeyboardHeight);
+            super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i2) + measureKeyboardHeight, 1073741824));
+            return;
+        }
         INavigationLayout.INavigationLayoutDelegate iNavigationLayoutDelegate = this.delegate;
         if (iNavigationLayoutDelegate != null) {
             int[] iArr = this.measureSpec;
@@ -917,16 +948,14 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         view.setLayoutParams(layoutParams);
         ActionBar actionBar = baseFragment.actionBar;
         if (actionBar != null && actionBar.shouldAddToContainer()) {
-            ViewGroup viewGroup2 = (ViewGroup) baseFragment.actionBar.getParent();
-            if (viewGroup2 != null) {
-                viewGroup2.removeView(baseFragment.actionBar);
-            }
+            AndroidUtilities.removeFromParent(baseFragment.actionBar);
             if (this.removeActionBarExtraHeight) {
                 baseFragment.actionBar.setOccupyStatusBar(false);
             }
             this.containerViewBack.addView(baseFragment.actionBar);
             baseFragment.actionBar.setTitleOverlayText(this.titleOverlayText, this.titleOverlayTextId, this.overlayAction);
         }
+        baseFragment.attachStoryViewer(this.containerViewBack);
         if (!baseFragment.hasOwnBackground && view.getBackground() == null) {
             view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
         }
@@ -1192,6 +1221,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
             if (actionBar != null && actionBar.shouldAddToContainer() && (viewGroup = (ViewGroup) baseFragment.actionBar.getParent()) != null) {
                 viewGroup.removeViewInLayout(baseFragment.actionBar);
             }
+            baseFragment.detachStoryViewer();
         }
         this.containerViewBack.setVisibility(4);
     }
@@ -1221,7 +1251,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                     j = 18;
                 }
                 ActionBarLayout.this.lastFrameTime = nanoTime;
-                ActionBarLayout.access$1116(ActionBarLayout.this, ((float) j) / ((z3 && z) ? 190.0f : 150.0f));
+                ActionBarLayout.access$1216(ActionBarLayout.this, ((float) j) / ((z3 && z) ? 190.0f : 150.0f));
                 if (ActionBarLayout.this.animationProgress > 1.0f) {
                     ActionBarLayout.this.animationProgress = 1.0f;
                 }
@@ -1234,7 +1264,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                 Integer valueOf = ActionBarLayout.this.oldFragment != null ? Integer.valueOf(ActionBarLayout.this.oldFragment.getNavigationBarColor()) : null;
                 Integer valueOf2 = ActionBarLayout.this.newFragment != null ? Integer.valueOf(ActionBarLayout.this.newFragment.getNavigationBarColor()) : null;
                 if (ActionBarLayout.this.newFragment != null && valueOf != null) {
-                    ActionBarLayout.this.newFragment.setNavigationBarColor(ColorUtils.blendARGB(valueOf.intValue(), valueOf2.intValue(), MathUtils.clamp((ActionBarLayout.this.animationProgress * 2.0f) - (z ? 1.0f : 0.0f), 0.0f, 1.0f)));
+                    ActionBarLayout.this.newFragment.setNavigationBarColor(ColorUtils.blendARGB(valueOf.intValue(), valueOf2.intValue(), MathUtils.clamp(ActionBarLayout.this.animationProgress * 4.0f, 0.0f, 1.0f)));
                 }
                 if (!z3) {
                     interpolation = ActionBarLayout.this.decelerateInterpolator.getInterpolation(ActionBarLayout.this.animationProgress);
@@ -1326,6 +1356,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         if (BuildVars.LOGS_ENABLED) {
             FileLog.d("present fragment " + baseFragment2.getClass().getSimpleName());
         }
+        StoryViewer.closeGlobalInstances();
         if (this.inPreviewMode && this.transitionAnimationPreviewMode) {
             Runnable runnable = this.delayedOpenAnimationRunnable;
             if (runnable != null) {
@@ -1411,13 +1442,11 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
             if (this.removeActionBarExtraHeight) {
                 baseFragment2.actionBar.setOccupyStatusBar(false);
             }
-            ViewGroup viewGroup2 = (ViewGroup) baseFragment2.actionBar.getParent();
-            if (viewGroup2 != null) {
-                viewGroup2.removeView(baseFragment2.actionBar);
-            }
+            AndroidUtilities.removeFromParent(baseFragment2.actionBar);
             this.containerViewBack.addView(baseFragment2.actionBar);
             baseFragment2.actionBar.setTitleOverlayText(this.titleOverlayText, this.titleOverlayTextId, this.overlayAction);
         }
+        baseFragment2.attachStoryViewer(this.containerViewBack);
         this.fragmentsStack.add(baseFragment2);
         onFragmentStackChanged("presentFragment");
         baseFragment2.onResume();
@@ -1698,6 +1727,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                         baseFragment2.onRemoveFromParent();
                         viewGroup.removeView(baseFragment2.fragmentView);
                     }
+                    baseFragment2.detachStoryViewer();
                 }
                 this.fragmentsStack.add(baseFragment);
                 if (i != -2) {
@@ -1733,18 +1763,18 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         }
         this.containerView.addView(view, LayoutHelper.createFrame(-1, -1.0f));
         ActionBar actionBar = baseFragment.actionBar;
-        if (actionBar == null || !actionBar.shouldAddToContainer()) {
-            return;
+        if (actionBar != null && actionBar.shouldAddToContainer()) {
+            if (this.removeActionBarExtraHeight) {
+                baseFragment.actionBar.setOccupyStatusBar(false);
+            }
+            ViewGroup viewGroup2 = (ViewGroup) baseFragment.actionBar.getParent();
+            if (viewGroup2 != null) {
+                viewGroup2.removeView(baseFragment.actionBar);
+            }
+            this.containerView.addView(baseFragment.actionBar);
+            baseFragment.actionBar.setTitleOverlayText(this.titleOverlayText, this.titleOverlayTextId, this.overlayAction);
         }
-        if (this.removeActionBarExtraHeight) {
-            baseFragment.actionBar.setOccupyStatusBar(false);
-        }
-        ViewGroup viewGroup2 = (ViewGroup) baseFragment.actionBar.getParent();
-        if (viewGroup2 != null) {
-            viewGroup2.removeView(baseFragment.actionBar);
-        }
-        this.containerView.addView(baseFragment.actionBar);
-        baseFragment.actionBar.setTitleOverlayText(this.titleOverlayText, this.titleOverlayTextId, this.overlayAction);
+        baseFragment.attachStoryViewer(this.containerView);
     }
 
     private void closeLastFragmentInternalRemoveOld(BaseFragment baseFragment) {
@@ -1898,13 +1928,11 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                         if (this.removeActionBarExtraHeight) {
                             baseFragment.actionBar.setOccupyStatusBar(false);
                         }
-                        ViewGroup viewGroup2 = (ViewGroup) baseFragment.actionBar.getParent();
-                        if (viewGroup2 != null) {
-                            viewGroup2.removeView(baseFragment.actionBar);
-                        }
+                        AndroidUtilities.removeFromParent(baseFragment.actionBar);
                         this.containerView.addView(baseFragment.actionBar);
                         baseFragment.actionBar.setTitleOverlayText(this.titleOverlayText, this.titleOverlayTextId, this.overlayAction);
                     }
+                    baseFragment.attachStoryViewer(this.containerView);
                 }
                 this.newFragment = baseFragment;
                 this.oldFragment = baseFragment2;
@@ -2090,13 +2118,11 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                 if (this.removeActionBarExtraHeight) {
                     baseFragment2.actionBar.setOccupyStatusBar(false);
                 }
-                ViewGroup viewGroup4 = (ViewGroup) baseFragment2.actionBar.getParent();
-                if (viewGroup4 != null) {
-                    viewGroup4.removeView(baseFragment2.actionBar);
-                }
+                AndroidUtilities.removeFromParent(baseFragment2.actionBar);
                 this.containerView.addView(baseFragment2.actionBar);
                 baseFragment2.actionBar.setTitleOverlayText(this.titleOverlayText, this.titleOverlayTextId, this.overlayAction);
             }
+            baseFragment2.attachStoryViewer(this.containerView);
             baseFragment2.onResume();
             this.currentActionBar = baseFragment2.actionBar;
             if (baseFragment2.hasOwnBackground || view2.getBackground() != null) {
@@ -2748,5 +2774,28 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         this.attached = false;
+    }
+
+    public int measureKeyboardHeight() {
+        View rootView = getRootView();
+        getWindowVisibleDisplayFrame(this.rect);
+        Rect rect = this.rect;
+        if (rect.bottom == 0 && rect.top == 0) {
+            return 0;
+        }
+        int height = (rootView.getHeight() - (this.rect.top != 0 ? AndroidUtilities.statusBarHeight : 0)) - AndroidUtilities.getViewInset(rootView);
+        Rect rect2 = this.rect;
+        return Math.max(0, height - (rect2.bottom - rect2.top));
+    }
+
+    @Override // android.view.ViewGroup, android.view.View
+    public boolean dispatchTouchEvent(MotionEvent motionEvent) {
+        if (getLastFragment() != null && getLastFragment().overlayStoryViewer != null && getLastFragment().overlayStoryViewer.attachedToParent()) {
+            return getLastFragment().overlayStoryViewer.windowView.dispatchTouchEvent(motionEvent);
+        }
+        if (getLastFragment() != null && getLastFragment().storyViewer != null && getLastFragment().storyViewer.attachedToParent()) {
+            return getLastFragment().storyViewer.windowView.dispatchTouchEvent(motionEvent);
+        }
+        return super.dispatchTouchEvent(motionEvent);
     }
 }

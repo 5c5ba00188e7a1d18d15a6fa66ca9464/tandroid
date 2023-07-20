@@ -10,7 +10,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Iterator;
 import java.util.List;
-import org.telegram.messenger.CharacterCompat;
 /* loaded from: classes.dex */
 class BrowserUtils {
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -32,7 +31,7 @@ class BrowserUtils {
             AppCenterLog.error("AppCenterDistribute", "No browser found on device, abort login.");
             return;
         }
-        ResolveInfo resolveActivity = activity.getPackageManager().resolveActivity(intent, CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT);
+        ResolveInfo resolveActivity = activity.getPackageManager().resolveActivity(intent, 65536);
         String str4 = null;
         if (resolveActivity != null) {
             ActivityInfo activityInfo = resolveActivity.activityInfo;

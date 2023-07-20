@@ -2858,7 +2858,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         getMessagesController().putUsers(tLRPC$messages_Messages.users, false);
         getMessagesController().putChats(tLRPC$messages_Messages.chats, false);
         getLocationController().locationsCache.put(j, tLRPC$messages_Messages.messages);
-        getNotificationCenter().postNotificationName(NotificationCenter.liveLocationsCacheChanged, Long.valueOf(j));
+        getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.liveLocationsCacheChanged, Long.valueOf(j));
         fetchRecentLocations(tLRPC$messages_Messages.messages);
         getLocationController().markLiveLoactionsAsRead(this.dialogId);
         if (this.markAsReadRunnable == null) {

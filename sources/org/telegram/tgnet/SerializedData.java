@@ -319,6 +319,7 @@ public class SerializedData extends AbstractSerializedData {
         }
     }
 
+    @Override // org.telegram.tgnet.AbstractSerializedData
     public void writeFloat(float f) {
         try {
             writeInt32(Float.floatToIntBits(f));
@@ -386,6 +387,7 @@ public class SerializedData extends AbstractSerializedData {
         return false;
     }
 
+    @Override // org.telegram.tgnet.AbstractSerializedData
     public byte readByte(boolean z) {
         try {
             byte readByte = this.in.readByte();
@@ -514,6 +516,7 @@ public class SerializedData extends AbstractSerializedData {
         }
     }
 
+    @Override // org.telegram.tgnet.AbstractSerializedData
     public float readFloat(boolean z) {
         try {
             return Float.intBitsToFloat(readInt32(z));

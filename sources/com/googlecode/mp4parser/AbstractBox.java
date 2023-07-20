@@ -1,20 +1,26 @@
 package com.googlecode.mp4parser;
 
+import com.coremedia.iso.BoxParser;
+import com.coremedia.iso.Hex;
 import com.coremedia.iso.IsoFile;
 import com.coremedia.iso.IsoTypeWriter;
 import com.coremedia.iso.boxes.Box;
 import com.coremedia.iso.boxes.Container;
 import com.googlecode.mp4parser.util.CastUtils;
 import com.googlecode.mp4parser.util.Logger;
+import com.googlecode.mp4parser.util.Path;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.WritableByteChannel;
 /* loaded from: classes.dex */
 public abstract class AbstractBox implements Box {
+    static final /* synthetic */ boolean $assertionsDisabled = false;
     private static Logger LOG = Logger.getLogger(AbstractBox.class);
     private ByteBuffer content;
     long contentStartPosition;
     DataSource dataSource;
+    long offset;
+    private Container parent;
     protected String type;
     private byte[] userType;
     long memMapSize = -1;
@@ -27,10 +33,6 @@ public abstract class AbstractBox implements Box {
     protected abstract void getContent(ByteBuffer byteBuffer);
 
     protected abstract long getContentSize();
-
-    @Override // com.coremedia.iso.boxes.Box
-    public void setParent(Container container) {
-    }
 
     private synchronized void readContent() {
         if (!this.isRead) {
@@ -45,9 +47,29 @@ public abstract class AbstractBox implements Box {
         }
     }
 
+    public long getOffset() {
+        return this.offset;
+    }
+
     /* JADX INFO: Access modifiers changed from: protected */
     public AbstractBox(String str) {
         this.type = str;
+    }
+
+    protected AbstractBox(String str, byte[] bArr) {
+        this.type = str;
+        this.userType = bArr;
+    }
+
+    public void parse(DataSource dataSource, ByteBuffer byteBuffer, long j, BoxParser boxParser) throws IOException {
+        long position = dataSource.position();
+        this.contentStartPosition = position;
+        this.offset = position - byteBuffer.remaining();
+        this.memMapSize = j;
+        this.dataSource = dataSource;
+        dataSource.position(dataSource.position() + j);
+        this.isRead = false;
+        this.isParsed = false;
     }
 
     @Override // com.coremedia.iso.boxes.Box
@@ -95,6 +117,10 @@ public abstract class AbstractBox implements Box {
         }
     }
 
+    protected void setDeadBytes(ByteBuffer byteBuffer) {
+        this.deadBytes = byteBuffer;
+    }
+
     @Override // com.coremedia.iso.boxes.Box
     public long getSize() {
         long j;
@@ -110,6 +136,7 @@ public abstract class AbstractBox implements Box {
         return j + (j >= 4294967288L ? 8 : 0) + 8 + ("uuid".equals(getType()) ? 16 : 0) + (this.deadBytes != null ? byteBuffer.limit() : 0);
     }
 
+    @Override // com.coremedia.iso.boxes.Box
     public String getType() {
         return this.type;
     }
@@ -118,8 +145,58 @@ public abstract class AbstractBox implements Box {
         return this.userType;
     }
 
+    @Override // com.coremedia.iso.boxes.Box
+    public Container getParent() {
+        return this.parent;
+    }
+
+    @Override // com.coremedia.iso.boxes.Box
+    public void setParent(Container container) {
+        this.parent = container;
+    }
+
     public boolean isParsed() {
         return this.isParsed;
+    }
+
+    private boolean verify(ByteBuffer byteBuffer) {
+        ByteBuffer byteBuffer2;
+        ByteBuffer allocate = ByteBuffer.allocate(CastUtils.l2i(getContentSize() + (this.deadBytes != null ? byteBuffer2.limit() : 0)));
+        getContent(allocate);
+        ByteBuffer byteBuffer3 = this.deadBytes;
+        if (byteBuffer3 != null) {
+            byteBuffer3.rewind();
+            while (this.deadBytes.remaining() > 0) {
+                allocate.put(this.deadBytes);
+            }
+        }
+        byteBuffer.rewind();
+        allocate.rewind();
+        if (byteBuffer.remaining() != allocate.remaining()) {
+            System.err.print(String.valueOf(getType()) + ": remaining differs " + byteBuffer.remaining() + " vs. " + allocate.remaining());
+            LOG.logError(String.valueOf(getType()) + ": remaining differs " + byteBuffer.remaining() + " vs. " + allocate.remaining());
+            return false;
+        }
+        int position = byteBuffer.position();
+        int limit = byteBuffer.limit() - 1;
+        int limit2 = allocate.limit() - 1;
+        while (limit >= position) {
+            byte b = byteBuffer.get(limit);
+            byte b2 = allocate.get(limit2);
+            if (b != b2) {
+                LOG.logError(String.format("%s: buffers differ at %d: %2X/%2X", getType(), Integer.valueOf(limit), Byte.valueOf(b), Byte.valueOf(b2)));
+                byte[] bArr = new byte[byteBuffer.remaining()];
+                byte[] bArr2 = new byte[allocate.remaining()];
+                byteBuffer.get(bArr);
+                allocate.get(bArr2);
+                System.err.println("original      : " + Hex.encodeHex(bArr, 4));
+                System.err.println("reconstructed : " + Hex.encodeHex(bArr2, 4));
+                return false;
+            }
+            limit--;
+            limit2--;
+        }
+        return true;
     }
 
     private boolean isSmallBox() {
@@ -147,5 +224,9 @@ public abstract class AbstractBox implements Box {
         if ("uuid".equals(getType())) {
             byteBuffer.put(getUserType());
         }
+    }
+
+    public String getPath() {
+        return Path.createPath(this);
     }
 }

@@ -364,6 +364,7 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
                     try {
                         setOutputSurfaceV23(codec, placeholderSurface);
                     } catch (Throwable th) {
+                        th.printStackTrace();
                         throw new SurfaceNotValidException(th);
                     }
                 } else {
@@ -1155,7 +1156,7 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:537:0x0729, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:537:0x072a, code lost:
         if (r0.equals("ELUGA_Ray_X") == false) goto L46;
      */
     /*
@@ -2426,7 +2427,7 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
                             case 'r':
                             case 's':
                             case 't':
-                            case MessagesStorage.LAST_DB_VERSION /* 117 */:
+                            case 'u':
                             case 'v':
                             case 'w':
                             case 'x':
@@ -2436,7 +2437,7 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
                             case '|':
                             case '}':
                             case '~':
-                            case 127:
+                            case MessagesStorage.LAST_DB_VERSION /* 127 */:
                             case 128:
                             case 129:
                             case 130:

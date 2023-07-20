@@ -11,6 +11,6 @@ public final /* synthetic */ class SelectAnimatedEmojiDialog$$ExternalSyntheticL
 
     @Override // com.google.android.exoplayer2.util.Consumer
     public final void accept(Object obj) {
-        SelectAnimatedEmojiDialog.lambda$setEnterAnimationInProgress$30((View) obj);
+        SelectAnimatedEmojiDialog.lambda$setEnterAnimationInProgress$34((View) obj);
     }
 }

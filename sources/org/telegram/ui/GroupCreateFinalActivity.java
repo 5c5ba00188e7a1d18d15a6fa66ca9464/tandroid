@@ -981,7 +981,7 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
             if (groupCreateFinalActivityDelegate2 != null) {
                 groupCreateFinalActivityDelegate2.didFinishChatCreation(this, longValue);
             } else {
-                NotificationCenter.getInstance(this.currentAccount).postNotificationName(NotificationCenter.closeChats, new Object[0]);
+                NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.closeChats, new Object[0]);
                 Bundle bundle = new Bundle();
                 bundle.putLong("chat_id", longValue);
                 bundle.putBoolean("just_created_chat", true);

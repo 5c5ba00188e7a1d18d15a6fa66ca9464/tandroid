@@ -5,8 +5,8 @@ import java.util.HashMap;
 /* loaded from: classes.dex */
 public class FlagSecureReason {
     private static HashMap<Window, Integer> currentSecureReasons;
-    private FlagSecureCondition condition;
-    private Window window;
+    private final FlagSecureCondition condition;
+    private final Window window;
     private boolean attached = false;
     private boolean value = false;
 

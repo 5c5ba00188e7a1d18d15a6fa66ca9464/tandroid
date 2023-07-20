@@ -9,6 +9,7 @@ import com.microsoft.appcenter.channel.DefaultChannel;
 import com.microsoft.appcenter.channel.OneCollectorChannelListener;
 import com.microsoft.appcenter.http.HttpClient;
 import com.microsoft.appcenter.http.HttpUtils;
+import com.microsoft.appcenter.ingestion.models.CustomPropertiesLog;
 import com.microsoft.appcenter.ingestion.models.StartServiceLog;
 import com.microsoft.appcenter.ingestion.models.json.CustomPropertiesLogFactory;
 import com.microsoft.appcenter.ingestion.models.json.DefaultLogSerializer;
@@ -65,6 +66,10 @@ public class AppCenter {
         return appCenter;
     }
 
+    public static void setCustomProperties(CustomProperties customProperties) {
+        getInstance().setInstanceCustomProperties(customProperties);
+    }
+
     @SafeVarargs
     public static void start(Application application, String str, Class<? extends AppCenterService>... clsArr) {
         getInstance().configureAndStartServices(application, str, clsArr);
@@ -97,6 +102,24 @@ public class AppCenter {
         }
         AppCenterLog.error("AppCenter", "App Center hasn't been configured. You need to call AppCenter.start with appSecret or AppCenter.configure first.");
         return false;
+    }
+
+    private synchronized void setInstanceCustomProperties(CustomProperties customProperties) {
+        if (customProperties == null) {
+            AppCenterLog.error("AppCenter", "Custom properties may not be null.");
+            return;
+        }
+        final Map<String, Object> properties = customProperties.getProperties();
+        if (properties.size() == 0) {
+            AppCenterLog.error("AppCenter", "Custom properties may not be empty.");
+        } else {
+            handlerAppCenterOperation(new Runnable() { // from class: com.microsoft.appcenter.AppCenter.3
+                @Override // java.lang.Runnable
+                public void run() {
+                    AppCenter.this.queueCustomProperties(properties);
+                }
+            }, null);
+        }
     }
 
     private synchronized boolean isInstanceConfigured() {
@@ -406,6 +429,13 @@ public class AppCenter {
         if (configureInstance(application, str, z)) {
             startServices(z, clsArr);
         }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void queueCustomProperties(Map<String, Object> map) {
+        CustomPropertiesLog customPropertiesLog = new CustomPropertiesLog();
+        customPropertiesLog.setProperties(map);
+        this.mChannel.enqueue(customPropertiesLog, "group_core", 1);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

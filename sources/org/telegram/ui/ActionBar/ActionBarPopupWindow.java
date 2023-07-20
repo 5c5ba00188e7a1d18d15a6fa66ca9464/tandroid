@@ -7,9 +7,11 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.Property;
@@ -104,6 +106,7 @@ public class ActionBarPopupWindow extends PopupWindow {
         protected LinearLayout linearLayout;
         private OnDispatchKeyEventListener mOnDispatchKeyEventListener;
         private onSizeChangedListener onSizeChangedListener;
+        Path path;
         private HashMap<View, Integer> positions;
         private float reactionsEnterProgress;
         Rect rect;
@@ -166,7 +169,13 @@ public class ActionBarPopupWindow extends PopupWindow {
             try {
                 ScrollView scrollView = new ScrollView(context);
                 this.scrollView = scrollView;
-                scrollView.setVerticalScrollBarEnabled(false);
+                scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() { // from class: org.telegram.ui.ActionBar.ActionBarPopupWindow.ActionBarPopupWindowLayout.1
+                    @Override // android.view.ViewTreeObserver.OnScrollChangedListener
+                    public void onScrollChanged() {
+                        ActionBarPopupWindowLayout.this.invalidate();
+                    }
+                });
+                this.scrollView.setVerticalScrollBarEnabled(false);
                 PopupSwipeBackLayout popupSwipeBackLayout2 = this.swipeBackLayout;
                 if (popupSwipeBackLayout2 != null) {
                     popupSwipeBackLayout2.addView(this.scrollView, LayoutHelper.createFrame(-2, -2, this.shownFromBottom ? 80 : 48));
@@ -176,7 +185,7 @@ public class ActionBarPopupWindow extends PopupWindow {
             } catch (Throwable th) {
                 FileLog.e(th);
             }
-            LinearLayout linearLayout = new LinearLayout(context) { // from class: org.telegram.ui.ActionBar.ActionBarPopupWindow.ActionBarPopupWindowLayout.1
+            LinearLayout linearLayout = new LinearLayout(context) { // from class: org.telegram.ui.ActionBar.ActionBarPopupWindow.ActionBarPopupWindowLayout.2
                 @Override // android.widget.LinearLayout, android.view.View
                 protected void onMeasure(int i3, int i4) {
                     if (ActionBarPopupWindowLayout.this.fitItems) {
@@ -374,7 +383,7 @@ public class ActionBarPopupWindow extends PopupWindow {
                 animatorArr[1] = ObjectAnimator.ofFloat(view, property2, fArr2);
                 animatorSet.playTogether(animatorArr);
                 animatorSet.setDuration(180L);
-                animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.ActionBarPopupWindow.ActionBarPopupWindowLayout.2
+                animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.ActionBarPopupWindow.ActionBarPopupWindowLayout.3
                     @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                     public void onAnimationEnd(Animator animator) {
                         ActionBarPopupWindowLayout.this.itemAnimators.remove(animatorSet);
@@ -431,14 +440,14 @@ public class ActionBarPopupWindow extends PopupWindow {
             return super.dispatchKeyEvent(keyEvent);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:104:0x0256 A[SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:108:0x0284 A[SYNTHETIC] */
         /* JADX WARN: Removed duplicated region for block: B:38:0x00f9  */
         /* JADX WARN: Removed duplicated region for block: B:39:0x00fc  */
         /* JADX WARN: Removed duplicated region for block: B:42:0x0105  */
         /* JADX WARN: Removed duplicated region for block: B:43:0x0122  */
         /* JADX WARN: Removed duplicated region for block: B:67:0x01b2  */
         /* JADX WARN: Removed duplicated region for block: B:73:0x01dd  */
-        /* JADX WARN: Removed duplicated region for block: B:88:0x0253  */
+        /* JADX WARN: Removed duplicated region for block: B:92:0x0281  */
         @Override // android.view.ViewGroup, android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -529,15 +538,21 @@ public class ActionBarPopupWindow extends PopupWindow {
                                 rect2.set(i6, i7, i6, i7);
                                 AndroidUtilities.lerp(this.rect, rect3, this.reactionsEnterProgress, rect3);
                             }
-                            Drawable drawable = this.backgroundDrawable;
-                            Rect rect4 = AndroidUtilities.rectTmp2;
-                            drawable.setBounds(rect4);
+                            this.backgroundDrawable.setBounds(AndroidUtilities.rectTmp2);
                             this.backgroundDrawable.draw(canvas);
                             if (z) {
                                 canvas.save();
-                                rect4.set(this.backgroundDrawable.getBounds());
-                                rect4.inset(AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f));
-                                canvas.clipRect(rect4);
+                                RectF rectF = AndroidUtilities.rectTmp;
+                                rectF.set(this.backgroundDrawable.getBounds());
+                                rectF.inset(AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f));
+                                Path path = this.path;
+                                if (path == null) {
+                                    this.path = new Path();
+                                } else {
+                                    path.rewind();
+                                }
+                                this.path.addRoundRect(rectF, AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f), Path.Direction.CW);
+                                canvas.clipPath(this.path);
                                 for (int i8 = 0; i8 < this.linearLayout.getChildCount(); i8++) {
                                     if ((this.linearLayout.getChildAt(i8) instanceof GapView) && this.linearLayout.getChildAt(i8).getVisibility() == 0) {
                                         canvas.save();
@@ -553,7 +568,7 @@ public class ActionBarPopupWindow extends PopupWindow {
                                                 break;
                                             }
                                         }
-                                        canvas.translate(f2, f3 * this.scrollView.getScaleY());
+                                        canvas.translate(f2, (f3 * this.scrollView.getScaleY()) - this.scrollView.getScrollY());
                                         gapView.draw(canvas);
                                         canvas.restore();
                                     }
@@ -572,9 +587,7 @@ public class ActionBarPopupWindow extends PopupWindow {
                     }
                     if (this.reactionsEnterProgress != 1.0f) {
                     }
-                    Drawable drawable2 = this.backgroundDrawable;
-                    Rect rect42 = AndroidUtilities.rectTmp2;
-                    drawable2.setBounds(rect42);
+                    this.backgroundDrawable.setBounds(AndroidUtilities.rectTmp2);
                     this.backgroundDrawable.draw(canvas);
                     if (z) {
                     }
@@ -585,10 +598,10 @@ public class ActionBarPopupWindow extends PopupWindow {
             }
             float f4 = this.reactionsEnterProgress;
             if (f4 != 1.0f) {
-                Rect rect5 = AndroidUtilities.rectTmp2;
-                canvas.saveLayerAlpha(rect5.left, rect5.top, rect5.right, rect5.bottom, (int) (f4 * 255.0f), 31);
+                Rect rect4 = AndroidUtilities.rectTmp2;
+                canvas.saveLayerAlpha(rect4.left, rect4.top, rect4.right, rect4.bottom, (int) (f4 * 255.0f), 31);
                 float f5 = (this.reactionsEnterProgress * 0.5f) + 0.5f;
-                canvas.scale(f5, f5, rect5.right, rect5.top);
+                canvas.scale(f5, f5, rect4.right, rect4.top);
                 super.dispatchDraw(canvas);
                 canvas.restore();
                 return;

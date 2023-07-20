@@ -41,6 +41,8 @@ public class GroupCreateSpan extends View {
     private StaticLayout nameLayout;
     private float progress;
     private RectF rect;
+    private Theme.ResourcesProvider resourcesProvider;
+    private boolean small;
     private int textWidth;
     private float textX;
     private long uid;
@@ -55,29 +57,43 @@ public class GroupCreateSpan extends View {
         this(context, null, contact);
     }
 
+    public GroupCreateSpan(Context context, Object obj, ContactsController.Contact contact) {
+        this(context, obj, contact, null);
+    }
+
+    public GroupCreateSpan(Context context, Object obj, ContactsController.Contact contact, Theme.ResourcesProvider resourcesProvider) {
+        this(context, obj, contact, false, resourcesProvider);
+    }
+
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:23:0x0099, code lost:
-        if (r1.equals("non_contacts") != false) goto L8;
+    /* JADX WARN: Code restructure failed: missing block: B:27:0x00a8, code lost:
+        if (r1.equals("non_contacts") != false) goto L11;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x0223  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x022b  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x0277  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x022e  */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x0231  */
+    /* JADX WARN: Removed duplicated region for block: B:74:0x023b  */
+    /* JADX WARN: Removed duplicated region for block: B:77:0x024e  */
+    /* JADX WARN: Removed duplicated region for block: B:81:0x0260  */
+    /* JADX WARN: Removed duplicated region for block: B:88:0x02b2  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public GroupCreateSpan(Context context, Object obj, ContactsController.Contact contact) {
+    public GroupCreateSpan(Context context, Object obj, ContactsController.Contact contact, boolean z, Theme.ResourcesProvider resourcesProvider) {
         super(context);
         String str;
+        ImageLocation forUserOrChat;
         TLRPC$User tLRPC$User;
         TLRPC$User tLRPC$User2;
         int min;
         StaticLayout staticLayout;
         this.rect = new RectF();
         this.colors = new int[8];
+        this.resourcesProvider = resourcesProvider;
+        this.small = z;
         this.currentContact = contact;
         this.deleteDrawable = getResources().getDrawable(R.drawable.delete);
-        textPaint.setTextSize(AndroidUtilities.dp(14.0f));
+        textPaint.setTextSize(AndroidUtilities.dp(z ? 13.0f : 14.0f));
         AvatarDrawable avatarDrawable = new AvatarDrawable();
         this.avatarDrawable = avatarDrawable;
         avatarDrawable.setTextSize(AndroidUtilities.dp(20.0f));
@@ -199,20 +215,25 @@ public class GroupCreateSpan extends View {
                 } else {
                     this.avatarDrawable.setInfo(tLRPC$User3);
                     String firstName = UserObject.getFirstName(tLRPC$User3);
+                    int indexOf = firstName.indexOf(32);
+                    firstName = indexOf >= 0 ? firstName.substring(0, indexOf) : firstName;
                     imageLocation = ImageLocation.getForUserOrChat(tLRPC$User3, 1);
+                    String str3 = firstName;
                     tLRPC$User2 = tLRPC$User3;
-                    str = firstName;
+                    str = str3;
                     tLRPC$User = tLRPC$User2;
+                    forUserOrChat = imageLocation;
                 }
                 tLRPC$User2 = null;
                 tLRPC$User = tLRPC$User2;
+                forUserOrChat = imageLocation;
             } else if (obj instanceof TLRPC$Chat) {
                 TLRPC$Chat tLRPC$Chat = (TLRPC$Chat) obj;
                 this.avatarDrawable.setInfo(tLRPC$Chat);
                 this.uid = -tLRPC$Chat.id;
                 str = tLRPC$Chat.title;
+                forUserOrChat = ImageLocation.getForUserOrChat(tLRPC$Chat, 1);
                 tLRPC$User = tLRPC$Chat;
-                imageLocation = ImageLocation.getForUserOrChat(tLRPC$Chat, 1);
             } else {
                 this.avatarDrawable.setInfo(0L, contact.first_name, contact.last_name);
                 this.uid = contact.contact_id;
@@ -227,12 +248,12 @@ public class GroupCreateSpan extends View {
             this.imageReceiver = imageReceiver;
             imageReceiver.setRoundRadius(AndroidUtilities.dp(16.0f));
             this.imageReceiver.setParentView(this);
-            this.imageReceiver.setImageCoords(0.0f, 0.0f, AndroidUtilities.dp(32.0f), AndroidUtilities.dp(32.0f));
+            this.imageReceiver.setImageCoords(0.0f, 0.0f, AndroidUtilities.dp(!z ? 28.0f : 32.0f), AndroidUtilities.dp(z ? 28.0f : 32.0f));
             if (!AndroidUtilities.isTablet()) {
-                min = AndroidUtilities.dp(366.0f) / 2;
+                min = AndroidUtilities.dp(((530 - (z ? 28 : 32)) - 18) - 114) / 2;
             } else {
                 android.graphics.Point point = AndroidUtilities.displaySize;
-                min = (Math.min(point.x, point.y) - AndroidUtilities.dp(164.0f)) / 2;
+                min = (Math.min(point.x, point.y) - AndroidUtilities.dp(((z ? 28 : 32) + 18) + 114)) / 2;
             }
             staticLayout = new StaticLayout(TextUtils.ellipsize(Emoji.replaceEmoji(str.replace('\n', ' '), textPaint.getFontMetricsInt(), AndroidUtilities.dp(12.0f), false), textPaint, min, TextUtils.TruncateAt.END), textPaint, 1000, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
             this.nameLayout = staticLayout;
@@ -240,31 +261,32 @@ public class GroupCreateSpan extends View {
                 this.textWidth = (int) Math.ceil(this.nameLayout.getLineWidth(0));
                 this.textX = -this.nameLayout.getLineLeft(0);
             }
-            this.imageReceiver.setImage(imageLocation, "50_50", this.avatarDrawable, 0L, (String) null, tLRPC$User, 1);
+            this.imageReceiver.setImage(forUserOrChat, "50_50", this.avatarDrawable, 0L, (String) null, tLRPC$User, 1);
             updateColors();
             NotificationCenter.listenEmojiLoading(this);
         }
+        forUserOrChat = null;
         tLRPC$User = null;
         ImageReceiver imageReceiver2 = new ImageReceiver();
         this.imageReceiver = imageReceiver2;
         imageReceiver2.setRoundRadius(AndroidUtilities.dp(16.0f));
         this.imageReceiver.setParentView(this);
-        this.imageReceiver.setImageCoords(0.0f, 0.0f, AndroidUtilities.dp(32.0f), AndroidUtilities.dp(32.0f));
+        this.imageReceiver.setImageCoords(0.0f, 0.0f, AndroidUtilities.dp(!z ? 28.0f : 32.0f), AndroidUtilities.dp(z ? 28.0f : 32.0f));
         if (!AndroidUtilities.isTablet()) {
         }
         staticLayout = new StaticLayout(TextUtils.ellipsize(Emoji.replaceEmoji(str.replace('\n', ' '), textPaint.getFontMetricsInt(), AndroidUtilities.dp(12.0f), false), textPaint, min, TextUtils.TruncateAt.END), textPaint, 1000, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
         this.nameLayout = staticLayout;
         if (staticLayout.getLineCount() > 0) {
         }
-        this.imageReceiver.setImage(imageLocation, "50_50", this.avatarDrawable, 0L, (String) null, tLRPC$User, 1);
+        this.imageReceiver.setImage(forUserOrChat, "50_50", this.avatarDrawable, 0L, (String) null, tLRPC$User, 1);
         updateColors();
         NotificationCenter.listenEmojiLoading(this);
     }
 
     public void updateColors() {
         int color = this.avatarDrawable.getColor();
-        int color2 = Theme.getColor(Theme.key_groupcreate_spanBackground);
-        int color3 = Theme.getColor(Theme.key_groupcreate_spanDelete);
+        int color2 = Theme.getColor(Theme.key_groupcreate_spanBackground, this.resourcesProvider);
+        int color3 = Theme.getColor(Theme.key_groupcreate_spanDelete, this.resourcesProvider);
         this.colors[0] = Color.red(color2);
         this.colors[1] = Color.red(color);
         this.colors[2] = Color.green(color2);
@@ -312,7 +334,7 @@ public class GroupCreateSpan extends View {
 
     @Override // android.view.View
     protected void onMeasure(int i, int i2) {
-        setMeasuredDimension(AndroidUtilities.dp(57.0f) + this.textWidth, AndroidUtilities.dp(32.0f));
+        setMeasuredDimension(AndroidUtilities.dp((this.small ? 20 : 32) + 25) + this.textWidth, AndroidUtilities.dp(this.small ? 28.0f : 32.0f));
     }
 
     @Override // android.view.View
@@ -340,30 +362,30 @@ public class GroupCreateSpan extends View {
             invalidate();
         }
         canvas.save();
-        this.rect.set(0.0f, 0.0f, getMeasuredWidth(), AndroidUtilities.dp(32.0f));
+        this.rect.set(0.0f, 0.0f, getMeasuredWidth(), AndroidUtilities.dp(this.small ? 28.0f : 32.0f));
         Paint paint = backPaint;
         int[] iArr = this.colors;
         int i = iArr[6];
         float f3 = iArr[7] - iArr[6];
         float f4 = this.progress;
         paint.setColor(Color.argb(i + ((int) (f3 * f4)), iArr[0] + ((int) ((iArr[1] - iArr[0]) * f4)), iArr[2] + ((int) ((iArr[3] - iArr[2]) * f4)), iArr[4] + ((int) ((iArr[5] - iArr[4]) * f4))));
-        canvas.drawRoundRect(this.rect, AndroidUtilities.dp(16.0f), AndroidUtilities.dp(16.0f), backPaint);
+        canvas.drawRoundRect(this.rect, AndroidUtilities.dp(this.small ? 14.0f : 16.0f), AndroidUtilities.dp(this.small ? 14.0f : 16.0f), backPaint);
         if (this.progress != 1.0f) {
             this.imageReceiver.draw(canvas);
         }
         if (this.progress != 0.0f) {
             backPaint.setColor(this.avatarDrawable.getColor());
             backPaint.setAlpha((int) (this.progress * 255.0f * (Color.alpha(color) / 255.0f)));
-            canvas.drawCircle(AndroidUtilities.dp(16.0f), AndroidUtilities.dp(16.0f), AndroidUtilities.dp(16.0f), backPaint);
+            canvas.drawCircle(AndroidUtilities.dp(this.small ? 14.0f : 16.0f), AndroidUtilities.dp(this.small ? 14.0f : 16.0f), AndroidUtilities.dp(this.small ? 14.0f : 16.0f), backPaint);
             canvas.save();
             canvas.rotate((1.0f - this.progress) * 45.0f, AndroidUtilities.dp(16.0f), AndroidUtilities.dp(16.0f));
-            this.deleteDrawable.setBounds(AndroidUtilities.dp(11.0f), AndroidUtilities.dp(11.0f), AndroidUtilities.dp(21.0f), AndroidUtilities.dp(21.0f));
+            this.deleteDrawable.setBounds(AndroidUtilities.dp(this.small ? 9.0f : 11.0f), AndroidUtilities.dp(this.small ? 9.0f : 11.0f), AndroidUtilities.dp(this.small ? 19.0f : 21.0f), AndroidUtilities.dp(this.small ? 19.0f : 21.0f));
             this.deleteDrawable.setAlpha((int) (this.progress * 255.0f));
             this.deleteDrawable.draw(canvas);
             canvas.restore();
         }
-        canvas.translate(this.textX + AndroidUtilities.dp(41.0f), AndroidUtilities.dp(8.0f));
-        textPaint.setColor(ColorUtils.blendARGB(Theme.getColor(Theme.key_groupcreate_spanText), Theme.getColor(Theme.key_avatar_text), this.progress));
+        canvas.translate(this.textX + AndroidUtilities.dp((this.small ? 26 : 32) + 9), AndroidUtilities.dp(this.small ? 6.0f : 8.0f));
+        textPaint.setColor(ColorUtils.blendARGB(Theme.getColor(Theme.key_groupcreate_spanText, this.resourcesProvider), Theme.getColor(Theme.key_avatar_text, this.resourcesProvider), this.progress));
         this.nameLayout.draw(canvas);
         canvas.restore();
     }

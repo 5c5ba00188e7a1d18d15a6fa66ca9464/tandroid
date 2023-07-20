@@ -1,6 +1,7 @@
 package com.google.android.exoplayer2;
 
 import android.view.Surface;
+import android.view.SurfaceView;
 import android.view.TextureView;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.Player;
@@ -8,11 +9,16 @@ import com.google.android.exoplayer2.analytics.AnalyticsListener;
 import com.google.android.exoplayer2.audio.AudioAttributes;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.util.ConditionVariable;
+import org.telegram.messenger.DispatchQueue;
 @Deprecated
 /* loaded from: classes.dex */
 public class SimpleExoPlayer extends BasePlayer implements ExoPlayer {
     private final ConditionVariable constructorFinished;
     private final ExoPlayerImpl player;
+
+    @Override // com.google.android.exoplayer2.ExoPlayer
+    public void setWorkerQueue(DispatchQueue dispatchQueue) {
+    }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public SimpleExoPlayer(ExoPlayer.Builder builder) {
@@ -31,6 +37,12 @@ public class SimpleExoPlayer extends BasePlayer implements ExoPlayer {
     public void setVideoSurface(Surface surface) {
         blockUntilConstructorFinished();
         this.player.setVideoSurface(surface);
+    }
+
+    @Override // com.google.android.exoplayer2.Player
+    public void setVideoSurfaceView(SurfaceView surfaceView) {
+        blockUntilConstructorFinished();
+        this.player.setVideoSurfaceView(surfaceView);
     }
 
     @Override // com.google.android.exoplayer2.Player
@@ -161,6 +173,12 @@ public class SimpleExoPlayer extends BasePlayer implements ExoPlayer {
     public void release(boolean z) {
         blockUntilConstructorFinished();
         this.player.release();
+    }
+
+    @Override // com.google.android.exoplayer2.ExoPlayer
+    public Renderer getRenderer(int i) {
+        blockUntilConstructorFinished();
+        return this.player.getRenderer(i);
     }
 
     @Override // com.google.android.exoplayer2.Player

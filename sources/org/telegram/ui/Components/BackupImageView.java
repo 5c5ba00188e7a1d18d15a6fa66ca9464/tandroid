@@ -32,18 +32,18 @@ public class BackupImageView extends View {
         super(context);
         this.width = -1;
         this.height = -1;
-        ImageReceiver imageReceiver = new ImageReceiver(this);
-        this.imageReceiver = imageReceiver;
-        imageReceiver.setAllowLoadingOnAttachedOnly(true);
+        ImageReceiver createImageReciever = createImageReciever();
+        this.imageReceiver = createImageReciever;
+        createImageReciever.setAllowLoadingOnAttachedOnly(true);
         this.imageReceiver.setDelegate(new ImageReceiver.ImageReceiverDelegate() { // from class: org.telegram.ui.Components.BackupImageView$$ExternalSyntheticLambda0
             @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
-            public final void didSetImage(ImageReceiver imageReceiver2, boolean z, boolean z2, boolean z3) {
-                BackupImageView.this.lambda$new$0(imageReceiver2, z, z2, z3);
+            public final void didSetImage(ImageReceiver imageReceiver, boolean z, boolean z2, boolean z3) {
+                BackupImageView.this.lambda$new$0(imageReceiver, z, z2, z3);
             }
 
             @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
-            public /* synthetic */ void onAnimationReady(ImageReceiver imageReceiver2) {
-                ImageReceiver.ImageReceiverDelegate.-CC.$default$onAnimationReady(this, imageReceiver2);
+            public /* synthetic */ void onAnimationReady(ImageReceiver imageReceiver) {
+                ImageReceiver.ImageReceiverDelegate.-CC.$default$onAnimationReady(this, imageReceiver);
             }
         });
     }
@@ -54,6 +54,10 @@ public class BackupImageView extends View {
             return;
         }
         checkCreateBlurredImage();
+    }
+
+    protected ImageReceiver createImageReciever() {
+        return new ImageReceiver(this);
     }
 
     public void setBlurAllowed(boolean z) {

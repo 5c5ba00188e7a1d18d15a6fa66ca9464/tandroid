@@ -185,7 +185,7 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
         }
 
         @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
-        public boolean needCopy() {
+        public boolean needCopy(TLRPC$Document tLRPC$Document) {
             return UserConfig.getInstance(UserConfig.selectedAccount).isPremium();
         }
 
@@ -683,7 +683,7 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
     public /* synthetic */ void lambda$searchAnimated$6(final String str, final int i) {
         final ArrayList<MediaDataController.KeywordResult> arrayList = new ArrayList<>(1);
         arrayList.add(new MediaDataController.KeywordResult(str, null));
-        MediaDataController.getInstance(this.currentAccount).fillWithAnimatedEmoji(arrayList, 15, false, new Runnable() { // from class: org.telegram.ui.Components.SuggestEmojiView$$ExternalSyntheticLambda3
+        MediaDataController.getInstance(this.currentAccount).fillWithAnimatedEmoji(arrayList, 15, false, false, new Runnable() { // from class: org.telegram.ui.Components.SuggestEmojiView$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 SuggestEmojiView.this.lambda$searchAnimated$5(i, str, arrayList);

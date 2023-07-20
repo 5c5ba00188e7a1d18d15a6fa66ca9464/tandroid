@@ -1187,20 +1187,20 @@ public final class FloatingToolbar {
         textView.setFocusable(false);
         textView.setImportantForAccessibility(2);
         textView.setFocusableInTouchMode(false);
-        int color = Theme.getColor(Theme.key_listSelector);
+        int themedColor = getThemedColor(Theme.key_listSelector);
         int i2 = this.currentStyle;
         if (i2 == 0) {
             textView.setTextColor(getThemedColor(Theme.key_dialogTextBlack));
         } else if (i2 == 2) {
             textView.setTextColor(-328966);
-            color = 1090519039;
+            themedColor = 1090519039;
         } else if (i2 == 1) {
             textView.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteBlackText));
         }
         if (z || z2) {
-            linearLayout.setBackgroundDrawable(Theme.createRadSelectorDrawable(color, z ? 6 : 0, z2 ? 6 : 0, z2 ? 6 : 0, z ? 6 : 0));
+            linearLayout.setBackgroundDrawable(Theme.createRadSelectorDrawable(themedColor, z ? 6 : 0, z2 ? 6 : 0, z2 ? 6 : 0, z ? 6 : 0));
         } else {
-            linearLayout.setBackgroundDrawable(Theme.getSelectorDrawable(color, false));
+            linearLayout.setBackgroundDrawable(Theme.getSelectorDrawable(themedColor, false));
         }
         textView.setPaddingRelative(AndroidUtilities.dp(11.0f), 0, 0, 0);
         linearLayout.addView(textView, new LinearLayout.LayoutParams(-2, AndroidUtilities.dp(48.0f)));

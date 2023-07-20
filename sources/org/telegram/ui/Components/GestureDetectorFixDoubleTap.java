@@ -22,7 +22,7 @@ public class GestureDetectorFixDoubleTap {
 
     /* loaded from: classes4.dex */
     public static class OnGestureListener extends GestureDetector.SimpleOnGestureListener {
-        public boolean hasDoubleTap() {
+        public boolean hasDoubleTap(MotionEvent motionEvent) {
             throw null;
         }
     }
@@ -163,7 +163,7 @@ public class GestureDetectorFixDoubleTap {
             float f4 = f / f3;
             float f5 = f2 / f3;
             if (i == 0) {
-                if (this.mDoubleTapListener != null && this.mListener.hasDoubleTap()) {
+                if (this.mDoubleTapListener != null && this.mListener.hasDoubleTap(motionEvent)) {
                     boolean hasMessages = this.mHandler.hasMessages(3);
                     if (hasMessages) {
                         this.mHandler.removeMessages(3);

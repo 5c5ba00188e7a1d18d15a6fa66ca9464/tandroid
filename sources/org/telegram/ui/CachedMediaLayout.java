@@ -43,6 +43,7 @@ import org.telegram.tgnet.TLRPC$TL_documentAttributeFilename;
 import org.telegram.tgnet.TLRPC$TL_message;
 import org.telegram.tgnet.TLRPC$TL_messageMediaDocument;
 import org.telegram.tgnet.TLRPC$TL_peerUser;
+import org.telegram.tgnet.TLRPC$TL_storyItem;
 import org.telegram.ui.ActionBar.ActionBarMenu;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
 import org.telegram.ui.ActionBar.ActionBarPopupWindow;
@@ -65,6 +66,7 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.ViewPagerFixed;
 import org.telegram.ui.PhotoViewer;
 import org.telegram.ui.Storage.CacheModel;
+import org.telegram.ui.Stories.StoriesListPlaceProvider;
 /* loaded from: classes3.dex */
 public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifierLayout.ChildLayout {
     private final LinearLayout actionModeLayout;
@@ -118,7 +120,7 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
         this.allPages = pageArr;
         this.parentFragment = baseFragment;
         pageArr[0] = new Page(this, LocaleController.getString("FilterChats", R.string.FilterChats), 0, new DialogsAdapter(this, null), null);
-        this.allPages[1] = new Page(this, LocaleController.getString("MediaTab", R.string.MediaTab), 1, new MediaAdapter(this, null), null);
+        this.allPages[1] = new Page(this, LocaleController.getString("MediaTab", R.string.MediaTab), 1, new MediaAdapter(this, false, null), null);
         this.allPages[2] = new Page(this, LocaleController.getString("SharedFilesTab2", R.string.SharedFilesTab2), 2, new DocumentsAdapter(this, null), null);
         this.allPages[3] = new Page(this, LocaleController.getString("Music", R.string.Music), 3, new MusicAdapter(this, null), null);
         int i = 0;
@@ -244,7 +246,18 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
                     BaseAdapter baseAdapter = (BaseAdapter) recyclerListView.getAdapter();
                     ItemInner itemInner = baseAdapter.itemInners.get(i2);
                     if (view instanceof SharedPhotoVideoCell2) {
-                        CachedMediaLayout.this.openPhoto(itemInner, (MediaAdapter) baseAdapter, recyclerListView, (SharedPhotoVideoCell2) view);
+                        MediaAdapter mediaAdapter = (MediaAdapter) baseAdapter;
+                        if (!mediaAdapter.isStories) {
+                            CachedMediaLayout.this.openPhoto(itemInner, mediaAdapter, recyclerListView, (SharedPhotoVideoCell2) view);
+                            return;
+                        }
+                        TLRPC$TL_storyItem tLRPC$TL_storyItem = new TLRPC$TL_storyItem();
+                        CacheModel.FileInfo fileInfo = itemInner.file;
+                        tLRPC$TL_storyItem.dialogId = fileInfo.dialogId;
+                        tLRPC$TL_storyItem.id = Objects.hash(fileInfo.file.getAbsolutePath());
+                        tLRPC$TL_storyItem.attachPath = itemInner.file.file.getAbsolutePath();
+                        tLRPC$TL_storyItem.date = -1;
+                        1.this.val$parentFragment.getOrCreateStoryViewer().open(1.this.val$context, tLRPC$TL_storyItem, StoriesListPlaceProvider.of(recyclerListView));
                         return;
                     }
                     Delegate delegate = CachedMediaLayout.this.delegate;
@@ -394,7 +407,7 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
         public void bindView(View view, int i, int i2) {
             RecyclerListView recyclerListView = (RecyclerListView) view;
             recyclerListView.setAdapter(CachedMediaLayout.this.pages.get(i).adapter);
-            if (CachedMediaLayout.this.pages.get(i).type == 1) {
+            if (CachedMediaLayout.this.pages.get(i).type == 1 || CachedMediaLayout.this.pages.get(i).type == 4) {
                 recyclerListView.setLayoutManager(new GridLayoutManager(view.getContext(), 3));
             } else {
                 recyclerListView.setLayoutManager(new LinearLayoutManager(view.getContext()));
@@ -478,8 +491,8 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
         super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i2), 1073741824));
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:129:0x010b  */
-    /* JADX WARN: Removed duplicated region for block: B:132:0x0118  */
+    /* JADX WARN: Removed duplicated region for block: B:140:0x0129  */
+    /* JADX WARN: Removed duplicated region for block: B:143:0x0136  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -504,7 +517,9 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
                         this.pages.add(this.allPages[i]);
                     } else if (this.allPages[i].type == 3 && !this.cacheModel.music.isEmpty()) {
                         this.pages.add(this.allPages[i]);
-                    } else if (this.allPages[i].type == 4 && !this.cacheModel.voice.isEmpty()) {
+                    } else if (this.allPages[i].type == 5 && !this.cacheModel.voice.isEmpty()) {
+                        this.pages.add(this.allPages[i]);
+                    } else if (this.allPages[i].type == 4 && !this.cacheModel.stories.isEmpty()) {
                         this.pages.add(this.allPages[i]);
                     }
                 }
@@ -705,8 +720,10 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
                     arrayList = cacheModel.documents;
                 } else if (i == 3) {
                     arrayList = cacheModel.music;
-                } else if (i == 4) {
+                } else if (i == 5) {
                     arrayList = cacheModel.voice;
+                } else if (i == 4) {
+                    arrayList = cacheModel.stories;
                 }
                 if (arrayList != null) {
                     for (int i2 = 0; i2 < arrayList.size(); i2++) {
@@ -758,6 +775,7 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
 
     /* loaded from: classes3.dex */
     public class MediaAdapter extends BaseFilesAdapter {
+        boolean isStories;
         ArrayList<Object> photoEntries;
         private SharedPhotoVideoCell2.SharedResources sharedResources;
         CombinedDrawable thumb;
@@ -767,15 +785,16 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
             return false;
         }
 
-        /* synthetic */ MediaAdapter(CachedMediaLayout cachedMediaLayout, 1 r2) {
-            this();
+        /* synthetic */ MediaAdapter(CachedMediaLayout cachedMediaLayout, boolean z, 1 r3) {
+            this(z);
         }
 
         /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        private MediaAdapter() {
-            super(1);
+        private MediaAdapter(boolean z) {
+            super(z ? 4 : 1);
             CachedMediaLayout.this = r2;
             this.photoEntries = new ArrayList<>();
+            this.isStories = z;
         }
 
         @Override // org.telegram.ui.CachedMediaLayout.BaseFilesAdapter, org.telegram.ui.CachedMediaLayout.BaseAdapter
@@ -824,15 +843,28 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
             boolean z = fileInfo == sharedPhotoVideoCell2.getTag();
             sharedPhotoVideoCell2.setTag(fileInfo);
             int max = (int) Math.max(100.0f, AndroidUtilities.getRealScreenSize().x / AndroidUtilities.density);
-            if (fileInfo.type == 1) {
-                ImageReceiver imageReceiver = sharedPhotoVideoCell2.imageReceiver;
-                ImageLocation forPath = ImageLocation.getForPath("vthumb://0:" + fileInfo.file.getAbsolutePath());
-                imageReceiver.setImage(forPath, max + "_" + max, this.thumb, null, null, 0);
+            if (this.isStories) {
+                if (fileInfo.file.getAbsolutePath().endsWith(".mp4")) {
+                    ImageReceiver imageReceiver = sharedPhotoVideoCell2.imageReceiver;
+                    ImageLocation forPath = ImageLocation.getForPath(fileInfo.file.getAbsolutePath());
+                    imageReceiver.setImage(forPath, max + "_" + max + "_pframe", this.thumb, null, null, 0);
+                } else {
+                    ImageReceiver imageReceiver2 = sharedPhotoVideoCell2.imageReceiver;
+                    ImageLocation forPath2 = ImageLocation.getForPath(fileInfo.file.getAbsolutePath());
+                    imageReceiver2.setImage(forPath2, max + "_" + max, this.thumb, null, null, 0);
+                }
+                sharedPhotoVideoCell2.storyId = Objects.hash(fileInfo.file.getAbsolutePath());
+                sharedPhotoVideoCell2.isStory = true;
+                sharedPhotoVideoCell2.setVideoText(AndroidUtilities.formatFileSize(fileInfo.size), true);
+            } else if (fileInfo.type == 1) {
+                ImageReceiver imageReceiver3 = sharedPhotoVideoCell2.imageReceiver;
+                ImageLocation forPath3 = ImageLocation.getForPath("vthumb://0:" + fileInfo.file.getAbsolutePath());
+                imageReceiver3.setImage(forPath3, max + "_" + max, this.thumb, null, null, 0);
                 sharedPhotoVideoCell2.setVideoText(AndroidUtilities.formatFileSize(fileInfo.size), true);
             } else {
-                ImageReceiver imageReceiver2 = sharedPhotoVideoCell2.imageReceiver;
-                ImageLocation forPath2 = ImageLocation.getForPath("thumb://0:" + fileInfo.file.getAbsolutePath());
-                imageReceiver2.setImage(forPath2, max + "_" + max, this.thumb, null, null, 0);
+                ImageReceiver imageReceiver4 = sharedPhotoVideoCell2.imageReceiver;
+                ImageLocation forPath4 = ImageLocation.getForPath("thumb://0:" + fileInfo.file.getAbsolutePath());
+                imageReceiver4.setImage(forPath4, max + "_" + max, this.thumb, null, null, 0);
                 sharedPhotoVideoCell2.setVideoText(AndroidUtilities.formatFileSize(fileInfo.size), false);
             }
             sharedPhotoVideoCell2.setChecked(CachedMediaLayout.this.cacheModel.isSelected(fileInfo), z);

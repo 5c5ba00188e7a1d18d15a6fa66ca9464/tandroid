@@ -9,14 +9,13 @@ import com.google.android.exoplayer2.util.Util;
 import com.google.common.collect.ImmutableList;
 import java.util.Collection;
 import java.util.List;
-import org.telegram.messenger.CharacterCompat;
 /* loaded from: classes.dex */
 public final class BundleListRetriever extends Binder {
     private static final int SUGGESTED_MAX_IPC_SIZE;
     private final ImmutableList<Bundle> list;
 
     static {
-        SUGGESTED_MAX_IPC_SIZE = Util.SDK_INT >= 30 ? IBinder.getSuggestedMaxIpcSizeBytes() : CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT;
+        SUGGESTED_MAX_IPC_SIZE = Util.SDK_INT >= 30 ? IBinder.getSuggestedMaxIpcSizeBytes() : 65536;
     }
 
     public BundleListRetriever(List<Bundle> list) {

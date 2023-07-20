@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
+import android.text.SpannableString;
 import android.view.MotionEvent;
 import android.view.View;
 import androidx.dynamicanimation.animation.DynamicAnimation;
@@ -16,25 +17,38 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.FileLoader;
+import org.telegram.messenger.FileLog;
+import org.telegram.messenger.MediaDataController;
+import org.telegram.messenger.MessageObject;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.SharedConfig;
+import org.telegram.messenger.UserConfig;
+import org.telegram.messenger.UserObject;
 import org.telegram.tgnet.TLRPC$BotInlineResult;
+import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$DocumentAttribute;
 import org.telegram.tgnet.TLRPC$Photo;
 import org.telegram.tgnet.TLRPC$PhotoSize;
+import org.telegram.tgnet.TLRPC$TL_document;
 import org.telegram.tgnet.TLRPC$TL_documentAttributeImageSize;
 import org.telegram.tgnet.TLRPC$TL_documentAttributeVideo;
 import org.telegram.tgnet.TLRPC$TL_inlineBotSwitchPM;
+import org.telegram.tgnet.TLRPC$User;
+import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Adapters.MentionsAdapter;
 import org.telegram.ui.Adapters.PaddedListAdapter;
-import org.telegram.ui.ChatActivity;
+import org.telegram.ui.Cells.StickerCell;
+import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.ContentPreviewViewer;
 /* loaded from: classes4.dex */
-public class MentionsContainerView extends BlurredFrameLayout {
+public class MentionsContainerView extends BlurredFrameLayout implements NotificationCenter.NotificationCenterDelegate {
     private MentionsAdapter adapter;
-    ChatActivity chatActivity;
+    private boolean allowBlur;
+    BaseFragment baseFragment;
     private Integer color;
     private float containerBottom;
     private float containerPadding;
@@ -47,6 +61,7 @@ public class MentionsContainerView extends BlurredFrameLayout {
     private boolean listViewHiding;
     private float listViewPadding;
     private SpringAnimation listViewTranslationAnimator;
+    private RecyclerListView.OnItemClickListener mentionsOnItemClickListener;
     private PaddedListAdapter paddedAdapter;
     private Paint paint;
     private Path path;
@@ -59,6 +74,27 @@ public class MentionsContainerView extends BlurredFrameLayout {
     private final SizeNotifierFrameLayout sizeNotifierFrameLayout;
     private boolean switchLayoutManagerOnEnd;
     private Runnable updateVisibilityRunnable;
+
+    /* loaded from: classes4.dex */
+    public interface Delegate {
+
+        /* loaded from: classes4.dex */
+        public final /* synthetic */ class -CC {
+            public static void $default$addEmojiToRecent(Delegate delegate, String str) {
+            }
+
+            public static void $default$onStickerSelected(Delegate delegate, TLRPC$TL_document tLRPC$TL_document, String str, Object obj) {
+            }
+        }
+
+        void addEmojiToRecent(String str);
+
+        Paint.FontMetricsInt getFontMetrics();
+
+        void onStickerSelected(TLRPC$TL_document tLRPC$TL_document, String str, Object obj);
+
+        void replaceText(int i, int i2, CharSequence charSequence, boolean z);
+    }
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$updateListViewTranslation$3(DynamicAnimation dynamicAnimation, boolean z, float f, float f2) {
@@ -86,14 +122,14 @@ public class MentionsContainerView extends BlurredFrameLayout {
     protected void onScrolled(boolean z, boolean z2) {
     }
 
-    public MentionsContainerView(Context context, long j, int i, final ChatActivity chatActivity, Theme.ResourcesProvider resourcesProvider) {
-        super(context, chatActivity.contentView);
+    public MentionsContainerView(Context context, long j, int i, final BaseFragment baseFragment, SizeNotifierFrameLayout sizeNotifierFrameLayout, Theme.ResourcesProvider resourcesProvider) {
+        super(context, sizeNotifierFrameLayout);
         this.shouldLiftMentions = false;
         this.rect = new android.graphics.Rect();
         this.ignoreLayout = false;
         this.scrollToFirst = false;
         this.shown = false;
-        this.updateVisibilityRunnable = new Runnable() { // from class: org.telegram.ui.Components.MentionsContainerView$$ExternalSyntheticLambda3
+        this.updateVisibilityRunnable = new Runnable() { // from class: org.telegram.ui.Components.MentionsContainerView$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
                 MentionsContainerView.this.lambda$new$0();
@@ -102,8 +138,8 @@ public class MentionsContainerView extends BlurredFrameLayout {
         this.listViewHiding = false;
         this.hideT = 0.0f;
         this.switchLayoutManagerOnEnd = false;
-        this.chatActivity = chatActivity;
-        this.sizeNotifierFrameLayout = chatActivity.contentView;
+        this.baseFragment = baseFragment;
+        this.sizeNotifierFrameLayout = sizeNotifierFrameLayout;
         this.resourcesProvider = resourcesProvider;
         this.drawBlur = false;
         this.isTopView = false;
@@ -246,7 +282,7 @@ public class MentionsContainerView extends BlurredFrameLayout {
                     return;
                 }
                 AndroidUtilities.cancelRunOnUIThread(MentionsContainerView.this.updateVisibilityRunnable);
-                AndroidUtilities.runOnUIThread(MentionsContainerView.this.updateVisibilityRunnable, chatActivity.fragmentOpened ? 0L : 100L);
+                AndroidUtilities.runOnUIThread(MentionsContainerView.this.updateVisibilityRunnable, baseFragment.getFragmentBeginToShow() ? 0L : 100L);
             }
 
             @Override // org.telegram.ui.Adapters.MentionsAdapter.MentionsAdapterDelegate
@@ -348,7 +384,7 @@ public class MentionsContainerView extends BlurredFrameLayout {
         PaddedListAdapter paddedListAdapter2;
         boolean isReversed = isReversed();
         this.containerPadding = AndroidUtilities.dp(((this.adapter.isStickers() || this.adapter.isBotContext()) && this.adapter.isMediaLayout() && this.adapter.getBotContextSwitch() == null && this.adapter.getBotWebViewSwitch() == null ? 2 : 0) + 2);
-        float dp = AndroidUtilities.dp(4.0f);
+        float dp = AndroidUtilities.dp(6.0f);
         if (isReversed) {
             float min2 = Math.min(Math.max(0.0f, (this.paddedAdapter.paddingViewAttached ? paddedListAdapter2.paddingView.getTop() : getHeight()) + this.listView.getTranslationY()) + this.containerPadding, (1.0f - this.hideT) * getHeight());
             android.graphics.Rect rect = this.rect;
@@ -388,7 +424,7 @@ public class MentionsContainerView extends BlurredFrameLayout {
         Paint paint2 = this.paint;
         Integer num = this.color;
         paint2.setColor(num != null ? num.intValue() : getThemedColor(Theme.key_chat_messagePanelBackground));
-        if (SharedConfig.chatBlurEnabled() && this.sizeNotifierFrameLayout != null) {
+        if (this.allowBlur && SharedConfig.chatBlurEnabled() && this.sizeNotifierFrameLayout != null) {
             if (f > 0.0f) {
                 canvas.save();
                 Path path = this.path;
@@ -407,14 +443,18 @@ public class MentionsContainerView extends BlurredFrameLayout {
                 canvas.restore();
             }
         } else {
-            RectF rectF2 = AndroidUtilities.rectTmp;
-            rectF2.set(this.rect);
-            canvas.drawRoundRect(rectF2, f, f, this.paint);
+            drawRoundRect(canvas, this.rect, f);
         }
         canvas.save();
         canvas.clipRect(this.rect);
         super.dispatchDraw(canvas);
         canvas.restore();
+    }
+
+    public void drawRoundRect(Canvas canvas, android.graphics.Rect rect, float f) {
+        RectF rectF = AndroidUtilities.rectTmp;
+        rectF.set(rect);
+        canvas.drawRoundRect(rectF, f, f, this.paint);
     }
 
     public void setOverrideColor(int i) {
@@ -465,7 +505,7 @@ public class MentionsContainerView extends BlurredFrameLayout {
         if (springAnimation != null) {
             springAnimation.cancel();
         }
-        AndroidUtilities.runOnUIThread(this.updateVisibilityRunnable, this.chatActivity.fragmentOpened ? 0L : 100L);
+        AndroidUtilities.runOnUIThread(this.updateVisibilityRunnable, this.baseFragment.getFragmentBeginToShow() ? 0L : 100L);
         if (z) {
             onOpen();
         } else {
@@ -529,21 +569,21 @@ public class MentionsContainerView extends BlurredFrameLayout {
                 } else {
                     SpringAnimation spring = new SpringAnimation(new FloatValueHolder(translationY)).setSpring(new SpringForce(f3).setDampingRatio(1.0f).setStiffness(550.0f));
                     this.listViewTranslationAnimator = spring;
-                    spring.addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.Components.MentionsContainerView$$ExternalSyntheticLambda2
+                    spring.addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.Components.MentionsContainerView$$ExternalSyntheticLambda3
                         @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationUpdateListener
                         public final void onAnimationUpdate(DynamicAnimation dynamicAnimation, float f6, float f7) {
                             MentionsContainerView.this.lambda$updateListViewTranslation$1(f4, f5, translationY, f3, dynamicAnimation, f6, f7);
                         }
                     });
                     if (z) {
-                        this.listViewTranslationAnimator.addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Components.MentionsContainerView$$ExternalSyntheticLambda0
+                        this.listViewTranslationAnimator.addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Components.MentionsContainerView$$ExternalSyntheticLambda1
                             @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationEndListener
                             public final void onAnimationEnd(DynamicAnimation dynamicAnimation, boolean z3, float f6, float f7) {
                                 MentionsContainerView.this.lambda$updateListViewTranslation$2(z, dynamicAnimation, z3, f6, f7);
                             }
                         });
                     }
-                    this.listViewTranslationAnimator.addEndListener(MentionsContainerView$$ExternalSyntheticLambda1.INSTANCE);
+                    this.listViewTranslationAnimator.addEndListener(MentionsContainerView$$ExternalSyntheticLambda2.INSTANCE);
                     this.listViewTranslationAnimator.start();
                 }
             } else {
@@ -579,6 +619,98 @@ public class MentionsContainerView extends BlurredFrameLayout {
             this.shown = true;
             updateVisibility(true);
         }
+    }
+
+    public void setDialogId(long j) {
+        this.adapter.setDialogId(j);
+    }
+
+    public void withDelegate(final Delegate delegate) {
+        MentionsListView listView = getListView();
+        RecyclerListView.OnItemClickListener onItemClickListener = new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.MentionsContainerView$$ExternalSyntheticLambda5
+            @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
+            public final void onItemClick(View view, int i) {
+                MentionsContainerView.this.lambda$withDelegate$4(delegate, view, i);
+            }
+        };
+        this.mentionsOnItemClickListener = onItemClickListener;
+        listView.setOnItemClickListener(onItemClickListener);
+        getListView().setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.Components.MentionsContainerView$$ExternalSyntheticLambda0
+            @Override // android.view.View.OnTouchListener
+            public final boolean onTouch(View view, MotionEvent motionEvent) {
+                boolean lambda$withDelegate$5;
+                lambda$withDelegate$5 = MentionsContainerView.this.lambda$withDelegate$5(view, motionEvent);
+                return lambda$withDelegate$5;
+            }
+        });
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$withDelegate$4(Delegate delegate, View view, int i) {
+        AnimatedEmojiSpan animatedEmojiSpan;
+        if (i == 0 || getAdapter().isBannedInline()) {
+            return;
+        }
+        int i2 = i - 1;
+        Object item = getAdapter().getItem(i2);
+        int resultStartPosition = getAdapter().getResultStartPosition();
+        int resultLength = getAdapter().getResultLength();
+        if (item instanceof TLRPC$TL_document) {
+            if (view instanceof StickerCell) {
+                ((StickerCell) view).getSendAnimationData();
+            }
+            TLRPC$TL_document tLRPC$TL_document = (TLRPC$TL_document) item;
+            delegate.onStickerSelected(tLRPC$TL_document, MessageObject.findAnimatedEmojiEmoticon(tLRPC$TL_document), getAdapter().getItemParent(i2));
+        } else if (item instanceof TLRPC$Chat) {
+            String publicUsername = ChatObject.getPublicUsername((TLRPC$Chat) item);
+            if (publicUsername != null) {
+                delegate.replaceText(resultStartPosition, resultLength, "@" + publicUsername + " ", false);
+            }
+        } else if (item instanceof TLRPC$User) {
+            TLRPC$User tLRPC$User = (TLRPC$User) item;
+            if (UserObject.getPublicUsername(tLRPC$User) != null) {
+                delegate.replaceText(resultStartPosition, resultLength, "@" + UserObject.getPublicUsername(tLRPC$User) + " ", false);
+                return;
+            }
+            SpannableString spannableString = new SpannableString(UserObject.getFirstName(tLRPC$User, false) + " ");
+            spannableString.setSpan(new URLSpanUserMention("" + tLRPC$User.id, 3), 0, spannableString.length(), 33);
+            delegate.replaceText(resultStartPosition, resultLength, spannableString, false);
+        } else if (item instanceof String) {
+            delegate.replaceText(resultStartPosition, resultLength, item + " ", false);
+        } else if (item instanceof MediaDataController.KeywordResult) {
+            String str = ((MediaDataController.KeywordResult) item).emoji;
+            delegate.addEmojiToRecent(str);
+            if (str != null && str.startsWith("animated_")) {
+                Paint.FontMetricsInt fontMetricsInt = null;
+                try {
+                    try {
+                        fontMetricsInt = delegate.getFontMetrics();
+                    } catch (Exception e) {
+                        FileLog.e((Throwable) e, false);
+                    }
+                    long parseLong = Long.parseLong(str.substring(9));
+                    TLRPC$Document findDocument = AnimatedEmojiDrawable.findDocument(UserConfig.selectedAccount, parseLong);
+                    SpannableString spannableString2 = new SpannableString(MessageObject.findAnimatedEmojiEmoticon(findDocument));
+                    if (findDocument != null) {
+                        animatedEmojiSpan = new AnimatedEmojiSpan(findDocument, fontMetricsInt);
+                    } else {
+                        animatedEmojiSpan = new AnimatedEmojiSpan(parseLong, fontMetricsInt);
+                    }
+                    spannableString2.setSpan(animatedEmojiSpan, 0, spannableString2.length(), 33);
+                    delegate.replaceText(resultStartPosition, resultLength, spannableString2, false);
+                } catch (Exception unused) {
+                    delegate.replaceText(resultStartPosition, resultLength, str, true);
+                }
+            } else {
+                delegate.replaceText(resultStartPosition, resultLength, str, true);
+            }
+            updateVisibility(false);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ boolean lambda$withDelegate$5(View view, MotionEvent motionEvent) {
+        return ContentPreviewViewer.getInstance().onTouch(motionEvent, getListView(), 0, this.mentionsOnItemClickListener, null, this.resourcesProvider);
     }
 
     /* loaded from: classes4.dex */
@@ -731,5 +863,26 @@ public class MentionsContainerView extends BlurredFrameLayout {
 
     private int getThemedColor(int i) {
         return Theme.getColor(i, this.resourcesProvider);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // org.telegram.ui.Components.BlurredFrameLayout, android.view.ViewGroup, android.view.View
+    public void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.emojiLoaded);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // org.telegram.ui.Components.BlurredFrameLayout, android.view.ViewGroup, android.view.View
+    public void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.emojiLoaded);
+    }
+
+    @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
+    public void didReceivedNotification(int i, int i2, Object... objArr) {
+        if (i == NotificationCenter.emojiLoaded) {
+            getListView().invalidateViews();
+        }
     }
 }

@@ -10,6 +10,6 @@ public final /* synthetic */ class NotificationsController$$ExternalSyntheticLam
 
     @Override // android.graphics.ImageDecoder.OnHeaderDecodedListener
     public final void onHeaderDecoded(ImageDecoder imageDecoder, ImageDecoder.ImageInfo imageInfo, ImageDecoder.Source source) {
-        NotificationsController.lambda$loadRoundAvatar$36(imageDecoder, imageInfo, source);
+        NotificationsController.lambda$loadRoundAvatar$42(imageDecoder, imageInfo, source);
     }
 }

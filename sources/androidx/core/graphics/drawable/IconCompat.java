@@ -495,6 +495,13 @@ public class IconCompat extends CustomVersionedParcelable {
         return Api23Impl.createFromIconInner(icon);
     }
 
+    public static IconCompat createFromIconOrNullIfZeroResId(Icon icon) {
+        if (Api23Impl.getType(icon) == 2 && Api23Impl.getResId(icon) == 0) {
+            return null;
+        }
+        return Api23Impl.createFromIconInner(icon);
+    }
+
     static Bitmap createLegacyIconFromAdaptiveIcon(Bitmap bitmap, boolean z) {
         int min = (int) (Math.min(bitmap.getWidth(), bitmap.getHeight()) * 0.6666667f);
         Bitmap createBitmap = Bitmap.createBitmap(min, min, Bitmap.Config.ARGB_8888);

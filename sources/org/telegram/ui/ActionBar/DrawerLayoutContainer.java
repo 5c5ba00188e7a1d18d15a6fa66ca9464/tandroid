@@ -53,6 +53,8 @@ public class DrawerLayoutContainer extends FrameLayout {
     private Object lastInsets;
     private boolean maybeStartTracking;
     private int minDrawerMargin;
+    private View navigationBar;
+    private Paint navigationBarPaint;
     private INavigationLayout parentActionBarLayout;
     private BitmapDrawable previewBlurDrawable;
     private PreviewForegroundDrawable previewForegroundDrawable;
@@ -74,6 +76,7 @@ public class DrawerLayoutContainer extends FrameLayout {
 
     public DrawerLayoutContainer(Context context) {
         super(context);
+        this.navigationBarPaint = new Paint();
         this.rect = new Rect();
         this.scrimPaint = new Paint();
         this.backgroundPaint = new Paint();
@@ -426,10 +429,10 @@ public class DrawerLayoutContainer extends FrameLayout {
         return super.dispatchTouchEvent(motionEvent);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:97:0x01a3, code lost:
-        if (r9 != r8.drawerLayout.getMeasuredWidth()) goto L115;
+    /* JADX WARN: Code restructure failed: missing block: B:101:0x01bb, code lost:
+        if (r9 != r8.drawerLayout.getMeasuredWidth()) goto L119;
      */
-    /* JADX WARN: Removed duplicated region for block: B:127:0x0210  */
+    /* JADX WARN: Removed duplicated region for block: B:131:0x0228  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -446,7 +449,7 @@ public class DrawerLayoutContainer extends FrameLayout {
             }
             return true;
         }
-        if ((this.allowOpenDrawerBySwipe || this.drawerOpened) && this.allowOpenDrawer && this.parentActionBarLayout.getFragmentStack().size() == 1) {
+        if ((this.allowOpenDrawerBySwipe || this.drawerOpened) && this.allowOpenDrawer && this.parentActionBarLayout.getFragmentStack().size() == 1 && (this.parentActionBarLayout.getLastFragment().storyViewer == null || !this.parentActionBarLayout.getLastFragment().storyViewer.attachedToParent())) {
             if (motionEvent != null && ((motionEvent.getAction() == 0 || motionEvent.getAction() == 2) && !this.startedTracking && !this.maybeStartTracking)) {
                 if (findScrollingChild(this, motionEvent.getX(), motionEvent.getY()) != null) {
                     return false;
@@ -647,12 +650,27 @@ public class DrawerLayoutContainer extends FrameLayout {
                     if (i6 <= 0) {
                         i6 = View.MeasureSpec.makeMeasureSpec((size2 - layoutParams.topMargin) - layoutParams.bottomMargin, 1073741824);
                     }
+                    if ((childAt instanceof ActionBarLayout) && ((ActionBarLayout) childAt).storyViewerAttached()) {
+                        childAt.forceLayout();
+                    }
                     childAt.measure(makeMeasureSpec, i6);
                 } else {
                     childAt.setPadding(0, 0, 0, 0);
                     childAt.measure(FrameLayout.getChildMeasureSpec(i, this.minDrawerMargin + layoutParams.leftMargin + layoutParams.rightMargin, layoutParams.width), FrameLayout.getChildMeasureSpec(i2, layoutParams.topMargin + layoutParams.bottomMargin, layoutParams.height));
                 }
             }
+        }
+        View view = this.navigationBar;
+        if (view != null) {
+            if (view.getParent() == null) {
+                ((FrameLayout) AndroidUtilities.findActivity(getContext()).getWindow().getDecorView()).addView(this.navigationBar);
+            }
+            if (this.navigationBar.getLayoutParams().height == AndroidUtilities.navigationBarHeight && ((FrameLayout.LayoutParams) this.navigationBar.getLayoutParams()).topMargin == View.MeasureSpec.getSize(i2)) {
+                return;
+            }
+            this.navigationBar.getLayoutParams().height = AndroidUtilities.navigationBarHeight;
+            ((FrameLayout.LayoutParams) this.navigationBar.getLayoutParams()).topMargin = View.MeasureSpec.getSize(i2);
+            this.navigationBar.requestLayout();
         }
     }
 
@@ -757,6 +775,29 @@ public class DrawerLayoutContainer extends FrameLayout {
             return super.onRequestSendAccessibilityEvent(view, accessibilityEvent);
         }
         return false;
+    }
+
+    public void setNavigationBarColor(int i) {
+        this.navigationBarPaint.setColor(i);
+        View view = this.navigationBar;
+        if (view != null) {
+            view.invalidate();
+        }
+    }
+
+    public int getNavigationBarColor() {
+        return this.navigationBarPaint.getColor();
+    }
+
+    public View createNavigationBar() {
+        this.navigationBar = new View(getContext()) { // from class: org.telegram.ui.ActionBar.DrawerLayoutContainer.3
+            @Override // android.view.View
+            protected void onDraw(Canvas canvas) {
+                canvas.drawRect(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), DrawerLayoutContainer.this.navigationBarPaint);
+            }
+        };
+        this.navigationBarPaint.setColor(-16777216);
+        return this.navigationBar;
     }
 
     /* JADX INFO: Access modifiers changed from: private */

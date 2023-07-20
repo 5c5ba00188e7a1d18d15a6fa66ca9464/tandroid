@@ -276,8 +276,8 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
             }
 
             @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
-            public /* synthetic */ boolean needCopy() {
-                return ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$needCopy(this);
+            public /* synthetic */ boolean needCopy(TLRPC$Document tLRPC$Document) {
+                return ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$needCopy(this, tLRPC$Document);
             }
 
             @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
@@ -1385,7 +1385,7 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
                 imageViewEmoji.getImageReceiver().setLayerNum(((BottomSheet) StickerMasksAlert.this).playingImagesLayerNum);
                 stickerEmojiCell = imageViewEmoji;
             } else if (i == 0) {
-                StickerEmojiCell stickerEmojiCell2 = new StickerEmojiCell(this.context, false) { // from class: org.telegram.ui.Components.StickerMasksAlert.StickersGridAdapter.1
+                StickerEmojiCell stickerEmojiCell2 = new StickerEmojiCell(this.context, false, ((BottomSheet) StickerMasksAlert.this).resourcesProvider) { // from class: org.telegram.ui.Components.StickerMasksAlert.StickersGridAdapter.1
                     @Override // android.widget.FrameLayout, android.view.View
                     public void onMeasure(int i2, int i3) {
                         if (StickerMasksAlert.this.currentType == 5) {
@@ -1779,7 +1779,7 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
         private ArrayList<ArrayList<TLRPC$Document>> emojiArrays = new ArrayList<>();
         private Runnable searchRunnable = new 1();
 
-        static /* synthetic */ int access$5804(StickersSearchGridAdapter stickersSearchGridAdapter) {
+        static /* synthetic */ int access$5904(StickersSearchGridAdapter stickersSearchGridAdapter) {
             int i = stickersSearchGridAdapter.emojiSearchId + 1;
             stickersSearchGridAdapter.emojiSearchId = i;
             return i;
@@ -1822,7 +1822,7 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
                 }
                 StickersSearchGridAdapter stickersSearchGridAdapter = StickersSearchGridAdapter.this;
                 stickersSearchGridAdapter.cleared = false;
-                final int access$5804 = StickersSearchGridAdapter.access$5804(stickersSearchGridAdapter);
+                final int access$5904 = StickersSearchGridAdapter.access$5904(stickersSearchGridAdapter);
                 final ArrayList arrayList = new ArrayList(0);
                 final LongSparseArray longSparseArray = new LongSparseArray(0);
                 final HashMap<String, ArrayList<TLRPC$Document>> allStickers = MediaDataController.getInstance(StickerMasksAlert.this.currentAccount).getAllStickers();
@@ -1878,7 +1878,7 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
                     MediaDataController.getInstance(StickerMasksAlert.this.currentAccount).getEmojiSuggestions(StickerMasksAlert.this.lastSearchKeyboardLanguage, StickersSearchGridAdapter.this.searchQuery, false, new MediaDataController.KeywordResultCallback() { // from class: org.telegram.ui.Components.StickerMasksAlert$StickersSearchGridAdapter$1$$ExternalSyntheticLambda1
                         @Override // org.telegram.messenger.MediaDataController.KeywordResultCallback
                         public final void run(ArrayList arrayList3, String str) {
-                            StickerMasksAlert.StickersSearchGridAdapter.1.this.lambda$run$0(access$5804, allStickers, arrayList3, str);
+                            StickerMasksAlert.StickersSearchGridAdapter.1.this.lambda$run$0(access$5904, allStickers, arrayList3, str);
                         }
                     }, false);
                 }
@@ -2078,7 +2078,7 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
                 imageViewEmoji.getImageReceiver().setLayerNum(((BottomSheet) StickerMasksAlert.this).playingImagesLayerNum);
                 stickerEmojiCell = imageViewEmoji;
             } else if (i == 0) {
-                StickerEmojiCell stickerEmojiCell2 = new StickerEmojiCell(this.context, false) { // from class: org.telegram.ui.Components.StickerMasksAlert.StickersSearchGridAdapter.2
+                StickerEmojiCell stickerEmojiCell2 = new StickerEmojiCell(this.context, false, ((BottomSheet) StickerMasksAlert.this).resourcesProvider) { // from class: org.telegram.ui.Components.StickerMasksAlert.StickersSearchGridAdapter.2
                     @Override // android.widget.FrameLayout, android.view.View
                     public void onMeasure(int i2, int i3) {
                         if (StickerMasksAlert.this.currentType == 5) {

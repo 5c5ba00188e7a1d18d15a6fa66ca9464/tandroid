@@ -1291,7 +1291,7 @@ public class LocaleController {
                 if (z2) {
                     AndroidUtilities.runOnUIThread(LocaleController$$ExternalSyntheticLambda16.INSTANCE);
                 } else {
-                    NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.reloadInterface, new Object[0]);
+                    NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.reloadInterface, new Object[0]);
                 }
                 RestrictedLanguagesSelectActivity.invalidateRestrictedLanguages();
                 if (runnable != null) {
@@ -1321,7 +1321,7 @@ public class LocaleController {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$applyLanguage$9() {
-        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.reloadInterface, new Object[0]);
+        NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.reloadInterface, new Object[0]);
     }
 
     public LocaleInfo getCurrentLocaleInfo() {
@@ -2475,6 +2475,31 @@ public class LocaleController {
         }
     }
 
+    public static String formatStoryDate(long j) {
+        long j2 = j * 1000;
+        try {
+            Calendar calendar = Calendar.getInstance();
+            int i = calendar.get(6);
+            int i2 = calendar.get(1);
+            long timeInMillis = calendar.getTimeInMillis();
+            calendar.setTimeInMillis(j2);
+            int i3 = calendar.get(6);
+            int i4 = calendar.get(1);
+            long j3 = timeInMillis - j2;
+            if (j3 < 60000) {
+                return getString("RightNow", R.string.RightNow);
+            }
+            if (j3 >= 3600000) {
+                return (i3 == i && i2 == i4) ? formatString("TodayAtFormattedWithToday", R.string.TodayAtFormattedWithToday, getInstance().formatterDay.format(new Date(j2))) : (i3 + 1 == i && i2 == i4) ? formatString("YesterdayAtFormatted", R.string.YesterdayAtFormatted, getInstance().formatterDay.format(new Date(j2))) : Math.abs(System.currentTimeMillis() - j2) < 31536000000L ? formatString("formatDateAtTime", R.string.formatDateAtTime, getInstance().formatterDayMonth.format(new Date(j2)), getInstance().formatterDay.format(new Date(j2))) : formatString("formatDateAtTime", R.string.formatDateAtTime, getInstance().formatterYear.format(new Date(j2)), getInstance().formatterDay.format(new Date(j2)));
+            }
+            int i5 = (int) (j3 / 60000);
+            return formatPluralString("MinutesAgo", i5, Integer.valueOf(i5));
+        } catch (Exception e) {
+            FileLog.e(e);
+            return "LOC_ERR";
+        }
+    }
+
     public static String formatDateCallLog(long j) {
         long j2 = j * 1000;
         try {
@@ -2928,7 +2953,7 @@ public class LocaleController {
             sb.append(z);
             FileLog.d(sb.toString());
             recreateFormatters();
-            NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.reloadInterface, new Object[0]);
+            NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.reloadInterface, new Object[0]);
             if (runnable != null) {
                 runnable.run();
                 return;
@@ -3067,7 +3092,7 @@ public class LocaleController {
             this.changingConfiguration = false;
         }
         recreateFormatters();
-        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.reloadInterface, new Object[0]);
+        NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.reloadInterface, new Object[0]);
         if (runnable != null) {
             runnable.run();
         }
@@ -3185,7 +3210,7 @@ public class LocaleController {
             i4++;
         }
         saveOtherLanguages();
-        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.suggestedLangpack, new Object[0]);
+        NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.suggestedLangpack, new Object[0]);
         if (z) {
             applyLanguage(this.currentLocaleInfo, true, false, i);
         }

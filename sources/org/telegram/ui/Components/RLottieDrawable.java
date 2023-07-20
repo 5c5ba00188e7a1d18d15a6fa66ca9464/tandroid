@@ -24,7 +24,6 @@ import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
-import org.telegram.messenger.CharacterCompat;
 import org.telegram.messenger.DispatchQueue;
 import org.telegram.messenger.DispatchQueuePool;
 import org.telegram.messenger.DispatchQueuePoolBackground;
@@ -137,6 +136,8 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
     public static native void destroy(long j);
 
     public static native int getFrame(long j, int i, Bitmap bitmap, int i2, int i3, int i4, boolean z);
+
+    public static native long getFramesCount(String str, String str2);
 
     /* JADX INFO: Access modifiers changed from: private */
     public static native void replaceColors(long j, int[] iArr);
@@ -593,6 +594,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
             iArr2 = iArr3;
             this.nativePtr = create(file.getAbsolutePath(), null, i, i2, iArr3, this.precache, iArr, this.shouldLimitFps, i3);
             if (this.nativePtr == 0) {
+                FileLog.d("RLottieDrawable nativePtr == 0 " + file.getAbsolutePath() + " remove file");
                 file.delete();
             }
             if (this.shouldLimitFps && iArr2[1] < 60) {
@@ -885,6 +887,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
             iArr2 = iArr3;
             this.nativePtr = create(file.getAbsolutePath(), str, i, i2, iArr3, this.precache, iArr, this.shouldLimitFps, i3);
             if (this.nativePtr == 0) {
+                FileLog.d("RLottieDrawable nativePtr == 0 " + file.getAbsolutePath() + " remove file");
                 file.delete();
             }
             if (this.shouldLimitFps && iArr2[1] < 60) {
@@ -1582,11 +1585,15 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
         }
     }
 
+    public void multiplySpeed(float f) {
+        this.timeBetweenFrames = (int) (this.timeBetweenFrames * (1.0f / f));
+    }
+
     public static String readRes(File file, int i) {
         InputStream inputStream;
         byte[] bArr = readBufferLocal.get();
         if (bArr == null) {
-            bArr = new byte[CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT];
+            bArr = new byte[65536];
             readBufferLocal.set(bArr);
         }
         try {

@@ -1130,7 +1130,7 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
                 }
             }
             getMessagesController().addUsersToChannel(this.chatId, arrayList, null);
-            getNotificationCenter().postNotificationName(NotificationCenter.closeChats, new Object[0]);
+            getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.closeChats, new Object[0]);
             Bundle bundle = new Bundle();
             bundle.putLong("chat_id", this.chatId);
             bundle.putBoolean("just_created_chat", true);

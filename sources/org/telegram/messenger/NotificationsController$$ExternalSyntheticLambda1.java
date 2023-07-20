@@ -11,8 +11,8 @@ public final /* synthetic */ class NotificationsController$$ExternalSyntheticLam
 
     @Override // android.graphics.PostProcessor
     public final int onPostProcess(Canvas canvas) {
-        int lambda$loadRoundAvatar$35;
-        lambda$loadRoundAvatar$35 = NotificationsController.lambda$loadRoundAvatar$35(canvas);
-        return lambda$loadRoundAvatar$35;
+        int lambda$loadRoundAvatar$41;
+        lambda$loadRoundAvatar$41 = NotificationsController.lambda$loadRoundAvatar$41(canvas);
+        return lambda$loadRoundAvatar$41;
     }
 }

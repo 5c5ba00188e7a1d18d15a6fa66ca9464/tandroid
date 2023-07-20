@@ -72,6 +72,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.CountDownLatch;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -89,7 +90,8 @@ import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
-import org.telegram.messenger.MessagesController$$ExternalSyntheticLambda242;
+import org.telegram.messenger.MessagesController$$ExternalSyntheticLambda243;
+import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
@@ -1189,7 +1191,7 @@ public class Theme {
     private static boolean[] loadingRemoteThemes = new boolean[4];
     private static int[] lastLoadingThemesTime = new int[4];
     private static long[] remoteThemesHash = new long[4];
-    public static Drawable[] avatarDrawables = new Drawable[13];
+    public static Drawable[] avatarDrawables = new Drawable[14];
     private static StatusDrawable[] chat_status_drawables = new StatusDrawable[6];
     public static Drawable[] chat_msgInCallDrawable = new Drawable[2];
     public static Drawable[] chat_msgInCallSelectedDrawable = new Drawable[2];
@@ -1229,14 +1231,14 @@ public class Theme {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:167:0x2812 A[Catch: Exception -> 0x29ff, TryCatch #3 {Exception -> 0x29ff, blocks: (B:54:0x24c3, B:56:0x24d9, B:67:0x251a, B:69:0x2528, B:77:0x2553, B:79:0x2557, B:81:0x255f, B:82:0x2571, B:83:0x257d, B:85:0x2583, B:87:0x258d, B:89:0x2591, B:91:0x25bf, B:93:0x25c3, B:165:0x280c, B:167:0x2812, B:168:0x281b, B:170:0x281f, B:172:0x2827, B:174:0x282b, B:176:0x282f, B:177:0x2831, B:179:0x283b, B:148:0x26fa, B:151:0x271b, B:153:0x2726, B:155:0x2732, B:157:0x273e, B:161:0x274a, B:163:0x27f1, B:158:0x2744, B:184:0x285b, B:185:0x2861, B:189:0x286b, B:191:0x28c2, B:193:0x28d0, B:195:0x28da, B:197:0x28e8, B:196:0x28e1, B:192:0x28c9, B:70:0x2536, B:72:0x253e, B:74:0x2547, B:76:0x2551, B:57:0x24e6, B:59:0x24ee, B:61:0x24f6, B:63:0x2500, B:65:0x2508, B:95:0x25d4, B:98:0x25ea, B:100:0x25ff, B:101:0x2605, B:103:0x2617, B:106:0x2627, B:110:0x2633, B:114:0x264a, B:118:0x265b, B:120:0x266a, B:123:0x2673, B:125:0x2686, B:128:0x268f, B:130:0x2696, B:131:0x26a6, B:133:0x26aa, B:134:0x26ae, B:136:0x26b9, B:138:0x26c5, B:115:0x2651, B:111:0x263d), top: B:239:0x24c3 }] */
-    /* JADX WARN: Removed duplicated region for block: B:174:0x282b A[Catch: Exception -> 0x29ff, TryCatch #3 {Exception -> 0x29ff, blocks: (B:54:0x24c3, B:56:0x24d9, B:67:0x251a, B:69:0x2528, B:77:0x2553, B:79:0x2557, B:81:0x255f, B:82:0x2571, B:83:0x257d, B:85:0x2583, B:87:0x258d, B:89:0x2591, B:91:0x25bf, B:93:0x25c3, B:165:0x280c, B:167:0x2812, B:168:0x281b, B:170:0x281f, B:172:0x2827, B:174:0x282b, B:176:0x282f, B:177:0x2831, B:179:0x283b, B:148:0x26fa, B:151:0x271b, B:153:0x2726, B:155:0x2732, B:157:0x273e, B:161:0x274a, B:163:0x27f1, B:158:0x2744, B:184:0x285b, B:185:0x2861, B:189:0x286b, B:191:0x28c2, B:193:0x28d0, B:195:0x28da, B:197:0x28e8, B:196:0x28e1, B:192:0x28c9, B:70:0x2536, B:72:0x253e, B:74:0x2547, B:76:0x2551, B:57:0x24e6, B:59:0x24ee, B:61:0x24f6, B:63:0x2500, B:65:0x2508, B:95:0x25d4, B:98:0x25ea, B:100:0x25ff, B:101:0x2605, B:103:0x2617, B:106:0x2627, B:110:0x2633, B:114:0x264a, B:118:0x265b, B:120:0x266a, B:123:0x2673, B:125:0x2686, B:128:0x268f, B:130:0x2696, B:131:0x26a6, B:133:0x26aa, B:134:0x26ae, B:136:0x26b9, B:138:0x26c5, B:115:0x2651, B:111:0x263d), top: B:239:0x24c3 }] */
-    /* JADX WARN: Removed duplicated region for block: B:175:0x282e  */
-    /* JADX WARN: Removed duplicated region for block: B:179:0x283b A[Catch: Exception -> 0x29ff, TryCatch #3 {Exception -> 0x29ff, blocks: (B:54:0x24c3, B:56:0x24d9, B:67:0x251a, B:69:0x2528, B:77:0x2553, B:79:0x2557, B:81:0x255f, B:82:0x2571, B:83:0x257d, B:85:0x2583, B:87:0x258d, B:89:0x2591, B:91:0x25bf, B:93:0x25c3, B:165:0x280c, B:167:0x2812, B:168:0x281b, B:170:0x281f, B:172:0x2827, B:174:0x282b, B:176:0x282f, B:177:0x2831, B:179:0x283b, B:148:0x26fa, B:151:0x271b, B:153:0x2726, B:155:0x2732, B:157:0x273e, B:161:0x274a, B:163:0x27f1, B:158:0x2744, B:184:0x285b, B:185:0x2861, B:189:0x286b, B:191:0x28c2, B:193:0x28d0, B:195:0x28da, B:197:0x28e8, B:196:0x28e1, B:192:0x28c9, B:70:0x2536, B:72:0x253e, B:74:0x2547, B:76:0x2551, B:57:0x24e6, B:59:0x24ee, B:61:0x24f6, B:63:0x2500, B:65:0x2508, B:95:0x25d4, B:98:0x25ea, B:100:0x25ff, B:101:0x2605, B:103:0x2617, B:106:0x2627, B:110:0x2633, B:114:0x264a, B:118:0x265b, B:120:0x266a, B:123:0x2673, B:125:0x2686, B:128:0x268f, B:130:0x2696, B:131:0x26a6, B:133:0x26aa, B:134:0x26ae, B:136:0x26b9, B:138:0x26c5, B:115:0x2651, B:111:0x263d), top: B:239:0x24c3 }] */
-    /* JADX WARN: Removed duplicated region for block: B:253:0x284b A[SYNTHETIC] */
-    /* JADX WARN: Type inference failed for: r4v41, types: [boolean] */
-    /* JADX WARN: Type inference failed for: r4v47 */
-    /* JADX WARN: Type inference failed for: r4v50 */
+    /* JADX WARN: Removed duplicated region for block: B:167:0x27f6 A[Catch: Exception -> 0x29e3, TryCatch #3 {Exception -> 0x29e3, blocks: (B:54:0x24a7, B:56:0x24bd, B:67:0x24fe, B:69:0x250c, B:77:0x2537, B:79:0x253b, B:81:0x2543, B:82:0x2555, B:83:0x2561, B:85:0x2567, B:87:0x2571, B:89:0x2575, B:91:0x25a3, B:93:0x25a7, B:165:0x27f0, B:167:0x27f6, B:168:0x27ff, B:170:0x2803, B:172:0x280b, B:174:0x280f, B:176:0x2813, B:177:0x2815, B:179:0x281f, B:148:0x26de, B:151:0x26ff, B:153:0x270a, B:155:0x2716, B:157:0x2722, B:161:0x272e, B:163:0x27d5, B:158:0x2728, B:184:0x283f, B:185:0x2845, B:189:0x284f, B:191:0x28a6, B:193:0x28b4, B:195:0x28be, B:197:0x28cc, B:196:0x28c5, B:192:0x28ad, B:70:0x251a, B:72:0x2522, B:74:0x252b, B:76:0x2535, B:57:0x24ca, B:59:0x24d2, B:61:0x24da, B:63:0x24e4, B:65:0x24ec, B:95:0x25b8, B:98:0x25ce, B:100:0x25e3, B:101:0x25e9, B:103:0x25fb, B:106:0x260b, B:110:0x2617, B:114:0x262e, B:118:0x263f, B:120:0x264e, B:123:0x2657, B:125:0x266a, B:128:0x2673, B:130:0x267a, B:131:0x268a, B:133:0x268e, B:134:0x2692, B:136:0x269d, B:138:0x26a9, B:115:0x2635, B:111:0x2621), top: B:239:0x24a7 }] */
+    /* JADX WARN: Removed duplicated region for block: B:174:0x280f A[Catch: Exception -> 0x29e3, TryCatch #3 {Exception -> 0x29e3, blocks: (B:54:0x24a7, B:56:0x24bd, B:67:0x24fe, B:69:0x250c, B:77:0x2537, B:79:0x253b, B:81:0x2543, B:82:0x2555, B:83:0x2561, B:85:0x2567, B:87:0x2571, B:89:0x2575, B:91:0x25a3, B:93:0x25a7, B:165:0x27f0, B:167:0x27f6, B:168:0x27ff, B:170:0x2803, B:172:0x280b, B:174:0x280f, B:176:0x2813, B:177:0x2815, B:179:0x281f, B:148:0x26de, B:151:0x26ff, B:153:0x270a, B:155:0x2716, B:157:0x2722, B:161:0x272e, B:163:0x27d5, B:158:0x2728, B:184:0x283f, B:185:0x2845, B:189:0x284f, B:191:0x28a6, B:193:0x28b4, B:195:0x28be, B:197:0x28cc, B:196:0x28c5, B:192:0x28ad, B:70:0x251a, B:72:0x2522, B:74:0x252b, B:76:0x2535, B:57:0x24ca, B:59:0x24d2, B:61:0x24da, B:63:0x24e4, B:65:0x24ec, B:95:0x25b8, B:98:0x25ce, B:100:0x25e3, B:101:0x25e9, B:103:0x25fb, B:106:0x260b, B:110:0x2617, B:114:0x262e, B:118:0x263f, B:120:0x264e, B:123:0x2657, B:125:0x266a, B:128:0x2673, B:130:0x267a, B:131:0x268a, B:133:0x268e, B:134:0x2692, B:136:0x269d, B:138:0x26a9, B:115:0x2635, B:111:0x2621), top: B:239:0x24a7 }] */
+    /* JADX WARN: Removed duplicated region for block: B:175:0x2812  */
+    /* JADX WARN: Removed duplicated region for block: B:179:0x281f A[Catch: Exception -> 0x29e3, TryCatch #3 {Exception -> 0x29e3, blocks: (B:54:0x24a7, B:56:0x24bd, B:67:0x24fe, B:69:0x250c, B:77:0x2537, B:79:0x253b, B:81:0x2543, B:82:0x2555, B:83:0x2561, B:85:0x2567, B:87:0x2571, B:89:0x2575, B:91:0x25a3, B:93:0x25a7, B:165:0x27f0, B:167:0x27f6, B:168:0x27ff, B:170:0x2803, B:172:0x280b, B:174:0x280f, B:176:0x2813, B:177:0x2815, B:179:0x281f, B:148:0x26de, B:151:0x26ff, B:153:0x270a, B:155:0x2716, B:157:0x2722, B:161:0x272e, B:163:0x27d5, B:158:0x2728, B:184:0x283f, B:185:0x2845, B:189:0x284f, B:191:0x28a6, B:193:0x28b4, B:195:0x28be, B:197:0x28cc, B:196:0x28c5, B:192:0x28ad, B:70:0x251a, B:72:0x2522, B:74:0x252b, B:76:0x2535, B:57:0x24ca, B:59:0x24d2, B:61:0x24da, B:63:0x24e4, B:65:0x24ec, B:95:0x25b8, B:98:0x25ce, B:100:0x25e3, B:101:0x25e9, B:103:0x25fb, B:106:0x260b, B:110:0x2617, B:114:0x262e, B:118:0x263f, B:120:0x264e, B:123:0x2657, B:125:0x266a, B:128:0x2673, B:130:0x267a, B:131:0x268a, B:133:0x268e, B:134:0x2692, B:136:0x269d, B:138:0x26a9, B:115:0x2635, B:111:0x2621), top: B:239:0x24a7 }] */
+    /* JADX WARN: Removed duplicated region for block: B:253:0x282f A[SYNTHETIC] */
+    /* JADX WARN: Type inference failed for: r4v35, types: [boolean] */
+    /* JADX WARN: Type inference failed for: r4v40 */
+    /* JADX WARN: Type inference failed for: r4v43 */
     static {
         ThemeInfo themeInfo;
         ThemeInfo themeInfo2;
@@ -4193,7 +4195,7 @@ public class Theme {
                 themeInfo3 = currentNightTheme;
             }
             applyTheme(themeInfo3, false, false, needSwitchToTheme == 2);
-            AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda242.INSTANCE);
+            AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda243.INSTANCE);
             ambientSensorListener = new SensorEventListener() { // from class: org.telegram.ui.ActionBar.Theme.9
                 @Override // android.hardware.SensorEventListener
                 public void onAccuracyChanged(Sensor sensor, int i782) {
@@ -4252,6 +4254,18 @@ public class Theme {
 
     public static void applyDefaultShadow(Paint paint) {
         paint.setShadowLayer(AndroidUtilities.dpf2(1.0f), 0.0f, AndroidUtilities.dpf2(0.33f), default_shadow_color);
+    }
+
+    public static Paint getThemePaint(String str, ResourcesProvider resourcesProvider) {
+        Paint paint;
+        return (resourcesProvider == null || (paint = resourcesProvider.getPaint(str)) == null) ? getThemePaint(str) : paint;
+    }
+
+    public static ColorFilter getAnimatedEmojiColorFilter(ResourcesProvider resourcesProvider) {
+        if (resourcesProvider != null) {
+            return resourcesProvider.getAnimatedEmojiColorFilter();
+        }
+        return chat_animatedEmojiTextColorFilter;
     }
 
     /* loaded from: classes3.dex */
@@ -5030,7 +5044,7 @@ public class Theme {
 
         @Override // android.graphics.drawable.Drawable
         public void setAlpha(int i) {
-            if (this.alpha != i) {
+            if (this.alpha != i || this.paint.getAlpha() != i) {
                 this.alpha = i;
                 this.paint.setAlpha(i);
                 if (this.isOut) {
@@ -6720,7 +6734,7 @@ public class Theme {
                 objArr[2] = null;
                 objArr[3] = -1;
                 objArr[4] = Theme.fallbackKeys;
-                globalInstance.postNotificationName(i, objArr);
+                globalInstance.lambda$postNotificationNameOnUIThread$1(i, objArr);
             }
         }
 
@@ -7057,7 +7071,7 @@ public class Theme {
     public interface ResourcesProvider {
         void applyServiceShaderMatrix(int i, int i2, float f, float f2);
 
-        boolean contains(int i);
+        ColorFilter getAnimatedEmojiColorFilter();
 
         int getColor(int i);
 
@@ -7079,22 +7093,11 @@ public class Theme {
                 return null;
             }
 
-            public static Paint $default$getPaint(ResourcesProvider resourcesProvider, String str) {
-                return null;
-            }
-
             public static boolean $default$hasGradientService(ResourcesProvider resourcesProvider) {
                 return false;
             }
 
             public static void $default$setAnimatedColor(ResourcesProvider resourcesProvider, int i, int i2) {
-            }
-
-            public static int $default$getColorOrDefault(ResourcesProvider _this, int i) {
-                if (_this.contains(i)) {
-                    return _this.getColor(i);
-                }
-                return Theme.getColor(i);
             }
         }
     }
@@ -7512,6 +7515,10 @@ public class Theme {
         return getSelectorDrawable(getColor(key_listSelector), z);
     }
 
+    public static Drawable getSelectorDrawable(boolean z, ResourcesProvider resourcesProvider) {
+        return getSelectorDrawable(getColor(key_listSelector, resourcesProvider), z);
+    }
+
     public static Drawable getSelectorDrawable(int i, boolean z) {
         if (z) {
             return getSelectorDrawable(i, key_windowBackgroundWhite);
@@ -7531,17 +7538,6 @@ public class Theme {
             return stateListDrawable;
         }
         return createSelectorDrawable(i, 2);
-    }
-
-    public static Drawable getSelectorDrawableByColor(int i, int i2) {
-        if (Build.VERSION.SDK_INT >= 21) {
-            return new RippleDrawable(new ColorStateList(new int[][]{StateSet.WILD_CARD}, new int[]{i}), new ColorDrawable(i2), new ColorDrawable(-1));
-        }
-        StateListDrawable stateListDrawable = new StateListDrawable();
-        stateListDrawable.addState(new int[]{16842919}, new ColorDrawable(i));
-        stateListDrawable.addState(new int[]{16842913}, new ColorDrawable(i));
-        stateListDrawable.addState(StateSet.WILD_CARD, new ColorDrawable(i2));
-        return stateListDrawable;
     }
 
     public static Drawable createSelectorDrawable(int i) {
@@ -7853,7 +7849,7 @@ public class Theme {
             } else {
                 fArr[2] = Math.min(1.0f, Math.max(0.0f, fArr[2] + (Theme.isCurrentThemeDark() ? 0.1f : -0.1f)));
             }
-            return Color.HSVToColor(127, tempHSV);
+            return Color.HSVToColor(MessagesStorage.LAST_DB_VERSION, tempHSV);
         }
     }
 
@@ -8157,7 +8153,7 @@ public class Theme {
                 str = str + ".attheme";
             }
             if (z) {
-                NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.goingToPreviewTheme, new Object[0]);
+                NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.goingToPreviewTheme, new Object[0]);
                 ThemeInfo themeInfo = new ThemeInfo();
                 themeInfo.name = str;
                 themeInfo.info = tLRPC$TL_theme;
@@ -8264,7 +8260,7 @@ public class Theme {
                 if (isCurrentThemeNight()) {
                     switchNightThemeDelay = 2000;
                     lastDelayUpdateTime = SystemClock.elapsedRealtime();
-                    AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda242.INSTANCE, 2100L);
+                    AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda243.INSTANCE, 2100L);
                 }
             }
             currentTheme = themeInfo;
@@ -8396,7 +8392,7 @@ public class Theme {
                 if (isCurrentThemeNight()) {
                     switchNightThemeDelay = 2000;
                     lastDelayUpdateTime = SystemClock.elapsedRealtime();
-                    AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda242.INSTANCE, 2100L);
+                    AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda243.INSTANCE, 2100L);
                 }
             }
             currentTheme = themeInfo;
@@ -8504,7 +8500,7 @@ public class Theme {
                 if (isCurrentThemeNight()) {
                     switchNightThemeDelay = 2000;
                     lastDelayUpdateTime = SystemClock.elapsedRealtime();
-                    AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda242.INSTANCE, 2100L);
+                    AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda243.INSTANCE, 2100L);
                 }
             }
             currentTheme = themeInfo;
@@ -8569,7 +8565,7 @@ public class Theme {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$refreshThemeColors$5(boolean z) {
-        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.didSetNewTheme, Boolean.FALSE, Boolean.valueOf(z));
+        NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.didSetNewTheme, Boolean.FALSE, Boolean.valueOf(z));
     }
 
     public static int changeColorAccent(ThemeInfo themeInfo, int i, int i2) {
@@ -8734,7 +8730,7 @@ public class Theme {
                 }
                 edit.putString("accents_" + themeInfo.assetName, Base64.encodeToString(serializedData.toByteArray(), 3));
                 if (!z5) {
-                    NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.themeAccentListUpdated, new Object[0]);
+                    NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.themeAccentListUpdated, new Object[0]);
                 }
                 if (z4) {
                     MessagesController.getInstance(UserConfig.selectedAccount).saveThemeToServer(themeInfo, themeInfo.getAccent(false));
@@ -9013,7 +9009,7 @@ public class Theme {
                     isInNigthMode = true;
                     lastThemeSwitchTime = SystemClock.elapsedRealtime();
                     switchingNightTheme = true;
-                    NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.needSetDayNightTheme, currentNightTheme, Boolean.TRUE, null, -1);
+                    NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.needSetDayNightTheme, currentNightTheme, Boolean.TRUE, null, -1);
                     switchingNightTheme = false;
                     return;
                 }
@@ -9028,7 +9024,7 @@ public class Theme {
                 isInNigthMode = false;
                 lastThemeSwitchTime = SystemClock.elapsedRealtime();
                 switchingNightTheme = true;
-                NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.needSetDayNightTheme, currentDayTheme, Boolean.TRUE, null, -1);
+                NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.needSetDayNightTheme, currentDayTheme, Boolean.TRUE, null, -1);
                 switchingNightTheme = false;
             }
         }
@@ -9388,7 +9384,7 @@ public class Theme {
                         objArr[1] = Boolean.valueOf(currentNightTheme == themeInfo3);
                         objArr[2] = null;
                         objArr[3] = -1;
-                        globalInstance.postNotificationName(i, objArr);
+                        globalInstance.lambda$postNotificationNameOnUIThread$1(i, objArr);
                     }
                     PatternsLoader.createLoader(true);
                     z = true;
@@ -9518,7 +9514,7 @@ public class Theme {
                                             objArr[1] = Boolean.valueOf(currentNightTheme == themeInfo4);
                                             objArr[2] = null;
                                             objArr[3] = -1;
-                                            globalInstance.postNotificationName(i6, objArr);
+                                            globalInstance.lambda$postNotificationNameOnUIThread$1(i6, objArr);
                                         }
                                         z2 = true;
                                         z3 = true;
@@ -9597,14 +9593,14 @@ public class Theme {
                         objArr2[1] = Boolean.valueOf(currentNightTheme == themeInfo7);
                         objArr2[2] = null;
                         objArr2[3] = -1;
-                        globalInstance2.postNotificationName(i8, objArr2);
+                        globalInstance2.lambda$postNotificationNameOnUIThread$1(i8, objArr2);
                     }
                 }
             }
             saveOtherThemes(true);
             sortThemes();
             if (z3) {
-                NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.themeListUpdated, new Object[0]);
+                NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.themeListUpdated, new Object[0]);
             }
             if (z2) {
                 PatternsLoader.createLoader(true);
@@ -9715,7 +9711,7 @@ public class Theme {
                     objArr[1] = Boolean.valueOf(currentNightTheme == themeInfo3);
                     objArr[2] = null;
                     objArr[3] = -1;
-                    globalInstance.postNotificationName(i2, objArr);
+                    globalInstance.lambda$postNotificationNameOnUIThread$1(i2, objArr);
                 }
                 PatternsLoader.createLoader(true);
             }
@@ -10964,6 +10960,7 @@ public class Theme {
             avatarDrawables[10] = resources.getDrawable(i);
             avatarDrawables[11] = resources.getDrawable(R.drawable.chats_replies);
             avatarDrawables[12] = resources.getDrawable(R.drawable.other_chats);
+            avatarDrawables[13] = resources.getDrawable(R.drawable.msg_stories_closefriends);
             RLottieDrawable rLottieDrawable = dialogs_archiveAvatarDrawable;
             if (rLottieDrawable != null) {
                 rLottieDrawable.setCallback(null);
@@ -12113,7 +12110,7 @@ public class Theme {
             colorMatrix.setSaturation(((MotionBackgroundDrawable) drawable).getIntensity() >= 0 ? 1.8f : 0.5f);
             chat_actionBackgroundPaint.setShader(serviceBitmapShader);
             chat_actionBackgroundPaint.setColorFilter(new ColorMatrixColorFilter(colorMatrix));
-            chat_actionBackgroundPaint.setAlpha(127);
+            chat_actionBackgroundPaint.setAlpha(MessagesStorage.LAST_DB_VERSION);
             chat_actionBackgroundSelectedPaint.setShader(serviceBitmapShader);
             chat_actionBackgroundSelectedPaint.setColorFilter(new ColorMatrixColorFilter(colorMatrix));
             chat_actionBackgroundSelectedPaint.setAlpha(200);
@@ -12339,11 +12336,11 @@ public class Theme {
             reloadWallpaper(true);
         } else if (i == key_actionBarDefault) {
             if (Build.VERSION.SDK_INT >= 23) {
-                NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.needCheckSystemBarColors, new Object[0]);
+                NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.needCheckSystemBarColors, new Object[0]);
             }
         } else if (i != key_windowBackgroundGray || Build.VERSION.SDK_INT < 26) {
         } else {
-            NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.needCheckSystemBarColors, new Object[0]);
+            NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.needCheckSystemBarColors, new Object[0]);
         }
     }
 
@@ -12365,7 +12362,7 @@ public class Theme {
             calcBackgroundColor(themedWallpaper, 0);
             applyChatServiceMessageColor();
             applyChatMessageSelectedBackgroundColor();
-            NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.didSetNewWallpapper, new Object[0]);
+            NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.didSetNewWallpapper, new Object[0]);
             return;
         }
         themedWallpaper = null;
@@ -12576,7 +12573,7 @@ public class Theme {
                 applyChatServiceMessageColor(null, null, loadWallpaperInternal);
                 applyChatMessageSelectedBackgroundColor(null, loadWallpaperInternal);
             }
-            NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.didSetNewWallpapper, new Object[0]);
+            NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.didSetNewWallpapper, new Object[0]);
             return;
         } else {
             f2 = accent.patternIntensity;
@@ -12606,7 +12603,7 @@ public class Theme {
             applyChatServiceMessageColor(null, null, drawable);
             applyChatMessageSelectedBackgroundColor(null, drawable);
         }
-        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.didSetNewWallpapper, new Object[0]);
+        NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.didSetNewWallpapper, new Object[0]);
     }
 
     private static Drawable loadWallpaperInternal(OverrideWallpaperInfo overrideWallpaperInfo, File file, int i, boolean z, TLRPC$Document tLRPC$Document, boolean z2) {
@@ -12719,7 +12716,7 @@ public class Theme {
                         public void onSizeReady(int i10, int i11) {
                             Point point = AndroidUtilities.displaySize;
                             if ((point.x <= point.y) == (i10 <= i11)) {
-                                NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.didSetNewWallpapper, new Object[0]);
+                                NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.didSetNewWallpapper, new Object[0]);
                             }
                         }
                     }, 100L);
@@ -12792,7 +12789,7 @@ public class Theme {
                                         public void onSizeReady(int i12, int i13) {
                                             Point point = AndroidUtilities.displaySize;
                                             if ((point.x <= point.y) == (i12 <= i13)) {
-                                                NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.didSetNewWallpapper, new Object[0]);
+                                                NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.didSetNewWallpapper, new Object[0]);
                                             }
                                         }
                                     }, 100L);
@@ -13253,6 +13250,9 @@ public class Theme {
     }
 
     public static Paint getThemePaint(String str) {
+        if (Objects.equals(str, "paintDivider")) {
+            return dividerPaint;
+        }
         return defaultChatPaints.get(str);
     }
 

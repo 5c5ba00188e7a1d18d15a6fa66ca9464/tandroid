@@ -7,15 +7,15 @@ public class TLRPC$TL_messages_sendEncryptedMultiMedia extends TLObject {
     public ArrayList<TLRPC$InputEncryptedFile> files = new ArrayList<>();
 
     @Override // org.telegram.tgnet.TLObject
+    public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i, boolean z) {
+        return TLRPC$messages_SentEncryptedMessage.TLdeserialize(abstractSerializedData, i, z);
+    }
+
+    @Override // org.telegram.tgnet.TLObject
     public void freeResources() {
     }
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-    }
-
-    @Override // org.telegram.tgnet.TLObject
-    public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-        return TLRPC$messages_SentEncryptedMessage.TLdeserialize(abstractSerializedData, i, z);
     }
 }

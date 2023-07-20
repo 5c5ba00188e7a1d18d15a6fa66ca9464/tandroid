@@ -107,6 +107,7 @@ public class ActionBarMenuItem extends FrameLayout {
     private CharSequence searchFieldText;
     private LinearLayout searchFilterLayout;
     public int searchItemPaddingStart;
+    public int searchRightMargin;
     private int selectedFilterIndex;
     private View selectedMenuView;
     private Runnable showMenuRunnable;
@@ -591,7 +592,7 @@ public class ActionBarMenuItem extends FrameLayout {
     }
 
     public ActionBarMenuSubItem addSubItem(int i, int i2, Drawable drawable, CharSequence charSequence, boolean z, boolean z2) {
-        return addSubItem(i, i2, drawable, charSequence, z, z2, null);
+        return addSubItem(i, i2, drawable, charSequence, z, z2, this.resourcesProvider);
     }
 
     public ActionBarMenuSubItem addSubItem(int i, int i2, Drawable drawable, CharSequence charSequence, final boolean z, boolean z2, Theme.ResourcesProvider resourcesProvider) {
@@ -940,7 +941,8 @@ public class ActionBarMenuItem extends FrameLayout {
     }
 
     public boolean isSearchFieldVisible() {
-        return this.searchContainer.getVisibility() == 0;
+        FrameLayout frameLayout = this.searchContainer;
+        return frameLayout != null && frameLayout.getVisibility() == 0;
     }
 
     public boolean toggleSearch(boolean z) {
@@ -1451,7 +1453,7 @@ public class ActionBarMenuItem extends FrameLayout {
                 this.wrappedSearchFrameLayout.addView(horizontalScrollView, LayoutHelper.createFrame(-1, -1.0f, 0, 0.0f, 0.0f, 48.0f, 0.0f));
                 this.parentMenu.addView(this.wrappedSearchFrameLayout, 0, LayoutHelper.createLinear(0, -1, 1.0f, this.searchItemPaddingStart, 0, 0, 0));
             } else {
-                this.parentMenu.addView(this.searchContainer, 0, LayoutHelper.createLinear(0, -1, 1.0f, this.searchItemPaddingStart + 6, 0, 0, 0));
+                this.parentMenu.addView(this.searchContainer, 0, LayoutHelper.createLinear(0, -1, 1.0f, this.searchItemPaddingStart + 6, 0, this.searchRightMargin, 0));
             }
             this.searchContainer.setVisibility(8);
             TextView textView = new TextView(getContext());
@@ -1472,8 +1474,9 @@ public class ActionBarMenuItem extends FrameLayout {
                     setMeasuredDimension(Math.max(View.MeasureSpec.getSize(i2), getMeasuredWidth()) + AndroidUtilities.dp(3.0f), getMeasuredHeight());
                 }
 
+                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.EditTextEffects, android.widget.TextView
-                protected void onSelectionChanged(int i2, int i3) {
+                public void onSelectionChanged(int i2, int i3) {
                     super.onSelectionChanged(i2, i3);
                 }
 

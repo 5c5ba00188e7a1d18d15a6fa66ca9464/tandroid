@@ -331,7 +331,7 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
         }
         if (this.firstTranslation) {
             dismiss();
-            NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.showBulletin, 1, LocaleController.getString("TranslationFailedAlert2", R.string.TranslationFailedAlert2));
+            NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.showBulletin, 1, LocaleController.getString("TranslationFailedAlert2", R.string.TranslationFailedAlert2));
             return;
         }
         BulletinFactory.of((FrameLayout) this.containerView, this.resourcesProvider).createErrorBulletin(LocaleController.getString("TranslationFailedAlert2", R.string.TranslationFailedAlert2)).show();
@@ -985,6 +985,11 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
                 @Override // org.telegram.ui.Components.Bulletin.Delegate
                 public /* synthetic */ boolean allowLayoutChanges() {
                     return Bulletin.Delegate.-CC.$default$allowLayoutChanges(this);
+                }
+
+                @Override // org.telegram.ui.Components.Bulletin.Delegate
+                public /* synthetic */ boolean clipWithGradient(int i) {
+                    return Bulletin.Delegate.-CC.$default$clipWithGradient(this, i);
                 }
 
                 @Override // org.telegram.ui.Components.Bulletin.Delegate

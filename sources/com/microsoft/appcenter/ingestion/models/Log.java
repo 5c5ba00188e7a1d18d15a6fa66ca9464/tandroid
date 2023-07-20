@@ -11,15 +11,21 @@ public interface Log extends Model {
 
     UUID getSid();
 
+    Object getTag();
+
     Date getTimestamp();
 
     Set<String> getTransmissionTargetTokens();
 
     String getType();
 
+    String getUserId();
+
     void setDevice(Device device);
 
     void setDistributionGroupId(String str);
+
+    void setSid(UUID uuid);
 
     void setTimestamp(Date date);
 }

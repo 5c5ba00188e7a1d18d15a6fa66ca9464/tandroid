@@ -35,6 +35,7 @@ public abstract class AbstractLog implements Log {
         return this.sid;
     }
 
+    @Override // com.microsoft.appcenter.ingestion.models.Log
     public void setSid(UUID uuid) {
         this.sid = uuid;
     }
@@ -48,6 +49,7 @@ public abstract class AbstractLog implements Log {
         this.distributionGroupId = str;
     }
 
+    @Override // com.microsoft.appcenter.ingestion.models.Log
     public String getUserId() {
         return this.userId;
     }
@@ -64,6 +66,15 @@ public abstract class AbstractLog implements Log {
     @Override // com.microsoft.appcenter.ingestion.models.Log
     public void setDevice(Device device) {
         this.device = device;
+    }
+
+    @Override // com.microsoft.appcenter.ingestion.models.Log
+    public Object getTag() {
+        return this.tag;
+    }
+
+    public void setTag(Object obj) {
+        this.tag = obj;
     }
 
     @Override // com.microsoft.appcenter.ingestion.models.Log

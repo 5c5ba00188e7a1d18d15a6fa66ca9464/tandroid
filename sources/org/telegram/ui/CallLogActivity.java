@@ -570,7 +570,7 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
             if (view instanceof GroupCallCell) {
                 Bundle bundle = new Bundle();
                 bundle.putLong("chat_id", ((GroupCallCell) view).currentChat.id);
-                getNotificationCenter().postNotificationName(NotificationCenter.closeChats, new Object[0]);
+                getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.closeChats, new Object[0]);
                 presentFragment(new ChatActivity(bundle), true);
                 return;
             }
@@ -584,7 +584,7 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
         Bundle bundle2 = new Bundle();
         bundle2.putLong("user_id", callLogRow.user.id);
         bundle2.putInt("message_id", callLogRow.calls.get(0).id);
-        getNotificationCenter().postNotificationName(NotificationCenter.closeChats, new Object[0]);
+        getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.closeChats, new Object[0]);
         presentFragment(new ChatActivity(bundle2), true);
     }
 
@@ -1114,12 +1114,6 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
         public void notifyItemRangeInserted(int i, int i2) {
             updateRows();
             super.notifyItemRangeInserted(i, i2);
-        }
-
-        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public void notifyItemRemoved(int i) {
-            updateRows();
-            super.notifyItemRemoved(i);
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter

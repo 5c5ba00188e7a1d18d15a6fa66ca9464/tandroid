@@ -453,6 +453,11 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
                     ChatAttachAlert.ChatAttachViewDelegate.-CC.$default$onWallpaperSelected(this, obj);
                 }
 
+                @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
+                public /* synthetic */ void sendAudio(ArrayList arrayList, CharSequence charSequence, boolean z, int i) {
+                    ChatAttachAlert.ChatAttachViewDelegate.-CC.$default$sendAudio(this, arrayList, charSequence, z, i);
+                }
+
                 {
                     ImageUpdater.this = this;
                 }
@@ -757,7 +762,7 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
             }
             PhotoCropActivity photoCropActivity = new PhotoCropActivity(bundle);
             photoCropActivity.setDelegate(this);
-            launchActivity.lambda$runLinkRequest$77(photoCropActivity);
+            launchActivity.lambda$runLinkRequest$80(photoCropActivity);
         } catch (Exception e) {
             FileLog.e(e);
             processBitmap(ImageLoader.loadBitmap(str, uri, 800.0f, 800.0f, true), null);
@@ -876,7 +881,7 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
                     NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.filePreparingStarted);
                     NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.filePreparingFailed);
                     NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.fileNewChunkAvailable);
-                    MediaController.getInstance().scheduleVideoConvert(messageObject, true);
+                    MediaController.getInstance().scheduleVideoConvert(messageObject, true, true);
                     this.uploadingImage = null;
                     ImageUpdaterDelegate imageUpdaterDelegate3 = this.delegate;
                     if (imageUpdaterDelegate3 != null) {

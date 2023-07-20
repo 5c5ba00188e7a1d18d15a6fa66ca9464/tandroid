@@ -20,7 +20,8 @@ public final class RemoteInput {
     private final CharSequence mLabel;
     private final String mResultKey;
 
-    RemoteInput(String str, CharSequence charSequence, CharSequence[] charSequenceArr, boolean z, int i, Bundle bundle, Set<String> set) {
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public RemoteInput(String str, CharSequence charSequence, CharSequence[] charSequenceArr, boolean z, int i, Bundle bundle, Set<String> set) {
         this.mResultKey = str;
         this.mLabel = charSequence;
         this.mChoices = charSequenceArr;

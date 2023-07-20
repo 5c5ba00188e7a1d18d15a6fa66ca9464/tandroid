@@ -407,6 +407,11 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
                     }
 
                     @Override // org.telegram.ui.Components.Bulletin.Delegate
+                    public /* synthetic */ boolean clipWithGradient(int i) {
+                        return Bulletin.Delegate.-CC.$default$clipWithGradient(this, i);
+                    }
+
+                    @Override // org.telegram.ui.Components.Bulletin.Delegate
                     public /* synthetic */ int getTopOffset(int i) {
                         return Bulletin.Delegate.-CC.$default$getTopOffset(this, i);
                     }
@@ -683,7 +688,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         this.speedSlider = speedSlider;
         speedSlider.setRoundRadiusDp(6.0f);
         this.speedSlider.setDrawShadow(true);
-        this.speedSlider.setOnValueChange(new Utilities.Callback2() { // from class: org.telegram.ui.Components.AudioPlayerAlert$$ExternalSyntheticLambda8
+        this.speedSlider.setOnValueChange(new Utilities.Callback2() { // from class: org.telegram.ui.Components.AudioPlayerAlert$$ExternalSyntheticLambda7
             @Override // org.telegram.messenger.Utilities.Callback2
             public final void run(Object obj, Object obj2) {
                 AudioPlayerAlert.this.lambda$new$2((Float) obj, (Boolean) obj2);
@@ -1655,7 +1660,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
                     return lambda$onSubItemClick$11;
                 }
             });
-            this.parentActivity.lambda$runLinkRequest$77(dialogsActivity);
+            this.parentActivity.lambda$runLinkRequest$80(dialogsActivity);
             dismiss();
             return;
         }
@@ -1709,10 +1714,10 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
                 if (str3 == null || str3.length() <= 0 || new File(str3).exists()) {
                     str = str3;
                 }
-                MediaController.saveFile((str == null || str.length() == 0) ? FileLoader.getInstance(this.currentAccount).getPathToMessage(playingMessageObject.messageOwner).toString() : str, this.parentActivity, 3, str2, playingMessageObject.getDocument() != null ? playingMessageObject.getDocument().mime_type : "", new Runnable() { // from class: org.telegram.ui.Components.AudioPlayerAlert$$ExternalSyntheticLambda7
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        AudioPlayerAlert.this.lambda$onSubItemClick$12();
+                MediaController.saveFile((str == null || str.length() == 0) ? FileLoader.getInstance(this.currentAccount).getPathToMessage(playingMessageObject.messageOwner).toString() : str, this.parentActivity, 3, str2, playingMessageObject.getDocument() != null ? playingMessageObject.getDocument().mime_type : "", new Utilities.Callback() { // from class: org.telegram.ui.Components.AudioPlayerAlert$$ExternalSyntheticLambda8
+                    @Override // org.telegram.messenger.Utilities.Callback
+                    public final void run(Object obj) {
+                        AudioPlayerAlert.this.lambda$onSubItemClick$12((Uri) obj);
                     }
                 });
             }
@@ -1737,7 +1742,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
                 bundle2.putLong("chat_id", -dialogId);
             }
             bundle2.putInt("message_id", playingMessageObject.getId());
-            NotificationCenter.getInstance(this.currentAccount).postNotificationName(NotificationCenter.closeChats, new Object[0]);
+            NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.closeChats, new Object[0]);
             this.parentActivity.presentFragment(new ChatActivity(bundle2), false, false);
             dismiss();
         }
@@ -1751,7 +1756,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
                 long j2 = ((MessagesStorage.TopicKey) arrayList2.get(i)).dialogId;
                 if (charSequence != null) {
                     j = j2;
-                    SendMessagesHelper.getInstance(this.currentAccount).sendMessage(charSequence.toString(), j2, null, null, null, true, null, null, null, true, 0, null, false);
+                    SendMessagesHelper.getInstance(this.currentAccount).sendMessage(SendMessagesHelper.SendMessageParams.of(charSequence.toString(), j2, null, null, null, true, null, null, null, true, 0, null, false));
                 } else {
                     j = j2;
                 }
@@ -1787,7 +1792,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onSubItemClick$12() {
+    public /* synthetic */ void lambda$onSubItemClick$12(Uri uri) {
         BulletinFactory.of((FrameLayout) this.containerView, this.resourcesProvider).createDownloadBulletin(BulletinFactory.FileType.AUDIO).show();
     }
 
@@ -2108,7 +2113,10 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         SeekBarView seekBarView = this.seekBarView;
         if (seekBarView != null) {
             if (seekBarView.isDragging()) {
-                i = (int) (messageObject.getDuration() * this.seekBarView.getProgress());
+                double duration = messageObject.getDuration();
+                double progress = this.seekBarView.getProgress();
+                Double.isNaN(progress);
+                i = (int) (duration * progress);
             } else {
                 boolean z2 = true;
                 if (this.rewindingProgress < 0.0f || ((i2 = this.rewindingState) != -1 && (i2 != 1 || !MediaController.getInstance().isMessagePaused()))) {
@@ -2133,7 +2141,10 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
                     this.seekBarBufferSpring.start();
                 }
                 if (z2) {
-                    i = (int) (messageObject.getDuration() * this.seekBarView.getProgress());
+                    double duration2 = messageObject.getDuration();
+                    double progress2 = this.seekBarView.getProgress();
+                    Double.isNaN(progress2);
+                    i = (int) (duration2 * progress2);
                     messageObject.audioProgressSec = i;
                 } else {
                     i = messageObject.audioProgressSec;
@@ -2216,7 +2227,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
             String musicAuthor = playingMessageObject.getMusicAuthor();
             this.titleTextView.setText(musicTitle);
             this.authorTextView.setText(musicAuthor);
-            int duration = playingMessageObject.getDuration();
+            int duration = (int) playingMessageObject.getDuration();
             this.lastDuration = duration;
             TextView textView = this.durationTextView;
             if (textView != null) {

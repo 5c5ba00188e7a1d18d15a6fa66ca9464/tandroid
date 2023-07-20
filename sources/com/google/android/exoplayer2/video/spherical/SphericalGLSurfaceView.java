@@ -28,6 +28,10 @@ public final class SphericalGLSurfaceView extends GLSurfaceView {
         void onVideoSurfaceDestroyed(Surface surface);
     }
 
+    public void addVideoSurfaceListener(VideoSurfaceListener videoSurfaceListener) {
+        this.videoSurfaceListeners.add(videoSurfaceListener);
+    }
+
     public void removeVideoSurfaceListener(VideoSurfaceListener videoSurfaceListener) {
         this.videoSurfaceListeners.remove(videoSurfaceListener);
     }

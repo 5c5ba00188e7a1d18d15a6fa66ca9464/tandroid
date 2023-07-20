@@ -2,7 +2,10 @@ package org.telegram.ui.Components;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.ColorFilter;
 import android.graphics.Path;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.Region;
 import android.os.Looper;
 import android.text.Editable;
@@ -22,13 +25,11 @@ import org.telegram.ui.Components.spoilers.SpoilerEffect;
 import org.telegram.ui.Components.spoilers.SpoilersClickDetector;
 /* loaded from: classes4.dex */
 public class EditTextEffects extends EditText {
-    private static final int SPOILER_TIMEOUT = 10000;
+    private ColorFilter animatedEmojiColorFilter;
     private AnimatedEmojiSpan.EmojiGroupedSpans animatedEmojiDrawables;
-    protected int animatedEmojiOffsetX;
-    protected boolean animatedEmojiRawDraw;
-    protected int animatedEmojiRawDrawFps;
     private SpoilersClickDetector clickDetector;
     private boolean clipToPadding;
+    public boolean drawAnimatedEmojiDrawables;
     private boolean isSpoilersRevealed;
     private Layout lastLayout;
     private float lastRippleX;
@@ -43,14 +44,7 @@ public class EditTextEffects extends EditText {
     private Runnable spoilerTimeout;
     private List<SpoilerEffect> spoilers;
     private Stack<SpoilerEffect> spoilersPool;
-    private boolean suppressOnTextChanged;
-
-    public void incrementFrames(int i) {
-        AnimatedEmojiSpan.EmojiGroupedSpans emojiGroupedSpans = this.animatedEmojiDrawables;
-        if (emojiGroupedSpans != null) {
-            emojiGroupedSpans.incrementFrames(i);
-        }
-    }
+    public boolean suppressOnTextChanged;
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$2() {
@@ -93,6 +87,7 @@ public class EditTextEffects extends EditText {
         this.spoilersPool = new Stack<>();
         this.shouldRevealSpoilersByTouch = true;
         this.path = new Path();
+        this.drawAnimatedEmojiDrawables = true;
         this.lastLayout = null;
         this.spoilerTimeout = new Runnable() { // from class: org.telegram.ui.Components.EditTextEffects$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
@@ -265,6 +260,12 @@ public class EditTextEffects extends EditText {
         super.setText(charSequence, bufferType);
     }
 
+    @Override // android.widget.TextView
+    public void setTextColor(int i) {
+        super.setTextColor(i);
+        this.animatedEmojiColorFilter = new PorterDuffColorFilter(i, PorterDuff.Mode.SRC_IN);
+    }
+
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.widget.TextView, android.view.View
     public void onLayout(boolean z, int i, int i2, int i3, int i4) {
@@ -328,14 +329,10 @@ public class EditTextEffects extends EditText {
         canvas.clipPath(this.path, Region.Op.DIFFERENCE);
         updateAnimatedEmoji(false);
         super.onDraw(canvas);
-        if (this.animatedEmojiDrawables != null) {
+        if (this.drawAnimatedEmojiDrawables && this.animatedEmojiDrawables != null) {
             canvas.save();
-            canvas.translate(this.animatedEmojiOffsetX, 0.0f);
-            if (this.animatedEmojiRawDraw) {
-                AnimatedEmojiSpan.drawRawAnimatedEmojis(canvas, getLayout(), this.animatedEmojiDrawables, 0.0f, this.spoilers, computeVerticalScrollOffset() - AndroidUtilities.dp(6.0f), computeVerticalScrollOffset() + computeVerticalScrollExtent(), 0.0f, 1.0f, this.animatedEmojiRawDrawFps);
-            } else {
-                AnimatedEmojiSpan.drawAnimatedEmojis(canvas, getLayout(), this.animatedEmojiDrawables, 0.0f, this.spoilers, computeVerticalScrollOffset() - AndroidUtilities.dp(6.0f), computeVerticalScrollOffset() + computeVerticalScrollExtent(), 0.0f, 1.0f);
-            }
+            canvas.translate(getPaddingLeft(), 0.0f);
+            AnimatedEmojiSpan.drawAnimatedEmojis(canvas, getLayout(), this.animatedEmojiDrawables, 0.0f, this.spoilers, computeVerticalScrollOffset() - AndroidUtilities.dp(6.0f), computeVerticalScrollOffset() + computeVerticalScrollExtent(), 0.0f, 1.0f, this.animatedEmojiColorFilter);
             canvas.restore();
         }
         canvas.restore();
@@ -366,13 +363,15 @@ public class EditTextEffects extends EditText {
     }
 
     public void updateAnimatedEmoji(boolean z) {
-        int length = (getLayout() == null || getLayout().getText() == null) ? 0 : getLayout().getText().length();
-        if (!z && this.lastLayout == getLayout() && this.lastTextLength == length) {
-            return;
+        if (this.drawAnimatedEmojiDrawables) {
+            int length = (getLayout() == null || getLayout().getText() == null) ? 0 : getLayout().getText().length();
+            if (!z && this.lastLayout == getLayout() && this.lastTextLength == length) {
+                return;
+            }
+            this.animatedEmojiDrawables = AnimatedEmojiSpan.update(AnimatedEmojiDrawable.getCacheTypeForEnterView(), this, this.animatedEmojiDrawables, getLayout());
+            this.lastLayout = getLayout();
+            this.lastTextLength = length;
         }
-        this.animatedEmojiDrawables = AnimatedEmojiSpan.update(AnimatedEmojiDrawable.getCacheTypeForEnterView(), this, this.animatedEmojiDrawables, getLayout());
-        this.lastLayout = getLayout();
-        this.lastTextLength = length;
     }
 
     public void invalidateEffects() {
@@ -388,7 +387,10 @@ public class EditTextEffects extends EditText {
         invalidateSpoilers();
     }
 
-    private void invalidateSpoilers() {
+    /* JADX INFO: Access modifiers changed from: protected */
+    public void invalidateSpoilers() {
+        AnimatedEmojiSpan.EmojiGroupedSpans emojiGroupedSpans;
+        AnimatedEmojiSpan.EmojiGroupedSpans emojiGroupedSpans2;
         List<SpoilerEffect> list = this.spoilers;
         if (list == null) {
             return;
@@ -401,14 +403,12 @@ public class EditTextEffects extends EditText {
         }
         Layout layout = getLayout();
         if (layout != null && (layout.getText() instanceof Spannable)) {
-            AnimatedEmojiSpan.EmojiGroupedSpans emojiGroupedSpans = this.animatedEmojiDrawables;
-            if (emojiGroupedSpans != null) {
-                emojiGroupedSpans.recordPositions(false);
+            if (this.drawAnimatedEmojiDrawables && (emojiGroupedSpans2 = this.animatedEmojiDrawables) != null) {
+                emojiGroupedSpans2.recordPositions(false);
             }
             SpoilerEffect.addSpoilers(this, this.spoilersPool, this.spoilers);
-            AnimatedEmojiSpan.EmojiGroupedSpans emojiGroupedSpans2 = this.animatedEmojiDrawables;
-            if (emojiGroupedSpans2 != null) {
-                emojiGroupedSpans2.recordPositions(true);
+            if (this.drawAnimatedEmojiDrawables && (emojiGroupedSpans = this.animatedEmojiDrawables) != null) {
+                emojiGroupedSpans.recordPositions(true);
             }
         }
         invalidate();

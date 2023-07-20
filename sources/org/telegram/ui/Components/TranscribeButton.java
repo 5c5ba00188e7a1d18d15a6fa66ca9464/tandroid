@@ -692,7 +692,7 @@ public class TranscribeButton {
         NotificationCenter notificationCenter = NotificationCenter.getInstance(i);
         int i2 = NotificationCenter.voiceTranscriptionUpdate;
         Boolean bool = Boolean.TRUE;
-        notificationCenter.postNotificationName(i2, messageObject, null, null, bool, bool);
+        notificationCenter.lambda$postNotificationNameOnUIThread$1(i2, messageObject, null, null, bool, bool);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -741,7 +741,7 @@ public class TranscribeButton {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$transcribePressed$5(int i, MessageObject messageObject) {
-        NotificationCenter.getInstance(i).postNotificationName(NotificationCenter.voiceTranscriptionUpdate, messageObject, null, null, Boolean.FALSE, null);
+        NotificationCenter.getInstance(i).lambda$postNotificationNameOnUIThread$1(NotificationCenter.voiceTranscriptionUpdate, messageObject, null, null, Boolean.FALSE, null);
     }
 
     public static boolean finishTranscription(final MessageObject messageObject, final long j, final String str) {
@@ -779,7 +779,7 @@ public class TranscribeButton {
         NotificationCenter notificationCenter = NotificationCenter.getInstance(messageObject.currentAccount);
         int i = NotificationCenter.voiceTranscriptionUpdate;
         Boolean bool = Boolean.TRUE;
-        notificationCenter.postNotificationName(i, messageObject, Long.valueOf(j), str, bool, bool);
+        notificationCenter.lambda$postNotificationNameOnUIThread$1(i, messageObject, Long.valueOf(j), str, bool, bool);
     }
 
     public static void showOffTranscribe(MessageObject messageObject) {
@@ -805,6 +805,6 @@ public class TranscribeButton {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$showOffTranscribe$7(MessageObject messageObject) {
-        NotificationCenter.getInstance(messageObject.currentAccount).postNotificationName(NotificationCenter.voiceTranscriptionUpdate, messageObject);
+        NotificationCenter.getInstance(messageObject.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.voiceTranscriptionUpdate, messageObject);
     }
 }

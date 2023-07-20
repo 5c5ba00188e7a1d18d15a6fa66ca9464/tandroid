@@ -39,6 +39,7 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesStorage;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.ConnectionsManager;
@@ -72,8 +73,10 @@ import org.telegram.ui.Components.HintView;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.spoilers.SpoilerEffect;
+import org.telegram.ui.Stories.StoriesController;
+import org.telegram.ui.Stories.StoryViewer;
 /* loaded from: classes3.dex */
-public class CalendarActivity extends BaseFragment {
+public class CalendarActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     TextPaint activeTextPaint;
     CalendarAdapter adapter;
     BackDrawable backDrawable;
@@ -115,6 +118,10 @@ public class CalendarActivity extends BaseFragment {
     int startFromMonth;
     int startFromYear;
     int startOffset;
+    private StoriesController.StoriesList storiesList;
+    private int storiesPlaceDay;
+    private StoryViewer.HolderDrawAbove storiesPlaceDrawAbove;
+    private StoryViewer.PlaceProvider storiesPlaceProvider;
     TextPaint textPaint;
     TextPaint textPaint2;
 
@@ -156,13 +163,110 @@ public class CalendarActivity extends BaseFragment {
     public boolean onFragmentCreate() {
         this.dialogId = getArguments().getLong("dialog_id");
         getArguments().getInt("topic_id");
-        this.calendarType = getArguments().getInt("type");
+        int i = getArguments().getInt("type");
+        this.calendarType = i;
+        if (i == 2) {
+            this.storiesList = MessagesController.getInstance(this.currentAccount).getStoriesController().getStoriesList(this.dialogId, 0);
+        } else if (i == 3) {
+            this.storiesList = MessagesController.getInstance(this.currentAccount).getStoriesController().getStoriesList(getUserConfig().clientUserId, 1);
+        }
+        if (this.storiesList != null) {
+            this.storiesPlaceProvider = new 1();
+        }
         if (this.dialogId >= 0) {
             this.canClearHistory = true;
         } else {
             this.canClearHistory = false;
         }
+        if (this.storiesList != null) {
+            NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.storiesListUpdated);
+        }
         return super.onFragmentCreate();
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: classes3.dex */
+    public class 1 implements StoryViewer.PlaceProvider {
+        1() {
+        }
+
+        @Override // org.telegram.ui.Stories.StoryViewer.PlaceProvider
+        public boolean findView(long j, int i, int i2, int i3, StoryViewer.TransitionViewHolder transitionViewHolder) {
+            if (CalendarActivity.this.listView == null) {
+                return false;
+            }
+            for (int i4 = 0; i4 < CalendarActivity.this.listView.getChildCount(); i4++) {
+                View childAt = CalendarActivity.this.listView.getChildAt(i4);
+                if (childAt instanceof MonthView) {
+                    MonthView monthView = (MonthView) childAt;
+                    if (monthView.messagesByDays == null) {
+                        continue;
+                    } else {
+                        for (int i5 = 0; i5 < monthView.messagesByDays.size(); i5++) {
+                            ArrayList<Integer> arrayList = monthView.messagesByDays.valueAt(i5).storyItems;
+                            if (arrayList != null && arrayList.contains(Integer.valueOf(i2))) {
+                                ImageReceiver imageReceiver = monthView.imagesByDays.get(CalendarActivity.this.storiesPlaceDay = monthView.messagesByDays.keyAt(i5));
+                                if (imageReceiver == null) {
+                                    return false;
+                                }
+                                transitionViewHolder.storyImage = imageReceiver;
+                                if (CalendarActivity.this.storiesPlaceDrawAbove == null) {
+                                    CalendarActivity.this.storiesPlaceDrawAbove = new StoryViewer.HolderDrawAbove() { // from class: org.telegram.ui.CalendarActivity$1$$ExternalSyntheticLambda0
+                                        @Override // org.telegram.ui.Stories.StoryViewer.HolderDrawAbove
+                                        public final void draw(Canvas canvas, RectF rectF, float f) {
+                                            CalendarActivity.1.this.lambda$findView$0(canvas, rectF, f);
+                                        }
+                                    };
+                                }
+                                transitionViewHolder.drawAbove = CalendarActivity.this.storiesPlaceDrawAbove;
+                                transitionViewHolder.view = monthView;
+                                transitionViewHolder.clipParent = ((BaseFragment) CalendarActivity.this).fragmentView;
+                                transitionViewHolder.clipTop = Math.max(0.0f, -monthView.getY());
+                                transitionViewHolder.clipBottom = ((BaseFragment) CalendarActivity.this).fragmentView.getBottom();
+                                transitionViewHolder.avatarImage = null;
+                                return true;
+                            }
+                        }
+                        continue;
+                    }
+                }
+            }
+            return false;
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$findView$0(Canvas canvas, RectF rectF, float f) {
+            CalendarActivity.this.blackoutPaint.setAlpha((int) (80.0f * f));
+            float lerp = AndroidUtilities.lerp(0.0f, Math.min(rectF.width(), rectF.height()) / 2.0f, f);
+            canvas.drawRoundRect(rectF, lerp, lerp, CalendarActivity.this.blackoutPaint);
+            float clamp = Utilities.clamp((f - 0.5f) / 0.5f, 1.0f, 0.0f);
+            if (clamp > 0.0f) {
+                int alpha = CalendarActivity.this.activeTextPaint.getAlpha();
+                CalendarActivity.this.activeTextPaint.setAlpha((int) (alpha * clamp));
+                canvas.save();
+                float min = Math.min(2.0f, Math.min(rectF.height(), rectF.width()) / AndroidUtilities.dp(44.0f));
+                canvas.scale(min, min, rectF.centerX(), rectF.centerY());
+                canvas.drawText(Integer.toString(CalendarActivity.this.storiesPlaceDay + 1), rectF.centerX(), rectF.centerY() + AndroidUtilities.dp(5.0f), CalendarActivity.this.activeTextPaint);
+                canvas.restore();
+                CalendarActivity.this.activeTextPaint.setAlpha(alpha);
+            }
+        }
+
+        @Override // org.telegram.ui.Stories.StoryViewer.PlaceProvider
+        public void preLayout(long j, int i, Runnable runnable) {
+            if (CalendarActivity.this.listView == null) {
+                runnable.run();
+            }
+            CalendarActivity.this.listView.post(runnable);
+        }
+    }
+
+    @Override // org.telegram.ui.ActionBar.BaseFragment
+    public void onFragmentDestroy() {
+        super.onFragmentDestroy();
+        if (this.storiesList != null) {
+            NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.storiesListUpdated);
+        }
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -175,7 +279,7 @@ public class CalendarActivity extends BaseFragment {
         this.activeTextPaint.setTextSize(AndroidUtilities.dp(16.0f));
         this.activeTextPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.activeTextPaint.setTextAlign(Paint.Align.CENTER);
-        this.contentView = new FrameLayout(context) { // from class: org.telegram.ui.CalendarActivity.1
+        this.contentView = new FrameLayout(context) { // from class: org.telegram.ui.CalendarActivity.2
             int lastSize;
 
             @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
@@ -192,7 +296,7 @@ public class CalendarActivity extends BaseFragment {
         this.contentView.addView(this.actionBar);
         this.actionBar.setTitle(LocaleController.getString("Calendar", R.string.Calendar));
         this.actionBar.setCastShadows(false);
-        RecyclerListView recyclerListView = new RecyclerListView(context) { // from class: org.telegram.ui.CalendarActivity.2
+        RecyclerListView recyclerListView = new RecyclerListView(context) { // from class: org.telegram.ui.CalendarActivity.3
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
             public void dispatchDraw(Canvas canvas) {
@@ -206,10 +310,10 @@ public class CalendarActivity extends BaseFragment {
         recyclerListView.setLayoutManager(linearLayoutManager);
         this.layoutManager.setReverseLayout(true);
         RecyclerListView recyclerListView2 = this.listView;
-        CalendarAdapter calendarAdapter = new CalendarAdapter();
+        CalendarAdapter calendarAdapter = new CalendarAdapter(this, null);
         this.adapter = calendarAdapter;
         recyclerListView2.setAdapter(calendarAdapter);
-        this.listView.addOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.CalendarActivity.3
+        this.listView.addOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.CalendarActivity.4
             @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
             public void onScrolled(RecyclerView recyclerView, int i, int i2) {
                 super.onScrolled(recyclerView, i, i2);
@@ -220,7 +324,7 @@ public class CalendarActivity extends BaseFragment {
         this.contentView.addView(this.listView, LayoutHelper.createFrame(-1, -1.0f, 0, 0.0f, 36.0f, 0.0f, z ? 48.0f : 0.0f));
         final String[] strArr = {LocaleController.getString("CalendarWeekNameShortMonday", R.string.CalendarWeekNameShortMonday), LocaleController.getString("CalendarWeekNameShortTuesday", R.string.CalendarWeekNameShortTuesday), LocaleController.getString("CalendarWeekNameShortWednesday", R.string.CalendarWeekNameShortWednesday), LocaleController.getString("CalendarWeekNameShortThursday", R.string.CalendarWeekNameShortThursday), LocaleController.getString("CalendarWeekNameShortFriday", R.string.CalendarWeekNameShortFriday), LocaleController.getString("CalendarWeekNameShortSaturday", R.string.CalendarWeekNameShortSaturday), LocaleController.getString("CalendarWeekNameShortSunday", R.string.CalendarWeekNameShortSunday)};
         final Drawable mutate = ContextCompat.getDrawable(context, R.drawable.header_shadow).mutate();
-        this.contentView.addView(new View(context) { // from class: org.telegram.ui.CalendarActivity.4
+        this.contentView.addView(new View(context) { // from class: org.telegram.ui.CalendarActivity.5
             @Override // android.view.View
             protected void onDraw(Canvas canvas) {
                 super.onDraw(canvas);
@@ -232,7 +336,7 @@ public class CalendarActivity extends BaseFragment {
                 mutate.draw(canvas);
             }
         }, LayoutHelper.createFrame(-1, 38.0f, 0, 0.0f, 0.0f, 0.0f, 0.0f));
-        this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.CalendarActivity.5
+        this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.CalendarActivity.6
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i) {
                 if (i == -1) {
@@ -270,7 +374,7 @@ public class CalendarActivity extends BaseFragment {
         updateColors();
         this.activeTextPaint.setColor(-1);
         if (z) {
-            FrameLayout frameLayout = new FrameLayout(this, context) { // from class: org.telegram.ui.CalendarActivity.6
+            FrameLayout frameLayout = new FrameLayout(this, context) { // from class: org.telegram.ui.CalendarActivity.7
                 @Override // android.view.View
                 public void onDraw(Canvas canvas) {
                     canvas.drawRect(0.0f, 0.0f, getMeasuredWidth(), AndroidUtilities.getShadowHeight(), Theme.dividerPaint);
@@ -341,7 +445,7 @@ public class CalendarActivity extends BaseFragment {
             this.selectDaysHint.showForView(this.bottomBar, true);
             return;
         }
-        AlertsCreator.createClearDaysDialogAlert(this, i, getMessagesController().getUser(Long.valueOf(this.dialogId)), null, false, new MessagesStorage.BooleanCallback() { // from class: org.telegram.ui.CalendarActivity.7
+        AlertsCreator.createClearDaysDialogAlert(this, i, getMessagesController().getUser(Long.valueOf(this.dialogId)), null, false, new MessagesStorage.BooleanCallback() { // from class: org.telegram.ui.CalendarActivity.8
             @Override // org.telegram.messenger.MessagesStorage.BooleanCallback
             public void run(boolean z) {
                 CalendarActivity.this.finishFragment();
@@ -372,6 +476,12 @@ public class CalendarActivity extends BaseFragment {
 
     private void loadNext() {
         if (this.loading || this.endReached) {
+            return;
+        }
+        if (this.storiesList != null) {
+            updateFromStoriesList();
+            this.storiesList.load(false, 100);
+            this.loading = this.storiesList.isLoading();
             return;
         }
         this.loading = true;
@@ -426,7 +536,7 @@ public class CalendarActivity extends BaseFragment {
                     sparseArray = new SparseArray<>();
                     this.messagesByYearMounth.put(i4, sparseArray);
                 }
-                PeriodDay periodDay = new PeriodDay();
+                PeriodDay periodDay = new PeriodDay(this, null);
                 periodDay.messageObject = new MessageObject(this.currentAccount, tLRPC$TL_messages_searchResultsCalendar.messages.get(i3), false, false);
                 periodDay.date = (int) (calendar.getTimeInMillis() / 1000);
                 int i5 = this.startOffset + tLRPC$TL_messages_searchResultsCalendar.periods.get(i3).count;
@@ -459,7 +569,7 @@ public class CalendarActivity extends BaseFragment {
                 }
                 int i10 = calendar.get(i) - 1;
                 if (sparseArray2.get(i10, null) == null) {
-                    PeriodDay periodDay2 = new PeriodDay();
+                    PeriodDay periodDay2 = new PeriodDay(this, null);
                     periodDay2.hasImage = false;
                     periodDay2.date = (int) (calendar.getTimeInMillis() / 1000);
                     sparseArray2.put(i10, periodDay2);
@@ -516,10 +626,89 @@ public class CalendarActivity extends BaseFragment {
         }
     }
 
+    private void updateFromStoriesList() {
+        this.loading = this.storiesList.isLoading();
+        Calendar calendar = Calendar.getInstance();
+        this.messagesByYearMounth.clear();
+        this.minDate = ConnectionsManager.DEFAULT_DATACENTER_ID;
+        for (int i = 0; i < this.storiesList.messageObjects.size(); i++) {
+            MessageObject messageObject = this.storiesList.messageObjects.get(i);
+            this.minDate = Math.min(this.minDate, messageObject.messageOwner.date);
+            calendar.setTimeInMillis(messageObject.messageOwner.date * 1000);
+            int i2 = (calendar.get(1) * 100) + calendar.get(2);
+            SparseArray<PeriodDay> sparseArray = this.messagesByYearMounth.get(i2);
+            if (sparseArray == null) {
+                sparseArray = new SparseArray<>();
+                this.messagesByYearMounth.put(i2, sparseArray);
+            }
+            int i3 = calendar.get(5) - 1;
+            PeriodDay periodDay = sparseArray.get(i3);
+            if (periodDay == null) {
+                periodDay = new PeriodDay(this, null);
+                periodDay.storyItems = new ArrayList<>();
+            }
+            periodDay.storyItems.add(Integer.valueOf(messageObject.getId()));
+            periodDay.messageObject = messageObject;
+            periodDay.date = (int) (calendar.getTimeInMillis() / 1000);
+            sparseArray.put(i3, periodDay);
+            int i4 = this.minMontYear;
+            if (i2 < i4 || i4 == 0) {
+                this.minMontYear = i2;
+            }
+        }
+        int currentTimeMillis = (int) (System.currentTimeMillis() / 1000);
+        for (int i5 = this.minDate; i5 < currentTimeMillis; i5 += 86400) {
+            calendar.setTimeInMillis(i5 * 1000);
+            calendar.set(11, 0);
+            calendar.set(12, 0);
+            calendar.set(13, 0);
+            calendar.set(14, 0);
+            int i6 = (calendar.get(1) * 100) + calendar.get(2);
+            SparseArray<PeriodDay> sparseArray2 = this.messagesByYearMounth.get(i6);
+            if (sparseArray2 == null) {
+                sparseArray2 = new SparseArray<>();
+                this.messagesByYearMounth.put(i6, sparseArray2);
+            }
+            int i7 = calendar.get(5) - 1;
+            if (sparseArray2.get(i7, null) == null) {
+                PeriodDay periodDay2 = new PeriodDay(this, null);
+                periodDay2.hasImage = false;
+                periodDay2.date = (int) (calendar.getTimeInMillis() / 1000);
+                sparseArray2.put(i7, periodDay2);
+            }
+        }
+        this.endReached = this.storiesList.isFull();
+        if (this.isOpened) {
+            this.checkEnterItems = true;
+        }
+        this.listView.invalidate();
+        int timeInMillis = ((int) (((calendar.getTimeInMillis() / 1000) - this.minDate) / 2629800)) + 1;
+        this.adapter.notifyItemRangeChanged(0, this.monthCount);
+        int i8 = this.monthCount;
+        if (timeInMillis > i8) {
+            this.adapter.notifyItemRangeInserted(i8 + 1, timeInMillis);
+            this.monthCount = timeInMillis;
+        }
+        if (this.endReached) {
+            resumeDelayedFragmentAnimation();
+        }
+    }
+
+    @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
+    public void didReceivedNotification(int i, int i2, Object... objArr) {
+        if (i == NotificationCenter.storiesListUpdated && this.storiesList == ((StoriesController.StoriesList) objArr[0])) {
+            updateFromStoriesList();
+        }
+    }
+
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class CalendarAdapter extends RecyclerView.Adapter {
         private CalendarAdapter() {
+        }
+
+        /* synthetic */ CalendarAdapter(CalendarActivity calendarActivity, 1 r2) {
+            this();
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -677,14 +866,19 @@ public class CalendarActivity extends BaseFragment {
             @SuppressLint({"NotifyDataSetChanged"})
             public boolean onSingleTapUp(MotionEvent motionEvent) {
                 PeriodDay dayAtCoord;
-                MessageObject messageObject;
-                Callback callback;
                 if (((BaseFragment) CalendarActivity.this).parentLayout == null) {
                     return false;
                 }
-                if (CalendarActivity.this.calendarType == 1 && MonthView.this.messagesByDays != null && (dayAtCoord = getDayAtCoord(motionEvent.getX(), motionEvent.getY())) != null && (messageObject = dayAtCoord.messageObject) != null && (callback = CalendarActivity.this.callback) != null) {
-                    callback.onDateSelected(messageObject.getId(), dayAtCoord.startOffset);
-                    CalendarActivity.this.finishFragment();
+                if (((CalendarActivity.this.calendarType == 1 && MonthView.this.messagesByDays != null) || CalendarActivity.this.storiesList != null) && (dayAtCoord = getDayAtCoord(motionEvent.getX(), motionEvent.getY())) != null && dayAtCoord.messageObject != null) {
+                    CalendarActivity calendarActivity = CalendarActivity.this;
+                    if (calendarActivity.callback != null) {
+                        if (calendarActivity.storiesList != null) {
+                            CalendarActivity.this.getOrCreateStoryViewer().open(MonthView.this.getContext(), dayAtCoord.messageObject.storyItem, Math.max(0, CalendarActivity.this.storiesList.messageObjects.indexOf(dayAtCoord.messageObject)), CalendarActivity.this.storiesList, true, CalendarActivity.this.storiesPlaceProvider);
+                        } else {
+                            CalendarActivity.this.callback.onDateSelected(dayAtCoord.messageObject.getId(), dayAtCoord.startOffset);
+                            CalendarActivity.this.finishFragment();
+                        }
+                    }
                 }
                 MonthView monthView = MonthView.this;
                 if (monthView.messagesByDays != null) {
@@ -706,24 +900,24 @@ public class CalendarActivity extends BaseFragment {
                                                     CalendarActivity.this.dateSelectedStart = dayAtCoord2.date;
                                                 }
                                             } else {
-                                                CalendarActivity calendarActivity = CalendarActivity.this;
-                                                calendarActivity.dateSelectedStart = calendarActivity.dateSelectedEnd = dayAtCoord2.date;
+                                                CalendarActivity calendarActivity2 = CalendarActivity.this;
+                                                calendarActivity2.dateSelectedStart = calendarActivity2.dateSelectedEnd = dayAtCoord2.date;
                                             }
                                         } else {
-                                            CalendarActivity calendarActivity2 = CalendarActivity.this;
-                                            calendarActivity2.dateSelectedEnd = calendarActivity2.dateSelectedStart;
+                                            CalendarActivity calendarActivity3 = CalendarActivity.this;
+                                            calendarActivity3.dateSelectedEnd = calendarActivity3.dateSelectedStart;
                                         }
                                     } else {
-                                        CalendarActivity calendarActivity3 = CalendarActivity.this;
-                                        calendarActivity3.dateSelectedStart = calendarActivity3.dateSelectedEnd;
+                                        CalendarActivity calendarActivity4 = CalendarActivity.this;
+                                        calendarActivity4.dateSelectedStart = calendarActivity4.dateSelectedEnd;
                                     }
                                 } else {
-                                    CalendarActivity calendarActivity4 = CalendarActivity.this;
-                                    calendarActivity4.dateSelectedStart = calendarActivity4.dateSelectedEnd = 0;
+                                    CalendarActivity calendarActivity5 = CalendarActivity.this;
+                                    calendarActivity5.dateSelectedStart = calendarActivity5.dateSelectedEnd = 0;
                                 }
                             } else {
-                                CalendarActivity calendarActivity5 = CalendarActivity.this;
-                                calendarActivity5.dateSelectedStart = calendarActivity5.dateSelectedEnd = dayAtCoord2.date;
+                                CalendarActivity calendarActivity6 = CalendarActivity.this;
+                                calendarActivity6.dateSelectedStart = calendarActivity6.dateSelectedEnd = dayAtCoord2.date;
                             }
                             CalendarActivity.this.updateTitle();
                             CalendarActivity.this.animateSelection();
@@ -1437,6 +1631,7 @@ public class CalendarActivity extends BaseFragment {
         float selectStartEndProgress;
         float startEnterDelay;
         int startOffset;
+        ArrayList<Integer> storyItems;
         float toSelProgress;
         float toSelSEProgress;
         boolean wasDrawn;
@@ -1446,11 +1641,15 @@ public class CalendarActivity extends BaseFragment {
             this.startEnterDelay = 1.0f;
             this.hasImage = true;
         }
+
+        /* synthetic */ PeriodDay(CalendarActivity calendarActivity, 1 r2) {
+            this(calendarActivity);
+        }
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public ArrayList<ThemeDescription> getThemeDescriptions() {
-        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.CalendarActivity.8
+        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.CalendarActivity.9
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public /* synthetic */ void onAnimationProgress(float f) {
                 ThemeDescription.ThemeDescriptionDelegate.-CC.$default$onAnimationProgress(this, f);
@@ -1507,7 +1706,7 @@ public class CalendarActivity extends BaseFragment {
                 CalendarActivity.this.lambda$animateSelection$4(valueAnimator);
             }
         });
-        duration.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.CalendarActivity.9
+        duration.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.CalendarActivity.10
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationStart(Animator animator) {
                 for (int i = 0; i < CalendarActivity.this.listView.getChildCount(); i++) {

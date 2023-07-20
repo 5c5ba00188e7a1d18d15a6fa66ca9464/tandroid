@@ -49,7 +49,6 @@ import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$InputFile;
-import org.telegram.tgnet.TLRPC$InputPrivacyRule;
 import org.telegram.tgnet.TLRPC$InputUser;
 import org.telegram.tgnet.TLRPC$KeyboardButton;
 import org.telegram.tgnet.TLRPC$Photo;
@@ -60,6 +59,7 @@ import org.telegram.tgnet.TLRPC$TL_account_privacyRules;
 import org.telegram.tgnet.TLRPC$TL_account_setPrivacy;
 import org.telegram.tgnet.TLRPC$TL_error;
 import org.telegram.tgnet.TLRPC$TL_inputPhoto;
+import org.telegram.tgnet.TLRPC$TL_inputPrivacyKeyAbout;
 import org.telegram.tgnet.TLRPC$TL_inputPrivacyKeyAddedByPhone;
 import org.telegram.tgnet.TLRPC$TL_inputPrivacyKeyChatInvite;
 import org.telegram.tgnet.TLRPC$TL_inputPrivacyKeyForwards;
@@ -69,8 +69,11 @@ import org.telegram.tgnet.TLRPC$TL_inputPrivacyKeyPhoneP2P;
 import org.telegram.tgnet.TLRPC$TL_inputPrivacyKeyProfilePhoto;
 import org.telegram.tgnet.TLRPC$TL_inputPrivacyKeyStatusTimestamp;
 import org.telegram.tgnet.TLRPC$TL_inputPrivacyKeyVoiceMessages;
+import org.telegram.tgnet.TLRPC$TL_inputPrivacyValueAllowAll;
 import org.telegram.tgnet.TLRPC$TL_inputPrivacyValueAllowChatParticipants;
+import org.telegram.tgnet.TLRPC$TL_inputPrivacyValueAllowContacts;
 import org.telegram.tgnet.TLRPC$TL_inputPrivacyValueAllowUsers;
+import org.telegram.tgnet.TLRPC$TL_inputPrivacyValueDisallowAll;
 import org.telegram.tgnet.TLRPC$TL_inputPrivacyValueDisallowChatParticipants;
 import org.telegram.tgnet.TLRPC$TL_inputPrivacyValueDisallowUsers;
 import org.telegram.tgnet.TLRPC$TL_message;
@@ -264,7 +267,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
             userFull.flags |= 4194304;
             userFull.fallback_photo = tLRPC$TL_photos_photo.photo;
             getMessagesStorage().updateUserInfo(userFull, true);
-            NotificationCenter.getInstance(this.currentAccount).postNotificationName(NotificationCenter.reloadDialogPhotos, new Object[0]);
+            NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.reloadDialogPhotos, new Object[0]);
             TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tLRPC$TL_photos_photo.photo.sizes, 100);
             TLRPC$PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(tLRPC$TL_photos_photo.photo.sizes, 1000);
             if (closestPhotoSizeWithSize != null && this.avatarForRest != null) {
@@ -754,6 +757,8 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
             this.actionBar.setTitle(LocaleController.getString("PrivacyForwards", R.string.PrivacyForwards));
         } else if (i == 4) {
             this.actionBar.setTitle(LocaleController.getString("PrivacyProfilePhoto", R.string.PrivacyProfilePhoto));
+        } else if (i == 9) {
+            this.actionBar.setTitle(LocaleController.getString("PrivacyBio", R.string.PrivacyBio));
         } else if (i == 3) {
             this.actionBar.setTitle(LocaleController.getString("PrivacyP2P", R.string.PrivacyP2P));
         } else if (i == 2) {
@@ -898,7 +903,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
                     return;
                 }
                 int i4 = this.rulesType;
-                PrivacyUsersActivity privacyUsersActivity = new PrivacyUsersActivity(0, arrayList, (i4 == 0 || i4 == 4) ? false : true, i == this.alwaysShareRow);
+                PrivacyUsersActivity privacyUsersActivity = new PrivacyUsersActivity(0, arrayList, (i4 == 0 || i4 == 4 || i4 == 9) ? false : true, i == this.alwaysShareRow);
                 privacyUsersActivity.setDelegate(new PrivacyUsersActivity.PrivacyActivityDelegate() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda15
                     @Override // org.telegram.ui.PrivacyUsersActivity.PrivacyActivityDelegate
                     public final void didUpdateUserList(ArrayList arrayList2, boolean z) {
@@ -935,7 +940,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
             tLRPC$TL_inputPhoto.file_reference = new byte[0];
         }
         MessagesController.getInstance(this.currentAccount).deleteUserPhoto(tLRPC$TL_inputPhoto);
-        NotificationCenter.getInstance(this.currentAccount).postNotificationName(NotificationCenter.reloadDialogPhotos, new Object[0]);
+        NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.reloadDialogPhotos, new Object[0]);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1022,23 +1027,9 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
                 TLRPC$TL_account_setPrivacy tLRPC$TL_account_setPrivacy2 = new TLRPC$TL_account_setPrivacy();
                 tLRPC$TL_account_setPrivacy2.key = new TLRPC$TL_inputPrivacyKeyAddedByPhone();
                 if (this.currentSubType == 0) {
-                    tLRPC$TL_account_setPrivacy2.rules.add(new TLRPC$InputPrivacyRule() { // from class: org.telegram.tgnet.TLRPC$TL_inputPrivacyValueAllowAll
-                        public static int constructor = 407582158;
-
-                        @Override // org.telegram.tgnet.TLObject
-                        public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-                            abstractSerializedData.writeInt32(constructor);
-                        }
-                    });
+                    tLRPC$TL_account_setPrivacy2.rules.add(new TLRPC$TL_inputPrivacyValueAllowAll());
                 } else {
-                    tLRPC$TL_account_setPrivacy2.rules.add(new TLRPC$InputPrivacyRule() { // from class: org.telegram.tgnet.TLRPC$TL_inputPrivacyValueAllowContacts
-                        public static int constructor = 218751099;
-
-                        @Override // org.telegram.tgnet.TLObject
-                        public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-                            abstractSerializedData.writeInt32(constructor);
-                        }
-                    });
+                    tLRPC$TL_account_setPrivacy2.rules.add(new TLRPC$TL_inputPrivacyValueAllowContacts());
                 }
                 ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_setPrivacy2, new RequestDelegate() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda11
                     @Override // org.telegram.tgnet.RequestDelegate
@@ -1051,6 +1042,8 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
             tLRPC$TL_account_setPrivacy.key = new TLRPC$TL_inputPrivacyKeyForwards();
         } else if (i == 4) {
             tLRPC$TL_account_setPrivacy.key = new TLRPC$TL_inputPrivacyKeyProfilePhoto();
+        } else if (i == 9) {
+            tLRPC$TL_account_setPrivacy.key = new TLRPC$TL_inputPrivacyKeyAbout();
         } else if (i == 3) {
             tLRPC$TL_account_setPrivacy.key = new TLRPC$TL_inputPrivacyKeyPhoneP2P();
         } else if (i == 2) {
@@ -1098,32 +1091,11 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
         }
         int i4 = this.currentType;
         if (i4 == 0) {
-            tLRPC$TL_account_setPrivacy.rules.add(new TLRPC$InputPrivacyRule() { // from class: org.telegram.tgnet.TLRPC$TL_inputPrivacyValueAllowAll
-                public static int constructor = 407582158;
-
-                @Override // org.telegram.tgnet.TLObject
-                public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-                    abstractSerializedData.writeInt32(constructor);
-                }
-            });
+            tLRPC$TL_account_setPrivacy.rules.add(new TLRPC$TL_inputPrivacyValueAllowAll());
         } else if (i4 == 1) {
-            tLRPC$TL_account_setPrivacy.rules.add(new TLRPC$InputPrivacyRule() { // from class: org.telegram.tgnet.TLRPC$TL_inputPrivacyValueDisallowAll
-                public static int constructor = -697604407;
-
-                @Override // org.telegram.tgnet.TLObject
-                public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-                    abstractSerializedData.writeInt32(constructor);
-                }
-            });
+            tLRPC$TL_account_setPrivacy.rules.add(new TLRPC$TL_inputPrivacyValueDisallowAll());
         } else if (i4 == 2) {
-            tLRPC$TL_account_setPrivacy.rules.add(new TLRPC$InputPrivacyRule() { // from class: org.telegram.tgnet.TLRPC$TL_inputPrivacyValueAllowContacts
-                public static int constructor = 218751099;
-
-                @Override // org.telegram.tgnet.TLObject
-                public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-                    abstractSerializedData.writeInt32(constructor);
-                }
-            });
+            tLRPC$TL_account_setPrivacy.rules.add(new TLRPC$TL_inputPrivacyValueAllowContacts());
         }
         final AlertDialog alertDialog = null;
         if (getParentActivity() != null) {
@@ -1332,7 +1304,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
         int i7 = i6 + 1;
         this.rowCount = i7;
         this.myContactsRow = i6;
-        if (i3 == 4 || i3 == 0 || i3 == 2 || i3 == 3 || i3 == 5 || i3 == 6 || i3 == 8 || i3 == 1) {
+        if (i3 == 4 || i3 == 9 || i3 == 0 || i3 == 2 || i3 == 3 || i3 == 5 || i3 == 6 || i3 == 8 || i3 == 1) {
             this.rowCount = i7 + 1;
             this.nobodyRow = i7;
         } else {
@@ -1677,7 +1649,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
             String string;
             String string2;
             int itemViewType = viewHolder.getItemViewType();
-            r4 = 0;
+            r5 = 0;
             int i2 = 0;
             if (itemViewType == 0) {
                 TextSettingsCell textSettingsCell = (TextSettingsCell) viewHolder.itemView;
@@ -1687,7 +1659,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
                     } else {
                         string2 = LocaleController.getString("EmpryUsersPlaceholder", R.string.EmpryUsersPlaceholder);
                     }
-                    if (PrivacyControlActivity.this.rulesType == 0 || PrivacyControlActivity.this.rulesType == 4) {
+                    if (PrivacyControlActivity.this.rulesType == 0 || PrivacyControlActivity.this.rulesType == 4 || PrivacyControlActivity.this.rulesType == 9) {
                         textSettingsCell.setTextAndValue(LocaleController.getString("AlwaysShareWith", R.string.AlwaysShareWith), string2, PrivacyControlActivity.this.neverShareRow != -1);
                     } else {
                         textSettingsCell.setTextAndValue(LocaleController.getString("AlwaysAllow", R.string.AlwaysAllow), string2, PrivacyControlActivity.this.neverShareRow != -1);
@@ -1698,7 +1670,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
                     } else {
                         string = LocaleController.getString("EmpryUsersPlaceholder", R.string.EmpryUsersPlaceholder);
                     }
-                    if (PrivacyControlActivity.this.rulesType != 0 && PrivacyControlActivity.this.rulesType != 4) {
+                    if (PrivacyControlActivity.this.rulesType != 0 && PrivacyControlActivity.this.rulesType != 4 && PrivacyControlActivity.this.rulesType != 9) {
                         textSettingsCell.setTextAndValue(LocaleController.getString("NeverAllow", R.string.NeverAllow), string, false);
                     } else {
                         textSettingsCell.setTextAndValue(LocaleController.getString("NeverShareWith", R.string.NeverShareWith), string, false);
@@ -1717,22 +1689,26 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
                     if (PrivacyControlActivity.this.rulesType != 6) {
                         if (PrivacyControlActivity.this.rulesType != 5) {
                             if (PrivacyControlActivity.this.rulesType != 4) {
-                                if (PrivacyControlActivity.this.rulesType != 3) {
-                                    if (PrivacyControlActivity.this.rulesType != 2) {
-                                        if (PrivacyControlActivity.this.rulesType != 1) {
-                                            if (PrivacyControlActivity.this.rulesType == 8) {
-                                                textInfoPrivacyCell.setText(LocaleController.getString("PrivacyVoiceMessagesInfo", R.string.PrivacyVoiceMessagesInfo));
+                                if (PrivacyControlActivity.this.rulesType != 9) {
+                                    if (PrivacyControlActivity.this.rulesType != 3) {
+                                        if (PrivacyControlActivity.this.rulesType != 2) {
+                                            if (PrivacyControlActivity.this.rulesType != 1) {
+                                                if (PrivacyControlActivity.this.rulesType == 8) {
+                                                    textInfoPrivacyCell.setText(LocaleController.getString("PrivacyVoiceMessagesInfo", R.string.PrivacyVoiceMessagesInfo));
+                                                } else {
+                                                    textInfoPrivacyCell.setText(LocaleController.getString("CustomHelp", R.string.CustomHelp));
+                                                }
                                             } else {
-                                                textInfoPrivacyCell.setText(LocaleController.getString("CustomHelp", R.string.CustomHelp));
+                                                textInfoPrivacyCell.setText(LocaleController.getString("WhoCanAddMeInfo", R.string.WhoCanAddMeInfo));
                                             }
                                         } else {
-                                            textInfoPrivacyCell.setText(LocaleController.getString("WhoCanAddMeInfo", R.string.WhoCanAddMeInfo));
+                                            textInfoPrivacyCell.setText(LocaleController.getString("WhoCanCallMeInfo", R.string.WhoCanCallMeInfo));
                                         }
                                     } else {
-                                        textInfoPrivacyCell.setText(LocaleController.getString("WhoCanCallMeInfo", R.string.WhoCanCallMeInfo));
+                                        textInfoPrivacyCell.setText(LocaleController.getString("PrivacyCallsP2PHelp", R.string.PrivacyCallsP2PHelp));
                                     }
                                 } else {
-                                    textInfoPrivacyCell.setText(LocaleController.getString("PrivacyCallsP2PHelp", R.string.PrivacyCallsP2PHelp));
+                                    textInfoPrivacyCell.setText(LocaleController.getString("PrivacyBioInfo", R.string.PrivacyBioInfo));
                                 }
                             } else {
                                 textInfoPrivacyCell.setText(LocaleController.getString("PrivacyProfilePhotoInfo", R.string.PrivacyProfilePhotoInfo));
@@ -1774,18 +1750,22 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
                                     textInfoPrivacyCell.setText(AndroidUtilities.replaceTags(LocaleController.getString("PrivacyProfilePhotoInfo5", R.string.PrivacyProfilePhotoInfo5)));
                                 }
                             } else if (PrivacyControlActivity.this.rulesType != 3) {
-                                if (PrivacyControlActivity.this.rulesType != 2) {
-                                    if (PrivacyControlActivity.this.rulesType != 1) {
-                                        if (PrivacyControlActivity.this.rulesType == 8) {
-                                            textInfoPrivacyCell.setText(LocaleController.getString("PrivacyVoiceMessagesInfo2", R.string.PrivacyVoiceMessagesInfo2));
+                                if (PrivacyControlActivity.this.rulesType != 9) {
+                                    if (PrivacyControlActivity.this.rulesType != 2) {
+                                        if (PrivacyControlActivity.this.rulesType != 1) {
+                                            if (PrivacyControlActivity.this.rulesType == 8) {
+                                                textInfoPrivacyCell.setText(LocaleController.getString("PrivacyVoiceMessagesInfo2", R.string.PrivacyVoiceMessagesInfo2));
+                                            } else {
+                                                textInfoPrivacyCell.setText(LocaleController.getString("CustomShareSettingsHelp", R.string.CustomShareSettingsHelp));
+                                            }
                                         } else {
-                                            textInfoPrivacyCell.setText(LocaleController.getString("CustomShareSettingsHelp", R.string.CustomShareSettingsHelp));
+                                            textInfoPrivacyCell.setText(LocaleController.getString("CustomShareInfo", R.string.CustomShareInfo));
                                         }
                                     } else {
-                                        textInfoPrivacyCell.setText(LocaleController.getString("CustomShareInfo", R.string.CustomShareInfo));
+                                        textInfoPrivacyCell.setText(LocaleController.getString("CustomCallInfo", R.string.CustomCallInfo));
                                     }
                                 } else {
-                                    textInfoPrivacyCell.setText(LocaleController.getString("CustomCallInfo", R.string.CustomCallInfo));
+                                    textInfoPrivacyCell.setText(LocaleController.getString("PrivacyBioInfo", R.string.PrivacyBioInfo));
                                 }
                             } else {
                                 textInfoPrivacyCell.setText(LocaleController.getString("CustomP2PInfo", R.string.CustomP2PInfo));
@@ -1847,24 +1827,28 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
                     if (PrivacyControlActivity.this.rulesType != 6) {
                         if (PrivacyControlActivity.this.rulesType != 5) {
                             if (PrivacyControlActivity.this.rulesType != 4) {
-                                if (PrivacyControlActivity.this.rulesType != 3) {
-                                    if (PrivacyControlActivity.this.rulesType != 2) {
-                                        if (PrivacyControlActivity.this.rulesType != 1) {
-                                            if (PrivacyControlActivity.this.rulesType == 8) {
-                                                headerCell.setText(LocaleController.getString("PrivacyVoiceMessagesTitle", R.string.PrivacyVoiceMessagesTitle));
-                                                return;
-                                            } else {
-                                                headerCell.setText(LocaleController.getString("LastSeenTitle", R.string.LastSeenTitle));
-                                                return;
+                                if (PrivacyControlActivity.this.rulesType != 9) {
+                                    if (PrivacyControlActivity.this.rulesType != 3) {
+                                        if (PrivacyControlActivity.this.rulesType != 2) {
+                                            if (PrivacyControlActivity.this.rulesType != 1) {
+                                                if (PrivacyControlActivity.this.rulesType == 8) {
+                                                    headerCell.setText(LocaleController.getString("PrivacyVoiceMessagesTitle", R.string.PrivacyVoiceMessagesTitle));
+                                                    return;
+                                                } else {
+                                                    headerCell.setText(LocaleController.getString("LastSeenTitle", R.string.LastSeenTitle));
+                                                    return;
+                                                }
                                             }
+                                            headerCell.setText(LocaleController.getString("WhoCanAddMe", R.string.WhoCanAddMe));
+                                            return;
                                         }
-                                        headerCell.setText(LocaleController.getString("WhoCanAddMe", R.string.WhoCanAddMe));
+                                        headerCell.setText(LocaleController.getString("WhoCanCallMe", R.string.WhoCanCallMe));
                                         return;
                                     }
-                                    headerCell.setText(LocaleController.getString("WhoCanCallMe", R.string.WhoCanCallMe));
+                                    headerCell.setText(LocaleController.getString("P2PEnabledWith", R.string.P2PEnabledWith));
                                     return;
                                 }
-                                headerCell.setText(LocaleController.getString("P2PEnabledWith", R.string.P2PEnabledWith));
+                                headerCell.setText(LocaleController.getString("PrivacyBioTitle", R.string.PrivacyBioTitle));
                                 return;
                             }
                             headerCell.setText(LocaleController.getString("PrivacyProfilePhotoTitle", R.string.PrivacyProfilePhotoTitle));

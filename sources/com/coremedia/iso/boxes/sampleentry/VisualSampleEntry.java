@@ -80,6 +80,10 @@ public final class VisualSampleEntry extends AbstractSampleEntry {
         return this.compressorname;
     }
 
+    public void setCompressorname(String str) {
+        this.compressorname = str;
+    }
+
     public int getDepth() {
         return this.depth;
     }

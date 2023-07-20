@@ -145,7 +145,7 @@ public class RingtoneDataStore {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadFromPrefs$3() {
-        NotificationCenter.getInstance(this.currentAccount).postNotificationName(NotificationCenter.onUserRingtonesUpdated, new Object[0]);
+        NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.onUserRingtonesUpdated, new Object[0]);
     }
 
     private void saveTones(ArrayList<TLRPC$Document> arrayList) {
@@ -185,7 +185,7 @@ public class RingtoneDataStore {
             this.userRingtones.add(cachedTone);
         }
         edit.apply();
-        NotificationCenter.getInstance(this.currentAccount).postNotificationName(NotificationCenter.onUserRingtonesUpdated, new Object[0]);
+        NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.onUserRingtonesUpdated, new Object[0]);
     }
 
     public void saveTones() {
@@ -208,7 +208,7 @@ public class RingtoneDataStore {
         }
         edit.putInt(NotificationBadge.NewHtcHomeBadger.COUNT, i);
         edit.apply();
-        NotificationCenter.getInstance(this.currentAccount).postNotificationName(NotificationCenter.onUserRingtonesUpdated, new Object[0]);
+        NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.onUserRingtonesUpdated, new Object[0]);
     }
 
     private SharedPreferences getSharedPreferences() {
@@ -262,7 +262,7 @@ public class RingtoneDataStore {
             }
         }
         if (z2) {
-            NotificationCenter.getInstance(this.currentAccount).postNotificationName(NotificationCenter.onUserRingtonesUpdated, new Object[0]);
+            NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.onUserRingtonesUpdated, new Object[0]);
         }
     }
 

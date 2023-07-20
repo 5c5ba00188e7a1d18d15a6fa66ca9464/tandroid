@@ -308,7 +308,8 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView {
         }
         Iterator<Object> it = this.selectedChats.iterator();
         while (it.hasNext()) {
-            SendMessagesHelper.getInstance(this.currentAccount).sendMessage(str, ((TLRPC$User) it.next()).id, null, null, null, true, null, null, null, false, 0, null, false);
+            SendMessagesHelper.getInstance(this.currentAccount).sendMessage(SendMessagesHelper.SendMessageParams.of(str, ((TLRPC$User) it.next()).id, null, null, null, true, null, null, null, false, 0, null, false));
+            str = str;
         }
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable

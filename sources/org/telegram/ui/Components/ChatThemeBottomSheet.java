@@ -1045,7 +1045,7 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         }
 
         /* JADX WARN: Type inference failed for: r4v23 */
-        /* JADX WARN: Type inference failed for: r4v5, types: [boolean, int] */
+        /* JADX WARN: Type inference failed for: r4v5, types: [int, boolean] */
         /* JADX WARN: Type inference failed for: r4v8 */
         private boolean parseTheme(final Theme.ThemeInfo themeInfo) {
             int stringKeyToInt;
@@ -1328,6 +1328,11 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
         public /* synthetic */ void openAvatarsSearch() {
             ChatAttachAlert.ChatAttachViewDelegate.-CC.$default$openAvatarsSearch(this);
+        }
+
+        @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
+        public /* synthetic */ void sendAudio(ArrayList arrayList, CharSequence charSequence, boolean z, int i) {
+            ChatAttachAlert.ChatAttachViewDelegate.-CC.$default$sendAudio(this, arrayList, charSequence, z, i);
         }
 
         10() {

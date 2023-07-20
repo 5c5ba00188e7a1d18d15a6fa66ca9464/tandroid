@@ -25,13 +25,17 @@ public abstract class AbstractAppCenterService implements AppCenterService {
 
     protected abstract String getLoggerTag();
 
-    protected abstract int getTriggerCount();
+    /* JADX INFO: Access modifiers changed from: protected */
+    public int getTriggerCount() {
+        return 50;
+    }
 
     protected long getTriggerInterval() {
         return 3000L;
     }
 
-    protected int getTriggerMaxParallelRequests() {
+    /* JADX INFO: Access modifiers changed from: protected */
+    public int getTriggerMaxParallelRequests() {
         return 3;
     }
 
@@ -150,7 +154,8 @@ public abstract class AbstractAppCenterService implements AppCenterService {
         applyEnabledState(isInstanceEnabled);
     }
 
-    protected String getEnabledPreferenceKey() {
+    /* JADX INFO: Access modifiers changed from: protected */
+    public String getEnabledPreferenceKey() {
         return "enabled_" + getServiceName();
     }
 
@@ -159,7 +164,8 @@ public abstract class AbstractAppCenterService implements AppCenterService {
         post(runnable, null, null);
     }
 
-    protected synchronized boolean post(final Runnable runnable, Runnable runnable2, final Runnable runnable3) {
+    /* JADX INFO: Access modifiers changed from: protected */
+    public synchronized boolean post(final Runnable runnable, Runnable runnable2, final Runnable runnable3) {
         AppCenterHandler appCenterHandler = this.mHandler;
         if (appCenterHandler == null) {
             AppCenterLog.error("AppCenter", getServiceName() + " needs to be started before it can be used.");

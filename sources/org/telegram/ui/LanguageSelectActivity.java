@@ -217,7 +217,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
                         boolean z3 = !getContextValue();
                         getMessagesController().getTranslateController().setContextTranslateEnabled(z3);
                         ((TextCheckCell) view).setChecked(z3);
-                        NotificationCenter.getInstance(this.currentAccount).postNotificationName(NotificationCenter.updateSearchSettings, new Object[0]);
+                        NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.updateSearchSettings, new Object[0]);
                     } else if (i == 2) {
                         boolean z4 = !getChatValue();
                         if (z4 && !getUserConfig().isPremium()) {
@@ -225,7 +225,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
                             return;
                         }
                         getMessagesController().getTranslateController().setChatTranslateEnabled(z4);
-                        NotificationCenter.getInstance(this.currentAccount).postNotificationName(NotificationCenter.updateSearchSettings, new Object[0]);
+                        NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.updateSearchSettings, new Object[0]);
                         ((TextCheckCell) view).setChecked(z4);
                     }
                     if (!getContextValue() && !getChatValue()) {

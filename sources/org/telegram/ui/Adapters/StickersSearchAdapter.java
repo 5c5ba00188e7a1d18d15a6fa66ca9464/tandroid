@@ -432,7 +432,7 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
         View view;
         LinearLayout linearLayout;
         if (i == 0) {
-            StickerEmojiCell stickerEmojiCell = new StickerEmojiCell(this, this.context, false) { // from class: org.telegram.ui.Adapters.StickersSearchAdapter.2
+            StickerEmojiCell stickerEmojiCell = new StickerEmojiCell(this, this.context, false, this.resourcesProvider) { // from class: org.telegram.ui.Adapters.StickersSearchAdapter.2
                 @Override // android.widget.FrameLayout, android.view.View
                 public void onMeasure(int i2, int i3) {
                     super.onMeasure(i2, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(82.0f), 1073741824));

@@ -45,6 +45,15 @@ public class Purchase {
         return false;
     }
 
+    public AccountIdentifiers getAccountIdentifiers() {
+        String optString = this.zzc.optString("obfuscatedAccountId");
+        String optString2 = this.zzc.optString("obfuscatedProfileId");
+        if (optString == null && optString2 == null) {
+            return null;
+        }
+        return new AccountIdentifiers(optString, optString2);
+    }
+
     public String getOrderId() {
         return this.zzc.optString("orderId");
     }

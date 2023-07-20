@@ -6655,12 +6655,6 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public void notifyItemRemoved(int i) {
-            updateRows();
-            super.notifyItemRemoved(i);
-        }
-
-        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public void notifyItemRangeRemoved(int i, int i2) {
             updateRows();
             super.notifyItemRangeRemoved(i, i2);
@@ -7479,7 +7473,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     }
                     TLRPC$DocumentAttribute tLRPC$DocumentAttribute = this.currentDocument.attributes.get(i2);
                     if (tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeAudio) {
-                        i = tLRPC$DocumentAttribute.duration;
+                        i = (int) tLRPC$DocumentAttribute.duration;
                         break;
                     }
                     i2++;

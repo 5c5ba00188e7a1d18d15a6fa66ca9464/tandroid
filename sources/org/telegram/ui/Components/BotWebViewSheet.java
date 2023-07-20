@@ -44,6 +44,7 @@ import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
+import org.telegram.messenger.SendMessagesHelper;
 import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.ConnectionsManager;
@@ -143,7 +144,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
         tLRPC$TL_messages_prolongWebView.silent = this.silent;
         int i = this.replyToMsgId;
         if (i != 0) {
-            tLRPC$TL_messages_prolongWebView.reply_to_msg_id = i;
+            tLRPC$TL_messages_prolongWebView.reply_to = SendMessagesHelper.creteReplyInput(i);
             tLRPC$TL_messages_prolongWebView.flags |= 1;
         }
         ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_prolongWebView, new RequestDelegate() { // from class: org.telegram.ui.Components.BotWebViewSheet$$ExternalSyntheticLambda15
@@ -940,7 +941,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
                     Bundle bundle = new Bundle();
                     bundle.putLong("user_id", j2);
                     if (BotWebViewSheet.this.parentActivity instanceof LaunchActivity) {
-                        ((LaunchActivity) BotWebViewSheet.this.parentActivity).lambda$runLinkRequest$77(new ChatActivity(bundle));
+                        ((LaunchActivity) BotWebViewSheet.this.parentActivity).lambda$runLinkRequest$80(new ChatActivity(bundle));
                     }
                     BotWebViewSheet.this.dismiss();
                 } else if (i5 == R.id.menu_reload_page) {
@@ -987,7 +988,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
                 tLRPC$TL_messages_requestWebView.flags |= 2;
             }
             if (i3 != 0) {
-                tLRPC$TL_messages_requestWebView.reply_to_msg_id = i3;
+                tLRPC$TL_messages_requestWebView.reply_to = SendMessagesHelper.creteReplyInput(i3);
                 tLRPC$TL_messages_requestWebView.flags |= 1;
             }
             if (z3) {
@@ -1159,11 +1160,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
 
     /* JADX INFO: Access modifiers changed from: private */
     public int getColor(int i) {
-        Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-        if (resourcesProvider != null && resourcesProvider.contains(i)) {
-            return this.resourcesProvider.getColor(i);
-        }
-        return Theme.getColor(i);
+        return Theme.getColor(i, this.resourcesProvider);
     }
 
     @Override // android.app.Dialog

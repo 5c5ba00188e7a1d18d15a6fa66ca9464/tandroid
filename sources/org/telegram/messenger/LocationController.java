@@ -265,7 +265,7 @@ public class LocationController extends BaseController implements NotificationCe
                     }
                 }
                 if (z2) {
-                    NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.liveLocationsCacheChanged, Long.valueOf(longValue), Integer.valueOf(this.currentAccount));
+                    NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.liveLocationsCacheChanged, Long.valueOf(longValue), Integer.valueOf(this.currentAccount));
                 }
             }
         } else if (i == NotificationCenter.messagesDeleted) {
@@ -314,7 +314,7 @@ public class LocationController extends BaseController implements NotificationCe
                     }
                 }
                 if (z3) {
-                    NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.liveLocationsCacheChanged, Long.valueOf(longValue3), Integer.valueOf(this.currentAccount));
+                    NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.liveLocationsCacheChanged, Long.valueOf(longValue3), Integer.valueOf(this.currentAccount));
                 }
             }
         }
@@ -376,7 +376,7 @@ public class LocationController extends BaseController implements NotificationCe
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onConnected$1(Integer num) {
-        getNotificationCenter().postNotificationName(NotificationCenter.needShowPlayServicesAlert, num);
+        getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.needShowPlayServicesAlert, num);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -570,7 +570,7 @@ public class LocationController extends BaseController implements NotificationCe
         if (this.sharingLocationsUI.isEmpty()) {
             stopService();
         }
-        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.liveLocationsChanged, new Object[0]);
+        NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.liveLocationsChanged, new Object[0]);
     }
 
     private boolean shouldStopGps() {
@@ -636,7 +636,7 @@ public class LocationController extends BaseController implements NotificationCe
         if (this.sharingLocationsUI.isEmpty()) {
             stopService();
         }
-        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.liveLocationsChanged, new Object[0]);
+        NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.liveLocationsChanged, new Object[0]);
     }
 
     private boolean shouldSendLocationNow() {
@@ -682,7 +682,7 @@ public class LocationController extends BaseController implements NotificationCe
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$setLastKnownLocation$11() {
-        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.newLocationAvailable, new Object[0]);
+        NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.newLocationAvailable, new Object[0]);
     }
 
     public void setCachedNearbyUsersAndChats(ArrayList<TLRPC$TL_peerLocated> arrayList, ArrayList<TLRPC$TL_peerLocated> arrayList2) {
@@ -735,7 +735,7 @@ public class LocationController extends BaseController implements NotificationCe
         this.sharingLocationsUI.add(sharingLocationInfo2);
         this.sharingLocationsMapUI.put(sharingLocationInfo2.did, sharingLocationInfo2);
         startService();
-        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.liveLocationsChanged, new Object[0]);
+        NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.liveLocationsChanged, new Object[0]);
     }
 
     public boolean isSharingLocation(long j) {
@@ -890,7 +890,7 @@ public class LocationController extends BaseController implements NotificationCe
             this.sharingLocationsMapUI.put(sharingLocationInfo.did, sharingLocationInfo);
         }
         startService();
-        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.liveLocationsChanged, new Object[0]);
+        NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.liveLocationsChanged, new Object[0]);
     }
 
     private void saveSharingLocation(final SharingLocationInfo sharingLocationInfo, final int i) {
@@ -991,7 +991,7 @@ public class LocationController extends BaseController implements NotificationCe
         if (this.sharingLocationsUI.isEmpty()) {
             stopService();
         }
-        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.liveLocationsChanged, new Object[0]);
+        NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.liveLocationsChanged, new Object[0]);
     }
 
     private void startService() {
@@ -1059,7 +1059,7 @@ public class LocationController extends BaseController implements NotificationCe
         this.sharingLocationsUI.clear();
         this.sharingLocationsMapUI.clear();
         stopService();
-        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.liveLocationsChanged, new Object[0]);
+        NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.liveLocationsChanged, new Object[0]);
     }
 
     public void setMapLocation(Location location, boolean z) {
@@ -1223,7 +1223,7 @@ public class LocationController extends BaseController implements NotificationCe
         getMessagesController().putUsers(tLRPC$messages_Messages.users, false);
         getMessagesController().putChats(tLRPC$messages_Messages.chats, false);
         this.locationsCache.put(j, tLRPC$messages_Messages.messages);
-        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.liveLocationsCacheChanged, Long.valueOf(j), Integer.valueOf(this.currentAccount));
+        NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.liveLocationsCacheChanged, Long.valueOf(j), Integer.valueOf(this.currentAccount));
     }
 
     /* JADX WARN: Multi-variable type inference failed */

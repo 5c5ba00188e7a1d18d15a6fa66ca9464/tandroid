@@ -194,10 +194,6 @@ public class PaintingOverlay extends FrameLayout {
                     public boolean onTouchEvent(MotionEvent motionEvent) {
                         return false;
                     }
-
-                    {
-                        this.animatedEmojiOffsetX = AndroidUtilities.dp(8.0f);
-                    }
                 };
                 editTextOutline.setBackgroundColor(0);
                 editTextOutline.setPadding(AndroidUtilities.dp(7.0f), AndroidUtilities.dp(7.0f), AndroidUtilities.dp(7.0f), AndroidUtilities.dp(7.0f));

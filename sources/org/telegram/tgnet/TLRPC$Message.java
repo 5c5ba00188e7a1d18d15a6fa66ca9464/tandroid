@@ -4,7 +4,7 @@ import android.text.TextUtils;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import org.telegram.messenger.CharacterCompat;
+import org.telegram.messenger.FileLoaderPriorityQueue;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.Utilities;
 /* loaded from: classes.dex */
@@ -43,8 +43,9 @@ public class TLRPC$Message extends TLObject {
     public int realId;
     public TLRPC$MessageReplies replies;
     public TLRPC$Message replyMessage;
+    public TLRPC$StoryItem replyStory;
     public TLRPC$ReplyMarkup reply_markup;
-    public TLRPC$TL_messageReplyHeader reply_to;
+    public TLRPC$MessageReplyHeader reply_to;
     public int reqId;
     public int seq_in;
     public int seq_out;
@@ -123,7 +124,7 @@ public class TLRPC$Message extends TLObject {
                             this.via_bot_id = abstractSerializedData2.readInt64(z2);
                         }
                         if ((this.flags & 8) != 0) {
-                            this.reply_to = TLRPC$TL_messageReplyHeader.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
+                            this.reply_to = TLRPC$MessageReplyHeader.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
                         this.date = abstractSerializedData2.readInt32(z2);
                         this.message = abstractSerializedData2.readString(z2);
@@ -169,7 +170,7 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
                             this.edit_date = abstractSerializedData2.readInt32(z2);
                         }
-                        if ((this.flags & CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT) != 0) {
+                        if ((this.flags & 65536) != 0) {
                             this.post_author = abstractSerializedData2.readString(z2);
                         }
                         if ((this.flags & 131072) != 0) {
@@ -263,7 +264,7 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
                             abstractSerializedData2.writeInt32(this.edit_date);
                         }
-                        if ((this.flags & CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT) != 0) {
+                        if ((this.flags & 65536) != 0) {
                             abstractSerializedData2.writeString(this.post_author);
                         }
                         if ((this.flags & 131072) != 0) {
@@ -356,7 +357,7 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
                             this.edit_date = abstractSerializedData2.readInt32(z2);
                         }
-                        if ((this.flags & CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT) != 0) {
+                        if ((this.flags & 65536) != 0) {
                             this.post_author = abstractSerializedData2.readString(z2);
                         }
                     }
@@ -411,7 +412,7 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
                             abstractSerializedData2.writeInt32(this.edit_date);
                         }
-                        if ((this.flags & CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT) != 0) {
+                        if ((this.flags & 65536) != 0) {
                             abstractSerializedData2.writeString(this.post_author);
                         }
                         writeAttachPath(abstractSerializedData2);
@@ -490,13 +491,13 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
                             this.edit_date = abstractSerializedData2.readInt32(z2);
                         }
-                        if ((this.flags & CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT) != 0) {
+                        if ((this.flags & 65536) != 0) {
                             this.post_author = abstractSerializedData2.readString(z2);
                         }
                         if ((this.flags & 131072) != 0) {
                             this.grouped_id = abstractSerializedData2.readInt64(z2);
                         }
-                        if ((this.flags & 1048576) != 0) {
+                        if ((this.flags & FileLoaderPriorityQueue.PRIORITY_VALUE_MAX) != 0) {
                             this.reactions = TLRPC$MessageReactions.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
                         if ((this.flags & 4194304) != 0) {
@@ -574,13 +575,13 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
                             abstractSerializedData2.writeInt32(this.edit_date);
                         }
-                        if ((this.flags & CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT) != 0) {
+                        if ((this.flags & 65536) != 0) {
                             abstractSerializedData2.writeString(this.post_author);
                         }
                         if ((this.flags & 131072) != 0) {
                             abstractSerializedData2.writeInt64(this.grouped_id);
                         }
-                        if ((this.flags & 1048576) != 0) {
+                        if ((this.flags & FileLoaderPriorityQueue.PRIORITY_VALUE_MAX) != 0) {
                             this.reactions.serializeToStream(abstractSerializedData2);
                         }
                         if ((this.flags & 4194304) != 0) {
@@ -791,7 +792,7 @@ public class TLRPC$Message extends TLObject {
                             this.via_bot_id = abstractSerializedData2.readInt32(z2);
                         }
                         if ((this.flags & 8) != 0) {
-                            this.reply_to = TLRPC$TL_messageReplyHeader.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
+                            this.reply_to = TLRPC$MessageReplyHeader.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
                         this.date = abstractSerializedData2.readInt32(z2);
                         this.message = abstractSerializedData2.readString(z2);
@@ -837,7 +838,7 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
                             this.edit_date = abstractSerializedData2.readInt32(z2);
                         }
-                        if ((this.flags & CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT) != 0) {
+                        if ((this.flags & 65536) != 0) {
                             this.post_author = abstractSerializedData2.readString(z2);
                         }
                         if ((this.flags & 131072) != 0) {
@@ -929,7 +930,7 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
                             abstractSerializedData2.writeInt32(this.edit_date);
                         }
-                        if ((this.flags & CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT) != 0) {
+                        if ((this.flags & 65536) != 0) {
                             abstractSerializedData2.writeString(this.post_author);
                         }
                         if ((this.flags & 131072) != 0) {
@@ -1519,7 +1520,7 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
                             this.edit_date = abstractSerializedData2.readInt32(z2);
                         }
-                        if ((this.flags & CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT) != 0) {
+                        if ((this.flags & 65536) != 0) {
                             this.post_author = abstractSerializedData2.readString(z2);
                         }
                         if ((this.flags & 131072) != 0) {
@@ -1603,7 +1604,7 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
                             abstractSerializedData2.writeInt32(this.edit_date);
                         }
-                        if ((this.flags & CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT) != 0) {
+                        if ((this.flags & 65536) != 0) {
                             abstractSerializedData2.writeString(this.post_author);
                         }
                         if ((this.flags & 131072) != 0) {
@@ -1741,13 +1742,13 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
                             this.edit_date = abstractSerializedData2.readInt32(z2);
                         }
-                        if ((this.flags & CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT) != 0) {
+                        if ((this.flags & 65536) != 0) {
                             this.post_author = abstractSerializedData2.readString(z2);
                         }
                         if ((this.flags & 131072) != 0) {
                             this.grouped_id = abstractSerializedData2.readInt64(z2);
                         }
-                        if ((this.flags & 1048576) != 0) {
+                        if ((this.flags & FileLoaderPriorityQueue.PRIORITY_VALUE_MAX) != 0) {
                             this.reactions = TLRPC$MessageReactions.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
                         if ((this.flags & 4194304) != 0) {
@@ -1811,13 +1812,13 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
                             abstractSerializedData2.writeInt32(this.edit_date);
                         }
-                        if ((this.flags & CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT) != 0) {
+                        if ((this.flags & 65536) != 0) {
                             abstractSerializedData2.writeString(this.post_author);
                         }
                         if ((this.flags & 131072) != 0) {
                             abstractSerializedData2.writeInt64(this.grouped_id);
                         }
-                        if ((this.flags & 1048576) != 0) {
+                        if ((this.flags & FileLoaderPriorityQueue.PRIORITY_VALUE_MAX) != 0) {
                             this.reactions.serializeToStream(abstractSerializedData2);
                         }
                         if ((this.flags & 4194304) != 0) {
@@ -1928,7 +1929,7 @@ public class TLRPC$Message extends TLObject {
                         }
                         this.peer_id = TLRPC$Peer.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         if ((this.flags & 8) != 0) {
-                            this.reply_to = TLRPC$TL_messageReplyHeader.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
+                            this.reply_to = TLRPC$MessageReplyHeader.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
                         this.date = abstractSerializedData2.readInt32(z2);
                         this.action = TLRPC$MessageAction.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
@@ -2147,7 +2148,7 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
                             this.edit_date = abstractSerializedData2.readInt32(z2);
                         }
-                        if ((this.flags & CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT) != 0) {
+                        if ((this.flags & 65536) != 0) {
                             this.post_author = abstractSerializedData2.readString(z2);
                         }
                         if ((this.flags & 131072) != 0) {
@@ -2209,7 +2210,7 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
                             abstractSerializedData2.writeInt32(this.edit_date);
                         }
-                        if ((this.flags & CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT) != 0) {
+                        if ((this.flags & 65536) != 0) {
                             abstractSerializedData2.writeString(this.post_author);
                         }
                         if ((this.flags & 131072) != 0) {
@@ -2291,7 +2292,7 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
                             this.edit_date = abstractSerializedData2.readInt32(z2);
                         }
-                        if ((this.flags & CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT) != 0) {
+                        if ((this.flags & 65536) != 0) {
                             this.post_author = abstractSerializedData2.readString(z2);
                         }
                         if ((this.flags & 131072) != 0) {
@@ -2372,7 +2373,7 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
                             abstractSerializedData2.writeInt32(this.edit_date);
                         }
-                        if ((this.flags & CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT) != 0) {
+                        if ((this.flags & 65536) != 0) {
                             abstractSerializedData2.writeString(this.post_author);
                         }
                         if ((this.flags & 131072) != 0) {
@@ -2477,7 +2478,7 @@ public class TLRPC$Message extends TLObject {
                             this.via_bot_id = abstractSerializedData2.readInt32(z2);
                         }
                         if ((this.flags & 8) != 0) {
-                            this.reply_to = TLRPC$TL_messageReplyHeader.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
+                            this.reply_to = TLRPC$MessageReplyHeader.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
                         this.date = abstractSerializedData2.readInt32(z2);
                         this.message = abstractSerializedData2.readString(z2);
@@ -2523,7 +2524,7 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
                             this.edit_date = abstractSerializedData2.readInt32(z2);
                         }
-                        if ((this.flags & CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT) != 0) {
+                        if ((this.flags & 65536) != 0) {
                             this.post_author = abstractSerializedData2.readString(z2);
                         }
                         if ((this.flags & 131072) != 0) {
@@ -2612,7 +2613,7 @@ public class TLRPC$Message extends TLObject {
                         if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
                             abstractSerializedData2.writeInt32(this.edit_date);
                         }
-                        if ((this.flags & CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT) != 0) {
+                        if ((this.flags & 65536) != 0) {
                             abstractSerializedData2.writeString(this.post_author);
                         }
                         if ((this.flags & 131072) != 0) {
@@ -2899,8 +2900,8 @@ public class TLRPC$Message extends TLObject {
             if (this.params == null) {
                 this.params = new HashMap<>();
             }
-            this.layer = 158;
-            this.params.put("legacy_layer", "158");
+            this.layer = 160;
+            this.params.put("legacy_layer", "160");
         }
         if ((this.id < 0 || this.send_state == 3 || this.legacy) && (hashMap2 = this.params) != null && hashMap2.size() > 0) {
             for (Map.Entry<String, String> entry2 : this.params.entrySet()) {

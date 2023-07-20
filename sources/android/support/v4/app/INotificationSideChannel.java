@@ -9,6 +9,8 @@ import android.os.Parcelable;
 import android.os.RemoteException;
 /* loaded from: classes.dex */
 public interface INotificationSideChannel extends IInterface {
+    public static final String DESCRIPTOR = "android$support$v4$app$INotificationSideChannel".replace('$', '.');
+
     void cancel(String str, int i, String str2) throws RemoteException;
 
     void cancelAll(String str) throws RemoteException;
@@ -21,7 +23,7 @@ public interface INotificationSideChannel extends IInterface {
             if (iBinder == null) {
                 return null;
             }
-            IInterface queryLocalInterface = iBinder.queryLocalInterface("android.support.v4.app.INotificationSideChannel");
+            IInterface queryLocalInterface = iBinder.queryLocalInterface(INotificationSideChannel.DESCRIPTOR);
             if (queryLocalInterface != null && (queryLocalInterface instanceof INotificationSideChannel)) {
                 return (INotificationSideChannel) queryLocalInterface;
             }
@@ -45,7 +47,7 @@ public interface INotificationSideChannel extends IInterface {
             public void notify(String str, int i, String str2, Notification notification) throws RemoteException {
                 Parcel obtain = Parcel.obtain();
                 try {
-                    obtain.writeInterfaceToken("android.support.v4.app.INotificationSideChannel");
+                    obtain.writeInterfaceToken(INotificationSideChannel.DESCRIPTOR);
                     obtain.writeString(str);
                     obtain.writeInt(i);
                     obtain.writeString(str2);
@@ -60,7 +62,7 @@ public interface INotificationSideChannel extends IInterface {
             public void cancel(String str, int i, String str2) throws RemoteException {
                 Parcel obtain = Parcel.obtain();
                 try {
-                    obtain.writeInterfaceToken("android.support.v4.app.INotificationSideChannel");
+                    obtain.writeInterfaceToken(INotificationSideChannel.DESCRIPTOR);
                     obtain.writeString(str);
                     obtain.writeInt(i);
                     obtain.writeString(str2);
@@ -74,7 +76,7 @@ public interface INotificationSideChannel extends IInterface {
             public void cancelAll(String str) throws RemoteException {
                 Parcel obtain = Parcel.obtain();
                 try {
-                    obtain.writeInterfaceToken("android.support.v4.app.INotificationSideChannel");
+                    obtain.writeInterfaceToken(INotificationSideChannel.DESCRIPTOR);
                     obtain.writeString(str);
                     this.mRemote.transact(3, obtain, null, 1);
                 } finally {

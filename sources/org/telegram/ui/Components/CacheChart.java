@@ -30,7 +30,7 @@ import org.telegram.ui.Components.AnimatedTextView;
 import org.telegram.ui.Components.Premium.StarParticlesView;
 /* loaded from: classes4.dex */
 public class CacheChart extends View {
-    private static final int[] DEFAULT_COLORS = {Theme.key_statisticChartLine_lightblue, Theme.key_statisticChartLine_blue, Theme.key_statisticChartLine_green, Theme.key_statisticChartLine_red, Theme.key_statisticChartLine_lightgreen, Theme.key_statisticChartLine_orange, Theme.key_statisticChartLine_cyan, Theme.key_statisticChartLine_purple, Theme.key_statisticChartLine_golden};
+    private static final int[] DEFAULT_COLORS = {Theme.key_statisticChartLine_lightblue, Theme.key_statisticChartLine_blue, Theme.key_statisticChartLine_green, Theme.key_statisticChartLine_red, Theme.key_statisticChartLine_lightgreen, Theme.key_statisticChartLine_indigo, Theme.key_statisticChartLine_orange, Theme.key_statisticChartLine_cyan, Theme.key_statisticChartLine_purple, Theme.key_statisticChartLine_golden};
     private static final int[] DEFAULT_PARTICLES;
     private static Long loadedStart;
     private static long particlesStart;
@@ -86,7 +86,7 @@ public class CacheChart extends View {
     static {
         int i = R.raw.cache_videos;
         int i2 = R.raw.cache_other;
-        DEFAULT_PARTICLES = new int[]{R.raw.cache_photos, i, R.raw.cache_documents, R.raw.cache_music, i, R.raw.cache_stickers, R.raw.cache_profile_photos, i2, i2};
+        DEFAULT_PARTICLES = new int[]{R.raw.cache_photos, i, R.raw.cache_documents, R.raw.cache_music, i, i2, R.raw.cache_stickers, R.raw.cache_profile_photos, i2, i2};
         particlesStart = -1L;
     }
 

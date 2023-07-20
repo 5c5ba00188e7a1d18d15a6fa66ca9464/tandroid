@@ -41,7 +41,9 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.Premium.PremiumFeatureBottomSheet;
 import org.telegram.ui.Components.Premium.PremiumGradient;
 import org.telegram.ui.Components.RLottieDrawable;
+import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.PremiumPreviewFragment;
+import org.telegram.ui.Stories.StoryViewer;
 /* loaded from: classes4.dex */
 public class PremiumFeatureBottomSheet extends BottomSheet implements NotificationCenter.NotificationCenterDelegate {
     ActionBar actionBar;
@@ -428,6 +430,7 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(BaseFragment baseFragment, boolean z, PremiumPreviewFragment.PremiumFeatureData premiumFeatureData, View view) {
+        StoryViewer storyViewer;
         if (baseFragment instanceof ChatActivity) {
             ChatActivity chatActivity = (ChatActivity) baseFragment;
             chatActivity.closeMenu();
@@ -436,8 +439,17 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
                 chatAttachAlert.dismiss(true);
             }
         }
-        if (baseFragment != null && baseFragment.getVisibleDialog() != null) {
-            baseFragment.getVisibleDialog().dismiss();
+        BaseFragment lastFragment = LaunchActivity.getLastFragment();
+        int i = 0;
+        while (i < 2) {
+            BaseFragment baseFragment2 = i == 0 ? baseFragment : lastFragment;
+            if (baseFragment2 != null && (storyViewer = baseFragment2.storyViewer) != null && storyViewer.isShown()) {
+                baseFragment2.storyViewer.dismissVisibleDialogs();
+            }
+            if (baseFragment2 != null && baseFragment2.getVisibleDialog() != null) {
+                baseFragment2.getVisibleDialog().dismiss();
+            }
+            i++;
         }
         if ((z || this.forceAbout) && baseFragment != null) {
             baseFragment.presentFragment(new PremiumPreviewFragment(PremiumPreviewFragment.featureTypeToServerString(premiumFeatureData.type)));
@@ -481,7 +493,7 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
     @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog
     public void show() {
         super.show();
-        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.stopAllHeavyOperations, 16);
+        NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.stopAllHeavyOperations, 16);
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
@@ -532,7 +544,7 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
         NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.billingProductDetailsUpdated);
         NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.premiumPromoUpdated);
         NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.currentUserPremiumStatusChanged);
-        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.startAllHeavyOperations, 16);
+        NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.startAllHeavyOperations, 16);
     }
 
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate

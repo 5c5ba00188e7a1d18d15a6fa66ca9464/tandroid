@@ -1666,9 +1666,9 @@ public class ExifInterface {
 
     /* JADX WARN: Removed duplicated region for block: B:46:0x0133  */
     /* JADX WARN: Removed duplicated region for block: B:47:0x013b  */
-    /* JADX WARN: Removed duplicated region for block: B:88:0x0229  */
-    /* JADX WARN: Removed duplicated region for block: B:91:0x0247  */
-    /* JADX WARN: Removed duplicated region for block: B:96:0x0283  */
+    /* JADX WARN: Removed duplicated region for block: B:88:0x022a  */
+    /* JADX WARN: Removed duplicated region for block: B:91:0x0248  */
+    /* JADX WARN: Removed duplicated region for block: B:96:0x0284  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

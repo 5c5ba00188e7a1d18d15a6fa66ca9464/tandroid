@@ -15,7 +15,6 @@ import androidx.core.view.accessibility.AccessibilityNodeProviderCompat;
 import androidx.core.view.accessibility.AccessibilityRecordCompat;
 import java.util.ArrayList;
 import java.util.List;
-import org.telegram.messenger.CharacterCompat;
 import org.telegram.messenger.LiteMode;
 import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
@@ -311,7 +310,7 @@ public abstract class ExploreByTouchHelper extends AccessibilityDelegateCompat {
         if (this.mAccessibilityFocusedVirtualViewId == i) {
             this.mAccessibilityFocusedVirtualViewId = Integer.MIN_VALUE;
             this.mHost.invalidate();
-            sendEventForVirtualView(i, CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT);
+            sendEventForVirtualView(i, 65536);
             return true;
         }
         return false;

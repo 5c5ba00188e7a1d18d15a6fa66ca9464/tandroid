@@ -10,6 +10,10 @@ import org.json.JSONStringer;
 public class Data implements Model {
     private final JSONObject mProperties = new JSONObject();
 
+    public JSONObject getProperties() {
+        return this.mProperties;
+    }
+
     @Override // com.microsoft.appcenter.ingestion.models.Model
     public void read(JSONObject jSONObject) throws JSONException {
         JSONArray names = jSONObject.names();

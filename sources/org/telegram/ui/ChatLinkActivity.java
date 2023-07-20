@@ -500,7 +500,7 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
         NotificationCenter notificationCenter = NotificationCenter.getInstance(this.currentAccount);
         int i = NotificationCenter.chatInfoDidLoad;
         Boolean bool = Boolean.FALSE;
-        notificationCenter.postNotificationName(i, this.info, 0, bool, bool);
+        notificationCenter.lambda$postNotificationNameOnUIThread$1(i, this.info, 0, bool, bool);
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatLinkActivity$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
@@ -695,7 +695,7 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
         NotificationCenter notificationCenter = NotificationCenter.getInstance(this.currentAccount);
         int i = NotificationCenter.chatInfoDidLoad;
         Boolean bool = Boolean.FALSE;
-        notificationCenter.postNotificationName(i, this.info, 0, bool, bool);
+        notificationCenter.lambda$postNotificationNameOnUIThread$1(i, this.info, 0, bool, bool);
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatLinkActivity$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
             public final void run() {

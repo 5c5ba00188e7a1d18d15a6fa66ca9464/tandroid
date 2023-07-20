@@ -1075,7 +1075,7 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
         }
         SharedConfig.appLocked = false;
         SharedConfig.saveConfig();
-        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.didSetPasscode, new Object[0]);
+        NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.didSetPasscode, new Object[0]);
         setOnTouchListener(null);
         PasscodeViewDelegate passcodeViewDelegate = this.delegate;
         if (passcodeViewDelegate != null) {

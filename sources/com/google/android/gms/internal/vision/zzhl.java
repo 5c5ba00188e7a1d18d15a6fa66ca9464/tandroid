@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.vision;
 
 import java.io.IOException;
+import org.telegram.messenger.MessagesStorage;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
@@ -18,7 +19,7 @@ public final class zzhl {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static int zza(int i, byte[] bArr, int i2, zzhn zzhnVar) {
-        int i3 = i & 127;
+        int i3 = i & MessagesStorage.LAST_DB_VERSION;
         int i4 = i2 + 1;
         byte b = bArr[i2];
         if (b >= 0) {

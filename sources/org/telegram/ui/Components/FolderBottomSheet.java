@@ -544,7 +544,7 @@ public class FolderBottomSheet extends BottomSheetWithRecyclerListView {
                             boolean[] zArr = new boolean[1];
                             getBaseFragment().getMessagesController().ensureFolderDialogExists(1, zArr);
                             if (zArr[0]) {
-                                getBaseFragment().getNotificationCenter().postNotificationName(NotificationCenter.dialogsNeedReload, new Object[0]);
+                                getBaseFragment().getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.dialogsNeedReload, new Object[0]);
                             }
                         }
                         this.button.setLoading(true);

@@ -19,6 +19,7 @@ import com.google.android.exoplayer2.upstream.DefaultLoadErrorHandlingPolicy;
 import com.google.android.exoplayer2.upstream.LoadErrorHandlingPolicy;
 import com.google.android.exoplayer2.upstream.TransferListener;
 import com.google.android.exoplayer2.util.Assertions;
+import org.telegram.messenger.FileLoaderPriorityQueue;
 /* loaded from: classes.dex */
 public final class ProgressiveMediaSource extends BaseMediaSource implements ProgressiveMediaPeriod.Listener {
     private final int continueLoadingCheckIntervalBytes;
@@ -69,7 +70,7 @@ public final class ProgressiveMediaSource extends BaseMediaSource implements Pro
         }
 
         public Factory(DataSource.Factory factory, ProgressiveMediaExtractor.Factory factory2) {
-            this(factory, factory2, new DefaultDrmSessionManagerProvider(), new DefaultLoadErrorHandlingPolicy(), 1048576);
+            this(factory, factory2, new DefaultDrmSessionManagerProvider(), new DefaultLoadErrorHandlingPolicy(), FileLoaderPriorityQueue.PRIORITY_VALUE_MAX);
         }
 
         public Factory(DataSource.Factory factory, ProgressiveMediaExtractor.Factory factory2, DrmSessionManagerProvider drmSessionManagerProvider, LoadErrorHandlingPolicy loadErrorHandlingPolicy, int i) {

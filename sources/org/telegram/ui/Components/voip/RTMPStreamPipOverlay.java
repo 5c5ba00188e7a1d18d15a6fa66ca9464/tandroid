@@ -238,7 +238,7 @@ public class RTMPStreamPipOverlay implements NotificationCenter.NotificationCent
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$dismissInternal$6() {
-        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.groupCallVisibilityChanged, new Object[0]);
+        NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.groupCallVisibilityChanged, new Object[0]);
     }
 
     public static void show() {
@@ -526,7 +526,7 @@ public class RTMPStreamPipOverlay implements NotificationCenter.NotificationCent
         animatorSet.playTogether(ObjectAnimator.ofFloat(this.contentView, View.ALPHA, 1.0f), ObjectAnimator.ofFloat(this.contentView, View.SCALE_X, 1.0f), ObjectAnimator.ofFloat(this.contentView, View.SCALE_Y, 1.0f));
         animatorSet.start();
         bindTextureView();
-        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.groupCallVisibilityChanged, new Object[0]);
+        NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.groupCallVisibilityChanged, new Object[0]);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

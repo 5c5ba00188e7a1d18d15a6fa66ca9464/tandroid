@@ -67,7 +67,7 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
     private boolean codecNeedsMonoChannelCountWorkaround;
     private boolean codecNeedsSosFlushWorkaround;
     private float codecOperatingRate;
-    private MediaFormat codecOutputMediaFormat;
+    public MediaFormat codecOutputMediaFormat;
     private boolean codecOutputMediaFormatChanged;
     private boolean codecReceivedBuffers;
     private boolean codecReceivedEos;
@@ -109,13 +109,13 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
     private float targetPlaybackSpeed;
     private boolean waitingForFirstSampleInFormat;
 
-    protected abstract DecoderReuseEvaluation canReuseCodec(MediaCodecInfo mediaCodecInfo, Format format, Format format2);
-
     protected boolean getCodecNeedsEosPropagation() {
         return false;
     }
 
-    protected abstract float getCodecOperatingRateV23(float f, Format format, Format[] formatArr);
+    protected float getCodecOperatingRateV23(float f, Format format, Format[] formatArr) {
+        return -1.0f;
+    }
 
     protected abstract List<MediaCodecInfo> getDecoderInfos(MediaCodecSelector mediaCodecSelector, Format format, boolean z) throws MediaCodecUtil.DecoderQueryException;
 
@@ -124,13 +124,17 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
     protected void handleInputBufferSupplementalData(DecoderInputBuffer decoderInputBuffer) throws ExoPlaybackException {
     }
 
-    protected abstract void onCodecError(Exception exc);
+    protected void onCodecError(Exception exc) {
+    }
 
-    protected abstract void onCodecInitialized(String str, MediaCodecAdapter.Configuration configuration, long j, long j2);
+    protected void onCodecInitialized(String str, MediaCodecAdapter.Configuration configuration, long j, long j2) {
+    }
 
-    protected abstract void onCodecReleased(String str);
+    protected void onCodecReleased(String str) {
+    }
 
-    protected abstract void onOutputFormatChanged(Format format, MediaFormat mediaFormat) throws ExoPlaybackException;
+    protected void onOutputFormatChanged(Format format, MediaFormat mediaFormat) throws ExoPlaybackException {
+    }
 
     protected void onOutputStreamOffsetUsChanged(long j) {
     }
@@ -139,7 +143,8 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
     public void onProcessedStreamChange() {
     }
 
-    protected abstract void onQueueInputBuffer(DecoderInputBuffer decoderInputBuffer) throws ExoPlaybackException;
+    protected void onQueueInputBuffer(DecoderInputBuffer decoderInputBuffer) throws ExoPlaybackException {
+    }
 
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.BaseRenderer
@@ -1042,6 +1047,10 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
             System.arraycopy(jArr3, 1, jArr3, 0, this.pendingOutputStreamOffsetCount);
             onProcessedStreamChange();
         }
+    }
+
+    protected DecoderReuseEvaluation canReuseCodec(MediaCodecInfo mediaCodecInfo, Format format, Format format2) {
+        return new DecoderReuseEvaluation(mediaCodecInfo.name, format, format2, 0, 1);
     }
 
     @Override // com.google.android.exoplayer2.Renderer

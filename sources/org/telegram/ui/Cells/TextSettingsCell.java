@@ -37,7 +37,7 @@ public class TextSettingsCell extends FrameLayout {
     private float loadingProgress;
     private int loadingSize;
     private boolean measureDelay;
-    private boolean needDivider;
+    public boolean needDivider;
     private int padding;
     Paint paint;
     private Theme.ResourcesProvider resourcesProvider;

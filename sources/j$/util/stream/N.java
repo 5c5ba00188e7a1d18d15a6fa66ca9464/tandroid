@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import j$.util.function.Function;
+import j$.util.function.ToLongFunction;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public class N extends c1 {
@@ -73,8 +74,8 @@ public class N extends c1 {
     }
 
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public N(e3 e3Var, c cVar, e4 e4Var, int i, j$.util.function.A a) {
+    public N(e3 e3Var, c cVar, e4 e4Var, int i, ToLongFunction toLongFunction) {
         super(cVar, e4Var, i);
-        this.m = a;
+        this.m = toLongFunction;
     }
 }

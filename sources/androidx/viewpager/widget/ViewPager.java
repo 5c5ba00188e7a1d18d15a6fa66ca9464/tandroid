@@ -396,6 +396,26 @@ public class ViewPager extends ViewGroup {
         this.mOnPageChangeListeners.add(onPageChangeListener);
     }
 
+    public void setPageTransformer(boolean z, PageTransformer pageTransformer) {
+        setPageTransformer(z, pageTransformer, 2);
+    }
+
+    public void setPageTransformer(boolean z, PageTransformer pageTransformer, int i) {
+        boolean z2 = pageTransformer != null;
+        boolean z3 = z2 != (this.mPageTransformer != null);
+        this.mPageTransformer = pageTransformer;
+        setChildrenDrawingOrderEnabled(z2);
+        if (z2) {
+            this.mDrawingOrder = z ? 2 : 1;
+            this.mPageTransformerLayerType = i;
+        } else {
+            this.mDrawingOrder = 0;
+        }
+        if (z3) {
+            populate();
+        }
+    }
+
     @Override // android.view.ViewGroup
     protected int getChildDrawingOrder(int i, int i2) {
         if (this.mDrawingOrder == 2) {
@@ -1008,9 +1028,8 @@ public class ViewPager extends ViewGroup {
         return null;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.ViewGroup, android.view.View
-    public void onAttachedToWindow() {
+    protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         this.mFirstLayout = true;
     }
@@ -1136,13 +1155,14 @@ public class ViewPager extends ViewGroup {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     /* JADX WARN: Removed duplicated region for block: B:22:0x0071  */
     /* JADX WARN: Removed duplicated region for block: B:29:0x008e  */
     @Override // android.view.ViewGroup, android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
+    public void onLayout(boolean z, int i, int i2, int i3, int i4) {
         boolean z2;
         ItemInfo infoForChild;
         int max;

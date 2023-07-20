@@ -952,11 +952,7 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
 
     /* JADX INFO: Access modifiers changed from: private */
     public int getColor(int i) {
-        Theme.ResourcesProvider resourceProvider = this.parentEnterView.getParentFragment().getResourceProvider();
-        if (resourceProvider != null && resourceProvider.contains(i)) {
-            return resourceProvider.getColor(i);
-        }
-        return Theme.getColor(i);
+        return Theme.getColor(i, this.parentEnterView.getParentFragment().getResourceProvider());
     }
 
     public void setOnDismissGlobalListener(Runnable runnable) {

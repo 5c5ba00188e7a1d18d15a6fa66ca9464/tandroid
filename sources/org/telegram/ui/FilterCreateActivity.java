@@ -1088,7 +1088,7 @@ public class FilterCreateActivity extends BaseFragment {
         this.creatingNew = false;
         this.filter.flags = this.newFilterFlags;
         checkDoneButton(true);
-        getNotificationCenter().postNotificationName(NotificationCenter.dialogFiltersUpdated, new Object[0]);
+        getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.dialogFiltersUpdated, new Object[0]);
         if (runnable != null) {
             runnable.run();
         }
@@ -2103,7 +2103,7 @@ public class FilterCreateActivity extends BaseFragment {
                     FilterCreateActivity.LinkCell.this.qrcode();
                 }
             });
-            makeOptions.add(R.drawable.msg_delete, LocaleController.getString("DeleteLink", R.string.DeleteLink), true, new Runnable() { // from class: org.telegram.ui.FilterCreateActivity$LinkCell$$ExternalSyntheticLambda2
+            makeOptions.add(R.drawable.msg_delete, (CharSequence) LocaleController.getString("DeleteLink", R.string.DeleteLink), true, new Runnable() { // from class: org.telegram.ui.FilterCreateActivity$LinkCell$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
                     FilterCreateActivity.LinkCell.this.deleteLink();
@@ -2452,11 +2452,6 @@ public class FilterCreateActivity extends BaseFragment {
                 }
 
                 @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-                public void notifyItemRemoved(int i) {
-                    realAdapter().notifyItemRemoved(i + 1);
-                }
-
-                @Override // androidx.recyclerview.widget.RecyclerView.Adapter
                 public void notifyDataSetChanged() {
                     realAdapter().notifyDataSetChanged();
                 }
@@ -2509,7 +2504,7 @@ public class FilterCreateActivity extends BaseFragment {
                                 FilterCreateActivity.FilterInvitesBottomSheet.1.1.this.qrcode();
                             }
                         });
-                        makeOptions.add(R.drawable.msg_delete, LocaleController.getString("DeleteLink", R.string.DeleteLink), true, new Runnable() { // from class: org.telegram.ui.FilterCreateActivity$FilterInvitesBottomSheet$1$1$$ExternalSyntheticLambda1
+                        makeOptions.add(R.drawable.msg_delete, (CharSequence) LocaleController.getString("DeleteLink", R.string.DeleteLink), true, new Runnable() { // from class: org.telegram.ui.FilterCreateActivity$FilterInvitesBottomSheet$1$1$$ExternalSyntheticLambda1
                             @Override // java.lang.Runnable
                             public final void run() {
                                 FilterCreateActivity.FilterInvitesBottomSheet.1.1.this.deleteLink();

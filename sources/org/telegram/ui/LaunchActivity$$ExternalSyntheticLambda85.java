@@ -1,16 +1,13 @@
 package org.telegram.ui;
-
-import org.telegram.messenger.Utilities;
 /* loaded from: classes3.dex */
-public final /* synthetic */ class LaunchActivity$$ExternalSyntheticLambda85 implements Utilities.Callback {
-    public final /* synthetic */ LaunchActivity f$0;
+public final /* synthetic */ class LaunchActivity$$ExternalSyntheticLambda85 implements Runnable {
+    public static final /* synthetic */ LaunchActivity$$ExternalSyntheticLambda85 INSTANCE = new LaunchActivity$$ExternalSyntheticLambda85();
 
-    public /* synthetic */ LaunchActivity$$ExternalSyntheticLambda85(LaunchActivity launchActivity) {
-        this.f$0 = launchActivity;
+    private /* synthetic */ LaunchActivity$$ExternalSyntheticLambda85() {
     }
 
-    @Override // org.telegram.messenger.Utilities.Callback
-    public final void run(Object obj) {
-        this.f$0.onPowerSaver(((Boolean) obj).booleanValue());
+    @Override // java.lang.Runnable
+    public final void run() {
+        LaunchActivity.lambda$onResume$106();
     }
 }

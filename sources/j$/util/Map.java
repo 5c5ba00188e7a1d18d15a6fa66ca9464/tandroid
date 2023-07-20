@@ -101,11 +101,6 @@ public interface Map<K, V> {
             return false;
         }
 
-        public static Object $default$replace(java.util.Map map, Object obj, Object obj2) {
-            Object obj3 = map.get(obj);
-            return (obj3 != null || map.containsKey(obj)) ? map.put(obj, obj2) : obj3;
-        }
-
         public static boolean $default$replace(java.util.Map map, Object obj, Object obj2, Object obj3) {
             Object obj4 = map.get(obj);
             if (a.u(obj4, obj2)) {

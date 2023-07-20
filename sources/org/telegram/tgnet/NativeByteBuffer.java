@@ -152,6 +152,22 @@ public class NativeByteBuffer extends AbstractSerializedData {
     }
 
     @Override // org.telegram.tgnet.AbstractSerializedData
+    public void writeFloat(float f) {
+        try {
+            if (!this.justCalc) {
+                this.buffer.putInt(Float.floatToIntBits(f));
+            } else {
+                this.len += 4;
+            }
+        } catch (Exception e) {
+            if (BuildVars.LOGS_ENABLED) {
+                FileLog.e("write float error");
+                FileLog.e(e);
+            }
+        }
+    }
+
+    @Override // org.telegram.tgnet.AbstractSerializedData
     public void writeBool(boolean z) {
         if (this.justCalc) {
             this.len += 4;
@@ -392,6 +408,23 @@ public class NativeByteBuffer extends AbstractSerializedData {
     }
 
     @Override // org.telegram.tgnet.AbstractSerializedData
+    public byte readByte(boolean z) {
+        try {
+            return this.buffer.get();
+        } catch (Exception e) {
+            if (z) {
+                throw new RuntimeException("read byte error", e);
+            }
+            if (BuildVars.LOGS_ENABLED) {
+                FileLog.e("read byte error");
+                FileLog.e(e);
+                return (byte) 0;
+            }
+            return (byte) 0;
+        }
+    }
+
+    @Override // org.telegram.tgnet.AbstractSerializedData
     public int readInt32(boolean z) {
         try {
             return this.buffer.getInt();
@@ -405,6 +438,23 @@ public class NativeByteBuffer extends AbstractSerializedData {
                 return 0;
             }
             return 0;
+        }
+    }
+
+    @Override // org.telegram.tgnet.AbstractSerializedData
+    public float readFloat(boolean z) {
+        try {
+            return Float.intBitsToFloat(this.buffer.getInt());
+        } catch (Exception e) {
+            if (z) {
+                throw new RuntimeException("read float error", e);
+            }
+            if (BuildVars.LOGS_ENABLED) {
+                FileLog.e("read float error");
+                FileLog.e(e);
+                return 0.0f;
+            }
+            return 0.0f;
         }
     }
 

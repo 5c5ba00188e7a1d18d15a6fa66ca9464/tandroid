@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import j$.util.function.Function;
+import j$.util.function.ToDoubleFunction;
 /* loaded from: classes2.dex */
 class K extends S {
     public final /* synthetic */ int l = 4;
@@ -72,8 +73,8 @@ class K extends S {
     }
 
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public K(e3 e3Var, c cVar, e4 e4Var, int i, j$.util.function.z zVar) {
+    public K(e3 e3Var, c cVar, e4 e4Var, int i, ToDoubleFunction toDoubleFunction) {
         super(cVar, e4Var, i);
-        this.m = zVar;
+        this.m = toDoubleFunction;
     }
 }

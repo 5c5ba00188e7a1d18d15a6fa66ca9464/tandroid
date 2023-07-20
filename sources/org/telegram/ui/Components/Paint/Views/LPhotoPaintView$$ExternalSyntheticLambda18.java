@@ -10,6 +10,6 @@ public final /* synthetic */ class LPhotoPaintView$$ExternalSyntheticLambda18 im
 
     @Override // android.view.View.OnClickListener
     public final void onClick(View view) {
-        LPhotoPaintView.lambda$new$2(view);
+        LPhotoPaintView.lambda$new$3(view);
     }
 }

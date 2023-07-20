@@ -100,7 +100,7 @@ public class DocumentObject {
     }
 
     public static SvgHelper.SvgDrawable getSvgThumb(TLRPC$Document tLRPC$Document, int i, float f) {
-        return getSvgThumb(tLRPC$Document, i, f, 1.0f);
+        return getSvgThumb(tLRPC$Document, i, f, 1.0f, null);
     }
 
     public static SvgHelper.SvgDrawable getSvgRectThumb(int i, float f) {
@@ -116,7 +116,7 @@ public class DocumentObject {
         return svgDrawable;
     }
 
-    public static SvgHelper.SvgDrawable getSvgThumb(TLRPC$Document tLRPC$Document, int i, float f, float f2) {
+    public static SvgHelper.SvgDrawable getSvgThumb(TLRPC$Document tLRPC$Document, int i, float f, float f2, Theme.ResourcesProvider resourcesProvider) {
         int i2;
         int i3;
         TLRPC$DocumentAttribute tLRPC$DocumentAttribute;
@@ -151,7 +151,7 @@ public class DocumentObject {
                 i2 = i6;
                 i3 = i7;
                 if (i2 != 0 && i3 != 0 && (svgDrawable = SvgHelper.getDrawableByPath(((TLRPC$TL_photoPathSize) tLRPC$PhotoSize).svgPath, (int) (i2 * f2), (int) (i3 * f2))) != null) {
-                    svgDrawable.setupGradient(i, f, false);
+                    svgDrawable.setupGradient(i, resourcesProvider, f, false);
                 }
             } else {
                 i4++;

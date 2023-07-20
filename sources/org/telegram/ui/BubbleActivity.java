@@ -114,7 +114,7 @@ public class BubbleActivity extends BasePermissionsActivity implements INavigati
         PasscodeView passcodeView = new PasscodeView(this);
         this.passcodeView = passcodeView;
         this.drawerLayoutContainer.addView(passcodeView, LayoutHelper.createFrame(-1, -1.0f));
-        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.closeOtherAppActivities, this);
+        NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.closeOtherAppActivities, this);
         this.actionBarLayout.removeAllFragments();
         handleIntent(getIntent(), false, bundle != null, false, UserConfig.selectedAccount, 0);
     }
@@ -153,7 +153,7 @@ public class BubbleActivity extends BasePermissionsActivity implements INavigati
         }
         this.drawerLayoutContainer.setAllowOpenDrawer(true, false);
         this.actionBarLayout.showLastFragment();
-        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.passcodeDismissed, passcodeView);
+        NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.passcodeDismissed, passcodeView);
     }
 
     private boolean handleIntent(Intent intent, boolean z, boolean z2, boolean z3, int i, int i2) {
@@ -193,7 +193,7 @@ public class BubbleActivity extends BasePermissionsActivity implements INavigati
             finish();
             return false;
         }
-        NotificationCenter.getInstance(this.currentAccount).postNotificationName(NotificationCenter.closeChats, Long.valueOf(this.dialogId));
+        NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.closeChats, Long.valueOf(this.dialogId));
         this.actionBarLayout.removeAllFragments();
         this.actionBarLayout.addFragmentToStack(chatActivity);
         AccountInstance.getInstance(this.currentAccount).getNotificationsController().setOpenedInBubble(this.dialogId, true);

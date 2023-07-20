@@ -545,8 +545,8 @@ public class SpoilerEffect extends Drawable {
 
     public static void clipOutCanvas(Canvas canvas, List<SpoilerEffect> list) {
         tempPath.rewind();
-        for (SpoilerEffect spoilerEffect : list) {
-            Rect bounds = spoilerEffect.getBounds();
+        for (int i = 0; i < list.size(); i++) {
+            Rect bounds = list.get(i).getBounds();
             tempPath.addRect(bounds.left, bounds.top, bounds.right, bounds.bottom, Path.Direction.CW);
         }
         canvas.clipPath(tempPath, Region.Op.DIFFERENCE);

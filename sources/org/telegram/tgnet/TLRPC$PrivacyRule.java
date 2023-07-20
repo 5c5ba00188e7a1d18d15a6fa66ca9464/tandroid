@@ -20,6 +20,9 @@ public abstract class TLRPC$PrivacyRule extends TLObject {
             case -463335103:
                 tLRPC$PrivacyRule = new TLRPC$TL_privacyValueDisallowUsers();
                 break;
+            case -135735141:
+                tLRPC$PrivacyRule = new TLRPC$TL_privacyValueAllowCloseFriends();
+                break;
             case -125240806:
                 tLRPC$PrivacyRule = new TLRPC$PrivacyRule() { // from class: org.telegram.tgnet.TLRPC$TL_privacyValueDisallowContacts
                     public static int constructor = -125240806;
@@ -31,27 +34,13 @@ public abstract class TLRPC$PrivacyRule extends TLObject {
                 };
                 break;
             case -123988:
-                tLRPC$PrivacyRule = new TLRPC$PrivacyRule() { // from class: org.telegram.tgnet.TLRPC$TL_privacyValueAllowContacts
-                    public static int constructor = -123988;
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                    }
-                };
+                tLRPC$PrivacyRule = new TLRPC$TL_privacyValueAllowContacts();
                 break;
             case 1103656293:
                 tLRPC$PrivacyRule = new TLRPC$TL_privacyValueDisallowChatParticipants();
                 break;
             case 1698855810:
-                tLRPC$PrivacyRule = new TLRPC$PrivacyRule() { // from class: org.telegram.tgnet.TLRPC$TL_privacyValueAllowAll
-                    public static int constructor = 1698855810;
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                    }
-                };
+                tLRPC$PrivacyRule = new TLRPC$TL_privacyValueAllowAll();
                 break;
             case 1796427406:
                 tLRPC$PrivacyRule = new TLRPC$TL_privacyValueAllowChatParticipants();

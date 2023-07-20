@@ -12,6 +12,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
+import android.graphics.ColorFilter;
 import android.graphics.LinearGradient;
 import android.graphics.Matrix;
 import android.graphics.Paint;
@@ -686,11 +687,6 @@ public class QrActivity extends BaseFragment {
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
-    public int getNavigationBarColor() {
-        return getThemedColor(Theme.key_windowBackgroundGray);
-    }
-
-    @Override // org.telegram.ui.ActionBar.BaseFragment
     public Theme.ResourcesProvider getResourceProvider() {
         return this.resourcesProvider;
     }
@@ -1073,13 +1069,17 @@ public class QrActivity extends BaseFragment {
         }
 
         @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
-        public boolean contains(int i) {
-            return false;
+        public /* synthetic */ ColorFilter getAnimatedEmojiColorFilter() {
+            ColorFilter colorFilter;
+            colorFilter = Theme.chat_animatedEmojiTextColorFilter;
+            return colorFilter;
         }
 
         @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
         public /* synthetic */ int getColorOrDefault(int i) {
-            return Theme.ResourcesProvider.-CC.$default$getColorOrDefault(this, i);
+            int color;
+            color = getColor(i);
+            return color;
         }
 
         @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
@@ -1096,7 +1096,9 @@ public class QrActivity extends BaseFragment {
 
         @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
         public /* synthetic */ Paint getPaint(String str) {
-            return Theme.ResourcesProvider.-CC.$default$getPaint(this, str);
+            Paint themePaint;
+            themePaint = Theme.getThemePaint(str);
+            return themePaint;
         }
 
         @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider

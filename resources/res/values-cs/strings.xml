@@ -19,6 +19,13 @@
     <string name="appcenter_distribute_update_failed_dialog_message">Tato verze byla buď strana-naložený nebo stáhnout pomocí prohlížeče v soukromém režimu.</string>
     <string name="appcenter_distribute_update_failed_dialog_reinstall">Znovu nainstalujte aplikaci</string>
     <string name="appcenter_distribute_update_failed_dialog_title">Neaktivní aktualizace v aplikacích</string>
+    <string name="call_notification_answer_action">Přijmout</string>
+    <string name="call_notification_answer_video_action">Video</string>
+    <string name="call_notification_decline_action">Odmítnout</string>
+    <string name="call_notification_hang_up_action">Zavěsit</string>
+    <string name="call_notification_incoming_text">Příchozí hovor</string>
+    <string name="call_notification_ongoing_text">Probíhající hovor</string>
+    <string name="call_notification_screening_text">Prověřování příchozího hovoru</string>
     <string name="common_google_play_services_enable_button">Povolit</string>
     <string name="common_google_play_services_enable_text">Ke spuštění aplikace %1$s je třeba aktivovat služby Google Play.</string>
     <string name="common_google_play_services_enable_title">Aktivace služeb Google Play</string>

@@ -8,7 +8,7 @@ import java.util.List;
 import org.telegram.messenger.ApplicationLoader;
 /* loaded from: classes4.dex */
 public class PersistColorPalette {
-    private static final List<Integer> DEFAULT_COLORS = Arrays.asList(-14837249, -16532268, -12994005, -417009, -365034, -1559228, -5091841, -2645892, -5475508, -7319252, -11325921, -16777216, -8289919, -1);
+    private static final List<Integer> DEFAULT_COLORS = Arrays.asList(-16777216, -1, -14837249, -16532268, -12994005, -417009, -365034, -1559228, -5091841, -2645892, -5475508, -7319252, -11325921, -8289919);
     private static final Integer DEFAULT_MARKER_COLOR = -16087809;
     private static PersistColorPalette[] instances = new PersistColorPalette[4];
     private int currentAlignment;
@@ -137,7 +137,9 @@ public class PersistColorPalette {
         this.pendingChange.clear();
         this.pendingChange.add(Integer.valueOf(intValue));
         for (int i2 = 0; i2 < 14; i2++) {
-            if (((Integer) arrayList.get(i2)).intValue() != intValue) {
+            if (i2 >= arrayList.size()) {
+                this.pendingChange.add(DEFAULT_COLORS.get(i2));
+            } else if (((Integer) arrayList.get(i2)).intValue() != intValue) {
                 this.pendingChange.add((Integer) arrayList.get(i2));
             }
         }
@@ -157,8 +159,10 @@ public class PersistColorPalette {
             return;
         }
         SharedPreferences.Editor edit = this.mConfig.edit();
-        for (int i = 0; i < 14; i++) {
-            edit.putLong("color_" + i, this.pendingChange.get(i).intValue());
+        int i = 0;
+        while (i < 14) {
+            edit.putLong("color_" + i, (i < this.pendingChange.size() ? this.pendingChange : DEFAULT_COLORS).get(i).intValue());
+            i++;
         }
         edit.apply();
         this.colors.clear();

@@ -10,6 +10,6 @@ public final /* synthetic */ class NotificationsController$$ExternalSyntheticLam
 
     @Override // android.media.SoundPool.OnLoadCompleteListener
     public final void onLoadComplete(SoundPool soundPool, int i, int i2) {
-        NotificationsController.lambda$playOutChatSound$37(soundPool, i, i2);
+        NotificationsController.lambda$playOutChatSound$43(soundPool, i, i2);
     }
 }

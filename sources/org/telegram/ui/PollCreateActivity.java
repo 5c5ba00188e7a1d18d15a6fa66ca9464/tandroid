@@ -847,7 +847,7 @@ public class PollCreateActivity extends BaseFragment {
                             if (menu.findItem(16908321) == null) {
                                 return;
                             }
-                            PollCreateActivity.this.parentFragment.fillActionModeMenu(menu);
+                            ChatActivity.fillActionModeMenu(menu, PollCreateActivity.this.parentFragment.getCurrentEncryptedChat());
                         }
                     }
                 };

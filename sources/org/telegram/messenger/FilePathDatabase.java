@@ -605,6 +605,7 @@ public class FilePathDatabase {
                             arrayList2 = new ArrayList();
                             longSparseArray.put(fileDialogId.dialogId, arrayList2);
                         }
+                        ((CacheByChatsController.KeepMediaFile) arrayList.get(i)).isStory = fileDialogId.messageType == 23;
                         arrayList2.add((CacheByChatsController.KeepMediaFile) arrayList.get(i));
                     }
                 }

@@ -60,6 +60,7 @@ import org.telegram.ui.Components.ChatAttachAlert;
 import org.telegram.ui.Components.ChatAttachAlertPhotoLayoutPreview;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.spoilers.SpoilerEffect;
+import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.PhotoViewer;
 /* loaded from: classes4.dex */
 public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAlertLayout {
@@ -84,7 +85,7 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
     private int paddingTop;
     private ChatAttachAlertPhotoLayout photoLayout;
     private boolean shown;
-    private ChatActivity.ThemeDelegate themeDelegate;
+    private Theme.ResourcesProvider themeDelegate;
     private UndoView undoView;
     private Drawable videoPlayImage;
 
@@ -109,8 +110,8 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
         return point.y > point.x ? 0.8f : 0.45f;
     }
 
-    public ChatAttachAlertPhotoLayoutPreview(ChatAttachAlert chatAttachAlert, Context context, ChatActivity.ThemeDelegate themeDelegate) {
-        super(chatAttachAlert, context, themeDelegate);
+    public ChatAttachAlertPhotoLayoutPreview(ChatAttachAlert chatAttachAlert, Context context, Theme.ResourcesProvider resourcesProvider) {
+        super(chatAttachAlert, context, resourcesProvider);
         this.draggingCellTouchX = 0.0f;
         this.draggingCellTouchY = 0.0f;
         this.draggingCellTop = 0.0f;
@@ -124,7 +125,7 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
         this.ignoreLayout = false;
         android.graphics.Point point = AndroidUtilities.displaySize;
         this.isPortrait = point.y > point.x;
-        this.themeDelegate = themeDelegate;
+        this.themeDelegate = resourcesProvider;
         setWillNotDraw(false);
         ActionBarMenu createMenu = this.parentAlert.actionBar.createMenu();
         this.header = new TextView(context);
@@ -1706,10 +1707,11 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
             }
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:169:0x0451  */
-        /* JADX WARN: Removed duplicated region for block: B:172:0x04ba  */
-        /* JADX WARN: Removed duplicated region for block: B:176:0x04e2  */
-        /* JADX WARN: Removed duplicated region for block: B:180:0x04f1  */
+        /* JADX WARN: Removed duplicated region for block: B:169:0x044d  */
+        /* JADX WARN: Removed duplicated region for block: B:172:0x045d  */
+        /* JADX WARN: Removed duplicated region for block: B:175:0x04bc  */
+        /* JADX WARN: Removed duplicated region for block: B:179:0x04e4  */
+        /* JADX WARN: Removed duplicated region for block: B:183:0x04f3  */
         @Override // android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -1724,6 +1726,7 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
             PreviewGroupCell.MediaCell mediaCell3;
             int i2;
             ChatActivity chatActivity;
+            BaseFragment baseFragment;
             PreviewGroupCell.MediaCell mediaCell4;
             float f;
             float x = motionEvent.getX();
@@ -1962,21 +1965,23 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
                             if (chatAttachAlert.avatarPicker != 0) {
                                 i2 = 1;
                             } else {
-                                BaseFragment baseFragment = chatAttachAlert.baseFragment;
-                                if (baseFragment instanceof ChatActivity) {
-                                    chatActivity = (ChatActivity) baseFragment;
+                                BaseFragment baseFragment2 = chatAttachAlert.baseFragment;
+                                if (baseFragment2 instanceof ChatActivity) {
+                                    chatActivity = (ChatActivity) baseFragment2;
                                     i2 = 0;
-                                    if (!chatAttachAlert.delegate.needEnterComment()) {
-                                        AndroidUtilities.hideKeyboard(ChatAttachAlertPhotoLayoutPreview.this.parentAlert.baseFragment.getFragmentView().findFocus());
+                                    baseFragment = chatAttachAlert.baseFragment;
+                                    if (baseFragment == null) {
+                                        baseFragment = LaunchActivity.getLastFragment();
+                                    }
+                                    if (!ChatAttachAlertPhotoLayoutPreview.this.parentAlert.delegate.needEnterComment()) {
+                                        AndroidUtilities.hideKeyboard(baseFragment.getFragmentView().findFocus());
                                         AndroidUtilities.hideKeyboard(ChatAttachAlertPhotoLayoutPreview.this.parentAlert.getContainer().findFocus());
                                     }
-                                    PhotoViewer photoViewer = PhotoViewer.getInstance();
-                                    ChatAttachAlertPhotoLayoutPreview chatAttachAlertPhotoLayoutPreview2 = ChatAttachAlertPhotoLayoutPreview.this;
-                                    photoViewer.setParentActivity(chatAttachAlertPhotoLayoutPreview2.parentAlert.baseFragment, chatAttachAlertPhotoLayoutPreview2.resourcesProvider);
+                                    PhotoViewer.getInstance().setParentActivity(baseFragment, ChatAttachAlertPhotoLayoutPreview.this.resourcesProvider);
                                     PhotoViewer.getInstance().setParentAlert(ChatAttachAlertPhotoLayoutPreview.this.parentAlert);
-                                    PhotoViewer photoViewer2 = PhotoViewer.getInstance();
+                                    PhotoViewer photoViewer = PhotoViewer.getInstance();
                                     ChatAttachAlert chatAttachAlert2 = ChatAttachAlertPhotoLayoutPreview.this.parentAlert;
-                                    photoViewer2.setMaxSelectedPhotos(chatAttachAlert2.maxSelectedPhotos, chatAttachAlert2.allowOrder);
+                                    photoViewer.setMaxSelectedPhotos(chatAttachAlert2.maxSelectedPhotos, chatAttachAlert2.allowOrder);
                                     this.photoViewerProvider.init(photos);
                                     PhotoViewer.getInstance().openPhotoForSelect(new ArrayList<>(photos), indexOf4, i2, false, this.photoViewerProvider, chatActivity);
                                     if (ChatAttachAlertPhotoLayoutPreview.this.photoLayout.captionForAllMedia()) {
@@ -1987,15 +1992,16 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
                                 }
                             }
                             chatActivity = null;
-                            if (!chatAttachAlert.delegate.needEnterComment()) {
+                            baseFragment = chatAttachAlert.baseFragment;
+                            if (baseFragment == null) {
                             }
-                            PhotoViewer photoViewer3 = PhotoViewer.getInstance();
-                            ChatAttachAlertPhotoLayoutPreview chatAttachAlertPhotoLayoutPreview22 = ChatAttachAlertPhotoLayoutPreview.this;
-                            photoViewer3.setParentActivity(chatAttachAlertPhotoLayoutPreview22.parentAlert.baseFragment, chatAttachAlertPhotoLayoutPreview22.resourcesProvider);
+                            if (!ChatAttachAlertPhotoLayoutPreview.this.parentAlert.delegate.needEnterComment()) {
+                            }
+                            PhotoViewer.getInstance().setParentActivity(baseFragment, ChatAttachAlertPhotoLayoutPreview.this.resourcesProvider);
                             PhotoViewer.getInstance().setParentAlert(ChatAttachAlertPhotoLayoutPreview.this.parentAlert);
-                            PhotoViewer photoViewer22 = PhotoViewer.getInstance();
+                            PhotoViewer photoViewer2 = PhotoViewer.getInstance();
                             ChatAttachAlert chatAttachAlert22 = ChatAttachAlertPhotoLayoutPreview.this.parentAlert;
-                            photoViewer22.setMaxSelectedPhotos(chatAttachAlert22.maxSelectedPhotos, chatAttachAlert22.allowOrder);
+                            photoViewer2.setMaxSelectedPhotos(chatAttachAlert22.maxSelectedPhotos, chatAttachAlert22.allowOrder);
                             this.photoViewerProvider.init(photos);
                             PhotoViewer.getInstance().openPhotoForSelect(new ArrayList<>(photos), indexOf4, i2, false, this.photoViewerProvider, chatActivity);
                             if (ChatAttachAlertPhotoLayoutPreview.this.photoLayout.captionForAllMedia()) {
@@ -2880,7 +2886,8 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
     }
 
     public Drawable getThemedDrawable(String str) {
-        Drawable drawable = this.themeDelegate.getDrawable(str);
+        Theme.ResourcesProvider resourcesProvider = this.themeDelegate;
+        Drawable drawable = resourcesProvider != null ? resourcesProvider.getDrawable(str) : null;
         return drawable != null ? drawable : Theme.getThemeDrawable(str);
     }
 }

@@ -261,8 +261,9 @@ public class DrawerLayoutAdapter extends RecyclerListView.SelectionAdapter {
                 } else {
                     this.items.add(new Item(15, LocaleController.getString("SetEmojiStatus", R.string.SetEmojiStatus), R.drawable.msg_status_set));
                 }
-                this.items.add(null);
             }
+            this.items.add(new Item(16, LocaleController.getString("ProfileMyStories", R.string.ProfileMyStories), R.drawable.msg_menu_stories));
+            this.items.add(null);
             this.items.add(new Item(2, LocaleController.getString("NewGroup", R.string.NewGroup), i));
             this.items.add(new Item(6, LocaleController.getString("Contacts", R.string.Contacts), i2));
             this.items.add(new Item(10, LocaleController.getString("Calls", R.string.Calls), i3));

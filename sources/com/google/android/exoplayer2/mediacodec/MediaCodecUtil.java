@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.telegram.messenger.CharacterCompat;
+import org.telegram.messenger.FileLoaderPriorityQueue;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.MediaController;
 import org.telegram.tgnet.ConnectionsManager;
@@ -87,7 +87,7 @@ public final class MediaCodecUtil {
             case 15:
                 return LiteMode.FLAG_CHAT_SCALE;
             case 16:
-                return CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT;
+                return 65536;
             case 17:
                 return 131072;
             case 18:
@@ -95,7 +95,7 @@ public final class MediaCodecUtil {
             case 19:
                 return 524288;
             case 20:
-                return 1048576;
+                return FileLoaderPriorityQueue.PRIORITY_VALUE_MAX;
             case 21:
                 return 2097152;
             case 22:
@@ -148,7 +148,7 @@ public final class MediaCodecUtil {
                                             case 51:
                                                 return LiteMode.FLAG_CHAT_SCALE;
                                             case 52:
-                                                return CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT;
+                                                return 65536;
                                             default:
                                                 return -1;
                                         }
@@ -184,7 +184,7 @@ public final class MediaCodecUtil {
             case LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM /* 16384 */:
                 return 5652480;
             case LiteMode.FLAG_CHAT_SCALE /* 32768 */:
-            case CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT /* 65536 */:
+            case 65536:
                 return 9437184;
             case 131072:
             case 262144:
@@ -334,8 +334,7 @@ public final class MediaCodecUtil {
         MediaCodecListCompat mediaCodecListCompatV16;
         synchronized (MediaCodecUtil.class) {
             CodecKey codecKey = new CodecKey(str, z, z2);
-            HashMap<CodecKey, List<MediaCodecInfo>> hashMap = decoderInfosCache;
-            List<MediaCodecInfo> list = hashMap.get(codecKey);
+            List<MediaCodecInfo> list = decoderInfosCache.get(codecKey);
             if (list != null) {
                 return list;
             }
@@ -346,6 +345,7 @@ public final class MediaCodecUtil {
                 mediaCodecListCompatV16 = new MediaCodecListCompatV16();
             }
             ArrayList<MediaCodecInfo> decoderInfosInternal = getDecoderInfosInternal(codecKey, mediaCodecListCompatV16);
+            int i2 = 0;
             if (z && decoderInfosInternal.isEmpty() && 21 <= i && i <= 23) {
                 decoderInfosInternal = getDecoderInfosInternal(codecKey, new MediaCodecListCompatV16());
                 if (!decoderInfosInternal.isEmpty()) {
@@ -353,8 +353,15 @@ public final class MediaCodecUtil {
                 }
             }
             applyWorkarounds(str, decoderInfosInternal);
+            while (i2 < decoderInfosInternal.size()) {
+                if (decoderInfosInternal.get(i2).name.equals("c2.exynos.hevc.decoder")) {
+                    decoderInfosInternal.remove(i2);
+                    i2--;
+                }
+                i2++;
+            }
             ImmutableList copyOf = ImmutableList.copyOf((Collection) decoderInfosInternal);
-            hashMap.put(codecKey, copyOf);
+            decoderInfosCache.put(codecKey, copyOf);
             return copyOf;
         }
     }
@@ -501,17 +508,17 @@ public final class MediaCodecUtil {
     }
 
     /* JADX WARN: Can't wrap try/catch for region: R(7:28|(4:(2:72|73)|53|(9:56|57|58|59|60|61|62|64|65)|9)|32|33|34|36|9) */
-    /* JADX WARN: Code restructure failed: missing block: B:32:0x0080, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:32:0x0081, code lost:
         if (r1.secure == false) goto L32;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:35:0x00a5, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:35:0x00a6, code lost:
         r0 = e;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:36:0x00a6, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:36:0x00a7, code lost:
         r1 = r11;
      */
-    /* JADX WARN: Removed duplicated region for block: B:57:0x0102 A[Catch: Exception -> 0x0150, TRY_ENTER, TryCatch #1 {Exception -> 0x0150, blocks: (B:3:0x0009, B:5:0x001c, B:60:0x0121, B:8:0x002e, B:11:0x0039, B:54:0x00fa, B:57:0x0102, B:59:0x0108, B:61:0x012b, B:62:0x014e), top: B:70:0x0009 }] */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x012b A[ADDED_TO_REGION, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x0103 A[Catch: Exception -> 0x0151, TRY_ENTER, TryCatch #5 {Exception -> 0x0151, blocks: (B:3:0x000a, B:5:0x001d, B:60:0x0122, B:8:0x002f, B:11:0x003a, B:54:0x00fb, B:57:0x0103, B:59:0x0109, B:61:0x012c, B:62:0x014f), top: B:78:0x000a }] */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x012c A[ADDED_TO_REGION, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1291,11 +1298,11 @@ public final class MediaCodecUtil {
             case 20:
                 return Integer.valueOf((int) LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM);
             case 21:
-                return Integer.valueOf((int) CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT);
+                return 65536;
             case 22:
                 return 262144;
             case 23:
-                return 1048576;
+                return Integer.valueOf((int) FileLoaderPriorityQueue.PRIORITY_VALUE_MAX);
             case 24:
                 return 4194304;
             case 25:

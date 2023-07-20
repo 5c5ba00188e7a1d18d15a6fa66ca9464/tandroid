@@ -499,6 +499,7 @@ public class DialogOrContactPickerActivity extends BaseFragment {
             viewPageArr3[i].actionBar = viewPageArr3[i].parentFragment.getActionBar();
             ViewPage[] viewPageArr4 = this.viewPages;
             viewPageArr4[i].addView(viewPageArr4[i].fragmentView, LayoutHelper.createFrame(-1, -1.0f));
+            AndroidUtilities.removeFromParent(this.viewPages[i].actionBar);
             ViewPage[] viewPageArr5 = this.viewPages;
             viewPageArr5[i].addView(viewPageArr5[i].actionBar, LayoutHelper.createFrame(-1, -2.0f));
             this.viewPages[i].actionBar.setVisibility(8);

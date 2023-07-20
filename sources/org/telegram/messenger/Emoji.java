@@ -98,7 +98,7 @@ public class Emoji {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$static$0() {
-        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.emojiLoaded, new Object[0]);
+        NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.emojiLoaded, new Object[0]);
     }
 
     public static void preloadEmoji(CharSequence charSequence) {
@@ -395,16 +395,16 @@ public class Emoji {
         return parseEmojis(charSequence, null);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:115:0x0196 A[Catch: Exception -> 0x027a, TryCatch #0 {Exception -> 0x027a, blocks: (B:9:0x0029, B:30:0x006c, B:88:0x011f, B:90:0x0123, B:92:0x0130, B:96:0x013e, B:115:0x0196, B:117:0x019a, B:121:0x01a7, B:123:0x01ad, B:161:0x020a, B:139:0x01d9, B:141:0x01dd, B:152:0x01f5, B:154:0x01f9, B:165:0x0215, B:167:0x021c, B:169:0x0220, B:171:0x022b, B:175:0x0239, B:178:0x0249, B:180:0x0252, B:182:0x0255, B:183:0x0266, B:97:0x014b, B:99:0x0152, B:101:0x015c, B:105:0x016b, B:107:0x0185, B:109:0x018b, B:17:0x0041, B:19:0x004c, B:32:0x0078, B:44:0x009a, B:42:0x0090, B:49:0x00ac, B:57:0x00c0, B:77:0x0100, B:68:0x00e2, B:75:0x00f8), top: B:194:0x0029 }] */
-    /* JADX WARN: Removed duplicated region for block: B:164:0x0213 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:167:0x021c A[Catch: Exception -> 0x027a, TryCatch #0 {Exception -> 0x027a, blocks: (B:9:0x0029, B:30:0x006c, B:88:0x011f, B:90:0x0123, B:92:0x0130, B:96:0x013e, B:115:0x0196, B:117:0x019a, B:121:0x01a7, B:123:0x01ad, B:161:0x020a, B:139:0x01d9, B:141:0x01dd, B:152:0x01f5, B:154:0x01f9, B:165:0x0215, B:167:0x021c, B:169:0x0220, B:171:0x022b, B:175:0x0239, B:178:0x0249, B:180:0x0252, B:182:0x0255, B:183:0x0266, B:97:0x014b, B:99:0x0152, B:101:0x015c, B:105:0x016b, B:107:0x0185, B:109:0x018b, B:17:0x0041, B:19:0x004c, B:32:0x0078, B:44:0x009a, B:42:0x0090, B:49:0x00ac, B:57:0x00c0, B:77:0x0100, B:68:0x00e2, B:75:0x00f8), top: B:194:0x0029 }] */
-    /* JADX WARN: Removed duplicated region for block: B:177:0x0247  */
-    /* JADX WARN: Removed duplicated region for block: B:185:0x0271  */
+    /* JADX WARN: Removed duplicated region for block: B:118:0x019c A[Catch: Exception -> 0x0280, TryCatch #0 {Exception -> 0x0280, blocks: (B:9:0x0029, B:30:0x006c, B:88:0x011f, B:90:0x0123, B:92:0x0130, B:96:0x013e, B:118:0x019c, B:120:0x01a0, B:124:0x01ad, B:126:0x01b3, B:164:0x0210, B:142:0x01df, B:144:0x01e3, B:155:0x01fb, B:157:0x01ff, B:168:0x021b, B:170:0x0222, B:172:0x0226, B:174:0x0231, B:178:0x023f, B:181:0x024f, B:183:0x0258, B:185:0x025b, B:186:0x026c, B:97:0x014b, B:99:0x0152, B:101:0x015c, B:105:0x016b, B:107:0x017a, B:108:0x0181, B:110:0x018b, B:112:0x0191, B:17:0x0041, B:19:0x004c, B:32:0x0078, B:44:0x009a, B:42:0x0090, B:49:0x00ac, B:57:0x00c0, B:77:0x0100, B:68:0x00e2, B:75:0x00f8), top: B:197:0x0029 }] */
+    /* JADX WARN: Removed duplicated region for block: B:167:0x0219 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:170:0x0222 A[Catch: Exception -> 0x0280, TryCatch #0 {Exception -> 0x0280, blocks: (B:9:0x0029, B:30:0x006c, B:88:0x011f, B:90:0x0123, B:92:0x0130, B:96:0x013e, B:118:0x019c, B:120:0x01a0, B:124:0x01ad, B:126:0x01b3, B:164:0x0210, B:142:0x01df, B:144:0x01e3, B:155:0x01fb, B:157:0x01ff, B:168:0x021b, B:170:0x0222, B:172:0x0226, B:174:0x0231, B:178:0x023f, B:181:0x024f, B:183:0x0258, B:185:0x025b, B:186:0x026c, B:97:0x014b, B:99:0x0152, B:101:0x015c, B:105:0x016b, B:107:0x017a, B:108:0x0181, B:110:0x018b, B:112:0x0191, B:17:0x0041, B:19:0x004c, B:32:0x0078, B:44:0x009a, B:42:0x0090, B:49:0x00ac, B:57:0x00c0, B:77:0x0100, B:68:0x00e2, B:75:0x00f8), top: B:197:0x0029 }] */
+    /* JADX WARN: Removed duplicated region for block: B:180:0x024d  */
+    /* JADX WARN: Removed duplicated region for block: B:188:0x0277  */
     /* JADX WARN: Removed duplicated region for block: B:27:0x0065  */
     /* JADX WARN: Removed duplicated region for block: B:28:0x0067  */
-    /* JADX WARN: Removed duplicated region for block: B:77:0x0100 A[Catch: Exception -> 0x027a, TryCatch #0 {Exception -> 0x027a, blocks: (B:9:0x0029, B:30:0x006c, B:88:0x011f, B:90:0x0123, B:92:0x0130, B:96:0x013e, B:115:0x0196, B:117:0x019a, B:121:0x01a7, B:123:0x01ad, B:161:0x020a, B:139:0x01d9, B:141:0x01dd, B:152:0x01f5, B:154:0x01f9, B:165:0x0215, B:167:0x021c, B:169:0x0220, B:171:0x022b, B:175:0x0239, B:178:0x0249, B:180:0x0252, B:182:0x0255, B:183:0x0266, B:97:0x014b, B:99:0x0152, B:101:0x015c, B:105:0x016b, B:107:0x0185, B:109:0x018b, B:17:0x0041, B:19:0x004c, B:32:0x0078, B:44:0x009a, B:42:0x0090, B:49:0x00ac, B:57:0x00c0, B:77:0x0100, B:68:0x00e2, B:75:0x00f8), top: B:194:0x0029 }] */
+    /* JADX WARN: Removed duplicated region for block: B:77:0x0100 A[Catch: Exception -> 0x0280, TryCatch #0 {Exception -> 0x0280, blocks: (B:9:0x0029, B:30:0x006c, B:88:0x011f, B:90:0x0123, B:92:0x0130, B:96:0x013e, B:118:0x019c, B:120:0x01a0, B:124:0x01ad, B:126:0x01b3, B:164:0x0210, B:142:0x01df, B:144:0x01e3, B:155:0x01fb, B:157:0x01ff, B:168:0x021b, B:170:0x0222, B:172:0x0226, B:174:0x0231, B:178:0x023f, B:181:0x024f, B:183:0x0258, B:185:0x025b, B:186:0x026c, B:97:0x014b, B:99:0x0152, B:101:0x015c, B:105:0x016b, B:107:0x017a, B:108:0x0181, B:110:0x018b, B:112:0x0191, B:17:0x0041, B:19:0x004c, B:32:0x0078, B:44:0x009a, B:42:0x0090, B:49:0x00ac, B:57:0x00c0, B:77:0x0100, B:68:0x00e2, B:75:0x00f8), top: B:197:0x0029 }] */
     /* JADX WARN: Removed duplicated region for block: B:78:0x010b  */
-    /* JADX WARN: Removed duplicated region for block: B:88:0x011f A[Catch: Exception -> 0x027a, TryCatch #0 {Exception -> 0x027a, blocks: (B:9:0x0029, B:30:0x006c, B:88:0x011f, B:90:0x0123, B:92:0x0130, B:96:0x013e, B:115:0x0196, B:117:0x019a, B:121:0x01a7, B:123:0x01ad, B:161:0x020a, B:139:0x01d9, B:141:0x01dd, B:152:0x01f5, B:154:0x01f9, B:165:0x0215, B:167:0x021c, B:169:0x0220, B:171:0x022b, B:175:0x0239, B:178:0x0249, B:180:0x0252, B:182:0x0255, B:183:0x0266, B:97:0x014b, B:99:0x0152, B:101:0x015c, B:105:0x016b, B:107:0x0185, B:109:0x018b, B:17:0x0041, B:19:0x004c, B:32:0x0078, B:44:0x009a, B:42:0x0090, B:49:0x00ac, B:57:0x00c0, B:77:0x0100, B:68:0x00e2, B:75:0x00f8), top: B:194:0x0029 }] */
+    /* JADX WARN: Removed duplicated region for block: B:88:0x011f A[Catch: Exception -> 0x0280, TryCatch #0 {Exception -> 0x0280, blocks: (B:9:0x0029, B:30:0x006c, B:88:0x011f, B:90:0x0123, B:92:0x0130, B:96:0x013e, B:118:0x019c, B:120:0x01a0, B:124:0x01ad, B:126:0x01b3, B:164:0x0210, B:142:0x01df, B:144:0x01e3, B:155:0x01fb, B:157:0x01ff, B:168:0x021b, B:170:0x0222, B:172:0x0226, B:174:0x0231, B:178:0x023f, B:181:0x024f, B:183:0x0258, B:185:0x025b, B:186:0x026c, B:97:0x014b, B:99:0x0152, B:101:0x015c, B:105:0x016b, B:107:0x017a, B:108:0x0181, B:110:0x018b, B:112:0x0191, B:17:0x0041, B:19:0x004c, B:32:0x0078, B:44:0x009a, B:42:0x0090, B:49:0x00ac, B:57:0x00c0, B:77:0x0100, B:68:0x00e2, B:75:0x00f8), top: B:197:0x0029 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -539,7 +539,10 @@ public class Emoji {
                             } else if (sb.length() >= 2 && sb.charAt(0) == 55356 && sb.charAt(1) == 57332 && charAt4 == 56128) {
                                 do {
                                     sb.append(charSequence.charAt(i13));
-                                    sb.append(charSequence.charAt(i13 + 1));
+                                    int i16 = i13 + 1;
+                                    if (i16 >= charSequence.length()) {
+                                        sb.append(charSequence.charAt(i16));
+                                    }
                                     i12 += 2;
                                     i13 += 2;
                                     if (i13 >= charSequence.length()) {
@@ -800,10 +803,12 @@ public class Emoji {
         public Paint.FontMetricsInt fontMetrics;
         public float lastDrawX;
         public float lastDrawY;
+        public float scale;
         public int size;
 
         public EmojiSpan(Drawable drawable, int i, Paint.FontMetricsInt fontMetricsInt) {
             super(drawable, i);
+            this.scale = 1.0f;
             this.size = AndroidUtilities.dp(20.0f);
             this.fontMetrics = fontMetricsInt;
             if (fontMetricsInt != null) {
@@ -836,18 +841,19 @@ public class Emoji {
             if (fontMetricsInt == null) {
                 fontMetricsInt = new Paint.FontMetricsInt();
             }
+            int i3 = (int) (this.scale * this.size);
             Paint.FontMetricsInt fontMetricsInt2 = this.fontMetrics;
             if (fontMetricsInt2 == null) {
                 int size = super.getSize(paint, charSequence, i, i2, fontMetricsInt);
                 int dp = AndroidUtilities.dp(8.0f);
                 int dp2 = AndroidUtilities.dp(10.0f);
-                int i3 = (-dp2) - dp;
-                fontMetricsInt.top = i3;
-                int i4 = dp2 - dp;
-                fontMetricsInt.bottom = i4;
-                fontMetricsInt.ascent = i3;
+                int i4 = (-dp2) - dp;
+                fontMetricsInt.top = i4;
+                int i5 = dp2 - dp;
+                fontMetricsInt.bottom = i5;
+                fontMetricsInt.ascent = i4;
                 fontMetricsInt.leading = 0;
-                fontMetricsInt.descent = i4;
+                fontMetricsInt.descent = i5;
                 return size;
             }
             fontMetricsInt.ascent = fontMetricsInt2.ascent;
@@ -855,17 +861,15 @@ public class Emoji {
             fontMetricsInt.top = fontMetricsInt2.top;
             fontMetricsInt.bottom = fontMetricsInt2.bottom;
             if (getDrawable() != null) {
-                Drawable drawable = getDrawable();
-                int i5 = this.size;
-                drawable.setBounds(0, 0, i5, i5);
+                getDrawable().setBounds(0, 0, i3, i3);
             }
-            return this.size;
+            return i3;
         }
 
         @Override // android.text.style.DynamicDrawableSpan, android.text.style.ReplacementSpan
         public void draw(Canvas canvas, CharSequence charSequence, int i, int i2, float f, int i3, int i4, int i5, Paint paint) {
             boolean z;
-            this.lastDrawX = (this.size / 2.0f) + f;
+            this.lastDrawX = f + ((this.scale * this.size) / 2.0f);
             this.lastDrawY = i3 + ((i5 - i3) / 2.0f);
             boolean z2 = true;
             this.drawn = true;
@@ -875,9 +879,12 @@ public class Emoji {
                 getDrawable().setAlpha(paint.getAlpha());
                 z = true;
             }
-            if (Emoji.emojiDrawingYOffset != 0.0f) {
+            float f2 = Emoji.emojiDrawingYOffset;
+            int i6 = this.size;
+            float f3 = f2 - ((i6 - (this.scale * i6)) / 2.0f);
+            if (f3 != 0.0f) {
                 canvas.save();
-                canvas.translate(0.0f, Emoji.emojiDrawingYOffset);
+                canvas.translate(0.0f, f3);
             } else {
                 z2 = false;
             }

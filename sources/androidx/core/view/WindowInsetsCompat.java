@@ -879,8 +879,16 @@ public class WindowInsetsCompat {
 
     /* loaded from: classes.dex */
     public static final class Type {
+        public static int displayCutout() {
+            return 128;
+        }
+
         public static int ime() {
             return 8;
+        }
+
+        public static int systemBars() {
+            return 7;
         }
 
         static int indexOf(int i) {

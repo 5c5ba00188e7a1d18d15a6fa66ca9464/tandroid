@@ -1,7 +1,7 @@
 package kotlin.ranges;
 
 import kotlin.jvm.internal.DefaultConstructorMarker;
-/* compiled from: Ranges.kt */
+/* compiled from: PrimitiveRanges.kt */
 /* loaded from: classes.dex */
 public final class IntRange extends IntProgression {
     public IntRange(int i, int i2) {
@@ -39,7 +39,7 @@ public final class IntRange extends IntProgression {
         return getFirst() + ".." + getLast();
     }
 
-    /* compiled from: Ranges.kt */
+    /* compiled from: PrimitiveRanges.kt */
     /* loaded from: classes.dex */
     public static final class Companion {
         public /* synthetic */ Companion(DefaultConstructorMarker defaultConstructorMarker) {

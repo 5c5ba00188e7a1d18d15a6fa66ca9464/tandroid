@@ -20,6 +20,7 @@ import com.google.android.exoplayer2.util.PriorityTaskManager;
 import com.google.android.exoplayer2.util.Util;
 import com.google.common.base.Function;
 import com.google.common.base.Supplier;
+import org.telegram.messenger.DispatchQueue;
 /* loaded from: classes.dex */
 public interface ExoPlayer extends Player {
 
@@ -39,11 +40,15 @@ public interface ExoPlayer extends Player {
 
     void addAnalyticsListener(AnalyticsListener analyticsListener);
 
+    Renderer getRenderer(int i);
+
     Format getVideoFormat();
 
     void setAudioAttributes(AudioAttributes audioAttributes, boolean z);
 
     void setMediaSource(MediaSource mediaSource, boolean z);
+
+    void setWorkerQueue(DispatchQueue dispatchQueue);
 
     /* loaded from: classes.dex */
     public static final class Builder {

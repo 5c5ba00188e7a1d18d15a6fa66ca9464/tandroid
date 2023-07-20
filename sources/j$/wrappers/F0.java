@@ -3,17 +3,17 @@ package j$.wrappers;
 import java.util.function.ToLongFunction;
 /* loaded from: classes2.dex */
 public final /* synthetic */ class F0 implements ToLongFunction {
-    final /* synthetic */ j$.util.function.A a;
+    final /* synthetic */ j$.util.function.ToLongFunction a;
 
-    private /* synthetic */ F0(j$.util.function.A a) {
-        this.a = a;
+    private /* synthetic */ F0(j$.util.function.ToLongFunction toLongFunction) {
+        this.a = toLongFunction;
     }
 
-    public static /* synthetic */ ToLongFunction a(j$.util.function.A a) {
-        if (a == null) {
+    public static /* synthetic */ ToLongFunction a(j$.util.function.ToLongFunction toLongFunction) {
+        if (toLongFunction == null) {
             return null;
         }
-        return a instanceof E0 ? ((E0) a).a : new F0(a);
+        return toLongFunction instanceof E0 ? ((E0) toLongFunction).a : new F0(toLongFunction);
     }
 
     @Override // java.util.function.ToLongFunction

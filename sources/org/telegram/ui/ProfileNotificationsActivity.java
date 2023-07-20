@@ -41,8 +41,11 @@ import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$Dialog;
 import org.telegram.tgnet.TLRPC$Document;
+import org.telegram.tgnet.TLRPC$Peer;
 import org.telegram.tgnet.TLRPC$TL_forumTopic;
 import org.telegram.tgnet.TLRPC$TL_peerNotifySettings;
+import org.telegram.tgnet.TLRPC$TL_peerUser;
+import org.telegram.tgnet.TLRPC$TL_topPeer;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.AlertDialog;
@@ -81,6 +84,7 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
     private long dialogId;
     private int enableRow;
     private int generalRow;
+    private boolean isInTop5Peers;
     private int ledInfoRow;
     private int ledRow;
     private RecyclerListView listView;
@@ -99,6 +103,7 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
     private int rowCount;
     private int smartRow;
     private int soundRow;
+    private int storiesRow;
     private int topicId;
     private int vibrateRow;
 
@@ -128,87 +133,108 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
         this.addingException = bundle.getBoolean("exception", false);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:40:0x00da  */
-    /* JADX WARN: Removed duplicated region for block: B:41:0x00f5  */
-    /* JADX WARN: Removed duplicated region for block: B:44:0x0115  */
-    /* JADX WARN: Removed duplicated region for block: B:45:0x0122  */
-    /* JADX WARN: Removed duplicated region for block: B:48:0x0136  */
-    /* JADX WARN: Removed duplicated region for block: B:49:0x013b  */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x0121  */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x013c  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x015c  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x0169  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x017d  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x0181  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public boolean onFragmentCreate() {
         boolean z;
+        if (DialogObject.isUserDialog(this.dialogId)) {
+            ArrayList<TLRPC$TL_topPeer> arrayList = getMediaDataController().hints;
+            int i = 0;
+            while (true) {
+                if (i >= arrayList.size()) {
+                    break;
+                }
+                TLRPC$Peer tLRPC$Peer = arrayList.get(i).peer;
+                if ((tLRPC$Peer instanceof TLRPC$TL_peerUser) && tLRPC$Peer.user_id == this.dialogId) {
+                    this.isInTop5Peers = i < 5;
+                } else {
+                    i++;
+                }
+            }
+        }
         this.rowCount = 0;
         boolean z2 = this.addingException;
         if (z2) {
-            int i = 0 + 1;
-            this.rowCount = i;
+            int i2 = 0 + 1;
+            this.rowCount = i2;
             this.avatarRow = 0;
-            this.rowCount = i + 1;
-            this.avatarSectionRow = i;
+            this.rowCount = i2 + 1;
+            this.avatarSectionRow = i2;
         } else {
             this.avatarRow = -1;
             this.avatarSectionRow = -1;
         }
-        int i2 = this.rowCount;
-        int i3 = i2 + 1;
-        this.rowCount = i3;
-        this.generalRow = i2;
+        int i3 = this.rowCount;
+        int i4 = i3 + 1;
+        this.rowCount = i4;
+        this.generalRow = i3;
         if (z2 || this.topicId != 0) {
-            this.rowCount = i3 + 1;
-            this.enableRow = i3;
+            this.rowCount = i4 + 1;
+            this.enableRow = i4;
         } else {
             this.enableRow = -1;
         }
+        this.storiesRow = -1;
         if (!DialogObject.isEncryptedDialog(this.dialogId)) {
-            int i4 = this.rowCount;
-            this.rowCount = i4 + 1;
-            this.previewRow = i4;
+            int i5 = this.rowCount;
+            this.rowCount = i5 + 1;
+            this.previewRow = i5;
+            if (DialogObject.isUserDialog(this.dialogId)) {
+                int i6 = this.rowCount;
+                this.rowCount = i6 + 1;
+                this.storiesRow = i6;
+            }
         } else {
             this.previewRow = -1;
         }
-        int i5 = this.rowCount;
-        int i6 = i5 + 1;
-        this.rowCount = i6;
-        this.soundRow = i5;
-        this.rowCount = i6 + 1;
-        this.vibrateRow = i6;
+        int i7 = this.rowCount;
+        int i8 = i7 + 1;
+        this.rowCount = i8;
+        this.soundRow = i7;
+        this.rowCount = i8 + 1;
+        this.vibrateRow = i8;
         if (DialogObject.isChatDialog(this.dialogId)) {
-            int i7 = this.rowCount;
-            this.rowCount = i7 + 1;
-            this.smartRow = i7;
+            int i9 = this.rowCount;
+            this.rowCount = i9 + 1;
+            this.smartRow = i9;
         } else {
             this.smartRow = -1;
         }
         if (Build.VERSION.SDK_INT >= 21) {
-            int i8 = this.rowCount;
-            this.rowCount = i8 + 1;
-            this.priorityRow = i8;
+            int i10 = this.rowCount;
+            this.rowCount = i10 + 1;
+            this.priorityRow = i10;
         } else {
             this.priorityRow = -1;
         }
-        int i9 = this.rowCount;
-        this.rowCount = i9 + 1;
-        this.priorityInfoRow = i9;
+        int i11 = this.rowCount;
+        this.rowCount = i11 + 1;
+        this.priorityInfoRow = i11;
         if (DialogObject.isChatDialog(this.dialogId)) {
             TLRPC$Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-this.dialogId));
             if (ChatObject.isChannel(chat) && !chat.megagroup) {
                 z = true;
                 if (DialogObject.isEncryptedDialog(this.dialogId) && !z) {
-                    int i10 = this.rowCount;
-                    int i11 = i10 + 1;
-                    this.rowCount = i11;
-                    this.popupRow = i10;
-                    int i12 = i11 + 1;
-                    this.rowCount = i12;
-                    this.popupEnabledRow = i11;
+                    int i12 = this.rowCount;
                     int i13 = i12 + 1;
                     this.rowCount = i13;
-                    this.popupDisabledRow = i12;
-                    this.rowCount = i13 + 1;
-                    this.popupInfoRow = i13;
+                    this.popupRow = i12;
+                    int i14 = i13 + 1;
+                    this.rowCount = i14;
+                    this.popupEnabledRow = i13;
+                    int i15 = i14 + 1;
+                    this.rowCount = i15;
+                    this.popupDisabledRow = i14;
+                    this.rowCount = i15 + 1;
+                    this.popupInfoRow = i15;
                 } else {
                     this.popupRow = -1;
                     this.popupEnabledRow = -1;
@@ -216,40 +242,40 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
                     this.popupInfoRow = -1;
                 }
                 if (!DialogObject.isUserDialog(this.dialogId)) {
-                    int i14 = this.rowCount;
-                    int i15 = i14 + 1;
-                    this.rowCount = i15;
-                    this.callsRow = i14;
-                    int i16 = i15 + 1;
-                    this.rowCount = i16;
-                    this.callsVibrateRow = i15;
+                    int i16 = this.rowCount;
                     int i17 = i16 + 1;
                     this.rowCount = i17;
-                    this.ringtoneRow = i16;
-                    this.rowCount = i17 + 1;
-                    this.ringtoneInfoRow = i17;
+                    this.callsRow = i16;
+                    int i18 = i17 + 1;
+                    this.rowCount = i18;
+                    this.callsVibrateRow = i17;
+                    int i19 = i18 + 1;
+                    this.rowCount = i19;
+                    this.ringtoneRow = i18;
+                    this.rowCount = i19 + 1;
+                    this.ringtoneInfoRow = i19;
                 } else {
                     this.callsRow = -1;
                     this.callsVibrateRow = -1;
                     this.ringtoneRow = -1;
                     this.ringtoneInfoRow = -1;
                 }
-                int i18 = this.rowCount;
-                int i19 = i18 + 1;
-                this.rowCount = i19;
-                this.ledRow = i18;
-                int i20 = i19 + 1;
-                this.rowCount = i20;
-                this.colorRow = i19;
+                int i20 = this.rowCount;
                 int i21 = i20 + 1;
                 this.rowCount = i21;
-                this.ledInfoRow = i20;
+                this.ledRow = i20;
+                int i22 = i21 + 1;
+                this.rowCount = i22;
+                this.colorRow = i21;
+                int i23 = i22 + 1;
+                this.rowCount = i23;
+                this.ledInfoRow = i22;
                 if (this.addingException) {
-                    int i22 = i21 + 1;
-                    this.rowCount = i22;
-                    this.customResetRow = i21;
-                    this.rowCount = i22 + 1;
-                    this.customResetShadowRow = i22;
+                    int i24 = i23 + 1;
+                    this.rowCount = i24;
+                    this.customResetRow = i23;
+                    this.rowCount = i24 + 1;
+                    this.customResetShadowRow = i24;
                 } else {
                     this.customResetRow = -1;
                     this.customResetShadowRow = -1;
@@ -261,16 +287,16 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
                     SharedPreferences notificationsSettings = MessagesController.getNotificationsSettings(this.currentAccount);
                     String sharedPrefKey = NotificationsController.getSharedPrefKey(this.dialogId, this.topicId);
                     boolean contains = notificationsSettings.contains(NotificationsSettingsFacade.PROPERTY_NOTIFY + sharedPrefKey);
-                    int i23 = notificationsSettings.getInt(NotificationsSettingsFacade.PROPERTY_NOTIFY + sharedPrefKey, 0);
-                    if (i23 == 0) {
+                    int i25 = notificationsSettings.getInt(NotificationsSettingsFacade.PROPERTY_NOTIFY + sharedPrefKey, 0);
+                    if (i25 == 0) {
                         if (contains) {
                             this.notificationsEnabled = true;
                         } else {
                             this.notificationsEnabled = NotificationsController.getInstance(this.currentAccount).isGlobalNotificationsEnabled(this.dialogId);
                         }
-                    } else if (i23 == 1) {
+                    } else if (i25 == 1) {
                         this.notificationsEnabled = true;
-                    } else if (i23 == 2) {
+                    } else if (i25 == 2) {
                         this.notificationsEnabled = false;
                     } else {
                         this.notificationsEnabled = false;
@@ -289,16 +315,16 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
         this.popupInfoRow = -1;
         if (!DialogObject.isUserDialog(this.dialogId)) {
         }
-        int i182 = this.rowCount;
-        int i192 = i182 + 1;
-        this.rowCount = i192;
-        this.ledRow = i182;
-        int i202 = i192 + 1;
-        this.rowCount = i202;
-        this.colorRow = i192;
+        int i202 = this.rowCount;
         int i212 = i202 + 1;
         this.rowCount = i212;
-        this.ledInfoRow = i202;
+        this.ledRow = i202;
+        int i222 = i212 + 1;
+        this.rowCount = i222;
+        this.colorRow = i212;
+        int i232 = i222 + 1;
+        this.rowCount = i232;
+        this.ledInfoRow = i222;
         if (this.addingException) {
         }
         boolean isGlobalNotificationsEnabled2 = NotificationsController.getInstance(this.currentAccount).isGlobalNotificationsEnabled(this.dialogId);
@@ -544,6 +570,18 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
                     if (findViewWithTag2 != null) {
                         ((RadioCell) findViewWithTag2).setChecked(false, true);
                     }
+                } else if (i == this.storiesRow) {
+                    TextCheckCell textCheckCell3 = (TextCheckCell) view;
+                    boolean z2 = !textCheckCell3.isChecked();
+                    textCheckCell3.setChecked(z2);
+                    SharedPreferences.Editor edit = MessagesController.getNotificationsSettings(this.currentAccount).edit();
+                    if (this.isInTop5Peers && z2) {
+                        edit.remove(NotificationsSettingsFacade.PROPERTY_STORIES_NOTIFY + str);
+                    } else {
+                        edit.putBoolean(NotificationsSettingsFacade.PROPERTY_STORIES_NOTIFY + str, z2);
+                    }
+                    edit.apply();
+                    getNotificationsController().updateServerNotificationsSettings(this.dialogId, this.topicId);
                 }
             }
         }
@@ -921,6 +959,7 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
                     return;
                 case 2:
                     TextInfoPrivacyCell textInfoPrivacyCell = (TextInfoPrivacyCell) viewHolder.itemView;
+                    textInfoPrivacyCell.setFixedSize(0);
                     if (i != ProfileNotificationsActivity.this.popupInfoRow) {
                         if (i != ProfileNotificationsActivity.this.ledInfoRow) {
                             if (i == ProfileNotificationsActivity.this.priorityInfoRow) {
@@ -1005,6 +1044,13 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
                         String sharedPrefKey3 = NotificationsController.getSharedPrefKey(ProfileNotificationsActivity.this.dialogId, ProfileNotificationsActivity.this.topicId);
                         textCheckCell.setTextAndCheck(LocaleController.getString("MessagePreview", R.string.MessagePreview), notificationsSettings4.getBoolean(NotificationsSettingsFacade.PROPERTY_CONTENT_PREVIEW + sharedPrefKey3, true), true);
                         return;
+                    } else if (i == ProfileNotificationsActivity.this.storiesRow) {
+                        String str = NotificationsSettingsFacade.PROPERTY_STORIES_NOTIFY + NotificationsController.getSharedPrefKey(ProfileNotificationsActivity.this.dialogId, ProfileNotificationsActivity.this.topicId);
+                        if (ProfileNotificationsActivity.this.isInTop5Peers || (notificationsSettings4.contains("EnableAllStories") && notificationsSettings4.getBoolean("EnableAllStories", true))) {
+                            r6 = true;
+                        }
+                        textCheckCell.setTextAndCheck(LocaleController.getString("StoriesSoundEnabled", R.string.StoriesSoundEnabled), notificationsSettings4.getBoolean(str, r6), true);
+                        return;
                     } else {
                         return;
                     }
@@ -1036,6 +1082,8 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
                 TextCheckCell textCheckCell = (TextCheckCell) viewHolder.itemView;
                 if (viewHolder.getAdapterPosition() == ProfileNotificationsActivity.this.previewRow) {
                     textCheckCell.setEnabled(ProfileNotificationsActivity.this.notificationsEnabled, null);
+                } else if (viewHolder.getAdapterPosition() == ProfileNotificationsActivity.this.storiesRow) {
+                    textCheckCell.setEnabled(ProfileNotificationsActivity.this.notificationsEnabled, null);
                 } else {
                     textCheckCell.setEnabled(true, null);
                 }
@@ -1065,13 +1113,8 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
             if (i == ProfileNotificationsActivity.this.avatarSectionRow || i == ProfileNotificationsActivity.this.customResetShadowRow) {
                 return 6;
             }
-            return (i == ProfileNotificationsActivity.this.enableRow || i == ProfileNotificationsActivity.this.previewRow) ? 7 : 0;
+            return (i == ProfileNotificationsActivity.this.enableRow || i == ProfileNotificationsActivity.this.previewRow || i == ProfileNotificationsActivity.this.storiesRow) ? 7 : 0;
         }
-    }
-
-    @Override // org.telegram.ui.ActionBar.BaseFragment
-    public int getNavigationBarColor() {
-        return getThemedColor(Theme.key_windowBackgroundGray);
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment

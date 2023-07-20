@@ -53,6 +53,7 @@ import org.telegram.ui.Components.Premium.StarParticlesView;
 import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.Components.RLottieImageView;
 import org.telegram.ui.Components.Reactions.AnimatedEmojiEffect;
+import org.telegram.ui.Components.Reactions.HwEmojis;
 import org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble;
 import org.telegram.ui.Components.SnowflakesEffect;
 import org.telegram.ui.ThemeActivity;
@@ -118,6 +119,38 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
                     drawerProfileCell.getEmojiStatusLocation(rect);
                     DrawerProfileCell.this.animatedStatus.translate(rect.centerX(), rect.centerY());
                 }
+            }
+
+            @Override // android.view.View
+            public void invalidate() {
+                if (HwEmojis.grab(this)) {
+                    return;
+                }
+                super.invalidate();
+            }
+
+            @Override // android.view.View
+            public void invalidate(int i, int i2, int i3, int i4) {
+                if (HwEmojis.grab(this)) {
+                    return;
+                }
+                super.invalidate(i, i2, i3, i4);
+            }
+
+            @Override // org.telegram.ui.ActionBar.SimpleTextView, android.view.View, android.graphics.drawable.Drawable.Callback
+            public void invalidateDrawable(Drawable drawable) {
+                if (HwEmojis.grab(this)) {
+                    return;
+                }
+                super.invalidateDrawable(drawable);
+            }
+
+            @Override // android.view.View
+            public void invalidate(Rect rect) {
+                if (HwEmojis.grab(this)) {
+                    return;
+                }
+                super.invalidate(rect);
             }
         };
         this.nameTextView = simpleTextView;
@@ -465,12 +498,13 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
     private void switchTheme(Theme.ThemeInfo themeInfo, boolean z) {
         this.darkThemeView.getLocationInWindow(r1);
         int[] iArr = {iArr[0] + (this.darkThemeView.getMeasuredWidth() / 2), iArr[1] + (this.darkThemeView.getMeasuredHeight() / 2)};
-        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.needSetDayNightTheme, themeInfo, Boolean.FALSE, iArr, -1, Boolean.valueOf(z), this.darkThemeView);
+        NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.needSetDayNightTheme, themeInfo, Boolean.FALSE, iArr, -1, Boolean.valueOf(z), this.darkThemeView);
     }
 
     @Override // android.view.ViewGroup, android.view.View
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
+        this.status.attach();
         updateColors();
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.emojiLoaded);
         for (int i = 0; i < 4; i++) {
@@ -481,6 +515,7 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
     @Override // android.view.ViewGroup, android.view.View
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
+        this.status.detach();
         NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.emojiLoaded);
         for (int i = 0; i < 4; i++) {
             NotificationCenter.getInstance(i).removeObserver(this, NotificationCenter.currentUserPremiumStatusChanged);

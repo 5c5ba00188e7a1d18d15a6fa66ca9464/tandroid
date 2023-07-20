@@ -548,7 +548,7 @@ public class SeekBarView extends FrameLayout {
             return;
         }
         if (l == null) {
-            l = Long.valueOf(messageObject.getDuration() * 1000);
+            l = Long.valueOf(((long) messageObject.getDuration()) * 1000);
         }
         if (l == null || l.longValue() < 0) {
             clearTimestamps();

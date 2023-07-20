@@ -1181,6 +1181,14 @@ public class LinearLayoutManager extends RecyclerView.LayoutManager implements I
         return getPosition(findOneVisibleChild);
     }
 
+    public int findLastCompletelyVisibleItemPosition() {
+        View findOneVisibleChild = findOneVisibleChild(getChildCount() - 1, -1, true, false);
+        if (findOneVisibleChild == null) {
+            return -1;
+        }
+        return getPosition(findOneVisibleChild);
+    }
+
     View findOneVisibleChild(int i, int i2, boolean z, boolean z2) {
         ensureLayoutState();
         int i3 = z ? 24579 : 320;

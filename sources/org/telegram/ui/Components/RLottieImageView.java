@@ -131,13 +131,15 @@ public class RLottieImageView extends ImageView {
             }
         };
         this.imageReceiver = imageReceiver2;
+        imageReceiver2.setAllowLoadingOnAttachedOnly(true);
         if (this.onlyLastFrame) {
+            ImageReceiver imageReceiver3 = this.imageReceiver;
             ImageLocation forDocument = ImageLocation.getForDocument(tLRPC$Document);
-            imageReceiver2.setImage(forDocument, i + "_" + i2 + "_lastframe", null, null, null, null, null, 0L, null, tLRPC$Document, 1);
+            imageReceiver3.setImage(forDocument, i + "_" + i2 + "_lastframe", null, null, null, null, null, 0L, null, tLRPC$Document, 1);
         } else {
             if ("video/webm".equals(tLRPC$Document.mime_type)) {
                 TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 90);
-                ImageReceiver imageReceiver3 = this.imageReceiver;
+                ImageReceiver imageReceiver4 = this.imageReceiver;
                 ImageLocation forDocument2 = ImageLocation.getForDocument(tLRPC$Document);
                 StringBuilder sb = new StringBuilder();
                 sb.append(i);
@@ -146,21 +148,21 @@ public class RLottieImageView extends ImageView {
                 sb.append(this.cached ? "_pcache" : "");
                 sb.append("_");
                 sb.append(ImageLoader.AUTOPLAY_FILTER);
-                imageReceiver3.setImage(forDocument2, sb.toString(), ImageLocation.getForDocument(closestPhotoSizeWithSize, tLRPC$Document), null, null, tLRPC$Document.size, null, tLRPC$Document, 1);
+                imageReceiver4.setImage(forDocument2, sb.toString(), ImageLocation.getForDocument(closestPhotoSizeWithSize, tLRPC$Document), null, null, tLRPC$Document.size, null, tLRPC$Document, 1);
             } else {
                 SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(tLRPC$Document.thumbs, Theme.key_windowBackgroundWhiteGrayIcon, 0.2f);
                 if (svgThumb != null) {
                     svgThumb.overrideWidthAndHeight(LiteMode.FLAG_CALLS_ANIMATIONS, LiteMode.FLAG_CALLS_ANIMATIONS);
                 }
                 TLRPC$PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 90);
-                ImageReceiver imageReceiver4 = this.imageReceiver;
+                ImageReceiver imageReceiver5 = this.imageReceiver;
                 ImageLocation forDocument3 = ImageLocation.getForDocument(tLRPC$Document);
                 StringBuilder sb2 = new StringBuilder();
                 sb2.append(i);
                 sb2.append("_");
                 sb2.append(i2);
                 sb2.append(this.cached ? "_pcache" : "");
-                imageReceiver4.setImage(forDocument3, sb2.toString(), ImageLocation.getForDocument(closestPhotoSizeWithSize2, tLRPC$Document), null, null, null, svgThumb, 0L, null, tLRPC$Document, 1);
+                imageReceiver5.setImage(forDocument3, sb2.toString(), ImageLocation.getForDocument(closestPhotoSizeWithSize2, tLRPC$Document), null, null, null, svgThumb, 0L, null, tLRPC$Document, 1);
             }
         }
         this.imageReceiver.setAspectFit(true);
@@ -172,9 +174,9 @@ public class RLottieImageView extends ImageView {
         } else {
             this.imageReceiver.setAutoRepeat(0);
         }
-        ImageReceiver imageReceiver5 = this.imageReceiver;
+        ImageReceiver imageReceiver6 = this.imageReceiver;
         Integer num = this.layerNum;
-        imageReceiver5.setLayerNum(num != null ? num.intValue() : 7);
+        imageReceiver6.setLayerNum(num != null ? num.intValue() : 7);
         this.imageReceiver.clip = false;
         setImageDrawable(new Drawable() { // from class: org.telegram.ui.Components.RLottieImageView.2
             @Override // android.graphics.drawable.Drawable

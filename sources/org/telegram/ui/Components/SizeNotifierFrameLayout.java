@@ -102,6 +102,10 @@ public class SizeNotifierFrameLayout extends FrameLayout {
     public void drawList(Canvas canvas, boolean z) {
     }
 
+    public int getBottomPadding() {
+        return 0;
+    }
+
     protected float getBottomTranslation() {
         return 0.0f;
     }
@@ -128,7 +132,10 @@ public class SizeNotifierFrameLayout extends FrameLayout {
     }
 
     public void invalidateBackground() {
-        this.backgroundView.invalidate();
+        View view = this.backgroundView;
+        if (view != null) {
+            view.invalidate();
+        }
     }
 
     public SizeNotifierFrameLayout(Context context) {
@@ -154,14 +161,11 @@ public class SizeNotifierFrameLayout extends FrameLayout {
         setWillNotDraw(false);
         this.parentLayout = iNavigationLayout;
         this.adjustPanLayoutHelper = createAdjustPanLayoutHelper();
-        BackgroundView backgroundView = new BackgroundView(context);
-        this.backgroundView = backgroundView;
-        addView(backgroundView, LayoutHelper.createFrame(-1, -1.0f));
-        checkLayerType();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes4.dex */
-    private class BackgroundView extends View {
+    public class BackgroundView extends View {
         public BackgroundView(Context context) {
             super(context);
         }
@@ -336,6 +340,12 @@ public class SizeNotifierFrameLayout extends FrameLayout {
         if (this.backgroundDrawable == drawable) {
             return;
         }
+        if (this.backgroundView == null) {
+            BackgroundView backgroundView = new BackgroundView(getContext());
+            this.backgroundView = backgroundView;
+            addView(backgroundView, 0, LayoutHelper.createFrame(-1, -1.0f));
+            checkLayerType();
+        }
         if (drawable instanceof MotionBackgroundDrawable) {
             ((MotionBackgroundDrawable) drawable).setParentView(this.backgroundView);
         }
@@ -390,7 +400,10 @@ public class SizeNotifierFrameLayout extends FrameLayout {
     public /* synthetic */ void lambda$checkMotion$0(int i, int i2, float f) {
         this.translationX = i;
         this.translationY = i2;
-        this.backgroundView.invalidate();
+        View view = this.backgroundView;
+        if (view != null) {
+            view.invalidate();
+        }
     }
 
     public Drawable getBackgroundImage() {
@@ -475,14 +488,20 @@ public class SizeNotifierFrameLayout extends FrameLayout {
     public void setBottomClip(int i) {
         if (i != this.bottomClip) {
             this.bottomClip = i;
-            this.backgroundView.invalidate();
+            View view = this.backgroundView;
+            if (view != null) {
+                view.invalidate();
+            }
         }
     }
 
     public void setBackgroundTranslation(int i) {
         if (i != this.backgroundTranslationY) {
             this.backgroundTranslationY = i;
-            this.backgroundView.invalidate();
+            View view = this.backgroundView;
+            if (view != null) {
+                view.invalidate();
+            }
         }
     }
 
@@ -524,7 +543,10 @@ public class SizeNotifierFrameLayout extends FrameLayout {
     public void setEmojiKeyboardHeight(int i) {
         if (this.emojiHeight != i) {
             this.emojiHeight = i;
-            this.backgroundView.invalidate();
+            View view = this.backgroundView;
+            if (view != null) {
+                view.invalidate();
+            }
         }
     }
 
@@ -534,12 +556,15 @@ public class SizeNotifierFrameLayout extends FrameLayout {
         }
         this.emojiOffset = f;
         this.animationInProgress = z;
-        this.backgroundView.invalidate();
+        View view = this.backgroundView;
+        if (view != null) {
+            view.invalidate();
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public void checkSnowflake(Canvas canvas) {
-        if (Theme.canStartHolidayAnimation() && LiteMode.isEnabled(32)) {
+        if (this.backgroundView != null && Theme.canStartHolidayAnimation() && LiteMode.isEnabled(32)) {
             if (this.snowflakesEffect == null) {
                 this.snowflakesEffect = new SnowflakesEffect(1);
             }
@@ -550,7 +575,10 @@ public class SizeNotifierFrameLayout extends FrameLayout {
     public void setSkipBackgroundDrawing(boolean z) {
         if (this.skipBackgroundDrawing != z) {
             this.skipBackgroundDrawing = z;
-            this.backgroundView.invalidate();
+            View view = this.backgroundView;
+            if (view != null) {
+                view.invalidate();
+            }
         }
     }
 

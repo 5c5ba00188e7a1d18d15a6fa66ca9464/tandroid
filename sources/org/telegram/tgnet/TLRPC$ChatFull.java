@@ -1,7 +1,7 @@
 package org.telegram.tgnet;
 
 import java.util.ArrayList;
-import org.telegram.messenger.CharacterCompat;
+import org.telegram.messenger.FileLoaderPriorityQueue;
 import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public abstract class TLRPC$ChatFull extends TLObject {
@@ -885,7 +885,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
                             this.groupcall_default_join_as = TLRPC$Peer.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
-                        if ((this.flags & CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT) != 0) {
+                        if ((this.flags & 65536) != 0) {
                             this.theme_emoticon = abstractSerializedData2.readString(z2);
                         }
                         if ((this.flags & 131072) != 0) {
@@ -960,7 +960,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
                             this.groupcall_default_join_as.serializeToStream(abstractSerializedData2);
                         }
-                        if ((this.flags & CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT) != 0) {
+                        if ((this.flags & 65536) != 0) {
                             abstractSerializedData2.writeString(this.theme_emoticon);
                         }
                         if ((this.flags & 131072) != 0) {
@@ -1145,11 +1145,11 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         this.flags = i4;
                         int i5 = this.hidden_prehistory ? i4 | 1024 : i4 & (-1025);
                         this.flags = i5;
-                        int i6 = this.can_set_location ? i5 | CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT : i5 & (-65537);
+                        int i6 = this.can_set_location ? i5 | 65536 : i5 & (-65537);
                         this.flags = i6;
                         int i7 = this.has_scheduled ? i6 | 524288 : i6 & (-524289);
                         this.flags = i7;
-                        int i8 = this.can_view_stats ? i7 | 1048576 : i7 & (-1048577);
+                        int i8 = this.can_view_stats ? i7 | FileLoaderPriorityQueue.PRIORITY_VALUE_MAX : i7 & (-1048577);
                         this.flags = i8;
                         int i9 = this.blocked ? i8 | 4194304 : i8 & (-4194305);
                         this.flags = i9;
@@ -1392,11 +1392,11 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         this.flags = i4;
                         int i5 = this.hidden_prehistory ? i4 | 1024 : i4 & (-1025);
                         this.flags = i5;
-                        int i6 = this.can_set_location ? i5 | CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT : i5 & (-65537);
+                        int i6 = this.can_set_location ? i5 | 65536 : i5 & (-65537);
                         this.flags = i6;
                         int i7 = this.has_scheduled ? i6 | 524288 : i6 & (-524289);
                         this.flags = i7;
-                        int i8 = this.can_view_stats ? i7 | 1048576 : i7 & (-1048577);
+                        int i8 = this.can_view_stats ? i7 | FileLoaderPriorityQueue.PRIORITY_VALUE_MAX : i7 & (-1048577);
                         this.flags = i8;
                         int i9 = this.blocked ? i8 | 4194304 : i8 & (-4194305);
                         this.flags = i9;
@@ -1652,11 +1652,11 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         this.flags = i4;
                         int i5 = this.hidden_prehistory ? i4 | 1024 : i4 & (-1025);
                         this.flags = i5;
-                        int i6 = this.can_set_location ? i5 | CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT : i5 & (-65537);
+                        int i6 = this.can_set_location ? i5 | 65536 : i5 & (-65537);
                         this.flags = i6;
                         int i7 = this.has_scheduled ? i6 | 524288 : i6 & (-524289);
                         this.flags = i7;
-                        int i8 = this.can_view_stats ? i7 | 1048576 : i7 & (-1048577);
+                        int i8 = this.can_view_stats ? i7 | FileLoaderPriorityQueue.PRIORITY_VALUE_MAX : i7 & (-1048577);
                         this.flags = i8;
                         int i9 = this.blocked ? i8 | 4194304 : i8 & (-4194305);
                         this.flags = i9;
@@ -1945,11 +1945,11 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         this.flags = i4;
                         int i5 = this.hidden_prehistory ? i4 | 1024 : i4 & (-1025);
                         this.flags = i5;
-                        int i6 = this.can_set_location ? i5 | CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT : i5 & (-65537);
+                        int i6 = this.can_set_location ? i5 | 65536 : i5 & (-65537);
                         this.flags = i6;
                         int i7 = this.has_scheduled ? i6 | 524288 : i6 & (-524289);
                         this.flags = i7;
-                        int i8 = this.can_view_stats ? i7 | 1048576 : i7 & (-1048577);
+                        int i8 = this.can_view_stats ? i7 | FileLoaderPriorityQueue.PRIORITY_VALUE_MAX : i7 & (-1048577);
                         this.flags = i8;
                         int i9 = this.blocked ? i8 | 4194304 : i8 & (-4194305);
                         this.flags = i9;
@@ -2224,11 +2224,11 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         this.flags = i4;
                         int i5 = this.hidden_prehistory ? i4 | 1024 : i4 & (-1025);
                         this.flags = i5;
-                        int i6 = this.can_set_location ? i5 | CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT : i5 & (-65537);
+                        int i6 = this.can_set_location ? i5 | 65536 : i5 & (-65537);
                         this.flags = i6;
                         int i7 = this.has_scheduled ? i6 | 524288 : i6 & (-524289);
                         this.flags = i7;
-                        int i8 = this.can_view_stats ? i7 | 1048576 : i7 & (-1048577);
+                        int i8 = this.can_view_stats ? i7 | FileLoaderPriorityQueue.PRIORITY_VALUE_MAX : i7 & (-1048577);
                         this.flags = i8;
                         int i9 = this.blocked ? i8 | 4194304 : i8 & (-4194305);
                         this.flags = i9;
@@ -2683,7 +2683,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         this.can_set_stickers = (readInt32 & 128) != 0;
                         this.hidden_prehistory = (readInt32 & 1024) != 0;
                         this.can_view_stats = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM) != 0;
-                        this.can_set_location = (readInt32 & CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT) != 0;
+                        this.can_set_location = (readInt32 & 65536) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
                         this.about = abstractSerializedData2.readString(z2);
                         if ((this.flags & 1) != 0) {
@@ -2765,7 +2765,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         this.flags = i5;
                         int i6 = this.can_view_stats ? i5 | LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM : i5 & (-4097);
                         this.flags = i6;
-                        int i7 = this.can_set_location ? i6 | CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT : i6 & (-65537);
+                        int i7 = this.can_set_location ? i6 | 65536 : i6 & (-65537);
                         this.flags = i7;
                         abstractSerializedData2.writeInt32(i7);
                         abstractSerializedData2.writeInt32((int) this.id);
@@ -3342,11 +3342,11 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         this.flags = i4;
                         int i5 = this.hidden_prehistory ? i4 | 1024 : i4 & (-1025);
                         this.flags = i5;
-                        int i6 = this.can_set_location ? i5 | CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT : i5 & (-65537);
+                        int i6 = this.can_set_location ? i5 | 65536 : i5 & (-65537);
                         this.flags = i6;
                         int i7 = this.has_scheduled ? i6 | 524288 : i6 & (-524289);
                         this.flags = i7;
-                        int i8 = this.can_view_stats ? i7 | 1048576 : i7 & (-1048577);
+                        int i8 = this.can_view_stats ? i7 | FileLoaderPriorityQueue.PRIORITY_VALUE_MAX : i7 & (-1048577);
                         this.flags = i8;
                         int i9 = this.blocked ? i8 | 4194304 : i8 & (-4194305);
                         this.flags = i9;
@@ -3535,7 +3535,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         this.flags = i5;
                         int i6 = this.can_view_stats ? i5 | LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM : i5 & (-4097);
                         this.flags = i6;
-                        int i7 = this.can_set_location ? i6 | CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT : i6 & (-65537);
+                        int i7 = this.can_set_location ? i6 | 65536 : i6 & (-65537);
                         this.flags = i7;
                         int i8 = this.has_scheduled ? i7 | 524288 : i7 & (-524289);
                         this.flags = i8;
@@ -3779,11 +3779,11 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         this.flags = i4;
                         int i5 = this.hidden_prehistory ? i4 | 1024 : i4 & (-1025);
                         this.flags = i5;
-                        int i6 = this.can_set_location ? i5 | CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT : i5 & (-65537);
+                        int i6 = this.can_set_location ? i5 | 65536 : i5 & (-65537);
                         this.flags = i6;
                         int i7 = this.has_scheduled ? i6 | 524288 : i6 & (-524289);
                         this.flags = i7;
-                        int i8 = this.can_view_stats ? i7 | 1048576 : i7 & (-1048577);
+                        int i8 = this.can_view_stats ? i7 | FileLoaderPriorityQueue.PRIORITY_VALUE_MAX : i7 & (-1048577);
                         this.flags = i8;
                         int i9 = this.blocked ? i8 | 4194304 : i8 & (-4194305);
                         this.flags = i9;
@@ -3928,7 +3928,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
                             this.groupcall_default_join_as = TLRPC$Peer.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
-                        if ((this.flags & CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT) != 0) {
+                        if ((this.flags & 65536) != 0) {
                             this.theme_emoticon = abstractSerializedData2.readString(z2);
                         }
                         if ((this.flags & 131072) != 0) {
@@ -3990,7 +3990,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
                             this.groupcall_default_join_as.serializeToStream(abstractSerializedData2);
                         }
-                        if ((this.flags & CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT) != 0) {
+                        if ((this.flags & 65536) != 0) {
                             abstractSerializedData2.writeString(this.theme_emoticon);
                         }
                         if ((this.flags & 131072) != 0) {
@@ -4059,7 +4059,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
                             this.groupcall_default_join_as = TLRPC$Peer.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
-                        if ((this.flags & CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT) != 0) {
+                        if ((this.flags & 65536) != 0) {
                             this.theme_emoticon = abstractSerializedData2.readString(z2);
                         }
                     }
@@ -4105,7 +4105,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
                             this.groupcall_default_join_as.serializeToStream(abstractSerializedData2);
                         }
-                        if ((this.flags & CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT) != 0) {
+                        if ((this.flags & 65536) != 0) {
                             abstractSerializedData2.writeString(this.theme_emoticon);
                         }
                     }
@@ -4163,7 +4163,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
                             this.groupcall_default_join_as = TLRPC$Peer.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
-                        if ((this.flags & CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT) != 0) {
+                        if ((this.flags & 65536) != 0) {
                             this.theme_emoticon = abstractSerializedData2.readString(z2);
                         }
                     }
@@ -4209,7 +4209,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
                             this.groupcall_default_join_as.serializeToStream(abstractSerializedData2);
                         }
-                        if ((this.flags & CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT) != 0) {
+                        if ((this.flags & 65536) != 0) {
                             abstractSerializedData2.writeString(this.theme_emoticon);
                         }
                     }
@@ -4340,11 +4340,11 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         this.flags = i4;
                         int i5 = this.hidden_prehistory ? i4 | 1024 : i4 & (-1025);
                         this.flags = i5;
-                        int i6 = this.can_set_location ? i5 | CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT : i5 & (-65537);
+                        int i6 = this.can_set_location ? i5 | 65536 : i5 & (-65537);
                         this.flags = i6;
                         int i7 = this.has_scheduled ? i6 | 524288 : i6 & (-524289);
                         this.flags = i7;
-                        int i8 = this.can_view_stats ? i7 | 1048576 : i7 & (-1048577);
+                        int i8 = this.can_view_stats ? i7 | FileLoaderPriorityQueue.PRIORITY_VALUE_MAX : i7 & (-1048577);
                         this.flags = i8;
                         int i9 = this.blocked ? i8 | 4194304 : i8 & (-4194305);
                         this.flags = i9;
@@ -4581,11 +4581,11 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         this.flags = i4;
                         int i5 = this.hidden_prehistory ? i4 | 1024 : i4 & (-1025);
                         this.flags = i5;
-                        int i6 = this.can_set_location ? i5 | CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT : i5 & (-65537);
+                        int i6 = this.can_set_location ? i5 | 65536 : i5 & (-65537);
                         this.flags = i6;
                         int i7 = this.has_scheduled ? i6 | 524288 : i6 & (-524289);
                         this.flags = i7;
-                        int i8 = this.can_view_stats ? i7 | 1048576 : i7 & (-1048577);
+                        int i8 = this.can_view_stats ? i7 | FileLoaderPriorityQueue.PRIORITY_VALUE_MAX : i7 & (-1048577);
                         this.flags = i8;
                         int i9 = this.blocked ? i8 | 4194304 : i8 & (-4194305);
                         this.flags = i9;
@@ -4836,11 +4836,11 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         this.flags = i4;
                         int i5 = this.hidden_prehistory ? i4 | 1024 : i4 & (-1025);
                         this.flags = i5;
-                        int i6 = this.can_set_location ? i5 | CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT : i5 & (-65537);
+                        int i6 = this.can_set_location ? i5 | 65536 : i5 & (-65537);
                         this.flags = i6;
                         int i7 = this.has_scheduled ? i6 | 524288 : i6 & (-524289);
                         this.flags = i7;
-                        int i8 = this.can_view_stats ? i7 | 1048576 : i7 & (-1048577);
+                        int i8 = this.can_view_stats ? i7 | FileLoaderPriorityQueue.PRIORITY_VALUE_MAX : i7 & (-1048577);
                         this.flags = i8;
                         int i9 = this.blocked ? i8 | 4194304 : i8 & (-4194305);
                         this.flags = i9;
@@ -5173,11 +5173,11 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         this.flags = i4;
                         int i5 = this.hidden_prehistory ? i4 | 1024 : i4 & (-1025);
                         this.flags = i5;
-                        int i6 = this.can_set_location ? i5 | CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT : i5 & (-65537);
+                        int i6 = this.can_set_location ? i5 | 65536 : i5 & (-65537);
                         this.flags = i6;
                         int i7 = this.has_scheduled ? i6 | 524288 : i6 & (-524289);
                         this.flags = i7;
-                        int i8 = this.can_view_stats ? i7 | 1048576 : i7 & (-1048577);
+                        int i8 = this.can_view_stats ? i7 | FileLoaderPriorityQueue.PRIORITY_VALUE_MAX : i7 & (-1048577);
                         this.flags = i8;
                         int i9 = this.blocked ? i8 | 4194304 : i8 & (-4194305);
                         this.flags = i9;

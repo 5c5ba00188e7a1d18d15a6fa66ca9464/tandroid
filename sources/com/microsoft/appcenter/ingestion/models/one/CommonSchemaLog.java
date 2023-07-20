@@ -130,7 +130,7 @@ public abstract class CommonSchemaLog extends AbstractLog {
         if (this == obj) {
             return true;
         }
-        if (obj != null && CommonSchemaLog.class == obj.getClass() && super.equals(obj)) {
+        if (obj != null && getClass() == obj.getClass() && super.equals(obj)) {
             CommonSchemaLog commonSchemaLog = (CommonSchemaLog) obj;
             String str = this.ver;
             if (str == null ? commonSchemaLog.ver == null : str.equals(commonSchemaLog.ver)) {

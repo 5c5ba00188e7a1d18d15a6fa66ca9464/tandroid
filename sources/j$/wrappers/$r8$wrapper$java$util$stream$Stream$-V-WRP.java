@@ -6,7 +6,9 @@ import j$.util.function.BiFunction;
 import j$.util.function.Consumer;
 import j$.util.function.Function;
 import j$.util.function.Predicate;
+import j$.util.function.ToDoubleFunction;
 import j$.util.function.ToIntFunction;
+import j$.util.function.ToLongFunction;
 import j$.util.stream.IntStream;
 import j$.util.stream.Stream;
 import j$.util.stream.e1;
@@ -113,8 +115,8 @@ public final /* synthetic */ class $r8$wrapper$java$util$stream$Stream$-V-WRP im
     }
 
     @Override // j$.util.stream.Stream
-    public /* synthetic */ e1 g0(j$.util.function.A a) {
-        return M0.n0(this.a.mapToLong(F0.a(a)));
+    public /* synthetic */ e1 g0(ToLongFunction toLongFunction) {
+        return M0.n0(this.a.mapToLong(F0.a(toLongFunction)));
     }
 
     @Override // j$.util.stream.Stream
@@ -133,8 +135,8 @@ public final /* synthetic */ class $r8$wrapper$java$util$stream$Stream$-V-WRP im
     }
 
     @Override // j$.util.stream.Stream
-    public /* synthetic */ j$.util.stream.U j0(j$.util.function.z zVar) {
-        return K0.n0(this.a.mapToDouble(B0.a(zVar)));
+    public /* synthetic */ j$.util.stream.U j0(ToDoubleFunction toDoubleFunction) {
+        return K0.n0(this.a.mapToDouble(B0.a(toDoubleFunction)));
     }
 
     @Override // j$.util.stream.Stream

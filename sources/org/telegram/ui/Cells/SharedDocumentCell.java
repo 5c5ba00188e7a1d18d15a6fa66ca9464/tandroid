@@ -30,6 +30,7 @@ import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MessageObject;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
@@ -227,6 +228,7 @@ public class SharedDocumentCell extends FrameLayout implements DownloadControlle
         this.dateTextView.setSingleLine(true);
         this.dateTextView.setEllipsize(TextUtils.TruncateAt.END);
         this.dateTextView.setGravity((LocaleController.isRTL ? 5 : 3) | 16);
+        NotificationCenter.listenEmojiLoading(this.dateTextView);
         if (i == 1) {
             this.dateTextView.setTextSize(1, 13.0f);
             View view10 = this.dateTextView;
@@ -244,7 +246,7 @@ public class SharedDocumentCell extends FrameLayout implements DownloadControlle
         View view12 = this.progressView;
         boolean z15 = LocaleController.isRTL;
         addView(view12, LayoutHelper.createFrame(-1, 2.0f, (z15 ? 5 : 3) | 48, z15 ? 0.0f : 72.0f, 54.0f, z15 ? 72.0f : 0.0f, 0.0f));
-        CheckBox2 checkBox2 = new CheckBox2(context, 21);
+        CheckBox2 checkBox2 = new CheckBox2(context, 21, resourcesProvider);
         this.checkBox = checkBox2;
         checkBox2.setVisibility(4);
         this.checkBox.setColor(-1, Theme.key_windowBackgroundWhite, Theme.key_checkboxCheck);
@@ -521,7 +523,7 @@ public class SharedDocumentCell extends FrameLayout implements DownloadControlle
             format = String.format(Locale.ENGLISH, "%s / %s", AndroidUtilities.formatFileSize(j2), AndroidUtilities.formatFileSize(this.message.getDocument().size));
         }
         if (this.viewType == 2) {
-            this.dateTextView.setText(new SpannableStringBuilder().append((CharSequence) format).append(' ').append((CharSequence) this.dotSpan).append(' ').append(FilteredSearchView.createFromInfoString(this.message)));
+            this.dateTextView.setText(new SpannableStringBuilder().append((CharSequence) format).append(' ').append((CharSequence) this.dotSpan).append(' ').append(FilteredSearchView.createFromInfoString(this.message, true, 2, this.dateTextView.getPaint())));
             this.rightDateTextView.setText(LocaleController.stringForMessageListDate(this.message.messageOwner.date));
             return;
         }
@@ -771,7 +773,7 @@ public class SharedDocumentCell extends FrameLayout implements DownloadControlle
 
     private void drawDivider(Canvas canvas) {
         if (this.needDivider) {
-            canvas.drawLine(AndroidUtilities.dp(72.0f), getHeight() - 1, getWidth() - getPaddingRight(), getHeight() - 1, Theme.dividerPaint);
+            canvas.drawLine(AndroidUtilities.dp(72.0f), getHeight() - 1, getWidth() - getPaddingRight(), getHeight() - 1, Theme.getThemePaint("paintDivider", this.resourcesProvider));
         }
     }
 

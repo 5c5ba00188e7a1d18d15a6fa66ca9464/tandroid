@@ -64,6 +64,11 @@ public class SessionContext {
         return null;
     }
 
+    public synchronized void clearSessions() {
+        this.mSessions.clear();
+        SharedPreferencesManager.remove("sessions");
+    }
+
     /* loaded from: classes.dex */
     public static class SessionInfo {
         private final long mAppLaunchTimestamp;

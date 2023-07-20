@@ -7,7 +7,6 @@ import com.google.android.exoplayer2.upstream.DefaultAllocator;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.Util;
-import org.telegram.messenger.CharacterCompat;
 import org.telegram.messenger.voip.VoIPController;
 /* loaded from: classes.dex */
 public class DefaultLoadControl implements LoadControl {
@@ -24,7 +23,7 @@ public class DefaultLoadControl implements LoadControl {
     private final int targetBufferBytesOverwrite;
 
     public DefaultLoadControl() {
-        this(new DefaultAllocator(true, CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT), 50000, 50000, 2500, 5000, -1, false, 0, false);
+        this(new DefaultAllocator(true, 65536), 50000, 50000, 2500, 5000, -1, false, 0, false);
     }
 
     public DefaultLoadControl(DefaultAllocator defaultAllocator, int i, int i2, int i3, int i4, int i5, boolean z, int i6, boolean z2) {

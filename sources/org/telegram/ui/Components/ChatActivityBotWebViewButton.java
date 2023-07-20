@@ -125,4 +125,14 @@ public class ChatActivityBotWebViewButton extends FrameLayout {
         super.draw(canvas);
         canvas.restore();
     }
+
+    @Override // android.widget.FrameLayout, android.view.View
+    protected void onMeasure(int i, int i2) {
+        int size = View.MeasureSpec.getSize(i2);
+        int height = getParent() instanceof View ? ((View) getParent()).getHeight() : 0;
+        if (height > 0) {
+            size = Math.min(size, height);
+        }
+        super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(size, View.MeasureSpec.getMode(i2)));
+    }
 }

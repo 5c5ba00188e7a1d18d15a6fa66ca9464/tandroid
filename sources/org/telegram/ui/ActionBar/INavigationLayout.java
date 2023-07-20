@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
+import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.util.SparseIntArray;
@@ -380,8 +381,17 @@ public interface INavigationLayout {
         }
 
         @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
+        public /* synthetic */ ColorFilter getAnimatedEmojiColorFilter() {
+            ColorFilter colorFilter;
+            colorFilter = Theme.chat_animatedEmojiTextColorFilter;
+            return colorFilter;
+        }
+
+        @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
         public /* synthetic */ int getColorOrDefault(int i) {
-            return Theme.ResourcesProvider.-CC.$default$getColorOrDefault(this, i);
+            int color;
+            color = getColor(i);
+            return color;
         }
 
         @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
@@ -391,7 +401,9 @@ public interface INavigationLayout {
 
         @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
         public /* synthetic */ Paint getPaint(String str) {
-            return Theme.ResourcesProvider.-CC.$default$getPaint(this, str);
+            Paint themePaint;
+            themePaint = Theme.getThemePaint(str);
+            return themePaint;
         }
 
         @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
@@ -406,12 +418,11 @@ public interface INavigationLayout {
 
         @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
         public int getColor(int i) {
-            return this.colors.get(i);
-        }
-
-        @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
-        public boolean contains(int i) {
-            return this.colors.indexOfKey(i) >= 0;
+            int indexOfKey = this.colors.indexOfKey(i);
+            if (indexOfKey >= 0) {
+                return this.colors.valueAt(indexOfKey);
+            }
+            return Theme.getColor(i);
         }
 
         @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider

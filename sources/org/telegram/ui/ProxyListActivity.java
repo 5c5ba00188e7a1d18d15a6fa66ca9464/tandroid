@@ -470,7 +470,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
             NotificationCenter globalInstance = NotificationCenter.getGlobalInstance();
             int i2 = NotificationCenter.proxySettingsChanged;
             globalInstance.removeObserver(this, i2);
-            NotificationCenter.getGlobalInstance().postNotificationName(i2, new Object[0]);
+            NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(i2, new Object[0]);
             NotificationCenter.getGlobalInstance().addObserver(this, i2);
             for (int i3 = this.proxyStartRow; i3 < this.proxyEndRow; i3++) {
                 RecyclerListView.Holder holder2 = (RecyclerListView.Holder) this.listView.findViewHolderForAdapterPosition(i3);
@@ -559,7 +559,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
         NotificationCenter globalInstance = NotificationCenter.getGlobalInstance();
         int i2 = NotificationCenter.proxySettingsChanged;
         globalInstance.removeObserver(this, i2);
-        NotificationCenter.getGlobalInstance().postNotificationName(i2, new Object[0]);
+        NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(i2, new Object[0]);
         NotificationCenter.getGlobalInstance().addObserver(this, i2);
         updateRows(true);
         ListAdapter listAdapter = this.listAdapter;
@@ -601,7 +601,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
             ProxyListActivity proxyListActivity = ProxyListActivity.this;
             int i2 = NotificationCenter.proxySettingsChanged;
             globalInstance.removeObserver(proxyListActivity, i2);
-            NotificationCenter.getGlobalInstance().postNotificationName(i2, new Object[0]);
+            NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(i2, new Object[0]);
             NotificationCenter.getGlobalInstance().addObserver(ProxyListActivity.this, i2);
             ProxyListActivity.this.updateRows(true);
             if (ProxyListActivity.this.listAdapter != null) {
@@ -841,7 +841,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
             proxyInfo.ping = j;
             proxyInfo.available = true;
         }
-        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.proxyCheckDone, proxyInfo);
+        NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.proxyCheckDone, proxyInfo);
     }
 
     /* JADX INFO: Access modifiers changed from: protected */

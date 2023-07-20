@@ -548,7 +548,7 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
                     StickersActivity.this.lambda$sendReorder$5(tLObject, tLRPC$TL_error);
                 }
             });
-            NotificationCenter.getInstance(this.currentAccount).postNotificationName(NotificationCenter.stickersDidLoad, Integer.valueOf(this.currentType), Boolean.TRUE);
+            NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.stickersDidLoad, Integer.valueOf(this.currentType), Boolean.TRUE);
             if (!SharedConfig.updateStickersOrderOnSend || this.dynamicPackOrder == -1) {
                 return;
             }
@@ -1448,7 +1448,7 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
                         StickersActivity.ListAdapter.this.lambda$onCreateViewHolder$7(stickersSet);
                     }
                 });
-                makeOptions.add(R.drawable.msg_delete, LocaleController.getString("StickersRemove", R.string.StickersRemove), true, new Runnable() { // from class: org.telegram.ui.StickersActivity$ListAdapter$$ExternalSyntheticLambda4
+                makeOptions.add(R.drawable.msg_delete, (CharSequence) LocaleController.getString("StickersRemove", R.string.StickersRemove), true, new Runnable() { // from class: org.telegram.ui.StickersActivity$ListAdapter$$ExternalSyntheticLambda4
                     @Override // java.lang.Runnable
                     public final void run() {
                         StickersActivity.ListAdapter.this.lambda$onCreateViewHolder$8(stickersSet);

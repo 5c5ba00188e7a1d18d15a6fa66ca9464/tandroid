@@ -10,6 +10,6 @@ public final /* synthetic */ class StickersAlert$$ExternalSyntheticLambda1 imple
 
     @Override // android.content.DialogInterface.OnClickListener
     public final void onClick(DialogInterface dialogInterface, int i) {
-        StickersAlert.lambda$showNameEnterAlert$22(dialogInterface, i);
+        StickersAlert.lambda$showNameEnterAlert$23(dialogInterface, i);
     }
 }

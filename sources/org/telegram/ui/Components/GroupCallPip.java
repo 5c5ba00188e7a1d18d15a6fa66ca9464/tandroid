@@ -703,7 +703,7 @@ public class GroupCallPip implements NotificationCenter.NotificationCenterDelega
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$remove$2() {
-        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.groupCallVisibilityChanged, new Object[0]);
+        NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.groupCallVisibilityChanged, new Object[0]);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -869,7 +869,7 @@ public class GroupCallPip implements NotificationCenter.NotificationCenterDelega
             }).start();
             instance.onDestroy();
             instance = null;
-            NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.groupCallVisibilityChanged, new Object[0]);
+            NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.groupCallVisibilityChanged, new Object[0]);
         }
     }
 

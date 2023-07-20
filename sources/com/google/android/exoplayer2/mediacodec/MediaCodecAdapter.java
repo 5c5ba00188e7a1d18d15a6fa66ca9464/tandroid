@@ -60,7 +60,6 @@ public interface MediaCodecAdapter {
         public final MediaCodecInfo codecInfo;
         public final MediaCrypto crypto;
         public final int flags;
-        public final Format format;
         public final MediaFormat mediaFormat;
         public final Surface surface;
 
@@ -75,7 +74,6 @@ public interface MediaCodecAdapter {
         private Configuration(MediaCodecInfo mediaCodecInfo, MediaFormat mediaFormat, Format format, Surface surface, MediaCrypto mediaCrypto, int i) {
             this.codecInfo = mediaCodecInfo;
             this.mediaFormat = mediaFormat;
-            this.format = format;
             this.surface = surface;
             this.crypto = mediaCrypto;
             this.flags = i;

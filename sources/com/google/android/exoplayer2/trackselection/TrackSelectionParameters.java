@@ -195,6 +195,15 @@ public class TrackSelectionParameters implements Bundleable {
             return this;
         }
 
+        public Builder setTrackTypeDisabled(int i, boolean z) {
+            if (z) {
+                this.disabledTrackTypes.add(Integer.valueOf(i));
+            } else {
+                this.disabledTrackTypes.remove(Integer.valueOf(i));
+            }
+            return this;
+        }
+
         public TrackSelectionParameters build() {
             return new TrackSelectionParameters(this);
         }
@@ -239,6 +248,10 @@ public class TrackSelectionParameters implements Bundleable {
         this.forceHighestSupportedBitrate = builder.forceHighestSupportedBitrate;
         this.overrides = ImmutableMap.copyOf((Map) builder.overrides);
         this.disabledTrackTypes = ImmutableSet.copyOf((Collection) builder.disabledTrackTypes);
+    }
+
+    public Builder buildUpon() {
+        return new Builder(this);
     }
 
     public boolean equals(Object obj) {

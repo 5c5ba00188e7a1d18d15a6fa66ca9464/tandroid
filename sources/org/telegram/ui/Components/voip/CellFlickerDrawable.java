@@ -180,6 +180,11 @@ public class CellFlickerDrawable {
         this.onRestartCallback = runnable;
     }
 
+    public void setAlpha(int i) {
+        this.paint.setAlpha(i);
+        this.paintOutline.setAlpha(i);
+    }
+
     /* loaded from: classes4.dex */
     public class DrawableInterface extends Drawable {
         public float radius;

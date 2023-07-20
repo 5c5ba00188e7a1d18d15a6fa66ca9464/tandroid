@@ -17,6 +17,7 @@ public class NotificationsSettingsFacade {
     public static final String PROPERTY_NOTIFY = "notify2_";
     public static final String PROPERTY_NOTIFY_UNTIL = "notifyuntil_";
     public static final String PROPERTY_SILENT = "silent_";
+    public static final String PROPERTY_STORIES_NOTIFY = "stories_";
     private final int currentAccount;
 
     public NotificationsSettingsFacade(int i) {
@@ -35,7 +36,8 @@ public class NotificationsSettingsFacade {
         SharedPreferences.Editor remove2 = remove.remove(PROPERTY_CUSTOM + sharedPrefKey);
         SharedPreferences.Editor remove3 = remove2.remove(PROPERTY_NOTIFY_UNTIL + sharedPrefKey);
         SharedPreferences.Editor remove4 = remove3.remove(PROPERTY_CONTENT_PREVIEW + sharedPrefKey);
-        remove4.remove(PROPERTY_SILENT + sharedPrefKey).apply();
+        SharedPreferences.Editor remove5 = remove4.remove(PROPERTY_SILENT + sharedPrefKey);
+        remove5.remove(PROPERTY_STORIES_NOTIFY + sharedPrefKey).apply();
     }
 
     public int getProperty(String str, long j, int i, int i2) {
@@ -109,8 +111,8 @@ public class NotificationsSettingsFacade {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:57:0x0193  */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x019e  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x01ca  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x01d5  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -118,6 +120,7 @@ public class NotificationsSettingsFacade {
         boolean z;
         boolean z2;
         int i2;
+        boolean z3;
         int i3;
         String sharedPrefKey = NotificationsController.getSharedPrefKey(j, i);
         MessagesController messagesController = MessagesController.getInstance(this.currentAccount);
@@ -133,6 +136,11 @@ public class NotificationsSettingsFacade {
             edit.putBoolean(PROPERTY_SILENT + sharedPrefKey, tLRPC$PeerNotifySettings.silent);
         } else {
             edit.remove(PROPERTY_SILENT + sharedPrefKey);
+        }
+        if ((tLRPC$PeerNotifySettings.flags & 64) != 0) {
+            edit.putBoolean(PROPERTY_STORIES_NOTIFY + sharedPrefKey, !tLRPC$PeerNotifySettings.stories_muted);
+        } else {
+            edit.remove(PROPERTY_STORIES_NOTIFY + sharedPrefKey);
         }
         TLRPC$Dialog tLRPC$Dialog = i == 0 ? messagesController.dialogs_dict.get(j) : null;
         if (tLRPC$Dialog != null) {
@@ -154,15 +162,16 @@ public class NotificationsSettingsFacade {
         } else if (tLRPC$PeerNotifySettings.mute_until > connectionsManager.getCurrentTime()) {
             if (tLRPC$PeerNotifySettings.mute_until <= connectionsManager.getCurrentTime() + 31536000) {
                 if (i4 == 3 && i5 == tLRPC$PeerNotifySettings.mute_until) {
-                    z2 = false;
+                    z3 = false;
                 } else {
                     edit.putInt(PROPERTY_NOTIFY + sharedPrefKey, 3);
                     edit.putInt(PROPERTY_NOTIFY_UNTIL + sharedPrefKey, tLRPC$PeerNotifySettings.mute_until);
                     if (tLRPC$Dialog != null) {
                         tLRPC$Dialog.notify_settings.mute_until = 0;
                     }
-                    z2 = true;
+                    z3 = true;
                 }
+                z2 = z3;
                 i3 = tLRPC$PeerNotifySettings.mute_until;
             } else if (i4 != 2) {
                 edit.putInt(PROPERTY_NOTIFY + sharedPrefKey, 2);
@@ -217,7 +226,7 @@ public class NotificationsSettingsFacade {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$applyDialogNotificationsSettings$0() {
-        NotificationCenter.getInstance(this.currentAccount).postNotificationName(NotificationCenter.notificationsSettingsUpdated, new Object[0]);
+        NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.notificationsSettingsUpdated, new Object[0]);
     }
 
     public void applySoundSettings(TLRPC$NotificationSound tLRPC$NotificationSound, SharedPreferences.Editor editor, long j, int i, int i2, boolean z) {
@@ -236,6 +245,10 @@ public class NotificationsSettingsFacade {
             str = "GroupSound";
             str2 = "GroupSoundDocId";
             str3 = "GroupSoundPath";
+        } else if (i2 == 3) {
+            str = "StoriesSound";
+            str2 = "StoriesSoundDocId";
+            str3 = "StoriesSoundPath";
         } else if (i2 == 1) {
             str = "GlobalSound";
             str2 = "GlobalSoundDocId";

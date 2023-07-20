@@ -80,4 +80,12 @@ public final class IsoTypeReader {
             throw new RuntimeException(e);
         }
     }
+
+    public static long readUInt48(ByteBuffer byteBuffer) {
+        long readUInt16 = readUInt16(byteBuffer) << 32;
+        if (readUInt16 < 0) {
+            throw new RuntimeException("I don't know how to deal with UInt64! long is not sufficient and I don't want to use BigInt");
+        }
+        return readUInt16 + readUInt32(byteBuffer);
+    }
 }

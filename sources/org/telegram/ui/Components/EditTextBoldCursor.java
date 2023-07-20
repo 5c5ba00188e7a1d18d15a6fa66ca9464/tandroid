@@ -39,6 +39,7 @@ import java.util.List;
 import java.util.Objects;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.BuildVars;
+import org.telegram.messenger.FileLoaderPriorityQueue;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
@@ -69,7 +70,6 @@ public class EditTextBoldCursor extends EditTextEffects {
     private float cursorWidth;
     boolean drawInMaim;
     private Object editor;
-    private StaticLayout errorLayout;
     private int errorLineColor;
     private TextPaint errorPaint;
     private CharSequence errorText;
@@ -89,13 +89,12 @@ public class EditTextBoldCursor extends EditTextEffects {
     private StaticLayout hintLayout;
     private boolean hintVisible;
     private int ignoreBottomCount;
+    public boolean ignoreClipTop;
     private int ignoreTopCount;
     private Runnable invalidateRunnable;
     private boolean isTextWatchersSuppressed;
     private float lastLineActiveness;
-    int lastOffset;
     private int lastSize;
-    CharSequence lastText;
     private int lastTouchX;
     private boolean lineActive;
     private float lineActiveness;
@@ -106,7 +105,6 @@ public class EditTextBoldCursor extends EditTextEffects {
     private boolean lineVisible;
     private float lineY;
     private ViewTreeObserver.OnPreDrawListener listenerFixer;
-    private Drawable mCursorDrawable;
     private android.graphics.Rect mTempRect;
     private boolean nextSetTextAnimated;
     private android.graphics.Rect padding;
@@ -117,10 +115,12 @@ public class EditTextBoldCursor extends EditTextEffects {
     private boolean transformHintToHeader;
     private View windowView;
 
-    protected void extendActionMode(ActionMode actionMode, Menu menu) {
+    /* JADX INFO: Access modifiers changed from: protected */
+    public void extendActionMode(ActionMode actionMode, Menu menu) {
     }
 
-    protected int getActionModeStyle() {
+    /* JADX INFO: Access modifiers changed from: protected */
+    public int getActionModeStyle() {
         return 1;
     }
 
@@ -198,7 +198,6 @@ public class EditTextBoldCursor extends EditTextEffects {
         this.lineActiveness = 0.0f;
         this.lastLineActiveness = 0.0f;
         this.activeLineWidth = 0.0f;
-        this.lastOffset = -1;
         this.registeredTextWatchers = new ArrayList();
         this.isTextWatchersSuppressed = false;
         this.padding = new android.graphics.Rect();
@@ -254,10 +253,6 @@ public class EditTextBoldCursor extends EditTextEffects {
                 textWatcher2.afterTextChanged(getText());
             }
         }
-    }
-
-    public boolean isTextWatchersSuppressed() {
-        return this.isTextWatchersSuppressed;
     }
 
     @Override // android.widget.TextView
@@ -643,6 +638,9 @@ public class EditTextBoldCursor extends EditTextEffects {
 
     @Override // android.widget.TextView
     public int getExtendedPaddingTop() {
+        if (this.ignoreClipTop) {
+            return 0;
+        }
         int i = this.ignoreTopCount;
         if (i != 0) {
             this.ignoreTopCount = i - 1;
@@ -1117,8 +1115,7 @@ public class EditTextBoldCursor extends EditTextEffects {
         int selectionStart = getSelectionStart();
         int lineForOffset = layout.getLineForOffset(selectionStart);
         updateCursorPosition(layout.getLineTop(lineForOffset), layout.getLineTop(lineForOffset + 1), layout.getPrimaryHorizontal(selectionStart));
-        this.lastText = layout.getText();
-        this.lastOffset = selectionStart;
+        layout.getText();
         return true;
     }
 
@@ -1142,7 +1139,7 @@ public class EditTextBoldCursor extends EditTextEffects {
         if (f2 >= f3 - 1.0f) {
             return (width + scrollX) - (i2 - this.mTempRect.right);
         }
-        if (Math.abs(f2) <= 1.0f || (TextUtils.isEmpty(getText()) && 1048576 - scrollX <= f3 + 1.0f && max <= 1.0f)) {
+        if (Math.abs(f2) <= 1.0f || (TextUtils.isEmpty(getText()) && FileLoaderPriorityQueue.PRIORITY_VALUE_MAX - scrollX <= f3 + 1.0f && max <= 1.0f)) {
             i = this.mTempRect.left;
         } else {
             scrollX = (int) max;

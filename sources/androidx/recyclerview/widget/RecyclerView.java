@@ -3069,6 +3069,10 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
         return findViewHolderForPosition(i, false);
     }
 
+    public ViewHolder findViewHolderForLayoutPosition(int i) {
+        return findViewHolderForPosition(i, false);
+    }
+
     public ViewHolder findViewHolderForAdapterPosition(int i) {
         ViewHolder viewHolder = null;
         if (this.mDataSetHasChangedAfterLayout) {

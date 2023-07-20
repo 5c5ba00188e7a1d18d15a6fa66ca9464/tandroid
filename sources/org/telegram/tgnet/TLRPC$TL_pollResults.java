@@ -1,7 +1,7 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_pollResults extends TLRPC$PollResults {
-    public static int constructor = -591909213;
+    public static int constructor = 2061444128;
 
     @Override // org.telegram.tgnet.TLObject
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
@@ -38,7 +38,11 @@ public class TLRPC$TL_pollResults extends TLRPC$PollResults {
             }
             int readInt325 = abstractSerializedData.readInt32(z);
             for (int i2 = 0; i2 < readInt325; i2++) {
-                this.recent_voters.add(Long.valueOf(abstractSerializedData.readInt64(z)));
+                TLRPC$Peer TLdeserialize2 = TLRPC$Peer.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+                if (TLdeserialize2 == null) {
+                    return;
+                }
+                this.recent_voters.add(TLdeserialize2);
             }
         }
         if ((this.flags & 16) != 0) {
@@ -54,11 +58,11 @@ public class TLRPC$TL_pollResults extends TLRPC$PollResults {
             }
             int readInt327 = abstractSerializedData.readInt32(z);
             for (int i3 = 0; i3 < readInt327; i3++) {
-                TLRPC$MessageEntity TLdeserialize2 = TLRPC$MessageEntity.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
-                if (TLdeserialize2 == null) {
+                TLRPC$MessageEntity TLdeserialize3 = TLRPC$MessageEntity.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+                if (TLdeserialize3 == null) {
                     return;
                 }
-                this.solution_entities.add(TLdeserialize2);
+                this.solution_entities.add(TLdeserialize3);
             }
         }
     }
@@ -85,7 +89,7 @@ public class TLRPC$TL_pollResults extends TLRPC$PollResults {
             int size2 = this.recent_voters.size();
             abstractSerializedData.writeInt32(size2);
             for (int i3 = 0; i3 < size2; i3++) {
-                abstractSerializedData.writeInt64(this.recent_voters.get(i3).longValue());
+                this.recent_voters.get(i3).serializeToStream(abstractSerializedData);
             }
         }
         if ((this.flags & 16) != 0) {

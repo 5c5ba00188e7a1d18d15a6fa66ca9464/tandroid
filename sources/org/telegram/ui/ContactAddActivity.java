@@ -189,11 +189,13 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
                     TLRPC$User user = ContactAddActivity.this.getMessagesController().getUser(Long.valueOf(ContactAddActivity.this.user_id));
                     user.first_name = ContactAddActivity.this.firstNameField.getText().toString();
                     user.last_name = ContactAddActivity.this.lastNameField.getText().toString();
+                    user.contact = true;
+                    ContactAddActivity.this.getMessagesController().putUser(user, false);
                     ContactAddActivity.this.getContactsController().addContact(user, ContactAddActivity.this.checkBoxCell != null && ContactAddActivity.this.checkBoxCell.isChecked());
                     SharedPreferences.Editor edit = MessagesController.getNotificationsSettings(((BaseFragment) ContactAddActivity.this).currentAccount).edit();
                     edit.putInt("dialog_bar_vis3" + ContactAddActivity.this.user_id, 3).commit();
-                    ContactAddActivity.this.getNotificationCenter().postNotificationName(NotificationCenter.updateInterfaces, Integer.valueOf(MessagesController.UPDATE_MASK_NAME));
-                    ContactAddActivity.this.getNotificationCenter().postNotificationName(NotificationCenter.peerSettingsDidLoad, Long.valueOf(ContactAddActivity.this.user_id));
+                    ContactAddActivity.this.getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.updateInterfaces, Integer.valueOf(MessagesController.UPDATE_MASK_NAME));
+                    ContactAddActivity.this.getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.peerSettingsDidLoad, Long.valueOf(ContactAddActivity.this.user_id));
                     ContactAddActivity.this.finishFragment();
                     if (ContactAddActivity.this.delegate != null) {
                         ContactAddActivity.this.delegate.didAddToContacts();
@@ -580,12 +582,12 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
             user.photo = null;
             user.flags &= -33;
         }
-        ArrayList<TLRPC$User> arrayList2 = new ArrayList<>();
+        ArrayList arrayList2 = new ArrayList();
         arrayList2.add(tLRPC$User);
         getMessagesStorage().putUsersAndChats(arrayList2, null, false, true);
         updateCustomPhotoInfo();
-        getNotificationCenter().postNotificationName(NotificationCenter.reloadDialogPhotos, new Object[0]);
-        getNotificationCenter().postNotificationName(NotificationCenter.updateInterfaces, Integer.valueOf(MessagesController.UPDATE_MASK_AVATAR));
+        getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.reloadDialogPhotos, new Object[0]);
+        getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.updateInterfaces, Integer.valueOf(MessagesController.UPDATE_MASK_AVATAR));
     }
 
     private void showAvatarProgress(final boolean z, boolean z2) {
@@ -789,11 +791,11 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
             TLRPC$User user = getMessagesController().getUser(Long.valueOf(this.user_id));
             if (this.suggestPhotoMessageFinal == null && user != null) {
                 PhotoUtilities.applyPhotoToUser(tLRPC$PhotoSize, tLRPC$PhotoSize2, tLRPC$InputFile2 != null, user, true);
-                ArrayList<TLRPC$User> arrayList = new ArrayList<>();
+                ArrayList arrayList = new ArrayList();
                 arrayList.add(user);
                 getMessagesStorage().putUsersAndChats(arrayList, null, false, true);
-                getNotificationCenter().postNotificationName(NotificationCenter.reloadDialogPhotos, new Object[0]);
-                getNotificationCenter().postNotificationName(NotificationCenter.updateInterfaces, Integer.valueOf(MessagesController.UPDATE_MASK_AVATAR));
+                getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.reloadDialogPhotos, new Object[0]);
+                getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.updateInterfaces, Integer.valueOf(MessagesController.UPDATE_MASK_AVATAR));
             }
             sendPhotoChangedRequest(this.avatar, tLRPC$PhotoSize2.location, tLRPC$InputFile, tLRPC$InputFile2, tLRPC$VideoSize, d, this.photoSelectedTypeFinal);
             showAvatarProgress(false, true);
@@ -836,7 +838,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
         if (this.suggestPhotoMessageFinal != null) {
             ArrayList arrayList = new ArrayList();
             arrayList.add(Integer.valueOf(this.suggestPhotoMessageFinal.getId()));
-            NotificationCenter.getInstance(this.currentAccount).postNotificationName(NotificationCenter.messagesDeleted, arrayList, 0L, Boolean.FALSE);
+            NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.messagesDeleted, arrayList, 0L, Boolean.FALSE);
         }
     }
 
@@ -945,12 +947,12 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
                 FileLoader.getInstance(this.currentAccount).getPathToAttach(tLRPC$FileLocation2, true).renameTo(FileLoader.getInstance(this.currentAccount).getPathToAttach(closestPhotoSizeWithSize2, true));
             }
             PhotoUtilities.applyPhotoToUser(tLRPC$TL_photos_photo.photo, user, true);
-            ArrayList<TLRPC$User> arrayList2 = new ArrayList<>();
+            ArrayList arrayList2 = new ArrayList();
             arrayList2.add(user);
             getMessagesStorage().putUsersAndChats(arrayList2, null, false, true);
             getMessagesStorage().addDialogPhoto(this.user_id, tLRPC$TL_photos_photo.photo);
-            getNotificationCenter().postNotificationName(NotificationCenter.reloadDialogPhotos, new Object[0]);
-            getNotificationCenter().postNotificationName(NotificationCenter.updateInterfaces, Integer.valueOf(MessagesController.UPDATE_MASK_AVATAR));
+            getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.reloadDialogPhotos, new Object[0]);
+            getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.updateInterfaces, Integer.valueOf(MessagesController.UPDATE_MASK_AVATAR));
             if (getParentActivity() != null) {
                 if (i == 2) {
                     BulletinFactory.of(this).createUsersBulletin(arrayList2, AndroidUtilities.replaceTags(LocaleController.formatString("UserCustomPhotoSeted", R.string.UserCustomPhotoSeted, user.first_name))).show();

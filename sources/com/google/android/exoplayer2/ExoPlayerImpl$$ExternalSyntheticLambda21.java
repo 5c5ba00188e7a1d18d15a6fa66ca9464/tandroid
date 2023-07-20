@@ -11,6 +11,6 @@ public final /* synthetic */ class ExoPlayerImpl$$ExternalSyntheticLambda21 impl
 
     @Override // com.google.android.exoplayer2.util.ListenerSet.Event
     public final void invoke(Object obj) {
-        ((Player.Listener) obj).onSeekProcessed();
+        ExoPlayerImpl.lambda$release$5((Player.Listener) obj);
     }
 }

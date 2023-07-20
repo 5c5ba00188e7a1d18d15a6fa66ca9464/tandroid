@@ -15,7 +15,7 @@ import org.telegram.messenger.FileLog;
 /* loaded from: classes.dex */
 public class CameraSession {
     public static final int ORIENTATION_HYSTERESIS = 5;
-    protected CameraInfo cameraInfo;
+    public CameraInfo cameraInfo;
     private String currentFlashMode;
     private int currentOrientation;
     private float currentZoom;
@@ -38,6 +38,7 @@ public class CameraSession {
     private int lastOrientation = -1;
     private int lastDisplayOrientation = -1;
     private boolean flipFront = true;
+    protected ArrayList<String> availableFlashModes = new ArrayList<>();
     private int infoCameraId = -1;
     Camera.CameraInfo info = new Camera.CameraInfo();
     private Camera.AutoFocusCallback autoFocusCallback = CameraSession$$ExternalSyntheticLambda0.INSTANCE;
@@ -108,7 +109,7 @@ public class CameraSession {
     }
 
     public void checkFlashMode(String str) {
-        if (CameraController.getInstance().availableFlashModes.contains(this.currentFlashMode)) {
+        if (this.availableFlashModes.contains(this.currentFlashMode)) {
             return;
         }
         this.currentFlashMode = str;
@@ -136,7 +137,7 @@ public class CameraSession {
     }
 
     public String getNextFlashMode() {
-        ArrayList<String> arrayList = CameraController.getInstance().availableFlashModes;
+        ArrayList<String> arrayList = this.availableFlashModes;
         for (int i = 0; i < arrayList.size(); i++) {
             if (arrayList.get(i).equals(this.currentFlashMode)) {
                 if (i < arrayList.size() - 1) {
@@ -247,9 +248,9 @@ public class CameraSession {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:28:0x0051  */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x0057  */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x0062  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x0052  */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x0058  */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x0063  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -379,7 +380,6 @@ public class CameraSession {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     public void focusToRect(Rect rect, Rect rect2) {
         try {
             Camera camera = this.cameraInfo.camera;
@@ -463,7 +463,6 @@ public class CameraSession {
         this.isVideo = true;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     public void stopVideoRecording() {
         this.isVideo = false;
         this.useTorch = false;

@@ -6,7 +6,9 @@ import j$.util.function.BiFunction;
 import j$.util.function.Consumer;
 import j$.util.function.Function;
 import j$.util.function.Predicate;
+import j$.util.function.ToDoubleFunction;
 import j$.util.function.ToIntFunction;
+import j$.util.function.ToLongFunction;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Objects;
@@ -137,9 +139,9 @@ public abstract class e3 extends c implements Stream {
     }
 
     @Override // j$.util.stream.Stream
-    public final e1 g0(j$.util.function.A a) {
-        Objects.requireNonNull(a);
-        return new N(this, this, e4.REFERENCE, d4.p | d4.n, a);
+    public final e1 g0(ToLongFunction toLongFunction) {
+        Objects.requireNonNull(toLongFunction);
+        return new N(this, this, e4.REFERENCE, d4.p | d4.n, toLongFunction);
     }
 
     @Override // j$.util.stream.Stream
@@ -156,9 +158,9 @@ public abstract class e3 extends c implements Stream {
     }
 
     @Override // j$.util.stream.Stream
-    public final U j0(j$.util.function.z zVar) {
-        Objects.requireNonNull(zVar);
-        return new K(this, this, e4.REFERENCE, d4.p | d4.n, zVar);
+    public final U j0(ToDoubleFunction toDoubleFunction) {
+        Objects.requireNonNull(toDoubleFunction);
+        return new K(this, this, e4.REFERENCE, d4.p | d4.n, toDoubleFunction);
     }
 
     @Override // j$.util.stream.Stream

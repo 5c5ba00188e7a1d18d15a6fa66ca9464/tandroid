@@ -67,7 +67,7 @@ public class ChatSelectionReactionMenuOverlay extends FrameLayout {
 
     private void checkCreateReactionsLayout() {
         if (this.reactionsContainerLayout == null) {
-            ReactionsContainerLayout reactionsContainerLayout = new ReactionsContainerLayout(this, this.parentFragment, getContext(), this.parentFragment.getCurrentAccount(), this.parentFragment.getResourceProvider()) { // from class: org.telegram.ui.Components.Reactions.ChatSelectionReactionMenuOverlay.2
+            ReactionsContainerLayout reactionsContainerLayout = new ReactionsContainerLayout(this, 0, this.parentFragment, getContext(), this.parentFragment.getCurrentAccount(), this.parentFragment.getResourceProvider()) { // from class: org.telegram.ui.Components.Reactions.ChatSelectionReactionMenuOverlay.2
                 float enabledAlpha = 1.0f;
                 long lastUpdate;
 
@@ -126,6 +126,21 @@ public class ChatSelectionReactionMenuOverlay extends FrameLayout {
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes4.dex */
     public class 3 implements ReactionsContainerLayout.ReactionsContainerDelegate {
+        @Override // org.telegram.ui.Components.ReactionsContainerLayout.ReactionsContainerDelegate
+        public /* synthetic */ void drawRoundRect(Canvas canvas, RectF rectF, float f, float f2, float f3) {
+            ReactionsContainerLayout.ReactionsContainerDelegate.-CC.$default$drawRoundRect(this, canvas, rectF, f, f2, f3);
+        }
+
+        @Override // org.telegram.ui.Components.ReactionsContainerLayout.ReactionsContainerDelegate
+        public /* synthetic */ boolean needEnterText() {
+            return ReactionsContainerLayout.ReactionsContainerDelegate.-CC.$default$needEnterText(this);
+        }
+
+        @Override // org.telegram.ui.Components.ReactionsContainerLayout.ReactionsContainerDelegate
+        public /* synthetic */ void onEmojiWindowDismissed() {
+            ReactionsContainerLayout.ReactionsContainerDelegate.-CC.$default$onEmojiWindowDismissed(this);
+        }
+
         3() {
         }
 

@@ -3,14 +3,17 @@ package org.telegram.messenger;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.os.Process;
 import android.os.SystemClock;
 import java.util.concurrent.CountDownLatch;
 /* loaded from: classes.dex */
 public class DispatchQueue extends Thread {
+    private static final int THREAD_PRIORITY_DEFAULT = -1000;
     private static int indexPointer;
     private volatile Handler handler;
     public final int index;
     private long lastTaskTime;
+    private int priority;
     private CountDownLatch syncLatch;
 
     public void handleMessage(Message message) {
@@ -26,6 +29,21 @@ public class DispatchQueue extends Thread {
         int i = indexPointer;
         indexPointer = i + 1;
         this.index = i;
+        this.priority = THREAD_PRIORITY_DEFAULT;
+        setName(str);
+        if (z) {
+            start();
+        }
+    }
+
+    public DispatchQueue(String str, boolean z, int i) {
+        this.handler = null;
+        this.syncLatch = new CountDownLatch(1);
+        int i2 = indexPointer;
+        indexPointer = i2 + 1;
+        this.index = i2;
+        this.priority = THREAD_PRIORITY_DEFAULT;
+        this.priority = i;
         setName(str);
         if (z) {
             start();
@@ -110,6 +128,10 @@ public class DispatchQueue extends Thread {
             }
         });
         this.syncLatch.countDown();
+        int i = this.priority;
+        if (i != THREAD_PRIORITY_DEFAULT) {
+            Process.setThreadPriority(i);
+        }
         Looper.loop();
     }
 

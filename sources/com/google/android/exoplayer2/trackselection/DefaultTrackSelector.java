@@ -56,6 +56,7 @@ public class DefaultTrackSelector extends MappingTrackSelector {
     private static final Ordering<Integer> FORMAT_VALUE_ORDERING = Ordering.from(DefaultTrackSelector$$ExternalSyntheticLambda5.INSTANCE);
     private static final Ordering<Integer> NO_ORDER = Ordering.from(DefaultTrackSelector$$ExternalSyntheticLambda4.INSTANCE);
     private AudioAttributes audioAttributes;
+    public final Context context;
     private final boolean deviceIsTV;
     private final Object lock;
     private Parameters parameters;
@@ -185,6 +186,12 @@ public class DefaultTrackSelector extends MappingTrackSelector {
             }
 
             @Override // com.google.android.exoplayer2.trackselection.TrackSelectionParameters.Builder
+            public Builder setTrackTypeDisabled(int i, boolean z) {
+                super.setTrackTypeDisabled(i, z);
+                return this;
+            }
+
+            @Override // com.google.android.exoplayer2.trackselection.TrackSelectionParameters.Builder
             public Parameters build() {
                 return new Parameters(this);
             }
@@ -256,6 +263,7 @@ public class DefaultTrackSelector extends MappingTrackSelector {
             return null;
         }
 
+        @Override // com.google.android.exoplayer2.trackselection.TrackSelectionParameters
         public Builder buildUpon() {
             return new Builder();
         }
@@ -451,9 +459,7 @@ public class DefaultTrackSelector extends MappingTrackSelector {
 
     private DefaultTrackSelector(TrackSelectionParameters trackSelectionParameters, ExoTrackSelection.Factory factory, Context context) {
         this.lock = new Object();
-        if (context != null) {
-            context.getApplicationContext();
-        }
+        this.context = context != null ? context.getApplicationContext() : null;
         this.trackSelectionFactory = factory;
         if (trackSelectionParameters instanceof Parameters) {
             this.parameters = (Parameters) trackSelectionParameters;
@@ -483,6 +489,23 @@ public class DefaultTrackSelector extends MappingTrackSelector {
     }
 
     @Override // com.google.android.exoplayer2.trackselection.TrackSelector
+    public Parameters getParameters() {
+        Parameters parameters;
+        synchronized (this.lock) {
+            parameters = this.parameters;
+        }
+        return parameters;
+    }
+
+    @Override // com.google.android.exoplayer2.trackselection.TrackSelector
+    public void setParameters(TrackSelectionParameters trackSelectionParameters) {
+        if (trackSelectionParameters instanceof Parameters) {
+            setParametersInternal((Parameters) trackSelectionParameters);
+        }
+        setParametersInternal(new Parameters.Builder().set(trackSelectionParameters).build());
+    }
+
+    @Override // com.google.android.exoplayer2.trackselection.TrackSelector
     public void setAudioAttributes(AudioAttributes audioAttributes) {
         boolean z;
         synchronized (this.lock) {
@@ -491,6 +514,21 @@ public class DefaultTrackSelector extends MappingTrackSelector {
         }
         if (z) {
             maybeInvalidateForAudioChannelCountConstraints();
+        }
+    }
+
+    private void setParametersInternal(Parameters parameters) {
+        boolean z;
+        Assertions.checkNotNull(parameters);
+        synchronized (this.lock) {
+            z = !this.parameters.equals(parameters);
+            this.parameters = parameters;
+        }
+        if (z) {
+            if (parameters.constrainAudioChannelCountToDeviceCapabilities && this.context == null) {
+                Log.w("DefaultTrackSelector", "Audio channel count constraints cannot be applied without reference to Context. Build the track selector instance with one of the non-deprecated constructors that take a Context argument.");
+            }
+            invalidate();
         }
     }
 

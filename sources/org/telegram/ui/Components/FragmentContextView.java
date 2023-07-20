@@ -1112,12 +1112,12 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
                 FragmentContextView.lambda$openSharingLocation$14(LocationController.SharingLocationInfo.this, dialogId, tLRPC$MessageMedia, i, z, i2);
             }
         });
-        launchActivity.lambda$runLinkRequest$77(locationActivity);
+        launchActivity.lambda$runLinkRequest$80(locationActivity);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$openSharingLocation$14(LocationController.SharingLocationInfo sharingLocationInfo, long j, TLRPC$MessageMedia tLRPC$MessageMedia, int i, boolean z, int i2) {
-        SendMessagesHelper.getInstance(sharingLocationInfo.messageObject.currentAccount).sendMessage(tLRPC$MessageMedia, j, (MessageObject) null, (MessageObject) null, (TLRPC$ReplyMarkup) null, (HashMap<String, String>) null, z, i2);
+        SendMessagesHelper.getInstance(sharingLocationInfo.messageObject.currentAccount).sendMessage(SendMessagesHelper.SendMessageParams.of(tLRPC$MessageMedia, j, (MessageObject) null, (MessageObject) null, (TLRPC$ReplyMarkup) null, (HashMap<String, String>) null, z, i2));
     }
 
     @Keep
@@ -2003,7 +2003,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
         } else {
             this.isMusic = true;
             if (this.playbackSpeedButton != null) {
-                if (playingMessageObject.getDuration() >= 600) {
+                if (playingMessageObject.getDuration() >= 600.0d) {
                     this.playbackSpeedButton.setAlpha(1.0f);
                     this.playbackSpeedButton.setEnabled(true);
                     this.titleTextView.setPadding(0, 0, AndroidUtilities.dp(44.0f) + this.joinButtonWidth, 0);
@@ -2233,7 +2233,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
                             this.animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.FragmentContextView.15
                                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                                 public void onAnimationEnd(Animator animator) {
-                                    FragmentContextView.this.notificationsLocker.lock();
+                                    FragmentContextView.this.notificationsLocker.unlock();
                                     if (FragmentContextView.this.animatorSet == null || !FragmentContextView.this.animatorSet.equals(animator)) {
                                         return;
                                     }

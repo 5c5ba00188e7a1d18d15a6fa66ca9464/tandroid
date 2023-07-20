@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import androidx.core.app.RemoteInput;
+import org.telegram.messenger.SendMessagesHelper;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$TL_message;
 import org.telegram.tgnet.TLRPC$TL_messageActionTopicCreate;
@@ -101,7 +102,7 @@ public class WearReplyReceiver extends BroadcastReceiver {
         } else {
             messageObject = null;
         }
-        accountInstance.getSendMessagesHelper().sendMessage(charSequence.toString(), j, messageObject, null, null, true, null, null, null, true, 0, null, false);
+        accountInstance.getSendMessagesHelper().sendMessage(SendMessagesHelper.SendMessageParams.of(charSequence.toString(), j, messageObject, null, null, true, null, null, null, true, 0, null, false));
         if (i == 0) {
             accountInstance.getMessagesController().markDialogAsRead(j, i2, i2, 0, false, i, 0, true, 0);
         }

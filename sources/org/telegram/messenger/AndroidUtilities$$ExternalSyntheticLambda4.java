@@ -10,8 +10,8 @@ public final /* synthetic */ class AndroidUtilities$$ExternalSyntheticLambda4 im
 
     @Override // android.text.util.Linkify.MatchFilter
     public final boolean acceptMatch(CharSequence charSequence, int i, int i2) {
-        boolean lambda$static$3;
-        lambda$static$3 = AndroidUtilities.lambda$static$3(charSequence, i, i2);
-        return lambda$static$3;
+        boolean lambda$static$4;
+        lambda$static$4 = AndroidUtilities.lambda$static$4(charSequence, i, i2);
+        return lambda$static$4;
     }
 }

@@ -9,11 +9,12 @@ import androidx.core.util.Consumer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.Components.Paint.PaintTypeface;
 import org.telegram.ui.Components.Paint.Views.PaintTextOptionsView;
 import org.telegram.ui.Components.RecyclerListView;
 /* loaded from: classes4.dex */
-public class PaintTypefaceListView extends RecyclerListView {
+public class PaintTypefaceListView extends RecyclerListView implements NotificationCenter.NotificationCenterDelegate {
     private Path mask;
     private Consumer<Path> maskProvider;
 
@@ -46,6 +47,33 @@ public class PaintTypefaceListView extends RecyclerListView {
             }
         });
         setPadding(0, AndroidUtilities.dp(8.0f), 0, AndroidUtilities.dp(8.0f));
+        setClipToPadding(false);
+    }
+
+    @Override // org.telegram.ui.Components.RecyclerListView
+    public Integer getSelectorColor(int i) {
+        return 285212671;
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
+    public void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.customTypefacesLoaded);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
+    public void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.customTypefacesLoaded);
+    }
+
+    @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
+    public void didReceivedNotification(int i, int i2, Object... objArr) {
+        if (i == NotificationCenter.customTypefacesLoaded) {
+            getAdapter().notifyDataSetChanged();
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: protected */

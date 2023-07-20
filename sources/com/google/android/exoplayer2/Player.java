@@ -2,6 +2,7 @@ package com.google.android.exoplayer2;
 
 import android.os.Bundle;
 import android.view.Surface;
+import android.view.SurfaceView;
 import android.view.TextureView;
 import com.google.android.exoplayer2.audio.AudioAttributes;
 import com.google.android.exoplayer2.metadata.Metadata;
@@ -253,6 +254,8 @@ public interface Player {
     void setRepeatMode(int i);
 
     void setVideoSurface(Surface surface);
+
+    void setVideoSurfaceView(SurfaceView surfaceView);
 
     void setVideoTextureView(TextureView textureView);
 

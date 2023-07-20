@@ -96,6 +96,9 @@ public class ShortcutInfoCompat {
         } else {
             intents.setExtras(buildLegacyExtrasBundle());
         }
+        if (Build.VERSION.SDK_INT >= 33) {
+            Api33Impl.setExcludedFromSurfaces(intents, this.mExcludedSurfaces);
+        }
         return intents.build();
     }
 
@@ -437,6 +440,13 @@ public class ShortcutInfoCompat {
                 }
             }
             return this.mInfo;
+        }
+    }
+
+    /* loaded from: classes.dex */
+    private static class Api33Impl {
+        static void setExcludedFromSurfaces(ShortcutInfo.Builder builder, int i) {
+            builder.setExcludedFromSurfaces(i);
         }
     }
 }

@@ -11,6 +11,6 @@ public final /* synthetic */ class BillingController$$ExternalSyntheticLambda1 i
 
     @Override // com.android.billingclient.api.ConsumeResponseListener
     public final void onConsumeResponse(BillingResult billingResult, String str) {
-        BillingController.lambda$onPurchasesUpdated$3(billingResult, str);
+        BillingController.lambda$consumeGiftPurchase$4(billingResult, str);
     }
 }

@@ -1115,7 +1115,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                 Theme.ThemeAccent accent = Theme.getCurrentTheme().getAccent(false);
                 if (accent.info == null) {
                     ThemeActivity.this.getMessagesController().saveThemeToServer(accent.parentTheme, accent);
-                    NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.needShareTheme, accent.parentTheme, accent);
+                    NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.needShareTheme, accent.parentTheme, accent);
                     return;
                 }
                 String str = "https://" + ThemeActivity.this.getMessagesController().linkPrefix + "/addtheme/" + accent.info.slug;
@@ -1163,7 +1163,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                     }
                     ThemeActivity.this.menuItem.getIconView().getLocationInWindow(r8);
                     int[] iArr = {iArr[0] + (ThemeActivity.this.menuItem.getIconView().getMeasuredWidth() / 2), iArr[1] + (ThemeActivity.this.menuItem.getIconView().getMeasuredHeight() / 2)};
-                    NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.needSetDayNightTheme, theme, Boolean.FALSE, iArr, -1, Boolean.valueOf(equals), ThemeActivity.this.menuItem.getIconView());
+                    NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.needSetDayNightTheme, theme, Boolean.FALSE, iArr, -1, Boolean.valueOf(equals), ThemeActivity.this.menuItem.getIconView());
                     ThemeActivity.this.updateRows(true);
                     Theme.turnOffAutoNight(ThemeActivity.this);
                 }
@@ -1173,7 +1173,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                 }
                 ThemeActivity.this.menuItem.getIconView().getLocationInWindow(iArr);
                 int[] iArr2 = {iArr2[0] + (ThemeActivity.this.menuItem.getIconView().getMeasuredWidth() / 2), iArr2[1] + (ThemeActivity.this.menuItem.getIconView().getMeasuredHeight() / 2)};
-                NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.needSetDayNightTheme, theme, Boolean.FALSE, iArr2, -1, Boolean.valueOf(equals), ThemeActivity.this.menuItem.getIconView());
+                NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.needSetDayNightTheme, theme, Boolean.FALSE, iArr2, -1, Boolean.valueOf(equals), ThemeActivity.this.menuItem.getIconView());
                 ThemeActivity.this.updateRows(true);
                 Theme.turnOffAutoNight(ThemeActivity.this);
             }
@@ -1214,7 +1214,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                     objArr[1] = Boolean.valueOf(ThemeActivity.this.currentType == 1);
                     objArr[2] = null;
                     objArr[3] = Integer.valueOf(Theme.DEFALT_THEME_ACCENT_ID);
-                    globalInstance.postNotificationName(i2, objArr);
+                    globalInstance.lambda$postNotificationNameOnUIThread$1(i2, objArr);
                     ThemeActivity.this.listAdapter.notifyItemChanged(ThemeActivity.this.themeAccentListRow);
                 } else {
                     Theme.reloadWallpaper(true);
@@ -2061,7 +2061,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
             if (i == 0) {
                 if (themeInfo.info == null) {
                     ThemeActivity.this.getMessagesController().saveThemeToServer(themeInfo, null);
-                    NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.needShareTheme, themeInfo, null);
+                    NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.needShareTheme, themeInfo, null);
                     return;
                 }
                 String str2 = "https://" + ThemeActivity.this.getMessagesController().linkPrefix + "/addtheme/" + themeInfo.info.slug;
@@ -2181,7 +2181,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
             if (Theme.deleteTheme(themeInfo)) {
                 ((BaseFragment) ThemeActivity.this).parentLayout.rebuildAllFragmentViews(true, true);
             }
-            NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.themeListUpdated, new Object[0]);
+            NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.themeListUpdated, new Object[0]);
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -2202,7 +2202,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                     objArr[1] = Boolean.valueOf(ThemeActivity.this.currentType == 1);
                     objArr[2] = null;
                     objArr[3] = Integer.valueOf(themeAccent.id);
-                    globalInstance.postNotificationName(i4, objArr);
+                    globalInstance.lambda$postNotificationNameOnUIThread$1(i4, objArr);
                     EmojiThemes.saveCustomTheme(currentNightTheme, themeAccent.id);
                     Theme.turnOffAutoNight(ThemeActivity.this);
                 } else {
@@ -2271,7 +2271,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
             } else if (i == 1) {
                 if (themeAccent.info == null) {
                     ThemeActivity.this.getMessagesController().saveThemeToServer(themeAccent.parentTheme, themeAccent);
-                    NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.needShareTheme, themeAccent.parentTheme, themeAccent);
+                    NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.needShareTheme, themeAccent.parentTheme, themeAccent);
                     return;
                 }
                 String str = "https://" + ThemeActivity.this.getMessagesController().linkPrefix + "/addtheme/" + themeAccent.info.slug;
@@ -2310,7 +2310,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                 objArr[1] = Boolean.valueOf(ThemeActivity.this.currentType == 1);
                 objArr[2] = null;
                 objArr[3] = -1;
-                globalInstance.postNotificationName(i2, objArr);
+                globalInstance.lambda$postNotificationNameOnUIThread$1(i2, objArr);
             }
         }
 

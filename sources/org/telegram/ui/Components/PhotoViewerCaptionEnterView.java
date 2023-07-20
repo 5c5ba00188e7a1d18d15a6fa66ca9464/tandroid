@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
@@ -172,8 +173,9 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
         this.lengthTextPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.lengthTextPaint.setColor(-2500135);
         EditTextCaption editTextCaption = new EditTextCaption(context, null) { // from class: org.telegram.ui.Components.PhotoViewerCaptionEnterView.1
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.EditTextBoldCursor
-            protected int getActionModeStyle() {
+            public int getActionModeStyle() {
                 return 2;
             }
 
@@ -204,8 +206,9 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
                 }
             }
 
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.EditTextBoldCursor
-            protected void extendActionMode(ActionMode actionMode, Menu menu) {
+            public void extendActionMode(ActionMode actionMode, Menu menu) {
                 PhotoViewerCaptionEnterView.this.extendActionMode(actionMode, menu);
             }
 
@@ -678,8 +681,17 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
         }
 
         @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
+        public /* synthetic */ ColorFilter getAnimatedEmojiColorFilter() {
+            ColorFilter colorFilter;
+            colorFilter = Theme.chat_animatedEmojiTextColorFilter;
+            return colorFilter;
+        }
+
+        @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
         public /* synthetic */ int getColorOrDefault(int i) {
-            return Theme.ResourcesProvider.-CC.$default$getColorOrDefault(this, i);
+            int color;
+            color = getColor(i);
+            return color;
         }
 
         @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
@@ -696,7 +708,9 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
 
         @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
         public /* synthetic */ Paint getPaint(String str) {
-            return Theme.ResourcesProvider.-CC.$default$getPaint(this, str);
+            Paint themePaint;
+            themePaint = Theme.getThemePaint(str);
+            return themePaint;
         }
 
         @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
@@ -761,11 +775,6 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
             }
             return i == Theme.key_dialogFloatingIcon ? -1 : 0;
         }
-
-        @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
-        public boolean contains(int i) {
-            return getColor(i) != 0;
-        }
     }
 
     private void createEmojiView() {
@@ -777,7 +786,7 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
         if (this.emojiView != null) {
             return;
         }
-        EmojiView emojiView2 = new EmojiView(null, true, false, false, getContext(), false, null, null, this.resourcesProvider);
+        EmojiView emojiView2 = new EmojiView(null, true, false, false, getContext(), false, null, null, true, this.resourcesProvider);
         this.emojiView = emojiView2;
         emojiView2.setDelegate(new EmojiView.EmojiViewDelegate() { // from class: org.telegram.ui.Components.PhotoViewerCaptionEnterView.3
             @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate

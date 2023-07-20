@@ -20,6 +20,7 @@ public class CacheModel {
     public long musicSelectedSize;
     public long photosSelectedSize;
     private long selectedSize;
+    public long storiesSelectedSize;
     public long videosSelectedSize;
     public long voiceSelectedSize;
     public ArrayList<CacheControlActivity.DialogFileEntities> entities = new ArrayList<>();
@@ -28,6 +29,7 @@ public class CacheModel {
     public final ArrayList<FileInfo> documents = new ArrayList<>();
     public final ArrayList<FileInfo> music = new ArrayList<>();
     public final ArrayList<FileInfo> voice = new ArrayList<>();
+    public final ArrayList<FileInfo> stories = new ArrayList<>();
     private final HashSet<Long> dialogIdsTmp = new HashSet<>();
     public HashSet<FileInfo> selectedFiles = new HashSet<>();
     public HashSet<Long> selectedDialogs = new HashSet<>();
@@ -37,30 +39,35 @@ public class CacheModel {
     }
 
     public void add(int i, FileInfo fileInfo) {
+        getListByType(i).add(fileInfo);
+    }
+
+    private ArrayList<FileInfo> getListByType(int i) {
         if (i == 0) {
-            this.media.add(fileInfo);
-        } else if (i == 1) {
-            this.media.add(fileInfo);
-        } else if (i == 2) {
-            this.documents.add(fileInfo);
-        } else if (i == 3) {
-            this.music.add(fileInfo);
-        } else if (i == 4) {
-            this.voice.add(fileInfo);
+            return this.media;
         }
+        if (i == 1) {
+            return this.media;
+        }
+        if (i == 2) {
+            return this.documents;
+        }
+        if (i == 3) {
+            return this.music;
+        }
+        if (i == 4) {
+            return this.voice;
+        }
+        if (i == 7) {
+            return this.stories;
+        }
+        return null;
     }
 
     private void remove(int i, FileInfo fileInfo) {
-        if (i == 0) {
-            this.media.remove(fileInfo);
-        } else if (i == 1) {
-            this.media.remove(fileInfo);
-        } else if (i == 2) {
-            this.documents.remove(fileInfo);
-        } else if (i == 3) {
-            this.music.remove(fileInfo);
-        } else if (i == 4) {
-            this.voice.remove(fileInfo);
+        ArrayList<FileInfo> listByType = getListByType(i);
+        if (listByType != null) {
+            listByType.remove(fileInfo);
         }
     }
 
@@ -73,6 +80,7 @@ public class CacheModel {
         sort(this.documents);
         sort(this.music);
         sort(this.voice);
+        sort(this.stories);
     }
 
     private void sort(ArrayList<FileInfo> arrayList) {
@@ -106,28 +114,30 @@ public class CacheModel {
 
     private void checkAllFilesSelected(int i, boolean z) {
         if (this.isDialog) {
-            if (z) {
+            if (!z) {
                 if (i == 0) {
-                    this.allPhotosSelected = checkAllFilesSelectedInArray(i, this.media);
+                    this.allPhotosSelected = false;
                 } else if (i == 1) {
-                    this.allVideosSelected = checkAllFilesSelectedInArray(i, this.media);
+                    this.allVideosSelected = false;
                 } else if (i == 2) {
-                    this.allDocumentsSelected = checkAllFilesSelectedInArray(i, this.documents);
+                    this.allDocumentsSelected = false;
                 } else if (i == 3) {
-                    this.allMusicSelected = checkAllFilesSelectedInArray(i, this.music);
+                    this.allMusicSelected = false;
                 } else if (i == 4) {
-                    this.allVoiceSelected = checkAllFilesSelectedInArray(i, this.voice);
+                    this.allVoiceSelected = false;
                 }
             } else if (i == 0) {
-                this.allPhotosSelected = false;
+                this.allPhotosSelected = checkAllFilesSelectedInArray(i, this.media);
             } else if (i == 1) {
-                this.allVideosSelected = false;
+                this.allVideosSelected = checkAllFilesSelectedInArray(i, this.media);
             } else if (i == 2) {
-                this.allDocumentsSelected = false;
+                this.allDocumentsSelected = checkAllFilesSelectedInArray(i, this.documents);
             } else if (i == 3) {
-                this.allMusicSelected = false;
+                this.allMusicSelected = checkAllFilesSelectedInArray(i, this.music);
             } else if (i == 4) {
-                this.allVoiceSelected = false;
+                this.allVoiceSelected = checkAllFilesSelectedInArray(i, this.voice);
+            } else if (i == 7) {
+                checkAllFilesSelectedInArray(i, this.stories);
             }
         }
     }
@@ -321,7 +331,7 @@ public class CacheModel {
             arrayList = this.voice;
             this.allVoiceSelected = z;
         } else {
-            arrayList = null;
+            arrayList = i == 7 ? this.stories : null;
         }
         if (arrayList != null) {
             for (int i2 = 0; i2 < arrayList.size(); i2++) {
@@ -356,6 +366,8 @@ public class CacheModel {
             this.musicSelectedSize += j;
         } else if (i == 4) {
             this.voiceSelectedSize += j;
+        } else if (i == 7) {
+            this.storiesSelectedSize += j;
         }
     }
 

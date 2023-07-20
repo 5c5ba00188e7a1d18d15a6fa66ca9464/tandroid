@@ -2,7 +2,9 @@ package j$.util.stream;
 
 import j$.util.function.Consumer;
 import j$.util.function.Predicate;
+import j$.util.function.ToDoubleFunction;
 import j$.util.function.ToIntFunction;
+import j$.util.function.ToLongFunction;
 /* loaded from: classes2.dex */
 class Y2 extends i3 {
     public final /* synthetic */ int b = 5;
@@ -34,10 +36,10 @@ class Y2 extends i3 {
                 this.a.accept(((ToIntFunction) ((M) this.c).m).applyAsInt(obj));
                 return;
             case 4:
-                this.a.accept(((j$.util.function.A) ((N) this.c).m).applyAsLong(obj));
+                this.a.accept(((ToLongFunction) ((N) this.c).m).applyAsLong(obj));
                 return;
             case 5:
-                this.a.accept(((j$.util.function.z) ((K) this.c).m).applyAsDouble(obj));
+                this.a.accept(((ToDoubleFunction) ((K) this.c).m).applyAsDouble(obj));
                 return;
             default:
                 Stream stream = (Stream) ((a3) this.c).m.apply(obj);

@@ -191,8 +191,8 @@ public class PullForegroundDrawable {
         float f;
         int i2;
         int i3;
-        float f2;
         int i4;
+        float f2;
         int i5;
         int i6;
         float f3;
@@ -236,17 +236,18 @@ public class PullForegroundDrawable {
         canvas.save();
         if (z) {
             i2 = dp4;
+            i4 = dp2;
             i3 = viewOffset;
-            canvas.clipRect(0, 0, this.listView.getMeasuredWidth(), viewOffset + 1);
+            canvas.clipRect(0, -AndroidUtilities.dp(4.0f), this.listView.getMeasuredWidth(), viewOffset + 1);
         } else {
             i2 = dp4;
             i3 = viewOffset;
+            i4 = dp2;
         }
         if (this.outProgress == 0.0f) {
             if (this.accentRevalProgress != 1.0f && this.accentRevalProgressOut != 1.0f) {
                 canvas.drawPaint(this.backgroundPaint);
             }
-            i4 = dp2;
             f2 = f6;
         } else {
             float f11 = this.outRadius;
@@ -256,7 +257,6 @@ public class PullForegroundDrawable {
             }
             this.circleClipPath.reset();
             f2 = f6;
-            i4 = dp2;
             this.rectF.set(f8 - width, f10 - width, f8 + width, width + f10);
             this.circleClipPath.addOval(this.rectF, Path.Direction.CW);
             canvas.clipPath(this.circleClipPath);

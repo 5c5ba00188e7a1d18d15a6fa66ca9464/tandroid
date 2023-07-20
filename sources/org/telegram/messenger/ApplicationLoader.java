@@ -60,6 +60,9 @@ public class ApplicationLoader extends Application {
         return false;
     }
 
+    protected void logDualCameraInternal(boolean z, boolean z2) {
+    }
+
     protected String onGetApplicationId() {
         return null;
     }
@@ -203,7 +206,7 @@ public class ApplicationLoader extends Application {
             DownloadController.getInstance(i2);
         }
         ChatThemeController.init();
-        BillingController.getInstance().startConnection();
+        BillingController.getInstance().lambda$onBillingServiceDisconnected$5();
     }
 
     @Override // android.app.Application
@@ -492,5 +495,9 @@ public class ApplicationLoader extends Application {
 
     public static void appCenterLog(Throwable th) {
         applicationLoaderInstance.appCenterLogInternal(th);
+    }
+
+    public static void logDualCamera(boolean z, boolean z2) {
+        applicationLoaderInstance.logDualCameraInternal(z, z2);
     }
 }

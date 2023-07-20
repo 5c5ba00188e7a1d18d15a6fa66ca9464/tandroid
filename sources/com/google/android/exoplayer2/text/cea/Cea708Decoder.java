@@ -22,6 +22,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import org.telegram.messenger.ImageReceiver;
+import org.telegram.messenger.MessagesStorage;
 /* loaded from: classes.dex */
 public final class Cea708Decoder extends CeaDecoder {
     private final CueInfoBuilder[] cueInfoBuilders;
@@ -469,7 +470,7 @@ public final class Cea708Decoder extends CeaDecoder {
                         case 126:
                             this.currentCueInfoBuilder.append((char) 9496);
                             return;
-                        case 127:
+                        case MessagesStorage.LAST_DB_VERSION /* 127 */:
                             this.currentCueInfoBuilder.append((char) 9484);
                             return;
                         default:
@@ -909,7 +910,7 @@ public final class Cea708Decoder extends CeaDecoder {
             Assertions.checkIndex(i4, 0, 4);
             if (i4 != 0 && i4 != 1) {
                 if (i4 == 2) {
-                    i5 = 127;
+                    i5 = MessagesStorage.LAST_DB_VERSION;
                 } else if (i4 == 3) {
                     i5 = 0;
                 }

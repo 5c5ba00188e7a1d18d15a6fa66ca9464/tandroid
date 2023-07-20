@@ -1,7 +1,7 @@
 package org.telegram.tgnet;
 
 import java.util.ArrayList;
-import org.telegram.messenger.CharacterCompat;
+import org.telegram.messenger.FileLoaderPriorityQueue;
 import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public abstract class TLRPC$Chat extends TLObject {
@@ -146,7 +146,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.flags = i9;
                         int i10 = this.scam ? i9 | 524288 : i9 & (-524289);
                         this.flags = i10;
-                        int i11 = this.has_link ? i10 | 1048576 : i10 & (-1048577);
+                        int i11 = this.has_link ? i10 | FileLoaderPriorityQueue.PRIORITY_VALUE_MAX : i10 & (-1048577);
                         this.flags = i11;
                         int i12 = this.has_geo ? i11 | 2097152 : i11 & (-2097153);
                         this.flags = i12;
@@ -504,7 +504,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.flags = i9;
                         int i10 = this.scam ? i9 | 524288 : i9 & (-524289);
                         this.flags = i10;
-                        int i11 = this.has_link ? i10 | 1048576 : i10 & (-1048577);
+                        int i11 = this.has_link ? i10 | FileLoaderPriorityQueue.PRIORITY_VALUE_MAX : i10 & (-1048577);
                         this.flags = i11;
                         int i12 = this.has_geo ? i11 | 2097152 : i11 & (-2097153);
                         this.flags = i12;
@@ -741,7 +741,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.id = abstractSerializedData2.readInt32(z3);
                         this.access_hash = abstractSerializedData2.readInt64(z3);
                         this.title = abstractSerializedData2.readString(z3);
-                        if ((this.flags & CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT) != 0) {
+                        if ((this.flags & 65536) != 0) {
                             this.until_date = abstractSerializedData2.readInt32(z3);
                         }
                     }
@@ -757,7 +757,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         abstractSerializedData2.writeInt32((int) this.id);
                         abstractSerializedData2.writeInt64(this.access_hash);
                         abstractSerializedData2.writeString(this.title);
-                        if ((this.flags & CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT) != 0) {
+                        if ((this.flags & 65536) != 0) {
                             abstractSerializedData2.writeInt32(this.until_date);
                         }
                     }
@@ -1082,7 +1082,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.flags = i9;
                         int i10 = this.scam ? i9 | 524288 : i9 & (-524289);
                         this.flags = i10;
-                        int i11 = this.has_link ? i10 | 1048576 : i10 & (-1048577);
+                        int i11 = this.has_link ? i10 | FileLoaderPriorityQueue.PRIORITY_VALUE_MAX : i10 & (-1048577);
                         this.flags = i11;
                         int i12 = this.has_geo ? i11 | 2097152 : i11 & (-2097153);
                         this.flags = i12;

@@ -6,7 +6,9 @@ import j$.util.function.BiFunction;
 import j$.util.function.Consumer;
 import j$.util.function.Function;
 import j$.util.function.Predicate;
+import j$.util.function.ToDoubleFunction;
 import j$.util.function.ToIntFunction;
+import j$.util.function.ToLongFunction;
 import java.util.Comparator;
 /* loaded from: classes2.dex */
 public interface Stream<T> extends g {
@@ -45,11 +47,11 @@ public interface Stream<T> extends g {
 
     void forEach(Consumer<? super T> consumer);
 
-    e1 g0(j$.util.function.A a);
+    e1 g0(ToLongFunction toLongFunction);
 
     Object i(j$.util.function.y yVar, BiConsumer biConsumer, BiConsumer biConsumer2);
 
-    U j0(j$.util.function.z zVar);
+    U j0(ToDoubleFunction toDoubleFunction);
 
     Object[] l(j$.util.function.m mVar);
 

@@ -6,7 +6,11 @@ import java.nio.channels.WritableByteChannel;
 public interface Box {
     void getBox(WritableByteChannel writableByteChannel) throws IOException;
 
+    Container getParent();
+
     long getSize();
+
+    String getType();
 
     void setParent(Container container);
 }

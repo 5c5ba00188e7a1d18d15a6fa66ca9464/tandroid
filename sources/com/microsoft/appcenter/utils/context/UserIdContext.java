@@ -57,6 +57,13 @@ public class UserIdContext {
         return false;
     }
 
+    public static String getPrefixedUserId(String str) {
+        if (str == null || str.contains(":")) {
+            return str;
+        }
+        return "c:" + str;
+    }
+
     public synchronized String getUserId() {
         return this.mUserId;
     }

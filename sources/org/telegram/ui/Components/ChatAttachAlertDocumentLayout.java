@@ -554,7 +554,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
                         }
                     });
                     photoPickerActivity.setMaxSelectedPhotos(this.maxSelectedFiles, false);
-                    this.parentAlert.baseFragment.presentFragment(photoPickerActivity);
+                    this.parentAlert.presentFragment(photoPickerActivity);
                     this.parentAlert.dismiss(true);
                     return;
                 } else if (i3 == R.drawable.files_music) {

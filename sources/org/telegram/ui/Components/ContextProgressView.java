@@ -18,19 +18,13 @@ public class ContextProgressView extends View {
     private int outerKey;
     private Paint outerPaint;
     private int radOffset;
-    private Theme.ResourcesProvider resourcesProvider;
 
     public ContextProgressView(Context context, int i) {
-        this(context, i, null);
-    }
-
-    public ContextProgressView(Context context, int i, Theme.ResourcesProvider resourcesProvider) {
         super(context);
         this.innerPaint = new Paint(1);
         this.outerPaint = new Paint(1);
         this.cicleRect = new RectF();
         this.radOffset = 0;
-        this.resourcesProvider = resourcesProvider;
         this.innerPaint.setStyle(Paint.Style.STROKE);
         this.innerPaint.setStrokeWidth(AndroidUtilities.dp(2.0f));
         this.outerPaint.setStyle(Paint.Style.STROKE);
@@ -63,13 +57,13 @@ public class ContextProgressView extends View {
     public void updateColors() {
         int i = this.innerKey;
         if (i >= 0) {
-            this.innerPaint.setColor(Theme.getColor(i, this.resourcesProvider));
+            this.innerPaint.setColor(Theme.getColor(i));
         } else {
             this.innerPaint.setColor(this.innerColor);
         }
         int i2 = this.outerKey;
         if (i2 >= 0) {
-            this.outerPaint.setColor(Theme.getColor(i2, this.resourcesProvider));
+            this.outerPaint.setColor(Theme.getColor(i2));
         } else {
             this.outerPaint.setColor(this.outerColor);
         }

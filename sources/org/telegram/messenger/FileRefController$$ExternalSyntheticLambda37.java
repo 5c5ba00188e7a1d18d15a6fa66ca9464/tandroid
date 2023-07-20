@@ -12,6 +12,6 @@ public final /* synthetic */ class FileRefController$$ExternalSyntheticLambda37 
 
     @Override // org.telegram.tgnet.RequestDelegate
     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        FileRefController.lambda$onUpdateObjectReference$29(tLObject, tLRPC$TL_error);
+        FileRefController.lambda$onUpdateObjectReference$31(tLObject, tLRPC$TL_error);
     }
 }

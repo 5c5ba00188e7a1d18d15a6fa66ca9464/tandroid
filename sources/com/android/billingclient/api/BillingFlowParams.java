@@ -103,6 +103,16 @@ public class BillingFlowParams {
             throw new IllegalArgumentException("Details of the products must be provided.");
         }
 
+        public Builder setObfuscatedAccountId(String str) {
+            this.zza = str;
+            return this;
+        }
+
+        public Builder setObfuscatedProfileId(String str) {
+            this.zzb = str;
+            return this;
+        }
+
         public Builder setProductDetailsParamsList(List<ProductDetailsParams> list) {
             this.zzc = new ArrayList(list);
             return this;

@@ -602,7 +602,7 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
         notificationCenter.removeObserver(this, i);
         getNotificationCenter().removeObserver(this, NotificationCenter.suggestedFiltersLoaded);
         if (this.orderChanged) {
-            getNotificationCenter().postNotificationName(i, new Object[0]);
+            getNotificationCenter().lambda$postNotificationNameOnUIThread$1(i, new Object[0]);
             getMessagesStorage().saveDialogFiltersOrder();
             TLRPC$TL_messages_updateDialogFiltersOrder tLRPC$TL_messages_updateDialogFiltersOrder = new TLRPC$TL_messages_updateDialogFiltersOrder();
             ArrayList<MessagesController.DialogFilter> dialogFilters = getMessagesController().getDialogFilters();
@@ -890,7 +890,7 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
                     FiltersSetupActivity.ListAdapter.this.lambda$onCreateViewHolder$1(currentFilter);
                 }
             });
-            makeOptions.add(R.drawable.msg_delete, LocaleController.getString("FilterDeleteItem", R.string.FilterDeleteItem), true, new Runnable() { // from class: org.telegram.ui.FiltersSetupActivity$ListAdapter$$ExternalSyntheticLambda4
+            makeOptions.add(R.drawable.msg_delete, (CharSequence) LocaleController.getString("FilterDeleteItem", R.string.FilterDeleteItem), true, new Runnable() { // from class: org.telegram.ui.FiltersSetupActivity$ListAdapter$$ExternalSyntheticLambda4
                 @Override // java.lang.Runnable
                 public final void run() {
                     FiltersSetupActivity.ListAdapter.this.lambda$onCreateViewHolder$6(currentFilter);
@@ -1104,7 +1104,7 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onCreateViewHolder$8(TLRPC$TL_dialogFilterSuggested tLRPC$TL_dialogFilterSuggested) {
             FiltersSetupActivity.this.getMessagesController().suggestedFilters.remove(tLRPC$TL_dialogFilterSuggested);
-            FiltersSetupActivity.this.getNotificationCenter().postNotificationName(NotificationCenter.dialogFiltersUpdated, new Object[0]);
+            FiltersSetupActivity.this.getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.dialogFiltersUpdated, new Object[0]);
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter

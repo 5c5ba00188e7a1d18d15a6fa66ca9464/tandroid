@@ -9,6 +9,10 @@ import org.json.JSONStringer;
 public class MetadataExtension implements Model {
     private JSONObject mMetadata = new JSONObject();
 
+    public JSONObject getMetadata() {
+        return this.mMetadata;
+    }
+
     @Override // com.microsoft.appcenter.ingestion.models.Model
     public void read(JSONObject jSONObject) {
         this.mMetadata = jSONObject;

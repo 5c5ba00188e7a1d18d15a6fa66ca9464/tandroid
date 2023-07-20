@@ -81,7 +81,7 @@ public final class NotificationManagerCompat {
     public boolean areNotificationsEnabled() {
         int i = Build.VERSION.SDK_INT;
         if (i >= 24) {
-            return this.mNotificationManager.areNotificationsEnabled();
+            return Api24Impl.areNotificationsEnabled(this.mNotificationManager);
         }
         if (i >= 19) {
             AppOpsManager appOpsManager = (AppOpsManager) this.mContext.getSystemService("appops");
@@ -418,6 +418,18 @@ public final class NotificationManagerCompat {
 
         public String toString() {
             return "CancelTask[packageName:" + this.packageName + ", id:" + this.id + ", tag:" + this.tag + ", all:" + this.all + "]";
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: classes.dex */
+    public static class Api24Impl {
+        static boolean areNotificationsEnabled(NotificationManager notificationManager) {
+            return notificationManager.areNotificationsEnabled();
+        }
+
+        static int getImportance(NotificationManager notificationManager) {
+            return notificationManager.getImportance();
         }
     }
 }

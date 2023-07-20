@@ -844,7 +844,7 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
                 SharedConfig.allowScreenCapture = !SharedConfig.allowScreenCapture;
                 UserConfig.getInstance(this.currentAccount).saveConfig(false);
                 ((TextCheckCell) view).setChecked(SharedConfig.allowScreenCapture);
-                NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.didSetPasscode, Boolean.FALSE);
+                NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.didSetPasscode, Boolean.FALSE);
                 if (SharedConfig.allowScreenCapture) {
                     return;
                 }
@@ -872,7 +872,7 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
             }
             i2++;
         }
-        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.didSetPasscode, new Object[0]);
+        NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.didSetPasscode, new Object[0]);
         finishFragment();
     }
 
@@ -1548,7 +1548,7 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
         } else {
             finishFragment();
         }
-        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.didSetPasscode, new Object[0]);
+        NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.didSetPasscode, new Object[0]);
     }
 
     /* JADX INFO: Access modifiers changed from: private */

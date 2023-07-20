@@ -1103,7 +1103,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
     @Override // org.telegram.ui.ActionBar.BottomSheet
     public boolean onCustomOpenAnimation() {
         groupCallUiVisible = true;
-        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.groupCallVisibilityChanged, new Object[0]);
+        NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.groupCallVisibilityChanged, new Object[0]);
         GroupCallPip.updateVisibility(getContext());
         return super.onCustomOpenAnimation();
     }
@@ -1118,7 +1118,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             groupVoipInviteAlert.dismiss();
         }
         this.delayedGroupCallUpdated = true;
-        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.groupCallVisibilityChanged, new Object[0]);
+        NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.groupCallVisibilityChanged, new Object[0]);
         this.accountInstance.getNotificationCenter().removeObserver(this, NotificationCenter.needShowAlert);
         this.accountInstance.getNotificationCenter().removeObserver(this, NotificationCenter.groupCallUpdated);
         this.accountInstance.getNotificationCenter().removeObserver(this, NotificationCenter.chatInfoDidLoad);
@@ -4525,7 +4525,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                 if (chatFull != null) {
                     chatFull.flags &= -2097153;
                     chatFull.call = null;
-                    GroupCallActivity.this.accountInstance.getNotificationCenter().postNotificationName(NotificationCenter.groupCallUpdated, Long.valueOf(GroupCallActivity.this.currentChat.id), Long.valueOf(GroupCallActivity.this.call.call.id), Boolean.FALSE);
+                    GroupCallActivity.this.accountInstance.getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.groupCallUpdated, Long.valueOf(GroupCallActivity.this.currentChat.id), Long.valueOf(GroupCallActivity.this.call.call.id), Boolean.FALSE);
                 }
                 TLRPC$TL_phone_discardGroupCall tLRPC$TL_phone_discardGroupCall = new TLRPC$TL_phone_discardGroupCall();
                 tLRPC$TL_phone_discardGroupCall.call = GroupCallActivity.this.call.getInputGroupCall();
@@ -4539,7 +4539,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                 VoIPService.getSharedInstance().hangUp(1);
             }
             GroupCallActivity.this.dismiss();
-            NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.didStartedCall, new Object[0]);
+            NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.didStartedCall, new Object[0]);
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -4786,7 +4786,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             if (groupCallInvitedCell.hasAvatarSet()) {
                 bundle.putBoolean("expandPhoto", true);
             }
-            this.parentActivity.lambda$runLinkRequest$77(new ProfileActivity(bundle));
+            this.parentActivity.lambda$runLinkRequest$80(new ProfileActivity(bundle));
             dismiss();
         } else if (i == this.listAdapter.addMemberRow) {
             if (ChatObject.isChannel(this.currentChat)) {
@@ -6169,7 +6169,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$28(TLRPC$TL_error tLRPC$TL_error) {
-        this.accountInstance.getNotificationCenter().postNotificationName(NotificationCenter.needShowAlert, 6, tLRPC$TL_error.text);
+        this.accountInstance.getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.needShowAlert, 6, tLRPC$TL_error.text);
         dismiss();
     }
 
@@ -6694,7 +6694,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
 
     @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog
     public void show() {
-        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.stopAllHeavyOperations, Integer.valueOf((int) LiteMode.FLAG_AUTOPLAY_GIFS));
+        NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.stopAllHeavyOperations, Integer.valueOf((int) LiteMode.FLAG_AUTOPLAY_GIFS));
         super.show();
         if (RTMPStreamPipOverlay.isVisible()) {
             RTMPStreamPipOverlay.dismiss();
@@ -6722,7 +6722,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                 this.containerView.removeView(this.renderersContainer);
             }
         }
-        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.startAllHeavyOperations, Integer.valueOf((int) LiteMode.FLAG_AUTOPLAY_GIFS));
+        NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.startAllHeavyOperations, Integer.valueOf((int) LiteMode.FLAG_AUTOPLAY_GIFS));
         super.dismissInternal();
         if (VoIPService.getSharedInstance() != null) {
             VoIPService.getSharedInstance().unregisterStateListener(this);
@@ -8213,7 +8213,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
         if (runnable != null) {
             runnable.run();
         }
-        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.didStartedCall, new Object[0]);
+        NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.didStartedCall, new Object[0]);
     }
 
     public static void onLeaveClick(Context context, final Runnable runnable, boolean z) {
@@ -8412,7 +8412,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             } else {
                 bundle.putLong("chat_id", -j);
             }
-            this.parentActivity.lambda$runLinkRequest$77(new ChatActivity(bundle));
+            this.parentActivity.lambda$runLinkRequest$80(new ChatActivity(bundle));
             dismiss();
         } else if (i == 8) {
             this.parentActivity.switchToAccount(this.currentAccount, true);
@@ -8427,7 +8427,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             } else {
                 bundle2.putLong("chat_id", -j);
             }
-            this.parentActivity.lambda$runLinkRequest$77(new ChatActivity(bundle2));
+            this.parentActivity.lambda$runLinkRequest$80(new ChatActivity(bundle2));
             dismiss();
         } else if (i == 7) {
             sharedInstance.editCallMember(tLObject, Boolean.TRUE, null, null, Boolean.FALSE, null);
@@ -9516,12 +9516,6 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public void notifyItemRemoved(int i) {
-            updateRows();
-            super.notifyItemRemoved(i);
-        }
-
-        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public void notifyItemRangeRemoved(int i, int i2) {
             updateRows();
             super.notifyItemRangeRemoved(i, i2);
@@ -9678,15 +9672,13 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                 };
             } else if (i == 1) {
                 view = new GroupCallUserCell(this.mContext) { // from class: org.telegram.ui.GroupCallActivity.ListAdapter.2
-                    /* JADX INFO: Access modifiers changed from: protected */
                     @Override // org.telegram.ui.Cells.GroupCallUserCell
-                    public void onMuteClick(GroupCallUserCell groupCallUserCell) {
+                    protected void onMuteClick(GroupCallUserCell groupCallUserCell) {
                         GroupCallActivity.this.showMenuForCell(groupCallUserCell);
                     }
 
-                    /* JADX INFO: Access modifiers changed from: protected */
                     @Override // org.telegram.ui.Cells.GroupCallUserCell, android.widget.FrameLayout, android.view.View
-                    public void onMeasure(int i2, int i3) {
+                    protected void onMeasure(int i2, int i3) {
                         if (AndroidUtilities.isTablet()) {
                             super.onMeasure(View.MeasureSpec.makeMeasureSpec(Math.min(AndroidUtilities.dp(420.0f), View.MeasureSpec.getSize(i2)), 1073741824), i3);
                         } else {
@@ -9958,7 +9950,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                     new File(str).renameTo(FileLoader.getInstance(((BottomSheet) GroupCallActivity.this).currentAccount).getPathToAttach(tLRPC$VideoSize, "mp4", true));
                 }
                 GroupCallActivity.this.accountInstance.getMessagesStorage().clearUserPhotos(user.id);
-                ArrayList<TLRPC$User> arrayList2 = new ArrayList<>();
+                ArrayList arrayList2 = new ArrayList();
                 arrayList2.add(user);
                 GroupCallActivity.this.accountInstance.getMessagesStorage().putUsersAndChats(arrayList2, null, false, true);
                 TLRPC$User user2 = GroupCallActivity.this.accountInstance.getMessagesController().getUser(Long.valueOf(this.peerId));
@@ -9974,8 +9966,8 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                 AndroidUtilities.updateVisibleRows(GroupCallActivity.this.listView);
                 updateAvatarUploadingProgress(1.0f);
             }
-            GroupCallActivity.this.accountInstance.getNotificationCenter().postNotificationName(NotificationCenter.updateInterfaces, Integer.valueOf(MessagesController.UPDATE_MASK_ALL));
-            GroupCallActivity.this.accountInstance.getNotificationCenter().postNotificationName(NotificationCenter.mainUserInfoChanged, new Object[0]);
+            GroupCallActivity.this.accountInstance.getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.updateInterfaces, Integer.valueOf(MessagesController.UPDATE_MASK_ALL));
+            GroupCallActivity.this.accountInstance.getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.mainUserInfoChanged, new Object[0]);
             GroupCallActivity.this.accountInstance.getUserConfig().saveConfig(true);
         }
 

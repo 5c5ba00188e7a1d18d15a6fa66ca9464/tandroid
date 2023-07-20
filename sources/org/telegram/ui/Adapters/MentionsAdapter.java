@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.ContactsController;
@@ -43,6 +44,7 @@ import org.telegram.tgnet.TLRPC$BotInlineResult;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$ChatFull;
 import org.telegram.tgnet.TLRPC$ChatParticipant;
+import org.telegram.tgnet.TLRPC$Dialog;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$DocumentAttribute;
 import org.telegram.tgnet.TLRPC$PhotoSize;
@@ -90,6 +92,7 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
     private Runnable cancelDelayRunnable;
     private int channelLastReqId;
     private int channelReqId;
+    private TLRPC$Chat chat;
     private boolean contextMedia;
     private int contextQueryReqid;
     private Runnable contextQueryRunnable;
@@ -135,11 +138,16 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
     private ArrayList<StickerResult> stickers;
     private HashMap<String, TLRPC$Document> stickersMap;
     private int threadMessageId;
+    private TLRPC$User user;
     private boolean visibleByStickersSearch;
+    private boolean allowStickers = true;
+    private boolean allowBots = true;
+    private boolean allowChats = true;
     private int currentAccount = UserConfig.selectedAccount;
     private boolean needUsernames = true;
     private boolean needBotContext = true;
     private boolean inlineMediaEnabled = true;
+    private boolean searchInDailogs = false;
     private ArrayList<String> stickersToLoad = new ArrayList<>();
     private SendMessagesHelper.LocationProvider locationProvider = new SendMessagesHelper.LocationProvider(new SendMessagesHelper.LocationProvider.LocationProviderDelegate() { // from class: org.telegram.ui.Adapters.MentionsAdapter.1
         @Override // org.telegram.messenger.SendMessagesHelper.LocationProvider.LocationProviderDelegate
@@ -884,7 +892,7 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
             ConnectionsManager.getInstance(this.currentAccount).cancelRequest(this.contextQueryReqid, true);
             this.contextQueryReqid = 0;
         }
-        if (!this.inlineMediaEnabled) {
+        if (!this.inlineMediaEnabled || !this.allowBots) {
             MentionsAdapterDelegate mentionsAdapterDelegate = this.delegate;
             if (mentionsAdapterDelegate != null) {
                 mentionsAdapterDelegate.onContextSearch(false);
@@ -1017,48 +1025,87 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
         }
     }
 
+    /* JADX WARN: Code restructure failed: missing block: B:219:0x0381, code lost:
+        if (r26.info != null) goto L443;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:220:0x0383, code lost:
+        if (r5 == 0) goto L443;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:221:0x0385, code lost:
+        r26.lastText = r6;
+        r26.lastPosition = r28;
+        r26.messages = r29;
+        r26.delegate.needChangePanelVisibility(false);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:222:0x0391, code lost:
+        return;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:355:0x05fa, code lost:
+        if (r19.toLowerCase().startsWith(r6) == false) goto L215;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:361:0x060d, code lost:
+        if (r15.toLowerCase().startsWith(r6) != false) goto L212;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:365:0x061d, code lost:
+        if (r18.toLowerCase().startsWith(r6) != false) goto L212;
+     */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:250:0x0403  */
-    /* JADX WARN: Removed duplicated region for block: B:252:0x040e  */
-    /* JADX WARN: Removed duplicated region for block: B:346:0x05b3  */
-    /* JADX WARN: Type inference failed for: r10v48 */
-    /* JADX WARN: Type inference failed for: r10v49 */
-    /* JADX WARN: Type inference failed for: r20v0, types: [org.telegram.ui.Adapters.MentionsAdapter] */
+    /* JADX WARN: Removed duplicated region for block: B:255:0x0416  */
+    /* JADX WARN: Removed duplicated region for block: B:257:0x0421  */
+    /* JADX WARN: Removed duplicated region for block: B:354:0x05f0  */
+    /* JADX WARN: Removed duplicated region for block: B:357:0x05fd  */
+    /* JADX WARN: Removed duplicated region for block: B:360:0x0605  */
+    /* JADX WARN: Removed duplicated region for block: B:364:0x0615  */
+    /* JADX WARN: Removed duplicated region for block: B:367:0x0621  */
+    /* JADX WARN: Removed duplicated region for block: B:510:0x063c A[SYNTHETIC] */
+    /* JADX WARN: Type inference failed for: r12v21 */
+    /* JADX WARN: Type inference failed for: r12v22 */
+    /* JADX WARN: Type inference failed for: r26v0, types: [org.telegram.ui.Adapters.MentionsAdapter] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void searchUsernameOrHashtag(CharSequence charSequence, int i, ArrayList<MessageObject> arrayList, boolean z, boolean z2) {
         String str;
-        char c;
         int i2;
+        char c;
+        int i3;
         String str2;
         String str3;
+        int i4;
         boolean z3;
         char c2;
-        int i3;
-        int i4;
+        int i5;
+        int i6;
         String str4;
         String str5;
-        TLRPC$Chat chat;
-        int i5;
-        TLRPC$ChatFull tLRPC$ChatFull;
-        int i6;
-        TLRPC$User user;
-        String str6;
-        String publicUsername;
-        String str7;
-        long j;
-        LongSparseArray longSparseArray;
-        ChatActivity chatActivity;
+        ArrayList arrayList2;
+        boolean z4;
         int i7;
+        TLRPC$Chat tLRPC$Chat;
+        TLRPC$Chat chat;
+        TLRPC$ChatFull tLRPC$ChatFull;
+        TLRPC$User user;
+        LongSparseArray longSparseArray;
+        String str6;
+        TLRPC$Chat tLRPC$Chat2;
+        long j;
+        String str7;
         String str8;
-        char c3;
+        TLRPC$User tLRPC$User;
         int i8;
+        int i9;
+        char c3;
+        int i10;
         CharSequence concat;
-        boolean z4 = z;
-        boolean z5 = z2;
+        boolean z5 = z;
         String str9 = "";
         String charSequence2 = charSequence == null ? "" : charSequence.toString();
+        TLRPC$Chat tLRPC$Chat3 = this.chat;
+        ChatActivity chatActivity = this.parentFragment;
+        if (chatActivity != null) {
+            tLRPC$Chat3 = chatActivity.getCurrentChat();
+            this.parentFragment.getCurrentUser();
+        }
         Runnable runnable = this.cancelDelayRunnable;
         if (runnable != null) {
             AndroidUtilities.cancelRunOnUIThread(runnable);
@@ -1080,64 +1127,69 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
             clearStickers();
             return;
         }
-        int i9 = charSequence2.length() > 0 ? i - 1 : i;
+        int i11 = charSequence2.length() > 0 ? i - 1 : i;
         this.lastText = null;
-        this.lastUsernameOnly = z4;
-        this.lastForSearch = z5;
+        this.lastUsernameOnly = z5;
+        this.lastForSearch = z2;
         StringBuilder sb = new StringBuilder();
-        boolean z6 = !z4 && charSequence2.length() > 0 && charSequence2.length() <= 14;
+        boolean z6 = !z5 && charSequence2.length() > 0 && charSequence2.length() <= 14;
         if (z6) {
-            int length = charSequence2.length();
             String str10 = charSequence2;
-            int i10 = 0;
-            while (i10 < length) {
-                char charAt = str10.charAt(i10);
-                int i11 = length - 1;
-                if (i10 < i11) {
-                    str8 = str9;
-                    c3 = str10.charAt(i10 + 1);
+            int length = charSequence2.length();
+            int i12 = 0;
+            while (i12 < length) {
+                char charAt = str10.charAt(i12);
+                String str11 = str9;
+                int i13 = length - 1;
+                if (i12 < i13) {
+                    i9 = i11;
+                    c3 = str10.charAt(i12 + 1);
                 } else {
-                    str8 = str9;
+                    i9 = i11;
                     c3 = 0;
                 }
-                if (i10 >= i11 || charAt != 55356 || c3 < 57339 || c3 > 57343) {
+                if (i12 >= i13 || charAt != 55356 || c3 < 57339 || c3 > 57343) {
                     concat = str10;
                     if (charAt == 65039) {
-                        i8 = 1;
-                        concat = TextUtils.concat(str10.subSequence(0, i10), str10.subSequence(i10 + 1, str10.length()));
+                        i10 = 1;
+                        concat = TextUtils.concat(str10.subSequence(0, i12), str10.subSequence(i12 + 1, str10.length()));
                         length--;
-                        i10--;
-                        i10 += i8;
-                        str9 = str8;
+                        i12--;
+                        i12 += i10;
+                        str9 = str11;
+                        i11 = i9;
                         str10 = concat;
                     }
                 } else {
-                    CharSequence[] charSequenceArr = {str10.subSequence(0, i10), str10.subSequence(i10 + 2, str10.length())};
+                    CharSequence[] charSequenceArr = {str10.subSequence(0, i12), str10.subSequence(i12 + 2, str10.length())};
                     length -= 2;
-                    i10--;
+                    i12--;
                     concat = TextUtils.concat(charSequenceArr);
                 }
-                i8 = 1;
-                i10 += i8;
-                str9 = str8;
+                i10 = 1;
+                i12 += i10;
+                str9 = str11;
+                i11 = i9;
                 str10 = concat;
             }
             str = str9;
+            i2 = i11;
             this.lastSticker = str10.toString().trim();
             str9 = charSequence2;
         } else {
             str = "";
+            i2 = i11;
         }
         boolean z7 = z6 && (Emoji.isValidEmoji(str9) || Emoji.isValidEmoji(this.lastSticker));
         if (z7 && (charSequence instanceof Spanned)) {
             AnimatedEmojiSpan[] animatedEmojiSpanArr = (AnimatedEmojiSpan[]) ((Spanned) charSequence).getSpans(0, charSequence.length(), AnimatedEmojiSpan.class);
             z7 = animatedEmojiSpanArr == null || animatedEmojiSpanArr.length == 0;
         }
-        if (z7 && (chatActivity = this.parentFragment) != null && (chatActivity.getCurrentChat() == null || ChatObject.canSendStickers(this.parentFragment.getCurrentChat()))) {
+        if (this.allowStickers && z7 && (tLRPC$Chat3 == null || ChatObject.canSendStickers(tLRPC$Chat3))) {
             this.stickersToLoad.clear();
-            int i12 = SharedConfig.suggestStickers;
-            if (i12 == 2 || !z7) {
-                if (this.visibleByStickersSearch && i12 == 2) {
+            int i14 = SharedConfig.suggestStickers;
+            if (i14 == 2 || !z7) {
+                if (this.visibleByStickersSearch && i14 == 2) {
                     this.visibleByStickersSearch = false;
                     this.delegate.needChangePanelVisibility(false);
                     notifyDataSetChanged();
@@ -1149,52 +1201,52 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
             this.stickersMap = null;
             if (this.lastReqId != 0) {
                 ConnectionsManager.getInstance(this.currentAccount).cancelRequest(this.lastReqId, true);
-                i7 = 0;
+                i8 = 0;
                 this.lastReqId = 0;
             } else {
-                i7 = 0;
+                i8 = 0;
             }
             boolean z8 = MessagesController.getInstance(this.currentAccount).suggestStickersApiOnly;
             if (!z8) {
-                final ArrayList<TLRPC$Document> recentStickersNoCopy = MediaDataController.getInstance(this.currentAccount).getRecentStickersNoCopy(i7);
+                final ArrayList<TLRPC$Document> recentStickersNoCopy = MediaDataController.getInstance(this.currentAccount).getRecentStickersNoCopy(i8);
                 final ArrayList<TLRPC$Document> recentStickersNoCopy2 = MediaDataController.getInstance(this.currentAccount).getRecentStickersNoCopy(2);
                 int min = Math.min(20, recentStickersNoCopy.size());
-                int i13 = 0;
-                for (int i14 = 0; i14 < min; i14++) {
-                    TLRPC$Document tLRPC$Document = recentStickersNoCopy.get(i14);
+                int i15 = 0;
+                for (int i16 = 0; i16 < min; i16++) {
+                    TLRPC$Document tLRPC$Document = recentStickersNoCopy.get(i16);
                     if (isValidSticker(tLRPC$Document, this.lastSticker)) {
                         addStickerToResult(tLRPC$Document, "recent");
-                        int i15 = i13 + 1;
-                        if (i15 >= 5) {
+                        int i17 = i15 + 1;
+                        if (i17 >= 5) {
                             break;
                         }
-                        i13 = i15;
+                        i15 = i17;
                     }
                 }
                 int size = recentStickersNoCopy2.size();
-                for (int i16 = 0; i16 < size; i16++) {
-                    TLRPC$Document tLRPC$Document2 = recentStickersNoCopy2.get(i16);
+                for (int i18 = 0; i18 < size; i18++) {
+                    TLRPC$Document tLRPC$Document2 = recentStickersNoCopy2.get(i18);
                     if (isValidSticker(tLRPC$Document2, this.lastSticker)) {
                         addStickerToResult(tLRPC$Document2, "fav");
                     }
                 }
                 HashMap<String, ArrayList<TLRPC$Document>> allStickers = MediaDataController.getInstance(this.currentAccount).getAllStickers();
-                ArrayList<TLRPC$Document> arrayList2 = allStickers != null ? allStickers.get(this.lastSticker) : null;
-                if (arrayList2 != null && !arrayList2.isEmpty()) {
-                    addStickersToResult(arrayList2, null);
+                ArrayList<TLRPC$Document> arrayList3 = allStickers != null ? allStickers.get(this.lastSticker) : null;
+                if (arrayList3 != null && !arrayList3.isEmpty()) {
+                    addStickersToResult(arrayList3, null);
                 }
-                ArrayList<StickerResult> arrayList3 = this.stickers;
-                if (arrayList3 != null) {
-                    Collections.sort(arrayList3, new Comparator<StickerResult>(this) { // from class: org.telegram.ui.Adapters.MentionsAdapter.5
+                ArrayList<StickerResult> arrayList4 = this.stickers;
+                if (arrayList4 != null) {
+                    Collections.sort(arrayList4, new Comparator<StickerResult>(this) { // from class: org.telegram.ui.Adapters.MentionsAdapter.5
                         private int getIndex(StickerResult stickerResult) {
-                            for (int i17 = 0; i17 < recentStickersNoCopy2.size(); i17++) {
-                                if (((TLRPC$Document) recentStickersNoCopy2.get(i17)).id == stickerResult.sticker.id) {
-                                    return i17 + 2000000;
+                            for (int i19 = 0; i19 < recentStickersNoCopy2.size(); i19++) {
+                                if (((TLRPC$Document) recentStickersNoCopy2.get(i19)).id == stickerResult.sticker.id) {
+                                    return i19 + 2000000;
                                 }
                             }
-                            for (int i18 = 0; i18 < Math.min(20, recentStickersNoCopy.size()); i18++) {
-                                if (((TLRPC$Document) recentStickersNoCopy.get(i18)).id == stickerResult.sticker.id) {
-                                    return (recentStickersNoCopy.size() - i18) + MediaController.VIDEO_BITRATE_480;
+                            for (int i20 = 0; i20 < Math.min(20, recentStickersNoCopy.size()); i20++) {
+                                if (((TLRPC$Document) recentStickersNoCopy.get(i20)).id == stickerResult.sticker.id) {
+                                    return (recentStickersNoCopy.size() - i20) + MediaController.VIDEO_BITRATE_480;
                                 }
                             }
                             return -1;
@@ -1219,8 +1271,8 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
             if (SharedConfig.suggestStickers == 0 || z8) {
                 searchServerStickers(this.lastSticker, str9);
             }
-            ArrayList<StickerResult> arrayList4 = this.stickers;
-            if (arrayList4 != null && !arrayList4.isEmpty()) {
+            ArrayList<StickerResult> arrayList5 = this.stickers;
+            if (arrayList5 != null && !arrayList5.isEmpty()) {
                 if (SharedConfig.suggestStickers == 0 && this.stickers.size() < 5) {
                     this.delegate.needChangePanelVisibility(false);
                     this.visibleByStickersSearch = false;
@@ -1237,27 +1289,27 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
             }
             c = 4;
         } else {
-            if (!z4 && this.needBotContext && charSequence2.charAt(0) == '@') {
+            if (!z5 && this.needBotContext && charSequence2.charAt(0) == '@') {
                 int indexOf = charSequence2.indexOf(32);
                 int length2 = charSequence2.length();
                 if (indexOf > 0) {
                     String substring = charSequence2.substring(1, indexOf);
                     str3 = charSequence2.substring(indexOf + 1);
                     str2 = substring;
-                    i2 = 1;
+                    i3 = 1;
                 } else if (charSequence2.charAt(length2 - 1) == 't' && charSequence2.charAt(length2 - 2) == 'o' && charSequence2.charAt(length2 - 3) == 'b') {
-                    i2 = 1;
+                    i3 = 1;
                     str2 = charSequence2.substring(1);
                     str3 = str;
                 } else {
-                    i2 = 1;
+                    i3 = 1;
                     searchForContextBot(null, null);
                     str2 = null;
                     str3 = null;
                 }
-                if (str2 != null && str2.length() >= i2) {
-                    for (int i17 = 1; i17 < str2.length(); i17++) {
-                        char charAt2 = str2.charAt(i17);
+                if (str2 != null && str2.length() >= i3) {
+                    for (int i19 = 1; i19 < str2.length(); i19++) {
+                        char charAt2 = str2.charAt(i19);
                         if ((charAt2 >= '0' && charAt2 <= '9') || ((charAt2 >= 'a' && charAt2 <= 'z') || ((charAt2 >= 'A' && charAt2 <= 'Z') || charAt2 == '_'))) {
                         }
                     }
@@ -1274,27 +1326,22 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
             return;
         }
         MessagesController messagesController = MessagesController.getInstance(this.currentAccount);
-        if (!z4) {
-            while (i9 >= 0) {
-                if (i9 < charSequence2.length()) {
-                    char charAt3 = charSequence2.charAt(i9);
-                    if (i9 != 0) {
-                        int i18 = i9 - 1;
-                        if (charSequence2.charAt(i18) != ' ' && charSequence2.charAt(i18) != '\n' && charAt3 != ':') {
-                            i4 = 0;
-                            sb.insert(i4, charAt3);
+        if (!z5) {
+            i4 = i2;
+            while (i4 >= 0) {
+                if (i4 < charSequence2.length()) {
+                    char charAt3 = charSequence2.charAt(i4);
+                    if (i4 != 0) {
+                        int i20 = i4 - 1;
+                        if (charSequence2.charAt(i20) != ' ' && charSequence2.charAt(i20) != '\n' && charAt3 != ':') {
+                            i6 = 0;
+                            sb.insert(i6, charAt3);
                         }
                     }
                     if (charAt3 == '@') {
-                        if (this.needUsernames || (this.needBotContext && i9 == 0)) {
-                            if (this.info == null && i9 != 0) {
-                                this.lastText = charSequence2;
-                                this.lastPosition = i;
-                                this.messages = arrayList;
-                                this.delegate.needChangePanelVisibility(false);
-                                return;
-                            }
-                            this.resultStartPosition = i9;
+                        boolean z9 = this.searchInDailogs;
+                        if (z9 || this.needUsernames || (this.needBotContext && i4 == 0)) {
+                            this.resultStartPosition = i4;
                             this.resultLength = sb.length() + 1;
                             c = 0;
                             c2 = 65535;
@@ -1303,7 +1350,7 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
                         }
                     } else if (charAt3 == '#') {
                         if (this.searchAdapterHelper.loadRecentHashtags()) {
-                            this.resultStartPosition = i9;
+                            this.resultStartPosition = i4;
                             this.resultLength = sb.length() + 1;
                             sb.insert(0, charAt3);
                             c = 1;
@@ -1313,30 +1360,30 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
                             this.messages = arrayList;
                             return;
                         }
-                    } else if (i9 == 0 && this.botInfo != null && charAt3 == '/') {
-                        this.resultStartPosition = i9;
+                    } else if (i4 == 0 && this.botInfo != null && charAt3 == '/') {
+                        this.resultStartPosition = i4;
                         this.resultLength = sb.length() + 1;
                         c = 2;
                     } else if (charAt3 == ':' && sb.length() > 0) {
                         if (" !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~\n".indexOf(sb.charAt(0)) >= 0) {
-                            i3 = 1;
+                            i5 = 1;
                             if (sb.length() > 1) {
                             }
                         } else {
-                            i3 = 1;
+                            i5 = 1;
                         }
-                        this.resultStartPosition = i9;
-                        this.resultLength = sb.length() + i3;
+                        this.resultStartPosition = i4;
+                        this.resultLength = sb.length() + i5;
                         c = 3;
                     }
-                    i4 = 0;
-                    sb.insert(i4, charAt3);
+                    i6 = 0;
+                    sb.insert(i6, charAt3);
                 }
-                i9--;
+                i4--;
             }
             z3 = false;
             c2 = 65535;
-            i9 = -1;
+            i4 = -1;
             if (c != c2) {
                 this.contextMedia = z3;
                 this.searchResultBotContext = null;
@@ -1344,16 +1391,16 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
                 return;
             } else if (c != 0) {
                 if (c == 1) {
-                    ArrayList<String> arrayList5 = new ArrayList<>();
+                    ArrayList<String> arrayList6 = new ArrayList<>();
                     String lowerCase = sb.toString().toLowerCase();
                     ArrayList<SearchAdapterHelper.HashtagObject> hashtags = this.searchAdapterHelper.getHashtags();
-                    for (int i19 = 0; i19 < hashtags.size(); i19++) {
-                        SearchAdapterHelper.HashtagObject hashtagObject = hashtags.get(i19);
+                    for (int i21 = 0; i21 < hashtags.size(); i21++) {
+                        SearchAdapterHelper.HashtagObject hashtagObject = hashtags.get(i21);
                         if (hashtagObject != null && (str5 = hashtagObject.hashtag) != null && str5.startsWith(lowerCase)) {
-                            arrayList5.add(hashtagObject.hashtag);
+                            arrayList6.add(hashtagObject.hashtag);
                         }
                     }
-                    this.searchResultHashtags = arrayList5;
+                    this.searchResultHashtags = arrayList6;
                     this.stickers = null;
                     this.searchResultUsernames = null;
                     this.searchResultUsernamesMap = null;
@@ -1375,8 +1422,8 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
                         this.lastSearchKeyboardLanguage = currentKeyboardLanguage;
                         MediaDataController.getInstance(this.currentAccount).getEmojiSuggestions(this.lastSearchKeyboardLanguage, sb.toString(), false, new MediaDataController.KeywordResultCallback() { // from class: org.telegram.ui.Adapters.MentionsAdapter$$ExternalSyntheticLambda6
                             @Override // org.telegram.messenger.MediaDataController.KeywordResultCallback
-                            public final void run(ArrayList arrayList6, String str11) {
-                                MentionsAdapter.this.lambda$searchUsernameOrHashtag$8(arrayList6, str11);
+                            public final void run(ArrayList arrayList7, String str12) {
+                                MentionsAdapter.this.lambda$searchUsernameOrHashtag$8(arrayList7, str12);
                             }
                         }, true);
                         return;
@@ -1393,18 +1440,18 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
                         return;
                     }
                 } else {
-                    ArrayList<String> arrayList6 = new ArrayList<>();
                     ArrayList<String> arrayList7 = new ArrayList<>();
-                    ArrayList<TLRPC$User> arrayList8 = new ArrayList<>();
+                    ArrayList<String> arrayList8 = new ArrayList<>();
+                    ArrayList<TLRPC$User> arrayList9 = new ArrayList<>();
                     String lowerCase2 = sb.toString().toLowerCase();
-                    for (int i20 = 0; i20 < this.botInfo.size(); i20++) {
-                        TLRPC$BotInfo valueAt = this.botInfo.valueAt(i20);
-                        for (int i21 = 0; i21 < valueAt.commands.size(); i21++) {
-                            TLRPC$TL_botCommand tLRPC$TL_botCommand = valueAt.commands.get(i21);
+                    for (int i22 = 0; i22 < this.botInfo.size(); i22++) {
+                        TLRPC$BotInfo valueAt = this.botInfo.valueAt(i22);
+                        for (int i23 = 0; i23 < valueAt.commands.size(); i23++) {
+                            TLRPC$TL_botCommand tLRPC$TL_botCommand = valueAt.commands.get(i23);
                             if (tLRPC$TL_botCommand != null && (str4 = tLRPC$TL_botCommand.command) != null && str4.startsWith(lowerCase2)) {
-                                arrayList6.add("/" + tLRPC$TL_botCommand.command);
-                                arrayList7.add(tLRPC$TL_botCommand.description);
-                                arrayList8.add(messagesController.getUser(Long.valueOf(valueAt.user_id)));
+                                arrayList7.add("/" + tLRPC$TL_botCommand.command);
+                                arrayList8.add(tLRPC$TL_botCommand.description);
+                                arrayList9.add(messagesController.getUser(Long.valueOf(valueAt.user_id)));
                             }
                         }
                     }
@@ -1413,143 +1460,231 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
                     this.searchResultUsernames = null;
                     this.searchResultUsernamesMap = null;
                     this.searchResultSuggestions = null;
-                    this.searchResultCommands = arrayList6;
-                    this.searchResultCommandsHelp = arrayList7;
-                    this.searchResultCommandsUsers = arrayList8;
+                    this.searchResultCommands = arrayList7;
+                    this.searchResultCommandsHelp = arrayList8;
+                    this.searchResultCommandsUsers = arrayList9;
                     this.contextMedia = false;
                     this.searchResultBotContext = null;
                     notifyDataSetChanged();
-                    this.delegate.needChangePanelVisibility(!arrayList6.isEmpty());
+                    this.delegate.needChangePanelVisibility(!arrayList7.isEmpty());
                     return;
                 }
             } else {
                 this.contextMedia = z3;
                 this.searchResultBotContext = null;
-                final ArrayList arrayList9 = new ArrayList();
-                for (int i22 = 0; i22 < Math.min(100, arrayList.size()); i22++) {
-                    long fromChatId = arrayList.get(i22).getFromChatId();
-                    if (fromChatId > 0 && !arrayList9.contains(Long.valueOf(fromChatId))) {
-                        arrayList9.add(Long.valueOf(fromChatId));
+                ArrayList arrayList10 = new ArrayList();
+                if (arrayList != null) {
+                    for (int i24 = 0; i24 < Math.min(100, arrayList.size()); i24++) {
+                        long fromChatId = arrayList.get(i24).getFromChatId();
+                        if (fromChatId > 0 && !arrayList10.contains(Long.valueOf(fromChatId))) {
+                            arrayList10.add(Long.valueOf(fromChatId));
+                        }
                     }
                 }
                 String lowerCase3 = sb.toString().toLowerCase();
-                boolean z9 = lowerCase3.indexOf(32) >= 0;
-                final ArrayList arrayList10 = new ArrayList();
+                boolean z10 = lowerCase3.indexOf(32) >= 0;
+                final ArrayList arrayList11 = new ArrayList();
                 LongSparseArray longSparseArray2 = new LongSparseArray();
                 final LongSparseArray longSparseArray3 = new LongSparseArray();
-                ArrayList<TLRPC$TL_topPeer> arrayList11 = MediaDataController.getInstance(this.currentAccount).inlineBots;
-                if (!z4 && this.needBotContext && i9 == 0 && !arrayList11.isEmpty()) {
-                    int i23 = 0;
-                    for (int i24 = 0; i24 < arrayList11.size(); i24++) {
-                        TLRPC$User user2 = messagesController.getUser(Long.valueOf(arrayList11.get(i24).peer.user_id));
+                ArrayList<TLRPC$TL_topPeer> arrayList12 = MediaDataController.getInstance(this.currentAccount).inlineBots;
+                if (!z5 && this.needBotContext && i4 == 0 && !arrayList12.isEmpty()) {
+                    int i25 = 0;
+                    int i26 = 0;
+                    while (i25 < arrayList12.size()) {
+                        TLRPC$User user2 = messagesController.getUser(Long.valueOf(arrayList12.get(i25).peer.user_id));
                         if (user2 != null) {
-                            String publicUsername2 = UserObject.getPublicUsername(user2);
-                            if (!TextUtils.isEmpty(publicUsername2) && (lowerCase3.length() == 0 || publicUsername2.toLowerCase().startsWith(lowerCase3))) {
-                                arrayList10.add(user2);
+                            String publicUsername = UserObject.getPublicUsername(user2);
+                            if (TextUtils.isEmpty(publicUsername) || !(lowerCase3.length() == 0 || publicUsername.toLowerCase().startsWith(lowerCase3))) {
+                                arrayList2 = arrayList10;
+                                z4 = z10;
+                            } else {
+                                arrayList11.add(user2);
+                                arrayList2 = arrayList10;
+                                z4 = z10;
                                 longSparseArray2.put(user2.id, user2);
                                 longSparseArray3.put(user2.id, user2);
-                                i23++;
+                                i26++;
                             }
-                            if (i23 == 5) {
+                            if (i26 == 5) {
                                 break;
                             }
+                        } else {
+                            arrayList2 = arrayList10;
+                            z4 = z10;
                         }
+                        i25++;
+                        z10 = z4;
+                        arrayList10 = arrayList2;
                     }
                 }
+                arrayList2 = arrayList10;
+                z4 = z10;
                 ChatActivity chatActivity2 = this.parentFragment;
                 if (chatActivity2 != null) {
-                    chat = chatActivity2.getCurrentChat();
-                    i5 = this.parentFragment.getThreadId();
+                    tLRPC$Chat3 = chatActivity2.getCurrentChat();
+                    i7 = this.parentFragment.getThreadId();
                 } else {
                     TLRPC$ChatFull tLRPC$ChatFull2 = this.info;
-                    chat = tLRPC$ChatFull2 != null ? messagesController.getChat(Long.valueOf(tLRPC$ChatFull2.id)) : null;
-                    i5 = 0;
+                    if (tLRPC$ChatFull2 != null) {
+                        tLRPC$Chat3 = messagesController.getChat(Long.valueOf(tLRPC$ChatFull2.id));
+                    }
+                    i7 = 0;
                 }
                 TLRPC$User currentUser = UserConfig.getInstance(this.currentAccount).getCurrentUser();
-                if (chat != null && (tLRPC$ChatFull = this.info) != null && tLRPC$ChatFull.participants != null && (!ChatObject.isChannel(chat) || chat.megagroup)) {
-                    int i25 = -2;
-                    int i26 = -2;
-                    while (i26 < this.info.participants.participants.size()) {
-                        if (i26 != i25) {
-                            i6 = i26;
-                            if (i6 == -1) {
-                                if (z5) {
+                if (tLRPC$Chat3 != null && (tLRPC$ChatFull = this.info) != null && tLRPC$ChatFull.participants != null && (!ChatObject.isChannel(tLRPC$Chat3) || tLRPC$Chat3.megagroup)) {
+                    int i27 = -2;
+                    int i28 = -2;
+                    while (i28 < this.info.participants.participants.size()) {
+                        if (i28 != i27) {
+                            LongSparseArray longSparseArray4 = longSparseArray2;
+                            if (i28 == -1) {
+                                if (z2) {
                                     if (lowerCase3.length() == 0) {
-                                        arrayList10.add(chat);
+                                        arrayList11.add(tLRPC$Chat3);
                                     } else {
-                                        String str11 = chat.title;
-                                        publicUsername = ChatObject.getPublicUsername(chat);
-                                        str7 = str11;
-                                        j = -chat.id;
-                                        user = chat;
-                                        str6 = null;
-                                        longSparseArray = longSparseArray2;
-                                        if (!TextUtils.isEmpty(publicUsername)) {
-                                            arrayList10.add(user);
-                                            longSparseArray3.put(j, user);
+                                        String str12 = tLRPC$Chat3.title;
+                                        String publicUsername2 = ChatObject.getPublicUsername(tLRPC$Chat3);
+                                        j = -tLRPC$Chat3.id;
+                                        tLRPC$Chat2 = tLRPC$Chat3;
+                                        str6 = str12;
+                                        longSparseArray = longSparseArray4;
+                                        str7 = publicUsername2;
+                                        str8 = null;
+                                        if (TextUtils.isEmpty(str7)) {
                                         }
-                                        arrayList10.add(user);
-                                        longSparseArray3.put(j, user);
+                                        if (!TextUtils.isEmpty(str6)) {
+                                        }
+                                        if (!TextUtils.isEmpty(str8)) {
+                                        }
+                                        if (!z4) {
+                                        }
                                     }
                                 }
-                                longSparseArray = longSparseArray2;
+                                tLRPC$User = currentUser;
+                                longSparseArray = longSparseArray4;
                             } else {
-                                TLRPC$ChatParticipant tLRPC$ChatParticipant = this.info.participants.participants.get(i6);
-                                if ((currentUser == null || tLRPC$ChatParticipant.user_id != currentUser.id) && (user = messagesController.getUser(Long.valueOf(tLRPC$ChatParticipant.user_id))) != null && !UserObject.isUserSelf(user) && longSparseArray2.indexOfKey(user.id) < 0) {
-                                    if (lowerCase3.length() == 0 && !user.deleted) {
-                                        arrayList10.add(user);
-                                    } else {
-                                        String str12 = user.first_name;
-                                        str6 = user.last_name;
-                                        publicUsername = UserObject.getPublicUsername(user);
-                                        str7 = str12;
-                                        j = user.id;
-                                        longSparseArray = longSparseArray2;
-                                        if (!TextUtils.isEmpty(publicUsername)) {
+                                TLRPC$ChatParticipant tLRPC$ChatParticipant = this.info.participants.participants.get(i28);
+                                if ((currentUser == null || tLRPC$ChatParticipant.user_id != currentUser.id) && (user = messagesController.getUser(Long.valueOf(tLRPC$ChatParticipant.user_id))) != null && !UserObject.isUserSelf(user)) {
+                                    longSparseArray = longSparseArray4;
+                                    if (longSparseArray.indexOfKey(user.id) < 0) {
+                                        if (lowerCase3.length() == 0 && !user.deleted) {
+                                            arrayList11.add(user);
+                                        } else {
+                                            String str13 = user.first_name;
+                                            String str14 = user.last_name;
+                                            String publicUsername3 = UserObject.getPublicUsername(user);
+                                            str6 = str13;
+                                            tLRPC$Chat2 = user;
+                                            j = user.id;
+                                            str7 = publicUsername3;
+                                            str8 = str14;
+                                            if (TextUtils.isEmpty(str7)) {
+                                            }
+                                            if (!TextUtils.isEmpty(str6)) {
+                                            }
+                                            if (!TextUtils.isEmpty(str8)) {
+                                            }
+                                            if (!z4) {
+                                            }
                                         }
-                                        arrayList10.add(user);
-                                        longSparseArray3.put(j, user);
                                     }
+                                    tLRPC$User = currentUser;
                                 }
-                                longSparseArray = longSparseArray2;
+                                tLRPC$User = currentUser;
+                                longSparseArray = longSparseArray4;
                             }
-                            i26 = i6 + 1;
+                            i28++;
+                            z5 = z;
                             longSparseArray2 = longSparseArray;
-                            z4 = z;
-                            z5 = z2;
-                            i25 = -2;
-                        } else if (currentUser == null || !z4) {
+                            currentUser = tLRPC$User;
+                            i27 = -2;
+                        } else if (currentUser == null || !z5) {
+                            tLRPC$User = currentUser;
                             longSparseArray = longSparseArray2;
-                            i6 = i26;
-                            i26 = i6 + 1;
+                            i28++;
+                            z5 = z;
                             longSparseArray2 = longSparseArray;
-                            z4 = z;
-                            z5 = z2;
-                            i25 = -2;
+                            currentUser = tLRPC$User;
+                            i27 = -2;
                         } else {
-                            String str13 = currentUser.first_name;
-                            String str14 = currentUser.last_name;
-                            publicUsername = UserObject.getPublicUsername(currentUser);
-                            int i27 = i26;
-                            user = currentUser;
-                            str6 = str14;
-                            str7 = str13;
+                            String str15 = currentUser.first_name;
+                            String str16 = currentUser.last_name;
+                            String publicUsername4 = UserObject.getPublicUsername(currentUser);
                             j = currentUser.id;
-                            i6 = i27;
+                            tLRPC$Chat2 = currentUser;
+                            str6 = str15;
                             longSparseArray = longSparseArray2;
-                            if ((!TextUtils.isEmpty(publicUsername) && publicUsername.toLowerCase().startsWith(lowerCase3)) || ((!TextUtils.isEmpty(str7) && str7.toLowerCase().startsWith(lowerCase3)) || ((!TextUtils.isEmpty(str6) && str6.toLowerCase().startsWith(lowerCase3)) || (z9 && ContactsController.formatName(str7, str6).toLowerCase().startsWith(lowerCase3))))) {
-                                arrayList10.add(user);
-                                longSparseArray3.put(j, user);
+                            str7 = publicUsername4;
+                            str8 = str16;
+                            if (TextUtils.isEmpty(str7)) {
+                                tLRPC$User = currentUser;
+                            } else {
+                                tLRPC$User = currentUser;
                             }
-                            i26 = i6 + 1;
+                            if (!TextUtils.isEmpty(str6)) {
+                            }
+                            if (!TextUtils.isEmpty(str8)) {
+                            }
+                            if (!z4) {
+                                if (ContactsController.formatName(str6, str8).toLowerCase().startsWith(lowerCase3)) {
+                                }
+                                arrayList11.add(tLRPC$Chat2);
+                                longSparseArray3.put(j, tLRPC$Chat2);
+                            }
+                            i28++;
+                            z5 = z;
                             longSparseArray2 = longSparseArray;
-                            z4 = z;
-                            z5 = z2;
-                            i25 = -2;
+                            currentUser = tLRPC$User;
+                            i27 = -2;
                         }
                     }
                 }
-                Collections.sort(arrayList10, new Comparator<TLObject>(this) { // from class: org.telegram.ui.Adapters.MentionsAdapter.6
+                LongSparseArray longSparseArray5 = longSparseArray2;
+                if (this.searchInDailogs) {
+                    ArrayList<TLRPC$Dialog> allDialogs = MessagesController.getInstance(this.currentAccount).getAllDialogs();
+                    int i29 = 0;
+                    while (i29 < allDialogs.size()) {
+                        if (allDialogs.get(i29).id > 0) {
+                            TLRPC$User user3 = messagesController.getUser(Long.valueOf(allDialogs.get(i29).id));
+                            if (user3 != null && !UserObject.isUserSelf(user3) && longSparseArray5.indexOfKey(user3.id) < 0) {
+                                if (lowerCase3.length() == 0 && !user3.deleted) {
+                                    arrayList11.add(user3);
+                                } else {
+                                    String str17 = user3.first_name;
+                                    String str18 = user3.last_name;
+                                    String publicUsername5 = UserObject.getPublicUsername(user3);
+                                    tLRPC$Chat = tLRPC$Chat3;
+                                    long j2 = user3.id;
+                                    if ((!TextUtils.isEmpty(publicUsername5) && publicUsername5.toLowerCase().startsWith(lowerCase3)) || ((!TextUtils.isEmpty(str17) && str17.toLowerCase().startsWith(lowerCase3)) || ((!TextUtils.isEmpty(str18) && str18.toLowerCase().startsWith(lowerCase3)) || (z4 && ContactsController.formatName(str17, str18).toLowerCase().startsWith(lowerCase3))))) {
+                                        arrayList11.add(user3);
+                                        longSparseArray3.put(j2, user3);
+                                    }
+                                }
+                            }
+                            tLRPC$Chat = tLRPC$Chat3;
+                        } else {
+                            tLRPC$Chat = tLRPC$Chat3;
+                            if (!TextUtils.isEmpty(lowerCase3) && (chat = messagesController.getChat(Long.valueOf(-allDialogs.get(i29).id))) != null && chat.username != null && longSparseArray5.indexOfKey(chat.id) < 0) {
+                                if (lowerCase3.length() == 0) {
+                                    arrayList11.add(chat);
+                                } else {
+                                    String str19 = chat.title;
+                                    String str20 = chat.username;
+                                    long j3 = chat.id;
+                                    if ((!TextUtils.isEmpty(str20) && str20.toLowerCase().startsWith(lowerCase3)) || (!TextUtils.isEmpty(str19) && str19.toLowerCase().startsWith(lowerCase3))) {
+                                        arrayList11.add(chat);
+                                        longSparseArray3.put(j3, chat);
+                                    }
+                                }
+                            }
+                        }
+                        i29++;
+                        tLRPC$Chat3 = tLRPC$Chat;
+                    }
+                }
+                TLRPC$Chat tLRPC$Chat4 = tLRPC$Chat3;
+                final ArrayList arrayList13 = arrayList2;
+                Collections.sort(arrayList11, new Comparator<TLObject>(this) { // from class: org.telegram.ui.Adapters.MentionsAdapter.6
                     private long getId(TLObject tLObject) {
                         if (tLObject instanceof TLRPC$User) {
                             return ((TLRPC$User) tLObject).id;
@@ -1568,8 +1703,8 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
                             if (longSparseArray3.indexOfKey(id2) >= 0) {
                                 return 1;
                             }
-                            int indexOf2 = arrayList9.indexOf(Long.valueOf(id));
-                            int indexOf3 = arrayList9.indexOf(Long.valueOf(id2));
+                            int indexOf2 = arrayList13.indexOf(Long.valueOf(id));
+                            int indexOf3 = arrayList13.indexOf(Long.valueOf(id2));
                             if (indexOf2 != -1 && indexOf3 != -1) {
                                 if (indexOf2 < indexOf3) {
                                     return -1;
@@ -1590,25 +1725,25 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
                 this.searchResultCommandsHelp = null;
                 this.searchResultCommandsUsers = null;
                 this.searchResultSuggestions = null;
-                if (chat != null && chat.megagroup && lowerCase3.length() > 0) {
-                    if (arrayList10.size() < 5) {
+                if (((tLRPC$Chat4 != null && tLRPC$Chat4.megagroup) || this.searchInDailogs) && lowerCase3.length() > 0) {
+                    if (arrayList11.size() < 5) {
                         Runnable runnable3 = new Runnable() { // from class: org.telegram.ui.Adapters.MentionsAdapter$$ExternalSyntheticLambda5
                             @Override // java.lang.Runnable
                             public final void run() {
-                                MentionsAdapter.this.lambda$searchUsernameOrHashtag$7(arrayList10, longSparseArray3);
+                                MentionsAdapter.this.lambda$searchUsernameOrHashtag$7(arrayList11, longSparseArray3);
                             }
                         };
                         this.cancelDelayRunnable = runnable3;
                         AndroidUtilities.runOnUIThread(runnable3, 1000L);
                     } else {
-                        showUsersResult(arrayList10, longSparseArray3, true);
+                        showUsersResult(arrayList11, longSparseArray3, true);
                     }
-                    7 r11 = new 7(chat, lowerCase3, i5, arrayList10, longSparseArray3, messagesController);
-                    this.searchGlobalRunnable = r11;
-                    AndroidUtilities.runOnUIThread(r11, 200L);
+                    7 r10 = new 7(tLRPC$Chat4, lowerCase3, i7, arrayList11, longSparseArray3, messagesController);
+                    this.searchGlobalRunnable = r10;
+                    AndroidUtilities.runOnUIThread(r10, 200L);
                     return;
                 }
-                showUsersResult(arrayList10, longSparseArray3, true);
+                showUsersResult(arrayList11, longSparseArray3, true);
                 return;
             }
         }
@@ -1617,7 +1752,7 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
         this.resultLength = sb.length();
         c = 0;
         c2 = 65535;
-        i9 = -1;
+        i4 = -1;
         z3 = false;
         if (c != c2) {
         }
@@ -1761,6 +1896,20 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
     /* JADX INFO: Access modifiers changed from: private */
     public void showUsersResult(ArrayList<TLObject> arrayList, LongSparseArray<TLObject> longSparseArray, boolean z) {
         this.searchResultUsernames = arrayList;
+        if ((!this.allowBots || !this.allowChats) && arrayList != null) {
+            Iterator<TLObject> it = arrayList.iterator();
+            while (it.hasNext()) {
+                TLObject next = it.next();
+                if ((next instanceof TLRPC$Chat) && !this.allowChats) {
+                    it.remove();
+                } else if (next instanceof TLRPC$User) {
+                    TLRPC$User tLRPC$User = (TLRPC$User) next;
+                    if (tLRPC$User.bot || UserObject.isService(tLRPC$User.id)) {
+                        it.remove();
+                    }
+                }
+            }
+        }
         this.searchResultUsernamesMap = longSparseArray;
         Runnable runnable = this.cancelDelayRunnable;
         if (runnable != null) {
@@ -1994,7 +2143,7 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
             textView.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteGrayText2));
             contextLinkCell = textView;
         } else {
-            contextLinkCell = new StickerCell(this.mContext);
+            contextLinkCell = new StickerCell(this.mContext, this.resourcesProvider);
         }
         return new RecyclerListView.Holder(contextLinkCell);
     }
@@ -2033,26 +2182,26 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
                 botSwitchCell.setText(tLRPC$TL_inlineBotSwitchPM != null ? tLRPC$TL_inlineBotSwitchPM.text : this.searchResultBotWebViewSwitch.text);
             }
         } else {
+            MentionCell mentionCell = (MentionCell) viewHolder.itemView;
             ArrayList<TLObject> arrayList = this.searchResultUsernames;
             if (arrayList != null) {
                 TLObject tLObject = arrayList.get(i);
                 if (tLObject instanceof TLRPC$User) {
-                    ((MentionCell) viewHolder.itemView).setUser((TLRPC$User) tLObject);
+                    mentionCell.setUser((TLRPC$User) tLObject);
                 } else if (tLObject instanceof TLRPC$Chat) {
-                    ((MentionCell) viewHolder.itemView).setChat((TLRPC$Chat) tLObject);
+                    mentionCell.setChat((TLRPC$Chat) tLObject);
                 }
             } else {
                 ArrayList<String> arrayList2 = this.searchResultHashtags;
                 if (arrayList2 != null) {
-                    ((MentionCell) viewHolder.itemView).setText(arrayList2.get(i));
+                    mentionCell.setText(arrayList2.get(i));
                 } else {
                     ArrayList<MediaDataController.KeywordResult> arrayList3 = this.searchResultSuggestions;
                     if (arrayList3 != null) {
-                        ((MentionCell) viewHolder.itemView).setEmojiSuggestion(arrayList3.get(i));
+                        mentionCell.setEmojiSuggestion(arrayList3.get(i));
                     } else {
                         ArrayList<String> arrayList4 = this.searchResultCommands;
                         if (arrayList4 != null) {
-                            MentionCell mentionCell = (MentionCell) viewHolder.itemView;
                             String str = arrayList4.get(i);
                             String str2 = this.searchResultCommandsHelp.get(i);
                             ArrayList<TLRPC$User> arrayList5 = this.searchResultCommandsUsers;
@@ -2061,7 +2210,7 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
                     }
                 }
             }
-            ((MentionCell) viewHolder.itemView).setDivider(false);
+            mentionCell.setDivider(false);
         }
     }
 
@@ -2094,5 +2243,30 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
 
     private int getThemedColor(int i) {
         return Theme.getColor(i, this.resourcesProvider);
+    }
+
+    public void setDialogId(long j) {
+        this.dialog_id = j;
+    }
+
+    public void setUserOrChar(TLRPC$User tLRPC$User, TLRPC$Chat tLRPC$Chat) {
+        this.user = tLRPC$User;
+        this.chat = tLRPC$Chat;
+    }
+
+    public void setSearchInDailogs(boolean z) {
+        this.searchInDailogs = z;
+    }
+
+    public void setAllowStickers(boolean z) {
+        this.allowStickers = z;
+    }
+
+    public void setAllowBots(boolean z) {
+        this.allowBots = z;
+    }
+
+    public void setAllowChats(boolean z) {
+        this.allowChats = z;
     }
 }

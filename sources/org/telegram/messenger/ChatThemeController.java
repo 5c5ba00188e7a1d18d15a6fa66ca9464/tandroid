@@ -477,7 +477,7 @@ public class ChatThemeController extends BaseController {
             }
             saveChatWallpaper(j, null);
             if (z) {
-                NotificationCenter.getInstance(this.currentAccount).postNotificationName(NotificationCenter.userInfoDidLoad, Long.valueOf(j), userFull);
+                NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.userInfoDidLoad, Long.valueOf(j), userFull);
             }
         } else {
             tLRPC$TL_messages_setChatWallPaper.peer = MessagesController.getInputPeer(MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-j)));
@@ -547,7 +547,7 @@ public class ChatThemeController extends BaseController {
                 tLRPC$TL_wallPaper2.flags = i5 | 4;
                 userFull.flags |= ConnectionsManager.FileTypePhoto;
                 getMessagesStorage().updateUserInfo(userFull, false);
-                NotificationCenter.getInstance(this.currentAccount).postNotificationName(NotificationCenter.userInfoDidLoad, Long.valueOf(j), userFull);
+                NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.userInfoDidLoad, Long.valueOf(j), userFull);
                 if (runnable != null) {
                     runnable.run();
                 }
@@ -604,7 +604,7 @@ public class ChatThemeController extends BaseController {
                                 userFull.flags |= ConnectionsManager.FileTypePhoto;
                                 saveChatWallpaper(j, tLRPC$WallPaper2);
                                 getMessagesStorage().updateUserInfo(userFull, false);
-                                NotificationCenter.getInstance(this.currentAccount).postNotificationName(NotificationCenter.userInfoDidLoad, Long.valueOf(j), userFull);
+                                NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.userInfoDidLoad, Long.valueOf(j), userFull);
                             }
                         }
                     }
@@ -615,7 +615,7 @@ public class ChatThemeController extends BaseController {
             if (runnable != null) {
                 runnable.run();
             }
-            NotificationCenter.getInstance(this.currentAccount).postNotificationName(NotificationCenter.wallpaperSettedToUser, new Object[0]);
+            NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.wallpaperSettedToUser, new Object[0]);
         }
     }
 }

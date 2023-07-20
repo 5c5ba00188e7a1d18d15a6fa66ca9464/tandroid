@@ -75,6 +75,7 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
     private int advancedSectionRow;
     private boolean archiveChats;
     private int autoDeleteMesages;
+    private int bioRow;
     private int blockedRow;
     private int botsDetailRow;
     private int botsSectionRow;
@@ -342,6 +343,8 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
                     presentFragment(new PrivacyControlActivity(2));
                 } else if (i == this.profilePhotoRow) {
                     presentFragment(new PrivacyControlActivity(4));
+                } else if (i == this.bioRow) {
+                    presentFragment(new PrivacyControlActivity(9));
                 } else if (i == this.forwardsRow) {
                     presentFragment(new PrivacyControlActivity(5));
                 } else if (i == this.voicesRow) {
@@ -805,93 +808,96 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
         this.profilePhotoRow = i11;
         int i13 = i12 + 1;
         this.rowCount = i13;
-        this.forwardsRow = i12;
+        this.bioRow = i12;
         int i14 = i13 + 1;
         this.rowCount = i14;
-        this.callsRow = i13;
-        this.rowCount = i14 + 1;
-        this.groupsRow = i14;
+        this.forwardsRow = i13;
+        int i15 = i14 + 1;
+        this.rowCount = i15;
+        this.callsRow = i14;
+        this.rowCount = i15 + 1;
+        this.groupsRow = i15;
         this.groupsDetailRow = -1;
         if (!getMessagesController().premiumLocked || getUserConfig().isPremium()) {
-            int i15 = this.rowCount;
-            this.rowCount = i15 + 1;
-            this.voicesRow = i15;
+            int i16 = this.rowCount;
+            this.rowCount = i16 + 1;
+            this.voicesRow = i16;
         } else {
             this.voicesRow = -1;
         }
-        int i16 = this.rowCount;
-        this.rowCount = i16 + 1;
-        this.privacyShadowRow = i16;
+        int i17 = this.rowCount;
+        this.rowCount = i17 + 1;
+        this.privacyShadowRow = i17;
         if (getMessagesController().autoarchiveAvailable || getUserConfig().isPremium()) {
-            int i17 = this.rowCount;
-            int i18 = i17 + 1;
-            this.rowCount = i18;
-            this.newChatsHeaderRow = i17;
+            int i18 = this.rowCount;
             int i19 = i18 + 1;
             this.rowCount = i19;
-            this.newChatsRow = i18;
-            this.rowCount = i19 + 1;
-            this.newChatsSectionRow = i19;
+            this.newChatsHeaderRow = i18;
+            int i20 = i19 + 1;
+            this.rowCount = i20;
+            this.newChatsRow = i19;
+            this.rowCount = i20 + 1;
+            this.newChatsSectionRow = i20;
         } else {
             this.newChatsHeaderRow = -1;
             this.newChatsRow = -1;
             this.newChatsSectionRow = -1;
         }
-        int i20 = this.rowCount;
-        int i21 = i20 + 1;
-        this.rowCount = i21;
-        this.advancedSectionRow = i20;
+        int i21 = this.rowCount;
         int i22 = i21 + 1;
         this.rowCount = i22;
-        this.deleteAccountRow = i21;
+        this.advancedSectionRow = i21;
         int i23 = i22 + 1;
         this.rowCount = i23;
-        this.deleteAccountDetailRow = i22;
-        this.rowCount = i23 + 1;
-        this.botsSectionRow = i23;
+        this.deleteAccountRow = i22;
+        int i24 = i23 + 1;
+        this.rowCount = i24;
+        this.deleteAccountDetailRow = i23;
+        this.rowCount = i24 + 1;
+        this.botsSectionRow = i24;
         if (getUserConfig().hasSecureData) {
-            int i24 = this.rowCount;
-            this.rowCount = i24 + 1;
-            this.passportRow = i24;
+            int i25 = this.rowCount;
+            this.rowCount = i25 + 1;
+            this.passportRow = i25;
         } else {
             this.passportRow = -1;
         }
-        int i25 = this.rowCount;
-        int i26 = i25 + 1;
-        this.rowCount = i26;
-        this.paymentsClearRow = i25;
+        int i26 = this.rowCount;
         int i27 = i26 + 1;
         this.rowCount = i27;
-        this.webSessionsRow = i26;
+        this.paymentsClearRow = i26;
         int i28 = i27 + 1;
         this.rowCount = i28;
-        this.botsDetailRow = i27;
+        this.webSessionsRow = i27;
         int i29 = i28 + 1;
         this.rowCount = i29;
-        this.contactsSectionRow = i28;
+        this.botsDetailRow = i28;
         int i30 = i29 + 1;
         this.rowCount = i30;
-        this.contactsDeleteRow = i29;
+        this.contactsSectionRow = i29;
         int i31 = i30 + 1;
         this.rowCount = i31;
-        this.contactsSyncRow = i30;
+        this.contactsDeleteRow = i30;
         int i32 = i31 + 1;
         this.rowCount = i32;
-        this.contactsSuggestRow = i31;
+        this.contactsSyncRow = i31;
         int i33 = i32 + 1;
         this.rowCount = i33;
-        this.contactsDetailRow = i32;
+        this.contactsSuggestRow = i32;
         int i34 = i33 + 1;
         this.rowCount = i34;
-        this.secretSectionRow = i33;
+        this.contactsDetailRow = i33;
         int i35 = i34 + 1;
         this.rowCount = i35;
-        this.secretMapRow = i34;
+        this.secretSectionRow = i34;
         int i36 = i35 + 1;
         this.rowCount = i36;
-        this.secretWebpageRow = i35;
-        this.rowCount = i36 + 1;
-        this.secretDetailRow = i36;
+        this.secretMapRow = i35;
+        int i37 = i36 + 1;
+        this.rowCount = i37;
+        this.secretWebpageRow = i36;
+        this.rowCount = i37 + 1;
+        this.secretDetailRow = i37;
         ListAdapter listAdapter = this.listAdapter;
         if (listAdapter == null || !z) {
             return;
@@ -1048,7 +1054,7 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
         @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
         public boolean isEnabled(RecyclerView.ViewHolder viewHolder) {
             int adapterPosition = viewHolder.getAdapterPosition();
-            return adapterPosition == PrivacySettingsActivity.this.passcodeRow || adapterPosition == PrivacySettingsActivity.this.passwordRow || adapterPosition == PrivacySettingsActivity.this.blockedRow || adapterPosition == PrivacySettingsActivity.this.sessionsRow || adapterPosition == PrivacySettingsActivity.this.secretWebpageRow || adapterPosition == PrivacySettingsActivity.this.webSessionsRow || (adapterPosition == PrivacySettingsActivity.this.groupsRow && !PrivacySettingsActivity.this.getContactsController().getLoadingPrivacyInfo(1)) || ((adapterPosition == PrivacySettingsActivity.this.lastSeenRow && !PrivacySettingsActivity.this.getContactsController().getLoadingPrivacyInfo(0)) || ((adapterPosition == PrivacySettingsActivity.this.callsRow && !PrivacySettingsActivity.this.getContactsController().getLoadingPrivacyInfo(2)) || ((adapterPosition == PrivacySettingsActivity.this.profilePhotoRow && !PrivacySettingsActivity.this.getContactsController().getLoadingPrivacyInfo(4)) || ((adapterPosition == PrivacySettingsActivity.this.forwardsRow && !PrivacySettingsActivity.this.getContactsController().getLoadingPrivacyInfo(5)) || ((adapterPosition == PrivacySettingsActivity.this.phoneNumberRow && !PrivacySettingsActivity.this.getContactsController().getLoadingPrivacyInfo(6)) || ((adapterPosition == PrivacySettingsActivity.this.voicesRow && !PrivacySettingsActivity.this.getContactsController().getLoadingPrivacyInfo(8)) || ((adapterPosition == PrivacySettingsActivity.this.deleteAccountRow && !PrivacySettingsActivity.this.getContactsController().getLoadingDeleteInfo()) || ((adapterPosition == PrivacySettingsActivity.this.newChatsRow && !PrivacySettingsActivity.this.getContactsController().getLoadingGlobalSettings()) || adapterPosition == PrivacySettingsActivity.this.emailLoginRow || adapterPosition == PrivacySettingsActivity.this.paymentsClearRow || adapterPosition == PrivacySettingsActivity.this.secretMapRow || adapterPosition == PrivacySettingsActivity.this.contactsSyncRow || adapterPosition == PrivacySettingsActivity.this.passportRow || adapterPosition == PrivacySettingsActivity.this.contactsDeleteRow || adapterPosition == PrivacySettingsActivity.this.contactsSuggestRow || adapterPosition == PrivacySettingsActivity.this.autoDeleteMesages))))))));
+            return adapterPosition == PrivacySettingsActivity.this.passcodeRow || adapterPosition == PrivacySettingsActivity.this.passwordRow || adapterPosition == PrivacySettingsActivity.this.blockedRow || adapterPosition == PrivacySettingsActivity.this.sessionsRow || adapterPosition == PrivacySettingsActivity.this.secretWebpageRow || adapterPosition == PrivacySettingsActivity.this.webSessionsRow || (adapterPosition == PrivacySettingsActivity.this.groupsRow && !PrivacySettingsActivity.this.getContactsController().getLoadingPrivacyInfo(1)) || ((adapterPosition == PrivacySettingsActivity.this.lastSeenRow && !PrivacySettingsActivity.this.getContactsController().getLoadingPrivacyInfo(0)) || ((adapterPosition == PrivacySettingsActivity.this.callsRow && !PrivacySettingsActivity.this.getContactsController().getLoadingPrivacyInfo(2)) || ((adapterPosition == PrivacySettingsActivity.this.profilePhotoRow && !PrivacySettingsActivity.this.getContactsController().getLoadingPrivacyInfo(4)) || ((adapterPosition == PrivacySettingsActivity.this.bioRow && !PrivacySettingsActivity.this.getContactsController().getLoadingPrivacyInfo(9)) || ((adapterPosition == PrivacySettingsActivity.this.forwardsRow && !PrivacySettingsActivity.this.getContactsController().getLoadingPrivacyInfo(5)) || ((adapterPosition == PrivacySettingsActivity.this.phoneNumberRow && !PrivacySettingsActivity.this.getContactsController().getLoadingPrivacyInfo(6)) || ((adapterPosition == PrivacySettingsActivity.this.voicesRow && !PrivacySettingsActivity.this.getContactsController().getLoadingPrivacyInfo(8)) || ((adapterPosition == PrivacySettingsActivity.this.deleteAccountRow && !PrivacySettingsActivity.this.getContactsController().getLoadingDeleteInfo()) || ((adapterPosition == PrivacySettingsActivity.this.newChatsRow && !PrivacySettingsActivity.this.getContactsController().getLoadingGlobalSettings()) || adapterPosition == PrivacySettingsActivity.this.emailLoginRow || adapterPosition == PrivacySettingsActivity.this.paymentsClearRow || adapterPosition == PrivacySettingsActivity.this.secretMapRow || adapterPosition == PrivacySettingsActivity.this.contactsSyncRow || adapterPosition == PrivacySettingsActivity.this.passportRow || adapterPosition == PrivacySettingsActivity.this.contactsDeleteRow || adapterPosition == PrivacySettingsActivity.this.contactsSuggestRow || adapterPosition == PrivacySettingsActivity.this.autoDeleteMesages)))))))));
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -1142,6 +1148,14 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
                             str6 = PrivacySettingsActivity.formatRulesString(PrivacySettingsActivity.this.getAccountInstance(), 4);
                         }
                         textSettingsCell.setTextAndValue(LocaleController.getString("PrivacyProfilePhoto", R.string.PrivacyProfilePhoto), str6, true);
+                    } else if (i == PrivacySettingsActivity.this.bioRow) {
+                        if (PrivacySettingsActivity.this.getContactsController().getLoadingPrivacyInfo(9)) {
+                            i3 = 30;
+                            r5 = true;
+                        } else {
+                            str6 = PrivacySettingsActivity.formatRulesString(PrivacySettingsActivity.this.getAccountInstance(), 9);
+                        }
+                        textSettingsCell.setTextAndValue(LocaleController.getString("PrivacyBio", R.string.PrivacyBio), str6, true);
                     } else if (i == PrivacySettingsActivity.this.forwardsRow) {
                         if (PrivacySettingsActivity.this.getContactsController().getLoadingPrivacyInfo(5)) {
                             i3 = 30;

@@ -3001,7 +3001,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
         return null;
     }
 
-    @Override // java.util.Map, java.util.concurrent.ConcurrentMap, j$.util.Map
+    @Override // java.util.Map, java.util.concurrent.ConcurrentMap, j$.util.concurrent.b, j$.util.Map
     public Object getOrDefault(Object obj, Object obj2) {
         V v = get(obj);
         return v == null ? obj2 : v;

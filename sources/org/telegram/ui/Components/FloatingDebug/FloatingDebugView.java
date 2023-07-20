@@ -574,7 +574,7 @@ public class FloatingDebugView extends FrameLayout implements NotificationCenter
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$getBuiltInDebugItems$5(Theme.ThemeInfo themeInfo) {
-        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.needSetDayNightTheme, themeInfo, Boolean.TRUE, null, -1);
+        NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.needSetDayNightTheme, themeInfo, Boolean.TRUE, null, -1);
     }
 
     /* JADX INFO: Access modifiers changed from: private */

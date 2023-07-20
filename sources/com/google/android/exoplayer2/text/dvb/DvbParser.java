@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.telegram.messenger.LiteMode;
+import org.telegram.messenger.MessagesStorage;
 /* loaded from: classes.dex */
 final class DvbParser {
     private static final byte[] defaultMap2To4 = {0, 7, 8, 15};
@@ -380,7 +381,14 @@ final class DvbParser {
             if (i < 8) {
                 iArr[i] = getColor(255, (i & 1) != 0 ? 255 : 0, (i & 2) != 0 ? 255 : 0, (i & 4) != 0 ? 255 : 0);
             } else {
-                iArr[i] = getColor(255, (i & 1) != 0 ? 127 : 0, (i & 2) != 0 ? 127 : 0, (i & 4) == 0 ? 0 : 127);
+                int i2 = i & 1;
+                int i3 = MessagesStorage.LAST_DB_VERSION;
+                int i4 = i2 != 0 ? MessagesStorage.LAST_DB_VERSION : 0;
+                int i5 = (i & 2) != 0 ? MessagesStorage.LAST_DB_VERSION : 0;
+                if ((i & 4) == 0) {
+                    i3 = 0;
+                }
+                iArr[i] = getColor(255, i4, i5, i3);
             }
         }
         return iArr;
@@ -397,9 +405,9 @@ final class DvbParser {
                 if (i2 == 0) {
                     iArr[i] = getColor(255, ((i & 1) != 0 ? 85 : 0) + ((i & 16) != 0 ? 170 : 0), ((i & 2) != 0 ? 85 : 0) + ((i & 32) != 0 ? 170 : 0), ((i & 4) == 0 ? 0 : 85) + ((i & 64) == 0 ? 0 : 170));
                 } else if (i2 == 8) {
-                    iArr[i] = getColor(127, ((i & 1) != 0 ? 85 : 0) + ((i & 16) != 0 ? 170 : 0), ((i & 2) != 0 ? 85 : 0) + ((i & 32) != 0 ? 170 : 0), ((i & 4) == 0 ? 0 : 85) + ((i & 64) == 0 ? 0 : 170));
+                    iArr[i] = getColor(MessagesStorage.LAST_DB_VERSION, ((i & 1) != 0 ? 85 : 0) + ((i & 16) != 0 ? 170 : 0), ((i & 2) != 0 ? 85 : 0) + ((i & 32) != 0 ? 170 : 0), ((i & 4) == 0 ? 0 : 85) + ((i & 64) == 0 ? 0 : 170));
                 } else if (i2 == 128) {
-                    iArr[i] = getColor(255, ((i & 1) != 0 ? 43 : 0) + 127 + ((i & 16) != 0 ? 85 : 0), ((i & 2) != 0 ? 43 : 0) + 127 + ((i & 32) != 0 ? 85 : 0), ((i & 4) == 0 ? 0 : 43) + 127 + ((i & 64) == 0 ? 0 : 85));
+                    iArr[i] = getColor(255, ((i & 1) != 0 ? 43 : 0) + MessagesStorage.LAST_DB_VERSION + ((i & 16) != 0 ? 85 : 0), ((i & 2) != 0 ? 43 : 0) + MessagesStorage.LAST_DB_VERSION + ((i & 32) != 0 ? 85 : 0), ((i & 4) == 0 ? 0 : 43) + MessagesStorage.LAST_DB_VERSION + ((i & 64) == 0 ? 0 : 85));
                 } else if (i2 == 136) {
                     iArr[i] = getColor(255, ((i & 1) != 0 ? 43 : 0) + ((i & 16) != 0 ? 85 : 0), ((i & 2) != 0 ? 43 : 0) + ((i & 32) != 0 ? 85 : 0), ((i & 4) == 0 ? 0 : 43) + ((i & 64) == 0 ? 0 : 85));
                 }

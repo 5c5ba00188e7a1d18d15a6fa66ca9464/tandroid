@@ -8660,6 +8660,11 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 }
 
                 @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
+                public /* synthetic */ void sendAudio(ArrayList arrayList, CharSequence charSequence, boolean z, int i) {
+                    ChatAttachAlert.ChatAttachViewDelegate.-CC.$default$sendAudio(this, arrayList, charSequence, z, i);
+                }
+
+                @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
                 public void didPressedButton(int i, boolean z, boolean z2, int i2, boolean z3) {
                     if (PassportActivity.this.getParentActivity() == null || PassportActivity.this.chatAttachAlert == null) {
                         return;

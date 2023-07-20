@@ -12,19 +12,19 @@ public class TLRPC$TL_messages_sendEncryptedService extends TLObject {
     }
 
     @Override // org.telegram.tgnet.TLObject
-    public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
-        this.peer.serializeToStream(abstractSerializedData);
-        abstractSerializedData.writeInt64(this.random_id);
-        abstractSerializedData.writeByteBuffer(this.data);
-    }
-
-    @Override // org.telegram.tgnet.TLObject
     public void freeResources() {
         NativeByteBuffer nativeByteBuffer = this.data;
         if (nativeByteBuffer != null) {
             nativeByteBuffer.reuse();
             this.data = null;
         }
+    }
+
+    @Override // org.telegram.tgnet.TLObject
+    public void serializeToStream(AbstractSerializedData abstractSerializedData) {
+        abstractSerializedData.writeInt32(constructor);
+        this.peer.serializeToStream(abstractSerializedData);
+        abstractSerializedData.writeInt64(this.random_id);
+        abstractSerializedData.writeByteBuffer(this.data);
     }
 }

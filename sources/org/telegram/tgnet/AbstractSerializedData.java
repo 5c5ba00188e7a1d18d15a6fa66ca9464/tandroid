@@ -7,6 +7,8 @@ public abstract class AbstractSerializedData {
 
     public abstract boolean readBool(boolean z);
 
+    public abstract byte readByte(boolean z);
+
     public abstract byte[] readByteArray(boolean z);
 
     public abstract NativeByteBuffer readByteBuffer(boolean z);
@@ -16,6 +18,8 @@ public abstract class AbstractSerializedData {
     public abstract byte[] readData(int i, boolean z);
 
     public abstract double readDouble(boolean z);
+
+    public abstract float readFloat(boolean z);
 
     public abstract int readInt32(boolean z);
 
@@ -44,6 +48,8 @@ public abstract class AbstractSerializedData {
     public abstract void writeBytes(byte[] bArr, int i, int i2);
 
     public abstract void writeDouble(double d);
+
+    public abstract void writeFloat(float f);
 
     public abstract void writeInt32(int i);
 

@@ -18,10 +18,11 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.Components.spoilers.SpoilersClickDetector;
 /* loaded from: classes4.dex */
 public class SpoilersTextView extends TextView {
+    public boolean allowClickSpoilers;
     private SpoilersClickDetector clickDetector;
     private boolean isSpoilersRevealed;
     private Path path;
-    private List<SpoilerEffect> spoilers;
+    protected List<SpoilerEffect> spoilers;
     private Stack<SpoilerEffect> spoilersPool;
     private Paint xRefPaint;
 
@@ -34,6 +35,7 @@ public class SpoilersTextView extends TextView {
         this.spoilers = new ArrayList();
         this.spoilersPool = new Stack<>();
         this.path = new Path();
+        this.allowClickSpoilers = true;
         this.clickDetector = new SpoilersClickDetector(this, this.spoilers, new SpoilersClickDetector.OnSpoilerClickedListener() { // from class: org.telegram.ui.Components.spoilers.SpoilersTextView$$ExternalSyntheticLambda2
             @Override // org.telegram.ui.Components.spoilers.SpoilersClickDetector.OnSpoilerClickedListener
             public final void onSpoilerClicked(SpoilerEffect spoilerEffect, float f, float f2) {
@@ -77,7 +79,7 @@ public class SpoilersTextView extends TextView {
 
     @Override // android.view.View
     public boolean dispatchTouchEvent(MotionEvent motionEvent) {
-        if (this.clickDetector.onTouchEvent(motionEvent)) {
+        if (this.allowClickSpoilers && this.clickDetector.onTouchEvent(motionEvent)) {
             return true;
         }
         return super.dispatchTouchEvent(motionEvent);

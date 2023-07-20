@@ -172,7 +172,7 @@ public class PhotoUtilities {
                 public final void run() {
                     PhotoUtilities.lambda$setImageAsAvatar$0(i, iNavigationLayout);
                 }
-            })).show();
+            }), null).show();
         }
     }
 
@@ -292,7 +292,7 @@ public class PhotoUtilities {
                 FileLoader.getInstance(chatActivity.getCurrentAccount()).getPathToAttach(tLRPC$FileLocationArr2[0], true).renameTo(FileLoader.getInstance(chatActivity.getCurrentAccount()).getPathToAttach(closestPhotoSizeWithSize2, true));
             }
             chatActivity.getMessagesStorage().addDialogPhoto(user.id, tLRPC$TL_photos_photo.photo);
-            ArrayList<TLRPC$User> arrayList2 = new ArrayList<>();
+            ArrayList arrayList2 = new ArrayList();
             arrayList2.add(user);
             chatActivity.getMessagesStorage().putUsersAndChats(arrayList2, null, false, true);
             TLRPC$UserFull userFull = chatActivity.getMessagesController().getUserFull(j);
@@ -303,7 +303,7 @@ public class PhotoUtilities {
                 public final void run() {
                     PhotoUtilities.lambda$showAvatartConstructorForUpdateUserPhoto$5(j, chatActivity);
                 }
-            })).show();
+            }), null).show();
         }
     }
 

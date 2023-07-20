@@ -5,11 +5,13 @@ import android.graphics.SurfaceTexture;
 import android.view.Surface;
 import android.view.TextureView;
 import org.telegram.ui.Components.FilterGLThread;
+import org.telegram.ui.Stories.recorder.StoryEntry;
 /* loaded from: classes4.dex */
 public class VideoEditTextureView extends TextureView implements TextureView.SurfaceTextureListener {
     private VideoPlayer currentVideoPlayer;
     private VideoEditTextureViewDelegate delegate;
     private FilterGLThread eglThread;
+    public StoryEntry.HDRInfo hdrInfo;
     private int videoHeight;
     private int videoWidth;
     private Rect viewRect;
@@ -21,6 +23,14 @@ public class VideoEditTextureView extends TextureView implements TextureView.Sur
 
     @Override // android.view.TextureView.SurfaceTextureListener
     public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) {
+    }
+
+    public void setHDRInfo(StoryEntry.HDRInfo hDRInfo) {
+        this.hdrInfo = hDRInfo;
+        FilterGLThread filterGLThread = this.eglThread;
+        if (filterGLThread != null) {
+            filterGLThread.updateHDRInfo(hDRInfo);
+        }
     }
 
     public VideoEditTextureView(Context context, VideoPlayer videoPlayer) {
@@ -71,7 +81,7 @@ public class VideoEditTextureView extends TextureView implements TextureView.Sur
             public final void onVideoSurfaceCreated(SurfaceTexture surfaceTexture2) {
                 VideoEditTextureView.this.lambda$onSurfaceTextureAvailable$0(surfaceTexture2);
             }
-        });
+        }, this.hdrInfo);
         this.eglThread = filterGLThread;
         int i4 = this.videoWidth;
         if (i4 != 0 && (i3 = this.videoHeight) != 0) {

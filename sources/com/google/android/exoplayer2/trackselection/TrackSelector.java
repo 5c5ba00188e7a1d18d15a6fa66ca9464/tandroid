@@ -18,6 +18,8 @@ public abstract class TrackSelector {
         void onTrackSelectionsInvalidated();
     }
 
+    public abstract TrackSelectionParameters getParameters();
+
     public boolean isSetParametersSupported() {
         return false;
     }
@@ -28,6 +30,8 @@ public abstract class TrackSelector {
 
     public void setAudioAttributes(AudioAttributes audioAttributes) {
     }
+
+    public abstract void setParameters(TrackSelectionParameters trackSelectionParameters);
 
     public void init(InvalidationListener invalidationListener, BandwidthMeter bandwidthMeter) {
         this.listener = invalidationListener;

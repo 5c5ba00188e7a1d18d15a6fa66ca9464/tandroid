@@ -125,7 +125,7 @@ public class AnimatedPhoneNumberEditText extends HintEditText {
         this.textPaint.setTextSize(TypedValue.applyDimension(i, f, getResources().getDisplayMetrics()));
     }
 
-    @Override // android.widget.TextView
+    @Override // org.telegram.ui.Components.EditTextEffects, android.widget.TextView
     public void setTextColor(int i) {
         super.setTextColor(i);
         this.textPaint.setColor(i);

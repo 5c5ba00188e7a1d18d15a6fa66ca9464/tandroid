@@ -4,6 +4,8 @@ import android.net.Uri;
 import com.google.android.exoplayer2.upstream.BaseDataSource;
 import com.google.android.exoplayer2.upstream.DataSpec;
 import com.google.android.exoplayer2.upstream.TransferListener;
+import j$.util.concurrent.ConcurrentHashMap;
+import j$.util.concurrent.ConcurrentMap$-EL;
 import java.io.EOFException;
 import java.io.File;
 import java.io.IOException;
@@ -11,6 +13,7 @@ import java.io.RandomAccessFile;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.CountDownLatch;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$TL_document;
@@ -20,6 +23,7 @@ import org.telegram.tgnet.TLRPC$TL_documentAttributeVideo;
 import org.webrtc.MediaStreamTrack;
 /* loaded from: classes.dex */
 public class FileStreamLoadOperation extends BaseDataSource implements FileLoadOperationStream {
+    private static final ConcurrentHashMap<Long, Integer> priorityMap = new ConcurrentHashMap<>();
     private long bytesRemaining;
     private CountDownLatch countDownLatch;
     private int currentAccount;
@@ -51,6 +55,14 @@ public class FileStreamLoadOperation extends BaseDataSource implements FileLoadO
         }
     }
 
+    public static int getStreamPrioriy(TLRPC$Document tLRPC$Document) {
+        Integer num;
+        if (tLRPC$Document == null || (num = priorityMap.get(Long.valueOf(tLRPC$Document.id))) == null) {
+            return 3;
+        }
+        return num.intValue();
+    }
+
     @Override // com.google.android.exoplayer2.upstream.DataSource
     public long open(DataSpec dataSpec) throws IOException {
         Uri uri = dataSpec.uri;
@@ -79,7 +91,7 @@ public class FileStreamLoadOperation extends BaseDataSource implements FileLoadO
         Object obj = this.parentObject;
         long j = dataSpec.position;
         this.currentOffset = j;
-        this.loadOperation = fileLoader.loadStreamFile(this, tLRPC$Document, null, obj, j, false, 3);
+        this.loadOperation = fileLoader.loadStreamFile(this, tLRPC$Document, null, obj, j, false, getCurrentPriority());
         long j2 = dataSpec.length;
         if (j2 == -1) {
             j2 = this.document.size - dataSpec.position;
@@ -90,18 +102,39 @@ public class FileStreamLoadOperation extends BaseDataSource implements FileLoadO
         }
         this.opened = true;
         transferStarted(dataSpec);
-        if (this.loadOperation != null) {
-            File currentFile = this.loadOperation.getCurrentFile();
+        FileLoadOperation fileLoadOperation = this.loadOperation;
+        if (fileLoadOperation != null) {
+            File currentFile = fileLoadOperation.getCurrentFile();
             this.currentFile = currentFile;
-            RandomAccessFile randomAccessFile = new RandomAccessFile(currentFile, "r");
-            this.file = randomAccessFile;
-            randomAccessFile.seek(this.currentOffset);
+            if (currentFile != null) {
+                try {
+                    RandomAccessFile randomAccessFile = new RandomAccessFile(this.currentFile, "r");
+                    this.file = randomAccessFile;
+                    randomAccessFile.seek(this.currentOffset);
+                } catch (Throwable unused) {
+                }
+            }
         }
         return this.bytesRemaining;
     }
 
+    private int getCurrentPriority() {
+        Integer num = (Integer) ConcurrentMap$-EL.getOrDefault(priorityMap, Long.valueOf(this.document.id), null);
+        if (num != null) {
+            return num.intValue();
+        }
+        return 3;
+    }
+
+    /* JADX WARN: Code restructure failed: missing block: B:15:0x0019, code lost:
+        if (r12.opened == false) goto L13;
+     */
     @Override // com.google.android.exoplayer2.upstream.DataReader
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public int read(byte[] bArr, int i, int i2) throws IOException {
+        RandomAccessFile randomAccessFile;
         if (i2 == 0) {
             return 0;
         }
@@ -113,32 +146,54 @@ public class FileStreamLoadOperation extends BaseDataSource implements FileLoadO
             i2 = (int) j;
         }
         int i3 = 0;
-        while (i3 == 0) {
-            try {
-                if (!this.opened) {
-                    break;
+        while (true) {
+            if (i3 == 0) {
+                try {
+                } catch (Exception e) {
+                    throw new IOException(e);
                 }
-                i3 = (int) this.loadOperation.getDownloadedLengthFromOffset(this.currentOffset, i2)[0];
-                if (i3 == 0) {
-                    this.countDownLatch = new CountDownLatch(1);
-                    FileLoadOperation loadStreamFile = FileLoader.getInstance(this.currentAccount).loadStreamFile(this, this.document, null, this.parentObject, this.currentOffset, false, 3);
-                    FileLoadOperation fileLoadOperation = this.loadOperation;
-                    if (fileLoadOperation != loadStreamFile) {
-                        fileLoadOperation.removeStreamListener(this);
-                        this.loadOperation = loadStreamFile;
-                    }
-                    CountDownLatch countDownLatch = this.countDownLatch;
-                    if (countDownLatch != null) {
-                        countDownLatch.await();
-                        this.countDownLatch = null;
+            }
+            randomAccessFile = this.file;
+            if (randomAccessFile != null) {
+                break;
+            }
+            i3 = (int) this.loadOperation.getDownloadedLengthFromOffset(this.currentOffset, i2)[0];
+            if (i3 == 0) {
+                this.countDownLatch = new CountDownLatch(1);
+                FileLoadOperation loadStreamFile = FileLoader.getInstance(this.currentAccount).loadStreamFile(this, this.document, null, this.parentObject, this.currentOffset, false, getCurrentPriority());
+                FileLoadOperation fileLoadOperation = this.loadOperation;
+                if (fileLoadOperation != loadStreamFile) {
+                    fileLoadOperation.removeStreamListener(this);
+                    this.loadOperation = loadStreamFile;
+                }
+                CountDownLatch countDownLatch = this.countDownLatch;
+                if (countDownLatch != null) {
+                    countDownLatch.await();
+                    this.countDownLatch = null;
+                }
+            }
+            File currentFileFast = this.loadOperation.getCurrentFileFast();
+            if (this.file == null || !Objects.equals(this.currentFile, currentFileFast)) {
+                RandomAccessFile randomAccessFile2 = this.file;
+                if (randomAccessFile2 != null) {
+                    try {
+                        randomAccessFile2.close();
+                    } catch (Exception unused) {
                     }
                 }
-            } catch (Exception e) {
-                throw new IOException(e);
+                this.currentFile = currentFileFast;
+                if (currentFileFast != null) {
+                    try {
+                        RandomAccessFile randomAccessFile3 = new RandomAccessFile(this.currentFile, "r");
+                        this.file = randomAccessFile3;
+                        randomAccessFile3.seek(this.currentOffset);
+                    } catch (Throwable unused2) {
+                    }
+                }
             }
         }
         if (this.opened) {
-            this.file.readFully(bArr, i, i3);
+            randomAccessFile.readFully(bArr, i, i3);
             long j2 = i3;
             this.currentOffset += j2;
             this.bytesRemaining -= j2;
@@ -186,6 +241,12 @@ public class FileStreamLoadOperation extends BaseDataSource implements FileLoadO
         if (countDownLatch != null) {
             countDownLatch.countDown();
             this.countDownLatch = null;
+        }
+    }
+
+    public static void setPriorityForDocument(TLRPC$Document tLRPC$Document, int i) {
+        if (tLRPC$Document != null) {
+            priorityMap.put(Long.valueOf(tLRPC$Document.id), Integer.valueOf(i));
         }
     }
 }

@@ -4397,6 +4397,13 @@
     <string name="appcenter_distribute_update_failed_dialog_message">이 릴리스는 사이드 로딩 또는 개인정보 보호 브라우징 모드에서 다운로드 되었습니다.</string>
     <string name="appcenter_distribute_update_failed_dialog_reinstall">앱 재설치</string>
     <string name="appcenter_distribute_update_failed_dialog_title">인앱 업데이트 비활성</string>
+    <string name="call_notification_answer_action">통화</string>
+    <string name="call_notification_answer_video_action">동영상</string>
+    <string name="call_notification_decline_action">거절</string>
+    <string name="call_notification_hang_up_action">전화 끊기</string>
+    <string name="call_notification_incoming_text">수신 전화</string>
+    <string name="call_notification_ongoing_text">진행 중인 통화</string>
+    <string name="call_notification_screening_text">수신 전화 검사 중</string>
     <string name="chatDate">M\'월\' d\'일\'</string>
     <string name="chatFullDate">yyyy년 MMMM d일</string>
     <string name="common_google_play_services_enable_button">사용 설정</string>

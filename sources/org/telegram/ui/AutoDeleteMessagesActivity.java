@@ -352,7 +352,7 @@ public class AutoDeleteMessagesActivity extends BaseFragment implements Notifica
                         }
                     });
                     getUserConfig().setGlobalTtl(this.startFromTtl);
-                    NotificationCenter.getInstance(this.currentAccount).postNotificationName(NotificationCenter.didUpdateGlobalAutoDeleteTimer, new Object[0]);
+                    NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.didUpdateGlobalAutoDeleteTimer, new Object[0]);
                     return;
                 }
                 return;

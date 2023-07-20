@@ -1907,7 +1907,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 return new int[]{0, 2, 2, 4, 4, 4};
             case 'r':
                 return new int[]{1, 0, 1, 0, 0, 2};
-            case MessagesStorage.LAST_DB_VERSION /* 117 */:
+            case 'u':
                 return new int[]{1, 2, 1, 3, 2, 2};
             case 'y':
                 return new int[]{3, 2, 3, 4, 4, 2};
@@ -1918,7 +1918,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 return new int[]{3, 3, 3, 2, 2, 2};
             case '}':
                 return new int[]{1, 1, 4, 2, 0, 2};
-            case 127:
+            case MessagesStorage.LAST_DB_VERSION /* 127 */:
             case 212:
             case 237:
                 return new int[]{3, 2, 4, 3, 2, 2};

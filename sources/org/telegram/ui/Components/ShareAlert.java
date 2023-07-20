@@ -89,6 +89,7 @@ import org.telegram.tgnet.TLRPC$Dialog;
 import org.telegram.tgnet.TLRPC$EncryptedChat;
 import org.telegram.tgnet.TLRPC$MessageEntity;
 import org.telegram.tgnet.TLRPC$Peer;
+import org.telegram.tgnet.TLRPC$StoryItem;
 import org.telegram.tgnet.TLRPC$TL_channels_exportMessageLink;
 import org.telegram.tgnet.TLRPC$TL_chatAdminRights;
 import org.telegram.tgnet.TLRPC$TL_dialog;
@@ -176,6 +177,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
     private LinearLayout sharesCountLayout;
     private boolean showSendersName;
     private SizeNotifierFrameLayout sizeNotifierFrameLayout;
+    TLRPC$StoryItem storyItem;
     private SwitchView switchView;
     private TextPaint textPaint;
     private ValueAnimator topBackgroundAnimator;
@@ -218,7 +220,11 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
         return false;
     }
 
-    protected void onSend(LongSparseArray<TLRPC$Dialog> longSparseArray, int i, TLRPC$TL_forumTopic tLRPC$TL_forumTopic) {
+    public void onSend(LongSparseArray<TLRPC$Dialog> longSparseArray, int i, TLRPC$TL_forumTopic tLRPC$TL_forumTopic) {
+    }
+
+    public void setStoryToShare(TLRPC$StoryItem tLRPC$StoryItem) {
+        this.storyItem = tLRPC$StoryItem;
     }
 
     /* loaded from: classes4.dex */
@@ -2351,69 +2357,74 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Type inference failed for: r10v1 */
-    /* JADX WARN: Type inference failed for: r10v2, types: [org.telegram.messenger.MessageObject] */
+    /* JADX WARN: Type inference failed for: r10v5 */
+    /* JADX WARN: Type inference failed for: r10v6, types: [org.telegram.messenger.MessageObject] */
+    /* JADX WARN: Type inference failed for: r15v6 */
+    /* JADX WARN: Type inference failed for: r15v7, types: [java.lang.String] */
     /* JADX WARN: Type inference failed for: r1v0 */
-    /* JADX WARN: Type inference failed for: r1v16 */
+    /* JADX WARN: Type inference failed for: r1v15 */
     /* JADX WARN: Type inference failed for: r1v7, types: [boolean] */
-    /* JADX WARN: Type inference failed for: r28v0, types: [org.telegram.messenger.SendMessagesHelper] */
-    /* JADX WARN: Type inference failed for: r33v0 */
-    /* JADX WARN: Type inference failed for: r33v1, types: [org.telegram.messenger.MessageObject] */
-    /* JADX WARN: Type inference failed for: r5v16, types: [org.telegram.messenger.SendMessagesHelper] */
-    /* JADX WARN: Type inference failed for: r5v36, types: [org.telegram.messenger.SendMessagesHelper] */
-    /* JADX WARN: Type inference failed for: r6v19, types: [java.lang.String] */
-    /* JADX WARN: Type inference failed for: r6v20 */
-    /* JADX WARN: Type inference failed for: r6v5, types: [java.lang.String] */
-    /* JADX WARN: Type inference failed for: r6v6 */
+    /* JADX WARN: Type inference failed for: r29v3 */
+    /* JADX WARN: Type inference failed for: r29v4, types: [org.telegram.messenger.MessageObject] */
+    /* JADX WARN: Type inference failed for: r5v42, types: [java.lang.String] */
+    /* JADX WARN: Type inference failed for: r5v44 */
+    /* JADX WARN: Type inference failed for: r5v69, types: [java.lang.String] */
+    /* JADX WARN: Type inference failed for: r5v71 */
     protected void sendInternal(boolean z) {
         char c;
         MessageObject messageObject;
         long j;
         int i;
-        TLRPC$TL_forumTopic tLRPC$TL_forumTopic;
-        ArrayList<Long> arrayList;
+        char c2;
         MessageObject messageObject2;
-        long j2;
         int i2;
+        TLRPC$TL_forumTopic tLRPC$TL_forumTopic;
+        SendMessagesHelper.SendMessageParams of;
+        ArrayList<Long> arrayList;
+        MessageObject messageObject3;
+        long j2;
+        int i3;
+        ArrayList arrayList2;
         ?? r1 = 0;
-        int i3 = 0;
+        int i4 = 0;
         while (true) {
             boolean z2 = true;
-            if (i3 >= this.selectedDialogs.size()) {
+            if (i4 >= this.selectedDialogs.size()) {
                 CharSequence[] charSequenceArr = {this.commentTextView.getText()};
                 ArrayList<TLRPC$MessageEntity> entities = MediaDataController.getInstance(this.currentAccount).getEntities(charSequenceArr, true);
                 TLRPC$TL_forumTopic tLRPC$TL_forumTopic2 = null;
                 if (this.sendingMessageObjects != null) {
-                    ArrayList arrayList2 = new ArrayList();
-                    int i4 = 0;
+                    ArrayList arrayList3 = new ArrayList();
+                    int i5 = 0;
                     while (true) {
-                        if (i4 >= this.selectedDialogs.size()) {
-                            arrayList = arrayList2;
+                        if (i5 >= this.selectedDialogs.size()) {
+                            arrayList = arrayList3;
                             break;
                         }
-                        long keyAt = this.selectedDialogs.keyAt(i4);
+                        long keyAt = this.selectedDialogs.keyAt(i5);
                         TLRPC$TL_forumTopic tLRPC$TL_forumTopic3 = this.selectedDialogTopics.get(this.selectedDialogs.get(keyAt));
-                        MessageObject messageObject3 = tLRPC$TL_forumTopic3 != null ? new MessageObject(this.currentAccount, tLRPC$TL_forumTopic3.topicStartMessage, r1, r1) : tLRPC$TL_forumTopic2;
-                        if (messageObject3 != 0) {
-                            messageObject3.isTopicMainMessage = true;
+                        MessageObject messageObject4 = tLRPC$TL_forumTopic3 != null ? new MessageObject(this.currentAccount, tLRPC$TL_forumTopic3.topicStartMessage, r1, r1) : tLRPC$TL_forumTopic2;
+                        if (messageObject4 != 0) {
+                            messageObject4.isTopicMainMessage = true;
                         }
                         if (this.frameLayout2.getTag() == null || this.commentTextView.length() <= 0) {
-                            messageObject2 = messageObject3;
+                            messageObject3 = messageObject4;
                             j2 = keyAt;
-                            i2 = i4;
-                            arrayList = arrayList2;
+                            i3 = i5;
+                            arrayList2 = arrayList3;
                         } else {
-                            ?? sendMessagesHelper = SendMessagesHelper.getInstance(this.currentAccount);
-                            String charSequence = charSequenceArr[r1] == null ? tLRPC$TL_forumTopic2 : charSequenceArr[r1].toString();
-                            messageObject2 = messageObject3;
+                            messageObject3 = messageObject4;
                             j2 = keyAt;
-                            i2 = i4;
-                            arrayList = arrayList2;
-                            sendMessagesHelper.sendMessage(charSequence, keyAt, messageObject3, messageObject3, null, true, entities, null, null, z, 0, null, false);
+                            i3 = i5;
+                            arrayList2 = arrayList3;
+                            SendMessagesHelper.getInstance(this.currentAccount).sendMessage(SendMessagesHelper.SendMessageParams.of(charSequenceArr[r1] == null ? tLRPC$TL_forumTopic2 : charSequenceArr[r1].toString(), keyAt, messageObject4, messageObject4, null, true, entities, null, null, z, 0, null, false));
                         }
-                        int sendMessage = SendMessagesHelper.getInstance(this.currentAccount).sendMessage(this.sendingMessageObjects, j2, !this.showSendersName, false, z, 0, messageObject2);
+                        int sendMessage = SendMessagesHelper.getInstance(this.currentAccount).sendMessage(this.sendingMessageObjects, j2, !this.showSendersName, false, z, 0, messageObject3);
                         if (sendMessage != 0) {
+                            arrayList = arrayList2;
                             arrayList.add(Long.valueOf(j2));
+                        } else {
+                            arrayList = arrayList2;
                         }
                         if (this.selectedDialogs.size() == 1) {
                             tLRPC$TL_forumTopic2 = null;
@@ -2424,8 +2435,8 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                         } else {
                             tLRPC$TL_forumTopic2 = null;
                         }
-                        i4 = i2 + 1;
-                        arrayList2 = arrayList;
+                        i5 = i3 + 1;
+                        arrayList3 = arrayList;
                         r1 = 0;
                         tLRPC$TL_forumTopic2 = tLRPC$TL_forumTopic2;
                     }
@@ -2447,32 +2458,62 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                     }
                 } else {
                     SwitchView switchView = this.switchView;
-                    int i5 = switchView != null ? switchView.currentTab : 0;
-                    if (this.sendingText[i5] != null) {
-                        int i6 = 0;
-                        while (i6 < this.selectedDialogs.size()) {
-                            long keyAt2 = this.selectedDialogs.keyAt(i6);
+                    int i6 = switchView != null ? switchView.currentTab : 0;
+                    if (this.storyItem != null) {
+                        int i7 = 0;
+                        while (i7 < this.selectedDialogs.size()) {
+                            long keyAt2 = this.selectedDialogs.keyAt(i7);
                             TLRPC$TL_forumTopic tLRPC$TL_forumTopic4 = this.selectedDialogTopics.get(this.selectedDialogs.get(keyAt2));
                             if (tLRPC$TL_forumTopic4 != null) {
+                                c2 = 0;
+                                messageObject2 = new MessageObject(this.currentAccount, tLRPC$TL_forumTopic4.topicStartMessage, false, false);
+                            } else {
+                                c2 = 0;
+                                messageObject2 = tLRPC$TL_forumTopic2;
+                            }
+                            if (this.storyItem == null) {
+                                if (this.frameLayout2.getTag() != null && this.commentTextView.length() > 0) {
+                                    i2 = i7;
+                                    tLRPC$TL_forumTopic = tLRPC$TL_forumTopic2;
+                                    of = SendMessagesHelper.SendMessageParams.of(charSequenceArr[c2] == null ? tLRPC$TL_forumTopic2 : charSequenceArr[c2].toString(), keyAt2, null, messageObject2, null, true, entities, null, null, z, 0, null, false);
+                                } else {
+                                    i2 = i7;
+                                    tLRPC$TL_forumTopic = tLRPC$TL_forumTopic2;
+                                    of = SendMessagesHelper.SendMessageParams.of(this.sendingText[i6], keyAt2, null, messageObject2, null, true, null, null, null, z, 0, null, false);
+                                }
+                            } else {
+                                i2 = i7;
+                                tLRPC$TL_forumTopic = tLRPC$TL_forumTopic2;
+                                of = SendMessagesHelper.SendMessageParams.of(null, keyAt2, null, messageObject2, null, true, null, null, null, z, 0, null, false);
+                                of.caption = (this.frameLayout2.getTag() == null || this.commentTextView.length() <= 0 || charSequenceArr[0] == null) ? tLRPC$TL_forumTopic : charSequenceArr[0].toString();
+                                of.sendingStory = this.storyItem;
+                            }
+                            SendMessagesHelper.getInstance(this.currentAccount).sendMessage(of);
+                            i7 = i2 + 1;
+                            tLRPC$TL_forumTopic2 = tLRPC$TL_forumTopic;
+                        }
+                    } else if (this.sendingText[i6] != null) {
+                        int i8 = 0;
+                        while (i8 < this.selectedDialogs.size()) {
+                            long keyAt3 = this.selectedDialogs.keyAt(i8);
+                            TLRPC$TL_forumTopic tLRPC$TL_forumTopic5 = this.selectedDialogTopics.get(this.selectedDialogs.get(keyAt3));
+                            if (tLRPC$TL_forumTopic5 != null) {
                                 c = 0;
-                                messageObject = new MessageObject(this.currentAccount, tLRPC$TL_forumTopic4.topicStartMessage, false, false);
+                                messageObject = new MessageObject(this.currentAccount, tLRPC$TL_forumTopic5.topicStartMessage, false, false);
                             } else {
                                 c = 0;
-                                messageObject = tLRPC$TL_forumTopic2;
+                                messageObject = null;
                             }
                             if (this.frameLayout2.getTag() == null || this.commentTextView.length() <= 0) {
-                                j = keyAt2;
-                                i = i6;
-                                tLRPC$TL_forumTopic = tLRPC$TL_forumTopic2;
+                                j = keyAt3;
+                                i = i8;
                             } else {
-                                j = keyAt2;
-                                i = i6;
-                                tLRPC$TL_forumTopic = tLRPC$TL_forumTopic2;
-                                SendMessagesHelper.getInstance(this.currentAccount).sendMessage(charSequenceArr[c] == null ? tLRPC$TL_forumTopic2 : charSequenceArr[c].toString(), keyAt2, null, messageObject, null, true, entities, null, null, z, 0, null, false);
+                                j = keyAt3;
+                                i = i8;
+                                SendMessagesHelper.getInstance(this.currentAccount).sendMessage(SendMessagesHelper.SendMessageParams.of(charSequenceArr[c] == null ? null : charSequenceArr[c].toString(), keyAt3, null, messageObject, null, true, entities, null, null, z, 0, null, false));
                             }
-                            SendMessagesHelper.getInstance(this.currentAccount).sendMessage(this.sendingText[i5], j, null, messageObject, null, true, null, null, null, z, 0, null, false);
-                            i6 = i + 1;
-                            tLRPC$TL_forumTopic2 = tLRPC$TL_forumTopic;
+                            SendMessagesHelper.getInstance(this.currentAccount).sendMessage(SendMessagesHelper.SendMessageParams.of(this.sendingText[i6], j, null, messageObject, null, true, null, null, null, z, 0, null, false));
+                            i8 = i + 1;
                         }
                     }
                     LongSparseArray<TLRPC$Dialog> longSparseArray2 = this.selectedDialogs;
@@ -2485,10 +2526,10 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                 dismiss();
                 return;
             }
-            if (AlertsCreator.checkSlowMode(getContext(), this.currentAccount, this.selectedDialogs.keyAt(i3), (this.frameLayout2.getTag() == null || this.commentTextView.length() <= 0) ? false : false)) {
+            if (AlertsCreator.checkSlowMode(getContext(), this.currentAccount, this.selectedDialogs.keyAt(i4), (this.frameLayout2.getTag() == null || this.commentTextView.length() <= 0) ? false : false)) {
                 return;
             }
-            i3++;
+            i4++;
         }
     }
 

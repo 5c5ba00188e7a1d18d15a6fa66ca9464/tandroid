@@ -15,6 +15,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.Canvas;
 import android.graphics.Outline;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
@@ -40,9 +41,11 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import androidx.collection.LongSparseArray;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
+import java.util.Arrays;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.BuildVars;
@@ -53,6 +56,8 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.NotificationCenter;
+import org.telegram.messenger.NotificationsController;
+import org.telegram.messenger.NotificationsSettingsFacade;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SecretChatHelper;
 import org.telegram.messenger.SharedConfig;
@@ -77,15 +82,19 @@ import org.telegram.ui.Cells.ProfileSearchCell;
 import org.telegram.ui.Cells.TextCell;
 import org.telegram.ui.Cells.UserCell;
 import org.telegram.ui.Components.AlertsCreator;
+import org.telegram.ui.Components.Bulletin;
 import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.CombinedDrawable;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.EditTextBoldCursor;
 import org.telegram.ui.Components.FlickerLoadingView;
+import org.telegram.ui.Components.ItemOptions;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RLottieImageView;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.StickerEmptyView;
+import org.telegram.ui.ContactsActivity;
+import org.telegram.ui.Stories.StoriesListPlaceProvider;
 /* loaded from: classes3.dex */
 public class ContactsActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private boolean allowBots;
@@ -123,12 +132,14 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
     private int prevTop;
     private boolean resetDelegate;
     private boolean returnAsResult;
+    boolean scheduled;
     private boolean scrollUpdated;
     private SearchAdapter searchListViewAdapter;
     private boolean searchWas;
     private boolean searching;
     private String selectAlertString;
     private boolean sortByName;
+    Runnable sortContactsRunnable;
     private ActionBarMenuItem sortItem;
 
     /* loaded from: classes3.dex */
@@ -149,12 +160,20 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
         this.askAboutContacts = true;
         this.checkPermission = true;
         this.animationIndex = -1;
+        this.sortContactsRunnable = new Runnable() { // from class: org.telegram.ui.ContactsActivity.13
+            @Override // java.lang.Runnable
+            public void run() {
+                ContactsActivity.this.listViewAdapter.sortOnlineContacts();
+                ContactsActivity.this.scheduled = false;
+            }
+        };
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public boolean onFragmentCreate() {
         super.onFragmentCreate();
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.contactsDidLoad);
+        NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.storiesUpdated);
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.updateInterfaces);
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.encryptedChatCreated);
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.closeChats);
@@ -183,6 +202,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
         }
         getContactsController().checkInviteText();
         getContactsController().reloadContactsStatusesMaybe();
+        MessagesController.getInstance(this.currentAccount).getStoriesController().loadHiddenStories();
         return true;
     }
 
@@ -190,6 +210,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
     public void onFragmentDestroy() {
         super.onFragmentDestroy();
         NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.contactsDidLoad);
+        NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.storiesUpdated);
         NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.updateInterfaces);
         NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.encryptedChatCreated);
         NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.closeChats);
@@ -207,31 +228,32 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
         }
     }
 
-    /* JADX WARN: Can't wrap try/catch for region: R(17:1|(2:3|(1:5)(2:86|(1:88)(1:89)))(1:90)|6|(3:10|(1:12)(1:14)|13)|15|(1:17)(2:77|(2:79|(1:84)(1:83))(11:85|19|20|21|(2:23|(1:25)(1:73))(1:74)|26|(20:30|(1:32)(1:66)|33|(1:35)(1:65)|36|(1:38)|39|(1:41)(1:64)|42|(1:44)(1:63)|45|(1:47)|48|(1:50)(1:62)|51|(1:53)|54|(1:56)(1:61)|(1:58)(1:60)|59)|67|(1:69)|70|71))|18|19|20|21|(0)(0)|26|(21:28|30|(0)(0)|33|(0)(0)|36|(0)|39|(0)(0)|42|(0)(0)|45|(0)|48|(0)(0)|51|(0)|54|(0)(0)|(0)(0)|59)|67|(0)|70|71) */
+    /* JADX WARN: Can't wrap try/catch for region: R(17:1|(2:3|(1:5)(2:95|(1:97)(1:98)))(1:99)|6|(3:10|(1:12)(1:14)|13)|15|(1:17)(2:86|(2:88|(1:93)(1:92))(11:94|19|20|21|(2:23|(1:25)(1:82))(1:83)|26|(20:30|(1:32)(1:75)|33|(1:35)(1:74)|36|(1:38)(1:73)|39|(1:41)(1:72)|42|(1:44)(1:71)|45|(1:47)|48|(3:50|(1:52)(1:65)|53)(3:66|(1:68)(1:70)|69)|54|(1:56)|57|(1:59)(1:64)|(1:61)(1:63)|62)|76|(1:78)|79|80))|18|19|20|21|(0)(0)|26|(21:28|30|(0)(0)|33|(0)(0)|36|(0)(0)|39|(0)(0)|42|(0)(0)|45|(0)|48|(0)(0)|54|(0)|57|(0)(0)|(0)(0)|62)|76|(0)|79|80) */
     /* JADX WARN: Code restructure failed: missing block: B:36:0x011a, code lost:
-        r23.hasGps = false;
+        r25.hasGps = false;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:39:0x0135  */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x013d  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x0200  */
-    /* JADX WARN: Removed duplicated region for block: B:51:0x0203  */
-    /* JADX WARN: Removed duplicated region for block: B:54:0x0209  */
-    /* JADX WARN: Removed duplicated region for block: B:55:0x020c  */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x0216  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x021e  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x0221  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x0227  */
-    /* JADX WARN: Removed duplicated region for block: B:67:0x022a  */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x0265  */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x02b5  */
-    /* JADX WARN: Removed duplicated region for block: B:74:0x02b8  */
-    /* JADX WARN: Removed duplicated region for block: B:77:0x02ce  */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x0331  */
-    /* JADX WARN: Removed duplicated region for block: B:81:0x0334  */
-    /* JADX WARN: Removed duplicated region for block: B:83:0x0338  */
-    /* JADX WARN: Removed duplicated region for block: B:84:0x033b  */
-    /* JADX WARN: Removed duplicated region for block: B:88:0x0355  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x013c  */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x0144  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x022a  */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x022d  */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x0233  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x0236  */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x023f  */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x0241  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x0249  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x024c  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x0252  */
+    /* JADX WARN: Removed duplicated region for block: B:67:0x0255  */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x0290  */
+    /* JADX WARN: Removed duplicated region for block: B:73:0x02e6  */
+    /* JADX WARN: Removed duplicated region for block: B:78:0x02f3  */
+    /* JADX WARN: Removed duplicated region for block: B:85:0x0310  */
+    /* JADX WARN: Removed duplicated region for block: B:88:0x0373  */
+    /* JADX WARN: Removed duplicated region for block: B:89:0x0376  */
+    /* JADX WARN: Removed duplicated region for block: B:91:0x037a  */
+    /* JADX WARN: Removed duplicated region for block: B:92:0x037d  */
+    /* JADX WARN: Removed duplicated region for block: B:96:0x0397  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -295,6 +317,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                 ContactsActivity.this.listViewAdapter.notifyDataSetChanged();
                 ContactsActivity.this.listView.setFastScrollVisible(true);
                 ContactsActivity.this.listView.setVerticalScrollBarEnabled(false);
+                ContactsActivity.this.listView.getFastScroll().topOffset = AndroidUtilities.dp(90.0f);
                 if (ContactsActivity.this.floatingButtonContainer != null) {
                     ContactsActivity.this.floatingButtonContainer.setVisibility(0);
                     ContactsActivity.this.floatingHidden = true;
@@ -354,7 +377,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
         } else {
             i = 0;
             this.hasGps = ApplicationLoader.applicationContext.getPackageManager().hasSystemFeature("android.hardware.location.gps");
-            ContactsAdapter contactsAdapter = new ContactsAdapter(context, this.onlyUsers ? 1 : 0, this.needPhonebook, this.ignoreUsers, i, this.hasGps) { // from class: org.telegram.ui.ContactsActivity.4
+            ContactsAdapter contactsAdapter = new ContactsAdapter(context, this, this.onlyUsers ? 1 : 0, this.needPhonebook, this.ignoreUsers, i, this.hasGps) { // from class: org.telegram.ui.ContactsActivity.4
                 @Override // org.telegram.ui.Components.RecyclerListView.SectionsAdapter, androidx.recyclerview.widget.RecyclerView.Adapter
                 public void notifyDataSetChanged() {
                     super.notifyDataSetChanged();
@@ -373,6 +396,24 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
             contactsAdapter.setSortType(this.sortItem == null ? this.sortByName ? 1 : 2 : 0, false);
             this.listViewAdapter.setDisableSections(this.disableSections);
             FrameLayout frameLayout2 = new FrameLayout(context) { // from class: org.telegram.ui.ContactsActivity.5
+                Paint actionBarPaint = new Paint();
+
+                @Override // android.view.ViewGroup, android.view.View
+                protected void dispatchDraw(Canvas canvas) {
+                    this.actionBarPaint.setColor(Theme.getColor(Theme.key_actionBarDefault));
+                    canvas.drawRect(0.0f, 0.0f, getMeasuredWidth(), ((BaseFragment) ContactsActivity.this).actionBar.getMeasuredHeight(), this.actionBarPaint);
+                    ((BaseFragment) ContactsActivity.this).parentLayout.drawHeaderShadow(canvas, ((BaseFragment) ContactsActivity.this).actionBar.getMeasuredHeight());
+                    super.dispatchDraw(canvas);
+                }
+
+                @Override // android.widget.FrameLayout, android.view.View
+                protected void onMeasure(int i5, int i6) {
+                    measureChildWithMargins(((BaseFragment) ContactsActivity.this).actionBar, i5, 0, i6, 0);
+                    ((ViewGroup.MarginLayoutParams) ContactsActivity.this.emptyView.getLayoutParams()).topMargin = ((BaseFragment) ContactsActivity.this).actionBar.getMeasuredHeight();
+                    ((ViewGroup.MarginLayoutParams) ContactsActivity.this.listView.getLayoutParams()).topMargin = ((BaseFragment) ContactsActivity.this).actionBar.getMeasuredHeight();
+                    super.onMeasure(i5, i6);
+                }
+
                 @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
                 protected void onLayout(boolean z, int i5, int i6, int i7, int i8) {
                     super.onLayout(z, i5, i6, i7, i8);
@@ -399,7 +440,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
             this.emptyView.title.setText(LocaleController.getString("NoResult", R.string.NoResult));
             this.emptyView.subtitle.setText(LocaleController.getString("SearchEmptyViewFilteredSubtitle2", R.string.SearchEmptyViewFilteredSubtitle2));
             frameLayout.addView(this.emptyView, LayoutHelper.createFrame(-1, -1.0f));
-            RecyclerListView recyclerListView = new RecyclerListView(context) { // from class: org.telegram.ui.ContactsActivity.6
+            this.listView = new RecyclerListView(context) { // from class: org.telegram.ui.ContactsActivity.6
                 @Override // android.view.View
                 public void setPadding(int i5, int i6, int i7, int i8) {
                     super.setPadding(i5, i6, i7, i8);
@@ -408,25 +449,40 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                     }
                 }
             };
-            this.listView = recyclerListView;
-            recyclerListView.setSectionsType(1);
+            DefaultItemAnimator defaultItemAnimator = new DefaultItemAnimator();
+            defaultItemAnimator.setDelayAnimations(false);
+            defaultItemAnimator.setDurations(150L);
+            defaultItemAnimator.setSupportsChangeAnimations(false);
+            this.listView.setItemAnimator(defaultItemAnimator);
+            this.listView.setSectionsType(1);
             this.listView.setVerticalScrollBarEnabled(false);
             this.listView.setFastScrollEnabled(0);
-            RecyclerListView recyclerListView2 = this.listView;
+            RecyclerListView recyclerListView = this.listView;
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, 1, false);
             this.layoutManager = linearLayoutManager;
-            recyclerListView2.setLayoutManager(linearLayoutManager);
+            recyclerListView.setLayoutManager(linearLayoutManager);
             this.listView.setAdapter(this.listViewAdapter);
             frameLayout.addView(this.listView, LayoutHelper.createFrame(-1, -1.0f));
             this.listView.setEmptyView(this.emptyView);
             this.listView.setAnimateEmptyView(true, 0);
-            this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.ContactsActivity$$ExternalSyntheticLambda9
-                @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
-                public final void onItemClick(View view, int i5) {
-                    ContactsActivity.this.lambda$createView$1(i, view, i5);
+            this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.ContactsActivity$$ExternalSyntheticLambda9
+                @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
+                public /* synthetic */ boolean hasDoubleTap(View view, int i5) {
+                    return RecyclerListView.OnItemClickListenerExtended.-CC.$default$hasDoubleTap(this, view, i5);
+                }
+
+                @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
+                public /* synthetic */ void onDoubleTap(View view, int i5, float f, float f2) {
+                    RecyclerListView.OnItemClickListenerExtended.-CC.$default$onDoubleTap(this, view, i5, f, f2);
+                }
+
+                @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
+                public final void onItemClick(View view, int i5, float f, float f2) {
+                    ContactsActivity.this.lambda$createView$1(i, view, i5, f, f2);
                 }
             });
-            this.listView.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.ContactsActivity.7
+            this.listView.setOnItemLongClickListener(new 7());
+            this.listView.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.ContactsActivity.8
                 private boolean scrollingManually;
 
                 @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
@@ -479,7 +535,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                 int i5 = (i3 < 21 ? 56 : 60) + 20;
                 float f = (i3 < 21 ? 56 : 60) + 20;
                 boolean z = LocaleController.isRTL;
-                frameLayout.addView(frameLayout3, LayoutHelper.createFrame(i5, f, (z ? 3 : 5) | 80, !z ? 4.0f : 0.0f, 0.0f, !z ? 0.0f : 4.0f, 0.0f));
+                frameLayout.addView(frameLayout3, LayoutHelper.createFrame(i5, f, (!z ? 3 : 5) | 80, !z ? 4.0f : 0.0f, 0.0f, !z ? 0.0f : 4.0f, 0.0f));
                 this.floatingButtonContainer.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ContactsActivity$$ExternalSyntheticLambda4
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
@@ -499,7 +555,12 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                 }
                 this.floatingButton.setBackgroundDrawable(createSimpleSelectorCircleDrawable);
                 this.floatingButton.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_chats_actionIcon), PorterDuff.Mode.MULTIPLY));
-                this.floatingButton.setAnimation(!MessagesController.getGlobalMainSettings().getBoolean("view_animations", true) ? R.raw.write_contacts_fab_icon : R.raw.write_contacts_fab_icon_reverse, 52, 52);
+                boolean z2 = MessagesController.getGlobalMainSettings().getBoolean("view_animations", true);
+                if (!getMessagesController().storiesEnabled()) {
+                    this.floatingButton.setAnimation(z2 ? R.raw.write_contacts_fab_icon_camera : R.raw.write_contacts_fab_icon_reverse_camera, 56, 56);
+                } else {
+                    this.floatingButton.setAnimation(z2 ? R.raw.write_contacts_fab_icon : R.raw.write_contacts_fab_icon_reverse, 52, 52);
+                }
                 this.floatingButtonContainer.setContentDescription(LocaleController.getString("CreateNewContact", R.string.CreateNewContact));
                 if (i3 >= 21) {
                     StateListAnimator stateListAnimator = new StateListAnimator();
@@ -508,7 +569,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                     stateListAnimator.addState(new int[]{16842919}, ObjectAnimator.ofFloat(rLottieImageView2, property, AndroidUtilities.dp(2.0f), AndroidUtilities.dp(4.0f)).setDuration(200L));
                     stateListAnimator.addState(new int[0], ObjectAnimator.ofFloat(this.floatingButton, property, AndroidUtilities.dp(4.0f), AndroidUtilities.dp(2.0f)).setDuration(200L));
                     this.floatingButton.setStateListAnimator(stateListAnimator);
-                    this.floatingButton.setOutlineProvider(new ViewOutlineProvider(this) { // from class: org.telegram.ui.ContactsActivity.9
+                    this.floatingButton.setOutlineProvider(new ViewOutlineProvider(this) { // from class: org.telegram.ui.ContactsActivity.10
                         @Override // android.view.ViewOutlineProvider
                         @SuppressLint({"NewApi"})
                         public void getOutline(View view, Outline outline) {
@@ -523,11 +584,13 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                 this.actionBar.openSearchField(str, false);
                 this.initialSearchString = null;
             }
+            ((FrameLayout) this.fragmentView).addView(this.actionBar);
+            this.listViewAdapter.setStories(getMessagesController().storiesController.getHiddenList(), false);
             return this.fragmentView;
         }
         i = i2;
         this.hasGps = ApplicationLoader.applicationContext.getPackageManager().hasSystemFeature("android.hardware.location.gps");
-        ContactsAdapter contactsAdapter2 = new ContactsAdapter(context, this.onlyUsers ? 1 : 0, this.needPhonebook, this.ignoreUsers, i, this.hasGps) { // from class: org.telegram.ui.ContactsActivity.4
+        ContactsAdapter contactsAdapter2 = new ContactsAdapter(context, this, this.onlyUsers ? 1 : 0, this.needPhonebook, this.ignoreUsers, i, this.hasGps) { // from class: org.telegram.ui.ContactsActivity.4
             @Override // org.telegram.ui.Components.RecyclerListView.SectionsAdapter, androidx.recyclerview.widget.RecyclerView.Adapter
             public void notifyDataSetChanged() {
                 super.notifyDataSetChanged();
@@ -546,9 +609,27 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
         contactsAdapter2.setSortType(this.sortItem == null ? this.sortByName ? 1 : 2 : 0, false);
         this.listViewAdapter.setDisableSections(this.disableSections);
         FrameLayout frameLayout22 = new FrameLayout(context) { // from class: org.telegram.ui.ContactsActivity.5
+            Paint actionBarPaint = new Paint();
+
+            @Override // android.view.ViewGroup, android.view.View
+            protected void dispatchDraw(Canvas canvas) {
+                this.actionBarPaint.setColor(Theme.getColor(Theme.key_actionBarDefault));
+                canvas.drawRect(0.0f, 0.0f, getMeasuredWidth(), ((BaseFragment) ContactsActivity.this).actionBar.getMeasuredHeight(), this.actionBarPaint);
+                ((BaseFragment) ContactsActivity.this).parentLayout.drawHeaderShadow(canvas, ((BaseFragment) ContactsActivity.this).actionBar.getMeasuredHeight());
+                super.dispatchDraw(canvas);
+            }
+
+            @Override // android.widget.FrameLayout, android.view.View
+            protected void onMeasure(int i52, int i6) {
+                measureChildWithMargins(((BaseFragment) ContactsActivity.this).actionBar, i52, 0, i6, 0);
+                ((ViewGroup.MarginLayoutParams) ContactsActivity.this.emptyView.getLayoutParams()).topMargin = ((BaseFragment) ContactsActivity.this).actionBar.getMeasuredHeight();
+                ((ViewGroup.MarginLayoutParams) ContactsActivity.this.listView.getLayoutParams()).topMargin = ((BaseFragment) ContactsActivity.this).actionBar.getMeasuredHeight();
+                super.onMeasure(i52, i6);
+            }
+
             @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-            protected void onLayout(boolean z2, int i52, int i6, int i7, int i8) {
-                super.onLayout(z2, i52, i6, i7, i8);
+            protected void onLayout(boolean z3, int i52, int i6, int i7, int i8) {
+                super.onLayout(z3, i52, i6, i7, i8);
                 if (ContactsActivity.this.listView.getAdapter() == ContactsActivity.this.listViewAdapter) {
                     if (ContactsActivity.this.emptyView.getVisibility() == 0) {
                         ContactsActivity.this.emptyView.setTranslationY(AndroidUtilities.dp(74.0f));
@@ -572,7 +653,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
         this.emptyView.title.setText(LocaleController.getString("NoResult", R.string.NoResult));
         this.emptyView.subtitle.setText(LocaleController.getString("SearchEmptyViewFilteredSubtitle2", R.string.SearchEmptyViewFilteredSubtitle2));
         frameLayout.addView(this.emptyView, LayoutHelper.createFrame(-1, -1.0f));
-        RecyclerListView recyclerListView3 = new RecyclerListView(context) { // from class: org.telegram.ui.ContactsActivity.6
+        this.listView = new RecyclerListView(context) { // from class: org.telegram.ui.ContactsActivity.6
             @Override // android.view.View
             public void setPadding(int i52, int i6, int i7, int i8) {
                 super.setPadding(i52, i6, i7, i8);
@@ -581,25 +662,40 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                 }
             }
         };
-        this.listView = recyclerListView3;
-        recyclerListView3.setSectionsType(1);
+        DefaultItemAnimator defaultItemAnimator2 = new DefaultItemAnimator();
+        defaultItemAnimator2.setDelayAnimations(false);
+        defaultItemAnimator2.setDurations(150L);
+        defaultItemAnimator2.setSupportsChangeAnimations(false);
+        this.listView.setItemAnimator(defaultItemAnimator2);
+        this.listView.setSectionsType(1);
         this.listView.setVerticalScrollBarEnabled(false);
         this.listView.setFastScrollEnabled(0);
-        RecyclerListView recyclerListView22 = this.listView;
+        RecyclerListView recyclerListView2 = this.listView;
         LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(context, 1, false);
         this.layoutManager = linearLayoutManager2;
-        recyclerListView22.setLayoutManager(linearLayoutManager2);
+        recyclerListView2.setLayoutManager(linearLayoutManager2);
         this.listView.setAdapter(this.listViewAdapter);
         frameLayout.addView(this.listView, LayoutHelper.createFrame(-1, -1.0f));
         this.listView.setEmptyView(this.emptyView);
         this.listView.setAnimateEmptyView(true, 0);
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.ContactsActivity$$ExternalSyntheticLambda9
-            @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
-            public final void onItemClick(View view, int i52) {
-                ContactsActivity.this.lambda$createView$1(i, view, i52);
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.ContactsActivity$$ExternalSyntheticLambda9
+            @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
+            public /* synthetic */ boolean hasDoubleTap(View view, int i52) {
+                return RecyclerListView.OnItemClickListenerExtended.-CC.$default$hasDoubleTap(this, view, i52);
+            }
+
+            @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
+            public /* synthetic */ void onDoubleTap(View view, int i52, float f2, float f22) {
+                RecyclerListView.OnItemClickListenerExtended.-CC.$default$onDoubleTap(this, view, i52, f2, f22);
+            }
+
+            @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
+            public final void onItemClick(View view, int i52, float f2, float f22) {
+                ContactsActivity.this.lambda$createView$1(i, view, i52, f2, f22);
             }
         });
-        this.listView.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.ContactsActivity.7
+        this.listView.setOnItemLongClickListener(new 7());
+        this.listView.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.ContactsActivity.8
             private boolean scrollingManually;
 
             @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
@@ -622,7 +718,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                 Code decompiled incorrectly, please refer to instructions dump.
             */
             public void onScrolled(RecyclerView recyclerView, int i52, int i6) {
-                boolean z2;
+                boolean z3;
                 super.onScrolled(recyclerView, i52, i6);
                 if (ContactsActivity.this.floatingButtonContainer == null || ContactsActivity.this.floatingButtonContainer.getVisibility() == 8) {
                     return;
@@ -632,13 +728,13 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                 int top = childAt != null ? childAt.getTop() : 0;
                 if (ContactsActivity.this.prevPosition == findFirstVisibleItemPosition) {
                     int i7 = ContactsActivity.this.prevTop - top;
-                    z2 = top < ContactsActivity.this.prevTop;
+                    z3 = top < ContactsActivity.this.prevTop;
                 } else {
-                    z2 = findFirstVisibleItemPosition > ContactsActivity.this.prevPosition;
+                    z3 = findFirstVisibleItemPosition > ContactsActivity.this.prevPosition;
                 }
                 r6 = true;
-                if (r6 && ContactsActivity.this.scrollUpdated && (z2 || this.scrollingManually)) {
-                    ContactsActivity.this.hideFloatingButton(z2);
+                if (r6 && ContactsActivity.this.scrollUpdated && (z3 || this.scrollingManually)) {
+                    ContactsActivity.this.hideFloatingButton(z3);
                 }
                 ContactsActivity.this.prevPosition = findFirstVisibleItemPosition;
                 ContactsActivity.this.prevTop = top;
@@ -651,8 +747,8 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
             i3 = Build.VERSION.SDK_INT;
             int i52 = (i3 < 21 ? 56 : 60) + 20;
             float f2 = (i3 < 21 ? 56 : 60) + 20;
-            boolean z2 = LocaleController.isRTL;
-            frameLayout.addView(frameLayout32, LayoutHelper.createFrame(i52, f2, (z2 ? 3 : 5) | 80, !z2 ? 4.0f : 0.0f, 0.0f, !z2 ? 0.0f : 4.0f, 0.0f));
+            boolean z3 = LocaleController.isRTL;
+            frameLayout.addView(frameLayout32, LayoutHelper.createFrame(i52, f2, (!z3 ? 3 : 5) | 80, !z3 ? 4.0f : 0.0f, 0.0f, !z3 ? 0.0f : 4.0f, 0.0f));
             this.floatingButtonContainer.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ContactsActivity$$ExternalSyntheticLambda4
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
@@ -667,7 +763,9 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
             }
             this.floatingButton.setBackgroundDrawable(createSimpleSelectorCircleDrawable2);
             this.floatingButton.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_chats_actionIcon), PorterDuff.Mode.MULTIPLY));
-            this.floatingButton.setAnimation(!MessagesController.getGlobalMainSettings().getBoolean("view_animations", true) ? R.raw.write_contacts_fab_icon : R.raw.write_contacts_fab_icon_reverse, 52, 52);
+            boolean z22 = MessagesController.getGlobalMainSettings().getBoolean("view_animations", true);
+            if (!getMessagesController().storiesEnabled()) {
+            }
             this.floatingButtonContainer.setContentDescription(LocaleController.getString("CreateNewContact", R.string.CreateNewContact));
             if (i3 >= 21) {
             }
@@ -676,11 +774,13 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
         str = this.initialSearchString;
         if (str != null) {
         }
+        ((FrameLayout) this.fragmentView).addView(this.actionBar);
+        this.listViewAdapter.setStories(getMessagesController().storiesController.getHiddenList(), false);
         return this.fragmentView;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$1(int i, View view, int i2) {
+    public /* synthetic */ void lambda$createView$1(int i, View view, int i2, float f, float f2) {
         Activity parentActivity;
         RecyclerView.Adapter adapter = this.listView.getAdapter();
         SearchAdapter searchAdapter = this.searchListViewAdapter;
@@ -739,6 +839,18 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
         int positionInSectionForPosition = this.listViewAdapter.getPositionInSectionForPosition(i2);
         if (positionInSectionForPosition < 0 || sectionForPosition < 0) {
             return;
+        }
+        ContactsAdapter contactsAdapter = this.listViewAdapter;
+        boolean z2 = contactsAdapter.hasStories;
+        if (z2 && sectionForPosition == 1) {
+            if (view instanceof UserCell) {
+                getOrCreateStoryViewer().open(getContext(), ((UserCell) view).getDialogId(), StoriesListPlaceProvider.of(this.listView));
+                return;
+            }
+            return;
+        }
+        if (z2 && sectionForPosition > 1) {
+            sectionForPosition--;
         }
         if ((!this.onlyUsers || i != 0) && sectionForPosition == 0) {
             if (this.needPhonebook) {
@@ -807,7 +919,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                 return;
             }
         }
-        Object item2 = this.listViewAdapter.getItem(sectionForPosition, positionInSectionForPosition);
+        Object item2 = this.listViewAdapter.getItem(contactsAdapter.getSectionForPosition(i2), this.listViewAdapter.getPositionInSectionForPosition(i2));
         if (item2 instanceof TLRPC$User) {
             TLRPC$User tLRPC$User2 = (TLRPC$User) item2;
             if (this.returnAsResult) {
@@ -856,16 +968,144 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: classes3.dex */
+    public class 7 implements RecyclerListView.OnItemLongClickListener {
+        7() {
+        }
+
+        @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListener
+        public boolean onItemClick(View view, int i) {
+            int sectionForPosition = ContactsActivity.this.listViewAdapter.getSectionForPosition(i);
+            int positionInSectionForPosition = ContactsActivity.this.listViewAdapter.getPositionInSectionForPosition(i);
+            if (Bulletin.getVisibleBulletin() != null) {
+                Bulletin.getVisibleBulletin().hide();
+            }
+            if (positionInSectionForPosition < 0 || sectionForPosition < 0) {
+                return false;
+            }
+            if (ContactsActivity.this.listViewAdapter.hasStories && sectionForPosition == 1 && (view instanceof UserCell)) {
+                final long dialogId = ((UserCell) view).getDialogId();
+                final TLRPC$User user = MessagesController.getInstance(((BaseFragment) ContactsActivity.this).currentAccount).getUser(Long.valueOf(dialogId));
+                final String sharedPrefKey = NotificationsController.getSharedPrefKey(dialogId, 0);
+                boolean z = !NotificationsCustomSettingsActivity.isStoriesNotMuted(((BaseFragment) ContactsActivity.this).currentAccount, dialogId);
+                ItemOptions addIf = ItemOptions.makeOptions(ContactsActivity.this, view).setScrimViewBackground(Theme.createRoundRectDrawable(0, 0, Theme.getColor(Theme.key_windowBackgroundWhite))).add(R.drawable.msg_discussion, LocaleController.getString("SendMessage", R.string.SendMessage), new Runnable() { // from class: org.telegram.ui.ContactsActivity$7$$ExternalSyntheticLambda1
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        ContactsActivity.7.this.lambda$onItemClick$0(dialogId);
+                    }
+                }).add(R.drawable.msg_openprofile, LocaleController.getString("OpenProfile", R.string.OpenProfile), new Runnable() { // from class: org.telegram.ui.ContactsActivity$7$$ExternalSyntheticLambda2
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        ContactsActivity.7.this.lambda$onItemClick$1(dialogId);
+                    }
+                }).addIf(!z, R.drawable.msg_mute, LocaleController.getString("NotificationsStoryMute", R.string.NotificationsStoryMute), new Runnable() { // from class: org.telegram.ui.ContactsActivity$7$$ExternalSyntheticLambda6
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        ContactsActivity.7.this.lambda$onItemClick$2(sharedPrefKey, dialogId, user);
+                    }
+                }).addIf(z, R.drawable.msg_unmute, LocaleController.getString("NotificationsStoryUnmute", R.string.NotificationsStoryUnmute), new Runnable() { // from class: org.telegram.ui.ContactsActivity$7$$ExternalSyntheticLambda5
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        ContactsActivity.7.this.lambda$onItemClick$3(sharedPrefKey, dialogId, user);
+                    }
+                });
+                addIf.add(R.drawable.msg_viewintopic, LocaleController.getString("ShowInChats", R.string.ShowInChats), new Runnable() { // from class: org.telegram.ui.ContactsActivity$7$$ExternalSyntheticLambda4
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        ContactsActivity.7.this.lambda$onItemClick$6(dialogId, user);
+                    }
+                });
+                addIf.setGravity(5).show();
+                return true;
+            }
+            return false;
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$onItemClick$0(long j) {
+            ContactsActivity.this.presentFragment(ChatActivity.of(j));
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$onItemClick$1(long j) {
+            ContactsActivity.this.presentFragment(ProfileActivity.of(j));
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$onItemClick$2(String str, long j, TLRPC$User tLRPC$User) {
+            SharedPreferences.Editor edit = MessagesController.getNotificationsSettings(((BaseFragment) ContactsActivity.this).currentAccount).edit();
+            edit.putBoolean(NotificationsSettingsFacade.PROPERTY_STORIES_NOTIFY + str, false).apply();
+            ContactsActivity.this.getNotificationsController().updateServerNotificationsSettings(j, 0);
+            String trim = tLRPC$User == null ? "" : tLRPC$User.first_name.trim();
+            int indexOf = trim.indexOf(" ");
+            if (indexOf > 0) {
+                trim = trim.substring(0, indexOf);
+            }
+            BulletinFactory.of(ContactsActivity.this).createUsersBulletin(Arrays.asList(tLRPC$User), AndroidUtilities.replaceTags(LocaleController.formatString("NotificationsStoryMutedHint", R.string.NotificationsStoryMutedHint, trim))).show();
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$onItemClick$3(String str, long j, TLRPC$User tLRPC$User) {
+            SharedPreferences.Editor edit = MessagesController.getNotificationsSettings(((BaseFragment) ContactsActivity.this).currentAccount).edit();
+            edit.putBoolean(NotificationsSettingsFacade.PROPERTY_STORIES_NOTIFY + str, true).apply();
+            ContactsActivity.this.getNotificationsController().updateServerNotificationsSettings(j, 0);
+            String trim = tLRPC$User == null ? "" : tLRPC$User.first_name.trim();
+            int indexOf = trim.indexOf(" ");
+            if (indexOf > 0) {
+                trim = trim.substring(0, indexOf);
+            }
+            BulletinFactory.of(ContactsActivity.this).createUsersBulletin(Arrays.asList(tLRPC$User), AndroidUtilities.replaceTags(LocaleController.formatString("NotificationsStoryUnmutedHint", R.string.NotificationsStoryUnmutedHint, trim))).show();
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$onItemClick$6(final long j, TLRPC$User tLRPC$User) {
+            ContactsActivity.this.getMessagesController().getStoriesController().toggleHidden(j, false, false, true);
+            BulletinFactory.UndoObject undoObject = new BulletinFactory.UndoObject();
+            undoObject.onUndo = new Runnable() { // from class: org.telegram.ui.ContactsActivity$7$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ContactsActivity.7.this.lambda$onItemClick$4(j);
+                }
+            };
+            undoObject.onAction = new Runnable() { // from class: org.telegram.ui.ContactsActivity$7$$ExternalSyntheticLambda3
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ContactsActivity.7.this.lambda$onItemClick$5(j);
+                }
+            };
+            BulletinFactory.global().createUsersBulletin(Arrays.asList(tLRPC$User), AndroidUtilities.replaceTags(LocaleController.formatString("StoriesMovedToDialogs", R.string.StoriesMovedToDialogs, ContactsController.formatName(tLRPC$User.first_name, null, 20))), null, undoObject).show();
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$onItemClick$4(long j) {
+            ContactsActivity.this.getMessagesController().getStoriesController().toggleHidden(j, true, false, true);
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$onItemClick$5(long j) {
+            ContactsActivity.this.getMessagesController().getStoriesController().toggleHidden(j, false, true, true);
+        }
+    }
+
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$2(View view) {
         AndroidUtilities.requestAdjustNothing(getParentActivity(), getClassGuid());
-        new NewContactBottomSheet(this, getContext()) { // from class: org.telegram.ui.ContactsActivity.8
+        new NewContactBottomSheet(this, getContext()) { // from class: org.telegram.ui.ContactsActivity.9
             @Override // org.telegram.ui.ActionBar.BottomSheet
             public void dismissInternal() {
                 super.dismissInternal();
                 AndroidUtilities.requestAdjustResize(ContactsActivity.this.getParentActivity(), this.classGuid);
             }
         }.show();
+    }
+
+    @Override // org.telegram.ui.ActionBar.BaseFragment
+    public ActionBar createActionBar(Context context) {
+        ActionBar createActionBar = super.createActionBar(context);
+        createActionBar.setBackground(null);
+        createActionBar.setAddToContainer(false);
+        return createActionBar;
     }
 
     private void didSelectResult(final TLRPC$User tLRPC$User, boolean z, final String str) {
@@ -919,7 +1159,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                 editTextBoldCursor.setInputType(2);
                 editTextBoldCursor.setImeOptions(6);
                 editTextBoldCursor.setBackgroundDrawable(Theme.createEditTextDrawable(getParentActivity(), true));
-                editTextBoldCursor.addTextChangedListener(new TextWatcher(this) { // from class: org.telegram.ui.ContactsActivity.10
+                editTextBoldCursor.addTextChangedListener(new TextWatcher(this) { // from class: org.telegram.ui.ContactsActivity.11
                     @Override // android.text.TextWatcher
                     public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
                     }
@@ -1058,7 +1298,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
         super.onConfigurationChanged(configuration);
         FrameLayout frameLayout = this.floatingButtonContainer;
         if (frameLayout != null) {
-            frameLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() { // from class: org.telegram.ui.ContactsActivity.11
+            frameLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() { // from class: org.telegram.ui.ContactsActivity.12
                 @Override // android.view.ViewTreeObserver.OnGlobalLayoutListener
                 public void onGlobalLayout() {
                     ContactsActivity.this.floatingButtonContainer.setTranslationY(ContactsActivity.this.floatingHidden ? AndroidUtilities.dp(100.0f) : 0);
@@ -1158,12 +1398,14 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
 
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     public void didReceivedNotification(int i, int i2, Object... objArr) {
-        ContactsAdapter contactsAdapter;
-        if (i == NotificationCenter.contactsDidLoad) {
-            ContactsAdapter contactsAdapter2 = this.listViewAdapter;
-            if (contactsAdapter2 != null) {
+        if (i == NotificationCenter.storiesUpdated) {
+            this.listViewAdapter.setStories(getMessagesController().getStoriesController().getHiddenList(), true);
+            MessagesController.getInstance(this.currentAccount).getStoriesController().loadHiddenStories();
+        } else if (i == NotificationCenter.contactsDidLoad) {
+            ContactsAdapter contactsAdapter = this.listViewAdapter;
+            if (contactsAdapter != null) {
                 if (!this.sortByName) {
-                    contactsAdapter2.setSortType(2, true);
+                    contactsAdapter.setSortType(2, true);
                 }
                 this.listViewAdapter.notifyDataSetChanged();
             }
@@ -1172,21 +1414,30 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
             if ((MessagesController.UPDATE_MASK_AVATAR & intValue) != 0 || (MessagesController.UPDATE_MASK_NAME & intValue) != 0 || (MessagesController.UPDATE_MASK_STATUS & intValue) != 0) {
                 updateVisibleRows(intValue);
             }
-            if ((intValue & MessagesController.UPDATE_MASK_STATUS) == 0 || this.sortByName || (contactsAdapter = this.listViewAdapter) == null) {
+            if ((intValue & MessagesController.UPDATE_MASK_STATUS) == 0 || this.sortByName || this.listViewAdapter == null) {
                 return;
             }
-            contactsAdapter.sortOnlineContacts();
+            scheduleSort();
         } else if (i == NotificationCenter.encryptedChatCreated) {
             if (this.createSecretChat && this.creatingChat) {
                 Bundle bundle = new Bundle();
                 bundle.putInt("enc_id", ((TLRPC$EncryptedChat) objArr[0]).id);
-                NotificationCenter.getInstance(this.currentAccount).postNotificationName(NotificationCenter.closeChats, new Object[0]);
+                NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.closeChats, new Object[0]);
                 presentFragment(new ChatActivity(bundle), true);
             }
         } else if (i != NotificationCenter.closeChats || this.creatingChat) {
         } else {
             removeSelfFromStack(true);
         }
+    }
+
+    private void scheduleSort() {
+        if (this.scheduled) {
+            return;
+        }
+        this.scheduled = true;
+        AndroidUtilities.cancelRunOnUIThread(this.sortContactsRunnable);
+        AndroidUtilities.runOnUIThread(this.sortContactsRunnable, 5000L);
     }
 
     private void updateVisibleRows(int i) {
@@ -1235,7 +1486,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
         LinearLayoutManager linearLayoutManager = this.layoutManager;
         final int findLastVisibleItemPosition = linearLayoutManager == null ? 0 : linearLayoutManager.findLastVisibleItemPosition();
         this.listView.invalidate();
-        this.listView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() { // from class: org.telegram.ui.ContactsActivity.12
+        this.listView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() { // from class: org.telegram.ui.ContactsActivity.14
             @Override // android.view.ViewTreeObserver.OnPreDrawListener
             public boolean onPreDraw() {
                 ContactsActivity.this.listView.getViewTreeObserver().removeOnPreDrawListener(this);
@@ -1275,10 +1526,15 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
         if (dialogsActivity == null) {
             return null;
         }
+        final boolean z2 = dialogsActivity.storiesEnabled;
         final RLottieImageView floatingButton = dialogsActivity.getFloatingButton();
-        final View view = floatingButton.getParent() != null ? (View) floatingButton.getParent() : null;
+        View view = floatingButton.getParent() != null ? (View) floatingButton.getParent() : null;
         if (this.floatingButtonContainer == null || view == null || floatingButton.getVisibility() != 0 || Math.abs(view.getTranslationY()) > AndroidUtilities.dp(4.0f) || Math.abs(this.floatingButtonContainer.getTranslationY()) > AndroidUtilities.dp(4.0f)) {
-            this.floatingButton.setAnimation(R.raw.write_contacts_fab_icon, 52, 52);
+            if (z2) {
+                this.floatingButton.setAnimation(R.raw.write_contacts_fab_icon_camera, 56, 56);
+            } else {
+                this.floatingButton.setAnimation(R.raw.write_contacts_fab_icon, 52, 52);
+            }
             this.floatingButton.getAnimatedDrawable().setCurrentFrame(this.floatingButton.getAnimatedDrawable().getFramesCount() - 1);
             return null;
         }
@@ -1301,7 +1557,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
         ofFloat.setInterpolator(new DecelerateInterpolator(1.5f));
         final AnimatorSet animatorSet = new AnimatorSet();
         final View view2 = view;
-        animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ContactsActivity.13
+        animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ContactsActivity.15
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationEnd(Animator animator) {
                 if (ContactsActivity.this.floatingButtonContainer != null) {
@@ -1311,7 +1567,11 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                     ((ViewGroup) ((BaseFragment) ContactsActivity.this).fragmentView).addView(ContactsActivity.this.floatingButtonContainer);
                     view2.setVisibility(0);
                     if (!z) {
-                        floatingButton.setAnimation(R.raw.write_contacts_fab_icon_reverse, 52, 52);
+                        if (z2) {
+                            floatingButton.setAnimation(R.raw.write_contacts_fab_icon_reverse_camera, 56, 56);
+                        } else {
+                            floatingButton.setAnimation(R.raw.write_contacts_fab_icon_reverse, 52, 52);
+                        }
                         floatingButton.getAnimatedDrawable().setCurrentFrame(ContactsActivity.this.floatingButton.getAnimatedDrawable().getCurrentFrame());
                         floatingButton.playAnimation();
                     }
@@ -1320,10 +1580,11 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
             }
         });
         animatorSet.playTogether(ofFloat);
+        final View view3 = view;
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ContactsActivity$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
-                ContactsActivity.this.lambda$onCustomTransitionAnimation$8(animatorSet, z, view);
+                ContactsActivity.this.lambda$onCustomTransitionAnimation$8(animatorSet, z, z2, view3);
             }
         }, 50L);
         return animatorSet;
@@ -1337,16 +1598,21 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onCustomTransitionAnimation$8(AnimatorSet animatorSet, boolean z, final View view) {
+    public /* synthetic */ void lambda$onCustomTransitionAnimation$8(AnimatorSet animatorSet, boolean z, boolean z2, final View view) {
         this.animationIndex = getNotificationCenter().setAnimationInProgress(this.animationIndex, new int[]{NotificationCenter.diceStickersDidLoad}, false);
         animatorSet.start();
         if (z) {
-            this.floatingButton.setAnimation(R.raw.write_contacts_fab_icon, 52, 52);
-            this.floatingButton.playAnimation();
+            if (z2) {
+                this.floatingButton.setAnimation(R.raw.write_contacts_fab_icon_camera, 56, 56);
+            } else {
+                this.floatingButton.setAnimation(R.raw.write_contacts_fab_icon, 52, 52);
+            }
+        } else if (z2) {
+            this.floatingButton.setAnimation(R.raw.write_contacts_fab_icon_reverse_camera, 56, 56);
         } else {
             this.floatingButton.setAnimation(R.raw.write_contacts_fab_icon_reverse, 52, 52);
-            this.floatingButton.playAnimation();
         }
+        this.floatingButton.playAnimation();
         AnimatorSet animatorSet2 = this.bounceIconAnimator;
         if (animatorSet2 != null) {
             animatorSet2.cancel();
@@ -1426,7 +1692,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                 this.bounceIconAnimator.playTogether(animatorSet4);
             }
         }
-        this.bounceIconAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ContactsActivity.14
+        this.bounceIconAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ContactsActivity.16
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationEnd(Animator animator) {
                 ContactsActivity.this.floatingButton.setScaleX(1.0f);

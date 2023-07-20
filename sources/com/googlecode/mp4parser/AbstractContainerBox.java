@@ -9,19 +9,31 @@ import java.nio.channels.WritableByteChannel;
 /* loaded from: classes.dex */
 public class AbstractContainerBox extends BasicContainer implements Box {
     protected boolean largeBox;
+    Container parent;
     protected String type;
-
-    @Override // com.coremedia.iso.boxes.Box
-    public void setParent(Container container) {
-    }
 
     public AbstractContainerBox(String str) {
         this.type = str;
     }
 
+    @Override // com.coremedia.iso.boxes.Box
+    public Container getParent() {
+        return this.parent;
+    }
+
+    @Override // com.coremedia.iso.boxes.Box
+    public void setParent(Container container) {
+        this.parent = container;
+    }
+
     public long getSize() {
         long containerSize = getContainerSize();
         return containerSize + ((this.largeBox || 8 + containerSize >= 4294967296L) ? 16 : 8);
+    }
+
+    @Override // com.coremedia.iso.boxes.Box
+    public String getType() {
+        return this.type;
     }
 
     /* JADX INFO: Access modifiers changed from: protected */

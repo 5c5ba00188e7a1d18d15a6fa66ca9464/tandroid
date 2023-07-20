@@ -69,7 +69,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable, j$.
 
     @Override // java.util.Map, j$.util.Map
     public /* synthetic */ Object replace(Object obj, Object obj2) {
-        return Map.-CC.$default$replace(this, obj, obj2);
+        return get(obj);
     }
 
     @Override // java.util.Map, j$.util.Map

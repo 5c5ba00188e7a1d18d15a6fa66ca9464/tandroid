@@ -321,6 +321,11 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             }
 
             @Override // org.telegram.ui.Components.Bulletin.Delegate
+            public /* synthetic */ boolean clipWithGradient(int i) {
+                return Bulletin.Delegate.-CC.$default$clipWithGradient(this, i);
+            }
+
+            @Override // org.telegram.ui.Components.Bulletin.Delegate
             public /* synthetic */ int getTopOffset(int i) {
                 return Bulletin.Delegate.-CC.$default$getTopOffset(this, i);
             }

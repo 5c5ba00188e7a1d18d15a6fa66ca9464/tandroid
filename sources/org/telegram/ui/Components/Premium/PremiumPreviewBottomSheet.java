@@ -306,8 +306,8 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView i
         if (this.statusStickerSet != null) {
             int i = R.string.TelegramPremiumUserStatusDialogTitle;
             TLRPC$User tLRPC$User = this.user;
-            CharSequence replaceSingleTag = AndroidUtilities.replaceSingleTag(LocaleController.formatString(i, ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name), "<STICKERSET>"), Theme.key_windowBackgroundWhiteBlueButton, 0, null);
-            SpannableStringBuilder spannableStringBuilder2 = replaceSingleTag instanceof SpannableStringBuilder ? (SpannableStringBuilder) replaceSingleTag : new SpannableStringBuilder(replaceSingleTag);
+            SpannableStringBuilder replaceSingleTag = AndroidUtilities.replaceSingleTag(LocaleController.formatString(i, ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name), "<STICKERSET>"), Theme.key_windowBackgroundWhiteBlueButton, 0, null);
+            SpannableStringBuilder spannableStringBuilder2 = replaceSingleTag instanceof SpannableStringBuilder ? replaceSingleTag : new SpannableStringBuilder(replaceSingleTag);
             int indexOf = replaceSingleTag.toString().indexOf("<STICKERSET>");
             if (indexOf >= 0) {
                 TLRPC$TL_messages_stickerSet stickerSet = MediaDataController.getInstance(this.currentAccount).getStickerSet(this.statusStickerSet, false);
@@ -724,7 +724,7 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView i
     @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog
     public void show() {
         super.show();
-        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.stopAllHeavyOperations, 4);
+        NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.stopAllHeavyOperations, 4);
         if (this.animateConfetti) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet$$ExternalSyntheticLambda5
                 @Override // java.lang.Runnable
@@ -747,7 +747,7 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView i
     @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface
     public void dismiss() {
         super.dismiss();
-        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.startAllHeavyOperations, 4);
+        NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.startAllHeavyOperations, 4);
         ValueAnimator valueAnimator = this.enterAnimator;
         if (valueAnimator != null) {
             valueAnimator.cancel();

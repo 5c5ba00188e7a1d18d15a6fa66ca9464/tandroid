@@ -417,14 +417,13 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
                 setMeasuredDimension(size, size2);
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             /* JADX WARN: Removed duplicated region for block: B:23:0x006f  */
             /* JADX WARN: Removed duplicated region for block: B:38:0x00cf  */
             @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
             */
-            public void onLayout(boolean z, int i2, int i3, int i4, int i5) {
+            protected void onLayout(boolean z, int i2, int i3, int i4, int i5) {
                 int i6;
                 int i7;
                 int i8;
@@ -484,9 +483,8 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
                 }
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.SizeNotifierFrameLayout
-            public void drawList(Canvas canvas, boolean z) {
+            protected void drawList(Canvas canvas, boolean z) {
                 for (int i2 = 0; i2 < TopicsFragment.this.recyclerListView.getChildCount(); i2++) {
                     View childAt = TopicsFragment.this.recyclerListView.getChildAt(i2);
                     if (childAt.getY() < AndroidUtilities.dp(100.0f) && childAt.getVisibility() == 0) {
@@ -498,9 +496,8 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
                 }
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
-            public void dispatchDraw(Canvas canvas) {
+            protected void dispatchDraw(Canvas canvas) {
                 super.dispatchDraw(canvas);
                 if (TopicsFragment.this.isInPreviewMode()) {
                     this.actionBarPaint.setColor(TopicsFragment.this.getThemedColor(Theme.key_windowBackgroundWhite));
@@ -1157,9 +1154,9 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
             TopicsFragment topicsFragment = TopicsFragment.this;
             int i = NotificationCenter.closeChats;
             notificationCenter.removeObserver(topicsFragment, i);
-            TopicsFragment.this.getNotificationCenter().postNotificationName(i, new Object[0]);
+            TopicsFragment.this.getNotificationCenter().lambda$postNotificationNameOnUIThread$1(i, new Object[0]);
             TopicsFragment.this.finishFragment();
-            TopicsFragment.this.getNotificationCenter().postNotificationName(NotificationCenter.needDeleteDialog, Long.valueOf(-tLRPC$Chat.id), null, tLRPC$Chat, Boolean.valueOf(z));
+            TopicsFragment.this.getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.needDeleteDialog, Long.valueOf(-tLRPC$Chat.id), null, tLRPC$Chat, Boolean.valueOf(z));
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -2331,7 +2328,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         this.searchAnimator.setDuration(200L);
         this.searchAnimator.setInterpolator(CubicBezierInterpolator.DEFAULT);
         this.searchAnimator.start();
-        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.needCheckSystemBarColors, Boolean.TRUE);
+        NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.needCheckSystemBarColors, Boolean.TRUE);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -2399,7 +2396,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
                 return lambda$joinToGroup$15;
             }
         });
-        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.closeSearchByActiveAction, new Object[0]);
+        NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.closeSearchByActiveAction, new Object[0]);
         updateChatInfo();
     }
 
@@ -2451,7 +2448,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
             }
             this.actionBar.showActionMode(true);
             int i4 = 0;
-            NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.needCheckSystemBarColors, new Object[0]);
+            NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.needCheckSystemBarColors, new Object[0]);
             Iterator<Integer> it = this.selectedTopics.iterator();
             int i5 = 0;
             int i6 = 0;
@@ -3071,7 +3068,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         return getMessagesController().getChat(Long.valueOf(this.chatId));
     }
 
-    @Override // org.telegram.ui.Components.ChatActivityInterface
+    @Override // org.telegram.ui.Components.ChatActivityInterface, org.telegram.ui.Components.InstantCameraView.Delegate
     public long getDialogId() {
         return -this.chatId;
     }
@@ -4108,6 +4105,11 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
             @Override // org.telegram.ui.Components.Bulletin.Delegate
             public /* synthetic */ boolean allowLayoutChanges() {
                 return Bulletin.Delegate.-CC.$default$allowLayoutChanges(this);
+            }
+
+            @Override // org.telegram.ui.Components.Bulletin.Delegate
+            public /* synthetic */ boolean clipWithGradient(int i) {
+                return Bulletin.Delegate.-CC.$default$clipWithGradient(this, i);
             }
 
             @Override // org.telegram.ui.Components.Bulletin.Delegate

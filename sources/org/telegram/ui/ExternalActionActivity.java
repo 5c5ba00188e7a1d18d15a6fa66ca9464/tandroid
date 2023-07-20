@@ -184,7 +184,7 @@ public class ExternalActionActivity extends Activity implements INavigationLayou
         PasscodeView passcodeView = new PasscodeView(this);
         this.passcodeView = passcodeView;
         this.drawerLayoutContainer.addView(passcodeView, LayoutHelper.createFrame(-1, -1.0f));
-        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.closeOtherAppActivities, this);
+        NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.closeOtherAppActivities, this);
         this.actionBarLayout.removeAllFragments();
         INavigationLayout iNavigationLayout = this.layersActionBarLayout;
         if (iNavigationLayout != null) {
@@ -254,7 +254,7 @@ public class ExternalActionActivity extends Activity implements INavigationLayou
         if (AndroidUtilities.isTablet()) {
             this.layersActionBarLayout.showLastFragment();
         }
-        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.passcodeDismissed, passcodeView);
+        NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.passcodeDismissed, passcodeView);
     }
 
     public void onFinishLogin() {

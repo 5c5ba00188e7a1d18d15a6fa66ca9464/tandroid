@@ -32,9 +32,7 @@ public enum f implements Comparator, e {
 
     @Override // java.util.Comparator
     public Comparator thenComparingDouble(ToDoubleFunction toDoubleFunction) {
-        j$.util.function.z a2 = A0.a(toDoubleFunction);
-        Objects.requireNonNull(a2);
-        return Comparator$-EL.a(this, new d(a2));
+        return Comparator$-EL.a(this, Comparator$-CC.comparingDouble(A0.a(toDoubleFunction)));
     }
 
     @Override // java.util.Comparator
@@ -44,9 +42,7 @@ public enum f implements Comparator, e {
 
     @Override // java.util.Comparator
     public Comparator thenComparingLong(ToLongFunction toLongFunction) {
-        j$.util.function.A a2 = E0.a(toLongFunction);
-        Objects.requireNonNull(a2);
-        return Comparator$-EL.a(this, new d(a2));
+        return Comparator$-EL.a(this, Comparator$-CC.comparingLong(E0.a(toLongFunction)));
     }
 
     @Override // java.util.Comparator

@@ -10,6 +10,6 @@ public final /* synthetic */ class PipVideoOverlay$$ExternalSyntheticLambda3 imp
 
     @Override // android.view.View.OnClickListener
     public final void onClick(View view) {
-        PipVideoOverlay.dimissAndDestroy();
+        PipVideoOverlay.dismissAndDestroy();
     }
 }

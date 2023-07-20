@@ -152,11 +152,14 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
             } else if (i == 0) {
                 str = "GroupSoundPath";
                 str2 = "GroupSoundDocId";
-            } else if (i != 2) {
-                throw new RuntimeException("Unsupported type");
-            } else {
+            } else if (i == 2) {
                 str = "ChannelSoundPath";
                 str2 = "ChannelSoundDocId";
+            } else if (i != 3) {
+                throw new RuntimeException("Unsupported type");
+            } else {
+                str = "StoriesSoundPath";
+                str2 = "StoriesSoundDocId";
             }
         }
         SharedPreferences notificationsSettings = getNotificationsSettings();
@@ -193,6 +196,8 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
                 this.actionBar.setTitle(LocaleController.getString("NotificationsSoundGroup", R.string.NotificationsSoundGroup));
             } else if (i == 2) {
                 this.actionBar.setTitle(LocaleController.getString("NotificationsSoundChannels", R.string.NotificationsSoundChannels));
+            } else if (i == 3) {
+                this.actionBar.setTitle(LocaleController.getString("NotificationsSoundStories", R.string.NotificationsSoundStories));
             }
         } else {
             ChatAvatarContainer chatAvatarContainer = new ChatAvatarContainer(context, null, false, this.resourcesProvider);
@@ -643,7 +648,7 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
         for (int i2 = 0; i2 < arrayList.size(); i2++) {
             getMediaDataController().uploadRingtone(arrayList.get(i2));
         }
-        getNotificationCenter().postNotificationName(NotificationCenter.onUserRingtonesUpdated, new Object[0]);
+        getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.onUserRingtonesUpdated, new Object[0]);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -874,11 +879,6 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
         getNotificationCenter().removeObserver(this, NotificationCenter.onUserRingtonesUpdated);
     }
 
-    @Override // org.telegram.ui.ActionBar.BaseFragment
-    public int getNavigationBarColor() {
-        return getThemedColor(Theme.key_windowBackgroundGray);
-    }
-
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     public void didReceivedNotification(int i, int i2, Object... objArr) {
         TLRPC$Document tLRPC$Document;
@@ -968,12 +968,16 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
                 str = "GroupSound";
                 str2 = "GroupSoundPath";
                 str3 = "GroupSoundDocId";
-            } else if (i != 2) {
-                throw new RuntimeException("Unsupported type");
-            } else {
+            } else if (i == 2) {
                 str = "ChannelSound";
                 str2 = "ChannelSoundPath";
                 str3 = "ChannelSoundDocId";
+            } else if (i != 3) {
+                throw new RuntimeException("Unsupported type");
+            } else {
+                str = "StoriesSound";
+                str2 = "StoriesSoundPath";
+                str3 = "StoriesSoundDocId";
             }
         }
         Tone tone = this.selectedTone;
@@ -1000,7 +1004,7 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
             return;
         }
         getNotificationsController().updateServerNotificationsSettings(this.currentType);
-        getNotificationCenter().postNotificationName(NotificationCenter.notificationsSettingsUpdated, new Object[0]);
+        getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.notificationsSettingsUpdated, new Object[0]);
     }
 
     @Override // org.telegram.ui.Components.ChatAttachAlertDocumentLayout.DocumentSelectActivityDelegate
@@ -1029,7 +1033,7 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
             if (path != null) {
                 if (this.chatAttachAlert.getDocumentLayout().isRingtone(new File(path))) {
                     getMediaDataController().uploadRingtone(path);
-                    getNotificationCenter().postNotificationName(NotificationCenter.onUserRingtonesUpdated, new Object[0]);
+                    getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.onUserRingtonesUpdated, new Object[0]);
                     z2 = z;
                 }
             }
@@ -1042,7 +1046,7 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
                 String uri = clipData.getItemAt(i3).getUri().toString();
                 if (this.chatAttachAlert.getDocumentLayout().isRingtone(new File(uri))) {
                     getMediaDataController().uploadRingtone(uri);
-                    getNotificationCenter().postNotificationName(NotificationCenter.onUserRingtonesUpdated, new Object[0]);
+                    getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.onUserRingtonesUpdated, new Object[0]);
                     z3 = true;
                 }
             }

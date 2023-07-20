@@ -5,8 +5,6 @@ import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
 /* loaded from: classes.dex */
 public final class CryptoInfo {
-    public int clearBlocks;
-    public int encryptedBlocks;
     private final MediaCodec.CryptoInfo frameworkCryptoInfo;
     public byte[] iv;
     public byte[] key;
@@ -29,8 +27,6 @@ public final class CryptoInfo {
         this.key = bArr;
         this.iv = bArr2;
         this.mode = i2;
-        this.encryptedBlocks = i3;
-        this.clearBlocks = i4;
         MediaCodec.CryptoInfo cryptoInfo = this.frameworkCryptoInfo;
         cryptoInfo.numSubSamples = i;
         cryptoInfo.numBytesOfClearData = iArr;

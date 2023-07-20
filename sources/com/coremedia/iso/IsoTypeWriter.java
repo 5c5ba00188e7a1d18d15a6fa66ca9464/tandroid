@@ -17,6 +17,12 @@ public final class IsoTypeWriter {
         writeUInt8(byteBuffer, i2);
     }
 
+    public static void writeUInt48(ByteBuffer byteBuffer, long j) {
+        long j2 = j & 281474976710655L;
+        writeUInt16(byteBuffer, (int) (j2 >> 32));
+        writeUInt32(byteBuffer, j2 & 4294967295L);
+    }
+
     public static void writeUInt16(ByteBuffer byteBuffer, int i) {
         int i2 = i & 65535;
         writeUInt8(byteBuffer, i2 >> 8);

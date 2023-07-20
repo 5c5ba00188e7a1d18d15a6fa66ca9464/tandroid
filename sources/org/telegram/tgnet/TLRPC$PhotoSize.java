@@ -5,6 +5,8 @@ import java.util.ArrayList;
 /* loaded from: classes.dex */
 public abstract class TLRPC$PhotoSize extends TLObject {
     public byte[] bytes;
+    public int gradientBottomColor;
+    public int gradientTopColor;
     public int h;
     public TLRPC$FileLocation location;
     public int size;

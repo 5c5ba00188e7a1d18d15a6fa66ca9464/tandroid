@@ -21,7 +21,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import j$.util.Comparator$-CC;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import org.telegram.messenger.AndroidUtilities;
@@ -30,6 +33,7 @@ import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.DialogObject;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.NotificationCenter;
@@ -46,6 +50,7 @@ import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$EncryptedChat;
 import org.telegram.tgnet.TLRPC$TL_account_setContactSignUpNotification;
 import org.telegram.tgnet.TLRPC$TL_error;
+import org.telegram.tgnet.TLRPC$TL_topPeer;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.AlertDialog;
@@ -103,6 +108,7 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
     private int resetNotificationsSectionRow;
     private int resetSection2Row;
     private int resetSectionRow;
+    private int storiesRow;
     private boolean updateRepeatNotifications;
     private boolean updateRingtone;
     private boolean updateVibrate;
@@ -110,18 +116,22 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
     private ArrayList<NotificationException> exceptionUsers = null;
     private ArrayList<NotificationException> exceptionChats = null;
     private ArrayList<NotificationException> exceptionChannels = null;
+    private ArrayList<NotificationException> exceptionStories = null;
+    private ArrayList<NotificationException> exceptionAutoStories = null;
     private int rowCount = 0;
 
     /* loaded from: classes3.dex */
     public static class NotificationException {
+        public boolean auto;
         public long did;
         public boolean hasCustom;
         public int muteUntil;
         public int notify;
+        public boolean story;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createView$5(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public static /* synthetic */ void lambda$createView$7(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -158,129 +168,137 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
         this.channelsRow = i7;
         int i9 = i8 + 1;
         this.rowCount = i9;
-        this.notificationsSection2Row = i8;
+        this.storiesRow = i8;
         int i10 = i9 + 1;
         this.rowCount = i10;
-        this.callsSectionRow = i9;
+        this.notificationsSection2Row = i9;
         int i11 = i10 + 1;
         this.rowCount = i11;
-        this.callsVibrateRow = i10;
+        this.callsSectionRow = i10;
         int i12 = i11 + 1;
         this.rowCount = i12;
-        this.callsRingtoneRow = i11;
+        this.callsVibrateRow = i11;
         int i13 = i12 + 1;
         this.rowCount = i13;
-        this.eventsSection2Row = i12;
+        this.callsRingtoneRow = i12;
         int i14 = i13 + 1;
         this.rowCount = i14;
-        this.badgeNumberSection = i13;
+        this.eventsSection2Row = i13;
         int i15 = i14 + 1;
         this.rowCount = i15;
-        this.badgeNumberShowRow = i14;
+        this.badgeNumberSection = i14;
         int i16 = i15 + 1;
         this.rowCount = i16;
-        this.badgeNumberMutedRow = i15;
+        this.badgeNumberShowRow = i15;
         int i17 = i16 + 1;
         this.rowCount = i17;
-        this.badgeNumberMessagesRow = i16;
+        this.badgeNumberMutedRow = i16;
         int i18 = i17 + 1;
         this.rowCount = i18;
-        this.badgeNumberSection2Row = i17;
+        this.badgeNumberMessagesRow = i17;
         int i19 = i18 + 1;
         this.rowCount = i19;
-        this.inappSectionRow = i18;
+        this.badgeNumberSection2Row = i18;
         int i20 = i19 + 1;
         this.rowCount = i20;
-        this.inappSoundRow = i19;
+        this.inappSectionRow = i19;
         int i21 = i20 + 1;
         this.rowCount = i21;
-        this.inappVibrateRow = i20;
+        this.inappSoundRow = i20;
         int i22 = i21 + 1;
         this.rowCount = i22;
-        this.inappPreviewRow = i21;
+        this.inappVibrateRow = i21;
         int i23 = i22 + 1;
         this.rowCount = i23;
-        this.inchatSoundRow = i22;
+        this.inappPreviewRow = i22;
+        int i24 = i23 + 1;
+        this.rowCount = i24;
+        this.inchatSoundRow = i23;
         if (Build.VERSION.SDK_INT >= 21) {
-            this.rowCount = i23 + 1;
-            this.inappPriorityRow = i23;
+            this.rowCount = i24 + 1;
+            this.inappPriorityRow = i24;
         } else {
             this.inappPriorityRow = -1;
         }
-        int i24 = this.rowCount;
-        int i25 = i24 + 1;
-        this.rowCount = i25;
-        this.callsSection2Row = i24;
+        int i25 = this.rowCount;
         int i26 = i25 + 1;
         this.rowCount = i26;
-        this.eventsSectionRow = i25;
+        this.callsSection2Row = i25;
         int i27 = i26 + 1;
         this.rowCount = i27;
-        this.contactJoinedRow = i26;
+        this.eventsSectionRow = i26;
         int i28 = i27 + 1;
         this.rowCount = i28;
-        this.pinnedMessageRow = i27;
+        this.contactJoinedRow = i27;
         int i29 = i28 + 1;
         this.rowCount = i29;
-        this.otherSection2Row = i28;
+        this.pinnedMessageRow = i28;
         int i30 = i29 + 1;
         this.rowCount = i30;
-        this.otherSectionRow = i29;
+        this.otherSection2Row = i29;
         int i31 = i30 + 1;
         this.rowCount = i31;
-        this.notificationsServiceRow = i30;
+        this.otherSectionRow = i30;
         int i32 = i31 + 1;
         this.rowCount = i32;
-        this.notificationsServiceConnectionRow = i31;
-        this.androidAutoAlertRow = -1;
+        this.notificationsServiceRow = i31;
         int i33 = i32 + 1;
         this.rowCount = i33;
-        this.repeatRow = i32;
+        this.notificationsServiceConnectionRow = i32;
+        this.androidAutoAlertRow = -1;
         int i34 = i33 + 1;
         this.rowCount = i34;
-        this.resetSection2Row = i33;
+        this.repeatRow = i33;
         int i35 = i34 + 1;
         this.rowCount = i35;
-        this.resetSectionRow = i34;
+        this.resetSection2Row = i34;
         int i36 = i35 + 1;
         this.rowCount = i36;
-        this.resetNotificationsRow = i35;
-        this.rowCount = i36 + 1;
-        this.resetNotificationsSectionRow = i36;
+        this.resetSectionRow = i35;
+        int i37 = i36 + 1;
+        this.rowCount = i37;
+        this.resetNotificationsRow = i36;
+        this.rowCount = i37 + 1;
+        this.resetNotificationsSectionRow = i37;
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.notificationsSettingsUpdated);
         return super.onFragmentCreate();
     }
 
     private void loadExceptions() {
-        MessagesStorage.getInstance(this.currentAccount).getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.NotificationsSettingsActivity$$ExternalSyntheticLambda3
+        MediaDataController.getInstance(this.currentAccount).loadHints(true);
+        final ArrayList arrayList = new ArrayList(MediaDataController.getInstance(this.currentAccount).hints);
+        MessagesStorage.getInstance(this.currentAccount).getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.NotificationsSettingsActivity$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
             public final void run() {
-                NotificationsSettingsActivity.this.lambda$loadExceptions$1();
+                NotificationsSettingsActivity.this.lambda$loadExceptions$2(arrayList);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:28:0x0130, code lost:
-        if (r4.deleted != false) goto L34;
+    /* JADX WARN: Can't wrap try/catch for region: R(8:82|(2:96|97)(2:84|(2:95|92)(1:86))|87|88|89|90|91|92) */
+    /* JADX WARN: Code restructure failed: missing block: B:102:0x02c6, code lost:
+        if (r10.deleted != false) goto L124;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:37:0x015b, code lost:
-        if (r4.deleted != false) goto L34;
+    /* JADX WARN: Code restructure failed: missing block: B:28:0x013e, code lost:
+        if (r0.deleted != false) goto L34;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:38:0x015d, code lost:
-        r7 = r15;
+    /* JADX WARN: Code restructure failed: missing block: B:38:0x016b, code lost:
+        if (r0.deleted != false) goto L34;
      */
-    /* JADX WARN: Removed duplicated region for block: B:111:0x0273  */
-    /* JADX WARN: Removed duplicated region for block: B:118:0x028d A[LOOP:3: B:117:0x028b->B:118:0x028d, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:121:0x02a6  */
-    /* JADX WARN: Removed duplicated region for block: B:93:0x0234  */
+    /* JADX WARN: Removed duplicated region for block: B:144:0x035b  */
+    /* JADX WARN: Removed duplicated region for block: B:162:0x039d  */
+    /* JADX WARN: Removed duplicated region for block: B:169:0x03b7 A[LOOP:5: B:168:0x03b5->B:169:0x03b7, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:172:0x03d1  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public /* synthetic */ void lambda$loadExceptions$1() {
-        ArrayList<TLRPC$Chat> arrayList;
-        ArrayList<TLRPC$Chat> arrayList2;
-        ArrayList<TLRPC$User> arrayList3;
+    public /* synthetic */ void lambda$loadExceptions$2(ArrayList arrayList) {
+        ArrayList<TLRPC$EncryptedChat> arrayList2;
+        boolean z;
+        ArrayList<TLRPC$Chat> arrayList3;
+        ArrayList<TLRPC$User> arrayList4;
+        ArrayList<TLRPC$EncryptedChat> arrayList5;
         int size;
         int i;
         int size2;
@@ -288,49 +306,54 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
         int size3;
         int i3;
         int size4;
-        ArrayList<TLRPC$User> arrayList4;
-        long j;
+        int i4;
+        ArrayList arrayList6;
+        ArrayList arrayList7;
+        long longValue;
+        ArrayList arrayList8;
         SharedPreferences sharedPreferences;
-        final ArrayList arrayList5 = new ArrayList();
-        final ArrayList arrayList6 = new ArrayList();
-        final ArrayList arrayList7 = new ArrayList();
+        long j;
+        final ArrayList arrayList9 = new ArrayList();
+        final ArrayList arrayList10 = new ArrayList();
+        final ArrayList arrayList11 = new ArrayList();
+        ArrayList arrayList12 = new ArrayList();
+        ArrayList arrayList13 = new ArrayList();
         LongSparseArray longSparseArray = new LongSparseArray();
-        ArrayList<Long> arrayList8 = new ArrayList<>();
-        ArrayList arrayList9 = new ArrayList();
-        ArrayList arrayList10 = new ArrayList();
-        ArrayList<TLRPC$User> arrayList11 = new ArrayList<>();
-        ArrayList<TLRPC$Chat> arrayList12 = new ArrayList<>();
-        final ArrayList<TLRPC$EncryptedChat> arrayList13 = new ArrayList<>();
+        ArrayList<Long> arrayList14 = new ArrayList<>();
+        ArrayList arrayList15 = new ArrayList();
+        ArrayList arrayList16 = new ArrayList();
+        ArrayList<TLRPC$User> arrayList17 = new ArrayList<>();
+        ArrayList<TLRPC$Chat> arrayList18 = new ArrayList<>();
+        ArrayList<TLRPC$EncryptedChat> arrayList19 = new ArrayList<>();
         long j2 = UserConfig.getInstance(this.currentAccount).clientUserId;
         SharedPreferences notificationsSettings = MessagesController.getNotificationsSettings(this.currentAccount);
         Map<String, ?> all = notificationsSettings.getAll();
         Iterator<Map.Entry<String, ?>> it = all.entrySet().iterator();
         while (true) {
-            arrayList = arrayList12;
+            arrayList2 = arrayList19;
             if (!it.hasNext()) {
                 break;
             }
             Map.Entry<String, ?> next = it.next();
             String key = next.getKey();
-            Iterator<Map.Entry<String, ?>> it2 = it;
+            ArrayList arrayList20 = arrayList13;
             if (key.startsWith(NotificationsSettingsFacade.PROPERTY_NOTIFY)) {
-                arrayList4 = arrayList11;
                 String replace = key.replace(NotificationsSettingsFacade.PROPERTY_NOTIFY, "");
                 if (replace.contains("_")) {
-                    arrayList12 = arrayList;
-                    it = it2;
-                    arrayList11 = arrayList4;
+                    arrayList19 = arrayList2;
+                    arrayList13 = arrayList20;
                 } else {
-                    ArrayList arrayList14 = arrayList6;
-                    ArrayList arrayList15 = arrayList7;
-                    long longValue = Utilities.parseLong(replace).longValue();
-                    if (longValue == 0 || longValue == j2) {
-                        j = j2;
+                    ArrayList arrayList21 = arrayList12;
+                    long longValue2 = Utilities.parseLong(replace).longValue();
+                    if (longValue2 == 0 || longValue2 == j2) {
+                        sharedPreferences = notificationsSettings;
+                        arrayList8 = arrayList21;
                     } else {
+                        arrayList8 = arrayList21;
                         NotificationException notificationException = new NotificationException();
-                        notificationException.did = longValue;
+                        notificationException.did = longValue2;
                         j = j2;
-                        notificationException.hasCustom = notificationsSettings.getBoolean(NotificationsSettingsFacade.PROPERTY_CUSTOM + longValue, false);
+                        notificationException.hasCustom = notificationsSettings.getBoolean(NotificationsSettingsFacade.PROPERTY_CUSTOM + longValue2, false);
                         int intValue = ((Integer) next.getValue()).intValue();
                         notificationException.notify = intValue;
                         if (intValue != 0) {
@@ -339,230 +362,376 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
                                 notificationException.muteUntil = num.intValue();
                             }
                         }
-                        if (DialogObject.isEncryptedDialog(longValue)) {
-                            int encryptedChatId = DialogObject.getEncryptedChatId(longValue);
+                        if (DialogObject.isEncryptedDialog(longValue2)) {
+                            int encryptedChatId = DialogObject.getEncryptedChatId(longValue2);
                             TLRPC$EncryptedChat encryptedChat = MessagesController.getInstance(this.currentAccount).getEncryptedChat(Integer.valueOf(encryptedChatId));
                             if (encryptedChat == null) {
-                                arrayList10.add(Integer.valueOf(encryptedChatId));
-                                longSparseArray.put(longValue, notificationException);
+                                arrayList16.add(Integer.valueOf(encryptedChatId));
+                                longSparseArray.put(longValue2, notificationException);
                             } else {
                                 TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(encryptedChat.user_id));
                                 if (user == null) {
-                                    arrayList8.add(Long.valueOf(encryptedChat.user_id));
+                                    arrayList14.add(Long.valueOf(encryptedChat.user_id));
                                     longSparseArray.put(encryptedChat.user_id, notificationException);
                                 }
                             }
-                            arrayList5.add(notificationException);
-                        } else if (DialogObject.isUserDialog(longValue)) {
-                            TLRPC$User user2 = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(longValue));
+                            arrayList9.add(notificationException);
+                            sharedPreferences = notificationsSettings;
+                            notificationsSettings = sharedPreferences;
+                            arrayList19 = arrayList2;
+                            arrayList13 = arrayList20;
+                            arrayList12 = arrayList8;
+                            j2 = j;
+                        } else if (DialogObject.isUserDialog(longValue2)) {
+                            TLRPC$User user2 = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(longValue2));
                             if (user2 == null) {
-                                arrayList8.add(Long.valueOf(longValue));
-                                longSparseArray.put(longValue, notificationException);
+                                arrayList14.add(Long.valueOf(longValue2));
+                                longSparseArray.put(longValue2, notificationException);
                             }
-                            arrayList5.add(notificationException);
+                            arrayList9.add(notificationException);
+                            sharedPreferences = notificationsSettings;
+                            notificationsSettings = sharedPreferences;
+                            arrayList19 = arrayList2;
+                            arrayList13 = arrayList20;
+                            arrayList12 = arrayList8;
+                            j2 = j;
                         } else {
-                            long j3 = -longValue;
+                            long j3 = -longValue2;
                             sharedPreferences = notificationsSettings;
                             TLRPC$Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(j3));
                             if (chat == null) {
-                                arrayList9.add(Long.valueOf(j3));
-                                longSparseArray.put(longValue, notificationException);
+                                arrayList15.add(Long.valueOf(j3));
+                                longSparseArray.put(longValue2, notificationException);
                             } else if (!chat.left && !chat.kicked && chat.migrated_to == null) {
                                 if (ChatObject.isChannel(chat) && !chat.megagroup) {
-                                    arrayList7 = arrayList15;
-                                    arrayList7.add(notificationException);
-                                    arrayList6 = arrayList14;
+                                    arrayList11.add(notificationException);
                                 } else {
-                                    arrayList7 = arrayList15;
-                                    arrayList6 = arrayList14;
-                                    arrayList6.add(notificationException);
+                                    arrayList10.add(notificationException);
                                 }
                             }
-                            arrayList6 = arrayList14;
                             notificationsSettings = sharedPreferences;
-                            arrayList12 = arrayList;
-                            it = it2;
-                            arrayList11 = arrayList4;
-                            arrayList7 = arrayList15;
+                            arrayList19 = arrayList2;
+                            arrayList13 = arrayList20;
+                            arrayList12 = arrayList8;
+                            j2 = j;
                         }
-                        j2 = j;
                     }
-                    sharedPreferences = notificationsSettings;
-                    arrayList6 = arrayList14;
-                    arrayList7 = arrayList15;
                 }
             } else {
-                arrayList4 = arrayList11;
-                j = j2;
+                arrayList8 = arrayList12;
                 sharedPreferences = notificationsSettings;
             }
+            j = j2;
             notificationsSettings = sharedPreferences;
-            arrayList12 = arrayList;
-            it = it2;
-            arrayList11 = arrayList4;
+            arrayList19 = arrayList2;
+            arrayList13 = arrayList20;
+            arrayList12 = arrayList8;
             j2 = j;
         }
-        ArrayList<TLRPC$User> arrayList16 = arrayList11;
+        ArrayList arrayList22 = arrayList12;
+        ArrayList arrayList23 = arrayList13;
+        long j4 = j2;
+        HashSet hashSet = new HashSet();
+        Iterator<Map.Entry<String, ?>> it2 = all.entrySet().iterator();
+        while (true) {
+            z = true;
+            if (!it2.hasNext()) {
+                break;
+            }
+            Map.Entry<String, ?> next2 = it2.next();
+            String key2 = next2.getKey();
+            if (key2.startsWith(NotificationsSettingsFacade.PROPERTY_STORIES_NOTIFY)) {
+                try {
+                    longValue = Utilities.parseLong(key2.substring(8)).longValue();
+                } catch (Exception unused) {
+                }
+                if (longValue != 0 && longValue != j4) {
+                    NotificationException notificationException2 = new NotificationException();
+                    notificationException2.did = longValue;
+                    notificationException2.notify = ((Boolean) next2.getValue()).booleanValue() ? 0 : ConnectionsManager.DEFAULT_DATACENTER_ID;
+                    notificationException2.story = true;
+                    if (DialogObject.isUserDialog(longValue)) {
+                        TLRPC$User user3 = getMessagesController().getUser(Long.valueOf(longValue));
+                        if (user3 == null) {
+                            arrayList14.add(Long.valueOf(longValue));
+                            longSparseArray.put(longValue, notificationException2);
+                        } else if (user3.deleted) {
+                        }
+                        arrayList7 = arrayList22;
+                        arrayList7.add(notificationException2);
+                        hashSet.add(Long.valueOf(longValue));
+                        arrayList22 = arrayList7;
+                    }
+                }
+            }
+            arrayList7 = arrayList22;
+            arrayList22 = arrayList7;
+        }
+        ArrayList arrayList24 = arrayList;
+        final ArrayList arrayList25 = arrayList22;
+        if (arrayList24 != null) {
+            Collections.sort(arrayList24, Comparator$-CC.comparingDouble(NotificationsSettingsActivity$$ExternalSyntheticLambda9.INSTANCE));
+            int max = Math.max(0, arrayList.size() - 5);
+            while (max < arrayList.size()) {
+                long peerDialogId = DialogObject.getPeerDialogId(((TLRPC$TL_topPeer) arrayList24.get(max)).peer);
+                if (!hashSet.contains(Long.valueOf(peerDialogId))) {
+                    NotificationException notificationException3 = new NotificationException();
+                    notificationException3.did = peerDialogId;
+                    notificationException3.notify = 0;
+                    notificationException3.auto = z;
+                    notificationException3.story = z;
+                    if (DialogObject.isUserDialog(peerDialogId)) {
+                        TLRPC$User user4 = getMessagesController().getUser(Long.valueOf(peerDialogId));
+                        if (user4 == null) {
+                            arrayList14.add(Long.valueOf(peerDialogId));
+                            longSparseArray.put(peerDialogId, notificationException3);
+                        }
+                        arrayList6 = arrayList23;
+                        arrayList6.add(0, notificationException3);
+                        hashSet.add(Long.valueOf(peerDialogId));
+                        max++;
+                        arrayList23 = arrayList6;
+                        z = true;
+                        arrayList24 = arrayList;
+                    }
+                }
+                arrayList6 = arrayList23;
+                max++;
+                arrayList23 = arrayList6;
+                z = true;
+                arrayList24 = arrayList;
+            }
+        }
+        final ArrayList arrayList26 = arrayList23;
         if (longSparseArray.size() != 0) {
             try {
-                if (!arrayList10.isEmpty()) {
-                    MessagesStorage.getInstance(this.currentAccount).getEncryptedChatsInternal(TextUtils.join(",", arrayList10), arrayList13, arrayList8);
-                }
-                if (arrayList8.isEmpty()) {
-                    arrayList3 = arrayList16;
+                if (arrayList16.isEmpty()) {
+                    arrayList5 = arrayList2;
                 } else {
                     try {
-                        arrayList3 = arrayList16;
-                    } catch (Exception e) {
-                        e = e;
-                        arrayList3 = arrayList16;
-                        arrayList2 = arrayList;
-                        FileLog.e(e);
-                        size = arrayList2.size();
-                        while (i < size) {
-                        }
-                        size2 = arrayList3.size();
-                        while (i2 < size2) {
-                        }
-                        size3 = arrayList13.size();
-                        while (i3 < size3) {
-                        }
-                        size4 = longSparseArray.size();
-                        while (r12 < size4) {
-                        }
-                        final ArrayList<TLRPC$User> arrayList17 = arrayList3;
-                        final ArrayList<TLRPC$Chat> arrayList18 = arrayList2;
-                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.NotificationsSettingsActivity$$ExternalSyntheticLambda6
-                            @Override // java.lang.Runnable
-                            public final void run() {
-                                NotificationsSettingsActivity.this.lambda$loadExceptions$0(arrayList17, arrayList18, arrayList13, arrayList5, arrayList6, arrayList7);
+                        arrayList5 = arrayList2;
+                        try {
+                            MessagesStorage.getInstance(this.currentAccount).getEncryptedChatsInternal(TextUtils.join(",", arrayList16), arrayList5, arrayList14);
+                        } catch (Exception e) {
+                            e = e;
+                            arrayList3 = arrayList18;
+                            arrayList4 = arrayList17;
+                            FileLog.e(e);
+                            size = arrayList3.size();
+                            while (i < size) {
                             }
-                        });
-                    }
-                    try {
-                        MessagesStorage.getInstance(this.currentAccount).getUsersInternal(TextUtils.join(",", arrayList8), arrayList3);
+                            size2 = arrayList4.size();
+                            while (i2 < size2) {
+                            }
+                            size3 = arrayList5.size();
+                            while (i3 < size3) {
+                            }
+                            size4 = longSparseArray.size();
+                            while (i4 < size4) {
+                            }
+                            final ArrayList<TLRPC$User> arrayList27 = arrayList4;
+                            final ArrayList<TLRPC$Chat> arrayList28 = arrayList3;
+                            final ArrayList<TLRPC$EncryptedChat> arrayList29 = arrayList5;
+                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.NotificationsSettingsActivity$$ExternalSyntheticLambda8
+                                @Override // java.lang.Runnable
+                                public final void run() {
+                                    NotificationsSettingsActivity.this.lambda$loadExceptions$1(arrayList27, arrayList28, arrayList29, arrayList9, arrayList10, arrayList11, arrayList25, arrayList26);
+                                }
+                            });
+                        }
                     } catch (Exception e2) {
                         e = e2;
-                        arrayList2 = arrayList;
+                        arrayList5 = arrayList2;
+                        arrayList3 = arrayList18;
+                        arrayList4 = arrayList17;
                         FileLog.e(e);
-                        size = arrayList2.size();
+                        size = arrayList3.size();
                         while (i < size) {
                         }
-                        size2 = arrayList3.size();
+                        size2 = arrayList4.size();
                         while (i2 < size2) {
                         }
-                        size3 = arrayList13.size();
+                        size3 = arrayList5.size();
                         while (i3 < size3) {
                         }
                         size4 = longSparseArray.size();
-                        while (r12 < size4) {
+                        while (i4 < size4) {
                         }
-                        final ArrayList arrayList172 = arrayList3;
-                        final ArrayList arrayList182 = arrayList2;
-                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.NotificationsSettingsActivity$$ExternalSyntheticLambda6
+                        final ArrayList arrayList272 = arrayList4;
+                        final ArrayList arrayList282 = arrayList3;
+                        final ArrayList arrayList292 = arrayList5;
+                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.NotificationsSettingsActivity$$ExternalSyntheticLambda8
                             @Override // java.lang.Runnable
                             public final void run() {
-                                NotificationsSettingsActivity.this.lambda$loadExceptions$0(arrayList172, arrayList182, arrayList13, arrayList5, arrayList6, arrayList7);
+                                NotificationsSettingsActivity.this.lambda$loadExceptions$1(arrayList272, arrayList282, arrayList292, arrayList9, arrayList10, arrayList11, arrayList25, arrayList26);
                             }
                         });
                     }
                 }
-                if (arrayList9.isEmpty()) {
-                    arrayList2 = arrayList;
+                if (arrayList14.isEmpty()) {
+                    arrayList4 = arrayList17;
                 } else {
-                    arrayList2 = arrayList;
                     try {
-                        MessagesStorage.getInstance(this.currentAccount).getChatsInternal(TextUtils.join(",", arrayList9), arrayList2);
-                    } catch (Exception e3) {
-                        e = e3;
+                        arrayList4 = arrayList17;
+                        try {
+                            MessagesStorage.getInstance(this.currentAccount).getUsersInternal(TextUtils.join(",", arrayList14), arrayList4);
+                        } catch (Exception e3) {
+                            e = e3;
+                            arrayList3 = arrayList18;
+                            FileLog.e(e);
+                            size = arrayList3.size();
+                            while (i < size) {
+                            }
+                            size2 = arrayList4.size();
+                            while (i2 < size2) {
+                            }
+                            size3 = arrayList5.size();
+                            while (i3 < size3) {
+                            }
+                            size4 = longSparseArray.size();
+                            while (i4 < size4) {
+                            }
+                            final ArrayList arrayList2722 = arrayList4;
+                            final ArrayList arrayList2822 = arrayList3;
+                            final ArrayList arrayList2922 = arrayList5;
+                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.NotificationsSettingsActivity$$ExternalSyntheticLambda8
+                                @Override // java.lang.Runnable
+                                public final void run() {
+                                    NotificationsSettingsActivity.this.lambda$loadExceptions$1(arrayList2722, arrayList2822, arrayList2922, arrayList9, arrayList10, arrayList11, arrayList25, arrayList26);
+                                }
+                            });
+                        }
+                    } catch (Exception e4) {
+                        e = e4;
+                        arrayList4 = arrayList17;
+                        arrayList3 = arrayList18;
                         FileLog.e(e);
-                        size = arrayList2.size();
+                        size = arrayList3.size();
                         while (i < size) {
                         }
-                        size2 = arrayList3.size();
+                        size2 = arrayList4.size();
                         while (i2 < size2) {
                         }
-                        size3 = arrayList13.size();
+                        size3 = arrayList5.size();
                         while (i3 < size3) {
                         }
                         size4 = longSparseArray.size();
-                        while (r12 < size4) {
+                        while (i4 < size4) {
                         }
-                        final ArrayList arrayList1722 = arrayList3;
-                        final ArrayList arrayList1822 = arrayList2;
-                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.NotificationsSettingsActivity$$ExternalSyntheticLambda6
+                        final ArrayList arrayList27222 = arrayList4;
+                        final ArrayList arrayList28222 = arrayList3;
+                        final ArrayList arrayList29222 = arrayList5;
+                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.NotificationsSettingsActivity$$ExternalSyntheticLambda8
                             @Override // java.lang.Runnable
                             public final void run() {
-                                NotificationsSettingsActivity.this.lambda$loadExceptions$0(arrayList1722, arrayList1822, arrayList13, arrayList5, arrayList6, arrayList7);
+                                NotificationsSettingsActivity.this.lambda$loadExceptions$1(arrayList27222, arrayList28222, arrayList29222, arrayList9, arrayList10, arrayList11, arrayList25, arrayList26);
                             }
                         });
                     }
                 }
-            } catch (Exception e4) {
-                e = e4;
-                arrayList2 = arrayList;
-                arrayList3 = arrayList16;
+                if (arrayList15.isEmpty()) {
+                    arrayList3 = arrayList18;
+                } else {
+                    arrayList3 = arrayList18;
+                    try {
+                        MessagesStorage.getInstance(this.currentAccount).getChatsInternal(TextUtils.join(",", arrayList15), arrayList3);
+                    } catch (Exception e5) {
+                        e = e5;
+                        FileLog.e(e);
+                        size = arrayList3.size();
+                        while (i < size) {
+                        }
+                        size2 = arrayList4.size();
+                        while (i2 < size2) {
+                        }
+                        size3 = arrayList5.size();
+                        while (i3 < size3) {
+                        }
+                        size4 = longSparseArray.size();
+                        while (i4 < size4) {
+                        }
+                        final ArrayList arrayList272222 = arrayList4;
+                        final ArrayList arrayList282222 = arrayList3;
+                        final ArrayList arrayList292222 = arrayList5;
+                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.NotificationsSettingsActivity$$ExternalSyntheticLambda8
+                            @Override // java.lang.Runnable
+                            public final void run() {
+                                NotificationsSettingsActivity.this.lambda$loadExceptions$1(arrayList272222, arrayList282222, arrayList292222, arrayList9, arrayList10, arrayList11, arrayList25, arrayList26);
+                            }
+                        });
+                    }
+                }
+            } catch (Exception e6) {
+                e = e6;
+                arrayList3 = arrayList18;
+                arrayList4 = arrayList17;
+                arrayList5 = arrayList2;
             }
-            size = arrayList2.size();
+            size = arrayList3.size();
             for (i = 0; i < size; i++) {
-                TLRPC$Chat tLRPC$Chat = arrayList2.get(i);
+                TLRPC$Chat tLRPC$Chat = arrayList3.get(i);
                 if (!tLRPC$Chat.left && !tLRPC$Chat.kicked && tLRPC$Chat.migrated_to == null) {
-                    NotificationException notificationException2 = (NotificationException) longSparseArray.get(-tLRPC$Chat.id);
+                    NotificationException notificationException4 = (NotificationException) longSparseArray.get(-tLRPC$Chat.id);
                     longSparseArray.remove(-tLRPC$Chat.id);
-                    if (notificationException2 != null) {
+                    if (notificationException4 != null) {
                         if (ChatObject.isChannel(tLRPC$Chat) && !tLRPC$Chat.megagroup) {
-                            arrayList7.add(notificationException2);
+                            arrayList11.add(notificationException4);
                         } else {
-                            arrayList6.add(notificationException2);
+                            arrayList10.add(notificationException4);
                         }
                     }
                 }
             }
-            size2 = arrayList3.size();
+            size2 = arrayList4.size();
             for (i2 = 0; i2 < size2; i2++) {
-                TLRPC$User tLRPC$User = arrayList3.get(i2);
+                TLRPC$User tLRPC$User = arrayList4.get(i2);
                 if (!tLRPC$User.deleted) {
                     longSparseArray.remove(tLRPC$User.id);
                 }
             }
-            size3 = arrayList13.size();
+            size3 = arrayList5.size();
             for (i3 = 0; i3 < size3; i3++) {
-                longSparseArray.remove(DialogObject.makeEncryptedDialogId(arrayList13.get(i3).id));
+                longSparseArray.remove(DialogObject.makeEncryptedDialogId(arrayList5.get(i3).id));
             }
             size4 = longSparseArray.size();
-            for (int i4 = 0; i4 < size4; i4++) {
+            for (i4 = 0; i4 < size4; i4++) {
                 if (DialogObject.isChatDialog(longSparseArray.keyAt(i4))) {
-                    arrayList6.remove(longSparseArray.valueAt(i4));
-                    arrayList7.remove(longSparseArray.valueAt(i4));
+                    arrayList10.remove(longSparseArray.valueAt(i4));
+                    arrayList11.remove(longSparseArray.valueAt(i4));
                 } else {
-                    arrayList5.remove(longSparseArray.valueAt(i4));
+                    arrayList9.remove(longSparseArray.valueAt(i4));
                 }
             }
         } else {
-            arrayList2 = arrayList;
-            arrayList3 = arrayList16;
+            arrayList3 = arrayList18;
+            arrayList4 = arrayList17;
+            arrayList5 = arrayList2;
         }
-        final ArrayList arrayList17222 = arrayList3;
-        final ArrayList arrayList18222 = arrayList2;
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.NotificationsSettingsActivity$$ExternalSyntheticLambda6
+        final ArrayList arrayList2722222 = arrayList4;
+        final ArrayList arrayList2822222 = arrayList3;
+        final ArrayList arrayList2922222 = arrayList5;
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.NotificationsSettingsActivity$$ExternalSyntheticLambda8
             @Override // java.lang.Runnable
             public final void run() {
-                NotificationsSettingsActivity.this.lambda$loadExceptions$0(arrayList17222, arrayList18222, arrayList13, arrayList5, arrayList6, arrayList7);
+                NotificationsSettingsActivity.this.lambda$loadExceptions$1(arrayList2722222, arrayList2822222, arrayList2922222, arrayList9, arrayList10, arrayList11, arrayList25, arrayList26);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadExceptions$0(ArrayList arrayList, ArrayList arrayList2, ArrayList arrayList3, ArrayList arrayList4, ArrayList arrayList5, ArrayList arrayList6) {
+    public /* synthetic */ void lambda$loadExceptions$1(ArrayList arrayList, ArrayList arrayList2, ArrayList arrayList3, ArrayList arrayList4, ArrayList arrayList5, ArrayList arrayList6, ArrayList arrayList7, ArrayList arrayList8) {
         MessagesController.getInstance(this.currentAccount).putUsers(arrayList, true);
         MessagesController.getInstance(this.currentAccount).putChats(arrayList2, true);
         MessagesController.getInstance(this.currentAccount).putEncryptedChats(arrayList3, true);
         this.exceptionUsers = arrayList4;
         this.exceptionChats = arrayList5;
         this.exceptionChannels = arrayList6;
+        this.exceptionStories = arrayList7;
+        this.exceptionAutoStories = arrayList8;
         this.adapter.notifyItemChanged(this.privateRow);
         this.adapter.notifyItemChanged(this.groupRow);
         this.adapter.notifyItemChanged(this.channelsRow);
+        this.adapter.notifyItemChanged(this.storiesRow);
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -604,7 +773,7 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
         ListAdapter listAdapter = new ListAdapter(context);
         this.adapter = listAdapter;
         recyclerListView2.setAdapter(listAdapter);
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.NotificationsSettingsActivity$$ExternalSyntheticLambda9
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.NotificationsSettingsActivity$$ExternalSyntheticLambda12
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
             public /* synthetic */ boolean hasDoubleTap(View view, int i) {
                 return RecyclerListView.OnItemClickListenerExtended.-CC.$default$hasDoubleTap(this, view, i);
@@ -617,20 +786,25 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
 
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
             public final void onItemClick(View view, int i, float f, float f2) {
-                NotificationsSettingsActivity.this.lambda$createView$8(view, i, f, f2);
+                NotificationsSettingsActivity.this.lambda$createView$10(view, i, f, f2);
             }
         });
         return this.fragmentView;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$8(View view, final int i, float f, float f2) {
+    public /* synthetic */ void lambda$createView$10(View view, final int i, float f, float f2) {
         ArrayList<NotificationException> arrayList;
+        final int i2;
         if (getParentActivity() == null) {
             return;
         }
-        int i2 = this.privateRow;
-        int i3 = 2;
+        int i3 = this.privateRow;
+        ArrayList<NotificationException> arrayList2 = null;
+        r2 = null;
+        Parcelable parcelable = null;
+        arrayList2 = null;
+        arrayList2 = null;
         boolean z = false;
         z = false;
         z = false;
@@ -638,202 +812,208 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
         z = false;
         z = false;
         z = false;
-        if (i == i2 || i == this.groupRow || i == this.channelsRow) {
-            if (i == i2) {
+        if (i == i3 || i == this.groupRow || i == this.channelsRow || i == this.storiesRow) {
+            if (i == i3) {
                 arrayList = this.exceptionUsers;
-                i3 = 1;
+                z = getNotificationsController().isGlobalNotificationsEnabled(1);
+                i2 = 1;
             } else if (i == this.groupRow) {
                 arrayList = this.exceptionChats;
-                i3 = 0;
+                z = getNotificationsController().isGlobalNotificationsEnabled(0);
+                i2 = 0;
+            } else if (i == this.storiesRow) {
+                arrayList = this.exceptionStories;
+                arrayList2 = this.exceptionAutoStories;
+                z = getNotificationsSettings().getBoolean("EnableAllStories", false);
+                i2 = 3;
             } else {
                 arrayList = this.exceptionChannels;
+                z = getNotificationsController().isGlobalNotificationsEnabled(2);
+                i2 = 2;
             }
             if (arrayList == null) {
                 return;
             }
-            NotificationsCheckCell notificationsCheckCell = (NotificationsCheckCell) view;
-            boolean isGlobalNotificationsEnabled = getNotificationsController().isGlobalNotificationsEnabled(i3);
+            final NotificationsCheckCell notificationsCheckCell = (NotificationsCheckCell) view;
             if ((LocaleController.isRTL && f <= AndroidUtilities.dp(76.0f)) || (!LocaleController.isRTL && f >= view.getMeasuredWidth() - AndroidUtilities.dp(76.0f))) {
-                getNotificationsController().setGlobalNotificationsEnabled(i3, !isGlobalNotificationsEnabled ? 0 : ConnectionsManager.DEFAULT_DATACENTER_ID);
-                showExceptionsAlert(i);
-                notificationsCheckCell.setChecked(!isGlobalNotificationsEnabled, 0);
-                this.adapter.notifyItemChanged(i);
-            } else {
-                presentFragment(new NotificationsCustomSettingsActivity(i3, arrayList));
-            }
-            z = isGlobalNotificationsEnabled;
-        } else {
-            Parcelable parcelable = null;
-            parcelable = null;
-            if (i == this.callsRingtoneRow) {
-                try {
-                    SharedPreferences notificationsSettings = MessagesController.getNotificationsSettings(this.currentAccount);
-                    Intent intent = new Intent("android.intent.action.RINGTONE_PICKER");
-                    intent.putExtra("android.intent.extra.ringtone.TYPE", 1);
-                    intent.putExtra("android.intent.extra.ringtone.SHOW_DEFAULT", true);
-                    intent.putExtra("android.intent.extra.ringtone.SHOW_SILENT", true);
-                    intent.putExtra("android.intent.extra.ringtone.DEFAULT_URI", RingtoneManager.getDefaultUri(1));
-                    Uri uri = Settings.System.DEFAULT_RINGTONE_URI;
-                    String path = uri != null ? uri.getPath() : null;
-                    String string = notificationsSettings.getString("CallsRingtonePath", path);
-                    if (string != null && !string.equals("NoSound")) {
-                        parcelable = string.equals(path) ? uri : Uri.parse(string);
-                    }
-                    intent.putExtra("android.intent.extra.ringtone.EXISTING_URI", parcelable);
-                    startActivityForResult(intent, i);
-                } catch (Exception e) {
-                    FileLog.e(e);
-                }
-            } else if (i == this.resetNotificationsRow) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-                builder.setTitle(LocaleController.getString("ResetNotificationsAlertTitle", R.string.ResetNotificationsAlertTitle));
-                builder.setMessage(LocaleController.getString("ResetNotificationsAlert", R.string.ResetNotificationsAlert));
-                builder.setPositiveButton(LocaleController.getString("Reset", R.string.Reset), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.NotificationsSettingsActivity$$ExternalSyntheticLambda0
-                    @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i4) {
-                        NotificationsSettingsActivity.this.lambda$createView$4(dialogInterface, i4);
-                    }
-                });
-                builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-                AlertDialog create = builder.create();
-                showDialog(create);
-                TextView textView = (TextView) create.getButton(-1);
-                if (textView != null) {
-                    textView.setTextColor(Theme.getColor(Theme.key_text_RedBold));
-                }
-            } else if (i == this.inappSoundRow) {
-                SharedPreferences notificationsSettings2 = MessagesController.getNotificationsSettings(this.currentAccount);
-                SharedPreferences.Editor edit = notificationsSettings2.edit();
-                z = notificationsSettings2.getBoolean("EnableInAppSounds", true);
-                edit.putBoolean("EnableInAppSounds", !z);
-                edit.commit();
-            } else if (i == this.inappVibrateRow) {
-                SharedPreferences notificationsSettings3 = MessagesController.getNotificationsSettings(this.currentAccount);
-                SharedPreferences.Editor edit2 = notificationsSettings3.edit();
-                z = notificationsSettings3.getBoolean("EnableInAppVibrate", true);
-                edit2.putBoolean("EnableInAppVibrate", !z);
-                edit2.commit();
-            } else if (i == this.inappPreviewRow) {
-                SharedPreferences notificationsSettings4 = MessagesController.getNotificationsSettings(this.currentAccount);
-                SharedPreferences.Editor edit3 = notificationsSettings4.edit();
-                z = notificationsSettings4.getBoolean("EnableInAppPreview", true);
-                edit3.putBoolean("EnableInAppPreview", !z);
-                edit3.commit();
-            } else if (i == this.inchatSoundRow) {
-                SharedPreferences notificationsSettings5 = MessagesController.getNotificationsSettings(this.currentAccount);
-                SharedPreferences.Editor edit4 = notificationsSettings5.edit();
-                z = notificationsSettings5.getBoolean("EnableInChatSound", true);
-                edit4.putBoolean("EnableInChatSound", !z);
-                edit4.commit();
-                getNotificationsController().setInChatSoundEnabled(!z);
-            } else if (i == this.inappPriorityRow) {
-                SharedPreferences notificationsSettings6 = MessagesController.getNotificationsSettings(this.currentAccount);
-                SharedPreferences.Editor edit5 = notificationsSettings6.edit();
-                z = notificationsSettings6.getBoolean("EnableInAppPriority", false);
-                edit5.putBoolean("EnableInAppPriority", !z);
-                edit5.commit();
-            } else if (i == this.contactJoinedRow) {
-                SharedPreferences notificationsSettings7 = MessagesController.getNotificationsSettings(this.currentAccount);
-                SharedPreferences.Editor edit6 = notificationsSettings7.edit();
-                z = notificationsSettings7.getBoolean("EnableContactJoined", true);
-                MessagesController.getInstance(this.currentAccount).enableJoined = !z;
-                edit6.putBoolean("EnableContactJoined", !z);
-                edit6.commit();
-                TLRPC$TL_account_setContactSignUpNotification tLRPC$TL_account_setContactSignUpNotification = new TLRPC$TL_account_setContactSignUpNotification();
-                tLRPC$TL_account_setContactSignUpNotification.silent = z;
-                ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_setContactSignUpNotification, NotificationsSettingsActivity$$ExternalSyntheticLambda8.INSTANCE);
-            } else if (i == this.pinnedMessageRow) {
-                SharedPreferences notificationsSettings8 = MessagesController.getNotificationsSettings(this.currentAccount);
-                SharedPreferences.Editor edit7 = notificationsSettings8.edit();
-                z = notificationsSettings8.getBoolean("PinnedMessages", true);
-                edit7.putBoolean("PinnedMessages", !z);
-                edit7.commit();
-            } else if (i == this.androidAutoAlertRow) {
-                SharedPreferences notificationsSettings9 = MessagesController.getNotificationsSettings(this.currentAccount);
-                SharedPreferences.Editor edit8 = notificationsSettings9.edit();
-                z = notificationsSettings9.getBoolean("EnableAutoNotifications", false);
-                edit8.putBoolean("EnableAutoNotifications", !z);
-                edit8.commit();
-            } else if (i == this.badgeNumberShowRow) {
-                SharedPreferences.Editor edit9 = MessagesController.getNotificationsSettings(this.currentAccount).edit();
-                z = getNotificationsController().showBadgeNumber;
-                getNotificationsController().showBadgeNumber = !z;
-                edit9.putBoolean("badgeNumber", getNotificationsController().showBadgeNumber);
-                edit9.commit();
-                getNotificationsController().updateBadge();
-            } else if (i == this.badgeNumberMutedRow) {
-                SharedPreferences.Editor edit10 = MessagesController.getNotificationsSettings(this.currentAccount).edit();
-                z = getNotificationsController().showBadgeMuted;
-                getNotificationsController().showBadgeMuted = !z;
-                edit10.putBoolean("badgeNumberMuted", getNotificationsController().showBadgeMuted);
-                edit10.commit();
-                getNotificationsController().updateBadge();
-                getMessagesStorage().updateMutedDialogsFiltersCounters();
-            } else if (i == this.badgeNumberMessagesRow) {
-                SharedPreferences.Editor edit11 = MessagesController.getNotificationsSettings(this.currentAccount).edit();
-                z = getNotificationsController().showBadgeMessages;
-                getNotificationsController().showBadgeMessages = !z;
-                edit11.putBoolean("badgeNumberMessages", getNotificationsController().showBadgeMessages);
-                edit11.commit();
-                getNotificationsController().updateBadge();
-            } else if (i == this.notificationsServiceConnectionRow) {
-                SharedPreferences notificationsSettings10 = MessagesController.getNotificationsSettings(this.currentAccount);
-                boolean z2 = notificationsSettings10.getBoolean("pushConnection", getMessagesController().backgroundConnection);
-                SharedPreferences.Editor edit12 = notificationsSettings10.edit();
-                edit12.putBoolean("pushConnection", !z2);
-                edit12.commit();
-                if (!z2) {
-                    ConnectionsManager.getInstance(this.currentAccount).setPushConnectionEnabled(true);
-                } else {
-                    ConnectionsManager.getInstance(this.currentAccount).setPushConnectionEnabled(false);
-                }
-                z = z2;
-            } else if (i == this.accountsAllRow) {
-                SharedPreferences globalNotificationsSettings = MessagesController.getGlobalNotificationsSettings();
-                boolean z3 = globalNotificationsSettings.getBoolean("AllAccounts", true);
-                SharedPreferences.Editor edit13 = globalNotificationsSettings.edit();
-                edit13.putBoolean("AllAccounts", !z3);
-                edit13.commit();
-                SharedConfig.showNotificationsForAllAccounts = !z3;
-                for (int i4 = 0; i4 < 4; i4++) {
-                    if (SharedConfig.showNotificationsForAllAccounts) {
-                        NotificationsController.getInstance(i4).showNotifications();
-                    } else if (i4 == this.currentAccount) {
-                        NotificationsController.getInstance(i4).showNotifications();
-                    } else {
-                        NotificationsController.getInstance(i4).hideNotifications();
-                    }
-                }
-                z = z3;
-            } else if (i == this.notificationsServiceRow) {
-                SharedPreferences notificationsSettings11 = MessagesController.getNotificationsSettings(this.currentAccount);
-                z = notificationsSettings11.getBoolean("pushService", getMessagesController().keepAliveService);
-                SharedPreferences.Editor edit14 = notificationsSettings11.edit();
-                edit14.putBoolean("pushService", !z);
-                edit14.commit();
-                ApplicationLoader.startPushService();
-            } else if (i == this.callsVibrateRow) {
-                if (getParentActivity() == null) {
-                    return;
-                }
-                showDialog(AlertsCreator.createVibrationSelectDialog(getParentActivity(), 0L, 0, i == this.callsVibrateRow ? "vibrate_calls" : null, new Runnable() { // from class: org.telegram.ui.NotificationsSettingsActivity$$ExternalSyntheticLambda5
+                final boolean z2 = z;
+                showExceptionsAlert(i, new Runnable() { // from class: org.telegram.ui.NotificationsSettingsActivity$$ExternalSyntheticLambda6
                     @Override // java.lang.Runnable
                     public final void run() {
-                        NotificationsSettingsActivity.this.lambda$createView$6(i);
-                    }
-                }));
-            } else if (i == this.repeatRow) {
-                AlertDialog.Builder builder2 = new AlertDialog.Builder(getParentActivity());
-                builder2.setTitle(LocaleController.getString("RepeatNotifications", R.string.RepeatNotifications));
-                builder2.setItems(new CharSequence[]{LocaleController.getString("RepeatDisabled", R.string.RepeatDisabled), LocaleController.formatPluralString("Minutes", 5, new Object[0]), LocaleController.formatPluralString("Minutes", 10, new Object[0]), LocaleController.formatPluralString("Minutes", 30, new Object[0]), LocaleController.formatPluralString("Hours", 1, new Object[0]), LocaleController.formatPluralString("Hours", 2, new Object[0]), LocaleController.formatPluralString("Hours", 4, new Object[0])}, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.NotificationsSettingsActivity$$ExternalSyntheticLambda1
-                    @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i5) {
-                        NotificationsSettingsActivity.this.lambda$createView$7(i, dialogInterface, i5);
+                        NotificationsSettingsActivity.this.lambda$createView$3(i2, z2, notificationsCheckCell, i);
                     }
                 });
-                builder2.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-                showDialog(builder2.create());
+            } else {
+                presentFragment(new NotificationsCustomSettingsActivity(i2, arrayList, arrayList2));
             }
+        } else if (i == this.callsRingtoneRow) {
+            try {
+                SharedPreferences notificationsSettings = MessagesController.getNotificationsSettings(this.currentAccount);
+                Intent intent = new Intent("android.intent.action.RINGTONE_PICKER");
+                intent.putExtra("android.intent.extra.ringtone.TYPE", 1);
+                intent.putExtra("android.intent.extra.ringtone.SHOW_DEFAULT", true);
+                intent.putExtra("android.intent.extra.ringtone.SHOW_SILENT", true);
+                intent.putExtra("android.intent.extra.ringtone.DEFAULT_URI", RingtoneManager.getDefaultUri(1));
+                Uri uri = Settings.System.DEFAULT_RINGTONE_URI;
+                String path = uri != null ? uri.getPath() : null;
+                String string = notificationsSettings.getString("CallsRingtonePath", path);
+                if (string != null && !string.equals("NoSound")) {
+                    parcelable = string.equals(path) ? uri : Uri.parse(string);
+                }
+                intent.putExtra("android.intent.extra.ringtone.EXISTING_URI", parcelable);
+                startActivityForResult(intent, i);
+            } catch (Exception e) {
+                FileLog.e(e);
+            }
+        } else if (i == this.resetNotificationsRow) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
+            builder.setTitle(LocaleController.getString("ResetNotificationsAlertTitle", R.string.ResetNotificationsAlertTitle));
+            builder.setMessage(LocaleController.getString("ResetNotificationsAlert", R.string.ResetNotificationsAlert));
+            builder.setPositiveButton(LocaleController.getString("Reset", R.string.Reset), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.NotificationsSettingsActivity$$ExternalSyntheticLambda1
+                @Override // android.content.DialogInterface.OnClickListener
+                public final void onClick(DialogInterface dialogInterface, int i4) {
+                    NotificationsSettingsActivity.this.lambda$createView$6(dialogInterface, i4);
+                }
+            });
+            builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+            AlertDialog create = builder.create();
+            showDialog(create);
+            TextView textView = (TextView) create.getButton(-1);
+            if (textView != null) {
+                textView.setTextColor(Theme.getColor(Theme.key_text_RedBold));
+            }
+        } else if (i == this.inappSoundRow) {
+            SharedPreferences notificationsSettings2 = MessagesController.getNotificationsSettings(this.currentAccount);
+            SharedPreferences.Editor edit = notificationsSettings2.edit();
+            z = notificationsSettings2.getBoolean("EnableInAppSounds", true);
+            edit.putBoolean("EnableInAppSounds", !z);
+            edit.commit();
+        } else if (i == this.inappVibrateRow) {
+            SharedPreferences notificationsSettings3 = MessagesController.getNotificationsSettings(this.currentAccount);
+            SharedPreferences.Editor edit2 = notificationsSettings3.edit();
+            z = notificationsSettings3.getBoolean("EnableInAppVibrate", true);
+            edit2.putBoolean("EnableInAppVibrate", !z);
+            edit2.commit();
+        } else if (i == this.inappPreviewRow) {
+            SharedPreferences notificationsSettings4 = MessagesController.getNotificationsSettings(this.currentAccount);
+            SharedPreferences.Editor edit3 = notificationsSettings4.edit();
+            z = notificationsSettings4.getBoolean("EnableInAppPreview", true);
+            edit3.putBoolean("EnableInAppPreview", !z);
+            edit3.commit();
+        } else if (i == this.inchatSoundRow) {
+            SharedPreferences notificationsSettings5 = MessagesController.getNotificationsSettings(this.currentAccount);
+            SharedPreferences.Editor edit4 = notificationsSettings5.edit();
+            z = notificationsSettings5.getBoolean("EnableInChatSound", true);
+            edit4.putBoolean("EnableInChatSound", !z);
+            edit4.commit();
+            getNotificationsController().setInChatSoundEnabled(!z);
+        } else if (i == this.inappPriorityRow) {
+            SharedPreferences notificationsSettings6 = MessagesController.getNotificationsSettings(this.currentAccount);
+            SharedPreferences.Editor edit5 = notificationsSettings6.edit();
+            z = notificationsSettings6.getBoolean("EnableInAppPriority", false);
+            edit5.putBoolean("EnableInAppPriority", !z);
+            edit5.commit();
+        } else if (i == this.contactJoinedRow) {
+            SharedPreferences notificationsSettings7 = MessagesController.getNotificationsSettings(this.currentAccount);
+            SharedPreferences.Editor edit6 = notificationsSettings7.edit();
+            z = notificationsSettings7.getBoolean("EnableContactJoined", true);
+            MessagesController.getInstance(this.currentAccount).enableJoined = !z;
+            edit6.putBoolean("EnableContactJoined", !z);
+            edit6.commit();
+            TLRPC$TL_account_setContactSignUpNotification tLRPC$TL_account_setContactSignUpNotification = new TLRPC$TL_account_setContactSignUpNotification();
+            tLRPC$TL_account_setContactSignUpNotification.silent = z;
+            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_setContactSignUpNotification, NotificationsSettingsActivity$$ExternalSyntheticLambda11.INSTANCE);
+        } else if (i == this.pinnedMessageRow) {
+            SharedPreferences notificationsSettings8 = MessagesController.getNotificationsSettings(this.currentAccount);
+            SharedPreferences.Editor edit7 = notificationsSettings8.edit();
+            z = notificationsSettings8.getBoolean("PinnedMessages", true);
+            edit7.putBoolean("PinnedMessages", !z);
+            edit7.commit();
+        } else if (i == this.androidAutoAlertRow) {
+            SharedPreferences notificationsSettings9 = MessagesController.getNotificationsSettings(this.currentAccount);
+            SharedPreferences.Editor edit8 = notificationsSettings9.edit();
+            z = notificationsSettings9.getBoolean("EnableAutoNotifications", false);
+            edit8.putBoolean("EnableAutoNotifications", !z);
+            edit8.commit();
+        } else if (i == this.badgeNumberShowRow) {
+            SharedPreferences.Editor edit9 = MessagesController.getNotificationsSettings(this.currentAccount).edit();
+            z = getNotificationsController().showBadgeNumber;
+            getNotificationsController().showBadgeNumber = !z;
+            edit9.putBoolean("badgeNumber", getNotificationsController().showBadgeNumber);
+            edit9.commit();
+            getNotificationsController().updateBadge();
+        } else if (i == this.badgeNumberMutedRow) {
+            SharedPreferences.Editor edit10 = MessagesController.getNotificationsSettings(this.currentAccount).edit();
+            z = getNotificationsController().showBadgeMuted;
+            getNotificationsController().showBadgeMuted = !z;
+            edit10.putBoolean("badgeNumberMuted", getNotificationsController().showBadgeMuted);
+            edit10.commit();
+            getNotificationsController().updateBadge();
+            getMessagesStorage().updateMutedDialogsFiltersCounters();
+        } else if (i == this.badgeNumberMessagesRow) {
+            SharedPreferences.Editor edit11 = MessagesController.getNotificationsSettings(this.currentAccount).edit();
+            z = getNotificationsController().showBadgeMessages;
+            getNotificationsController().showBadgeMessages = !z;
+            edit11.putBoolean("badgeNumberMessages", getNotificationsController().showBadgeMessages);
+            edit11.commit();
+            getNotificationsController().updateBadge();
+        } else if (i == this.notificationsServiceConnectionRow) {
+            SharedPreferences notificationsSettings10 = MessagesController.getNotificationsSettings(this.currentAccount);
+            boolean z3 = notificationsSettings10.getBoolean("pushConnection", getMessagesController().backgroundConnection);
+            SharedPreferences.Editor edit12 = notificationsSettings10.edit();
+            edit12.putBoolean("pushConnection", !z3);
+            edit12.commit();
+            if (!z3) {
+                ConnectionsManager.getInstance(this.currentAccount).setPushConnectionEnabled(true);
+            } else {
+                ConnectionsManager.getInstance(this.currentAccount).setPushConnectionEnabled(false);
+            }
+            z = z3;
+        } else if (i == this.accountsAllRow) {
+            SharedPreferences globalNotificationsSettings = MessagesController.getGlobalNotificationsSettings();
+            boolean z4 = globalNotificationsSettings.getBoolean("AllAccounts", true);
+            SharedPreferences.Editor edit13 = globalNotificationsSettings.edit();
+            edit13.putBoolean("AllAccounts", !z4);
+            edit13.commit();
+            SharedConfig.showNotificationsForAllAccounts = !z4;
+            for (int i4 = 0; i4 < 4; i4++) {
+                if (SharedConfig.showNotificationsForAllAccounts) {
+                    NotificationsController.getInstance(i4).showNotifications();
+                } else if (i4 == this.currentAccount) {
+                    NotificationsController.getInstance(i4).showNotifications();
+                } else {
+                    NotificationsController.getInstance(i4).hideNotifications();
+                }
+            }
+            z = z4;
+        } else if (i == this.notificationsServiceRow) {
+            SharedPreferences notificationsSettings11 = MessagesController.getNotificationsSettings(this.currentAccount);
+            z = notificationsSettings11.getBoolean("pushService", getMessagesController().keepAliveService);
+            SharedPreferences.Editor edit14 = notificationsSettings11.edit();
+            edit14.putBoolean("pushService", !z);
+            edit14.commit();
+            ApplicationLoader.startPushService();
+        } else if (i == this.callsVibrateRow) {
+            if (getParentActivity() == null) {
+                return;
+            }
+            showDialog(AlertsCreator.createVibrationSelectDialog(getParentActivity(), 0L, 0, i == this.callsVibrateRow ? "vibrate_calls" : null, new Runnable() { // from class: org.telegram.ui.NotificationsSettingsActivity$$ExternalSyntheticLambda5
+                @Override // java.lang.Runnable
+                public final void run() {
+                    NotificationsSettingsActivity.this.lambda$createView$8(i);
+                }
+            }));
+        } else if (i == this.repeatRow) {
+            AlertDialog.Builder builder2 = new AlertDialog.Builder(getParentActivity());
+            builder2.setTitle(LocaleController.getString("RepeatNotifications", R.string.RepeatNotifications));
+            builder2.setItems(new CharSequence[]{LocaleController.getString("RepeatDisabled", R.string.RepeatDisabled), LocaleController.formatPluralString("Minutes", 5, new Object[0]), LocaleController.formatPluralString("Minutes", 10, new Object[0]), LocaleController.formatPluralString("Minutes", 30, new Object[0]), LocaleController.formatPluralString("Hours", 1, new Object[0]), LocaleController.formatPluralString("Hours", 2, new Object[0]), LocaleController.formatPluralString("Hours", 4, new Object[0])}, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.NotificationsSettingsActivity$$ExternalSyntheticLambda2
+                @Override // android.content.DialogInterface.OnClickListener
+                public final void onClick(DialogInterface dialogInterface, int i5) {
+                    NotificationsSettingsActivity.this.lambda$createView$9(i, dialogInterface, i5);
+                }
+            });
+            builder2.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+            showDialog(builder2.create());
         }
         if (view instanceof TextCheckCell) {
             ((TextCheckCell) view).setChecked(!z);
@@ -841,7 +1021,25 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$4(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$createView$3(int i, boolean z, NotificationsCheckCell notificationsCheckCell, int i2) {
+        if (i == 3) {
+            SharedPreferences.Editor edit = getNotificationsSettings().edit();
+            if (z) {
+                edit.remove("EnableAllStories");
+            } else {
+                edit.putBoolean("EnableAllStories", true);
+            }
+            edit.apply();
+            getNotificationsController().updateServerNotificationsSettings(i);
+        } else {
+            getNotificationsController().setGlobalNotificationsEnabled(i, !z ? 0 : ConnectionsManager.DEFAULT_DATACENTER_ID);
+        }
+        notificationsCheckCell.setChecked(!z, 0);
+        this.adapter.notifyItemChanged(i2);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$createView$6(DialogInterface dialogInterface, int i) {
         if (this.reseting) {
             return;
         }
@@ -858,26 +1056,26 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
             public void serializeToStream(AbstractSerializedData abstractSerializedData) {
                 abstractSerializedData.writeInt32(constructor);
             }
-        }, new RequestDelegate() { // from class: org.telegram.ui.NotificationsSettingsActivity$$ExternalSyntheticLambda7
+        }, new RequestDelegate() { // from class: org.telegram.ui.NotificationsSettingsActivity$$ExternalSyntheticLambda10
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                NotificationsSettingsActivity.this.lambda$createView$3(tLObject, tLRPC$TL_error);
+                NotificationsSettingsActivity.this.lambda$createView$5(tLObject, tLRPC$TL_error);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$3(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$createView$5(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.NotificationsSettingsActivity$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
-                NotificationsSettingsActivity.this.lambda$createView$2();
+                NotificationsSettingsActivity.this.lambda$createView$4();
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$2() {
+    public /* synthetic */ void lambda$createView$4() {
         getMessagesController().enableJoined = true;
         this.reseting = false;
         SharedPreferences.Editor edit = MessagesController.getNotificationsSettings(this.currentAccount).edit();
@@ -893,13 +1091,13 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$6(int i) {
+    public /* synthetic */ void lambda$createView$8(int i) {
         this.updateVibrate = true;
         this.adapter.notifyItemChanged(i);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$7(int i, DialogInterface dialogInterface, int i2) {
+    public /* synthetic */ void lambda$createView$9(int i, DialogInterface dialogInterface, int i2) {
         MessagesController.getNotificationsSettings(this.currentAccount).edit().putInt("repeat_messages", i2 != 1 ? i2 == 2 ? 10 : i2 == 3 ? 30 : i2 == 4 ? 60 : i2 == 5 ? 120 : i2 == 6 ? 240 : 0 : 5).commit();
         this.updateRepeatNotifications = true;
         this.adapter.notifyItemChanged(i);
@@ -941,51 +1139,71 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
         }
     }
 
-    private void showExceptionsAlert(int i) {
+    private void showExceptionsAlert(int i, final Runnable runnable) {
         final ArrayList<NotificationException> arrayList;
         String formatPluralString;
-        if (i == this.privateRow) {
+        final ArrayList<NotificationException> arrayList2;
+        String str = null;
+        if (i == this.storiesRow) {
+            arrayList = this.exceptionStories;
+            arrayList2 = this.exceptionAutoStories;
+            if (arrayList != null && !arrayList.isEmpty()) {
+                str = LocaleController.formatPluralString("ChatsException", arrayList.size(), new Object[0]);
+            }
+        } else if (i == this.privateRow) {
             arrayList = this.exceptionUsers;
             if (arrayList != null && !arrayList.isEmpty()) {
                 formatPluralString = LocaleController.formatPluralString("ChatsException", arrayList.size(), new Object[0]);
+                str = formatPluralString;
+                arrayList2 = null;
             }
-            formatPluralString = null;
+            arrayList2 = null;
         } else if (i == this.groupRow) {
             arrayList = this.exceptionChats;
             if (arrayList != null && !arrayList.isEmpty()) {
                 formatPluralString = LocaleController.formatPluralString("Groups", arrayList.size(), new Object[0]);
+                str = formatPluralString;
+                arrayList2 = null;
             }
-            formatPluralString = null;
+            arrayList2 = null;
         } else {
             arrayList = this.exceptionChannels;
             if (arrayList != null && !arrayList.isEmpty()) {
                 formatPluralString = LocaleController.formatPluralString("Channels", arrayList.size(), new Object[0]);
+                str = formatPluralString;
+                arrayList2 = null;
             }
-            formatPluralString = null;
+            arrayList2 = null;
         }
-        if (formatPluralString == null) {
+        if (str == null) {
+            runnable.run();
             return;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
         if (arrayList.size() == 1) {
-            builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("NotificationsExceptionsSingleAlert", R.string.NotificationsExceptionsSingleAlert, formatPluralString)));
+            builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("NotificationsExceptionsSingleAlert", R.string.NotificationsExceptionsSingleAlert, str)));
         } else {
-            builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("NotificationsExceptionsAlert", R.string.NotificationsExceptionsAlert, formatPluralString)));
+            builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("NotificationsExceptionsAlert", R.string.NotificationsExceptionsAlert, str)));
         }
         builder.setTitle(LocaleController.getString("NotificationsExceptions", R.string.NotificationsExceptions));
-        builder.setNeutralButton(LocaleController.getString("ViewExceptions", R.string.ViewExceptions), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.NotificationsSettingsActivity$$ExternalSyntheticLambda2
+        builder.setNeutralButton(LocaleController.getString("ViewExceptions", R.string.ViewExceptions), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.NotificationsSettingsActivity$$ExternalSyntheticLambda3
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i2) {
-                NotificationsSettingsActivity.this.lambda$showExceptionsAlert$9(arrayList, dialogInterface, i2);
+                NotificationsSettingsActivity.this.lambda$showExceptionsAlert$11(arrayList, arrayList2, dialogInterface, i2);
             }
         });
-        builder.setNegativeButton(LocaleController.getString("OK", R.string.OK), null);
+        builder.setNegativeButton(LocaleController.getString("OK", R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.NotificationsSettingsActivity$$ExternalSyntheticLambda0
+            @Override // android.content.DialogInterface.OnClickListener
+            public final void onClick(DialogInterface dialogInterface, int i2) {
+                runnable.run();
+            }
+        });
         showDialog(builder.create());
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showExceptionsAlert$9(ArrayList arrayList, DialogInterface dialogInterface, int i) {
-        presentFragment(new NotificationsCustomSettingsActivity(-1, arrayList));
+    public /* synthetic */ void lambda$showExceptionsAlert$11(ArrayList arrayList, ArrayList arrayList2, DialogInterface dialogInterface, int i) {
+        presentFragment(new NotificationsCustomSettingsActivity(-1, arrayList, arrayList2));
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -1051,11 +1269,18 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
             return new RecyclerListView.Holder(headerCell);
         }
 
+        /* JADX WARN: Removed duplicated region for block: B:82:0x0281  */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+        */
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
             String string;
             ArrayList arrayList;
             int i2;
+            boolean z;
+            boolean z2;
+            int size;
             String formatPluralString;
             switch (viewHolder.getItemViewType()) {
                 case 0:
@@ -1167,41 +1392,79 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
                     NotificationsCheckCell notificationsCheckCell = (NotificationsCheckCell) viewHolder.itemView;
                     SharedPreferences notificationsSettings2 = MessagesController.getNotificationsSettings(((BaseFragment) NotificationsSettingsActivity.this).currentAccount);
                     int currentTime = ConnectionsManager.getInstance(((BaseFragment) NotificationsSettingsActivity.this).currentAccount).getCurrentTime();
+                    ArrayList arrayList2 = null;
                     if (i != NotificationsSettingsActivity.this.privateRow) {
-                        if (i == NotificationsSettingsActivity.this.groupRow) {
+                        if (i != NotificationsSettingsActivity.this.groupRow) {
+                            if (i == NotificationsSettingsActivity.this.storiesRow) {
+                                String string2 = LocaleController.getString("NotificationStories", R.string.NotificationStories);
+                                arrayList = NotificationsSettingsActivity.this.exceptionStories;
+                                ArrayList arrayList3 = NotificationsSettingsActivity.this.exceptionAutoStories;
+                                i2 = notificationsSettings2.getBoolean("EnableAllStories", false) ? 0 : ConnectionsManager.DEFAULT_DATACENTER_ID;
+                                string = string2;
+                                arrayList2 = arrayList3;
+                            } else {
+                                string = LocaleController.getString("NotificationsChannels", R.string.NotificationsChannels);
+                                arrayList = NotificationsSettingsActivity.this.exceptionChannels;
+                                i2 = notificationsSettings2.getInt("EnableChannel2", 0);
+                            }
+                        } else {
                             string = LocaleController.getString("NotificationsGroups", R.string.NotificationsGroups);
                             arrayList = NotificationsSettingsActivity.this.exceptionChats;
                             i2 = notificationsSettings2.getInt("EnableGroup2", 0);
-                        } else {
-                            string = LocaleController.getString("NotificationsChannels", R.string.NotificationsChannels);
-                            arrayList = NotificationsSettingsActivity.this.exceptionChannels;
-                            i2 = notificationsSettings2.getInt("EnableChannel2", 0);
                         }
                     } else {
                         string = LocaleController.getString("NotificationsPrivateChats", R.string.NotificationsPrivateChats);
                         arrayList = NotificationsSettingsActivity.this.exceptionUsers;
                         i2 = notificationsSettings2.getInt("EnableAll2", 0);
                     }
-                    boolean z = i2 < currentTime;
-                    int i3 = (!z && i2 - 31536000 < currentTime) ? 2 : 0;
+                    boolean z3 = i2 < currentTime;
+                    int i3 = (z3 || i2 - 31536000 >= currentTime) ? 0 : 2;
                     StringBuilder sb = new StringBuilder();
                     if (arrayList != null && !arrayList.isEmpty()) {
-                        z = i2 < currentTime;
-                        if (z) {
+                        boolean z4 = i2 < currentTime;
+                        if (z4) {
                             sb.append(LocaleController.getString("NotificationsOn", R.string.NotificationsOn));
                         } else if (i2 - 31536000 >= currentTime) {
                             sb.append(LocaleController.getString("NotificationsOff", R.string.NotificationsOff));
                         } else {
+                            z2 = z4;
                             sb.append(LocaleController.formatString("NotificationsOffUntil", R.string.NotificationsOffUntil, LocaleController.stringForMessageListDate(i2)));
+                            if (sb.length() != 0) {
+                                sb.append(", ");
+                            }
+                            size = arrayList.size();
+                            if (i == NotificationsSettingsActivity.this.storiesRow && !notificationsSettings2.contains("EnableAllStories") && arrayList2 != null) {
+                                size += arrayList2.size();
+                            }
+                            sb.append(LocaleController.formatPluralString("Exception", size, new Object[0]));
+                            z = z2;
                         }
+                        z2 = z4;
                         if (sb.length() != 0) {
-                            sb.append(", ");
                         }
-                        sb.append(LocaleController.formatPluralString("Exception", arrayList.size(), new Object[0]));
+                        size = arrayList.size();
+                        if (i == NotificationsSettingsActivity.this.storiesRow) {
+                            size += arrayList2.size();
+                        }
+                        sb.append(LocaleController.formatPluralString("Exception", size, new Object[0]));
+                        z = z2;
                     } else {
-                        sb.append(LocaleController.getString("TapToChange", R.string.TapToChange));
+                        if (arrayList2 != null && !arrayList2.isEmpty()) {
+                            if (i2 > 0) {
+                                sb.append(LocaleController.getString("NotificationsOff", R.string.NotificationsOff));
+                            } else {
+                                sb.append(LocaleController.getString("NotificationsOn", R.string.NotificationsOn));
+                            }
+                            if (!arrayList2.isEmpty() && !notificationsSettings2.contains("EnableAllStories")) {
+                                sb.append(", ");
+                                sb.append(LocaleController.formatPluralString("AutoException", arrayList2.size(), new Object[0]));
+                            }
+                        } else {
+                            sb.append(LocaleController.getString("TapToChange", R.string.TapToChange));
+                        }
+                        z = z3;
                     }
-                    notificationsCheckCell.setTextAndValueAndCheck(string, sb, z, i3, i != NotificationsSettingsActivity.this.channelsRow);
+                    notificationsCheckCell.setTextAndValueAndCheck(string, sb, z, i3, i != NotificationsSettingsActivity.this.storiesRow);
                     return;
                 case 4:
                     if (i == NotificationsSettingsActivity.this.resetNotificationsSectionRow) {
@@ -1246,11 +1509,11 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
                         NotificationsSettingsActivity.this.updateVibrate = false;
                         return;
                     }
-                    String string2 = notificationsSettings3.getString("CallsRingtone", LocaleController.getString("DefaultRingtone", R.string.DefaultRingtone));
-                    if (string2.equals("NoSound")) {
-                        string2 = LocaleController.getString("NoSound", R.string.NoSound);
+                    String string3 = notificationsSettings3.getString("CallsRingtone", LocaleController.getString("DefaultRingtone", R.string.DefaultRingtone));
+                    if (string3.equals("NoSound")) {
+                        string3 = LocaleController.getString("NoSound", R.string.NoSound);
                     }
-                    textSettingsCell.setTextAndValue(LocaleController.getString("VoipSettingsRingtone", R.string.VoipSettingsRingtone), string2, NotificationsSettingsActivity.this.updateRingtone, false);
+                    textSettingsCell.setTextAndValue(LocaleController.getString("VoipSettingsRingtone", R.string.VoipSettingsRingtone), string3, NotificationsSettingsActivity.this.updateRingtone, false);
                     NotificationsSettingsActivity.this.updateRingtone = false;
                     return;
                 case 6:
@@ -1276,7 +1539,7 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
             if (i == NotificationsSettingsActivity.this.resetNotificationsRow) {
                 return 2;
             }
-            if (i == NotificationsSettingsActivity.this.privateRow || i == NotificationsSettingsActivity.this.groupRow || i == NotificationsSettingsActivity.this.channelsRow) {
+            if (i == NotificationsSettingsActivity.this.privateRow || i == NotificationsSettingsActivity.this.groupRow || i == NotificationsSettingsActivity.this.channelsRow || i == NotificationsSettingsActivity.this.storiesRow) {
                 return 3;
             }
             if (i == NotificationsSettingsActivity.this.eventsSection2Row || i == NotificationsSettingsActivity.this.notificationsSection2Row || i == NotificationsSettingsActivity.this.otherSection2Row || i == NotificationsSettingsActivity.this.resetSection2Row || i == NotificationsSettingsActivity.this.callsSection2Row || i == NotificationsSettingsActivity.this.badgeNumberSection2Row || i == NotificationsSettingsActivity.this.resetNotificationsSectionRow) {

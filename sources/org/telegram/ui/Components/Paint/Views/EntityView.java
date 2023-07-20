@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.graphics.Canvas;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.view.GestureDetector;
@@ -11,11 +12,14 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import com.google.zxing.common.detector.MathUtils;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.Utilities;
+import org.telegram.ui.Components.ButtonBounce;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.Point;
 import org.telegram.ui.Components.Rect;
@@ -23,7 +27,10 @@ import org.telegram.ui.Components.Rect;
 public class EntityView extends FrameLayout {
     private static final List<Integer> STICKY_ANGLES = Arrays.asList(-90, 0, 90, 180);
     private ValueAnimator angleAnimator;
+    private boolean announcedDrag;
     private boolean announcedSelection;
+    private boolean announcedTrash;
+    private ButtonBounce bounce;
     private int currentStickyAngle;
     private EntityViewDelegate delegate;
     private ValueAnimator fromStickyAngleAnimator;
@@ -44,21 +51,55 @@ public class EntityView extends FrameLayout {
     private float previousLocationX;
     private float previousLocationY;
     private boolean recognizedLongPress;
+    private ValueAnimator selectAnimator;
+    private float selectT;
+    private boolean selecting;
     protected SelectionView selectionView;
     private float stickyAnimatedAngle;
     private ValueAnimator stickyXAnimator;
     private ValueAnimator stickyYAnimator;
+    private ValueAnimator trashAnimator;
+    private float trashScale;
     private UUID uuid;
 
     /* loaded from: classes4.dex */
     public interface EntityViewDelegate {
+
+        /* loaded from: classes4.dex */
+        public final /* synthetic */ class -CC {
+            public static void $default$onEntityDragEnd(EntityViewDelegate entityViewDelegate, boolean z) {
+            }
+
+            public static void $default$onEntityDragStart(EntityViewDelegate entityViewDelegate) {
+            }
+
+            public static void $default$onEntityDragTrash(EntityViewDelegate entityViewDelegate, boolean z) {
+            }
+
+            public static void $default$onEntityDraggedBottom(EntityViewDelegate entityViewDelegate, boolean z) {
+            }
+
+            public static void $default$onEntityDraggedTop(EntityViewDelegate entityViewDelegate, boolean z) {
+            }
+        }
+
         boolean allowInteraction(EntityView entityView);
 
         int[] getCenterLocation(EntityView entityView);
 
         float getCropRotation();
 
-        float[] getTransformedTouch(float f, float f2);
+        float[] getTransformedTouch(MotionEvent motionEvent, float f, float f2);
+
+        void onEntityDragEnd(boolean z);
+
+        void onEntityDragStart();
+
+        void onEntityDragTrash(boolean z);
+
+        void onEntityDraggedBottom(boolean z);
+
+        void onEntityDraggedTop(boolean z);
 
         boolean onEntityLongClicked(EntityView entityView);
 
@@ -71,13 +112,18 @@ public class EntityView extends FrameLayout {
 
     public EntityView(Context context, Point point) {
         super(context);
+        this.bounce = new ButtonBounce(this);
         this.hasPanned = false;
         this.hasReleased = false;
         this.hasTransformed = false;
+        this.announcedDrag = false;
         this.announcedSelection = false;
+        this.announcedTrash = false;
         this.recognizedLongPress = false;
         this.hasStickyAngle = true;
         this.currentStickyAngle = 0;
+        this.selecting = false;
+        this.trashScale = 1.0f;
         this.uuid = UUID.randomUUID();
         this.position = point;
         this.gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() { // from class: org.telegram.ui.Components.Paint.Views.EntityView.1
@@ -128,6 +174,8 @@ public class EntityView extends FrameLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public boolean onTouchMove(float f, float f2) {
+        EntityViewDelegate entityViewDelegate;
+        EntityViewDelegate entityViewDelegate2;
         if (getParent() == null) {
             return false;
         }
@@ -142,6 +190,21 @@ public class EntityView extends FrameLayout {
             if ((getParent() instanceof EntitiesContainerView) && (this.hasStickyX || this.hasStickyY)) {
                 ((EntitiesContainerView) getParent()).invalidate();
             }
+            if (!this.announcedDrag && (entityViewDelegate2 = this.delegate) != null) {
+                this.announcedDrag = true;
+                entityViewDelegate2.onEntityDragStart();
+            }
+            if (!isSelected() && !this.announcedSelection && (entityViewDelegate = this.delegate) != null) {
+                entityViewDelegate.onEntitySelected(this);
+                this.announcedSelection = true;
+            }
+            EntityViewDelegate entityViewDelegate3 = this.delegate;
+            if (entityViewDelegate3 != null) {
+                entityViewDelegate3.onEntityDraggedTop(this.position.y - ((((float) getHeight()) / 2.0f) * scaleX) < ((float) AndroidUtilities.dp(66.0f)));
+                this.delegate.onEntityDraggedBottom(this.position.y + ((((float) getHeight()) / 2.0f) * scaleX) > ((float) (((View) getParent()).getHeight() - AndroidUtilities.dp(114.0f))));
+            }
+            updateTrash(MathUtils.distance(f, f2, ((float) ((View) getParent()).getWidth()) / 2.0f, (float) (((View) getParent()).getHeight() - AndroidUtilities.dp(76.0f))) < ((float) AndroidUtilities.dp(32.0f)));
+            this.bounce.setPressed(false);
             return true;
         }
         return false;
@@ -150,8 +213,17 @@ public class EntityView extends FrameLayout {
     /* JADX INFO: Access modifiers changed from: private */
     public void onTouchUp() {
         EntityViewDelegate entityViewDelegate;
-        if (!this.recognizedLongPress && !this.hasPanned && !this.hasTransformed && !this.announcedSelection && (entityViewDelegate = this.delegate) != null) {
-            entityViewDelegate.onEntitySelected(this);
+        EntityViewDelegate entityViewDelegate2;
+        if (this.announcedDrag) {
+            this.delegate.onEntityDragEnd(this.announcedTrash);
+            this.announcedDrag = false;
+        }
+        if (!this.recognizedLongPress && !this.hasPanned && !this.hasTransformed && !this.announcedSelection && (entityViewDelegate2 = this.delegate) != null) {
+            entityViewDelegate2.onEntitySelected(this);
+        }
+        if (this.hasPanned && (entityViewDelegate = this.delegate) != null) {
+            entityViewDelegate.onEntityDraggedTop(false);
+            this.delegate.onEntityDraggedBottom(false);
         }
         this.recognizedLongPress = false;
         this.hasPanned = false;
@@ -187,54 +259,57 @@ public class EntityView extends FrameLayout {
         return this.hasPanned;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:17:0x0031, code lost:
-        if (r3 != 6) goto L16;
-     */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x007d A[ADDED_TO_REGION] */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public boolean onTouchEvent(MotionEvent motionEvent) {
-        EntityViewDelegate entityViewDelegate;
-        boolean z = false;
-        if (motionEvent.getPointerCount() <= 1 && this.delegate.allowInteraction(this)) {
-            float[] transformedTouch = this.delegate.getTransformedTouch(motionEvent.getRawX(), motionEvent.getRawY());
-            int actionMasked = motionEvent.getActionMasked();
-            if (actionMasked != 0) {
-                if (actionMasked != 1) {
-                    if (actionMasked == 2) {
-                        z = onTouchMove(transformedTouch[0], transformedTouch[1]);
-                    } else if (actionMasked != 3) {
-                        if (actionMasked != 5) {
+        boolean z;
+        if (motionEvent.getPointerCount() > 1 || !this.delegate.allowInteraction(this)) {
+            return false;
+        }
+        float[] transformedTouch = this.delegate.getTransformedTouch(motionEvent, motionEvent.getRawX(), motionEvent.getRawY());
+        int actionMasked = motionEvent.getActionMasked();
+        if (actionMasked != 0) {
+            if (actionMasked != 1) {
+                if (actionMasked == 2) {
+                    z = onTouchMove(transformedTouch[0], transformedTouch[1]);
+                } else if (actionMasked != 3) {
+                    if (actionMasked != 5) {
+                        if (actionMasked != 6) {
+                            z = false;
                         }
                     }
-                    this.gestureDetector.onTouchEvent(motionEvent);
                 }
-                onTouchUp();
-                z = true;
                 this.gestureDetector.onTouchEvent(motionEvent);
+                return !super.onTouchEvent(motionEvent) || z;
             }
-            if (!isSelected() && (entityViewDelegate = this.delegate) != null) {
-                entityViewDelegate.onEntitySelected(this);
-                this.announcedSelection = true;
-            }
-            this.previousLocationX = transformedTouch[0];
-            this.previousLocationY = transformedTouch[1];
-            this.hasReleased = false;
-            if ((getParent() instanceof EntitiesContainerView) && (this.hasStickyX || this.hasStickyY)) {
-                ((EntitiesContainerView) getParent()).invalidate();
-            }
+            onTouchUp();
+            this.bounce.setPressed(false);
             z = true;
             this.gestureDetector.onTouchEvent(motionEvent);
+            if (super.onTouchEvent(motionEvent)) {
+            }
         }
-        return z;
+        this.previousLocationX = transformedTouch[0];
+        this.previousLocationY = transformedTouch[1];
+        this.hasReleased = false;
+        if ((getParent() instanceof EntitiesContainerView) && (this.hasStickyX || this.hasStickyY)) {
+            ((EntitiesContainerView) getParent()).invalidate();
+        }
+        this.bounce.setPressed(true);
+        z = true;
+        this.gestureDetector.onTouchEvent(motionEvent);
+        if (super.onTouchEvent(motionEvent)) {
+        }
     }
 
     private void runStickyXAnimator(float... fArr) {
         ValueAnimator duration = ValueAnimator.ofFloat(fArr).setDuration(150L);
         this.stickyXAnimator = duration;
         duration.setInterpolator(CubicBezierInterpolator.DEFAULT);
-        this.stickyXAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.EntityView$$ExternalSyntheticLambda0
+        this.stickyXAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.EntityView$$ExternalSyntheticLambda1
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 EntityView.this.lambda$runStickyXAnimator$0(valueAnimator);
@@ -261,7 +336,7 @@ public class EntityView extends FrameLayout {
         ValueAnimator duration = ValueAnimator.ofFloat(fArr).setDuration(150L);
         this.stickyYAnimator = duration;
         duration.setInterpolator(CubicBezierInterpolator.DEFAULT);
-        this.stickyYAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.EntityView$$ExternalSyntheticLambda1
+        this.stickyYAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.EntityView$$ExternalSyntheticLambda2
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 EntityView.this.lambda$runStickyYAnimator$1(valueAnimator);
@@ -299,7 +374,7 @@ public class EntityView extends FrameLayout {
         View view = (View) getParent();
         if (view != null) {
             if (!this.hasStickyX) {
-                if (Math.abs(this.position.x - (view.getMeasuredWidth() / 2.0f)) <= AndroidUtilities.dp(16.0f)) {
+                if (Math.abs(this.position.x - (view.getMeasuredWidth() / 2.0f)) <= AndroidUtilities.dp(6.0f) && this.position.y < view.getMeasuredHeight() - AndroidUtilities.dp(176.0f)) {
                     this.hasStickyX = true;
                     try {
                         performHapticFeedback(3, 2);
@@ -316,7 +391,7 @@ public class EntityView extends FrameLayout {
                     this.hasFromStickyXAnimation = false;
                     runStickyXAnimator(0.0f, 1.0f);
                 }
-            } else if (Math.abs(this.position.x - (view.getMeasuredWidth() / 2.0f)) > AndroidUtilities.dp(48.0f)) {
+            } else if (Math.abs(this.position.x - (view.getMeasuredWidth() / 2.0f)) > AndroidUtilities.dp(16.0f) || this.position.y >= view.getMeasuredHeight() - AndroidUtilities.dp(176.0f)) {
                 this.hasStickyX = false;
                 if (getParent() instanceof EntitiesContainerView) {
                     ((EntitiesContainerView) getParent()).invalidate();
@@ -329,7 +404,7 @@ public class EntityView extends FrameLayout {
                 runStickyXAnimator(1.0f, 0.0f);
             }
             if (!this.hasStickyY) {
-                if (Math.abs(this.position.y - (view.getMeasuredHeight() / 2.0f)) <= AndroidUtilities.dp(16.0f)) {
+                if (Math.abs(this.position.y - (view.getMeasuredHeight() / 2.0f)) <= AndroidUtilities.dp(6.0f)) {
                     this.hasStickyY = true;
                     try {
                         performHapticFeedback(3, 2);
@@ -346,7 +421,7 @@ public class EntityView extends FrameLayout {
                     this.hasFromStickyYAnimation = false;
                     runStickyYAnimator(0.0f, 1.0f);
                 }
-            } else if (Math.abs(this.position.y - (view.getMeasuredHeight() / 2.0f)) > AndroidUtilities.dp(48.0f)) {
+            } else if (Math.abs(this.position.y - (view.getMeasuredHeight() / 2.0f)) > AndroidUtilities.dp(16.0f)) {
                 this.hasStickyY = false;
                 if (getParent() instanceof EntitiesContainerView) {
                     ((EntitiesContainerView) getParent()).invalidate();
@@ -426,7 +501,7 @@ public class EntityView extends FrameLayout {
                     ValueAnimator duration = ValueAnimator.ofFloat(0.0f, 1.0f).setDuration(150L);
                     this.angleAnimator = duration;
                     duration.setInterpolator(CubicBezierInterpolator.DEFAULT);
-                    this.angleAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.EntityView$$ExternalSyntheticLambda3
+                    this.angleAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.EntityView$$ExternalSyntheticLambda5
                         @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                         public final void onAnimationUpdate(ValueAnimator valueAnimator3) {
                             EntityView.this.lambda$rotate$2(f, valueAnimator3);
@@ -458,7 +533,7 @@ public class EntityView extends FrameLayout {
             ValueAnimator duration2 = ValueAnimator.ofFloat(0.0f, 1.0f).setDuration(150L);
             this.fromStickyAngleAnimator = duration2;
             duration2.setInterpolator(CubicBezierInterpolator.DEFAULT);
-            this.fromStickyAngleAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.EntityView$$ExternalSyntheticLambda2
+            this.fromStickyAngleAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.EntityView$$ExternalSyntheticLambda3
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator5) {
                     EntityView.this.lambda$rotate$3(valueAnimator5);
@@ -510,7 +585,7 @@ public class EntityView extends FrameLayout {
 
     @Override // android.view.View
     public boolean isSelected() {
-        return this.selectionView != null;
+        return this.selecting;
     }
 
     public void updateSelectionView() {
@@ -520,31 +595,69 @@ public class EntityView extends FrameLayout {
         }
     }
 
+    private void updateSelect(ViewGroup viewGroup, boolean z) {
+        if (this.selecting != z) {
+            this.selecting = z;
+            ValueAnimator valueAnimator = this.selectAnimator;
+            if (valueAnimator != null) {
+                valueAnimator.cancel();
+                this.selectAnimator = null;
+            }
+            if (this.selectionView == null) {
+                if (!z && viewGroup == null) {
+                    return;
+                }
+                SelectionView createSelectionView = createSelectionView();
+                this.selectionView = createSelectionView;
+                viewGroup.addView(createSelectionView);
+                this.selectT = 0.0f;
+            }
+            this.selectionView.updatePosition();
+            float[] fArr = new float[2];
+            fArr[0] = this.selectT;
+            fArr[1] = z ? 1.0f : 0.0f;
+            ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
+            this.selectAnimator = ofFloat;
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.EntityView$$ExternalSyntheticLambda4
+                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                    EntityView.this.lambda$updateSelect$4(valueAnimator2);
+                }
+            });
+            this.selectAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.Paint.Views.EntityView.6
+                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                public void onAnimationEnd(Animator animator) {
+                    if (EntityView.this.selecting) {
+                        return;
+                    }
+                    AndroidUtilities.removeFromParent(EntityView.this.selectionView);
+                    EntityView.this.selectionView = null;
+                }
+            });
+            this.selectAnimator.setDuration(280L);
+            this.selectAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
+            this.selectAnimator.start();
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$updateSelect$4(ValueAnimator valueAnimator) {
+        float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
+        this.selectT = floatValue;
+        SelectionView selectionView = this.selectionView;
+        if (selectionView != null) {
+            selectionView.setScaleX(AndroidUtilities.lerp(0.9f, 1.0f, floatValue) * Utilities.clamp(this.trashScale * 1.25f, 1.0f, 0.0f));
+            this.selectionView.setScaleY(AndroidUtilities.lerp(0.9f, 1.0f, this.selectT) * Utilities.clamp(this.trashScale * 1.25f, 1.0f, 0.0f));
+            this.selectionView.setAlpha(this.selectT * Math.max(0.0f, this.trashScale - 0.8f) * 5.0f);
+        }
+    }
+
     public void select(ViewGroup viewGroup) {
-        SelectionView createSelectionView = createSelectionView();
-        createSelectionView.setAlpha(0.0f);
-        createSelectionView.setScaleX(0.9f);
-        createSelectionView.setScaleY(0.9f);
-        createSelectionView.animate().cancel();
-        createSelectionView.animate().alpha(1.0f).scaleX(1.0f).scaleY(1.0f).setDuration(150L).setInterpolator(CubicBezierInterpolator.DEFAULT).setListener(null).start();
-        this.selectionView = createSelectionView;
-        viewGroup.addView(createSelectionView);
-        createSelectionView.updatePosition();
+        updateSelect(viewGroup, true);
     }
 
     public void deselect() {
-        SelectionView selectionView = this.selectionView;
-        if (selectionView == null || selectionView.getParent() == null) {
-            return;
-        }
-        this.selectionView.animate().cancel();
-        this.selectionView.animate().alpha(0.0f).scaleX(0.9f).scaleY(0.9f).setDuration(150L).setInterpolator(CubicBezierInterpolator.DEFAULT).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.Paint.Views.EntityView.6
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                AndroidUtilities.removeFromParent(EntityView.this.selectionView);
-                EntityView.this.selectionView = null;
-            }
-        }).start();
+        updateSelect(null, false);
     }
 
     public void setSelectionVisibility(boolean z) {
@@ -577,12 +690,12 @@ public class EntityView extends FrameLayout {
             this.paint.setStrokeWidth(AndroidUtilities.dp(2.0f));
             this.paint.setStrokeCap(Paint.Cap.ROUND);
             this.paint.setPathEffect(new DashPathEffect(new float[]{AndroidUtilities.dp(10.0f), AndroidUtilities.dp(10.0f)}, 0.5f));
-            this.paint.setShadowLayer(AndroidUtilities.dp(0.75f), 0.0f, AndroidUtilities.dp(1.0f), 1879048192);
-            this.dotPaint.setColor(-12793105);
+            this.paint.setShadowLayer(AndroidUtilities.dpf2(0.75f), 0.0f, 0.0f, 1342177280);
+            this.dotPaint.setColor(-15033089);
             this.dotStrokePaint.setColor(-1);
             this.dotStrokePaint.setStyle(Paint.Style.STROKE);
-            this.dotStrokePaint.setStrokeWidth(AndroidUtilities.dp(2.0f));
-            this.dotStrokePaint.setShadowLayer(AndroidUtilities.dp(0.75f), 0.0f, AndroidUtilities.dp(1.0f), 1879048192);
+            this.dotStrokePaint.setStrokeWidth(AndroidUtilities.dpf2(2.66f));
+            this.dotStrokePaint.setShadowLayer(AndroidUtilities.dpf2(0.75f), 0.0f, 0.0f, 1342177280);
         }
 
         protected void updatePosition() {
@@ -596,21 +709,20 @@ public class EntityView extends FrameLayout {
             setRotation(EntityView.this.getRotation());
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:11:0x002c, code lost:
-            if (r1 != 6) goto L11;
+        /* JADX WARN: Code restructure failed: missing block: B:11:0x002a, code lost:
+            if (r0 != 6) goto L11;
          */
-        /* JADX WARN: Removed duplicated region for block: B:46:0x0149  */
+        /* JADX WARN: Removed duplicated region for block: B:43:0x0134  */
+        /* JADX WARN: Removed duplicated region for block: B:46:0x0143 A[ADDED_TO_REGION] */
         @Override // android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public boolean onTouchEvent(MotionEvent motionEvent) {
-            float rawX;
-            float rawY;
+            boolean z;
             double atan2;
             int actionMasked = motionEvent.getActionMasked();
-            float[] transformedTouch = EntityView.this.delegate.getTransformedTouch(motionEvent.getRawX(), motionEvent.getRawY());
-            boolean z = false;
+            float[] transformedTouch = EntityView.this.delegate.getTransformedTouch(motionEvent, motionEvent.getRawX(), motionEvent.getRawY());
             float f = transformedTouch[0];
             float f2 = transformedTouch[1];
             if (actionMasked != 0) {
@@ -619,60 +731,61 @@ public class EntityView extends FrameLayout {
                         int i = this.currentHandle;
                         if (i == 3) {
                             z = EntityView.this.onTouchMove(f, f2);
+                            if (this.currentHandle == 3) {
+                                EntityView.this.gestureDetector.onTouchEvent(motionEvent);
+                            }
+                            return !super.onTouchEvent(motionEvent) || z;
                         } else if (i != 0) {
                             float f3 = f - EntityView.this.previousLocationX;
                             float f4 = f2 - EntityView.this.previousLocationY;
                             if (EntityView.this.hasTransformed || Math.abs(f3) > AndroidUtilities.dp(2.0f) || Math.abs(f4) > AndroidUtilities.dp(2.0f)) {
                                 EntityView.this.hasTransformed = true;
-                                double d = f3;
-                                double radians = (float) Math.toRadians(getRotation());
-                                double cos = Math.cos(radians);
-                                Double.isNaN(d);
-                                double d2 = f4;
-                                double sin = Math.sin(radians);
-                                Double.isNaN(d2);
-                                float f5 = (float) ((d * cos) + (d2 * sin));
-                                if (this.currentHandle == 1) {
-                                    f5 *= -1.0f;
-                                }
-                                if (getMeasuredWidth() != 0) {
-                                    EntityView.this.scale(((f5 * 2.0f) / getMeasuredWidth()) + 1.0f);
-                                }
                                 int[] centerLocation = EntityView.this.delegate.getCenterLocation(EntityView.this);
-                                float f6 = 0.0f;
+                                float distance = MathUtils.distance(centerLocation[0], centerLocation[1], EntityView.this.previousLocationX, EntityView.this.previousLocationY);
+                                float distance2 = MathUtils.distance(centerLocation[0], centerLocation[1], f, f2);
+                                float f5 = 0.0f;
+                                if (distance > 0.0f) {
+                                    EntityView.this.scale(distance2 / distance);
+                                }
                                 int i2 = this.currentHandle;
                                 if (i2 != 1) {
                                     if (i2 == 2) {
-                                        atan2 = Math.atan2(rawY - centerLocation[1], rawX - centerLocation[0]);
+                                        atan2 = Math.atan2(f2 - centerLocation[1], f - centerLocation[0]);
                                     }
-                                    EntityView.this.rotate(((float) Math.toDegrees(f6)) - EntityView.this.delegate.getCropRotation());
+                                    EntityView.this.rotate(((float) Math.toDegrees(f5)) - EntityView.this.delegate.getCropRotation());
                                     EntityView.this.previousLocationX = f;
                                     EntityView.this.previousLocationY = f2;
                                 } else {
-                                    atan2 = Math.atan2(centerLocation[1] - rawY, centerLocation[0] - rawX);
+                                    atan2 = Math.atan2(centerLocation[1] - f2, centerLocation[0] - f);
                                 }
-                                f6 = (float) atan2;
-                                EntityView.this.rotate(((float) Math.toDegrees(f6)) - EntityView.this.delegate.getCropRotation());
+                                f5 = (float) atan2;
+                                EntityView.this.rotate(((float) Math.toDegrees(f5)) - EntityView.this.delegate.getCropRotation());
                                 EntityView.this.previousLocationX = f;
                                 EntityView.this.previousLocationY = f2;
                             }
                             z = true;
+                            if (this.currentHandle == 3) {
+                            }
+                            if (super.onTouchEvent(motionEvent)) {
+                            }
                         }
                     } else if (actionMasked != 3) {
                         if (actionMasked != 5) {
                         }
                     }
+                    z = false;
                     if (this.currentHandle == 3) {
-                        EntityView.this.gestureDetector.onTouchEvent(motionEvent);
                     }
-                    return z;
+                    if (super.onTouchEvent(motionEvent)) {
+                    }
                 }
                 EntityView.this.onTouchUp();
                 this.currentHandle = 0;
                 z = true;
                 if (this.currentHandle == 3) {
                 }
-                return z;
+                if (super.onTouchEvent(motionEvent)) {
+                }
             }
             int pointInsideHandle = pointInsideHandle(motionEvent.getX(), motionEvent.getY());
             if (pointInsideHandle != 0) {
@@ -684,10 +797,73 @@ public class EntityView extends FrameLayout {
                     ((EntitiesContainerView) getParent()).invalidate();
                 }
                 z = true;
+                if (this.currentHandle == 3) {
+                }
+                if (super.onTouchEvent(motionEvent)) {
+                }
             }
+            z = false;
             if (this.currentHandle == 3) {
             }
-            return z;
+            if (super.onTouchEvent(motionEvent)) {
+            }
         }
+    }
+
+    private void updateTrash(boolean z) {
+        if (this.announcedTrash != z) {
+            ValueAnimator valueAnimator = this.trashAnimator;
+            if (valueAnimator != null) {
+                valueAnimator.cancel();
+                this.trashAnimator = null;
+            }
+            float[] fArr = new float[2];
+            fArr[0] = this.trashScale;
+            fArr[1] = z ? 0.5f : 1.0f;
+            ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
+            this.trashAnimator = ofFloat;
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.EntityView$$ExternalSyntheticLambda0
+                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                    EntityView.this.lambda$updateTrash$5(valueAnimator2);
+                }
+            });
+            this.trashAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
+            this.trashAnimator.setDuration(280L);
+            this.trashAnimator.start();
+            this.announcedTrash = z;
+            EntityViewDelegate entityViewDelegate = this.delegate;
+            if (entityViewDelegate != null) {
+                entityViewDelegate.onEntityDragTrash(z);
+            }
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$updateTrash$5(ValueAnimator valueAnimator) {
+        float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
+        this.trashScale = floatValue;
+        setAlpha(floatValue);
+        SelectionView selectionView = this.selectionView;
+        if (selectionView != null) {
+            selectionView.setScaleX(AndroidUtilities.lerp(0.9f, 1.0f, this.selectT) * Utilities.clamp(this.trashScale * 1.25f, 1.0f, 0.0f));
+            this.selectionView.setScaleY(AndroidUtilities.lerp(0.9f, 1.0f, this.selectT) * Utilities.clamp(this.trashScale * 1.25f, 1.0f, 0.0f));
+            this.selectionView.setAlpha(this.selectT * Math.max(0.0f, this.trashScale - 0.8f) * 5.0f);
+        }
+        invalidate();
+    }
+
+    @Override // android.view.ViewGroup, android.view.View
+    protected void dispatchDraw(Canvas canvas) {
+        float scale = this.bounce.getScale(0.05f);
+        canvas.save();
+        canvas.scale(scale, scale, getWidth() / 2.0f, getHeight() / 2.0f);
+        if (getParent() instanceof View) {
+            View view = (View) getParent();
+            float f = this.trashScale;
+            canvas.scale(f, f, (view.getWidth() / 2.0f) - getX(), (view.getHeight() - AndroidUtilities.dp(76.0f)) - getY());
+        }
+        super.dispatchDraw(canvas);
+        canvas.restore();
     }
 }

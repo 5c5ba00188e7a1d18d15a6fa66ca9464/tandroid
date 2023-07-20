@@ -559,7 +559,7 @@ public class NotificationBadge {
         componentName = launchIntentForPackage.getComponent();
         Intent intent = new Intent("android.intent.action.MAIN");
         intent.addCategory("android.intent.category.HOME");
-        ResolveInfo resolveActivity = context.getPackageManager().resolveActivity(intent, CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT);
+        ResolveInfo resolveActivity = context.getPackageManager().resolveActivity(intent, 65536);
         if (resolveActivity != null) {
             String str = resolveActivity.activityInfo.packageName;
             Iterator<Class<? extends Badger>> it = BADGERS.iterator();
@@ -581,7 +581,7 @@ public class NotificationBadge {
                 return true;
             }
         }
-        List<ResolveInfo> queryIntentActivities = context.getPackageManager().queryIntentActivities(intent, CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT);
+        List<ResolveInfo> queryIntentActivities = context.getPackageManager().queryIntentActivities(intent, 65536);
         if (queryIntentActivities != null) {
             for (int i = 0; i < queryIntentActivities.size(); i++) {
                 String str2 = queryIntentActivities.get(i).activityInfo.packageName;

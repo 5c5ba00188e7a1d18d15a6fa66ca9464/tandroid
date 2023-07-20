@@ -1846,7 +1846,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                 bundle.putBoolean("afterSignup", z);
                 presentFragment(new DialogsActivity(bundle), true);
             }
-            NotificationCenter.getInstance(this.currentAccount).postNotificationName(NotificationCenter.mainUserInfoChanged, new Object[0]);
+            NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.mainUserInfoChanged, new Object[0]);
             LocaleController.getInstance().loadRemoteLanguages(this.currentAccount);
             RestrictedLanguagesSelectActivity.checkRestrictedLanguages(true);
         } else if (getParentActivity() instanceof ExternalActionActivity) {
@@ -1876,7 +1876,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         UserConfig.getInstance(this.currentAccount).setCurrentUser(tLRPC$TL_auth_authorization.user);
         UserConfig.getInstance(this.currentAccount).saveConfig(true);
         MessagesStorage.getInstance(this.currentAccount).cleanup(true);
-        ArrayList<TLRPC$User> arrayList = new ArrayList<>();
+        ArrayList arrayList = new ArrayList();
         arrayList.add(tLRPC$TL_auth_authorization.user);
         MessagesStorage.getInstance(this.currentAccount).putUsersAndChats(arrayList, null, true, true);
         MessagesController.getInstance(this.currentAccount).putUser(tLRPC$TL_auth_authorization.user, false);
@@ -5276,11 +5276,11 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                 destroyCodeTimer();
                 UserConfig.getInstance(((BaseFragment) LoginActivity.this).currentAccount).setCurrentUser(tLRPC$User);
                 UserConfig.getInstance(((BaseFragment) LoginActivity.this).currentAccount).saveConfig(true);
-                ArrayList<TLRPC$User> arrayList = new ArrayList<>();
+                ArrayList arrayList = new ArrayList();
                 arrayList.add(tLRPC$User);
                 MessagesStorage.getInstance(((BaseFragment) LoginActivity.this).currentAccount).putUsersAndChats(arrayList, null, true, true);
                 MessagesController.getInstance(((BaseFragment) LoginActivity.this).currentAccount).putUser(tLRPC$User, false);
-                NotificationCenter.getInstance(((BaseFragment) LoginActivity.this).currentAccount).postNotificationName(NotificationCenter.mainUserInfoChanged, new Object[0]);
+                NotificationCenter.getInstance(((BaseFragment) LoginActivity.this).currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.mainUserInfoChanged, new Object[0]);
                 LoginActivity.this.getMessagesController().removeSuggestion(0L, "VALIDATE_PHONE_NUMBER");
                 if (this.currentType == 3) {
                     AndroidUtilities.endIncomingCall();
@@ -10836,18 +10836,18 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         if (this.currentConnectionState != connectionState || z2) {
             this.currentConnectionState = connectionState;
             SharedPreferences sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", 0);
-            boolean z3 = sharedPreferences.getBoolean("proxy_enabled", false) && !TextUtils.isEmpty(sharedPreferences.getString("proxy_ip", ""));
+            String string = sharedPreferences.getString("proxy_ip", "");
+            boolean z3 = sharedPreferences.getBoolean("proxy_enabled", false);
             int i = this.currentConnectionState;
             boolean z4 = i == 3 || i == 5;
-            boolean z5 = i == 1 || i == 2 || i == 4;
-            if (z3) {
-                this.proxyDrawable.setConnected(true, z4, z);
-                showProxyButton(true, z);
-            } else if ((getMessagesController().blockedCountry && !SharedConfig.proxyList.isEmpty()) || z5) {
-                this.proxyDrawable.setConnected(true, z4, z);
+            boolean z5 = (z3 && !TextUtils.isEmpty(string)) || (getMessagesController().blockedCountry && !SharedConfig.proxyList.isEmpty()) || (i == 1 || i == 2 || i == 4);
+            if (z5) {
                 showProxyButtonDelayed();
             } else {
-                showProxyButton(false, z);
+                showProxyButton(z5, z);
+            }
+            if (z5) {
+                this.proxyDrawable.setConnected(true, z4, z);
             }
         }
     }

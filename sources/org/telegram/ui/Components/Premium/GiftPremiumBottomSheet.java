@@ -62,7 +62,7 @@ import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.PremiumPreviewFragment;
 import org.telegram.ui.ProfileActivity;
 /* loaded from: classes4.dex */
-public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
+public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView implements NotificationCenter.NotificationCenterDelegate {
     private int buttonRow;
     private PremiumGiftTierCell dummyCell;
     private int footerRow;
@@ -87,6 +87,7 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
         super(baseFragment, false, true);
         this.giftTiers = new ArrayList();
         this.selectedTierIndex = 0;
+        fixNavigationBar();
         this.user = tLRPC$User;
         int i = Theme.key_premiumGradient1;
         int i2 = Theme.key_premiumGradient2;
@@ -104,57 +105,11 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
         premiumGradientTools2.paint.setStyle(Paint.Style.STROKE);
         this.outlineGradient.paint.setStrokeWidth(AndroidUtilities.dp(1.5f));
         this.dummyCell = new PremiumGiftTierCell(getContext());
-        TLRPC$UserFull userFull = MessagesController.getInstance(this.currentAccount).getUserFull(tLRPC$User.id);
-        if (userFull != null) {
-            ArrayList arrayList = new ArrayList();
-            long j = 0;
-            Iterator<TLRPC$TL_premiumGiftOption> it = userFull.premium_gifts.iterator();
-            while (it.hasNext()) {
-                GiftTier giftTier = new GiftTier(it.next());
-                this.giftTiers.add(giftTier);
-                if (BuildVars.useInvoiceBilling()) {
-                    if (giftTier.getPricePerMonth() > j) {
-                        j = giftTier.getPricePerMonth();
-                    }
-                } else if (giftTier.giftOption.store_product != null && BillingController.getInstance().isReady()) {
-                    arrayList.add(QueryProductDetailsParams.Product.newBuilder().setProductType("inapp").setProductId(giftTier.giftOption.store_product).build());
-                }
-            }
-            if (BuildVars.useInvoiceBilling()) {
-                for (GiftTier giftTier2 : this.giftTiers) {
-                    giftTier2.setPricePerMonthRegular(j);
-                }
-            } else if (!arrayList.isEmpty()) {
-                final long currentTimeMillis = System.currentTimeMillis();
-                BillingController.getInstance().queryProductDetails(arrayList, new ProductDetailsResponseListener() { // from class: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet$$ExternalSyntheticLambda4
-                    @Override // com.android.billingclient.api.ProductDetailsResponseListener
-                    public final void onProductDetailsResponse(BillingResult billingResult, List list) {
-                        GiftPremiumBottomSheet.this.lambda$new$1(currentTimeMillis, billingResult, list);
-                    }
-                });
-            }
-        }
-        if (!this.giftTiers.isEmpty()) {
-            this.selectedTierIndex = 0;
-            updateButtonText(false);
-        }
-        int i3 = this.rowsCount;
-        int i4 = i3 + 1;
-        this.rowsCount = i4;
-        this.headerRow = i3;
-        this.tiersStartRow = i4;
-        int size = i4 + this.giftTiers.size();
-        this.rowsCount = size;
-        this.tiersEndRow = size;
-        int i5 = size + 1;
-        this.rowsCount = i5;
-        this.footerRow = size;
-        this.rowsCount = i5 + 1;
-        this.buttonRow = i5;
+        initData();
         this.recyclerListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet$$ExternalSyntheticLambda10
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
-            public final void onItemClick(View view, int i6) {
-                GiftPremiumBottomSheet.this.lambda$new$2(view, i6);
+            public final void onItemClick(View view, int i3) {
+                GiftPremiumBottomSheet.this.lambda$new$0(view, i3);
             }
         });
         this.recyclerListView.setOverScrollMode(2);
@@ -162,50 +117,13 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
         this.recyclerListView.setSelectorTransformer(new Consumer() { // from class: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet$$ExternalSyntheticLambda3
             @Override // androidx.core.util.Consumer
             public final void accept(Object obj) {
-                GiftPremiumBottomSheet.this.lambda$new$3(path, (Canvas) obj);
+                GiftPremiumBottomSheet.this.lambda$new$1(path, (Canvas) obj);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$1(final long j, BillingResult billingResult, List list) {
-        Iterator it = list.iterator();
-        long j2 = 0;
-        while (it.hasNext()) {
-            ProductDetails productDetails = (ProductDetails) it.next();
-            Iterator<GiftTier> it2 = this.giftTiers.iterator();
-            while (true) {
-                if (it2.hasNext()) {
-                    GiftTier next = it2.next();
-                    String str = next.giftOption.store_product;
-                    if (str != null && str.equals(productDetails.getProductId())) {
-                        next.setGooglePlayProductDetails(productDetails);
-                        if (next.getPricePerMonth() > j2) {
-                            j2 = next.getPricePerMonth();
-                        }
-                    }
-                }
-            }
-        }
-        for (GiftTier giftTier : this.giftTiers) {
-            giftTier.setPricePerMonthRegular(j2);
-        }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet$$ExternalSyntheticLambda7
-            @Override // java.lang.Runnable
-            public final void run() {
-                GiftPremiumBottomSheet.this.lambda$new$0(j);
-            }
-        });
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$0(long j) {
-        this.recyclerListView.getAdapter().notifyDataSetChanged();
-        updateButtonText(System.currentTimeMillis() - j > 1000);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$2(View view, int i) {
+    public /* synthetic */ void lambda$new$0(View view, int i) {
         if (view instanceof PremiumGiftTierCell) {
             PremiumGiftTierCell premiumGiftTierCell = (PremiumGiftTierCell) view;
             this.selectedTierIndex = this.giftTiers.indexOf(premiumGiftTierCell.tier);
@@ -251,13 +169,122 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$3(Path path, Canvas canvas) {
+    public /* synthetic */ void lambda$new$1(Path path, Canvas canvas) {
         path.rewind();
         Rect selectorRect = this.recyclerListView.getSelectorRect();
         RectF rectF = AndroidUtilities.rectTmp;
         rectF.set(selectorRect.left + AndroidUtilities.dp(20.0f), selectorRect.top + AndroidUtilities.dp(3.0f), selectorRect.right - AndroidUtilities.dp(20.0f), selectorRect.bottom - AndroidUtilities.dp(3.0f));
         path.addRoundRect(rectF, AndroidUtilities.dp(12.0f), AndroidUtilities.dp(12.0f), Path.Direction.CW);
         canvas.clipPath(path);
+    }
+
+    private void initData() {
+        this.giftTiers.clear();
+        this.rowsCount = 0;
+        TLRPC$UserFull userFull = MessagesController.getInstance(this.currentAccount).getUserFull(this.user.id);
+        if (userFull != null) {
+            ArrayList arrayList = new ArrayList();
+            long j = 0;
+            Iterator<TLRPC$TL_premiumGiftOption> it = userFull.premium_gifts.iterator();
+            while (it.hasNext()) {
+                GiftTier giftTier = new GiftTier(it.next());
+                this.giftTiers.add(giftTier);
+                if (BuildVars.useInvoiceBilling()) {
+                    if (giftTier.getPricePerMonth() > j) {
+                        j = giftTier.getPricePerMonth();
+                    }
+                } else if (giftTier.giftOption.store_product != null && BillingController.getInstance().isReady()) {
+                    arrayList.add(QueryProductDetailsParams.Product.newBuilder().setProductType("inapp").setProductId(giftTier.giftOption.store_product).build());
+                }
+            }
+            if (BuildVars.useInvoiceBilling()) {
+                for (GiftTier giftTier2 : this.giftTiers) {
+                    giftTier2.setPricePerMonthRegular(j);
+                }
+            } else if (!arrayList.isEmpty()) {
+                final long currentTimeMillis = System.currentTimeMillis();
+                BillingController.getInstance().queryProductDetails(arrayList, new ProductDetailsResponseListener() { // from class: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet$$ExternalSyntheticLambda4
+                    @Override // com.android.billingclient.api.ProductDetailsResponseListener
+                    public final void onProductDetailsResponse(BillingResult billingResult, List list) {
+                        GiftPremiumBottomSheet.this.lambda$initData$3(currentTimeMillis, billingResult, list);
+                    }
+                });
+            }
+        }
+        if (!this.giftTiers.isEmpty()) {
+            this.selectedTierIndex = 0;
+            updateButtonText(false);
+        }
+        int i = this.rowsCount;
+        int i2 = i + 1;
+        this.rowsCount = i2;
+        this.headerRow = i;
+        this.tiersStartRow = i2;
+        int size = i2 + this.giftTiers.size();
+        this.rowsCount = size;
+        this.tiersEndRow = size;
+        int i3 = size + 1;
+        this.rowsCount = i3;
+        this.footerRow = size;
+        this.rowsCount = i3 + 1;
+        this.buttonRow = i3;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$initData$3(final long j, BillingResult billingResult, List list) {
+        Iterator it = list.iterator();
+        long j2 = 0;
+        while (it.hasNext()) {
+            ProductDetails productDetails = (ProductDetails) it.next();
+            Iterator<GiftTier> it2 = this.giftTiers.iterator();
+            while (true) {
+                if (it2.hasNext()) {
+                    GiftTier next = it2.next();
+                    String str = next.giftOption.store_product;
+                    if (str != null && str.equals(productDetails.getProductId())) {
+                        next.setGooglePlayProductDetails(productDetails);
+                        if (next.getPricePerMonth() > j2) {
+                            j2 = next.getPricePerMonth();
+                        }
+                    }
+                }
+            }
+        }
+        for (GiftTier giftTier : this.giftTiers) {
+            giftTier.setPricePerMonthRegular(j2);
+        }
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet$$ExternalSyntheticLambda7
+            @Override // java.lang.Runnable
+            public final void run() {
+                GiftPremiumBottomSheet.this.lambda$initData$2(j);
+            }
+        });
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$initData$2(long j) {
+        this.recyclerListView.getAdapter().notifyDataSetChanged();
+        updateButtonText(System.currentTimeMillis() - j > 1000);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog
+    public void onCreate(Bundle bundle) {
+        super.onCreate(bundle);
+        NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.billingProductDetailsUpdated);
+    }
+
+    @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface
+    public void dismiss() {
+        super.dismiss();
+        NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.billingProductDetailsUpdated);
+    }
+
+    @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
+    public void didReceivedNotification(int i, int i2, Object... objArr) {
+        if (i == NotificationCenter.billingProductDetailsUpdated) {
+            initData();
+        }
     }
 
     private void updateButtonText(boolean z) {
@@ -288,7 +315,7 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
         if (userFull != null) {
             this.user.premium = true;
             MessagesController.getInstance(this.currentAccount).putUser(this.user, true);
-            NotificationCenter.getInstance(this.currentAccount).postNotificationName(NotificationCenter.userInfoDidLoad, Long.valueOf(this.user.id), userFull);
+            NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.userInfoDidLoad, Long.valueOf(this.user.id), userFull);
         }
         if (getBaseFragment() != null) {
             ArrayList<BaseFragment> arrayList = new ArrayList(((LaunchActivity) getBaseFragment().getParentActivity()).getActionBarLayout().getFragmentStack());

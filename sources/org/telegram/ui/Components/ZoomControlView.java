@@ -19,6 +19,7 @@ public class ZoomControlView extends View {
     private float animatingToZoom;
     private AnimatorSet animatorSet;
     private ZoomControlViewDelegate delegate;
+    public boolean enabledTouch;
     private Drawable filledProgressDrawable;
     private Drawable knobDrawable;
     private boolean knobPressed;
@@ -46,6 +47,7 @@ public class ZoomControlView extends View {
 
     public ZoomControlView(Context context) {
         super(context);
+        this.enabledTouch = true;
         this.ZOOM_PROPERTY = new AnimationProperties.FloatProperty<ZoomControlView>("clipProgress") { // from class: org.telegram.ui.Components.ZoomControlView.1
             @Override // org.telegram.ui.Components.AnimationProperties.FloatProperty
             public void setValue(ZoomControlView zoomControlView, float f) {
@@ -97,14 +99,17 @@ public class ZoomControlView extends View {
         this.delegate = zoomControlViewDelegate;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:92:0x01da  */
-    /* JADX WARN: Removed duplicated region for block: B:94:0x01e3  */
+    /* JADX WARN: Removed duplicated region for block: B:95:0x01df  */
+    /* JADX WARN: Removed duplicated region for block: B:97:0x01e8  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public boolean onTouchEvent(MotionEvent motionEvent) {
         boolean z;
+        if (!this.enabledTouch) {
+            return false;
+        }
         float x = motionEvent.getX();
         float y = motionEvent.getY();
         int action = motionEvent.getAction();
@@ -201,6 +206,10 @@ public class ZoomControlView extends View {
         }
         if (z) {
         }
+    }
+
+    public boolean isTouch() {
+        return this.pressed || this.knobPressed;
     }
 
     private boolean animateToZoom(float f) {

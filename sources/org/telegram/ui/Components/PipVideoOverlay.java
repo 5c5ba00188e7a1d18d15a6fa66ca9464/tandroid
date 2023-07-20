@@ -39,6 +39,7 @@ import java.util.List;
 import java.util.Objects;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
+import org.telegram.messenger.MediaController;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.GestureDetectorFixDoubleTap;
@@ -370,7 +371,7 @@ public class PipVideoOverlay {
         this.controlsView.setAlpha(((Float) valueAnimator.getAnimatedValue()).floatValue());
     }
 
-    public static void dimissAndDestroy() {
+    public static void dismissAndDestroy() {
         PipVideoOverlay pipVideoOverlay = instance;
         EmbedBottomSheet embedBottomSheet = pipVideoOverlay.parentSheet;
         if (embedBottomSheet != null) {
@@ -379,6 +380,7 @@ public class PipVideoOverlay {
             PhotoViewer photoViewer = pipVideoOverlay.photoViewer;
             if (photoViewer != null) {
                 photoViewer.destroyPhotoViewer();
+                MediaController.getInstance().tryResumePausedAudio();
             }
         }
         dismiss();
@@ -683,7 +685,7 @@ public class PipVideoOverlay {
                     PipVideoOverlay.this.isScrollDisallowed = false;
                     if (PipVideoOverlay.this.onSideToDismiss) {
                         PipVideoOverlay.this.onSideToDismiss = false;
-                        PipVideoOverlay.dimissAndDestroy();
+                        PipVideoOverlay.dismissAndDestroy();
                     } else {
                         if (!PipVideoOverlay.this.pipXSpring.isRunning()) {
                             SpringForce spring = PipVideoOverlay.this.pipXSpring.setStartValue(PipVideoOverlay.this.pipX).getSpring();
@@ -1110,14 +1112,14 @@ public class PipVideoOverlay {
 
         @Override // android.view.GestureDetector.SimpleOnGestureListener, android.view.GestureDetector.OnGestureListener
         public boolean onSingleTapUp(MotionEvent motionEvent) {
-            if (!hasDoubleTap()) {
+            if (!hasDoubleTap(motionEvent)) {
                 return onSingleTapConfirmed(motionEvent);
             }
             return super.onSingleTapUp(motionEvent);
         }
 
         @Override // org.telegram.ui.Components.GestureDetectorFixDoubleTap.OnGestureListener
-        public boolean hasDoubleTap() {
+        public boolean hasDoubleTap(MotionEvent motionEvent) {
             if (PipVideoOverlay.this.photoViewer != null) {
                 if ((PipVideoOverlay.this.photoViewer.getVideoPlayer() == null && PipVideoOverlay.this.photoViewerWebView == null) || PipVideoOverlay.this.isDismissing || PipVideoOverlay.this.isVideoCompleted || PipVideoOverlay.this.isScrolling || PipVideoOverlay.this.scaleGestureDetector.isInProgress() || !PipVideoOverlay.this.canLongClick) {
                     return false;

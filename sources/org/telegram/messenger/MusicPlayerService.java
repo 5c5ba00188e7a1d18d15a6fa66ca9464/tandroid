@@ -131,7 +131,7 @@ public class MusicPlayerService extends Service implements NotificationCenter.No
                 public void onSeekTo(long j) {
                     MessageObject playingMessageObject = MediaController.getInstance().getPlayingMessageObject();
                     if (playingMessageObject != null) {
-                        MediaController.getInstance().seekToProgress(playingMessageObject, ((float) (j / 1000)) / playingMessageObject.getDuration());
+                        MediaController.getInstance().seekToProgress(playingMessageObject, ((float) (j / 1000)) / ((float) playingMessageObject.getDuration()));
                         MusicPlayerService.this.updatePlaybackState(j);
                     }
                 }
@@ -232,7 +232,7 @@ public class MusicPlayerService extends Service implements NotificationCenter.No
         PendingIntent activity = PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent, fixIntentFlags(ConnectionsManager.FileTypeVideo));
         String artworkUrl = messageObject.getArtworkUrl(true);
         String artworkUrl2 = messageObject.getArtworkUrl(false);
-        long duration = messageObject.getDuration() * 1000;
+        long duration = (long) (messageObject.getDuration() * 1000.0d);
         Bitmap smallCover = audioInfo != null ? audioInfo.getSmallCover() : null;
         Bitmap cover = audioInfo != null ? audioInfo.getCover() : null;
         this.loadingFilePath = null;

@@ -48,6 +48,7 @@ public class BasicContainer implements Container, Iterator<Box>, Closeable, j$.u
         Logger.getLogger(BasicContainer.class);
     }
 
+    @Override // com.coremedia.iso.boxes.Container
     public List<Box> getBoxes() {
         if (this.dataSource != null && this.lookahead != EOF) {
             return new LazyList(this.boxes, this);

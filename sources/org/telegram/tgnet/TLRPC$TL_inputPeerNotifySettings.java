@@ -1,12 +1,17 @@
 package org.telegram.tgnet;
+
+import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public class TLRPC$TL_inputPeerNotifySettings extends TLObject {
-    public static int constructor = -551616469;
+    public static int constructor = -892638494;
     public int flags;
     public int mute_until;
     public boolean show_previews;
     public boolean silent;
     public TLRPC$NotificationSound sound;
+    public boolean stories_hide_sender;
+    public boolean stories_muted;
+    public TLRPC$NotificationSound stories_sound;
 
     @Override // org.telegram.tgnet.TLObject
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
@@ -23,6 +28,15 @@ public class TLRPC$TL_inputPeerNotifySettings extends TLObject {
         }
         if ((this.flags & 8) != 0) {
             this.sound = TLRPC$NotificationSound.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+        }
+        if ((this.flags & 64) != 0) {
+            this.stories_muted = abstractSerializedData.readBool(z);
+        }
+        if ((this.flags & 128) != 0) {
+            this.stories_hide_sender = abstractSerializedData.readBool(z);
+        }
+        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+            this.stories_sound = TLRPC$NotificationSound.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
         }
     }
 
@@ -41,6 +55,15 @@ public class TLRPC$TL_inputPeerNotifySettings extends TLObject {
         }
         if ((this.flags & 8) != 0) {
             this.sound.serializeToStream(abstractSerializedData);
+        }
+        if ((this.flags & 64) != 0) {
+            abstractSerializedData.writeBool(this.stories_muted);
+        }
+        if ((this.flags & 128) != 0) {
+            abstractSerializedData.writeBool(this.stories_hide_sender);
+        }
+        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+            this.stories_sound.serializeToStream(abstractSerializedData);
         }
     }
 }

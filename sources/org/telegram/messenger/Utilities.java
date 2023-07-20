@@ -20,6 +20,7 @@ import java.util.regex.Pattern;
 /* loaded from: classes.dex */
 public class Utilities {
     private static final String RANDOM_STRING_CHARS = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    public static volatile DispatchQueue videoPlayerQueue;
     public static Pattern pattern = Pattern.compile("[\\-0-9]+");
     public static SecureRandom random = new SecureRandom();
     public static Random fastRandom = new Xoroshiro128PlusRandom(random.nextLong());
@@ -45,6 +46,11 @@ public class Utilities {
     /* loaded from: classes.dex */
     public interface Callback3<T, T2, T3> {
         void run(T t, T2 t2, T3 t3);
+    }
+
+    /* loaded from: classes.dex */
+    public interface Callback4<T, T2, T3, T4> {
+        void run(T t, T2 t2, T3 t3, T4 t4);
     }
 
     /* loaded from: classes.dex */
@@ -498,6 +504,10 @@ public class Utilities {
         return Math.max(Math.min(i, i2), i3);
     }
 
+    public static long clamp(long j, long j2, long j3) {
+        return Math.max(Math.min(j, j2), j3);
+    }
+
     public static float clamp(float f, float f2, float f3) {
         return Float.isNaN(f) ? f3 : Float.isInfinite(f) ? f2 : Math.max(Math.min(f, f2), f3);
     }
@@ -576,5 +586,12 @@ public class Utilities {
             return;
         }
         runnable.run();
+    }
+
+    public static DispatchQueue getOrCreatePlayerQueue() {
+        if (videoPlayerQueue == null) {
+            videoPlayerQueue = new DispatchQueue("playerQueue");
+        }
+        return videoPlayerQueue;
     }
 }

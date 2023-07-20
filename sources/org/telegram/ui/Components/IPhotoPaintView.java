@@ -42,7 +42,7 @@ public interface IPhotoPaintView {
 
     void onAnimationStateChanged(boolean z);
 
-    void onBackPressed();
+    boolean onBackPressed();
 
     void onCleanupEntities();
 
@@ -66,6 +66,9 @@ public interface IPhotoPaintView {
 
     /* loaded from: classes4.dex */
     public final /* synthetic */ class -CC {
+        public static void $default$setOffsetTranslationX(IPhotoPaintView iPhotoPaintView, float f) {
+        }
+
         public static View $default$getView(IPhotoPaintView _this) {
             if (_this instanceof View) {
                 return (View) _this;
