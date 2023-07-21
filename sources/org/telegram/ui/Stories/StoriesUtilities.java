@@ -11,6 +11,8 @@ import android.text.TextPaint;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.TextView;
 import androidx.core.graphics.ColorUtils;
 import java.util.ArrayList;
@@ -959,7 +961,10 @@ public class StoriesUtilities {
                 if (this.pressed && motionEvent.getAction() == 1) {
                     processOpenStory(view);
                 }
-                view.getParent().requestDisallowInterceptTouchEvent(false);
+                ViewParent parent = view.getParent();
+                if (parent instanceof ViewGroup) {
+                    ((ViewGroup) parent).requestDisallowInterceptTouchEvent(false);
+                }
                 this.pressed = false;
                 Runnable runnable4 = this.longPressRunnable;
                 if (runnable4 != null) {
@@ -976,7 +981,10 @@ public class StoriesUtilities {
             if (buttonBounce != null) {
                 buttonBounce.setPressed(false);
             }
-            view.getParent().requestDisallowInterceptTouchEvent(false);
+            ViewParent parent = view.getParent();
+            if (parent instanceof ViewGroup) {
+                ((ViewGroup) parent).requestDisallowInterceptTouchEvent(false);
+            }
             this.pressed = false;
             onLongPress();
         }

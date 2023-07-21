@@ -1047,7 +1047,11 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
                 this.selectedUsers.addAll(StoryPrivacyBottomSheet.this.selectedContacts);
                 this.selectedUsersByGroup.putAll(StoryPrivacyBottomSheet.this.selectedContactsByGroup);
             }
-            this.layoutManager.setReverseLayout(i == 0);
+            LinearLayoutManager linearLayoutManager = this.layoutManager;
+            Adapter adapter = this.adapter;
+            boolean z = i == 0;
+            adapter.reversedLayout = z;
+            linearLayoutManager.setReverseLayout(z);
             updateSpans(false);
             this.searchField.setText("");
             this.searchField.setVisibility(i == 0 ? 8 : 0);
@@ -1691,6 +1695,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
             private RecyclerListView listView;
             private Runnable onBack;
             private Theme.ResourcesProvider resourcesProvider;
+            public boolean reversedLayout;
             private SearchUsersCell searchField;
 
             public Adapter(Context context, Theme.ResourcesProvider resourcesProvider, SearchUsersCell searchUsersCell, Runnable runnable) {
@@ -1745,56 +1750,72 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
             public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
                 int i2;
+                ArrayList arrayList;
+                ItemInner itemInner;
+                int i3;
                 if (Page.this.items == null || i < 0 || i >= Page.this.items.size()) {
                     return;
                 }
-                ItemInner itemInner = (ItemInner) Page.this.items.get(i);
+                ItemInner itemInner2 = (ItemInner) Page.this.items.get(i);
                 int itemViewType = viewHolder.getItemViewType();
-                int i3 = i + 1;
-                ItemInner itemInner2 = i3 < Page.this.items.size() ? (ItemInner) Page.this.items.get(i3) : null;
-                boolean z = itemInner2 != null && itemInner2.viewType == itemViewType;
+                if (this.reversedLayout) {
+                    if (i > 0) {
+                        arrayList = Page.this.items;
+                        i2 = i - 1;
+                        itemInner = (ItemInner) arrayList.get(i2);
+                    }
+                    itemInner = null;
+                } else {
+                    i2 = i + 1;
+                    if (i2 < Page.this.items.size()) {
+                        arrayList = Page.this.items;
+                        itemInner = (ItemInner) arrayList.get(i2);
+                    }
+                    itemInner = null;
+                }
+                boolean z = itemInner != null && itemInner.viewType == itemViewType;
                 if (itemViewType == 3) {
                     UserCell userCell = (UserCell) viewHolder.itemView;
-                    int i4 = itemInner.type;
+                    int i4 = itemInner2.type;
                     if (i4 > 0) {
-                        userCell.setType(i4, itemInner.typeCount, itemInner.user);
+                        userCell.setType(i4, itemInner2.typeCount, itemInner2.user);
                     } else {
-                        TLRPC$User tLRPC$User = itemInner.user;
+                        TLRPC$User tLRPC$User = itemInner2.user;
                         if (tLRPC$User != null) {
                             userCell.setUser(tLRPC$User);
                         } else {
-                            TLRPC$Chat tLRPC$Chat = itemInner.chat;
+                            TLRPC$Chat tLRPC$Chat = itemInner2.chat;
                             if (tLRPC$Chat != null) {
                                 userCell.setChat(tLRPC$Chat, StoryPrivacyBottomSheet.this.getParticipantsCount(tLRPC$Chat));
                             }
                         }
                     }
-                    userCell.setChecked(itemInner.checked, false);
+                    userCell.setChecked(itemInner2.checked, false);
                     userCell.setDivider(z);
-                    userCell.setRedCheckbox(itemInner.red);
+                    userCell.setRedCheckbox(itemInner2.red);
                 } else if (itemViewType == 2) {
                 } else {
                     if (itemViewType == 0) {
                         viewHolder.itemView.setLayoutParams(new RecyclerView.LayoutParams(-1, AndroidUtilities.dp(56.0f)));
                     } else if (itemViewType == -1) {
-                        if (itemInner.subtractHeight > 0) {
+                        if (itemInner2.subtractHeight > 0) {
                             RecyclerListView recyclerListView = this.listView;
-                            i2 = ((recyclerListView == null || recyclerListView.getMeasuredHeight() <= 0) ? AndroidUtilities.displaySize.y : this.listView.getMeasuredHeight() + Page.this.keyboardHeight) - itemInner.subtractHeight;
+                            i3 = ((recyclerListView == null || recyclerListView.getMeasuredHeight() <= 0) ? AndroidUtilities.displaySize.y : this.listView.getMeasuredHeight() + Page.this.keyboardHeight) - itemInner2.subtractHeight;
                             viewHolder.itemView.setTag(33);
                         } else {
-                            i2 = itemInner.padHeight;
-                            if (i2 >= 0) {
+                            i3 = itemInner2.padHeight;
+                            if (i3 >= 0) {
                                 viewHolder.itemView.setTag(null);
                             } else {
-                                i2 = (int) (AndroidUtilities.displaySize.y * 0.3f);
+                                i3 = (int) (AndroidUtilities.displaySize.y * 0.3f);
                                 viewHolder.itemView.setTag(33);
                             }
                         }
-                        viewHolder.itemView.setLayoutParams(new RecyclerView.LayoutParams(-1, i2));
+                        viewHolder.itemView.setLayoutParams(new RecyclerView.LayoutParams(-1, i3));
                     } else if (itemViewType == 1) {
                         viewHolder.itemView.setLayoutParams(new RecyclerView.LayoutParams(-1, this.searchField.resultContainerHeight));
                     } else if (itemViewType == 4) {
-                        ((HeaderCell2) viewHolder.itemView).setText(itemInner.text, itemInner.text2);
+                        ((HeaderCell2) viewHolder.itemView).setText(itemInner2.text, itemInner2.text2);
                     } else if (itemViewType == 5) {
                         try {
                             ((StickerEmptyView) viewHolder.itemView).stickerView.getImageReceiver().startAnimation();
@@ -1802,17 +1823,17 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
                         }
                     } else if (itemViewType != 6) {
                         if (itemViewType == 7) {
-                            ((TextCell) viewHolder.itemView).setTextAndCheck(itemInner.text, itemInner.resId == 0 ? StoryPrivacyBottomSheet.this.allowScreenshots : StoryPrivacyBottomSheet.this.keepOnMyPage, !z);
+                            ((TextCell) viewHolder.itemView).setTextAndCheck(itemInner2.text, itemInner2.resId == 0 ? StoryPrivacyBottomSheet.this.allowScreenshots : StoryPrivacyBottomSheet.this.keepOnMyPage, !z);
                         }
                     } else {
                         TextInfoPrivacyCell textInfoPrivacyCell = (TextInfoPrivacyCell) viewHolder.itemView;
-                        if (itemInner.text == null) {
+                        if (itemInner2.text == null) {
                             textInfoPrivacyCell.setFixedSize(12);
                             textInfoPrivacyCell.setText(null);
                             return;
                         }
                         textInfoPrivacyCell.setFixedSize(0);
-                        textInfoPrivacyCell.setText(itemInner.text);
+                        textInfoPrivacyCell.setText(itemInner2.text);
                     }
                 }
             }

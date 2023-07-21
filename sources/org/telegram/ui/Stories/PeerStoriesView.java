@@ -72,7 +72,6 @@ import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
-import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.NotificationsController;
 import org.telegram.messenger.NotificationsSettingsFacade;
@@ -196,7 +195,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
     boolean checkBlackoutMode;
     private int classGuid;
     int count;
-    ArrayList<HintView> createdTooltips;
+    ArrayList<HintView2> createdTooltips;
     private int currentAccount;
     private long currentImageTime;
     public final StoryItemHolder currentStory;
@@ -275,7 +274,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
     final SharedResources sharedResources;
     private int shiftDp;
     boolean showViewsProgress;
-    private HintView soundTooltip;
+    private HintView2 soundTooltip;
     StoriesController storiesController;
     private final StoryCaptionView storyCaptionView;
     public FrameLayout storyContainer;
@@ -527,7 +526,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
         frameLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.PeerStoriesView$$ExternalSyntheticLambda9
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
-                PeerStoriesView.this.lambda$new$5(storyViewer, context, resourcesProvider, view);
+                PeerStoriesView.this.lambda$new$5(storyViewer, context, view);
             }
         });
         this.storyLines = new StoryLinesDrawable(this, sharedResources);
@@ -1209,7 +1208,8 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                         }
                     }
                 }
-                if (!PeerStoriesView.this.unsupported) {
+                PeerStoriesView peerStoriesView2 = PeerStoriesView.this;
+                if (!peerStoriesView2.unsupported && (UserObject.isService(peerStoriesView2.dialogId) || PeerStoriesView.this.allowShare)) {
                     ActionBarMenuItem.addItem(actionBarPopupWindowLayout, R.drawable.msg_gallery, LocaleController.getString("SaveToGallery", R.string.SaveToGallery), false, this.val$resourcesProvider).setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.PeerStoriesView$6$$ExternalSyntheticLambda2
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view) {
@@ -1231,8 +1231,8 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                         }
                     });
                 }
-                PeerStoriesView peerStoriesView2 = PeerStoriesView.this;
-                if (!peerStoriesView2.unsupported && !UserObject.isService(peerStoriesView2.dialogId)) {
+                PeerStoriesView peerStoriesView3 = PeerStoriesView.this;
+                if (!peerStoriesView3.unsupported && !UserObject.isService(peerStoriesView3.dialogId)) {
                     ActionBarMenuSubItem addItem3 = ActionBarMenuItem.addItem(actionBarPopupWindowLayout, R.drawable.msg_report, LocaleController.getString("ReportChat", R.string.ReportChat), false, this.val$resourcesProvider);
                     final StoryViewer storyViewer = this.val$storyViewer;
                     final Theme.ResourcesProvider resourcesProvider = this.val$resourcesProvider;
@@ -1278,8 +1278,8 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                 ActionBarPopupWindow.GapView gapView = new ActionBarPopupWindow.GapView(PeerStoriesView.this.getContext(), this.val$resourcesProvider, Theme.key_actionBarDefaultSubmenuSeparator);
                 gapView.setTag(R.id.fit_width_tag, 1);
                 actionBarPopupWindowLayout.addView((View) gapView, LayoutHelper.createLinear(-1, 8));
-                PeerStoriesView peerStoriesView3 = PeerStoriesView.this;
-                if (!peerStoriesView3.unsupported && MessagesController.getInstance(peerStoriesView3.currentAccount).storiesEnabled()) {
+                PeerStoriesView peerStoriesView4 = PeerStoriesView.this;
+                if (!peerStoriesView4.unsupported && MessagesController.getInstance(peerStoriesView4.currentAccount).storiesEnabled()) {
                     PeerStoriesView.this.editStoryItem = ActionBarMenuItem.addItem(actionBarPopupWindowLayout, R.drawable.msg_edit, LocaleController.getString("EditStory", R.string.EditStory), false, this.val$resourcesProvider);
                     ActionBarMenuSubItem actionBarMenuSubItem = PeerStoriesView.this.editStoryItem;
                     final Theme.ResourcesProvider resourcesProvider2 = this.val$resourcesProvider;
@@ -1334,8 +1334,8 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
             }
             StoryItemHolder storyItemHolder2 = PeerStoriesView.this.currentStory;
             boolean z4 = (storyItemHolder2 == null || (tLRPC$StoryItem = storyItemHolder2.storyItem) == null || (tLRPC$MessageMedia = tLRPC$StoryItem.media) == null || (!MessageObject.isDocumentHasAttachedStickers(tLRPC$MessageMedia.document) && ((tLRPC$Photo = PeerStoriesView.this.currentStory.storyItem.media.photo) == null || !tLRPC$Photo.has_stickers))) ? false : true;
-            PeerStoriesView peerStoriesView4 = PeerStoriesView.this;
-            ArrayList animatedEmojiSets = peerStoriesView4.getAnimatedEmojiSets(peerStoriesView4.currentStory);
+            PeerStoriesView peerStoriesView5 = PeerStoriesView.this;
+            ArrayList animatedEmojiSets = peerStoriesView5.getAnimatedEmojiSets(peerStoriesView5.currentStory);
             z = (animatedEmojiSets == null || animatedEmojiSets.isEmpty()) ? false : false;
             if (z4 || z) {
                 ActionBarPopupWindow.GapView gapView2 = new ActionBarPopupWindow.GapView(this.val$context, this.val$resourcesProvider, Theme.key_actionBarDefaultSubmenuSeparator);
@@ -1721,20 +1721,20 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$5(StoryViewer storyViewer, Context context, Theme.ResourcesProvider resourcesProvider, View view) {
+    public /* synthetic */ void lambda$new$5(StoryViewer storyViewer, Context context, View view) {
         if (this.currentStory.hasSound()) {
             storyViewer.toggleSilentMode();
             return;
         }
         if (this.soundTooltip == null) {
-            HintView build = new HintView.Builder(context, resourcesProvider).setTopArrow(true).setBackgroundColor(ColorUtils.setAlphaComponent(-16777216, MessagesStorage.LAST_DB_VERSION)).build();
-            this.soundTooltip = build;
-            build.setExtraTranslationY(-AndroidUtilities.dp(8.0f));
-            this.soundTooltip.setText(LocaleController.getString(R.string.StoryNoSound));
-            addView(this.soundTooltip, LayoutHelper.createFrame(-2, -2.0f, 51, 10.0f, 0.0f, 10.0f, 0.0f));
+            HintView2 joint = new HintView2(context, 1).setJoint(1.0f, -56.0f);
+            this.soundTooltip = joint;
+            joint.setText(LocaleController.getString(R.string.StoryNoSound));
+            this.soundTooltip.setPadding(AndroidUtilities.dp(8.0f), 0, AndroidUtilities.dp(8.0f), 0);
+            addView(this.soundTooltip, LayoutHelper.createFrame(-1, -2.0f, 55, 0.0f, 66.0f, 0.0f, 0.0f));
             this.createdTooltips.add(this.soundTooltip);
         }
-        this.soundTooltip.showForView(this.muteIconContainer, true);
+        this.soundTooltip.show();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -2576,9 +2576,13 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
     }
 
     public void setDialogId(long j) {
+        boolean z = this.dialogId != j;
         this.dialogId = j;
         this.deletedPeer = false;
         this.forceUpdateOffsets = true;
+        if (z) {
+            this.currentStory.clear();
+        }
         if (j >= 0) {
             this.isSelf = j == UserConfig.getInstance(this.currentAccount).getClientUserId();
             TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(j));
@@ -3002,13 +3006,13 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:26:0x011d, code lost:
-        if (r13 > (r42.storyItems.size() - 1)) goto L340;
+    /* JADX WARN: Code restructure failed: missing block: B:29:0x0114, code lost:
+        if (r13 > (r42.storyItems.size() - 1)) goto L343;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:238:0x0625  */
-    /* JADX WARN: Removed duplicated region for block: B:241:0x0630  */
-    /* JADX WARN: Removed duplicated region for block: B:242:0x063a  */
+    /* JADX WARN: Removed duplicated region for block: B:241:0x061c  */
+    /* JADX WARN: Removed duplicated region for block: B:244:0x0627  */
+    /* JADX WARN: Removed duplicated region for block: B:245:0x0631  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -3062,10 +3066,6 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
         int i8 = this.selectedPosition;
         boolean z11 = this.isUploading;
         boolean z12 = this.isEditing;
-        if (this.isActive) {
-            ImageLoader.getInstance().cancelLoadingForImageReceiver(this.leftPreloadImageReceiver, true);
-            ImageLoader.getInstance().cancelLoadingForImageReceiver(this.rightPreloadImageReceiver, true);
-        }
         this.currentStory.editingSourceItem = null;
         boolean isEmpty = this.uploadingStories.isEmpty();
         int i9 = ImageReceiver.DEFAULT_CROSSFADE_DURATION;
@@ -3073,6 +3073,9 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
             this.isUploading = true;
             this.isEditing = false;
             int size = i8 - this.storyItems.size();
+            if (size < 0 || size >= this.uploadingStories.size()) {
+                return;
+            }
             StoriesController.UploadingStory uploadingStory4 = this.uploadingStories.get(size);
             this.imageReceiver.setCrossfadeWithOldImage(false);
             this.imageReceiver.setCrossfadeDuration(ImageReceiver.DEFAULT_CROSSFADE_DURATION);
@@ -3837,7 +3840,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
             hintView2.hide();
         }
         for (int i = 0; i < this.createdTooltips.size(); i++) {
-            if (this.createdTooltips.get(i).getVisibility() == 0) {
+            if (this.createdTooltips.get(i).shown()) {
                 this.createdTooltips.get(i).hide(true);
                 return true;
             }
@@ -3892,7 +3895,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
         HintView2 hintView2 = this.privacyHint;
         if (hintView2 == null || !hintView2.shown()) {
             for (int i = 0; i < this.createdTooltips.size(); i++) {
-                if (this.createdTooltips.get(i).getVisibility() == 0) {
+                if (this.createdTooltips.get(i).shown()) {
                     return true;
                 }
             }
@@ -4402,6 +4405,11 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
             this.storyItem = null;
             this.skipped = false;
             this.isVideo = isVideoInternal();
+        }
+
+        public void clear() {
+            this.uploadingStory = null;
+            this.storyItem = null;
         }
 
         void cancelOrDelete() {

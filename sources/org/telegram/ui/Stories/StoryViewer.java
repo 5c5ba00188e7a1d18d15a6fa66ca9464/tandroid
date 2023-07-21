@@ -1440,6 +1440,7 @@ public class StoryViewer {
                 StoryViewer storyViewer7 = StoryViewer.this;
                 storyViewer7.currentPlayerScope.surfaceView = storyViewer7.surfaceView;
                 FileStreamLoadOperation.setPriorityForDocument(StoryViewer.this.playerHolder.document, 3);
+                FileLoader.getInstance(StoryViewer.this.currentAccount).changePriority(3, StoryViewer.this.playerHolder.document, null, null, null, null, null);
                 StoryViewer storyViewer8 = StoryViewer.this;
                 storyViewer8.currentPlayerScope.player.start(storyViewer8.isPaused(), uri, j, StoryViewer.isInSilentMode);
                 StoryViewer.this.currentPlayerScope.invalidate();

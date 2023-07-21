@@ -17,7 +17,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-import androidx.core.graphics.ColorUtils;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LocaleController;
@@ -115,30 +114,6 @@ public class HintView extends FrameLayout {
         imageView2.setImageResource(z ? R.drawable.tooltip_arrow_up : R.drawable.tooltip_arrow);
         this.arrowImageView.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_chat_gifSaveHintBackground), PorterDuff.Mode.MULTIPLY));
         addView(this.arrowImageView, LayoutHelper.createFrame(14, 6.0f, (z ? 48 : 80) | 3, 0.0f, 0.0f, 0.0f, 0.0f));
-    }
-
-    public void createCloseButton() {
-        this.textView.setPadding(AndroidUtilities.dp(12.0f), AndroidUtilities.dp(7.0f), AndroidUtilities.dp(36.0f), AndroidUtilities.dp(8.0f));
-        this.hasCloseButton = true;
-        ImageView imageView = new ImageView(getContext());
-        this.imageView = imageView;
-        imageView.setImageResource(R.drawable.msg_mini_close_tooltip);
-        this.imageView.setScaleType(ImageView.ScaleType.CENTER);
-        this.imageView.setColorFilter(new PorterDuffColorFilter(ColorUtils.setAlphaComponent(getThemedColor(Theme.key_chat_gifSaveHintText), 125), PorterDuff.Mode.MULTIPLY));
-        this.imageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.HintView$$ExternalSyntheticLambda0
-            @Override // android.view.View.OnClickListener
-            public final void onClick(View view) {
-                HintView.this.lambda$createCloseButton$0(view);
-            }
-        });
-        ImageView imageView2 = this.imageView;
-        boolean z = this.isTopArrow;
-        addView(imageView2, LayoutHelper.createFrame(34, 34.0f, 21, 0.0f, z ? 3.0f : 0.0f, 0.0f, z ? 0.0f : 3.0f));
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createCloseButton$0(View view) {
-        hide(true);
     }
 
     public void setBackgroundColor(int i, int i2) {
@@ -717,49 +692,6 @@ public class HintView extends FrameLayout {
             this.path.lineTo(x, AndroidUtilities.dp(2.0f) + measuredHeight);
             this.path.lineTo(x - AndroidUtilities.dp(7.0f), measuredHeight - AndroidUtilities.dp(6.0f));
             this.path.close();
-        }
-    }
-
-    /* loaded from: classes4.dex */
-    public static class Builder {
-        private int backgroundColor;
-        boolean closeButton;
-        Context context;
-        private boolean drawPath = true;
-        HintView hintView;
-        private boolean isTopArrow;
-        Theme.ResourcesProvider resourcesProvider;
-
-        public Builder(Context context, Theme.ResourcesProvider resourcesProvider) {
-            this.context = context;
-            this.resourcesProvider = resourcesProvider;
-            this.backgroundColor = Theme.getColor(Theme.key_chat_gifSaveHintBackground, resourcesProvider);
-        }
-
-        public Builder setTopArrow(boolean z) {
-            this.isTopArrow = z;
-            return this;
-        }
-
-        public Builder setBackgroundColor(int i) {
-            this.backgroundColor = i;
-            return this;
-        }
-
-        public HintView build() {
-            HintView hintView = new HintView(this.context, 6, this.isTopArrow, this.resourcesProvider);
-            this.hintView = hintView;
-            hintView.setUseScale(true);
-            if (this.drawPath) {
-                this.hintView.textView.setBackground(null);
-                this.hintView.arrowImageView.setImageDrawable(null);
-                this.hintView.drawPath = true;
-                this.hintView.backgroundColor = this.backgroundColor;
-            }
-            if (this.closeButton) {
-                this.hintView.createCloseButton();
-            }
-            return this.hintView;
         }
     }
 }

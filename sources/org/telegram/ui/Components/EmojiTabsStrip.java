@@ -1205,18 +1205,19 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
         }
 
         public void setDrawable(Drawable drawable) {
-            DelayedAnimatedEmojiDrawable delayedAnimatedEmojiDrawable = drawable instanceof DelayedAnimatedEmojiDrawable ? (DelayedAnimatedEmojiDrawable) drawable : null;
-            DelayedAnimatedEmojiDrawable delayedAnimatedEmojiDrawable2 = this.animatedEmoji;
-            if (delayedAnimatedEmojiDrawable2 != delayedAnimatedEmojiDrawable) {
+            DelayedAnimatedEmojiDrawable delayedAnimatedEmojiDrawable;
+            DelayedAnimatedEmojiDrawable delayedAnimatedEmojiDrawable2 = drawable instanceof DelayedAnimatedEmojiDrawable ? (DelayedAnimatedEmojiDrawable) drawable : null;
+            DelayedAnimatedEmojiDrawable delayedAnimatedEmojiDrawable3 = this.animatedEmoji;
+            if (delayedAnimatedEmojiDrawable3 != delayedAnimatedEmojiDrawable2) {
+                if (delayedAnimatedEmojiDrawable3 != null && this.attached && this.wasVisible) {
+                    delayedAnimatedEmojiDrawable3.removeView();
+                }
+                this.animatedEmoji = delayedAnimatedEmojiDrawable2;
                 if (delayedAnimatedEmojiDrawable2 != null && this.attached && this.wasVisible) {
-                    delayedAnimatedEmojiDrawable2.removeView();
+                    delayedAnimatedEmojiDrawable2.updateView(this.imageView);
                 }
-                this.animatedEmoji = delayedAnimatedEmojiDrawable;
-                if (delayedAnimatedEmojiDrawable != null && this.attached && this.wasVisible) {
-                    delayedAnimatedEmojiDrawable.updateView(this.imageView);
-                }
-                if (this.wasVisible) {
-                    this.animatedEmoji.load();
+                if (this.wasVisible && (delayedAnimatedEmojiDrawable = this.animatedEmoji) != null) {
+                    delayedAnimatedEmojiDrawable.load();
                 }
                 initLock();
             }

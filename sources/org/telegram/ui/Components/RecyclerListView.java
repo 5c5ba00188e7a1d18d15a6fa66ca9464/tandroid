@@ -1135,7 +1135,10 @@ public class RecyclerListView extends RecyclerView {
                         RecyclerListView.this.onChildPressed(view, x, y, true);
                         final int i = RecyclerListView.this.currentChildPosition;
                         if (RecyclerListView.this.instantClick && i != -1) {
-                            view.playSoundEffect(0);
+                            try {
+                                view.playSoundEffect(0);
+                            } catch (Exception unused) {
+                            }
                             view.sendAccessibilityEvent(1);
                             if (RecyclerListView.this.onItemClickListener != null) {
                                 RecyclerListView.this.onItemClickListener.onItemClick(view, i);
@@ -1155,7 +1158,10 @@ public class RecyclerListView extends RecyclerView {
                                     if (RecyclerListView.this.instantClick) {
                                         return;
                                     }
-                                    view.playSoundEffect(0);
+                                    try {
+                                        view.playSoundEffect(0);
+                                    } catch (Exception unused2) {
+                                    }
                                     view.sendAccessibilityEvent(1);
                                     if (i != -1) {
                                         if (RecyclerListView.this.onItemClickListener != null) {

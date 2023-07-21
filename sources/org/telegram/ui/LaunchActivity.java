@@ -11591,7 +11591,10 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         super.onDestroy();
         onFinish();
         FloatingDebugController.onDestroy();
-        this.flagSecureReason.detach();
+        FlagSecureReason flagSecureReason = this.flagSecureReason;
+        if (flagSecureReason != null) {
+            flagSecureReason.detach();
+        }
     }
 
     @Override // android.app.Activity

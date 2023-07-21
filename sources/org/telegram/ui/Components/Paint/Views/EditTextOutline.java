@@ -230,8 +230,7 @@ public class EditTextOutline extends EditTextBoldCursor {
                 if (i5 >= rectFArr7.length) {
                     break;
                 }
-                int i6 = i5 - 1;
-                RectF rectF = rectFArr7[i6];
+                RectF rectF = rectFArr7[i5 - 1];
                 RectF rectF2 = rectFArr7[i5];
                 if (rectF.width() >= AndroidUtilities.dp(1.0f) && rectF2.width() >= AndroidUtilities.dp(1.0f)) {
                     if (Math.abs(rectF.left - rectF2.left) < f2) {
@@ -249,19 +248,21 @@ public class EditTextOutline extends EditTextBoldCursor {
                         z = true;
                     }
                     if (z) {
-                        for (int i7 = i5; i7 >= 1; i7--) {
+                        for (int i6 = i5; i6 >= 1; i6--) {
                             RectF[] rectFArr8 = this.lines;
-                            RectF rectF3 = rectFArr8[i6];
-                            RectF rectF4 = rectFArr8[i7];
-                            if (Math.abs(rectF3.left - rectF4.left) < f2) {
-                                float min3 = Math.min(rectF4.left, rectF3.left);
-                                rectF3.left = min3;
-                                rectF4.left = min3;
-                            }
-                            if (Math.abs(rectF3.right - rectF4.right) < f2) {
-                                float max2 = Math.max(rectF4.right, rectF3.right);
-                                rectF3.right = max2;
-                                rectF4.right = max2;
+                            RectF rectF3 = rectFArr8[i6 - 1];
+                            RectF rectF4 = rectFArr8[i6];
+                            if (rectF3.width() >= AndroidUtilities.dp(1.0f) && rectF4.width() >= AndroidUtilities.dp(1.0f)) {
+                                if (Math.abs(rectF3.left - rectF4.left) < f2) {
+                                    float min3 = Math.min(rectF4.left, rectF3.left);
+                                    rectF3.left = min3;
+                                    rectF4.left = min3;
+                                }
+                                if (Math.abs(rectF3.right - rectF4.right) < f2) {
+                                    float max2 = Math.max(rectF4.right, rectF3.right);
+                                    rectF3.right = max2;
+                                    rectF4.right = max2;
+                                }
                             }
                         }
                     }

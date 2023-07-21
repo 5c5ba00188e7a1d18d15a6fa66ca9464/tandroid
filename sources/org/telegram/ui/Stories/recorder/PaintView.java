@@ -3064,8 +3064,9 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
         textView.setTextColor(getThemedColor(i));
         textView.setBackground(Theme.getSelectorDrawable(false));
         textView.setGravity(16);
+        textView.setEllipsize(TextUtils.TruncateAt.END);
         textView.setPadding(AndroidUtilities.dp(16.0f), 0, AndroidUtilities.dp(14.0f), 0);
-        textView.setTextSize(1, 16.0f);
+        textView.setTextSize(1, 14.0f);
         textView.setTag(0);
         textView.setText(LocaleController.getString("PaintDelete", R.string.PaintDelete));
         textView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda19
@@ -3080,8 +3081,9 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
             textView2.setTextColor(getThemedColor(i));
             textView2.setBackground(Theme.getSelectorDrawable(false));
             textView2.setGravity(16);
+            textView2.setEllipsize(TextUtils.TruncateAt.END);
             textView2.setPadding(AndroidUtilities.dp(16.0f), 0, AndroidUtilities.dp(16.0f), 0);
-            textView2.setTextSize(1, 16.0f);
+            textView2.setTextSize(1, 14.0f);
             if ((this.keyboardNotifier.keyboardVisible() && !this.keyboardNotifier.ignoring) || this.emojiPadding > 0) {
                 textView2.setTag(3);
                 textView2.setText(LocaleController.getString("Paste", R.string.Paste));
@@ -3107,9 +3109,10 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
             TextView textView3 = new TextView(getContext());
             textView3.setTextColor(getThemedColor(i));
             textView3.setBackground(Theme.getSelectorDrawable(false));
+            textView3.setEllipsize(TextUtils.TruncateAt.END);
             textView3.setGravity(16);
             textView3.setPadding(AndroidUtilities.dp(16.0f), 0, AndroidUtilities.dp(16.0f), 0);
-            textView3.setTextSize(1, 16.0f);
+            textView3.setTextSize(1, 14.0f);
             textView3.setTag(4);
             textView3.setText(LocaleController.getString(R.string.Flip));
             textView3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda16
@@ -3120,21 +3123,24 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
             });
             linearLayout.addView(textView3, LayoutHelper.createLinear(-2, 48));
         }
-        TextView textView4 = new TextView(getContext());
-        textView4.setTextColor(getThemedColor(i));
-        textView4.setBackgroundDrawable(Theme.getSelectorDrawable(false));
-        textView4.setGravity(16);
-        textView4.setPadding(AndroidUtilities.dp(14.0f), 0, AndroidUtilities.dp(16.0f), 0);
-        textView4.setTextSize(1, 16.0f);
-        textView4.setTag(2);
-        textView4.setText(LocaleController.getString("PaintDuplicate", R.string.PaintDuplicate));
-        textView4.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda18
-            @Override // android.view.View.OnClickListener
-            public final void onClick(View view) {
-                PaintView.this.lambda$showMenuForEntity$39(entityView, view);
-            }
-        });
-        linearLayout.addView(textView4, LayoutHelper.createLinear(-2, 48));
+        if (!(entityView instanceof PhotoView)) {
+            TextView textView4 = new TextView(getContext());
+            textView4.setTextColor(getThemedColor(i));
+            textView4.setBackground(Theme.getSelectorDrawable(false));
+            textView4.setEllipsize(TextUtils.TruncateAt.END);
+            textView4.setGravity(16);
+            textView4.setPadding(AndroidUtilities.dp(14.0f), 0, AndroidUtilities.dp(16.0f), 0);
+            textView4.setTextSize(1, 14.0f);
+            textView4.setTag(2);
+            textView4.setText(LocaleController.getString("PaintDuplicate", R.string.PaintDuplicate));
+            textView4.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda18
+                @Override // android.view.View.OnClickListener
+                public final void onClick(View view) {
+                    PaintView.this.lambda$showMenuForEntity$39(entityView, view);
+                }
+            });
+            linearLayout.addView(textView4, LayoutHelper.createLinear(-2, 48));
+        }
         this.popupLayout.addView(linearLayout);
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) linearLayout.getLayoutParams();
         layoutParams.width = -2;
@@ -3202,17 +3208,19 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
     }
 
     private void duplicateEntity(EntityView entityView) {
+        StickerView stickerView;
         if (entityView == null) {
             return;
         }
-        StickerView stickerView = null;
         Point startPositionRelativeToEntity = startPositionRelativeToEntity(entityView);
         if (entityView instanceof StickerView) {
             StickerView stickerView2 = new StickerView(getContext(), (StickerView) entityView, startPositionRelativeToEntity);
             stickerView2.setDelegate(this);
             this.entitiesView.addView(stickerView2);
             stickerView = stickerView2;
-        } else if (entityView instanceof TextPaintView) {
+        } else if (!(entityView instanceof TextPaintView)) {
+            return;
+        } else {
             TextPaintView textPaintView = new TextPaintView(getContext(), (TextPaintView) entityView, startPositionRelativeToEntity);
             textPaintView.getEditText().betterFraming = true;
             textPaintView.setDelegate(this);
@@ -3563,6 +3571,9 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
     }
 
     private void registerRemovalUndo(final EntityView entityView) {
+        if (entityView == null) {
+            return;
+        }
         this.undoStore.registerUndo(entityView.getUUID(), new Runnable() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda40
             @Override // java.lang.Runnable
             public final void run() {

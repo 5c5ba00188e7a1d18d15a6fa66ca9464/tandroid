@@ -2132,6 +2132,9 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
     }
 
     public /* synthetic */ void lambda$initViews$20(StoryPrivacyBottomSheet.StoryPrivacy storyPrivacy, Boolean bool, Boolean bool2, Runnable runnable) {
+        if (this.outputEntry == null) {
+            return;
+        }
         this.previewView.updatePauseReason(5, true);
         if (runnable != null) {
             runnable.run();
@@ -3876,7 +3879,12 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             this.paintViewBitmap = Bitmap.createBitmap(((Integer) paintSize.first).intValue(), ((Integer) paintSize.second).intValue(), Bitmap.Config.ARGB_8888);
         }
         Activity activity = this.activity;
-        17 r14 = new 17(activity, this.windowView, activity, this.currentAccount, this.paintViewBitmap, null, this.previewView.getOrientation(), this.outputEntry.mediaEntities, this.previewContainer.getMeasuredWidth(), this.previewContainer.getMeasuredHeight(), new MediaController.CropState(), null, this.resourcesProvider);
+        WindowView windowView = this.windowView;
+        int i = this.currentAccount;
+        Bitmap bitmap2 = this.paintViewBitmap;
+        int orientation = this.previewView.getOrientation();
+        StoryEntry storyEntry2 = this.outputEntry;
+        17 r14 = new 17(activity, windowView, activity, i, bitmap2, null, orientation, storyEntry2 == null ? null : storyEntry2.mediaEntities, this.previewContainer.getMeasuredWidth(), this.previewContainer.getMeasuredHeight(), new MediaController.CropState(), null, this.resourcesProvider);
         this.paintView = r14;
         this.containerView.addView(r14);
         RenderView renderView = this.paintView.getRenderView();

@@ -130,10 +130,17 @@ public class StoryContainsEmojiButton extends View {
 
     @Override // android.view.View
     protected void onMeasure(int i, int i2) {
-        CharSequence charSequence;
         boolean z = View.MeasureSpec.getMode(i) == 1073741824;
+        int paddingTop = getPaddingTop();
+        int dp = AndroidUtilities.dp(29.0f);
+        StaticLayout staticLayout = this.layout;
+        setMeasuredDimension(z ? View.MeasureSpec.getSize(i) : getMinimumWidth(), paddingTop + AndroidUtilities.lerp(dp, staticLayout == null ? AndroidUtilities.dp(29.0f) : staticLayout.getHeight(), this.loadT) + getPaddingBottom());
         int size = (View.MeasureSpec.getSize(i) - getPaddingLeft()) - getPaddingRight();
-        if (z && ((charSequence = this.toSetText) != null || (this.layout != null && this.lastContentWidth != size))) {
+        if (z) {
+            CharSequence charSequence = this.toSetText;
+            if (charSequence == null && (this.layout == null || this.lastContentWidth == size)) {
+                return;
+            }
             if (charSequence == null) {
                 charSequence = this.layout.getText();
             }
@@ -141,10 +148,6 @@ public class StoryContainsEmojiButton extends View {
             this.toSetText = null;
             this.lastContentWidth = size;
         }
-        int paddingTop = getPaddingTop();
-        int dp = AndroidUtilities.dp(29.0f);
-        StaticLayout staticLayout = this.layout;
-        setMeasuredDimension(z ? View.MeasureSpec.getSize(i) : getMinimumWidth(), paddingTop + AndroidUtilities.lerp(dp, staticLayout == null ? AndroidUtilities.dp(29.0f) : staticLayout.getHeight(), this.loadT) + getPaddingBottom());
     }
 
     @Override // android.view.View
@@ -258,6 +261,9 @@ public class StoryContainsEmojiButton extends View {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$load$1(TLObject tLObject, Object obj, ArrayList arrayList, boolean[] zArr, int i) {
         boolean z;
+        if (tLObject == null) {
+            return;
+        }
         TLRPC$Vector tLRPC$Vector = (TLRPC$Vector) tLObject;
         lastRequestParentObject = obj;
         lastResponse = tLRPC$Vector;

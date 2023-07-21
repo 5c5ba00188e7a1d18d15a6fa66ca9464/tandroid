@@ -228,10 +228,10 @@ public class SelfStoryViewsPage extends FrameLayout implements NotificationCente
 
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     public void didReceivedNotification(int i, int i2, Object... objArr) {
-        if (i != NotificationCenter.storiesUpdated || this.storyItem.uploadingStory == null) {
+        TLRPC$TL_userStories stories;
+        if (i != NotificationCenter.storiesUpdated || this.storyItem.uploadingStory == null || (stories = MessagesController.getInstance(this.currentAccount).storiesController.getStories(UserConfig.getInstance(this.currentAccount).clientUserId)) == null) {
             return;
         }
-        TLRPC$TL_userStories stories = MessagesController.getInstance(this.currentAccount).storiesController.getStories(UserConfig.getInstance(this.currentAccount).clientUserId);
         for (int i3 = 0; i3 < stories.stories.size(); i3++) {
             TLRPC$StoryItem tLRPC$StoryItem = stories.stories.get(i3);
             String str = tLRPC$StoryItem.attachPath;

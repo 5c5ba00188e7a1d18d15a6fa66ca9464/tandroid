@@ -1967,13 +1967,13 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                 }
 
                 /* JADX INFO: Access modifiers changed from: protected */
-                /* JADX WARN: Removed duplicated region for block: B:179:0x05a8  */
-                /* JADX WARN: Removed duplicated region for block: B:234:0x0981  */
-                /* JADX WARN: Removed duplicated region for block: B:243:0x09b4  */
-                /* JADX WARN: Removed duplicated region for block: B:244:0x09ba  */
-                /* JADX WARN: Removed duplicated region for block: B:251:0x09cf  */
-                /* JADX WARN: Removed duplicated region for block: B:257:0x09ec  */
-                /* JADX WARN: Removed duplicated region for block: B:277:0x05f7 A[SYNTHETIC] */
+                /* JADX WARN: Removed duplicated region for block: B:174:0x05a6  */
+                /* JADX WARN: Removed duplicated region for block: B:229:0x097f  */
+                /* JADX WARN: Removed duplicated region for block: B:238:0x09b2  */
+                /* JADX WARN: Removed duplicated region for block: B:239:0x09b8  */
+                /* JADX WARN: Removed duplicated region for block: B:246:0x09cd  */
+                /* JADX WARN: Removed duplicated region for block: B:252:0x09ea  */
+                /* JADX WARN: Removed duplicated region for block: B:272:0x05f5 A[SYNTHETIC] */
                 @Override // org.telegram.ui.Components.BlurredRecyclerView, org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
                 /*
                     Code decompiled incorrectly, please refer to instructions dump.
@@ -2015,10 +2015,11 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                         if (staticLayout == null || staticLayout.getWidth() != measuredWidth) {
                             this.archivedHintLayout = new StaticLayout(LocaleController.getString("ProfileStoriesArchiveHint", R.string.ProfileStoriesArchiveHint), this.archivedHintPaint, measuredWidth, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
                             this.archivedHintLayoutWidth = 0.0f;
+                            this.archivedHintLayoutLeft = 0.0f;
                             for (int i29 = 0; i29 < this.archivedHintLayout.getLineCount(); i29++) {
                                 this.archivedHintLayoutWidth = Math.max(this.archivedHintLayoutWidth, this.archivedHintLayout.getLineWidth(i29));
+                                this.archivedHintLayoutLeft = Math.min(this.archivedHintLayoutLeft, this.archivedHintLayout.getLineLeft(i29));
                             }
-                            this.archivedHintLayoutLeft = this.archivedHintLayout.getLineCount() > 0 ? this.archivedHintLayout.getLineLeft(0) : 0.0f;
                         }
                         canvas.save();
                         canvas.translate(((getWidth() - this.archivedHintLayoutWidth) / 2.0f) - this.archivedHintLayoutLeft, top - ((AndroidUtilities.dp(64.0f) + this.archivedHintLayout.getHeight()) / 2.0f));

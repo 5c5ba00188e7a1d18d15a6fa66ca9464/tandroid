@@ -70,13 +70,17 @@ public class StoriesListPlaceProvider implements StoryViewer.PlaceProvider {
         transitionViewHolder.avatarImage = null;
         transitionViewHolder.storyImage = null;
         transitionViewHolder.drawAbove = null;
-        DialogStoriesCell dialogStoriesCell = this.recyclerListView.getParent() instanceof DialogStoriesCell ? (DialogStoriesCell) this.recyclerListView.getParent() : null;
         RecyclerListView recyclerListView = this.recyclerListView;
-        if (dialogStoriesCell != null && !dialogStoriesCell.isExpanded()) {
-            recyclerListView = dialogStoriesCell.listViewMini;
+        if (recyclerListView == null) {
+            return false;
         }
-        for (int i4 = 0; i4 < recyclerListView.getChildCount(); i4++) {
-            View childAt = recyclerListView.getChildAt(i4);
+        DialogStoriesCell dialogStoriesCell = recyclerListView.getParent() instanceof DialogStoriesCell ? (DialogStoriesCell) this.recyclerListView.getParent() : null;
+        RecyclerListView recyclerListView2 = this.recyclerListView;
+        if (dialogStoriesCell != null && !dialogStoriesCell.isExpanded()) {
+            recyclerListView2 = dialogStoriesCell.listViewMini;
+        }
+        for (int i4 = 0; i4 < recyclerListView2.getChildCount(); i4++) {
+            View childAt = recyclerListView2.getChildAt(i4);
             if (childAt instanceof DialogStoriesCell.StoryCell) {
                 DialogStoriesCell.StoryCell storyCell = (DialogStoriesCell.StoryCell) childAt;
                 if (storyCell.dialogId == j) {
