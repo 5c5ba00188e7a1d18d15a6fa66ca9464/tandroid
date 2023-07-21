@@ -2845,139 +2845,127 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
             FileLoader.getInstance(InstantCameraView.this.currentAccount).checkUploadNewDataAvailable(file.toString(), InstantCameraView.this.isSecretChat, j, z ? file.length() : 0L);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:294:0x01b2  */
-        /* JADX WARN: Removed duplicated region for block: B:353:0x01bf A[EDGE_INSN: B:353:0x01bf->B:297:0x01bf ?: BREAK  , SYNTHETIC] */
-        /* JADX WARN: Removed duplicated region for block: B:362:0x02af A[SYNTHETIC] */
-        /*
-            Code decompiled incorrectly, please refer to instructions dump.
-        */
         public void drainEncoder(boolean z) throws Exception {
-            final ByteBuffer outputBuffer;
-            boolean z2;
+            ByteBuffer outputBuffer;
             ByteBuffer byteBuffer;
             ByteBuffer byteBuffer2;
-            final ByteBuffer outputBuffer2;
+            ByteBuffer outputBuffer2;
             if (z) {
                 this.videoEncoder.signalEndOfInputStream();
             }
             int i = 21;
             ByteBuffer[] outputBuffers = Build.VERSION.SDK_INT < 21 ? this.videoEncoder.getOutputBuffers() : null;
             while (true) {
-                final int dequeueOutputBuffer = this.videoEncoder.dequeueOutputBuffer(this.videoBufferInfo, 10000L);
+                int dequeueOutputBuffer = this.videoEncoder.dequeueOutputBuffer(this.videoBufferInfo, 10000L);
                 if (dequeueOutputBuffer != -1) {
-                    if (dequeueOutputBuffer == -3) {
-                        if (Build.VERSION.SDK_INT < i) {
-                            outputBuffers = this.videoEncoder.getOutputBuffers();
-                        }
-                    } else if (dequeueOutputBuffer == -2) {
-                        MediaFormat outputFormat = this.videoEncoder.getOutputFormat();
-                        if (this.videoTrackIndex == -5) {
-                            this.videoTrackIndex = this.mediaMuxer.addTrack(outputFormat, false);
-                            if (outputFormat.containsKey("prepend-sps-pps-to-idr-frames") && outputFormat.getInteger("prepend-sps-pps-to-idr-frames") == 1) {
-                                this.prependHeaderSize = outputFormat.getByteBuffer("csd-0").limit() + outputFormat.getByteBuffer("csd-1").limit();
-                            }
-                        }
-                    } else if (dequeueOutputBuffer < 0) {
-                        continue;
-                    } else {
-                        if (Build.VERSION.SDK_INT < i) {
-                            outputBuffer = outputBuffers[dequeueOutputBuffer];
-                        } else {
-                            outputBuffer = this.videoEncoder.getOutputBuffer(dequeueOutputBuffer);
-                        }
-                        if (outputBuffer == null) {
-                            throw new RuntimeException("encoderOutputBuffer " + dequeueOutputBuffer + " was null");
-                        }
-                        MediaCodec.BufferInfo bufferInfo = this.videoBufferInfo;
-                        int i2 = bufferInfo.size;
-                        if (i2 > 1) {
-                            int i3 = bufferInfo.flags;
-                            if ((i3 & 2) == 0) {
-                                int i4 = this.prependHeaderSize;
-                                if (i4 != 0 && (i3 & 1) != 0) {
-                                    bufferInfo.offset += i4;
-                                    bufferInfo.size = i2 - i4;
-                                }
-                                if (this.firstEncode && (i3 & 1) != 0) {
-                                    if (bufferInfo.size > 100) {
-                                        outputBuffer.position(bufferInfo.offset);
-                                        byte[] bArr = new byte[100];
-                                        outputBuffer.get(bArr);
-                                        int i5 = 0;
-                                        int i6 = 0;
-                                        while (true) {
-                                            if (i5 >= 96) {
-                                                break;
-                                            }
-                                            if (bArr[i5] == 0 && bArr[i5 + 1] == 0 && bArr[i5 + 2] == 0 && bArr[i5 + 3] == 1 && (i6 = i6 + 1) > 1) {
-                                                MediaCodec.BufferInfo bufferInfo2 = this.videoBufferInfo;
-                                                bufferInfo2.offset += i5;
-                                                bufferInfo2.size -= i5;
-                                                break;
-                                            }
-                                            i5++;
-                                        }
-                                    }
-                                    this.firstEncode = false;
-                                }
-                                if (InstantCameraView.this.WRITE_TO_FILE_IN_BACKGROUND) {
-                                    final MediaCodec.BufferInfo bufferInfo3 = new MediaCodec.BufferInfo();
-                                    MediaCodec.BufferInfo bufferInfo4 = this.videoBufferInfo;
-                                    bufferInfo3.size = bufferInfo4.size;
-                                    bufferInfo3.offset = bufferInfo4.offset;
-                                    bufferInfo3.flags = bufferInfo4.flags;
-                                    bufferInfo3.presentationTimeUs = bufferInfo4.presentationTimeUs;
-                                    this.fileWriteQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.InstantCameraView$VideoRecorder$$ExternalSyntheticLambda5
-                                        @Override // java.lang.Runnable
-                                        public final void run() {
-                                            InstantCameraView.VideoRecorder.this.lambda$drainEncoder$7(outputBuffer, bufferInfo3, dequeueOutputBuffer);
-                                        }
-                                    });
-                                    z2 = false;
-                                    if (z2) {
-                                        this.videoEncoder.releaseOutputBuffer(dequeueOutputBuffer, false);
-                                    }
-                                    if ((this.videoBufferInfo.flags & 4) == 0) {
-                                        break;
-                                    }
+                    if (dequeueOutputBuffer != -3) {
+                        if (dequeueOutputBuffer != -2) {
+                            if (dequeueOutputBuffer >= 0) {
+                                if (Build.VERSION.SDK_INT < i) {
+                                    outputBuffer = outputBuffers[dequeueOutputBuffer];
                                 } else {
-                                    long writeSampleData = this.mediaMuxer.writeSampleData(this.videoTrackIndex, outputBuffer, this.videoBufferInfo, true);
-                                    if (writeSampleData != 0 && !this.writingToDifferentFile) {
-                                        didWriteData(this.videoFile, writeSampleData, false);
-                                    }
+                                    outputBuffer = this.videoEncoder.getOutputBuffer(dequeueOutputBuffer);
                                 }
-                            } else if (this.videoTrackIndex == -5) {
-                                byte[] bArr2 = new byte[i2];
-                                outputBuffer.limit(bufferInfo.offset + i2);
-                                outputBuffer.position(this.videoBufferInfo.offset);
-                                outputBuffer.get(bArr2);
-                                for (int i7 = this.videoBufferInfo.size - 1; i7 >= 0 && i7 > 3; i7--) {
-                                    if (bArr2[i7] == 1 && bArr2[i7 - 1] == 0 && bArr2[i7 - 2] == 0) {
-                                        int i8 = i7 - 3;
-                                        if (bArr2[i8] == 0) {
-                                            byteBuffer = ByteBuffer.allocate(i8);
-                                            byteBuffer2 = ByteBuffer.allocate(this.videoBufferInfo.size - i8);
-                                            byteBuffer.put(bArr2, 0, i8).position(0);
-                                            byteBuffer2.put(bArr2, i8, this.videoBufferInfo.size - i8).position(0);
-                                            break;
+                                if (outputBuffer == null) {
+                                    throw new RuntimeException("encoderOutputBuffer " + dequeueOutputBuffer + " was null");
+                                }
+                                MediaCodec.BufferInfo bufferInfo = this.videoBufferInfo;
+                                int i2 = bufferInfo.size;
+                                if (i2 > 1) {
+                                    int i3 = bufferInfo.flags;
+                                    if ((i3 & 2) == 0) {
+                                        int i4 = this.prependHeaderSize;
+                                        if (i4 != 0 && (i3 & 1) != 0) {
+                                            bufferInfo.offset += i4;
+                                            bufferInfo.size = i2 - i4;
                                         }
+                                        if (this.firstEncode && (i3 & 1) != 0) {
+                                            if (bufferInfo.size > 100) {
+                                                outputBuffer.position(bufferInfo.offset);
+                                                byte[] bArr = new byte[100];
+                                                outputBuffer.get(bArr);
+                                                int i5 = 0;
+                                                int i6 = 0;
+                                                while (true) {
+                                                    if (i5 >= 96) {
+                                                        break;
+                                                    }
+                                                    if (bArr[i5] == 0 && bArr[i5 + 1] == 0 && bArr[i5 + 2] == 0 && bArr[i5 + 3] == 1 && (i6 = i6 + 1) > 1) {
+                                                        MediaCodec.BufferInfo bufferInfo2 = this.videoBufferInfo;
+                                                        bufferInfo2.offset += i5;
+                                                        bufferInfo2.size -= i5;
+                                                        break;
+                                                    }
+                                                    i5++;
+                                                }
+                                            }
+                                            this.firstEncode = false;
+                                        }
+                                        if (InstantCameraView.this.WRITE_TO_FILE_IN_BACKGROUND) {
+                                            final MediaCodec.BufferInfo bufferInfo3 = new MediaCodec.BufferInfo();
+                                            MediaCodec.BufferInfo bufferInfo4 = this.videoBufferInfo;
+                                            bufferInfo3.size = bufferInfo4.size;
+                                            bufferInfo3.offset = bufferInfo4.offset;
+                                            bufferInfo3.flags = bufferInfo4.flags;
+                                            bufferInfo3.presentationTimeUs = bufferInfo4.presentationTimeUs;
+                                            final ByteBuffer duplicate = outputBuffer.duplicate();
+                                            this.fileWriteQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.InstantCameraView$VideoRecorder$$ExternalSyntheticLambda6
+                                                @Override // java.lang.Runnable
+                                                public final void run() {
+                                                    InstantCameraView.VideoRecorder.this.lambda$drainEncoder$7(duplicate, bufferInfo3);
+                                                }
+                                            });
+                                        } else {
+                                            long writeSampleData = this.mediaMuxer.writeSampleData(this.videoTrackIndex, outputBuffer, this.videoBufferInfo, true);
+                                            if (writeSampleData != 0 && !this.writingToDifferentFile) {
+                                                didWriteData(this.videoFile, writeSampleData, false);
+                                            }
+                                        }
+                                    } else if (this.videoTrackIndex == -5) {
+                                        byte[] bArr2 = new byte[i2];
+                                        outputBuffer.limit(bufferInfo.offset + i2);
+                                        outputBuffer.position(this.videoBufferInfo.offset);
+                                        outputBuffer.get(bArr2);
+                                        for (int i7 = this.videoBufferInfo.size - 1; i7 >= 0 && i7 > 3; i7--) {
+                                            if (bArr2[i7] == 1 && bArr2[i7 - 1] == 0 && bArr2[i7 - 2] == 0) {
+                                                int i8 = i7 - 3;
+                                                if (bArr2[i8] == 0) {
+                                                    byteBuffer = ByteBuffer.allocate(i8);
+                                                    byteBuffer2 = ByteBuffer.allocate(this.videoBufferInfo.size - i8);
+                                                    byteBuffer.put(bArr2, 0, i8).position(0);
+                                                    byteBuffer2.put(bArr2, i8, this.videoBufferInfo.size - i8).position(0);
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                        byteBuffer = null;
+                                        byteBuffer2 = null;
+                                        MediaFormat createVideoFormat = MediaFormat.createVideoFormat(MediaController.VIDEO_MIME_TYPE, this.videoWidth, this.videoHeight);
+                                        if (byteBuffer != null && byteBuffer2 != null) {
+                                            createVideoFormat.setByteBuffer("csd-0", byteBuffer);
+                                            createVideoFormat.setByteBuffer("csd-1", byteBuffer2);
+                                        }
+                                        this.videoTrackIndex = this.mediaMuxer.addTrack(createVideoFormat, false);
                                     }
                                 }
-                                byteBuffer = null;
-                                byteBuffer2 = null;
-                                MediaFormat createVideoFormat = MediaFormat.createVideoFormat(MediaController.VIDEO_MIME_TYPE, this.videoWidth, this.videoHeight);
-                                if (byteBuffer != null && byteBuffer2 != null) {
-                                    createVideoFormat.setByteBuffer("csd-0", byteBuffer);
-                                    createVideoFormat.setByteBuffer("csd-1", byteBuffer2);
+                                this.videoEncoder.releaseOutputBuffer(dequeueOutputBuffer, false);
+                                if ((this.videoBufferInfo.flags & 4) != 0) {
+                                    break;
                                 }
-                                this.videoTrackIndex = this.mediaMuxer.addTrack(createVideoFormat, false);
+                            } else {
+                                continue;
+                            }
+                        } else {
+                            MediaFormat outputFormat = this.videoEncoder.getOutputFormat();
+                            if (this.videoTrackIndex == -5) {
+                                this.videoTrackIndex = this.mediaMuxer.addTrack(outputFormat, false);
+                                if (outputFormat.containsKey("prepend-sps-pps-to-idr-frames") && outputFormat.getInteger("prepend-sps-pps-to-idr-frames") == 1) {
+                                    this.prependHeaderSize = outputFormat.getByteBuffer("csd-0").limit() + outputFormat.getByteBuffer("csd-1").limit();
+                                }
                             }
                         }
-                        z2 = true;
-                        if (z2) {
-                        }
-                        if ((this.videoBufferInfo.flags & 4) == 0) {
-                        }
+                    } else if (Build.VERSION.SDK_INT < i) {
+                        outputBuffers = this.videoEncoder.getOutputBuffers();
                     }
                     i = 21;
                 } else if (!z) {
@@ -2990,7 +2978,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                 outputBuffers = this.audioEncoder.getOutputBuffers();
             }
             while (true) {
-                final int dequeueOutputBuffer2 = this.audioEncoder.dequeueOutputBuffer(this.audioBufferInfo, 0L);
+                int dequeueOutputBuffer2 = this.audioEncoder.dequeueOutputBuffer(this.audioBufferInfo, 0L);
                 if (dequeueOutputBuffer2 == -1) {
                     if (!z) {
                         return;
@@ -3030,12 +3018,14 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                             bufferInfo6.offset = bufferInfo7.offset;
                             bufferInfo6.flags = bufferInfo7.flags;
                             bufferInfo6.presentationTimeUs = bufferInfo7.presentationTimeUs;
-                            this.fileWriteQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.InstantCameraView$VideoRecorder$$ExternalSyntheticLambda6
+                            final ByteBuffer duplicate2 = outputBuffer2.duplicate();
+                            this.fileWriteQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.InstantCameraView$VideoRecorder$$ExternalSyntheticLambda5
                                 @Override // java.lang.Runnable
                                 public final void run() {
-                                    InstantCameraView.VideoRecorder.this.lambda$drainEncoder$8(outputBuffer2, bufferInfo6, dequeueOutputBuffer2);
+                                    InstantCameraView.VideoRecorder.this.lambda$drainEncoder$8(duplicate2, bufferInfo6);
                                 }
                             });
+                            this.audioEncoder.releaseOutputBuffer(dequeueOutputBuffer2, false);
                         } else {
                             long writeSampleData2 = this.mediaMuxer.writeSampleData(this.audioTrackIndex, outputBuffer2, bufferInfo5, false);
                             if (writeSampleData2 != 0 && !this.writingToDifferentFile) {
@@ -3056,7 +3046,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
             }
         }
 
-        public /* synthetic */ void lambda$drainEncoder$7(ByteBuffer byteBuffer, MediaCodec.BufferInfo bufferInfo, int i) {
+        public /* synthetic */ void lambda$drainEncoder$7(ByteBuffer byteBuffer, MediaCodec.BufferInfo bufferInfo) {
             long j;
             try {
                 j = this.mediaMuxer.writeSampleData(this.videoTrackIndex, byteBuffer, bufferInfo, true);
@@ -3064,20 +3054,13 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                 e.printStackTrace();
                 j = 0;
             }
-            MediaCodec mediaCodec = this.videoEncoder;
-            if (mediaCodec != null) {
-                try {
-                    mediaCodec.releaseOutputBuffer(i, false);
-                } catch (Throwable unused) {
-                }
-            }
             if (j == 0 || this.writingToDifferentFile) {
                 return;
             }
             didWriteData(this.videoFile, j, false);
         }
 
-        public /* synthetic */ void lambda$drainEncoder$8(ByteBuffer byteBuffer, MediaCodec.BufferInfo bufferInfo, int i) {
+        public /* synthetic */ void lambda$drainEncoder$8(ByteBuffer byteBuffer, MediaCodec.BufferInfo bufferInfo) {
             long j;
             try {
                 j = this.mediaMuxer.writeSampleData(this.audioTrackIndex, byteBuffer, bufferInfo, false);
@@ -3085,16 +3068,10 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                 e.printStackTrace();
                 j = 0;
             }
-            if (j != 0 && !this.writingToDifferentFile) {
-                didWriteData(this.videoFile, j, false);
+            if (j == 0 || this.writingToDifferentFile) {
+                return;
             }
-            MediaCodec mediaCodec = this.audioEncoder;
-            if (mediaCodec != null) {
-                try {
-                    mediaCodec.releaseOutputBuffer(i, false);
-                } catch (Throwable unused) {
-                }
-            }
+            didWriteData(this.videoFile, j, false);
         }
 
         protected void finalize() throws Throwable {

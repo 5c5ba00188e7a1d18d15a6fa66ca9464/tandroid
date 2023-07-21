@@ -22,6 +22,7 @@ import android.os.Build;
 import android.view.View;
 import androidx.annotation.Keep;
 import java.util.ArrayList;
+import java.util.List;
 import org.telegram.messenger.Emoji;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.SvgHelper;
@@ -145,6 +146,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
     private float overrideAlpha;
     private int param;
     private View parentView;
+    List<ImageReceiver> preloadReceivers;
     private float pressedProgress;
     private float previousAlpha;
     private TLRPC$Document qulityThumbDocument;
@@ -211,6 +213,18 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         }
         drawDrawable(null, drawable2, 255, bitmapShader, 0, 0, 0, null);
         return true;
+    }
+
+    public void setPreloadingReceivers(List<ImageReceiver> list) {
+        this.preloadReceivers = list;
+    }
+
+    public Drawable getImageDrawable() {
+        return this.currentImageDrawable;
+    }
+
+    public Drawable getMediaDrawable() {
+        return this.currentMediaDrawable;
     }
 
     /* loaded from: classes.dex */
@@ -772,7 +786,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
     }
 
     private void loadImage() {
-        ImageLoader.getInstance().loadImageForImageReceiver(this);
+        ImageLoader.getInstance().loadImageForImageReceiver(this, this.preloadReceivers);
         invalidate();
     }
 

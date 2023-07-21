@@ -201,18 +201,6 @@ public class HintView2 extends View {
         return this;
     }
 
-    private static boolean contains(CharSequence charSequence, char c) {
-        if (charSequence == null) {
-            return false;
-        }
-        for (int i = 0; i < charSequence.length(); i++) {
-            if (charSequence.charAt(i) == c) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public static int cutInFancyHalf(CharSequence charSequence, TextPaint textPaint) {
         double ceil;
         if (charSequence == null) {
@@ -221,7 +209,7 @@ public class HintView2 extends View {
         float measureText = textPaint.measureText(charSequence.toString());
         int length = charSequence.toString().length();
         int i = length / 2;
-        if (length <= 0 || contains(charSequence, '\n')) {
+        if (length <= 0) {
             ceil = Math.ceil(measureText);
         } else {
             int i2 = i - 2;

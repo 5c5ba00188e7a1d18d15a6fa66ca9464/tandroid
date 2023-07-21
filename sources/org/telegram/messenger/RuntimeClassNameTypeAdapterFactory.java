@@ -1,5 +1,6 @@
 package org.telegram.messenger;
 
+import com.google.gson.ExclusionStrategy;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -17,24 +18,26 @@ import java.util.Map;
 /* loaded from: classes.dex */
 public final class RuntimeClassNameTypeAdapterFactory<T> implements TypeAdapterFactory {
     private final Class<?> baseType;
+    private final ExclusionStrategy exclusionStrategy;
     private final Map<String, Class<?>> labelToSubtype = new LinkedHashMap();
     private final Map<Class<?>, String> subtypeToLabel = new LinkedHashMap();
     private final String typeFieldName;
 
-    private RuntimeClassNameTypeAdapterFactory(Class<?> cls, String str) {
+    private RuntimeClassNameTypeAdapterFactory(Class<?> cls, String str, ExclusionStrategy exclusionStrategy) {
         if (str == null || cls == null) {
             throw null;
         }
         this.baseType = cls;
         this.typeFieldName = str;
+        this.exclusionStrategy = exclusionStrategy;
     }
 
-    public static <T> RuntimeClassNameTypeAdapterFactory<T> of(Class<T> cls, String str) {
-        return new RuntimeClassNameTypeAdapterFactory<>(cls, str);
+    public static <T> RuntimeClassNameTypeAdapterFactory<T> of(Class<T> cls, String str, ExclusionStrategy exclusionStrategy) {
+        return new RuntimeClassNameTypeAdapterFactory<>(cls, str, exclusionStrategy);
     }
 
     public static <T> RuntimeClassNameTypeAdapterFactory<T> of(Class<T> cls) {
-        return new RuntimeClassNameTypeAdapterFactory<>(cls, "class");
+        return new RuntimeClassNameTypeAdapterFactory<>(cls, "class", null);
     }
 
     public RuntimeClassNameTypeAdapterFactory<T> registerSubtype(Class<? extends T> cls, String str) {
@@ -55,6 +58,9 @@ public final class RuntimeClassNameTypeAdapterFactory<T> implements TypeAdapterF
 
     @Override // com.google.gson.TypeAdapterFactory
     public <R> TypeAdapter<R> create(final Gson gson, final TypeToken<R> typeToken) {
+        if (this.exclusionStrategy.shouldSkipClass(typeToken.getRawType().getClass())) {
+            return null;
+        }
         final LinkedHashMap linkedHashMap = new LinkedHashMap();
         final LinkedHashMap linkedHashMap2 = new LinkedHashMap();
         if (Object.class.isAssignableFrom(typeToken.getRawType())) {

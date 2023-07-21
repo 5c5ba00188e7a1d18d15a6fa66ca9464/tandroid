@@ -1524,11 +1524,18 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
             requestRender(false, false);
         }
 
+        /* JADX WARN: Code restructure failed: missing block: B:269:0x01ac, code lost:
+            if (r14[r13].isInitied() != false) goto L68;
+         */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+        */
         private void onDraw(int i, int i2, boolean z, boolean z2) {
             boolean z3;
             boolean z4;
             boolean z5;
             boolean z6;
+            boolean z7;
             if (this.initied) {
                 if (!this.eglContext.equals(this.egl10.eglGetCurrentContext()) || !this.eglSurface.equals(this.egl10.eglGetCurrentSurface(12377))) {
                     EGL10 egl10 = this.egl10;
@@ -1578,12 +1585,15 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
                         long nanoTime = System.nanoTime();
                         CameraView cameraView = CameraView.this;
                         long j = cameraView.nextFrameTimeNs;
-                        if (nanoTime >= j) {
+                        if (nanoTime < j) {
+                            z7 = false;
+                        } else {
                             cameraView.nextFrameTimeNs = j + (TimeUnit.SECONDS.toNanos(1L) / CameraView.this.fpsLimit);
                             CameraView cameraView2 = CameraView.this;
                             cameraView2.nextFrameTimeNs = Math.max(cameraView2.nextFrameTimeNs, nanoTime);
                         }
                     }
+                    z7 = true;
                 }
                 CameraSession[] cameraSessionArr = this.currentSession;
                 if (cameraSessionArr[0] == null || cameraSessionArr[0].cameraInfo.cameraId != i) {
@@ -1592,127 +1602,135 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
                 if (this.recording && CameraView.this.videoEncoder != null && (z5 || z6)) {
                     CameraView.this.videoEncoder.frameAvailable(this.cameraSurface[0], Integer.valueOf(i), System.nanoTime());
                 }
-                this.egl10.eglQuerySurface(this.eglDisplay, this.eglSurface, 12375, this.array);
-                int[] iArr = this.array;
-                int i3 = iArr[0];
-                this.egl10.eglQuerySurface(this.eglDisplay, this.eglSurface, 12374, iArr);
-                GLES20.glViewport(0, 0, i3, this.array[0]);
-                if (z3) {
-                    GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-                    GLES20.glClear(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM);
-                }
-                CameraView.this.shapeValue = this.shape.set(this.shapeTo);
-                float f = CameraView.this.lastCrossfadeValue = this.crossfade.set(0.0f);
-                float f2 = this.dualAppear.set(this.dualAppeared ? 1.0f : 0.0f);
-                float f3 = 1.0f - this.camera1Appear.set(this.camera1Appeared);
-                if (f <= 0.0f) {
-                    this.crossfading = false;
-                }
-                int i4 = -1;
-                int i5 = -1;
-                while (i5 < 2) {
-                    if (i5 != i4 || this.crossfading) {
-                        int i6 = i5 < 0 ? 1 : i5;
-                        SurfaceTexture[] surfaceTextureArr3 = this.cameraSurface;
-                        if (surfaceTextureArr3[i6] != null) {
-                            if ((i6 == 0 && z5) || (i6 == 1 && z6)) {
-                                surfaceTextureArr3[i6].getTransformMatrix(CameraView.this.mSTMatrix[i6]);
-                            }
-                            GLES20.glUseProgram(this.drawProgram);
-                            GLES20.glActiveTexture(33984);
-                            GLES20.glBindTexture(36197, CameraView.this.cameraTexture[i6][0]);
-                            GLES20.glVertexAttribPointer(this.positionHandle, 3, 5126, false, 12, (Buffer) CameraView.this.vertexBuffer);
-                            GLES20.glEnableVertexAttribArray(this.positionHandle);
-                            GLES20.glVertexAttribPointer(this.textureHandle, 2, 5126, false, 8, (Buffer) CameraView.this.textureBuffer);
-                            GLES20.glEnableVertexAttribArray(this.textureHandle);
-                            GLES20.glUniformMatrix4fv(this.cameraMatrixHandle, 1, false, CameraView.this.cameraMatrix[i6], 0);
-                            GLES20.glUniformMatrix4fv(this.oppositeCameraMatrixHandle, 1, false, CameraView.this.cameraMatrix[1 - i6], 0);
-                            GLES20.glUniformMatrix4fv(this.textureMatrixHandle, 1, false, CameraView.this.mSTMatrix[i6], 0);
-                            GLES20.glUniformMatrix4fv(this.vertexMatrixHandle, 1, false, CameraView.this.mMVPMatrix[i6], 0);
-                            if (i6 == 0) {
-                                GLES20.glUniform2f(this.pixelHandle, CameraView.this.pixelW, CameraView.this.pixelH);
-                                GLES20.glUniform1f(this.dualHandle, z3 ? 1.0f : 0.0f);
-                            } else {
-                                GLES20.glUniform2f(this.pixelHandle, CameraView.this.pixelDualW, CameraView.this.pixelDualH);
-                                GLES20.glUniform1f(this.dualHandle, 1.0f);
-                            }
-                            GLES20.glUniform1f(this.blurHandle, i6 == 0 ? f3 : 0.0f);
-                            if (i6 == 1) {
-                                GLES20.glUniform1f(this.alphaHandle, 1.0f);
-                                if (i5 < 0) {
-                                    GLES20.glUniform1f(this.roundRadiusHandle, 0.0f);
-                                    GLES20.glUniform1f(this.scaleHandle, 1.0f);
-                                    GLES20.glUniform1f(this.shapeFromHandle, 2.0f);
-                                    GLES20.glUniform1f(this.shapeToHandle, 2.0f);
-                                    GLES20.glUniform1f(this.shapeHandle, 0.0f);
-                                    GLES20.glUniform1f(this.crossfadeHandle, 1.0f);
-                                } else if (!this.crossfading) {
-                                    GLES20.glUniform1f(this.roundRadiusHandle, AndroidUtilities.dp(16.0f));
-                                    GLES20.glUniform1f(this.scaleHandle, f2);
-                                    GLES20.glUniform1f(this.shapeFromHandle, (float) Math.floor(CameraView.this.shapeValue));
-                                    GLES20.glUniform1f(this.shapeToHandle, (float) Math.ceil(CameraView.this.shapeValue));
-                                    GLES20.glUniform1f(this.shapeHandle, CameraView.this.shapeValue - ((float) Math.floor(CameraView.this.shapeValue)));
-                                    GLES20.glUniform1f(this.crossfadeHandle, 0.0f);
-                                } else {
-                                    GLES20.glUniform1f(this.roundRadiusHandle, AndroidUtilities.dp(16.0f));
-                                    GLES20.glUniform1f(this.scaleHandle, 1.0f - f);
-                                    GLES20.glUniform1f(this.shapeFromHandle, (float) Math.floor(CameraView.this.shapeValue));
-                                    GLES20.glUniform1f(this.shapeToHandle, (float) Math.ceil(CameraView.this.shapeValue));
-                                    GLES20.glUniform1f(this.shapeHandle, CameraView.this.shapeValue - ((float) Math.floor(CameraView.this.shapeValue)));
-                                    GLES20.glUniform1f(this.shapeHandle, f);
-                                    GLES20.glUniform1f(this.crossfadeHandle, 0.0f);
+                if (z7) {
+                    this.egl10.eglQuerySurface(this.eglDisplay, this.eglSurface, 12375, this.array);
+                    int[] iArr = this.array;
+                    int i3 = iArr[0];
+                    this.egl10.eglQuerySurface(this.eglDisplay, this.eglSurface, 12374, iArr);
+                    GLES20.glViewport(0, 0, i3, this.array[0]);
+                    if (z3) {
+                        GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+                        GLES20.glClear(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM);
+                    }
+                    CameraView.this.shapeValue = this.shape.set(this.shapeTo);
+                    float f = CameraView.this.lastCrossfadeValue = this.crossfade.set(0.0f);
+                    float f2 = this.dualAppear.set(this.dualAppeared ? 1.0f : 0.0f);
+                    float f3 = 1.0f - this.camera1Appear.set(this.camera1Appeared);
+                    if (f <= 0.0f) {
+                        this.crossfading = false;
+                    }
+                    int i4 = -1;
+                    int i5 = -1;
+                    while (i5 < 2) {
+                        if (i5 != i4 || this.crossfading) {
+                            int i6 = i5 < 0 ? 1 : i5;
+                            if (this.cameraSurface[i6] != null) {
+                                if (i6 != 0) {
+                                    CameraSession[] cameraSessionArr2 = this.currentSession;
+                                    if (cameraSessionArr2[i6] != null) {
+                                    }
                                 }
-                            } else {
-                                GLES20.glUniform1f(this.alphaHandle, 1.0f);
-                                if (this.crossfading) {
-                                    GLES20.glUniform1f(this.roundRadiusHandle, AndroidUtilities.lerp(AndroidUtilities.dp(12.0f), AndroidUtilities.dp(16.0f), f));
-                                    GLES20.glUniform1f(this.scaleHandle, 1.0f);
-                                    GLES20.glUniform1f(this.shapeFromHandle, this.shapeTo);
-                                    GLES20.glUniform1f(this.shapeToHandle, 2.0f);
-                                    GLES20.glUniform1f(this.shapeHandle, Utilities.clamp(1.0f - f, 1.0f, 0.0f));
-                                    GLES20.glUniform1f(this.crossfadeHandle, f);
-                                } else {
-                                    GLES20.glUniform1f(this.roundRadiusHandle, 0.0f);
-                                    GLES20.glUniform1f(this.scaleHandle, 1.0f);
-                                    GLES20.glUniform1f(this.shapeFromHandle, 2.0f);
-                                    GLES20.glUniform1f(this.shapeToHandle, 2.0f);
-                                    GLES20.glUniform1f(this.shapeHandle, 0.0f);
-                                    GLES20.glUniform1f(this.crossfadeHandle, 0.0f);
+                                if ((i6 != 0 || i >= 0 || z3) && (i6 != 1 || i2 >= 0)) {
+                                    if ((i6 == 0 && z5) || (i6 == 1 && z6)) {
+                                        this.cameraSurface[i6].getTransformMatrix(CameraView.this.mSTMatrix[i6]);
+                                    }
+                                    GLES20.glUseProgram(this.drawProgram);
+                                    GLES20.glActiveTexture(33984);
+                                    GLES20.glBindTexture(36197, CameraView.this.cameraTexture[i6][0]);
+                                    GLES20.glVertexAttribPointer(this.positionHandle, 3, 5126, false, 12, (Buffer) CameraView.this.vertexBuffer);
+                                    GLES20.glEnableVertexAttribArray(this.positionHandle);
+                                    GLES20.glVertexAttribPointer(this.textureHandle, 2, 5126, false, 8, (Buffer) CameraView.this.textureBuffer);
+                                    GLES20.glEnableVertexAttribArray(this.textureHandle);
+                                    GLES20.glUniformMatrix4fv(this.cameraMatrixHandle, 1, false, CameraView.this.cameraMatrix[i6], 0);
+                                    GLES20.glUniformMatrix4fv(this.oppositeCameraMatrixHandle, 1, false, CameraView.this.cameraMatrix[1 - i6], 0);
+                                    GLES20.glUniformMatrix4fv(this.textureMatrixHandle, 1, false, CameraView.this.mSTMatrix[i6], 0);
+                                    GLES20.glUniformMatrix4fv(this.vertexMatrixHandle, 1, false, CameraView.this.mMVPMatrix[i6], 0);
+                                    if (i6 == 0) {
+                                        GLES20.glUniform2f(this.pixelHandle, CameraView.this.pixelW, CameraView.this.pixelH);
+                                        GLES20.glUniform1f(this.dualHandle, z3 ? 1.0f : 0.0f);
+                                    } else {
+                                        GLES20.glUniform2f(this.pixelHandle, CameraView.this.pixelDualW, CameraView.this.pixelDualH);
+                                        GLES20.glUniform1f(this.dualHandle, 1.0f);
+                                    }
+                                    GLES20.glUniform1f(this.blurHandle, i6 == 0 ? f3 : 0.0f);
+                                    if (i6 == 1) {
+                                        GLES20.glUniform1f(this.alphaHandle, 1.0f);
+                                        if (i5 < 0) {
+                                            GLES20.glUniform1f(this.roundRadiusHandle, 0.0f);
+                                            GLES20.glUniform1f(this.scaleHandle, 1.0f);
+                                            GLES20.glUniform1f(this.shapeFromHandle, 2.0f);
+                                            GLES20.glUniform1f(this.shapeToHandle, 2.0f);
+                                            GLES20.glUniform1f(this.shapeHandle, 0.0f);
+                                            GLES20.glUniform1f(this.crossfadeHandle, 1.0f);
+                                        } else if (!this.crossfading) {
+                                            GLES20.glUniform1f(this.roundRadiusHandle, AndroidUtilities.dp(16.0f));
+                                            GLES20.glUniform1f(this.scaleHandle, f2);
+                                            GLES20.glUniform1f(this.shapeFromHandle, (float) Math.floor(CameraView.this.shapeValue));
+                                            GLES20.glUniform1f(this.shapeToHandle, (float) Math.ceil(CameraView.this.shapeValue));
+                                            GLES20.glUniform1f(this.shapeHandle, CameraView.this.shapeValue - ((float) Math.floor(CameraView.this.shapeValue)));
+                                            GLES20.glUniform1f(this.crossfadeHandle, 0.0f);
+                                        } else {
+                                            GLES20.glUniform1f(this.roundRadiusHandle, AndroidUtilities.dp(16.0f));
+                                            GLES20.glUniform1f(this.scaleHandle, 1.0f - f);
+                                            GLES20.glUniform1f(this.shapeFromHandle, (float) Math.floor(CameraView.this.shapeValue));
+                                            GLES20.glUniform1f(this.shapeToHandle, (float) Math.ceil(CameraView.this.shapeValue));
+                                            GLES20.glUniform1f(this.shapeHandle, CameraView.this.shapeValue - ((float) Math.floor(CameraView.this.shapeValue)));
+                                            GLES20.glUniform1f(this.shapeHandle, f);
+                                            GLES20.glUniform1f(this.crossfadeHandle, 0.0f);
+                                        }
+                                    } else {
+                                        GLES20.glUniform1f(this.alphaHandle, 1.0f);
+                                        if (this.crossfading) {
+                                            GLES20.glUniform1f(this.roundRadiusHandle, AndroidUtilities.lerp(AndroidUtilities.dp(12.0f), AndroidUtilities.dp(16.0f), f));
+                                            GLES20.glUniform1f(this.scaleHandle, 1.0f);
+                                            GLES20.glUniform1f(this.shapeFromHandle, this.shapeTo);
+                                            GLES20.glUniform1f(this.shapeToHandle, 2.0f);
+                                            GLES20.glUniform1f(this.shapeHandle, Utilities.clamp(1.0f - f, 1.0f, 0.0f));
+                                            GLES20.glUniform1f(this.crossfadeHandle, f);
+                                        } else {
+                                            GLES20.glUniform1f(this.roundRadiusHandle, 0.0f);
+                                            GLES20.glUniform1f(this.scaleHandle, 1.0f);
+                                            GLES20.glUniform1f(this.shapeFromHandle, 2.0f);
+                                            GLES20.glUniform1f(this.shapeToHandle, 2.0f);
+                                            GLES20.glUniform1f(this.shapeHandle, 0.0f);
+                                            GLES20.glUniform1f(this.crossfadeHandle, 0.0f);
+                                        }
+                                    }
+                                    GLES20.glDrawArrays(5, 0, 4);
+                                    GLES20.glDisableVertexAttribArray(this.positionHandle);
+                                    GLES20.glDisableVertexAttribArray(this.textureHandle);
+                                    GLES20.glBindTexture(36197, 0);
+                                    GLES20.glUseProgram(0);
+                                    i5++;
+                                    i4 = -1;
                                 }
                             }
-                            GLES20.glDrawArrays(5, 0, 4);
-                            GLES20.glDisableVertexAttribArray(this.positionHandle);
-                            GLES20.glDisableVertexAttribArray(this.textureHandle);
-                            GLES20.glBindTexture(36197, 0);
-                            GLES20.glUseProgram(0);
-                            i5++;
-                            i4 = -1;
                         }
+                        i5++;
+                        i4 = -1;
                     }
-                    i5++;
-                    i4 = -1;
-                }
-                this.egl10.eglSwapBuffers(this.eglDisplay, this.eglSurface);
-                synchronized (CameraView.this.layoutLock) {
-                    CameraView cameraView3 = CameraView.this;
-                    if (!cameraView3.firstFrameRendered && !z4) {
-                        cameraView3.firstFrameRendered = true;
-                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.camera.CameraView$CameraGLThread$$ExternalSyntheticLambda3
-                            @Override // java.lang.Runnable
-                            public final void run() {
-                                CameraView.CameraGLThread.this.lambda$onDraw$4();
-                            }
-                        });
-                    }
-                    CameraView cameraView4 = CameraView.this;
-                    if (!cameraView4.firstFrame2Rendered && this.dualAppeared) {
-                        cameraView4.firstFrame2Rendered = true;
-                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.camera.CameraView$CameraGLThread$$ExternalSyntheticLambda1
-                            @Override // java.lang.Runnable
-                            public final void run() {
-                                CameraView.CameraGLThread.this.lambda$onDraw$5();
-                            }
-                        });
+                    this.egl10.eglSwapBuffers(this.eglDisplay, this.eglSurface);
+                    synchronized (CameraView.this.layoutLock) {
+                        CameraView cameraView3 = CameraView.this;
+                        if (!cameraView3.firstFrameRendered && !z4) {
+                            cameraView3.firstFrameRendered = true;
+                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.camera.CameraView$CameraGLThread$$ExternalSyntheticLambda3
+                                @Override // java.lang.Runnable
+                                public final void run() {
+                                    CameraView.CameraGLThread.this.lambda$onDraw$4();
+                                }
+                            });
+                        }
+                        CameraView cameraView4 = CameraView.this;
+                        if (!cameraView4.firstFrame2Rendered && this.dualAppeared) {
+                            cameraView4.firstFrame2Rendered = true;
+                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.camera.CameraView$CameraGLThread$$ExternalSyntheticLambda1
+                                @Override // java.lang.Runnable
+                                public final void run() {
+                                    CameraView.CameraGLThread.this.lambda$onDraw$5();
+                                }
+                            });
+                        }
                     }
                 }
             }
@@ -2876,111 +2894,108 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
             return this.surface;
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:269:0x018b, code lost:
-            if (android.os.Build.VERSION.SDK_INT >= 21) goto L45;
+        /* JADX WARN: Code restructure failed: missing block: B:262:0x018b, code lost:
+            if (android.os.Build.VERSION.SDK_INT >= 21) goto L78;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:270:0x018d, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:263:0x018d, code lost:
             r1 = r17.audioEncoder.getOutputBuffers();
          */
-        /* JADX WARN: Code restructure failed: missing block: B:271:0x0193, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:264:0x0193, code lost:
             r2 = r17.audioEncoder.dequeueOutputBuffer(r17.audioBufferInfo, 0);
          */
-        /* JADX WARN: Code restructure failed: missing block: B:272:0x019d, code lost:
-            if (r2 != (-1)) goto L48;
+        /* JADX WARN: Code restructure failed: missing block: B:265:0x019d, code lost:
+            if (r2 != (-1)) goto L81;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:273:0x019f, code lost:
-            if (r18 == false) goto L102;
+        /* JADX WARN: Code restructure failed: missing block: B:266:0x019f, code lost:
+            if (r18 == false) goto L133;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:275:0x01a3, code lost:
-            if (r17.running != false) goto L101;
+        /* JADX WARN: Code restructure failed: missing block: B:268:0x01a3, code lost:
+            if (r17.running != false) goto L132;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:277:0x01a7, code lost:
-            if (r17.sendWhenDone != 0) goto L101;
+        /* JADX WARN: Code restructure failed: missing block: B:270:0x01a7, code lost:
+            if (r17.sendWhenDone != 0) goto L132;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:281:0x01ae, code lost:
-            if (r2 != (-3)) goto L50;
+        /* JADX WARN: Code restructure failed: missing block: B:274:0x01ae, code lost:
+            if (r2 != (-3)) goto L83;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:283:0x01b2, code lost:
-            if (android.os.Build.VERSION.SDK_INT >= 21) goto L92;
+        /* JADX WARN: Code restructure failed: missing block: B:276:0x01b2, code lost:
+            if (android.os.Build.VERSION.SDK_INT >= 21) goto L123;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:284:0x01b4, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:277:0x01b4, code lost:
             r1 = r17.audioEncoder.getOutputBuffers();
          */
-        /* JADX WARN: Code restructure failed: missing block: B:287:0x01bd, code lost:
-            if (r2 != (-2)) goto L52;
+        /* JADX WARN: Code restructure failed: missing block: B:280:0x01bd, code lost:
+            if (r2 != (-2)) goto L85;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:288:0x01bf, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:281:0x01bf, code lost:
             r2 = r17.audioEncoder.getOutputFormat();
          */
-        /* JADX WARN: Code restructure failed: missing block: B:289:0x01c7, code lost:
-            if (r17.audioTrackIndex != (-5)) goto L85;
+        /* JADX WARN: Code restructure failed: missing block: B:282:0x01c7, code lost:
+            if (r17.audioTrackIndex != (-5)) goto L116;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:290:0x01c9, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:283:0x01c9, code lost:
             r17.audioTrackIndex = r17.mediaMuxer.addTrack(r2, true);
          */
-        /* JADX WARN: Code restructure failed: missing block: B:293:0x01d6, code lost:
-            if (r2 < 0) goto L78;
+        /* JADX WARN: Code restructure failed: missing block: B:286:0x01d6, code lost:
+            if (r2 < 0) goto L109;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:295:0x01da, code lost:
-            if (android.os.Build.VERSION.SDK_INT >= 21) goto L77;
+        /* JADX WARN: Code restructure failed: missing block: B:288:0x01da, code lost:
+            if (android.os.Build.VERSION.SDK_INT >= 21) goto L108;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:296:0x01dc, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:289:0x01dc, code lost:
             r8 = r1[r2];
          */
-        /* JADX WARN: Code restructure failed: missing block: B:297:0x01df, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:290:0x01df, code lost:
             r8 = r17.audioEncoder.getOutputBuffer(r2);
          */
-        /* JADX WARN: Code restructure failed: missing block: B:298:0x01e5, code lost:
-            if (r8 == null) goto L74;
+        /* JADX WARN: Code restructure failed: missing block: B:291:0x01e5, code lost:
+            if (r8 == null) goto L105;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:299:0x01e7, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:292:0x01e7, code lost:
             r13 = r17.audioBufferInfo;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:300:0x01ed, code lost:
-            if ((r13.flags & 2) == 0) goto L63;
+        /* JADX WARN: Code restructure failed: missing block: B:293:0x01ed, code lost:
+            if ((r13.flags & 2) == 0) goto L96;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:301:0x01ef, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:294:0x01ef, code lost:
             r13.size = 0;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:303:0x01f3, code lost:
-            if (r13.size == 0) goto L73;
+        /* JADX WARN: Code restructure failed: missing block: B:296:0x01f3, code lost:
+            if (r13.size == 0) goto L99;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:304:0x01f5, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:297:0x01f5, code lost:
             r13 = new android.media.MediaCodec.BufferInfo();
             r14 = r17.audioBufferInfo;
             r13.size = r14.size;
             r13.offset = r14.offset;
             r13.flags = r14.flags;
             r13.presentationTimeUs = r14.presentationTimeUs;
+            r8 = r8.duplicate();
             r17.fileWriteQueue.postRunnable(new org.telegram.messenger.camera.CameraView$VideoRecorder$$ExternalSyntheticLambda1());
          */
-        /* JADX WARN: Code restructure failed: missing block: B:305:0x0217, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:298:0x021a, code lost:
             r17.audioEncoder.releaseOutputBuffer(r2, false);
          */
-        /* JADX WARN: Code restructure failed: missing block: B:307:0x0222, code lost:
-            if ((r17.audioBufferInfo.flags & 4) == 0) goto L71;
+        /* JADX WARN: Code restructure failed: missing block: B:299:0x0225, code lost:
+            if ((r17.audioBufferInfo.flags & 4) == 0) goto L103;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:308:0x0224, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:300:0x0227, code lost:
             return;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:310:0x023c, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:302:0x023f, code lost:
             throw new java.lang.RuntimeException("encoderOutputBuffer " + r2 + " was null");
          */
-        /* JADX WARN: Code restructure failed: missing block: B:364:?, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:356:?, code lost:
             return;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:365:?, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:357:?, code lost:
             return;
          */
-        /* JADX WARN: Removed duplicated region for block: B:265:0x017c  */
-        /* JADX WARN: Removed duplicated region for block: B:326:0x0189 A[EDGE_INSN: B:326:0x0189->B:268:0x0189 ?: BREAK  , SYNTHETIC] */
-        /* JADX WARN: Removed duplicated region for block: B:331:0x0017 A[SYNTHETIC] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public void drainEncoder(boolean z) throws Exception {
-            final ByteBuffer outputBuffer;
-            boolean z2;
+            ByteBuffer outputBuffer;
             ByteBuffer byteBuffer;
             ByteBuffer byteBuffer2;
             if (z) {
@@ -2988,7 +3003,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
             }
             ByteBuffer[] outputBuffers = Build.VERSION.SDK_INT < 21 ? this.videoEncoder.getOutputBuffers() : null;
             while (true) {
-                final int dequeueOutputBuffer = this.videoEncoder.dequeueOutputBuffer(this.videoBufferInfo, 10000L);
+                int dequeueOutputBuffer = this.videoEncoder.dequeueOutputBuffer(this.videoBufferInfo, 10000L);
                 byte b = 1;
                 if (dequeueOutputBuffer == -1) {
                     if (!z) {
@@ -3039,19 +3054,13 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
                             bufferInfo2.offset = bufferInfo3.offset;
                             bufferInfo2.flags = bufferInfo3.flags;
                             bufferInfo2.presentationTimeUs = bufferInfo3.presentationTimeUs;
+                            final ByteBuffer duplicate = outputBuffer.duplicate();
                             this.fileWriteQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.camera.CameraView$VideoRecorder$$ExternalSyntheticLambda2
                                 @Override // java.lang.Runnable
                                 public final void run() {
-                                    CameraView.VideoRecorder.this.lambda$drainEncoder$2(outputBuffer, bufferInfo2, dequeueOutputBuffer);
+                                    CameraView.VideoRecorder.this.lambda$drainEncoder$2(duplicate, bufferInfo2);
                                 }
                             });
-                            z2 = false;
-                            if (z2) {
-                                this.videoEncoder.releaseOutputBuffer(dequeueOutputBuffer, false);
-                            }
-                            if ((this.videoBufferInfo.flags & 4) == 0) {
-                                break;
-                            }
                         } else if (this.videoTrackIndex == -5) {
                             if (this.outputMimeType.equals(VIDEO_MIME_TYPE)) {
                                 throw new RuntimeException("need fix parsing csd data");
@@ -3087,40 +3096,25 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
                             this.videoTrackIndex = this.mediaMuxer.addTrack(createVideoFormat, false);
                         }
                     }
-                    z2 = true;
-                    if (z2) {
-                    }
-                    if ((this.videoBufferInfo.flags & 4) == 0) {
+                    this.videoEncoder.releaseOutputBuffer(dequeueOutputBuffer, false);
+                    if ((this.videoBufferInfo.flags & 4) != 0) {
+                        break;
                     }
                 }
             }
         }
 
-        public /* synthetic */ void lambda$drainEncoder$2(ByteBuffer byteBuffer, MediaCodec.BufferInfo bufferInfo, int i) {
+        public /* synthetic */ void lambda$drainEncoder$2(ByteBuffer byteBuffer, MediaCodec.BufferInfo bufferInfo) {
             try {
                 this.mediaMuxer.writeSampleData(this.videoTrackIndex, byteBuffer, bufferInfo, true);
-                MediaCodec mediaCodec = this.videoEncoder;
-                if (mediaCodec != null) {
-                    try {
-                        mediaCodec.releaseOutputBuffer(i, false);
-                    } catch (Throwable unused) {
-                    }
-                }
             } catch (Exception e) {
                 FileLog.e(e);
             }
         }
 
-        public /* synthetic */ void lambda$drainEncoder$3(ByteBuffer byteBuffer, MediaCodec.BufferInfo bufferInfo, int i) {
+        public /* synthetic */ void lambda$drainEncoder$3(ByteBuffer byteBuffer, MediaCodec.BufferInfo bufferInfo) {
             try {
                 this.mediaMuxer.writeSampleData(this.audioTrackIndex, byteBuffer, bufferInfo, false);
-                MediaCodec mediaCodec = this.audioEncoder;
-                if (mediaCodec != null) {
-                    try {
-                        mediaCodec.releaseOutputBuffer(i, false);
-                    } catch (Throwable unused) {
-                    }
-                }
             } catch (Exception e) {
                 FileLog.e(e);
             }

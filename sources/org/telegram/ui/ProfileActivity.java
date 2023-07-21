@@ -288,6 +288,7 @@ import org.telegram.ui.Components.InstantCameraView;
 import org.telegram.ui.Components.ItemOptions;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.LinkSpanDrawable;
+import org.telegram.ui.Components.Paint.PersistColorPalette;
 import org.telegram.ui.Components.Premium.GiftPremiumBottomSheet;
 import org.telegram.ui.Components.Premium.PremiumFeatureBottomSheet;
 import org.telegram.ui.Components.Premium.PremiumGradient;
@@ -599,7 +600,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static /* synthetic */ void access$30500(ProfileActivity profileActivity, View view) {
+    public static /* synthetic */ void access$30600(ProfileActivity profileActivity, View view) {
         profileActivity.onTextDetailCellImageClicked(view);
     }
 
@@ -4646,6 +4647,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 ChatThemeController.getInstance(((BaseFragment) ProfileActivity.this).currentAccount).clearCache();
                 ProfileActivity.this.getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.newSuggestionsAvailable, new Object[0]);
                 RestrictedLanguagesSelectActivity.cleanup();
+                PersistColorPalette.getInstance(((BaseFragment) ProfileActivity.this).currentAccount).cleanup();
             } else if (i == 7) {
                 VoIPHelper.showCallDebugSettings(ProfileActivity.this.getParentActivity());
             } else if (i == 8) {
@@ -11883,7 +11885,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 textDetailCell.setImageClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$ListAdapter$$ExternalSyntheticLambda0
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view2) {
-                        ProfileActivity.access$30500(ProfileActivity.this, view2);
+                        ProfileActivity.access$30600(ProfileActivity.this, view2);
                     }
                 });
             } else {

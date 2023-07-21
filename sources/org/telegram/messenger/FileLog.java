@@ -18,6 +18,7 @@ import org.telegram.messenger.time.FastDateFormat;
 import org.telegram.messenger.video.MediaCodecVideoConvertor;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$TL_error;
+import org.telegram.ui.Components.AnimatedFileDrawable;
 import org.telegram.ui.LaunchActivity;
 /* loaded from: classes.dex */
 public class FileLog {
@@ -159,7 +160,7 @@ public class FileLog {
             excludeRequests = hashSet2;
             hashSet2.add("TL_upload_getFile");
             excludeRequests.add("TL_upload_a");
-            gson = new GsonBuilder().addSerializationExclusionStrategy(new ExclusionStrategy() { // from class: org.telegram.messenger.FileLog.1
+            ExclusionStrategy exclusionStrategy = new ExclusionStrategy() { // from class: org.telegram.messenger.FileLog.1
                 @Override // com.google.gson.ExclusionStrategy
                 public boolean shouldSkipField(FieldAttributes fieldAttributes) {
                     return hashSet.contains(fieldAttributes.getName());
@@ -167,9 +168,10 @@ public class FileLog {
 
                 @Override // com.google.gson.ExclusionStrategy
                 public boolean shouldSkipClass(Class<?> cls) {
-                    return cls.isInstance(ColorStateList.class) || cls.isInstance(Context.class);
+                    return cls.isInstance(AnimatedFileDrawable.class) || cls.isInstance(ColorStateList.class) || cls.isInstance(Context.class);
                 }
-            }).registerTypeAdapterFactory(RuntimeClassNameTypeAdapterFactory.of(TLObject.class, "type_")).create();
+            };
+            gson = new GsonBuilder().addSerializationExclusionStrategy(exclusionStrategy).registerTypeAdapterFactory(RuntimeClassNameTypeAdapterFactory.of(TLObject.class, "type_", exclusionStrategy)).create();
         }
     }
 

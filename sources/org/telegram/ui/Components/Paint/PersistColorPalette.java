@@ -114,6 +114,15 @@ public class PersistColorPalette {
 
     public int getColor(int i) {
         checkIndex(i);
+        if (i < 0 || i >= this.colors.size()) {
+            if (i >= 0) {
+                List<Integer> list = DEFAULT_COLORS;
+                if (i < list.size()) {
+                    return list.get(i).intValue();
+                }
+            }
+            return DEFAULT_COLORS.get(0).intValue();
+        }
         return this.colors.get(i).intValue();
     }
 
@@ -127,12 +136,25 @@ public class PersistColorPalette {
         this.pendingChange.clear();
         this.pendingChange.add(Integer.valueOf(i));
         this.pendingChange.addAll(arrayList);
-        List<Integer> list = this.pendingChange;
-        list.remove(list.size() - 1);
+        int size = this.pendingChange.size();
+        List<Integer> list = DEFAULT_COLORS;
+        if (size < list.size()) {
+            int size2 = this.pendingChange.size();
+            while (true) {
+                List<Integer> list2 = DEFAULT_COLORS;
+                if (size2 >= list2.size()) {
+                    return;
+                }
+                this.pendingChange.add(list2.get(size2));
+                size2++;
+            }
+        } else if (this.pendingChange.size() > list.size()) {
+            this.pendingChange = this.pendingChange.subList(0, list.size());
+        }
     }
 
     public void selectColorIndex(int i) {
-        int intValue = this.colors.get(i).intValue();
+        int intValue = ((i < 0 || i >= this.colors.size()) ? DEFAULT_COLORS : this.colors).get(i).intValue();
         ArrayList arrayList = new ArrayList(this.pendingChange.isEmpty() ? this.colors : this.pendingChange);
         this.pendingChange.clear();
         this.pendingChange.add(Integer.valueOf(intValue));
@@ -142,6 +164,21 @@ public class PersistColorPalette {
             } else if (((Integer) arrayList.get(i2)).intValue() != intValue) {
                 this.pendingChange.add((Integer) arrayList.get(i2));
             }
+        }
+        int size = this.pendingChange.size();
+        List<Integer> list = DEFAULT_COLORS;
+        if (size < list.size()) {
+            int size2 = this.pendingChange.size();
+            while (true) {
+                List<Integer> list2 = DEFAULT_COLORS;
+                if (size2 >= list2.size()) {
+                    return;
+                }
+                this.pendingChange.add(list2.get(size2));
+                size2++;
+            }
+        } else if (this.pendingChange.size() > list.size()) {
+            this.pendingChange = this.pendingChange.subList(0, list.size());
         }
     }
 

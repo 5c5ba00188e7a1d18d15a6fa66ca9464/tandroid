@@ -1705,14 +1705,16 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
         if (hintView2 != null) {
             return hintView2;
         }
-        HintView2 joint = new HintView2(getContext(), 1).setBgColor(Theme.getColor(Theme.key_undo_background)).setMultilineText(true).setTextAlign(Layout.Alignment.ALIGN_CENTER).setText(AndroidUtilities.replaceSingleTag(LocaleController.getString("StoriesPremiumHint"), Theme.key_undo_cancelColor, 0, new Runnable() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda5
+        this.premiumHint = new HintView2(getContext(), 1).setBgColor(Theme.getColor(Theme.key_undo_background)).setMultilineText(true).setTextAlign(Layout.Alignment.ALIGN_CENTER).setJoint(0.0f, 29.0f);
+        SpannableStringBuilder replaceSingleTag = AndroidUtilities.replaceSingleTag(LocaleController.getString("StoriesPremiumHint").replace('\n', ' '), Theme.key_undo_cancelColor, 0, new Runnable() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
                 DialogStoriesCell.this.lambda$makePremiumHint$8();
             }
-        })).setJoint(0.0f, 29.0f);
-        this.premiumHint = joint;
-        joint.setMaxWidthPx(HintView2.cutInFancyHalf(joint.getText(), this.premiumHint.getTextPaint()));
+        });
+        HintView2 hintView22 = this.premiumHint;
+        hintView22.setMaxWidthPx(HintView2.cutInFancyHalf(replaceSingleTag, hintView22.getTextPaint()));
+        this.premiumHint.setText(replaceSingleTag);
         this.premiumHint.setPadding(AndroidUtilities.dp(8.0f), AndroidUtilities.dp(24.0f), AndroidUtilities.dp(8.0f), 0);
         if (getParent() instanceof FrameLayout) {
             ((FrameLayout) getParent()).addView(this.premiumHint, LayoutHelper.createFrame(-1, (int) ImageReceiver.DEFAULT_CROSSFADE_DURATION, 51));
@@ -1736,7 +1738,6 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
             if (hintView2.shown()) {
                 BotWebViewVibrationEffect.APP_ERROR.vibrate();
             }
-            this.premiumHint.setMaxWidthPx(Math.min(AndroidUtilities.dp(450.0f), (int) (AndroidUtilities.displaySize.x * 0.7f)));
             this.premiumHint.show();
         }
     }
