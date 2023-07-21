@@ -53,6 +53,7 @@ import androidx.core.graphics.ColorUtils;
 import com.google.android.exoplayer2.analytics.AnalyticsListener;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.nio.Buffer;
 import java.nio.ByteBuffer;
@@ -76,6 +77,7 @@ import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.DispatchQueue;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
+import org.telegram.messenger.ImageLoader;
 import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
@@ -215,7 +217,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
     @SuppressLint({"ClickableViewAccessibility"})
     public InstantCameraView(Context context, Delegate delegate, Theme.ResourcesProvider resourcesProvider) {
         super(context);
-        this.WRITE_TO_FILE_IN_BACKGROUND = false;
+        this.WRITE_TO_FILE_IN_BACKGROUND = true;
         this.currentAccount = UserConfig.selectedAccount;
         this.switchCameraDrawable = null;
         this.isFrontface = true;
@@ -1832,6 +1834,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
         private android.opengl.EGLContext eglContext;
         private android.opengl.EGLDisplay eglDisplay;
         private android.opengl.EGLSurface eglSurface;
+        private File fileToWrite;
         DispatchQueue fileWriteQueue;
         private boolean firstEncode;
         private int frameCount;
@@ -1868,6 +1871,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
         private long videoLast;
         private int videoTrackIndex;
         private int videoWidth;
+        private boolean writingToDifferentFile;
         private int zeroTimeStamps;
 
         private VideoRecorder() {
@@ -2474,6 +2478,16 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                 } catch (InterruptedException e4) {
                     e4.printStackTrace();
                 }
+                if (this.writingToDifferentFile && !this.fileToWrite.renameTo(this.videoFile)) {
+                    FileLog.e("unable to rename file, try move file");
+                    try {
+                        AndroidUtilities.copyFile(this.fileToWrite, this.videoFile);
+                        this.fileToWrite.delete();
+                    } catch (IOException e5) {
+                        FileLog.e(e5);
+                        FileLog.e("unable to move file");
+                    }
+                }
             }
             DispatchQueue dispatchQueue = this.generateKeyframeThumbsQueue;
             if (dispatchQueue != null) {
@@ -2483,7 +2497,14 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
             }
             if (i == 0) {
                 FileLoader.getInstance(InstantCameraView.this.currentAccount).cancelFileUpload(this.videoFile.getAbsolutePath(), false);
-                this.videoFile.delete();
+                try {
+                    this.fileToWrite.delete();
+                } catch (Throwable unused) {
+                }
+                try {
+                    this.videoFile.delete();
+                } catch (Throwable unused2) {
+                }
             } else {
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.InstantCameraView$VideoRecorder$$ExternalSyntheticLambda4
                     @Override // java.lang.Runnable
@@ -2708,8 +2729,18 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                 this.videoEncoder.configure(createVideoFormat, (Surface) null, (MediaCrypto) null, 1);
                 this.surface = this.videoEncoder.createInputSurface();
                 this.videoEncoder.start();
+                boolean isSdCardPath = ImageLoader.isSdCardPath(this.videoFile);
+                this.fileToWrite = this.videoFile;
+                if (isSdCardPath) {
+                    File file = new File(ApplicationLoader.getFilesDirFixed(), "camera_tmp.mp4");
+                    this.fileToWrite = file;
+                    if (file.exists()) {
+                        this.fileToWrite.delete();
+                    }
+                    this.writingToDifferentFile = true;
+                }
                 Mp4Movie mp4Movie = new Mp4Movie();
-                mp4Movie.setCacheFile(this.videoFile);
+                mp4Movie.setCacheFile(this.fileToWrite);
                 mp4Movie.setRotation(0);
                 mp4Movie.setSize(this.videoWidth, this.videoHeight);
                 this.mediaMuxer = new MP4Builder().createMovie(mp4Movie, InstantCameraView.this.isSecretChat, false);
@@ -2814,9 +2845,9 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
             FileLoader.getInstance(InstantCameraView.this.currentAccount).checkUploadNewDataAvailable(file.toString(), InstantCameraView.this.isSecretChat, j, z ? file.length() : 0L);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:288:0x01ae  */
-        /* JADX WARN: Removed duplicated region for block: B:345:0x01bb A[EDGE_INSN: B:345:0x01bb->B:291:0x01bb ?: BREAK  , SYNTHETIC] */
-        /* JADX WARN: Removed duplicated region for block: B:354:0x02a7 A[SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:294:0x01b2  */
+        /* JADX WARN: Removed duplicated region for block: B:353:0x01bf A[EDGE_INSN: B:353:0x01bf->B:297:0x01bf ?: BREAK  , SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:362:0x02af A[SYNTHETIC] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -2911,7 +2942,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                                     }
                                 } else {
                                     long writeSampleData = this.mediaMuxer.writeSampleData(this.videoTrackIndex, outputBuffer, this.videoBufferInfo, true);
-                                    if (writeSampleData != 0) {
+                                    if (writeSampleData != 0 && !this.writingToDifferentFile) {
                                         didWriteData(this.videoFile, writeSampleData, false);
                                     }
                                 }
@@ -3007,7 +3038,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                             });
                         } else {
                             long writeSampleData2 = this.mediaMuxer.writeSampleData(this.audioTrackIndex, outputBuffer2, bufferInfo5, false);
-                            if (writeSampleData2 != 0) {
+                            if (writeSampleData2 != 0 && !this.writingToDifferentFile) {
                                 didWriteData(this.videoFile, writeSampleData2, false);
                             }
                             this.audioEncoder.releaseOutputBuffer(dequeueOutputBuffer2, false);
@@ -3040,9 +3071,10 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                 } catch (Throwable unused) {
                 }
             }
-            if (j != 0) {
-                didWriteData(this.videoFile, j, false);
+            if (j == 0 || this.writingToDifferentFile) {
+                return;
             }
+            didWriteData(this.videoFile, j, false);
         }
 
         public /* synthetic */ void lambda$drainEncoder$8(ByteBuffer byteBuffer, MediaCodec.BufferInfo bufferInfo, int i) {
@@ -3053,7 +3085,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                 e.printStackTrace();
                 j = 0;
             }
-            if (j != 0) {
+            if (j != 0 && !this.writingToDifferentFile) {
                 didWriteData(this.videoFile, j, false);
             }
             MediaCodec mediaCodec = this.audioEncoder;

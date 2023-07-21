@@ -174,6 +174,10 @@ public class ImageLoader {
         return null;
     }
 
+    public static boolean isSdCardPath(File file) {
+        return !TextUtils.isEmpty(SharedConfig.storageCacheDir) && file.getAbsolutePath().startsWith(SharedConfig.storageCacheDir);
+    }
+
     public void moveToFront(String str) {
         if (str == null) {
             return;

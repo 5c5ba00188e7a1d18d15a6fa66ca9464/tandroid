@@ -2839,7 +2839,14 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                 this.profileActivity.presentFragment(new ProfileActivity(bundle2));
             }
         } else {
-            onMemberClick(!this.chatUsersAdapter.sortedUsers.isEmpty() ? this.chatUsersAdapter.chatInfo.participants.participants.get(((Integer) this.chatUsersAdapter.sortedUsers.get(i)).intValue()) : this.chatUsersAdapter.chatInfo.participants.participants.get(i), false, view);
+            if (!this.chatUsersAdapter.sortedUsers.isEmpty()) {
+                i = ((Integer) this.chatUsersAdapter.sortedUsers.get(i)).intValue();
+            }
+            TLRPC$ChatParticipant tLRPC$ChatParticipant = this.chatUsersAdapter.chatInfo.participants.participants.get(i);
+            if (i < 0 || i >= this.chatUsersAdapter.chatInfo.participants.participants.size()) {
+                return;
+            }
+            onMemberClick(tLRPC$ChatParticipant, false, view);
         }
     }
 

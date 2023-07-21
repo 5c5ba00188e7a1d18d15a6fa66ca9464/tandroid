@@ -536,21 +536,29 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
         StoriesUtilities.AvatarStoryParams avatarStoryParams = new StoriesUtilities.AvatarStoryParams(false) { // from class: org.telegram.ui.Cells.DialogCell.1
             @Override // org.telegram.ui.Stories.StoriesUtilities.AvatarStoryParams
             public void openStory(long j, Runnable runnable) {
-                if (DialogCell.this.currentDialogFolderId != 0) {
+                DialogCell dialogCell = DialogCell.this;
+                if (dialogCell.delegate == null) {
+                    return;
+                }
+                if (dialogCell.currentDialogFolderId != 0) {
                     DialogCell.this.delegate.openHiddenStories();
                     return;
                 }
-                DialogCell dialogCell = DialogCell.this;
-                DialogCellDelegate dialogCellDelegate = dialogCell.delegate;
+                DialogCell dialogCell2 = DialogCell.this;
+                DialogCellDelegate dialogCellDelegate = dialogCell2.delegate;
                 if (dialogCellDelegate != null) {
-                    dialogCellDelegate.openStory(dialogCell, runnable);
+                    dialogCellDelegate.openStory(dialogCell2, runnable);
                 }
             }
 
             @Override // org.telegram.ui.Stories.StoriesUtilities.AvatarStoryParams
             public void onLongPress() {
                 DialogCell dialogCell = DialogCell.this;
-                dialogCell.delegate.showChatPreview(dialogCell);
+                DialogCellDelegate dialogCellDelegate = dialogCell.delegate;
+                if (dialogCellDelegate == null) {
+                    return;
+                }
+                dialogCellDelegate.showChatPreview(dialogCell);
             }
         };
         this.storyParams = avatarStoryParams;

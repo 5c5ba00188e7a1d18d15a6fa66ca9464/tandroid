@@ -1731,7 +1731,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
             this.soundTooltip = joint;
             joint.setText(LocaleController.getString(R.string.StoryNoSound));
             this.soundTooltip.setPadding(AndroidUtilities.dp(8.0f), 0, AndroidUtilities.dp(8.0f), 0);
-            addView(this.soundTooltip, LayoutHelper.createFrame(-1, -2.0f, 55, 0.0f, 66.0f, 0.0f, 0.0f));
+            this.storyContainer.addView(this.soundTooltip, LayoutHelper.createFrame(-1, -2.0f, 55, 0.0f, 52.0f, 0.0f, 0.0f));
             this.createdTooltips.add(this.soundTooltip);
         }
         this.soundTooltip.show();
@@ -3839,11 +3839,9 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
         if (hintView2 != null) {
             hintView2.hide();
         }
-        for (int i = 0; i < this.createdTooltips.size(); i++) {
-            if (this.createdTooltips.get(i).shown()) {
-                this.createdTooltips.get(i).hide(true);
-                return true;
-            }
+        HintView2 hintView22 = this.soundTooltip;
+        if (hintView22 != null) {
+            hintView22.hide();
         }
         HintView hintView = this.mediaBanTooltip;
         if (hintView != null) {
@@ -4145,16 +4143,20 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
             this.createdTooltips.get(i).hide();
         }
         HintView2 hintView2 = this.privacyHint;
-        if (hintView2 == null || !hintView2.shown() || this.privacyButton == null || this.privacyHint.containsTouch(motionEvent, getX() + this.storyContainer.getX() + this.privacyHint.getX(), getY() + this.storyContainer.getY() + this.privacyHint.getY()) || hitPrivacyButton(motionEvent)) {
+        if (hintView2 != null && hintView2.shown() && this.privacyButton != null && !this.privacyHint.containsTouch(motionEvent, getX() + this.storyContainer.getX() + this.privacyHint.getX(), getY() + this.storyContainer.getY() + this.privacyHint.getY()) && !hitButton(this.privacyHint, motionEvent)) {
+            this.privacyHint.hide();
+        }
+        HintView2 hintView22 = this.soundTooltip;
+        if (hintView22 == null || !hintView22.shown() || this.muteIconContainer == null || this.soundTooltip.containsTouch(motionEvent, getX() + this.storyContainer.getX() + this.soundTooltip.getX(), getY() + this.storyContainer.getY() + this.soundTooltip.getY()) || hitButton(this.soundTooltip, motionEvent)) {
             return;
         }
-        this.privacyHint.hide();
+        this.soundTooltip.hide();
     }
 
-    private boolean hitPrivacyButton(MotionEvent motionEvent) {
-        float x = getX() + this.storyContainer.getX() + this.privacyButton.getX();
-        float y = getY() + this.storyContainer.getY() + this.privacyButton.getY();
-        return motionEvent.getX() >= x && motionEvent.getX() <= x + ((float) this.privacyButton.getWidth()) && motionEvent.getY() >= y && motionEvent.getY() <= y + ((float) this.privacyButton.getHeight());
+    private boolean hitButton(View view, MotionEvent motionEvent) {
+        float x = getX() + this.storyContainer.getX() + view.getX();
+        float y = getY() + this.storyContainer.getY() + view.getY();
+        return motionEvent.getX() >= x && motionEvent.getX() <= x + ((float) view.getWidth()) && motionEvent.getY() >= y && motionEvent.getY() <= y + ((float) view.getHeight());
     }
 
     public void setOffset(float f) {

@@ -1969,7 +1969,10 @@ public class StoryViewer {
         if (this.progressToDismiss != clamp) {
             this.progressToDismiss = clamp;
             checkNavBarColor();
-            this.storiesViewPager.getCurrentPeerView().progressToDismissUpdated();
+            PeerStoriesView currentPeerView = this.storiesViewPager.getCurrentPeerView();
+            if (currentPeerView != null) {
+                currentPeerView.progressToDismissUpdated();
+            }
         }
         SizeNotifierFrameLayout sizeNotifierFrameLayout = this.windowView;
         if (sizeNotifierFrameLayout != null) {

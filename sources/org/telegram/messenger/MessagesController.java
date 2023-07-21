@@ -556,6 +556,7 @@ import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.PremiumPreviewFragment;
 import org.telegram.ui.ProfileActivity;
 import org.telegram.ui.Stories.StoriesController;
+import org.telegram.ui.Stories.StoryViewer;
 import org.telegram.ui.TopicsFragment;
 /* loaded from: classes.dex */
 public class MessagesController extends BaseController implements NotificationCenter.NotificationCenterDelegate {
@@ -26192,8 +26193,13 @@ public class MessagesController extends BaseController implements NotificationCe
         } else {
             restrictionReason = getRestrictionReason(tLRPC$User.restriction_reason);
             if (i != 3 && tLRPC$User.bot) {
-                i = 1;
-                z = true;
+                StoryViewer storyViewer = LaunchActivity.getLastFragment().storyViewer;
+                if (storyViewer == null || !storyViewer.isShown()) {
+                    i = 1;
+                    z = true;
+                } else {
+                    i = 1;
+                }
             }
         }
         if (restrictionReason != null) {

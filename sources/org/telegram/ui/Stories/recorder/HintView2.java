@@ -500,7 +500,7 @@ public class HintView2 extends View {
         canvas.drawPath(this.path, this.backgroundPaint);
         this.backgroundPaint.setAlpha(alpha);
         if (this.multiline) {
-            canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), (int) (f4 * 255.0f), 31);
+            canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), Math.max(getHeight(), f3), (int) (f4 * 255.0f), 31);
             RectF rectF2 = this.bounds;
             float f5 = rectF2.left;
             RectF rectF3 = this.innerPadding;
