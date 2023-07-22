@@ -254,14 +254,19 @@ public class StoriesController {
     }
 
     private void sortDialogStories(ArrayList<TLRPC$TL_userStories> arrayList) {
-        fixDeletedStories(arrayList);
+        fixDeletedAndNonContactsStories(arrayList);
         Collections.sort(arrayList, this.userStoriesComparator);
     }
 
-    private void fixDeletedStories(ArrayList<TLRPC$TL_userStories> arrayList) {
+    private void fixDeletedAndNonContactsStories(ArrayList<TLRPC$TL_userStories> arrayList) {
         int i = 0;
         while (i < arrayList.size()) {
             TLRPC$TL_userStories tLRPC$TL_userStories = arrayList.get(i);
+            TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(tLRPC$TL_userStories.user_id));
+            if (user != null && !user.contact) {
+                arrayList.remove(i);
+                i--;
+            }
             int i2 = 0;
             while (i2 < tLRPC$TL_userStories.stories.size()) {
                 if (tLRPC$TL_userStories.stories.get(i2) instanceof TLRPC$TL_storyItemDeleted) {
@@ -801,8 +806,8 @@ public class StoriesController {
         if (i != this.totalStoriesCount) {
             this.mainSettings.edit().putInt("total_stores", this.totalStoriesCount).apply();
         }
-        fixDeletedStories(this.dialogListStories);
-        fixDeletedStories(this.hiddenListStories);
+        fixDeletedAndNonContactsStories(this.dialogListStories);
+        fixDeletedAndNonContactsStories(this.hiddenListStories);
         if (z4) {
             NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.storiesUpdated, new Object[0]);
         }

@@ -2589,6 +2589,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             StoryRecorder.this.takingVideo = false;
             StoryRecorder.this.stoppingTakingVideo = false;
             StoryRecorder.this.animateRecording(false, true);
+            StoryRecorder.this.setAwakeLock(false);
             if (j <= 800) {
                 StoryRecorder.this.videoTimerView.setRecording(false, true);
                 try {
@@ -2643,6 +2644,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             }
             hintTextView.setText(LocaleController.getString(str, i), false);
             StoryRecorder.this.animateRecording(true, true);
+            StoryRecorder.this.setAwakeLock(true);
             StoryRecorder.this.videoTimerView.setRecording(true, true);
             StoryRecorder.this.showVideoTimer(true, true);
         }
@@ -2670,6 +2672,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             if (StoryRecorder.this.takingVideo && StoryRecorder.this.stoppingTakingVideo && StoryRecorder.this.cameraView != null) {
                 StoryRecorder.this.showZoomControls(false, true);
                 StoryRecorder.this.animateRecording(false, true);
+                StoryRecorder.this.setAwakeLock(false);
                 CameraController.getInstance().stopVideoRecording(StoryRecorder.this.cameraView.getCameraSessionRecording(), false);
             }
         }
@@ -2710,6 +2713,19 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         public void onZoom(float f) {
             StoryRecorder.this.zoomControlView.setZoom(f, true);
             StoryRecorder.this.showZoomControls(false, true);
+        }
+    }
+
+    public void setAwakeLock(boolean z) {
+        if (z) {
+            this.windowLayoutParams.flags |= 128;
+        } else {
+            this.windowLayoutParams.flags &= -129;
+        }
+        try {
+            this.windowManager.updateViewLayout(this.windowView, this.windowLayoutParams);
+        } catch (Exception e) {
+            FileLog.e(e);
         }
     }
 

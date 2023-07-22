@@ -5267,15 +5267,15 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         }
 
         /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Removed duplicated region for block: B:73:0x014e  */
-        /* JADX WARN: Removed duplicated region for block: B:81:0x0192  */
-        /* JADX WARN: Removed duplicated region for block: B:82:0x0194  */
-        /* JADX WARN: Removed duplicated region for block: B:85:0x01ac  */
-        /* JADX WARN: Removed duplicated region for block: B:86:0x01b1  */
-        /* JADX WARN: Removed duplicated region for block: B:94:0x01cf  */
-        /* JADX WARN: Removed duplicated region for block: B:95:0x01d2  */
-        /* JADX WARN: Removed duplicated region for block: B:97:0x01d6  */
-        /* JADX WARN: Removed duplicated region for block: B:98:0x01db  */
+        /* JADX WARN: Removed duplicated region for block: B:100:0x01e7  */
+        /* JADX WARN: Removed duplicated region for block: B:75:0x015a  */
+        /* JADX WARN: Removed duplicated region for block: B:83:0x019e  */
+        /* JADX WARN: Removed duplicated region for block: B:84:0x01a0  */
+        /* JADX WARN: Removed duplicated region for block: B:87:0x01b8  */
+        /* JADX WARN: Removed duplicated region for block: B:88:0x01bd  */
+        /* JADX WARN: Removed duplicated region for block: B:96:0x01db  */
+        /* JADX WARN: Removed duplicated region for block: B:97:0x01de  */
+        /* JADX WARN: Removed duplicated region for block: B:99:0x01e2  */
         @Override // org.telegram.ui.Components.FilterTabsView.FilterTabsViewDelegate
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -5291,7 +5291,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             String str2;
             boolean z5;
             TLRPC$Chat chat;
-            if (DialogsActivity.this.initialDialogsType == 0 && !((BaseFragment) DialogsActivity.this).actionBar.isActionModeShowed()) {
+            if (DialogsActivity.this.initialDialogsType == 0 && !((BaseFragment) DialogsActivity.this).actionBar.isActionModeShowed() && DialogsActivity.this.storiesOverscroll == 0.0f) {
                 final MessagesController.DialogFilter dialogFilter = null;
                 if (DialogsActivity.this.filterOptions != null && DialogsActivity.this.filterOptions.isShown()) {
                     DialogsActivity.this.filterOptions.dismiss();

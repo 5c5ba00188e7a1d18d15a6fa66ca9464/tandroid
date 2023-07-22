@@ -1046,11 +1046,12 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
 
     private void checkDirectory(File file) {
         File[] listFiles = file.listFiles();
+        File checkDirectory = FileLoader.checkDirectory(6);
         if (listFiles != null) {
             for (File file2 : listFiles) {
                 if (file2.isDirectory() && file2.getName().equals("Telegram")) {
                     checkDirectory(file2);
-                } else {
+                } else if (!file2.equals(checkDirectory)) {
                     ListItem listItem = new ListItem(null);
                     listItem.title = file2.getName();
                     listItem.file = file2;
@@ -1258,8 +1259,9 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
             }
             this.currentDir = file;
             this.listAdapter.items.clear();
+            File checkDirectory = FileLoader.checkDirectory(6);
             for (File file2 : listFiles) {
-                if (file2.getName().indexOf(46) != 0) {
+                if (file2.getName().indexOf(46) != 0 && !file2.equals(checkDirectory)) {
                     ListItem listItem = new ListItem(null);
                     listItem.title = file2.getName();
                     listItem.file = file2;

@@ -386,6 +386,7 @@
     <string name="AddEmojiNotFound">Emoji pack not found.</string>
     <string name="AddException">Add Exception</string>
     <string name="AddExceptions">Add exceptions</string>
+    <string name="AddImage">Add Image</string>
     <string name="AddManyEmojiCount_few">Add %1$d emoji</string>
     <string name="AddManyEmojiCount_many">Add %1$d emoji</string>
     <string name="AddManyEmojiCount_one">Add emoji</string>

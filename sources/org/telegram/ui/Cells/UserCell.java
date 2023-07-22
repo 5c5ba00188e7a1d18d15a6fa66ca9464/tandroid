@@ -75,6 +75,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
     private int statusColor;
     private int statusOnlineColor;
     private SimpleTextView statusTextView;
+    private boolean storiable;
     public StoriesUtilities.AvatarStoryParams storyParams;
 
     @Override // android.view.View
@@ -139,9 +140,13 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.BackupImageView, android.view.View
             public void onDraw(Canvas canvas) {
-                UserCell.this.storyParams.originalAvatarRect.set(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight());
-                UserCell userCell = UserCell.this;
-                StoriesUtilities.drawAvatarWithStory(userCell.dialogId, canvas, this.imageReceiver, userCell.storyParams);
+                if (UserCell.this.storiable) {
+                    UserCell.this.storyParams.originalAvatarRect.set(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight());
+                    UserCell userCell = UserCell.this;
+                    StoriesUtilities.drawAvatarWithStory(userCell.dialogId, canvas, this.imageReceiver, userCell.storyParams);
+                    return;
+                }
+                super.onDraw(canvas);
             }
 
             @Override // android.view.View
@@ -292,6 +297,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
         if (obj == null && charSequence == null && charSequence2 == null) {
             this.currentStatus = null;
             this.currentName = null;
+            this.storiable = false;
             this.currentObject = null;
             this.nameTextView.setText("");
             this.statusTextView.setText("");
@@ -309,6 +315,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
             }
         }
         this.currentName = charSequence;
+        this.storiable = !(obj instanceof String);
         this.currentObject = obj;
         this.currentDrawable = i;
         this.needDivider = z;

@@ -326,6 +326,10 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         return 0;
     }
 
+    protected boolean includeStories() {
+        return true;
+    }
+
     protected void invalidateBlur() {
     }
 
@@ -5557,7 +5561,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             if (i > 3) {
                 removeTabs = null;
             }
-            if (DialogObject.isUserDialog(this.dialog_id) && !DialogObject.isEncryptedDialog(this.dialog_id) && (((tLRPC$UserFull = this.userInfo) != null && tLRPC$UserFull.stories_pinned_available) || isStoriesView())) {
+            if (DialogObject.isUserDialog(this.dialog_id) && !DialogObject.isEncryptedDialog(this.dialog_id) && ((((tLRPC$UserFull = this.userInfo) != null && tLRPC$UserFull.stories_pinned_available) || isStoriesView()) && includeStories())) {
                 if (!this.scrollSlidingTextTabStrip.hasTab(8)) {
                     this.scrollSlidingTextTabStrip.addTextTab(8, LocaleController.getString("ProfileStories", R.string.ProfileStories), removeTabs);
                 }

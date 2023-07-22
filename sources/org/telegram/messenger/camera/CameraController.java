@@ -522,8 +522,9 @@ public class CameraController implements MediaRecorder.OnInfoListener {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:36:0x00e4  */
-    /* JADX WARN: Removed duplicated region for block: B:44:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x00d0 A[Catch: Exception -> 0x00dd, TRY_LEAVE, TryCatch #2 {Exception -> 0x00dd, blocks: (B:10:0x0053, B:29:0x00b6, B:30:0x00b9, B:32:0x00d0), top: B:45:0x0053 }] */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x00e7  */
+    /* JADX WARN: Removed duplicated region for block: B:52:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -551,45 +552,64 @@ public class CameraController implements MediaRecorder.OnInfoListener {
             e = e;
         }
         try {
+            if (cameraInfo.frontCamera != 0 && z) {
+                try {
+                    Matrix matrix = new Matrix();
+                    if (!z2 && i != -1) {
+                        matrix.setRotate(i);
+                    }
+                    try {
+                        matrix.postScale(-1.0f, 1.0f);
+                        Bitmap createBitmap = Bitmaps.createBitmap(bitmap2, 0, 0, bitmap2.getWidth(), bitmap2.getHeight(), matrix, true);
+                        if (createBitmap != bitmap2) {
+                            bitmap2.recycle();
+                        }
+                        FileOutputStream fileOutputStream = new FileOutputStream(file);
+                        createBitmap.compress(Bitmap.CompressFormat.JPEG, 80, fileOutputStream);
+                        fileOutputStream.flush();
+                        fileOutputStream.getFD().sync();
+                        fileOutputStream.close();
+                        ImageLoader.getInstance().putImageToCache(new BitmapDrawable(createBitmap), format, false);
+                        if (callback != null) {
+                            callback.run(0);
+                            return;
+                        }
+                        return;
+                    } catch (Throwable th2) {
+                        th = th2;
+                        i = 0;
+                        FileLog.e(th);
+                        FileOutputStream fileOutputStream2 = new FileOutputStream(file);
+                        fileOutputStream2.write(bArr);
+                        fileOutputStream2.flush();
+                        fileOutputStream2.getFD().sync();
+                        fileOutputStream2.close();
+                        if (bitmap2 != null) {
+                        }
+                        if (callback != null) {
+                        }
+                    }
+                } catch (Throwable th3) {
+                    th = th3;
+                }
+            }
+            FileOutputStream fileOutputStream22 = new FileOutputStream(file);
+            fileOutputStream22.write(bArr);
+            fileOutputStream22.flush();
+            fileOutputStream22.getFD().sync();
+            fileOutputStream22.close();
+            if (bitmap2 != null) {
+                ImageLoader.getInstance().putImageToCache(new BitmapDrawable(bitmap2), format, false);
+            }
         } catch (Exception e2) {
             e = e2;
             i2 = i;
             FileLog.e(e);
             i = i2;
-            if (callback == null) {
-            }
-        }
-        if (cameraInfo.frontCamera != 0 && z) {
-            Matrix matrix = new Matrix();
-            if (!z2 && i != -1) {
-                matrix.setRotate(i);
-            }
-            matrix.postScale(-1.0f, 1.0f);
-            Bitmap createBitmap = Bitmaps.createBitmap(bitmap2, 0, 0, bitmap2.getWidth(), bitmap2.getHeight(), matrix, true);
-            if (createBitmap != bitmap2) {
-                bitmap2.recycle();
-            }
-            FileOutputStream fileOutputStream = new FileOutputStream(file);
-            createBitmap.compress(Bitmap.CompressFormat.JPEG, 80, fileOutputStream);
-            fileOutputStream.flush();
-            fileOutputStream.getFD().sync();
-            fileOutputStream.close();
-            ImageLoader.getInstance().putImageToCache(new BitmapDrawable(createBitmap), format, false);
             if (callback != null) {
-                callback.run(Integer.valueOf(i));
-                return;
             }
-            return;
         }
-        FileOutputStream fileOutputStream2 = new FileOutputStream(file);
-        fileOutputStream2.write(bArr);
-        fileOutputStream2.flush();
-        fileOutputStream2.getFD().sync();
-        fileOutputStream2.close();
-        if (bitmap2 != null) {
-            ImageLoader.getInstance().putImageToCache(new BitmapDrawable(bitmap2), format, false);
-        }
-        if (callback == null) {
+        if (callback != null) {
             callback.run(Integer.valueOf(i));
         }
     }

@@ -773,7 +773,10 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
             if (i == Theme.key_dialogFloatingButton) {
                 return -10177041;
             }
-            return i == Theme.key_dialogFloatingIcon ? -1 : 0;
+            if (i == Theme.key_dialogFloatingIcon) {
+                return -1;
+            }
+            return i == Theme.key_chat_emojiPanelStickerSetName ? 1946157055 : 0;
         }
     }
 
@@ -788,6 +791,7 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
         }
         EmojiView emojiView2 = new EmojiView(null, true, false, false, getContext(), false, null, null, true, this.resourcesProvider);
         this.emojiView = emojiView2;
+        emojiView2.emojiCacheType = 3;
         emojiView2.setDelegate(new EmojiView.EmojiViewDelegate() { // from class: org.telegram.ui.Components.PhotoViewerCaptionEnterView.3
             @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
             public /* synthetic */ boolean canSchedule() {
@@ -974,6 +978,7 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
                         }
                         if (!z) {
                             animatedEmojiSpan.fromEmojiKeyboard = true;
+                            animatedEmojiSpan.cacheType = 3;
                         }
                         spannableString.setSpan(animatedEmojiSpan, 0, spannableString.length(), 33);
                         PhotoViewerCaptionEnterView.this.messageEditText.setText(PhotoViewerCaptionEnterView.this.messageEditText.getText().insert(selectionEnd, spannableString));

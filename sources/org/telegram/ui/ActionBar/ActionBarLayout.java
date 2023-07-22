@@ -911,6 +911,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
             if (actionBar != null && actionBar.shouldAddToContainer() && (viewGroup = (ViewGroup) baseFragment3.actionBar.getParent()) != null) {
                 viewGroup.removeViewInLayout(baseFragment3.actionBar);
             }
+            baseFragment3.detachStoryViewer();
         }
         this.containerViewBack.setVisibility(4);
         this.startedTracking = false;

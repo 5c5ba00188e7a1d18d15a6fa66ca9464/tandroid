@@ -134,7 +134,7 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
     public boolean onFragmentCreate() {
         this.type = getArguments().getInt("type", 0);
         this.dialogId = getArguments().getLong("dialog_id");
-        this.initialTab = getArguments().getInt("start_from", 8);
+        this.initialTab = getArguments().getInt("start_from", this.type == 0 ? 0 : 8);
         getNotificationCenter().addObserver(this, NotificationCenter.userInfoDidLoad);
         getNotificationCenter().addObserver(this, NotificationCenter.currentUserPremiumStatusChanged);
         getNotificationCenter().addObserver(this, NotificationCenter.storiesEnabledUpdate);
@@ -557,6 +557,11 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
 
             @Override // org.telegram.ui.Components.SharedMediaLayout
             protected boolean isStoriesView() {
+                return MediaActivity.this.type == 1;
+            }
+
+            @Override // org.telegram.ui.Components.SharedMediaLayout
+            protected boolean includeStories() {
                 return MediaActivity.this.type == 1;
             }
 

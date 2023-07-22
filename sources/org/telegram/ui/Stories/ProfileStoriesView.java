@@ -190,7 +190,7 @@ public class ProfileStoriesView extends View implements NotificationCenter.Notif
         TLRPC$UserFull tLRPC$UserFull = this.userFull;
         TLRPC$TL_userStories tLRPC$TL_userStories = (tLRPC$UserFull == null || z3) ? null : tLRPC$UserFull.stories;
         TLRPC$TL_userStories stories = MessagesController.getInstance(this.currentAccount).getStoriesController().getStories(this.userId);
-        TLRPC$TL_userStories tLRPC$TL_userStories2 = this.userId == 0 ? null : stories != null ? stories : tLRPC$TL_userStories;
+        TLRPC$TL_userStories tLRPC$TL_userStories2 = this.userId == 0 ? null : tLRPC$TL_userStories;
         int max = tLRPC$TL_userStories != null ? Math.max(0, tLRPC$TL_userStories.max_read_id) : 0;
         if (stories != null) {
             max = Math.max(max, stories.max_read_id);
