@@ -123,6 +123,7 @@ import java.io.RandomAccessFile;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.net.IDN;
+import java.nio.ByteBuffer;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.text.SimpleDateFormat;
@@ -5334,5 +5335,14 @@ public class AndroidUtilities {
             Thread.sleep(j);
         } catch (InterruptedException unused) {
         }
+    }
+
+    public static ByteBuffer cloneByteBuffer(ByteBuffer byteBuffer) {
+        ByteBuffer allocate = ByteBuffer.allocate(byteBuffer.capacity());
+        byteBuffer.rewind();
+        allocate.put(byteBuffer);
+        byteBuffer.rewind();
+        allocate.flip();
+        return allocate;
     }
 }

@@ -334,7 +334,8 @@ public final class MediaCodecUtil {
         MediaCodecListCompat mediaCodecListCompatV16;
         synchronized (MediaCodecUtil.class) {
             CodecKey codecKey = new CodecKey(str, z, z2);
-            List<MediaCodecInfo> list = decoderInfosCache.get(codecKey);
+            HashMap<CodecKey, List<MediaCodecInfo>> hashMap = decoderInfosCache;
+            List<MediaCodecInfo> list = hashMap.get(codecKey);
             if (list != null) {
                 return list;
             }
@@ -345,7 +346,6 @@ public final class MediaCodecUtil {
                 mediaCodecListCompatV16 = new MediaCodecListCompatV16();
             }
             ArrayList<MediaCodecInfo> decoderInfosInternal = getDecoderInfosInternal(codecKey, mediaCodecListCompatV16);
-            int i2 = 0;
             if (z && decoderInfosInternal.isEmpty() && 21 <= i && i <= 23) {
                 decoderInfosInternal = getDecoderInfosInternal(codecKey, new MediaCodecListCompatV16());
                 if (!decoderInfosInternal.isEmpty()) {
@@ -353,15 +353,8 @@ public final class MediaCodecUtil {
                 }
             }
             applyWorkarounds(str, decoderInfosInternal);
-            while (i2 < decoderInfosInternal.size()) {
-                if (decoderInfosInternal.get(i2).name.equals("c2.exynos.hevc.decoder")) {
-                    decoderInfosInternal.remove(i2);
-                    i2--;
-                }
-                i2++;
-            }
             ImmutableList copyOf = ImmutableList.copyOf((Collection) decoderInfosInternal);
-            decoderInfosCache.put(codecKey, copyOf);
+            hashMap.put(codecKey, copyOf);
             return copyOf;
         }
     }

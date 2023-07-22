@@ -2908,11 +2908,11 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                                             bufferInfo3.offset = bufferInfo4.offset;
                                             bufferInfo3.flags = bufferInfo4.flags;
                                             bufferInfo3.presentationTimeUs = bufferInfo4.presentationTimeUs;
-                                            final ByteBuffer duplicate = outputBuffer.duplicate();
+                                            final ByteBuffer cloneByteBuffer = AndroidUtilities.cloneByteBuffer(outputBuffer);
                                             this.fileWriteQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.InstantCameraView$VideoRecorder$$ExternalSyntheticLambda6
                                                 @Override // java.lang.Runnable
                                                 public final void run() {
-                                                    InstantCameraView.VideoRecorder.this.lambda$drainEncoder$7(duplicate, bufferInfo3);
+                                                    InstantCameraView.VideoRecorder.this.lambda$drainEncoder$7(cloneByteBuffer, bufferInfo3);
                                                 }
                                             });
                                         } else {
@@ -3018,11 +3018,11 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                             bufferInfo6.offset = bufferInfo7.offset;
                             bufferInfo6.flags = bufferInfo7.flags;
                             bufferInfo6.presentationTimeUs = bufferInfo7.presentationTimeUs;
-                            final ByteBuffer duplicate2 = outputBuffer2.duplicate();
+                            final ByteBuffer cloneByteBuffer2 = AndroidUtilities.cloneByteBuffer(outputBuffer2);
                             this.fileWriteQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.InstantCameraView$VideoRecorder$$ExternalSyntheticLambda5
                                 @Override // java.lang.Runnable
                                 public final void run() {
-                                    InstantCameraView.VideoRecorder.this.lambda$drainEncoder$8(duplicate2, bufferInfo6);
+                                    InstantCameraView.VideoRecorder.this.lambda$drainEncoder$8(cloneByteBuffer2, bufferInfo6);
                                 }
                             });
                             this.audioEncoder.releaseOutputBuffer(dequeueOutputBuffer2, false);

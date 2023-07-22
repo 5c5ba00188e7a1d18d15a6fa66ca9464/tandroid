@@ -932,6 +932,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
 
     public void openOverscrollSelectedStory() {
         openStoryForCell(this.overscrollSelectedView);
+        performHapticFeedback(3);
     }
 
     public void setActionBar(ActionBar actionBar) {
