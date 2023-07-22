@@ -8515,6 +8515,16 @@ public class MessageObject {
         return isVideoMessage(this.messageOwner);
     }
 
+    public boolean isVideoStory() {
+        TLRPC$StoryItem tLRPC$StoryItem;
+        TLRPC$MessageMedia tLRPC$MessageMedia;
+        TLRPC$MessageMedia media = getMedia(this.messageOwner);
+        if (media == null || (tLRPC$StoryItem = media.storyItem) == null || (tLRPC$MessageMedia = tLRPC$StoryItem.media) == null) {
+            return false;
+        }
+        return isVideoDocument(tLRPC$MessageMedia.document);
+    }
+
     public boolean isPhoto() {
         return isPhoto(this.messageOwner);
     }
@@ -8647,11 +8657,16 @@ public class MessageObject {
     }
 
     public double getDuration() {
+        TLRPC$StoryItem tLRPC$StoryItem;
+        TLRPC$MessageMedia tLRPC$MessageMedia;
         double d = this.attributeDuration;
         if (d > 0.0d) {
             return d;
         }
         TLRPC$Document document = getDocument();
+        if (document == null && this.type == 23 && (tLRPC$StoryItem = getMedia(this.messageOwner).storyItem) != null && (tLRPC$MessageMedia = tLRPC$StoryItem.media) != null) {
+            document = tLRPC$MessageMedia.document;
+        }
         if (document == null) {
             return 0.0d;
         }

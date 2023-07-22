@@ -24332,8 +24332,8 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         return i3 - AndroidUtilities.dp((this.isAvatarVisible ? 48 : 0) + 31);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:87:0x011c, code lost:
-        if ((r12 & 2) != 0) goto L49;
+    /* JADX WARN: Code restructure failed: missing block: B:93:0x0132, code lost:
+        if ((r2 & 2) != 0) goto L55;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -24343,40 +24343,44 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         int i;
         int i2;
         int i3;
-        int i4;
-        boolean isLoadingVideo;
-        int i5;
         boolean z5;
+        boolean z6;
+        boolean isLoadingVideo;
+        int i4;
+        boolean z7;
+        int i5;
+        boolean z8;
         int i6;
         int i7;
-        int i8;
-        boolean z6;
-        int i9;
-        int i10;
         MessageObject messageObject;
         MessageObject.GroupedMessagePosition groupedMessagePosition;
         MessageObject messageObject2 = this.currentMessageObject;
         if (messageObject2 == null) {
             return;
         }
-        boolean z7 = (!z2 || (!PhotoViewer.isShowingImage(messageObject2) && this.attachedToWindow)) ? z2 : false;
+        if (messageObject2.type == 23 && messageObject2.isVideoStory()) {
+            this.buttonState = 2;
+            getIconForCurrentState();
+            return;
+        }
+        boolean z9 = (!z2 || (!PhotoViewer.isShowingImage(this.currentMessageObject) && this.attachedToWindow)) ? z2 : false;
         this.drawRadialCheckBackground = false;
         String str = null;
         MessageObject messageObject3 = this.currentMessageObject;
-        int i11 = messageObject3.type;
-        if (i11 == 1) {
+        int i8 = messageObject3.type;
+        if (i8 == 1) {
             TLRPC$PhotoSize tLRPC$PhotoSize = this.currentPhotoObject;
             if (tLRPC$PhotoSize == null) {
-                this.radialProgress.setIcon(4, z, z7);
+                this.radialProgress.setIcon(4, z, z9);
                 return;
             } else {
                 str = FileLoader.getAttachFileName(tLRPC$PhotoSize);
                 z4 = this.currentMessageObject.mediaExists;
             }
-        } else if (i11 == 8 || (i2 = this.documentAttachType) == 7 || i2 == 4 || i2 == 8 || i11 == 9 || i2 == 3 || i2 == 5) {
+        } else if (i8 == 8 || (i2 = this.documentAttachType) == 7 || i2 == 4 || i2 == 8 || i8 == 9 || i2 == 3 || i2 == 5) {
             if (messageObject3.useCustomPhoto) {
                 this.buttonState = 1;
-                this.radialProgress.setIcon(getIconForCurrentState(), z, z7);
+                this.radialProgress.setIcon(getIconForCurrentState(), z, z9);
                 return;
             } else if (messageObject3.attachPathExists && !TextUtils.isEmpty(messageObject3.messageOwner.attachPath)) {
                 str = this.currentMessageObject.messageOwner.attachPath;
@@ -24402,16 +24406,21 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         TLRPC$Document tLRPC$Document = this.documentAttach;
         boolean canDownloadMedia = (tLRPC$Document == null || tLRPC$Document.dc_id != Integer.MIN_VALUE) ? DownloadController.getInstance(this.currentAccount).canDownloadMedia(this.currentMessageObject) : false;
         this.canStreamVideo = (this.currentMessageObject.isSent() || this.currentMessageObject.isForwarded()) && ((i3 = this.documentAttachType) == 4 || i3 == 7 || (i3 == 2 && canDownloadMedia)) && this.currentMessageObject.canStreamVideo() && !this.currentMessageObject.needDrawBluredPreview();
-        if (SharedConfig.streamMedia && ((int) this.currentMessageObject.getDialogId()) != 0 && !this.currentMessageObject.isSecretMedia()) {
-            if (this.documentAttachType != 5) {
-                if (this.canStreamVideo && (groupedMessagePosition = this.currentPosition) != null) {
-                    int i12 = groupedMessagePosition.flags;
-                    if ((i12 & 1) != 0) {
+        if (SharedConfig.streamMedia) {
+            z5 = z9;
+            if (((int) this.currentMessageObject.getDialogId()) != 0 && !this.currentMessageObject.isSecretMedia()) {
+                if (this.documentAttachType != 5) {
+                    if (this.canStreamVideo && (groupedMessagePosition = this.currentPosition) != null) {
+                        int i9 = groupedMessagePosition.flags;
+                        if ((i9 & 1) != 0) {
+                        }
                     }
                 }
+                this.hasMiniProgress = z4 ? 1 : 2;
+                z4 = true;
             }
-            this.hasMiniProgress = z4 ? 1 : 2;
-            z4 = true;
+        } else {
+            z5 = z9;
         }
         if (this.currentMessageObject.isSendError() || (TextUtils.isEmpty(str) && (this.currentMessageObject.isAnyKindOfSticker() || (!this.currentMessageObject.isSending() && !this.currentMessageObject.isEditing())))) {
             this.radialProgress.setIcon(4, z, false);
@@ -24421,10 +24430,11 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             return;
         }
         HashMap<String, String> hashMap = this.currentMessageObject.messageOwner.params;
-        boolean z8 = hashMap != null && hashMap.containsKey("query_id");
-        int i13 = this.documentAttachType;
-        if (i13 == 3 || i13 == 5 || (i13 == 7 && (messageObject = this.currentMessageObject) != null && messageObject.isVoiceTranscriptionOpen() && this.canStreamVideo)) {
-            if ((this.currentMessageObject.isOut() && ((this.currentMessageObject.isSending() && !this.currentMessageObject.isForwarded()) || (this.currentMessageObject.isEditing() && this.currentMessageObject.isEditingMedia()))) || (this.currentMessageObject.isSendError() && z8)) {
+        boolean z10 = hashMap != null && hashMap.containsKey("query_id");
+        int i10 = this.documentAttachType;
+        if (i10 == 3 || i10 == 5 || (i10 == 7 && (messageObject = this.currentMessageObject) != null && messageObject.isVoiceTranscriptionOpen() && this.canStreamVideo)) {
+            z6 = z5;
+            if ((this.currentMessageObject.isOut() && ((this.currentMessageObject.isSending() && !this.currentMessageObject.isForwarded()) || (this.currentMessageObject.isEditing() && this.currentMessageObject.isEditingMedia()))) || (this.currentMessageObject.isSendError() && z10)) {
                 if (!TextUtils.isEmpty(this.currentMessageObject.messageOwner.attachPath)) {
                     DownloadController downloadController = DownloadController.getInstance(this.currentAccount);
                     MessageObject messageObject4 = this.currentMessageObject;
@@ -24435,19 +24445,19 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                     if (this.currentPosition != null && isSendingMessage && this.buttonState == 4) {
                         this.drawRadialCheckBackground = true;
                         getIconForCurrentState();
-                        this.radialProgress.setIcon(6, z, z7);
+                        this.radialProgress.setIcon(6, z, z6);
                     } else {
-                        this.radialProgress.setIcon(getIconForCurrentState(), z, z7);
+                        this.radialProgress.setIcon(getIconForCurrentState(), z, z6);
                     }
-                    this.radialProgress.setMiniIcon(4, z, z7);
-                    if (!z8) {
+                    this.radialProgress.setMiniIcon(4, z, z6);
+                    if (!z10) {
                         long[] fileProgressSizes = ImageLoader.getInstance().getFileProgressSizes(this.currentMessageObject.messageOwner.attachPath);
                         if (fileProgressSizes == null && isSendingMessage) {
-                            r14 = 1.0f;
+                            r15 = 1.0f;
                         } else if (fileProgressSizes != null) {
-                            r14 = DownloadController.getProgress(fileProgressSizes);
+                            r15 = DownloadController.getProgress(fileProgressSizes);
                         }
-                        this.radialProgress.setProgress(r14, false);
+                        this.radialProgress.setProgress(r15, false);
                     } else {
                         this.radialProgress.setProgress(0.0f, false);
                     }
@@ -24461,14 +24471,12 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             } else if (this.hasMiniProgress != 0) {
                 this.radialProgress.setMiniProgressBackgroundColor(getThemedColor(this.currentMessageObject.isOutOwner() ? Theme.key_chat_outLoader : Theme.key_chat_inLoader));
                 if (!MediaController.getInstance().isPlayingMessage(this.currentMessageObject) || MediaController.getInstance().isMessagePaused()) {
-                    i4 = 1;
                     this.buttonState = 0;
                 } else {
-                    i4 = 1;
                     this.buttonState = 1;
                 }
-                this.radialProgress.setIcon(getIconForCurrentState(), z, z7);
-                if (this.hasMiniProgress == i4) {
+                this.radialProgress.setIcon(getIconForCurrentState(), z, z6);
+                if (this.hasMiniProgress == 1) {
                     DownloadController.getInstance(this.currentAccount).removeLoadingFileObserver(this);
                     this.miniButtonState = -1;
                 } else {
@@ -24480,15 +24488,15 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                         this.miniButtonState = 1;
                         long[] fileProgressSizes2 = ImageLoader.getInstance().getFileProgressSizes(str);
                         if (fileProgressSizes2 != null) {
-                            this.radialProgress.setProgress(DownloadController.getProgress(fileProgressSizes2), z7);
+                            this.radialProgress.setProgress(DownloadController.getProgress(fileProgressSizes2), z6);
                             createLoadingProgressLayout(fileProgressSizes2[0], fileProgressSizes2[1]);
                         } else {
-                            this.radialProgress.setProgress(0.0f, z7);
+                            this.radialProgress.setProgress(0.0f, z6);
                             createLoadingProgressLayout(0L, this.currentMessageObject.getSize());
                         }
                     }
                 }
-                this.radialProgress.setMiniIcon(getMiniIconForCurrentState(), z, z7);
+                this.radialProgress.setMiniIcon(getMiniIconForCurrentState(), z, z6);
             } else if (z4) {
                 DownloadController.getInstance(this.currentAccount).removeLoadingFileObserver(this);
                 if (!MediaController.getInstance().isPlayingMessage(this.currentMessageObject) || MediaController.getInstance().isMessagePaused()) {
@@ -24496,7 +24504,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 } else {
                     this.buttonState = 1;
                 }
-                this.radialProgress.setIcon(getIconForCurrentState(), z, z7);
+                this.radialProgress.setIcon(getIconForCurrentState(), z, z6);
             } else {
                 DownloadController.getInstance(this.currentAccount).addLoadingFileObserver(str, this.currentMessageObject, this);
                 if (!FileLoader.getInstance(this.currentAccount).isLoadingFile(str)) {
@@ -24505,19 +24513,19 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                     this.buttonState = 4;
                     long[] fileProgressSizes3 = ImageLoader.getInstance().getFileProgressSizes(str);
                     if (fileProgressSizes3 != null) {
-                        this.radialProgress.setProgress(DownloadController.getProgress(fileProgressSizes3), z7);
+                        this.radialProgress.setProgress(DownloadController.getProgress(fileProgressSizes3), z6);
                         createLoadingProgressLayout(fileProgressSizes3[0], fileProgressSizes3[1]);
                     } else {
                         createLoadingProgressLayout(this.documentAttach);
-                        this.radialProgress.setProgress(0.0f, z7);
+                        this.radialProgress.setProgress(0.0f, z6);
                     }
                 }
-                this.radialProgress.setIcon(getIconForCurrentState(), z, z7);
+                this.radialProgress.setIcon(getIconForCurrentState(), z, z6);
             }
             updatePlayingMessageProgress();
         } else {
             MessageObject messageObject5 = this.currentMessageObject;
-            if (messageObject5.type == 0 && (i9 = this.documentAttachType) != 1 && i9 != 10 && i9 != 2 && i9 != 4 && i9 != 8 && i9 != 9) {
+            if (messageObject5.type == 0 && (i6 = this.documentAttachType) != 1 && i6 != 10 && i6 != 2 && i6 != 4 && i6 != 8 && i6 != 9) {
                 if (this.currentPhotoObject == null || !this.drawImageButton) {
                     return;
                 }
@@ -24525,7 +24533,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                     DownloadController.getInstance(this.currentAccount).addLoadingFileObserver(str, this.currentMessageObject, this);
                     if (!FileLoader.getInstance(this.currentAccount).isLoadingFile(str)) {
                         MessageObject messageObject6 = this.currentMessageObject;
-                        if (!messageObject6.loadingCancelled && canDownloadMedia && ((i10 = this.documentAttachType) == 0 || (i10 == 2 && MessageObject.isGifDocument(this.documentAttach, messageObject6.hasValidGroupId())))) {
+                        if (!messageObject6.loadingCancelled && canDownloadMedia && ((i7 = this.documentAttachType) == 0 || (i7 == 2 && MessageObject.isGifDocument(this.documentAttach, messageObject6.hasValidGroupId())))) {
                             this.buttonState = 1;
                         } else {
                             this.buttonState = 0;
@@ -24533,7 +24541,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                     } else {
                         this.buttonState = 1;
                         long[] fileProgressSizes4 = ImageLoader.getInstance().getFileProgressSizes(str);
-                        r14 = fileProgressSizes4 != null ? DownloadController.getProgress(fileProgressSizes4) : 0.0f;
+                        r15 = fileProgressSizes4 != null ? DownloadController.getProgress(fileProgressSizes4) : 0.0f;
                         if (fileProgressSizes4 != null && fileProgressSizes4[0] == fileProgressSizes4[1]) {
                             createLoadingProgressLayout(fileProgressSizes4[0], fileProgressSizes4[1]);
                         } else if (this.currentMessageObject.getDocument() != null) {
@@ -24541,7 +24549,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                             createLoadingProgressLayout(messageObject7.loadedFileSize, messageObject7.getSize());
                         }
                     }
-                    this.radialProgress.setProgress(r14, false);
+                    this.radialProgress.setProgress(r15, false);
                 } else {
                     DownloadController.getInstance(this.currentAccount).removeLoadingFileObserver(this);
                     if (this.documentAttachType == 2 && !this.photoImage.isAllowStartAnimation()) {
@@ -24550,235 +24558,234 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                         this.buttonState = -1;
                     }
                 }
-                this.radialProgress.setIcon(getIconForCurrentState(), z, z7);
+                z6 = z5;
+                this.radialProgress.setIcon(getIconForCurrentState(), z, z6);
                 invalidate();
-            } else if (messageObject5.isOut() && ((this.currentMessageObject.isSending() && !this.currentMessageObject.isForwarded()) || (this.currentMessageObject.isEditing() && this.currentMessageObject.isEditingMedia()))) {
-                if (!TextUtils.isEmpty(this.currentMessageObject.messageOwner.attachPath)) {
-                    DownloadController downloadController2 = DownloadController.getInstance(this.currentAccount);
-                    MessageObject messageObject8 = this.currentMessageObject;
-                    downloadController2.addLoadingFileObserver(messageObject8.messageOwner.attachPath, messageObject8, this);
-                    this.wasSending = true;
-                    String str2 = this.currentMessageObject.messageOwner.attachPath;
-                    boolean z9 = str2 == null || !str2.startsWith("http");
-                    TLRPC$Message tLRPC$Message = this.currentMessageObject.messageOwner;
-                    HashMap<String, String> hashMap2 = tLRPC$Message.params;
-                    if (tLRPC$Message.message != null && hashMap2 != null && (hashMap2.containsKey("url") || hashMap2.containsKey("bot"))) {
-                        this.buttonState = -1;
-                        z9 = false;
-                        z6 = true;
-                    } else {
-                        z6 = true;
-                        this.buttonState = 1;
-                    }
-                    boolean isSendingMessage2 = SendMessagesHelper.getInstance(this.currentAccount).isSendingMessage(this.currentMessageObject.getId());
-                    if (this.currentPosition != null && isSendingMessage2 && this.buttonState == z6) {
-                        this.drawRadialCheckBackground = z6;
-                        getIconForCurrentState();
-                        this.radialProgress.setIcon(6, z, z7);
-                    } else {
-                        this.radialProgress.setIcon(getIconForCurrentState(), z, z7);
-                    }
-                    if (z9) {
-                        long[] fileProgressSizes5 = ImageLoader.getInstance().getFileProgressSizes(this.currentMessageObject.messageOwner.attachPath);
-                        if (fileProgressSizes5 == null && isSendingMessage2) {
-                            r14 = 1.0f;
-                        } else if (fileProgressSizes5 != null) {
-                            r14 = DownloadController.getProgress(fileProgressSizes5);
-                            createLoadingProgressLayout(fileProgressSizes5[0], fileProgressSizes5[1]);
-                        }
-                        this.radialProgress.setProgress(r14, false);
-                    } else {
-                        this.radialProgress.setProgress(0.0f, false);
-                    }
-                    invalidate();
-                    i8 = 4;
-                } else {
-                    getIconForCurrentState();
-                    if (this.currentMessageObject.isSticker() || this.currentMessageObject.isAnimatedSticker() || this.currentMessageObject.isLocation() || this.currentMessageObject.isGif() || this.documentAttachType == 10) {
-                        this.buttonState = -1;
-                        i8 = 4;
-                        this.radialProgress.setIcon(4, z, false);
-                    } else {
-                        this.buttonState = 1;
-                        this.radialProgress.setIcon(12, z, false);
-                        i8 = 4;
-                    }
-                    this.radialProgress.setProgress(0.0f, false);
-                }
-                this.videoRadialProgress.setIcon(i8, z, false);
             } else {
-                if (this.wasSending && !TextUtils.isEmpty(this.currentMessageObject.messageOwner.attachPath)) {
-                    DownloadController.getInstance(this.currentAccount).removeLoadingFileObserver(this);
-                }
-                int i14 = this.documentAttachType;
-                if ((i14 == 4 || i14 == 2 || i14 == 7) && this.autoPlayingMedia) {
-                    isLoadingVideo = FileLoader.getInstance(this.currentAccount).isLoadingVideo(this.documentAttach, MediaController.getInstance().isPlayingMessage(this.currentMessageObject));
-                    AnimatedFileDrawable animation = this.photoImage.getAnimation();
-                    if (animation != null) {
-                        MessageObject messageObject9 = this.currentMessageObject;
-                        if (messageObject9.hadAnimationNotReadyLoading) {
-                            if (animation.hasBitmap()) {
-                                this.currentMessageObject.hadAnimationNotReadyLoading = false;
-                            }
+                z6 = z5;
+                if (messageObject5.isOut() && ((this.currentMessageObject.isSending() && !this.currentMessageObject.isForwarded()) || (this.currentMessageObject.isEditing() && this.currentMessageObject.isEditingMedia()))) {
+                    if (!TextUtils.isEmpty(this.currentMessageObject.messageOwner.attachPath)) {
+                        DownloadController downloadController2 = DownloadController.getInstance(this.currentAccount);
+                        MessageObject messageObject8 = this.currentMessageObject;
+                        downloadController2.addLoadingFileObserver(messageObject8.messageOwner.attachPath, messageObject8, this);
+                        this.wasSending = true;
+                        String str2 = this.currentMessageObject.messageOwner.attachPath;
+                        boolean z11 = str2 == null || !str2.startsWith("http");
+                        TLRPC$Message tLRPC$Message = this.currentMessageObject.messageOwner;
+                        HashMap<String, String> hashMap2 = tLRPC$Message.params;
+                        if (tLRPC$Message.message != null && hashMap2 != null && (hashMap2.containsKey("url") || hashMap2.containsKey("bot"))) {
+                            this.buttonState = -1;
+                            z11 = false;
                         } else {
-                            messageObject9.hadAnimationNotReadyLoading = isLoadingVideo && !animation.hasBitmap();
+                            this.buttonState = 1;
                         }
-                    } else if (this.documentAttachType == 2 && !z4) {
-                        this.currentMessageObject.hadAnimationNotReadyLoading = true;
-                    }
-                } else {
-                    isLoadingVideo = false;
-                }
-                if (this.hasMiniProgress != 0) {
-                    this.radialProgress.setMiniProgressBackgroundColor(getThemedColor(Theme.key_chat_inLoaderPhoto));
-                    this.buttonState = 3;
-                    this.radialProgress.setIcon(getIconForCurrentState(), z, z7);
-                    if (this.hasMiniProgress == 1) {
-                        DownloadController.getInstance(this.currentAccount).removeLoadingFileObserver(this);
-                        this.miniButtonState = -1;
-                    } else {
-                        DownloadController.getInstance(this.currentAccount).addLoadingFileObserver(str, this.currentMessageObject, this);
-                        if (!FileLoader.getInstance(this.currentAccount).isLoadingFile(str)) {
-                            this.miniButtonState = 0;
+                        boolean isSendingMessage2 = SendMessagesHelper.getInstance(this.currentAccount).isSendingMessage(this.currentMessageObject.getId());
+                        if (this.currentPosition != null && isSendingMessage2 && this.buttonState == 1) {
+                            this.drawRadialCheckBackground = true;
+                            getIconForCurrentState();
+                            this.radialProgress.setIcon(6, z, z6);
                         } else {
-                            this.miniButtonState = 1;
-                            long[] fileProgressSizes6 = ImageLoader.getInstance().getFileProgressSizes(str);
-                            if (fileProgressSizes6 != null) {
-                                createLoadingProgressLayout(fileProgressSizes6[0], fileProgressSizes6[1]);
-                                this.radialProgress.setProgress(DownloadController.getProgress(fileProgressSizes6), z7);
+                            this.radialProgress.setIcon(getIconForCurrentState(), z, z6);
+                        }
+                        if (z11) {
+                            long[] fileProgressSizes5 = ImageLoader.getInstance().getFileProgressSizes(this.currentMessageObject.messageOwner.attachPath);
+                            if (fileProgressSizes5 == null && isSendingMessage2) {
+                                z8 = false;
+                                r15 = 1.0f;
+                            } else if (fileProgressSizes5 != null) {
+                                r15 = DownloadController.getProgress(fileProgressSizes5);
+                                z8 = false;
+                                createLoadingProgressLayout(fileProgressSizes5[0], fileProgressSizes5[1]);
                             } else {
-                                createLoadingProgressLayout(this.documentAttach);
-                                this.radialProgress.setProgress(0.0f, z7);
+                                z8 = false;
+                            }
+                            this.radialProgress.setProgress(r15, z8);
+                        } else {
+                            this.radialProgress.setProgress(0.0f, false);
+                        }
+                        invalidate();
+                        z7 = false;
+                    } else {
+                        getIconForCurrentState();
+                        if (this.currentMessageObject.isSticker() || this.currentMessageObject.isAnimatedSticker() || this.currentMessageObject.isLocation() || this.currentMessageObject.isGif()) {
+                            z7 = false;
+                            i5 = -1;
+                        } else if (this.documentAttachType == 10) {
+                            i5 = -1;
+                            z7 = false;
+                        } else {
+                            this.buttonState = 1;
+                            z7 = false;
+                            this.radialProgress.setIcon(12, z, false);
+                            this.radialProgress.setProgress(0.0f, z7);
+                        }
+                        this.buttonState = i5;
+                        this.radialProgress.setIcon(4, z, z7);
+                        this.radialProgress.setProgress(0.0f, z7);
+                    }
+                    this.videoRadialProgress.setIcon(4, z, z7);
+                } else {
+                    if (this.wasSending && !TextUtils.isEmpty(this.currentMessageObject.messageOwner.attachPath)) {
+                        DownloadController.getInstance(this.currentAccount).removeLoadingFileObserver(this);
+                    }
+                    int i11 = this.documentAttachType;
+                    if ((i11 == 4 || i11 == 2 || i11 == 7) && this.autoPlayingMedia) {
+                        isLoadingVideo = FileLoader.getInstance(this.currentAccount).isLoadingVideo(this.documentAttach, MediaController.getInstance().isPlayingMessage(this.currentMessageObject));
+                        AnimatedFileDrawable animation = this.photoImage.getAnimation();
+                        if (animation != null) {
+                            MessageObject messageObject9 = this.currentMessageObject;
+                            if (messageObject9.hadAnimationNotReadyLoading) {
+                                if (animation.hasBitmap()) {
+                                    this.currentMessageObject.hadAnimationNotReadyLoading = false;
+                                }
+                            } else {
+                                messageObject9.hadAnimationNotReadyLoading = isLoadingVideo && !animation.hasBitmap();
+                            }
+                        } else if (this.documentAttachType == 2 && !z4) {
+                            this.currentMessageObject.hadAnimationNotReadyLoading = true;
+                        }
+                    } else {
+                        isLoadingVideo = false;
+                    }
+                    if (this.hasMiniProgress != 0) {
+                        this.radialProgress.setMiniProgressBackgroundColor(getThemedColor(Theme.key_chat_inLoaderPhoto));
+                        this.buttonState = 3;
+                        this.radialProgress.setIcon(getIconForCurrentState(), z, z6);
+                        if (this.hasMiniProgress == 1) {
+                            DownloadController.getInstance(this.currentAccount).removeLoadingFileObserver(this);
+                            this.miniButtonState = -1;
+                        } else {
+                            DownloadController.getInstance(this.currentAccount).addLoadingFileObserver(str, this.currentMessageObject, this);
+                            if (!FileLoader.getInstance(this.currentAccount).isLoadingFile(str)) {
+                                this.miniButtonState = 0;
+                            } else {
+                                this.miniButtonState = 1;
+                                long[] fileProgressSizes6 = ImageLoader.getInstance().getFileProgressSizes(str);
+                                if (fileProgressSizes6 != null) {
+                                    createLoadingProgressLayout(fileProgressSizes6[0], fileProgressSizes6[1]);
+                                    this.radialProgress.setProgress(DownloadController.getProgress(fileProgressSizes6), z6);
+                                } else {
+                                    createLoadingProgressLayout(this.documentAttach);
+                                    this.radialProgress.setProgress(0.0f, z6);
+                                }
                             }
                         }
-                    }
-                    this.radialProgress.setMiniIcon(getMiniIconForCurrentState(), z, z7);
-                } else if (z4 || (((i6 = this.documentAttachType) == 4 || i6 == 2 || i6 == 7) && this.autoPlayingMedia && !this.currentMessageObject.hadAnimationNotReadyLoading && !isLoadingVideo)) {
-                    DownloadController.getInstance(this.currentAccount).removeLoadingFileObserver(this);
-                    if (this.drawVideoImageButton && z7) {
-                        int i15 = this.animatingDrawVideoImageButton;
-                        if (i15 != 1 && this.animatingDrawVideoImageButtonProgress > 0.0f) {
-                            if (i15 == 0) {
-                                this.animatingDrawVideoImageButtonProgress = 1.0f;
+                        this.radialProgress.setMiniIcon(getMiniIconForCurrentState(), z, z6);
+                    } else if (z4 || (((i4 = this.documentAttachType) == 4 || i4 == 2 || i4 == 7) && this.autoPlayingMedia && !this.currentMessageObject.hadAnimationNotReadyLoading && !isLoadingVideo)) {
+                        DownloadController.getInstance(this.currentAccount).removeLoadingFileObserver(this);
+                        if (this.drawVideoImageButton && z6) {
+                            int i12 = this.animatingDrawVideoImageButton;
+                            if (i12 != 1 && this.animatingDrawVideoImageButtonProgress > 0.0f) {
+                                if (i12 == 0) {
+                                    this.animatingDrawVideoImageButtonProgress = 1.0f;
+                                }
+                                this.animatingDrawVideoImageButton = 1;
                             }
+                        } else if (this.animatingDrawVideoImageButton == 0) {
                             this.animatingDrawVideoImageButton = 1;
                         }
-                    } else if (this.animatingDrawVideoImageButton == 0) {
-                        this.animatingDrawVideoImageButton = 1;
-                    }
-                    this.drawVideoImageButton = false;
-                    this.drawVideoSize = false;
-                    if (this.currentMessageObject.needDrawBluredPreview()) {
-                        this.buttonState = -1;
-                    } else {
-                        int i16 = this.documentAttachType;
-                        if (i16 == 2 && this.currentMessageObject.gifState == 1.0f) {
-                            if (this.photoImage.isAnimationRunning()) {
-                                this.currentMessageObject.gifState = 0.0f;
-                                this.buttonState = -1;
-                            } else {
-                                this.buttonState = 2;
-                            }
-                        } else if (i16 == 4 && !this.hasEmbed) {
-                            this.buttonState = 3;
-                        } else {
+                        this.drawVideoImageButton = false;
+                        this.drawVideoSize = false;
+                        if (this.currentMessageObject.needDrawBluredPreview()) {
                             this.buttonState = -1;
-                        }
-                    }
-                    RadialProgress2 radialProgress2 = this.videoRadialProgress;
-                    if (this.animatingDrawVideoImageButton != 0) {
-                        i5 = 4;
-                        z5 = true;
-                    } else {
-                        i5 = 4;
-                        z5 = false;
-                    }
-                    radialProgress2.setIcon(i5, z, z5);
-                    this.radialProgress.setIcon(getIconForCurrentState(), z, z7);
-                    if (!z3 && this.photoNotSet) {
-                        setMessageObject(this.currentMessageObject, this.currentMessagesGroup, this.pinnedBottom, this.pinnedTop);
-                    }
-                    invalidate();
-                } else {
-                    this.drawVideoSize = i6 == 4 || i6 == 2;
-                    if ((i6 == 4 || i6 == 2 || i6 == 7) && this.canStreamVideo && !this.drawVideoImageButton && z7) {
-                        int i17 = this.animatingDrawVideoImageButton;
-                        if (i17 != 2 && this.animatingDrawVideoImageButtonProgress < 1.0f) {
-                            if (i17 == 0) {
-                                this.animatingDrawVideoImageButtonProgress = 0.0f;
-                            }
-                            this.animatingDrawVideoImageButton = 2;
-                        }
-                    } else if (this.animatingDrawVideoImageButton == 0) {
-                        this.animatingDrawVideoImageButtonProgress = 1.0f;
-                    }
-                    DownloadController.getInstance(this.currentAccount).addLoadingFileObserver(str, this.currentMessageObject, this);
-                    if (!FileLoader.getInstance(this.currentAccount).isLoadingFile(str)) {
-                        MessageObject messageObject10 = this.currentMessageObject;
-                        if (!messageObject10.loadingCancelled && canDownloadMedia) {
-                            this.buttonState = 1;
-                            i7 = 4;
                         } else {
-                            i7 = 4;
-                            if (messageObject10.type == 4) {
+                            int i13 = this.documentAttachType;
+                            if (i13 == 2 && this.currentMessageObject.gifState == 1.0f) {
+                                if (this.photoImage.isAnimationRunning()) {
+                                    this.currentMessageObject.gifState = 0.0f;
+                                    this.buttonState = -1;
+                                } else {
+                                    this.buttonState = 2;
+                                }
+                            } else if (i13 == 4 && !this.hasEmbed) {
+                                this.buttonState = 3;
+                            } else {
+                                this.buttonState = -1;
+                            }
+                        }
+                        this.videoRadialProgress.setIcon(4, z, this.animatingDrawVideoImageButton != 0);
+                        this.radialProgress.setIcon(getIconForCurrentState(), z, z6);
+                        if (!z3 && this.photoNotSet) {
+                            setMessageObject(this.currentMessageObject, this.currentMessagesGroup, this.pinnedBottom, this.pinnedTop);
+                        }
+                        invalidate();
+                    } else {
+                        this.drawVideoSize = i4 == 4 || i4 == 2;
+                        if ((i4 == 4 || i4 == 2 || i4 == 7) && this.canStreamVideo && !this.drawVideoImageButton && z6) {
+                            int i14 = this.animatingDrawVideoImageButton;
+                            if (i14 != 2 && this.animatingDrawVideoImageButtonProgress < 1.0f) {
+                                if (i14 == 0) {
+                                    this.animatingDrawVideoImageButtonProgress = 0.0f;
+                                }
+                                this.animatingDrawVideoImageButton = 2;
+                            }
+                        } else if (this.animatingDrawVideoImageButton == 0) {
+                            this.animatingDrawVideoImageButtonProgress = 1.0f;
+                        }
+                        DownloadController.getInstance(this.currentAccount).addLoadingFileObserver(str, this.currentMessageObject, this);
+                        if (!FileLoader.getInstance(this.currentAccount).isLoadingFile(str)) {
+                            MessageObject messageObject10 = this.currentMessageObject;
+                            if (!messageObject10.loadingCancelled && canDownloadMedia) {
+                                this.buttonState = 1;
+                            } else if (messageObject10.type == 4) {
                                 this.buttonState = -1;
                             } else {
                                 this.buttonState = 0;
                             }
-                        }
-                        int i18 = messageObject10.type;
-                        boolean z10 = i18 == 3 || i18 == 8 || this.documentAttachType == i7;
-                        MessageObject.GroupedMessagePosition groupedMessagePosition2 = this.currentPosition;
-                        boolean z11 = groupedMessagePosition2 == null || (groupedMessagePosition2.flags & 3) == 3;
-                        int i19 = this.documentAttachType;
-                        if ((i19 == 4 || (i19 == 2 && canDownloadMedia)) && this.canStreamVideo && z10 && z11) {
-                            this.drawVideoImageButton = true;
-                            getIconForCurrentState();
-                            this.radialProgress.setIcon(this.autoPlayingMedia ? 4 : 0, z, z7);
-                            this.videoRadialProgress.setIcon(2, z, z7);
+                            int i15 = messageObject10.type;
+                            boolean z12 = i15 == 3 || i15 == 8 || this.documentAttachType == 4;
+                            MessageObject.GroupedMessagePosition groupedMessagePosition2 = this.currentPosition;
+                            boolean z13 = groupedMessagePosition2 == null || (groupedMessagePosition2.flags & 3) == 3;
+                            int i16 = this.documentAttachType;
+                            if ((i16 == 4 || (i16 == 2 && canDownloadMedia)) && this.canStreamVideo && z12 && z13) {
+                                this.drawVideoImageButton = true;
+                                getIconForCurrentState();
+                                this.radialProgress.setIcon(this.autoPlayingMedia ? 4 : 0, z, z6);
+                                this.videoRadialProgress.setIcon(2, z, z6);
+                            } else {
+                                this.drawVideoImageButton = false;
+                                this.radialProgress.setIcon(getIconForCurrentState(), z, z6);
+                                this.videoRadialProgress.setIcon(4, z, false);
+                                if (!this.drawVideoSize && this.animatingDrawVideoImageButton == 0) {
+                                    this.animatingDrawVideoImageButtonProgress = 0.0f;
+                                }
+                            }
                         } else {
-                            this.drawVideoImageButton = false;
-                            this.radialProgress.setIcon(getIconForCurrentState(), z, z7);
-                            this.videoRadialProgress.setIcon(4, z, false);
-                            if (!this.drawVideoSize && this.animatingDrawVideoImageButton == 0) {
-                                this.animatingDrawVideoImageButtonProgress = 0.0f;
+                            this.buttonState = 1;
+                            long[] fileProgressSizes7 = ImageLoader.getInstance().getFileProgressSizes(str);
+                            if (fileProgressSizes7 != null) {
+                                createLoadingProgressLayout(fileProgressSizes7[0], fileProgressSizes7[1]);
+                            } else {
+                                createLoadingProgressLayout(this.documentAttach);
+                            }
+                            MessageObject messageObject11 = this.currentMessageObject;
+                            int i17 = messageObject11.type;
+                            boolean z14 = i17 == 3 || i17 == 8 || this.documentAttachType == 4;
+                            MessageObject.GroupedMessagePosition groupedMessagePosition3 = this.currentPosition;
+                            boolean z15 = groupedMessagePosition3 == null || (groupedMessagePosition3.flags & 3) == 3;
+                            if ((this.documentAttachType == 4 || (MessageObject.isGifDocument(this.documentAttach, messageObject11.hasValidGroupId()) && canDownloadMedia)) && this.canStreamVideo && z14 && z15) {
+                                this.drawVideoImageButton = true;
+                                getIconForCurrentState();
+                                this.radialProgress.setIcon((this.autoPlayingMedia || this.documentAttachType == 2) ? 4 : 0, z, z6);
+                                this.videoRadialProgress.setProgress(fileProgressSizes7 != null ? DownloadController.getProgress(fileProgressSizes7) : 0.0f, z6);
+                                this.videoRadialProgress.setIcon(14, z, z6);
+                            } else {
+                                this.drawVideoImageButton = false;
+                                this.radialProgress.setProgress(fileProgressSizes7 != null ? DownloadController.getProgress(fileProgressSizes7) : 0.0f, z6);
+                                this.radialProgress.setIcon(getIconForCurrentState(), z, z6);
+                                this.videoRadialProgress.setIcon(4, z, false);
+                                if (!this.drawVideoSize && this.animatingDrawVideoImageButton == 0) {
+                                    this.animatingDrawVideoImageButtonProgress = 0.0f;
+                                }
                             }
                         }
-                    } else {
-                        this.buttonState = 1;
-                        long[] fileProgressSizes7 = ImageLoader.getInstance().getFileProgressSizes(str);
-                        if (fileProgressSizes7 != null) {
-                            createLoadingProgressLayout(fileProgressSizes7[0], fileProgressSizes7[1]);
-                        } else {
-                            createLoadingProgressLayout(this.documentAttach);
-                        }
-                        MessageObject messageObject11 = this.currentMessageObject;
-                        int i20 = messageObject11.type;
-                        boolean z12 = i20 == 3 || i20 == 8 || this.documentAttachType == 4;
-                        MessageObject.GroupedMessagePosition groupedMessagePosition3 = this.currentPosition;
-                        boolean z13 = groupedMessagePosition3 == null || (groupedMessagePosition3.flags & 3) == 3;
-                        if ((this.documentAttachType == 4 || (MessageObject.isGifDocument(this.documentAttach, messageObject11.hasValidGroupId()) && canDownloadMedia)) && this.canStreamVideo && z12 && z13) {
-                            this.drawVideoImageButton = true;
-                            getIconForCurrentState();
-                            this.radialProgress.setIcon((this.autoPlayingMedia || this.documentAttachType == 2) ? 4 : 0, z, z7);
-                            this.videoRadialProgress.setProgress(fileProgressSizes7 != null ? DownloadController.getProgress(fileProgressSizes7) : 0.0f, z7);
-                            this.videoRadialProgress.setIcon(14, z, z7);
-                        } else {
-                            this.drawVideoImageButton = false;
-                            this.radialProgress.setProgress(fileProgressSizes7 != null ? DownloadController.getProgress(fileProgressSizes7) : 0.0f, z7);
-                            this.radialProgress.setIcon(getIconForCurrentState(), z, z7);
-                            this.videoRadialProgress.setIcon(4, z, false);
-                            if (!this.drawVideoSize && this.animatingDrawVideoImageButton == 0) {
-                                this.animatingDrawVideoImageButtonProgress = 0.0f;
-                            }
-                        }
+                        invalidate();
                     }
-                    invalidate();
                 }
             }
         }
         if (this.hasMiniProgress == 0) {
-            this.radialProgress.setMiniIcon(4, false, z7);
+            this.radialProgress.setMiniIcon(4, false, z6);
         }
     }
 

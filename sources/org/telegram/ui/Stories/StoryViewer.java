@@ -462,10 +462,10 @@ public class StoryViewer {
             this.volumeControl = storiesVolumeContorl;
             this.containerView.addView(storiesVolumeContorl, LayoutHelper.createFrame(-1, -1.0f, 0, 4.0f, 0.0f, 4.0f, 0.0f));
         }
-        AndroidUtilities.removeFromParent(this.containerView);
-        this.windowView.addView(this.containerView);
         AndroidUtilities.removeFromParent(this.aspectRatioFrameLayout);
         this.windowView.addView(this.aspectRatioFrameLayout);
+        AndroidUtilities.removeFromParent(this.containerView);
+        this.windowView.addView(this.containerView);
         this.windowView.setClipChildren(false);
         if (this.ATTACH_TO_FRAGMENT && (lastFragment.getParentActivity() instanceof LaunchActivity)) {
             ((LaunchActivity) lastFragment.getParentActivity()).requestCustomNavigationBar();
@@ -1380,70 +1380,75 @@ public class StoryViewer {
                 return;
             }
             boolean equals = Objects.equals(StoryViewer.this.lastUri, uri);
-            if (equals && (videoPlayerHolder = (storyViewer = StoryViewer.this).playerHolder) != null) {
-                if (equals) {
-                    storyViewer.currentPlayerScope = videoPlayerSharedScope;
-                    videoPlayerSharedScope.player = videoPlayerHolder;
-                    videoPlayerSharedScope.firstFrameRendered = videoPlayerHolder.firstFrameRendered;
-                    videoPlayerSharedScope.renderView = storyViewer.aspectRatioFrameLayout;
-                    videoPlayerSharedScope.textureView = storyViewer.textureView;
-                    StoryViewer storyViewer2 = StoryViewer.this;
-                    storyViewer2.currentPlayerScope.surfaceView = storyViewer2.surfaceView;
-                    return;
+            if (!equals || (videoPlayerHolder = (storyViewer = StoryViewer.this).playerHolder) == null) {
+                StoryViewer storyViewer2 = StoryViewer.this;
+                storyViewer2.lastUri = uri;
+                VideoPlayerHolder videoPlayerHolder2 = storyViewer2.playerHolder;
+                if (videoPlayerHolder2 != null) {
+                    videoPlayerHolder2.release(null);
+                    StoryViewer.this.playerHolder = null;
                 }
-                return;
-            }
-            StoryViewer storyViewer3 = StoryViewer.this;
-            storyViewer3.lastUri = uri;
-            VideoPlayerHolder videoPlayerHolder2 = storyViewer3.playerHolder;
-            if (videoPlayerHolder2 != null) {
-                videoPlayerHolder2.release(null);
-                StoryViewer.this.playerHolder = null;
-            }
-            PeerStoriesView.VideoPlayerSharedScope videoPlayerSharedScope2 = StoryViewer.this.currentPlayerScope;
-            if (videoPlayerSharedScope2 != null) {
-                videoPlayerSharedScope2.player = null;
-                videoPlayerSharedScope2.firstFrameRendered = false;
-                videoPlayerSharedScope2.renderView = null;
-                videoPlayerSharedScope2.textureView = null;
-                videoPlayerSharedScope2.surfaceView = null;
-                videoPlayerSharedScope2.invalidate();
-                StoryViewer.this.currentPlayerScope = null;
-            }
-            if (uri != null) {
-                StoryViewer.this.currentPlayerScope = videoPlayerSharedScope;
-                int i = 0;
-                while (true) {
-                    if (i >= StoryViewer.this.preparedPlayers.size()) {
-                        break;
-                    } else if (StoryViewer.this.preparedPlayers.get(i).uri.equals(uri)) {
-                        StoryViewer storyViewer4 = StoryViewer.this;
-                        storyViewer4.playerHolder = storyViewer4.preparedPlayers.remove(i);
-                        break;
-                    } else {
-                        i++;
+                PeerStoriesView.VideoPlayerSharedScope videoPlayerSharedScope2 = StoryViewer.this.currentPlayerScope;
+                if (videoPlayerSharedScope2 != null) {
+                    videoPlayerSharedScope2.player = null;
+                    videoPlayerSharedScope2.firstFrameRendered = false;
+                    videoPlayerSharedScope2.renderView = null;
+                    videoPlayerSharedScope2.textureView = null;
+                    videoPlayerSharedScope2.surfaceView = null;
+                    videoPlayerSharedScope2.invalidate();
+                    StoryViewer.this.currentPlayerScope = null;
+                }
+                if (uri != null) {
+                    StoryViewer.this.currentPlayerScope = videoPlayerSharedScope;
+                    int i = 0;
+                    while (true) {
+                        if (i >= StoryViewer.this.preparedPlayers.size()) {
+                            break;
+                        } else if (StoryViewer.this.preparedPlayers.get(i).uri.equals(uri)) {
+                            StoryViewer storyViewer3 = StoryViewer.this;
+                            storyViewer3.playerHolder = storyViewer3.preparedPlayers.remove(i);
+                            break;
+                        } else {
+                            i++;
+                        }
                     }
+                    StoryViewer storyViewer4 = StoryViewer.this;
+                    if (storyViewer4.playerHolder == null) {
+                        storyViewer4.playerHolder = new VideoPlayerHolder();
+                        StoryViewer.this.playerHolder.document = tLRPC$Document;
+                    }
+                    StoryViewer storyViewer5 = StoryViewer.this;
+                    VideoPlayerHolder videoPlayerHolder3 = storyViewer5.playerHolder;
+                    videoPlayerHolder3.uri = uri;
+                    PeerStoriesView.VideoPlayerSharedScope videoPlayerSharedScope3 = storyViewer5.currentPlayerScope;
+                    videoPlayerSharedScope3.player = videoPlayerHolder3;
+                    videoPlayerSharedScope3.firstFrameRendered = false;
+                    videoPlayerSharedScope3.renderView = storyViewer5.aspectRatioFrameLayout;
+                    videoPlayerSharedScope3.textureView = storyViewer5.textureView;
+                    StoryViewer storyViewer6 = StoryViewer.this;
+                    storyViewer6.currentPlayerScope.surfaceView = storyViewer6.surfaceView;
+                    FileStreamLoadOperation.setPriorityForDocument(StoryViewer.this.playerHolder.document, 3);
+                    FileLoader.getInstance(StoryViewer.this.currentAccount).changePriority(3, StoryViewer.this.playerHolder.document, null, null, null, null, null);
+                    StoryViewer storyViewer7 = StoryViewer.this;
+                    storyViewer7.currentPlayerScope.player.start(storyViewer7.isPaused(), uri, j, StoryViewer.isInSilentMode);
+                    StoryViewer.this.currentPlayerScope.invalidate();
                 }
-                StoryViewer storyViewer5 = StoryViewer.this;
-                if (storyViewer5.playerHolder == null) {
-                    storyViewer5.playerHolder = new VideoPlayerHolder();
-                    StoryViewer.this.playerHolder.document = tLRPC$Document;
-                }
-                StoryViewer storyViewer6 = StoryViewer.this;
-                VideoPlayerHolder videoPlayerHolder3 = storyViewer6.playerHolder;
-                videoPlayerHolder3.uri = uri;
-                PeerStoriesView.VideoPlayerSharedScope videoPlayerSharedScope3 = storyViewer6.currentPlayerScope;
-                videoPlayerSharedScope3.player = videoPlayerHolder3;
-                videoPlayerSharedScope3.firstFrameRendered = false;
-                videoPlayerSharedScope3.renderView = storyViewer6.aspectRatioFrameLayout;
-                videoPlayerSharedScope3.textureView = storyViewer6.textureView;
-                StoryViewer storyViewer7 = StoryViewer.this;
-                storyViewer7.currentPlayerScope.surfaceView = storyViewer7.surfaceView;
-                FileStreamLoadOperation.setPriorityForDocument(StoryViewer.this.playerHolder.document, 3);
-                FileLoader.getInstance(StoryViewer.this.currentAccount).changePriority(3, StoryViewer.this.playerHolder.document, null, null, null, null, null);
+            } else if (equals) {
+                storyViewer.currentPlayerScope = videoPlayerSharedScope;
+                videoPlayerSharedScope.player = videoPlayerHolder;
+                videoPlayerSharedScope.firstFrameRendered = videoPlayerHolder.firstFrameRendered;
+                videoPlayerSharedScope.renderView = storyViewer.aspectRatioFrameLayout;
+                videoPlayerSharedScope.textureView = storyViewer.textureView;
                 StoryViewer storyViewer8 = StoryViewer.this;
-                storyViewer8.currentPlayerScope.player.start(storyViewer8.isPaused(), uri, j, StoryViewer.isInSilentMode);
-                StoryViewer.this.currentPlayerScope.invalidate();
+                storyViewer8.currentPlayerScope.surfaceView = storyViewer8.surfaceView;
+            }
+            StoryViewer storyViewer9 = StoryViewer.this;
+            if (storyViewer9.USE_SURFACE_VIEW) {
+                if (uri == null) {
+                    storyViewer9.surfaceView.setVisibility(8);
+                } else {
+                    storyViewer9.surfaceView.setVisibility(0);
+                }
             }
         }
 
@@ -1775,6 +1780,9 @@ public class StoryViewer {
             int selectedPosition = currentPeerView == null ? 0 : currentPeerView.getSelectedPosition();
             int i = (currentPeerView == null || selectedPosition < 0 || selectedPosition >= currentPeerView.storyItems.size()) ? 0 : currentPeerView.storyItems.get(selectedPosition).id;
             TLRPC$StoryItem tLRPC$StoryItem = (currentPeerView == null || selectedPosition < 0 || selectedPosition >= currentPeerView.storyItems.size()) ? null : currentPeerView.storyItems.get(selectedPosition);
+            if (tLRPC$StoryItem == null && this.isSingleStory) {
+                tLRPC$StoryItem = this.singleStory;
+            }
             this.transitionViewHolder.clear();
             if (this.placeProvider.findView(this.storiesViewPager.getCurrentDialogId(), this.messageId, i, tLRPC$StoryItem == null ? -1 : tLRPC$StoryItem.messageType, this.transitionViewHolder)) {
                 View view = this.transitionViewHolder.view;

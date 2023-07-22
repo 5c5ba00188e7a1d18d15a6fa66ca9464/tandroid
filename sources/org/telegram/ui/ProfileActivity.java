@@ -8675,7 +8675,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     this.rowCount = i52 + 1;
                     this.addToGroupInfoRow = i52;
                 }
-                if (!this.showAddToContacts || user == null || user.contact) {
+                if (!this.showAddToContacts || user == null || user.contact || user.bot || UserObject.isService(user.id)) {
                     z2 = false;
                 } else {
                     int i53 = this.rowCount;
