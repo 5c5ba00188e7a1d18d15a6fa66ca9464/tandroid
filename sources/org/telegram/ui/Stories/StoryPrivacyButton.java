@@ -29,7 +29,7 @@ public class StoryPrivacyButton extends View {
     private int bottomColor;
     private final ButtonBounce bounce;
     private final AnimatedFloat crossfadeT;
-    private boolean draw;
+    public boolean draw;
     private boolean drawArrow;
     private final Matrix gradientMatrix;
     private final Drawable[] icon;
@@ -79,6 +79,7 @@ public class StoryPrivacyButton extends View {
         } else {
             this.draw = false;
         }
+        setVisibility(this.draw ? 0 : 8);
         invalidate();
         return this.draw;
     }
@@ -111,6 +112,7 @@ public class StoryPrivacyButton extends View {
                 this.draw = false;
             }
         }
+        setVisibility(this.draw ? 0 : 8);
         invalidate();
         return this.draw;
     }

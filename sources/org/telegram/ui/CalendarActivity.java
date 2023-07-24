@@ -221,7 +221,7 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
                                 transitionViewHolder.drawAbove = CalendarActivity.this.storiesPlaceDrawAbove;
                                 transitionViewHolder.view = monthView;
                                 transitionViewHolder.clipParent = ((BaseFragment) CalendarActivity.this).fragmentView;
-                                transitionViewHolder.clipTop = Math.max(0.0f, -monthView.getY());
+                                transitionViewHolder.clipTop = AndroidUtilities.dp(36.0f);
                                 transitionViewHolder.clipBottom = ((BaseFragment) CalendarActivity.this).fragmentView.getBottom();
                                 transitionViewHolder.avatarImage = null;
                                 return true;
@@ -873,7 +873,10 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
                     CalendarActivity calendarActivity = CalendarActivity.this;
                     if (calendarActivity.callback != null) {
                         if (calendarActivity.storiesList != null) {
-                            CalendarActivity.this.getOrCreateStoryViewer().open(MonthView.this.getContext(), dayAtCoord.messageObject.storyItem, Math.max(0, CalendarActivity.this.storiesList.messageObjects.indexOf(dayAtCoord.messageObject)), CalendarActivity.this.storiesList, true, CalendarActivity.this.storiesPlaceProvider);
+                            StoryViewer orCreateStoryViewer = CalendarActivity.this.getOrCreateStoryViewer();
+                            Context context = MonthView.this.getContext();
+                            MessageObject messageObject = dayAtCoord.messageObject;
+                            orCreateStoryViewer.open(context, messageObject.storyItem, messageObject.getId(), CalendarActivity.this.storiesList, true, CalendarActivity.this.storiesPlaceProvider);
                         } else {
                             CalendarActivity.this.callback.onDateSelected(dayAtCoord.messageObject.getId(), dayAtCoord.startOffset);
                             CalendarActivity.this.finishFragment();

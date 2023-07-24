@@ -150,7 +150,7 @@ public class StoriesListPlaceProvider implements StoryViewer.PlaceProvider {
                     }
                 } else {
                     MessageObject messageObject = sharedPhotoVideoCell2.getMessageObject();
-                    if (messageObject != null && messageObject.isStory() && messageObject.getId() == i && messageObject.storyItem.dialogId == j) {
+                    if (messageObject != null && messageObject.isStory() && messageObject.getId() == i2 && messageObject.storyItem.dialogId == j) {
                         transitionViewHolder.view = childAt;
                         transitionViewHolder.storyImage = sharedPhotoVideoCell2.imageReceiver;
                         transitionViewHolder.clipParent = (View) sharedPhotoVideoCell2.getParent();

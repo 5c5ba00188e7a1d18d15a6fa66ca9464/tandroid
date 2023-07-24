@@ -2042,7 +2042,7 @@ public class StoriesController {
             this.showPhotos = true;
             this.showVideos = true;
             this.tempArr = new ArrayList<>();
-            this.notify = new Runnable() { // from class: org.telegram.ui.Stories.StoriesController$StoriesList$$ExternalSyntheticLambda0
+            this.notify = new Runnable() { // from class: org.telegram.ui.Stories.StoriesController$StoriesList$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
                     StoriesController.StoriesList.this.lambda$new$0();
@@ -2179,7 +2179,7 @@ public class StoriesController {
             return false;
         }
 
-        private long day(MessageObject messageObject) {
+        public static long day(MessageObject messageObject) {
             Calendar calendar;
             if (messageObject == null) {
                 return 0L;
@@ -2189,8 +2189,23 @@ public class StoriesController {
             return (calendar.get(1) * 10000) + (calendar.get(2) * 100) + calendar.get(5);
         }
 
-        public SortedSet<Integer> getStoryDayGroup(MessageObject messageObject) {
-            return this.groupedByDay.get(Long.valueOf(day(messageObject)));
+        public ArrayList<ArrayList<Integer>> getDays() {
+            ArrayList arrayList = new ArrayList(this.groupedByDay.keySet());
+            Collections.sort(arrayList, StoriesController$StoriesList$$ExternalSyntheticLambda10.INSTANCE);
+            ArrayList<ArrayList<Integer>> arrayList2 = new ArrayList<>();
+            Iterator it = arrayList.iterator();
+            while (it.hasNext()) {
+                TreeSet<Integer> treeSet = this.groupedByDay.get((Long) it.next());
+                if (treeSet != null) {
+                    arrayList2.add(new ArrayList<>(treeSet));
+                }
+            }
+            return arrayList2;
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public static /* synthetic */ int lambda$getDays$4(Long l, Long l2) {
+            return (int) (l2.longValue() - l.longValue());
         }
 
         public void invalidateCache() {
@@ -2200,16 +2215,16 @@ public class StoriesController {
             }
             resetCanLoad();
             final MessagesStorage messagesStorage = MessagesStorage.getInstance(this.currentAccount);
-            messagesStorage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.StoriesController$StoriesList$$ExternalSyntheticLambda5
+            messagesStorage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.StoriesController$StoriesList$$ExternalSyntheticLambda6
                 @Override // java.lang.Runnable
                 public final void run() {
-                    StoriesController.StoriesList.this.lambda$invalidateCache$5(messagesStorage);
+                    StoriesController.StoriesList.this.lambda$invalidateCache$6(messagesStorage);
                 }
             });
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$invalidateCache$5(MessagesStorage messagesStorage) {
+        public /* synthetic */ void lambda$invalidateCache$6(MessagesStorage messagesStorage) {
             try {
                 SQLiteDatabase database = messagesStorage.getDatabase();
                 int i = this.type;
@@ -2221,16 +2236,16 @@ public class StoriesController {
             } catch (Throwable th) {
                 messagesStorage.checkSQLException(th);
             }
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoriesController$StoriesList$$ExternalSyntheticLambda2
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoriesController$StoriesList$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    StoriesController.StoriesList.this.lambda$invalidateCache$4();
+                    StoriesController.StoriesList.this.lambda$invalidateCache$5();
                 }
             });
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$invalidateCache$4() {
+        public /* synthetic */ void lambda$invalidateCache$5() {
             this.cachedObjects.clear();
             fill(true);
         }
@@ -2241,10 +2256,10 @@ public class StoriesController {
             }
             this.saving = true;
             final MessagesStorage messagesStorage = MessagesStorage.getInstance(this.currentAccount);
-            messagesStorage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.StoriesController$StoriesList$$ExternalSyntheticLambda6
+            messagesStorage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.StoriesController$StoriesList$$ExternalSyntheticLambda5
                 @Override // java.lang.Runnable
                 public final void run() {
-                    StoriesController.StoriesList.this.lambda$saveCache$7(messagesStorage);
+                    StoriesController.StoriesList.this.lambda$saveCache$8(messagesStorage);
                 }
             });
         }
@@ -2254,7 +2269,7 @@ public class StoriesController {
             if (r2 != null) goto L25;
          */
         /* JADX WARN: Code restructure failed: missing block: B:24:0x009b, code lost:
-            org.telegram.messenger.AndroidUtilities.runOnUIThread(new org.telegram.ui.Stories.StoriesController$StoriesList$$ExternalSyntheticLambda1(r10));
+            org.telegram.messenger.AndroidUtilities.runOnUIThread(new org.telegram.ui.Stories.StoriesController$StoriesList$$ExternalSyntheticLambda3(r10));
          */
         /* JADX WARN: Code restructure failed: missing block: B:25:0x00a3, code lost:
             return;
@@ -2262,7 +2277,7 @@ public class StoriesController {
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
-        public /* synthetic */ void lambda$saveCache$7(MessagesStorage messagesStorage) {
+        public /* synthetic */ void lambda$saveCache$8(MessagesStorage messagesStorage) {
             ArrayList<MessageObject> arrayList = new ArrayList<>();
             fill(arrayList, true, true);
             SQLitePreparedStatement sQLitePreparedStatement = null;
@@ -2305,7 +2320,7 @@ public class StoriesController {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$saveCache$6() {
+        public /* synthetic */ void lambda$saveCache$7() {
             this.saving = false;
         }
 
@@ -2328,12 +2343,12 @@ public class StoriesController {
                 return false;
             }
             if (this.preloading) {
-                this.toLoad = new Utilities.CallbackReturn() { // from class: org.telegram.ui.Stories.StoriesController$StoriesList$$ExternalSyntheticLambda10
+                this.toLoad = new Utilities.CallbackReturn() { // from class: org.telegram.ui.Stories.StoriesController$StoriesList$$ExternalSyntheticLambda11
                     @Override // org.telegram.messenger.Utilities.CallbackReturn
                     public final Object run(Object obj) {
-                        Boolean lambda$load$8;
-                        lambda$load$8 = StoriesController.StoriesList.this.lambda$load$8(z, i, (Integer) obj);
-                        return lambda$load$8;
+                        Boolean lambda$load$9;
+                        lambda$load$9 = StoriesController.StoriesList.this.lambda$load$9(z, i, (Integer) obj);
+                        return lambda$load$9;
                     }
                 };
                 return false;
@@ -2358,22 +2373,22 @@ public class StoriesController {
                 tLRPC$TL_stories_getStoriesArchive = tLRPC$TL_stories_getStoriesArchive2;
             }
             this.loading = true;
-            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_stories_getStoriesArchive, new RequestDelegate() { // from class: org.telegram.ui.Stories.StoriesController$StoriesList$$ExternalSyntheticLambda11
+            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_stories_getStoriesArchive, new RequestDelegate() { // from class: org.telegram.ui.Stories.StoriesController$StoriesList$$ExternalSyntheticLambda12
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    StoriesController.StoriesList.this.lambda$load$11(i2, tLObject, tLRPC$TL_error);
+                    StoriesController.StoriesList.this.lambda$load$12(i2, tLObject, tLRPC$TL_error);
                 }
             });
             return true;
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ Boolean lambda$load$8(boolean z, int i, Integer num) {
+        public /* synthetic */ Boolean lambda$load$9(boolean z, int i, Integer num) {
             return Boolean.valueOf(load(z, i));
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$load$11(final int i, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        public /* synthetic */ void lambda$load$12(final int i, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
             if (tLObject instanceof TLRPC$TL_stories_stories) {
                 final ArrayList arrayList = new ArrayList();
                 final TLRPC$TL_stories_stories tLRPC$TL_stories_stories = (TLRPC$TL_stories_stories) tLObject;
@@ -2383,21 +2398,21 @@ public class StoriesController {
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoriesController$StoriesList$$ExternalSyntheticLambda9
                     @Override // java.lang.Runnable
                     public final void run() {
-                        StoriesController.StoriesList.this.lambda$load$9(tLRPC$TL_stories_stories, arrayList, i);
+                        StoriesController.StoriesList.this.lambda$load$10(tLRPC$TL_stories_stories, arrayList, i);
                     }
                 });
                 return;
             }
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoriesController$StoriesList$$ExternalSyntheticLambda3
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoriesController$StoriesList$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
-                    StoriesController.StoriesList.this.lambda$load$10();
+                    StoriesController.StoriesList.this.lambda$load$11();
                 }
             });
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$load$9(TLRPC$TL_stories_stories tLRPC$TL_stories_stories, ArrayList arrayList, int i) {
+        public /* synthetic */ void lambda$load$10(TLRPC$TL_stories_stories tLRPC$TL_stories_stories, ArrayList arrayList, int i) {
             this.loading = false;
             this.totalCount = tLRPC$TL_stories_stories.count;
             for (int i2 = 0; i2 < arrayList.size(); i2++) {
@@ -2441,7 +2456,7 @@ public class StoriesController {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$load$10() {
+        public /* synthetic */ void lambda$load$11() {
             this.loading = false;
             this.error = true;
             NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.storiesListUpdated, this, Boolean.FALSE);
@@ -2511,6 +2526,10 @@ public class StoriesController {
                 fill(true);
                 saveCache();
             }
+        }
+
+        public MessageObject findMessageObject(int i) {
+            return this.messageObjectsMap.get(Integer.valueOf(i));
         }
 
         public boolean equal(TLRPC$StoryItem tLRPC$StoryItem, TLRPC$StoryItem tLRPC$StoryItem2) {

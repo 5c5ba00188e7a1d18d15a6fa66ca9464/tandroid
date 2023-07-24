@@ -75,6 +75,8 @@ public class SharedPhotoVideoCell2 extends View {
     float imageAlpha;
     public ImageReceiver imageReceiver;
     float imageScale;
+    public boolean isFirst;
+    public boolean isLast;
     public boolean isStory;
     private SpoilerEffect mediaSpoilerEffect;
     private Path path;
@@ -317,52 +319,71 @@ public class SharedPhotoVideoCell2 extends View {
         return this.currentParentColumnsCount == 9 ? AndroidUtilities.dpf2(0.5f) : AndroidUtilities.dpf2(1.0f);
     }
 
+    /* JADX WARN: Code restructure failed: missing block: B:103:0x02ba, code lost:
+        if (r1.getProgress() != 0.0f) goto L75;
+     */
     @Override // android.view.View
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     protected void onDraw(Canvas canvas) {
         float f;
+        float f2;
+        float f3;
         boolean z;
         float dp;
+        float f4;
         FlickerLoadingView flickerLoadingView;
         super.onDraw(canvas);
         float padding = getPadding();
-        float f2 = padding * 2.0f;
-        float measuredWidth = (getMeasuredWidth() - f2) * this.imageScale;
-        float measuredHeight = (getMeasuredHeight() - f2) * this.imageScale;
+        boolean z2 = this.isStory;
+        float f5 = (z2 && this.isFirst) ? 0.0f : padding;
+        float f6 = (z2 && this.isLast) ? 0.0f : padding;
+        float measuredWidth = ((getMeasuredWidth() - f5) - f6) * this.imageScale;
+        float f7 = padding * 2.0f;
+        float measuredHeight = (getMeasuredHeight() - f7) * this.imageScale;
         if (this.crossfadeProgress > 0.5f && this.crossfadeToColumnsCount != 9.0f && this.currentParentColumnsCount != 9) {
             measuredWidth -= 2.0f;
             measuredHeight -= 2.0f;
         }
-        float f3 = measuredWidth;
-        float f4 = measuredHeight;
+        float f8 = measuredWidth;
+        float f9 = measuredHeight;
         if ((this.currentMessageObject != null || this.style == 1) && this.imageReceiver.hasBitmapImage() && this.imageReceiver.getCurrentAlpha() == 1.0f && this.imageAlpha == 1.0f) {
-            f = 1.0f;
+            f = f9;
+            f2 = f8;
+            f3 = 1.0f;
             z = true;
         } else {
             if (getParent() == null || (flickerLoadingView = this.globalGradientView) == null) {
-                f = 1.0f;
+                f = f9;
+                f2 = f8;
+                f3 = 1.0f;
                 z = true;
             } else {
                 flickerLoadingView.setParentSize(((View) getParent()).getMeasuredWidth(), getMeasuredHeight(), -getX());
                 this.globalGradientView.updateColors();
                 this.globalGradientView.updateGradient();
-                float f5 = (this.crossfadeProgress <= 0.5f || this.crossfadeToColumnsCount == 9.0f || this.currentParentColumnsCount == 9) ? padding : padding + 1.0f;
-                f = 1.0f;
+                float f10 = (this.crossfadeProgress <= 0.5f || this.crossfadeToColumnsCount == 9.0f || this.currentParentColumnsCount == 9) ? 0.0f : 1.0f;
+                float f11 = f5 + f10;
+                float f12 = padding + f10;
+                f3 = 1.0f;
                 z = true;
-                canvas.drawRect(f5, f5, f5 + f3, f5 + f4, this.globalGradientView.getPaint());
+                f = f9;
+                f2 = f8;
+                canvas.drawRect(f11, f12, f11 + f8, f12 + f9, this.globalGradientView.getPaint());
             }
             invalidate();
         }
-        float f6 = this.imageAlpha;
-        if (f6 != f) {
-            canvas.saveLayerAlpha(0.0f, 0.0f, f2 + f3, f2 + f4, (int) (f6 * 255.0f), 31);
+        float f13 = this.imageAlpha;
+        if (f13 != f3) {
+            canvas.saveLayerAlpha(0.0f, 0.0f, f5 + f6 + f2, f7 + f, (int) (f13 * 255.0f), 31);
         } else {
             canvas.save();
         }
         CheckBoxBase checkBoxBase = this.checkBoxBase;
         if ((checkBoxBase != null && checkBoxBase.isChecked()) || PhotoViewer.isShowingImage(this.currentMessageObject)) {
-            canvas.drawRect(padding, padding, f3, f4, this.sharedResources.backgroundPaint);
+            canvas.drawRect(f5, padding, (f5 + f2) - f6, f, this.sharedResources.backgroundPaint);
         }
-        float f7 = 0.0f;
         if (this.isStory && this.currentParentColumnsCount == z) {
             float height = getHeight() * 0.72f;
             Drawable drawable = this.gradientDrawable;
@@ -380,26 +401,29 @@ public class SharedPhotoVideoCell2 extends View {
                 drawable.setBounds(0, 0, getWidth(), getHeight());
                 this.gradientDrawable.draw(canvas);
             }
-            this.imageReceiver.setImageCoords((f3 - height) / 2.0f, 0.0f, height, getHeight());
+            this.imageReceiver.setImageCoords((f2 - height) / 2.0f, 0.0f, height, getHeight());
         } else if (this.checkBoxProgress > 0.0f) {
             float dp2 = AndroidUtilities.dp(10.0f) * this.checkBoxProgress;
-            float f8 = padding + dp2;
-            float f9 = dp2 * 2.0f;
-            float f10 = f3 - f9;
-            float f11 = f4 - f9;
-            this.imageReceiver.setImageCoords(f8, f8, f10, f11);
-            this.blurImageReceiver.setImageCoords(f8, f8, f10, f11);
+            float f14 = f5 + dp2;
+            float f15 = padding + dp2;
+            float f16 = dp2 * 2.0f;
+            float f17 = f2 - f16;
+            float f18 = f - f16;
+            this.imageReceiver.setImageCoords(f14, f15, f17, f18);
+            this.blurImageReceiver.setImageCoords(f14, f15, f17, f18);
         } else {
-            float f12 = (this.crossfadeProgress <= 0.5f || this.crossfadeToColumnsCount == 9.0f || this.currentParentColumnsCount == 9) ? padding : padding + f;
-            this.imageReceiver.setImageCoords(f12, f12, f3, f4);
-            this.blurImageReceiver.setImageCoords(f12, f12, f3, f4);
+            float f19 = (this.crossfadeProgress <= 0.5f || this.crossfadeToColumnsCount == 9.0f || this.currentParentColumnsCount == 9) ? 0.0f : 1.0f;
+            float f20 = f5 + f19;
+            float f21 = f19 + padding;
+            this.imageReceiver.setImageCoords(f20, f21, f2, f);
+            this.blurImageReceiver.setImageCoords(f20, f21, f2, f);
         }
         if (!PhotoViewer.isShowingImage(this.currentMessageObject)) {
             this.imageReceiver.draw(canvas);
             MessageObject messageObject = this.currentMessageObject;
             if (messageObject != null && messageObject.hasMediaSpoilers() && !this.currentMessageObject.isMediaSpoilersRevealedInSharedMedia) {
                 canvas.save();
-                canvas.clipRect(padding, padding, padding + f3, padding + f4);
+                canvas.clipRect(f5, padding, (f5 + f2) - f6, padding + f);
                 if (this.spoilerRevealProgress != 0.0f) {
                     this.path.rewind();
                     this.path.addCircle(this.spoilerRevealX, this.spoilerRevealY, this.spoilerMaxRadius * this.spoilerRevealProgress, Path.Direction.CW);
@@ -412,29 +436,32 @@ public class SharedPhotoVideoCell2 extends View {
                 canvas.restore();
                 invalidate();
             }
-            float f13 = this.highlightProgress;
-            if (f13 > 0.0f) {
-                this.sharedResources.highlightPaint.setColor(ColorUtils.setAlphaComponent(-16777216, (int) (f13 * 0.5f * 255.0f)));
+            float f22 = this.highlightProgress;
+            if (f22 > 0.0f) {
+                this.sharedResources.highlightPaint.setColor(ColorUtils.setAlphaComponent(-16777216, (int) (f22 * 0.5f * 255.0f)));
                 canvas.drawRect(this.imageReceiver.getDrawRegion(), this.sharedResources.highlightPaint);
             }
         }
         this.bounds.set(this.imageReceiver.getImageX(), this.imageReceiver.getImageY(), this.imageReceiver.getImageX2(), this.imageReceiver.getImageY2());
-        this.bounds.set(padding, padding, padding + f3, f4 + padding);
-        drawDuration(canvas, this.bounds, f);
+        this.bounds.set(f5, padding, (f5 + f2) - f6, padding + f);
+        drawDuration(canvas, this.bounds, f3);
         CheckBoxBase checkBoxBase2 = this.checkBoxBase;
-        if (checkBoxBase2 != null && (this.style == z || checkBoxBase2.getProgress() != 0.0f)) {
+        if (checkBoxBase2 != null) {
+            if (this.style != z) {
+            }
             canvas.save();
             if (this.style == z) {
-                dp = ((f3 + AndroidUtilities.dp(2.0f)) - AndroidUtilities.dp(25.0f)) - AndroidUtilities.dp(4.0f);
-                f7 = AndroidUtilities.dp(4.0f);
+                dp = ((f2 + AndroidUtilities.dp(2.0f)) - AndroidUtilities.dp(25.0f)) - AndroidUtilities.dp(4.0f);
+                f4 = AndroidUtilities.dp(4.0f);
             } else {
-                dp = (f3 + AndroidUtilities.dp(2.0f)) - AndroidUtilities.dp(25.0f);
+                dp = (f2 + AndroidUtilities.dp(2.0f)) - AndroidUtilities.dp(25.0f);
+                f4 = 0.0f;
             }
-            canvas.translate(dp, f7);
+            canvas.translate(dp, f4);
             this.checkBoxBase.draw(canvas);
             if (this.canvasButton != null) {
                 RectF rectF = AndroidUtilities.rectTmp;
-                rectF.set(dp, f7, this.checkBoxBase.bounds.width() + dp, this.checkBoxBase.bounds.height() + f7);
+                rectF.set(dp, f4, this.checkBoxBase.bounds.width() + dp, this.checkBoxBase.bounds.height() + f4);
                 this.canvasButton.setRect(rectF);
             }
             canvas.restore();

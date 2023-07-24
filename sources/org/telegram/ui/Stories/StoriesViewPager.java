@@ -20,6 +20,8 @@ import org.telegram.ui.Stories.StoriesViewPager;
 public class StoriesViewPager extends ViewPager {
     int currentAccount;
     public int currentState;
+    ArrayList<ArrayList<Integer>> days;
+    long daysDialogId;
     PeerStoriesView.Delegate delegate;
     ArrayList<Long> dialogs;
     Runnable doOnNextIdle;
@@ -62,7 +64,12 @@ public class StoriesViewPager extends ViewPager {
 
             @Override // androidx.viewpager.widget.PagerAdapter
             public int getCount() {
-                return StoriesViewPager.this.dialogs.size();
+                StoriesViewPager storiesViewPager = StoriesViewPager.this;
+                ArrayList<ArrayList<Integer>> arrayList = storiesViewPager.days;
+                if (arrayList != null) {
+                    return arrayList.size();
+                }
+                return storiesViewPager.dialogs.size();
             }
 
             @Override // androidx.viewpager.widget.PagerAdapter
@@ -85,7 +92,17 @@ public class StoriesViewPager extends ViewPager {
                 peerStoriesView.setDelegate(StoriesViewPager.this.delegate);
                 peerStoriesView.setLongpressed(storyViewer.isLongpressed);
                 pageLayout.setTag(Integer.valueOf(i));
-                pageLayout.dialogId = StoriesViewPager.this.dialogs.get(i).longValue();
+                StoriesViewPager storiesViewPager = StoriesViewPager.this;
+                ArrayList<ArrayList<Integer>> arrayList = storiesViewPager.days;
+                if (arrayList != null) {
+                    if (storyViewer.reversed) {
+                        i = (arrayList.size() - 1) - i;
+                    }
+                    pageLayout.day = arrayList.get(i);
+                    pageLayout.dialogId = StoriesViewPager.this.daysDialogId;
+                } else {
+                    pageLayout.dialogId = storiesViewPager.dialogs.get(i).longValue();
+                }
                 pageLayout.addView(peerStoriesView);
                 peerStoriesView.requestLayout();
                 viewGroup.addView(pageLayout);
@@ -103,7 +120,12 @@ public class StoriesViewPager extends ViewPager {
         };
         this.pagerAdapter = pagerAdapter;
         setAdapter(pagerAdapter);
-        setPageTransformer(false, StoriesViewPager$$ExternalSyntheticLambda0.INSTANCE);
+        setPageTransformer(false, new ViewPager.PageTransformer() { // from class: org.telegram.ui.Stories.StoriesViewPager$$ExternalSyntheticLambda0
+            @Override // androidx.viewpager.widget.ViewPager.PageTransformer
+            public final void transformPage(View view, float f) {
+                StoriesViewPager.this.lambda$new$1(view, f);
+            }
+        });
         setOffscreenPageLimit(0);
         addOnPageChangeListener(new ViewPager.OnPageChangeListener() { // from class: org.telegram.ui.Stories.StoriesViewPager.3
             @Override // androidx.viewpager.widget.ViewPager.OnPageChangeListener
@@ -160,7 +182,7 @@ public class StoriesViewPager extends ViewPager {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$new$1(View view, float f) {
+    public /* synthetic */ void lambda$new$1(View view, float f) {
         final PageLayout pageLayout = (PageLayout) view;
         if (Math.abs(f) >= 1.0f) {
             pageLayout.setVisible(false);
@@ -174,7 +196,11 @@ public class StoriesViewPager extends ViewPager {
         }
         if (!pageLayout.isVisible) {
             pageLayout.setVisible(true);
-            pageLayout.peerStoryView.setDialogId(pageLayout.dialogId);
+            if (this.days != null) {
+                pageLayout.peerStoryView.setDay(pageLayout.dialogId, pageLayout.day);
+            } else {
+                pageLayout.peerStoryView.setDialogId(pageLayout.dialogId);
+            }
         }
         pageLayout.peerStoryView.setOffset(f);
         view.setCameraDistance(view.getWidth() * 15);
@@ -185,6 +211,10 @@ public class StoriesViewPager extends ViewPager {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$new$0(PageLayout pageLayout) {
+        ArrayList<Integer> arrayList = pageLayout.day;
+        if (arrayList != null) {
+            pageLayout.peerStoryView.day = arrayList;
+        }
         pageLayout.peerStoryView.preloadMainImage(pageLayout.dialogId);
     }
 
@@ -238,6 +268,23 @@ public class StoriesViewPager extends ViewPager {
         this.updateDelegate = true;
     }
 
+    public void setDays(long j, ArrayList<ArrayList<Integer>> arrayList, int i) {
+        this.daysDialogId = j;
+        this.days = arrayList;
+        this.currentAccount = i;
+        setAdapter(null);
+        setAdapter(this.pagerAdapter);
+        int i2 = 0;
+        while (i2 < arrayList.size() && !arrayList.get(i2).contains(Integer.valueOf(this.storyViewer.dayStoryId))) {
+            i2++;
+        }
+        if (this.storyViewer.reversed) {
+            i2 = (arrayList.size() - 1) - i2;
+        }
+        setCurrentItem(i2);
+        this.updateDelegate = true;
+    }
+
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // androidx.viewpager.widget.ViewPager, android.view.ViewGroup, android.view.View
     public void onLayout(boolean z, int i, int i2, int i3, int i4) {
@@ -261,15 +308,22 @@ public class StoriesViewPager extends ViewPager {
     }
 
     public boolean switchToNext(boolean z) {
-        if (z && getCurrentItem() < this.dialogs.size() - 1) {
-            setCurrentItem(getCurrentItem() + 1, !useSurfaceInViewPagerWorkAround());
-            return true;
-        } else if (z || getCurrentItem() <= 0) {
-            return false;
-        } else {
-            setCurrentItem(getCurrentItem() - 1, !useSurfaceInViewPagerWorkAround());
-            return true;
+        if (z) {
+            int currentItem = getCurrentItem();
+            ArrayList arrayList = this.days;
+            if (arrayList == null) {
+                arrayList = this.dialogs;
+            }
+            if (currentItem < arrayList.size() - 1) {
+                setCurrentItem(getCurrentItem() + 1, !useSurfaceInViewPagerWorkAround());
+                return true;
+            }
         }
+        if (z || getCurrentItem() <= 0) {
+            return false;
+        }
+        setCurrentItem(getCurrentItem() - 1, !useSurfaceInViewPagerWorkAround());
+        return true;
     }
 
     @Override // androidx.viewpager.widget.ViewPager, android.view.ViewGroup
@@ -306,6 +360,9 @@ public class StoriesViewPager extends ViewPager {
     }
 
     public long getCurrentDialogId() {
+        if (this.days != null) {
+            return this.daysDialogId;
+        }
         if (getCurrentItem() < this.dialogs.size()) {
             return this.dialogs.get(getCurrentItem()).longValue();
         }
@@ -352,6 +409,7 @@ public class StoriesViewPager extends ViewPager {
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes4.dex */
     public class PageLayout extends FrameLayout {
+        ArrayList<Integer> day;
         long dialogId;
         boolean isVisible;
         public PeerStoriesView peerStoryView;

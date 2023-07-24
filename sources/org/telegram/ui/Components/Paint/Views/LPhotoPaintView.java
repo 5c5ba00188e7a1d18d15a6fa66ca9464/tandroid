@@ -2870,9 +2870,10 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         textView.setBackground(Theme.getSelectorDrawable(false));
         textView.setGravity(16);
         textView.setPadding(AndroidUtilities.dp(16.0f), 0, AndroidUtilities.dp(14.0f), 0);
-        textView.setTextSize(1, 16.0f);
+        textView.setTextSize(1, 14.0f);
         textView.setTag(0);
         textView.setText(LocaleController.getString("PaintDelete", R.string.PaintDelete));
+        textView.setEllipsize(TextUtils.TruncateAt.END);
         textView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda17
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
@@ -2886,7 +2887,8 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
             textView2.setBackground(Theme.getSelectorDrawable(false));
             textView2.setGravity(16);
             textView2.setPadding(AndroidUtilities.dp(16.0f), 0, AndroidUtilities.dp(16.0f), 0);
-            textView2.setTextSize(1, 16.0f);
+            textView2.setTextSize(1, 14.0f);
+            textView2.setEllipsize(TextUtils.TruncateAt.END);
             textView2.setTag(1);
             textView2.setText(LocaleController.getString("PaintEdit", R.string.PaintEdit));
             textView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda9
@@ -2901,8 +2903,9 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         textView3.setTextColor(getThemedColor(i));
         textView3.setBackgroundDrawable(Theme.getSelectorDrawable(false));
         textView3.setGravity(16);
+        textView3.setEllipsize(TextUtils.TruncateAt.END);
         textView3.setPadding(AndroidUtilities.dp(14.0f), 0, AndroidUtilities.dp(16.0f), 0);
-        textView3.setTextSize(1, 16.0f);
+        textView3.setTextSize(1, 14.0f);
         textView3.setTag(2);
         textView3.setText(LocaleController.getString("PaintDuplicate", R.string.PaintDuplicate));
         textView3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda15

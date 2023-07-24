@@ -1010,6 +1010,7 @@ public class TextureRenderer {
             mediaEntity.animatedFileDrawable = new AnimatedFileDrawable(new File(mediaEntity.text), true, 0L, 0, null, null, null, 0L, UserConfig.selectedAccount, true, LiteMode.FLAG_CALLS_ANIMATIONS, LiteMode.FLAG_CALLS_ANIMATIONS, null);
             mediaEntity.framesPerDraw = animatedFileDrawable.getFps() / this.videoFps;
             mediaEntity.currentFrame = 0.0f;
+            mediaEntity.animatedFileDrawable.getNextFrame();
         } else {
             if (Build.VERSION.SDK_INT >= 19) {
                 BitmapFactory.Options options = new BitmapFactory.Options();

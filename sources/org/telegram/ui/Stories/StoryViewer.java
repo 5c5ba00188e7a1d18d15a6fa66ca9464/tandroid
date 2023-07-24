@@ -95,6 +95,7 @@ public class StoryViewer {
     public int currentAccount;
     Dialog currentDialog;
     PeerStoriesView.VideoPlayerSharedScope currentPlayerScope;
+    public int dayStoryId;
     private Runnable delayedTapRunnable;
     Runnable doOnAnimationReady;
     private boolean flingCalled;
@@ -147,7 +148,6 @@ public class StoryViewer {
     SelfStoryViewsView selfStoryViewsView;
     TLRPC$StoryItem singleStory;
     StoriesController.StoriesList storiesList;
-    int storiesListStartPosition;
     public StoriesViewPager storiesViewPager;
     private SurfaceView surfaceView;
     float swipeToDismissHorizontalDirection;
@@ -262,7 +262,7 @@ public class StoryViewer {
         this.currentAccount = UserConfig.selectedAccount;
         ArrayList<Long> arrayList = new ArrayList<>();
         arrayList.add(Long.valueOf(storiesList.userId));
-        this.storiesListStartPosition = i;
+        this.dayStoryId = i;
         open(context, tLRPC$StoryItem, arrayList, 0, storiesList, null, placeProvider, false);
     }
 
@@ -281,7 +281,7 @@ public class StoryViewer {
         this.currentAccount = UserConfig.selectedAccount;
         ArrayList<Long> arrayList = new ArrayList<>();
         arrayList.add(Long.valueOf(storiesList.userId));
-        this.storiesListStartPosition = i;
+        this.dayStoryId = i;
         open(context, tLRPC$StoryItem, arrayList, 0, storiesList, null, placeProvider, z);
     }
 
@@ -435,7 +435,7 @@ public class StoryViewer {
                 }
             };
             this.storiesViewPager = hwStoriesViewPager;
-            hwStoriesViewPager.setDelegate(new 5(arrayList));
+            hwStoriesViewPager.setDelegate(new 5(storiesList, arrayList));
             this.containerView.addView(this.storiesViewPager, LayoutHelper.createFrame(-1, -1, 1));
             this.aspectRatioFrameLayout = new AspectRatioFrameLayout(context);
             if (this.USE_SURFACE_VIEW) {
@@ -473,7 +473,11 @@ public class StoryViewer {
         if (this.isSingleStory) {
             updateTransitionParams();
         }
-        this.storiesViewPager.setPeerIds(arrayList, this.currentAccount, i);
+        if (storiesList != null) {
+            this.storiesViewPager.setDays(storiesList.userId, storiesList.getDays(), this.currentAccount);
+        } else {
+            this.storiesViewPager.setPeerIds(arrayList, this.currentAccount, i);
+        }
         this.windowManager = (WindowManager) context.getSystemService("window");
         if (this.ATTACH_TO_FRAGMENT) {
             this.windowView.setFitsSystemWindows(true);
@@ -688,13 +692,14 @@ public class StoryViewer {
             return super.drawChild(canvas, view, j);
         }
 
+        /* JADX INFO: Access modifiers changed from: protected */
         /* JADX WARN: Removed duplicated region for block: B:152:0x0720  */
         /* JADX WARN: Removed duplicated region for block: B:161:? A[RETURN, SYNTHETIC] */
         @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
-        protected void dispatchDraw(Canvas canvas) {
+        public void dispatchDraw(Canvas canvas) {
             float f;
             PeerStoriesView.PeerHeaderView peerHeaderView;
             StoryViewer storyViewer;
@@ -1256,8 +1261,9 @@ public class StoryViewer {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
-        protected void onAttachedToWindow() {
+        public void onAttachedToWindow() {
             super.onAttachedToWindow();
             if (StoryViewer.this.ATTACH_TO_FRAGMENT) {
                 AndroidUtilities.requestAdjustResize(this.val$fragment.getParentActivity(), this.val$fragment.getClassGuid());
@@ -1276,8 +1282,10 @@ public class StoryViewer {
     /* loaded from: classes4.dex */
     public class 5 implements PeerStoriesView.Delegate {
         final /* synthetic */ ArrayList val$peerIds;
+        final /* synthetic */ StoriesController.StoriesList val$storiesList;
 
-        5(ArrayList arrayList) {
+        5(StoriesController.StoriesList storiesList, ArrayList arrayList) {
+            this.val$storiesList = storiesList;
             this.val$peerIds = arrayList;
         }
 
@@ -1301,10 +1309,35 @@ public class StoryViewer {
 
         @Override // org.telegram.ui.Stories.PeerStoriesView.Delegate
         public void switchToNextAndRemoveCurrentPeer() {
-            final ArrayList arrayList = new ArrayList(this.val$peerIds);
-            final int indexOf = arrayList.indexOf(Long.valueOf(StoryViewer.this.storiesViewPager.getCurrentPeerView().getCurrentPeer()));
-            if (indexOf >= 0) {
-                arrayList.remove(indexOf);
+            if (this.val$storiesList != null) {
+                if (StoryViewer.this.storiesViewPager.days == null) {
+                    return;
+                }
+                final ArrayList arrayList = new ArrayList(StoryViewer.this.storiesViewPager.days);
+                int indexOf = arrayList.indexOf(StoryViewer.this.storiesViewPager.getCurrentPeerView().getCurrentDay());
+                if (indexOf >= 0) {
+                    arrayList.remove(indexOf);
+                    if (!StoryViewer.this.storiesViewPager.switchToNext(true)) {
+                        StoryViewer.this.close(false);
+                        return;
+                    }
+                    StoriesViewPager storiesViewPager = StoryViewer.this.storiesViewPager;
+                    final StoriesController.StoriesList storiesList = this.val$storiesList;
+                    storiesViewPager.onNextIdle(new Runnable() { // from class: org.telegram.ui.Stories.StoryViewer$5$$ExternalSyntheticLambda1
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            StoryViewer.5.this.lambda$switchToNextAndRemoveCurrentPeer$0(storiesList, arrayList);
+                        }
+                    });
+                    return;
+                }
+                StoryViewer.this.close(false);
+                return;
+            }
+            final ArrayList arrayList2 = new ArrayList(this.val$peerIds);
+            final int indexOf2 = arrayList2.indexOf(Long.valueOf(StoryViewer.this.storiesViewPager.getCurrentPeerView().getCurrentPeer()));
+            if (indexOf2 >= 0) {
+                arrayList2.remove(indexOf2);
                 if (!StoryViewer.this.storiesViewPager.switchToNext(true)) {
                     StoryViewer.this.close(false);
                     return;
@@ -1312,7 +1345,7 @@ public class StoryViewer {
                     StoryViewer.this.storiesViewPager.onNextIdle(new Runnable() { // from class: org.telegram.ui.Stories.StoryViewer$5$$ExternalSyntheticLambda0
                         @Override // java.lang.Runnable
                         public final void run() {
-                            StoryViewer.5.this.lambda$switchToNextAndRemoveCurrentPeer$0(arrayList, indexOf);
+                            StoryViewer.5.this.lambda$switchToNextAndRemoveCurrentPeer$1(arrayList2, indexOf2);
                         }
                     });
                     return;
@@ -1322,7 +1355,13 @@ public class StoryViewer {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$switchToNextAndRemoveCurrentPeer$0(ArrayList arrayList, int i) {
+        public /* synthetic */ void lambda$switchToNextAndRemoveCurrentPeer$0(StoriesController.StoriesList storiesList, ArrayList arrayList) {
+            StoryViewer storyViewer = StoryViewer.this;
+            storyViewer.storiesViewPager.setDays(storiesList.userId, arrayList, storyViewer.currentAccount);
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$switchToNextAndRemoveCurrentPeer$1(ArrayList arrayList, int i) {
             StoryViewer storyViewer = StoryViewer.this;
             storyViewer.storiesViewPager.setPeerIds(arrayList, storyViewer.currentAccount, i);
         }
@@ -1784,7 +1823,13 @@ public class StoryViewer {
                 tLRPC$StoryItem = this.singleStory;
             }
             this.transitionViewHolder.clear();
-            if (this.placeProvider.findView(this.storiesViewPager.getCurrentDialogId(), this.messageId, i, tLRPC$StoryItem == null ? -1 : tLRPC$StoryItem.messageType, this.transitionViewHolder)) {
+            PlaceProvider placeProvider = this.placeProvider;
+            long currentDialogId = this.storiesViewPager.getCurrentDialogId();
+            int i2 = this.messageId;
+            if (this.storiesList != null) {
+                i = this.dayStoryId;
+            }
+            if (placeProvider.findView(currentDialogId, i2, i, tLRPC$StoryItem == null ? -1 : tLRPC$StoryItem.messageType, this.transitionViewHolder)) {
                 View view = this.transitionViewHolder.view;
                 if (view != null) {
                     int[] iArr = new int[2];

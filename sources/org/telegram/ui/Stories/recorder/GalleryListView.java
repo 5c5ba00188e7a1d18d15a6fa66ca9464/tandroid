@@ -1,6 +1,5 @@
 package org.telegram.ui.Stories.recorder;
 
-import android.content.ContentUris;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -16,7 +15,6 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.text.Layout;
@@ -25,7 +23,6 @@ import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.LruCache;
 import android.util.Pair;
-import android.util.Size;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -671,9 +668,7 @@ public class GalleryListView extends FrameLayout implements NotificationCenter.N
         private Pair<Bitmap, int[]> getThumbnail(Object obj) {
             int[] iArr;
             File file;
-            Bitmap readBitmap;
             int i;
-            Uri withAppendedId;
             Bitmap bitmap = null;
             r0 = null;
             r0 = null;
@@ -685,27 +680,14 @@ public class GalleryListView extends FrameLayout implements NotificationCenter.N
             int i2 = (int) (min * 1.39f);
             if (obj instanceof MediaController.PhotoEntry) {
                 MediaController.PhotoEntry photoEntry = (MediaController.PhotoEntry) obj;
-                if (Build.VERSION.SDK_INT >= 29) {
-                    if (photoEntry.isVideo) {
-                        withAppendedId = ContentUris.withAppendedId(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, photoEntry.imageId);
-                    } else {
-                        withAppendedId = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, photoEntry.imageId);
-                    }
-                    try {
-                        readBitmap = getContext().getContentResolver().loadThumbnail(withAppendedId, new Size(min, i2), null);
-                    } catch (Exception unused) {
-                        readBitmap = null;
-                    }
-                } else {
-                    BitmapFactory.Options options = new BitmapFactory.Options();
-                    options.inJustDecodeBounds = true;
-                    readBitmap(photoEntry, options);
-                    options.inSampleSize = StoryEntry.calculateInSampleSize(options, min, i2);
-                    options.inPreferredConfig = Bitmap.Config.RGB_565;
-                    options.inDither = true;
-                    options.inJustDecodeBounds = false;
-                    readBitmap = readBitmap(photoEntry, options);
-                }
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inJustDecodeBounds = true;
+                readBitmap(photoEntry, options);
+                StoryEntry.setupScale(options, min, i2);
+                options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+                options.inDither = true;
+                options.inJustDecodeBounds = false;
+                Bitmap readBitmap = readBitmap(photoEntry, options);
                 if (readBitmap != null && ((float) readBitmap.getHeight()) / ((float) readBitmap.getWidth()) < 1.39f) {
                     if (photoEntry.gradientTopColor == 0 && photoEntry.gradientBottomColor == 0 && readBitmap != null && !readBitmap.isRecycled()) {
                         iArr2 = DominantColors.getColorsSync(true, readBitmap, true);
@@ -726,8 +708,8 @@ public class GalleryListView extends FrameLayout implements NotificationCenter.N
                 BitmapFactory.Options options2 = new BitmapFactory.Options();
                 options2.inJustDecodeBounds = true;
                 BitmapFactory.decodeFile(file.getPath(), options2);
-                options2.inSampleSize = StoryEntry.calculateInSampleSize(options2, min, i2);
-                options2.inPreferredConfig = Bitmap.Config.RGB_565;
+                StoryEntry.setupScale(options2, min, i2);
+                options2.inPreferredConfig = Bitmap.Config.ARGB_8888;
                 options2.inDither = true;
                 options2.inJustDecodeBounds = false;
                 bitmap = BitmapFactory.decodeFile(file.getPath(), options2);
@@ -869,7 +851,7 @@ public class GalleryListView extends FrameLayout implements NotificationCenter.N
             if (photoEntry.isVideo) {
                 return MediaStore.Video.Thumbnails.getThumbnail(getContext().getContentResolver(), photoEntry.imageId, 1, options);
             }
-            return BitmapFactory.decodeFile(photoEntry.path, options);
+            return MediaStore.Images.Thumbnails.getThumbnail(getContext().getContentResolver(), photoEntry.imageId, 1, options);
         }
 
         private String key(MediaController.PhotoEntry photoEntry) {

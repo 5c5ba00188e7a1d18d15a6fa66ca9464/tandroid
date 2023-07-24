@@ -11730,7 +11730,7 @@ public class MessagesStorage extends BaseController {
         SQLiteCursor sQLiteCursor = null;
         try {
             try {
-                sQLiteCursor = this.database.queryFinalized("SELECT uid, info, participants_count FROM chat_settings_v2 WHERE participants_count > 1 AND participants_count <= 20", new Object[0]);
+                sQLiteCursor = this.database.queryFinalized("SELECT uid, info, participants_count FROM chat_settings_v2 WHERE participants_count > 1 AND participants_count <= 50", new Object[0]);
                 while (sQLiteCursor.next()) {
                     long longValue = sQLiteCursor.longValue(0);
                     NativeByteBuffer byteBufferValue = sQLiteCursor.byteBufferValue(1);

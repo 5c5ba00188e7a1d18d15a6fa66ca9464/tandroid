@@ -13,6 +13,7 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.text.Layout;
+import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.StaticLayout;
 import android.text.TextPaint;
@@ -201,19 +202,42 @@ public class HintView2 extends View {
         return this;
     }
 
+    private static boolean contains(CharSequence charSequence, char c) {
+        if (charSequence == null) {
+            return false;
+        }
+        for (int i = 0; i < charSequence.length(); i++) {
+            if (charSequence.charAt(i) == c) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static int getTextWidth(CharSequence charSequence, TextPaint textPaint) {
+        if (charSequence instanceof Spannable) {
+            StaticLayout staticLayout = new StaticLayout(charSequence, textPaint, 99999, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+            if (staticLayout.getLineCount() > 0) {
+                return (int) Math.ceil(staticLayout.getLineWidth(0));
+            }
+            return 0;
+        }
+        return (int) textPaint.measureText(charSequence.toString());
+    }
+
     public static int cutInFancyHalf(CharSequence charSequence, TextPaint textPaint) {
         double ceil;
         if (charSequence == null) {
             return 0;
         }
-        float measureText = textPaint.measureText(charSequence.toString());
+        float textWidth = getTextWidth(charSequence, textPaint);
         int length = charSequence.toString().length();
         int i = length / 2;
-        if (length <= 0) {
-            ceil = Math.ceil(measureText);
+        if (length <= 0 || contains(charSequence, '\n')) {
+            ceil = Math.ceil(textWidth);
         } else {
-            int i2 = i - 2;
-            int i3 = i + 2;
+            int i2 = i - 1;
+            int i3 = i + 1;
             while (true) {
                 if (i2 < 0 || i3 >= length) {
                     break;
@@ -228,7 +252,7 @@ public class HintView2 extends View {
                     i3++;
                 }
             }
-            ceil = Math.ceil(Math.max(0.3f * measureText, (Math.max(i, length - i) / length) * measureText));
+            ceil = Math.ceil(Math.max(0.3f * textWidth, (Math.max(i + 0.5f, (length - i) - 0.5f) / length) * textWidth));
         }
         return (int) ceil;
     }
