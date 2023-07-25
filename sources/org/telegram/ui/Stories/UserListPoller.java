@@ -85,14 +85,16 @@ public class UserListPoller {
                 ArrayList arrayList2 = new ArrayList();
                 for (int i = 0; i < tLRPC$Vector.objects.size(); i++) {
                     TLRPC$User user = MessagesController.getInstance(UserListPoller.this.currentAccount).getUser((Long) arrayList.get(i));
-                    int intValue = ((Integer) tLRPC$Vector.objects.get(i)).intValue();
-                    user.stories_max_id = intValue;
-                    if (intValue != 0) {
-                        user.flags2 |= 32;
-                    } else {
-                        user.flags2 &= -33;
+                    if (user != null) {
+                        int intValue = ((Integer) tLRPC$Vector.objects.get(i)).intValue();
+                        user.stories_max_id = intValue;
+                        if (intValue != 0) {
+                            user.flags2 |= 32;
+                        } else {
+                            user.flags2 &= -33;
+                        }
+                        arrayList2.add(user);
                     }
-                    arrayList2.add(user);
                 }
                 MessagesStorage.getInstance(UserListPoller.this.currentAccount).putUsersAndChats(arrayList2, null, true, true);
                 NotificationCenter.getInstance(UserListPoller.this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.updateInterfaces, 0);

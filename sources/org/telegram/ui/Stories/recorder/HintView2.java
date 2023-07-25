@@ -252,7 +252,7 @@ public class HintView2 extends View {
                     i3++;
                 }
             }
-            ceil = Math.ceil(Math.max(0.3f * textWidth, (Math.max(i + 0.5f, (length - i) - 0.5f) / length) * textWidth));
+            ceil = Math.ceil(Math.max(0.3f * textWidth, (Math.max(i + 0.5f, (length - i) + 0.5f) / length) * textWidth));
         }
         return (int) ceil;
     }
@@ -264,6 +264,11 @@ public class HintView2 extends View {
 
     public HintView2 setAnimatedTextHacks(boolean z, boolean z2, boolean z3) {
         this.textDrawable.setHacks(z, z2, z3);
+        return this;
+    }
+
+    public HintView2 setInnerPadding(int i, int i2, int i3, int i4) {
+        this.innerPadding.set(AndroidUtilities.dp(i), AndroidUtilities.dp(i2), AndroidUtilities.dp(i3), AndroidUtilities.dp(i4));
         return this;
     }
 

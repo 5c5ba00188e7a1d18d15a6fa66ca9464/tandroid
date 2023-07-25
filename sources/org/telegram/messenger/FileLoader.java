@@ -871,21 +871,21 @@ public class FileLoader extends BaseController {
         loadFile(null, null, webFile, null, null, null, null, 0L, i, i2);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:119:0x024a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:119:0x024e, code lost:
         if (r7 != null) goto L92;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:120:0x024c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:120:0x0250, code lost:
         r5 = r7;
         r7 = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:121:0x024f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:121:0x0253, code lost:
         r7 = false;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:131:0x026e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:131:0x0272, code lost:
         if (r7 != null) goto L92;
      */
-    /* JADX WARN: Removed duplicated region for block: B:116:0x023f  */
-    /* JADX WARN: Removed duplicated region for block: B:144:0x029b  */
+    /* JADX WARN: Removed duplicated region for block: B:116:0x0243  */
+    /* JADX WARN: Removed duplicated region for block: B:144:0x029f  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -970,14 +970,13 @@ public class FileLoader extends BaseController {
                 i3 = 0;
             } else if (tLRPC$TL_fileLocationToBeDeprecated != null) {
                 long j4 = tLRPC$TL_fileLocationToBeDeprecated.volume_id;
-                int i9 = tLRPC$TL_fileLocationToBeDeprecated.dc_id;
                 str3 = " position in queue ";
                 i5 = 0;
                 i3 = 0;
                 fileLoader = this;
+                i4 = tLRPC$TL_fileLocationToBeDeprecated.dc_id + (tLRPC$TL_fileLocationToBeDeprecated.local_id << 16);
                 fileLoadOperation = new FileLoadOperation(imageLocation, obj, str, j);
                 j3 = j4;
-                i4 = i9;
             } else {
                 str3 = " position in queue ";
                 if (tLRPC$Document != null) {
@@ -1113,7 +1112,7 @@ public class FileLoader extends BaseController {
                 directory = getDirectory(i5);
                 str4 = str2;
             }
-            int i10 = i8;
+            int i9 = i8;
             String str6 = str2;
             fileLoadOperation.setPaths(fileLoader.currentAccount, str6, fileLoaderPriorityQueue2, directory, directory3, str4);
             if (i2 == 10) {
@@ -1122,12 +1121,12 @@ public class FileLoader extends BaseController {
             FileLoadOperation fileLoadOperation2 = fileLoadOperation;
             fileLoadOperation2.setDelegate(new 2(obj, tLRPC$Document, str6, i5));
             fileLoader.loadOperationPaths.put(str6, fileLoadOperation2);
-            fileLoadOperation2.setPriority(i10);
+            fileLoadOperation2.setPriority(i9);
             if (fileLoadOperationStream != null) {
                 fileLoadOperation2.setStream(fileLoadOperationStream, z, j2);
             }
             fileLoaderPriorityQueue2.add(fileLoadOperation2);
-            fileLoaderPriorityQueue2.checkLoadingOperations(fileLoadOperation2.isStory && i10 >= 3);
+            fileLoaderPriorityQueue2.checkLoadingOperations(fileLoadOperation2.isStory && i9 >= 3);
             if (BuildVars.LOGS_ENABLED) {
                 FileLog.d("create load operation fileName=" + str6 + " documentName=" + getDocumentFileName(tLRPC$Document) + "size=" + AndroidUtilities.formatFileSize(fileLoadOperation2.totalBytesCount) + str3 + fileLoadOperation2.getPositionInQueue() + " account=" + fileLoader2.currentAccount);
             }
@@ -1500,8 +1499,8 @@ public class FileLoader extends BaseController {
         return getPathToAttach(tLObject, null, str, z, z2);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:109:0x0167  */
-    /* JADX WARN: Removed duplicated region for block: B:111:0x016f  */
+    /* JADX WARN: Removed duplicated region for block: B:110:0x0172  */
+    /* JADX WARN: Removed duplicated region for block: B:112:0x017a  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1513,9 +1512,11 @@ public class FileLoader extends BaseController {
         int i2;
         int i3;
         int i4;
+        int i5;
+        int i6;
         String path;
         File file = null;
-        int i5 = 4;
+        int i7 = 4;
         if (z) {
             file = getDirectory(4);
         } else {
@@ -1526,14 +1527,14 @@ public class FileLoader extends BaseController {
                 }
                 if (tLRPC$Document.key == null) {
                     if (MessageObject.isVoiceDocument(tLRPC$Document)) {
-                        i5 = 1;
+                        i7 = 1;
                     } else {
-                        i5 = MessageObject.isVideoDocument(tLRPC$Document) ? 2 : 3;
+                        i7 = MessageObject.isVideoDocument(tLRPC$Document) ? 2 : 3;
                     }
                 }
                 j2 = tLRPC$Document.id;
-                i4 = tLRPC$Document.dc_id;
-                file = getDirectory(i5);
+                i6 = tLRPC$Document.dc_id;
+                file = getDirectory(i7);
             } else if (tLObject instanceof TLRPC$Photo) {
                 return getPathToAttach(getClosestPhotoSizeWithSize(((TLRPC$Photo) tLObject).sizes, AndroidUtilities.getPhotoSize()), str2, false, z2);
             } else {
@@ -1546,14 +1547,16 @@ public class FileLoader extends BaseController {
                             TLRPC$FileLocation tLRPC$FileLocation2 = tLRPC$PhotoSize.location;
                             j2 = tLRPC$FileLocation2.volume_id;
                             i4 = tLRPC$FileLocation2.dc_id;
+                            i5 = tLRPC$FileLocation2.local_id;
                         } else {
                             file = getDirectory(0);
                         }
                     }
-                    i5 = 0;
+                    i7 = 0;
                     TLRPC$FileLocation tLRPC$FileLocation22 = tLRPC$PhotoSize.location;
                     j2 = tLRPC$FileLocation22.volume_id;
                     i4 = tLRPC$FileLocation22.dc_id;
+                    i5 = tLRPC$FileLocation22.local_id;
                 } else if (tLObject instanceof TLRPC$TL_videoSize) {
                     TLRPC$TL_videoSize tLRPC$TL_videoSize = (TLRPC$TL_videoSize) tLObject;
                     TLRPC$FileLocation tLRPC$FileLocation3 = tLRPC$TL_videoSize.location;
@@ -1561,17 +1564,18 @@ public class FileLoader extends BaseController {
                         file = getDirectory(4);
                     } else {
                         file = getDirectory(0);
-                        i5 = 0;
+                        i7 = 0;
                     }
                     TLRPC$FileLocation tLRPC$FileLocation4 = tLRPC$TL_videoSize.location;
                     j2 = tLRPC$FileLocation4.volume_id;
                     i4 = tLRPC$FileLocation4.dc_id;
+                    i5 = tLRPC$FileLocation4.local_id;
                 } else if (tLObject instanceof TLRPC$FileLocation) {
                     TLRPC$FileLocation tLRPC$FileLocation5 = (TLRPC$FileLocation) tLObject;
                     if (tLRPC$FileLocation5.key == null) {
                         j = tLRPC$FileLocation5.volume_id;
                         if (j != -2147483648L || tLRPC$FileLocation5.local_id >= 0) {
-                            i = tLRPC$FileLocation5.dc_id;
+                            i = tLRPC$FileLocation5.dc_id + (tLRPC$FileLocation5.local_id << 16);
                             file = getDirectory(0);
                             j2 = j;
                             i2 = 0;
@@ -1617,9 +1621,10 @@ public class FileLoader extends BaseController {
                 } else if ((tLObject instanceof TLRPC$TL_secureFile) || (tLObject instanceof SecureDocument)) {
                     file = getDirectory(4);
                 }
+                i6 = (i5 << 16) + i4;
             }
-            i3 = i4;
-            i2 = i5;
+            i3 = i6;
+            i2 = i7;
             if (file != null) {
             }
         }

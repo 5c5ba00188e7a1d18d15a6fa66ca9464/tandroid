@@ -65,7 +65,10 @@ public class PhotoView extends EntityView {
         imageReceiver.setParentView(this.containerView);
         imageReceiver.setRoundRadius(AndroidUtilities.dp(12.0f));
         imageReceiver.setOrientation(i, i2, true);
-        imageReceiver.setImage(ImageLocation.getForPath(str), null, null, null, null, 1);
+        android.graphics.Point point2 = AndroidUtilities.displaySize;
+        int round = Math.round((Math.min(point2.x, point2.y) * 0.8f) / AndroidUtilities.density);
+        ImageLocation forPath = ImageLocation.getForPath(str);
+        imageReceiver.setImage(forPath, round + "_" + round, null, null, null, 1);
         updatePosition();
     }
 

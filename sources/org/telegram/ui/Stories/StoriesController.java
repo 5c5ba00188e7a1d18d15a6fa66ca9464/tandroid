@@ -1337,29 +1337,30 @@ public class StoriesController {
 
     public void removeContact(long j) {
         int i = 0;
-        int i2 = 0;
         while (true) {
-            if (i2 >= this.dialogListStories.size()) {
+            if (i >= this.dialogListStories.size()) {
                 break;
-            } else if (this.dialogListStories.get(i2).user_id == j) {
-                this.dialogListStories.remove(i2);
-                break;
-            } else {
-                i2++;
-            }
-        }
-        while (true) {
-            if (i >= this.hiddenListStories.size()) {
-                break;
-            } else if (this.hiddenListStories.get(i).user_id == j) {
-                this.hiddenListStories.remove(i);
+            } else if (this.dialogListStories.get(i).user_id == j) {
+                this.dialogListStories.remove(i);
                 break;
             } else {
                 i++;
             }
         }
+        int i2 = 0;
+        while (true) {
+            if (i2 >= this.hiddenListStories.size()) {
+                break;
+            } else if (this.hiddenListStories.get(i2).user_id == j) {
+                this.hiddenListStories.remove(i2);
+                break;
+            } else {
+                i2++;
+            }
+        }
         this.storiesStorage.deleteAllUserStories(j);
         MessagesController.getInstance(this.currentAccount).checkArchiveFolder();
+        NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.storiesUpdated, new Object[0]);
     }
 
     public StoriesStorage getStoriesStorage() {
@@ -1376,6 +1377,7 @@ public class StoriesController {
     }
 
     private void checkExpireStories(ArrayList<TLRPC$TL_userStories> arrayList) {
+        boolean z = false;
         for (int i = 0; i < arrayList.size(); i++) {
             TLRPC$TL_userStories tLRPC$TL_userStories = arrayList.get(i);
             int i2 = 0;
@@ -1389,7 +1391,11 @@ public class StoriesController {
             if (tLRPC$TL_userStories.stories.isEmpty()) {
                 this.allStoriesMap.remove(tLRPC$TL_userStories.user_id);
                 arrayList.remove(tLRPC$TL_userStories);
+                z = true;
             }
+        }
+        if (z) {
+            NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.storiesUpdated, new Object[0]);
         }
     }
 
@@ -1406,6 +1412,7 @@ public class StoriesController {
         if (stories.stories.isEmpty()) {
             this.dialogListStories.remove(stories);
             this.hiddenListStories.remove(stories);
+            NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.storiesUpdated, new Object[0]);
         }
     }
 

@@ -5891,10 +5891,10 @@ public class NotificationsController extends BaseController {
     /* JADX WARN: Code restructure failed: missing block: B:161:0x03c8, code lost:
         if (r5.local_id != 0) goto L631;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:582:0x0f80, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:583:0x0f81, code lost:
         r0 = move-exception;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:583:0x0f81, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:584:0x0f82, code lost:
         org.telegram.messenger.FileLog.e(r0);
      */
     /* JADX WARN: Removed duplicated region for block: B:103:0x02c4  */
@@ -5916,57 +5916,57 @@ public class NotificationsController extends BaseController {
     /* JADX WARN: Removed duplicated region for block: B:259:0x0650 A[ADDED_TO_REGION] */
     /* JADX WARN: Removed duplicated region for block: B:262:0x0660  */
     /* JADX WARN: Removed duplicated region for block: B:285:0x06be  */
-    /* JADX WARN: Removed duplicated region for block: B:291:0x06cf A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:296:0x06e3  */
-    /* JADX WARN: Removed duplicated region for block: B:304:0x06f8 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:314:0x0724  */
-    /* JADX WARN: Removed duplicated region for block: B:338:0x082c A[LOOP:5: B:336:0x0824->B:338:0x082c, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:346:0x0871  */
-    /* JADX WARN: Removed duplicated region for block: B:347:0x0877  */
-    /* JADX WARN: Removed duplicated region for block: B:349:0x0883  */
-    /* JADX WARN: Removed duplicated region for block: B:365:0x08eb  */
-    /* JADX WARN: Removed duplicated region for block: B:369:0x0916  */
-    /* JADX WARN: Removed duplicated region for block: B:395:0x09a2  */
-    /* JADX WARN: Removed duplicated region for block: B:409:0x09e4  */
-    /* JADX WARN: Removed duplicated region for block: B:448:0x0a8e  */
-    /* JADX WARN: Removed duplicated region for block: B:486:0x0b8b  */
-    /* JADX WARN: Removed duplicated region for block: B:487:0x0b8e  */
-    /* JADX WARN: Removed duplicated region for block: B:494:0x0bba  */
-    /* JADX WARN: Removed duplicated region for block: B:499:0x0c14  */
-    /* JADX WARN: Removed duplicated region for block: B:503:0x0c43  */
-    /* JADX WARN: Removed duplicated region for block: B:507:0x0c4c  */
-    /* JADX WARN: Removed duplicated region for block: B:515:0x0c6d  */
-    /* JADX WARN: Removed duplicated region for block: B:523:0x0cb3  */
-    /* JADX WARN: Removed duplicated region for block: B:534:0x0d2d  */
-    /* JADX WARN: Removed duplicated region for block: B:539:0x0d54  */
-    /* JADX WARN: Removed duplicated region for block: B:548:0x0d96  */
-    /* JADX WARN: Removed duplicated region for block: B:551:0x0db5  */
-    /* JADX WARN: Removed duplicated region for block: B:554:0x0e15  */
-    /* JADX WARN: Removed duplicated region for block: B:558:0x0e52  */
-    /* JADX WARN: Removed duplicated region for block: B:563:0x0e79  */
-    /* JADX WARN: Removed duplicated region for block: B:564:0x0e9c  */
-    /* JADX WARN: Removed duplicated region for block: B:567:0x0eb9  */
-    /* JADX WARN: Removed duplicated region for block: B:572:0x0edc  */
-    /* JADX WARN: Removed duplicated region for block: B:575:0x0f10  */
-    /* JADX WARN: Removed duplicated region for block: B:579:0x0f69 A[Catch: Exception -> 0x0f80, TryCatch #1 {Exception -> 0x0f80, blocks: (B:577:0x0f4b, B:579:0x0f69, B:580:0x0f70), top: B:680:0x0f4b }] */
-    /* JADX WARN: Removed duplicated region for block: B:585:0x0f86  */
-    /* JADX WARN: Removed duplicated region for block: B:587:0x0f91  */
-    /* JADX WARN: Removed duplicated region for block: B:589:0x0f96  */
-    /* JADX WARN: Removed duplicated region for block: B:594:0x0fa4  */
+    /* JADX WARN: Removed duplicated region for block: B:292:0x06d0 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:297:0x06e4  */
+    /* JADX WARN: Removed duplicated region for block: B:305:0x06f9 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:315:0x0725  */
+    /* JADX WARN: Removed duplicated region for block: B:339:0x082d A[LOOP:5: B:337:0x0825->B:339:0x082d, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:347:0x0872  */
+    /* JADX WARN: Removed duplicated region for block: B:348:0x0878  */
+    /* JADX WARN: Removed duplicated region for block: B:350:0x0884  */
+    /* JADX WARN: Removed duplicated region for block: B:366:0x08ec  */
+    /* JADX WARN: Removed duplicated region for block: B:370:0x0917  */
+    /* JADX WARN: Removed duplicated region for block: B:396:0x09a3  */
+    /* JADX WARN: Removed duplicated region for block: B:410:0x09e5  */
+    /* JADX WARN: Removed duplicated region for block: B:449:0x0a8f  */
+    /* JADX WARN: Removed duplicated region for block: B:487:0x0b8c  */
+    /* JADX WARN: Removed duplicated region for block: B:488:0x0b8f  */
+    /* JADX WARN: Removed duplicated region for block: B:495:0x0bbb  */
+    /* JADX WARN: Removed duplicated region for block: B:500:0x0c15  */
+    /* JADX WARN: Removed duplicated region for block: B:504:0x0c44  */
+    /* JADX WARN: Removed duplicated region for block: B:508:0x0c4d  */
+    /* JADX WARN: Removed duplicated region for block: B:516:0x0c6e  */
+    /* JADX WARN: Removed duplicated region for block: B:524:0x0cb4  */
+    /* JADX WARN: Removed duplicated region for block: B:535:0x0d2e  */
+    /* JADX WARN: Removed duplicated region for block: B:540:0x0d55  */
+    /* JADX WARN: Removed duplicated region for block: B:549:0x0d97  */
+    /* JADX WARN: Removed duplicated region for block: B:552:0x0db6  */
+    /* JADX WARN: Removed duplicated region for block: B:555:0x0e16  */
+    /* JADX WARN: Removed duplicated region for block: B:559:0x0e53  */
+    /* JADX WARN: Removed duplicated region for block: B:564:0x0e7a  */
+    /* JADX WARN: Removed duplicated region for block: B:565:0x0e9d  */
+    /* JADX WARN: Removed duplicated region for block: B:568:0x0eba  */
+    /* JADX WARN: Removed duplicated region for block: B:573:0x0edd  */
+    /* JADX WARN: Removed duplicated region for block: B:576:0x0f11  */
+    /* JADX WARN: Removed duplicated region for block: B:580:0x0f6a A[Catch: Exception -> 0x0f81, TryCatch #9 {Exception -> 0x0f81, blocks: (B:578:0x0f4c, B:580:0x0f6a, B:581:0x0f71), top: B:697:0x0f4c }] */
+    /* JADX WARN: Removed duplicated region for block: B:586:0x0f87  */
+    /* JADX WARN: Removed duplicated region for block: B:588:0x0f92  */
+    /* JADX WARN: Removed duplicated region for block: B:590:0x0f97  */
+    /* JADX WARN: Removed duplicated region for block: B:595:0x0fa5  */
     /* JADX WARN: Removed duplicated region for block: B:59:0x0163  */
-    /* JADX WARN: Removed duplicated region for block: B:602:0x0fbd  */
-    /* JADX WARN: Removed duplicated region for block: B:604:0x0fc2  */
-    /* JADX WARN: Removed duplicated region for block: B:607:0x0fce  */
-    /* JADX WARN: Removed duplicated region for block: B:612:0x0fdb  */
-    /* JADX WARN: Removed duplicated region for block: B:625:0x1057 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:634:0x1089  */
-    /* JADX WARN: Removed duplicated region for block: B:639:0x1111  */
-    /* JADX WARN: Removed duplicated region for block: B:646:0x115e  */
-    /* JADX WARN: Removed duplicated region for block: B:652:0x1177  */
-    /* JADX WARN: Removed duplicated region for block: B:662:0x11c6  */
+    /* JADX WARN: Removed duplicated region for block: B:603:0x0fbe  */
+    /* JADX WARN: Removed duplicated region for block: B:605:0x0fc3  */
+    /* JADX WARN: Removed duplicated region for block: B:608:0x0fcf  */
+    /* JADX WARN: Removed duplicated region for block: B:613:0x0fdc  */
+    /* JADX WARN: Removed duplicated region for block: B:626:0x1058 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:635:0x108a  */
+    /* JADX WARN: Removed duplicated region for block: B:640:0x1112  */
+    /* JADX WARN: Removed duplicated region for block: B:647:0x115f  */
+    /* JADX WARN: Removed duplicated region for block: B:653:0x1178  */
+    /* JADX WARN: Removed duplicated region for block: B:663:0x11c7  */
     /* JADX WARN: Removed duplicated region for block: B:67:0x01db  */
-    /* JADX WARN: Removed duplicated region for block: B:692:0x0b97 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:698:0x066a A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:687:0x0b98 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:699:0x066a A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:70:0x0219  */
     /* JADX WARN: Removed duplicated region for block: B:72:0x0222  */
     /* JADX WARN: Removed duplicated region for block: B:78:0x023a  */
@@ -6090,6 +6090,8 @@ public class NotificationsController extends BaseController {
         final Uri uriForFile;
         String str15;
         File file7;
+        Bitmap createScaledBitmap;
+        Canvas canvas;
         DialogKey dialogKey5;
         ArrayList<TLRPC$TL_keyboardButtonRow> arrayList11;
         Bitmap bitmap3;
@@ -6523,7 +6525,7 @@ public class NotificationsController extends BaseController {
                                             } catch (Throwable th3) {
                                                 th = th3;
                                             }
-                                            boolean z14 = messageObject2 == null && !(messageObject2.messageOwner.action instanceof TLRPC$TL_messageActionChatJoinedByRequest);
+                                            boolean z14 = (messageObject2 == null && (messageObject2.messageOwner.action instanceof TLRPC$TL_messageActionChatJoinedByRequest)) ? false : true;
                                             String str172 = "";
                                             if (person == null && z14) {
                                                 messagingStyle = new NotificationCompat.MessagingStyle(person);
@@ -6761,26 +6763,18 @@ public class NotificationsController extends BaseController {
                                                                                         Bitmap decodeFile = BitmapFactory.decodeFile(pathToMessage.getAbsolutePath());
                                                                                         Bitmap stackBlurBitmapMax = Utilities.stackBlurBitmapMax(decodeFile);
                                                                                         decodeFile.recycle();
-                                                                                        Bitmap createScaledBitmap = Bitmap.createScaledBitmap(stackBlurBitmapMax, decodeFile.getWidth(), decodeFile.getHeight(), true);
+                                                                                        createScaledBitmap = Bitmap.createScaledBitmap(stackBlurBitmapMax, decodeFile.getWidth(), decodeFile.getHeight(), true);
                                                                                         Utilities.stackBlurBitmap(createScaledBitmap, 5);
                                                                                         stackBlurBitmapMax.recycle();
-                                                                                        Canvas canvas = new Canvas(createScaledBitmap);
+                                                                                        canvas = new Canvas(createScaledBitmap);
                                                                                         file7 = pathToMessage;
-                                                                                        try {
-                                                                                            notificationsController3.mediaSpoilerEffect.setColor(ColorUtils.setAlphaComponent(-1, (int) (Color.alpha(-1) * 0.325f)));
-                                                                                            longSparseArray9 = longSparseArray8;
-                                                                                        } catch (Exception e) {
-                                                                                            e = e;
-                                                                                            longSparseArray9 = longSparseArray8;
-                                                                                            FileLog.e(e);
-                                                                                            file5 = file7;
-                                                                                            NotificationCompat.MessagingStyle.Message message = new NotificationCompat.MessagingStyle.Message(str19, messageObject4.messageOwner.date * 1000, person2);
-                                                                                            String str21 = messageObject4.isSticker() ? "image/webp" : "image/jpeg";
-                                                                                            if (file5.exists()) {
-                                                                                            }
-                                                                                            if (uriForFile != null) {
-                                                                                            }
-                                                                                        }
+                                                                                    } catch (Exception e) {
+                                                                                        e = e;
+                                                                                        file7 = pathToMessage;
+                                                                                    }
+                                                                                    try {
+                                                                                        notificationsController3.mediaSpoilerEffect.setColor(ColorUtils.setAlphaComponent(-1, (int) (Color.alpha(-1) * 0.325f)));
+                                                                                        longSparseArray9 = longSparseArray8;
                                                                                         try {
                                                                                             notificationsController3.mediaSpoilerEffect.setBounds(0, 0, createScaledBitmap.getWidth(), createScaledBitmap.getHeight());
                                                                                             notificationsController3.mediaSpoilerEffect.draw(canvas);
@@ -6793,8 +6787,8 @@ public class NotificationsController extends BaseController {
                                                                                             e = e2;
                                                                                             FileLog.e(e);
                                                                                             file5 = file7;
-                                                                                            NotificationCompat.MessagingStyle.Message message2 = new NotificationCompat.MessagingStyle.Message(str19, messageObject4.messageOwner.date * 1000, person2);
-                                                                                            String str212 = messageObject4.isSticker() ? "image/webp" : "image/jpeg";
+                                                                                            NotificationCompat.MessagingStyle.Message message = new NotificationCompat.MessagingStyle.Message(str19, messageObject4.messageOwner.date * 1000, person2);
+                                                                                            String str21 = messageObject4.isSticker() ? "image/webp" : "image/jpeg";
                                                                                             if (file5.exists()) {
                                                                                             }
                                                                                             if (uriForFile != null) {
@@ -6802,7 +6796,15 @@ public class NotificationsController extends BaseController {
                                                                                         }
                                                                                     } catch (Exception e3) {
                                                                                         e = e3;
-                                                                                        file7 = pathToMessage;
+                                                                                        longSparseArray9 = longSparseArray8;
+                                                                                        FileLog.e(e);
+                                                                                        file5 = file7;
+                                                                                        NotificationCompat.MessagingStyle.Message message2 = new NotificationCompat.MessagingStyle.Message(str19, messageObject4.messageOwner.date * 1000, person2);
+                                                                                        String str212 = messageObject4.isSticker() ? "image/webp" : "image/jpeg";
+                                                                                        if (file5.exists()) {
+                                                                                        }
+                                                                                        if (uriForFile != null) {
+                                                                                        }
                                                                                     }
                                                                                 }
                                                                                 file5 = file7;

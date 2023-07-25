@@ -1971,13 +1971,13 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                 }
 
                 /* JADX INFO: Access modifiers changed from: protected */
-                /* JADX WARN: Removed duplicated region for block: B:174:0x05a6  */
-                /* JADX WARN: Removed duplicated region for block: B:229:0x097f  */
-                /* JADX WARN: Removed duplicated region for block: B:238:0x09b2  */
-                /* JADX WARN: Removed duplicated region for block: B:239:0x09b8  */
-                /* JADX WARN: Removed duplicated region for block: B:246:0x09cd  */
-                /* JADX WARN: Removed duplicated region for block: B:252:0x09ea  */
-                /* JADX WARN: Removed duplicated region for block: B:272:0x05f5 A[SYNTHETIC] */
+                /* JADX WARN: Removed duplicated region for block: B:174:0x05a7  */
+                /* JADX WARN: Removed duplicated region for block: B:229:0x0980  */
+                /* JADX WARN: Removed duplicated region for block: B:238:0x09b3  */
+                /* JADX WARN: Removed duplicated region for block: B:239:0x09b9  */
+                /* JADX WARN: Removed duplicated region for block: B:246:0x09ce  */
+                /* JADX WARN: Removed duplicated region for block: B:252:0x09eb  */
+                /* JADX WARN: Removed duplicated region for block: B:272:0x05f6 A[SYNTHETIC] */
                 @Override // org.telegram.ui.Components.BlurredRecyclerView, org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
                 /*
                     Code decompiled incorrectly, please refer to instructions dump.
@@ -2019,7 +2019,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                         if (staticLayout == null || staticLayout.getWidth() != measuredWidth) {
                             this.archivedHintLayout = new StaticLayout(LocaleController.getString("ProfileStoriesArchiveHint", R.string.ProfileStoriesArchiveHint), this.archivedHintPaint, measuredWidth, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
                             this.archivedHintLayoutWidth = 0.0f;
-                            this.archivedHintLayoutLeft = 0.0f;
+                            this.archivedHintLayoutLeft = measuredWidth;
                             for (int i29 = 0; i29 < this.archivedHintLayout.getLineCount(); i29++) {
                                 this.archivedHintLayoutWidth = Math.max(this.archivedHintLayoutWidth, this.archivedHintLayout.getLineWidth(i29));
                                 this.archivedHintLayoutLeft = Math.min(this.archivedHintLayoutLeft, this.archivedHintLayout.getLineLeft(i29));
@@ -6156,7 +6156,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                 FileLog.e(e);
             }
         } else if (i3 == 8 || i3 == 9) {
-            this.profileActivity.getOrCreateStoryViewer().open(getContext(), messageObject.storyItem, messageObject.getId(), (i3 == 8 ? this.storiesAdapter : this.archivedStoriesAdapter).storiesList, StoriesListPlaceProvider.of(this.mediaPages[i2].listView));
+            this.profileActivity.getOrCreateStoryViewer().open(getContext(), messageObject.getId(), (i3 == 8 ? this.storiesAdapter : this.archivedStoriesAdapter).storiesList, StoriesListPlaceProvider.of(this.mediaPages[i2].listView));
         }
         updateForwardItem();
     }

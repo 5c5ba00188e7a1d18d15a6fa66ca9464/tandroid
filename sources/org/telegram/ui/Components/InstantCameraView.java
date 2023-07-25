@@ -2011,12 +2011,14 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                     } catch (InterruptedException unused) {
                     }
                 }
-                this.fileWriteQueue = new DispatchQueue("IVR_FileWriteQueue");
+                DispatchQueue dispatchQueue = new DispatchQueue("IVR_FileWriteQueue");
+                this.fileWriteQueue = dispatchQueue;
+                dispatchQueue.setPriority(10);
                 this.keyframeThumbs.clear();
                 this.frameCount = 0;
-                DispatchQueue dispatchQueue = this.generateKeyframeThumbsQueue;
-                if (dispatchQueue != null) {
-                    dispatchQueue.cleanupQueue();
+                DispatchQueue dispatchQueue2 = this.generateKeyframeThumbsQueue;
+                if (dispatchQueue2 != null) {
+                    dispatchQueue2.cleanupQueue();
                     this.generateKeyframeThumbsQueue.recycle();
                 }
                 this.generateKeyframeThumbsQueue = new DispatchQueue("keyframes_thumb_queque");

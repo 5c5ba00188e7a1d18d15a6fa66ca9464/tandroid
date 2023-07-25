@@ -626,7 +626,9 @@ public class FilePathDatabase {
         if (this.dispatchQueue == null) {
             synchronized (this) {
                 if (this.dispatchQueue == null) {
-                    this.dispatchQueue = new DispatchQueue("files_database_queue_" + this.currentAccount);
+                    DispatchQueue dispatchQueue = new DispatchQueue("files_database_queue_" + this.currentAccount);
+                    this.dispatchQueue = dispatchQueue;
+                    dispatchQueue.setPriority(10);
                 }
             }
         }

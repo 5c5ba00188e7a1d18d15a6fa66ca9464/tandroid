@@ -989,26 +989,26 @@ public class FileLoadOperation {
             return;
         }
         this.paused = true;
+        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda1
+            @Override // java.lang.Runnable
+            public final void run() {
+                FileLoadOperation.this.lambda$pause$6();
+            }
+        });
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$pause$6() {
         if (this.isStory) {
-            Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda1
-                @Override // java.lang.Runnable
-                public final void run() {
-                    FileLoadOperation.this.lambda$pause$6();
-                }
-            });
+            if (BuildVars.LOGS_ENABLED) {
+                FileLog.d("debug_loading:" + this.cacheFileFinal.getName() + " pause operation, clear requests");
+            }
+            clearOperaion(null, false);
             return;
         }
         for (int i = 0; i < this.requestInfos.size(); i++) {
             ConnectionsManager.getInstance(this.currentAccount).failNotRunningRequest(this.requestInfos.get(i).requestToken);
         }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$pause$6() {
-        if (BuildVars.LOGS_ENABLED) {
-            FileLog.d("debug_loading:" + this.cacheFileFinal.getName() + " pause operation, clear requests");
-        }
-        clearOperaion(null, false);
     }
 
     public boolean start() {
@@ -1167,7 +1167,7 @@ public class FileLoadOperation {
                     }
                 }
                 if (BuildVars.LOGS_ENABLED) {
-                    FileLog.d("debug_loading: delete existing file cause file size mismatch " + this.cacheFileFinal.getName() + " totalSize= " + this.totalBytesCount + " existingFileSize=" + this.cacheFileFinal.length());
+                    FileLog.d("debug_loading: delete existing file cause file size mismatch " + this.cacheFileFinal.getName() + " totalSize=" + this.totalBytesCount + " existingFileSize=" + this.cacheFileFinal.length());
                 }
                 if (!this.delegate.hasAnotherRefOnFile(this.cacheFileFinal.toString())) {
                     this.cacheFileFinal.delete();

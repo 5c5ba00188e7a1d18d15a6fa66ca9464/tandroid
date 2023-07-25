@@ -2802,6 +2802,8 @@
     <string name="GroupSettingsTitle">Group Settings</string>
     <string name="GroupStickers">Group Stickers</string>
     <string name="GroupStickersInfo">You can choose a sticker set that will be available to all group members when they are chatting in this group.</string>
+    <string name="GroupTooLarge">Group Too Large</string>
+    <string name="GroupTooLargeMessage">You can select groups that are up to 200 members.</string>
     <string name="GroupType">Group Type</string>
     <string name="GroupTypeHeader">Group type</string>
     <string name="GroupUserAddLimit">Sorry, this group is full.</string>

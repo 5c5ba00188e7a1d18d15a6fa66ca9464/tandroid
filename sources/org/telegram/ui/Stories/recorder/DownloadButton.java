@@ -386,7 +386,11 @@ public class DownloadButton extends ImageView {
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$start$0(VideoEditedInfo videoEditedInfo) {
-            this.messageObject.videoEditedInfo = videoEditedInfo;
+            MessageObject messageObject = this.messageObject;
+            if (messageObject == null) {
+                return;
+            }
+            messageObject.videoEditedInfo = videoEditedInfo;
             MediaController.getInstance().scheduleVideoConvert(this.messageObject);
         }
 

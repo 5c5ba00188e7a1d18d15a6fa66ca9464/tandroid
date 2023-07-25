@@ -600,7 +600,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static /* synthetic */ void access$30600(ProfileActivity profileActivity, View view) {
+    public static /* synthetic */ void access$30700(ProfileActivity profileActivity, View view) {
         profileActivity.onTextDetailCellImageClicked(view);
     }
 
@@ -11197,25 +11197,25 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             }
                             this.lastListViewHeight = ProfileActivity.this.listView.getMeasuredHeight();
                             int childCount = ProfileActivity.this.listView.getChildCount();
-                            if (childCount == ProfileActivity.this.listAdapter.getItemCount()) {
-                                int i7 = 0;
-                                for (int i8 = 0; i8 < childCount; i8++) {
-                                    int childAdapterPosition = ProfileActivity.this.listView.getChildAdapterPosition(ProfileActivity.this.listView.getChildAt(i8));
-                                    if (childAdapterPosition >= 0 && childAdapterPosition != ProfileActivity.this.bottomPaddingRow) {
-                                        i7 += ProfileActivity.this.listView.getChildAt(i8).getMeasuredHeight();
-                                    }
-                                }
-                                int measuredHeight = ((((BaseFragment) ProfileActivity.this).fragmentView.getMeasuredHeight() - ActionBar.getCurrentActionBarHeight()) - AndroidUtilities.statusBarHeight) - i7;
-                                if (measuredHeight > AndroidUtilities.dp(88.0f)) {
-                                    measuredHeight = 0;
-                                }
-                                int i9 = measuredHeight > 0 ? measuredHeight : 0;
-                                int measuredWidth = ProfileActivity.this.listView.getMeasuredWidth();
-                                this.lastPaddingHeight = i9;
-                                setMeasuredDimension(measuredWidth, i9);
+                            if (childCount != ProfileActivity.this.listAdapter.getItemCount()) {
+                                setMeasuredDimension(ProfileActivity.this.listView.getMeasuredWidth(), this.lastPaddingHeight);
                                 return;
                             }
-                            setMeasuredDimension(ProfileActivity.this.listView.getMeasuredWidth(), this.lastPaddingHeight);
+                            int i7 = 0;
+                            for (int i8 = 0; i8 < childCount; i8++) {
+                                int childAdapterPosition = ProfileActivity.this.listView.getChildAdapterPosition(ProfileActivity.this.listView.getChildAt(i8));
+                                if (childAdapterPosition >= 0 && childAdapterPosition != ProfileActivity.this.bottomPaddingRow) {
+                                    i7 += ProfileActivity.this.listView.getChildAt(i8).getMeasuredHeight();
+                                }
+                            }
+                            int measuredHeight = (((((BaseFragment) ProfileActivity.this).fragmentView == null ? 0 : ((BaseFragment) ProfileActivity.this).fragmentView.getMeasuredHeight()) - ActionBar.getCurrentActionBarHeight()) - AndroidUtilities.statusBarHeight) - i7;
+                            if (measuredHeight > AndroidUtilities.dp(88.0f)) {
+                                measuredHeight = 0;
+                            }
+                            int i9 = measuredHeight > 0 ? measuredHeight : 0;
+                            int measuredWidth = ProfileActivity.this.listView.getMeasuredWidth();
+                            this.lastPaddingHeight = i9;
+                            setMeasuredDimension(measuredWidth, i9);
                         }
                     };
                     headerCell.setBackground(new ColorDrawable(0));
@@ -11885,7 +11885,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 textDetailCell.setImageClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$ListAdapter$$ExternalSyntheticLambda0
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view2) {
-                        ProfileActivity.access$30600(ProfileActivity.this, view2);
+                        ProfileActivity.access$30700(ProfileActivity.this, view2);
                     }
                 });
             } else {

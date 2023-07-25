@@ -306,7 +306,10 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
 
     private void openStoryForCell(StoryCell storyCell) {
         boolean z;
-        if (storyCell != null && storyCell.isSelf && !this.storiesController.hasSelfStories()) {
+        if (storyCell == null) {
+            return;
+        }
+        if (storyCell.isSelf && !this.storiesController.hasSelfStories()) {
             if (!MessagesController.getInstance(this.currentAccount).storiesEnabled()) {
                 showPremiumHint();
                 return;
@@ -317,46 +320,48 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
         }
         int i = storyCell.position;
         ArrayList<Long> arrayList = new ArrayList<>();
-        int i2 = 0;
-        int i3 = 0;
-        while (true) {
-            if (i3 >= this.items.size()) {
-                z = true;
-                break;
-            }
-            long j = this.items.get(i3).dialogId;
-            if (j != UserConfig.getInstance(this.currentAccount).clientUserId && this.storiesController.hasUnreadStories(j)) {
-                z = false;
-                break;
-            }
-            i3++;
-        }
-        if (storyCell.isSelf && (!z || this.items.size() == 1)) {
-            arrayList.add(Long.valueOf(storyCell.dialogId));
-        } else {
-            if (!storyCell.isSelf && this.storiesController.hasUnreadStories(storyCell.dialogId)) {
-                while (i2 < this.items.size()) {
-                    long j2 = this.items.get(i2).dialogId;
-                    if (!storyCell.isSelf && this.storiesController.hasUnreadStories(j2)) {
-                        arrayList.add(Long.valueOf(j2));
-                    }
-                    if (j2 == storyCell.dialogId) {
-                        i = arrayList.size() - 1;
-                    }
-                    i2++;
+        if (this.storiesController.hasStories(storyCell.dialogId)) {
+            int i2 = 0;
+            int i3 = 0;
+            while (true) {
+                if (i3 >= this.items.size()) {
+                    z = true;
+                    break;
                 }
+                long j = this.items.get(i3).dialogId;
+                if (j != UserConfig.getInstance(this.currentAccount).clientUserId && this.storiesController.hasUnreadStories(j)) {
+                    z = false;
+                    break;
+                }
+                i3++;
+            }
+            if (storyCell.isSelf && (!z || this.items.size() == 1)) {
+                arrayList.add(Long.valueOf(storyCell.dialogId));
             } else {
-                while (i2 < this.items.size()) {
-                    if (this.storiesController.hasStories(this.items.get(i2).dialogId)) {
-                        arrayList.add(Long.valueOf(this.items.get(i2).dialogId));
-                    } else if (i2 <= i) {
-                        i--;
+                if (!storyCell.isSelf && this.storiesController.hasUnreadStories(storyCell.dialogId)) {
+                    while (i2 < this.items.size()) {
+                        long j2 = this.items.get(i2).dialogId;
+                        if (!storyCell.isSelf && this.storiesController.hasUnreadStories(j2)) {
+                            arrayList.add(Long.valueOf(j2));
+                        }
+                        if (j2 == storyCell.dialogId) {
+                            i = arrayList.size() - 1;
+                        }
+                        i2++;
                     }
-                    i2++;
+                } else {
+                    while (i2 < this.items.size()) {
+                        if (this.storiesController.hasStories(this.items.get(i2).dialogId)) {
+                            arrayList.add(Long.valueOf(this.items.get(i2).dialogId));
+                        } else if (i2 <= i) {
+                            i--;
+                        }
+                        i2++;
+                    }
                 }
             }
+            this.fragment.getOrCreateStoryViewer().open(getContext(), null, arrayList, i, null, null, StoriesListPlaceProvider.of(this.recyclerListView), false);
         }
-        this.fragment.getOrCreateStoryViewer().open(getContext(), null, arrayList, i, null, null, StoriesListPlaceProvider.of(this.recyclerListView), false);
     }
 
     /* JADX INFO: Access modifiers changed from: private */

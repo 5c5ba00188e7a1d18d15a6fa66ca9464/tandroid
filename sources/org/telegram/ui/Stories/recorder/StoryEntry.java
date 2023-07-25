@@ -274,47 +274,51 @@ public class StoryEntry extends IStoryPart {
 
     public void updateFilter(PhotoFilterView photoFilterView, final Runnable runnable) {
         clearFilter();
-        this.filterState = photoFilterView.getSavedFilterState();
+        MediaController.SavedFilterState savedFilterState = photoFilterView.getSavedFilterState();
+        this.filterState = savedFilterState;
         if (this.isVideo) {
             if (runnable != null) {
                 runnable.run();
+            }
+        } else if (savedFilterState.isEmpty()) {
+            if (runnable != null) {
+                runnable.run();
+            }
+        } else {
+            Bitmap bitmap = photoFilterView.getBitmap();
+            if (bitmap == null) {
                 return;
             }
-            return;
-        }
-        Bitmap bitmap = photoFilterView.getBitmap();
-        if (bitmap == null) {
-            return;
-        }
-        Matrix matrix = new Matrix();
-        int i = this.invert;
-        matrix.postScale(i == 1 ? -1.0f : 1.0f, i != 2 ? 1.0f : -1.0f, this.width / 2.0f, this.height / 2.0f);
-        matrix.postRotate(-this.orientation);
-        final Bitmap createBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-        this.matrix.preScale(this.width / createBitmap.getWidth(), this.height / createBitmap.getHeight());
-        this.width = createBitmap.getWidth();
-        this.height = createBitmap.getHeight();
-        bitmap.recycle();
-        File file = this.filterFile;
-        if (file != null && file.exists()) {
-            this.filterFile.delete();
-        }
-        this.filterFile = makeCacheFile(this.currentAccount, "webp");
-        if (runnable == null) {
-            try {
-                createBitmap.compress(Bitmap.CompressFormat.WEBP, 90, new FileOutputStream(this.filterFile));
-            } catch (Exception e) {
-                FileLog.e(e);
+            Matrix matrix = new Matrix();
+            int i = this.invert;
+            matrix.postScale(i == 1 ? -1.0f : 1.0f, i != 2 ? 1.0f : -1.0f, this.width / 2.0f, this.height / 2.0f);
+            matrix.postRotate(-this.orientation);
+            final Bitmap createBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+            this.matrix.preScale(this.width / createBitmap.getWidth(), this.height / createBitmap.getHeight());
+            this.width = createBitmap.getWidth();
+            this.height = createBitmap.getHeight();
+            bitmap.recycle();
+            File file = this.filterFile;
+            if (file != null && file.exists()) {
+                this.filterFile.delete();
             }
-            createBitmap.recycle();
-            return;
-        }
-        Utilities.themeQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryEntry$$ExternalSyntheticLambda0
-            @Override // java.lang.Runnable
-            public final void run() {
-                StoryEntry.this.lambda$updateFilter$0(createBitmap, runnable);
+            this.filterFile = makeCacheFile(this.currentAccount, "webp");
+            if (runnable == null) {
+                try {
+                    createBitmap.compress(Bitmap.CompressFormat.WEBP, 90, new FileOutputStream(this.filterFile));
+                } catch (Exception e) {
+                    FileLog.e(e);
+                }
+                createBitmap.recycle();
+                return;
             }
-        });
+            Utilities.themeQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryEntry$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    StoryEntry.this.lambda$updateFilter$0(createBitmap, runnable);
+                }
+            });
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */

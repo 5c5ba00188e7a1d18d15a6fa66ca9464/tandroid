@@ -988,7 +988,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                 final long dialogId = ((UserCell) view).getDialogId();
                 final TLRPC$User user = MessagesController.getInstance(((BaseFragment) ContactsActivity.this).currentAccount).getUser(Long.valueOf(dialogId));
                 final String sharedPrefKey = NotificationsController.getSharedPrefKey(dialogId, 0);
-                boolean z = !NotificationsCustomSettingsActivity.isStoriesNotMuted(((BaseFragment) ContactsActivity.this).currentAccount, dialogId);
+                boolean z = !NotificationsCustomSettingsActivity.areStoriesNotMuted(((BaseFragment) ContactsActivity.this).currentAccount, dialogId);
                 ItemOptions addIf = ItemOptions.makeOptions(ContactsActivity.this, view).setScrimViewBackground(Theme.createRoundRectDrawable(0, 0, Theme.getColor(Theme.key_windowBackgroundWhite))).add(R.drawable.msg_discussion, LocaleController.getString("SendMessage", R.string.SendMessage), new Runnable() { // from class: org.telegram.ui.ContactsActivity$7$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
                     public final void run() {

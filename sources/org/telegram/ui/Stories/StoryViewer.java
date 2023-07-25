@@ -82,7 +82,6 @@ public class StoryViewer {
     private static TLRPC$StoryItem lastStoryItem;
     private static boolean runOpenAnimationAfterLayout;
     boolean allowIntercept;
-    public boolean allowScreenshots;
     boolean allowSelfStoriesView;
     boolean allowSwipeToDissmiss;
     boolean allowSwipeToReply;
@@ -113,6 +112,7 @@ public class StoryViewer {
     private float hideEnterViewProgress;
     boolean inSwipeToDissmissMode;
     private boolean invalidateOutRect;
+    private boolean isBulletinVisible;
     private boolean isCaption;
     private boolean isCaptionPartVisible;
     private boolean isClosed;
@@ -170,6 +170,7 @@ public class StoryViewer {
     public boolean USE_SURFACE_VIEW = SharedConfig.useSurfaceInStories;
     public boolean ATTACH_TO_FRAGMENT = true;
     public boolean foundViewToClose = false;
+    public boolean allowScreenshots = true;
     Theme.ResourcesProvider resourcesProvider = new DarkThemeResourceProvider();
     RectF avatarRectTmp = new RectF();
     float[] pointPosition = new float[2];
@@ -258,12 +259,12 @@ public class StoryViewer {
         open(context, null, arrayList, 0, null, null, placeProvider, false);
     }
 
-    public void open(Context context, TLRPC$StoryItem tLRPC$StoryItem, int i, StoriesController.StoriesList storiesList, PlaceProvider placeProvider) {
+    public void open(Context context, int i, StoriesController.StoriesList storiesList, PlaceProvider placeProvider) {
         this.currentAccount = UserConfig.selectedAccount;
         ArrayList<Long> arrayList = new ArrayList<>();
         arrayList.add(Long.valueOf(storiesList.userId));
         this.dayStoryId = i;
-        open(context, tLRPC$StoryItem, arrayList, 0, storiesList, null, placeProvider, false);
+        open(context, null, arrayList, 0, storiesList, null, placeProvider, false);
     }
 
     public void open(Context context, TLRPC$TL_userStories tLRPC$TL_userStories, PlaceProvider placeProvider) {
@@ -274,7 +275,7 @@ public class StoryViewer {
         this.currentAccount = UserConfig.selectedAccount;
         ArrayList<Long> arrayList2 = new ArrayList<>();
         arrayList2.add(Long.valueOf(tLRPC$TL_userStories.user_id));
-        open(context, tLRPC$TL_userStories.stories.get(0), arrayList2, 0, null, tLRPC$TL_userStories, placeProvider, this.reversed);
+        open(context, tLRPC$TL_userStories.stories.get(0), arrayList2, 0, null, tLRPC$TL_userStories, placeProvider, false);
     }
 
     public void open(Context context, TLRPC$StoryItem tLRPC$StoryItem, int i, StoriesController.StoriesList storiesList, boolean z, PlaceProvider placeProvider) {
@@ -314,6 +315,10 @@ public class StoryViewer {
         this.currentAccount = UserConfig.selectedAccount;
         this.swipeToDismissOffset = 0.0f;
         this.swipeToDismissHorizontalOffset = 0.0f;
+        StoriesViewPager storiesViewPager = this.storiesViewPager;
+        if (storiesViewPager != null) {
+            storiesViewPager.setHorizontalProgressToDismiss(0.0f);
+        }
         this.swipeToReplyProgress = 0.0f;
         this.swipeToReplyOffset = 0.0f;
         this.allowSwipeToReply = false;
@@ -1484,7 +1489,7 @@ public class StoryViewer {
             StoryViewer storyViewer9 = StoryViewer.this;
             if (storyViewer9.USE_SURFACE_VIEW) {
                 if (uri == null) {
-                    storyViewer9.surfaceView.setVisibility(8);
+                    storyViewer9.surfaceView.setVisibility(4);
                 } else {
                     storyViewer9.surfaceView.setVisibility(0);
                 }
@@ -1527,6 +1532,12 @@ public class StoryViewer {
         @Override // org.telegram.ui.Stories.PeerStoriesView.Delegate
         public void setPopupIsVisible(boolean z) {
             StoryViewer.this.isPopupVisible = z;
+            StoryViewer.this.updatePlayingMode();
+        }
+
+        @Override // org.telegram.ui.Stories.PeerStoriesView.Delegate
+        public void setBulletinIsVisible(boolean z) {
+            StoryViewer.this.isBulletinVisible = z;
             StoryViewer.this.updatePlayingMode();
         }
 
@@ -1944,7 +1955,7 @@ public class StoryViewer {
     }
 
     public boolean isPaused() {
-        return this.isPopupVisible || this.isCaption || this.isWaiting || this.isInTouchMode || this.keyboardVisible || this.currentDialog != null || this.allowTouchesByViewpager || this.isClosed || this.isRecording || this.progressToOpen != 1.0f || this.selfStoriesViewsOffset != 0.0f || this.isHintVisible || (this.isSwiping && this.USE_SURFACE_VIEW) || this.isOverlayVisible;
+        return this.isPopupVisible || this.isBulletinVisible || this.isCaption || this.isWaiting || this.isInTouchMode || this.keyboardVisible || this.currentDialog != null || this.allowTouchesByViewpager || this.isClosed || this.isRecording || this.progressToOpen != 1.0f || this.selfStoriesViewsOffset != 0.0f || this.isHintVisible || (this.isSwiping && this.USE_SURFACE_VIEW) || this.isOverlayVisible;
     }
 
     public void updatePlayingMode() {

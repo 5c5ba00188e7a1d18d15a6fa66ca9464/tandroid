@@ -335,6 +335,7 @@ import org.telegram.tgnet.TLRPC$TL_reactionEmoji;
 import org.telegram.tgnet.TLRPC$TL_replyInlineMarkup;
 import org.telegram.tgnet.TLRPC$TL_replyKeyboardForceReply;
 import org.telegram.tgnet.TLRPC$TL_sponsoredWebPage;
+import org.telegram.tgnet.TLRPC$TL_storyItem;
 import org.telegram.tgnet.TLRPC$TL_storyItemDeleted;
 import org.telegram.tgnet.TLRPC$TL_updates_channelDifferenceTooLong;
 import org.telegram.tgnet.TLRPC$TL_urlAuthResultAccepted;
@@ -352,6 +353,7 @@ import org.telegram.tgnet.TLRPC$UserProfilePhoto;
 import org.telegram.tgnet.TLRPC$VideoSize;
 import org.telegram.tgnet.TLRPC$WallPaper;
 import org.telegram.tgnet.TLRPC$WebPage;
+import org.telegram.tgnet.TLRPC$WebPageAttribute;
 import org.telegram.tgnet.TLRPC$messages_Messages;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.ActionBarMenu;
@@ -22434,6 +22436,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         }
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
+    /* JADX WARN: Type inference failed for: r9v24 */
+    /* JADX WARN: Type inference failed for: r9v25, types: [org.telegram.tgnet.TLRPC$StoryItem] */
     private void replaceMessageObjects(ArrayList<MessageObject> arrayList, int i, boolean z) {
         ChatActivityAdapter chatActivityAdapter;
         int i2;
@@ -22441,6 +22446,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         int indexOf;
         ArrayList<TLRPC$PhotoSize> arrayList2;
         MessageObject messageObject;
+        TLRPC$TL_messageMediaWebPage tLRPC$TL_messageMediaWebPage;
+        TLRPC$WebPage tLRPC$WebPage;
+        TLRPC$StoryItem tLRPC$StoryItem;
         TLRPC$User tLRPC$User = null;
         LongSparseArray longSparseArray = null;
         int i3 = 0;
@@ -22474,6 +22482,39 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             messageObject2.generateGameMessageText(tLRPC$User);
                         } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionPaymentSent) {
                             messageObject2.generatePaymentSentMessageText(tLRPC$User);
+                        }
+                    }
+                    if (messageObject3.isWebpage() && messageObject2.isWebpage() && (tLRPC$WebPage = (tLRPC$TL_messageMediaWebPage = (TLRPC$TL_messageMediaWebPage) MessageObject.getMedia(messageObject3.messageOwner)).webpage) != null && "telegram_story".equals(tLRPC$WebPage.type)) {
+                        int i4 = 0;
+                        while (true) {
+                            if (i4 >= tLRPC$TL_messageMediaWebPage.webpage.attributes.size()) {
+                                tLRPC$StoryItem = tLRPC$User;
+                                break;
+                            }
+                            TLRPC$WebPageAttribute tLRPC$WebPageAttribute = tLRPC$TL_messageMediaWebPage.webpage.attributes.get(i4);
+                            if (tLRPC$WebPageAttribute instanceof TLRPC$TL_webPageAttributeStory) {
+                                tLRPC$StoryItem = ((TLRPC$TL_webPageAttributeStory) tLRPC$WebPageAttribute).storyItem;
+                                break;
+                            }
+                            i4++;
+                        }
+                        if (tLRPC$StoryItem != 0) {
+                            TLRPC$TL_messageMediaWebPage tLRPC$TL_messageMediaWebPage2 = (TLRPC$TL_messageMediaWebPage) MessageObject.getMedia(messageObject2.messageOwner);
+                            int i5 = 0;
+                            while (true) {
+                                if (i5 >= tLRPC$TL_messageMediaWebPage2.webpage.attributes.size()) {
+                                    break;
+                                }
+                                TLRPC$WebPageAttribute tLRPC$WebPageAttribute2 = tLRPC$TL_messageMediaWebPage2.webpage.attributes.get(i5);
+                                if (tLRPC$WebPageAttribute2 instanceof TLRPC$TL_webPageAttributeStory) {
+                                    TLRPC$TL_webPageAttributeStory tLRPC$TL_webPageAttributeStory = (TLRPC$TL_webPageAttributeStory) tLRPC$WebPageAttribute2;
+                                    if (!(tLRPC$TL_webPageAttributeStory.storyItem instanceof TLRPC$TL_storyItem)) {
+                                        tLRPC$TL_webPageAttributeStory.storyItem = tLRPC$StoryItem;
+                                    }
+                                } else {
+                                    i5++;
+                                }
+                            }
                         }
                     }
                     if (!messageObject3.isEditing()) {
@@ -22510,11 +22551,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 groupedMessages2.groupId = Utilities.random.nextLong();
                                 ArrayList<MessageObject> arrayList4 = groupedMessages2.messages;
                                 ArrayList<MessageObject> arrayList5 = groupedMessages.messages;
-                                int i4 = indexOf + 1;
-                                arrayList4.addAll(arrayList5.subList(i4, arrayList5.size()));
-                                for (int i5 = 0; i5 < groupedMessages2.messages.size(); i5++) {
-                                    groupedMessages2.messages.get(i5).localGroupId = groupedMessages2.groupId;
-                                    groupedMessages.messages.remove(i4);
+                                int i6 = indexOf + 1;
+                                arrayList4.addAll(arrayList5.subList(i6, arrayList5.size()));
+                                for (int i7 = 0; i7 < groupedMessages2.messages.size(); i7++) {
+                                    groupedMessages2.messages.get(i7).localGroupId = groupedMessages2.groupId;
+                                    groupedMessages.messages.remove(i6);
                                 }
                                 longSparseArray.put(groupedMessages2.groupId, groupedMessages2);
                                 this.groupedMessagesMap.put(groupedMessages2.groupId, groupedMessages2);
@@ -22555,18 +22596,18 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             if (arrayList3.isEmpty()) {
                                 this.messagesByDays.remove(messageObject3.dateKey);
                                 this.messages.remove(indexOf2);
-                                int i6 = this.chatAdapter.loadingUpRow;
-                                int i7 = this.chatAdapter.loadingDownRow;
+                                int i8 = this.chatAdapter.loadingUpRow;
+                                int i9 = this.chatAdapter.loadingDownRow;
                                 ChatActivityAdapter chatActivityAdapter4 = this.chatAdapter;
                                 chatActivityAdapter4.notifyItemRemoved(chatActivityAdapter4.messagesStartRow + indexOf2);
                                 if (this.messages.isEmpty()) {
-                                    if (i6 >= 0) {
+                                    if (i8 >= 0) {
                                         i2 = 0;
                                         this.chatAdapter.notifyItemRemoved(0);
                                     } else {
                                         i2 = 0;
                                     }
-                                    if (i7 >= 0) {
+                                    if (i9 >= 0) {
                                         this.chatAdapter.notifyItemRemoved(i2);
                                     }
                                     updateReplyMessageOwners(messageObject3.getId(), messageObject2);
@@ -22581,8 +22622,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             tLRPC$User = null;
         }
         if (longSparseArray != null) {
-            for (int i8 = 0; i8 < longSparseArray.size(); i8++) {
-                MessageObject.GroupedMessages groupedMessages3 = (MessageObject.GroupedMessages) longSparseArray.valueAt(i8);
+            for (int i10 = 0; i10 < longSparseArray.size(); i10++) {
+                MessageObject.GroupedMessages groupedMessages3 = (MessageObject.GroupedMessages) longSparseArray.valueAt(i10);
                 if (groupedMessages3.messages.isEmpty()) {
                     this.groupedMessagesMap.remove(groupedMessages3.groupId);
                 } else {

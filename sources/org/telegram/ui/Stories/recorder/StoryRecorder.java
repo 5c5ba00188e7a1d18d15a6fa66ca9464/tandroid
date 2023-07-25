@@ -1828,7 +1828,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         this.navbarContainer.addView(this.modeSwitcherView, LayoutHelper.createFrame(-1, -1, 87));
         HintTextView hintTextView = new HintTextView(context);
         this.hintTextView = hintTextView;
-        this.navbarContainer.addView(hintTextView, LayoutHelper.createFrame(-1, 32.0f, 81, 8.0f, 0.0f, 8.0f, 8.0f));
+        this.navbarContainer.addView(hintTextView, LayoutHelper.createFrame(-1, 32.0f, 17, 8.0f, 0.0f, 8.0f, 8.0f));
         PreviewButtons previewButtons = new PreviewButtons(context);
         this.previewButtons = previewButtons;
         previewButtons.setVisibility(8);
@@ -2578,7 +2578,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
                 public final void run() {
                     StoryRecorder.9.this.lambda$onVideoRecordStart$3(runnable, z);
                 }
-            }, StoryRecorder.this.cameraView);
+            }, StoryRecorder.this.cameraView, false);
             if (StoryRecorder.this.isVideo) {
                 return;
             }
@@ -2590,28 +2590,37 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         }
 
         public /* synthetic */ void lambda$onVideoRecordStart$2(String str, long j) {
+            if (StoryRecorder.this.recordControl != null) {
+                StoryRecorder.this.recordControl.stopRecordingLoading(true);
+            }
             if (StoryRecorder.this.outputFile == null || StoryRecorder.this.cameraView == null) {
                 return;
             }
             StoryRecorder.this.takingVideo = false;
             StoryRecorder.this.stoppingTakingVideo = false;
-            StoryRecorder.this.animateRecording(false, true);
-            StoryRecorder.this.setAwakeLock(false);
             if (j <= 800) {
+                StoryRecorder.this.animateRecording(false, true);
+                StoryRecorder.this.setAwakeLock(false);
                 StoryRecorder.this.videoTimerView.setRecording(false, true);
+                if (StoryRecorder.this.recordControl != null) {
+                    StoryRecorder.this.recordControl.stopRecordingLoading(true);
+                }
                 try {
                     StoryRecorder.this.outputFile.delete();
                     StoryRecorder.this.outputFile = null;
                 } catch (Exception e) {
                     FileLog.e(e);
                 }
-                try {
-                    new File(str).delete();
-                    return;
-                } catch (Exception e2) {
-                    FileLog.e(e2);
-                    return;
+                if (str != null) {
+                    try {
+                        new File(str).delete();
+                        return;
+                    } catch (Exception e2) {
+                        FileLog.e(e2);
+                        return;
+                    }
                 }
+                return;
             }
             StoryRecorder.this.showVideoTimer(false, true);
             StoryRecorder storyRecorder = StoryRecorder.this;
@@ -2678,9 +2687,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         public /* synthetic */ void lambda$onVideoRecordEnd$4() {
             if (StoryRecorder.this.takingVideo && StoryRecorder.this.stoppingTakingVideo && StoryRecorder.this.cameraView != null) {
                 StoryRecorder.this.showZoomControls(false, true);
-                StoryRecorder.this.animateRecording(false, true);
-                StoryRecorder.this.setAwakeLock(false);
-                CameraController.getInstance().stopVideoRecording(StoryRecorder.this.cameraView.getCameraSessionRecording(), false);
+                CameraController.getInstance().stopVideoRecording(StoryRecorder.this.cameraView.getCameraSessionRecording(), false, false);
             }
         }
 
@@ -2767,6 +2774,8 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         }
         this.animatedRecording = z;
         int i = 8;
+        float f = 1.0f;
+        float f2 = 0.0f;
         if (z2) {
             this.backButton.setVisibility(0);
             this.flashButton.setVisibility(0);
@@ -2787,32 +2796,35 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             ImageView imageView2 = this.flashButton;
             Property property2 = View.ALPHA;
             float[] fArr2 = new float[1];
-            fArr2[0] = z ? 0.0f : 1.0f;
+            fArr2[0] = (z || this.currentPage != 0) ? 0.0f : 1.0f;
             animatorArr[1] = ObjectAnimator.ofFloat(imageView2, property2, fArr2);
             ToggleButton toggleButton2 = this.dualButton;
             Property property3 = View.ALPHA;
             float[] fArr3 = new float[1];
-            fArr3[0] = (z || (dualCameraView2 = this.cameraView) == null || !dualCameraView2.dualAvailable()) ? 0.0f : 1.0f;
+            fArr3[0] = (z || this.currentPage != 0 || (dualCameraView2 = this.cameraView) == null || !dualCameraView2.dualAvailable()) ? 0.0f : 1.0f;
             animatorArr[2] = ObjectAnimator.ofFloat(toggleButton2, property3, fArr3);
             HintTextView hintTextView = this.hintTextView;
             Property property4 = View.ALPHA;
             float[] fArr4 = new float[1];
-            fArr4[0] = z ? 1.0f : 0.0f;
+            fArr4[0] = (z && this.currentPage == 0) ? 1.0f : 0.0f;
             animatorArr[3] = ObjectAnimator.ofFloat(hintTextView, property4, fArr4);
             HintTextView hintTextView2 = this.hintTextView;
             Property property5 = View.TRANSLATION_Y;
             float[] fArr5 = new float[1];
-            fArr5[0] = z ? 0.0f : AndroidUtilities.dp(16.0f);
+            fArr5[0] = (z || this.currentPage != 0) ? 0.0f : AndroidUtilities.dp(16.0f);
             animatorArr[4] = ObjectAnimator.ofFloat(hintTextView2, property5, fArr5);
             PhotoVideoSwitcherView photoVideoSwitcherView = this.modeSwitcherView;
             Property property6 = View.ALPHA;
             float[] fArr6 = new float[1];
-            fArr6[0] = z ? 0.0f : 1.0f;
+            fArr6[0] = (z || this.currentPage != 0) ? 0.0f : 0.0f;
             animatorArr[5] = ObjectAnimator.ofFloat(photoVideoSwitcherView, property6, fArr6);
             PhotoVideoSwitcherView photoVideoSwitcherView2 = this.modeSwitcherView;
             Property property7 = View.TRANSLATION_Y;
             float[] fArr7 = new float[1];
-            fArr7[0] = z ? AndroidUtilities.dp(16.0f) : 0.0f;
+            if (z || this.currentPage != 0) {
+                f2 = AndroidUtilities.dp(16.0f);
+            }
+            fArr7[0] = f2;
             animatorArr[6] = ObjectAnimator.ofFloat(photoVideoSwitcherView2, property7, fArr7);
             animatorSet2.playTogether(animatorArr);
             this.recordingAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder.10
@@ -2824,6 +2836,8 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
                 public void onAnimationEnd(Animator animator) {
                     if (z) {
                         StoryRecorder.this.backButton.setVisibility(8);
+                    }
+                    if (z || StoryRecorder.this.currentPage != 0) {
                         StoryRecorder.this.flashButton.setVisibility(8);
                     }
                 }
@@ -2835,18 +2849,22 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         }
         this.backButton.setAlpha(z ? 0.0f : 1.0f);
         this.backButton.setVisibility(z ? 8 : 0);
-        this.flashButton.setAlpha(z ? 0.0f : 1.0f);
-        this.flashButton.setVisibility(z ? 8 : 0);
-        this.dualButton.setAlpha(z ? 0.0f : 1.0f);
+        this.flashButton.setAlpha((z || this.currentPage != 0) ? 0.0f : 1.0f);
+        this.flashButton.setVisibility((z || this.currentPage != 0) ? 8 : 0);
+        this.dualButton.setAlpha((z || this.currentPage != 0) ? 0.0f : 1.0f);
         ToggleButton toggleButton3 = this.dualButton;
-        if (!z && (dualCameraView = this.cameraView) != null && dualCameraView.dualAvailable()) {
+        if (!z && this.currentPage == 0 && (dualCameraView = this.cameraView) != null && dualCameraView.dualAvailable()) {
             i = 0;
         }
         toggleButton3.setVisibility(i);
-        this.hintTextView.setAlpha(z ? 1.0f : 0.0f);
-        this.hintTextView.setTranslationY(z ? 0.0f : AndroidUtilities.dp(16.0f));
-        this.modeSwitcherView.setAlpha(z ? 0.0f : 1.0f);
-        this.modeSwitcherView.setTranslationY(z ? AndroidUtilities.dp(16.0f) : 0.0f);
+        this.hintTextView.setAlpha((z && this.currentPage == 0) ? 1.0f : 0.0f);
+        this.hintTextView.setTranslationY((z || this.currentPage != 0) ? 0.0f : AndroidUtilities.dp(16.0f));
+        this.modeSwitcherView.setAlpha((z || this.currentPage != 0) ? 0.0f : 0.0f);
+        PhotoVideoSwitcherView photoVideoSwitcherView3 = this.modeSwitcherView;
+        if (z || this.currentPage != 0) {
+            f2 = AndroidUtilities.dp(16.0f);
+        }
+        photoVideoSwitcherView3.setTranslationY(f2);
     }
 
     public void showVideoTimer(final boolean z, boolean z2) {
@@ -3090,36 +3108,43 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             float[] fArr9 = new float[1];
             fArr9[0] = i == 0 ? 0.0f : AndroidUtilities.dp(24.0f);
             arrayList.add(ObjectAnimator.ofFloat(photoVideoSwitcherView2, property9, fArr9));
-            FrameLayout frameLayout = this.captionContainer;
+            this.backButton.setVisibility(0);
+            arrayList.add(ObjectAnimator.ofFloat(this.backButton, View.ALPHA, 1.0f));
+            HintTextView hintTextView = this.hintTextView;
             Property property10 = View.ALPHA;
             float[] fArr10 = new float[1];
-            fArr10[0] = i == 1 ? 1.0f : 0.0f;
-            arrayList.add(ObjectAnimator.ofFloat(frameLayout, property10, fArr10));
-            FrameLayout frameLayout2 = this.captionContainer;
-            Property property11 = View.TRANSLATION_Y;
+            fArr10[0] = (i == 0 && this.animatedRecording) ? 1.0f : 0.0f;
+            arrayList.add(ObjectAnimator.ofFloat(hintTextView, property10, fArr10));
+            FrameLayout frameLayout = this.captionContainer;
+            Property property11 = View.ALPHA;
             float[] fArr11 = new float[1];
-            fArr11[0] = i == 1 ? 0.0f : AndroidUtilities.dp(12.0f);
-            arrayList.add(ObjectAnimator.ofFloat(frameLayout2, property11, fArr11));
-            SimpleTextView simpleTextView = this.titleTextView;
-            Property property12 = View.ALPHA;
+            fArr11[0] = i == 1 ? 1.0f : 0.0f;
+            arrayList.add(ObjectAnimator.ofFloat(frameLayout, property11, fArr11));
+            FrameLayout frameLayout2 = this.captionContainer;
+            Property property12 = View.TRANSLATION_Y;
             float[] fArr12 = new float[1];
-            fArr12[0] = i == 1 ? 1.0f : 0.0f;
-            arrayList.add(ObjectAnimator.ofFloat(simpleTextView, property12, fArr12));
-            VideoTimelinePlayView videoTimelinePlayView = this.videoTimelineView;
+            fArr12[0] = i == 1 ? 0.0f : AndroidUtilities.dp(12.0f);
+            arrayList.add(ObjectAnimator.ofFloat(frameLayout2, property12, fArr12));
+            SimpleTextView simpleTextView = this.titleTextView;
             Property property13 = View.ALPHA;
             float[] fArr13 = new float[1];
-            fArr13[0] = (i == 1 && this.isVideo) ? 1.0f : 0.0f;
-            arrayList.add(ObjectAnimator.ofFloat(videoTimelinePlayView, property13, fArr13));
-            RLottieImageView rLottieImageView = this.muteButton;
+            fArr13[0] = i == 1 ? 1.0f : 0.0f;
+            arrayList.add(ObjectAnimator.ofFloat(simpleTextView, property13, fArr13));
+            VideoTimelinePlayView videoTimelinePlayView = this.videoTimelineView;
             Property property14 = View.ALPHA;
             float[] fArr14 = new float[1];
             fArr14[0] = (i == 1 && this.isVideo) ? 1.0f : 0.0f;
-            arrayList.add(ObjectAnimator.ofFloat(rLottieImageView, property14, fArr14));
-            DownloadButton downloadButton = this.downloadButton;
+            arrayList.add(ObjectAnimator.ofFloat(videoTimelinePlayView, property14, fArr14));
+            RLottieImageView rLottieImageView = this.muteButton;
             Property property15 = View.ALPHA;
             float[] fArr15 = new float[1];
-            fArr15[0] = i != 1 ? 0.0f : 1.0f;
-            arrayList.add(ObjectAnimator.ofFloat(downloadButton, property15, fArr15));
+            fArr15[0] = (i == 1 && this.isVideo) ? 1.0f : 0.0f;
+            arrayList.add(ObjectAnimator.ofFloat(rLottieImageView, property15, fArr15));
+            DownloadButton downloadButton = this.downloadButton;
+            Property property16 = View.ALPHA;
+            float[] fArr16 = new float[1];
+            fArr16[0] = i != 1 ? 0.0f : 1.0f;
+            arrayList.add(ObjectAnimator.ofFloat(downloadButton, property16, fArr16));
             arrayList.add(ObjectAnimator.ofFloat(this.zoomControlView, View.ALPHA, 0.0f));
             this.pageAnimator.playTogether(arrayList);
             this.pageAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder.12
@@ -3142,7 +3167,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             dualCameraView4.setAlpha(i == 0 ? 1.0f : 0.0f);
         }
         this.cameraViewThumb.setAlpha(i == 0 ? 1.0f : 0.0f);
-        this.cameraViewThumb.setVisibility(i != 0 ? 8 : 0);
+        this.cameraViewThumb.setVisibility(i == 0 ? 0 : 8);
         this.previewView.setAlpha(i == 1 ? 1.0f : 0.0f);
         this.flashButton.setAlpha(i == 0 ? 1.0f : 0.0f);
         this.dualButton.setAlpha((i == 0 && (dualCameraView = this.cameraView) != null && dualCameraView.dualAvailable()) ? 1.0f : 0.0f);
@@ -3150,6 +3175,9 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         this.recordControl.setTranslationY(i == 0 ? 0.0f : AndroidUtilities.dp(16.0f));
         this.modeSwitcherView.setAlpha(i == 0 ? 1.0f : 0.0f);
         this.modeSwitcherView.setTranslationY(i == 0 ? 0.0f : AndroidUtilities.dp(16.0f));
+        this.backButton.setVisibility(0);
+        this.backButton.setAlpha(1.0f);
+        this.hintTextView.setAlpha((i == 0 && this.animatedRecording) ? 1.0f : 0.0f);
         this.captionContainer.setAlpha(i == 1 ? 1.0f : 0.0f);
         this.captionContainer.setTranslationY(i == 1 ? 0.0f : AndroidUtilities.dp(12.0f));
         this.muteButton.setAlpha((i == 1 && this.isVideo) ? 1.0f : 0.0f);
@@ -3475,6 +3503,10 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         if (i2 == 0) {
             requestCameraPermission(false);
             this.recordControl.setVisibility(0);
+            RecordControl recordControl = this.recordControl;
+            if (recordControl != null) {
+                recordControl.stopRecordingLoading(false);
+            }
             this.modeSwitcherView.setVisibility(0);
             this.zoomControlView.setVisibility(0);
             this.zoomControlView.setAlpha(0.0f);
@@ -3620,6 +3652,8 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             this.zoomControlView.setVisibility(8);
             this.modeSwitcherView.setVisibility(8);
             this.dualButton.setVisibility(8);
+            animateRecording(false, false);
+            setAwakeLock(false);
         }
         this.cameraViewThumb.setClickable(i2 == 0);
         if (i == 1) {

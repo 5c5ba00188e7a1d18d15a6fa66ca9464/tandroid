@@ -123,6 +123,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
     public boolean isStory;
     private volatile float lastCrossfadeValue;
     private long lastDrawTime;
+    private long lastDualSwitchTime;
     private int lastHeight;
     private volatile float lastShapeTo;
     private int lastWidth;
@@ -148,6 +149,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
     private int[] position;
     private Size[] previewSize;
     File recordFile;
+    private Integer shape;
     private volatile float shapeValue;
     private volatile int surfaceHeight;
     private volatile int surfaceWidth;
@@ -640,10 +642,21 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
             return;
         }
         Handler handler = this.cameraThread.getHandler();
-        MessagesController.getGlobalMainSettings().edit().putInt("dualshape", (int) (this.cameraThread.shapeTo + 1.0f)).apply();
+        if (this.shape == null) {
+            this.shape = Integer.valueOf(MessagesController.getGlobalMainSettings().getInt("dualshape", 0));
+        }
+        this.shape = Integer.valueOf(this.shape.intValue() + 1);
+        MessagesController.getGlobalMainSettings().edit().putInt("dualshape", this.shape.intValue()).apply();
         if (handler != null) {
             handler.sendMessage(handler.obtainMessage(9));
         }
+    }
+
+    public int getDualShape() {
+        if (this.shape == null) {
+            this.shape = Integer.valueOf(MessagesController.getGlobalMainSettings().getInt("dualshape", 0));
+        }
+        return this.shape.intValue();
     }
 
     public void switchCamera() {
@@ -652,29 +665,30 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
         }
         if (System.currentTimeMillis() >= this.toggleDualUntil || this.dualCameraAppeared) {
             if (this.dual) {
-                if (this.dualCameraAppeared) {
-                    CameraInfo[] cameraInfoArr = this.info;
-                    CameraInfo cameraInfo = cameraInfoArr[0];
-                    cameraInfoArr[0] = cameraInfoArr[1];
-                    cameraInfoArr[1] = cameraInfo;
-                    Size[] sizeArr = this.previewSize;
-                    Size size = sizeArr[0];
-                    sizeArr[0] = sizeArr[1];
-                    sizeArr[1] = size;
-                    Size[] sizeArr2 = this.pictureSize;
-                    Size size2 = sizeArr2[0];
-                    sizeArr2[0] = sizeArr2[1];
-                    sizeArr2[1] = size2;
-                    CameraSession[] cameraSessionArr = this.cameraSession;
-                    CameraSession cameraSession = cameraSessionArr[0];
-                    cameraSessionArr[0] = cameraSessionArr[1];
-                    cameraSessionArr[1] = cameraSession;
-                    this.isFrontface = !this.isFrontface;
-                    Handler handler = this.cameraThread.getHandler();
-                    if (handler != null) {
-                        handler.sendMessage(handler.obtainMessage(8));
-                        return;
-                    }
+                if (!this.dualCameraAppeared || System.currentTimeMillis() - this.lastDualSwitchTime < 420) {
+                    return;
+                }
+                this.lastDualSwitchTime = System.currentTimeMillis();
+                CameraInfo[] cameraInfoArr = this.info;
+                CameraInfo cameraInfo = cameraInfoArr[0];
+                cameraInfoArr[0] = cameraInfoArr[1];
+                cameraInfoArr[1] = cameraInfo;
+                Size[] sizeArr = this.previewSize;
+                Size size = sizeArr[0];
+                sizeArr[0] = sizeArr[1];
+                sizeArr[1] = size;
+                Size[] sizeArr2 = this.pictureSize;
+                Size size2 = sizeArr2[0];
+                sizeArr2[0] = sizeArr2[1];
+                sizeArr2[1] = size2;
+                CameraSession[] cameraSessionArr = this.cameraSession;
+                CameraSession cameraSession = cameraSessionArr[0];
+                cameraSessionArr[0] = cameraSessionArr[1];
+                cameraSessionArr[1] = cameraSession;
+                this.isFrontface = !this.isFrontface;
+                Handler handler = this.cameraThread.getHandler();
+                if (handler != null) {
+                    handler.sendMessage(handler.obtainMessage(8));
                     return;
                 }
                 return;
@@ -2327,7 +2341,9 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
                     } catch (InterruptedException unused) {
                     }
                 }
-                this.fileWriteQueue = new DispatchQueue("VR_FileWriteQueue");
+                DispatchQueue dispatchQueue = new DispatchQueue("VR_FileWriteQueue");
+                this.fileWriteQueue = dispatchQueue;
+                dispatchQueue.setPriority(10);
                 this.keyframeThumbs.clear();
                 this.handler.sendMessage(this.handler.obtainMessage(0));
             }

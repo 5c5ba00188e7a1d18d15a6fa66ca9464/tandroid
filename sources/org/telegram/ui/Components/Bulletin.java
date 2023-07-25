@@ -2100,4 +2100,9 @@ public class Bulletin {
             }
         }
     }
+
+    public Bulletin setTag(int i) {
+        this.tag = i;
+        return this;
+    }
 }

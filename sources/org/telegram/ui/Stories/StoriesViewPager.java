@@ -55,7 +55,7 @@ public class StoriesViewPager extends ViewPager {
         this.resources = new PeerStoriesView.SharedResources(context);
         this.storyViewer = storyViewer;
         PagerAdapter pagerAdapter = new PagerAdapter() { // from class: org.telegram.ui.Stories.StoriesViewPager.2
-            ArrayList<PeerStoriesView> cachedViews = new ArrayList<>();
+            private final ArrayList<PeerStoriesView> cachedViews = new ArrayList<>();
 
             @Override // androidx.viewpager.widget.PagerAdapter
             public boolean isViewFromObject(View view, Object obj) {
@@ -101,6 +101,7 @@ public class StoriesViewPager extends ViewPager {
                     pageLayout.day = arrayList.get(i);
                     pageLayout.dialogId = StoriesViewPager.this.daysDialogId;
                 } else {
+                    pageLayout.day = null;
                     pageLayout.dialogId = storiesViewPager.dialogs.get(i).longValue();
                 }
                 pageLayout.addView(peerStoriesView);
@@ -128,28 +129,58 @@ public class StoriesViewPager extends ViewPager {
         });
         setOffscreenPageLimit(0);
         addOnPageChangeListener(new ViewPager.OnPageChangeListener() { // from class: org.telegram.ui.Stories.StoriesViewPager.3
+            /* JADX WARN: Code restructure failed: missing block: B:13:0x003b, code lost:
+                if (r5.dialogs.get(r5.selectedPosition).longValue() == r3) goto L12;
+             */
+            /* JADX WARN: Code restructure failed: missing block: B:16:0x0042, code lost:
+                if (r5.daysDialogId == r3) goto L12;
+             */
+            /* JADX WARN: Code restructure failed: missing block: B:17:0x0044, code lost:
+                r3 = r2.this$0;
+                r3.delegate.setHideEnterViewProgress(1.0f - r3.progress);
+             */
+            /* JADX WARN: Code restructure failed: missing block: B:25:0x0075, code lost:
+                if (r5.dialogs.get(r5.toPosition).longValue() == r3) goto L25;
+             */
+            /* JADX WARN: Code restructure failed: missing block: B:28:0x007c, code lost:
+                if (r5.daysDialogId == r3) goto L25;
+             */
+            /* JADX WARN: Code restructure failed: missing block: B:29:0x007e, code lost:
+                r3 = r2.this$0;
+                r3.delegate.setHideEnterViewProgress(r3.progress);
+             */
+            /* JADX WARN: Code restructure failed: missing block: B:32:?, code lost:
+                return;
+             */
+            /* JADX WARN: Code restructure failed: missing block: B:33:?, code lost:
+                return;
+             */
             @Override // androidx.viewpager.widget.ViewPager.OnPageChangeListener
+            /*
+                Code decompiled incorrectly, please refer to instructions dump.
+            */
             public void onPageScrolled(int i, float f, int i2) {
                 StoriesViewPager storiesViewPager = StoriesViewPager.this;
                 storiesViewPager.selectedPosition = i;
                 storiesViewPager.toPosition = i2 > 0 ? i + 1 : i - 1;
                 storiesViewPager.progress = f;
-                if (i >= 0 && i < storiesViewPager.dialogs.size()) {
-                    StoriesViewPager storiesViewPager2 = StoriesViewPager.this;
-                    if (storiesViewPager2.dialogs.get(storiesViewPager2.selectedPosition).longValue() == UserConfig.getInstance(StoriesViewPager.this.currentAccount).clientUserId) {
-                        StoriesViewPager storiesViewPager3 = StoriesViewPager.this;
-                        storiesViewPager3.delegate.setHideEnterViewProgress(1.0f - storiesViewPager3.progress);
-                        return;
+                long j = UserConfig.getInstance(storiesViewPager.currentAccount).clientUserId;
+                StoriesViewPager storiesViewPager2 = StoriesViewPager.this;
+                int i3 = storiesViewPager2.selectedPosition;
+                if (i3 >= 0) {
+                    if (storiesViewPager2.days == null) {
+                        if (i3 < storiesViewPager2.dialogs.size()) {
+                            StoriesViewPager storiesViewPager3 = StoriesViewPager.this;
+                        }
                     }
                 }
                 StoriesViewPager storiesViewPager4 = StoriesViewPager.this;
-                int i3 = storiesViewPager4.toPosition;
-                if (i3 >= 0 && i3 < storiesViewPager4.dialogs.size()) {
-                    StoriesViewPager storiesViewPager5 = StoriesViewPager.this;
-                    if (storiesViewPager5.dialogs.get(storiesViewPager5.toPosition).longValue() == UserConfig.getInstance(StoriesViewPager.this.currentAccount).clientUserId) {
-                        StoriesViewPager storiesViewPager6 = StoriesViewPager.this;
-                        storiesViewPager6.delegate.setHideEnterViewProgress(storiesViewPager6.progress);
-                        return;
+                int i4 = storiesViewPager4.toPosition;
+                if (i4 >= 0) {
+                    if (storiesViewPager4.days == null) {
+                        if (i4 < storiesViewPager4.dialogs.size()) {
+                            StoriesViewPager storiesViewPager5 = StoriesViewPager.this;
+                        }
                     }
                 }
                 StoriesViewPager.this.delegate.setHideEnterViewProgress(0.0f);
@@ -234,7 +265,7 @@ public class StoriesViewPager extends ViewPager {
                 break;
             }
             PageLayout pageLayout = (PageLayout) getChildAt(i);
-            if (pageLayout.isVisible && !pageLayout.peerStoryView.allowScreenshots) {
+            if (pageLayout.isVisible && !pageLayout.peerStoryView.currentStory.allowScreenshots()) {
                 break;
             }
             i++;

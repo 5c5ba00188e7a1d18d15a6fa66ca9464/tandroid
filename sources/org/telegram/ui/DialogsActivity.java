@@ -6251,7 +6251,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 }
             } else {
                 final String sharedPrefKey = NotificationsController.getSharedPrefKey(j, 0);
-                boolean z = !NotificationsCustomSettingsActivity.isStoriesNotMuted(((BaseFragment) DialogsActivity.this).currentAccount, j);
+                boolean z = !NotificationsCustomSettingsActivity.areStoriesNotMuted(((BaseFragment) DialogsActivity.this).currentAccount, j);
                 DialogsActivity.this.filterOptions.add(R.drawable.msg_discussion, LocaleController.getString("SendMessage", R.string.SendMessage), new Runnable() { // from class: org.telegram.ui.DialogsActivity$29$$ExternalSyntheticLambda10
                     @Override // java.lang.Runnable
                     public final void run() {
@@ -14469,179 +14469,180 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     public void updateStoriesVisibility(boolean z) {
         final boolean z2;
         StoryViewer storyViewer;
-        if (this.storiesVisibilityAnimator == null) {
-            RightSlidingDialogContainer rightSlidingDialogContainer = this.rightSlidingDialogContainer;
-            if ((rightSlidingDialogContainer != null && rightSlidingDialogContainer.hasFragment()) || this.searchIsShowed || this.actionBar.isActionModeShowed() || this.onlySelect) {
-                return;
-            }
-            int i = 0;
-            if (StoryRecorder.isVisible() || ((storyViewer = this.storyViewer) != null && storyViewer.isFullyVisible())) {
-                z = false;
-            }
-            boolean z3 = !isArchive() && getStoriesController().hasOnlySelfStories();
-            if (isArchive()) {
-                z2 = !getStoriesController().getHiddenList().isEmpty();
-            } else {
-                z2 = !z3 && getStoriesController().hasStories();
-                z3 = getStoriesController().hasOnlySelfStories();
-            }
-            this.hasOnlySlefStories = z3;
-            boolean z4 = this.dialogStoriesCellVisible;
-            boolean z5 = z3 || z2;
-            this.dialogStoriesCellVisible = z5;
-            if (z2 || z5) {
-                this.dialogStoriesCell.updateItems(z, z5 != z4);
-            }
-            boolean z6 = this.dialogStoriesCellVisible;
-            int i2 = 8;
-            if (z6 != z4) {
-                if (z) {
-                    ValueAnimator valueAnimator = this.storiesVisibilityAnimator2;
-                    if (valueAnimator != null) {
-                        valueAnimator.cancel();
-                    }
-                    if (this.dialogStoriesCellVisible) {
-                        this.dialogStoriesCell.setVisibility(0);
-                    }
-                    float[] fArr = new float[2];
-                    fArr[0] = this.progressToDialogStoriesCell;
-                    fArr[1] = this.dialogStoriesCellVisible ? 1.0f : 0.0f;
-                    ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
-                    this.storiesVisibilityAnimator2 = ofFloat;
-                    ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.DialogsActivity.54
-                        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                        public void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                            DialogsActivity.this.progressToDialogStoriesCell = ((Float) valueAnimator2.getAnimatedValue()).floatValue();
-                            if (((BaseFragment) DialogsActivity.this).fragmentView != null) {
-                                ((BaseFragment) DialogsActivity.this).fragmentView.invalidate();
-                            }
-                        }
-                    });
-                    this.storiesVisibilityAnimator2.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.DialogsActivity.55
-                        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                        public void onAnimationEnd(Animator animator) {
-                            DialogsActivity dialogsActivity = DialogsActivity.this;
-                            boolean z7 = dialogsActivity.dialogStoriesCellVisible;
-                            dialogsActivity.progressToDialogStoriesCell = z7 ? 1.0f : 0.0f;
-                            if (!z7) {
-                                dialogsActivity.dialogStoriesCell.setVisibility(8);
-                            }
-                            if (((BaseFragment) DialogsActivity.this).fragmentView != null) {
-                                ((BaseFragment) DialogsActivity.this).fragmentView.invalidate();
-                            }
-                        }
-                    });
-                    this.storiesVisibilityAnimator2.setDuration(200L);
-                    this.storiesVisibilityAnimator2.setInterpolator(CubicBezierInterpolator.DEFAULT);
-                    this.storiesVisibilityAnimator2.start();
-                } else {
-                    this.dialogStoriesCell.setVisibility(z6 ? 0 : 8);
-                    this.progressToDialogStoriesCell = this.dialogStoriesCellVisible ? 1.0f : 0.0f;
-                    View view = this.fragmentView;
-                    if (view != null) {
-                        view.invalidate();
-                    }
-                }
-            }
-            if (z2 == this.animateToHasStories) {
-                return;
-            }
-            this.animateToHasStories = z2;
-            if (z2) {
-                this.dialogStoriesCell.setProgressToCollapse(1.0f, false);
-            }
+        if (this.dialogStoriesCell == null || this.storiesVisibilityAnimator != null) {
+            return;
+        }
+        RightSlidingDialogContainer rightSlidingDialogContainer = this.rightSlidingDialogContainer;
+        if ((rightSlidingDialogContainer != null && rightSlidingDialogContainer.hasFragment()) || this.searchIsShowed || this.actionBar.isActionModeShowed() || this.onlySelect) {
+            return;
+        }
+        int i = 0;
+        if (StoryRecorder.isVisible() || ((storyViewer = this.storyViewer) != null && storyViewer.isFullyVisible())) {
+            z = false;
+        }
+        boolean z3 = !isArchive() && getStoriesController().hasOnlySelfStories();
+        if (isArchive()) {
+            z2 = !getStoriesController().getHiddenList().isEmpty();
+        } else {
+            z2 = !z3 && getStoriesController().hasStories();
+            z3 = getStoriesController().hasOnlySelfStories();
+        }
+        this.hasOnlySlefStories = z3;
+        boolean z4 = this.dialogStoriesCellVisible;
+        boolean z5 = z3 || z2;
+        this.dialogStoriesCellVisible = z5;
+        if (z2 || z5) {
+            this.dialogStoriesCell.updateItems(z, z5 != z4);
+        }
+        boolean z6 = this.dialogStoriesCellVisible;
+        int i2 = 8;
+        if (z6 != z4) {
             if (z) {
-                this.dialogStoriesCell.setVisibility(0);
-                float f = -this.scrollYOffset;
-                float maxScrollYOffset = z2 ? 0.0f : getMaxScrollYOffset();
-                ValueAnimator ofFloat2 = ValueAnimator.ofFloat(0.0f, 1.0f);
-                this.storiesVisibilityAnimator = ofFloat2;
-                ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener(f, z2, maxScrollYOffset) { // from class: org.telegram.ui.DialogsActivity.56
-                    int currentValue;
-                    final /* synthetic */ float val$fromScrollY;
-                    final /* synthetic */ boolean val$newVisibility;
-                    final /* synthetic */ float val$toScrollY;
-
-                    {
-                        this.val$fromScrollY = f;
-                        this.val$newVisibility = z2;
-                        this.val$toScrollY = maxScrollYOffset;
-                        this.currentValue = (int) f;
-                    }
-
+                ValueAnimator valueAnimator = this.storiesVisibilityAnimator2;
+                if (valueAnimator != null) {
+                    valueAnimator.cancel();
+                }
+                if (this.dialogStoriesCellVisible) {
+                    this.dialogStoriesCell.setVisibility(0);
+                }
+                float[] fArr = new float[2];
+                fArr[0] = this.progressToDialogStoriesCell;
+                fArr[1] = this.dialogStoriesCellVisible ? 1.0f : 0.0f;
+                ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
+                this.storiesVisibilityAnimator2 = ofFloat;
+                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.DialogsActivity.54
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                        DialogsActivity.this.progressToShowStories = ((Float) valueAnimator2.getAnimatedValue()).floatValue();
-                        if (!this.val$newVisibility) {
-                            DialogsActivity dialogsActivity = DialogsActivity.this;
-                            dialogsActivity.progressToShowStories = 1.0f - dialogsActivity.progressToShowStories;
-                        }
-                        int lerp = (int) AndroidUtilities.lerp(this.val$fromScrollY, this.val$toScrollY, ((Float) valueAnimator2.getAnimatedValue()).floatValue());
-                        int i3 = lerp - this.currentValue;
-                        this.currentValue = lerp;
-                        DialogsActivity.this.viewPages[0].listView.scrollBy(0, i3);
+                        DialogsActivity.this.progressToDialogStoriesCell = ((Float) valueAnimator2.getAnimatedValue()).floatValue();
                         if (((BaseFragment) DialogsActivity.this).fragmentView != null) {
                             ((BaseFragment) DialogsActivity.this).fragmentView.invalidate();
                         }
                     }
                 });
-                this.storiesVisibilityAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.DialogsActivity.57
+                this.storiesVisibilityAnimator2.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.DialogsActivity.55
                     @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                     public void onAnimationEnd(Animator animator) {
                         DialogsActivity dialogsActivity = DialogsActivity.this;
-                        dialogsActivity.storiesVisibilityAnimator = null;
-                        boolean z7 = z2;
-                        dialogsActivity.hasStories = z7;
-                        if (!z7 && !dialogsActivity.hasOnlySlefStories) {
+                        boolean z7 = dialogsActivity.dialogStoriesCellVisible;
+                        dialogsActivity.progressToDialogStoriesCell = z7 ? 1.0f : 0.0f;
+                        if (!z7) {
                             dialogsActivity.dialogStoriesCell.setVisibility(8);
                         }
-                        if (!z2) {
-                            DialogsActivity.this.setScrollY(0.0f);
-                            DialogsActivity.this.scrollAdditionalOffset = AndroidUtilities.dp(81.0f);
-                        } else {
-                            DialogsActivity.this.scrollAdditionalOffset = -AndroidUtilities.dp(81.0f);
-                            DialogsActivity dialogsActivity2 = DialogsActivity.this;
-                            dialogsActivity2.setScrollY(-dialogsActivity2.getMaxScrollYOffset());
-                        }
-                        for (int i3 = 0; i3 < DialogsActivity.this.viewPages.length; i3++) {
-                            if (DialogsActivity.this.viewPages[i3] != null) {
-                                DialogsActivity.this.viewPages[i3].listView.requestLayout();
-                            }
-                        }
                         if (((BaseFragment) DialogsActivity.this).fragmentView != null) {
-                            ((BaseFragment) DialogsActivity.this).fragmentView.requestLayout();
+                            ((BaseFragment) DialogsActivity.this).fragmentView.invalidate();
                         }
                     }
                 });
-                this.storiesVisibilityAnimator.setDuration(200L);
-                this.storiesVisibilityAnimator.setInterpolator(CubicBezierInterpolator.DEFAULT);
-                this.storiesVisibilityAnimator.start();
-                return;
-            }
-            this.progressToShowStories = z2 ? 1.0f : 0.0f;
-            this.hasStories = z2;
-            this.dialogStoriesCell.setVisibility((z2 || this.hasOnlySlefStories) ? 0 : 0);
-            if (!z2) {
-                setScrollY(0.0f);
+                this.storiesVisibilityAnimator2.setDuration(200L);
+                this.storiesVisibilityAnimator2.setInterpolator(CubicBezierInterpolator.DEFAULT);
+                this.storiesVisibilityAnimator2.start();
             } else {
-                this.scrollAdditionalOffset = -AndroidUtilities.dp(81.0f);
-                setScrollY(-getMaxScrollYOffset());
-            }
-            while (true) {
-                ViewPage[] viewPageArr = this.viewPages;
-                if (i >= viewPageArr.length) {
-                    break;
+                this.dialogStoriesCell.setVisibility(z6 ? 0 : 8);
+                this.progressToDialogStoriesCell = this.dialogStoriesCellVisible ? 1.0f : 0.0f;
+                View view = this.fragmentView;
+                if (view != null) {
+                    view.invalidate();
                 }
-                if (viewPageArr[i] != null) {
-                    viewPageArr[i].listView.requestLayout();
+            }
+        }
+        if (z2 == this.animateToHasStories) {
+            return;
+        }
+        this.animateToHasStories = z2;
+        if (z2) {
+            this.dialogStoriesCell.setProgressToCollapse(1.0f, false);
+        }
+        if (z) {
+            this.dialogStoriesCell.setVisibility(0);
+            float f = -this.scrollYOffset;
+            float maxScrollYOffset = z2 ? 0.0f : getMaxScrollYOffset();
+            ValueAnimator ofFloat2 = ValueAnimator.ofFloat(0.0f, 1.0f);
+            this.storiesVisibilityAnimator = ofFloat2;
+            ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener(f, z2, maxScrollYOffset) { // from class: org.telegram.ui.DialogsActivity.56
+                int currentValue;
+                final /* synthetic */ float val$fromScrollY;
+                final /* synthetic */ boolean val$newVisibility;
+                final /* synthetic */ float val$toScrollY;
+
+                {
+                    this.val$fromScrollY = f;
+                    this.val$newVisibility = z2;
+                    this.val$toScrollY = maxScrollYOffset;
+                    this.currentValue = (int) f;
                 }
-                i++;
+
+                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                public void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                    DialogsActivity.this.progressToShowStories = ((Float) valueAnimator2.getAnimatedValue()).floatValue();
+                    if (!this.val$newVisibility) {
+                        DialogsActivity dialogsActivity = DialogsActivity.this;
+                        dialogsActivity.progressToShowStories = 1.0f - dialogsActivity.progressToShowStories;
+                    }
+                    int lerp = (int) AndroidUtilities.lerp(this.val$fromScrollY, this.val$toScrollY, ((Float) valueAnimator2.getAnimatedValue()).floatValue());
+                    int i3 = lerp - this.currentValue;
+                    this.currentValue = lerp;
+                    DialogsActivity.this.viewPages[0].listView.scrollBy(0, i3);
+                    if (((BaseFragment) DialogsActivity.this).fragmentView != null) {
+                        ((BaseFragment) DialogsActivity.this).fragmentView.invalidate();
+                    }
+                }
+            });
+            this.storiesVisibilityAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.DialogsActivity.57
+                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                public void onAnimationEnd(Animator animator) {
+                    DialogsActivity dialogsActivity = DialogsActivity.this;
+                    dialogsActivity.storiesVisibilityAnimator = null;
+                    boolean z7 = z2;
+                    dialogsActivity.hasStories = z7;
+                    if (!z7 && !dialogsActivity.hasOnlySlefStories) {
+                        dialogsActivity.dialogStoriesCell.setVisibility(8);
+                    }
+                    if (!z2) {
+                        DialogsActivity.this.setScrollY(0.0f);
+                        DialogsActivity.this.scrollAdditionalOffset = AndroidUtilities.dp(81.0f);
+                    } else {
+                        DialogsActivity.this.scrollAdditionalOffset = -AndroidUtilities.dp(81.0f);
+                        DialogsActivity dialogsActivity2 = DialogsActivity.this;
+                        dialogsActivity2.setScrollY(-dialogsActivity2.getMaxScrollYOffset());
+                    }
+                    for (int i3 = 0; i3 < DialogsActivity.this.viewPages.length; i3++) {
+                        if (DialogsActivity.this.viewPages[i3] != null) {
+                            DialogsActivity.this.viewPages[i3].listView.requestLayout();
+                        }
+                    }
+                    if (((BaseFragment) DialogsActivity.this).fragmentView != null) {
+                        ((BaseFragment) DialogsActivity.this).fragmentView.requestLayout();
+                    }
+                }
+            });
+            this.storiesVisibilityAnimator.setDuration(200L);
+            this.storiesVisibilityAnimator.setInterpolator(CubicBezierInterpolator.DEFAULT);
+            this.storiesVisibilityAnimator.start();
+            return;
+        }
+        this.progressToShowStories = z2 ? 1.0f : 0.0f;
+        this.hasStories = z2;
+        this.dialogStoriesCell.setVisibility((z2 || this.hasOnlySlefStories) ? 0 : 0);
+        if (!z2) {
+            setScrollY(0.0f);
+        } else {
+            this.scrollAdditionalOffset = -AndroidUtilities.dp(81.0f);
+            setScrollY(-getMaxScrollYOffset());
+        }
+        while (true) {
+            ViewPage[] viewPageArr = this.viewPages;
+            if (i >= viewPageArr.length) {
+                break;
             }
-            View view2 = this.fragmentView;
-            if (view2 != null) {
-                view2.requestLayout();
-                this.fragmentView.invalidate();
+            if (viewPageArr[i] != null) {
+                viewPageArr[i].listView.requestLayout();
             }
+            i++;
+        }
+        View view2 = this.fragmentView;
+        if (view2 != null) {
+            view2.requestLayout();
+            this.fragmentView.invalidate();
         }
     }
 }

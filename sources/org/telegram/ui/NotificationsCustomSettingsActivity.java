@@ -191,7 +191,7 @@ public class NotificationsCustomSettingsActivity extends BaseFragment implements
         return i2 >= 0 && i2 >= arrayList.size() + (-5);
     }
 
-    public static boolean isStoriesNotMuted(int i, long j) {
+    public static boolean areStoriesNotMuted(int i, long j) {
         SharedPreferences notificationsSettings = MessagesController.getNotificationsSettings(i);
         if (notificationsSettings.contains(NotificationsSettingsFacade.PROPERTY_STORIES_NOTIFY + j)) {
             return notificationsSettings.getBoolean(NotificationsSettingsFacade.PROPERTY_STORIES_NOTIFY + j, true);
