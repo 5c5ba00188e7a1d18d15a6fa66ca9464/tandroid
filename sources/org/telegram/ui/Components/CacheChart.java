@@ -30,7 +30,7 @@ import org.telegram.ui.Components.AnimatedTextView;
 import org.telegram.ui.Components.Premium.StarParticlesView;
 /* loaded from: classes4.dex */
 public class CacheChart extends View {
-    private static final int[] DEFAULT_COLORS = {Theme.key_statisticChartLine_lightblue, Theme.key_statisticChartLine_blue, Theme.key_statisticChartLine_green, Theme.key_statisticChartLine_red, Theme.key_statisticChartLine_lightgreen, Theme.key_statisticChartLine_indigo, Theme.key_statisticChartLine_orange, Theme.key_statisticChartLine_cyan, Theme.key_statisticChartLine_purple, Theme.key_statisticChartLine_golden};
+    private static final int[] DEFAULT_COLORS;
     private static final int[] DEFAULT_PARTICLES;
     private static Long loadedStart;
     private static long particlesStart;
@@ -84,9 +84,12 @@ public class CacheChart extends View {
     }
 
     static {
-        int i = R.raw.cache_videos;
-        int i2 = R.raw.cache_other;
-        DEFAULT_PARTICLES = new int[]{R.raw.cache_photos, i, R.raw.cache_documents, R.raw.cache_music, i, i2, R.raw.cache_stickers, R.raw.cache_profile_photos, i2, i2};
+        int i = Theme.key_statisticChartLine_purple;
+        DEFAULT_COLORS = new int[]{Theme.key_statisticChartLine_lightblue, Theme.key_statisticChartLine_blue, Theme.key_statisticChartLine_green, i, Theme.key_statisticChartLine_lightgreen, Theme.key_statisticChartLine_red, Theme.key_statisticChartLine_orange, Theme.key_statisticChartLine_cyan, i, Theme.key_statisticChartLine_golden};
+        int i2 = R.raw.cache_videos;
+        int i3 = R.raw.cache_music;
+        int i4 = R.raw.cache_other;
+        DEFAULT_PARTICLES = new int[]{R.raw.cache_photos, i2, R.raw.cache_documents, i3, i2, i3, R.raw.cache_stickers, R.raw.cache_profile_photos, i4, i4};
         particlesStart = -1L;
     }
 
@@ -385,7 +388,7 @@ public class CacheChart extends View {
     }
 
     public CacheChart(Context context) {
-        this(context, 9, DEFAULT_COLORS, 0, DEFAULT_PARTICLES);
+        this(context, 10, DEFAULT_COLORS, 0, DEFAULT_PARTICLES);
     }
 
     public CacheChart(Context context, int i, int[] iArr, int i2, int[] iArr2) {
@@ -796,8 +799,7 @@ public class CacheChart extends View {
                     spannableString3 = spannableString4;
                     j2 = j3;
                 }
-                long j4 = j2;
-                String[] split = AndroidUtilities.formatFileSize(j4).split(" ");
+                String[] split = AndroidUtilities.formatFileSize(j2, true, true).split(" ");
                 if (split.length > 0) {
                     c = 0;
                     str = split[0];
@@ -805,7 +807,7 @@ public class CacheChart extends View {
                     c = 0;
                     str = "";
                 }
-                if (str.length() >= 4 && j4 < 1073741824) {
+                if (str.length() >= 4 && j2 < 1073741824) {
                     str = str.split("\\.")[c];
                 }
                 this.topText.setText(str, z);

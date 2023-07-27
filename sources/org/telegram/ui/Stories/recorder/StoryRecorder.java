@@ -4302,22 +4302,15 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
     }
 
     public void createFilterPhotoView() {
-        if (this.photoFilterView != null || this.outputEntry == null) {
+        Bitmap photoBitmap;
+        if (this.photoFilterView != null || this.outputEntry == null || (photoBitmap = this.previewView.getPhotoBitmap()) == null) {
             return;
         }
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(this.outputEntry.file.getPath(), options);
-        StoryEntry storyEntry = this.outputEntry;
-        StoryEntry.setupScale(options, storyEntry.resultWidth, storyEntry.resultHeight);
-        options.inJustDecodeBounds = false;
-        Bitmap decodeFile = BitmapFactory.decodeFile(this.outputEntry.file.getPath(), options);
-        this.photoFilterBitmap = decodeFile;
         Activity activity = this.activity;
         VideoEditTextureView textureView = this.previewView.getTextureView();
         int orientation = this.previewView.getOrientation();
-        StoryEntry storyEntry2 = this.outputEntry;
-        PhotoFilterView photoFilterView = new PhotoFilterView(activity, textureView, decodeFile, orientation, storyEntry2 == null ? null : storyEntry2.filterState, null, 0, false, false, this.resourcesProvider);
+        StoryEntry storyEntry = this.outputEntry;
+        PhotoFilterView photoFilterView = new PhotoFilterView(activity, textureView, photoBitmap, orientation, storyEntry == null ? null : storyEntry.filterState, null, 0, false, false, this.resourcesProvider);
         this.photoFilterView = photoFilterView;
         this.containerView.addView(photoFilterView);
         PhotoFilterView.EnhanceView enhanceView = this.photoFilterEnhanceView;

@@ -80,6 +80,8 @@ public class PreviewView extends FrameLayout {
     private Matrix tempMatrix;
     private float[] tempVertices;
     private VideoEditTextureView textureView;
+    private final AnimatedFloat thumbAlpha;
+    private Bitmap thumbBitmap;
     private final PointF touch;
     private Matrix touchMatrix;
     private float trashCx;
@@ -121,10 +123,10 @@ public class PreviewView extends FrameLayout {
         this.snapPaint = paint;
         this.partsBitmap = new HashMap<>();
         this.partsBounce = new HashMap<>();
-        this.updateProgressRunnable = new Runnable() { // from class: org.telegram.ui.Stories.recorder.PreviewView$$ExternalSyntheticLambda1
+        this.updateProgressRunnable = new Runnable() { // from class: org.telegram.ui.Stories.recorder.PreviewView$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
-                PreviewView.this.lambda$new$3();
+                PreviewView.this.lambda$new$5();
             }
         };
         this.bitmapPaint = new Paint(7);
@@ -132,6 +134,7 @@ public class PreviewView extends FrameLayout {
         this.matrix = new Matrix();
         this.vertices = new float[2];
         this.draw = true;
+        this.thumbAlpha = new AnimatedFloat(this, 0L, 320L, CubicBezierInterpolator.EASE_OUT);
         this.allowCropping = true;
         this.lastTouch = new PointF();
         this.touch = new PointF();
@@ -338,7 +341,7 @@ public class PreviewView extends FrameLayout {
             if (storyEntry.gradientTopColor != 0 || storyEntry.gradientBottomColor != 0) {
                 setupGradient();
             } else {
-                storyEntry.setupGradient(new Runnable() { // from class: org.telegram.ui.Stories.recorder.PreviewView$$ExternalSyntheticLambda0
+                storyEntry.setupGradient(new Runnable() { // from class: org.telegram.ui.Stories.recorder.PreviewView$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
                     public final void run() {
                         PreviewView.this.setupGradient();
@@ -354,14 +357,18 @@ public class PreviewView extends FrameLayout {
         applyMatrix();
     }
 
-    private void setupImage(StoryEntry storyEntry) {
-        Bitmap bitmap;
+    private void setupImage(final StoryEntry storyEntry) {
         String str;
         Uri withAppendedId;
-        Bitmap bitmap2 = this.bitmap;
+        Bitmap bitmap = this.bitmap;
+        if (bitmap != null) {
+            bitmap.recycle();
+            this.bitmap = null;
+        }
+        Bitmap bitmap2 = this.thumbBitmap;
         if (bitmap2 != null) {
             bitmap2.recycle();
-            this.bitmap = null;
+            this.thumbBitmap = null;
         }
         if (storyEntry != null) {
             int measuredWidth = getMeasuredWidth() <= 0 ? AndroidUtilities.displaySize.x : getMeasuredWidth();
@@ -387,56 +394,47 @@ public class PreviewView extends FrameLayout {
                     }
                 }
             }
-            if (j < 0 && storyEntry.isVideo && storyEntry.thumbPath == null) {
+            final long j2 = j;
+            if (j2 < 0 && storyEntry.isVideo && storyEntry.thumbPath == null) {
                 invalidate();
                 return;
             }
-            if (this.bitmap == null) {
-                String path = storyEntry.getOriginalFile().getPath();
-                BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inJustDecodeBounds = true;
-                if (storyEntry.isVideo) {
-                    String str2 = storyEntry.thumbPath;
-                    if (str2 != null) {
-                        BitmapFactory.decodeFile(str2, options);
-                    } else {
-                        try {
-                            MediaStore.Video.Thumbnails.getThumbnail(getContext().getContentResolver(), j, 1, options);
-                        } catch (Throwable unused2) {
-                            this.bitmap = null;
-                            invalidate();
-                            return;
-                        }
+            Bitmap bitmap4 = this.bitmap;
+            if (bitmap4 == null) {
+                final String path = storyEntry.getOriginalFile().getPath();
+                this.bitmap = StoryEntry.getScaledBitmap(new StoryEntry.DecodeBitmap() { // from class: org.telegram.ui.Stories.recorder.PreviewView$$ExternalSyntheticLambda6
+                    @Override // org.telegram.ui.Stories.recorder.StoryEntry.DecodeBitmap
+                    public final Bitmap decode(BitmapFactory.Options options) {
+                        Bitmap lambda$setupImage$0;
+                        lambda$setupImage$0 = PreviewView.this.lambda$setupImage$0(storyEntry, j2, path, options);
+                        return lambda$setupImage$0;
                     }
-                } else {
-                    BitmapFactory.decodeFile(path, options);
-                }
-                options.inJustDecodeBounds = false;
-                StoryEntry.setupScale(options, measuredWidth, i);
-                if (storyEntry.isVideo) {
-                    String str3 = storyEntry.thumbPath;
-                    if (str3 != null) {
-                        BitmapFactory.decodeFile(str3, options);
-                    } else {
-                        try {
-                            this.bitmap = MediaStore.Video.Thumbnails.getThumbnail(getContext().getContentResolver(), j, 1, options);
-                        } catch (Throwable unused3) {
-                            this.bitmap = null;
-                            invalidate();
-                            return;
-                        }
-                    }
-                } else {
-                    this.bitmap = BitmapFactory.decodeFile(path, options);
-                }
-            }
-            if (!storyEntry.isDraft && storyEntry.isVideo && (bitmap = this.bitmap) != null) {
-                storyEntry.width = bitmap.getWidth();
+                }, measuredWidth, i, false);
+                return;
+            } else if (!storyEntry.isDraft && storyEntry.isVideo && bitmap4 != null) {
+                storyEntry.width = bitmap4.getWidth();
                 storyEntry.height = this.bitmap.getHeight();
                 storyEntry.setupMatrix();
             }
         }
         invalidate();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ Bitmap lambda$setupImage$0(StoryEntry storyEntry, long j, String str, BitmapFactory.Options options) {
+        if (storyEntry.isVideo) {
+            String str2 = storyEntry.thumbPath;
+            if (str2 != null) {
+                return BitmapFactory.decodeFile(str2, options);
+            }
+            try {
+                return MediaStore.Video.Thumbnails.getThumbnail(getContext().getContentResolver(), j, 1, options);
+            } catch (Throwable unused) {
+                invalidate();
+                return null;
+            }
+        }
+        return BitmapFactory.decodeFile(str, options);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -449,11 +447,21 @@ public class PreviewView extends FrameLayout {
                 DominantColors.getColors(true, bitmap, true, new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.PreviewView$$ExternalSyntheticLambda4
                     @Override // org.telegram.messenger.Utilities.Callback
                     public final void run(Object obj) {
-                        PreviewView.this.lambda$setupGradient$0(measuredHeight, (int[]) obj);
+                        PreviewView.this.lambda$setupGradient$1(measuredHeight, (int[]) obj);
                     }
                 });
             } else {
-                this.gradientPaint.setShader(null);
+                Bitmap bitmap2 = this.thumbBitmap;
+                if (bitmap2 != null) {
+                    DominantColors.getColors(true, bitmap2, true, new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.PreviewView$$ExternalSyntheticLambda5
+                        @Override // org.telegram.messenger.Utilities.Callback
+                        public final void run(Object obj) {
+                            PreviewView.this.lambda$setupGradient$2(measuredHeight, (int[]) obj);
+                        }
+                    });
+                } else {
+                    this.gradientPaint.setShader(null);
+                }
             }
         } else {
             Paint paint = this.gradientPaint;
@@ -464,7 +472,16 @@ public class PreviewView extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$setupGradient$0(int i, int[] iArr) {
+    public /* synthetic */ void lambda$setupGradient$1(int i, int[] iArr) {
+        StoryEntry storyEntry = this.entry;
+        storyEntry.gradientTopColor = iArr[0];
+        storyEntry.gradientBottomColor = iArr[1];
+        this.gradientPaint.setShader(new LinearGradient(0.0f, 0.0f, 0.0f, i, iArr, new float[]{0.0f, 1.0f}, Shader.TileMode.CLAMP));
+        invalidate();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$setupGradient$2(int i, int[] iArr) {
         StoryEntry storyEntry = this.entry;
         storyEntry.gradientTopColor = iArr[0];
         storyEntry.gradientBottomColor = iArr[1];
@@ -486,7 +503,7 @@ public class PreviewView extends FrameLayout {
                 this.textureView.animate().alpha(0.0f).withEndAction(new Runnable() { // from class: org.telegram.ui.Stories.recorder.PreviewView$$ExternalSyntheticLambda2
                     @Override // java.lang.Runnable
                     public final void run() {
-                        PreviewView.this.lambda$setupVideoPlayer$1();
+                        PreviewView.this.lambda$setupVideoPlayer$3();
                     }
                 }).start();
             }
@@ -521,7 +538,7 @@ public class PreviewView extends FrameLayout {
         storyEntry.detectHDR(new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.PreviewView$$ExternalSyntheticLambda3
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
-                PreviewView.this.lambda$setupVideoPlayer$2((StoryEntry.HDRInfo) obj);
+                PreviewView.this.lambda$setupVideoPlayer$4((StoryEntry.HDRInfo) obj);
             }
         });
         Uri fromFile = Uri.fromFile(storyEntry.getOriginalFile());
@@ -535,7 +552,7 @@ public class PreviewView extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$setupVideoPlayer$1() {
+    public /* synthetic */ void lambda$setupVideoPlayer$3() {
         VideoEditTextureView videoEditTextureView = this.textureView;
         if (videoEditTextureView != null) {
             videoEditTextureView.release();
@@ -664,7 +681,7 @@ public class PreviewView extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$setupVideoPlayer$2(StoryEntry.HDRInfo hDRInfo) {
+    public /* synthetic */ void lambda$setupVideoPlayer$4(StoryEntry.HDRInfo hDRInfo) {
         VideoEditTextureView videoEditTextureView = this.textureView;
         if (videoEditTextureView != null) {
             videoEditTextureView.setHDRInfo(hDRInfo);
@@ -744,7 +761,7 @@ public class PreviewView extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$3() {
+    public /* synthetic */ void lambda$new$5() {
         VideoPlayer videoPlayer = this.videoPlayer;
         if (videoPlayer == null) {
             return;
@@ -817,19 +834,29 @@ public class PreviewView extends FrameLayout {
     @Override // android.view.ViewGroup, android.view.View
     protected void dispatchDraw(Canvas canvas) {
         Bitmap bitmap;
-        StoryEntry storyEntry;
         canvas.drawRect(0.0f, 0.0f, getWidth(), getHeight(), this.gradientPaint);
-        if (this.draw && (storyEntry = this.entry) != null && this.bitmap != null) {
-            this.matrix.set(storyEntry.matrix);
-            this.matrix.preScale(this.entry.width / this.bitmap.getWidth(), this.entry.height / this.bitmap.getHeight());
-            this.matrix.postScale(getWidth() / this.entry.resultWidth, getHeight() / this.entry.resultHeight);
-            canvas.drawBitmap(this.bitmap, this.matrix, this.bitmapPaint);
+        if (this.draw && this.entry != null) {
+            float f = this.thumbAlpha.set(this.bitmap != null);
+            if (this.thumbBitmap != null && 1.0f - f > 0.0f) {
+                this.matrix.set(this.entry.matrix);
+                this.matrix.preScale(this.entry.width / this.thumbBitmap.getWidth(), this.entry.height / this.thumbBitmap.getHeight());
+                this.matrix.postScale(getWidth() / this.entry.resultWidth, getHeight() / this.entry.resultHeight);
+                this.bitmapPaint.setAlpha(255);
+                canvas.drawBitmap(this.thumbBitmap, this.matrix, this.bitmapPaint);
+            }
+            if (this.bitmap != null) {
+                this.matrix.set(this.entry.matrix);
+                this.matrix.preScale(this.entry.width / this.bitmap.getWidth(), this.entry.height / this.bitmap.getHeight());
+                this.matrix.postScale(getWidth() / this.entry.resultWidth, getHeight() / this.entry.resultHeight);
+                this.bitmapPaint.setAlpha((int) (f * 255.0f));
+                canvas.drawBitmap(this.bitmap, this.matrix, this.bitmapPaint);
+            }
         }
         super.dispatchDraw(canvas);
         if (!this.draw || this.entry == null) {
             return;
         }
-        float f = this.trashT.set(!this.inTrash);
+        float f2 = this.trashT.set(!this.inTrash);
         for (int i = 0; i < this.entry.parts.size(); i++) {
             StoryEntry.Part part = this.entry.parts.get(i);
             if (part != null && (bitmap = this.partsBitmap.get(Integer.valueOf(part.id))) != null) {
@@ -845,7 +872,7 @@ public class PreviewView extends FrameLayout {
                     canvas.scale(scale, scale, (this.tempVertices[0] / this.entry.resultWidth) * getWidth(), (this.tempVertices[1] / this.entry.resultHeight) * getHeight());
                 }
                 if (this.trashPartIndex == part.id) {
-                    float lerp = AndroidUtilities.lerp(0.2f, 1.0f, f);
+                    float lerp = AndroidUtilities.lerp(0.2f, 1.0f, f2);
                     canvas.scale(lerp, lerp, this.trashCx, this.trashCy);
                 }
                 this.matrix.preScale(part.width / bitmap.getWidth(), part.height / bitmap.getHeight());

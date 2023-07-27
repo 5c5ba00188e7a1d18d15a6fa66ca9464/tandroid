@@ -566,7 +566,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     public static class MediaPage extends FrameLayout {
         private ClippingImageView animatingImageView;
         private GridLayoutManager animationSupportingLayoutManager;
-        private BlurredRecyclerView animationSupportingListView;
+        private InternalListView animationSupportingListView;
         private StickerEmptyView emptyView;
         public ObjectAnimator fastScrollAnimator;
         public boolean fastScrollEnabled;
@@ -578,7 +578,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         public float highlightProgress;
         public long lastCheckScrollTime;
         private ExtendedGridLayoutManager layoutManager;
-        private BlurredRecyclerView listView;
+        private InternalListView listView;
         private FlickerLoadingView progressView;
         private RecyclerAnimationScrollHelper scrollHelper;
         private int selectedType;
@@ -1328,19 +1328,19 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                 ImageReceiver linkImageView;
                 View pinnedHeader;
                 if (messageObject != null && (SharedMediaLayout.this.mediaPages[0].selectedType == 0 || SharedMediaLayout.this.mediaPages[0].selectedType == 1 || SharedMediaLayout.this.mediaPages[0].selectedType == 3 || SharedMediaLayout.this.mediaPages[0].selectedType == 5)) {
-                    BlurredRecyclerView blurredRecyclerView = SharedMediaLayout.this.mediaPages[0].listView;
-                    int childCount = blurredRecyclerView.getChildCount();
+                    InternalListView internalListView = SharedMediaLayout.this.mediaPages[0].listView;
+                    int childCount = internalListView.getChildCount();
                     int i8 = -1;
                     int i9 = -1;
                     for (int i10 = 0; i10 < childCount; i10++) {
-                        View childAt = blurredRecyclerView.getChildAt(i10);
+                        View childAt = internalListView.getChildAt(i10);
                         int measuredHeight = SharedMediaLayout.this.mediaPages[0].listView.getMeasuredHeight();
                         View view = (View) SharedMediaLayout.this.getParent();
                         if (view != null && SharedMediaLayout.this.getY() + SharedMediaLayout.this.getMeasuredHeight() > view.getMeasuredHeight()) {
                             measuredHeight -= SharedMediaLayout.this.getBottom() - view.getMeasuredHeight();
                         }
                         if (childAt.getTop() < measuredHeight) {
-                            int childAdapterPosition = blurredRecyclerView.getChildAdapterPosition(childAt);
+                            int childAdapterPosition = internalListView.getChildAdapterPosition(childAt);
                             if (childAdapterPosition < i8 || i8 == -1) {
                                 i8 = childAdapterPosition;
                             }
@@ -1361,7 +1361,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                                             PhotoViewer.PlaceProviderObject placeProviderObject = new PhotoViewer.PlaceProviderObject();
                                             placeProviderObject.viewX = iArr[0];
                                             placeProviderObject.viewY = iArr[1] - (Build.VERSION.SDK_INT >= 21 ? 0 : AndroidUtilities.statusBarHeight);
-                                            placeProviderObject.parentView = blurredRecyclerView;
+                                            placeProviderObject.parentView = internalListView;
                                             placeProviderObject.animatingImageView = SharedMediaLayout.this.mediaPages[0].animatingImageView;
                                             SharedMediaLayout.this.mediaPages[0].listView.getLocationInWindow(iArr);
                                             placeProviderObject.animatingImageViewYOffset = -iArr[1];
@@ -1375,7 +1375,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                                             if (SharedMediaLayout.this.fragmentContextView != null && SharedMediaLayout.this.fragmentContextView.getVisibility() == 0) {
                                                 placeProviderObject.clipTopAddition += AndroidUtilities.dp(36.0f);
                                             }
-                                            if (PhotoViewer.isShowingImage(messageObject) && (pinnedHeader = blurredRecyclerView.getPinnedHeader()) != null) {
+                                            if (PhotoViewer.isShowingImage(messageObject) && (pinnedHeader = internalListView.getPinnedHeader()) != null) {
                                                 int height = (SharedMediaLayout.this.fragmentContextView == null || SharedMediaLayout.this.fragmentContextView.getVisibility() != 0) ? 0 : (SharedMediaLayout.this.fragmentContextView.getHeight() - AndroidUtilities.dp(2.5f)) + 0;
                                                 boolean z3 = childAt instanceof SharedDocumentCell;
                                                 if (z3) {
@@ -1383,14 +1383,14 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                                                 }
                                                 int i11 = height - placeProviderObject.viewY;
                                                 if (i11 > childAt.getHeight()) {
-                                                    blurredRecyclerView.scrollBy(0, -(i11 + pinnedHeader.getHeight()));
+                                                    internalListView.scrollBy(0, -(i11 + pinnedHeader.getHeight()));
                                                 } else {
-                                                    int height2 = placeProviderObject.viewY - blurredRecyclerView.getHeight();
+                                                    int height2 = placeProviderObject.viewY - internalListView.getHeight();
                                                     if (z3) {
                                                         height2 -= AndroidUtilities.dp(8.0f);
                                                     }
                                                     if (height2 >= 0) {
-                                                        blurredRecyclerView.scrollBy(0, height2 + childAt.getHeight());
+                                                        internalListView.scrollBy(0, height2 + childAt.getHeight());
                                                     }
                                                 }
                                             }
@@ -2359,7 +2359,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             this.mediaPages[i17].listView.setLayoutManager(extendedGridLayoutManager);
             MediaPage[] mediaPageArr3 = this.mediaPages;
             mediaPageArr3[i17].addView(mediaPageArr3[i17].listView, LayoutHelper.createFrame(-1, -1.0f));
-            this.mediaPages[i17].animationSupportingListView = new BlurredRecyclerView(context);
+            this.mediaPages[i17].animationSupportingListView = new InternalListView(context);
             this.mediaPages[i17].animationSupportingListView.setLayoutManager(this.mediaPages[i17].animationSupportingLayoutManager = new GridLayoutManager(context, 3) { // from class: org.telegram.ui.Components.SharedMediaLayout.13
                 @Override // androidx.recyclerview.widget.GridLayoutManager, androidx.recyclerview.widget.LinearLayoutManager, androidx.recyclerview.widget.RecyclerView.LayoutManager
                 public boolean supportsPredictiveItemAnimations() {
@@ -2481,12 +2481,12 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             if (i17 == 0 && i16 != -1) {
                 extendedGridLayoutManager.scrollToPositionWithOffset(i16, i18);
             }
-            final BlurredRecyclerView blurredRecyclerView = this.mediaPages[i17].listView;
+            final InternalListView internalListView = this.mediaPages[i17].listView;
             this.mediaPages[i17].animatingImageView = new ClippingImageView(this, context) { // from class: org.telegram.ui.Components.SharedMediaLayout.17
                 @Override // android.view.View
                 public void invalidate() {
                     super.invalidate();
-                    blurredRecyclerView.invalidate();
+                    internalListView.invalidate();
                 }
             };
             this.mediaPages[i17].animatingImageView.setVisibility(8);
@@ -3452,7 +3452,13 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             } else {
                 mediaPage.animationSupportingListView.setAdapter(this.animationSupportingPhotoVideoAdapter);
             }
-            mediaPage.animationSupportingListView.setPadding(mediaPage.animationSupportingListView.getPaddingLeft(), AndroidUtilities.dp(this.changeColumnsTab == 9 ? 66.0f : 2.0f), mediaPage.animationSupportingListView.getPaddingRight(), mediaPage.animationSupportingListView.getPaddingBottom());
+            InternalListView internalListView = mediaPage.animationSupportingListView;
+            int paddingLeft = mediaPage.animationSupportingListView.getPaddingLeft();
+            int dp = AndroidUtilities.dp(2.0f);
+            InternalListView internalListView2 = mediaPage.animationSupportingListView;
+            int dp2 = this.changeColumnsTab == 9 ? AndroidUtilities.dp(64.0f) : 0;
+            internalListView2.hintPaddingTop = dp2;
+            internalListView.setPadding(paddingLeft, dp + dp2, mediaPage.animationSupportingListView.getPaddingRight(), mediaPage.animationSupportingListView.getPaddingBottom());
             mediaPage.animationSupportingLayoutManager.setSpanCount(i);
             mediaPage.animationSupportingListView.invalidateItemDecorations();
             int i4 = 0;
@@ -4795,7 +4801,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                         }
                     }
                     if (adapter3 != null) {
-                        BlurredRecyclerView blurredRecyclerView = null;
+                        InternalListView internalListView = null;
                         int i11 = 0;
                         while (true) {
                             MediaPage[] mediaPageArr = this.mediaPages;
@@ -4803,7 +4809,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                                 break;
                             }
                             if (mediaPageArr[i11].listView.getAdapter() == adapter3) {
-                                blurredRecyclerView = this.mediaPages[i11].listView;
+                                internalListView = this.mediaPages[i11].listView;
                                 this.mediaPages[i11].listView.stopScroll();
                             }
                             i11++;
@@ -4812,7 +4818,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                         SharedPhotoVideoAdapter sharedPhotoVideoAdapter = this.photoVideoAdapter;
                         if (adapter3 == sharedPhotoVideoAdapter) {
                             if (sharedPhotoVideoAdapter.getItemCount() == i5) {
-                                AndroidUtilities.updateVisibleRows(blurredRecyclerView);
+                                AndroidUtilities.updateVisibleRows(internalListView);
                             } else {
                                 this.photoVideoAdapter.notifyDataSetChanged();
                             }
@@ -4823,17 +4829,17 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                             }
                         }
                         if (!this.sharedMediaData[intValue3].messages.isEmpty() || this.sharedMediaData[intValue3].loading) {
-                            if (blurredRecyclerView != null && (adapter3 == this.photoVideoAdapter || itemCount >= i5)) {
-                                animateItemsEnter(blurredRecyclerView, i5, sparseBooleanArray);
+                            if (internalListView != null && (adapter3 == this.photoVideoAdapter || itemCount >= i5)) {
+                                animateItemsEnter(internalListView, i5, sparseBooleanArray);
                             }
-                        } else if (blurredRecyclerView != null) {
-                            animateItemsEnter(blurredRecyclerView, i5, sparseBooleanArray);
+                        } else if (internalListView != null) {
+                            animateItemsEnter(internalListView, i5, sparseBooleanArray);
                         }
-                        if (blurredRecyclerView != null && !this.sharedMediaData[intValue3].loadingAfterFastScroll) {
+                        if (internalListView != null && !this.sharedMediaData[intValue3].loadingAfterFastScroll) {
                             if (size2 == 0) {
                                 for (int i12 = 0; i12 < 2; i12++) {
                                     if (this.mediaPages[i12].selectedType == 0) {
-                                        ((LinearLayoutManager) blurredRecyclerView.getLayoutManager()).scrollToPositionWithOffset(this.photoVideoAdapter.getPositionForIndex(0), 0);
+                                        ((LinearLayoutManager) internalListView.getLayoutManager()).scrollToPositionWithOffset(this.photoVideoAdapter.getPositionForIndex(0), 0);
                                     }
                                 }
                             } else {
@@ -5138,12 +5144,12 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             if (i2 >= mediaPageArr.length) {
                 return;
             }
-            BlurredRecyclerView blurredRecyclerView = mediaPageArr[i2].listView;
-            if (blurredRecyclerView != null) {
+            InternalListView internalListView = mediaPageArr[i2].listView;
+            if (internalListView != null) {
                 int i3 = 0;
                 int i4 = 0;
-                for (int i5 = 0; i5 < blurredRecyclerView.getChildCount(); i5++) {
-                    View childAt = blurredRecyclerView.getChildAt(i5);
+                for (int i5 = 0; i5 < internalListView.getChildCount(); i5++) {
+                    View childAt = internalListView.getChildAt(i5);
                     if (childAt instanceof SharedPhotoVideoCell2) {
                         SharedPhotoVideoCell2 sharedPhotoVideoCell2 = (SharedPhotoVideoCell2) childAt;
                         int messageId = sharedPhotoVideoCell2.getMessageId();
@@ -5199,7 +5205,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                         i = this.sharedMediaData[i7].startOffset + i6;
                     }
                     if (i6 >= 0) {
-                        ((LinearLayoutManager) blurredRecyclerView.getLayoutManager()).scrollToPositionWithOffset(i, (-this.mediaPages[i2].listView.getPaddingTop()) + i4);
+                        ((LinearLayoutManager) internalListView.getLayoutManager()).scrollToPositionWithOffset(i, (-this.mediaPages[i2].listView.getPaddingTop()) + i4);
                         if (this.photoVideoChangeColumnsAnimation) {
                             this.mediaPages[i2].animationSupportingLayoutManager.scrollToPositionWithOffset(i, (-this.mediaPages[i2].listView.getPaddingTop()) + i4);
                         }
@@ -5680,13 +5686,13 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:245:0x0542, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:245:0x0553, code lost:
         if (r5.getCount() > 0) goto L179;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:246:0x0544, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:246:0x0555, code lost:
         r3 = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:263:0x0585, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:263:0x0596, code lost:
         if (r5.getCount() > 0) goto L179;
      */
     /*
@@ -5797,7 +5803,13 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             i = 100;
         } else {
             this.mediaPages[z ? 1 : 0].listView.setPinnedHeaderShadowDrawable(null);
-            this.mediaPages[z ? 1 : 0].listView.setPadding(this.mediaPages[z ? 1 : 0].listView.getPaddingLeft(), AndroidUtilities.dp(this.mediaPages[z ? 1 : 0].selectedType == 9 ? 66.0f : 2.0f), this.mediaPages[z ? 1 : 0].listView.getPaddingRight(), this.mediaPages[z ? 1 : 0].listView.getPaddingBottom());
+            InternalListView internalListView = this.mediaPages[z ? 1 : 0].listView;
+            int paddingLeft = this.mediaPages[z ? 1 : 0].listView.getPaddingLeft();
+            int dp = AndroidUtilities.dp(2.0f);
+            InternalListView internalListView2 = this.mediaPages[z ? 1 : 0].listView;
+            int dp2 = this.mediaPages[z ? 1 : 0].selectedType == 9 ? AndroidUtilities.dp(64.0f) : 0;
+            internalListView2.hintPaddingTop = dp2;
+            internalListView.setPadding(paddingLeft, dp + dp2, this.mediaPages[z ? 1 : 0].listView.getPaddingRight(), this.mediaPages[z ? 1 : 0].listView.getPaddingBottom());
             if (this.mediaPages[z ? 1 : 0].selectedType != 0) {
                 if (this.mediaPages[z ? 1 : 0].selectedType != 1) {
                     if (this.mediaPages[z ? 1 : 0].selectedType != 2) {
@@ -7453,9 +7465,9 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             }
             for (int i2 = 0; i2 < SharedMediaLayout.this.mediaPages.length; i2++) {
                 if (SharedMediaLayout.this.mediaPages[i2].selectedType == 6 && SharedMediaLayout.this.mediaPages[i2].listView != null) {
-                    BlurredRecyclerView blurredRecyclerView = SharedMediaLayout.this.mediaPages[i2].listView;
+                    InternalListView internalListView = SharedMediaLayout.this.mediaPages[i2].listView;
                     if (this.firstLoaded || itemCount == 0) {
-                        SharedMediaLayout.this.animateItemsEnter(blurredRecyclerView, 0, null);
+                        SharedMediaLayout.this.animateItemsEnter(internalListView, 0, null);
                     }
                 }
             }
@@ -8165,50 +8177,50 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                     ThemeDescription.ThemeDescriptionDelegate.-CC.$default$onAnimationProgress(this, f);
                 }
             };
-            BlurredRecyclerView blurredRecyclerView = this.mediaPages[i7].listView;
+            InternalListView internalListView = this.mediaPages[i7].listView;
             Class[] clsArr = new Class[1];
             clsArr[c] = View.class;
-            arrayList.add(new ThemeDescription(blurredRecyclerView, 0, clsArr, Theme.dividerPaint, null, null, Theme.key_divider));
+            arrayList.add(new ThemeDescription(internalListView, 0, clsArr, Theme.dividerPaint, null, null, Theme.key_divider));
             FlickerLoadingView flickerLoadingView = this.mediaPages[i7].progressView;
             int i8 = Theme.key_windowBackgroundWhite;
             arrayList.add(new ThemeDescription(flickerLoadingView, 0, null, null, null, null, i8));
             arrayList.add(new ThemeDescription(this.mediaPages[i7].listView, ThemeDescription.FLAG_LISTGLOWCOLOR, null, null, null, null, Theme.key_actionBarDefault));
             arrayList.add(new ThemeDescription(this.mediaPages[i7].listView, ThemeDescription.FLAG_SELECTOR, null, null, null, null, Theme.key_listSelector));
             arrayList.add(new ThemeDescription(this.mediaPages[i7].emptyView, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, Theme.key_emptyListPlaceholder));
-            BlurredRecyclerView blurredRecyclerView2 = this.mediaPages[i7].listView;
+            InternalListView internalListView2 = this.mediaPages[i7].listView;
             int i9 = ThemeDescription.FLAG_SECTIONS;
             Class[] clsArr2 = new Class[1];
             clsArr2[c] = GraySectionCell.class;
-            arrayList.add(new ThemeDescription(blurredRecyclerView2, i9, clsArr2, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, Theme.key_graySectionText));
-            BlurredRecyclerView blurredRecyclerView3 = this.mediaPages[i7].listView;
+            arrayList.add(new ThemeDescription(internalListView2, i9, clsArr2, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, Theme.key_graySectionText));
+            InternalListView internalListView3 = this.mediaPages[i7].listView;
             int i10 = ThemeDescription.FLAG_CELLBACKGROUNDCOLOR | ThemeDescription.FLAG_SECTIONS;
             Class[] clsArr3 = new Class[1];
             clsArr3[c] = GraySectionCell.class;
-            arrayList.add(new ThemeDescription(blurredRecyclerView3, i10, clsArr3, null, null, null, Theme.key_graySection));
-            BlurredRecyclerView blurredRecyclerView4 = this.mediaPages[i7].listView;
+            arrayList.add(new ThemeDescription(internalListView3, i10, clsArr3, null, null, null, Theme.key_graySection));
+            InternalListView internalListView4 = this.mediaPages[i7].listView;
             Class[] clsArr4 = new Class[1];
             clsArr4[c] = LoadingCell.class;
             int i11 = Theme.key_progressCircle;
-            arrayList.add(new ThemeDescription(blurredRecyclerView4, 0, clsArr4, new String[]{"progressBar"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i11));
-            BlurredRecyclerView blurredRecyclerView5 = this.mediaPages[i7].listView;
+            arrayList.add(new ThemeDescription(internalListView4, 0, clsArr4, new String[]{"progressBar"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i11));
+            InternalListView internalListView5 = this.mediaPages[i7].listView;
             int i12 = ThemeDescription.FLAG_TEXTCOLOR;
             Class[] clsArr5 = new Class[1];
             clsArr5[c] = UserCell.class;
-            arrayList.add(new ThemeDescription(blurredRecyclerView5, i12, clsArr5, new String[]{"adminTextView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, Theme.key_profile_creatorIcon));
-            BlurredRecyclerView blurredRecyclerView6 = this.mediaPages[i7].listView;
+            arrayList.add(new ThemeDescription(internalListView5, i12, clsArr5, new String[]{"adminTextView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, Theme.key_profile_creatorIcon));
+            InternalListView internalListView6 = this.mediaPages[i7].listView;
             Class[] clsArr6 = new Class[1];
             clsArr6[c] = UserCell.class;
-            arrayList.add(new ThemeDescription(blurredRecyclerView6, 0, clsArr6, new String[]{"imageView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, Theme.key_windowBackgroundWhiteGrayIcon));
-            BlurredRecyclerView blurredRecyclerView7 = this.mediaPages[i7].listView;
+            arrayList.add(new ThemeDescription(internalListView6, 0, clsArr6, new String[]{"imageView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, Theme.key_windowBackgroundWhiteGrayIcon));
+            InternalListView internalListView7 = this.mediaPages[i7].listView;
             Class[] clsArr7 = new Class[1];
             clsArr7[c] = UserCell.class;
             int i13 = Theme.key_windowBackgroundWhiteBlackText;
-            arrayList.add(new ThemeDescription(blurredRecyclerView7, 0, clsArr7, new String[]{"nameTextView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i13));
-            BlurredRecyclerView blurredRecyclerView8 = this.mediaPages[i7].listView;
+            arrayList.add(new ThemeDescription(internalListView7, 0, clsArr7, new String[]{"nameTextView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i13));
+            InternalListView internalListView8 = this.mediaPages[i7].listView;
             Class[] clsArr8 = new Class[1];
             clsArr8[c] = UserCell.class;
             int i14 = Theme.key_windowBackgroundWhiteGrayText;
-            arrayList.add(new ThemeDescription(blurredRecyclerView8, 0, clsArr8, new String[]{"statusColor"}, (Paint[]) null, (Drawable[]) null, themeDescriptionDelegate, i14));
+            arrayList.add(new ThemeDescription(internalListView8, 0, clsArr8, new String[]{"statusColor"}, (Paint[]) null, (Drawable[]) null, themeDescriptionDelegate, i14));
             arrayList.add(new ThemeDescription(this.mediaPages[i7].listView, 0, new Class[]{UserCell.class}, new String[]{"statusOnlineColor"}, (Paint[]) null, (Drawable[]) null, themeDescriptionDelegate, Theme.key_windowBackgroundWhiteBlueText));
             Drawable[] drawableArr = Theme.avatarDrawables;
             int i15 = Theme.key_avatar_text;
@@ -8451,14 +8463,16 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     }
 
     /* loaded from: classes4.dex */
-    private class InternalListView extends BlurredRecyclerView implements StoriesListPlaceProvider.ClippedView {
-        public InternalListView(SharedMediaLayout sharedMediaLayout, Context context) {
+    public static class InternalListView extends BlurredRecyclerView implements StoriesListPlaceProvider.ClippedView {
+        public int hintPaddingTop;
+
+        public InternalListView(Context context) {
             super(context);
         }
 
         @Override // org.telegram.ui.Stories.StoriesListPlaceProvider.ClippedView
         public void updateClip(int[] iArr) {
-            iArr[0] = getPaddingTop() - AndroidUtilities.dp(2.0f);
+            iArr[0] = (getPaddingTop() - AndroidUtilities.dp(2.0f)) - this.hintPaddingTop;
             iArr[1] = getMeasuredHeight() - getPaddingBottom();
         }
     }

@@ -113,7 +113,6 @@ public class StoriesController {
     final Runnable sortStoriesRunnable;
     String state;
     private String stateHidden;
-    private HashMap<Integer, StoriesList> storiesLists;
     private boolean storiesReadLoaded;
     StoriesStorage storiesStorage;
     private int totalStoriesCount;
@@ -132,6 +131,7 @@ public class StoriesController {
     HashSet<Long> allStoriesLoading = new HashSet<>();
     HashSet<Long> loadingAllStories = new HashSet<>();
     LongSparseArray<TLRPC$StoryItem> resolvedStories = new LongSparseArray<>();
+    private final HashMap<Long, StoriesList>[] storiesLists = new HashMap[2];
     private final Comparator<TLRPC$TL_userStories> userStoriesComparator = new Comparator() { // from class: org.telegram.ui.Stories.StoriesController$$ExternalSyntheticLambda12
         @Override // java.util.Comparator
         public final int compare(Object obj, Object obj2) {
@@ -1869,14 +1869,14 @@ public class StoriesController {
     }
 
     private StoriesList getStoriesList(long j, int i, boolean z) {
-        int hash = Objects.hash(Long.valueOf(j), Integer.valueOf(i));
-        if (this.storiesLists == null) {
-            this.storiesLists = new HashMap<>();
+        HashMap<Long, StoriesList>[] hashMapArr = this.storiesLists;
+        if (hashMapArr[i] == null) {
+            hashMapArr[i] = new HashMap<>();
         }
-        StoriesList storiesList = this.storiesLists.get(Integer.valueOf(hash));
+        StoriesList storiesList = this.storiesLists[i].get(Long.valueOf(j));
         if (storiesList == null && z) {
-            HashMap<Integer, StoriesList> hashMap = this.storiesLists;
-            Integer valueOf = Integer.valueOf(hash);
+            HashMap<Long, StoriesList> hashMap = this.storiesLists[i];
+            Long valueOf = Long.valueOf(j);
             StoriesList storiesList2 = new StoriesList(this.currentAccount, j, i, new Utilities.Callback() { // from class: org.telegram.ui.Stories.StoriesController$$ExternalSyntheticLambda14
                 @Override // org.telegram.messenger.Utilities.Callback
                 public final void run(Object obj) {
@@ -1912,10 +1912,10 @@ public class StoriesController {
     }
 
     public void destroyStoryList(StoriesList storiesList) {
-        int hash = Objects.hash(Long.valueOf(storiesList.userId), Integer.valueOf(storiesList.type));
-        HashMap<Integer, StoriesList> hashMap = this.storiesLists;
-        if (hashMap != null) {
-            hashMap.remove(Integer.valueOf(hash));
+        HashMap<Long, StoriesList>[] hashMapArr = this.storiesLists;
+        int i = storiesList.type;
+        if (hashMapArr[i] != null) {
+            hashMapArr[i].remove(Long.valueOf(storiesList.userId));
         }
     }
 

@@ -45,7 +45,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.messenger.BotWebViewVibrationEffect;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.ContactsController;
 import org.telegram.messenger.DialogObject;
@@ -136,7 +135,6 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
     private int selectedContactsCount;
     private int selectedType;
     private boolean sendAsMessageEnabled;
-    private int shiftDp;
     private HashMap<Long, Integer> smallChatsParticipantsCount;
     private boolean startedFromSendAsMessage;
     private int storyPeriod;
@@ -419,9 +417,10 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
                         if (tLRPC$Chat != null) {
                             final long j = tLRPC$Chat.id;
                             if (StoryPrivacyBottomSheet.this.getParticipantsCount(tLRPC$Chat) > 200) {
-                                StoryPrivacyBottomSheet storyPrivacyBottomSheet = StoryPrivacyBottomSheet.this;
-                                AndroidUtilities.shakeViewSpring(view, storyPrivacyBottomSheet.shiftDp = -storyPrivacyBottomSheet.shiftDp);
-                                BotWebViewVibrationEffect.APP_ERROR.vibrate();
+                                try {
+                                    performHapticFeedback(3, 1);
+                                } catch (Throwable unused) {
+                                }
                                 new AlertDialog.Builder(getContext(), ((BottomSheet) StoryPrivacyBottomSheet.this).resourcesProvider).setTitle(LocaleController.getString("GroupTooLarge", R.string.GroupTooLarge)).setMessage(LocaleController.getString("GroupTooLargeMessage", R.string.GroupTooLargeMessage)).setPositiveButton(LocaleController.getString("OK", R.string.OK), null).show();
                             } else if (!this.selectedUsersByGroup.containsKey(Long.valueOf(j))) {
                                 final TLRPC$Chat chat = MessagesController.getInstance(((BottomSheet) StoryPrivacyBottomSheet.this).currentAccount).getChat(Long.valueOf(j));
@@ -1822,7 +1821,6 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
         this.selectedType = 4;
         this.sendAsMessageEnabled = false;
         this.smallChatsParticipantsCount = new HashMap<>();
-        this.shiftDp = -6;
         this.storyPeriod = 86400;
         this.backgroundPaint = new Paint(1);
         this.applyWhenDismiss = false;
@@ -1993,7 +1991,6 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
         this.selectedType = 4;
         this.sendAsMessageEnabled = false;
         this.smallChatsParticipantsCount = new HashMap<>();
-        this.shiftDp = -6;
         this.storyPeriod = 86400;
         this.backgroundPaint = new Paint(1);
         this.applyWhenDismiss = false;

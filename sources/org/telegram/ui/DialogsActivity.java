@@ -38,6 +38,7 @@ import android.os.Bundle;
 import android.text.SpannableStringBuilder;
 import android.text.TextPaint;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.LongSparseArray;
 import android.util.Property;
 import android.util.StateSet;
@@ -2051,7 +2052,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     this.ignoreLayout = false;
                 }
             } else if (findFirstVisibleItemPosition == -1 && this.firstLayout) {
-                this.parentPage.layoutManager.scrollToPositionWithOffset(DialogsActivity.this.hasHiddenArchive() ? 1 : 0, (int) DialogsActivity.this.scrollYOffset);
+                this.parentPage.layoutManager.scrollToPositionWithOffset((this.parentPage.dialogsType == 0 && DialogsActivity.this.hasHiddenArchive()) ? 1 : 0, (int) DialogsActivity.this.scrollYOffset);
             }
             if (!DialogsActivity.this.onlySelect || DialogsActivity.this.initialDialogsType == 3) {
                 this.ignoreLayout = true;
@@ -5534,6 +5535,10 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         public void scrollToPositionWithOffset(int i, int i2) {
             if (this.fixOffset) {
                 i2 -= this.val$viewPage.listView.getPaddingTop();
+            }
+            Log.d("kek", "scrollToPositionWithOffset " + i + " " + i2);
+            if (i == 1 && i2 == 0) {
+                Log.d("kek", "dolbaeb");
             }
             super.scrollToPositionWithOffset(i, i2);
         }

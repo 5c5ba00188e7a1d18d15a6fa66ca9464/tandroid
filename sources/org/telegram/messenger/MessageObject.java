@@ -5850,15 +5850,24 @@ public class MessageObject {
     }
 
     public void generateCaption() {
+        TLRPC$StoryItem tLRPC$StoryItem;
         if ((this.caption == null || this.translated != this.captionTranslated) && !isRoundVideo()) {
             TLRPC$Message tLRPC$Message = this.messageOwner;
             String str = tLRPC$Message.message;
             ArrayList<TLRPC$MessageEntity> arrayList = tLRPC$Message.entities;
-            if (hasExtendedMedia()) {
+            if (this.type == 23) {
+                TLRPC$MessageMedia tLRPC$MessageMedia = tLRPC$Message.media;
+                if (tLRPC$MessageMedia != null && (tLRPC$StoryItem = tLRPC$MessageMedia.storyItem) != null) {
+                    str = tLRPC$StoryItem.caption;
+                    arrayList = tLRPC$StoryItem.entities;
+                } else {
+                    arrayList = new ArrayList<>();
+                    str = "";
+                }
+            } else if (hasExtendedMedia()) {
                 TLRPC$Message tLRPC$Message2 = this.messageOwner;
-                String str2 = tLRPC$Message2.media.description;
-                tLRPC$Message2.message = str2;
-                str = str2;
+                str = tLRPC$Message2.media.description;
+                tLRPC$Message2.message = str;
             }
             boolean z = this.translated;
             this.captionTranslated = z;
@@ -5873,7 +5882,7 @@ public class MessageObject {
             boolean z2 = false;
             CharSequence replaceEmoji = Emoji.replaceEmoji(str, Theme.chat_msgTextPaint.getFontMetricsInt(), AndroidUtilities.dp(20.0f), false);
             this.caption = replaceEmoji;
-            this.caption = replaceAnimatedEmoji(replaceEmoji, Theme.chat_msgTextPaint.getFontMetricsInt());
+            this.caption = replaceAnimatedEmoji(replaceEmoji, arrayList, Theme.chat_msgTextPaint.getFontMetricsInt(), false);
             if (!(this.messageOwner.send_state != 0 ? false : !arrayList.isEmpty()) && (this.eventId != 0 || (getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaPhoto_old) || (getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaPhoto_layer68) || (getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaPhoto_layer74) || (getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaDocument_old) || (getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaDocument_layer68) || (getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaDocument_layer74) || ((isOut() && this.messageOwner.send_state != 0) || this.messageOwner.id < 0))) {
                 z2 = true;
             }

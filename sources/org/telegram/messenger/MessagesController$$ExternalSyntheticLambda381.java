@@ -12,6 +12,6 @@ public final /* synthetic */ class MessagesController$$ExternalSyntheticLambda38
 
     @Override // org.telegram.tgnet.RequestDelegate
     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        MessagesController.lambda$saveTheme$106(tLObject, tLRPC$TL_error);
+        MessagesController.lambda$reportSpam$64(tLObject, tLRPC$TL_error);
     }
 }

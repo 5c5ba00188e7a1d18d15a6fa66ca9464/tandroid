@@ -507,7 +507,7 @@ public class RecyclerListView extends RecyclerView {
         private int inactiveColor;
         boolean isMoving;
         boolean isRtl;
-        boolean isVisible;
+        public boolean isVisible;
         private float lastLetterY;
         private long lastUpdateTime;
         private float lastY;

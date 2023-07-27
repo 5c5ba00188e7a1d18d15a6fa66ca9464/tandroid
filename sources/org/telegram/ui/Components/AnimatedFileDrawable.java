@@ -31,6 +31,7 @@ import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.ui.Components.AnimatedFileDrawable;
 /* loaded from: classes4.dex */
 public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, BitmapsCache.Cacheable {
+    private final boolean USE_BITMAP_SHADER;
     private RectF actualDrawRect;
     private boolean applyTransformation;
     private Bitmap backgroundBitmap;
@@ -309,15 +310,10 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
         this(file, z, j, i, tLRPC$Document, imageLocation, obj, j2, i2, z2, 0, 0, cacheOptions);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:23:0x0116, code lost:
-        if (r10[1] > 3840) goto L22;
-     */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
     public AnimatedFileDrawable(File file, boolean z, long j, int i, TLRPC$Document tLRPC$Document, ImageLocation imageLocation, Object obj, long j2, int i2, boolean z2, int i3, int i4, BitmapsCache.CacheOptions cacheOptions) {
         long j3;
         boolean z3;
+        this.USE_BITMAP_SHADER = Build.VERSION.SDK_INT < 30;
         this.invalidateAfter = 50;
         int[] iArr = new int[6];
         this.metaData = iArr;
@@ -506,7 +502,7 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
                                 AnimatedFileDrawable animatedFileDrawable10 = AnimatedFileDrawable.this;
                                 animatedFileDrawable10.backgroundBitmap = Bitmap.createBitmap((int) (animatedFileDrawable10.metaData[0] * AnimatedFileDrawable.this.scaleFactor), (int) (AnimatedFileDrawable.this.metaData[1] * AnimatedFileDrawable.this.scaleFactor), Bitmap.Config.ARGB_8888);
                             }
-                            if (AnimatedFileDrawable.this.backgroundShader[0] == null && AnimatedFileDrawable.this.backgroundBitmap != null && AnimatedFileDrawable.this.hasRoundRadius()) {
+                            if (AnimatedFileDrawable.this.USE_BITMAP_SHADER && AnimatedFileDrawable.this.backgroundShader[0] == null && AnimatedFileDrawable.this.backgroundBitmap != null && AnimatedFileDrawable.this.hasRoundRadius()) {
                                 BitmapShader[] bitmapShaderArr = AnimatedFileDrawable.this.backgroundShader;
                                 Bitmap bitmap = AnimatedFileDrawable.this.backgroundBitmap;
                                 Shader.TileMode tileMode = Shader.TileMode.CLAMP;
@@ -572,13 +568,11 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
         if (z && !this.precache) {
             this.nativePtr = createDecoder(file.getAbsolutePath(), iArr, this.currentAccount, this.streamFileSize, this.stream, z2);
             if (this.nativePtr != j3) {
-                if (iArr[0] <= 3840) {
-                    z3 = true;
-                } else {
-                    z3 = true;
+                z3 = true;
+                if (iArr[0] > 3840 || iArr[1] > 3840) {
+                    destroyDecoder(this.nativePtr);
+                    this.nativePtr = j3;
                 }
-                destroyDecoder(this.nativePtr);
-                this.nativePtr = j3;
             } else {
                 z3 = true;
             }
@@ -970,8 +964,8 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
         drawInternal(canvas, true, 0L, i2);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:41:0x00b1  */
-    /* JADX WARN: Removed duplicated region for block: B:78:0x0173  */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x00a8  */
+    /* JADX WARN: Removed duplicated region for block: B:82:0x017e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -983,6 +977,7 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
         long currentTimeMillis = j == 0 ? System.currentTimeMillis() : j;
         RectF rectF = z ? this.dstRectBackground[i] : this.dstRect;
         Paint paint = z ? this.backgroundPaint[i] : getPaint();
+        int i2 = 0;
         if (!z) {
             updateCurrentFrame(currentTimeMillis, false);
         }
@@ -1019,86 +1014,94 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
                 this.applyTransformation = false;
             }
             if (!hasRoundRadius()) {
-                int i2 = z ? i + 1 : 0;
-                BitmapShader[] bitmapShaderArr = this.renderingShader;
-                if (bitmapShaderArr[i2] == null) {
-                    Bitmap bitmap2 = this.renderingBitmap;
-                    Shader.TileMode tileMode = Shader.TileMode.CLAMP;
-                    bitmapShaderArr[i2] = new BitmapShader(bitmap2, tileMode, tileMode);
-                }
-                paint.setShader(this.renderingShader[i2]);
-                Matrix[] matrixArr = this.shaderMatrix;
-                Matrix matrix = matrixArr[i2];
-                if (matrix == null) {
-                    matrix = new Matrix();
-                    matrixArr[i2] = matrix;
+                int i3 = z ? i + 1 : 0;
+                if (this.USE_BITMAP_SHADER) {
+                    BitmapShader[] bitmapShaderArr = this.renderingShader;
+                    if (bitmapShaderArr[i3] == null) {
+                        Bitmap bitmap2 = this.renderingBitmap;
+                        Shader.TileMode tileMode = Shader.TileMode.CLAMP;
+                        bitmapShaderArr[i3] = new BitmapShader(bitmap2, tileMode, tileMode);
+                    }
+                    paint.setShader(this.renderingShader[i3]);
+                    Matrix[] matrixArr = this.shaderMatrix;
+                    Matrix matrix = matrixArr[i3];
+                    if (matrix == null) {
+                        matrix = new Matrix();
+                        matrixArr[i3] = matrix;
+                    }
+                    matrix.reset();
+                    matrix.setTranslate(rectF.left, rectF.top);
+                    int[] iArr3 = this.metaData;
+                    if (iArr3[2] == 90) {
+                        matrix.preRotate(90.0f);
+                        matrix.preTranslate(0.0f, -rectF.width());
+                    } else if (iArr3[2] == 180) {
+                        matrix.preRotate(180.0f);
+                        matrix.preTranslate(-rectF.width(), -rectF.height());
+                    } else if (iArr3[2] == 270) {
+                        matrix.preRotate(270.0f);
+                        matrix.preTranslate(-rectF.height(), 0.0f);
+                    }
+                    matrix.preScale(f, f2);
+                    this.renderingShader[i3].setLocalMatrix(matrix);
                 }
                 Path[] pathArr = this.roundPath;
-                Path path = pathArr[i2];
+                Path path = pathArr[i3];
                 if (path == null) {
                     path = new Path();
-                    pathArr[i2] = path;
+                    pathArr[i3] = path;
                 }
-                matrix.reset();
-                matrix.setTranslate(rectF.left, rectF.top);
-                int[] iArr3 = this.metaData;
-                if (iArr3[2] == 90) {
-                    matrix.preRotate(90.0f);
-                    matrix.preTranslate(0.0f, -rectF.width());
-                } else if (iArr3[2] == 180) {
-                    matrix.preRotate(180.0f);
-                    matrix.preTranslate(-rectF.width(), -rectF.height());
-                } else if (iArr3[2] == 270) {
-                    matrix.preRotate(270.0f);
-                    matrix.preTranslate(-rectF.height(), 0.0f);
-                }
-                matrix.preScale(f, f2);
-                this.renderingShader[i2].setLocalMatrix(matrix);
                 if (this.invalidatePath || z) {
                     if (!z) {
                         this.invalidatePath = false;
                     }
-                    int i3 = 0;
                     while (true) {
                         int[] iArr4 = this.roundRadius;
-                        if (i3 >= iArr4.length) {
+                        if (i2 >= iArr4.length) {
                             break;
                         }
                         float[] fArr = radii;
-                        int i4 = i3 * 2;
-                        fArr[i4] = iArr4[i3];
-                        fArr[i4 + 1] = iArr4[i3];
-                        i3++;
+                        int i4 = i2 * 2;
+                        fArr[i4] = iArr4[i2];
+                        fArr[i4 + 1] = iArr4[i2];
+                        i2++;
                     }
-                    path.reset();
-                    if (!z) {
-                        rectF = this.actualDrawRect;
-                    }
-                    path.addRoundRect(rectF, radii, Path.Direction.CW);
-                    path.close();
+                    path.rewind();
+                    path.addRoundRect(z ? rectF : this.actualDrawRect, radii, Path.Direction.CW);
                 }
-                canvas.drawPath(path, paint);
+                if (this.USE_BITMAP_SHADER) {
+                    canvas.drawPath(path, paint);
+                    return;
+                }
+                canvas.save();
+                canvas.clipPath(path);
+                drawBitmap(rectF, paint, canvas);
+                canvas.restore();
                 return;
             }
-            canvas.translate(rectF.left, rectF.top);
-            int[] iArr5 = this.metaData;
-            if (iArr5[2] == 90) {
-                canvas.rotate(90.0f);
-                canvas.translate(0.0f, -rectF.width());
-            } else if (iArr5[2] == 180) {
-                canvas.rotate(180.0f);
-                canvas.translate(-rectF.width(), -rectF.height());
-            } else if (iArr5[2] == 270) {
-                canvas.rotate(270.0f);
-                canvas.translate(-rectF.height(), 0.0f);
-            }
-            canvas.scale(f, f2);
-            canvas.drawBitmap(this.renderingBitmap, 0.0f, 0.0f, paint);
+            drawBitmap(rectF, paint, canvas);
             return;
         }
         f = width;
         if (!hasRoundRadius()) {
         }
+    }
+
+    private void drawBitmap(RectF rectF, Paint paint, Canvas canvas) {
+        canvas.translate(rectF.left, rectF.top);
+        int[] iArr = this.metaData;
+        if (iArr[2] == 90) {
+            canvas.rotate(90.0f);
+            canvas.translate(0.0f, -rectF.width());
+        } else if (iArr[2] == 180) {
+            canvas.rotate(180.0f);
+            canvas.translate(-rectF.width(), -rectF.height());
+        } else if (iArr[2] == 270) {
+            canvas.rotate(270.0f);
+            canvas.translate(-rectF.height(), 0.0f);
+        }
+        canvas.scale(this.scaleX, this.scaleY);
+        canvas.drawBitmap(this.renderingBitmap, 0.0f, 0.0f, paint);
     }
 
     public long getLastFrameTimestamp() {

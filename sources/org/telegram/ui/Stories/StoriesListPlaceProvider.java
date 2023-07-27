@@ -134,35 +134,24 @@ public class StoriesListPlaceProvider implements StoryViewer.PlaceProvider {
                 }
             } else if (childAt instanceof SharedPhotoVideoCell2) {
                 final SharedPhotoVideoCell2 sharedPhotoVideoCell2 = (SharedPhotoVideoCell2) childAt;
-                if (sharedPhotoVideoCell2.getStyle() == 1) {
-                    if (sharedPhotoVideoCell2.storyId == i2) {
-                        transitionViewHolder.view = childAt;
-                        transitionViewHolder.storyImage = sharedPhotoVideoCell2.imageReceiver;
-                        transitionViewHolder.clipParent = (View) sharedPhotoVideoCell2.getParent();
-                        transitionViewHolder.drawAbove = new StoryViewer.HolderDrawAbove() { // from class: org.telegram.ui.Stories.StoriesListPlaceProvider$$ExternalSyntheticLambda0
-                            @Override // org.telegram.ui.Stories.StoryViewer.HolderDrawAbove
-                            public final void draw(Canvas canvas, RectF rectF, float f) {
-                                SharedPhotoVideoCell2.this.drawDuration(canvas, rectF, f);
-                            }
-                        };
-                        updateClip(transitionViewHolder);
-                        return true;
+                MessageObject messageObject = sharedPhotoVideoCell2.getMessageObject();
+                if ((sharedPhotoVideoCell2.getStyle() == 1 && sharedPhotoVideoCell2.storyId == i2) || (messageObject != null && messageObject.isStory() && messageObject.getId() == i2 && messageObject.storyItem.dialogId == j)) {
+                    final RecyclerListView.FastScroll fastScroll = recyclerListView2.getFastScroll();
+                    final int[] iArr = new int[2];
+                    if (fastScroll != null) {
+                        fastScroll.getLocationInWindow(iArr);
                     }
-                } else {
-                    MessageObject messageObject = sharedPhotoVideoCell2.getMessageObject();
-                    if (messageObject != null && messageObject.isStory() && messageObject.getId() == i2 && messageObject.storyItem.dialogId == j) {
-                        transitionViewHolder.view = childAt;
-                        transitionViewHolder.storyImage = sharedPhotoVideoCell2.imageReceiver;
-                        transitionViewHolder.clipParent = (View) sharedPhotoVideoCell2.getParent();
-                        transitionViewHolder.drawAbove = new StoryViewer.HolderDrawAbove() { // from class: org.telegram.ui.Stories.StoriesListPlaceProvider$$ExternalSyntheticLambda0
-                            @Override // org.telegram.ui.Stories.StoryViewer.HolderDrawAbove
-                            public final void draw(Canvas canvas, RectF rectF, float f) {
-                                SharedPhotoVideoCell2.this.drawDuration(canvas, rectF, f);
-                            }
-                        };
-                        updateClip(transitionViewHolder);
-                        return true;
-                    }
+                    transitionViewHolder.view = childAt;
+                    transitionViewHolder.storyImage = sharedPhotoVideoCell2.imageReceiver;
+                    transitionViewHolder.drawAbove = new StoryViewer.HolderDrawAbove() { // from class: org.telegram.ui.Stories.StoriesListPlaceProvider$$ExternalSyntheticLambda0
+                        @Override // org.telegram.ui.Stories.StoryViewer.HolderDrawAbove
+                        public final void draw(Canvas canvas, RectF rectF, float f) {
+                            StoriesListPlaceProvider.lambda$findView$0(SharedPhotoVideoCell2.this, fastScroll, iArr, canvas, rectF, f);
+                        }
+                    };
+                    transitionViewHolder.clipParent = (View) sharedPhotoVideoCell2.getParent();
+                    updateClip(transitionViewHolder);
+                    return true;
                 }
             } else if (childAt instanceof UserCell) {
                 UserCell userCell = (UserCell) childAt;
@@ -191,6 +180,17 @@ public class StoriesListPlaceProvider implements StoryViewer.PlaceProvider {
             }
         }
         return false;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$findView$0(SharedPhotoVideoCell2 sharedPhotoVideoCell2, RecyclerListView.FastScroll fastScroll, int[] iArr, Canvas canvas, RectF rectF, float f) {
+        sharedPhotoVideoCell2.drawDuration(canvas, rectF, f);
+        if (fastScroll != null && fastScroll.isVisible && fastScroll.getVisibility() == 0) {
+            canvas.saveLayerAlpha(0.0f, 0.0f, canvas.getWidth(), canvas.getHeight(), (int) (f * 255.0f), 31);
+            canvas.translate(iArr[0], iArr[1]);
+            fastScroll.draw(canvas);
+            canvas.restore();
+        }
     }
 
     private void updateClip(StoryViewer.TransitionViewHolder transitionViewHolder) {

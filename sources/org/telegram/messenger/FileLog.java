@@ -156,6 +156,7 @@ public class FileLog {
             hashSet.add("networkType");
             hashSet.add("disableFree");
             hashSet.add("mContext");
+            hashSet.add("priority");
             HashSet<String> hashSet2 = new HashSet<>();
             excludeRequests = hashSet2;
             hashSet2.add("TL_upload_getFile");
@@ -168,7 +169,7 @@ public class FileLog {
 
                 @Override // com.google.gson.ExclusionStrategy
                 public boolean shouldSkipClass(Class<?> cls) {
-                    return cls.isInstance(AnimatedFileDrawable.class) || cls.isInstance(ColorStateList.class) || cls.isInstance(Context.class);
+                    return cls.isInstance(DispatchQueue.class) || cls.isInstance(AnimatedFileDrawable.class) || cls.isInstance(ColorStateList.class) || cls.isInstance(Context.class);
                 }
             };
             gson = new GsonBuilder().addSerializationExclusionStrategy(exclusionStrategy).registerTypeAdapterFactory(RuntimeClassNameTypeAdapterFactory.of(TLObject.class, "type_", exclusionStrategy)).create();

@@ -6124,7 +6124,7 @@ public class NotificationsController extends BaseController {
             builder.setChannelId(validateChannelId(j, i, str2, jArr, i2, uri, i3, z, z2, z3, i4));
         }
         Notification build3 = builder.build();
-        if (i22 < 18) {
+        if (i22 <= 19) {
             notificationManager.notify(notificationsController3.notificationId, build3);
             if (BuildVars.LOGS_ENABLED) {
                 FileLog.d("show summary notification by SDK check");

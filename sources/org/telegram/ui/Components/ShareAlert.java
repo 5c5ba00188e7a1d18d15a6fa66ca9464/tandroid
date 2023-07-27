@@ -2357,19 +2357,17 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Type inference failed for: r10v5 */
-    /* JADX WARN: Type inference failed for: r10v6, types: [org.telegram.messenger.MessageObject] */
-    /* JADX WARN: Type inference failed for: r15v6 */
-    /* JADX WARN: Type inference failed for: r15v7, types: [java.lang.String] */
+    /* JADX WARN: Type inference failed for: r10v6 */
+    /* JADX WARN: Type inference failed for: r10v7, types: [org.telegram.messenger.MessageObject] */
     /* JADX WARN: Type inference failed for: r1v0 */
     /* JADX WARN: Type inference failed for: r1v15 */
     /* JADX WARN: Type inference failed for: r1v7, types: [boolean] */
-    /* JADX WARN: Type inference failed for: r29v3 */
-    /* JADX WARN: Type inference failed for: r29v4, types: [org.telegram.messenger.MessageObject] */
-    /* JADX WARN: Type inference failed for: r5v42, types: [java.lang.String] */
-    /* JADX WARN: Type inference failed for: r5v44 */
-    /* JADX WARN: Type inference failed for: r5v69, types: [java.lang.String] */
-    /* JADX WARN: Type inference failed for: r5v71 */
+    /* JADX WARN: Type inference failed for: r5v48, types: [java.lang.String] */
+    /* JADX WARN: Type inference failed for: r5v50 */
+    /* JADX WARN: Type inference failed for: r5v75, types: [java.lang.String] */
+    /* JADX WARN: Type inference failed for: r5v77 */
+    /* JADX WARN: Type inference failed for: r9v1 */
+    /* JADX WARN: Type inference failed for: r9v2, types: [org.telegram.messenger.MessageObject] */
     protected void sendInternal(boolean z) {
         char c;
         MessageObject messageObject;
@@ -2484,8 +2482,10 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                             } else {
                                 i2 = i7;
                                 tLRPC$TL_forumTopic = tLRPC$TL_forumTopic2;
+                                if (this.frameLayout2.getTag() != null && this.commentTextView.length() > 0 && charSequenceArr[0] != null) {
+                                    SendMessagesHelper.getInstance(this.currentAccount).sendMessage(SendMessagesHelper.SendMessageParams.of(charSequenceArr[0].toString(), keyAt2, null, messageObject2, null, true, null, null, null, z, 0, null, false));
+                                }
                                 of = SendMessagesHelper.SendMessageParams.of(null, keyAt2, null, messageObject2, null, true, null, null, null, z, 0, null, false);
-                                of.caption = (this.frameLayout2.getTag() == null || this.commentTextView.length() <= 0 || charSequenceArr[0] == null) ? tLRPC$TL_forumTopic : charSequenceArr[0].toString();
                                 of.sendingStory = this.storyItem;
                             }
                             SendMessagesHelper.getInstance(this.currentAccount).sendMessage(of);

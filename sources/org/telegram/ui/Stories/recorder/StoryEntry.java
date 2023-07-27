@@ -2,6 +2,7 @@ package org.telegram.ui.Stories.recorder;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.LinearGradient;
 import android.graphics.Matrix;
@@ -61,6 +62,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedFileDrawable;
 import org.telegram.ui.Components.PhotoFilterView;
 import org.telegram.ui.Components.RLottieDrawable;
+import org.telegram.ui.Stories.recorder.StoryEntry;
 import org.telegram.ui.Stories.recorder.StoryPrivacyBottomSheet;
 /* loaded from: classes4.dex */
 public class StoryEntry extends IStoryPart {
@@ -113,6 +115,11 @@ public class StoryEntry extends IStoryPart {
     public int period = 86400;
     public long averageDuration = 5000;
     private int checkStickersReqId = 0;
+
+    /* loaded from: classes4.dex */
+    public interface DecodeBitmap {
+        Bitmap decode(BitmapFactory.Options options);
+    }
 
     /* loaded from: classes4.dex */
     public static class Part extends IStoryPart {
@@ -200,58 +207,64 @@ public class StoryEntry extends IStoryPart {
         paint2.setShader(new LinearGradient(0.0f, 0.0f, 0.0f, canvas.getHeight(), new int[]{this.gradientTopColor, this.gradientBottomColor}, new float[]{0.0f, 1.0f}, Shader.TileMode.CLAMP));
         canvas.drawRect(0.0f, 0.0f, canvas.getWidth(), canvas.getHeight(), paint2);
         matrix.set(this.matrix);
-        File file2 = this.filterFile;
+        final File file2 = this.filterFile;
         if (file2 == null) {
             file2 = this.file;
         }
         if (file2 != null) {
             try {
-                BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inJustDecodeBounds = true;
-                BitmapFactory.decodeFile(file2.getPath(), options);
-                options.inJustDecodeBounds = false;
-                setupScale(options, this.resultWidth, this.resultHeight);
-                Bitmap decodeFile = BitmapFactory.decodeFile(file2.getPath(), options);
-                float width = this.width / decodeFile.getWidth();
+                Bitmap scaledBitmap = getScaledBitmap(new DecodeBitmap() { // from class: org.telegram.ui.Stories.recorder.StoryEntry$$ExternalSyntheticLambda9
+                    @Override // org.telegram.ui.Stories.recorder.StoryEntry.DecodeBitmap
+                    public final Bitmap decode(BitmapFactory.Options options) {
+                        Bitmap lambda$buildPhoto$0;
+                        lambda$buildPhoto$0 = StoryEntry.lambda$buildPhoto$0(file2, options);
+                        return lambda$buildPhoto$0;
+                    }
+                }, this.resultWidth, this.resultHeight, true);
+                float width = this.width / scaledBitmap.getWidth();
                 matrix.preScale(width, width);
-                canvas.drawBitmap(decodeFile, matrix, paint);
-                decodeFile.recycle();
+                canvas.drawBitmap(scaledBitmap, matrix, paint);
+                scaledBitmap.recycle();
             } catch (Exception e) {
                 FileLog.e(e);
             }
         }
         for (int i = 0; i < this.parts.size(); i++) {
             try {
-                Part part = this.parts.get(i);
-                BitmapFactory.Options options2 = new BitmapFactory.Options();
-                options2.inJustDecodeBounds = true;
-                BitmapFactory.decodeFile(part.file.getPath(), options2);
-                options2.inJustDecodeBounds = false;
-                setupScale(options2, this.resultWidth, this.resultHeight);
-                Bitmap decodeFile2 = BitmapFactory.decodeFile(part.file.getPath(), options2);
-                float width2 = part.width / decodeFile2.getWidth();
+                final Part part = this.parts.get(i);
+                Bitmap scaledBitmap2 = getScaledBitmap(new DecodeBitmap() { // from class: org.telegram.ui.Stories.recorder.StoryEntry$$ExternalSyntheticLambda10
+                    @Override // org.telegram.ui.Stories.recorder.StoryEntry.DecodeBitmap
+                    public final Bitmap decode(BitmapFactory.Options options) {
+                        Bitmap lambda$buildPhoto$1;
+                        lambda$buildPhoto$1 = StoryEntry.lambda$buildPhoto$1(StoryEntry.Part.this, options);
+                        return lambda$buildPhoto$1;
+                    }
+                }, this.resultWidth, this.resultHeight, false);
+                float width2 = part.width / scaledBitmap2.getWidth();
                 matrix.set(part.matrix);
                 matrix.preScale(width2, width2);
-                canvas.drawBitmap(decodeFile2, matrix, paint);
-                decodeFile2.recycle();
+                canvas.drawBitmap(scaledBitmap2, matrix, paint);
+                scaledBitmap2.recycle();
             } catch (Exception e2) {
                 FileLog.e(e2);
             }
         }
         if (this.paintFile != null) {
             try {
-                BitmapFactory.Options options3 = new BitmapFactory.Options();
-                options3.inJustDecodeBounds = true;
-                BitmapFactory.decodeFile(this.paintFile.getPath(), options3);
-                options3.inJustDecodeBounds = false;
-                setupScale(options3, this.resultWidth, this.resultHeight);
-                Bitmap decodeFile3 = BitmapFactory.decodeFile(this.paintFile.getPath(), options3);
+                Bitmap scaledBitmap3 = getScaledBitmap(new DecodeBitmap() { // from class: org.telegram.ui.Stories.recorder.StoryEntry$$ExternalSyntheticLambda11
+                    @Override // org.telegram.ui.Stories.recorder.StoryEntry.DecodeBitmap
+                    public final Bitmap decode(BitmapFactory.Options options) {
+                        Bitmap lambda$buildPhoto$2;
+                        lambda$buildPhoto$2 = StoryEntry.this.lambda$buildPhoto$2(options);
+                        return lambda$buildPhoto$2;
+                    }
+                }, this.resultWidth, this.resultHeight, false);
                 canvas.save();
-                float width3 = this.resultWidth / decodeFile3.getWidth();
+                float width3 = this.resultWidth / scaledBitmap3.getWidth();
                 canvas.scale(width3, width3);
-                canvas.drawBitmap(decodeFile3, 0.0f, 0.0f, paint);
+                canvas.drawBitmap(scaledBitmap3, 0.0f, 0.0f, paint);
                 canvas.restore();
-                decodeFile3.recycle();
+                scaledBitmap3.recycle();
             } catch (Exception e3) {
                 FileLog.e(e3);
             }
@@ -265,6 +278,65 @@ public class StoryEntry extends IStoryPart {
             FileLog.e(e4);
         }
         createBitmap.recycle();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ Bitmap lambda$buildPhoto$0(File file, BitmapFactory.Options options) {
+        return BitmapFactory.decodeFile(file.getPath(), options);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ Bitmap lambda$buildPhoto$1(Part part, BitmapFactory.Options options) {
+        return BitmapFactory.decodeFile(part.file.getPath(), options);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ Bitmap lambda$buildPhoto$2(BitmapFactory.Options options) {
+        return BitmapFactory.decodeFile(this.paintFile.getPath(), options);
+    }
+
+    public static Bitmap getScaledBitmap(DecodeBitmap decodeBitmap, int i, int i2, boolean z) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        decodeBitmap.decode(options);
+        options.inJustDecodeBounds = false;
+        options.inScaled = false;
+        Runtime runtime = Runtime.getRuntime();
+        long maxMemory = runtime.maxMemory() - (runtime.totalMemory() - runtime.freeMemory());
+        int i3 = options.outWidth;
+        int i4 = options.outHeight;
+        double d = (i3 * i4 * 4) + (i * i2 * 4);
+        Double.isNaN(d);
+        boolean z2 = d * 1.1d <= ((double) maxMemory);
+        if (i3 <= i && i4 <= i2) {
+            return decodeBitmap.decode(options);
+        }
+        if (z2 && SharedConfig.getDevicePerformanceClass() >= 1) {
+            Bitmap decode = decodeBitmap.decode(options);
+            float max = Math.max(i / decode.getWidth(), i2 / decode.getHeight());
+            int width = (int) (decode.getWidth() * max);
+            int height = (int) (decode.getHeight() * max);
+            Bitmap createBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(createBitmap);
+            Matrix matrix = new Matrix();
+            Shader.TileMode tileMode = Shader.TileMode.CLAMP;
+            BitmapShader bitmapShader = new BitmapShader(decode, tileMode, tileMode);
+            Paint paint = new Paint(3);
+            paint.setShader(bitmapShader);
+            int clamp = Utilities.clamp(Math.round(1.0f / max), 8, 0);
+            matrix.reset();
+            matrix.postScale(max, max);
+            bitmapShader.setLocalMatrix(matrix);
+            canvas.drawRect(0.0f, 0.0f, width, height, paint);
+            if (z && clamp > 0) {
+                Utilities.stackBlurBitmap(createBitmap, clamp);
+            }
+            return createBitmap;
+        }
+        options.inScaled = true;
+        options.inDensity = options.outWidth;
+        options.inTargetDensity = i;
+        return decodeBitmap.decode(options);
     }
 
     public File getOriginalFile() {
@@ -315,14 +387,14 @@ public class StoryEntry extends IStoryPart {
             Utilities.themeQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryEntry$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    StoryEntry.this.lambda$updateFilter$0(createBitmap, runnable);
+                    StoryEntry.this.lambda$updateFilter$3(createBitmap, runnable);
                 }
             });
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$updateFilter$0(Bitmap bitmap, Runnable runnable) {
+    public /* synthetic */ void lambda$updateFilter$3(Bitmap bitmap, Runnable runnable) {
         try {
             bitmap.compress(Bitmap.CompressFormat.WEBP, 90, new FileOutputStream(this.filterFile));
         } catch (Exception e) {
@@ -578,7 +650,7 @@ public class StoryEntry extends IStoryPart {
                 DominantColors.getColors(true, bitmap, true, new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.StoryEntry$$ExternalSyntheticLambda6
                     @Override // org.telegram.messenger.Utilities.Callback
                     public final void run(Object obj) {
-                        StoryEntry.this.lambda$setupGradient$1(bitmap, runnable, (int[]) obj);
+                        StoryEntry.this.lambda$setupGradient$4(bitmap, runnable, (int[]) obj);
                     }
                 });
             }
@@ -586,7 +658,7 @@ public class StoryEntry extends IStoryPart {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$setupGradient$1(Bitmap bitmap, Runnable runnable, int[] iArr) {
+    public /* synthetic */ void lambda$setupGradient$4(Bitmap bitmap, Runnable runnable, int[] iArr) {
         this.gradientTopColor = iArr[0];
         this.gradientBottomColor = iArr[1];
         bitmap.recycle();
@@ -645,25 +717,25 @@ public class StoryEntry extends IStoryPart {
         Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryEntry$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
-                StoryEntry.this.lambda$getVideoEditedInfo$3(absolutePath, callback);
+                StoryEntry.this.lambda$getVideoEditedInfo$6(absolutePath, callback);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$getVideoEditedInfo$3(final String str, final Utilities.Callback callback) {
+    public /* synthetic */ void lambda$getVideoEditedInfo$6(final String str, final Utilities.Callback callback) {
         final int[] iArr = new int[11];
         AnimatedFileDrawable.getVideoInfo(str, iArr);
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryEntry$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
-                StoryEntry.this.lambda$getVideoEditedInfo$2(str, iArr, callback);
+                StoryEntry.this.lambda$getVideoEditedInfo$5(str, iArr, callback);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$getVideoEditedInfo$2(String str, int[] iArr, Utilities.Callback callback) {
+    public /* synthetic */ void lambda$getVideoEditedInfo$5(String str, int[] iArr, Utilities.Callback callback) {
         ArrayList<VideoEditedInfo.MediaEntity> arrayList;
         VideoEditedInfo videoEditedInfo = new VideoEditedInfo();
         videoEditedInfo.isStory = true;
@@ -803,17 +875,17 @@ public class StoryEntry extends IStoryPart {
             this.hdrInfo = hDRInfo2;
             callback.run(hDRInfo2);
         } else {
-            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryEntry$$ExternalSyntheticLambda3
+            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryEntry$$ExternalSyntheticLambda4
                 @Override // java.lang.Runnable
                 public final void run() {
-                    StoryEntry.this.lambda$detectHDR$5(callback);
+                    StoryEntry.this.lambda$detectHDR$8(callback);
                 }
             });
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$detectHDR$5(final Utilities.Callback callback) {
+    public /* synthetic */ void lambda$detectHDR$8(final Utilities.Callback callback) {
         Runnable runnable;
         try {
             try {
@@ -839,29 +911,29 @@ public class StoryEntry extends IStoryPart {
                     hDRInfo.colorRange = trackFormat.getInteger("color-range");
                 }
                 this.hdrInfo = this.hdrInfo;
-                runnable = new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryEntry$$ExternalSyntheticLambda4
+                runnable = new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryEntry$$ExternalSyntheticLambda3
                     @Override // java.lang.Runnable
                     public final void run() {
-                        StoryEntry.this.lambda$detectHDR$4(callback);
+                        StoryEntry.this.lambda$detectHDR$7(callback);
                     }
                 };
             } catch (Exception e) {
                 FileLog.e(e);
                 this.hdrInfo = this.hdrInfo;
-                runnable = new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryEntry$$ExternalSyntheticLambda4
+                runnable = new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryEntry$$ExternalSyntheticLambda3
                     @Override // java.lang.Runnable
                     public final void run() {
-                        StoryEntry.this.lambda$detectHDR$4(callback);
+                        StoryEntry.this.lambda$detectHDR$7(callback);
                     }
                 };
             }
             AndroidUtilities.runOnUIThread(runnable);
         } catch (Throwable th) {
             this.hdrInfo = this.hdrInfo;
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryEntry$$ExternalSyntheticLambda4
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryEntry$$ExternalSyntheticLambda3
                 @Override // java.lang.Runnable
                 public final void run() {
-                    StoryEntry.this.lambda$detectHDR$4(callback);
+                    StoryEntry.this.lambda$detectHDR$7(callback);
                 }
             });
             throw th;
@@ -869,7 +941,7 @@ public class StoryEntry extends IStoryPart {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$detectHDR$4(Utilities.Callback callback) {
+    public /* synthetic */ void lambda$detectHDR$7(Utilities.Callback callback) {
         callback.run(this.hdrInfo);
     }
 
@@ -915,29 +987,29 @@ public class StoryEntry extends IStoryPart {
         final RequestDelegate requestDelegate = new RequestDelegate() { // from class: org.telegram.ui.Stories.recorder.StoryEntry$$ExternalSyntheticLambda7
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                StoryEntry.this.lambda$checkStickers$7(tLObject, tLRPC$TL_error);
+                StoryEntry.this.lambda$checkStickers$10(tLObject, tLRPC$TL_error);
             }
         };
         this.checkStickersReqId = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_getAttachedStickers, new RequestDelegate() { // from class: org.telegram.ui.Stories.recorder.StoryEntry$$ExternalSyntheticLambda8
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                StoryEntry.this.lambda$checkStickers$8(tLRPC$StoryItem, tLRPC$TL_messages_getAttachedStickers, requestDelegate, tLObject, tLRPC$TL_error);
+                StoryEntry.this.lambda$checkStickers$11(tLRPC$StoryItem, tLRPC$TL_messages_getAttachedStickers, requestDelegate, tLObject, tLRPC$TL_error);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$checkStickers$7(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$checkStickers$10(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryEntry$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
-                StoryEntry.this.lambda$checkStickers$6(tLObject);
+                StoryEntry.this.lambda$checkStickers$9(tLObject);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$checkStickers$6(TLObject tLObject) {
+    public /* synthetic */ void lambda$checkStickers$9(TLObject tLObject) {
         this.checkStickersReqId = 0;
         if (tLObject instanceof TLRPC$Vector) {
             this.editStickers = new ArrayList();
@@ -966,7 +1038,7 @@ public class StoryEntry extends IStoryPart {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$checkStickers$8(TLRPC$StoryItem tLRPC$StoryItem, TLRPC$TL_messages_getAttachedStickers tLRPC$TL_messages_getAttachedStickers, RequestDelegate requestDelegate, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$checkStickers$11(TLRPC$StoryItem tLRPC$StoryItem, TLRPC$TL_messages_getAttachedStickers tLRPC$TL_messages_getAttachedStickers, RequestDelegate requestDelegate, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLRPC$TL_error != null && FileRefController.isFileRefError(tLRPC$TL_error.text) && tLRPC$StoryItem != null) {
             FileRefController.getInstance(this.currentAccount).requestReference(tLRPC$StoryItem, tLRPC$TL_messages_getAttachedStickers, requestDelegate);
         } else {

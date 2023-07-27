@@ -3176,10 +3176,10 @@ public class AndroidUtilities {
     }
 
     public static String formatFileSize(long j) {
-        return formatFileSize(j, false);
+        return formatFileSize(j, false, false);
     }
 
-    public static String formatFileSize(long j, boolean z) {
+    public static String formatFileSize(long j, boolean z, boolean z2) {
         if (j == 0) {
             return String.format("%d KB", 0);
         }
@@ -3212,7 +3212,7 @@ public class AndroidUtilities {
                     return String.format("%d GB", Integer.valueOf(i3));
                 }
             }
-            return String.format("%.2f GB", Float.valueOf(f3));
+            return z2 ? String.format("%.1f GB", Float.valueOf(f3)) : String.format("%.2f GB", Float.valueOf(f3));
         }
     }
 
@@ -5338,7 +5338,13 @@ public class AndroidUtilities {
     }
 
     public static ByteBuffer cloneByteBuffer(ByteBuffer byteBuffer) {
-        ByteBuffer allocate = ByteBuffer.allocate(byteBuffer.capacity());
+        ByteBuffer allocate;
+        try {
+            allocate = ByteBuffer.allocate(byteBuffer.capacity());
+        } catch (OutOfMemoryError unused) {
+            System.gc();
+            allocate = ByteBuffer.allocate(byteBuffer.capacity());
+        }
         byteBuffer.rewind();
         allocate.put(byteBuffer);
         byteBuffer.rewind();

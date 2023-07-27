@@ -1010,7 +1010,7 @@ public class DataSettingsActivity extends BaseFragment {
                                                 sb2.append(LocaleController.getString("AutoDownloadVideosOn", R.string.AutoDownloadVideosOn));
                                                 notificationsCheckCell2 = notificationsCheckCell3;
                                                 str2 = str;
-                                                sb2.append(String.format(" (%1$s)", AndroidUtilities.formatFileSize(preset.sizes[DownloadController.typeToIndex(4)], true)));
+                                                sb2.append(String.format(" (%1$s)", AndroidUtilities.formatFileSize(preset.sizes[DownloadController.typeToIndex(4)], true, false)));
                                             } else {
                                                 notificationsCheckCell2 = notificationsCheckCell3;
                                                 str2 = str;
@@ -1020,7 +1020,7 @@ public class DataSettingsActivity extends BaseFragment {
                                                     sb2.append(", ");
                                                 }
                                                 sb2.append(LocaleController.getString("AutoDownloadFilesOn", R.string.AutoDownloadFilesOn));
-                                                sb2.append(String.format(" (%1$s)", AndroidUtilities.formatFileSize(preset.sizes[DownloadController.typeToIndex(8)], true)));
+                                                sb2.append(String.format(" (%1$s)", AndroidUtilities.formatFileSize(preset.sizes[DownloadController.typeToIndex(8)], true, false)));
                                             }
                                         }
                                         if ((z4 || z5 || z6) && z) {

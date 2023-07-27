@@ -217,7 +217,6 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
     @SuppressLint({"ClickableViewAccessibility"})
     public InstantCameraView(Context context, Delegate delegate, Theme.ResourcesProvider resourcesProvider) {
         super(context);
-        this.WRITE_TO_FILE_IN_BACKGROUND = true;
         this.currentAccount = UserConfig.selectedAccount;
         this.switchCameraDrawable = null;
         this.isFrontface = true;
@@ -230,6 +229,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
         this.mSTMatrix = new float[16];
         this.moldSTMatrix = new float[16];
         this.drawBlur = true;
+        this.WRITE_TO_FILE_IN_BACKGROUND = false;
         this.resourcesProvider = resourcesProvider;
         this.parentView = delegate.getFragmentView();
         setWillNotDraw(false);
@@ -1879,7 +1879,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
             }
 
             /* JADX WARN: Code restructure failed: missing block: B:16:0x003d, code lost:
-                if (r18.this$1.sendWhenDone == 0) goto L72;
+                if (r18.this$1.sendWhenDone == 0) goto L75;
              */
             @Override // java.lang.Runnable
             /*
@@ -1903,7 +1903,12 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                     if (!VideoRecorder.this.buffers.isEmpty()) {
                         audioBufferInfo = (AudioBufferInfo) VideoRecorder.this.buffers.poll();
                     } else {
-                        audioBufferInfo = new AudioBufferInfo();
+                        try {
+                            audioBufferInfo = new AudioBufferInfo();
+                        } catch (OutOfMemoryError unused2) {
+                            System.gc();
+                            audioBufferInfo = new AudioBufferInfo();
+                        }
                     }
                     audioBufferInfo.lastWroteBuffer = 0;
                     int i = 10;
@@ -1969,7 +1974,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                     } else if (VideoRecorder.this.running) {
                         try {
                             VideoRecorder.this.buffers.put(audioBufferInfo);
-                        } catch (Exception unused2) {
+                        } catch (Exception unused3) {
                         }
                     } else {
                         z2 = true;
@@ -3013,18 +3018,24 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                                     InstantCameraView.VideoRecorder.this.lambda$drainEncoder$8(cloneByteBuffer2, bufferInfo6);
                                 }
                             });
-                            this.audioEncoder.releaseOutputBuffer(dequeueOutputBuffer2, false);
+                            MediaCodec mediaCodec = this.audioEncoder;
+                            if (mediaCodec != null) {
+                                mediaCodec.releaseOutputBuffer(dequeueOutputBuffer2, false);
+                            }
                         } else {
                             long writeSampleData2 = this.mediaMuxer.writeSampleData(this.audioTrackIndex, outputBuffer2, bufferInfo5, false);
                             if (writeSampleData2 != 0 && !this.writingToDifferentFile) {
                                 didWriteData(this.videoFile, writeSampleData2, false);
                             }
-                            this.audioEncoder.releaseOutputBuffer(dequeueOutputBuffer2, false);
+                            MediaCodec mediaCodec2 = this.audioEncoder;
+                            if (mediaCodec2 != null) {
+                                mediaCodec2.releaseOutputBuffer(dequeueOutputBuffer2, false);
+                            }
                         }
                     } else {
-                        MediaCodec mediaCodec = this.audioEncoder;
-                        if (mediaCodec != null) {
-                            mediaCodec.releaseOutputBuffer(dequeueOutputBuffer2, false);
+                        MediaCodec mediaCodec3 = this.audioEncoder;
+                        if (mediaCodec3 != null) {
+                            mediaCodec3.releaseOutputBuffer(dequeueOutputBuffer2, false);
                         }
                     }
                     if ((this.audioBufferInfo.flags & 4) != 0) {
