@@ -131,16 +131,6 @@ public class DownloadButton extends ImageView {
                 preparingVideoToast.hide();
                 this.toast = null;
             }
-            Utilities.Callback<Runnable> callback = this.prepare;
-            if (callback != null) {
-                this.preparing = true;
-                callback.run(new Runnable() { // from class: org.telegram.ui.Stories.recorder.DownloadButton$$ExternalSyntheticLambda2
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        DownloadButton.this.onClickInternal();
-                    }
-                });
-            }
             if (this.currentEntry.wouldBeVideo()) {
                 this.downloadingVideo = true;
                 BuildingVideo buildingVideo = this.buildingVideo;
@@ -161,9 +151,18 @@ public class DownloadButton extends ImageView {
                 this.downloadingVideo = false;
             }
             updateImage();
-            if (this.prepare == null) {
-                onClickInternal();
+            Utilities.Callback<Runnable> callback = this.prepare;
+            if (callback != null) {
+                this.preparing = true;
+                callback.run(new Runnable() { // from class: org.telegram.ui.Stories.recorder.DownloadButton$$ExternalSyntheticLambda2
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        DownloadButton.this.onClickInternal();
+                    }
+                });
+                return;
             }
+            onClickInternal();
         }
     }
 

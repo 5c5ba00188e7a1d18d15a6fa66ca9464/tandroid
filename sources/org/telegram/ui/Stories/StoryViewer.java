@@ -118,6 +118,7 @@ public class StoryViewer {
     private boolean isClosed;
     private boolean isHintVisible;
     private boolean isInPinchToZoom;
+    private boolean isInTextSelectionMode;
     private boolean isInTouchMode;
     public boolean isLongpressed;
     private boolean isOverlayVisible;
@@ -367,7 +368,7 @@ public class StoryViewer {
                     PeerStoriesView currentPeerView = StoryViewer.this.storiesViewPager.getCurrentPeerView();
                     StoryViewer storyViewer = StoryViewer.this;
                     if (storyViewer.selfStoriesViewsOffset == 0.0f && storyViewer.allowIntercept && currentPeerView != null) {
-                        if (storyViewer.keyboardVisible || storyViewer.isCaption || StoryViewer.this.isCaptionPartVisible || StoryViewer.this.isHintVisible) {
+                        if (storyViewer.keyboardVisible || storyViewer.isCaption || StoryViewer.this.isCaptionPartVisible || StoryViewer.this.isHintVisible || StoryViewer.this.isInTextSelectionMode) {
                             StoryViewer.this.closeKeyboardOrEmoji();
                         } else {
                             boolean z3 = motionEvent.getX() > ((float) StoryViewer.this.containerView.getMeasuredWidth()) * 0.33f;
@@ -961,8 +962,9 @@ public class StoryViewer {
             StoryViewer.this.allowIntercept = false;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:89:0x01ca A[RETURN] */
-        /* JADX WARN: Removed duplicated region for block: B:90:0x01cb  */
+        /* JADX WARN: Removed duplicated region for block: B:73:0x015d  */
+        /* JADX WARN: Removed duplicated region for block: B:93:0x01d0 A[RETURN] */
+        /* JADX WARN: Removed duplicated region for block: B:94:0x01d1  */
         @Override // android.view.ViewGroup, android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -970,17 +972,18 @@ public class StoryViewer {
         public boolean dispatchTouchEvent(MotionEvent motionEvent) {
             boolean z;
             boolean z2;
-            StoryViewer storyViewer;
-            StoriesViewPager storiesViewPager;
-            PeerStoriesView currentPeerView;
+            PeerStoriesView currentPeerView = StoryViewer.this.storiesViewPager.getCurrentPeerView();
+            if (currentPeerView != null && currentPeerView.checkTextSelectionEvent(motionEvent)) {
+                return true;
+            }
             if (motionEvent.getAction() == 1 || motionEvent.getAction() == 3) {
+                StoryViewer storyViewer = StoryViewer.this;
+                storyViewer.inSwipeToDissmissMode = false;
+                AndroidUtilities.cancelRunOnUIThread(storyViewer.longPressRunnable);
                 StoryViewer storyViewer2 = StoryViewer.this;
-                storyViewer2.inSwipeToDissmissMode = false;
-                AndroidUtilities.cancelRunOnUIThread(storyViewer2.longPressRunnable);
-                StoryViewer storyViewer3 = StoryViewer.this;
-                float f = storyViewer3.swipeToDismissHorizontalOffset;
+                float f = storyViewer2.swipeToDismissHorizontalOffset;
                 if (f != 0.0f) {
-                    storyViewer3.swipeToDissmissBackAnimator = ValueAnimator.ofFloat(f, 0.0f);
+                    storyViewer2.swipeToDissmissBackAnimator = ValueAnimator.ofFloat(f, 0.0f);
                     StoryViewer.this.swipeToDissmissBackAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.StoryViewer$2$$ExternalSyntheticLambda0
                         @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                         public final void onAnimationUpdate(ValueAnimator valueAnimator) {
@@ -990,18 +993,18 @@ public class StoryViewer {
                     StoryViewer.this.swipeToDissmissBackAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Stories.StoryViewer.2.1
                         @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                         public void onAnimationEnd(Animator animator) {
-                            StoryViewer storyViewer4 = StoryViewer.this;
-                            storyViewer4.swipeToDismissHorizontalOffset = 0.0f;
-                            storyViewer4.updateProgressToDismiss();
+                            StoryViewer storyViewer3 = StoryViewer.this;
+                            storyViewer3.swipeToDismissHorizontalOffset = 0.0f;
+                            storyViewer3.updateProgressToDismiss();
                         }
                     });
                     StoryViewer.this.swipeToDissmissBackAnimator.setDuration(250L);
                     StoryViewer.this.swipeToDissmissBackAnimator.setInterpolator(CubicBezierInterpolator.DEFAULT);
                     StoryViewer.this.swipeToDissmissBackAnimator.start();
                 }
-                StoryViewer storyViewer4 = StoryViewer.this;
-                if (storyViewer4.progressToDismiss >= 0.3f) {
-                    storyViewer4.close(true);
+                StoryViewer storyViewer3 = StoryViewer.this;
+                if (storyViewer3.progressToDismiss >= 0.3f) {
+                    storyViewer3.close(true);
                 }
                 StoryViewer.this.setInTouchMode(false);
                 StoryViewer.this.setLongPressed(false);
@@ -1010,46 +1013,46 @@ public class StoryViewer {
                 z = false;
             }
             if (motionEvent.getAction() == 0) {
-                StoryViewer storyViewer5 = StoryViewer.this;
-                storyViewer5.swipeToReplyWaitingKeyboard = false;
-                PeerStoriesView currentPeerView2 = storyViewer5.storiesViewPager.getCurrentPeerView();
-                if (currentPeerView2 != null) {
-                    currentPeerView2.onActionDown(motionEvent);
+                StoryViewer.this.swipeToReplyWaitingKeyboard = false;
+                if (currentPeerView != null) {
+                    currentPeerView.onActionDown(motionEvent);
                 }
                 StoryViewer.this.storiesViewPager.onTouchEvent(MotionEvent.obtain(0L, 0L, 3, 0.0f, 0.0f, 0));
             }
-            StoryViewer storyViewer6 = StoryViewer.this;
-            boolean z3 = (storyViewer6.keyboardVisible || storyViewer6.isClosed || StoryViewer.this.isRecording) ? false : true;
-            StoryViewer storyViewer7 = StoryViewer.this;
-            if (storyViewer7.selfStoriesViewsOffset == 0.0f && !storyViewer7.inSwipeToDissmissMode && storyViewer7.storiesViewPager.currentState == 1 && motionEvent.getAction() == 2 && z3) {
+            StoryViewer storyViewer4 = StoryViewer.this;
+            boolean z3 = (storyViewer4.keyboardVisible || storyViewer4.isClosed || StoryViewer.this.isRecording) ? false : true;
+            StoryViewer storyViewer5 = StoryViewer.this;
+            if (storyViewer5.selfStoriesViewsOffset == 0.0f && !storyViewer5.inSwipeToDissmissMode && storyViewer5.storiesViewPager.currentState == 1 && motionEvent.getAction() == 2 && z3) {
                 float floatValue = this.lastX.get(motionEvent.getPointerId(0), Float.valueOf(0.0f)).floatValue() - motionEvent.getX(0);
                 if ((floatValue != 0.0f && !StoryViewer.this.storiesViewPager.canScroll(floatValue)) || StoryViewer.this.swipeToDismissHorizontalOffset != 0.0f) {
-                    StoryViewer storyViewer8 = StoryViewer.this;
-                    float f2 = storyViewer8.swipeToDismissHorizontalOffset;
+                    StoryViewer storyViewer6 = StoryViewer.this;
+                    float f2 = storyViewer6.swipeToDismissHorizontalOffset;
                     if (f2 == 0.0f) {
-                        storyViewer8.swipeToDismissHorizontalDirection = -floatValue;
+                        storyViewer6.swipeToDismissHorizontalDirection = -floatValue;
                     }
-                    if ((floatValue < 0.0f && storyViewer8.swipeToDismissHorizontalDirection > 0.0f) || (floatValue > 0.0f && storyViewer8.swipeToDismissHorizontalDirection < 0.0f)) {
+                    if ((floatValue < 0.0f && storyViewer6.swipeToDismissHorizontalDirection > 0.0f) || (floatValue > 0.0f && storyViewer6.swipeToDismissHorizontalDirection < 0.0f)) {
                         floatValue *= 0.2f;
                     }
-                    storyViewer8.swipeToDismissHorizontalOffset = f2 - floatValue;
-                    storyViewer8.updateProgressToDismiss();
-                    StoryViewer storyViewer9 = StoryViewer.this;
-                    float f3 = storyViewer9.swipeToDismissHorizontalOffset;
-                    if ((f3 > 0.0f && storyViewer9.swipeToDismissHorizontalDirection < 0.0f) || (f3 < 0.0f && storyViewer9.swipeToDismissHorizontalDirection > 0.0f)) {
-                        storyViewer9.swipeToDismissHorizontalOffset = 0.0f;
+                    storyViewer6.swipeToDismissHorizontalOffset = f2 - floatValue;
+                    storyViewer6.updateProgressToDismiss();
+                    StoryViewer storyViewer7 = StoryViewer.this;
+                    float f3 = storyViewer7.swipeToDismissHorizontalOffset;
+                    if ((f3 > 0.0f && storyViewer7.swipeToDismissHorizontalDirection < 0.0f) || (f3 < 0.0f && storyViewer7.swipeToDismissHorizontalDirection > 0.0f)) {
+                        storyViewer7.swipeToDismissHorizontalOffset = 0.0f;
                     }
                     z2 = true;
-                    storyViewer = StoryViewer.this;
-                    if (storyViewer.selfStoriesViewsOffset == 0.0f && !storyViewer.inSwipeToDissmissMode && !storyViewer.isCaption) {
-                        storiesViewPager = StoryViewer.this.storiesViewPager;
-                        if (storiesViewPager.currentState != 1 && (currentPeerView = storiesViewPager.getCurrentPeerView()) != null) {
-                            AndroidUtilities.getViewPositionInParent(currentPeerView.storyContainer, this, StoryViewer.this.pointPosition);
-                            float[] fArr = StoryViewer.this.pointPosition;
-                            motionEvent.offsetLocation(-fArr[0], -fArr[1]);
-                            StoryViewer.this.storiesViewPager.getCurrentPeerView().checkPinchToZoom(motionEvent);
-                            float[] fArr2 = StoryViewer.this.pointPosition;
-                            motionEvent.offsetLocation(fArr2[0], fArr2[1]);
+                    if (currentPeerView != null) {
+                        StoryViewer storyViewer8 = StoryViewer.this;
+                        if (storyViewer8.selfStoriesViewsOffset == 0.0f && !storyViewer8.inSwipeToDissmissMode && !storyViewer8.isCaption) {
+                            StoryViewer storyViewer9 = StoryViewer.this;
+                            if (storyViewer9.storiesViewPager.currentState != 1) {
+                                AndroidUtilities.getViewPositionInParent(currentPeerView.storyContainer, this, storyViewer9.pointPosition);
+                                float[] fArr = StoryViewer.this.pointPosition;
+                                motionEvent.offsetLocation(-fArr[0], -fArr[1]);
+                                StoryViewer.this.storiesViewPager.getCurrentPeerView().checkPinchToZoom(motionEvent);
+                                float[] fArr2 = StoryViewer.this.pointPosition;
+                                motionEvent.offsetLocation(fArr2[0], fArr2[1]);
+                            }
                         }
                     }
                     if (motionEvent.getAction() != 1 || motionEvent.getAction() == 3) {
@@ -1067,34 +1070,27 @@ public class StoryViewer {
                                 StoryViewer storyViewer11 = StoryViewer.this;
                                 storyViewer11.cancelSwipeToViews(storyViewer11.selfStoryViewsView.progressToOpen > 0.5f);
                             }
-                            PeerStoriesView currentPeerView3 = StoryViewer.this.getCurrentPeerView();
-                            if (currentPeerView3 != null) {
-                                currentPeerView3.cancelTouch();
+                            PeerStoriesView currentPeerView2 = StoryViewer.this.getCurrentPeerView();
+                            if (currentPeerView2 != null) {
+                                currentPeerView2.cancelTouch();
                             }
                         }
                         if (z) {
                             StoryViewer storyViewer12 = StoryViewer.this;
                             if (!storyViewer12.swipeToReplyWaitingKeyboard) {
-                                storyViewer12.lambda$showKeyboard$1();
+                                storyViewer12.cancelSwipeToReply();
                             }
                         }
-                        return dispatchTouchEvent || (StoryViewer.animationInProgress && StoryViewer.this.isInTouchMode);
+                        if (dispatchTouchEvent) {
+                            return true;
+                        }
+                        return StoryViewer.animationInProgress && StoryViewer.this.isInTouchMode;
                     }
                     return true;
                 }
             }
             z2 = false;
-            storyViewer = StoryViewer.this;
-            if (storyViewer.selfStoriesViewsOffset == 0.0f) {
-                storiesViewPager = StoryViewer.this.storiesViewPager;
-                if (storiesViewPager.currentState != 1) {
-                    AndroidUtilities.getViewPositionInParent(currentPeerView.storyContainer, this, StoryViewer.this.pointPosition);
-                    float[] fArr3 = StoryViewer.this.pointPosition;
-                    motionEvent.offsetLocation(-fArr3[0], -fArr3[1]);
-                    StoryViewer.this.storiesViewPager.getCurrentPeerView().checkPinchToZoom(motionEvent);
-                    float[] fArr22 = StoryViewer.this.pointPosition;
-                    motionEvent.offsetLocation(fArr22[0], fArr22[1]);
-                }
+            if (currentPeerView != null) {
             }
             if (motionEvent.getAction() != 1) {
             }
@@ -1131,8 +1127,8 @@ public class StoryViewer {
                     AndroidUtilities.runOnUIThread(StoryViewer.this.delayedTapRunnable, 150L);
                 }
                 StoryViewer storyViewer5 = StoryViewer.this;
-                if (storyViewer5.allowIntercept && !storyViewer5.keyboardVisible) {
-                    AndroidUtilities.runOnUIThread(storyViewer5.longPressRunnable, 400L);
+                if (storyViewer5.allowIntercept && !storyViewer5.keyboardVisible && !storyViewer5.isInTextSelectionMode) {
+                    AndroidUtilities.runOnUIThread(StoryViewer.this.longPressRunnable, 400L);
                 }
             } else if (motionEvent.getAction() == 2) {
                 StoryViewer storyViewer6 = StoryViewer.this;
@@ -1142,6 +1138,9 @@ public class StoryViewer {
                         StoryViewer storyViewer7 = StoryViewer.this;
                         storyViewer7.inSwipeToDissmissMode = true;
                         PeerStoriesView currentPeerView = storyViewer7.storiesViewPager.getCurrentPeerView();
+                        if (currentPeerView != null) {
+                            currentPeerView.cancelTextSelection();
+                        }
                         StoryViewer storyViewer8 = StoryViewer.this;
                         boolean z = currentPeerView.isSelf;
                         storyViewer8.allowSwipeToReply = !z;
@@ -1550,6 +1549,12 @@ public class StoryViewer {
         }
 
         @Override // org.telegram.ui.Stories.PeerStoriesView.Delegate
+        public void setIsInSelectionMode(boolean z) {
+            StoryViewer.this.isInTextSelectionMode = z;
+            StoryViewer.this.updatePlayingMode();
+        }
+
+        @Override // org.telegram.ui.Stories.PeerStoriesView.Delegate
         public int getKeyboardHeight() {
             return StoryViewer.this.realKeyboardHeight;
         }
@@ -1583,11 +1588,14 @@ public class StoryViewer {
 
     /* JADX INFO: Access modifiers changed from: private */
     public void showKeyboard() {
-        this.storiesViewPager.getCurrentPeerView().showKeyboard();
+        PeerStoriesView currentPeerView = this.storiesViewPager.getCurrentPeerView();
+        if (currentPeerView != null) {
+            currentPeerView.showKeyboard();
+        }
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoryViewer$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
-                StoryViewer.this.lambda$showKeyboard$1();
+                StoryViewer.this.cancelSwipeToReply();
             }
         }, 200L);
     }
@@ -1603,10 +1611,10 @@ public class StoryViewer {
             fArr[1] = z ? this.selfStoryViewsView.maxSelfStoriesViewsOffset : 0.0f;
             ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
             this.swipeToViewsAnimator = ofFloat;
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.StoryViewer$$ExternalSyntheticLambda0
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.StoryViewer$$ExternalSyntheticLambda2
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    StoryViewer.this.lambda$cancelSwipeToViews$2(valueAnimator);
+                    StoryViewer.this.lambda$cancelSwipeToViews$1(valueAnimator);
                 }
             });
             this.swipeToViewsAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Stories.StoryViewer.8
@@ -1615,7 +1623,10 @@ public class StoryViewer {
                     StoryViewer.this.locker.unlock();
                     StoryViewer storyViewer = StoryViewer.this;
                     storyViewer.selfStoriesViewsOffset = z ? storyViewer.selfStoryViewsView.maxSelfStoriesViewsOffset : 0.0f;
-                    storyViewer.storiesViewPager.getCurrentPeerView().invalidate();
+                    PeerStoriesView currentPeerView = storyViewer.storiesViewPager.getCurrentPeerView();
+                    if (currentPeerView != null) {
+                        currentPeerView.invalidate();
+                    }
                     StoryViewer.this.containerView.invalidate();
                     StoryViewer.this.swipeToViewsAnimator = null;
                 }
@@ -1632,9 +1643,12 @@ public class StoryViewer {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$cancelSwipeToViews$2(ValueAnimator valueAnimator) {
+    public /* synthetic */ void lambda$cancelSwipeToViews$1(ValueAnimator valueAnimator) {
         this.selfStoriesViewsOffset = ((Float) valueAnimator.getAnimatedValue()).floatValue();
-        this.storiesViewPager.getCurrentPeerView().invalidate();
+        PeerStoriesView currentPeerView = this.storiesViewPager.getCurrentPeerView();
+        if (currentPeerView != null) {
+            currentPeerView.invalidate();
+        }
         this.containerView.invalidate();
     }
 
@@ -1646,7 +1660,9 @@ public class StoryViewer {
             this.containerView.addView(selfStoryViewsView, 0);
         }
         PeerStoriesView currentPeerView = this.storiesViewPager.getCurrentPeerView();
-        this.selfStoryViewsView.setItems(currentPeerView.getStoryItems(), currentPeerView.getSelectedPosition());
+        if (currentPeerView != null) {
+            this.selfStoryViewsView.setItems(currentPeerView.getStoryItems(), currentPeerView.getSelectedPosition());
+        }
     }
 
     public void showDialog(Dialog dialog) {
@@ -1655,7 +1671,7 @@ public class StoryViewer {
             dialog.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Stories.StoryViewer$$ExternalSyntheticLambda4
                 @Override // android.content.DialogInterface.OnDismissListener
                 public final void onDismiss(DialogInterface dialogInterface) {
-                    StoryViewer.this.lambda$showDialog$3(dialogInterface);
+                    StoryViewer.this.lambda$showDialog$2(dialogInterface);
                 }
             });
             dialog.show();
@@ -1667,24 +1683,23 @@ public class StoryViewer {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showDialog$3(DialogInterface dialogInterface) {
+    public /* synthetic */ void lambda$showDialog$2(DialogInterface dialogInterface) {
         if (dialogInterface == this.currentDialog) {
             this.currentDialog = null;
             updatePlayingMode();
         }
     }
 
-    /* renamed from: cancelSwipeToReply */
-    public void lambda$showKeyboard$1() {
+    public void cancelSwipeToReply() {
         if (this.swipeToReplyBackAnimator == null) {
             this.inSwipeToDissmissMode = false;
             this.allowSwipeToReply = false;
             ValueAnimator ofFloat = ValueAnimator.ofFloat(this.swipeToReplyOffset, 0.0f);
             this.swipeToReplyBackAnimator = ofFloat;
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.StoryViewer$$ExternalSyntheticLambda1
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.StoryViewer$$ExternalSyntheticLambda0
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    StoryViewer.this.lambda$cancelSwipeToReply$4(valueAnimator);
+                    StoryViewer.this.lambda$cancelSwipeToReply$3(valueAnimator);
                 }
             });
             this.swipeToReplyBackAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Stories.StoryViewer.9
@@ -1708,7 +1723,7 @@ public class StoryViewer {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$cancelSwipeToReply$4(ValueAnimator valueAnimator) {
+    public /* synthetic */ void lambda$cancelSwipeToReply$3(ValueAnimator valueAnimator) {
         this.swipeToReplyOffset = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         this.swipeToReplyProgress = Utilities.clamp(this.swipeToReplyOffset / AndroidUtilities.dp(200.0f), 1.0f, 0.0f);
         StoriesViewPager storiesViewPager = this.storiesViewPager;
@@ -1776,7 +1791,10 @@ public class StoryViewer {
         for (int i = 0; i < this.preparedPlayers.size(); i++) {
             this.preparedPlayers.get(i).setAudioEnabled(!isInSilentMode, true);
         }
-        this.storiesViewPager.getCurrentPeerView().sharedResources.setIconMuted(!soundEnabled(), true);
+        PeerStoriesView currentPeerView = this.storiesViewPager.getCurrentPeerView();
+        if (currentPeerView != null) {
+            currentPeerView.sharedResources.setIconMuted(!soundEnabled(), true);
+        }
     }
 
     private void checkInSilentMode() {
@@ -1805,17 +1823,17 @@ public class StoryViewer {
         }
         PlaceProvider placeProvider = this.placeProvider;
         if (placeProvider != null) {
-            placeProvider.preLayout(this.storiesViewPager.getCurrentDialogId(), this.messageId, new Runnable() { // from class: org.telegram.ui.Stories.StoryViewer$$ExternalSyntheticLambda7
+            placeProvider.preLayout(this.storiesViewPager.getCurrentDialogId(), this.messageId, new Runnable() { // from class: org.telegram.ui.Stories.StoryViewer$$ExternalSyntheticLambda6
                 @Override // java.lang.Runnable
                 public final void run() {
-                    StoryViewer.this.lambda$layoutAndFindView$5();
+                    StoryViewer.this.lambda$layoutAndFindView$4();
                 }
             });
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$layoutAndFindView$5() {
+    public /* synthetic */ void lambda$layoutAndFindView$4() {
         updateTransitionParams();
         ImageReceiver imageReceiver = this.transitionViewHolder.avatarImage;
         if (imageReceiver != null) {
@@ -1967,7 +1985,7 @@ public class StoryViewer {
     }
 
     public boolean isPaused() {
-        return this.isPopupVisible || this.isBulletinVisible || this.isCaption || this.isWaiting || this.isInTouchMode || this.keyboardVisible || this.currentDialog != null || this.allowTouchesByViewpager || this.isClosed || this.isRecording || this.progressToOpen != 1.0f || this.selfStoriesViewsOffset != 0.0f || this.isHintVisible || (this.isSwiping && this.USE_SURFACE_VIEW) || this.isOverlayVisible;
+        return this.isPopupVisible || this.isBulletinVisible || this.isCaption || this.isWaiting || this.isInTouchMode || this.keyboardVisible || this.currentDialog != null || this.allowTouchesByViewpager || this.isClosed || this.isRecording || this.progressToOpen != 1.0f || this.selfStoriesViewsOffset != 0.0f || this.isHintVisible || (this.isSwiping && this.USE_SURFACE_VIEW) || this.isOverlayVisible || this.isInTextSelectionMode;
     }
 
     public void updatePlayingMode() {
@@ -2071,10 +2089,10 @@ public class StoryViewer {
         }
         ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
         this.openCloseAnimator = ofFloat;
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.StoryViewer$$ExternalSyntheticLambda2
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.StoryViewer$$ExternalSyntheticLambda3
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                StoryViewer.this.lambda$startOpenAnimation$6(valueAnimator);
+                StoryViewer.this.lambda$startOpenAnimation$5(valueAnimator);
             }
         });
         this.locker.lock();
@@ -2123,7 +2141,7 @@ public class StoryViewer {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$startOpenAnimation$6(ValueAnimator valueAnimator) {
+    public /* synthetic */ void lambda$startOpenAnimation$5(ValueAnimator valueAnimator) {
         float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         this.progressToOpen = floatValue;
         this.containerView.checkHwAcceleration(floatValue);
@@ -2183,10 +2201,10 @@ public class StoryViewer {
         this.fromDismissOffset = this.swipeToDismissOffset;
         ValueAnimator ofFloat = ValueAnimator.ofFloat(this.progressToOpen, 0.0f);
         this.openCloseAnimator = ofFloat;
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.StoryViewer$$ExternalSyntheticLambda3
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.StoryViewer$$ExternalSyntheticLambda1
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                StoryViewer.this.lambda$startCloseAnimation$7(valueAnimator);
+                StoryViewer.this.lambda$startCloseAnimation$6(valueAnimator);
             }
         });
         if (!z) {
@@ -2206,16 +2224,16 @@ public class StoryViewer {
         } else {
             layoutAndFindView();
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoryViewer$$ExternalSyntheticLambda6
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoryViewer$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
             public final void run() {
-                StoryViewer.this.lambda$startCloseAnimation$8();
+                StoryViewer.this.lambda$startCloseAnimation$7();
             }
         }, 16L);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$startCloseAnimation$7(ValueAnimator valueAnimator) {
+    public /* synthetic */ void lambda$startCloseAnimation$6(ValueAnimator valueAnimator) {
         this.progressToOpen = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         checkNavBarColor();
         SizeNotifierFrameLayout sizeNotifierFrameLayout = this.windowView;
@@ -2292,7 +2310,7 @@ public class StoryViewer {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$startCloseAnimation$8() {
+    public /* synthetic */ void lambda$startCloseAnimation$7() {
         this.containerView.enableHwAcceleration();
         this.openCloseAnimator.addListener(new 11());
         this.openCloseAnimator.setDuration(400L);
@@ -2409,7 +2427,11 @@ public class StoryViewer {
     }
 
     public FrameLayout getContainerForBulletin() {
-        return this.storiesViewPager.getCurrentPeerView().storyContainer;
+        PeerStoriesView currentPeerView = this.storiesViewPager.getCurrentPeerView();
+        if (currentPeerView != null) {
+            return currentPeerView.storyContainer;
+        }
+        return null;
     }
 
     public void startActivityForResult(Intent intent, int i) {
@@ -2420,7 +2442,10 @@ public class StoryViewer {
     }
 
     public void onActivityResult(int i, int i2, Intent intent) {
-        this.storiesViewPager.getCurrentPeerView().onActivityResult(i, i2, intent);
+        PeerStoriesView currentPeerView = this.storiesViewPager.getCurrentPeerView();
+        if (currentPeerView != null) {
+            currentPeerView.onActivityResult(i, i2, intent);
+        }
     }
 
     public void dispatchKeyEvent(KeyEvent keyEvent) {
@@ -2458,7 +2483,10 @@ public class StoryViewer {
 
     public void setSelfStoriesViewsOffset(float f) {
         this.selfStoriesViewsOffset = f;
-        this.storiesViewPager.getCurrentPeerView().invalidate();
+        PeerStoriesView currentPeerView = this.storiesViewPager.getCurrentPeerView();
+        if (currentPeerView != null) {
+            currentPeerView.invalidate();
+        }
         this.containerView.invalidate();
     }
 
@@ -2467,13 +2495,13 @@ public class StoryViewer {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoryViewer$$ExternalSyntheticLambda9
             @Override // java.lang.Runnable
             public final void run() {
-                StoryViewer.this.lambda$openViews$9();
+                StoryViewer.this.lambda$openViews$8();
             }
         }, 30L);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$openViews$9() {
+    public /* synthetic */ void lambda$openViews$8() {
         this.allowSelfStoriesView = true;
         cancelSwipeToViews(true);
     }

@@ -38,7 +38,6 @@ import android.os.Bundle;
 import android.text.SpannableStringBuilder;
 import android.text.TextPaint;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.LongSparseArray;
 import android.util.Property;
 import android.util.StateSet;
@@ -5536,10 +5535,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             if (this.fixOffset) {
                 i2 -= this.val$viewPage.listView.getPaddingTop();
             }
-            Log.d("kek", "scrollToPositionWithOffset " + i + " " + i2);
-            if (i == 1 && i2 == 0) {
-                Log.d("kek", "dolbaeb");
-            }
             super.scrollToPositionWithOffset(i, i2);
         }
 
@@ -5601,14 +5596,13 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             if (r5 > (-1)) goto L52;
          */
         /* JADX WARN: Code restructure failed: missing block: B:53:0x00c9, code lost:
-            if (r15.rightSlidingDialogContainer.hasFragment() == false) goto L157;
+            if (r15.rightSlidingDialogContainer.hasFragment() == false) goto L161;
          */
         /* JADX WARN: Removed duplicated region for block: B:123:0x020d  */
         /* JADX WARN: Removed duplicated region for block: B:129:0x022e  */
         /* JADX WARN: Removed duplicated region for block: B:130:0x0232  */
-        /* JADX WARN: Removed duplicated region for block: B:134:0x0246  */
-        /* JADX WARN: Removed duplicated region for block: B:218:0x0429 A[ADDED_TO_REGION] */
-        /* JADX WARN: Removed duplicated region for block: B:224:0x043d  */
+        /* JADX WARN: Removed duplicated region for block: B:134:0x0245  */
+        /* JADX WARN: Removed duplicated region for block: B:220:0x0433 A[ADDED_TO_REGION] */
         @Override // androidx.recyclerview.widget.LinearLayoutManager, androidx.recyclerview.widget.RecyclerView.LayoutManager
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -5619,7 +5613,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             int scrollVerticallyBy;
             DialogsActivity dialogsActivity;
             float viewOffset;
-            float f;
             DialogsRecyclerView dialogsRecyclerView = this.val$viewPage.listView;
             int i3 = 0;
             if (dialogsRecyclerView.fastScrollAnimationRunning) {
@@ -5632,15 +5625,15 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     return 0;
                 }
             }
-            float f2 = 0.0f;
+            float f = 0.0f;
             if (i > 0 && DialogsActivity.this.storiesOverscroll != 0.0f) {
-                float f3 = DialogsActivity.this.storiesOverscroll - i;
-                if (f3 < 0.0f) {
-                    i3 = (int) (-f3);
+                float f2 = DialogsActivity.this.storiesOverscroll - i;
+                if (f2 < 0.0f) {
+                    i3 = (int) (-f2);
                 } else {
-                    f2 = f3;
+                    f = f2;
                 }
-                DialogsActivity.this.setStoriesOvercroll(this.val$viewPage, f2);
+                DialogsActivity.this.setStoriesOvercroll(this.val$viewPage, f);
                 return super.scrollVerticallyBy(i3, recycler, state);
             }
             int paddingTop = this.val$viewPage.listView.getPaddingTop();
@@ -5656,12 +5649,11 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     viewOffset = ((int) this.val$viewPage.listView.getViewOffset()) - i;
                     if (viewOffset >= 0.0f) {
                         r13 = (int) viewOffset;
-                        f = 0.0f;
+                        viewOffset = 0.0f;
                     } else {
-                        f = viewOffset;
                         r13 = 0;
                     }
-                    this.val$viewPage.listView.setViewsOffset(f);
+                    this.val$viewPage.listView.setViewsOffset(viewOffset);
                 }
                 if (this.val$viewPage.dialogsType != 0 && this.val$viewPage.archivePullViewState != 0 && DialogsActivity.this.hasHiddenArchive() && !DialogsActivity.this.fixScrollYAfterArchiveOpened) {
                     int scrollVerticallyBy2 = super.scrollVerticallyBy(r13, recycler, state);
@@ -5721,8 +5713,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     }
                     if (this.val$viewPage.archivePullViewState == 1 && scrollVerticallyBy2 == 0 && i < 0 && z && !DialogsActivity.this.rightSlidingDialogContainer.hasFragment()) {
                         DialogsActivity dialogsActivity5 = DialogsActivity.this;
-                        if (dialogsActivity5.hasStories) {
-                            DialogsActivity.this.setStoriesOvercroll(this.val$viewPage, dialogsActivity5.storiesOverscroll - (i * AndroidUtilities.lerp(0.2f, 0.5f, DialogsActivity.this.dialogStoriesCell.overscrollProgress())));
+                        if (dialogsActivity5.hasStories && dialogsActivity5.progressToActionMode == 0.0f) {
+                            DialogsActivity.this.setStoriesOvercroll(this.val$viewPage, DialogsActivity.this.storiesOverscroll - (i * AndroidUtilities.lerp(0.2f, 0.5f, DialogsActivity.this.dialogStoriesCell.overscrollProgress())));
                         }
                     }
                     return scrollVerticallyBy2;
@@ -5730,8 +5722,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 scrollVerticallyBy = super.scrollVerticallyBy(r13, recycler, state);
                 if (scrollVerticallyBy == 0 && i < 0 && z && !DialogsActivity.this.rightSlidingDialogContainer.hasFragment()) {
                     dialogsActivity = DialogsActivity.this;
-                    if (dialogsActivity.hasStories) {
-                        DialogsActivity.this.setStoriesOvercroll(this.val$viewPage, dialogsActivity.storiesOverscroll - (i * AndroidUtilities.lerp(0.2f, 0.5f, DialogsActivity.this.dialogStoriesCell.overscrollProgress())));
+                    if (dialogsActivity.hasStories && dialogsActivity.progressToActionMode == 0.0f) {
+                        DialogsActivity.this.setStoriesOvercroll(this.val$viewPage, DialogsActivity.this.storiesOverscroll - (i * AndroidUtilities.lerp(0.2f, 0.5f, DialogsActivity.this.dialogStoriesCell.overscrollProgress())));
                     }
                 }
                 return scrollVerticallyBy;
@@ -5787,7 +5779,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     viewOffset = ((int) this.val$viewPage.listView.getViewOffset()) - i;
                     if (viewOffset >= 0.0f) {
                     }
-                    this.val$viewPage.listView.setViewsOffset(f);
+                    this.val$viewPage.listView.setViewsOffset(viewOffset);
                 }
                 if (this.val$viewPage.dialogsType != 0) {
                 }
@@ -5795,6 +5787,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 if (scrollVerticallyBy == 0) {
                     dialogsActivity = DialogsActivity.this;
                     if (dialogsActivity.hasStories) {
+                        DialogsActivity.this.setStoriesOvercroll(this.val$viewPage, DialogsActivity.this.storiesOverscroll - (i * AndroidUtilities.lerp(0.2f, 0.5f, DialogsActivity.this.dialogStoriesCell.overscrollProgress())));
                     }
                 }
                 return scrollVerticallyBy;

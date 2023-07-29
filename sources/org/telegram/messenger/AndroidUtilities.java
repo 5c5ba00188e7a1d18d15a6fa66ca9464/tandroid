@@ -5345,10 +5345,12 @@ public class AndroidUtilities {
             System.gc();
             allocate = ByteBuffer.allocate(byteBuffer.capacity());
         }
+        int position = byteBuffer.position();
         byteBuffer.rewind();
         allocate.put(byteBuffer);
         byteBuffer.rewind();
         allocate.flip();
+        allocate.position(position);
         return allocate;
     }
 }

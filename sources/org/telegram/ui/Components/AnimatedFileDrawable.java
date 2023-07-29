@@ -313,7 +313,7 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
     public AnimatedFileDrawable(File file, boolean z, long j, int i, TLRPC$Document tLRPC$Document, ImageLocation imageLocation, Object obj, long j2, int i2, boolean z2, int i3, int i4, BitmapsCache.CacheOptions cacheOptions) {
         long j3;
         boolean z3;
-        this.USE_BITMAP_SHADER = Build.VERSION.SDK_INT < 30;
+        this.USE_BITMAP_SHADER = Build.VERSION.SDK_INT < 29;
         this.invalidateAfter = 50;
         int[] iArr = new int[6];
         this.metaData = iArr;
@@ -964,13 +964,15 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
         drawInternal(canvas, true, 0L, i2);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:41:0x00a8  */
-    /* JADX WARN: Removed duplicated region for block: B:82:0x017e  */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x00a8  */
+    /* JADX WARN: Removed duplicated region for block: B:83:0x0186  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void drawInternal(Canvas canvas, boolean z, long j, int i) {
-        float width;
+        float f;
+        float f2;
+        float height;
         if (!canLoadFrames() || this.destroyWhenDone) {
             return;
         }
@@ -985,34 +987,35 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
         if (bitmap == null) {
             return;
         }
-        float f = this.scaleX;
-        float f2 = this.scaleY;
+        float f3 = this.scaleX;
+        float f4 = this.scaleY;
         if (z) {
-            int width2 = bitmap.getWidth();
-            int height = this.renderingBitmap.getHeight();
+            int width = bitmap.getWidth();
+            int height2 = this.renderingBitmap.getHeight();
             int[] iArr = this.metaData;
             if (iArr[2] == 90 || iArr[2] == 270) {
-                height = width2;
-                width2 = height;
+                height2 = width;
+                width = height2;
             }
-            width = rectF.width() / width2;
-            f2 = rectF.height() / height;
+            f2 = rectF.width() / width;
+            height = rectF.height() / height2;
+        } else if (this.applyTransformation) {
+            int width2 = bitmap.getWidth();
+            int height3 = this.renderingBitmap.getHeight();
+            int[] iArr2 = this.metaData;
+            if (iArr2[2] == 90 || iArr2[2] == 270) {
+                height3 = width2;
+                width2 = height3;
+            }
+            rectF.set(getBounds());
+            f2 = rectF.width() / width2;
+            this.scaleX = f2;
+            height = rectF.height() / height3;
+            this.scaleY = height;
+            this.applyTransformation = false;
         } else {
-            if (this.applyTransformation) {
-                int width3 = bitmap.getWidth();
-                int height2 = this.renderingBitmap.getHeight();
-                int[] iArr2 = this.metaData;
-                if (iArr2[2] == 90 || iArr2[2] == 270) {
-                    height2 = width3;
-                    width3 = height2;
-                }
-                rectF.set(getBounds());
-                width = rectF.width() / width3;
-                this.scaleX = width;
-                f2 = rectF.height() / height2;
-                this.scaleY = f2;
-                this.applyTransformation = false;
-            }
+            f = f4;
+            f2 = f3;
             if (!hasRoundRadius()) {
                 int i3 = z ? i + 1 : 0;
                 if (this.USE_BITMAP_SHADER) {
@@ -1042,7 +1045,7 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
                         matrix.preRotate(270.0f);
                         matrix.preTranslate(-rectF.height(), 0.0f);
                     }
-                    matrix.preScale(f, f2);
+                    matrix.preScale(f2, f);
                     this.renderingShader[i3].setLocalMatrix(matrix);
                 }
                 Path[] pathArr = this.roundPath;
@@ -1075,19 +1078,19 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
                 }
                 canvas.save();
                 canvas.clipPath(path);
-                drawBitmap(rectF, paint, canvas);
+                drawBitmap(rectF, paint, canvas, f2, f);
                 canvas.restore();
                 return;
             }
-            drawBitmap(rectF, paint, canvas);
+            drawBitmap(rectF, paint, canvas, f2, f);
             return;
         }
-        f = width;
+        f = height;
         if (!hasRoundRadius()) {
         }
     }
 
-    private void drawBitmap(RectF rectF, Paint paint, Canvas canvas) {
+    private void drawBitmap(RectF rectF, Paint paint, Canvas canvas, float f, float f2) {
         canvas.translate(rectF.left, rectF.top);
         int[] iArr = this.metaData;
         if (iArr[2] == 90) {
@@ -1100,7 +1103,7 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
             canvas.rotate(270.0f);
             canvas.translate(-rectF.height(), 0.0f);
         }
-        canvas.scale(this.scaleX, this.scaleY);
+        canvas.scale(f, f2);
         canvas.drawBitmap(this.renderingBitmap, 0.0f, 0.0f, paint);
     }
 
