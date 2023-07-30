@@ -65,9 +65,9 @@ public class FileStreamLoadOperation extends BaseDataSource implements FileLoadO
 
     @Override // com.google.android.exoplayer2.upstream.DataSource
     public long open(DataSpec dataSpec) throws IOException {
-        Uri uri = dataSpec.uri;
-        this.uri = uri;
-        int intValue = Utilities.parseInt((CharSequence) uri.getQueryParameter("account")).intValue();
+        this.uri = dataSpec.uri;
+        transferInitializing(dataSpec);
+        int intValue = Utilities.parseInt((CharSequence) this.uri.getQueryParameter("account")).intValue();
         this.currentAccount = intValue;
         this.parentObject = FileLoader.getInstance(intValue).getParentObject(Utilities.parseInt((CharSequence) this.uri.getQueryParameter("rid")).intValue());
         TLRPC$TL_document tLRPC$TL_document = new TLRPC$TL_document();
@@ -193,12 +193,14 @@ public class FileStreamLoadOperation extends BaseDataSource implements FileLoadO
             }
         }
         if (this.opened) {
-            randomAccessFile.readFully(bArr, i, i3);
-            long j2 = i3;
-            this.currentOffset += j2;
-            this.bytesRemaining -= j2;
-            bytesTransferred(i3);
-            return i3;
+            int read = randomAccessFile.read(bArr, i, i3);
+            if (read > 0) {
+                long j2 = read;
+                this.currentOffset += j2;
+                this.bytesRemaining -= j2;
+                bytesTransferred(read);
+            }
+            return read;
         }
         return 0;
     }

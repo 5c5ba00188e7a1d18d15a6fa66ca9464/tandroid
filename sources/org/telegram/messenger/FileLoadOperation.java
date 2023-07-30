@@ -1028,21 +1028,21 @@ public class FileLoadOperation {
     /* JADX WARN: Removed duplicated region for block: B:115:0x03da  */
     /* JADX WARN: Removed duplicated region for block: B:121:0x03fb  */
     /* JADX WARN: Removed duplicated region for block: B:137:0x0463  */
-    /* JADX WARN: Removed duplicated region for block: B:236:0x0669  */
-    /* JADX WARN: Removed duplicated region for block: B:251:0x0694  */
-    /* JADX WARN: Removed duplicated region for block: B:269:0x0716  */
-    /* JADX WARN: Removed duplicated region for block: B:272:0x071c  */
-    /* JADX WARN: Removed duplicated region for block: B:275:0x0746  */
-    /* JADX WARN: Removed duplicated region for block: B:288:0x07a4  */
-    /* JADX WARN: Removed duplicated region for block: B:295:0x07cf  */
-    /* JADX WARN: Removed duplicated region for block: B:301:0x07fb  */
-    /* JADX WARN: Removed duplicated region for block: B:306:0x0844  */
-    /* JADX WARN: Removed duplicated region for block: B:332:0x08b2  */
-    /* JADX WARN: Removed duplicated region for block: B:340:0x08d7 A[Catch: Exception -> 0x08dd, TRY_LEAVE, TryCatch #7 {Exception -> 0x08dd, blocks: (B:338:0x08c6, B:340:0x08d7), top: B:389:0x08c6 }] */
-    /* JADX WARN: Removed duplicated region for block: B:353:0x0909  */
-    /* JADX WARN: Removed duplicated region for block: B:355:0x090d  */
-    /* JADX WARN: Removed duplicated region for block: B:356:0x091c  */
-    /* JADX WARN: Removed duplicated region for block: B:391:0x0674 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:236:0x066a  */
+    /* JADX WARN: Removed duplicated region for block: B:251:0x0695  */
+    /* JADX WARN: Removed duplicated region for block: B:269:0x0717  */
+    /* JADX WARN: Removed duplicated region for block: B:272:0x071d  */
+    /* JADX WARN: Removed duplicated region for block: B:275:0x0747  */
+    /* JADX WARN: Removed duplicated region for block: B:288:0x07a5  */
+    /* JADX WARN: Removed duplicated region for block: B:295:0x07d0  */
+    /* JADX WARN: Removed duplicated region for block: B:301:0x07fc  */
+    /* JADX WARN: Removed duplicated region for block: B:306:0x0845  */
+    /* JADX WARN: Removed duplicated region for block: B:332:0x08b3  */
+    /* JADX WARN: Removed duplicated region for block: B:340:0x08d8 A[Catch: Exception -> 0x08de, TRY_LEAVE, TryCatch #6 {Exception -> 0x08de, blocks: (B:338:0x08c7, B:340:0x08d8), top: B:388:0x08c7 }] */
+    /* JADX WARN: Removed duplicated region for block: B:353:0x090a  */
+    /* JADX WARN: Removed duplicated region for block: B:355:0x090e  */
+    /* JADX WARN: Removed duplicated region for block: B:356:0x091d  */
+    /* JADX WARN: Removed duplicated region for block: B:390:0x0675 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r1v40 */
     /* JADX WARN: Type inference failed for: r1v41, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r1v45 */
@@ -1073,7 +1073,6 @@ public class FileLoadOperation {
         long j2;
         long j3;
         RandomAccessFile randomAccessFile;
-        RandomAccessFile randomAccessFile2;
         this.startTime = System.currentTimeMillis();
         updateParams();
         boolean z5 = this.parentObject instanceof TLRPC$TL_storyItem;
@@ -1188,7 +1187,7 @@ public class FileLoadOperation {
                 if (this.encryptFile) {
                     File file = new File(FileLoader.getInternalCacheDir(), str2 + ".key");
                     try {
-                        randomAccessFile2 = new RandomAccessFile(file, "rws");
+                        RandomAccessFile randomAccessFile2 = new RandomAccessFile(file, "rws");
                         long length = file.length();
                         byte[] bArr = new byte[32];
                         this.encryptKey = bArr;
@@ -1204,62 +1203,62 @@ public class FileLoadOperation {
                             randomAccessFile2.write(this.encryptIv);
                             z3 = true;
                         }
-                    } catch (Exception e) {
-                        e = e;
-                        z3 = false;
-                    }
-                    try {
                         try {
-                            randomAccessFile2.getChannel().close();
+                            try {
+                                randomAccessFile2.getChannel().close();
+                            } catch (Exception e) {
+                                FileLog.e(e);
+                            }
+                            randomAccessFile2.close();
                         } catch (Exception e2) {
-                            FileLog.e(e2);
+                            e = e2;
+                            if (AndroidUtilities.isENOSPC(e)) {
+                                LaunchActivity.checkFreeDiscSpaceStatic(1);
+                                FileLog.e((Throwable) e, false);
+                            } else if (AndroidUtilities.isEROFS(e)) {
+                                SharedConfig.checkSdCard(this.cacheFileFinal);
+                                FileLog.e((Throwable) e, false);
+                            } else {
+                                FileLog.e(e);
+                            }
+                            i2 = 1;
+                            zArr = new boolean[i2];
+                            zArr[0] = false;
+                            long j6 = 8;
+                            if (this.supportsPreloading) {
+                            }
+                            str8 = "rws";
+                            zArr2 = zArr;
+                            if (str4 == null) {
+                            }
+                            if (this.fileMetadata != null) {
+                            }
+                            if (!this.cacheFileTemp.exists()) {
+                            }
+                            arrayList = this.notLoadedBytesRanges;
+                            if (arrayList != null) {
+                            }
+                            if (BuildVars.LOGS_ENABLED) {
+                            }
+                            if (str3 != null) {
+                            }
+                            if (!this.isPreloadVideoOperation) {
+                                copyNotLoadedRanges();
+                            }
+                            updateProgress();
+                            RandomAccessFile randomAccessFile3 = new RandomAccessFile(this.cacheFileTemp, str9);
+                            this.fileOutputStream = randomAccessFile3;
+                            j2 = this.downloadedBytes;
+                            if (j2 != 0) {
+                            }
+                            r1 = 0;
+                            z4 = true;
+                            if (this.fileOutputStream != null) {
+                            }
                         }
-                        randomAccessFile2.close();
                     } catch (Exception e3) {
                         e = e3;
-                        if (AndroidUtilities.isENOSPC(e)) {
-                            LaunchActivity.checkFreeDiscSpaceStatic(1);
-                            FileLog.e((Throwable) e, false);
-                        } else if (AndroidUtilities.isEROFS(e)) {
-                            SharedConfig.checkSdCard(this.cacheFileFinal);
-                            FileLog.e((Throwable) e, false);
-                        } else {
-                            FileLog.e(e);
-                        }
-                        i2 = 1;
-                        zArr = new boolean[i2];
-                        zArr[0] = false;
-                        long j6 = 8;
-                        if (this.supportsPreloading) {
-                        }
-                        str8 = "rws";
-                        zArr2 = zArr;
-                        if (str4 == null) {
-                        }
-                        if (this.fileMetadata != null) {
-                        }
-                        if (!this.cacheFileTemp.exists()) {
-                        }
-                        arrayList = this.notLoadedBytesRanges;
-                        if (arrayList != null) {
-                        }
-                        if (BuildVars.LOGS_ENABLED) {
-                        }
-                        if (str3 != null) {
-                        }
-                        if (!this.isPreloadVideoOperation) {
-                            copyNotLoadedRanges();
-                        }
-                        updateProgress();
-                        RandomAccessFile randomAccessFile3 = new RandomAccessFile(this.cacheFileTemp, str9);
-                        this.fileOutputStream = randomAccessFile3;
-                        j2 = this.downloadedBytes;
-                        if (j2 != 0) {
-                        }
-                        r1 = 0;
-                        z4 = true;
-                        if (this.fileOutputStream != null) {
-                        }
+                        z3 = false;
                     }
                     i2 = 1;
                 } else {
@@ -1627,34 +1626,34 @@ public class FileLoadOperation {
                 this.started = true;
                 try {
                     onFinishLoadingFile(false, 1, false);
-                    try {
-                        FilePathDatabase.PathData pathData = this.pathSaveData;
-                        if (pathData != null) {
-                            this.delegate.saveFilePath(pathData, this.cacheFileFinal);
-                        }
-                    } catch (Exception e15) {
-                        e = e15;
-                        z10 = false;
-                        FileLog.e(e, z10);
-                        if (AndroidUtilities.isENOSPC(e)) {
-                            z2 = true;
-                            LaunchActivity.checkFreeDiscSpaceStatic(1);
-                            i = -1;
-                            onFail(true, -1);
-                        } else {
-                            z2 = true;
-                            i = -1;
-                        }
-                        if (AndroidUtilities.isEROFS(e)) {
-                            SharedConfig.checkSdCard(this.cacheFileFinal);
-                            onFail(z2, i);
-                            return false;
-                        }
-                        onFail(z2, 0);
-                        return z2;
+                } catch (Exception e15) {
+                    e = e15;
+                }
+                try {
+                    FilePathDatabase.PathData pathData = this.pathSaveData;
+                    if (pathData != null) {
+                        this.delegate.saveFilePath(pathData, this.cacheFileFinal);
                     }
                 } catch (Exception e16) {
                     e = e16;
+                    z10 = false;
+                    FileLog.e(e, z10);
+                    if (AndroidUtilities.isENOSPC(e)) {
+                        z2 = true;
+                        LaunchActivity.checkFreeDiscSpaceStatic(1);
+                        i = -1;
+                        onFail(true, -1);
+                    } else {
+                        z2 = true;
+                        i = -1;
+                    }
+                    if (AndroidUtilities.isEROFS(e)) {
+                        SharedConfig.checkSdCard(this.cacheFileFinal);
+                        onFail(z2, i);
+                        return false;
+                    }
+                    onFail(z2, 0);
+                    return z2;
                 }
             }
             return true;

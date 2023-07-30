@@ -271,36 +271,36 @@ public class ImageLoader {
         }
 
         /* JADX INFO: Access modifiers changed from: protected */
-        /* JADX WARN: Code restructure failed: missing block: B:81:0x0120, code lost:
-            if (r5 != (-1)) goto L53;
+        /* JADX WARN: Code restructure failed: missing block: B:81:0x0121, code lost:
+            if (r5 != (-1)) goto L54;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:82:0x0122, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:82:0x0123, code lost:
             r0 = r11.fileSize;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:83:0x0124, code lost:
-            if (r0 == 0) goto L54;
+        /* JADX WARN: Code restructure failed: missing block: B:83:0x0125, code lost:
+            if (r0 == 0) goto L55;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:84:0x0126, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:84:0x0127, code lost:
             reportProgress(r0, r0);
          */
-        /* JADX WARN: Code restructure failed: missing block: B:86:0x012c, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:86:0x012d, code lost:
             r0 = e;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:88:0x012e, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:88:0x012f, code lost:
             r1 = false;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:91:0x0132, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:91:0x0133, code lost:
             org.telegram.messenger.FileLog.e(r0);
          */
-        /* JADX WARN: Code restructure failed: missing block: B:93:0x0136, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:93:0x0137, code lost:
             r0 = th;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:97:0x013a, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:97:0x013b, code lost:
             org.telegram.messenger.FileLog.e(r0);
          */
-        /* JADX WARN: Removed duplicated region for block: B:101:0x0142 A[Catch: all -> 0x0148, TRY_LEAVE, TryCatch #5 {all -> 0x0148, blocks: (B:99:0x013e, B:101:0x0142), top: B:121:0x013e }] */
-        /* JADX WARN: Removed duplicated region for block: B:114:0x014e A[EXC_TOP_SPLITTER, SYNTHETIC] */
-        /* JADX WARN: Removed duplicated region for block: B:125:0x00ad A[EXC_TOP_SPLITTER, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:101:0x0143 A[Catch: all -> 0x0149, TRY_LEAVE, TryCatch #6 {all -> 0x0149, blocks: (B:99:0x013f, B:101:0x0143), top: B:123:0x013f }] */
+        /* JADX WARN: Removed duplicated region for block: B:114:0x014f A[EXC_TOP_SPLITTER, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:119:0x00ae A[EXC_TOP_SPLITTER, SYNTHETIC] */
         @Override // android.os.AsyncTask
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -737,52 +737,52 @@ public class ImageLoader {
 
         /* JADX INFO: Access modifiers changed from: protected */
         /* JADX WARN: Can't wrap try/catch for region: R(16:1|(7:102|103|(1:148)|107|(1:109)|110|(15:112|113|114|4|(6:34|35|(1:43)|45|(3:49|50|(1:58))|(6:63|64|65|(2:66|(1:98)(3:68|69|(3:71|(3:73|74|75)(1:77)|76)(1:78)))|81|82))|6|7|(1:9)|11|12|(1:14)|(2:26|27)|(1:22)|23|24))|3|4|(0)|6|7|(0)|11|12|(0)|(0)|(3:18|20|22)|23|24|(1:(0))) */
-        /* JADX WARN: Code restructure failed: missing block: B:100:0x0175, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:100:0x0176, code lost:
             r2 = move-exception;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:101:0x0176, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:101:0x0177, code lost:
             r1 = r2;
             r2 = true;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:102:0x0179, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:102:0x017a, code lost:
             r2 = move-exception;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:103:0x017a, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:103:0x017b, code lost:
             r1 = r2;
             r2 = true;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:106:0x0180, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:106:0x0181, code lost:
             org.telegram.messenger.FileLog.e(r1);
          */
-        /* JADX WARN: Code restructure failed: missing block: B:107:0x0183, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:107:0x0184, code lost:
             r1 = r2;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:110:0x0187, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:110:0x0188, code lost:
             org.telegram.messenger.FileLog.e(r1);
          */
-        /* JADX WARN: Code restructure failed: missing block: B:115:0x0194, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:115:0x0195, code lost:
             r0 = move-exception;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:116:0x0195, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:116:0x0196, code lost:
             org.telegram.messenger.FileLog.e(r0);
          */
-        /* JADX WARN: Code restructure failed: missing block: B:95:0x0169, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:95:0x016a, code lost:
             if (r7 != (-1)) goto L81;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:96:0x016b, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:96:0x016c, code lost:
             r2 = r12.imageSize;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:97:0x016f, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:97:0x0170, code lost:
             if (r2 == 0) goto L82;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:98:0x0171, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:98:0x0172, code lost:
             reportProgress(r2, r2);
          */
-        /* JADX WARN: Removed duplicated region for block: B:113:0x018e A[Catch: all -> 0x0194, TRY_LEAVE, TryCatch #4 {all -> 0x0194, blocks: (B:111:0x018a, B:113:0x018e), top: B:143:0x018a }] */
-        /* JADX WARN: Removed duplicated region for block: B:119:0x019c A[Catch: all -> 0x01a0, TRY_LEAVE, TryCatch #0 {all -> 0x01a0, blocks: (B:117:0x0198, B:119:0x019c), top: B:135:0x0198 }] */
-        /* JADX WARN: Removed duplicated region for block: B:128:0x01ad  */
-        /* JADX WARN: Removed duplicated region for block: B:149:0x01a3 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-        /* JADX WARN: Removed duplicated region for block: B:151:0x00ee A[EXC_TOP_SPLITTER, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:113:0x018f A[Catch: all -> 0x0195, TRY_LEAVE, TryCatch #4 {all -> 0x0195, blocks: (B:111:0x018b, B:113:0x018f), top: B:143:0x018b }] */
+        /* JADX WARN: Removed duplicated region for block: B:119:0x019d A[Catch: all -> 0x01a1, TRY_LEAVE, TryCatch #2 {all -> 0x01a1, blocks: (B:117:0x0199, B:119:0x019d), top: B:139:0x0199 }] */
+        /* JADX WARN: Removed duplicated region for block: B:128:0x01ae  */
+        /* JADX WARN: Removed duplicated region for block: B:149:0x01a4 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:151:0x00ef A[EXC_TOP_SPLITTER, SYNTHETIC] */
         @Override // android.os.AsyncTask
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -6781,11 +6781,11 @@ public class ImageLoader {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:33:0x009d  */
-    /* JADX WARN: Removed duplicated region for block: B:34:0x00a2  */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x00c0  */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x00d0  */
-    /* JADX WARN: Removed duplicated region for block: B:45:0x00e6  */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x009e  */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x00a3  */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x00c1  */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x00d1  */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x00e7  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

@@ -28,10 +28,6 @@ public final class MediaPeriodQueue {
     private final Timeline.Period period = new Timeline.Period();
     private final Timeline.Window window = new Timeline.Window();
 
-    private boolean areDurationsCompatible(long j, long j2) {
-        return j == -9223372036854775807L || j == j2;
-    }
-
     public MediaPeriodQueue(AnalyticsCollector analyticsCollector, HandlerWrapper handlerWrapper) {
         this.analyticsCollector = analyticsCollector;
         this.analyticsCollectorHandler = handlerWrapper;
@@ -172,30 +168,23 @@ public final class MediaPeriodQueue {
 
     public boolean updateQueuedPeriods(Timeline timeline, long j, long j2) {
         MediaPeriodInfo mediaPeriodInfo;
-        MediaPeriodHolder mediaPeriodHolder = this.playing;
-        MediaPeriodHolder mediaPeriodHolder2 = null;
-        while (mediaPeriodHolder != null) {
-            MediaPeriodInfo mediaPeriodInfo2 = mediaPeriodHolder.info;
-            if (mediaPeriodHolder2 == null) {
+        MediaPeriodHolder mediaPeriodHolder = null;
+        for (MediaPeriodHolder mediaPeriodHolder2 = this.playing; mediaPeriodHolder2 != null; mediaPeriodHolder2 = mediaPeriodHolder2.getNext()) {
+            MediaPeriodInfo mediaPeriodInfo2 = mediaPeriodHolder2.info;
+            if (mediaPeriodHolder == null) {
                 mediaPeriodInfo = getUpdatedMediaPeriodInfo(timeline, mediaPeriodInfo2);
             } else {
-                MediaPeriodInfo followingMediaPeriodInfo = getFollowingMediaPeriodInfo(timeline, mediaPeriodHolder2, j);
+                MediaPeriodInfo followingMediaPeriodInfo = getFollowingMediaPeriodInfo(timeline, mediaPeriodHolder, j);
                 if (followingMediaPeriodInfo == null) {
-                    return !removeAfter(mediaPeriodHolder2);
+                    return !removeAfter(mediaPeriodHolder);
                 }
                 if (!canKeepMediaPeriodHolder(mediaPeriodInfo2, followingMediaPeriodInfo)) {
-                    return !removeAfter(mediaPeriodHolder2);
+                    return !removeAfter(mediaPeriodHolder);
                 }
                 mediaPeriodInfo = followingMediaPeriodInfo;
             }
-            mediaPeriodHolder.info = mediaPeriodInfo.copyWithRequestedContentPositionUs(mediaPeriodInfo2.requestedContentPositionUs);
-            if (!areDurationsCompatible(mediaPeriodInfo2.durationUs, mediaPeriodInfo.durationUs)) {
-                mediaPeriodHolder.updateClipping();
-                long j3 = mediaPeriodInfo.durationUs;
-                return (removeAfter(mediaPeriodHolder) || (mediaPeriodHolder == this.reading && !mediaPeriodHolder.info.isFollowedByTransitionToSameStream && ((j2 > Long.MIN_VALUE ? 1 : (j2 == Long.MIN_VALUE ? 0 : -1)) == 0 || (j2 > ((j3 > (-9223372036854775807L) ? 1 : (j3 == (-9223372036854775807L) ? 0 : -1)) == 0 ? Long.MAX_VALUE : mediaPeriodHolder.toRendererTime(j3)) ? 1 : (j2 == ((j3 > (-9223372036854775807L) ? 1 : (j3 == (-9223372036854775807L) ? 0 : -1)) == 0 ? Long.MAX_VALUE : mediaPeriodHolder.toRendererTime(j3)) ? 0 : -1)) >= 0))) ? false : true;
-            }
-            mediaPeriodHolder2 = mediaPeriodHolder;
-            mediaPeriodHolder = mediaPeriodHolder.getNext();
+            mediaPeriodHolder2.info = mediaPeriodInfo.copyWithRequestedContentPositionUs(mediaPeriodInfo2.requestedContentPositionUs);
+            mediaPeriodHolder = mediaPeriodHolder2;
         }
         return true;
     }

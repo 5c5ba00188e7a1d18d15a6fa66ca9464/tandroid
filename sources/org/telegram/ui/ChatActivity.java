@@ -14651,12 +14651,16 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$searchLinks$103(final CharSequence charSequence, final MessagesController messagesController, final boolean z) {
+        boolean z2;
         CharSequence charSequence2;
         URLSpanReplacement[] uRLSpanReplacementArr;
-        boolean z2 = true;
+        boolean z3 = true;
         if (this.linkSearchRequestId != 0) {
             getConnectionsManager().cancelRequest(this.linkSearchRequestId, true);
             this.linkSearchRequestId = 0;
+            z2 = true;
+        } else {
+            z2 = false;
         }
         ArrayList<CharSequence> arrayList = null;
         try {
@@ -14680,10 +14684,10 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             if (arrayList != null && this.foundUrls != null && arrayList.size() == this.foundUrls.size()) {
                 for (int i = 0; i < arrayList.size(); i++) {
                     if (!TextUtils.equals(arrayList.get(i), this.foundUrls.get(i))) {
-                        z2 = false;
+                        z3 = false;
                     }
                 }
-                if (z2) {
+                if (z3 && !z2) {
                     return;
                 }
             }
