@@ -6519,7 +6519,10 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     public void showSelectStatusDialog() {
         int i;
         int i2;
-        if (this.selectAnimatedEmojiDialog == null && !SharedConfig.appLocked && this.dialogStoriesCell.isExpanded()) {
+        if (this.selectAnimatedEmojiDialog != null || SharedConfig.appLocked) {
+            return;
+        }
+        if (!this.hasStories || this.dialogStoriesCell.isExpanded()) {
             final SelectAnimatedEmojiDialog.SelectAnimatedEmojiDialogWindow[] selectAnimatedEmojiDialogWindowArr = new SelectAnimatedEmojiDialog.SelectAnimatedEmojiDialogWindow[1];
             TLRPC$User currentUser = UserConfig.getInstance(UserConfig.selectedAccount).getCurrentUser();
             SimpleTextView titleTextView = this.actionBar.getTitleTextView();
@@ -7795,7 +7798,10 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         int i;
         View view;
         super.onResume();
-        this.dialogStoriesCell.onResume();
+        DialogStoriesCell dialogStoriesCell = this.dialogStoriesCell;
+        if (dialogStoriesCell != null) {
+            dialogStoriesCell.onResume();
+        }
         RightSlidingDialogContainer rightSlidingDialogContainer = this.rightSlidingDialogContainer;
         if (rightSlidingDialogContainer != null) {
             rightSlidingDialogContainer.onResume();
@@ -7919,9 +7925,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 int i5 = 0;
                 int measuredHeight = (((BaseFragment) DialogsActivity.this).actionBar != null ? ((BaseFragment) DialogsActivity.this).actionBar.getMeasuredHeight() : 0) + ((DialogsActivity.this.filterTabsView == null || DialogsActivity.this.filterTabsView.getVisibility() != 0) ? 0 : DialogsActivity.this.filterTabsView.getMeasuredHeight()) + ((DialogsActivity.this.fragmentContextView == null || !DialogsActivity.this.fragmentContextView.isCallTypeVisible()) ? 0 : AndroidUtilities.dp(DialogsActivity.this.fragmentContextView.getStyleHeight())) + ((DialogsActivity.this.dialogsHintCell == null || DialogsActivity.this.dialogsHintCell.getVisibility() != 0) ? 0 : DialogsActivity.this.dialogsHintCell.getHeight());
                 DialogsActivity dialogsActivity = DialogsActivity.this;
-                DialogStoriesCell dialogStoriesCell = dialogsActivity.dialogStoriesCell;
-                if (dialogStoriesCell != null && dialogsActivity.dialogStoriesCellVisible) {
-                    i5 = (int) ((1.0f - dialogStoriesCell.getCollapsedProgress()) * AndroidUtilities.dp(81.0f));
+                DialogStoriesCell dialogStoriesCell2 = dialogsActivity.dialogStoriesCell;
+                if (dialogStoriesCell2 != null && dialogsActivity.dialogStoriesCellVisible) {
+                    i5 = (int) ((1.0f - dialogStoriesCell2.getCollapsedProgress()) * AndroidUtilities.dp(81.0f));
                 }
                 return measuredHeight + i5;
             }

@@ -3592,7 +3592,7 @@ public class ImageLoader {
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.messenger.LruCache
             public int sizeOf(String str, BitmapDrawable bitmapDrawable) {
-                return bitmapDrawable.getBitmap().getByteCount();
+                return ImageLoader.this.sizeOfBitmapDrawable(bitmapDrawable);
             }
 
             /* JADX INFO: Access modifiers changed from: protected */
@@ -3616,7 +3616,7 @@ public class ImageLoader {
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.messenger.LruCache
             public int sizeOf(String str, BitmapDrawable bitmapDrawable) {
-                return bitmapDrawable.getBitmap().getByteCount();
+                return ImageLoader.this.sizeOfBitmapDrawable(bitmapDrawable);
             }
 
             /* JADX INFO: Access modifiers changed from: protected */
@@ -3640,14 +3640,14 @@ public class ImageLoader {
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.messenger.LruCache
             public int sizeOf(String str, BitmapDrawable bitmapDrawable) {
-                return bitmapDrawable.getBitmap().getByteCount();
+                return ImageLoader.this.sizeOfBitmapDrawable(bitmapDrawable);
             }
         };
         this.lottieMemCache = new LruCache<BitmapDrawable>(10485760) { // from class: org.telegram.messenger.ImageLoader.4
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.messenger.LruCache
             public int sizeOf(String str, BitmapDrawable bitmapDrawable) {
-                return bitmapDrawable.getIntrinsicWidth() * bitmapDrawable.getIntrinsicHeight() * 4 * 2;
+                return ImageLoader.this.sizeOfBitmapDrawable(bitmapDrawable);
             }
 
             @Override // org.telegram.messenger.LruCache
@@ -3951,6 +3951,18 @@ public class ImageLoader {
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onReceive$0() {
             ImageLoader.this.checkMediaPaths();
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public int sizeOfBitmapDrawable(BitmapDrawable bitmapDrawable) {
+        if (bitmapDrawable instanceof AnimatedFileDrawable) {
+            AnimatedFileDrawable animatedFileDrawable = (AnimatedFileDrawable) bitmapDrawable;
+            return Math.max(animatedFileDrawable.getIntrinsicHeight() * bitmapDrawable.getIntrinsicWidth() * 4 * 3, animatedFileDrawable.getRenderingHeight() * animatedFileDrawable.getRenderingWidth() * 4 * 3);
+        } else if (bitmapDrawable instanceof RLottieDrawable) {
+            return bitmapDrawable.getIntrinsicWidth() * bitmapDrawable.getIntrinsicHeight() * 4 * 2;
+        } else {
+            return bitmapDrawable.getBitmap().getByteCount();
         }
     }
 

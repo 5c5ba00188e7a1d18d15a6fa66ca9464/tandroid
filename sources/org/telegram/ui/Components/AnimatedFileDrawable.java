@@ -1427,4 +1427,12 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
     public int getFps() {
         return this.metaData[5];
     }
+
+    public int getRenderingWidth() {
+        return this.renderingWidth;
+    }
+
+    public int getRenderingHeight() {
+        return this.renderingHeight;
+    }
 }

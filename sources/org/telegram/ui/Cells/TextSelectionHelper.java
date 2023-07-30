@@ -1510,17 +1510,30 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
 
     /* JADX INFO: Access modifiers changed from: private */
     public int[] getCoordsInParent() {
-        int i = 0;
-        int i2 = 0;
-        for (View view = (View) this.selectedView; view != this.parentView; view = (View) view.getParent()) {
-            i2 = (int) (i2 + view.getY());
-            i = (int) (i + view.getX());
-            if (view instanceof NestedScrollView) {
-                i2 -= view.getScrollY();
-                i -= view.getScrollX();
+        int i;
+        int i2;
+        View view = (View) this.selectedView;
+        if (view != null && this.parentView != null) {
+            i = 0;
+            i2 = 0;
+            while (view != this.parentView) {
+                if (view != null) {
+                    i = (int) (i + view.getY());
+                    i2 = (int) (i2 + view.getX());
+                    if (view instanceof NestedScrollView) {
+                        i -= view.getScrollY();
+                        i2 -= view.getScrollX();
+                    }
+                    if (view.getParent() instanceof View) {
+                        view = (View) view.getParent();
+                    }
+                }
             }
+            return new int[]{i2, i};
         }
-        return new int[]{i, i2};
+        i = 0;
+        i2 = 0;
+        return new int[]{i2, i};
     }
 
     protected void jumpToLine(int i, int i2, boolean z, float f, float f2, Cell cell) {
