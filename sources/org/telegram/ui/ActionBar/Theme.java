@@ -9783,40 +9783,40 @@ public class Theme {
         return defaultColors[i];
     }
 
-    /* JADX WARN: Can't wrap try/catch for region: R(16:179|(4:180|181|182|(6:183|184|185|(3:239|240|(1:242))|187|188))|(4:190|191|192|(18:194|195|196|197|198|199|201|202|203|(4:205|206|207|(5:209|210|211|212|213)(1:222))(1:226)|214|215|40|(5:42|(1:44)(1:52)|45|(2:47|48)(2:50|51)|49)|53|54|55|(17:137|138|(2:142|(4:(1:144)|146|147|(16:149|(1:170)(5:152|(4:154|155|156|157)|163|164|165)|166|167|112|(1:64)(1:81)|65|(1:67)|68|(1:70)|71|(1:73)|(1:75)|76|77|78))(2:147|(0)))|172|167|112|(0)(0)|65|(0)|68|(0)|71|(0)|(0)|76|77|78)(2:57|(14:(1:60)(1:(1:83)(15:84|(1:86)|87|62|(0)(0)|65|(0)|68|(0)|71|(0)|(0)|76|77|78))|61|62|(0)(0)|65|(0)|68|(0)|71|(0)|(0)|76|77|78)(20:(1:89)|92|93|(1:95)(3:132|133|134)|96|(2:100|(5:(1:102)|104|105|(1:107)(1:130)|(15:109|110|(2:113|114)|112|(0)(0)|65|(0)|68|(0)|71|(0)|(0)|76|77|78))(3:105|(0)(0)|(0)))|131|(0)|112|(0)(0)|65|(0)|68|(0)|71|(0)|(0)|76|77|78))))|237|201|202|203|(0)(0)|214|215|40|(0)|53|54|55|(0)(0)) */
+    /* JADX WARN: Can't wrap try/catch for region: R(16:181|(4:182|183|184|(6:185|186|187|(3:241|242|(1:244))|189|190))|(4:192|193|194|(18:196|197|198|199|200|201|203|204|205|(4:207|208|209|(5:211|212|213|214|215)(1:224))(1:228)|216|217|40|(5:42|(1:44)(1:52)|45|(2:47|48)(2:50|51)|49)|53|54|55|(17:137|138|(2:142|(4:(1:144)|146|147|(16:149|(1:172)(5:152|(2:154|(4:156|157|158|159))|165|166|167)|168|169|112|(1:64)(1:81)|65|(1:67)|68|(1:70)|71|(1:73)|(1:75)|76|77|78))(2:147|(0)))|174|169|112|(0)(0)|65|(0)|68|(0)|71|(0)|(0)|76|77|78)(2:57|(14:(1:60)(1:(1:83)(15:84|(1:86)|87|62|(0)(0)|65|(0)|68|(0)|71|(0)|(0)|76|77|78))|61|62|(0)(0)|65|(0)|68|(0)|71|(0)|(0)|76|77|78)(20:(1:89)|92|93|(1:95)(3:132|133|134)|96|(2:100|(5:(1:102)|104|105|(1:107)(1:130)|(15:109|110|(2:113|114)|112|(0)(0)|65|(0)|68|(0)|71|(0)|(0)|76|77|78))(3:105|(0)(0)|(0)))|131|(0)|112|(0)(0)|65|(0)|68|(0)|71|(0)|(0)|76|77|78))))|239|203|204|205|(0)(0)|216|217|40|(0)|53|54|55|(0)(0)) */
     /* JADX WARN: Code restructure failed: missing block: B:108:0x01b9, code lost:
         r0 = e;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:186:0x03c3, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:188:0x03c5, code lost:
         if (android.text.TextUtils.isEmpty(r6[0]) == false) goto L92;
      */
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Removed duplicated region for block: B:106:0x01b2  */
     /* JADX WARN: Removed duplicated region for block: B:123:0x01e7  */
-    /* JADX WARN: Removed duplicated region for block: B:127:0x0249 A[Catch: all -> 0x0668, TryCatch #5 {all -> 0x0668, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x007e, B:13:0x008d, B:22:0x00a0, B:26:0x00ab, B:33:0x00be, B:37:0x00c7, B:44:0x00d5, B:48:0x00de, B:56:0x00f2, B:58:0x00fb, B:60:0x0109, B:63:0x0113, B:65:0x0124, B:68:0x012e, B:70:0x0138, B:74:0x014c, B:78:0x0156, B:80:0x0160, B:82:0x0168, B:84:0x016f, B:91:0x017b, B:95:0x0185, B:97:0x018f, B:99:0x01a0, B:125:0x01f3, B:127:0x0249, B:131:0x0255, B:135:0x0265, B:136:0x0272, B:170:0x035c, B:227:0x04c8, B:229:0x04e7, B:231:0x050b, B:234:0x0527, B:235:0x054a, B:237:0x05d4, B:239:0x05f4, B:240:0x061b, B:175:0x036a, B:183:0x03a5, B:178:0x0374, B:179:0x0380, B:182:0x038b, B:185:0x03bc, B:209:0x04a4, B:213:0x04ab, B:221:0x04ba, B:225:0x04c1, B:122:0x01e1, B:241:0x0643, B:219:0x04b5), top: B:265:0x0008, inners: #2, #10, #18 }] */
-    /* JADX WARN: Removed duplicated region for block: B:172:0x0364  */
-    /* JADX WARN: Removed duplicated region for block: B:202:0x0440 A[Catch: all -> 0x04b0, TryCatch #9 {all -> 0x04b0, blocks: (B:192:0x0416, B:194:0x041a, B:196:0x041e, B:198:0x042f, B:200:0x043b, B:202:0x0440, B:205:0x0458, B:203:0x0449, B:191:0x0409), top: B:273:0x0409 }] */
-    /* JADX WARN: Removed duplicated region for block: B:203:0x0449 A[Catch: all -> 0x04b0, TryCatch #9 {all -> 0x04b0, blocks: (B:192:0x0416, B:194:0x041a, B:196:0x041e, B:198:0x042f, B:200:0x043b, B:202:0x0440, B:205:0x0458, B:203:0x0449, B:191:0x0409), top: B:273:0x0409 }] */
-    /* JADX WARN: Removed duplicated region for block: B:205:0x0458 A[Catch: all -> 0x04b0, TRY_LEAVE, TryCatch #9 {all -> 0x04b0, blocks: (B:192:0x0416, B:194:0x041a, B:196:0x041e, B:198:0x042f, B:200:0x043b, B:202:0x0440, B:205:0x0458, B:203:0x0449, B:191:0x0409), top: B:273:0x0409 }] */
-    /* JADX WARN: Removed duplicated region for block: B:227:0x04c8 A[Catch: all -> 0x0668, TryCatch #5 {all -> 0x0668, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x007e, B:13:0x008d, B:22:0x00a0, B:26:0x00ab, B:33:0x00be, B:37:0x00c7, B:44:0x00d5, B:48:0x00de, B:56:0x00f2, B:58:0x00fb, B:60:0x0109, B:63:0x0113, B:65:0x0124, B:68:0x012e, B:70:0x0138, B:74:0x014c, B:78:0x0156, B:80:0x0160, B:82:0x0168, B:84:0x016f, B:91:0x017b, B:95:0x0185, B:97:0x018f, B:99:0x01a0, B:125:0x01f3, B:127:0x0249, B:131:0x0255, B:135:0x0265, B:136:0x0272, B:170:0x035c, B:227:0x04c8, B:229:0x04e7, B:231:0x050b, B:234:0x0527, B:235:0x054a, B:237:0x05d4, B:239:0x05f4, B:240:0x061b, B:175:0x036a, B:183:0x03a5, B:178:0x0374, B:179:0x0380, B:182:0x038b, B:185:0x03bc, B:209:0x04a4, B:213:0x04ab, B:221:0x04ba, B:225:0x04c1, B:122:0x01e1, B:241:0x0643, B:219:0x04b5), top: B:265:0x0008, inners: #2, #10, #18 }] */
-    /* JADX WARN: Removed duplicated region for block: B:228:0x04e6  */
-    /* JADX WARN: Removed duplicated region for block: B:22:0x00a0 A[Catch: all -> 0x0668, TryCatch #5 {all -> 0x0668, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x007e, B:13:0x008d, B:22:0x00a0, B:26:0x00ab, B:33:0x00be, B:37:0x00c7, B:44:0x00d5, B:48:0x00de, B:56:0x00f2, B:58:0x00fb, B:60:0x0109, B:63:0x0113, B:65:0x0124, B:68:0x012e, B:70:0x0138, B:74:0x014c, B:78:0x0156, B:80:0x0160, B:82:0x0168, B:84:0x016f, B:91:0x017b, B:95:0x0185, B:97:0x018f, B:99:0x01a0, B:125:0x01f3, B:127:0x0249, B:131:0x0255, B:135:0x0265, B:136:0x0272, B:170:0x035c, B:227:0x04c8, B:229:0x04e7, B:231:0x050b, B:234:0x0527, B:235:0x054a, B:237:0x05d4, B:239:0x05f4, B:240:0x061b, B:175:0x036a, B:183:0x03a5, B:178:0x0374, B:179:0x0380, B:182:0x038b, B:185:0x03bc, B:209:0x04a4, B:213:0x04ab, B:221:0x04ba, B:225:0x04c1, B:122:0x01e1, B:241:0x0643, B:219:0x04b5), top: B:265:0x0008, inners: #2, #10, #18 }] */
-    /* JADX WARN: Removed duplicated region for block: B:231:0x050b A[Catch: all -> 0x0668, TryCatch #5 {all -> 0x0668, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x007e, B:13:0x008d, B:22:0x00a0, B:26:0x00ab, B:33:0x00be, B:37:0x00c7, B:44:0x00d5, B:48:0x00de, B:56:0x00f2, B:58:0x00fb, B:60:0x0109, B:63:0x0113, B:65:0x0124, B:68:0x012e, B:70:0x0138, B:74:0x014c, B:78:0x0156, B:80:0x0160, B:82:0x0168, B:84:0x016f, B:91:0x017b, B:95:0x0185, B:97:0x018f, B:99:0x01a0, B:125:0x01f3, B:127:0x0249, B:131:0x0255, B:135:0x0265, B:136:0x0272, B:170:0x035c, B:227:0x04c8, B:229:0x04e7, B:231:0x050b, B:234:0x0527, B:235:0x054a, B:237:0x05d4, B:239:0x05f4, B:240:0x061b, B:175:0x036a, B:183:0x03a5, B:178:0x0374, B:179:0x0380, B:182:0x038b, B:185:0x03bc, B:209:0x04a4, B:213:0x04ab, B:221:0x04ba, B:225:0x04c1, B:122:0x01e1, B:241:0x0643, B:219:0x04b5), top: B:265:0x0008, inners: #2, #10, #18 }] */
-    /* JADX WARN: Removed duplicated region for block: B:234:0x0527 A[Catch: all -> 0x0668, TryCatch #5 {all -> 0x0668, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x007e, B:13:0x008d, B:22:0x00a0, B:26:0x00ab, B:33:0x00be, B:37:0x00c7, B:44:0x00d5, B:48:0x00de, B:56:0x00f2, B:58:0x00fb, B:60:0x0109, B:63:0x0113, B:65:0x0124, B:68:0x012e, B:70:0x0138, B:74:0x014c, B:78:0x0156, B:80:0x0160, B:82:0x0168, B:84:0x016f, B:91:0x017b, B:95:0x0185, B:97:0x018f, B:99:0x01a0, B:125:0x01f3, B:127:0x0249, B:131:0x0255, B:135:0x0265, B:136:0x0272, B:170:0x035c, B:227:0x04c8, B:229:0x04e7, B:231:0x050b, B:234:0x0527, B:235:0x054a, B:237:0x05d4, B:239:0x05f4, B:240:0x061b, B:175:0x036a, B:183:0x03a5, B:178:0x0374, B:179:0x0380, B:182:0x038b, B:185:0x03bc, B:209:0x04a4, B:213:0x04ab, B:221:0x04ba, B:225:0x04c1, B:122:0x01e1, B:241:0x0643, B:219:0x04b5), top: B:265:0x0008, inners: #2, #10, #18 }] */
-    /* JADX WARN: Removed duplicated region for block: B:237:0x05d4 A[Catch: all -> 0x0668, TryCatch #5 {all -> 0x0668, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x007e, B:13:0x008d, B:22:0x00a0, B:26:0x00ab, B:33:0x00be, B:37:0x00c7, B:44:0x00d5, B:48:0x00de, B:56:0x00f2, B:58:0x00fb, B:60:0x0109, B:63:0x0113, B:65:0x0124, B:68:0x012e, B:70:0x0138, B:74:0x014c, B:78:0x0156, B:80:0x0160, B:82:0x0168, B:84:0x016f, B:91:0x017b, B:95:0x0185, B:97:0x018f, B:99:0x01a0, B:125:0x01f3, B:127:0x0249, B:131:0x0255, B:135:0x0265, B:136:0x0272, B:170:0x035c, B:227:0x04c8, B:229:0x04e7, B:231:0x050b, B:234:0x0527, B:235:0x054a, B:237:0x05d4, B:239:0x05f4, B:240:0x061b, B:175:0x036a, B:183:0x03a5, B:178:0x0374, B:179:0x0380, B:182:0x038b, B:185:0x03bc, B:209:0x04a4, B:213:0x04ab, B:221:0x04ba, B:225:0x04c1, B:122:0x01e1, B:241:0x0643, B:219:0x04b5), top: B:265:0x0008, inners: #2, #10, #18 }] */
-    /* JADX WARN: Removed duplicated region for block: B:239:0x05f4 A[Catch: all -> 0x0668, TryCatch #5 {all -> 0x0668, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x007e, B:13:0x008d, B:22:0x00a0, B:26:0x00ab, B:33:0x00be, B:37:0x00c7, B:44:0x00d5, B:48:0x00de, B:56:0x00f2, B:58:0x00fb, B:60:0x0109, B:63:0x0113, B:65:0x0124, B:68:0x012e, B:70:0x0138, B:74:0x014c, B:78:0x0156, B:80:0x0160, B:82:0x0168, B:84:0x016f, B:91:0x017b, B:95:0x0185, B:97:0x018f, B:99:0x01a0, B:125:0x01f3, B:127:0x0249, B:131:0x0255, B:135:0x0265, B:136:0x0272, B:170:0x035c, B:227:0x04c8, B:229:0x04e7, B:231:0x050b, B:234:0x0527, B:235:0x054a, B:237:0x05d4, B:239:0x05f4, B:240:0x061b, B:175:0x036a, B:183:0x03a5, B:178:0x0374, B:179:0x0380, B:182:0x038b, B:185:0x03bc, B:209:0x04a4, B:213:0x04ab, B:221:0x04ba, B:225:0x04c1, B:122:0x01e1, B:241:0x0643, B:219:0x04b5), top: B:265:0x0008, inners: #2, #10, #18 }] */
+    /* JADX WARN: Removed duplicated region for block: B:127:0x0249 A[Catch: all -> 0x066a, TryCatch #6 {all -> 0x066a, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x007e, B:13:0x008d, B:22:0x00a0, B:26:0x00ab, B:33:0x00be, B:37:0x00c7, B:44:0x00d5, B:48:0x00de, B:56:0x00f2, B:58:0x00fb, B:60:0x0109, B:63:0x0113, B:65:0x0124, B:68:0x012e, B:70:0x0138, B:74:0x014c, B:78:0x0156, B:80:0x0160, B:82:0x0168, B:84:0x016f, B:91:0x017b, B:95:0x0185, B:97:0x018f, B:99:0x01a0, B:125:0x01f3, B:127:0x0249, B:131:0x0255, B:135:0x0265, B:136:0x0272, B:172:0x035e, B:229:0x04ca, B:231:0x04e9, B:233:0x050d, B:236:0x0529, B:237:0x054c, B:239:0x05d6, B:241:0x05f6, B:242:0x061d, B:177:0x036c, B:185:0x03a7, B:180:0x0376, B:181:0x0382, B:184:0x038d, B:187:0x03be, B:211:0x04a6, B:215:0x04ad, B:223:0x04bc, B:227:0x04c3, B:122:0x01e1, B:243:0x0645, B:221:0x04b7), top: B:269:0x0008, inners: #1, #16, #18 }] */
+    /* JADX WARN: Removed duplicated region for block: B:174:0x0366  */
+    /* JADX WARN: Removed duplicated region for block: B:204:0x0442 A[Catch: all -> 0x04b2, TryCatch #9 {all -> 0x04b2, blocks: (B:194:0x0418, B:196:0x041c, B:198:0x0420, B:200:0x0431, B:202:0x043d, B:204:0x0442, B:207:0x045a, B:205:0x044b, B:193:0x040b), top: B:275:0x040b }] */
+    /* JADX WARN: Removed duplicated region for block: B:205:0x044b A[Catch: all -> 0x04b2, TryCatch #9 {all -> 0x04b2, blocks: (B:194:0x0418, B:196:0x041c, B:198:0x0420, B:200:0x0431, B:202:0x043d, B:204:0x0442, B:207:0x045a, B:205:0x044b, B:193:0x040b), top: B:275:0x040b }] */
+    /* JADX WARN: Removed duplicated region for block: B:207:0x045a A[Catch: all -> 0x04b2, TRY_LEAVE, TryCatch #9 {all -> 0x04b2, blocks: (B:194:0x0418, B:196:0x041c, B:198:0x0420, B:200:0x0431, B:202:0x043d, B:204:0x0442, B:207:0x045a, B:205:0x044b, B:193:0x040b), top: B:275:0x040b }] */
+    /* JADX WARN: Removed duplicated region for block: B:229:0x04ca A[Catch: all -> 0x066a, TryCatch #6 {all -> 0x066a, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x007e, B:13:0x008d, B:22:0x00a0, B:26:0x00ab, B:33:0x00be, B:37:0x00c7, B:44:0x00d5, B:48:0x00de, B:56:0x00f2, B:58:0x00fb, B:60:0x0109, B:63:0x0113, B:65:0x0124, B:68:0x012e, B:70:0x0138, B:74:0x014c, B:78:0x0156, B:80:0x0160, B:82:0x0168, B:84:0x016f, B:91:0x017b, B:95:0x0185, B:97:0x018f, B:99:0x01a0, B:125:0x01f3, B:127:0x0249, B:131:0x0255, B:135:0x0265, B:136:0x0272, B:172:0x035e, B:229:0x04ca, B:231:0x04e9, B:233:0x050d, B:236:0x0529, B:237:0x054c, B:239:0x05d6, B:241:0x05f6, B:242:0x061d, B:177:0x036c, B:185:0x03a7, B:180:0x0376, B:181:0x0382, B:184:0x038d, B:187:0x03be, B:211:0x04a6, B:215:0x04ad, B:223:0x04bc, B:227:0x04c3, B:122:0x01e1, B:243:0x0645, B:221:0x04b7), top: B:269:0x0008, inners: #1, #16, #18 }] */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x00a0 A[Catch: all -> 0x066a, TryCatch #6 {all -> 0x066a, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x007e, B:13:0x008d, B:22:0x00a0, B:26:0x00ab, B:33:0x00be, B:37:0x00c7, B:44:0x00d5, B:48:0x00de, B:56:0x00f2, B:58:0x00fb, B:60:0x0109, B:63:0x0113, B:65:0x0124, B:68:0x012e, B:70:0x0138, B:74:0x014c, B:78:0x0156, B:80:0x0160, B:82:0x0168, B:84:0x016f, B:91:0x017b, B:95:0x0185, B:97:0x018f, B:99:0x01a0, B:125:0x01f3, B:127:0x0249, B:131:0x0255, B:135:0x0265, B:136:0x0272, B:172:0x035e, B:229:0x04ca, B:231:0x04e9, B:233:0x050d, B:236:0x0529, B:237:0x054c, B:239:0x05d6, B:241:0x05f6, B:242:0x061d, B:177:0x036c, B:185:0x03a7, B:180:0x0376, B:181:0x0382, B:184:0x038d, B:187:0x03be, B:211:0x04a6, B:215:0x04ad, B:223:0x04bc, B:227:0x04c3, B:122:0x01e1, B:243:0x0645, B:221:0x04b7), top: B:269:0x0008, inners: #1, #16, #18 }] */
+    /* JADX WARN: Removed duplicated region for block: B:230:0x04e8  */
+    /* JADX WARN: Removed duplicated region for block: B:233:0x050d A[Catch: all -> 0x066a, TryCatch #6 {all -> 0x066a, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x007e, B:13:0x008d, B:22:0x00a0, B:26:0x00ab, B:33:0x00be, B:37:0x00c7, B:44:0x00d5, B:48:0x00de, B:56:0x00f2, B:58:0x00fb, B:60:0x0109, B:63:0x0113, B:65:0x0124, B:68:0x012e, B:70:0x0138, B:74:0x014c, B:78:0x0156, B:80:0x0160, B:82:0x0168, B:84:0x016f, B:91:0x017b, B:95:0x0185, B:97:0x018f, B:99:0x01a0, B:125:0x01f3, B:127:0x0249, B:131:0x0255, B:135:0x0265, B:136:0x0272, B:172:0x035e, B:229:0x04ca, B:231:0x04e9, B:233:0x050d, B:236:0x0529, B:237:0x054c, B:239:0x05d6, B:241:0x05f6, B:242:0x061d, B:177:0x036c, B:185:0x03a7, B:180:0x0376, B:181:0x0382, B:184:0x038d, B:187:0x03be, B:211:0x04a6, B:215:0x04ad, B:223:0x04bc, B:227:0x04c3, B:122:0x01e1, B:243:0x0645, B:221:0x04b7), top: B:269:0x0008, inners: #1, #16, #18 }] */
+    /* JADX WARN: Removed duplicated region for block: B:236:0x0529 A[Catch: all -> 0x066a, TryCatch #6 {all -> 0x066a, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x007e, B:13:0x008d, B:22:0x00a0, B:26:0x00ab, B:33:0x00be, B:37:0x00c7, B:44:0x00d5, B:48:0x00de, B:56:0x00f2, B:58:0x00fb, B:60:0x0109, B:63:0x0113, B:65:0x0124, B:68:0x012e, B:70:0x0138, B:74:0x014c, B:78:0x0156, B:80:0x0160, B:82:0x0168, B:84:0x016f, B:91:0x017b, B:95:0x0185, B:97:0x018f, B:99:0x01a0, B:125:0x01f3, B:127:0x0249, B:131:0x0255, B:135:0x0265, B:136:0x0272, B:172:0x035e, B:229:0x04ca, B:231:0x04e9, B:233:0x050d, B:236:0x0529, B:237:0x054c, B:239:0x05d6, B:241:0x05f6, B:242:0x061d, B:177:0x036c, B:185:0x03a7, B:180:0x0376, B:181:0x0382, B:184:0x038d, B:187:0x03be, B:211:0x04a6, B:215:0x04ad, B:223:0x04bc, B:227:0x04c3, B:122:0x01e1, B:243:0x0645, B:221:0x04b7), top: B:269:0x0008, inners: #1, #16, #18 }] */
+    /* JADX WARN: Removed duplicated region for block: B:239:0x05d6 A[Catch: all -> 0x066a, TryCatch #6 {all -> 0x066a, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x007e, B:13:0x008d, B:22:0x00a0, B:26:0x00ab, B:33:0x00be, B:37:0x00c7, B:44:0x00d5, B:48:0x00de, B:56:0x00f2, B:58:0x00fb, B:60:0x0109, B:63:0x0113, B:65:0x0124, B:68:0x012e, B:70:0x0138, B:74:0x014c, B:78:0x0156, B:80:0x0160, B:82:0x0168, B:84:0x016f, B:91:0x017b, B:95:0x0185, B:97:0x018f, B:99:0x01a0, B:125:0x01f3, B:127:0x0249, B:131:0x0255, B:135:0x0265, B:136:0x0272, B:172:0x035e, B:229:0x04ca, B:231:0x04e9, B:233:0x050d, B:236:0x0529, B:237:0x054c, B:239:0x05d6, B:241:0x05f6, B:242:0x061d, B:177:0x036c, B:185:0x03a7, B:180:0x0376, B:181:0x0382, B:184:0x038d, B:187:0x03be, B:211:0x04a6, B:215:0x04ad, B:223:0x04bc, B:227:0x04c3, B:122:0x01e1, B:243:0x0645, B:221:0x04b7), top: B:269:0x0008, inners: #1, #16, #18 }] */
     /* JADX WARN: Removed duplicated region for block: B:23:0x00a5  */
-    /* JADX WARN: Removed duplicated region for block: B:259:0x04a4 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:263:0x00fb A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:271:0x02c3 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:280:0x0286 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:241:0x05f6 A[Catch: all -> 0x066a, TryCatch #6 {all -> 0x066a, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x007e, B:13:0x008d, B:22:0x00a0, B:26:0x00ab, B:33:0x00be, B:37:0x00c7, B:44:0x00d5, B:48:0x00de, B:56:0x00f2, B:58:0x00fb, B:60:0x0109, B:63:0x0113, B:65:0x0124, B:68:0x012e, B:70:0x0138, B:74:0x014c, B:78:0x0156, B:80:0x0160, B:82:0x0168, B:84:0x016f, B:91:0x017b, B:95:0x0185, B:97:0x018f, B:99:0x01a0, B:125:0x01f3, B:127:0x0249, B:131:0x0255, B:135:0x0265, B:136:0x0272, B:172:0x035e, B:229:0x04ca, B:231:0x04e9, B:233:0x050d, B:236:0x0529, B:237:0x054c, B:239:0x05d6, B:241:0x05f6, B:242:0x061d, B:177:0x036c, B:185:0x03a7, B:180:0x0376, B:181:0x0382, B:184:0x038d, B:187:0x03be, B:211:0x04a6, B:215:0x04ad, B:223:0x04bc, B:227:0x04c3, B:122:0x01e1, B:243:0x0645, B:221:0x04b7), top: B:269:0x0008, inners: #1, #16, #18 }] */
+    /* JADX WARN: Removed duplicated region for block: B:261:0x04a6 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:265:0x00fb A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:273:0x02c3 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:282:0x0286 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:31:0x00bb  */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x00be A[Catch: all -> 0x0668, TryCatch #5 {all -> 0x0668, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x007e, B:13:0x008d, B:22:0x00a0, B:26:0x00ab, B:33:0x00be, B:37:0x00c7, B:44:0x00d5, B:48:0x00de, B:56:0x00f2, B:58:0x00fb, B:60:0x0109, B:63:0x0113, B:65:0x0124, B:68:0x012e, B:70:0x0138, B:74:0x014c, B:78:0x0156, B:80:0x0160, B:82:0x0168, B:84:0x016f, B:91:0x017b, B:95:0x0185, B:97:0x018f, B:99:0x01a0, B:125:0x01f3, B:127:0x0249, B:131:0x0255, B:135:0x0265, B:136:0x0272, B:170:0x035c, B:227:0x04c8, B:229:0x04e7, B:231:0x050b, B:234:0x0527, B:235:0x054a, B:237:0x05d4, B:239:0x05f4, B:240:0x061b, B:175:0x036a, B:183:0x03a5, B:178:0x0374, B:179:0x0380, B:182:0x038b, B:185:0x03bc, B:209:0x04a4, B:213:0x04ab, B:221:0x04ba, B:225:0x04c1, B:122:0x01e1, B:241:0x0643, B:219:0x04b5), top: B:265:0x0008, inners: #2, #10, #18 }] */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x00be A[Catch: all -> 0x066a, TryCatch #6 {all -> 0x066a, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x007e, B:13:0x008d, B:22:0x00a0, B:26:0x00ab, B:33:0x00be, B:37:0x00c7, B:44:0x00d5, B:48:0x00de, B:56:0x00f2, B:58:0x00fb, B:60:0x0109, B:63:0x0113, B:65:0x0124, B:68:0x012e, B:70:0x0138, B:74:0x014c, B:78:0x0156, B:80:0x0160, B:82:0x0168, B:84:0x016f, B:91:0x017b, B:95:0x0185, B:97:0x018f, B:99:0x01a0, B:125:0x01f3, B:127:0x0249, B:131:0x0255, B:135:0x0265, B:136:0x0272, B:172:0x035e, B:229:0x04ca, B:231:0x04e9, B:233:0x050d, B:236:0x0529, B:237:0x054c, B:239:0x05d6, B:241:0x05f6, B:242:0x061d, B:177:0x036c, B:185:0x03a7, B:180:0x0376, B:181:0x0382, B:184:0x038d, B:187:0x03be, B:211:0x04a6, B:215:0x04ad, B:223:0x04bc, B:227:0x04c3, B:122:0x01e1, B:243:0x0645, B:221:0x04b7), top: B:269:0x0008, inners: #1, #16, #18 }] */
     /* JADX WARN: Removed duplicated region for block: B:34:0x00c2  */
     /* JADX WARN: Removed duplicated region for block: B:36:0x00c5 A[ADDED_TO_REGION] */
     /* JADX WARN: Removed duplicated region for block: B:41:0x00d1  */
     /* JADX WARN: Removed duplicated region for block: B:42:0x00d2  */
-    /* JADX WARN: Removed duplicated region for block: B:44:0x00d5 A[Catch: all -> 0x0668, TryCatch #5 {all -> 0x0668, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x007e, B:13:0x008d, B:22:0x00a0, B:26:0x00ab, B:33:0x00be, B:37:0x00c7, B:44:0x00d5, B:48:0x00de, B:56:0x00f2, B:58:0x00fb, B:60:0x0109, B:63:0x0113, B:65:0x0124, B:68:0x012e, B:70:0x0138, B:74:0x014c, B:78:0x0156, B:80:0x0160, B:82:0x0168, B:84:0x016f, B:91:0x017b, B:95:0x0185, B:97:0x018f, B:99:0x01a0, B:125:0x01f3, B:127:0x0249, B:131:0x0255, B:135:0x0265, B:136:0x0272, B:170:0x035c, B:227:0x04c8, B:229:0x04e7, B:231:0x050b, B:234:0x0527, B:235:0x054a, B:237:0x05d4, B:239:0x05f4, B:240:0x061b, B:175:0x036a, B:183:0x03a5, B:178:0x0374, B:179:0x0380, B:182:0x038b, B:185:0x03bc, B:209:0x04a4, B:213:0x04ab, B:221:0x04ba, B:225:0x04c1, B:122:0x01e1, B:241:0x0643, B:219:0x04b5), top: B:265:0x0008, inners: #2, #10, #18 }] */
+    /* JADX WARN: Removed duplicated region for block: B:44:0x00d5 A[Catch: all -> 0x066a, TryCatch #6 {all -> 0x066a, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x007e, B:13:0x008d, B:22:0x00a0, B:26:0x00ab, B:33:0x00be, B:37:0x00c7, B:44:0x00d5, B:48:0x00de, B:56:0x00f2, B:58:0x00fb, B:60:0x0109, B:63:0x0113, B:65:0x0124, B:68:0x012e, B:70:0x0138, B:74:0x014c, B:78:0x0156, B:80:0x0160, B:82:0x0168, B:84:0x016f, B:91:0x017b, B:95:0x0185, B:97:0x018f, B:99:0x01a0, B:125:0x01f3, B:127:0x0249, B:131:0x0255, B:135:0x0265, B:136:0x0272, B:172:0x035e, B:229:0x04ca, B:231:0x04e9, B:233:0x050d, B:236:0x0529, B:237:0x054c, B:239:0x05d6, B:241:0x05f6, B:242:0x061d, B:177:0x036c, B:185:0x03a7, B:180:0x0376, B:181:0x0382, B:184:0x038d, B:187:0x03be, B:211:0x04a6, B:215:0x04ad, B:223:0x04bc, B:227:0x04c3, B:122:0x01e1, B:243:0x0645, B:221:0x04b7), top: B:269:0x0008, inners: #1, #16, #18 }] */
     /* JADX WARN: Removed duplicated region for block: B:45:0x00d9  */
     /* JADX WARN: Removed duplicated region for block: B:47:0x00dc A[ADDED_TO_REGION] */
     /* JADX WARN: Removed duplicated region for block: B:53:0x00ee  */
@@ -10195,51 +10195,53 @@ public class Theme {
                                                                         try {
                                                                             if (i17 != 0 && canvas5 != null) {
                                                                                 MotionBackgroundDrawable motionBackgroundDrawable = new MotionBackgroundDrawable(i14, i15, i17, i33222222, true);
-                                                                                Bitmap.Config config = createBitmap.getConfig();
-                                                                                Bitmap.Config config2 = Bitmap.Config.ALPHA_8;
-                                                                                if (config != config2) {
-                                                                                    Bitmap copy = createBitmap.copy(config2, false);
-                                                                                    try {
-                                                                                        createBitmap.recycle();
-                                                                                        createBitmap = copy;
-                                                                                    } catch (Throwable th2) {
-                                                                                        th = th2;
-                                                                                        createBitmap = copy;
-                                                                                        canvas5 = canvas;
-                                                                                        FileLog.e(th);
-                                                                                        canvas3 = canvas5;
-                                                                                        i23 = 80;
-                                                                                        z2 = false;
-                                                                                        canvas4 = canvas3;
-                                                                                        if (!z2) {
+                                                                                if (createBitmap != null) {
+                                                                                    Bitmap.Config config = createBitmap.getConfig();
+                                                                                    Bitmap.Config config2 = Bitmap.Config.ALPHA_8;
+                                                                                    if (config != config2) {
+                                                                                        Bitmap copy = createBitmap.copy(config2, false);
+                                                                                        try {
+                                                                                            createBitmap.recycle();
+                                                                                            createBitmap = copy;
+                                                                                        } catch (Throwable th2) {
+                                                                                            th = th2;
+                                                                                            createBitmap = copy;
+                                                                                            canvas5 = canvas;
+                                                                                            FileLog.e(th);
+                                                                                            canvas3 = canvas5;
+                                                                                            i23 = 80;
+                                                                                            z2 = false;
+                                                                                            canvas4 = canvas3;
+                                                                                            if (!z2) {
+                                                                                            }
+                                                                                            Paint paint3 = paint;
+                                                                                            paint3.setColor(previewColor);
+                                                                                            canvas4.drawRect(0.0f, 0.0f, createBitmap.getWidth(), 120.0f, paint3);
+                                                                                            if (mutate522222 != null) {
+                                                                                            }
+                                                                                            if (mutate2222222 != null) {
+                                                                                            }
+                                                                                            messageDrawableArr222222[1].setBounds(161, 216, createBitmap.getWidth() - 20, 308);
+                                                                                            messageDrawableArr222222[1].setTop(0, 560, 522, false, false);
+                                                                                            messageDrawableArr222222[1].draw(canvas4);
+                                                                                            messageDrawableArr222222[1].setBounds(161, 430, createBitmap.getWidth() - 20, 522);
+                                                                                            messageDrawableArr222222[1].setTop(430, 560, 522, false, false);
+                                                                                            messageDrawableArr222222[1].draw(canvas4);
+                                                                                            messageDrawableArr222222[0].setBounds(20, 323, 399, 415);
+                                                                                            messageDrawableArr222222[0].setTop(323, 560, 522, false, false);
+                                                                                            messageDrawableArr222222[0].draw(canvas4);
+                                                                                            paint3.setColor(previewColor3);
+                                                                                            canvas4.drawRect(0.0f, createBitmap.getHeight() - 120, createBitmap.getWidth(), createBitmap.getHeight(), paint3);
+                                                                                            if (drawable2222222 != null) {
+                                                                                            }
+                                                                                            if (drawable322222 != null) {
+                                                                                            }
+                                                                                            canvas4.setBitmap(null);
+                                                                                            File file2 = new File(FileLoader.getDirectory(4), "-2147483648_" + SharedConfig.getLastLocalId() + ".jpg");
+                                                                                            createBitmap.compress(Bitmap.CompressFormat.JPEG, i23, new FileOutputStream(file2));
+                                                                                            SharedConfig.saveConfig();
+                                                                                            return file2.getAbsolutePath();
                                                                                         }
-                                                                                        Paint paint3 = paint;
-                                                                                        paint3.setColor(previewColor);
-                                                                                        canvas4.drawRect(0.0f, 0.0f, createBitmap.getWidth(), 120.0f, paint3);
-                                                                                        if (mutate522222 != null) {
-                                                                                        }
-                                                                                        if (mutate2222222 != null) {
-                                                                                        }
-                                                                                        messageDrawableArr222222[1].setBounds(161, 216, createBitmap.getWidth() - 20, 308);
-                                                                                        messageDrawableArr222222[1].setTop(0, 560, 522, false, false);
-                                                                                        messageDrawableArr222222[1].draw(canvas4);
-                                                                                        messageDrawableArr222222[1].setBounds(161, 430, createBitmap.getWidth() - 20, 522);
-                                                                                        messageDrawableArr222222[1].setTop(430, 560, 522, false, false);
-                                                                                        messageDrawableArr222222[1].draw(canvas4);
-                                                                                        messageDrawableArr222222[0].setBounds(20, 323, 399, 415);
-                                                                                        messageDrawableArr222222[0].setTop(323, 560, 522, false, false);
-                                                                                        messageDrawableArr222222[0].draw(canvas4);
-                                                                                        paint3.setColor(previewColor3);
-                                                                                        canvas4.drawRect(0.0f, createBitmap.getHeight() - 120, createBitmap.getWidth(), createBitmap.getHeight(), paint3);
-                                                                                        if (drawable2222222 != null) {
-                                                                                        }
-                                                                                        if (drawable322222 != null) {
-                                                                                        }
-                                                                                        canvas4.setBitmap(null);
-                                                                                        File file2 = new File(FileLoader.getDirectory(4), "-2147483648_" + SharedConfig.getLastLocalId() + ".jpg");
-                                                                                        createBitmap.compress(Bitmap.CompressFormat.JPEG, i23, new FileOutputStream(file2));
-                                                                                        SharedConfig.saveConfig();
-                                                                                        return file2.getAbsolutePath();
                                                                                     }
                                                                                 }
                                                                                 motionBackgroundDrawable.setPatternBitmap((int) (canvas5.patternIntensity * 100.0f), decodeFile);
@@ -12663,7 +12665,7 @@ public class Theme {
         return createBackgroundDrawable(themeInfo, overrideWallpaperInfo, sparseIntArray, pathToWallpaper, str, currentColorsNoAccent.get(key_wallpaperFileOffset, -1), (int) f, i, z, false, false, z2, null);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:142:0x031b  */
+    /* JADX WARN: Removed duplicated region for block: B:144:0x031d  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -12695,12 +12697,14 @@ public class Theme {
                         BitmapFactory.Options options = new BitmapFactory.Options();
                         options.inPreferredConfig = Bitmap.Config.ALPHA_8;
                         Bitmap decodeFile = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
-                        Bitmap.Config config = decodeFile.getConfig();
-                        Bitmap.Config config2 = Bitmap.Config.ALPHA_8;
-                        if (config != config2) {
-                            Bitmap copy = decodeFile.copy(config2, false);
-                            decodeFile.recycle();
-                            decodeFile = copy;
+                        if (decodeFile != null) {
+                            Bitmap.Config config = decodeFile.getConfig();
+                            Bitmap.Config config2 = Bitmap.Config.ALPHA_8;
+                            if (config != config2) {
+                                Bitmap copy = decodeFile.copy(config2, false);
+                                decodeFile.recycle();
+                                decodeFile = copy;
+                            }
                         }
                         motionBackgroundDrawable.setPatternBitmap(i2, decodeFile);
                         motionBackgroundDrawable.setPatternColorFilter(motionBackgroundDrawable.getPatternColor());
@@ -12974,14 +12978,14 @@ public class Theme {
         }
     }
 
-    /* JADX WARN: Can't wrap try/catch for region: R(7:1|(3:3|(1:5)|(2:7|8)(4:10|(1:100)(1:20)|(2:22|(1:24))(1:(5:91|(1:93)(1:98)|(1:95)|96|97)(1:99))|25))(3:101|(2:103|(6:107|(1:109)(1:111)|110|27|(7:30|31|32|33|(2:35|(2:36|(1:42)(1:40)))(0)|44|(8:46|(1:48)(1:59)|49|(1:51)|52|53|54|55)(1:(4:61|62|63|64)(2:68|69)))|29))|112)|26|27|(0)|29|(1:(0))) */
-    /* JADX WARN: Code restructure failed: missing block: B:92:0x0156, code lost:
+    /* JADX WARN: Can't wrap try/catch for region: R(7:1|(3:3|(1:5)|(2:7|8)(4:10|(1:101)(1:20)|(2:22|(1:24))(1:(5:92|(1:94)(1:99)|(1:96)|97|98)(1:100))|25))(3:102|(2:104|(6:108|(1:110)(1:112)|111|27|(7:30|31|32|33|(2:35|(2:36|(1:42)(1:40)))(0)|44|(7:46|(1:48)(1:60)|(2:50|(1:52))|53|54|55|56)(1:(4:62|63|64|65)(2:69|70)))|29))|113)|26|27|(0)|29|(1:(0))) */
+    /* JADX WARN: Code restructure failed: missing block: B:93:0x0158, code lost:
         r10 = move-exception;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:93:0x0157, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:94:0x0159, code lost:
         org.telegram.messenger.FileLog.e(r10);
      */
-    /* JADX WARN: Removed duplicated region for block: B:112:0x00c2 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:111:0x00c2 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -13093,12 +13097,14 @@ public class Theme {
                         if (motionBackgroundDrawable != null) {
                             ThemeAccent accent2 = currentTheme.getAccent(false);
                             int i8 = accent2 != null ? (int) (accent2.patternIntensity * 100.0f) : 100;
-                            Bitmap.Config config = decodeStream.getConfig();
-                            Bitmap.Config config2 = Bitmap.Config.ALPHA_8;
-                            if (config != config2) {
-                                Bitmap copy = decodeStream.copy(config2, false);
-                                decodeStream.recycle();
-                                decodeStream = copy;
+                            if (decodeStream != null) {
+                                Bitmap.Config config = decodeStream.getConfig();
+                                Bitmap.Config config2 = Bitmap.Config.ALPHA_8;
+                                if (config != config2) {
+                                    Bitmap copy = decodeStream.copy(config2, false);
+                                    decodeStream.recycle();
+                                    decodeStream = copy;
+                                }
                             }
                             motionBackgroundDrawable.setPatternBitmap(i8, decodeStream);
                             motionBackgroundDrawable.setPatternColorFilter(motionBackgroundDrawable.getPatternColor());
