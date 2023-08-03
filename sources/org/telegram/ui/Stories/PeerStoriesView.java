@@ -546,7 +546,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
             @Override // org.telegram.ui.Cells.TextSelectionHelper.Callback
             public void onStateChanged(boolean z) {
                 PeerStoriesView peerStoriesView = PeerStoriesView.this;
-                peerStoriesView.delegate.setIsInSelectionMode(peerStoriesView.storyCaptionView.textSelectionHelper.isSelectionMode());
+                peerStoriesView.delegate.setIsInSelectionMode(peerStoriesView.storyCaptionView.textSelectionHelper.isInSelectionMode());
             }
         });
         r15.textSelectionHelper.setParentView(this);
@@ -1133,7 +1133,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
     public /* synthetic */ void lambda$new$0(View view) {
         StoryCaptionView storyCaptionView = this.storyCaptionView;
         if (storyCaptionView.expanded) {
-            if (!storyCaptionView.textSelectionHelper.isSelectionMode()) {
+            if (!storyCaptionView.textSelectionHelper.isInSelectionMode()) {
                 this.storyCaptionView.collapse();
                 return;
             } else {
@@ -3962,7 +3962,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
     }
 
     public boolean closeKeyboardOrEmoji() {
-        if (this.storyCaptionView.textSelectionHelper.isSelectionMode()) {
+        if (this.storyCaptionView.textSelectionHelper.isInSelectionMode()) {
             this.storyCaptionView.textSelectionHelper.clear(false);
             return true;
         }
@@ -4314,7 +4314,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
     }
 
     public boolean checkTextSelectionEvent(MotionEvent motionEvent) {
-        if (this.storyCaptionView.textSelectionHelper.isSelectionMode()) {
+        if (this.storyCaptionView.textSelectionHelper.isInSelectionMode()) {
             float x = getX();
             float y = getY() + ((View) getParent()).getY();
             motionEvent.offsetLocation(-x, -y);
@@ -4328,7 +4328,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
     }
 
     public void cancelTextSelection() {
-        if (this.storyCaptionView.textSelectionHelper.isSelectionMode()) {
+        if (this.storyCaptionView.textSelectionHelper.isInSelectionMode()) {
             this.storyCaptionView.textSelectionHelper.clear();
         }
     }

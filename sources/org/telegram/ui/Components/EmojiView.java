@@ -6234,10 +6234,10 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         EmojiColorPickerWindow emojiColorPickerWindow = this.colorPickerView;
-        if (emojiColorPickerWindow == null || !emojiColorPickerWindow.isShowing()) {
-            return;
+        if (emojiColorPickerWindow != null && emojiColorPickerWindow.isShowing()) {
+            this.colorPickerView.dismiss();
         }
-        this.colorPickerView.dismiss();
+        ContentPreviewViewer.getInstance().clearDelegate(this.contentPreviewViewerDelegate);
     }
 
     private void checkDocuments(boolean z) {

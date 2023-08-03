@@ -562,7 +562,6 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
             }
         };
         this.storyParams = avatarStoryParams;
-        this.thumbPath = new Path();
         this.thumbSpoiler = new SpoilerEffect();
         this.collapseOffset = 0.0f;
         this.hasUnmutedTopics = false;
@@ -780,6 +779,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
         AnimatedEmojiSpan.release(this, this.animatedEmojiStack3);
         AnimatedEmojiSpan.release(this, this.animatedEmojiStackName);
         this.storyParams.onDetachFromWindow();
+        this.canvasButton = null;
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
@@ -3868,32 +3868,32 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
     /* JADX WARN: Removed duplicated region for block: B:567:0x1075  */
     /* JADX WARN: Removed duplicated region for block: B:569:0x10c4  */
     /* JADX WARN: Removed duplicated region for block: B:625:0x1270  */
-    /* JADX WARN: Removed duplicated region for block: B:658:0x13fb  */
-    /* JADX WARN: Removed duplicated region for block: B:662:0x140d  */
-    /* JADX WARN: Removed duplicated region for block: B:665:0x142d  */
-    /* JADX WARN: Removed duplicated region for block: B:677:0x1449  */
-    /* JADX WARN: Removed duplicated region for block: B:678:0x144b  */
-    /* JADX WARN: Removed duplicated region for block: B:682:0x1459  */
-    /* JADX WARN: Removed duplicated region for block: B:685:0x1464  */
-    /* JADX WARN: Removed duplicated region for block: B:686:0x1469  */
-    /* JADX WARN: Removed duplicated region for block: B:689:0x1471  */
-    /* JADX WARN: Removed duplicated region for block: B:693:0x1479  */
-    /* JADX WARN: Removed duplicated region for block: B:695:0x147d  */
-    /* JADX WARN: Removed duplicated region for block: B:709:0x14ea  */
-    /* JADX WARN: Removed duplicated region for block: B:712:0x14f3  */
-    /* JADX WARN: Removed duplicated region for block: B:715:0x14fa  */
-    /* JADX WARN: Removed duplicated region for block: B:730:0x153c  */
-    /* JADX WARN: Removed duplicated region for block: B:759:0x15bc  */
-    /* JADX WARN: Removed duplicated region for block: B:765:0x160e  */
-    /* JADX WARN: Removed duplicated region for block: B:768:0x1616  */
-    /* JADX WARN: Removed duplicated region for block: B:773:0x1626  */
-    /* JADX WARN: Removed duplicated region for block: B:782:0x163c  */
-    /* JADX WARN: Removed duplicated region for block: B:790:0x1665  */
-    /* JADX WARN: Removed duplicated region for block: B:801:0x1692  */
-    /* JADX WARN: Removed duplicated region for block: B:807:0x16a5  */
-    /* JADX WARN: Removed duplicated region for block: B:817:0x16c8  */
-    /* JADX WARN: Removed duplicated region for block: B:827:0x16e6  */
-    /* JADX WARN: Removed duplicated region for block: B:846:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:662:0x1405  */
+    /* JADX WARN: Removed duplicated region for block: B:666:0x1417  */
+    /* JADX WARN: Removed duplicated region for block: B:669:0x1437  */
+    /* JADX WARN: Removed duplicated region for block: B:681:0x1453  */
+    /* JADX WARN: Removed duplicated region for block: B:682:0x1455  */
+    /* JADX WARN: Removed duplicated region for block: B:686:0x1463  */
+    /* JADX WARN: Removed duplicated region for block: B:689:0x146e  */
+    /* JADX WARN: Removed duplicated region for block: B:690:0x1473  */
+    /* JADX WARN: Removed duplicated region for block: B:693:0x147b  */
+    /* JADX WARN: Removed duplicated region for block: B:697:0x1483  */
+    /* JADX WARN: Removed duplicated region for block: B:699:0x1487  */
+    /* JADX WARN: Removed duplicated region for block: B:713:0x14f4  */
+    /* JADX WARN: Removed duplicated region for block: B:716:0x14fd  */
+    /* JADX WARN: Removed duplicated region for block: B:719:0x1504  */
+    /* JADX WARN: Removed duplicated region for block: B:734:0x1546  */
+    /* JADX WARN: Removed duplicated region for block: B:763:0x15c6  */
+    /* JADX WARN: Removed duplicated region for block: B:769:0x1618  */
+    /* JADX WARN: Removed duplicated region for block: B:772:0x1620  */
+    /* JADX WARN: Removed duplicated region for block: B:777:0x1630  */
+    /* JADX WARN: Removed duplicated region for block: B:786:0x1646  */
+    /* JADX WARN: Removed duplicated region for block: B:794:0x166f  */
+    /* JADX WARN: Removed duplicated region for block: B:805:0x169c  */
+    /* JADX WARN: Removed duplicated region for block: B:811:0x16af  */
+    /* JADX WARN: Removed duplicated region for block: B:821:0x16d2  */
+    /* JADX WARN: Removed duplicated region for block: B:831:0x16f0  */
+    /* JADX WARN: Removed duplicated region for block: B:850:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r10v1 */
     /* JADX WARN: Type inference failed for: r10v100 */
     /* JADX WARN: Type inference failed for: r10v2, types: [int, boolean] */
@@ -4931,7 +4931,12 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                                                     canvas2.drawRoundRect(rectF7, this.thumbImage[i38].getRoundRadius()[c], this.thumbImage[i38].getRoundRadius()[i3], this.thumbBackgroundPaint);
                                                     this.thumbImage[i38].draw(canvas2);
                                                     if (this.drawSpoiler[i38]) {
-                                                        this.thumbPath.rewind();
+                                                        Path path = this.thumbPath;
+                                                        if (path == null) {
+                                                            this.thumbPath = new Path();
+                                                        } else {
+                                                            path.rewind();
+                                                        }
                                                         this.thumbPath.addRoundRect(rectF7, this.thumbImage[i38].getRoundRadius()[c], this.thumbImage[i38].getRoundRadius()[i3], Path.Direction.CW);
                                                         canvas.save();
                                                         canvas2.clipPath(this.thumbPath);

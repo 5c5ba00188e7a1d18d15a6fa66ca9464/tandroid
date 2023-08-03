@@ -130,7 +130,6 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
     private boolean flipAnimationInProgress;
     private boolean isFrontface;
     boolean isInPinchToZoomTouchMode;
-    private boolean isMessageTransition;
     private boolean isSecretChat;
     private byte[] iv;
     private byte[] key;
@@ -206,6 +205,9 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
         boolean isSecretChat();
 
         void sendMedia(MediaController.PhotoEntry photoEntry, VideoEditedInfo videoEditedInfo, boolean z, int i, boolean z2);
+    }
+
+    public void setIsMessageTransition(boolean z) {
     }
 
     static /* synthetic */ float access$2516(InstantCameraView instantCameraView, float f) {
@@ -501,7 +503,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
         }
         float x = this.cameraContainer.getX();
         float y = this.cameraContainer.getY();
-        this.rect.set(x - AndroidUtilities.dp(8.0f), y - AndroidUtilities.dp(8.0f), this.cameraContainer.getMeasuredWidth() + x + AndroidUtilities.dp(8.0f), this.cameraContainer.getMeasuredHeight() + y + AndroidUtilities.dp(8.0f));
+        this.rect.set(x - AndroidUtilities.dp(8.0f), y - AndroidUtilities.dp(8.0f), x + this.cameraContainer.getMeasuredWidth() + AndroidUtilities.dp(8.0f), y + this.cameraContainer.getMeasuredHeight() + AndroidUtilities.dp(8.0f));
         if (this.recording) {
             long currentTimeMillis = System.currentTimeMillis() - this.recordStartTime;
             this.recordedTime = currentTimeMillis;
@@ -514,23 +516,6 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                 canvas.scale(this.cameraContainer.getScaleX(), this.cameraContainer.getScaleY(), this.rect.centerX(), this.rect.centerY());
             }
             canvas.drawArc(this.rect, -90.0f, this.progress * 360.0f, false, this.paint);
-            canvas.restore();
-        }
-        if (Theme.chat_roundVideoShadow != null) {
-            int dp = ((int) x) - AndroidUtilities.dp(3.0f);
-            int dp2 = ((int) y) - AndroidUtilities.dp(2.0f);
-            canvas.save();
-            if (this.isMessageTransition) {
-                canvas.scale(this.cameraContainer.getScaleX(), this.cameraContainer.getScaleY(), x, y);
-            } else {
-                float scaleX = this.cameraContainer.getScaleX();
-                float scaleY = this.cameraContainer.getScaleY();
-                int i = this.textureViewSize;
-                canvas.scale(scaleX, scaleY, x + (i / 2.0f), y + (i / 2.0f));
-            }
-            Theme.chat_roundVideoShadow.setAlpha((int) (this.cameraContainer.getAlpha() * 255.0f));
-            Theme.chat_roundVideoShadow.setBounds(dp, dp2, this.textureViewSize + dp + AndroidUtilities.dp(6.0f), this.textureViewSize + dp2 + AndroidUtilities.dp(6.0f));
-            Theme.chat_roundVideoShadow.draw(canvas);
             canvas.restore();
         }
     }
@@ -1339,10 +1324,6 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
 
     public TextureView getTextureView() {
         return this.textureView;
-    }
-
-    public void setIsMessageTransition(boolean z) {
-        this.isMessageTransition = z;
     }
 
     public void resetCameraFile() {

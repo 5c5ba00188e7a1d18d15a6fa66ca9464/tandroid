@@ -75,6 +75,7 @@ import org.telegram.PhoneFormat.PhoneFormat;
 import org.telegram.messenger.AccountInstance;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
+import org.telegram.messenger.ChatMessageSharedResources;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.ContactsController;
 import org.telegram.messenger.DialogObject;
@@ -689,6 +690,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     private Drawable[] selectorDrawable;
     private int[] selectorDrawableMaskType;
     private AnimatorSet shakeAnimation;
+    private ChatMessageSharedResources sharedResources;
     public boolean shouldCheckVisibleOnScreen;
     private boolean sideButtonPressed;
     private float sideStartX;
@@ -1418,10 +1420,10 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     }
 
     public ChatMessageCell(Context context) {
-        this(context, false, null);
+        this(context, false, null, null);
     }
 
-    public ChatMessageCell(Context context, boolean z, Theme.ResourcesProvider resourcesProvider) {
+    public ChatMessageCell(Context context, boolean z, ChatMessageSharedResources chatMessageSharedResources, Theme.ResourcesProvider resourcesProvider) {
         super(context);
         this.visibleOnScreen = true;
         this.reactionsLayoutInBubble = new ReactionsLayoutInBubble(this);
@@ -1513,6 +1515,10 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         };
         this.resourcesProvider = resourcesProvider;
         this.canDrawBackgroundInParent = z;
+        this.sharedResources = chatMessageSharedResources;
+        if (chatMessageSharedResources == null) {
+            this.sharedResources = new ChatMessageSharedResources(context);
+        }
         this.backgroundDrawable = new MessageBackgroundDrawable(this);
         ImageReceiver imageReceiver = new ImageReceiver();
         this.avatarImage = imageReceiver;
@@ -22775,13 +22781,14 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         }
         MessageObject messageObject11 = this.currentMessageObject;
         if (messageObject11.type == i5 && !(MessageObject.getMedia(messageObject11.messageOwner) instanceof TLRPC$TL_messageMediaGeoLive) && this.currentMapProvider == 2 && this.photoImage.hasNotThumb()) {
-            int intrinsicWidth = (int) (Theme.chat_redLocationIcon.getIntrinsicWidth() * 0.8f);
-            int intrinsicHeight = (int) (Theme.chat_redLocationIcon.getIntrinsicHeight() * 0.8f);
+            Drawable redLocationIcon = this.sharedResources.getRedLocationIcon();
+            int intrinsicWidth = (int) (redLocationIcon.getIntrinsicWidth() * 0.8f);
+            int intrinsicHeight = (int) (redLocationIcon.getIntrinsicHeight() * 0.8f);
             int imageX6 = (int) (this.photoImage.getImageX() + ((this.photoImage.getImageWidth() - intrinsicWidth) / 2.0f));
             int imageY5 = (int) ((this.photoImage.getImageY() + ((this.photoImage.getImageHeight() / 2.0f) - intrinsicHeight)) - (AndroidUtilities.dp(16.0f) * (1.0f - CubicBezierInterpolator.EASE_OUT_BACK.getInterpolation(this.photoImage.getCurrentAlpha()))));
-            Theme.chat_redLocationIcon.setAlpha((int) (Math.min(1.0f, this.photoImage.getCurrentAlpha() * 5.0f) * 255.0f));
-            Theme.chat_redLocationIcon.setBounds(imageX6, imageY5, intrinsicWidth + imageX6, intrinsicHeight + imageY5);
-            Theme.chat_redLocationIcon.draw(canvas);
+            redLocationIcon.setAlpha((int) (Math.min(1.0f, this.photoImage.getCurrentAlpha() * 5.0f) * 255.0f));
+            redLocationIcon.setBounds(imageX6, imageY5, intrinsicWidth + imageX6, intrinsicHeight + imageY5);
+            redLocationIcon.draw(canvas);
             if (this.photoImage.getCurrentAlpha() < 1.0f) {
                 invalidate();
             }
@@ -31484,8 +31491,6 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         float f14;
         StaticLayout staticLayout4;
         float currentAlpha;
-        int imageX;
-        int imageY;
         int i13;
         AnimatedFileDrawable animation;
         ChatMessageCellDelegate chatMessageCellDelegate;
@@ -31516,11 +31521,11 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                             Theme.chat_msgMediaMenuDrawable.setAlpha((int) (alpha * this.controlsAlpha));
                         }
                         Drawable drawable5 = Theme.chat_msgMediaMenuDrawable;
-                        int imageX2 = (int) ((this.photoImage.getImageX() + this.photoImage.getImageWidth()) - AndroidUtilities.dp(14.0f));
-                        this.otherX = imageX2;
-                        int imageY2 = (int) (this.photoImage.getImageY() + AndroidUtilities.dp(8.1f));
-                        this.otherY = imageY2;
-                        BaseCell.setDrawableBounds(drawable5, imageX2, imageY2);
+                        int imageX = (int) ((this.photoImage.getImageX() + this.photoImage.getImageWidth()) - AndroidUtilities.dp(14.0f));
+                        this.otherX = imageX;
+                        int imageY = (int) (this.photoImage.getImageY() + AndroidUtilities.dp(8.1f));
+                        this.otherY = imageY;
+                        BaseCell.setDrawableBounds(drawable5, imageX, imageY);
                         Theme.chat_msgMediaMenuDrawable.draw(canvas);
                         Theme.chat_msgMediaMenuDrawable.setAlpha(alpha);
                     }
@@ -31569,8 +31574,8 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                             int i19 = this.documentAttachType;
                             boolean z7 = (i19 == 7 || i19 == 6 || this.currentMessageObject.type == 19 || SharedConfig.bubbleRadius < 10) ? false : true;
                             Theme.chat_infoPaint.setColor(getThemedColor(Theme.key_chat_mediaInfoText));
-                            int imageX3 = (int) (this.photoImage.getImageX() + AndroidUtilities.dp(4.0f));
-                            int imageY3 = (int) (this.photoImage.getImageY() + AndroidUtilities.dp(4.0f));
+                            int imageX2 = (int) (this.photoImage.getImageX() + AndroidUtilities.dp(4.0f));
+                            int imageY2 = (int) (this.photoImage.getImageY() + AndroidUtilities.dp(4.0f));
                             int intrinsicWidth = (!this.autoPlayingMedia || (isPlayingMessage && this.animatingNoSound == 0)) ? 0 : (int) ((Theme.chat_msgNoSoundDrawable.getIntrinsicWidth() + AndroidUtilities.dp(4.0f)) * this.animatingNoSoundProgress);
                             if (z4 && (staticLayout = this.loadingProgressLayout) != null) {
                                 i3 = (int) staticLayout.getLineWidth(0);
@@ -31584,22 +31589,22 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                 f3 = 0.0f;
                             }
                             canvas.save();
-                            float f17 = imageX3;
-                            float f18 = imageY3;
+                            float f17 = imageX2;
+                            float f18 = imageY2;
                             canvas.scale(f4, f4, f17, f18);
                             int alpha2 = getThemedPaint("paintChatTimeBackground").getAlpha();
                             z5 = z2;
                             getThemedPaint("paintChatTimeBackground").setAlpha((int) (alpha2 * this.controlsAlpha * f4));
                             if (z3 || ((z4 && this.loadingProgressLayout != null) || (!z4 && this.infoLayout != null))) {
-                                this.rect.set(f17, f18, imageX3 + ceil, imageY3 + AndroidUtilities.dp((15.5f * f3) + 16.5f));
+                                this.rect.set(f17, f18, imageX2 + ceil, imageY2 + AndroidUtilities.dp((15.5f * f3) + 16.5f));
                                 int[] roundRadius = this.photoImage.getRoundRadius();
                                 float min = Math.min(AndroidUtilities.dp(8.0f), Math.max(roundRadius[0], roundRadius[1]));
                                 canvas.drawRoundRect(this.rect, min, min, getThemedPaint("paintChatTimeBackground"));
                             }
                             Theme.chat_infoPaint.setAlpha((int) (this.controlsAlpha * 255.0f * f4));
-                            int imageX4 = (int) (this.photoImage.getImageX() + AndroidUtilities.dp((z7 ? 10 : 8) + (this.canStreamVideo ? 30.0f * f3 : 0.0f)));
-                            this.noSoundCenterX = imageX4;
-                            canvas.translate(imageX4, this.photoImage.getImageY() + AndroidUtilities.dp((0.2f * f3) + 5.5f));
+                            int imageX3 = (int) (this.photoImage.getImageX() + AndroidUtilities.dp((z7 ? 10 : 8) + (this.canStreamVideo ? 30.0f * f3 : 0.0f)));
+                            this.noSoundCenterX = imageX3;
+                            canvas.translate(imageX3, this.photoImage.getImageY() + AndroidUtilities.dp((0.2f * f3) + 5.5f));
                             StaticLayout staticLayout5 = this.infoLayout;
                             if (staticLayout5 != null && (!z4 || z3)) {
                                 staticLayout5.draw(canvas);
@@ -31731,11 +31736,14 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                 transitionParams.lastDrawInfoLayout = null;
                                 currentAlpha = !this.photoImage.isCrossfadingWithOldImage() ? 1.0f : this.photoImage.getCurrentAlpha();
                                 if (currentAlpha > 0.0f && (this.photoImage.hasNotThumb() || this.photoImage.isCrossfadingWithOldImage())) {
-                                    BaseCell.setDrawableBounds(Theme.chat_msgAvatarLiveLocationDrawable, (int) ((this.photoImage.getImageX() + (this.photoImage.getImageWidth() / 2.0f)) - AndroidUtilities.dp(31.0f)), (int) (((this.photoImage.getImageY() + (this.photoImage.getImageHeight() / 2.0f)) - AndroidUtilities.dp(38.0f)) - (AndroidUtilities.dp(16.0f) * (1.0f - CubicBezierInterpolator.EASE_OUT_BACK.getInterpolation(currentAlpha)))));
+                                    int imageX4 = (int) ((this.photoImage.getImageX() + (this.photoImage.getImageWidth() / 2.0f)) - AndroidUtilities.dp(31.0f));
+                                    int imageY3 = (int) (((this.photoImage.getImageY() + (this.photoImage.getImageHeight() / 2.0f)) - AndroidUtilities.dp(38.0f)) - (AndroidUtilities.dp(16.0f) * (1.0f - CubicBezierInterpolator.EASE_OUT_BACK.getInterpolation(currentAlpha))));
+                                    Drawable avatarLiveLocation = this.sharedResources.getAvatarLiveLocation();
+                                    BaseCell.setDrawableBounds(avatarLiveLocation, imageX4, imageY3);
                                     float f26 = currentAlpha * 5.0f;
-                                    Theme.chat_msgAvatarLiveLocationDrawable.setAlpha((int) (Math.min(1.0f, f26) * 255.0f));
-                                    Theme.chat_msgAvatarLiveLocationDrawable.draw(canvas);
-                                    this.locationImageReceiver.setImageCoords(imageX + AndroidUtilities.dp(5.0f), imageY + AndroidUtilities.dp(5.0f), AndroidUtilities.dp(52.0f), AndroidUtilities.dp(52.0f));
+                                    avatarLiveLocation.setAlpha((int) (Math.min(1.0f, f26) * 255.0f));
+                                    avatarLiveLocation.draw(canvas);
+                                    this.locationImageReceiver.setImageCoords(imageX4 + AndroidUtilities.dp(5.0f), imageY3 + AndroidUtilities.dp(5.0f), AndroidUtilities.dp(52.0f), AndroidUtilities.dp(52.0f));
                                     this.locationImageReceiver.setAlpha(Math.min(1.0f, f26));
                                     this.locationImageReceiver.draw(canvas);
                                 }
@@ -31814,11 +31822,14 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                         if (!this.photoImage.isCrossfadingWithOldImage()) {
                         }
                         if (currentAlpha > 0.0f) {
-                            BaseCell.setDrawableBounds(Theme.chat_msgAvatarLiveLocationDrawable, (int) ((this.photoImage.getImageX() + (this.photoImage.getImageWidth() / 2.0f)) - AndroidUtilities.dp(31.0f)), (int) (((this.photoImage.getImageY() + (this.photoImage.getImageHeight() / 2.0f)) - AndroidUtilities.dp(38.0f)) - (AndroidUtilities.dp(16.0f) * (1.0f - CubicBezierInterpolator.EASE_OUT_BACK.getInterpolation(currentAlpha)))));
+                            int imageX42 = (int) ((this.photoImage.getImageX() + (this.photoImage.getImageWidth() / 2.0f)) - AndroidUtilities.dp(31.0f));
+                            int imageY32 = (int) (((this.photoImage.getImageY() + (this.photoImage.getImageHeight() / 2.0f)) - AndroidUtilities.dp(38.0f)) - (AndroidUtilities.dp(16.0f) * (1.0f - CubicBezierInterpolator.EASE_OUT_BACK.getInterpolation(currentAlpha))));
+                            Drawable avatarLiveLocation2 = this.sharedResources.getAvatarLiveLocation();
+                            BaseCell.setDrawableBounds(avatarLiveLocation2, imageX42, imageY32);
                             float f262 = currentAlpha * 5.0f;
-                            Theme.chat_msgAvatarLiveLocationDrawable.setAlpha((int) (Math.min(1.0f, f262) * 255.0f));
-                            Theme.chat_msgAvatarLiveLocationDrawable.draw(canvas);
-                            this.locationImageReceiver.setImageCoords(imageX + AndroidUtilities.dp(5.0f), imageY + AndroidUtilities.dp(5.0f), AndroidUtilities.dp(52.0f), AndroidUtilities.dp(52.0f));
+                            avatarLiveLocation2.setAlpha((int) (Math.min(1.0f, f262) * 255.0f));
+                            avatarLiveLocation2.draw(canvas);
+                            this.locationImageReceiver.setImageCoords(imageX42 + AndroidUtilities.dp(5.0f), imageY32 + AndroidUtilities.dp(5.0f), AndroidUtilities.dp(52.0f), AndroidUtilities.dp(52.0f));
                             this.locationImageReceiver.setAlpha(Math.min(1.0f, f262));
                             this.locationImageReceiver.draw(canvas);
                         }

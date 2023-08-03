@@ -54,6 +54,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
     public static final int TYPE_IMAGE = 0;
     public static final int TYPE_MEDIA = 3;
     public static final int TYPE_THUMB = 1;
+    private boolean allowCrossfadeWithImage;
     private boolean allowDecodeSingleFrame;
     private boolean allowLoadingOnAttachedOnly;
     private boolean allowLottieVibration;
@@ -66,7 +67,6 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
     private int autoRepeat;
     private int autoRepeatCount;
     private long autoRepeatTimeout;
-    private RectF bitmapRect;
     private Object blendMode;
     private int bufferedFrame;
     private boolean canceledLoading;
@@ -107,7 +107,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
     private ImageLocation currentThumbLocation;
     private long currentTime;
     private ImageReceiverDelegate delegate;
-    private RectF drawRegion;
+    private final RectF drawRegion;
     private long endTime;
     private int fileLoadingPriority;
     private boolean forceCrossfade;
@@ -151,16 +151,17 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
     private float previousAlpha;
     private TLRPC$Document qulityThumbDocument;
     private Paint roundPaint;
-    private Path roundPath;
-    private int[] roundRadius;
-    private RectF roundRect;
+    private final Path roundPath;
+    private final int[] roundRadius;
+    private final RectF roundRect;
     private SetImageBackup setImageBackup;
-    private Matrix shaderMatrix;
+    private final Matrix shaderMatrix;
     private boolean shouldGenerateQualityThumb;
     private float sideClip;
     private boolean skipUpdateFrame;
     private long startTime;
     private Drawable staticThumbDrawable;
+    public BitmapShader staticThumbShader;
     private ImageLocation strippedLocation;
     private int thumbInvert;
     private int thumbOrientation;
@@ -172,7 +173,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
     private boolean videoThumbIsSame;
     private static PorterDuffColorFilter selectedColorFilter = new PorterDuffColorFilter(-2236963, PorterDuff.Mode.MULTIPLY);
     private static PorterDuffColorFilter selectedGroupColorFilter = new PorterDuffColorFilter(-4473925, PorterDuff.Mode.MULTIPLY);
-    private static float[] radii = new float[8];
+    private static final float[] radii = new float[8];
 
     /* loaded from: classes.dex */
     public interface ImageReceiverDelegate {
@@ -192,10 +193,6 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         return true;
     }
 
-    protected boolean customDraw(Canvas canvas, AnimatedFileDrawable animatedFileDrawable, RLottieDrawable rLottieDrawable, Drawable drawable, BitmapShader bitmapShader, Drawable drawable2, BitmapShader bitmapShader2, Drawable drawable3, BitmapShader bitmapShader3, boolean z, boolean z2, Drawable drawable4, BitmapShader bitmapShader4, Drawable drawable5, float f, float f2, float f3, int[] iArr, BackgroundThreadDrawHolder backgroundThreadDrawHolder) {
-        return false;
-    }
-
     public void skipDraw() {
     }
 
@@ -208,7 +205,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
             return true;
         }
         Drawable drawable2 = this.staticThumbDrawable;
-        if (drawable2 == null || (bitmapShader = this.thumbShader) == null) {
+        if (drawable2 == null || (bitmapShader = this.staticThumbShader) == null) {
             return false;
         }
         drawDrawable(null, drawable2, 255, bitmapShader, 0, 0, 0, null);
@@ -358,6 +355,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
     }
 
     public ImageReceiver(View view) {
+        this.allowCrossfadeWithImage = true;
         this.fileLoadingPriority = 1;
         this.useRoundForThumb = true;
         this.allowLottieVibration = true;
@@ -370,7 +368,6 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         this.roundRadius = new int[4];
         this.isRoundRect = true;
         this.roundRect = new RectF();
-        this.bitmapRect = new RectF();
         this.shaderMatrix = new Matrix();
         this.roundPath = new Path();
         this.overrideAlpha = 1.0f;
@@ -726,7 +723,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
                     recycleBitmap(key3, 1);
                     recycleBitmap(null, 2);
                     recycleBitmap(key2, 3);
-                    this.crossfadeShader = this.thumbShader;
+                    this.crossfadeShader = this.staticThumbShader;
                     this.crossfadeImage = this.staticThumbDrawable;
                     this.crossfadingWithThumb = false;
                     this.crossfadeKey = null;
@@ -763,6 +760,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
             this.imageShader = null;
             this.composeShader = null;
             this.thumbShader = null;
+            this.staticThumbShader = null;
             this.mediaShader = null;
             this.legacyShader = null;
             this.legacyCanvas = null;
@@ -893,7 +891,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
             recycleBitmap(null, 1);
             recycleBitmap(null, 2);
             recycleBitmap(null, 3);
-            this.crossfadeShader = this.thumbShader;
+            this.crossfadeShader = this.staticThumbShader;
             this.crossfadeImage = this.staticThumbDrawable;
             this.crossfadingWithThumb = true;
             this.crossfadeKey = null;
@@ -931,6 +929,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
             }
             rLottieDrawable.setAllowDecodeSingleFrame(true);
         }
+        this.staticThumbShader = null;
         this.thumbShader = null;
         this.roundPaint.setShader(null);
         setStaticDrawable(drawable);
@@ -1008,8 +1007,10 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
     }
 
     private void setDrawableShader(Drawable drawable, BitmapShader bitmapShader) {
-        if (drawable == this.currentThumbDrawable || drawable == this.staticThumbDrawable) {
+        if (drawable == this.currentThumbDrawable) {
             this.thumbShader = bitmapShader;
+        } else if (drawable == this.staticThumbDrawable) {
+            this.staticThumbShader = bitmapShader;
         } else if (drawable == this.currentMediaDrawable) {
             this.mediaShader = bitmapShader;
         } else if (drawable == this.currentImageDrawable) {
@@ -1111,10 +1112,10 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
             }
             if (this.staticThumbDrawable != null) {
                 setStaticDrawable(null);
-                this.thumbShader = null;
-                this.roundPaint.setShader(null);
+                this.staticThumbShader = null;
             }
             clearImage();
+            this.roundPaint.setShader(null);
             if (this.isPressed == 0) {
                 this.pressedProgress = 0.0f;
             }
@@ -1938,460 +1939,385 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         return draw(canvas, null);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:114:0x02ad, code lost:
-        if (r10.useRoundForThumb == false) goto L121;
+    /* JADX WARN: Code restructure failed: missing block: B:101:0x0220, code lost:
+        if (r38.useRoundForThumb == false) goto L119;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:115:0x02af, code lost:
-        if (r1 != null) goto L121;
+    /* JADX WARN: Code restructure failed: missing block: B:102:0x0222, code lost:
+        if (r3 != null) goto L119;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:116:0x02b1, code lost:
-        r10.updateDrawableRadius(r13);
-        r1 = r10.thumbShader;
+    /* JADX WARN: Code restructure failed: missing block: B:103:0x0224, code lost:
+        updateDrawableRadius(r12);
+        r3 = r38.staticThumbShader;
      */
-    /* JADX WARN: Removed duplicated region for block: B:129:0x02d6 A[Catch: Exception -> 0x014f, TryCatch #0 {Exception -> 0x014f, blocks: (B:35:0x0147, B:48:0x016b, B:52:0x0173, B:73:0x01fe, B:75:0x020a, B:79:0x021a, B:95:0x0273, B:98:0x0279, B:129:0x02d6, B:131:0x02da, B:134:0x02df, B:136:0x02ec, B:138:0x0300, B:140:0x0304, B:143:0x030c, B:148:0x0318, B:149:0x0332, B:151:0x0335, B:152:0x0348, B:135:0x02e5, B:113:0x02ab, B:116:0x02b1, B:122:0x02c4, B:125:0x02ca, B:87:0x022c, B:90:0x0232, B:91:0x0237, B:57:0x0192, B:61:0x01ae, B:62:0x01c1, B:64:0x01c7, B:67:0x01cd, B:68:0x01d4, B:71:0x01e7, B:42:0x015c, B:45:0x0162, B:47:0x0168), top: B:193:0x0147 }] */
-    /* JADX WARN: Removed duplicated region for block: B:141:0x0308  */
-    /* JADX WARN: Removed duplicated region for block: B:158:0x0390 A[Catch: Exception -> 0x03f2, TryCatch #3 {Exception -> 0x03f2, blocks: (B:161:0x03ac, B:165:0x03b7, B:177:0x03ee, B:154:0x0357, B:156:0x037a, B:158:0x0390, B:159:0x0394, B:169:0x03c5, B:171:0x03c9, B:172:0x03cf, B:173:0x03e5), top: B:197:0x0218 }] */
-    /* JADX WARN: Removed duplicated region for block: B:189:0x0404  */
+    /* JADX WARN: Removed duplicated region for block: B:117:0x024c A[Catch: Exception -> 0x036a, TryCatch #0 {Exception -> 0x036a, blocks: (B:11:0x002a, B:23:0x00ed, B:26:0x00f4, B:38:0x0116, B:42:0x0120, B:62:0x017e, B:64:0x018a, B:68:0x019a, B:75:0x01a8, B:78:0x01ae, B:79:0x01b3, B:81:0x01e3, B:84:0x01e9, B:147:0x0323, B:151:0x032e, B:117:0x024c, B:119:0x0250, B:122:0x0255, B:124:0x0264, B:126:0x0278, B:128:0x027c, B:131:0x0284, B:136:0x0292, B:137:0x02aa, B:139:0x02ad, B:140:0x02c0, B:142:0x02ef, B:144:0x0306, B:123:0x025b, B:100:0x021e, B:103:0x0224, B:110:0x023a, B:113:0x0240, B:145:0x030a, B:155:0x0339, B:157:0x033d, B:158:0x0343, B:159:0x0359, B:48:0x0134, B:51:0x0145, B:53:0x0151, B:54:0x015b, B:56:0x015f, B:59:0x0165, B:60:0x016a, B:31:0x0104, B:34:0x010a, B:36:0x0111, B:12:0x0088, B:14:0x00ba, B:17:0x00c2), top: B:177:0x0028 }] */
+    /* JADX WARN: Removed duplicated region for block: B:129:0x0280  */
+    /* JADX WARN: Removed duplicated region for block: B:153:0x0333  */
+    /* JADX WARN: Removed duplicated region for block: B:162:0x035f A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:173:0x0374  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x018a A[Catch: Exception -> 0x036a, TryCatch #0 {Exception -> 0x036a, blocks: (B:11:0x002a, B:23:0x00ed, B:26:0x00f4, B:38:0x0116, B:42:0x0120, B:62:0x017e, B:64:0x018a, B:68:0x019a, B:75:0x01a8, B:78:0x01ae, B:79:0x01b3, B:81:0x01e3, B:84:0x01e9, B:147:0x0323, B:151:0x032e, B:117:0x024c, B:119:0x0250, B:122:0x0255, B:124:0x0264, B:126:0x0278, B:128:0x027c, B:131:0x0284, B:136:0x0292, B:137:0x02aa, B:139:0x02ad, B:140:0x02c0, B:142:0x02ef, B:144:0x0306, B:123:0x025b, B:100:0x021e, B:103:0x0224, B:110:0x023a, B:113:0x0240, B:145:0x030a, B:155:0x0339, B:157:0x033d, B:158:0x0343, B:159:0x0359, B:48:0x0134, B:51:0x0145, B:53:0x0151, B:54:0x015b, B:56:0x015f, B:59:0x0165, B:60:0x016a, B:31:0x0104, B:34:0x010a, B:36:0x0111, B:12:0x0088, B:14:0x00ba, B:17:0x00c2), top: B:177:0x0028 }] */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x0194  */
+    /* JADX WARN: Removed duplicated region for block: B:68:0x019a A[Catch: Exception -> 0x036a, TryCatch #0 {Exception -> 0x036a, blocks: (B:11:0x002a, B:23:0x00ed, B:26:0x00f4, B:38:0x0116, B:42:0x0120, B:62:0x017e, B:64:0x018a, B:68:0x019a, B:75:0x01a8, B:78:0x01ae, B:79:0x01b3, B:81:0x01e3, B:84:0x01e9, B:147:0x0323, B:151:0x032e, B:117:0x024c, B:119:0x0250, B:122:0x0255, B:124:0x0264, B:126:0x0278, B:128:0x027c, B:131:0x0284, B:136:0x0292, B:137:0x02aa, B:139:0x02ad, B:140:0x02c0, B:142:0x02ef, B:144:0x0306, B:123:0x025b, B:100:0x021e, B:103:0x0224, B:110:0x023a, B:113:0x0240, B:145:0x030a, B:155:0x0339, B:157:0x033d, B:158:0x0343, B:159:0x0359, B:48:0x0134, B:51:0x0145, B:53:0x0151, B:54:0x015b, B:56:0x015f, B:59:0x0165, B:60:0x016a, B:31:0x0104, B:34:0x010a, B:36:0x0111, B:12:0x0088, B:14:0x00ba, B:17:0x00c2), top: B:177:0x0028 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public boolean draw(Canvas canvas, BackgroundThreadDrawHolder backgroundThreadDrawHolder) {
-        ImageReceiver imageReceiver;
+        boolean z;
+        boolean z2;
+        AnimatedFileDrawable animation;
+        RLottieDrawable lottieAnimation;
         BitmapShader bitmapShader;
         BitmapShader bitmapShader2;
+        boolean z3;
+        float f;
         BitmapShader bitmapShader3;
         Drawable drawable;
-        boolean z;
-        Drawable drawable2;
-        int[] iArr;
-        float f;
         float f2;
-        BitmapShader bitmapShader4;
-        boolean z2;
-        AnimatedFileDrawable animatedFileDrawable;
-        float f3;
-        Drawable drawable3;
-        boolean z3;
-        Drawable drawable4;
-        RLottieDrawable rLottieDrawable;
-        Drawable drawable5;
-        float f4;
-        Drawable drawable6;
-        Drawable drawable7;
-        Drawable drawable8;
-        Drawable drawable9;
-        int[] iArr2;
-        Drawable drawable10;
-        RLottieDrawable rLottieDrawable2;
-        AnimatedFileDrawable animatedFileDrawable2;
-        int[] iArr3;
-        RLottieDrawable rLottieDrawable3;
-        Drawable drawable11;
-        Drawable drawable12;
-        Drawable drawable13;
-        BitmapShader bitmapShader5;
         boolean z4;
-        Drawable drawable14;
+        Drawable drawable2;
+        Drawable drawable3;
+        Drawable drawable4;
+        Drawable drawable5;
+        BitmapShader bitmapShader4;
+        int[] iArr;
+        float f3;
+        BitmapShader bitmapShader5;
+        BitmapShader bitmapShader6;
+        boolean z5;
+        boolean z6;
+        Drawable drawable6;
         int i;
         int i2;
-        boolean z5;
-        Drawable drawable15;
-        BackgroundThreadDrawHolder backgroundThreadDrawHolder2;
-        boolean z6;
-        float f5;
-        Drawable drawable16;
-        int[] iArr4;
-        Drawable drawable17;
-        Drawable drawable18;
-        float f6;
-        boolean z7;
-        boolean z8;
-        BitmapShader bitmapShader6;
-        Drawable drawable19;
         int i3;
+        Drawable drawable7;
+        boolean z7;
+        BackgroundThreadDrawHolder backgroundThreadDrawHolder2;
+        boolean z8;
+        Drawable drawable8;
+        float f4;
+        Drawable drawable9;
+        Drawable drawable10;
+        boolean z9;
+        BitmapShader bitmapShader7;
+        int i4;
         if (this.gradientBitmap != null && this.currentImageKey != null) {
             canvas.save();
-            float f7 = this.imageX;
-            float f8 = this.imageY;
-            canvas.clipRect(f7, f8, this.imageW + f7, this.imageH + f8);
+            float f5 = this.imageX;
+            float f6 = this.imageY;
+            canvas.clipRect(f5, f6, this.imageW + f5, this.imageH + f6);
             canvas.drawColor(-16777216);
         }
-        boolean z9 = false;
         boolean z10 = backgroundThreadDrawHolder != null;
         try {
             if (!z10) {
-                AnimatedFileDrawable animation = getAnimation();
-                RLottieDrawable lottieAnimation = getLottieAnimation();
-                int[] iArr5 = this.roundRadius;
-                Drawable drawable20 = this.currentMediaDrawable;
-                BitmapShader bitmapShader7 = this.mediaShader;
-                Drawable drawable21 = this.currentImageDrawable;
-                BitmapShader bitmapShader8 = this.imageShader;
-                Drawable drawable22 = this.currentThumbDrawable;
-                BitmapShader bitmapShader9 = this.thumbShader;
-                boolean z11 = this.crossfadeWithOldImage;
-                boolean z12 = this.crossfadingWithThumb;
-                Drawable drawable23 = this.crossfadeImage;
-                Drawable drawable24 = this.staticThumbDrawable;
-                float f9 = this.currentAlpha;
-                float f10 = this.previousAlpha;
+                animation = getAnimation();
+                lottieAnimation = getLottieAnimation();
+                int[] iArr2 = this.roundRadius;
+                Drawable drawable11 = this.currentMediaDrawable;
+                bitmapShader = this.mediaShader;
+                Drawable drawable12 = this.currentImageDrawable;
+                bitmapShader2 = this.imageShader;
+                Drawable drawable13 = this.currentThumbDrawable;
+                BitmapShader bitmapShader8 = this.thumbShader;
+                BitmapShader bitmapShader9 = this.staticThumbShader;
+                boolean z11 = this.crossfadingWithThumb;
+                Drawable drawable14 = this.crossfadeImage;
+                Drawable drawable15 = this.staticThumbDrawable;
+                float f7 = this.currentAlpha;
+                float f8 = this.previousAlpha;
                 BitmapShader bitmapShader10 = this.crossfadeShader;
-                float f11 = this.overrideAlpha;
-                bitmapShader = bitmapShader7;
-                bitmapShader2 = bitmapShader8;
-                bitmapShader3 = bitmapShader9;
-                drawable = drawable23;
-                z = z12;
-                drawable2 = drawable24;
-                iArr = iArr5;
+                float f9 = this.overrideAlpha;
+                z3 = ((animation == null || animation.hasBitmap()) && (lottieAnimation == null || lottieAnimation.hasBitmap())) ? false : true;
                 f = f9;
+                bitmapShader3 = bitmapShader9;
+                drawable = drawable11;
+                f2 = f7;
+                z4 = z11;
+                drawable2 = drawable15;
+                drawable3 = drawable12;
+                drawable4 = drawable13;
+                drawable5 = drawable14;
+                bitmapShader4 = bitmapShader8;
+                iArr = iArr2;
+                f3 = f8;
+                bitmapShader5 = bitmapShader10;
+            } else {
+                animation = backgroundThreadDrawHolder.animation;
+                lottieAnimation = backgroundThreadDrawHolder.lottieDrawable;
+                int[] iArr3 = backgroundThreadDrawHolder.roundRadius;
+                Drawable drawable16 = backgroundThreadDrawHolder.mediaDrawable;
+                bitmapShader = backgroundThreadDrawHolder.mediaShader;
+                Drawable drawable17 = backgroundThreadDrawHolder.imageDrawable;
+                bitmapShader2 = backgroundThreadDrawHolder.imageShader;
+                BitmapShader bitmapShader11 = backgroundThreadDrawHolder.thumbShader;
+                BitmapShader bitmapShader12 = backgroundThreadDrawHolder.staticThumbShader;
+                Drawable drawable18 = backgroundThreadDrawHolder.crossfadeImage;
+                boolean unused = backgroundThreadDrawHolder.crossfadeWithOldImage;
+                boolean z12 = backgroundThreadDrawHolder.crossfadingWithThumb;
+                Drawable drawable19 = backgroundThreadDrawHolder.thumbDrawable;
+                Drawable drawable20 = backgroundThreadDrawHolder.staticThumbDrawable;
+                float f10 = backgroundThreadDrawHolder.currentAlpha;
+                f3 = backgroundThreadDrawHolder.previousAlpha;
+                iArr = iArr3;
+                bitmapShader3 = bitmapShader12;
+                drawable = drawable16;
                 f2 = f10;
-                bitmapShader4 = bitmapShader10;
-                z2 = ((animation == null || animation.hasBitmap()) && (lottieAnimation == null || lottieAnimation.hasBitmap())) ? false : true;
-                animatedFileDrawable = animation;
-                f3 = f11;
-                drawable3 = drawable21;
-                z3 = z11;
-                drawable4 = drawable22;
-                rLottieDrawable = lottieAnimation;
-                drawable5 = drawable20;
+                bitmapShader5 = backgroundThreadDrawHolder.crossfadeShader;
+                z3 = backgroundThreadDrawHolder.animationNotReady;
+                drawable2 = drawable20;
+                z4 = z12;
+                bitmapShader4 = bitmapShader11;
+                drawable5 = drawable18;
+                drawable3 = drawable17;
+                drawable4 = drawable19;
+                f = backgroundThreadDrawHolder.overrideAlpha;
+            }
+            if (animation != null) {
+                animation.setRoundRadius(iArr);
+            }
+            if (lottieAnimation == null || z10) {
+                bitmapShader6 = bitmapShader;
             } else {
-                AnimatedFileDrawable animatedFileDrawable3 = backgroundThreadDrawHolder.animation;
-                RLottieDrawable rLottieDrawable4 = backgroundThreadDrawHolder.lottieDrawable;
-                int[] iArr6 = backgroundThreadDrawHolder.roundRadius;
-                Drawable drawable25 = backgroundThreadDrawHolder.mediaDrawable;
-                BitmapShader bitmapShader11 = backgroundThreadDrawHolder.mediaShader;
-                Drawable drawable26 = backgroundThreadDrawHolder.imageDrawable;
-                BitmapShader bitmapShader12 = backgroundThreadDrawHolder.imageShader;
-                BitmapShader bitmapShader13 = backgroundThreadDrawHolder.thumbShader;
-                Drawable drawable27 = backgroundThreadDrawHolder.crossfadeImage;
-                boolean z13 = backgroundThreadDrawHolder.crossfadeWithOldImage;
-                boolean z14 = backgroundThreadDrawHolder.crossfadingWithThumb;
-                Drawable drawable28 = backgroundThreadDrawHolder.thumbDrawable;
-                Drawable drawable29 = backgroundThreadDrawHolder.staticThumbDrawable;
-                float f12 = backgroundThreadDrawHolder.currentAlpha;
-                float f13 = backgroundThreadDrawHolder.previousAlpha;
-                BitmapShader bitmapShader14 = backgroundThreadDrawHolder.crossfadeShader;
-                bitmapShader = bitmapShader11;
-                bitmapShader2 = bitmapShader12;
-                bitmapShader3 = bitmapShader13;
-                drawable = drawable27;
-                z = z14;
-                z2 = backgroundThreadDrawHolder.animationNotReady;
-                drawable2 = drawable29;
-                f = f12;
-                f2 = f13;
-                bitmapShader4 = bitmapShader14;
-                animatedFileDrawable = animatedFileDrawable3;
-                f3 = backgroundThreadDrawHolder.overrideAlpha;
-                drawable5 = drawable25;
-                drawable3 = drawable26;
-                z3 = z13;
-                drawable4 = drawable28;
-                rLottieDrawable = rLottieDrawable4;
-                iArr = iArr6;
+                bitmapShader6 = bitmapShader;
+                lottieAnimation.setCurrentParentView(this.parentView);
             }
-            f4 = f;
-            drawable6 = drawable4;
-            drawable7 = drawable;
-            drawable8 = drawable3;
-            drawable9 = drawable5;
-            iArr2 = iArr;
-            drawable10 = drawable2;
-            rLottieDrawable2 = rLottieDrawable;
-            animatedFileDrawable2 = animatedFileDrawable;
-            try {
-            } catch (Exception e) {
-                e = e;
-                imageReceiver = this;
-            }
-        } catch (Exception e2) {
-            e = e2;
-            imageReceiver = this;
-        }
-        if (customDraw(canvas, animatedFileDrawable, rLottieDrawable, drawable5, bitmapShader, drawable3, bitmapShader2, drawable6, bitmapShader3, z3, z, drawable7, bitmapShader4, drawable10, f4, f2, f3, iArr2, backgroundThreadDrawHolder)) {
-            return true;
-        }
-        if (animatedFileDrawable2 != null) {
-            iArr3 = iArr2;
-            animatedFileDrawable2.setRoundRadius(iArr3);
-        } else {
-            iArr3 = iArr2;
-        }
-        if (rLottieDrawable2 == null || z10) {
-            imageReceiver = this;
-            rLottieDrawable3 = rLottieDrawable2;
-        } else {
-            imageReceiver = this;
-            try {
-                rLottieDrawable3 = rLottieDrawable2;
-                rLottieDrawable3.setCurrentParentView(imageReceiver.parentView);
-            } catch (Exception e3) {
-                e = e3;
-                FileLog.e(e);
-                if (imageReceiver.gradientBitmap != null) {
-                }
-                return z9;
-            }
-        }
-        if ((animatedFileDrawable2 != null || rLottieDrawable3 != null) && !z2 && !imageReceiver.animationReadySent && !z10) {
-            imageReceiver.animationReadySent = true;
-            ImageReceiverDelegate imageReceiverDelegate = imageReceiver.delegate;
-            if (imageReceiverDelegate != null) {
-                imageReceiverDelegate.onAnimationReady(imageReceiver);
-            }
-        }
-        boolean z15 = imageReceiver.forcePreview;
-        if (!z15 && drawable9 != null && !z2) {
-            i = imageReceiver.imageOrientation;
-            i2 = imageReceiver.imageInvert;
-            bitmapShader5 = bitmapShader3;
-            z4 = z2;
-            drawable13 = drawable6;
-            drawable11 = drawable7;
-            drawable12 = drawable10;
-            drawable14 = drawable9;
-            bitmapShader3 = bitmapShader;
-        } else if (z15 || drawable8 == null || (z2 && drawable9 == null)) {
-            drawable11 = drawable7;
-            if (drawable11 != null && !z) {
-                i = imageReceiver.imageOrientation;
-                i2 = imageReceiver.imageInvert;
-                drawable14 = drawable11;
-                bitmapShader5 = bitmapShader3;
-                z4 = z2;
-                bitmapShader3 = bitmapShader4;
-                drawable13 = drawable6;
-                drawable12 = drawable10;
-            } else {
-                drawable12 = drawable10;
-                if (drawable12 instanceof BitmapDrawable) {
-                    if (imageReceiver.useRoundForThumb && bitmapShader3 == null) {
-                        imageReceiver.updateDrawableRadius(drawable12);
-                        bitmapShader3 = imageReceiver.thumbShader;
-                    }
-                    i = imageReceiver.thumbOrientation;
-                    i2 = imageReceiver.thumbInvert;
-                    drawable14 = drawable12;
-                    bitmapShader5 = bitmapShader3;
-                    z4 = z2;
-                    drawable13 = drawable6;
-                } else {
-                    drawable13 = drawable6;
-                    if (drawable13 != null) {
-                        i = imageReceiver.thumbOrientation;
-                        i2 = imageReceiver.thumbInvert;
-                        drawable14 = drawable13;
-                        bitmapShader5 = bitmapShader3;
-                        z4 = z2;
-                    } else {
-                        bitmapShader5 = bitmapShader3;
-                        z4 = z2;
-                        drawable14 = null;
-                        i = 0;
-                        i2 = 0;
-                        bitmapShader3 = null;
-                    }
+            if ((animation != null || lottieAnimation != null) && !z3 && !this.animationReadySent && !z10) {
+                this.animationReadySent = true;
+                ImageReceiverDelegate imageReceiverDelegate = this.delegate;
+                if (imageReceiverDelegate != null) {
+                    imageReceiverDelegate.onAnimationReady(this);
                 }
             }
+            z5 = this.forcePreview;
+        } catch (Exception e) {
+            e = e;
+            z = false;
+        }
+        if (!z5 && drawable != null && !z3) {
+            i3 = this.imageOrientation;
+            i2 = this.imageInvert;
+            drawable6 = drawable;
         } else {
-            i = imageReceiver.imageOrientation;
-            i2 = imageReceiver.imageInvert;
-            bitmapShader5 = bitmapShader3;
-            drawable13 = drawable6;
-            drawable11 = drawable7;
-            drawable14 = drawable8;
-            drawable12 = drawable10;
-            z4 = false;
-            bitmapShader3 = bitmapShader2;
-        }
-        float f14 = imageReceiver.crossfadeByScale;
-        float min = f14 > 0.0f ? Math.min((f14 * f4) + f4, 1.0f) : f4;
-        try {
-        } catch (Exception e4) {
-            e = e4;
-            FileLog.e(e);
-            if (imageReceiver.gradientBitmap != null) {
+            if (!z5 && drawable3 != null && (!z3 || drawable != null)) {
+                i = this.imageOrientation;
+                i2 = this.imageInvert;
+                bitmapShader6 = bitmapShader2;
+                drawable6 = drawable3;
+                z6 = false;
+            } else if (drawable5 != null && !z4) {
+                i3 = this.imageOrientation;
+                i2 = this.imageInvert;
+                drawable6 = drawable5;
+                bitmapShader6 = bitmapShader5;
+            } else if (drawable4 != null) {
+                i3 = this.thumbOrientation;
+                i2 = this.thumbInvert;
+                drawable6 = drawable4;
+                bitmapShader6 = bitmapShader4;
+            } else if (drawable2 instanceof BitmapDrawable) {
+                if (this.useRoundForThumb && bitmapShader3 == null) {
+                    updateDrawableRadius(drawable2);
+                    bitmapShader3 = this.staticThumbShader;
+                }
+                i3 = this.thumbOrientation;
+                i2 = this.thumbInvert;
+                bitmapShader6 = bitmapShader3;
+                drawable6 = drawable2;
+            } else {
+                z6 = z3;
+                drawable6 = null;
+                bitmapShader6 = null;
+                i = 0;
+                i2 = 0;
             }
-            return z9;
-        }
-        if (drawable14 != null) {
-            if (imageReceiver.crossfadeAlpha != 0) {
-                if (f2 == 1.0f) {
-                    f5 = f4;
-                    drawable16 = drawable14;
-                    iArr4 = iArr3;
-                    drawable17 = drawable8;
-                    drawable18 = drawable9;
-                } else if ((drawable14 == drawable8 || drawable14 == drawable9) && drawable12 != null) {
-                    if (imageReceiver.useRoundForThumb && bitmapShader5 == null) {
-                        imageReceiver.updateDrawableRadius(drawable12);
-                        bitmapShader5 = imageReceiver.thumbShader;
-                    }
-                    BitmapShader bitmapShader15 = bitmapShader5;
-                    drawable18 = drawable9;
-                    drawable17 = drawable8;
-                    f5 = f4;
-                    f6 = 1.0f;
-                    iArr4 = iArr3;
-                    z5 = z4;
-                    drawable16 = drawable14;
-                    drawDrawable(canvas, drawable12, (int) (f3 * 255.0f), bitmapShader15, i, i2, backgroundThreadDrawHolder);
-                    bitmapShader5 = bitmapShader15;
-                    z7 = imageReceiver.crossfadeWithThumb;
-                    if (!z7 && z5) {
-                        drawDrawable(canvas, drawable16, (int) (f3 * 255.0f), bitmapShader3, i, i2, backgroundThreadDrawHolder);
-                        drawable15 = drawable16;
+            float f11 = this.crossfadeByScale;
+            boolean z13 = z10;
+            float min = f11 <= 0.0f ? Math.min((f11 * f2) + f2, 1.0f) : f2;
+            if (drawable6 == null) {
+                if (this.crossfadeAlpha != 0) {
+                    if (f3 == 1.0f || (!(drawable6 == drawable3 || drawable6 == drawable) || drawable2 == null)) {
+                        drawable8 = drawable6;
+                        f4 = f2;
+                        drawable9 = drawable4;
+                        z7 = z6;
+                        drawable10 = drawable5;
                     } else {
-                        if (z7 || min == f6) {
-                            drawable15 = drawable16;
+                        if (this.useRoundForThumb && bitmapShader3 == null) {
+                            updateDrawableRadius(drawable2);
+                            bitmapShader3 = this.staticThumbShader;
+                        }
+                        BitmapShader bitmapShader13 = bitmapShader3;
+                        drawable8 = drawable6;
+                        f4 = f2;
+                        drawable9 = drawable4;
+                        z7 = z6;
+                        drawable10 = drawable5;
+                        drawDrawable(canvas, drawable2, (int) (f * 255.0f), bitmapShader13, i, i2, backgroundThreadDrawHolder);
+                        bitmapShader3 = bitmapShader13;
+                    }
+                    boolean z14 = this.crossfadeWithThumb;
+                    if (z14 && z7) {
+                        drawDrawable(canvas, drawable8, (int) (f * 255.0f), bitmapShader6, i, i2, backgroundThreadDrawHolder);
+                        drawable7 = drawable8;
+                    } else {
+                        if (!z14 || min == 1.0f) {
+                            drawable7 = drawable8;
                         } else {
-                            Drawable drawable30 = drawable16;
-                            if (drawable30 != drawable17 && drawable30 != drawable18) {
-                                if (drawable30 != drawable13 && drawable30 != drawable11) {
-                                    if (drawable30 == drawable12 && drawable11 != null) {
-                                        drawable19 = drawable11;
-                                        bitmapShader6 = bitmapShader4;
-                                        if (drawable19 == null) {
-                                            if (!(drawable19 instanceof SvgHelper.SvgDrawable) && !(drawable19 instanceof Emoji.EmojiDrawable)) {
-                                                i3 = (int) (f2 * f3 * 255.0f);
-                                                drawable15 = drawable30;
-                                                drawDrawable(canvas, drawable19, i3, bitmapShader6, imageReceiver.thumbOrientation, imageReceiver.thumbInvert, backgroundThreadDrawHolder);
-                                                if (i3 != 255 && (drawable19 instanceof Emoji.EmojiDrawable)) {
-                                                    drawable19.setAlpha(255);
+                            Drawable drawable21 = drawable8;
+                            if (drawable21 != drawable3 && drawable21 != drawable) {
+                                if (drawable21 != drawable9 && drawable21 != drawable10) {
+                                    if (drawable21 == drawable2 && drawable10 != null) {
+                                        drawable2 = drawable10;
+                                        bitmapShader7 = bitmapShader5;
+                                        if (drawable2 != null) {
+                                            if (!(drawable2 instanceof SvgHelper.SvgDrawable) && !(drawable2 instanceof Emoji.EmojiDrawable)) {
+                                                i4 = (int) (f3 * f * 255.0f);
+                                                drawable7 = drawable21;
+                                                drawDrawable(canvas, drawable2, i4, bitmapShader7, this.thumbOrientation, this.thumbInvert, backgroundThreadDrawHolder);
+                                                if (i4 != 255 && (drawable2 instanceof Emoji.EmojiDrawable)) {
+                                                    drawable2.setAlpha(255);
                                                 }
                                             }
-                                            i3 = (int) ((f6 - min) * f3 * 255.0f);
-                                            drawable15 = drawable30;
-                                            drawDrawable(canvas, drawable19, i3, bitmapShader6, imageReceiver.thumbOrientation, imageReceiver.thumbInvert, backgroundThreadDrawHolder);
-                                            if (i3 != 255) {
-                                                drawable19.setAlpha(255);
+                                            i4 = (int) ((1.0f - min) * f * 255.0f);
+                                            drawable7 = drawable21;
+                                            drawDrawable(canvas, drawable2, i4, bitmapShader7, this.thumbOrientation, this.thumbInvert, backgroundThreadDrawHolder);
+                                            if (i4 != 255) {
+                                                drawable2.setAlpha(255);
                                             }
                                         } else {
-                                            drawable15 = drawable30;
+                                            drawable7 = drawable21;
                                         }
                                     }
-                                    bitmapShader6 = null;
-                                    drawable19 = null;
-                                    if (drawable19 == null) {
+                                    bitmapShader7 = null;
+                                    drawable2 = null;
+                                    if (drawable2 != null) {
                                     }
                                 }
-                                bitmapShader6 = null;
-                                drawable19 = null;
-                                if (drawable19 == null) {
+                                bitmapShader7 = null;
+                                drawable2 = null;
+                                if (drawable2 != null) {
                                 }
                             }
-                            if (drawable13 != null) {
-                                bitmapShader6 = bitmapShader5;
-                                drawable19 = drawable13;
-                                if (drawable19 == null) {
-                                }
-                            } else {
-                                if (drawable12 != null) {
-                                    if (imageReceiver.useRoundForThumb && bitmapShader5 == null) {
-                                        imageReceiver.updateDrawableRadius(drawable12);
-                                        bitmapShader5 = imageReceiver.thumbShader;
+                            Drawable drawable22 = drawable9;
+                            if (drawable10 == null) {
+                                if (drawable22 != null) {
+                                    drawable2 = drawable22;
+                                    bitmapShader7 = bitmapShader4;
+                                    if (drawable2 != null) {
                                     }
-                                    bitmapShader6 = bitmapShader5;
-                                    drawable19 = drawable12;
-                                    if (drawable19 == null) {
+                                } else {
+                                    if (drawable2 != null) {
+                                        if (this.useRoundForThumb && bitmapShader3 == null) {
+                                            updateDrawableRadius(drawable2);
+                                            bitmapShader3 = this.staticThumbShader;
+                                        }
+                                        bitmapShader7 = bitmapShader3;
+                                        if (drawable2 != null) {
+                                        }
+                                    }
+                                    bitmapShader7 = null;
+                                    drawable2 = null;
+                                    if (drawable2 != null) {
                                     }
                                 }
-                                bitmapShader6 = null;
-                                drawable19 = null;
-                                if (drawable19 == null) {
-                                }
+                            }
+                            drawable2 = drawable10;
+                            bitmapShader7 = bitmapShader5;
+                            if (drawable2 != null) {
                             }
                         }
-                        if (imageReceiver.crossfadeByScale > 0.0f || min >= f6 || !z) {
-                            z8 = false;
+                        if (this.crossfadeByScale <= 0.0f || min >= 1.0f || !z4) {
+                            z9 = false;
                         } else {
                             canvas.save();
-                            imageReceiver.roundPath.rewind();
+                            this.roundPath.rewind();
                             RectF rectF = AndroidUtilities.rectTmp;
-                            float f15 = imageReceiver.imageX;
-                            float f16 = imageReceiver.imageY;
-                            rectF.set(f15, f16, imageReceiver.imageW + f15, imageReceiver.imageH + f16);
-                            int[] iArr7 = iArr4;
-                            for (int i4 = 0; i4 < iArr7.length; i4++) {
+                            float f12 = this.imageX;
+                            float f13 = this.imageY;
+                            rectF.set(f12, f13, this.imageW + f12, this.imageH + f13);
+                            for (int i5 = 0; i5 < iArr.length; i5++) {
                                 float[] fArr = radii;
-                                int i5 = i4 * 2;
-                                fArr[i5] = iArr7[i4];
-                                fArr[i5 + 1] = iArr7[i4];
+                                int i6 = i5 * 2;
+                                fArr[i6] = iArr[i5];
+                                fArr[i6 + 1] = iArr[i5];
                             }
-                            imageReceiver.roundPath.addRoundRect(AndroidUtilities.rectTmp, radii, Path.Direction.CW);
-                            canvas.clipPath(imageReceiver.roundPath);
-                            float interpolation = (imageReceiver.crossfadeByScale * (f6 - CubicBezierInterpolator.EASE_IN.getInterpolation(f5))) + f6;
+                            this.roundPath.addRoundRect(AndroidUtilities.rectTmp, radii, Path.Direction.CW);
+                            canvas.clipPath(this.roundPath);
+                            float interpolation = (this.crossfadeByScale * (1.0f - CubicBezierInterpolator.EASE_IN.getInterpolation(f4))) + 1.0f;
                             canvas.scale(interpolation, interpolation, getCenterX(), getCenterY());
-                            z8 = true;
+                            z9 = true;
                         }
-                        drawDrawable(canvas, drawable15, (int) (f3 * min * 255.0f), bitmapShader3, i, i2, backgroundThreadDrawHolder);
-                        if (z8) {
+                        drawDrawable(canvas, drawable7, (int) (f * min * 255.0f), bitmapShader6, i, i2, backgroundThreadDrawHolder);
+                        if (z9) {
                             canvas.restore();
                         }
                     }
                 } else {
-                    drawable18 = drawable9;
-                    drawable17 = drawable8;
-                    f5 = f4;
-                    drawable16 = drawable14;
-                    iArr4 = iArr3;
+                    drawable7 = drawable6;
+                    z7 = z6;
+                    drawDrawable(canvas, drawable7, (int) (f * 255.0f), bitmapShader6, i, i2, backgroundThreadDrawHolder);
                 }
-                f6 = 1.0f;
-                z5 = z4;
-                z7 = imageReceiver.crossfadeWithThumb;
-                if (!z7) {
+                if (z7 && this.crossfadeWithThumb) {
+                    backgroundThreadDrawHolder2 = backgroundThreadDrawHolder;
+                    z8 = true;
+                } else {
+                    backgroundThreadDrawHolder2 = backgroundThreadDrawHolder;
+                    z8 = false;
                 }
-                if (z7) {
-                }
-                drawable15 = drawable16;
-                if (imageReceiver.crossfadeByScale > 0.0f) {
-                }
-                z8 = false;
-                drawDrawable(canvas, drawable15, (int) (f3 * min * 255.0f), bitmapShader3, i, i2, backgroundThreadDrawHolder);
-                if (z8) {
-                }
+                checkAlphaAnimation(z8, backgroundThreadDrawHolder2);
             } else {
-                z5 = z4;
-                drawable15 = drawable14;
-                drawDrawable(canvas, drawable15, (int) (f3 * 255.0f), bitmapShader3, i, i2, backgroundThreadDrawHolder);
-            }
-            if (z5 && imageReceiver.crossfadeWithThumb) {
-                backgroundThreadDrawHolder2 = backgroundThreadDrawHolder;
-                z6 = true;
-            } else {
-                backgroundThreadDrawHolder2 = backgroundThreadDrawHolder;
-                z6 = false;
-            }
-            imageReceiver.checkAlphaAnimation(z6, backgroundThreadDrawHolder2);
-        } else {
-            z5 = z4;
-            drawable15 = drawable14;
-            if (drawable12 != null) {
-                if (drawable12 instanceof VectorAvatarThumbDrawable) {
-                    ((VectorAvatarThumbDrawable) drawable12).setParent(imageReceiver);
+                drawable7 = drawable6;
+                z7 = z6;
+                if (drawable2 != null) {
+                    if (drawable2 instanceof VectorAvatarThumbDrawable) {
+                        ((VectorAvatarThumbDrawable) drawable2).setParent(this);
+                    }
+                    drawDrawable(canvas, drawable2, (int) (f * 255.0f), null, this.thumbOrientation, this.thumbInvert, backgroundThreadDrawHolder);
+                    checkAlphaAnimation(z7, backgroundThreadDrawHolder);
+                } else {
+                    checkAlphaAnimation(z7, backgroundThreadDrawHolder);
+                    z2 = false;
+                    if (drawable7 == null && z7 && !z13) {
+                        try {
+                            invalidate();
+                        } catch (Exception e2) {
+                            e = e2;
+                            z = z2;
+                            FileLog.e(e);
+                            z2 = z;
+                            if (this.gradientBitmap != null) {
+                            }
+                            return z2;
+                        }
+                    }
+                    if (this.gradientBitmap != null && this.currentImageKey != null) {
+                        canvas.restore();
+                    }
+                    return z2;
                 }
-                drawDrawable(canvas, drawable12, (int) (f3 * 255.0f), null, imageReceiver.thumbOrientation, imageReceiver.thumbInvert, backgroundThreadDrawHolder);
-                imageReceiver.checkAlphaAnimation(z5, backgroundThreadDrawHolder);
-            } else {
-                imageReceiver.checkAlphaAnimation(z5, backgroundThreadDrawHolder);
-                if (drawable15 == null && z5 && !z10) {
-                    invalidate();
-                }
-                if (imageReceiver.gradientBitmap != null && imageReceiver.currentImageKey != null) {
-                    canvas.restore();
-                }
-                return z9;
             }
+            z2 = true;
+            if (drawable7 == null) {
+                invalidate();
+            }
+            if (this.gradientBitmap != null) {
+                canvas.restore();
+            }
+            return z2;
         }
-        z9 = true;
-        if (drawable15 == null) {
-            invalidate();
+        z6 = z3;
+        i = i3;
+        float f112 = this.crossfadeByScale;
+        boolean z132 = z10;
+        if (f112 <= 0.0f) {
         }
-        if (imageReceiver.gradientBitmap != null) {
-            canvas.restore();
+        if (drawable6 == null) {
         }
-        return z9;
+        z2 = true;
+        if (drawable7 == null) {
+        }
+        if (this.gradientBitmap != null) {
+        }
+        return z2;
     }
 
     public void setManualAlphaAnimator(boolean z) {
@@ -3551,6 +3477,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         this.currentThumbKey = null;
         this.currentThumbDrawable = null;
         this.thumbShader = null;
+        this.staticThumbShader = null;
         this.roundPaint.setShader(null);
         setStaticDrawable(drawable);
         this.crossfadeWithThumb = true;
@@ -3669,6 +3596,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         backgroundThreadDrawHolder.imageShader = this.imageShader;
         backgroundThreadDrawHolder.thumbDrawable = this.currentThumbDrawable;
         backgroundThreadDrawHolder.thumbShader = this.thumbShader;
+        backgroundThreadDrawHolder.staticThumbShader = this.staticThumbShader;
         backgroundThreadDrawHolder.staticThumbDrawable = this.staticThumbDrawable;
         backgroundThreadDrawHolder.crossfadeImage = this.crossfadeImage;
         backgroundThreadDrawHolder.colorFilter = this.colorFilter;
@@ -3713,6 +3641,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         private float previousAlpha;
         private Path roundPath;
         private Drawable staticThumbDrawable;
+        public BitmapShader staticThumbShader;
         public int threadIndex;
         private Drawable thumbDrawable;
         private BitmapShader thumbShader;
@@ -3733,6 +3662,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
             this.imageShader = null;
             this.thumbDrawable = null;
             this.thumbShader = null;
+            this.staticThumbShader = null;
             this.staticThumbDrawable = null;
             this.crossfadeImage = null;
             this.colorFilter = null;

@@ -112,6 +112,7 @@ import org.telegram.ui.Components.ThemePreviewDrawable;
 /* loaded from: classes.dex */
 public class ImageLoader {
     public static final String AUTOPLAY_FILTER = "g";
+    private static final boolean DEBUG_MODE = false;
     private boolean canForce8888;
     private LruCache<BitmapDrawable> lottieMemCache;
     private LruCache<BitmapDrawable> memCache;
@@ -3292,7 +3293,9 @@ public class ImageLoader {
         System.arraycopy(Bitmaps.footer, 0, bArr2, (Bitmaps.header.length + bArr.length) - 3, Bitmaps.footer.length);
         bArr2[164] = bArr[1];
         bArr2[166] = bArr[2];
-        Bitmap decodeByteArray = BitmapFactory.decodeByteArray(bArr2, 0, length);
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inPreferredConfig = SharedConfig.deviceIsHigh() ? Bitmap.Config.ARGB_8888 : Bitmap.Config.RGB_565;
+        Bitmap decodeByteArray = BitmapFactory.decodeByteArray(bArr2, 0, length, options);
         if (decodeByteArray != null && !TextUtils.isEmpty(str) && str.contains("b")) {
             Utilities.blurBitmap(decodeByteArray, 3, 1, decodeByteArray.getWidth(), decodeByteArray.getHeight(), decodeByteArray.getRowBytes());
         }

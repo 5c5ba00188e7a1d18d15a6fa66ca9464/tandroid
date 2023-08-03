@@ -487,8 +487,8 @@ public class StoryCaptionView extends NestedScrollView {
     }
 
     public void checkCancelTextSelection() {
-        if (this.textSelectionHelper.isSelectionMode()) {
-            this.textSelectionHelper.getOverlayView(getContext()).checkCancel(this.lastMotionX, this.lastMotionY);
+        if (this.textSelectionHelper.isInSelectionMode()) {
+            this.textSelectionHelper.getOverlayView(getContext()).checkCancel(this.lastMotionX, this.lastMotionY, false);
         }
     }
 
@@ -699,7 +699,7 @@ public class StoryCaptionView extends NestedScrollView {
                 if (this.fullLayout != null) {
                     canvas.save();
                     canvas.translate(this.textX, this.textY);
-                    if (StoryCaptionView.this.textSelectionHelper.isSelectionMode()) {
+                    if (StoryCaptionView.this.textSelectionHelper.isInSelectionMode()) {
                         StoryCaptionView.this.textSelectionHelper.draw(canvas);
                     }
                     drawLayout(this.fullLayout, canvas);
@@ -709,7 +709,7 @@ public class StoryCaptionView extends NestedScrollView {
                     canvas.restore();
                 }
             } else {
-                if (StoryCaptionView.this.textSelectionHelper.isSelectionMode()) {
+                if (StoryCaptionView.this.textSelectionHelper.isInSelectionMode()) {
                     canvas.save();
                     canvas.translate(this.textX, this.textY);
                     StoryCaptionView.this.textSelectionHelper.draw(canvas);

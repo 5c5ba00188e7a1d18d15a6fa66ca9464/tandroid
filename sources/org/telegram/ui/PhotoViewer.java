@@ -227,6 +227,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Adapters.MentionsAdapter;
 import org.telegram.ui.Cells.CheckBoxCell;
 import org.telegram.ui.Cells.PhotoPickerPhotoCell;
+import org.telegram.ui.Cells.TextSelectionHelper;
 import org.telegram.ui.ChooseSpeedLayout;
 import org.telegram.ui.Components.AlertsCreator;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
@@ -572,6 +573,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     private int switchImageAfterAnimation;
     private boolean switchingInlineMode;
     private int switchingToIndex;
+    private TextSelectionHelper.SimpleTextSelectionHelper textSelectionHelper;
     private ImageView textureImageView;
     private boolean textureUploaded;
     private ImageView timeItem;
@@ -4705,6 +4707,16 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 }
             };
 
+            @Override // android.view.ViewGroup, android.view.View
+            public boolean dispatchTouchEvent(MotionEvent motionEvent) {
+                if (PhotoViewer.this.textSelectionHelper.isInSelectionMode()) {
+                    PhotoViewer.this.textSelectionHelper.getOverlayView(getContext()).checkCancelAction(motionEvent);
+                    PhotoViewer.this.textSelectionHelper.getOverlayView(getContext()).onTouchEvent(motionEvent);
+                    return true;
+                }
+                return super.dispatchTouchEvent(motionEvent);
+            }
+
             @Override // org.telegram.ui.PhotoViewer.FrameLayoutDrawer, android.view.ViewGroup, android.view.View
             protected void onAttachedToWindow() {
                 super.onAttachedToWindow();
@@ -4715,6 +4727,20 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             protected void onDetachedFromWindow() {
                 super.onDetachedFromWindow();
                 Bulletin.removeDelegate(this);
+            }
+
+            @Override // org.telegram.ui.PhotoViewer.FrameLayoutDrawer, android.view.ViewGroup
+            protected boolean drawChild(Canvas canvas, View view, long j) {
+                if (view == PhotoViewer.this.textSelectionHelper.getOverlayView(PhotoViewer.this.windowView.getContext())) {
+                    return false;
+                }
+                return super.drawChild(canvas, view, j);
+            }
+
+            @Override // org.telegram.ui.PhotoViewer.FrameLayoutDrawer, android.view.ViewGroup, android.view.View
+            protected void dispatchDraw(Canvas canvas) {
+                super.dispatchDraw(canvas);
+                PhotoViewer.this.textSelectionHelper.getOverlayView(PhotoViewer.this.windowView.getContext()).draw(canvas);
             }
         };
         this.containerView = frameLayoutDrawer;
@@ -5777,6 +5803,16 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         }
         this.doneButtonFullWidth.setBackground(Theme.AdaptiveRipple.filledRect(getThemedColor(i7), 6.0f));
         this.doneButtonFullWidth.setTextColor(getThemedColor(i8));
+        TextSelectionHelper.SimpleTextSelectionHelper simpleTextSelectionHelper = new TextSelectionHelper.SimpleTextSelectionHelper(null, resourcesProvider);
+        this.textSelectionHelper = simpleTextSelectionHelper;
+        simpleTextSelectionHelper.useMovingOffset = false;
+        TextSelectionHelper<Cell>.TextSelectionOverlay overlayView = simpleTextSelectionHelper.getOverlayView(this.windowView.getContext());
+        if (overlayView != null) {
+            AndroidUtilities.removeFromParent(overlayView);
+            this.containerView.addView(overlayView);
+        }
+        this.textSelectionHelper.setParentView(this.containerView);
+        this.textSelectionHelper.setInvalidateParent();
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -8490,10 +8526,10 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             new PorterDuffColorFilter(-1, PorterDuff.Mode.SRC_IN);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:33:0x0100  */
-        /* JADX WARN: Removed duplicated region for block: B:40:0x0122  */
-        /* JADX WARN: Removed duplicated region for block: B:47:0x0134 A[ADDED_TO_REGION] */
-        /* JADX WARN: Removed duplicated region for block: B:50:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:38:0x0133  */
+        /* JADX WARN: Removed duplicated region for block: B:45:0x0155  */
+        /* JADX WARN: Removed duplicated region for block: B:52:0x0167 A[ADDED_TO_REGION] */
+        /* JADX WARN: Removed duplicated region for block: B:55:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
         @Override // android.widget.TextView, android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -8503,6 +8539,11 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             boolean z;
             if (getLayout() == null) {
                 return false;
+            }
+            if (PhotoViewer.this.textSelectionHelper != null && getStaticTextLayout() != null) {
+                PhotoViewer.this.textSelectionHelper.setSelectabeleView(this);
+                PhotoViewer.this.textSelectionHelper.update(getPaddingLeft(), getPaddingTop());
+                PhotoViewer.this.textSelectionHelper.onTouchEvent(motionEvent);
             }
             if (motionEvent.getAction() == 0 || (this.pressedLink != null && motionEvent.getAction() == 1)) {
                 int y = (int) (motionEvent.getY() - getPaddingTop());
@@ -8602,6 +8643,14 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
 
         @Override // org.telegram.ui.Components.spoilers.SpoilersTextView, android.widget.TextView, android.view.View
         protected void onDraw(Canvas canvas) {
+            if (PhotoViewer.this.textSelectionHelper != null && PhotoViewer.this.textSelectionHelper.isInSelectionMode()) {
+                canvas.save();
+                canvas.translate(getPaddingLeft(), getPaddingTop());
+                if (PhotoViewer.this.textSelectionHelper != null && getStaticTextLayout() != null && PhotoViewer.this.textSelectionHelper.isCurrent(this)) {
+                    PhotoViewer.this.textSelectionHelper.draw(canvas);
+                }
+                canvas.restore();
+            }
             canvas.save();
             canvas.translate(getPaddingLeft(), 0.0f);
             if (this.links.draw(canvas)) {
@@ -18457,7 +18506,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                                 }
                                             }
                                             if (chatActivity2 != null) {
-                                                chatActivity2.lambda$openDiscussionMessageChat$256(PhotoViewer.this.animationEndRunnable);
+                                                chatActivity2.lambda$openDiscussionMessageChat$257(PhotoViewer.this.animationEndRunnable);
                                                 return;
                                             }
                                             PhotoViewer.this.animationEndRunnable.run();

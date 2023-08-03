@@ -6658,14 +6658,14 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         }
 
         /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Type inference failed for: r5v18, types: [org.telegram.ui.Cells.ChatActionCell] */
-        /* JADX WARN: Type inference failed for: r5v20, types: [org.telegram.ui.Cells.ChatMessageCell] */
-        /* JADX WARN: Type inference failed for: r5v9, types: [org.telegram.ui.ThemePreviewActivity$MessagesAdapter$5] */
+        /* JADX WARN: Type inference failed for: r6v18, types: [org.telegram.ui.Cells.ChatActionCell] */
+        /* JADX WARN: Type inference failed for: r6v20, types: [org.telegram.ui.Cells.ChatMessageCell] */
+        /* JADX WARN: Type inference failed for: r6v9, types: [org.telegram.ui.ThemePreviewActivity$MessagesAdapter$5] */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             FrameLayout frameLayout;
             if (i == 0) {
-                ?? chatMessageCell = new ChatMessageCell(this.mContext, false, new Theme.ResourcesProvider() { // from class: org.telegram.ui.ThemePreviewActivity.MessagesAdapter.1
+                ?? chatMessageCell = new ChatMessageCell(this.mContext, false, null, new Theme.ResourcesProvider() { // from class: org.telegram.ui.ThemePreviewActivity.MessagesAdapter.1
                     @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
                     public /* synthetic */ ColorFilter getAnimatedEmojiColorFilter() {
                         ColorFilter colorFilter;

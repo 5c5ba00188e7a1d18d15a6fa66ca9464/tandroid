@@ -120,6 +120,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.RandomAccessFile;
+import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.net.IDN;
@@ -211,7 +212,6 @@ public class AndroidUtilities {
     public static final String TYPEFACE_ROBOTO_MONO = "fonts/rmono.ttf";
     public static Pattern WEB_URL;
     private static AccessibilityManager accessibilityManager;
-    private static RectF bitmapRect;
     private static CallReceiver callReceiver;
     private static char[] characters;
     private static HashSet<Character> charactersMap;
@@ -230,7 +230,6 @@ public class AndroidUtilities {
     public static final String[] numbersSignatureArray;
     public static int roundMessageInset;
     public static int roundMessageSize;
-    private static Paint roundPaint;
     public static int roundPlayingMessageSize;
     public static final Linkify.MatchFilter sUrlMatchFilter;
     public static float touchSlop;
@@ -540,32 +539,40 @@ public class AndroidUtilities {
         return spannableStringBuilder;
     }
 
-    public static void recycleBitmaps(final List<Bitmap> list) {
+    public static void recycleBitmaps(List<Bitmap> list) {
         if (Build.VERSION.SDK_INT <= 23 || list == null || list.isEmpty()) {
             return;
         }
-        runOnUIThread(new Runnable() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda12
+        final ArrayList arrayList = new ArrayList();
+        for (int i = 0; i < list.size(); i++) {
+            Bitmap bitmap = list.get(i);
+            if (bitmap != null && !bitmap.isRecycled()) {
+                arrayList.add(new WeakReference(bitmap));
+            }
+        }
+        runOnUIThread(new Runnable() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda13
             @Override // java.lang.Runnable
             public final void run() {
-                AndroidUtilities.lambda$recycleBitmaps$1(list);
+                AndroidUtilities.lambda$recycleBitmaps$1(arrayList);
             }
         }, 36L);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$recycleBitmaps$1(final List list) {
-        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda13
+    public static /* synthetic */ void lambda$recycleBitmaps$1(final ArrayList arrayList) {
+        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda12
             @Override // java.lang.Runnable
             public final void run() {
-                AndroidUtilities.lambda$recycleBitmaps$0(list);
+                AndroidUtilities.lambda$recycleBitmaps$0(arrayList);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$recycleBitmaps$0(List list) {
-        for (int i = 0; i < list.size(); i++) {
-            Bitmap bitmap = (Bitmap) list.get(i);
+    public static /* synthetic */ void lambda$recycleBitmaps$0(ArrayList arrayList) {
+        for (int i = 0; i < arrayList.size(); i++) {
+            Bitmap bitmap = (Bitmap) ((WeakReference) arrayList.get(i)).get();
+            ((WeakReference) arrayList.get(i)).clear();
             if (bitmap != null && !bitmap.isRecycled()) {
                 try {
                     bitmap.recycle();

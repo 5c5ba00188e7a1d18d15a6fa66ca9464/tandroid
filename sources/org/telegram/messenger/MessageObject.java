@@ -1708,7 +1708,7 @@ public class MessageObject {
 
     public void createStrippedThumb() {
         if (this.photoThumbs != null) {
-            if (canCreateStripedThubms() || hasExtendedMediaPreview()) {
+            if ((canCreateStripedThubms() || hasExtendedMediaPreview()) && this.strippedThumb == null) {
                 try {
                     int size = this.photoThumbs.size();
                     for (int i = 0; i < size; i++) {

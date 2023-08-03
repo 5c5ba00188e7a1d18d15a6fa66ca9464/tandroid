@@ -106,15 +106,15 @@ public class SvgHelper {
         private Paint overridePaint;
         private ImageReceiver parentImageReceiver;
         protected int width;
-        private static int[] parentPosition = new int[2];
+        private static final int[] parentPosition = new int[2];
         private static boolean lite = LiteMode.isEnabled(32);
         protected ArrayList<Object> commands = new ArrayList<>();
         protected HashMap<Object, Paint> paints = new HashMap<>();
-        private Bitmap[] backgroundBitmap = new Bitmap[3];
-        private Canvas[] backgroundCanvas = new Canvas[3];
-        private LinearGradient[] placeholderGradient = new LinearGradient[3];
-        private Matrix[] placeholderMatrix = new Matrix[3];
-        private int[] currentColor = new int[2];
+        private final Bitmap[] backgroundBitmap = new Bitmap[3];
+        private final Canvas[] backgroundCanvas = new Canvas[3];
+        private final LinearGradient[] placeholderGradient = new LinearGradient[3];
+        private final Matrix[] placeholderMatrix = new Matrix[3];
+        private final int[] currentColor = new int[2];
         private float crossfadeAlpha = 1.0f;
         SparseArray<Paint> overridePaintByPosition = new SparseArray<>();
         private boolean aspectFill = true;
@@ -214,8 +214,9 @@ public class SvgHelper {
                     if (imageReceiver == null || z) {
                         i2 = 0;
                     } else {
-                        imageReceiver.getParentPosition(parentPosition);
-                        i2 = parentPosition[0];
+                        int[] iArr = parentPosition;
+                        imageReceiver.getParentPosition(iArr);
+                        i2 = iArr[0];
                     }
                     int i4 = z ? i + 1 : 0;
                     Matrix[] matrixArr = this.placeholderMatrix;
@@ -444,6 +445,7 @@ public class SvgHelper {
             InputStream openRawResource = ApplicationLoader.applicationContext.getResources().openRawResource(i);
             XMLReader xMLReader = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
             SVGHandler sVGHandler = new SVGHandler(i2, i3, Integer.valueOf(i4), false, f);
+            sVGHandler.alphaOnly = true;
             xMLReader.setContentHandler(sVGHandler);
             xMLReader.parse(new InputSource(openRawResource));
             Bitmap bitmap = sVGHandler.getBitmap();
@@ -462,6 +464,7 @@ public class SvgHelper {
             FileInputStream fileInputStream = new FileInputStream(file);
             XMLReader xMLReader = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
             SVGHandler sVGHandler = new SVGHandler(i, i2, z ? -1 : null, false, 1.0f);
+            sVGHandler.alphaOnly = true;
             xMLReader.setContentHandler(sVGHandler);
             xMLReader.parse(new InputSource(fileInputStream));
             Bitmap bitmap = sVGHandler.getBitmap();
@@ -1264,6 +1267,7 @@ public class SvgHelper {
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class SVGHandler extends DefaultHandler {
+        private boolean alphaOnly;
         private Bitmap bitmap;
         private boolean boundsMode;
         private Canvas canvas;
@@ -1621,7 +1625,7 @@ public class SvgHelper {
                         }
                         SvgDrawable svgDrawable7 = this.drawable;
                         if (svgDrawable7 == null) {
-                            Bitmap createBitmap = Bitmap.createBitmap(ceil, ceil2, Bitmap.Config.ARGB_8888);
+                            Bitmap createBitmap = Bitmap.createBitmap(ceil, ceil2, this.alphaOnly ? Bitmap.Config.ALPHA_8 : Bitmap.Config.ARGB_8888);
                             this.bitmap = createBitmap;
                             createBitmap.eraseColor(0);
                             Canvas canvas = new Canvas(this.bitmap);

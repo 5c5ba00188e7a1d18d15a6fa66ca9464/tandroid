@@ -20,6 +20,7 @@ import org.telegram.ui.Components.voip.CellFlickerDrawable;
 public class PremiumLockIconView extends ImageView {
     public static int TYPE_REACTIONS = 0;
     public static int TYPE_STICKERS_PREMIUM_LOCKED = 1;
+    boolean attachedToWindow;
     CellFlickerDrawable cellFlickerDrawable;
     int color1;
     int color2;
@@ -170,7 +171,7 @@ public class PremiumLockIconView extends ImageView {
     }
 
     private void updateGradient() {
-        if (getMeasuredHeight() == 0 || getMeasuredWidth() == 0) {
+        if (!this.attachedToWindow || getMeasuredHeight() == 0 || getMeasuredWidth() == 0) {
             return;
         }
         Color.colorToHSV(this.currentColor, this.colorFloat);
@@ -199,6 +200,28 @@ public class PremiumLockIconView extends ImageView {
         this.shader = linearGradient;
         this.paint.setShader(linearGradient);
         invalidate();
+    }
+
+    @Override // android.widget.ImageView, android.view.View
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        this.attachedToWindow = true;
+        if (this.type != TYPE_REACTIONS) {
+            updateGradient();
+        }
+    }
+
+    @Override // android.widget.ImageView, android.view.View
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        this.attachedToWindow = false;
+        Paint paint = this.paint;
+        if (paint != null) {
+            paint.setShader(null);
+            this.paint = null;
+        }
+        this.shader = null;
+        this.wasDrawn = false;
     }
 
     public void setWaitingImage() {

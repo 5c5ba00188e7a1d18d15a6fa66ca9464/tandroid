@@ -46,13 +46,15 @@ import org.telegram.ui.Components.CheckBox2;
 import org.telegram.ui.Components.CombinedDrawable;
 import org.telegram.ui.Components.Premium.PremiumGradient;
 import org.telegram.ui.Components.RecyclerListView;
+import org.telegram.ui.Stories.StoriesUtilities;
 /* loaded from: classes3.dex */
 public class ProfileSearchCell extends BaseCell implements NotificationCenter.NotificationCenterDelegate {
     CanvasButton actionButton;
     private StaticLayout actionLayout;
     private int actionLeft;
     private AvatarDrawable avatarDrawable;
-    private ImageReceiver avatarImage;
+    public ImageReceiver avatarImage;
+    public StoriesUtilities.AvatarStoryParams avatarStoryParams;
     private TLRPC$Chat chat;
     CheckBox2 checkBox;
     private ContactsController.Contact contact;
@@ -98,6 +100,7 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
         super(context);
         this.currentAccount = UserConfig.selectedAccount;
         this.countTop = AndroidUtilities.dp(19.0f);
+        this.avatarStoryParams = new StoriesUtilities.AvatarStoryParams(false);
         this.rect = new RectF();
         this.resourcesProvider = resourcesProvider;
         ImageReceiver imageReceiver = new ImageReceiver(this);
@@ -444,7 +447,7 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
         } else {
             dp = AndroidUtilities.dp(11.0f) + getPaddingLeft();
         }
-        this.avatarImage.setImageCoords(dp, AndroidUtilities.dp(7.0f), AndroidUtilities.dp(46.0f), AndroidUtilities.dp(46.0f));
+        this.avatarStoryParams.originalAvatarRect.set(dp, AndroidUtilities.dp(7.0f), dp + AndroidUtilities.dp(46.0f), AndroidUtilities.dp(7.0f) + AndroidUtilities.dp(46.0f));
         if (LocaleController.isRTL) {
             if (this.nameLayout.getLineCount() > 0 && this.nameLayout.getLineLeft(0) == 0.0f) {
                 double ceil = Math.ceil(this.nameLayout.getLineWidth(0));
@@ -731,7 +734,7 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
             this.actionLayout.draw(canvas);
             canvas.restore();
         }
-        this.avatarImage.draw(canvas);
+        StoriesUtilities.drawAvatarWithStory(this.dialog_id, canvas, this.avatarImage, this.avatarStoryParams);
     }
 
     @Override // android.view.View
@@ -780,6 +783,9 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
 
     @Override // android.view.View
     public boolean onTouchEvent(MotionEvent motionEvent) {
+        if (this.avatarStoryParams.checkOnTouchEvent(motionEvent, this)) {
+            return true;
+        }
         CanvasButton canvasButton = this.actionButton;
         if (canvasButton == null || !canvasButton.checkTouchEvent(motionEvent)) {
             return super.onTouchEvent(motionEvent);

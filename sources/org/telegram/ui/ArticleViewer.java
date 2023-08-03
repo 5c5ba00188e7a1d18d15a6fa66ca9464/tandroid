@@ -71,6 +71,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.Keep;
 import androidx.collection.LongSparseArray;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.GridLayoutManagerFixed;
@@ -285,6 +286,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     private ImageView backButton;
     private BackDrawable backDrawable;
     private Paint backgroundPaint;
+    private Drawable chat_redLocationIcon;
     private ImageView clearButton;
     private boolean closeAnimationInProgress;
     private boolean collapsed;
@@ -921,13 +923,13 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             TextSelectionHelper<Cell>.TextSelectionOverlay overlayView = ArticleViewer.this.textSelectionHelper.getOverlayView(getContext());
             MotionEvent obtain = MotionEvent.obtain(motionEvent);
             obtain.offsetLocation(-ArticleViewer.this.containerView.getX(), -ArticleViewer.this.containerView.getY());
-            if (ArticleViewer.this.textSelectionHelper.isSelectionMode() && ArticleViewer.this.textSelectionHelper.getOverlayView(getContext()).onTouchEvent(obtain)) {
+            if (ArticleViewer.this.textSelectionHelper.isInSelectionMode() && ArticleViewer.this.textSelectionHelper.getOverlayView(getContext()).onTouchEvent(obtain)) {
                 return true;
             }
             if (overlayView.checkOnTap(motionEvent)) {
                 motionEvent.setAction(3);
             }
-            if (motionEvent.getAction() == 0 && ArticleViewer.this.textSelectionHelper.isSelectionMode() && (motionEvent.getY() < ArticleViewer.this.containerView.getTop() || motionEvent.getY() > ArticleViewer.this.containerView.getBottom())) {
+            if (motionEvent.getAction() == 0 && ArticleViewer.this.textSelectionHelper.isInSelectionMode() && (motionEvent.getY() < ArticleViewer.this.containerView.getTop() || motionEvent.getY() > ArticleViewer.this.containerView.getBottom())) {
                 if (ArticleViewer.this.textSelectionHelper.getOverlayView(getContext()).onTouchEvent(obtain)) {
                     return super.dispatchTouchEvent(motionEvent);
                 }
@@ -1064,7 +1066,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
 
         public boolean handleTouchEvent(MotionEvent motionEvent) {
-            if (ArticleViewer.this.pageSwitchAnimation != null || ArticleViewer.this.closeAnimationInProgress || ArticleViewer.this.fullscreenVideoContainer.getVisibility() == 0 || ArticleViewer.this.textSelectionHelper.isSelectionMode()) {
+            if (ArticleViewer.this.pageSwitchAnimation != null || ArticleViewer.this.closeAnimationInProgress || ArticleViewer.this.fullscreenVideoContainer.getVisibility() == 0 || ArticleViewer.this.textSelectionHelper.isInSelectionMode()) {
                 return false;
             }
             if (motionEvent != null && motionEvent.getAction() == 0 && !this.startedTracking && !this.maybeStartTracking) {
@@ -1181,7 +1183,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     this.tracker = null;
                 }
                 TextSelectionHelper.ArticleTextSelectionHelper articleTextSelectionHelper = ArticleViewer.this.textSelectionHelper;
-                if (articleTextSelectionHelper != null && !articleTextSelectionHelper.isSelectionMode()) {
+                if (articleTextSelectionHelper != null && !articleTextSelectionHelper.isInSelectionMode()) {
                     ArticleViewer.this.textSelectionHelper.clear();
                 }
             }
@@ -1300,7 +1302,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                         ArticleViewer articleViewer4 = ArticleViewer.this;
                         articleViewer4.textSelectionHelper.trySelect(articleViewer4.pressedLinkOwnerView);
                     }
-                    if (ArticleViewer.this.textSelectionHelper.isSelectionMode()) {
+                    if (ArticleViewer.this.textSelectionHelper.isInSelectionMode()) {
                         ArticleViewer.this.windowView.performHapticFeedback(0, 2);
                         return;
                     }
@@ -1965,13 +1967,13 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                         TextSelectionHelper<Cell>.TextSelectionOverlay overlayView2 = ArticleViewer.this.textSelectionHelperBottomSheet.getOverlayView(getContext());
                         MotionEvent obtain = MotionEvent.obtain(motionEvent);
                         obtain.offsetLocation(-linearLayout.getX(), -linearLayout.getY());
-                        if (ArticleViewer.this.textSelectionHelperBottomSheet.isSelectionMode() && ArticleViewer.this.textSelectionHelperBottomSheet.getOverlayView(getContext()).onTouchEvent(obtain)) {
+                        if (ArticleViewer.this.textSelectionHelperBottomSheet.isInSelectionMode() && ArticleViewer.this.textSelectionHelperBottomSheet.getOverlayView(getContext()).onTouchEvent(obtain)) {
                             return true;
                         }
                         if (overlayView2.checkOnTap(motionEvent)) {
                             motionEvent.setAction(3);
                         }
-                        if (motionEvent.getAction() == 0 && ArticleViewer.this.textSelectionHelperBottomSheet.isSelectionMode() && (motionEvent.getY() < linearLayout.getTop() || motionEvent.getY() > linearLayout.getBottom())) {
+                        if (motionEvent.getAction() == 0 && ArticleViewer.this.textSelectionHelperBottomSheet.isInSelectionMode() && (motionEvent.getY() < linearLayout.getTop() || motionEvent.getY() > linearLayout.getBottom())) {
                             if (ArticleViewer.this.textSelectionHelperBottomSheet.getOverlayView(getContext()).onTouchEvent(obtain)) {
                                 return super.dispatchTouchEvent(motionEvent);
                             }
@@ -1990,7 +1992,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     @Override // org.telegram.ui.ActionBar.BottomSheet.BottomSheetDelegate, org.telegram.ui.ActionBar.BottomSheet.BottomSheetDelegateInterface
                     public boolean canDismiss() {
                         TextSelectionHelper.ArticleTextSelectionHelper articleTextSelectionHelper2 = ArticleViewer.this.textSelectionHelperBottomSheet;
-                        if (articleTextSelectionHelper2 == null || !articleTextSelectionHelper2.isSelectionMode()) {
+                        if (articleTextSelectionHelper2 == null || !articleTextSelectionHelper2.isInSelectionMode()) {
                             return true;
                         }
                         ArticleViewer.this.textSelectionHelperBottomSheet.clear();
@@ -2000,7 +2002,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 frameLayout.addView(linearLayout, -1, -2);
                 frameLayout.addView(overlayView, -1, -2);
                 builder.setCustomView(frameLayout);
-                if (this.textSelectionHelper.isSelectionMode()) {
+                if (this.textSelectionHelper.isInSelectionMode()) {
                     this.textSelectionHelper.clear();
                 }
                 BottomSheet create = builder.create();
@@ -4010,7 +4012,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     public /* synthetic */ void lambda$setParentActivity$12(WebpageAdapter webpageAdapter, View view, int i, float f, float f2) {
         TextSelectionHelper.ArticleTextSelectionHelper articleTextSelectionHelper = this.textSelectionHelper;
         if (articleTextSelectionHelper != null) {
-            if (articleTextSelectionHelper.isSelectionMode()) {
+            if (articleTextSelectionHelper.isInSelectionMode()) {
                 this.textSelectionHelper.clear();
                 return;
             }
@@ -5198,7 +5200,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 return;
             }
         }
-        if (this.textSelectionHelper.isSelectionMode()) {
+        if (this.textSelectionHelper.isInSelectionMode()) {
             this.textSelectionHelper.clear();
         } else if (this.searchContainer.getTag() != null) {
             showSearch(false);
@@ -8450,7 +8452,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     }
                     BlockTableCell.this.updateChildTextPositions();
                     TextSelectionHelper.ArticleTextSelectionHelper articleTextSelectionHelper = ArticleViewer.this.textSelectionHelper;
-                    if (articleTextSelectionHelper == null || !articleTextSelectionHelper.isSelectionMode()) {
+                    if (articleTextSelectionHelper == null || !articleTextSelectionHelper.isInSelectionMode()) {
                         return;
                     }
                     ArticleViewer.this.textSelectionHelper.invalidate();
@@ -11757,13 +11759,16 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             Theme.chat_locationDrawable[0].draw(canvas);
             this.imageView.draw(canvas);
             if (this.currentMapProvider == 2 && this.imageView.hasNotThumb()) {
-                int intrinsicWidth = (int) (Theme.chat_redLocationIcon.getIntrinsicWidth() * 0.8f);
-                int intrinsicHeight = (int) (Theme.chat_redLocationIcon.getIntrinsicHeight() * 0.8f);
+                if (ArticleViewer.this.chat_redLocationIcon == null) {
+                    ArticleViewer.this.chat_redLocationIcon = ContextCompat.getDrawable(getContext(), R.drawable.map_pin).mutate();
+                }
+                int intrinsicWidth = (int) (ArticleViewer.this.chat_redLocationIcon.getIntrinsicWidth() * 0.8f);
+                int intrinsicHeight = (int) (ArticleViewer.this.chat_redLocationIcon.getIntrinsicHeight() * 0.8f);
                 int imageX = (int) (this.imageView.getImageX() + ((this.imageView.getImageWidth() - intrinsicWidth) / 2.0f));
                 int imageY = (int) (this.imageView.getImageY() + ((this.imageView.getImageHeight() / 2.0f) - intrinsicHeight));
-                Theme.chat_redLocationIcon.setAlpha((int) (this.imageView.getCurrentAlpha() * 255.0f));
-                Theme.chat_redLocationIcon.setBounds(imageX, imageY, intrinsicWidth + imageX, intrinsicHeight + imageY);
-                Theme.chat_redLocationIcon.draw(canvas);
+                ArticleViewer.this.chat_redLocationIcon.setAlpha((int) (this.imageView.getCurrentAlpha() * 255.0f));
+                ArticleViewer.this.chat_redLocationIcon.setBounds(imageX, imageY, intrinsicWidth + imageX, intrinsicHeight + imageY);
+                ArticleViewer.this.chat_redLocationIcon.draw(canvas);
             }
             if (this.captionLayout != null) {
                 canvas.save();
@@ -12518,7 +12523,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$0(View view, int i, int i2, int i3, int i4) {
             TextSelectionHelper.ArticleTextSelectionHelper articleTextSelectionHelper = ArticleViewer.this.textSelectionHelper;
-            if (articleTextSelectionHelper == null || !articleTextSelectionHelper.isSelectionMode()) {
+            if (articleTextSelectionHelper == null || !articleTextSelectionHelper.isInSelectionMode()) {
                 return;
             }
             ArticleViewer.this.textSelectionHelper.invalidate();

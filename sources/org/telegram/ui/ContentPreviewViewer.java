@@ -826,12 +826,12 @@ public class ContentPreviewViewer {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:276:0x0162  */
-    /* JADX WARN: Removed duplicated region for block: B:279:0x016b  */
-    /* JADX WARN: Removed duplicated region for block: B:280:0x0171  */
-    /* JADX WARN: Removed duplicated region for block: B:288:0x0190  */
-    /* JADX WARN: Removed duplicated region for block: B:291:0x019e  */
-    /* JADX WARN: Removed duplicated region for block: B:296:0x01de  */
+    /* JADX WARN: Removed duplicated region for block: B:276:0x015d  */
+    /* JADX WARN: Removed duplicated region for block: B:279:0x0166  */
+    /* JADX WARN: Removed duplicated region for block: B:280:0x016c  */
+    /* JADX WARN: Removed duplicated region for block: B:288:0x018b  */
+    /* JADX WARN: Removed duplicated region for block: B:291:0x0199  */
+    /* JADX WARN: Removed duplicated region for block: B:296:0x01d8  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -844,7 +844,6 @@ public class ContentPreviewViewer {
         View view2;
         TLRPC$Document tLRPC$Document;
         this.delegate = contentPreviewViewerDelegate;
-        this.resourcesProvider = resourcesProvider;
         if (contentPreviewViewerDelegate == null || contentPreviewViewerDelegate.can()) {
             if (this.openPreviewRunnable != null || isVisible()) {
                 if (motionEvent.getAction() == 1 || motionEvent.getAction() == 3 || motionEvent.getAction() == 6) {
@@ -1087,7 +1086,6 @@ public class ContentPreviewViewer {
 
     public boolean onInterceptTouchEvent(MotionEvent motionEvent, final RecyclerListView recyclerListView, int i, ContentPreviewViewerDelegate contentPreviewViewerDelegate, final Theme.ResourcesProvider resourcesProvider) {
         this.delegate = contentPreviewViewerDelegate;
-        this.resourcesProvider = resourcesProvider;
         if ((contentPreviewViewerDelegate == null || contentPreviewViewerDelegate.can()) && motionEvent.getAction() == 0) {
             int x = (int) motionEvent.getX();
             int y = (int) motionEvent.getY();
@@ -1494,11 +1492,23 @@ public class ContentPreviewViewer {
         this.currentQuery = null;
         this.delegate = null;
         this.isVisible = false;
+        this.resourcesProvider = null;
         UnlockPremiumView unlockPremiumView = this.unlockPremiumView;
         if (unlockPremiumView != null) {
             unlockPremiumView.animate().alpha(0.0f).translationY(AndroidUtilities.dp(56.0f)).setDuration(150L).setInterpolator(CubicBezierInterpolator.DEFAULT).start();
         }
         NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.startAllHeavyOperations, 8);
+    }
+
+    public void clearDelegate(ContentPreviewViewerDelegate contentPreviewViewerDelegate) {
+        if (this.delegate == contentPreviewViewerDelegate) {
+            this.currentDocument = null;
+            this.currentStickerSet = null;
+            this.currentQuery = null;
+            this.delegate = null;
+            this.resourcesProvider = null;
+            reset();
+        }
     }
 
     public void destroy() {

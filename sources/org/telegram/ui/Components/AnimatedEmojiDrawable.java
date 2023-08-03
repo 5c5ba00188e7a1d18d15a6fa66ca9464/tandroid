@@ -565,17 +565,17 @@ public class AnimatedEmojiDrawable extends Drawable {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
+    /* JADX WARN: Type inference failed for: r1v16, types: [org.telegram.messenger.ImageReceiver] */
     /* JADX WARN: Type inference failed for: r1v17, types: [org.telegram.messenger.ImageReceiver] */
     /* JADX WARN: Type inference failed for: r1v18, types: [org.telegram.messenger.ImageReceiver] */
-    /* JADX WARN: Type inference failed for: r1v19, types: [org.telegram.messenger.ImageReceiver] */
+    /* JADX WARN: Type inference failed for: r1v20, types: [org.telegram.messenger.ImageReceiver] */
     /* JADX WARN: Type inference failed for: r1v21, types: [org.telegram.messenger.ImageReceiver] */
-    /* JADX WARN: Type inference failed for: r1v22, types: [org.telegram.messenger.ImageReceiver] */
     /* JADX WARN: Type inference failed for: r22v0, types: [android.graphics.drawable.Drawable] */
     /* JADX WARN: Type inference failed for: r22v1, types: [android.graphics.drawable.Drawable] */
     /* JADX WARN: Type inference failed for: r24v0, types: [android.graphics.drawable.Drawable] */
     /* JADX WARN: Type inference failed for: r24v1, types: [android.graphics.drawable.Drawable] */
     /* JADX WARN: Type inference failed for: r24v2, types: [android.graphics.drawable.Drawable] */
-    /* JADX WARN: Type inference failed for: r3v11, types: [org.telegram.messenger.SvgHelper$SvgDrawable] */
+    /* JADX WARN: Type inference failed for: r2v11, types: [org.telegram.messenger.SvgHelper$SvgDrawable] */
     /* JADX WARN: Type inference failed for: r4v2, types: [org.telegram.messenger.SvgHelper$SvgDrawable] */
     private void initDocument(boolean z) {
         int i;
@@ -601,9 +601,9 @@ public class AnimatedEmojiDrawable extends Drawable {
                     };
                     this.imageReceiver = imageReceiver2;
                     imageReceiver2.setAllowLoadingOnAttachedOnly(true);
-                }
-                if (this.cacheType == 12) {
-                    this.imageReceiver.ignoreNotifications = true;
+                    if (this.cacheType == 12) {
+                        this.imageReceiver.ignoreNotifications = true;
+                    }
                 }
                 if (this.colorFilterToSet != null && canOverrideColor()) {
                     this.imageReceiver.setColorFilter(this.colorFilterToSet);

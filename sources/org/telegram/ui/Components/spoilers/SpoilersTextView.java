@@ -8,6 +8,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.Region;
+import android.text.Layout;
 import android.text.Spanned;
 import android.view.MotionEvent;
 import android.widget.TextView;
@@ -15,9 +16,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.ui.Cells.TextSelectionHelper;
 import org.telegram.ui.Components.spoilers.SpoilersClickDetector;
 /* loaded from: classes4.dex */
-public class SpoilersTextView extends TextView {
+public class SpoilersTextView extends TextView implements TextSelectionHelper.SimpleSelectabeleView {
     public boolean allowClickSpoilers;
     private SpoilersClickDetector clickDetector;
     private boolean isSpoilersRevealed;
@@ -176,5 +178,10 @@ public class SpoilersTextView extends TextView {
             SpoilerEffect.addSpoilers(this, this.spoilersPool, this.spoilers);
         }
         invalidate();
+    }
+
+    @Override // org.telegram.ui.Cells.TextSelectionHelper.SimpleSelectabeleView
+    public Layout getStaticTextLayout() {
+        return getLayout();
     }
 }
