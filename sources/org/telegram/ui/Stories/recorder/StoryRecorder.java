@@ -4524,7 +4524,9 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         Bitmap.CompressFormat compressFormat = Bitmap.CompressFormat.PNG;
         StoryEntry storyEntry7 = this.outputEntry;
         storyEntry6.paintFile = fileLoader.getPathToAttach(ImageLoader.scaleAndSaveImage(bitmap, compressFormat, storyEntry7.resultWidth, storyEntry7.resultHeight, 87, false, (int) FileLoader.MEDIA_DIR_VIDEO_PUBLIC, (int) FileLoader.MEDIA_DIR_VIDEO_PUBLIC), true);
-        bitmap.recycle();
+        if (bitmap != null) {
+            bitmap.recycle();
+        }
         if (this.outputEntry.wouldBeVideo()) {
             return;
         }

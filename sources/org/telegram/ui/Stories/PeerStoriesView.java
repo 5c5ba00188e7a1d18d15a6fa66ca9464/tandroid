@@ -1376,7 +1376,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                         });
                         addItem2.setMultiline(false);
                     }
-                    if (user.contact) {
+                    if (user != null && user.contact) {
                         if (!user.stories_hidden) {
                             ActionBarMenuItem.addItem(actionBarPopupWindowLayout, R.drawable.msg_archive, LocaleController.getString("ArchivePeerStories", R.string.ArchivePeerStories), false, this.val$resourcesProvider).setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.PeerStoriesView$6$$ExternalSyntheticLambda6
                                 @Override // android.view.View.OnClickListener

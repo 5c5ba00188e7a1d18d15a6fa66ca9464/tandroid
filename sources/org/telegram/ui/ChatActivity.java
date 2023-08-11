@@ -10312,17 +10312,17 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         searchUserMessages(null, chat);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:15:0x00af  */
-    /* JADX WARN: Removed duplicated region for block: B:18:0x0232  */
-    /* JADX WARN: Removed duplicated region for block: B:21:0x02b7  */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x0303  */
+    /* JADX WARN: Removed duplicated region for block: B:17:0x00b3  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x0236  */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x02bb  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x0307  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private void createTopPanel() {
         int i;
         int i2;
-        if (this.topChatPanelView != null || getContext() == null) {
+        if (this.contentView == null || this.topChatPanelView != null || getContext() == null) {
             return;
         }
         BlurredFrameLayout blurredFrameLayout = new BlurredFrameLayout(getContext(), this.contentView) { // from class: org.telegram.ui.ChatActivity.44

@@ -49,7 +49,8 @@ public class StoriesListPlaceProvider implements StoryViewer.PlaceProvider {
 
     @Override // org.telegram.ui.Stories.StoryViewer.PlaceProvider
     public void preLayout(long j, int i, Runnable runnable) {
-        if (this.recyclerListView.getParent() instanceof DialogStoriesCell) {
+        RecyclerListView recyclerListView = this.recyclerListView;
+        if (recyclerListView != null && (recyclerListView.getParent() instanceof DialogStoriesCell)) {
             DialogStoriesCell dialogStoriesCell = (DialogStoriesCell) this.recyclerListView.getParent();
             if (dialogStoriesCell.scrollTo(j)) {
                 dialogStoriesCell.afterNextLayout(runnable);

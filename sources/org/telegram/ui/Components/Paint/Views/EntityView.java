@@ -378,8 +378,12 @@ public class EntityView extends FrameLayout {
         }
         this.delegate.getTransformedTouch(motionEvent.getRawX(), motionEvent.getRawY(), this.xy);
         boolean z2 = motionEvent.getPointerCount() > 1;
-        if (z2 && Build.VERSION.SDK_INT >= 29) {
-            this.delegate.getTransformedTouch(motionEvent.getRawX(1), motionEvent.getRawY(1), this.xy2);
+        if (z2) {
+            if (Build.VERSION.SDK_INT >= 29) {
+                this.delegate.getTransformedTouch(motionEvent.getRawX(1), motionEvent.getRawY(1), this.xy2);
+            } else {
+                z2 = false;
+            }
         }
         if (z2) {
             float[] fArr = this.cxy;
@@ -1012,8 +1016,8 @@ public class EntityView extends FrameLayout {
             setRotation(EntityView.this.getRotation());
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:24:0x010c, code lost:
-            if (r0 != 3) goto L22;
+        /* JADX WARN: Code restructure failed: missing block: B:25:0x0112, code lost:
+            if (r2 != 3) goto L23;
          */
         @Override // android.view.View
         /*
@@ -1025,8 +1029,12 @@ public class EntityView extends FrameLayout {
             int actionMasked = motionEvent.getActionMasked();
             EntityView.this.delegate.getTransformedTouch(motionEvent.getRawX(), motionEvent.getRawY(), EntityView.this.xy);
             boolean z2 = motionEvent.getPointerCount() > 1 && this.currentHandle == 3;
-            if (z2 && Build.VERSION.SDK_INT >= 29) {
-                EntityView.this.delegate.getTransformedTouch(motionEvent.getRawX(1), motionEvent.getRawY(1), EntityView.this.xy2);
+            if (z2) {
+                if (Build.VERSION.SDK_INT >= 29) {
+                    EntityView.this.delegate.getTransformedTouch(motionEvent.getRawX(1), motionEvent.getRawY(1), EntityView.this.xy2);
+                } else {
+                    z2 = false;
+                }
             }
             if (z2) {
                 EntityView.this.cxy[0] = (EntityView.this.xy[0] + EntityView.this.xy2[0]) / 2.0f;

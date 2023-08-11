@@ -1603,11 +1603,11 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             float clamp2 = Utilities.clamp(clamp / 0.5f, 1.0f, 0.0f);
             this.dialogStoriesCell.setClipTop(0);
             if (!this.hasStories && this.animateToHasStories) {
-                this.dialogStoriesCell.setTranslationY(-AndroidUtilities.dp(81.0f));
+                this.dialogStoriesCell.setTranslationY((-AndroidUtilities.dp(81.0f)) - AndroidUtilities.dp(8.0f));
                 this.dialogStoriesCell.setProgressToCollapse(1.0f);
                 f3 = this.progressToDialogStoriesCell;
             } else {
-                this.dialogStoriesCell.setTranslationY(this.scrollYOffset + this.storiesYOffset + (this.storiesOverscroll / 2.0f));
+                this.dialogStoriesCell.setTranslationY(((this.scrollYOffset + this.storiesYOffset) + (this.storiesOverscroll / 2.0f)) - AndroidUtilities.dp(8.0f));
                 this.dialogStoriesCell.setProgressToCollapse(clamp, !this.rightSlidingDialogContainer.hasFragment());
                 if (!this.animateToHasStories) {
                     f3 = this.progressToDialogStoriesCell;
