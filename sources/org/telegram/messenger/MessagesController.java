@@ -1342,6 +1342,7 @@ public class MessagesController extends BaseController implements NotificationCe
         }
         getMessagesStorage().saveDialogFiltersOrder();
         getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.dialogFiltersUpdated, new Object[0]);
+        getStoriesController().onPremiumChanged();
     }
 
     public void lockFiltersInternal() {

@@ -1613,7 +1613,8 @@ public class BottomSheet extends Dialog {
         this.applyBottomPadding = z;
     }
 
-    protected void onDismissWithTouchOutside() {
+    /* JADX INFO: Access modifiers changed from: protected */
+    public void onDismissWithTouchOutside() {
         dismiss();
     }
 

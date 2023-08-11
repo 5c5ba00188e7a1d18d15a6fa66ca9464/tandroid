@@ -2491,7 +2491,7 @@ public class StoryViewer {
         if (!this.ATTACH_TO_FRAGMENT || (launchActivity = LaunchActivity.instance) == null) {
             return;
         }
-        launchActivity.checkSystemBarColors(true, false, true, false);
+        launchActivity.checkSystemBarColors(true, true, true, false);
     }
 
     private void setNavigationButtonsColor(boolean z) {

@@ -68,6 +68,7 @@ import org.telegram.ui.Components.FloatingDebug.FloatingDebugProvider;
 import org.telegram.ui.Components.Paint.ShapeDetector;
 import org.telegram.ui.Components.SharedMediaLayout;
 import org.telegram.ui.ProfileActivity;
+import org.telegram.ui.Stories.StoryViewer;
 import org.telegram.ui.Stories.recorder.ButtonWithCounterView;
 import org.telegram.ui.Stories.recorder.StoryRecorder;
 /* loaded from: classes4.dex */
@@ -1387,11 +1388,15 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public boolean isLightStatusBar() {
-        int color = Theme.getColor(Theme.key_windowBackgroundWhite);
-        if (this.actionBar.isActionModeShowed()) {
-            color = Theme.getColor(Theme.key_actionBarActionModeDefault);
+        StoryViewer storyViewer = this.storyViewer;
+        if (storyViewer == null || !storyViewer.isShown()) {
+            int color = Theme.getColor(Theme.key_windowBackgroundWhite);
+            if (this.actionBar.isActionModeShowed()) {
+                color = Theme.getColor(Theme.key_actionBarActionModeDefault);
+            }
+            return ColorUtils.calculateLuminance(color) > 0.699999988079071d;
         }
-        return ColorUtils.calculateLuminance(color) > 0.699999988079071d;
+        return false;
     }
 
     @Override // org.telegram.ui.Components.FloatingDebug.FloatingDebugProvider

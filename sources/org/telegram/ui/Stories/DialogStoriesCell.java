@@ -57,11 +57,13 @@ import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.EllipsizeSpanAnimator;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.ListView.AdapterWithDiffUtils;
+import org.telegram.ui.Components.Premium.LimitReachedBottomSheet;
 import org.telegram.ui.Components.RadialProgress;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.TypefaceSpan;
 import org.telegram.ui.PremiumPreviewFragment;
 import org.telegram.ui.Stories.DialogStoriesCell;
+import org.telegram.ui.Stories.StoriesController;
 import org.telegram.ui.Stories.StoriesUtilities;
 import org.telegram.ui.Stories.recorder.HintView2;
 import org.telegram.ui.Stories.recorder.StoryRecorder;
@@ -502,7 +504,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
     }
 
     /* JADX WARN: Removed duplicated region for block: B:115:0x0287  */
-    /* JADX WARN: Removed duplicated region for block: B:164:0x02ac A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:164:0x02ae A[SYNTHETIC] */
     @Override // android.view.ViewGroup, android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -633,7 +635,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
                         storyCell3.setAlpha(1.0f);
                     }
                     if (!storyCell3.drawInParent) {
-                        float x = this.recyclerListView.getX() + storyCell3.getX() + (storyCell3.getMeasuredWidth() / 2.0f) + (AndroidUtilities.dp(68.0f) / 2.0f);
+                        float x = this.recyclerListView.getX() + storyCell3.getX() + (storyCell3.getMeasuredWidth() / 2.0f) + (AndroidUtilities.dp(70.0f) / 2.0f);
                         if (f == 0.0f || x > f) {
                             f = x;
                         }
@@ -713,7 +715,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
     @Override // android.widget.FrameLayout, android.view.View
     protected void onMeasure(int i, int i2) {
         this.titleView.setTextSize(AndroidUtilities.dp((AndroidUtilities.isTablet() || getResources().getConfiguration().orientation != 2) ? 20.0f : 18.0f));
-        this.currentCellWidth = AndroidUtilities.dp(68.0f);
+        this.currentCellWidth = AndroidUtilities.dp(70.0f);
         AndroidUtilities.rectTmp.set(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight());
         super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(89.0f), 1073741824));
     }
@@ -882,15 +884,20 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
     }
 
     public void openStoryRecorder() {
-        StoryCell storyCell;
+        StoriesController.StoryLimit checkStoryLimit = MessagesController.getInstance(this.currentAccount).getStoriesController().checkStoryLimit();
+        if (checkStoryLimit != null) {
+            this.fragment.showDialog(new LimitReachedBottomSheet(this.fragment, getContext(), checkStoryLimit.getLimitReachedType(), this.currentAccount));
+            return;
+        }
+        StoryCell storyCell = null;
         int i = 0;
         while (true) {
             if (i >= this.recyclerListView.getChildCount()) {
-                storyCell = null;
                 break;
             }
-            storyCell = (StoryCell) this.recyclerListView.getChildAt(i);
-            if (storyCell.isSelf) {
+            StoryCell storyCell2 = (StoryCell) this.recyclerListView.getChildAt(i);
+            if (storyCell2.isSelf) {
+                storyCell = storyCell2;
                 break;
             }
             i++;
@@ -1132,7 +1139,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
             this.textView.setTextColor(DialogStoriesCell.this.getTextColor());
             NotificationCenter.listenEmojiLoading(this.textView);
             this.textView.setMaxLines(1);
-            this.textViewContainer.addView(this.textView, LayoutHelper.createFrame(-1, -2.0f, 0, 2.0f, 0.0f, 2.0f, 0.0f));
+            this.textViewContainer.addView(this.textView, LayoutHelper.createFrame(-1, -2.0f, 0, 1.0f, 0.0f, 1.0f, 0.0f));
             this.avatarImage.setRoundRadius(AndroidUtilities.dp(48.0f) / 2);
             this.crossfageToAvatarImage.setRoundRadius(AndroidUtilities.dp(48.0f) / 2);
         }
@@ -1257,7 +1264,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
 
         @Override // android.widget.FrameLayout, android.view.View
         protected void onMeasure(int i, int i2) {
-            super.onMeasure(View.MeasureSpec.makeMeasureSpec(this.mini ? AndroidUtilities.dp(68.0f) : DialogStoriesCell.this.currentCellWidth, 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(81.0f), 1073741824));
+            super.onMeasure(View.MeasureSpec.makeMeasureSpec(this.mini ? AndroidUtilities.dp(70.0f) : DialogStoriesCell.this.currentCellWidth, 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(81.0f), 1073741824));
         }
 
         float getCy() {

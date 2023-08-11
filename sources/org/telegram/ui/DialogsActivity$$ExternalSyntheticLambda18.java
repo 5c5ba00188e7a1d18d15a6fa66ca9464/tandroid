@@ -10,6 +10,6 @@ public final /* synthetic */ class DialogsActivity$$ExternalSyntheticLambda18 im
 
     @Override // android.content.DialogInterface.OnClickListener
     public final void onClick(DialogInterface dialogInterface, int i) {
-        DialogsActivity.lambda$onResume$47(dialogInterface, i);
+        DialogsActivity.lambda$onResume$48(dialogInterface, i);
     }
 }

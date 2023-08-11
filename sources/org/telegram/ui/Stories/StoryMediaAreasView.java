@@ -137,12 +137,6 @@ public class StoryMediaAreasView extends FrameLayout implements View.OnClickList
         setMeasuredDimension(size, size2);
     }
 
-    @Override // android.view.ViewGroup, android.view.View
-    public boolean dispatchTouchEvent(MotionEvent motionEvent) {
-        motionEvent.getX();
-        return super.dispatchTouchEvent(motionEvent);
-    }
-
     @Override // android.view.View.OnClickListener
     public void onClick(View view) {
         if (view instanceof AreaView) {
@@ -368,7 +362,6 @@ public class StoryMediaAreasView extends FrameLayout implements View.OnClickList
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes4.dex */
     public static class AreaView extends View {
         private LinearGradient gradient;

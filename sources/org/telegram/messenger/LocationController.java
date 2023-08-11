@@ -1345,10 +1345,16 @@ public class LocationController extends BaseController implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Code restructure failed: missing block: B:114:0x01cf, code lost:
+        if ("ru".equals(r12) == false) goto L196;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:125:0x01fb A[Catch: Exception -> 0x0384, TryCatch #5 {Exception -> 0x0384, blocks: (B:3:0x0006, B:5:0x0022, B:11:0x004c, B:14:0x0056, B:17:0x0060, B:26:0x0084, B:33:0x00a6, B:40:0x00c8, B:53:0x00ee, B:66:0x0111, B:71:0x0121, B:74:0x012d, B:76:0x0133, B:77:0x0136, B:79:0x013c, B:81:0x0146, B:83:0x014c, B:84:0x014f, B:85:0x0152, B:87:0x015c, B:89:0x0162, B:90:0x0165, B:91:0x0168, B:93:0x0172, B:95:0x0178, B:96:0x017b, B:97:0x017e, B:99:0x018c, B:101:0x0192, B:102:0x0195, B:105:0x01a8, B:109:0x01b9, B:111:0x01bf, B:113:0x01c8, B:123:0x01f1, B:125:0x01fb, B:127:0x0203, B:128:0x0217, B:130:0x021b, B:132:0x0221, B:133:0x0224, B:135:0x022a, B:137:0x0234, B:139:0x023a, B:140:0x023d, B:141:0x0240, B:143:0x024a, B:145:0x0250, B:146:0x0253, B:148:0x0258, B:150:0x0262, B:152:0x0268, B:153:0x026b, B:154:0x026e, B:156:0x0278, B:158:0x027e, B:159:0x0281, B:160:0x0284, B:166:0x02bf, B:168:0x02c7, B:163:0x0294, B:115:0x01d1, B:117:0x01dd, B:120:0x01e4, B:165:0x029b), top: B:214:0x0006 }] */
+    /* JADX WARN: Removed duplicated region for block: B:132:0x0221 A[Catch: Exception -> 0x0384, TryCatch #5 {Exception -> 0x0384, blocks: (B:3:0x0006, B:5:0x0022, B:11:0x004c, B:14:0x0056, B:17:0x0060, B:26:0x0084, B:33:0x00a6, B:40:0x00c8, B:53:0x00ee, B:66:0x0111, B:71:0x0121, B:74:0x012d, B:76:0x0133, B:77:0x0136, B:79:0x013c, B:81:0x0146, B:83:0x014c, B:84:0x014f, B:85:0x0152, B:87:0x015c, B:89:0x0162, B:90:0x0165, B:91:0x0168, B:93:0x0172, B:95:0x0178, B:96:0x017b, B:97:0x017e, B:99:0x018c, B:101:0x0192, B:102:0x0195, B:105:0x01a8, B:109:0x01b9, B:111:0x01bf, B:113:0x01c8, B:123:0x01f1, B:125:0x01fb, B:127:0x0203, B:128:0x0217, B:130:0x021b, B:132:0x0221, B:133:0x0224, B:135:0x022a, B:137:0x0234, B:139:0x023a, B:140:0x023d, B:141:0x0240, B:143:0x024a, B:145:0x0250, B:146:0x0253, B:148:0x0258, B:150:0x0262, B:152:0x0268, B:153:0x026b, B:154:0x026e, B:156:0x0278, B:158:0x027e, B:159:0x0281, B:160:0x0284, B:166:0x02bf, B:168:0x02c7, B:163:0x0294, B:115:0x01d1, B:117:0x01dd, B:120:0x01e4, B:165:0x029b), top: B:214:0x0006 }] */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public static /* synthetic */ void lambda$fetchLocationAddress$31(Locale locale, final Location location, final LocationFetchCallback locationFetchCallback) {
         TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue;
-        final TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue2;
-        final TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue3;
         final String str;
         final String str2;
         String format;
@@ -1357,13 +1363,13 @@ public class LocationController extends BaseController implements NotificationCe
         String str5;
         boolean z;
         String str6;
-        TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue4;
-        TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue5;
         String str7;
         int i;
         String locality;
         boolean z2;
-        TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue6 = null;
+        boolean z3;
+        boolean z4;
+        TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue2 = null;
         try {
             List<Address> fromLocation = new Geocoder(ApplicationLoader.applicationContext, locale).getFromLocation(location.getLatitude(), location.getLongitude(), 1);
             if (fromLocation.size() > 0) {
@@ -1379,12 +1385,12 @@ public class LocationController extends BaseController implements NotificationCe
                         tLRPC$TL_messageMediaVenue = null;
                         str2 = String.format(Locale.US, "Unknown address (%f,%f)", Double.valueOf(location.getLatitude()), Double.valueOf(location.getLongitude()));
                         str = str2;
-                        tLRPC$TL_messageMediaVenue3 = tLRPC$TL_messageMediaVenue6;
-                        tLRPC$TL_messageMediaVenue2 = tLRPC$TL_messageMediaVenue;
+                        final TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue3 = tLRPC$TL_messageMediaVenue2;
+                        final TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue4 = tLRPC$TL_messageMediaVenue;
                         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda3
                             @Override // java.lang.Runnable
                             public final void run() {
-                                LocationController.lambda$fetchLocationAddress$30(LocationController.LocationFetchCallback.this, str2, str, tLRPC$TL_messageMediaVenue3, tLRPC$TL_messageMediaVenue2, location);
+                                LocationController.lambda$fetchLocationAddress$30(LocationController.LocationFetchCallback.this, str2, str, tLRPC$TL_messageMediaVenue3, tLRPC$TL_messageMediaVenue4, location);
                             }
                         });
                     }
@@ -1413,7 +1419,7 @@ public class LocationController extends BaseController implements NotificationCe
                     sb4.append(thoroughfare);
                 }
                 if (TextUtils.isEmpty(locality)) {
-                    z = true;
+                    z2 = true;
                 } else {
                     if (sb3.length() > 0) {
                         sb3.append(", ");
@@ -1425,14 +1431,14 @@ public class LocationController extends BaseController implements NotificationCe
                         }
                         sb4.append(locality);
                     }
-                    z = false;
+                    z2 = false;
                 }
                 String subThoroughfare = address.getSubThoroughfare();
                 if (TextUtils.isEmpty(subThoroughfare)) {
-                    z2 = false;
+                    z3 = false;
                 } else {
                     sb.append(subThoroughfare);
-                    z2 = true;
+                    z3 = true;
                 }
                 String thoroughfare2 = address.getThoroughfare();
                 if (!TextUtils.isEmpty(thoroughfare2)) {
@@ -1440,9 +1446,9 @@ public class LocationController extends BaseController implements NotificationCe
                         sb.append(" ");
                     }
                     sb.append(thoroughfare2);
-                    z2 = true;
+                    z3 = true;
                 }
-                if (!z2) {
+                if (!z3) {
                     String adminArea = address.getAdminArea();
                     if (!TextUtils.isEmpty(adminArea)) {
                         if (sb.length() > 0) {
@@ -1467,22 +1473,50 @@ public class LocationController extends BaseController implements NotificationCe
                 }
                 str6 = address.getCountryCode();
                 String countryName = address.getCountryName();
-                if (!TextUtils.isEmpty(countryName)) {
+                if (TextUtils.isEmpty(countryName)) {
+                    z4 = z2;
+                } else {
                     if (sb.length() > 0) {
                         sb.append(", ");
                     }
                     sb.append(countryName);
-                    if ("US".equals(address.getCountryCode()) || "AE".equals(address.getCountryCode()) || ("GB".equals(address.getCountryCode()) && "en".equals(locale.getLanguage()))) {
-                        String[] split = countryName.split(" ");
-                        countryName = "";
-                        for (String str8 : split) {
-                            if (str8.length() > 0) {
-                                countryName = countryName + str8.charAt(0);
+                    String language = locale.getLanguage();
+                    if ("US".equals(address.getCountryCode())) {
+                        z4 = z2;
+                    } else {
+                        z4 = z2;
+                        if ("AE".equals(address.getCountryCode())) {
+                        }
+                        if ("GB".equals(address.getCountryCode()) && "en".equals(language)) {
+                            String str8 = "";
+                            for (String str9 : countryName.split(" ")) {
+                                if (str9.length() > 0) {
+                                    str8 = str8 + str9.charAt(0);
+                                }
                             }
+                            countryName = str8;
+                            if (sb3.length() > 0) {
+                            }
+                            sb3.append(countryName);
+                        } else {
+                            if ("US".equals(address.getCountryCode())) {
+                                countryName = "USA";
+                            }
+                            if (sb3.length() > 0) {
+                                sb3.append(", ");
+                            }
+                            sb3.append(countryName);
                         }
                     }
+                    if (!"en".equals(language)) {
+                        if (!"uk".equals(language)) {
+                        }
+                    }
+                    String str82 = "";
+                    while (r4 < r3) {
+                    }
+                    countryName = str82;
                     if (sb3.length() > 0) {
-                        sb3.append(", ");
                     }
                     sb3.append(countryName);
                 }
@@ -1500,7 +1534,7 @@ public class LocationController extends BaseController implements NotificationCe
                     }
                     sb2.append(locality3);
                 }
-                if (!z2) {
+                if (!z3) {
                     String adminArea2 = address.getAdminArea();
                     if (!TextUtils.isEmpty(adminArea2)) {
                         if (sb2.length() > 0) {
@@ -1520,6 +1554,7 @@ public class LocationController extends BaseController implements NotificationCe
                 str3 = sb2.toString();
                 str4 = sb3.toString();
                 str5 = sb4 == null ? null : sb4.toString();
+                z = z4;
             } else {
                 format = String.format(Locale.US, "Unknown address (%f,%f)", Double.valueOf(location.getLatitude()), Double.valueOf(location.getLongitude()));
                 str3 = format;
@@ -1529,18 +1564,18 @@ public class LocationController extends BaseController implements NotificationCe
                 str6 = null;
             }
             if (TextUtils.isEmpty(str4)) {
-                tLRPC$TL_messageMediaVenue4 = null;
+                tLRPC$TL_messageMediaVenue2 = null;
             } else {
-                tLRPC$TL_messageMediaVenue4 = new TLRPC$TL_messageMediaVenue();
+                tLRPC$TL_messageMediaVenue2 = new TLRPC$TL_messageMediaVenue();
                 try {
                     TLRPC$TL_geoPoint tLRPC$TL_geoPoint = new TLRPC$TL_geoPoint();
-                    tLRPC$TL_messageMediaVenue4.geo = tLRPC$TL_geoPoint;
+                    tLRPC$TL_messageMediaVenue2.geo = tLRPC$TL_geoPoint;
                     tLRPC$TL_geoPoint.lat = location.getLatitude();
-                    tLRPC$TL_messageMediaVenue4.geo._long = location.getLongitude();
-                    tLRPC$TL_messageMediaVenue4.query_id = -1L;
-                    tLRPC$TL_messageMediaVenue4.title = str4;
-                    tLRPC$TL_messageMediaVenue4.icon = z ? "https://ss3.4sqi.net/img/categories_v2/building/government_capitolbuilding_64.png" : "https://ss3.4sqi.net/img/categories_v2/travel/hotel_64.png";
-                    tLRPC$TL_messageMediaVenue4.emoji = countryCodeToEmoji(str6);
+                    tLRPC$TL_messageMediaVenue2.geo._long = location.getLongitude();
+                    tLRPC$TL_messageMediaVenue2.query_id = -1L;
+                    tLRPC$TL_messageMediaVenue2.title = str4;
+                    tLRPC$TL_messageMediaVenue2.icon = z ? "https://ss3.4sqi.net/img/categories_v2/building/government_capitolbuilding_64.png" : "https://ss3.4sqi.net/img/categories_v2/travel/hotel_64.png";
+                    tLRPC$TL_messageMediaVenue2.emoji = countryCodeToEmoji(str6);
                     if (z) {
                         str7 = "Country";
                         i = R.string.Country;
@@ -1548,108 +1583,93 @@ public class LocationController extends BaseController implements NotificationCe
                         str7 = "PassportCity";
                         i = R.string.PassportCity;
                     }
-                    tLRPC$TL_messageMediaVenue4.address = LocaleController.getString(str7, i);
+                    tLRPC$TL_messageMediaVenue2.address = LocaleController.getString(str7, i);
                 } catch (Exception unused2) {
-                    tLRPC$TL_messageMediaVenue6 = tLRPC$TL_messageMediaVenue4;
                     tLRPC$TL_messageMediaVenue = null;
                     str2 = String.format(Locale.US, "Unknown address (%f,%f)", Double.valueOf(location.getLatitude()), Double.valueOf(location.getLongitude()));
                     str = str2;
-                    tLRPC$TL_messageMediaVenue3 = tLRPC$TL_messageMediaVenue6;
-                    tLRPC$TL_messageMediaVenue2 = tLRPC$TL_messageMediaVenue;
+                    final TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue32 = tLRPC$TL_messageMediaVenue2;
+                    final TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue42 = tLRPC$TL_messageMediaVenue;
                     AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda3
                         @Override // java.lang.Runnable
                         public final void run() {
-                            LocationController.lambda$fetchLocationAddress$30(LocationController.LocationFetchCallback.this, str2, str, tLRPC$TL_messageMediaVenue3, tLRPC$TL_messageMediaVenue2, location);
+                            LocationController.lambda$fetchLocationAddress$30(LocationController.LocationFetchCallback.this, str2, str, tLRPC$TL_messageMediaVenue32, tLRPC$TL_messageMediaVenue42, location);
                         }
                     });
                 }
             }
             if (TextUtils.isEmpty(str5)) {
-                tLRPC$TL_messageMediaVenue5 = null;
+                tLRPC$TL_messageMediaVenue = null;
             } else {
-                TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue7 = new TLRPC$TL_messageMediaVenue();
+                TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue5 = new TLRPC$TL_messageMediaVenue();
                 try {
                     TLRPC$TL_geoPoint tLRPC$TL_geoPoint2 = new TLRPC$TL_geoPoint();
-                    tLRPC$TL_messageMediaVenue7.geo = tLRPC$TL_geoPoint2;
+                    tLRPC$TL_messageMediaVenue5.geo = tLRPC$TL_geoPoint2;
                     tLRPC$TL_geoPoint2.lat = location.getLatitude();
-                    tLRPC$TL_messageMediaVenue7.geo._long = location.getLongitude();
-                    tLRPC$TL_messageMediaVenue7.query_id = -1L;
-                    tLRPC$TL_messageMediaVenue7.title = str5;
-                    tLRPC$TL_messageMediaVenue7.icon = "pin";
-                    tLRPC$TL_messageMediaVenue7.address = LocaleController.getString("PassportStreet1", R.string.PassportStreet1);
-                    tLRPC$TL_messageMediaVenue5 = tLRPC$TL_messageMediaVenue7;
+                    tLRPC$TL_messageMediaVenue5.geo._long = location.getLongitude();
+                    tLRPC$TL_messageMediaVenue5.query_id = -1L;
+                    tLRPC$TL_messageMediaVenue5.title = str5;
+                    tLRPC$TL_messageMediaVenue5.icon = "pin";
+                    tLRPC$TL_messageMediaVenue5.address = LocaleController.getString("PassportStreet1", R.string.PassportStreet1);
+                    tLRPC$TL_messageMediaVenue = tLRPC$TL_messageMediaVenue5;
                 } catch (Exception unused3) {
-                    tLRPC$TL_messageMediaVenue = tLRPC$TL_messageMediaVenue7;
-                    tLRPC$TL_messageMediaVenue6 = tLRPC$TL_messageMediaVenue4;
+                    tLRPC$TL_messageMediaVenue = tLRPC$TL_messageMediaVenue5;
                     str2 = String.format(Locale.US, "Unknown address (%f,%f)", Double.valueOf(location.getLatitude()), Double.valueOf(location.getLongitude()));
                     str = str2;
-                    tLRPC$TL_messageMediaVenue3 = tLRPC$TL_messageMediaVenue6;
-                    tLRPC$TL_messageMediaVenue2 = tLRPC$TL_messageMediaVenue;
+                    final TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue322 = tLRPC$TL_messageMediaVenue2;
+                    final TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue422 = tLRPC$TL_messageMediaVenue;
                     AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda3
                         @Override // java.lang.Runnable
                         public final void run() {
-                            LocationController.lambda$fetchLocationAddress$30(LocationController.LocationFetchCallback.this, str2, str, tLRPC$TL_messageMediaVenue3, tLRPC$TL_messageMediaVenue2, location);
+                            LocationController.lambda$fetchLocationAddress$30(LocationController.LocationFetchCallback.this, str2, str, tLRPC$TL_messageMediaVenue322, tLRPC$TL_messageMediaVenue422, location);
                         }
                     });
                 }
             }
-            if (tLRPC$TL_messageMediaVenue4 == null && tLRPC$TL_messageMediaVenue5 == null) {
+            if (tLRPC$TL_messageMediaVenue2 == null && tLRPC$TL_messageMediaVenue == null) {
                 try {
                     String detectOcean = detectOcean(location.getLongitude(), location.getLatitude());
                     if (detectOcean != null) {
-                        TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue8 = new TLRPC$TL_messageMediaVenue();
+                        TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue6 = new TLRPC$TL_messageMediaVenue();
                         try {
                             TLRPC$TL_geoPoint tLRPC$TL_geoPoint3 = new TLRPC$TL_geoPoint();
-                            tLRPC$TL_messageMediaVenue8.geo = tLRPC$TL_geoPoint3;
+                            tLRPC$TL_messageMediaVenue6.geo = tLRPC$TL_geoPoint3;
                             tLRPC$TL_geoPoint3.lat = location.getLatitude();
-                            tLRPC$TL_messageMediaVenue8.geo._long = location.getLongitude();
-                            tLRPC$TL_messageMediaVenue8.query_id = -1L;
-                            tLRPC$TL_messageMediaVenue8.title = detectOcean;
-                            tLRPC$TL_messageMediaVenue8.icon = "pin";
-                            tLRPC$TL_messageMediaVenue8.emoji = "🌊";
-                            tLRPC$TL_messageMediaVenue8.address = "Ocean";
-                            tLRPC$TL_messageMediaVenue4 = tLRPC$TL_messageMediaVenue8;
+                            tLRPC$TL_messageMediaVenue6.geo._long = location.getLongitude();
+                            tLRPC$TL_messageMediaVenue6.query_id = -1L;
+                            tLRPC$TL_messageMediaVenue6.title = detectOcean;
+                            tLRPC$TL_messageMediaVenue6.icon = "pin";
+                            tLRPC$TL_messageMediaVenue6.emoji = "🌊";
+                            tLRPC$TL_messageMediaVenue6.address = "Ocean";
+                            tLRPC$TL_messageMediaVenue2 = tLRPC$TL_messageMediaVenue6;
                         } catch (Exception unused4) {
-                            tLRPC$TL_messageMediaVenue = tLRPC$TL_messageMediaVenue5;
-                            tLRPC$TL_messageMediaVenue6 = tLRPC$TL_messageMediaVenue8;
+                            tLRPC$TL_messageMediaVenue2 = tLRPC$TL_messageMediaVenue6;
                             str2 = String.format(Locale.US, "Unknown address (%f,%f)", Double.valueOf(location.getLatitude()), Double.valueOf(location.getLongitude()));
                             str = str2;
-                            tLRPC$TL_messageMediaVenue3 = tLRPC$TL_messageMediaVenue6;
-                            tLRPC$TL_messageMediaVenue2 = tLRPC$TL_messageMediaVenue;
+                            final TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue3222 = tLRPC$TL_messageMediaVenue2;
+                            final TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue4222 = tLRPC$TL_messageMediaVenue;
                             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda3
                                 @Override // java.lang.Runnable
                                 public final void run() {
-                                    LocationController.lambda$fetchLocationAddress$30(LocationController.LocationFetchCallback.this, str2, str, tLRPC$TL_messageMediaVenue3, tLRPC$TL_messageMediaVenue2, location);
+                                    LocationController.lambda$fetchLocationAddress$30(LocationController.LocationFetchCallback.this, str2, str, tLRPC$TL_messageMediaVenue3222, tLRPC$TL_messageMediaVenue4222, location);
                                 }
                             });
                         }
                     }
                 } catch (Exception unused5) {
-                    tLRPC$TL_messageMediaVenue = tLRPC$TL_messageMediaVenue5;
-                    tLRPC$TL_messageMediaVenue6 = tLRPC$TL_messageMediaVenue4;
-                    str2 = String.format(Locale.US, "Unknown address (%f,%f)", Double.valueOf(location.getLatitude()), Double.valueOf(location.getLongitude()));
-                    str = str2;
-                    tLRPC$TL_messageMediaVenue3 = tLRPC$TL_messageMediaVenue6;
-                    tLRPC$TL_messageMediaVenue2 = tLRPC$TL_messageMediaVenue;
-                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda3
-                        @Override // java.lang.Runnable
-                        public final void run() {
-                            LocationController.lambda$fetchLocationAddress$30(LocationController.LocationFetchCallback.this, str2, str, tLRPC$TL_messageMediaVenue3, tLRPC$TL_messageMediaVenue2, location);
-                        }
-                    });
                 }
             }
             str2 = format;
             str = str3;
-            tLRPC$TL_messageMediaVenue2 = tLRPC$TL_messageMediaVenue5;
-            tLRPC$TL_messageMediaVenue3 = tLRPC$TL_messageMediaVenue4;
         } catch (Exception unused6) {
-            tLRPC$TL_messageMediaVenue6 = null;
+            tLRPC$TL_messageMediaVenue2 = null;
         }
+        final TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue32222 = tLRPC$TL_messageMediaVenue2;
+        final TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue42222 = tLRPC$TL_messageMediaVenue;
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
-                LocationController.lambda$fetchLocationAddress$30(LocationController.LocationFetchCallback.this, str2, str, tLRPC$TL_messageMediaVenue3, tLRPC$TL_messageMediaVenue2, location);
+                LocationController.lambda$fetchLocationAddress$30(LocationController.LocationFetchCallback.this, str2, str, tLRPC$TL_messageMediaVenue32222, tLRPC$TL_messageMediaVenue42222, location);
             }
         });
     }
