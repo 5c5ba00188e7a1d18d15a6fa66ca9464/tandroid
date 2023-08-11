@@ -720,6 +720,7 @@ public class StoriesController {
                 preloadUserStories(tLRPC$TL_userStories);
             }
         }
+        FileLog.d("StoriesController applyNewStories " + tLRPC$TL_userStories.user_id);
         updateStoriesInLists(tLRPC$TL_userStories.user_id, tLRPC$TL_userStories.stories);
     }
 
@@ -1071,6 +1072,7 @@ public class StoriesController {
                 tLRPC$TL_stories_togglePinned.id.add(Integer.valueOf(tLRPC$StoryItem.id));
             }
         }
+        FileLog.d("StoriesController updateStoriesPinned");
         updateStoriesInLists(getSelfUserId(), arrayList);
         tLRPC$TL_stories_togglePinned.pinned = z;
         ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_stories_togglePinned, new RequestDelegate() { // from class: org.telegram.ui.Stories.StoriesController$$ExternalSyntheticLambda20
@@ -1103,6 +1105,18 @@ public class StoriesController {
     }
 
     public void updateStoryItem(long j, TLRPC$StoryItem tLRPC$StoryItem) {
+        String str;
+        StringBuilder sb = new StringBuilder();
+        sb.append("StoriesController updateStoryItem ");
+        sb.append(j);
+        sb.append(" ");
+        if (tLRPC$StoryItem == null) {
+            str = "null";
+        } else {
+            str = tLRPC$StoryItem.id + "@" + tLRPC$StoryItem.dialogId;
+        }
+        sb.append(str);
+        FileLog.d(sb.toString());
         this.storiesStorage.updateStoryItem(j, tLRPC$StoryItem);
         updateStoriesInLists(j, Collections.singletonList(tLRPC$StoryItem));
     }
@@ -2099,7 +2113,47 @@ public class StoriesController {
         return storiesList;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
+    public static String storyItemIds(List<TLRPC$StoryItem> list) {
+        if (list == null) {
+            return "null";
+        }
+        String str = "";
+        for (int i = 0; i < list.size(); i++) {
+            try {
+                if (i > 0) {
+                    str = str + ", ";
+                }
+                str = str + list.get(i).id + "@" + list.get(i).dialogId;
+            } catch (Exception unused) {
+                return "err";
+            }
+        }
+        return str;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static String storyItemMessageIds(List<MessageObject> list) {
+        TLRPC$StoryItem tLRPC$StoryItem;
+        if (list == null) {
+            return "null";
+        }
+        String str = "";
+        for (int i = 0; i < list.size(); i++) {
+            try {
+                if (i > 0) {
+                    str = str + ", ";
+                }
+                str = list.get(i).storyItem == null ? str + "null" : str + tLRPC$StoryItem.id + "@" + tLRPC$StoryItem.dialogId;
+            } catch (Exception unused) {
+                return "err";
+            }
+        }
+        return str;
+    }
+
     public void updateStoriesInLists(long j, List<TLRPC$StoryItem> list) {
+        FileLog.d("updateStoriesInLists " + j + " storyItems[" + list.size() + "] {" + storyItemIds(list) + "}");
         StoriesList storiesList = getStoriesList(j, 0, false);
         StoriesList storiesList2 = getStoriesList(j, 1, false);
         if (storiesList != null) {
@@ -2111,6 +2165,7 @@ public class StoriesController {
     }
 
     public void updateDeletedStoriesInLists(long j, List<TLRPC$StoryItem> list) {
+        FileLog.d("updateDeletedStoriesInLists " + j + " storyItems[" + list.size() + "] {" + storyItemIds(list) + "}");
         StoriesList storiesList = getStoriesList(j, 0, false);
         StoriesList storiesList2 = getStoriesList(j, 1, false);
         if (storiesList != null) {
@@ -2201,14 +2256,6 @@ public class StoriesController {
 
         public void fill(boolean z) {
             fill(this.messageObjects, this.showPhotos, this.showVideos);
-            String str = "";
-            for (int i = 0; i < this.messageObjects.size(); i++) {
-                long id = this.messageObjects.get(i).getId();
-                if (i > 0) {
-                    str = str + ", ";
-                }
-                str = str + id;
-            }
             if (z) {
                 AndroidUtilities.cancelRunOnUIThread(this.notify);
                 AndroidUtilities.runOnUIThread(this.notify);
@@ -2269,7 +2316,7 @@ public class StoriesController {
             this.currentAccount = i;
             this.userId = j;
             this.type = i2;
-            this.destroyRunnable = new Runnable() { // from class: org.telegram.ui.Stories.StoriesController$StoriesList$$ExternalSyntheticLambda8
+            this.destroyRunnable = new Runnable() { // from class: org.telegram.ui.Stories.StoriesController$StoriesList$$ExternalSyntheticLambda9
                 @Override // java.lang.Runnable
                 public final void run() {
                     StoriesController.StoriesList.this.lambda$new$1(callback);
@@ -2289,7 +2336,7 @@ public class StoriesController {
             }
             this.preloading = true;
             final MessagesStorage messagesStorage = MessagesStorage.getInstance(this.currentAccount);
-            messagesStorage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.StoriesController$StoriesList$$ExternalSyntheticLambda7
+            messagesStorage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.StoriesController$StoriesList$$ExternalSyntheticLambda8
                 @Override // java.lang.Runnable
                 public final void run() {
                     StoriesController.StoriesList.this.lambda$preloadCache$3(messagesStorage);
@@ -2343,15 +2390,16 @@ public class StoriesController {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoriesController$StoriesList$$ExternalSyntheticLambda4
                 @Override // java.lang.Runnable
                 public final void run() {
-                    StoriesController.StoriesList.this.lambda$preloadCache$2(arrayList2, arrayList);
+                    StoriesController.StoriesList.this.lambda$preloadCache$2(arrayList, arrayList2);
                 }
             });
         }
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$preloadCache$2(ArrayList arrayList, ArrayList arrayList2) {
+            FileLog.d("StoriesList " + this.type + "{" + this.userId + "} preloadCache {" + StoriesController.storyItemMessageIds(arrayList) + "}");
             this.preloading = false;
-            MessagesController.getInstance(this.currentAccount).putUsers(arrayList, true);
+            MessagesController.getInstance(this.currentAccount).putUsers(arrayList2, true);
             if (this.invalidateAfterPreload) {
                 this.invalidateAfterPreload = false;
                 this.toLoad = null;
@@ -2359,8 +2407,8 @@ public class StoriesController {
                 return;
             }
             this.cachedObjects.clear();
-            for (int i = 0; i < arrayList2.size(); i++) {
-                pushObject((MessageObject) arrayList2.get(i), true);
+            for (int i = 0; i < arrayList.size(); i++) {
+                pushObject((MessageObject) arrayList.get(i), true);
             }
             fill(false);
             Utilities.CallbackReturn<Integer, Boolean> callbackReturn = this.toLoad;
@@ -2447,7 +2495,7 @@ public class StoriesController {
             }
             resetCanLoad();
             final MessagesStorage messagesStorage = MessagesStorage.getInstance(this.currentAccount);
-            messagesStorage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.StoriesController$StoriesList$$ExternalSyntheticLambda6
+            messagesStorage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.StoriesController$StoriesList$$ExternalSyntheticLambda7
                 @Override // java.lang.Runnable
                 public final void run() {
                     StoriesController.StoriesList.this.lambda$invalidateCache$6(messagesStorage);
@@ -2488,7 +2536,7 @@ public class StoriesController {
             }
             this.saving = true;
             final MessagesStorage messagesStorage = MessagesStorage.getInstance(this.currentAccount);
-            messagesStorage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.StoriesController$StoriesList$$ExternalSyntheticLambda5
+            messagesStorage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.StoriesController$StoriesList$$ExternalSyntheticLambda6
                 @Override // java.lang.Runnable
                 public final void run() {
                     StoriesController.StoriesList.this.lambda$saveCache$8(messagesStorage);
@@ -2497,13 +2545,13 @@ public class StoriesController {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* JADX WARN: Code restructure failed: missing block: B:18:0x008f, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:18:0x00c0, code lost:
             if (r2 != null) goto L25;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:24:0x009b, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:24:0x00cc, code lost:
             org.telegram.messenger.AndroidUtilities.runOnUIThread(new org.telegram.ui.Stories.StoriesController$StoriesList$$ExternalSyntheticLambda3(r10));
          */
-        /* JADX WARN: Code restructure failed: missing block: B:25:0x00a3, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:25:0x00d4, code lost:
             return;
          */
         /*
@@ -2512,6 +2560,7 @@ public class StoriesController {
         public /* synthetic */ void lambda$saveCache$8(MessagesStorage messagesStorage) {
             ArrayList<MessageObject> arrayList = new ArrayList<>();
             fill(arrayList, true, true);
+            FileLog.d("StoriesList " + this.type + "{" + this.userId + "} saveCache {" + StoriesController.storyItemMessageIds(arrayList) + "}");
             SQLitePreparedStatement sQLitePreparedStatement = null;
             try {
                 SQLiteDatabase database = messagesStorage.getDatabase();
@@ -2604,6 +2653,7 @@ public class StoriesController {
                 tLRPC$TL_stories_getStoriesArchive2.limit = i;
                 tLRPC$TL_stories_getStoriesArchive = tLRPC$TL_stories_getStoriesArchive2;
             }
+            FileLog.d("StoriesList " + this.type + "{" + this.userId + "} load");
             this.loading = true;
             ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_stories_getStoriesArchive, new RequestDelegate() { // from class: org.telegram.ui.Stories.StoriesController$StoriesList$$ExternalSyntheticLambda12
                 @Override // org.telegram.tgnet.RequestDelegate
@@ -2627,10 +2677,10 @@ public class StoriesController {
                 for (int i2 = 0; i2 < tLRPC$TL_stories_stories.stories.size(); i2++) {
                     arrayList.add(toMessageObject(tLRPC$TL_stories_stories.stories.get(i2)));
                 }
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoriesController$StoriesList$$ExternalSyntheticLambda9
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoriesController$StoriesList$$ExternalSyntheticLambda5
                     @Override // java.lang.Runnable
                     public final void run() {
-                        StoriesController.StoriesList.this.lambda$load$10(tLRPC$TL_stories_stories, arrayList, i);
+                        StoriesController.StoriesList.this.lambda$load$10(arrayList, tLRPC$TL_stories_stories, i);
                     }
                 });
                 return;
@@ -2644,7 +2694,8 @@ public class StoriesController {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$load$10(TLRPC$TL_stories_stories tLRPC$TL_stories_stories, ArrayList arrayList, int i) {
+        public /* synthetic */ void lambda$load$10(ArrayList arrayList, TLRPC$TL_stories_stories tLRPC$TL_stories_stories, int i) {
+            FileLog.d("StoriesList " + this.type + "{" + this.userId + "} loaded {" + StoriesController.storyItemMessageIds(arrayList) + "}");
             MessagesController.getInstance(this.currentAccount).putUsers(tLRPC$TL_stories_stories.users, false);
             this.loading = false;
             this.totalCount = tLRPC$TL_stories_stories.count;
@@ -2696,6 +2747,7 @@ public class StoriesController {
         }
 
         public void updateDeletedStories(List<TLRPC$StoryItem> list) {
+            FileLog.d("StoriesList " + this.type + "{" + this.userId + "} updateDeletedStories {" + StoriesController.storyItemIds(list) + "}");
             if (list == null) {
                 return;
             }
@@ -2723,6 +2775,7 @@ public class StoriesController {
 
         public void updateStories(List<TLRPC$StoryItem> list) {
             MessageObject messageObject;
+            FileLog.d("StoriesList " + this.type + "{" + this.userId + "} updateStories {" + StoriesController.storyItemIds(list) + "}");
             if (list == null) {
                 return;
             }
@@ -2737,12 +2790,14 @@ public class StoriesController {
                     }
                     if (z2 != z3) {
                         if (!z3) {
+                            FileLog.d("StoriesList remove story " + tLRPC$StoryItem.id);
                             removeObject(tLRPC$StoryItem.id, true);
                             int i2 = this.totalCount;
                             if (i2 != -1) {
                                 this.totalCount = i2 - 1;
                             }
                         } else {
+                            FileLog.d("StoriesList put story " + tLRPC$StoryItem.id);
                             pushObject(toMessageObject(tLRPC$StoryItem), false);
                             int i3 = this.totalCount;
                             if (i3 != -1) {
@@ -2750,6 +2805,7 @@ public class StoriesController {
                             }
                         }
                     } else if (z2 && z3 && ((messageObject = this.messageObjectsMap.get(Integer.valueOf(tLRPC$StoryItem.id))) == null || !equal(messageObject.storyItem, tLRPC$StoryItem))) {
+                        FileLog.d("StoriesList update story " + tLRPC$StoryItem.id);
                         this.messageObjectsMap.put(Integer.valueOf(tLRPC$StoryItem.id), toMessageObject(tLRPC$StoryItem));
                     }
                     z = true;
