@@ -4,7 +4,6 @@ import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
 import com.google.common.math.IntMath;
-import org.telegram.messenger.MessagesStorage;
 /* loaded from: classes.dex */
 public final class RtpPacket {
     private static final byte[] EMPTY = new byte[0];
@@ -97,7 +96,7 @@ public final class RtpPacket {
         }
         int readUnsignedByte2 = parsableByteArray.readUnsignedByte();
         boolean z2 = ((readUnsignedByte2 >> 7) & 1) == 1;
-        byte b3 = (byte) (readUnsignedByte2 & MessagesStorage.LAST_DB_VERSION);
+        byte b3 = (byte) (readUnsignedByte2 & 127);
         int readUnsignedShort = parsableByteArray.readUnsignedShort();
         long readUnsignedInt = parsableByteArray.readUnsignedInt();
         int readInt = parsableByteArray.readInt();

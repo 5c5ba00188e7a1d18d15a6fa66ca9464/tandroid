@@ -284,6 +284,9 @@ public abstract class TLRPC$Update extends TLObject {
             case -483443337:
                 tLRPC$TL_updateTheme = new TLRPC$TL_updateChatParticipantDelete();
                 break;
+            case -475579104:
+                tLRPC$TL_updateTheme = new TLRPC$TL_updateSentStoryReaction();
+                break;
             case -469536605:
                 tLRPC$TL_updateTheme = new TLRPC$TL_updateEditMessage();
                 break;
@@ -302,6 +305,9 @@ public abstract class TLRPC$Update extends TLObject {
                 break;
             case -366410403:
                 tLRPC$TL_updateTheme = new TLRPC$TL_updateChannelReadMessagesContents();
+                break;
+            case -337610926:
+                tLRPC$TL_updateTheme = new TLRPC$TL_updatePeerBlocked();
                 break;
             case -337352679:
                 tLRPC$TL_updateTheme = new TLRPC$TL_updateServiceNotification();
@@ -410,9 +416,6 @@ public abstract class TLRPC$Update extends TLObject {
             case 542785843:
                 tLRPC$TL_updateTheme = new TLRPC$TL_updateStory();
                 break;
-            case 610945826:
-                tLRPC$TL_updateTheme = new TLRPC$TL_updatePeerBlocked();
-                break;
             case 619974263:
                 tLRPC$TL_updateTheme = new TLRPC$Update() { // from class: org.telegram.tgnet.TLRPC$TL_updateMessagePollVote
                     public static int constructor = 619974263;
@@ -462,6 +465,9 @@ public abstract class TLRPC$Update extends TLObject {
                 break;
             case 674706841:
                 tLRPC$TL_updateTheme = new TLRPC$TL_updateUserEmojiStatus();
+                break;
+            case 738741697:
+                tLRPC$TL_updateTheme = new TLRPC$TL_updateStoriesStealthMode();
                 break;
             case 791390623:
                 tLRPC$TL_updateTheme = new TLRPC$TL_updateChannelWebPage();

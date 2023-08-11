@@ -1,8 +1,10 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_contacts_getBlocked extends TLObject {
-    public static int constructor = -176409329;
+    public static int constructor = -1702457472;
+    public int flags;
     public int limit;
+    public boolean my_stories_from;
     public int offset;
 
     @Override // org.telegram.tgnet.TLObject
@@ -13,6 +15,9 @@ public class TLRPC$TL_contacts_getBlocked extends TLObject {
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
         abstractSerializedData.writeInt32(constructor);
+        int i = this.my_stories_from ? this.flags | 1 : this.flags & (-2);
+        this.flags = i;
+        abstractSerializedData.writeInt32(i);
         abstractSerializedData.writeInt32(this.offset);
         abstractSerializedData.writeInt32(this.limit);
     }

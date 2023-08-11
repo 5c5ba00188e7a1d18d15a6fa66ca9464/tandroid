@@ -995,9 +995,12 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                 this.actionBar.getTitleTextView().setAlpha(0.0f);
                 if (!this.emailOnly) {
                     this.bottomSkipButton.setVisibility(0);
+                    this.bottomSkipButton.setAlpha(0.0f);
                     this.bottomSkipButton.setText(LocaleController.getString("YourEmailSkip", R.string.YourEmailSkip));
                 }
                 this.titleTextView.setText(LocaleController.getString("RecoveryEmailTitle", i18));
+                this.descriptionText.setText(LocaleController.getString("RecoveryEmailSubtitle", R.string.RecoveryEmailSubtitle));
+                this.descriptionText.setVisibility(0);
                 OutlineTextContainerView outlineTextContainerView3 = this.outlineTextFirstRow;
                 int i19 = R.string.PaymentShippingEmailPlaceholder;
                 outlineTextContainerView3.setText(LocaleController.getString(i19));
@@ -1238,6 +1241,9 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$7(View view) {
+        if (this.bottomSkipButton.getAlpha() < 0.5f) {
+            return;
+        }
         int i = this.currentType;
         if (i == 0) {
             needShowProgress();
@@ -1606,6 +1612,10 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                 onHintDone();
                 return;
             case 3:
+                if (!this.emailOnly && this.bottomSkipButton.getAlpha() < 1.0f) {
+                    this.bottomSkipButton.animate().cancel();
+                    this.bottomSkipButton.animate().alpha(1.0f).start();
+                }
                 String obj2 = this.editTextFirstRow.getText().toString();
                 this.email = obj2;
                 if (!isValidEmail(obj2)) {

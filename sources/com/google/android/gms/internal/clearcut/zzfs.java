@@ -5,7 +5,6 @@ import java.nio.BufferOverflowException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.ReadOnlyBufferException;
-import org.telegram.messenger.MessagesStorage;
 /* loaded from: classes.dex */
 public final class zzfs {
     private final ByteBuffer zzgd;
@@ -79,7 +78,7 @@ public final class zzfs {
 
     private final void zzap(int i) throws IOException {
         while ((i & (-128)) != 0) {
-            zzao((i & MessagesStorage.LAST_DB_VERSION) | 128);
+            zzao((i & 127) | 128);
             i >>>= 7;
         }
         zzao(i);
@@ -405,7 +404,7 @@ public final class zzfs {
 
     public final void zzn(long j) throws IOException {
         while (((-128) & j) != 0) {
-            zzao((((int) j) & MessagesStorage.LAST_DB_VERSION) | 128);
+            zzao((((int) j) & 127) | 128);
             j >>>= 7;
         }
         zzao((int) j);

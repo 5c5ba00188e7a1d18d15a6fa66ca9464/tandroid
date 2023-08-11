@@ -32,6 +32,7 @@ import org.telegram.messenger.LocationController;
 import org.telegram.messenger.MrzRecognizer;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
+import org.telegram.tgnet.TLRPC$TL_messageMediaVenue;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.AlertDialog;
@@ -817,7 +818,7 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
     }
 
     @Override // org.telegram.messenger.LocationController.LocationFetchCallback
-    public void onLocationAddressAvailable(String str, String str2, Location location) {
+    public void onLocationAddressAvailable(String str, String str2, TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue, TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue2, Location location) {
         TextView textView = this.subtitleTextView;
         if (textView == null) {
             return;

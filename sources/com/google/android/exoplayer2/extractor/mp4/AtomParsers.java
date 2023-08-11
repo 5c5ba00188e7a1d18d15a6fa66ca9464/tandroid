@@ -34,7 +34,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.telegram.messenger.MediaController;
-import org.telegram.messenger.MessagesStorage;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class AtomParsers {
@@ -1545,10 +1544,10 @@ public final class AtomParsers {
 
     private static int parseExpandableClassSize(ParsableByteArray parsableByteArray) {
         int readUnsignedByte = parsableByteArray.readUnsignedByte();
-        int i = readUnsignedByte & MessagesStorage.LAST_DB_VERSION;
+        int i = readUnsignedByte & 127;
         while ((readUnsignedByte & 128) == 128) {
             readUnsignedByte = parsableByteArray.readUnsignedByte();
-            i = (i << 7) | (readUnsignedByte & MessagesStorage.LAST_DB_VERSION);
+            i = (i << 7) | (readUnsignedByte & 127);
         }
         return i;
     }

@@ -179,6 +179,17 @@ public class ActionBarMenuItem extends FrameLayout {
     protected void onDismiss() {
     }
 
+    public static void addText(ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout, String str, Theme.ResourcesProvider resourcesProvider) {
+        TextView textView = new TextView(actionBarPopupWindowLayout.getContext());
+        textView.setTextSize(1, 13.0f);
+        textView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack, resourcesProvider));
+        textView.setPadding(AndroidUtilities.dp(13.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(13.0f), AndroidUtilities.dp(8.0f));
+        textView.setText(str);
+        textView.setTag(R.id.fit_width_tag, 1);
+        textView.setMaxWidth(AndroidUtilities.dp(200.0f));
+        actionBarPopupWindowLayout.addView((View) textView, LayoutHelper.createLinear(-1, -2));
+    }
+
     public void setSearchPaddingStart(int i) {
         this.searchItemPaddingStart = i;
         FrameLayout frameLayout = this.searchContainer;

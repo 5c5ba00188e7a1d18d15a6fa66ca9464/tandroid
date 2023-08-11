@@ -28,6 +28,12 @@ public class GoogleMap {
 
     /* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */
     /* loaded from: classes.dex */
+    public interface OnCameraIdleListener {
+        void onCameraIdle();
+    }
+
+    /* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */
+    /* loaded from: classes.dex */
     public interface OnCameraMoveListener {
         void onCameraMove();
     }
@@ -109,6 +115,14 @@ public class GoogleMap {
         }
     }
 
+    public final float getMinZoomLevel() {
+        try {
+            return this.zza.getMinZoomLevel();
+        } catch (RemoteException e) {
+            throw new RuntimeRemoteException(e);
+        }
+    }
+
     public final Projection getProjection() {
         try {
             return new Projection(this.zza.getProjection());
@@ -140,6 +154,18 @@ public class GoogleMap {
     public boolean setMapStyle(MapStyleOptions mapStyleOptions) {
         try {
             return this.zza.setMapStyle(mapStyleOptions);
+        } catch (RemoteException e) {
+            throw new RuntimeRemoteException(e);
+        }
+    }
+
+    public final void setOnCameraIdleListener(OnCameraIdleListener onCameraIdleListener) {
+        try {
+            if (onCameraIdleListener == null) {
+                this.zza.setOnCameraIdleListener(null);
+            } else {
+                this.zza.setOnCameraIdleListener(new zzx(this, onCameraIdleListener));
+            }
         } catch (RemoteException e) {
             throw new RuntimeRemoteException(e);
         }

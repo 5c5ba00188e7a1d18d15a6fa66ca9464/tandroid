@@ -7,7 +7,6 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.Arrays;
 import java.util.ConcurrentModificationException;
-import org.telegram.messenger.MessagesStorage;
 /* loaded from: classes.dex */
 public final class SntpClient {
     private static long elapsedRealtimeOffsetMs = 0;
@@ -134,16 +133,16 @@ public final class SntpClient {
         int i4 = bArr[i + 2];
         int i5 = bArr[i + 3];
         if ((i2 & 128) == 128) {
-            i2 = (i2 & MessagesStorage.LAST_DB_VERSION) + 128;
+            i2 = (i2 & 127) + 128;
         }
         if ((i3 & 128) == 128) {
-            i3 = (i3 & MessagesStorage.LAST_DB_VERSION) + 128;
+            i3 = (i3 & 127) + 128;
         }
         if ((i4 & 128) == 128) {
-            i4 = (i4 & MessagesStorage.LAST_DB_VERSION) + 128;
+            i4 = (i4 & 127) + 128;
         }
         if ((i5 & 128) == 128) {
-            i5 = (i5 & MessagesStorage.LAST_DB_VERSION) + 128;
+            i5 = (i5 & 127) + 128;
         }
         return (i2 << 24) + (i3 << 16) + (i4 << 8) + i5;
     }

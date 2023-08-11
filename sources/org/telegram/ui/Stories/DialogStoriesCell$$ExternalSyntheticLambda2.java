@@ -11,6 +11,6 @@ public final /* synthetic */ class DialogStoriesCell$$ExternalSyntheticLambda2 i
 
     @Override // com.google.android.exoplayer2.util.Consumer
     public final void accept(Object obj) {
-        DialogStoriesCell.lambda$updateColors$5((View) obj);
+        DialogStoriesCell.lambda$updateCurrentState$9((View) obj);
     }
 }

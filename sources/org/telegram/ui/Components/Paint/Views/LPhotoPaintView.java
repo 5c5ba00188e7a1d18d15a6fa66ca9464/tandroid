@@ -184,7 +184,6 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
     private int tabsSelectedIndex;
     private ValueAnimator tabsSelectionAnimator;
     private float tabsSelectionProgress;
-    private float[] temp;
     private PaintTextOptionsView textOptionsView;
     private TextView textTab;
     private Paint toolsPaint;
@@ -221,6 +220,16 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
     @Override // org.telegram.ui.Components.Paint.Views.EntityView.EntityViewDelegate
     public /* synthetic */ void onEntityDragEnd(boolean z) {
         EntityView.EntityViewDelegate.-CC.$default$onEntityDragEnd(this, z);
+    }
+
+    @Override // org.telegram.ui.Components.Paint.Views.EntityView.EntityViewDelegate
+    public /* synthetic */ void onEntityDragMultitouchEnd() {
+        EntityView.EntityViewDelegate.-CC.$default$onEntityDragMultitouchEnd(this);
+    }
+
+    @Override // org.telegram.ui.Components.Paint.Views.EntityView.EntityViewDelegate
+    public /* synthetic */ void onEntityDragMultitouchStart() {
+        EntityView.EntityViewDelegate.-CC.$default$onEntityDragMultitouchStart(this);
     }
 
     @Override // org.telegram.ui.Components.Paint.Views.EntityView.EntityViewDelegate
@@ -282,7 +291,6 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         this.toolsPaint = new Paint(1);
         this.zoomOutVisible = false;
         byte b2 = 2;
-        this.temp = new float[2];
         this.pos = new int[2];
         this.openKeyboardRunnable = new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView.17
             @Override // java.lang.Runnable
@@ -490,11 +498,6 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         addView(this.renderInputView, LayoutHelper.createFrame(-1, -1, 51));
         EntitiesContainerView entitiesContainerView = new EntitiesContainerView(context, new EntitiesContainerView.EntitiesContainerViewDelegate() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView.5
             @Override // org.telegram.ui.Components.Paint.Views.EntitiesContainerView.EntitiesContainerViewDelegate
-            public boolean shouldReceiveTouches() {
-                return true;
-            }
-
-            @Override // org.telegram.ui.Components.Paint.Views.EntitiesContainerView.EntitiesContainerViewDelegate
             public EntityView onSelectedEntityRequest() {
                 return LPhotoPaintView.this.currentEntityView;
             }
@@ -526,25 +529,25 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
                 Code decompiled incorrectly, please refer to instructions dump.
             */
             protected void onDraw(Canvas canvas) {
-                boolean z;
+                int i4;
                 float f;
                 float f2;
                 super.onDraw(canvas);
                 long min = Math.min(16L, System.currentTimeMillis() - this.lastUpdate);
                 this.lastUpdate = System.currentTimeMillis();
-                boolean z2 = false;
+                int i5 = 0;
                 if (LPhotoPaintView.this.currentEntityView != null && LPhotoPaintView.this.currentEntityView.hasTouchDown() && LPhotoPaintView.this.currentEntityView.hasPanned()) {
-                    z2 = LPhotoPaintView.this.currentEntityView.hasStickyX();
-                    z = LPhotoPaintView.this.currentEntityView.hasStickyY();
+                    i5 = LPhotoPaintView.this.currentEntityView.getStickyX();
+                    i4 = LPhotoPaintView.this.currentEntityView.getStickyY();
                 } else {
-                    z = false;
+                    i4 = 0;
                 }
-                if (z2) {
+                if (i5 != 0) {
                     float f3 = this.stickyXAlpha;
                     if (f3 != 1.0f) {
                         this.stickyXAlpha = Math.min(1.0f, f3 + (((float) min) / 150.0f));
                         invalidate();
-                        if (z) {
+                        if (i4 != 0) {
                             float f4 = this.stickyYAlpha;
                             if (f4 != 1.0f) {
                                 this.stickyYAlpha = Math.min(1.0f, f4 + (((float) min) / 150.0f));
@@ -565,7 +568,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
                                 return;
                             }
                         }
-                        if (!z) {
+                        if (i4 == 0) {
                             float f5 = this.stickyYAlpha;
                             if (f5 != 0.0f) {
                                 this.stickyYAlpha = Math.max(0.0f, f5 - (((float) min) / 150.0f));
@@ -580,16 +583,16 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
                         }
                     }
                 }
-                if (!z2) {
+                if (i5 == 0) {
                     float f6 = this.stickyXAlpha;
                     if (f6 != 0.0f) {
                         this.stickyXAlpha = Math.max(0.0f, f6 - (((float) min) / 150.0f));
                         invalidate();
                     }
                 }
-                if (z) {
+                if (i4 != 0) {
                 }
-                if (!z) {
+                if (i4 == 0) {
                 }
                 f = this.stickyYAlpha;
                 if (f != 0.0f) {
@@ -1224,10 +1227,10 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         Point startPositionRelativeToEntity = startPositionRelativeToEntity(null);
         TextPaintView textPaintView = new TextPaintView(getContext(), startPositionRelativeToEntity, (int) (paintingSize.width / 9.0f), "", this.colorSwatch, this.selectedTextType);
         if (startPositionRelativeToEntity.x == this.entitiesView.getMeasuredWidth() / 2.0f) {
-            textPaintView.setHasStickyX(true);
+            textPaintView.setStickyX(2);
         }
         if (startPositionRelativeToEntity.y == this.entitiesView.getMeasuredHeight() / 2.0f) {
-            textPaintView.setHasStickyY(true);
+            textPaintView.setStickyY(2);
         }
         textPaintView.setDelegate(this);
         textPaintView.setMaxWidth((int) (paintingSize.width - 20.0f));
@@ -3236,10 +3239,10 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         };
         stickerView.centerImage.setLayerNum(12);
         if (calculateStickerPosition.position.x == this.entitiesView.getMeasuredWidth() / 2.0f) {
-            stickerView.setHasStickyX(true);
+            stickerView.setStickyX(2);
         }
         if (calculateStickerPosition.position.y == this.entitiesView.getMeasuredHeight() / 2.0f) {
-            stickerView.setHasStickyY(true);
+            stickerView.setStickyY(2);
         }
         stickerView.setDelegate(this);
         this.entitiesView.addView(stickerView);
@@ -3296,27 +3299,22 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
     }
 
     @Override // org.telegram.ui.Components.Paint.Views.EntityView.EntityViewDelegate
-    public float[] getTransformedTouch(MotionEvent motionEvent, float f, float f2) {
+    public void getTransformedTouch(float f, float f2, float[] fArr) {
         android.graphics.Point point = AndroidUtilities.displaySize;
-        float f3 = f - (point.x / 2.0f);
-        float f4 = f2 - (point.y / 2.0f);
-        float radians = (float) Math.toRadians(-this.entitiesView.getRotation());
-        float[] fArr = this.temp;
-        double d = f3;
-        double d2 = radians;
-        double cos = Math.cos(d2);
+        float f3 = f2 - (point.y / 2.0f);
+        double d = f - (point.x / 2.0f);
+        double radians = (float) Math.toRadians(-this.entitiesView.getRotation());
+        double cos = Math.cos(radians);
         Double.isNaN(d);
-        double d3 = f4;
-        double sin = Math.sin(d2);
-        Double.isNaN(d3);
-        fArr[0] = ((float) ((cos * d) - (sin * d3))) + (AndroidUtilities.displaySize.x / 2.0f);
-        float[] fArr2 = this.temp;
-        double sin2 = Math.sin(d2);
+        double d2 = f3;
+        double sin = Math.sin(radians);
+        Double.isNaN(d2);
+        fArr[0] = ((float) ((cos * d) - (sin * d2))) + (AndroidUtilities.displaySize.x / 2.0f);
+        double sin2 = Math.sin(radians);
         Double.isNaN(d);
-        double cos2 = Math.cos(d2);
-        Double.isNaN(d3);
-        fArr2[1] = ((float) ((d * sin2) + (d3 * cos2))) + (AndroidUtilities.displaySize.y / 2.0f);
-        return this.temp;
+        double cos2 = Math.cos(radians);
+        Double.isNaN(d2);
+        fArr[1] = ((float) ((d * sin2) + (d2 * cos2))) + (AndroidUtilities.displaySize.y / 2.0f);
     }
 
     @Override // org.telegram.ui.Components.Paint.Views.EntityView.EntityViewDelegate

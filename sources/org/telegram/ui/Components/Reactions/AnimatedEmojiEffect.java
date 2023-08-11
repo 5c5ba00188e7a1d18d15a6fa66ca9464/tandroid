@@ -81,6 +81,9 @@ public class AnimatedEmojiEffect {
         if (imageReceiver != null && this.showGeneric) {
             imageReceiver.draw(canvas);
         }
+        canvas.save();
+        Rect rect = this.bounds;
+        canvas.translate(rect.left, rect.top);
         int i2 = 0;
         while (i2 < this.particles.size()) {
             this.particles.get(i2).draw(canvas);
@@ -90,6 +93,7 @@ public class AnimatedEmojiEffect {
             }
             i2++;
         }
+        canvas.restore();
         View view = this.parentView;
         if (view != null) {
             view.invalidate();

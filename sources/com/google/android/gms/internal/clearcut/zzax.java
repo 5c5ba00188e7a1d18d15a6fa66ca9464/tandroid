@@ -1,7 +1,6 @@
 package com.google.android.gms.internal.clearcut;
 
 import java.io.IOException;
-import org.telegram.messenger.MessagesStorage;
 /* loaded from: classes.dex */
 final class zzax {
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -114,7 +113,7 @@ final class zzax {
     public static int zza(int i, byte[] bArr, int i2, zzay zzayVar) {
         int i3;
         int i4;
-        int i5 = i & MessagesStorage.LAST_DB_VERSION;
+        int i5 = i & 127;
         int i6 = i2 + 1;
         byte b = bArr[i2];
         if (b < 0) {

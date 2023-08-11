@@ -5492,58 +5492,58 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         this.mergeDialogId = j;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:61:0x00af, code lost:
-        if ((r13.hasMedia[4] <= 0) == r13.scrollSlidingTextTabStrip.hasTab(4)) goto L74;
+    /* JADX WARN: Code restructure failed: missing block: B:63:0x00b5, code lost:
+        if ((r13.hasMedia[4] <= 0) == r13.scrollSlidingTextTabStrip.hasTab(4)) goto L76;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:68:0x00c1, code lost:
-        if ((r13.hasMedia[4] <= 0) == r13.scrollSlidingTextTabStrip.hasTab(4)) goto L74;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:69:0x00c3, code lost:
-        r0 = r0 + 1;
+    /* JADX WARN: Code restructure failed: missing block: B:70:0x00c7, code lost:
+        if ((r13.hasMedia[4] <= 0) == r13.scrollSlidingTextTabStrip.hasTab(4)) goto L76;
      */
     /* JADX WARN: Code restructure failed: missing block: B:71:0x00c9, code lost:
-        if (r13.hasMedia[2] > 0) goto L73;
+        r0 = r0 + 1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:72:0x00cb, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:73:0x00cf, code lost:
+        if (r13.hasMedia[2] > 0) goto L75;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:74:0x00d1, code lost:
         r3 = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:73:0x00cd, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:75:0x00d3, code lost:
         r3 = false;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:75:0x00d4, code lost:
-        if (r3 != r13.scrollSlidingTextTabStrip.hasTab(2)) goto L59;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:76:0x00d6, code lost:
-        r0 = r0 + 1;
+    /* JADX WARN: Code restructure failed: missing block: B:77:0x00da, code lost:
+        if (r3 != r13.scrollSlidingTextTabStrip.hasTab(2)) goto L61;
      */
     /* JADX WARN: Code restructure failed: missing block: B:78:0x00dc, code lost:
-        if (r13.hasMedia[5] > 0) goto L72;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:79:0x00de, code lost:
-        r3 = true;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:80:0x00e0, code lost:
-        r3 = false;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:82:0x00e7, code lost:
-        if (r3 != r13.scrollSlidingTextTabStrip.hasTab(5)) goto L65;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:83:0x00e9, code lost:
         r0 = r0 + 1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:85:0x00ef, code lost:
-        if (r13.hasMedia[6] > 0) goto L71;
+    /* JADX WARN: Code restructure failed: missing block: B:80:0x00e2, code lost:
+        if (r13.hasMedia[5] > 0) goto L74;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:86:0x00f1, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:81:0x00e4, code lost:
         r3 = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:87:0x00f3, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:82:0x00e6, code lost:
         r3 = false;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:89:0x00fa, code lost:
-        if (r3 != r13.scrollSlidingTextTabStrip.hasTab(6)) goto L86;
+    /* JADX WARN: Code restructure failed: missing block: B:84:0x00ed, code lost:
+        if (r3 != r13.scrollSlidingTextTabStrip.hasTab(5)) goto L67;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:90:0x00fc, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:85:0x00ef, code lost:
+        r0 = r0 + 1;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:87:0x00f5, code lost:
+        if (r13.hasMedia[6] > 0) goto L73;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:88:0x00f7, code lost:
+        r3 = true;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:89:0x00f9, code lost:
+        r3 = false;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:91:0x0100, code lost:
+        if (r3 != r13.scrollSlidingTextTabStrip.hasTab(6)) goto L88;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:92:0x0102, code lost:
         r0 = r0 + 1;
      */
     /*
@@ -5558,7 +5558,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         if (!this.delegate.isFragmentOpened()) {
             z = false;
         }
-        int i = (DialogObject.isUserDialog(this.dialog_id) && !DialogObject.isEncryptedDialog(this.dialog_id) && (((tLRPC$UserFull2 = this.userInfo) != null && tLRPC$UserFull2.stories_pinned_available) || isStoriesView())) != this.scrollSlidingTextTabStrip.hasTab(8) ? 1 : 0;
+        int i = (DialogObject.isUserDialog(this.dialog_id) && !DialogObject.isEncryptedDialog(this.dialog_id) && ((((tLRPC$UserFull2 = this.userInfo) != null && tLRPC$UserFull2.stories_pinned_available) || isStoriesView()) && includeStories())) != this.scrollSlidingTextTabStrip.hasTab(8) ? 1 : 0;
         if (!isStoriesView()) {
             if ((this.chatUsersAdapter.chatInfo == null) == this.scrollSlidingTextTabStrip.hasTab(7)) {
                 i++;

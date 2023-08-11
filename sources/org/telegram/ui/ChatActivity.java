@@ -2493,28 +2493,28 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         };
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:101:0x0403  */
-    /* JADX WARN: Removed duplicated region for block: B:104:0x0410  */
-    /* JADX WARN: Removed duplicated region for block: B:107:0x05dc  */
-    /* JADX WARN: Removed duplicated region for block: B:114:0x0696  */
-    /* JADX WARN: Removed duplicated region for block: B:119:0x06a4  */
-    /* JADX WARN: Removed duplicated region for block: B:127:0x06bd  */
-    /* JADX WARN: Removed duplicated region for block: B:128:0x06bf  */
-    /* JADX WARN: Removed duplicated region for block: B:131:0x06c7  */
-    /* JADX WARN: Removed duplicated region for block: B:142:0x0747  */
-    /* JADX WARN: Removed duplicated region for block: B:166:0x07e2  */
-    /* JADX WARN: Removed duplicated region for block: B:178:0x0804  */
-    /* JADX WARN: Removed duplicated region for block: B:181:0x081a  */
-    /* JADX WARN: Removed duplicated region for block: B:185:0x0824  */
-    /* JADX WARN: Removed duplicated region for block: B:192:0x0836  */
-    /* JADX WARN: Removed duplicated region for block: B:200:0x0848  */
-    /* JADX WARN: Removed duplicated region for block: B:203:0x084f  */
-    /* JADX WARN: Removed duplicated region for block: B:240:0x0919  */
-    /* JADX WARN: Removed duplicated region for block: B:249:0x094f  */
-    /* JADX WARN: Removed duplicated region for block: B:252:0x095c  */
-    /* JADX WARN: Removed duplicated region for block: B:259:0x0980  */
-    /* JADX WARN: Removed duplicated region for block: B:85:0x02c9  */
-    /* JADX WARN: Removed duplicated region for block: B:90:0x02e3  */
+    /* JADX WARN: Removed duplicated region for block: B:105:0x040f  */
+    /* JADX WARN: Removed duplicated region for block: B:108:0x041c  */
+    /* JADX WARN: Removed duplicated region for block: B:111:0x05e8  */
+    /* JADX WARN: Removed duplicated region for block: B:118:0x06a2  */
+    /* JADX WARN: Removed duplicated region for block: B:123:0x06b0  */
+    /* JADX WARN: Removed duplicated region for block: B:131:0x06c9  */
+    /* JADX WARN: Removed duplicated region for block: B:132:0x06cb  */
+    /* JADX WARN: Removed duplicated region for block: B:135:0x06d3  */
+    /* JADX WARN: Removed duplicated region for block: B:146:0x0753  */
+    /* JADX WARN: Removed duplicated region for block: B:170:0x07ee  */
+    /* JADX WARN: Removed duplicated region for block: B:182:0x0810  */
+    /* JADX WARN: Removed duplicated region for block: B:185:0x0826  */
+    /* JADX WARN: Removed duplicated region for block: B:189:0x0830  */
+    /* JADX WARN: Removed duplicated region for block: B:196:0x0842  */
+    /* JADX WARN: Removed duplicated region for block: B:204:0x0854  */
+    /* JADX WARN: Removed duplicated region for block: B:207:0x085b  */
+    /* JADX WARN: Removed duplicated region for block: B:244:0x0925  */
+    /* JADX WARN: Removed duplicated region for block: B:253:0x095b  */
+    /* JADX WARN: Removed duplicated region for block: B:256:0x0968  */
+    /* JADX WARN: Removed duplicated region for block: B:263:0x098c  */
+    /* JADX WARN: Removed duplicated region for block: B:89:0x02d5  */
+    /* JADX WARN: Removed duplicated region for block: B:94:0x02ef  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -2587,7 +2587,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             }
             this.dialog_id = -j;
             if (ChatObject.isChannel(this.currentChat)) {
-                if (ChatObject.isNotInChat(this.currentChat)) {
+                if (ChatObject.isNotInChat(this.currentChat) && !isThreadChat() && !isInScheduleMode()) {
                     this.waitingForGetDifference = z;
                     i = 0;
                     getMessagesController().startShortPoll(this.currentChat, this.classGuid, false, new Consumer() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda123
@@ -4667,7 +4667,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
                     @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
                     public void sendSticker(TLRPC$Document tLRPC$Document, String str2, Object obj, boolean z4, int i17) {
-                        ChatActivity.this.chatActivityEnterView.lambda$onStickerSelected$47(tLRPC$Document, str2, obj, null, true, z4, i17);
+                        ChatActivity.this.chatActivityEnterView.lambda$onStickerSelected$48(tLRPC$Document, str2, obj, null, true, z4, i17);
                     }
 
                     @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
@@ -6012,7 +6012,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
             @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
             public void sendSticker(TLRPC$Document tLRPC$Document, String str2, Object obj, boolean z42, int i172) {
-                ChatActivity.this.chatActivityEnterView.lambda$onStickerSelected$47(tLRPC$Document, str2, obj, null, true, z42, i172);
+                ChatActivity.this.chatActivityEnterView.lambda$onStickerSelected$48(tLRPC$Document, str2, obj, null, true, z42, i172);
             }
 
             @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
@@ -10739,6 +10739,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createTopPanel$64() {
+        if (this.undoView != null || getContext() == null) {
+            return;
+        }
         createUndoView();
         this.undoView.showWithAction(this.dialog_id, 8, this.currentUser);
     }
@@ -20261,7 +20264,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     public void didReceivedNotification(int r62, int r63, java.lang.Object... r64) {
         /*
-            Method dump skipped, instructions count: 15195
+            Method dump skipped, instructions count: 15215
             To view this dump add '--comments-level debug' option
         */
         throw new UnsupportedOperationException("Method not decompiled: org.telegram.ui.ChatActivity.didReceivedNotification(int, int, java.lang.Object[]):void");
@@ -21072,7 +21075,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Type inference failed for: r4v29 */
     /* JADX WARN: Type inference failed for: r4v31 */
     /* JADX WARN: Type inference failed for: r7v14 */
-    /* JADX WARN: Type inference failed for: r7v15, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r7v15, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r7v18 */
     /* JADX WARN: Type inference failed for: r7v19 */
     /*
@@ -22157,7 +22160,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Removed duplicated region for block: B:90:0x0175  */
     /* JADX WARN: Removed duplicated region for block: B:93:0x0181  */
     /* JADX WARN: Type inference failed for: r14v4 */
-    /* JADX WARN: Type inference failed for: r14v5, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r14v5, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r14v9 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -27125,6 +27128,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     }
 
     private CharSequence getMessageCaption(MessageObject messageObject, MessageObject.GroupedMessages groupedMessages, int[] iArr) {
+        if (messageObject == null) {
+            return null;
+        }
         String restrictionReason = MessagesController.getRestrictionReason(messageObject.messageOwner.restriction_reason);
         if (TextUtils.isEmpty(restrictionReason)) {
             if (messageObject.isVoiceTranscriptionOpen() && !TranscribeButton.isTranscribing(messageObject)) {
@@ -27216,7 +27222,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Removed duplicated region for block: B:924:0x1667  */
     /* JADX WARN: Type inference failed for: r12v37 */
     /* JADX WARN: Type inference failed for: r12v5 */
-    /* JADX WARN: Type inference failed for: r12v6, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r12v6, types: [int, boolean] */
     @SuppressLint({"ClickableViewAccessibility"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -32290,7 +32296,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     }
 
     private void runCloseInstantCameraAnimation() {
-        this.instantCameraView.cancelBlur();
+        InstantCameraView instantCameraView = this.instantCameraView;
+        if (instantCameraView == null) {
+            return;
+        }
+        instantCameraView.cancelBlur();
         InstantCameraView.InstantViewCameraContainer cameraContainer = this.instantCameraView.getCameraContainer();
         AnimatorSet animatorSet = new AnimatorSet();
         animatorSet.playTogether(ObjectAnimator.ofFloat(cameraContainer, View.SCALE_X, 0.5f), ObjectAnimator.ofFloat(cameraContainer, View.SCALE_Y, 0.5f), ObjectAnimator.ofFloat(cameraContainer, View.ALPHA, 0.0f), ObjectAnimator.ofFloat(this.instantCameraView.getSwitchButtonView(), View.ALPHA, 0.0f), ObjectAnimator.ofInt(this.instantCameraView.getPaint(), AnimationProperties.PAINT_ALPHA, 0), ObjectAnimator.ofFloat(this.instantCameraView.getMuteImageView(), View.ALPHA, 0.0f));
@@ -38807,10 +38817,10 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 if (this.drawServiceGradient) {
                     ColorMatrix colorMatrix = new ColorMatrix();
                     colorMatrix.setSaturation(((MotionBackgroundDrawable) drawable).getIntensity() >= 0 ? 1.8f : 0.5f);
-                    paint.setAlpha(MessagesStorage.LAST_DB_VERSION);
+                    paint.setAlpha(127);
                     paint.setColorFilter(new ColorMatrixColorFilter(colorMatrix));
                     paint.setShader(this.serviceShaderSource);
-                    paint2.setAlpha(MessagesStorage.LAST_DB_VERSION);
+                    paint2.setAlpha(127);
                     paint2.setColorFilter(new ColorMatrixColorFilter(colorMatrix));
                     paint2.setShader(this.serviceShaderSource);
                 } else {

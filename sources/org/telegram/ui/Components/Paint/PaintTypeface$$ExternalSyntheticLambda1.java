@@ -8,6 +8,6 @@ public final /* synthetic */ class PaintTypeface$$ExternalSyntheticLambda1 imple
 
     @Override // java.lang.Runnable
     public final void run() {
-        PaintTypeface.lambda$load$8();
+        PaintTypeface.lambda$load$9();
     }
 }

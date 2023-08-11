@@ -11,8 +11,8 @@ public final /* synthetic */ class ChatActivityEnterView$$ExternalSyntheticLambd
 
     @Override // android.view.View.OnTouchListener
     public final boolean onTouch(View view, MotionEvent motionEvent) {
-        boolean lambda$createRecordPanel$39;
-        lambda$createRecordPanel$39 = ChatActivityEnterView.lambda$createRecordPanel$39(view, motionEvent);
-        return lambda$createRecordPanel$39;
+        boolean lambda$createRecordPanel$40;
+        lambda$createRecordPanel$40 = ChatActivityEnterView.lambda$createRecordPanel$40(view, motionEvent);
+        return lambda$createRecordPanel$40;
     }
 }

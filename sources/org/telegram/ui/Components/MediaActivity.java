@@ -183,7 +183,7 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
     /* JADX WARN: Removed duplicated region for block: B:120:0x06a2  */
     /* JADX WARN: Removed duplicated region for block: B:126:0x06ca  */
     /* JADX WARN: Type inference failed for: r4v14 */
-    /* JADX WARN: Type inference failed for: r4v15, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r4v15, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r4v16 */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*

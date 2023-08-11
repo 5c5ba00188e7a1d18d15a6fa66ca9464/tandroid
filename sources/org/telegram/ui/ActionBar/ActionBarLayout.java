@@ -1100,11 +1100,11 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
 
     @Override // org.telegram.ui.ActionBar.INavigationLayout
     public void onBackPressed() {
+        ActionBar actionBar;
         if (this.transitionAnimationPreviewMode || this.startedTracking || checkTransitionAnimation() || this.fragmentsStack.isEmpty() || GroupCallPip.onBackPressed()) {
             return;
         }
-        ActionBar actionBar = this.currentActionBar;
-        if (actionBar != null && !actionBar.isActionModeShowed()) {
+        if (!storyViewerAttached() && (actionBar = this.currentActionBar) != null && !actionBar.isActionModeShowed()) {
             ActionBar actionBar2 = this.currentActionBar;
             if (actionBar2.isSearchFieldVisible) {
                 actionBar2.closeSearchField();

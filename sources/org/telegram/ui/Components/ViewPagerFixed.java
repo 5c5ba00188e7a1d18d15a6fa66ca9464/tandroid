@@ -59,7 +59,7 @@ public class ViewPagerFixed extends FrameLayout {
     private boolean animatingForward;
     private boolean backAnimation;
     private float backProgress;
-    int currentPosition;
+    public int currentPosition;
     private ValueAnimator manualScrolling;
     private int maximumVelocity;
     private boolean maybeStartTracking;

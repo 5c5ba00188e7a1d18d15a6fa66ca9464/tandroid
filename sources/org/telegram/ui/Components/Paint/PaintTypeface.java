@@ -24,6 +24,7 @@ public class PaintTypeface {
     public static final List<PaintTypeface> BUILT_IN_FONTS;
     public static final PaintTypeface COURIER_NEW_BOLD;
     public static final PaintTypeface MW_BOLD;
+    public static final PaintTypeface ROBOTO_CONDENSED;
     public static final PaintTypeface ROBOTO_ITALIC;
     public static final PaintTypeface ROBOTO_MEDIUM;
     public static final PaintTypeface ROBOTO_MONO;
@@ -38,19 +39,21 @@ public class PaintTypeface {
     private final Typeface typeface;
 
     static {
-        PaintTypeface paintTypeface = new PaintTypeface("roboto", "PhotoEditorTypefaceRoboto", new LazyTypeface(PaintTypeface$$ExternalSyntheticLambda8.INSTANCE));
+        PaintTypeface paintTypeface = new PaintTypeface("roboto", "PhotoEditorTypefaceRoboto", new LazyTypeface(PaintTypeface$$ExternalSyntheticLambda9.INSTANCE));
         ROBOTO_MEDIUM = paintTypeface;
         PaintTypeface paintTypeface2 = new PaintTypeface("italic", "PhotoEditorTypefaceItalic", new LazyTypeface(PaintTypeface$$ExternalSyntheticLambda5.INSTANCE));
         ROBOTO_ITALIC = paintTypeface2;
         PaintTypeface paintTypeface3 = new PaintTypeface("serif", "PhotoEditorTypefaceSerif", new LazyTypeface(PaintTypeface$$ExternalSyntheticLambda6.INSTANCE));
         ROBOTO_SERIF = paintTypeface3;
-        PaintTypeface paintTypeface4 = new PaintTypeface("mono", "PhotoEditorTypefaceMono", new LazyTypeface(PaintTypeface$$ExternalSyntheticLambda4.INSTANCE));
-        ROBOTO_MONO = paintTypeface4;
-        PaintTypeface paintTypeface5 = new PaintTypeface("mw_bold", "PhotoEditorTypefaceMerriweather", new LazyTypeface(PaintTypeface$$ExternalSyntheticLambda7.INSTANCE));
-        MW_BOLD = paintTypeface5;
-        PaintTypeface paintTypeface6 = new PaintTypeface("courier_new_bold", "PhotoEditorTypefaceCourierNew", new LazyTypeface(PaintTypeface$$ExternalSyntheticLambda3.INSTANCE));
-        COURIER_NEW_BOLD = paintTypeface6;
-        BUILT_IN_FONTS = Arrays.asList(paintTypeface, paintTypeface2, paintTypeface3, paintTypeface4, paintTypeface5, paintTypeface6);
+        PaintTypeface paintTypeface4 = new PaintTypeface("condensed", "PhotoEditorTypefaceCondensed", new LazyTypeface(PaintTypeface$$ExternalSyntheticLambda4.INSTANCE));
+        ROBOTO_CONDENSED = paintTypeface4;
+        PaintTypeface paintTypeface5 = new PaintTypeface("mono", "PhotoEditorTypefaceMono", new LazyTypeface(PaintTypeface$$ExternalSyntheticLambda7.INSTANCE));
+        ROBOTO_MONO = paintTypeface5;
+        PaintTypeface paintTypeface6 = new PaintTypeface("mw_bold", "PhotoEditorTypefaceMerriweather", new LazyTypeface(PaintTypeface$$ExternalSyntheticLambda3.INSTANCE));
+        MW_BOLD = paintTypeface6;
+        PaintTypeface paintTypeface7 = new PaintTypeface("courier_new_bold", "PhotoEditorTypefaceCourierNew", new LazyTypeface(PaintTypeface$$ExternalSyntheticLambda8.INSTANCE));
+        COURIER_NEW_BOLD = paintTypeface7;
+        BUILT_IN_FONTS = Arrays.asList(paintTypeface, paintTypeface2, paintTypeface3, paintTypeface4, paintTypeface5, paintTypeface6, paintTypeface7);
         preferable = Arrays.asList("Google Sans", "Dancing Script", "Carrois Gothic SC", "Cutive Mono", "Droid Sans Mono", "Coming Soon");
     }
 
@@ -92,15 +95,15 @@ public class PaintTypeface {
         this.lazyTypeface = new LazyTypeface(new LazyTypeface.LazyTypefaceLoader() { // from class: org.telegram.ui.Components.Paint.PaintTypeface$$ExternalSyntheticLambda2
             @Override // org.telegram.ui.Components.Paint.PaintTypeface.LazyTypeface.LazyTypefaceLoader
             public final Typeface load() {
-                Typeface lambda$new$6;
-                lambda$new$6 = PaintTypeface.lambda$new$6(font);
-                return lambda$new$6;
+                Typeface lambda$new$7;
+                lambda$new$7 = PaintTypeface.lambda$new$7(font);
+                return lambda$new$7;
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ Typeface lambda$new$6(Font font) {
+    public static /* synthetic */ Typeface lambda$new$7(Font font) {
         return Typeface.createFromFile(font.getFile());
     }
 
@@ -130,7 +133,7 @@ public class PaintTypeface {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$load$8() {
+    public static /* synthetic */ void lambda$load$9() {
         FontData parseFont;
         final ArrayList arrayList = new ArrayList(BUILT_IN_FONTS);
         if (Build.VERSION.SDK_INT >= 29) {
@@ -161,13 +164,13 @@ public class PaintTypeface {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Paint.PaintTypeface$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
-                PaintTypeface.lambda$load$7(arrayList);
+                PaintTypeface.lambda$load$8(arrayList);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$load$7(ArrayList arrayList) {
+    public static /* synthetic */ void lambda$load$8(ArrayList arrayList) {
         typefaces = arrayList;
         loadingTypefaces = false;
         NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.customTypefacesLoaded, new Object[0]);

@@ -303,7 +303,7 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
             @Override // org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
             public void dispatchDraw(Canvas canvas) {
                 if (((BaseFragment) StickersActivity.this).actionBar.isActionModeShowed()) {
-                    drawSectionBackground(canvas, StickersActivity.this.stickersHeaderRow, StickersActivity.this.stickersEndRow, getThemedColor(Theme.key_windowBackgroundWhite));
+                    drawSectionBackground(canvas, StickersActivity.this.stickersHeaderRow, StickersActivity.this.stickersEndRow - 1, getThemedColor(Theme.key_windowBackgroundWhite));
                 }
                 super.dispatchDraw(canvas);
             }
@@ -319,6 +319,7 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
             }
         };
         defaultItemAnimator.setMoveDuration(350L);
+        defaultItemAnimator.setSupportsChangeAnimations(false);
         defaultItemAnimator.setMoveInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
         this.listView.setItemAnimator(defaultItemAnimator);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context) { // from class: org.telegram.ui.StickersActivity.4
@@ -339,7 +340,6 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new TouchHelperCallback());
         this.itemTouchHelper = itemTouchHelper;
         itemTouchHelper.attachToRecyclerView(this.listView);
-        ((DefaultItemAnimator) this.listView.getItemAnimator()).setSupportsChangeAnimations(false);
         frameLayout2.addView(this.listView, LayoutHelper.createFrame(-1, -1.0f));
         this.listView.setAdapter(this.listAdapter);
         this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.StickersActivity$$ExternalSyntheticLambda4
@@ -692,7 +692,6 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
         this.rowCount = 0;
         this.loopRow = -1;
         this.loopInfoRow = -1;
-        this.archivedRow = -1;
         int i3 = this.currentType;
         if (i3 == 0) {
             this.rowCount = 0 + 1;

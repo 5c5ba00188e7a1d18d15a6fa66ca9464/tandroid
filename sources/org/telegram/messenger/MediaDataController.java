@@ -409,7 +409,9 @@ public class MediaDataController extends BaseController {
     }
 
     public static long calcHash(long j, long j2) {
-        return (((j ^ (j2 >> 21)) ^ (j2 << 35)) ^ (j2 >> 4)) + j2;
+        long j3 = j ^ (j >> 21);
+        long j4 = j3 ^ (j3 << 35);
+        return (j4 ^ (j4 >> 4)) + j2;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -7470,7 +7472,7 @@ public class MediaDataController extends BaseController {
     /* JADX WARN: Type inference failed for: r3v1, types: [java.lang.Object[]] */
     /* JADX WARN: Type inference failed for: r4v1 */
     /* JADX WARN: Type inference failed for: r4v11 */
-    /* JADX WARN: Type inference failed for: r4v2, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r4v2, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r7v1, types: [java.lang.String] */
     /* JADX WARN: Type inference failed for: r7v13, types: [java.lang.StringBuilder] */
     /* JADX WARN: Type inference failed for: r7v2 */
@@ -7807,38 +7809,38 @@ public class MediaDataController extends BaseController {
         if (r2 == null) goto L41;
      */
     /* JADX WARN: Code restructure failed: missing block: B:75:0x0131, code lost:
-        if ((r7 instanceof org.telegram.tgnet.TLRPC$TL_messageEmpty) == false) goto L117;
+        if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageEmpty) == false) goto L117;
      */
     /* JADX WARN: Code restructure failed: missing block: B:78:0x0138, code lost:
         if (r2.channel_id != r14) goto L119;
      */
     /* JADX WARN: Code restructure failed: missing block: B:80:0x013e, code lost:
-        r2 = (android.util.SparseArray) r5.get(r19);
-        r3 = (java.util.ArrayList) r6.get(r14);
+        r2 = (android.util.SparseArray) r6.get(r19);
+        r3 = (java.util.ArrayList) r7.get(r14);
      */
     /* JADX WARN: Code restructure failed: missing block: B:81:0x014a, code lost:
         if (r2 != null) goto L122;
      */
     /* JADX WARN: Code restructure failed: missing block: B:82:0x014c, code lost:
         r2 = new android.util.SparseArray();
-        r5.put(r19, r2);
+        r6.put(r19, r2);
      */
     /* JADX WARN: Code restructure failed: missing block: B:83:0x0154, code lost:
         if (r3 != null) goto L124;
      */
     /* JADX WARN: Code restructure failed: missing block: B:84:0x0156, code lost:
         r3 = new java.util.ArrayList();
-        r6.put(r14, r3);
+        r7.put(r14, r3);
      */
     /* JADX WARN: Code restructure failed: missing block: B:85:0x015e, code lost:
-        r7 = (java.util.ArrayList) r2.get(r12);
+        r5 = (java.util.ArrayList) r2.get(r12);
      */
     /* JADX WARN: Code restructure failed: missing block: B:86:0x0164, code lost:
-        if (r7 != null) goto L129;
+        if (r5 != null) goto L129;
      */
     /* JADX WARN: Code restructure failed: missing block: B:87:0x0166, code lost:
-        r7 = new java.util.ArrayList();
-        r2.put(r12, r7);
+        r5 = new java.util.ArrayList();
+        r2.put(r12, r5);
      */
     /* JADX WARN: Code restructure failed: missing block: B:88:0x0176, code lost:
         if (r3.contains(java.lang.Integer.valueOf(r12)) != false) goto L129;
@@ -7847,7 +7849,7 @@ public class MediaDataController extends BaseController {
         r3.add(java.lang.Integer.valueOf(r12));
      */
     /* JADX WARN: Code restructure failed: missing block: B:90:0x017f, code lost:
-        r7.add(r4);
+        r5.add(r4);
      */
     /* JADX WARN: Removed duplicated region for block: B:106:0x01c5  */
     /* JADX WARN: Removed duplicated region for block: B:117:0x01e4  */
@@ -7855,18 +7857,18 @@ public class MediaDataController extends BaseController {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void loadReplyMessagesForMessages(ArrayList<MessageObject> arrayList, final long j, final boolean z, int i, final Runnable runnable) {
+    public void loadReplyMessagesForMessages(ArrayList<MessageObject> arrayList, final long j, final boolean z, int i, final Runnable runnable, final int i2) {
         LongSparseArray longSparseArray;
         TLRPC$Message tLRPC$Message;
         TLRPC$MessageMedia tLRPC$MessageMedia;
         TLRPC$WebPage tLRPC$WebPage;
-        int i2;
+        int i3;
         long j2;
         if (DialogObject.isEncryptedDialog(j)) {
             final ArrayList arrayList2 = new ArrayList();
             final LongSparseArray longSparseArray2 = new LongSparseArray();
-            for (int i3 = 0; i3 < arrayList.size(); i3++) {
-                MessageObject messageObject = arrayList.get(i3);
+            for (int i4 = 0; i4 < arrayList.size(); i4++) {
+                MessageObject messageObject = arrayList.get(i4);
                 if (messageObject != null && messageObject.isReply() && messageObject.replyMessageObject == null) {
                     long j3 = messageObject.messageOwner.reply_to.reply_to_random_id;
                     ArrayList arrayList3 = (ArrayList) longSparseArray2.get(j3);
@@ -7898,11 +7900,11 @@ public class MediaDataController extends BaseController {
         final LongSparseArray longSparseArray3 = new LongSparseArray();
         final LongSparseArray longSparseArray4 = new LongSparseArray();
         LongSparseArray longSparseArray5 = null;
-        for (int i4 = 0; i4 < arrayList.size(); i4++) {
-            MessageObject messageObject2 = arrayList.get(i4);
+        for (int i5 = 0; i5 < arrayList.size(); i5++) {
+            MessageObject messageObject2 = arrayList.get(i5);
             if (messageObject2 != null) {
-                int i5 = messageObject2.type;
-                if (i5 == 23 || i5 == 24) {
+                int i6 = messageObject2.type;
+                if (i6 == 23 || i6 == 24) {
                     longSparseArray = longSparseArray5;
                     TLRPC$MessageMedia tLRPC$MessageMedia2 = messageObject2.messageOwner.media;
                     TLRPC$StoryItem tLRPC$StoryItem = tLRPC$MessageMedia2.storyItem;
@@ -7917,8 +7919,8 @@ public class MediaDataController extends BaseController {
                         arrayList4.add(messageObject2);
                         longSparseArray5 = longSparseArray6;
                         if (messageObject2.type == 0 && (tLRPC$Message = messageObject2.messageOwner) != null && (tLRPC$MessageMedia = tLRPC$Message.media) != null && (tLRPC$WebPage = tLRPC$MessageMedia.webpage) != null && tLRPC$WebPage.attributes != null) {
-                            for (i2 = 0; i2 < messageObject2.messageOwner.media.webpage.attributes.size(); i2++) {
-                                TLRPC$WebPageAttribute tLRPC$WebPageAttribute = messageObject2.messageOwner.media.webpage.attributes.get(i2);
+                            for (i3 = 0; i3 < messageObject2.messageOwner.media.webpage.attributes.size(); i3++) {
+                                TLRPC$WebPageAttribute tLRPC$WebPageAttribute = messageObject2.messageOwner.media.webpage.attributes.get(i3);
                                 if (tLRPC$WebPageAttribute instanceof TLRPC$TL_webPageAttributeStory) {
                                     TLRPC$TL_webPageAttributeStory tLRPC$TL_webPageAttributeStory = (TLRPC$TL_webPageAttributeStory) tLRPC$WebPageAttribute;
                                     TLRPC$StoryItem tLRPC$StoryItem2 = tLRPC$TL_webPageAttributeStory.storyItem;
@@ -7943,7 +7945,7 @@ public class MediaDataController extends BaseController {
                         tLRPC$MessageMedia2.storyItem = StoriesStorage.checkExpiredStateLocal(this.currentAccount, tLRPC$MessageMedia2.user_id, tLRPC$StoryItem);
                         longSparseArray5 = longSparseArray;
                         if (messageObject2.type == 0) {
-                            while (i2 < messageObject2.messageOwner.media.webpage.attributes.size()) {
+                            while (i3 < messageObject2.messageOwner.media.webpage.attributes.size()) {
                             }
                         }
                     }
@@ -7970,8 +7972,8 @@ public class MediaDataController extends BaseController {
                     } else if (messageObject2.getId() > 0 && messageObject2.isReply()) {
                         TLRPC$Message tLRPC$Message3 = messageObject2.messageOwner;
                         TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader = tLRPC$Message3.reply_to;
-                        int i6 = tLRPC$MessageReplyHeader.reply_to_msg_id;
-                        if (i6 != i) {
+                        int i7 = tLRPC$MessageReplyHeader.reply_to_msg_id;
+                        if (i7 != i) {
                             TLRPC$Peer tLRPC$Peer = tLRPC$MessageReplyHeader.reply_to_peer_id;
                             long j7 = 0;
                             if (tLRPC$Peer != null) {
@@ -7998,7 +8000,7 @@ public class MediaDataController extends BaseController {
             getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda54
                 @Override // java.lang.Runnable
                 public final void run() {
-                    MediaDataController.this.lambda$loadReplyMessagesForMessages$166(longSparseArray7, iArr, runnable, longSparseArray3, longSparseArray4, z, j);
+                    MediaDataController.this.lambda$loadReplyMessagesForMessages$166(longSparseArray7, iArr, runnable, i2, longSparseArray3, longSparseArray4, z, j);
                 }
             });
         } else if (runnable != null) {
@@ -8068,22 +8070,22 @@ public class MediaDataController extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x00e5 A[Catch: Exception -> 0x0259, TryCatch #0 {Exception -> 0x0259, blocks: (B:3:0x000a, B:5:0x0024, B:8:0x002f, B:10:0x0033, B:14:0x0057, B:48:0x015c, B:47:0x014d, B:28:0x0089, B:31:0x00df, B:33:0x00e5, B:35:0x00eb, B:37:0x011e, B:39:0x0123, B:41:0x012b, B:43:0x013a, B:46:0x0146, B:30:0x00b5, B:49:0x016b, B:51:0x0172, B:52:0x017d, B:54:0x0183, B:55:0x018e, B:57:0x019e, B:59:0x01a5, B:61:0x01ab, B:66:0x0240, B:64:0x01e9, B:65:0x021a, B:67:0x0248, B:70:0x0255), top: B:77:0x000a }] */
-    /* JADX WARN: Removed duplicated region for block: B:46:0x0146 A[Catch: Exception -> 0x0259, TryCatch #0 {Exception -> 0x0259, blocks: (B:3:0x000a, B:5:0x0024, B:8:0x002f, B:10:0x0033, B:14:0x0057, B:48:0x015c, B:47:0x014d, B:28:0x0089, B:31:0x00df, B:33:0x00e5, B:35:0x00eb, B:37:0x011e, B:39:0x0123, B:41:0x012b, B:43:0x013a, B:46:0x0146, B:30:0x00b5, B:49:0x016b, B:51:0x0172, B:52:0x017d, B:54:0x0183, B:55:0x018e, B:57:0x019e, B:59:0x01a5, B:61:0x01ab, B:66:0x0240, B:64:0x01e9, B:65:0x021a, B:67:0x0248, B:70:0x0255), top: B:77:0x000a }] */
-    /* JADX WARN: Type inference failed for: r15v13 */
-    /* JADX WARN: Type inference failed for: r15v7 */
-    /* JADX WARN: Type inference failed for: r15v8, types: [boolean, int] */
-    /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:45:0x0142 -> B:29:0x00b3). Please submit an issue!!! */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x00e9 A[Catch: Exception -> 0x0282, TryCatch #0 {Exception -> 0x0282, blocks: (B:3:0x000c, B:5:0x0026, B:8:0x0031, B:10:0x0035, B:14:0x0059, B:48:0x0161, B:47:0x0151, B:28:0x008d, B:31:0x00e3, B:33:0x00e9, B:35:0x00ef, B:37:0x0122, B:39:0x0127, B:41:0x012f, B:43:0x013e, B:46:0x014a, B:30:0x00b9, B:49:0x0172, B:51:0x0179, B:52:0x0184, B:54:0x018a, B:55:0x0195, B:57:0x01a6, B:59:0x01ac, B:61:0x01b2, B:63:0x01ee, B:72:0x026a, B:66:0x01ff, B:68:0x0232, B:69:0x023a, B:71:0x0263, B:73:0x0272, B:76:0x027e), top: B:83:0x000c }] */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x014a A[Catch: Exception -> 0x0282, TryCatch #0 {Exception -> 0x0282, blocks: (B:3:0x000c, B:5:0x0026, B:8:0x0031, B:10:0x0035, B:14:0x0059, B:48:0x0161, B:47:0x0151, B:28:0x008d, B:31:0x00e3, B:33:0x00e9, B:35:0x00ef, B:37:0x0122, B:39:0x0127, B:41:0x012f, B:43:0x013e, B:46:0x014a, B:30:0x00b9, B:49:0x0172, B:51:0x0179, B:52:0x0184, B:54:0x018a, B:55:0x0195, B:57:0x01a6, B:59:0x01ac, B:61:0x01b2, B:63:0x01ee, B:72:0x026a, B:66:0x01ff, B:68:0x0232, B:69:0x023a, B:71:0x0263, B:73:0x0272, B:76:0x027e), top: B:83:0x000c }] */
+    /* JADX WARN: Type inference failed for: r12v16 */
+    /* JADX WARN: Type inference failed for: r12v7 */
+    /* JADX WARN: Type inference failed for: r12v8, types: [int, boolean] */
+    /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:45:0x0146 -> B:29:0x00b7). Please submit an issue!!! */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public /* synthetic */ void lambda$loadReplyMessagesForMessages$166(LongSparseArray longSparseArray, final int[] iArr, final Runnable runnable, final LongSparseArray longSparseArray2, LongSparseArray longSparseArray3, final boolean z, final long j) {
-        int i;
+    public /* synthetic */ void lambda$loadReplyMessagesForMessages$166(LongSparseArray longSparseArray, final int[] iArr, final Runnable runnable, int i, final LongSparseArray longSparseArray2, LongSparseArray longSparseArray3, final boolean z, final long j) {
         int i2;
-        ?? r15;
-        SQLiteCursor queryFinalized;
         int i3;
+        ?? r12;
+        SQLiteCursor queryFinalized;
         int i4;
+        int i5;
         LongSparseArray longSparseArray4 = longSparseArray2;
         long j2 = j;
         try {
@@ -8092,7 +8094,7 @@ public class MediaDataController extends BaseController {
                 public final void run() {
                     MediaDataController.lambda$loadReplyMessagesForMessages$161(iArr, runnable);
                 }
-            });
+            }, i);
             if (longSparseArray2.isEmpty()) {
                 iArr[0] = iArr[0] - 1;
                 if (iArr[0] != 0 || runnable == null) {
@@ -8107,23 +8109,23 @@ public class MediaDataController extends BaseController {
             ArrayList arrayList4 = new ArrayList();
             ArrayList arrayList5 = new ArrayList();
             int size = longSparseArray2.size();
-            int i5 = 0;
-            while (i5 < size) {
-                long keyAt = longSparseArray4.keyAt(i5);
-                SparseArray sparseArray = (SparseArray) longSparseArray4.valueAt(i5);
+            int i6 = 0;
+            while (i6 < size) {
+                long keyAt = longSparseArray4.keyAt(i6);
+                SparseArray sparseArray = (SparseArray) longSparseArray4.valueAt(i6);
                 ArrayList arrayList6 = (ArrayList) longSparseArray3.get(keyAt);
                 if (arrayList6 != null) {
-                    int i6 = 0;
-                    while (i6 < 2) {
-                        if (i6 != 1 || z) {
-                            if (i6 == 1) {
-                                i2 = size;
+                    int i7 = 0;
+                    while (i7 < 2) {
+                        if (i7 != 1 || z) {
+                            if (i7 == 1) {
+                                i3 = size;
                                 queryFinalized = getMessagesStorage().getDatabase().queryFinalized(String.format(Locale.US, "SELECT data, mid, date, uid FROM scheduled_messages_v2 WHERE mid IN(%s) AND uid = %d", TextUtils.join(",", arrayList6), Long.valueOf(j)), new Object[0]);
-                                r15 = 0;
+                                r12 = 0;
                                 if (queryFinalized.next()) {
-                                    NativeByteBuffer byteBufferValue = queryFinalized.byteBufferValue(r15);
+                                    NativeByteBuffer byteBufferValue = queryFinalized.byteBufferValue(r12);
                                     if (byteBufferValue != null) {
-                                        TLRPC$Message TLdeserialize = TLRPC$Message.TLdeserialize(byteBufferValue, byteBufferValue.readInt32(r15), r15);
+                                        TLRPC$Message TLdeserialize = TLRPC$Message.TLdeserialize(byteBufferValue, byteBufferValue.readInt32(r12), r12);
                                         TLdeserialize.readAttachPath(byteBufferValue, getUserConfig().clientUserId);
                                         byteBufferValue.reuse();
                                         TLdeserialize.id = queryFinalized.intValue(1);
@@ -8132,7 +8134,7 @@ public class MediaDataController extends BaseController {
                                         MessagesStorage.addUsersAndChatsFromMessage(TLdeserialize, arrayList4, arrayList5, null);
                                         arrayList.add(TLdeserialize);
                                         TLRPC$Peer tLRPC$Peer = TLdeserialize.peer_id;
-                                        i4 = i5;
+                                        i5 = i6;
                                         long j3 = tLRPC$Peer != null ? tLRPC$Peer.channel_id : 0L;
                                         ArrayList arrayList7 = (ArrayList) longSparseArray3.get(j3);
                                         if (arrayList7 != null) {
@@ -8142,33 +8144,33 @@ public class MediaDataController extends BaseController {
                                             }
                                         }
                                     } else {
-                                        i4 = i5;
+                                        i5 = i6;
                                     }
-                                    i5 = i4;
-                                    r15 = 0;
+                                    i6 = i5;
+                                    r12 = 0;
                                     if (queryFinalized.next()) {
                                     }
                                 } else {
-                                    i3 = i5;
+                                    i4 = i6;
                                     queryFinalized.dispose();
                                 }
                             } else {
-                                i2 = size;
-                                r15 = 0;
+                                i3 = size;
+                                r12 = 0;
                                 queryFinalized = getMessagesStorage().getDatabase().queryFinalized(String.format(Locale.US, "SELECT data, mid, date, uid FROM messages_v2 WHERE mid IN(%s) AND uid = %d", TextUtils.join(",", arrayList6), Long.valueOf(j)), new Object[0]);
                                 if (queryFinalized.next()) {
                                 }
                             }
                         } else {
-                            i2 = size;
-                            i3 = i5;
+                            i3 = size;
+                            i4 = i6;
                         }
-                        i6++;
-                        i5 = i3;
-                        size = i2;
+                        i7++;
+                        size = i3;
+                        i6 = i4;
                     }
                 }
-                i5++;
+                i6++;
                 j2 = j;
                 size = size;
                 longSparseArray4 = longSparseArray2;
@@ -8180,48 +8182,57 @@ public class MediaDataController extends BaseController {
             if (!arrayList5.isEmpty()) {
                 getMessagesStorage().getChatsInternal(TextUtils.join(",", arrayList5), arrayList3);
             }
+            int i8 = 0;
             broadcastReplyMessages(arrayList, longSparseArray2, arrayList2, arrayList3, j, true);
             if (!longSparseArray3.isEmpty()) {
                 int size2 = longSparseArray3.size();
-                int i7 = 0;
-                while (i7 < size2) {
-                    final long keyAt2 = longSparseArray3.keyAt(i7);
+                while (i8 < size2) {
+                    final long keyAt2 = longSparseArray3.keyAt(i8);
                     if (z) {
                         final TLRPC$TL_messages_getScheduledMessages tLRPC$TL_messages_getScheduledMessages = new TLRPC$TL_messages_getScheduledMessages();
                         tLRPC$TL_messages_getScheduledMessages.peer = getMessagesController().getInputPeer(j4);
-                        tLRPC$TL_messages_getScheduledMessages.id = (ArrayList) longSparseArray3.valueAt(i7);
-                        i = size2;
-                        getConnectionsManager().sendRequest(tLRPC$TL_messages_getScheduledMessages, new RequestDelegate() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda214
+                        tLRPC$TL_messages_getScheduledMessages.id = (ArrayList) longSparseArray3.valueAt(i8);
+                        i2 = size2;
+                        int sendRequest = getConnectionsManager().sendRequest(tLRPC$TL_messages_getScheduledMessages, new RequestDelegate() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda214
                             @Override // org.telegram.tgnet.RequestDelegate
                             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                                 MediaDataController.this.lambda$loadReplyMessagesForMessages$163(tLRPC$TL_messages_getScheduledMessages, keyAt2, j, longSparseArray2, z, iArr, runnable, tLObject, tLRPC$TL_error);
                             }
                         });
+                        if (i != 0) {
+                            getConnectionsManager().bindRequestToGuid(sendRequest, i);
+                        }
                     } else {
-                        i = size2;
+                        i2 = size2;
                         if (keyAt2 != 0) {
                             TLRPC$TL_channels_getMessages tLRPC$TL_channels_getMessages = new TLRPC$TL_channels_getMessages();
                             tLRPC$TL_channels_getMessages.channel = getMessagesController().getInputChannel(keyAt2);
-                            tLRPC$TL_channels_getMessages.id = (ArrayList) longSparseArray3.valueAt(i7);
-                            getConnectionsManager().sendRequest(tLRPC$TL_channels_getMessages, new RequestDelegate() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda196
+                            tLRPC$TL_channels_getMessages.id = (ArrayList) longSparseArray3.valueAt(i8);
+                            int sendRequest2 = getConnectionsManager().sendRequest(tLRPC$TL_channels_getMessages, new RequestDelegate() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda196
                                 @Override // org.telegram.tgnet.RequestDelegate
                                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                                     MediaDataController.this.lambda$loadReplyMessagesForMessages$164(j, keyAt2, longSparseArray2, z, iArr, runnable, tLObject, tLRPC$TL_error);
                                 }
                             });
+                            if (i != 0) {
+                                getConnectionsManager().bindRequestToGuid(sendRequest2, i);
+                            }
                         } else {
                             TLRPC$TL_messages_getMessages tLRPC$TL_messages_getMessages = new TLRPC$TL_messages_getMessages();
-                            tLRPC$TL_messages_getMessages.id = (ArrayList) longSparseArray3.valueAt(i7);
-                            getConnectionsManager().sendRequest(tLRPC$TL_messages_getMessages, new RequestDelegate() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda198
+                            tLRPC$TL_messages_getMessages.id = (ArrayList) longSparseArray3.valueAt(i8);
+                            int sendRequest3 = getConnectionsManager().sendRequest(tLRPC$TL_messages_getMessages, new RequestDelegate() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda198
                                 @Override // org.telegram.tgnet.RequestDelegate
                                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                                     MediaDataController.this.lambda$loadReplyMessagesForMessages$165(j, longSparseArray2, z, iArr, runnable, tLObject, tLRPC$TL_error);
                                 }
                             });
+                            if (i != 0) {
+                                getConnectionsManager().bindRequestToGuid(sendRequest3, i);
+                            }
                         }
                     }
-                    i7++;
-                    size2 = i;
+                    i8++;
+                    size2 = i2;
                     j4 = j;
                 }
                 return;

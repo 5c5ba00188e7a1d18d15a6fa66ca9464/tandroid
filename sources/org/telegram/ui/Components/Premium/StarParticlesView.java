@@ -118,6 +118,7 @@ public class StarParticlesView extends View {
         int pointsCount2;
         int pointsCount3;
         private long prevTime;
+        public Theme.ResourcesProvider resourcesProvider;
         public boolean startFromCenter;
         public boolean svg;
         public boolean useGradient;
@@ -172,7 +173,7 @@ public class StarParticlesView extends View {
         }
 
         public void updateColors() {
-            int color = Theme.getColor(this.colorKey);
+            int color = Theme.getColor(this.colorKey, this.resourcesProvider);
             if (this.lastColor != color) {
                 this.lastColor = color;
                 generateBitmaps();
@@ -206,7 +207,7 @@ public class StarParticlesView extends View {
                     } else {
                         i4 = R.raw.premium_object_settings;
                     }
-                    this.stars[i5] = SvgHelper.getBitmap(i4, i6, i6, ColorUtils.setAlphaComponent(Theme.getColor(this.colorKey), 30));
+                    this.stars[i5] = SvgHelper.getBitmap(i4, i6, i6, ColorUtils.setAlphaComponent(Theme.getColor(this.colorKey, this.resourcesProvider), 30));
                     this.svg = true;
                 } else if (i7 == 11 || i7 == 4) {
                     if (i5 == 0) {
@@ -216,7 +217,7 @@ public class StarParticlesView extends View {
                     } else {
                         i = R.raw.premium_object_like;
                     }
-                    this.stars[i5] = SvgHelper.getBitmap(i, i6, i6, ColorUtils.setAlphaComponent(Theme.getColor(this.colorKey), 30));
+                    this.stars[i5] = SvgHelper.getBitmap(i, i6, i6, ColorUtils.setAlphaComponent(Theme.getColor(this.colorKey, this.resourcesProvider), 30));
                     this.svg = true;
                 } else if (i7 == 3) {
                     if (i5 == 0) {
@@ -226,7 +227,7 @@ public class StarParticlesView extends View {
                     } else {
                         i3 = R.raw.premium_object_noads;
                     }
-                    this.stars[i5] = SvgHelper.getBitmap(i3, i6, i6, ColorUtils.setAlphaComponent(Theme.getColor(this.colorKey), 30));
+                    this.stars[i5] = SvgHelper.getBitmap(i3, i6, i6, ColorUtils.setAlphaComponent(Theme.getColor(this.colorKey, this.resourcesProvider), 30));
                     this.svg = true;
                 } else if (i7 == 7) {
                     if (i5 == 0) {
@@ -236,13 +237,13 @@ public class StarParticlesView extends View {
                     } else {
                         i2 = R.raw.premium_object_user;
                     }
-                    this.stars[i5] = SvgHelper.getBitmap(i2, i6, i6, ColorUtils.setAlphaComponent(Theme.getColor(this.colorKey), 30));
+                    this.stars[i5] = SvgHelper.getBitmap(i2, i6, i6, ColorUtils.setAlphaComponent(Theme.getColor(this.colorKey, this.resourcesProvider), 30));
                     this.svg = true;
                 } else if (i7 == 1001) {
-                    this.stars[i5] = SvgHelper.getBitmap(R.raw.premium_object_fire, i6, i6, ColorUtils.setAlphaComponent(Theme.getColor(this.colorKey), 30));
+                    this.stars[i5] = SvgHelper.getBitmap(R.raw.premium_object_fire, i6, i6, ColorUtils.setAlphaComponent(Theme.getColor(this.colorKey, this.resourcesProvider), 30));
                     this.svg = true;
                 } else if (i7 == 1002) {
-                    this.stars[i5] = SvgHelper.getBitmap(R.raw.premium_object_star2, i6, i6, ColorUtils.setAlphaComponent(Theme.getColor(this.colorKey), 30));
+                    this.stars[i5] = SvgHelper.getBitmap(R.raw.premium_object_star2, i6, i6, ColorUtils.setAlphaComponent(Theme.getColor(this.colorKey, this.resourcesProvider), 30));
                     this.svg = true;
                 } else {
                     Bitmap createBitmap = Bitmap.createBitmap(i6, i6, Bitmap.Config.ARGB_8888);
@@ -250,7 +251,7 @@ public class StarParticlesView extends View {
                     Canvas canvas = new Canvas(createBitmap);
                     if (this.type == 6 && (i5 == 1 || i5 == 2)) {
                         android.graphics.drawable.Drawable drawable = ContextCompat.getDrawable(ApplicationLoader.applicationContext, R.drawable.msg_premium_liststar);
-                        drawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor(this.colorKey), PorterDuff.Mode.MULTIPLY));
+                        drawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor(this.colorKey, this.resourcesProvider), PorterDuff.Mode.MULTIPLY));
                         drawable.setBounds(0, 0, i6, i6);
                         drawable.draw(canvas);
                     } else {
@@ -293,9 +294,9 @@ public class StarParticlesView extends View {
                             mainGradientPaint.setAlpha(255);
                         } else {
                             if (this.type == 100) {
-                                paint.setColor(ColorUtils.setAlphaComponent(Theme.getColor(this.colorKey), 200));
+                                paint.setColor(ColorUtils.setAlphaComponent(Theme.getColor(this.colorKey, this.resourcesProvider), 200));
                             } else {
-                                paint.setColor(Theme.getColor(this.colorKey));
+                                paint.setColor(Theme.getColor(this.colorKey, this.resourcesProvider));
                             }
                             if (this.roundEffect) {
                                 paint.setPathEffect(new CornerPathEffect(AndroidUtilities.dpf2(this.size1 / 5.0f)));

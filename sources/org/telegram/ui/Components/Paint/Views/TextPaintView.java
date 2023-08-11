@@ -127,6 +127,42 @@ public class TextPaintView extends EntityView {
         });
     }
 
+    @Override // org.telegram.ui.Components.Paint.Views.EntityView
+    protected float getStickyPaddingLeft() {
+        RectF rectF = this.editText.framePadding;
+        if (rectF == null) {
+            return 0.0f;
+        }
+        return rectF.left;
+    }
+
+    @Override // org.telegram.ui.Components.Paint.Views.EntityView
+    protected float getStickyPaddingRight() {
+        RectF rectF = this.editText.framePadding;
+        if (rectF == null) {
+            return 0.0f;
+        }
+        return rectF.right;
+    }
+
+    @Override // org.telegram.ui.Components.Paint.Views.EntityView
+    protected float getStickyPaddingTop() {
+        RectF rectF = this.editText.framePadding;
+        if (rectF == null) {
+            return 0.0f;
+        }
+        return rectF.top;
+    }
+
+    @Override // org.telegram.ui.Components.Paint.Views.EntityView
+    protected float getStickyPaddingBottom() {
+        RectF rectF = this.editText.framePadding;
+        if (rectF == null) {
+            return 0.0f;
+        }
+        return rectF.bottom;
+    }
+
     /* JADX INFO: Access modifiers changed from: private */
     public void updateHint() {
         if (this.editText.getText().length() <= 0) {
@@ -387,6 +423,14 @@ public class TextPaintView extends EntityView {
         @Override // android.view.View
         protected void onDraw(Canvas canvas) {
             super.onDraw(canvas);
+            int saveCount = canvas.getSaveCount();
+            float showAlpha = getShowAlpha();
+            if (showAlpha <= 0.0f) {
+                return;
+            }
+            if (showAlpha < 1.0f) {
+                canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), (int) (showAlpha * 255.0f), 31);
+            }
             float dpf2 = AndroidUtilities.dpf2(5.66f);
             float dp = AndroidUtilities.dp(2.0f) + dpf2 + AndroidUtilities.dp(15.0f);
             float f = dp * 2.0f;
@@ -430,7 +474,7 @@ public class TextPaintView extends EntityView {
             canvas.drawLine(f2, f12, f2, f13, this.paint);
             canvas.drawCircle(f2, f11, (AndroidUtilities.dp(1.0f) + dpf2) - 1.0f, this.clearPaint);
             canvas.drawCircle(dp, f11, (dpf2 + AndroidUtilities.dp(1.0f)) - 1.0f, this.clearPaint);
-            canvas.restore();
+            canvas.restoreToCount(saveCount);
         }
     }
 }

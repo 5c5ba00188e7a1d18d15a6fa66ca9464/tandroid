@@ -15,6 +15,7 @@ public class ReplaceableIconDrawable extends Drawable implements Animator.Animat
     private ColorFilter colorFilter;
     private Context context;
     private Drawable currentDrawable;
+    public boolean exactlyBounds;
     private Drawable outDrawable;
     private int currentResId = 0;
     private float progress = 1.0f;
@@ -114,6 +115,10 @@ public class ReplaceableIconDrawable extends Drawable implements Animator.Animat
         int intrinsicWidth;
         int i2;
         if (drawable == null) {
+            return;
+        }
+        if (this.exactlyBounds) {
+            drawable.setBounds(rect);
             return;
         }
         if (drawable.getIntrinsicHeight() < 0) {

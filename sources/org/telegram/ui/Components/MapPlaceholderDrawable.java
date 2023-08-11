@@ -9,7 +9,7 @@ import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes4.dex */
 public class MapPlaceholderDrawable extends Drawable {
     private Paint linePaint;
-    private Paint paint = new Paint();
+    private Paint paint;
 
     @Override // android.graphics.drawable.Drawable
     public int getIntrinsicHeight() {
@@ -35,10 +35,15 @@ public class MapPlaceholderDrawable extends Drawable {
     }
 
     public MapPlaceholderDrawable() {
+        this(Theme.getCurrentTheme().isDark());
+    }
+
+    public MapPlaceholderDrawable(boolean z) {
+        this.paint = new Paint();
         Paint paint = new Paint();
         this.linePaint = paint;
         paint.setStrokeWidth(AndroidUtilities.dp(1.0f));
-        if (Theme.getCurrentTheme().isDark()) {
+        if (z) {
             this.paint.setColor(-14865331);
             this.linePaint.setColor(-15854042);
             return;

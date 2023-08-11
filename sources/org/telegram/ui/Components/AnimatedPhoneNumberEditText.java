@@ -119,7 +119,7 @@ public class AnimatedPhoneNumberEditText extends HintEditText {
         postDelayed(runnable, (i * 5) + 150);
     }
 
-    @Override // org.telegram.ui.Components.HintEditText, android.widget.TextView
+    @Override // org.telegram.ui.Components.HintEditText, org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView
     public void setTextSize(int i, float f) {
         super.setTextSize(i, f);
         this.textPaint.setTextSize(TypedValue.applyDimension(i, f, getResources().getDisplayMetrics()));

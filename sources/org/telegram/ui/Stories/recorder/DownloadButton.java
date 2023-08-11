@@ -161,9 +161,18 @@ public class DownloadButton extends ImageView {
                 this.downloadingVideo = false;
             }
             updateImage();
-            if (this.prepare == null) {
-                onClickInternal();
+            Utilities.Callback<Runnable> callback2 = this.prepare;
+            if (callback2 != null) {
+                this.preparing = true;
+                callback2.run(new Runnable() { // from class: org.telegram.ui.Stories.recorder.DownloadButton$$ExternalSyntheticLambda2
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        DownloadButton.this.onClickInternal();
+                    }
+                });
+                return;
             }
+            onClickInternal();
         }
     }
 

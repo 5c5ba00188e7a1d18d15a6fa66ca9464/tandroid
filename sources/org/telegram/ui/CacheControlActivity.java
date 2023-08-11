@@ -3021,7 +3021,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
                 CharSequence charSequence = itemInner.headerName;
                 int[] iArr = cacheControlActivity.percents;
                 int i3 = itemInner.index;
-                CharSequence checkBoxTitle = cacheControlActivity.getCheckBoxTitle(charSequence, iArr[i3 < 0 ? 8 : i3], i3 < 0);
+                CharSequence checkBoxTitle = cacheControlActivity.getCheckBoxTitle(charSequence, iArr[i3 < 0 ? 9 : i3], i3 < 0);
                 String formatFileSize = AndroidUtilities.formatFileSize(itemInner.size);
                 if (itemInner.index >= 0 ? !itemInner.last : !CacheControlActivity.this.collapsed) {
                     r6 = true;

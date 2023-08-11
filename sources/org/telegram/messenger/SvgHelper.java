@@ -445,7 +445,6 @@ public class SvgHelper {
             InputStream openRawResource = ApplicationLoader.applicationContext.getResources().openRawResource(i);
             XMLReader xMLReader = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
             SVGHandler sVGHandler = new SVGHandler(i2, i3, Integer.valueOf(i4), false, f);
-            sVGHandler.alphaOnly = true;
             xMLReader.setContentHandler(sVGHandler);
             xMLReader.parse(new InputSource(openRawResource));
             Bitmap bitmap = sVGHandler.getBitmap();
@@ -464,7 +463,9 @@ public class SvgHelper {
             FileInputStream fileInputStream = new FileInputStream(file);
             XMLReader xMLReader = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
             SVGHandler sVGHandler = new SVGHandler(i, i2, z ? -1 : null, false, 1.0f);
-            sVGHandler.alphaOnly = true;
+            if (!z) {
+                sVGHandler.alphaOnly = true;
+            }
             xMLReader.setContentHandler(sVGHandler);
             xMLReader.parse(new InputSource(fileInputStream));
             Bitmap bitmap = sVGHandler.getBitmap();

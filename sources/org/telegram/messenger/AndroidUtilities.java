@@ -96,6 +96,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.core.graphics.ColorUtils;
 import androidx.core.math.MathUtils;
+import androidx.core.widget.NestedScrollView;
 import androidx.dynamicanimation.animation.DynamicAnimation;
 import androidx.dynamicanimation.animation.SpringAnimation;
 import androidx.dynamicanimation.animation.SpringForce;
@@ -187,6 +188,7 @@ import org.telegram.ui.Components.TypefaceSpan;
 import org.telegram.ui.Components.URLSpanReplacement;
 import org.telegram.ui.Components.UndoView;
 import org.telegram.ui.LaunchActivity;
+import org.telegram.ui.Stories.PeerStoriesView;
 import org.telegram.ui.ThemePreviewActivity;
 import org.telegram.ui.WallpapersListActivity;
 import org.webrtc.MediaStreamTrack;
@@ -490,7 +492,11 @@ public class AndroidUtilities {
         return replaceSingleTag(str, -1, 0, runnable);
     }
 
-    public static SpannableStringBuilder replaceSingleTag(String str, final int i, int i2, final Runnable runnable) {
+    public static SpannableStringBuilder replaceSingleTag(String str, int i, int i2, Runnable runnable) {
+        return replaceSingleTag(str, i, i2, runnable, null);
+    }
+
+    public static SpannableStringBuilder replaceSingleTag(String str, final int i, int i2, final Runnable runnable, final Theme.ResourcesProvider resourcesProvider) {
         int i3;
         int i4;
         int indexOf = str.indexOf("**");
@@ -512,7 +518,7 @@ public class AndroidUtilities {
                         textPaint.setUnderlineText(false);
                         int i5 = i;
                         if (i5 >= 0) {
-                            textPaint.setColor(Theme.getColor(i5));
+                            textPaint.setColor(Theme.getColor(i5, resourcesProvider));
                         }
                     }
 
@@ -530,7 +536,7 @@ public class AndroidUtilities {
                     public void updateDrawState(TextPaint textPaint) {
                         textPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
                         int alpha = textPaint.getAlpha();
-                        textPaint.setColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueText));
+                        textPaint.setColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueText, Theme.ResourcesProvider.this));
                         textPaint.setAlpha(alpha);
                     }
                 }, indexOf, i3 + indexOf, 0);
@@ -625,18 +631,22 @@ public class AndroidUtilities {
     }
 
     public static boolean findClickableView(ViewGroup viewGroup, float f, float f2) {
+        return findClickableView(viewGroup, f, f2, null);
+    }
+
+    public static boolean findClickableView(ViewGroup viewGroup, float f, float f2, View view) {
         if (viewGroup == null) {
             return false;
         }
         for (int i = 0; i < viewGroup.getChildCount(); i++) {
             View childAt = viewGroup.getChildAt(i);
-            if (childAt.getVisibility() == 0) {
+            if (childAt.getVisibility() == 0 && (!(childAt instanceof PeerStoriesView) || childAt == view)) {
                 Rect rect = rectTmp2;
                 childAt.getHitRect(rect);
                 if (rect.contains((int) f, (int) f2) && childAt.isClickable()) {
                     return true;
                 }
-                if ((childAt instanceof ViewGroup) && findClickableView((ViewGroup) childAt, f - childAt.getX(), f2 - childAt.getY())) {
+                if ((childAt instanceof ViewGroup) && findClickableView((ViewGroup) childAt, f - childAt.getX(), f2 - childAt.getY(), view)) {
                     return true;
                 }
             }
@@ -772,6 +782,32 @@ public class AndroidUtilities {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public static float[] getCoordinateInParent(ViewGroup viewGroup, View view) {
+        float f;
+        float f2 = 0.0f;
+        if (view != null && viewGroup != null) {
+            f = 0.0f;
+            float f3 = 0.0f;
+            while (view != viewGroup) {
+                if (view != null) {
+                    f += view.getY();
+                    f3 += view.getX();
+                    if (view instanceof NestedScrollView) {
+                        f -= view.getScrollY();
+                        f3 -= view.getScrollX();
+                    }
+                    if (view.getParent() instanceof View) {
+                        view = (View) view.getParent();
+                    }
+                }
+            }
+            f2 = f3;
+            return new float[]{f2, f};
+        }
+        f = 0.0f;
+        return new float[]{f2, f};
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -5147,7 +5183,7 @@ public class AndroidUtilities {
     }
 
     public static boolean intersect1d(int i, int i2, int i3, int i4) {
-        return Math.max(i, i2) >= Math.min(i3, i4) && Math.max(i3, i4) >= Math.min(i, i2);
+        return Math.max(i, i2) > Math.min(i3, i4) && Math.max(i3, i4) > Math.min(i, i2);
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:18:0x0023, code lost:

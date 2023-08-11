@@ -13,7 +13,7 @@ public final /* synthetic */ class PaintTypeface$$ExternalSyntheticLambda3 imple
     @Override // org.telegram.ui.Components.Paint.PaintTypeface.LazyTypeface.LazyTypefaceLoader
     public final Typeface load() {
         Typeface typeface;
-        typeface = AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_COURIER_NEW_BOLD);
+        typeface = AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_MERRIWEATHER_BOLD);
         return typeface;
     }
 }

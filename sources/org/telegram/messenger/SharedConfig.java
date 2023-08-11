@@ -144,9 +144,11 @@ public class SharedConfig {
     public static boolean shuffleMusic;
     public static boolean sortContactsByName;
     public static boolean sortFilesByName;
+    public static int stealthModeSendMessageConfirm;
     public static boolean stickersReorderingHintUsed;
     public static String storageCacheDir;
     public static int storiesColumnsCount;
+    public static boolean storyReactionsLongPressHint;
     public static boolean streamAllVideo;
     public static boolean streamMedia;
     public static boolean streamMkv;
@@ -270,6 +272,7 @@ public class SharedConfig {
         useFingerprint = true;
         keepMedia = CacheByChatsController.KEEP_MEDIA_ONE_MONTH;
         updateStickersOrderOnSend = true;
+        stealthModeSendMessageConfirm = 2;
         lastLocalId = -210000;
         passportConfigJson = "";
         sync = new Object();
@@ -464,15 +467,15 @@ public class SharedConfig {
         return i;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:38:0x017e A[Catch: Exception -> 0x01a0, all -> 0x040c, TryCatch #0 {Exception -> 0x01a0, blocks: (B:22:0x012f, B:24:0x0137, B:26:0x0147, B:27:0x015b, B:38:0x017e, B:40:0x0182, B:41:0x0184, B:43:0x0188, B:45:0x018e, B:47:0x0194, B:49:0x0198, B:36:0x0178), top: B:87:0x012f, outer: #4 }] */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x0182 A[Catch: Exception -> 0x01a0, all -> 0x040c, TryCatch #0 {Exception -> 0x01a0, blocks: (B:22:0x012f, B:24:0x0137, B:26:0x0147, B:27:0x015b, B:38:0x017e, B:40:0x0182, B:41:0x0184, B:43:0x0188, B:45:0x018e, B:47:0x0194, B:49:0x0198, B:36:0x0178), top: B:87:0x012f, outer: #4 }] */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x017e A[Catch: Exception -> 0x01a0, all -> 0x041e, TryCatch #0 {Exception -> 0x01a0, blocks: (B:22:0x012f, B:24:0x0137, B:26:0x0147, B:27:0x015b, B:38:0x017e, B:40:0x0182, B:41:0x0184, B:43:0x0188, B:45:0x018e, B:47:0x0194, B:49:0x0198, B:36:0x0178), top: B:87:0x012f, outer: #4 }] */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x0182 A[Catch: Exception -> 0x01a0, all -> 0x041e, TryCatch #0 {Exception -> 0x01a0, blocks: (B:22:0x012f, B:24:0x0137, B:26:0x0147, B:27:0x015b, B:38:0x017e, B:40:0x0182, B:41:0x0184, B:43:0x0188, B:45:0x018e, B:47:0x0194, B:49:0x0198, B:36:0x0178), top: B:87:0x012f, outer: #4 }] */
     /* JADX WARN: Removed duplicated region for block: B:61:0x0221  */
     /* JADX WARN: Removed duplicated region for block: B:62:0x0224  */
     /* JADX WARN: Removed duplicated region for block: B:65:0x0234  */
     /* JADX WARN: Removed duplicated region for block: B:66:0x0236  */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x03dd  */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x03df  */
-    /* JADX WARN: Removed duplicated region for block: B:91:0x03fc A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x03ef  */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x03f1  */
+    /* JADX WARN: Removed duplicated region for block: B:89:0x040e A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -601,6 +604,7 @@ public class SharedConfig {
                             searchMessagesAsListHintShows = sharedPreferences2.getInt("searchMessagesAsListHintShows", 0);
                             searchMessagesAsListUsed = sharedPreferences2.getBoolean("searchMessagesAsListUsed", false);
                             stickersReorderingHintUsed = sharedPreferences2.getBoolean("stickersReorderingHintUsed", false);
+                            storyReactionsLongPressHint = sharedPreferences2.getBoolean("storyReactionsLongPressHint", false);
                             textSelectionHintShows = sharedPreferences2.getInt("textSelectionHintShows", 0);
                             scheduledOrNoSoundHintShows = sharedPreferences2.getInt("scheduledOrNoSoundHintShows", 0);
                             forwardingOptionsHintShown = sharedPreferences2.getBoolean("forwardingOptionsHintShown", false);
@@ -611,6 +615,7 @@ public class SharedConfig {
                             messageSeenHintCount = sharedPreferences2.getInt("messageSeenCount", 3);
                             emojiInteractionsHintCount = sharedPreferences2.getInt("emojiInteractionsHintCount", 3);
                             dayNightThemeSwitchHintCount = sharedPreferences2.getInt("dayNightThemeSwitchHintCount", 3);
+                            stealthModeSendMessageConfirm = sharedPreferences2.getInt("stealthModeSendMessageConfirm", 2);
                             mediaColumnsCount = sharedPreferences2.getInt("mediaColumnsCount", 3);
                             storiesColumnsCount = sharedPreferences2.getInt("storiesColumnsCount", 3);
                             fastScrollHintCount = sharedPreferences2.getInt("fastScrollHintCount", 3);
@@ -688,6 +693,7 @@ public class SharedConfig {
                 searchMessagesAsListHintShows = sharedPreferences22.getInt("searchMessagesAsListHintShows", 0);
                 searchMessagesAsListUsed = sharedPreferences22.getBoolean("searchMessagesAsListUsed", false);
                 stickersReorderingHintUsed = sharedPreferences22.getBoolean("stickersReorderingHintUsed", false);
+                storyReactionsLongPressHint = sharedPreferences22.getBoolean("storyReactionsLongPressHint", false);
                 textSelectionHintShows = sharedPreferences22.getInt("textSelectionHintShows", 0);
                 scheduledOrNoSoundHintShows = sharedPreferences22.getInt("scheduledOrNoSoundHintShows", 0);
                 forwardingOptionsHintShown = sharedPreferences22.getBoolean("forwardingOptionsHintShown", false);
@@ -698,6 +704,7 @@ public class SharedConfig {
                 messageSeenHintCount = sharedPreferences22.getInt("messageSeenCount", 3);
                 emojiInteractionsHintCount = sharedPreferences22.getInt("emojiInteractionsHintCount", 3);
                 dayNightThemeSwitchHintCount = sharedPreferences22.getInt("dayNightThemeSwitchHintCount", 3);
+                stealthModeSendMessageConfirm = sharedPreferences22.getInt("stealthModeSendMessageConfirm", 2);
                 mediaColumnsCount = sharedPreferences22.getInt("mediaColumnsCount", 3);
                 storiesColumnsCount = sharedPreferences22.getInt("storiesColumnsCount", 3);
                 fastScrollHintCount = sharedPreferences22.getInt("fastScrollHintCount", 3);
@@ -912,6 +919,7 @@ public class SharedConfig {
         messageSeenHintCount = 3;
         emojiInteractionsHintCount = 3;
         dayNightThemeSwitchHintCount = 3;
+        stealthModeSendMessageConfirm = 2;
         dayNightWallpaperSwitchHint = 0;
         saveConfig();
     }
@@ -934,6 +942,13 @@ public class SharedConfig {
         stickersReorderingHintUsed = z;
         SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
         edit.putBoolean("stickersReorderingHintUsed", stickersReorderingHintUsed);
+        edit.apply();
+    }
+
+    public static void setStoriesReactionsLongPressHintUsed(boolean z) {
+        storyReactionsLongPressHint = z;
+        SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
+        edit.putBoolean("storyReactionsLongPressHint", storyReactionsLongPressHint);
         edit.apply();
     }
 
@@ -1512,6 +1527,11 @@ public class SharedConfig {
     public static void updateDayNightThemeSwitchHintCount(int i) {
         dayNightThemeSwitchHintCount = i;
         ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", 0).edit().putInt("dayNightThemeSwitchHintCount", dayNightThemeSwitchHintCount).apply();
+    }
+
+    public static void updateStealthModeSendMessageConfirm(int i) {
+        stealthModeSendMessageConfirm = i;
+        ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", 0).edit().putInt("stealthModeSendMessageConfirm", stealthModeSendMessageConfirm).apply();
     }
 
     public static int getDevicePerformanceClass() {

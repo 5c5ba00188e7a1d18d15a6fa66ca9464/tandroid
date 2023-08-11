@@ -13,7 +13,6 @@ import java.nio.ByteOrder;
 import java.nio.charset.Charset;
 import java.util.Collection;
 import java.util.Map;
-import org.telegram.messenger.MessagesStorage;
 /* loaded from: classes.dex */
 final class ProtobufDataEncoderContext implements ObjectEncoderContext {
     private final ObjectEncoder<Object> fallbackEncoder;
@@ -276,17 +275,17 @@ final class ProtobufDataEncoderContext implements ObjectEncoderContext {
 
     private void writeVarInt32(int i) throws IOException {
         while ((i & (-128)) != 0) {
-            this.output.write((i & MessagesStorage.LAST_DB_VERSION) | 128);
+            this.output.write((i & 127) | 128);
             i >>>= 7;
         }
-        this.output.write(i & MessagesStorage.LAST_DB_VERSION);
+        this.output.write(i & 127);
     }
 
     private void writeVarInt64(long j) throws IOException {
         while (((-128) & j) != 0) {
-            this.output.write((((int) j) & MessagesStorage.LAST_DB_VERSION) | 128);
+            this.output.write((((int) j) & 127) | 128);
             j >>>= 7;
         }
-        this.output.write(((int) j) & MessagesStorage.LAST_DB_VERSION);
+        this.output.write(((int) j) & 127);
     }
 }

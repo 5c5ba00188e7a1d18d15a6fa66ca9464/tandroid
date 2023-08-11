@@ -238,6 +238,14 @@ public class Bulletin {
         }
     }
 
+    public static void hideVisible(ViewGroup viewGroup) {
+        Bulletin bulletin = visibleBulletin;
+        if (bulletin == null || bulletin.containerLayout != viewGroup) {
+            return;
+        }
+        bulletin.hide();
+    }
+
     public Bulletin setDuration(int i) {
         this.duration = i;
         return this;
@@ -1965,42 +1973,27 @@ public class Bulletin {
 
     /* loaded from: classes4.dex */
     public static class BulletinWindow extends Dialog {
-        private final FrameLayout container;
+        private final BulletinWindowLayout container;
+        private WindowManager.LayoutParams params;
 
-        public static FrameLayout make(Context context) {
-            return new BulletinWindow(context).container;
+        public static BulletinWindowLayout make(Context context, Delegate delegate) {
+            return new BulletinWindow(context, delegate).container;
         }
 
-        private BulletinWindow(Context context) {
+        public static BulletinWindowLayout make(Context context) {
+            return new BulletinWindow(context, null).container;
+        }
+
+        private BulletinWindow(Context context, final Delegate delegate) {
             super(context);
-            FrameLayout frameLayout = new FrameLayout(context) { // from class: org.telegram.ui.Components.Bulletin.BulletinWindow.1
-                {
-                    BulletinWindow.this = this;
-                }
-
-                @Override // android.view.ViewGroup
-                public void addView(View view) {
-                    super.addView(view);
-                    BulletinWindow.this.show();
-                }
-
-                @Override // android.view.ViewGroup, android.view.ViewManager
-                public void removeView(View view) {
-                    super.removeView(view);
-                    try {
-                        BulletinWindow.this.dismiss();
-                    } catch (Exception unused) {
-                    }
-                    Bulletin.removeDelegate(BulletinWindow.this.container);
-                }
-            };
-            this.container = frameLayout;
-            setContentView(frameLayout, new ViewGroup.LayoutParams(-1, -1));
+            BulletinWindowLayout bulletinWindowLayout = new BulletinWindowLayout(context);
+            this.container = bulletinWindowLayout;
+            setContentView(bulletinWindowLayout, new ViewGroup.LayoutParams(-1, -1));
             int i = Build.VERSION.SDK_INT;
             boolean z = true;
             if (i >= 21) {
-                frameLayout.setFitsSystemWindows(true);
-                frameLayout.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() { // from class: org.telegram.ui.Components.Bulletin$BulletinWindow$$ExternalSyntheticLambda0
+                bulletinWindowLayout.setFitsSystemWindows(true);
+                bulletinWindowLayout.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() { // from class: org.telegram.ui.Components.Bulletin$BulletinWindow$$ExternalSyntheticLambda0
                     @Override // android.view.View.OnApplyWindowInsetsListener
                     public final WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
                         WindowInsets lambda$new$0;
@@ -2009,25 +2002,15 @@ public class Bulletin {
                     }
                 });
                 if (i >= 30) {
-                    frameLayout.setSystemUiVisibility(1792);
+                    bulletinWindowLayout.setSystemUiVisibility(1792);
                 } else {
-                    frameLayout.setSystemUiVisibility(1280);
+                    bulletinWindowLayout.setSystemUiVisibility(1280);
                 }
             }
-            Bulletin.addDelegate(frameLayout, new Delegate(this) { // from class: org.telegram.ui.Components.Bulletin.BulletinWindow.2
+            Bulletin.addDelegate(bulletinWindowLayout, new Delegate(this) { // from class: org.telegram.ui.Components.Bulletin.BulletinWindow.1
                 @Override // org.telegram.ui.Components.Bulletin.Delegate
                 public /* synthetic */ boolean allowLayoutChanges() {
                     return Delegate.-CC.$default$allowLayoutChanges(this);
-                }
-
-                @Override // org.telegram.ui.Components.Bulletin.Delegate
-                public /* synthetic */ boolean clipWithGradient(int i2) {
-                    return Delegate.-CC.$default$clipWithGradient(this, i2);
-                }
-
-                @Override // org.telegram.ui.Components.Bulletin.Delegate
-                public int getBottomOffset(int i2) {
-                    return 0;
                 }
 
                 @Override // org.telegram.ui.Components.Bulletin.Delegate
@@ -2046,8 +2029,24 @@ public class Bulletin {
                 }
 
                 @Override // org.telegram.ui.Components.Bulletin.Delegate
+                public int getBottomOffset(int i2) {
+                    Delegate delegate2 = delegate;
+                    if (delegate2 == null) {
+                        return 0;
+                    }
+                    return delegate2.getBottomOffset(i2);
+                }
+
+                @Override // org.telegram.ui.Components.Bulletin.Delegate
                 public int getTopOffset(int i2) {
-                    return AndroidUtilities.statusBarHeight;
+                    Delegate delegate2 = delegate;
+                    return delegate2 == null ? AndroidUtilities.statusBarHeight : delegate2.getTopOffset(i2);
+                }
+
+                @Override // org.telegram.ui.Components.Bulletin.Delegate
+                public boolean clipWithGradient(int i2) {
+                    Delegate delegate2 = delegate;
+                    return delegate2 != null && delegate2.clipWithGradient(i2);
                 }
             });
             try {
@@ -2055,7 +2054,9 @@ public class Bulletin {
                 window.setWindowAnimations(R.style.DialogNoAnimation);
                 window.setBackgroundDrawable(null);
                 WindowManager.LayoutParams attributes = window.getAttributes();
+                this.params = attributes;
                 attributes.width = -1;
+                attributes.height = -1;
                 attributes.gravity = 51;
                 attributes.dimAmount = 0.0f;
                 int i2 = attributes.flags & (-3);
@@ -2068,10 +2069,9 @@ public class Bulletin {
                 int i4 = attributes.flags | 16;
                 attributes.flags = i4;
                 if (i >= 21) {
-                    attributes.flags = (-2147417856) | i4;
+                    attributes.flags = i4 | (-2147417856);
                 }
                 attributes.flags &= -1025;
-                attributes.height = -1;
                 if (i >= 28) {
                     attributes.layoutInDisplayCutoutMode = 1;
                 }
@@ -2094,9 +2094,54 @@ public class Bulletin {
         }
 
         private void applyInsets(WindowInsets windowInsets) {
-            FrameLayout frameLayout = this.container;
-            if (frameLayout != null) {
-                frameLayout.setPadding(windowInsets.getSystemWindowInsetLeft(), windowInsets.getSystemWindowInsetTop(), windowInsets.getSystemWindowInsetRight(), windowInsets.getSystemWindowInsetBottom());
+            BulletinWindowLayout bulletinWindowLayout = this.container;
+            if (bulletinWindowLayout != null) {
+                bulletinWindowLayout.setPadding(windowInsets.getSystemWindowInsetLeft(), windowInsets.getSystemWindowInsetTop(), windowInsets.getSystemWindowInsetRight(), windowInsets.getSystemWindowInsetBottom());
+            }
+        }
+
+        /* loaded from: classes4.dex */
+        public class BulletinWindowLayout extends FrameLayout {
+            /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+            public BulletinWindowLayout(Context context) {
+                super(context);
+                BulletinWindow.this = r1;
+            }
+
+            @Override // android.view.ViewGroup
+            public void addView(View view) {
+                super.addView(view);
+                BulletinWindow.this.show();
+            }
+
+            @Override // android.view.ViewGroup, android.view.ViewManager
+            public void removeView(View view) {
+                super.removeView(view);
+                try {
+                    BulletinWindow.this.dismiss();
+                } catch (Exception unused) {
+                }
+                Bulletin.removeDelegate(BulletinWindow.this.container);
+            }
+
+            public void setTouchable(boolean z) {
+                if (BulletinWindow.this.params == null) {
+                    return;
+                }
+                if (!z) {
+                    BulletinWindow.this.params.flags |= 16;
+                } else {
+                    BulletinWindow.this.params.flags &= -17;
+                }
+                BulletinWindow.this.getWindow().setAttributes(BulletinWindow.this.params);
+            }
+
+            public WindowManager.LayoutParams getLayout() {
+                return BulletinWindow.this.params;
+            }
+
+            public void updateLayout() {
+                BulletinWindow.this.getWindow().setAttributes(BulletinWindow.this.params);
             }
         }
     }

@@ -6,23 +6,34 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
+import android.text.SpannableString;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.FrameLayout;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.ContactsController;
 import org.telegram.messenger.DialogObject;
+import org.telegram.messenger.Emoji;
 import org.telegram.messenger.IMapsProvider;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.LocationController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
+import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC$Chat;
+import org.telegram.tgnet.TLRPC$GeoPoint;
 import org.telegram.tgnet.TLRPC$Message;
 import org.telegram.tgnet.TLRPC$TL_channelLocation;
 import org.telegram.tgnet.TLRPC$User;
@@ -32,6 +43,7 @@ import org.telegram.ui.Components.AvatarDrawable;
 import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.CombinedDrawable;
 import org.telegram.ui.Components.LayoutHelper;
+import org.telegram.ui.Components.LoadingSpan;
 import org.telegram.ui.LocationActivity;
 /* loaded from: classes3.dex */
 public class SharingLiveLocationCell extends FrameLayout {
@@ -41,7 +53,12 @@ public class SharingLiveLocationCell extends FrameLayout {
     private LocationController.SharingLocationInfo currentInfo;
     private SimpleTextView distanceTextView;
     private Runnable invalidateRunnable;
+    private double lastLat;
+    private double lastLong;
+    private CharSequence lastName;
     private LocationActivity.LiveLocation liveLocation;
+    private boolean loading;
+    private SpannableString loadingString;
     private Location location;
     private SimpleTextView nameTextView;
     private RectF rect;
@@ -60,6 +77,7 @@ public class SharingLiveLocationCell extends FrameLayout {
                 AndroidUtilities.runOnUIThread(SharingLiveLocationCell.this.invalidateRunnable, 1000L);
             }
         };
+        this.lastName = "";
         this.resourcesProvider = resourcesProvider;
         BackupImageView backupImageView = new BackupImageView(context);
         this.avatarImageView = backupImageView;
@@ -67,7 +85,8 @@ public class SharingLiveLocationCell extends FrameLayout {
         this.avatarDrawable = new AvatarDrawable();
         SimpleTextView simpleTextView = new SimpleTextView(context);
         this.nameTextView = simpleTextView;
-        simpleTextView.setTextSize(16);
+        NotificationCenter.listenEmojiLoading(simpleTextView);
+        this.nameTextView.setTextSize(16);
         this.nameTextView.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteBlackText));
         this.nameTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.nameTextView.setGravity(LocaleController.isRTL ? 5 : 3);
@@ -142,6 +161,78 @@ public class SharingLiveLocationCell extends FrameLayout {
         this.distanceTextView.setText(str);
     }
 
+    private CharSequence getName(final double d, final double d2) {
+        if (this.loading) {
+            return this.lastName;
+        }
+        if (Math.abs(this.lastLat - d) > 1.0E-6d || Math.abs(this.lastLong - d2) > 1.0E-6d || TextUtils.isEmpty(this.lastName)) {
+            this.loading = true;
+            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Cells.SharingLiveLocationCell$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    SharingLiveLocationCell.this.lambda$getName$1(d, d2);
+                }
+            });
+        }
+        return this.lastName;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$getName$1(final double d, final double d2) {
+        try {
+            List<Address> fromLocation = new Geocoder(ApplicationLoader.applicationContext, LocaleController.getInstance().getCurrentLocale()).getFromLocation(d, d2, 1);
+            if (fromLocation.isEmpty()) {
+                String detectOcean = LocationController.detectOcean(d2, d);
+                this.lastName = detectOcean;
+                if (detectOcean == null) {
+                    this.lastName = "";
+                } else {
+                    this.lastName = "🌊 " + ((Object) this.lastName);
+                }
+            } else {
+                Address address = fromLocation.get(0);
+                StringBuilder sb = new StringBuilder();
+                HashSet hashSet = new HashSet();
+                hashSet.add(address.getSubAdminArea());
+                hashSet.add(address.getAdminArea());
+                hashSet.add(address.getLocality());
+                hashSet.add(address.getCountryName());
+                Iterator it = hashSet.iterator();
+                while (it.hasNext()) {
+                    String str = (String) it.next();
+                    if (!TextUtils.isEmpty(str)) {
+                        if (sb.length() > 0) {
+                            sb.append(", ");
+                        }
+                        sb.append(str);
+                    }
+                }
+                this.lastName = sb.toString();
+                String countryCodeToEmoji = LocationController.countryCodeToEmoji(address.getCountryCode());
+                if (countryCodeToEmoji != null && Emoji.getEmojiDrawable(countryCodeToEmoji) != null) {
+                    this.lastName = countryCodeToEmoji + " " + ((Object) this.lastName);
+                }
+            }
+        } catch (Exception unused) {
+        }
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Cells.SharingLiveLocationCell$$ExternalSyntheticLambda1
+            @Override // java.lang.Runnable
+            public final void run() {
+                SharingLiveLocationCell.this.lambda$getName$0(d, d2);
+            }
+        });
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$getName$0(double d, double d2) {
+        this.lastLat = d;
+        this.lastLong = d2;
+        this.loading = false;
+        CharSequence replaceEmoji = Emoji.replaceEmoji(this.lastName, this.nameTextView.getPaint().getFontMetricsInt(), false);
+        this.lastName = replaceEmoji;
+        this.nameTextView.setText(replaceEmoji);
+    }
+
     public void setDialog(MessageObject messageObject, Location location, boolean z) {
         String str;
         long fromChatId = messageObject.getFromChatId();
@@ -150,26 +241,20 @@ public class SharingLiveLocationCell extends FrameLayout {
         }
         this.currentAccount = messageObject.currentAccount;
         String str2 = !TextUtils.isEmpty(messageObject.messageOwner.media.address) ? messageObject.messageOwner.media.address : null;
-        if (!TextUtils.isEmpty(messageObject.messageOwner.media.title)) {
-            str = messageObject.messageOwner.media.title;
-            Drawable drawable = getResources().getDrawable(R.drawable.pin);
-            drawable.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_location_sendLocationIcon), PorterDuff.Mode.MULTIPLY));
-            int themedColor = getThemedColor(Theme.key_location_placeLocationBackground);
-            CombinedDrawable combinedDrawable = new CombinedDrawable(Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(42.0f), themedColor, themedColor), drawable);
-            combinedDrawable.setCustomSize(AndroidUtilities.dp(42.0f), AndroidUtilities.dp(42.0f));
-            combinedDrawable.setIconSize(AndroidUtilities.dp(24.0f), AndroidUtilities.dp(24.0f));
-            this.avatarImageView.setImageDrawable(combinedDrawable);
-        } else {
+        boolean isEmpty = TextUtils.isEmpty(messageObject.messageOwner.media.title);
+        if (isEmpty) {
             this.avatarDrawable = null;
             if (fromChatId > 0) {
                 TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(fromChatId));
                 if (user != null) {
                     this.avatarDrawable = new AvatarDrawable(user);
-                    String userName = UserObject.getUserName(user);
+                    str = UserObject.getUserName(user);
                     this.avatarImageView.setForUserOrChat(user, this.avatarDrawable);
-                    str = userName;
+                } else {
+                    TLRPC$GeoPoint tLRPC$GeoPoint = messageObject.messageOwner.media.geo;
+                    str = getName(tLRPC$GeoPoint.lat, tLRPC$GeoPoint._long);
+                    isEmpty = false;
                 }
-                str = "";
             } else {
                 TLRPC$Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-fromChatId));
                 if (chat != null) {
@@ -178,9 +263,34 @@ public class SharingLiveLocationCell extends FrameLayout {
                     String str3 = chat.title;
                     this.avatarImageView.setForUserOrChat(chat, avatarDrawable);
                     str = str3;
+                } else {
+                    TLRPC$GeoPoint tLRPC$GeoPoint2 = messageObject.messageOwner.media.geo;
+                    str = getName(tLRPC$GeoPoint2.lat, tLRPC$GeoPoint2._long);
+                    isEmpty = false;
                 }
-                str = "";
             }
+        } else {
+            str = "";
+        }
+        if (TextUtils.isEmpty(str)) {
+            if (this.loadingString == null) {
+                SpannableString spannableString = new SpannableString("dkaraush has been here");
+                this.loadingString = spannableString;
+                spannableString.setSpan(new LoadingSpan(this.nameTextView, AndroidUtilities.dp(100.0f), 0, this.resourcesProvider), 0, this.loadingString.length(), 33);
+            }
+            str = this.loadingString;
+        }
+        if (!isEmpty) {
+            if (!TextUtils.isEmpty(messageObject.messageOwner.media.title)) {
+                str = messageObject.messageOwner.media.title;
+            }
+            Drawable drawable = getResources().getDrawable(R.drawable.pin);
+            drawable.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_location_sendLocationIcon), PorterDuff.Mode.MULTIPLY));
+            int themedColor = getThemedColor(Theme.key_location_placeLocationBackground);
+            CombinedDrawable combinedDrawable = new CombinedDrawable(Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(42.0f), themedColor, themedColor), drawable);
+            combinedDrawable.setCustomSize(AndroidUtilities.dp(42.0f), AndroidUtilities.dp(42.0f));
+            combinedDrawable.setIconSize(AndroidUtilities.dp(24.0f), AndroidUtilities.dp(24.0f));
+            this.avatarImageView.setImageDrawable(combinedDrawable);
         }
         this.nameTextView.setText(str);
         this.location.setLatitude(messageObject.messageOwner.media.geo.lat);

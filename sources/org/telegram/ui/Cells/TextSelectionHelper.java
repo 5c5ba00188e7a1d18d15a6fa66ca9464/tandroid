@@ -60,6 +60,8 @@ import org.telegram.ui.RestrictedLanguagesSelectActivity;
 public abstract class TextSelectionHelper<Cell extends SelectableView> {
     private ActionMode actionMode;
     protected boolean actionsIsShowing;
+    boolean allowDiscard;
+    public boolean allowScrollPrentRelative;
     private Callback callback;
     protected int capturedX;
     protected int capturedY;
@@ -96,6 +98,7 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
     protected boolean multiselect;
     private OnTranslateListener onTranslateListener;
     private boolean parentIsScrolling;
+    protected NestedScrollView parentNestedScrollView;
     protected RecyclerListView parentRecyclerView;
     protected ViewGroup parentView;
     private ActionBarPopupWindow.ActionBarPopupWindowLayout popupLayout;
@@ -254,36 +257,44 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
                 int parentTopPadding;
                 if (TextSelectionHelper.this.scrolling) {
                     TextSelectionHelper textSelectionHelper = TextSelectionHelper.this;
-                    if (textSelectionHelper.parentRecyclerView != null) {
-                        if (textSelectionHelper.multiselect && textSelectionHelper.selectedView == null) {
-                            lineHeight = AndroidUtilities.dp(8.0f);
-                        } else if (textSelectionHelper.selectedView == null) {
-                            return;
-                        } else {
-                            lineHeight = textSelectionHelper.getLineHeight() >> 1;
-                        }
-                        TextSelectionHelper textSelectionHelper2 = TextSelectionHelper.this;
-                        if (!textSelectionHelper2.multiselect) {
-                            if (textSelectionHelper2.scrollDown) {
-                                if (TextSelectionHelper.this.selectedView.getBottom() - lineHeight < TextSelectionHelper.this.parentView.getMeasuredHeight() - TextSelectionHelper.this.getParentBottomPadding()) {
-                                    i = TextSelectionHelper.this.selectedView.getBottom() - TextSelectionHelper.this.parentView.getMeasuredHeight();
-                                    parentTopPadding = TextSelectionHelper.this.getParentBottomPadding();
-                                    lineHeight = i + parentTopPadding;
-                                }
-                            } else if (TextSelectionHelper.this.selectedView.getTop() + lineHeight > TextSelectionHelper.this.getParentTopPadding()) {
-                                i = -TextSelectionHelper.this.selectedView.getTop();
-                                parentTopPadding = TextSelectionHelper.this.getParentTopPadding();
+                    if (textSelectionHelper.parentRecyclerView == null && textSelectionHelper.parentNestedScrollView == null) {
+                        return;
+                    }
+                    if (textSelectionHelper.multiselect && textSelectionHelper.selectedView == null) {
+                        lineHeight = AndroidUtilities.dp(8.0f);
+                    } else if (textSelectionHelper.selectedView == null) {
+                        return;
+                    } else {
+                        lineHeight = textSelectionHelper.getLineHeight() >> 1;
+                    }
+                    TextSelectionHelper textSelectionHelper2 = TextSelectionHelper.this;
+                    if (!textSelectionHelper2.multiselect && !textSelectionHelper2.allowScrollPrentRelative) {
+                        if (textSelectionHelper2.scrollDown) {
+                            if (TextSelectionHelper.this.selectedView.getBottom() - lineHeight < TextSelectionHelper.this.parentView.getMeasuredHeight() - TextSelectionHelper.this.getParentBottomPadding()) {
+                                i = TextSelectionHelper.this.selectedView.getBottom() - TextSelectionHelper.this.parentView.getMeasuredHeight();
+                                parentTopPadding = TextSelectionHelper.this.getParentBottomPadding();
                                 lineHeight = i + parentTopPadding;
                             }
+                        } else if (TextSelectionHelper.this.selectedView.getTop() + lineHeight > TextSelectionHelper.this.getParentTopPadding()) {
+                            i = -TextSelectionHelper.this.selectedView.getTop();
+                            parentTopPadding = TextSelectionHelper.this.getParentTopPadding();
+                            lineHeight = i + parentTopPadding;
                         }
-                        TextSelectionHelper textSelectionHelper3 = TextSelectionHelper.this;
-                        RecyclerListView recyclerListView = textSelectionHelper3.parentRecyclerView;
-                        if (!textSelectionHelper3.scrollDown) {
+                    }
+                    TextSelectionHelper textSelectionHelper3 = TextSelectionHelper.this;
+                    RecyclerListView recyclerListView = textSelectionHelper3.parentRecyclerView;
+                    if (recyclerListView != null) {
+                        recyclerListView.scrollBy(0, textSelectionHelper3.scrollDown ? lineHeight : -lineHeight);
+                    }
+                    NestedScrollView nestedScrollView = TextSelectionHelper.this.parentNestedScrollView;
+                    if (nestedScrollView != null) {
+                        int scrollY = nestedScrollView.getScrollY();
+                        if (!TextSelectionHelper.this.scrollDown) {
                             lineHeight = -lineHeight;
                         }
-                        recyclerListView.scrollBy(0, lineHeight);
-                        AndroidUtilities.runOnUIThread(this);
+                        nestedScrollView.setScrollY(scrollY + lineHeight);
                     }
+                    AndroidUtilities.runOnUIThread(this);
                 }
             }
         };
@@ -433,6 +444,7 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
                     textSelectionHelper14.onOffsetChanged();
                 }
                 TextSelectionHelper.this.tryCapture = false;
+                TextSelectionHelper.this.allowDiscard = false;
             }
         };
         this.useMovingOffset = true;
@@ -473,6 +485,12 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
             this.parentRecyclerView = (RecyclerListView) viewGroup;
         }
         this.parentView = viewGroup;
+    }
+
+    public void setScrollingParent(View view) {
+        if (view instanceof NestedScrollView) {
+            this.parentNestedScrollView = (NestedScrollView) view;
+        }
     }
 
     public void setMaybeTextCord(int i, int i2) {
@@ -533,7 +551,9 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
                 int x = (int) motionEvent.getX();
                 int i7 = this.capturedY;
                 int i8 = this.capturedX;
-                if (((i7 - y) * (i7 - y)) + ((i8 - x) * (i8 - x)) > this.touchSlop) {
+                int i9 = ((i7 - y) * (i7 - y)) + ((i8 - x) * (i8 - x));
+                int i10 = this.touchSlop;
+                if (i9 > i10 * i10) {
                     AndroidUtilities.cancelRunOnUIThread(this.startSelectionRunnable);
                     this.tryCapture = false;
                 }
@@ -904,12 +924,12 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
         /* JADX WARN: Code restructure failed: missing block: B:14:0x004f, code lost:
             if (r4 != 3) goto L15;
          */
-        /* JADX WARN: Removed duplicated region for block: B:46:0x011b  */
-        /* JADX WARN: Removed duplicated region for block: B:53:0x0134 A[ADDED_TO_REGION] */
-        /* JADX WARN: Removed duplicated region for block: B:61:0x0158  */
-        /* JADX WARN: Removed duplicated region for block: B:64:0x016d  */
-        /* JADX WARN: Removed duplicated region for block: B:65:0x0184  */
-        /* JADX WARN: Removed duplicated region for block: B:69:0x01ab  */
+        /* JADX WARN: Removed duplicated region for block: B:48:0x011f  */
+        /* JADX WARN: Removed duplicated region for block: B:55:0x0138 A[ADDED_TO_REGION] */
+        /* JADX WARN: Removed duplicated region for block: B:63:0x015c  */
+        /* JADX WARN: Removed duplicated region for block: B:66:0x0171  */
+        /* JADX WARN: Removed duplicated region for block: B:67:0x0188  */
+        /* JADX WARN: Removed duplicated region for block: B:71:0x01af  */
         @Override // android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -974,7 +994,7 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
                                 int i3 = i - coordsInParent[0];
                                 if (motionEvent.getY() - TextSelectionHelper.this.touchSlop > TextSelectionHelper.this.parentView.getMeasuredHeight() - TextSelectionHelper.this.getParentBottomPadding()) {
                                     TextSelectionHelper textSelectionHelper6 = TextSelectionHelper.this;
-                                    if (textSelectionHelper6.multiselect || textSelectionHelper6.selectedView.getBottom() > TextSelectionHelper.this.parentView.getMeasuredHeight() - TextSelectionHelper.this.getParentBottomPadding()) {
+                                    if (textSelectionHelper6.allowScrollPrentRelative || textSelectionHelper6.multiselect || textSelectionHelper6.selectedView.getBottom() > TextSelectionHelper.this.parentView.getMeasuredHeight() - TextSelectionHelper.this.getParentBottomPadding()) {
                                         z = true;
                                         if (motionEvent.getY() < ((View) TextSelectionHelper.this.parentView.getParent()).getTop() + TextSelectionHelper.this.getParentTopPadding()) {
                                             TextSelectionHelper textSelectionHelper7 = TextSelectionHelper.this;
@@ -1277,6 +1297,7 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
                     if (!TextSelectionHelper.this.startArea.contains(f4, y3)) {
                         if (!TextSelectionHelper.this.endArea.contains(f4, y3)) {
                             TextSelectionHelper.this.movingHandle = false;
+                            TextSelectionHelper.this.allowDiscard = true;
                         } else {
                             TextSelectionHelper.this.pickEndView();
                             TextSelectionHelper textSelectionHelper29 = TextSelectionHelper.this;
@@ -1508,13 +1529,15 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
 
         public void checkCancel(float f, float f2, boolean z) {
             if (!z) {
-                f2 += TextSelectionHelper.this.getCoordsInParent()[1] + TextSelectionHelper.this.textY;
+                int i = TextSelectionHelper.this.getCoordsInParent()[1];
+                int i2 = TextSelectionHelper.this.textY;
             }
             if (TextSelectionHelper.this.movingHandle) {
                 return;
             }
-            if (f2 < TextSelectionHelper.this.startArea.top - AndroidUtilities.dp(8.0f) || f2 > TextSelectionHelper.this.endArea.bottom + AndroidUtilities.dp(8.0f)) {
-                TextSelectionHelper.this.clear();
+            TextSelectionHelper textSelectionHelper = TextSelectionHelper.this;
+            if (textSelectionHelper.allowDiscard) {
+                textSelectionHelper.clear();
             }
         }
 
@@ -1522,7 +1545,9 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
             if (motionEvent.getAction() == 0) {
                 this.cancelPressedX = motionEvent.getX();
                 this.cancelPressedY = motionEvent.getY();
-            } else if (Math.abs(motionEvent.getX() - this.cancelPressedX) >= AndroidUtilities.touchSlop || Math.abs(motionEvent.getY() - this.cancelPressedY) >= AndroidUtilities.touchSlop) {
+                TextSelectionHelper textSelectionHelper = TextSelectionHelper.this;
+                textSelectionHelper.allowDiscard = textSelectionHelper.isInSelectionMode();
+            } else if (!TextSelectionHelper.this.allowDiscard || Math.abs(motionEvent.getX() - this.cancelPressedX) >= AndroidUtilities.touchSlop || Math.abs(motionEvent.getY() - this.cancelPressedY) >= AndroidUtilities.touchSlop) {
             } else {
                 if (motionEvent.getAction() == 3 || motionEvent.getAction() == 1) {
                     checkCancel(motionEvent.getX(), motionEvent.getY(), true);
@@ -1999,12 +2024,11 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
                 if (i6 >= layout.getLineCount()) {
                     i6 = -1;
                     break;
-                }
-                float f = i2;
-                if (f > this.layoutBlock.yOffset + layout.getLineTop(i6) && f < this.layoutBlock.yOffset + layout.getLineBottom(i6)) {
+                } else if (i2 > layout.getLineTop(i6) + i4 && i2 < layout.getLineBottom(i6) + i4) {
                     break;
+                } else {
+                    i6++;
                 }
-                i6++;
             }
             if (i6 >= 0) {
                 return this.layoutBlock.charOffset + layout.getOffsetForHorizontal(i6, i5);

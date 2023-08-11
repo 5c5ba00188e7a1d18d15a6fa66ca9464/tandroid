@@ -97,6 +97,10 @@ public class AnimatedTextView extends View {
             return -2;
         }
 
+        public void setSplitByWords(boolean z) {
+            this.splitByWords = z;
+        }
+
         /* JADX INFO: Access modifiers changed from: private */
         /* loaded from: classes4.dex */
         public static class Part {

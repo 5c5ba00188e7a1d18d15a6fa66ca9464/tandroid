@@ -2,6 +2,10 @@ package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_messageMediaVenue extends TLRPC$MessageMedia {
     public static int constructor = 784356159;
+    public String emoji;
+    public String icon;
+    public long query_id;
+    public String result_id;
 
     @Override // org.telegram.tgnet.TLObject
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {

@@ -11,14 +11,19 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.text.Editable;
+import android.text.Layout;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
+import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.style.ImageSpan;
+import android.text.style.ReplacementSpan;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityNodeInfo;
@@ -2253,6 +2258,91 @@ public class FilterCreateActivity extends BaseFragment {
                 drawable.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.MULTIPLY));
             }
             super.draw(canvas, charSequence, i, i2, f, i3, i4, i5, paint);
+        }
+    }
+
+    /* loaded from: classes3.dex */
+    public static class NewSpan extends ReplacementSpan {
+        private int color;
+        float height;
+        StaticLayout layout;
+        private boolean outline;
+        float width;
+        TextPaint textPaint = new TextPaint(1);
+        Paint bgPaint = new Paint(1);
+
+        public NewSpan(boolean z) {
+            this.outline = z;
+            this.textPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            if (z) {
+                this.bgPaint.setStyle(Paint.Style.STROKE);
+                this.bgPaint.setStrokeWidth(AndroidUtilities.dpf2(1.33f));
+                this.textPaint.setTextSize(AndroidUtilities.dp(10.0f));
+                this.textPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+                this.textPaint.setStrokeWidth(AndroidUtilities.dpf2(0.2f));
+                if (Build.VERSION.SDK_INT >= 21) {
+                    this.textPaint.setLetterSpacing(0.03f);
+                    return;
+                }
+                return;
+            }
+            this.bgPaint.setStyle(Paint.Style.FILL);
+            this.textPaint.setTextSize(AndroidUtilities.dp(12.0f));
+        }
+
+        public void setColor(int i) {
+            this.color = i;
+        }
+
+        public StaticLayout makeLayout() {
+            if (this.layout == null) {
+                StaticLayout staticLayout = new StaticLayout("NEW", this.textPaint, AndroidUtilities.displaySize.x, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+                this.layout = staticLayout;
+                this.width = staticLayout.getLineWidth(0);
+                this.height = this.layout.getHeight();
+            }
+            return this.layout;
+        }
+
+        @Override // android.text.style.ReplacementSpan
+        public int getSize(Paint paint, CharSequence charSequence, int i, int i2, Paint.FontMetricsInt fontMetricsInt) {
+            makeLayout();
+            return (int) (AndroidUtilities.dp(10.0f) + this.width);
+        }
+
+        @Override // android.text.style.ReplacementSpan
+        public void draw(Canvas canvas, CharSequence charSequence, int i, int i2, float f, int i3, int i4, int i5, Paint paint) {
+            float dp;
+            makeLayout();
+            int i6 = this.color;
+            if (i6 == 0) {
+                i6 = paint.getColor();
+            }
+            this.bgPaint.setColor(i6);
+            if (this.outline) {
+                this.textPaint.setColor(i6);
+            } else {
+                this.textPaint.setColor(AndroidUtilities.computePerceivedBrightness(i6) > 0.721f ? -16777216 : -1);
+            }
+            float dp2 = f + AndroidUtilities.dp(2.0f);
+            float dp3 = (i4 - this.height) + AndroidUtilities.dp(1.0f);
+            RectF rectF = AndroidUtilities.rectTmp;
+            rectF.set(dp2, dp3, this.width + dp2, this.height + dp3);
+            if (this.outline) {
+                dp = AndroidUtilities.dp(3.66f);
+                rectF.left -= AndroidUtilities.dp(4.0f);
+                rectF.top -= AndroidUtilities.dp(2.33f);
+                rectF.right += AndroidUtilities.dp(3.66f);
+                rectF.bottom += AndroidUtilities.dp(1.33f);
+            } else {
+                dp = AndroidUtilities.dp(4.4f);
+                rectF.inset(AndroidUtilities.dp(-4.0f), AndroidUtilities.dp(-2.33f));
+            }
+            canvas.drawRoundRect(rectF, dp, dp, this.bgPaint);
+            canvas.save();
+            canvas.translate(dp2, dp3);
+            this.layout.draw(canvas);
+            canvas.restore();
         }
     }
 

@@ -5662,7 +5662,7 @@ public class MessageObject {
         return getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaPhoto ? 0 : 4;
     }
 
-    private static boolean containsUrls(CharSequence charSequence) {
+    public static boolean containsUrls(CharSequence charSequence) {
         if (charSequence != null && charSequence.length() >= 2 && charSequence.length() <= 20480) {
             int length = charSequence.length();
             int i = 0;
@@ -5849,58 +5849,77 @@ public class MessageObject {
         return false;
     }
 
+    /* JADX WARN: Removed duplicated region for block: B:23:0x004a  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public void generateCaption() {
+        boolean z;
+        boolean z2;
         TLRPC$StoryItem tLRPC$StoryItem;
         if ((this.caption == null || this.translated != this.captionTranslated) && !isRoundVideo()) {
             TLRPC$Message tLRPC$Message = this.messageOwner;
             String str = tLRPC$Message.message;
             ArrayList<TLRPC$MessageEntity> arrayList = tLRPC$Message.entities;
+            boolean z3 = true;
             if (this.type == 23) {
                 TLRPC$MessageMedia tLRPC$MessageMedia = tLRPC$Message.media;
                 if (tLRPC$MessageMedia != null && (tLRPC$StoryItem = tLRPC$MessageMedia.storyItem) != null) {
                     str = tLRPC$StoryItem.caption;
                     arrayList = tLRPC$StoryItem.entities;
-                } else {
-                    arrayList = new ArrayList<>();
-                    str = "";
+                    z = true;
+                    z2 = this.translated;
+                    this.captionTranslated = z2;
+                    if (z2) {
+                        TLRPC$TL_textWithEntities tLRPC$TL_textWithEntities = this.messageOwner.translatedText;
+                        String str2 = tLRPC$TL_textWithEntities.text;
+                        arrayList = tLRPC$TL_textWithEntities.entities;
+                        str = str2;
+                    }
+                    if (!isMediaEmpty() || (getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaGame) || TextUtils.isEmpty(str)) {
+                        return;
+                    }
+                    CharSequence replaceEmoji = Emoji.replaceEmoji(str, Theme.chat_msgTextPaint.getFontMetricsInt(), AndroidUtilities.dp(20.0f), false);
+                    this.caption = replaceEmoji;
+                    this.caption = replaceAnimatedEmoji(replaceEmoji, arrayList, Theme.chat_msgTextPaint.getFontMetricsInt(), false);
+                    boolean z4 = this.messageOwner.send_state != 0 ? false : !arrayList.isEmpty();
+                    if (!z && (z4 || (this.eventId == 0 && !(getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaPhoto_old) && !(getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaPhoto_layer68) && !(getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaPhoto_layer74) && !(getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaDocument_old) && !(getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaDocument_layer68) && !(getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaDocument_layer74) && ((!isOut() || this.messageOwner.send_state == 0) && this.messageOwner.id >= 0)))) {
+                        z3 = false;
+                    }
+                    if (z3) {
+                        if (containsUrls(this.caption)) {
+                            try {
+                                AndroidUtilities.addLinks((Spannable) this.caption, 5);
+                            } catch (Exception e) {
+                                FileLog.e(e);
+                            }
+                        }
+                        addUrlsByPattern(isOutOwner(), this.caption, true, 0, 0, true);
+                    }
+                    addEntitiesToText(this.caption, z3);
+                    if (isVideo()) {
+                        addUrlsByPattern(isOutOwner(), this.caption, true, 3, (int) getDuration(), false);
+                        return;
+                    } else if (isMusic() || isVoice()) {
+                        addUrlsByPattern(isOutOwner(), this.caption, true, 4, (int) getDuration(), false);
+                        return;
+                    } else {
+                        return;
+                    }
                 }
+                arrayList = new ArrayList<>();
+                str = "";
             } else if (hasExtendedMedia()) {
                 TLRPC$Message tLRPC$Message2 = this.messageOwner;
                 str = tLRPC$Message2.media.description;
                 tLRPC$Message2.message = str;
             }
-            boolean z = this.translated;
-            this.captionTranslated = z;
-            if (z) {
-                TLRPC$TL_textWithEntities tLRPC$TL_textWithEntities = this.messageOwner.translatedText;
-                str = tLRPC$TL_textWithEntities.text;
-                arrayList = tLRPC$TL_textWithEntities.entities;
-            }
-            if (isMediaEmpty() || (getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaGame) || TextUtils.isEmpty(str)) {
-                return;
-            }
-            boolean z2 = false;
-            CharSequence replaceEmoji = Emoji.replaceEmoji(str, Theme.chat_msgTextPaint.getFontMetricsInt(), AndroidUtilities.dp(20.0f), false);
-            this.caption = replaceEmoji;
-            this.caption = replaceAnimatedEmoji(replaceEmoji, arrayList, Theme.chat_msgTextPaint.getFontMetricsInt(), false);
-            if (!(this.messageOwner.send_state != 0 ? false : !arrayList.isEmpty()) && (this.eventId != 0 || (getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaPhoto_old) || (getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaPhoto_layer68) || (getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaPhoto_layer74) || (getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaDocument_old) || (getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaDocument_layer68) || (getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaDocument_layer74) || ((isOut() && this.messageOwner.send_state != 0) || this.messageOwner.id < 0))) {
-                z2 = true;
-            }
+            z = false;
+            z2 = this.translated;
+            this.captionTranslated = z2;
             if (z2) {
-                if (containsUrls(this.caption)) {
-                    try {
-                        AndroidUtilities.addLinks((Spannable) this.caption, 5);
-                    } catch (Exception e) {
-                        FileLog.e(e);
-                    }
-                }
-                addUrlsByPattern(isOutOwner(), this.caption, true, 0, 0, true);
             }
-            addEntitiesToText(this.caption, z2);
-            if (isVideo()) {
-                addUrlsByPattern(isOutOwner(), this.caption, true, 3, (int) getDuration(), false);
-            } else if (isMusic() || isVoice()) {
-                addUrlsByPattern(isOutOwner(), this.caption, true, 4, (int) getDuration(), false);
+            if (isMediaEmpty()) {
             }
         }
     }
@@ -8568,7 +8587,7 @@ public class MessageObject {
     }
 
     public boolean shouldAnimateSending() {
-        return isSending() && (this.type == 5 || isVoice() || ((isAnyKindOfSticker() && this.sendAnimationData != null) || !(this.messageText == null || this.sendAnimationData == null)));
+        return this.wasJustSent && (this.type == 5 || isVoice() || ((isAnyKindOfSticker() && this.sendAnimationData != null) || !(this.messageText == null || this.sendAnimationData == null)));
     }
 
     public boolean hasAttachedStickers() {
@@ -9269,7 +9288,7 @@ public class MessageObject {
         if (i2 == 20) {
             TLRPC$TL_messageExtendedMediaPreview tLRPC$TL_messageExtendedMediaPreview = (TLRPC$TL_messageExtendedMediaPreview) this.messageOwner.media.extended_media;
             if (tLRPC$TL_messageExtendedMediaPreview.thumb != null) {
-                File pathToAttach = FileLoader.getInstance(this.currentAccount).getPathToAttach(tLRPC$TL_messageExtendedMediaPreview.thumb);
+                File pathToAttach = FileLoader.getInstance(this.currentAccount).getPathToAttach(tLRPC$TL_messageExtendedMediaPreview.thumb, z);
                 if (!this.mediaExists) {
                     this.mediaExists = pathToAttach.exists() || (tLRPC$TL_messageExtendedMediaPreview.thumb instanceof TLRPC$TL_photoStrippedSize);
                 }

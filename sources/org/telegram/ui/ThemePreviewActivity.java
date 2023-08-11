@@ -1961,7 +1961,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                     this.paint.setColor(ThemePreviewActivity.this.getButtonsColor(Theme.key_chat_fieldOverlayText));
                                     int i26 = 0;
                                     while (i26 < 2) {
-                                        this.paint.setAlpha(i26 == currentItem ? 255 : MessagesStorage.LAST_DB_VERSION);
+                                        this.paint.setAlpha(i26 == currentItem ? 255 : 127);
                                         canvas.drawCircle(AndroidUtilities.dp((i26 * 15) + 3), AndroidUtilities.dp(4.0f), AndroidUtilities.dp(3.0f), this.paint);
                                         i26++;
                                     }

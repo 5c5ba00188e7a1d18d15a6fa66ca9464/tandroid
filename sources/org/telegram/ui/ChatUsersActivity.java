@@ -2333,7 +2333,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                 i3 = R.string.KickFromGroup;
                 str3 = "KickFromGroup";
             }
-            addIf.addIf(z12, i5, (CharSequence) LocaleController.getString(str3, i3), true, new Runnable() { // from class: org.telegram.ui.ChatUsersActivity$$ExternalSyntheticLambda16
+            addIf.addIf(z12, i5, LocaleController.getString(str3, i3), true, new Runnable() { // from class: org.telegram.ui.ChatUsersActivity$$ExternalSyntheticLambda16
                 @Override // java.lang.Runnable
                 public final void run() {
                     ChatUsersActivity.this.lambda$createMenuForParticipant$13(user, j4);

@@ -7636,6 +7636,9 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$2(GoogleSignInClient googleSignInClient, Task task) {
+            if (LoginActivity.this.getParentActivity() == null) {
+                return;
+            }
             LoginActivity.this.getParentActivity().startActivityForResult(googleSignInClient.getSignInIntent(), 200);
         }
 
@@ -7790,6 +7793,9 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$requestEmailReset$12(TLObject tLObject, Bundle bundle, TLRPC$TL_error tLRPC$TL_error, TLRPC$TL_auth_resetLoginEmail tLRPC$TL_auth_resetLoginEmail) {
             String str;
+            if (LoginActivity.this.getParentActivity() == null) {
+                return;
+            }
             this.requestingEmailReset = false;
             if (tLObject instanceof TLRPC$TL_auth_sentCode) {
                 LoginActivity.this.lambda$resendCodeFromSafetyNet$19(bundle, (TLRPC$TL_auth_sentCode) tLObject);

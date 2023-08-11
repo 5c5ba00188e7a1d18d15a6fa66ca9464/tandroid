@@ -81,6 +81,14 @@ public final class zzg extends com.google.android.gms.internal.maps.zza implemen
     }
 
     @Override // com.google.android.gms.maps.internal.IGoogleMapDelegate
+    public final float getMinZoomLevel() throws RemoteException {
+        Parcel zzH = zzH(3, zza());
+        float readFloat = zzH.readFloat();
+        zzH.recycle();
+        return readFloat;
+    }
+
+    @Override // com.google.android.gms.maps.internal.IGoogleMapDelegate
     public final IProjectionDelegate getProjection() throws RemoteException {
         IProjectionDelegate zzbtVar;
         Parcel zzH = zzH(26, zza());
@@ -139,6 +147,13 @@ public final class zzg extends com.google.android.gms.internal.maps.zza implemen
         Parcel zza = zza();
         com.google.android.gms.internal.maps.zzc.zzd(zza, z);
         zzc(22, zza);
+    }
+
+    @Override // com.google.android.gms.maps.internal.IGoogleMapDelegate
+    public final void setOnCameraIdleListener(zzp zzpVar) throws RemoteException {
+        Parcel zza = zza();
+        com.google.android.gms.internal.maps.zzc.zzg(zza, zzpVar);
+        zzc(99, zza);
     }
 
     @Override // com.google.android.gms.maps.internal.IGoogleMapDelegate

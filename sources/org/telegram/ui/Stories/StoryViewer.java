@@ -59,6 +59,7 @@ import org.telegram.ui.ActionBar.AdjustPanLayoutHelper;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.ChatActionCell;
+import org.telegram.ui.Components.Bulletin;
 import org.telegram.ui.Components.ChatActivityEnterView;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
@@ -96,7 +97,6 @@ public class StoryViewer {
     PeerStoriesView.VideoPlayerSharedScope currentPlayerScope;
     public int dayStoryId;
     private Runnable delayedTapRunnable;
-    Runnable doOnAnimationReady;
     private boolean flingCalled;
     BaseFragment fragment;
     float fromDismissOffset;
@@ -120,6 +120,7 @@ public class StoryViewer {
     private boolean isInPinchToZoom;
     private boolean isInTextSelectionMode;
     private boolean isInTouchMode;
+    private boolean isLikesReactions;
     public boolean isLongpressed;
     private boolean isOverlayVisible;
     private boolean isPopupVisible;
@@ -131,6 +132,7 @@ public class StoryViewer {
     boolean keyboardVisible;
     long lastDialogId;
     int lastPosition;
+    private float lastStoryContainerHeight;
     Uri lastUri;
     private int messageId;
     private Runnable onCloseListener;
@@ -177,8 +179,10 @@ public class StoryViewer {
     float[] pointPosition = new float[2];
     public final TransitionViewHolder transitionViewHolder = new TransitionViewHolder();
     private boolean allowTouchesByViewpager = false;
+    ArrayList<Runnable> doOnAnimationReadyRunnables = new ArrayList<>();
     AnimationNotificationsLocker locker = new AnimationNotificationsLocker();
     ArrayList<VideoPlayerHolder> preparedPlayers = new ArrayList<>();
+    public boolean isTranslating = false;
     Runnable longPressRunnable = new Runnable() { // from class: org.telegram.ui.Stories.StoryViewer$$ExternalSyntheticLambda8
         @Override // java.lang.Runnable
         public final void run() {
@@ -271,6 +275,7 @@ public class StoryViewer {
     public void open(Context context, TLRPC$TL_userStories tLRPC$TL_userStories, PlaceProvider placeProvider) {
         ArrayList<TLRPC$StoryItem> arrayList;
         if (tLRPC$TL_userStories == null || (arrayList = tLRPC$TL_userStories.stories) == null || arrayList.isEmpty()) {
+            this.doOnAnimationReadyRunnables.clear();
             return;
         }
         this.currentAccount = UserConfig.selectedAccount;
@@ -290,6 +295,7 @@ public class StoryViewer {
     @SuppressLint({"WrongConstant"})
     public void open(Context context, TLRPC$StoryItem tLRPC$StoryItem, ArrayList<Long> arrayList, int i, StoriesController.StoriesList storiesList, TLRPC$TL_userStories tLRPC$TL_userStories, PlaceProvider placeProvider, boolean z) {
         if (context == null) {
+            this.doOnAnimationReadyRunnables.clear();
             return;
         }
         ValueAnimator valueAnimator = this.openCloseAnimator;
@@ -298,6 +304,7 @@ public class StoryViewer {
             this.openCloseAnimator = null;
         }
         if (this.isShowing) {
+            this.doOnAnimationReadyRunnables.clear();
             return;
         }
         boolean z2 = !AndroidUtilities.isTablet();
@@ -326,6 +333,7 @@ public class StoryViewer {
         this.progressToDismiss = 0.0f;
         this.isShowing = true;
         this.isLongpressed = false;
+        this.isTranslating = false;
         this.savedPositions.clear();
         AndroidUtilities.cancelRunOnUIThread(this.longPressRunnable);
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
@@ -365,21 +373,12 @@ public class StoryViewer {
 
                 @Override // android.view.GestureDetector.OnGestureListener
                 public boolean onSingleTapUp(MotionEvent motionEvent) {
-                    PeerStoriesView currentPeerView = StoryViewer.this.storiesViewPager.getCurrentPeerView();
                     StoryViewer storyViewer = StoryViewer.this;
-                    if (storyViewer.selfStoriesViewsOffset == 0.0f && storyViewer.allowIntercept && currentPeerView != null) {
+                    if (storyViewer.selfStoriesViewsOffset == 0.0f && storyViewer.allowIntercept) {
                         if (storyViewer.keyboardVisible || storyViewer.isCaption || StoryViewer.this.isCaptionPartVisible || StoryViewer.this.isHintVisible || StoryViewer.this.isInTextSelectionMode) {
                             StoryViewer.this.closeKeyboardOrEmoji();
                         } else {
-                            boolean z3 = motionEvent.getX() > ((float) StoryViewer.this.containerView.getMeasuredWidth()) * 0.33f;
-                            if (!currentPeerView.switchToNext(z3)) {
-                                boolean switchToNext = StoryViewer.this.storiesViewPager.switchToNext(z3);
-                                if (!switchToNext && z3) {
-                                    StoryViewer.this.close(true);
-                                } else if (switchToNext) {
-                                    StoryViewer.this.storiesViewPager.lockTouchEvent(150L);
-                                }
-                            }
+                            StoryViewer.this.switchByTap(motionEvent.getX() > ((float) StoryViewer.this.containerView.getMeasuredWidth()) * 0.33f);
                         }
                     }
                     return false;
@@ -417,7 +416,8 @@ public class StoryViewer {
                             } else {
                                 storyViewer5.selfStoriesViewsOffset = f4 + f2;
                             }
-                            storyViewer5.storiesViewPager.getCurrentPeerView().invalidate();
+                            Bulletin.hideVisible(storyViewer5.windowView);
+                            StoryViewer.this.storiesViewPager.getCurrentPeerView().invalidate();
                             StoryViewer.this.containerView.invalidate();
                             StoryViewer storyViewer6 = StoryViewer.this;
                             if (storyViewer6.selfStoriesViewsOffset >= 0.0f) {
@@ -435,7 +435,8 @@ public class StoryViewer {
                             }
                         }
                         storyViewer7.swipeToDismissOffset -= f2 * f5;
-                        storyViewer7.updateProgressToDismiss();
+                        Bulletin.hideVisible(storyViewer7.windowView);
+                        StoryViewer.this.updateProgressToDismiss();
                         return true;
                     }
                     return false;
@@ -503,7 +504,7 @@ public class StoryViewer {
 
                 @Override // android.view.ViewGroup, android.view.View
                 protected void dispatchDraw(Canvas canvas) {
-                    float measuredHeight;
+                    float f;
                     PeerStoriesView currentPeerView = StoryViewer.this.storiesViewPager.getCurrentPeerView();
                     StoryViewer storyViewer = StoryViewer.this;
                     SelfStoryViewsView selfStoryViewsView = storyViewer.selfStoryViewsView;
@@ -511,34 +512,39 @@ public class StoryViewer {
                         selfStoryViewsView.setOffset(storyViewer.selfStoriesViewsOffset);
                         StoryViewer storyViewer2 = StoryViewer.this;
                         if (storyViewer2.selfStoryViewsView.progressToOpen == 1.0f) {
-                            storyViewer2.storiesViewPager.setVisibility(8);
+                            storyViewer2.storiesViewPager.setVisibility(4);
                         } else {
                             storyViewer2.storiesViewPager.setVisibility(0);
                         }
+                        StoryViewer.this.storiesViewPager.checkPageVisibility();
                         float top = currentPeerView.getTop() + currentPeerView.storyContainer.getTop();
-                        float f = StoryViewer.this.selfStoryViewsView.progressToOpen;
+                        float f2 = StoryViewer.this.selfStoryViewsView.progressToOpen;
                         getMeasuredHeight();
-                        float f2 = StoryViewer.this.selfStoriesViewsOffset;
+                        float f3 = StoryViewer.this.selfStoriesViewsOffset;
                         getMeasuredHeight();
-                        float lerp = AndroidUtilities.lerp(1.0f, StoryViewer.this.selfStoryViewsView.toHeight / currentPeerView.storyContainer.getMeasuredHeight(), f);
+                        if (currentPeerView.storyContainer.getMeasuredHeight() > 0) {
+                            StoryViewer.this.lastStoryContainerHeight = currentPeerView.storyContainer.getMeasuredHeight();
+                        }
+                        StoryViewer storyViewer3 = StoryViewer.this;
+                        float lerp = AndroidUtilities.lerp(1.0f, storyViewer3.selfStoryViewsView.toHeight / storyViewer3.lastStoryContainerHeight, f2);
                         StoryViewer.this.storiesViewPager.setPivotY(top);
                         StoryViewer.this.storiesViewPager.setPivotX(getMeasuredWidth() / 2.0f);
                         StoryViewer.this.storiesViewPager.setScaleX(lerp);
                         StoryViewer.this.storiesViewPager.setScaleY(lerp);
                         currentPeerView.forceUpdateOffsets = true;
-                        StoryViewer storyViewer3 = StoryViewer.this;
-                        if (storyViewer3.selfStoriesViewsOffset == 0.0f) {
-                            currentPeerView.setViewsThumbImageReceiver(0.0f, null);
+                        StoryViewer storyViewer4 = StoryViewer.this;
+                        if (storyViewer4.selfStoriesViewsOffset == 0.0f) {
+                            currentPeerView.setViewsThumbImageReceiver(0.0f, 0.0f, 0.0f, null);
                         } else {
-                            currentPeerView.setViewsThumbImageReceiver(f, storyViewer3.selfStoryViewsView.getCrossfadeToImage());
+                            currentPeerView.setViewsThumbImageReceiver(f2, lerp, top, storyViewer4.selfStoryViewsView.getCrossfadeToImage());
                         }
                         currentPeerView.invalidate();
                         if (Build.VERSION.SDK_INT >= 21) {
-                            currentPeerView.outlineProvider.radiusInDp = (int) AndroidUtilities.lerp(10.0f, 6.0f / measuredHeight, StoryViewer.this.selfStoryViewsView.progressToOpen);
+                            currentPeerView.outlineProvider.radiusInDp = (int) AndroidUtilities.lerp(10.0f, 6.0f / f, StoryViewer.this.selfStoryViewsView.progressToOpen);
                             currentPeerView.storyContainer.invalidateOutline();
                         }
-                        StoryViewer storyViewer4 = StoryViewer.this;
-                        storyViewer4.storiesViewPager.setTranslationY((storyViewer4.selfStoryViewsView.toY - top) * f);
+                        StoryViewer storyViewer5 = StoryViewer.this;
+                        storyViewer5.storiesViewPager.setTranslationY((storyViewer5.selfStoryViewsView.toY - top) * f2);
                     }
                     if (currentPeerView != null) {
                         StoryViewer.this.volumeControl.setTranslationY(currentPeerView.storyContainer.getY() - AndroidUtilities.dp(4.0f));
@@ -585,6 +591,10 @@ public class StoryViewer {
         }
         AndroidUtilities.removeFromParent(this.aspectRatioFrameLayout);
         this.windowView.addView(this.aspectRatioFrameLayout);
+        SurfaceView surfaceView2 = this.surfaceView;
+        if (surfaceView2 != null) {
+            surfaceView2.setVisibility(4);
+        }
         AndroidUtilities.removeFromParent(this.containerView);
         this.windowView.addView(this.containerView);
         this.windowView.setClipChildren(false);
@@ -962,9 +972,9 @@ public class StoryViewer {
             StoryViewer.this.allowIntercept = false;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:73:0x015d  */
-        /* JADX WARN: Removed duplicated region for block: B:93:0x01d0 A[RETURN] */
-        /* JADX WARN: Removed duplicated region for block: B:94:0x01d1  */
+        /* JADX WARN: Removed duplicated region for block: B:100:0x01e2  */
+        /* JADX WARN: Removed duplicated region for block: B:79:0x016e  */
+        /* JADX WARN: Removed duplicated region for block: B:99:0x01e1 A[RETURN] */
         @Override // android.view.ViewGroup, android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -974,6 +984,9 @@ public class StoryViewer {
             boolean z2;
             PeerStoriesView currentPeerView = StoryViewer.this.storiesViewPager.getCurrentPeerView();
             if (currentPeerView != null && currentPeerView.checkTextSelectionEvent(motionEvent)) {
+                return true;
+            }
+            if (StoryViewer.this.isLikesReactions && currentPeerView != null && currentPeerView.checkReactionEvent(motionEvent)) {
                 return true;
             }
             if (motionEvent.getAction() == 1 || motionEvent.getAction() == 3) {
@@ -1066,7 +1079,7 @@ public class StoryViewer {
                         boolean dispatchTouchEvent = super.dispatchTouchEvent(motionEvent);
                         if (motionEvent.getAction() == 1 || motionEvent.getAction() == 3) {
                             StoryViewer storyViewer10 = StoryViewer.this;
-                            if (storyViewer10.selfStoriesViewsOffset != 0.0f && !storyViewer10.flingCalled) {
+                            if (storyViewer10.selfStoriesViewsOffset != 0.0f && !storyViewer10.flingCalled && StoryViewer.this.realKeyboardHeight < AndroidUtilities.dp(20.0f)) {
                                 StoryViewer storyViewer11 = StoryViewer.this;
                                 storyViewer11.cancelSwipeToViews(storyViewer11.selfStoryViewsView.progressToOpen > 0.5f);
                             }
@@ -1146,16 +1159,15 @@ public class StoryViewer {
                         storyViewer8.allowSwipeToReply = !z;
                         boolean z2 = (!z || currentPeerView.unsupported || currentPeerView.currentStory.storyItem == null) ? false : true;
                         storyViewer8.allowSelfStoriesView = z2;
-                        if (z2 && StoriesUtilities.hasExpiredViews(currentPeerView.currentStory.storyItem)) {
-                            StoryViewer.this.allowSelfStoriesView = false;
+                        if (z2 && this.keyboardHeight != 0) {
+                            storyViewer8.allowSelfStoriesView = false;
+                        }
+                        if (storyViewer8.allowSelfStoriesView) {
+                            storyViewer8.checkSelfStoriesView();
                         }
                         StoryViewer storyViewer9 = StoryViewer.this;
-                        if (storyViewer9.allowSelfStoriesView) {
-                            storyViewer9.checkSelfStoriesView();
-                        }
-                        StoryViewer storyViewer10 = StoryViewer.this;
-                        storyViewer10.swipeToReplyOffset = 0.0f;
-                        if (storyViewer10.delayedTapRunnable != null) {
+                        storyViewer9.swipeToReplyOffset = 0.0f;
+                        if (storyViewer9.delayedTapRunnable != null) {
                             AndroidUtilities.cancelRunOnUIThread(StoryViewer.this.delayedTapRunnable);
                             StoryViewer.this.delayedTapRunnable.run();
                             StoryViewer.this.delayedTapRunnable = null;
@@ -1172,11 +1184,11 @@ public class StoryViewer {
                 }
                 StoryViewer.this.setInTouchMode(false);
             }
-            StoryViewer storyViewer11 = StoryViewer.this;
-            SelfStoryViewsView selfStoryViewsView = storyViewer11.selfStoryViewsView;
+            StoryViewer storyViewer10 = StoryViewer.this;
+            SelfStoryViewsView selfStoryViewsView = storyViewer10.selfStoryViewsView;
             boolean z3 = selfStoryViewsView != null && selfStoryViewsView.progressToOpen == 1.0f;
-            if (!storyViewer11.inSwipeToDissmissMode && !z3) {
-                storyViewer11.gestureDetector.onTouchEvent(motionEvent);
+            if (!storyViewer10.inSwipeToDissmissMode && !z3) {
+                storyViewer10.gestureDetector.onTouchEvent(motionEvent);
             }
             return StoryViewer.this.inSwipeToDissmissMode || super.onInterceptTouchEvent(motionEvent);
         }
@@ -1221,8 +1233,8 @@ public class StoryViewer {
                 }
             }
             StoryViewer storyViewer4 = StoryViewer.this;
-            if (storyViewer4.inSwipeToDissmissMode || storyViewer4.keyboardVisible || storyViewer4.swipeToReplyOffset != 0.0f || (storyViewer4.selfStoriesViewsOffset != 0.0f && storyViewer4.allowIntercept)) {
-                storyViewer4.gestureDetector.onTouchEvent(motionEvent);
+            if (storyViewer4.inSwipeToDissmissMode || storyViewer4.keyboardVisible || storyViewer4.swipeToReplyOffset != 0.0f || ((storyViewer4.selfStoriesViewsOffset != 0.0f && storyViewer4.allowIntercept) || storyViewer4.isInTextSelectionMode)) {
+                StoryViewer.this.gestureDetector.onTouchEvent(motionEvent);
                 return true;
             }
             return false;
@@ -1254,6 +1266,56 @@ public class StoryViewer {
             if (StoryViewer.this.ATTACH_TO_FRAGMENT) {
                 AndroidUtilities.requestAdjustResize(this.val$fragment.getParentActivity(), this.val$fragment.getClassGuid());
             }
+            Bulletin.addDelegate(this, new Bulletin.Delegate() { // from class: org.telegram.ui.Stories.StoryViewer.2.3
+                float[] position = new float[2];
+
+                @Override // org.telegram.ui.Components.Bulletin.Delegate
+                public /* synthetic */ boolean allowLayoutChanges() {
+                    return Bulletin.Delegate.-CC.$default$allowLayoutChanges(this);
+                }
+
+                @Override // org.telegram.ui.Components.Bulletin.Delegate
+                public /* synthetic */ boolean clipWithGradient(int i) {
+                    return Bulletin.Delegate.-CC.$default$clipWithGradient(this, i);
+                }
+
+                @Override // org.telegram.ui.Components.Bulletin.Delegate
+                public /* synthetic */ int getTopOffset(int i) {
+                    return Bulletin.Delegate.-CC.$default$getTopOffset(this, i);
+                }
+
+                @Override // org.telegram.ui.Components.Bulletin.Delegate
+                public /* synthetic */ void onBottomOffsetChange(float f) {
+                    Bulletin.Delegate.-CC.$default$onBottomOffsetChange(this, f);
+                }
+
+                @Override // org.telegram.ui.Components.Bulletin.Delegate
+                public /* synthetic */ void onHide(Bulletin bulletin) {
+                    Bulletin.Delegate.-CC.$default$onHide(this, bulletin);
+                }
+
+                @Override // org.telegram.ui.Components.Bulletin.Delegate
+                public /* synthetic */ void onShow(Bulletin bulletin) {
+                    Bulletin.Delegate.-CC.$default$onShow(this, bulletin);
+                }
+
+                @Override // org.telegram.ui.Components.Bulletin.Delegate
+                public int getBottomOffset(int i) {
+                    PeerStoriesView currentPeerView = StoryViewer.this.getCurrentPeerView();
+                    if (currentPeerView == null) {
+                        return 0;
+                    }
+                    AndroidUtilities.getViewPositionInParent(currentPeerView.storyContainer, StoryViewer.this.windowView, this.position);
+                    return (int) (2.this.getMeasuredHeight() - (this.position[1] + currentPeerView.storyContainer.getMeasuredHeight()));
+                }
+            });
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
+        public void onDetachedFromWindow() {
+            super.onDetachedFromWindow();
+            Bulletin.removeDelegate(this);
         }
 
         @Override // android.widget.FrameLayout, android.view.View
@@ -1525,6 +1587,13 @@ public class StoryViewer {
         }
 
         @Override // org.telegram.ui.Stories.PeerStoriesView.Delegate
+        public void setTranslating(boolean z) {
+            StoryViewer storyViewer = StoryViewer.this;
+            storyViewer.isTranslating = z;
+            storyViewer.updatePlayingMode();
+        }
+
+        @Override // org.telegram.ui.Stories.PeerStoriesView.Delegate
         public void setBulletinIsVisible(boolean z) {
             StoryViewer.this.isBulletinVisible = z;
             StoryViewer.this.updatePlayingMode();
@@ -1551,6 +1620,12 @@ public class StoryViewer {
         @Override // org.telegram.ui.Stories.PeerStoriesView.Delegate
         public void setIsInSelectionMode(boolean z) {
             StoryViewer.this.isInTextSelectionMode = z;
+            StoryViewer.this.updatePlayingMode();
+        }
+
+        @Override // org.telegram.ui.Stories.PeerStoriesView.Delegate
+        public void setIsLikesReaction(boolean z) {
+            StoryViewer.this.isLikesReactions = z;
             StoryViewer.this.updatePlayingMode();
         }
 
@@ -1602,6 +1677,10 @@ public class StoryViewer {
 
     public void cancelSwipeToViews(final boolean z) {
         if (this.swipeToViewsAnimator != null) {
+            return;
+        }
+        if (this.realKeyboardHeight != 0) {
+            AndroidUtilities.hideKeyboard(this.selfStoryViewsView);
             return;
         }
         if (this.allowSelfStoriesView || this.selfStoriesViewsOffset != 0.0f) {
@@ -1661,6 +1740,14 @@ public class StoryViewer {
         }
         PeerStoriesView currentPeerView = this.storiesViewPager.getCurrentPeerView();
         if (currentPeerView != null) {
+            if (this.storiesList != null) {
+                ArrayList<TLRPC$StoryItem> arrayList = new ArrayList<>();
+                for (int i = 0; i < this.storiesList.messageObjects.size(); i++) {
+                    arrayList.add(this.storiesList.messageObjects.get(i).storyItem);
+                }
+                this.selfStoryViewsView.setItems(arrayList, currentPeerView.getListPosition());
+                return;
+            }
             this.selfStoryViewsView.setItems(currentPeerView.getStoryItems(), currentPeerView.getSelectedPosition());
         }
     }
@@ -1745,6 +1832,23 @@ public class StoryViewer {
         float y = sizeNotifierFrameLayout2 != null ? sizeNotifierFrameLayout2.getY() : 0.0f;
         rectF.set(this.swipeToDismissHorizontalOffset + x + this.containerView.getLeft() + currentPeerView.getX() + currentPeerView.storyContainer.getX(), this.swipeToDismissOffset + y + this.containerView.getTop() + currentPeerView.getY() + currentPeerView.storyContainer.getY(), (((x + this.swipeToDismissHorizontalOffset) + this.containerView.getRight()) - (this.containerView.getWidth() - currentPeerView.getRight())) - (currentPeerView.getWidth() - currentPeerView.storyContainer.getRight()), (((y + this.swipeToDismissOffset) + this.containerView.getBottom()) - (this.containerView.getHeight() - currentPeerView.getBottom())) - (currentPeerView.getHeight() - currentPeerView.storyContainer.getBottom()));
         return true;
+    }
+
+    public void switchByTap(boolean z) {
+        PeerStoriesView currentPeerView = this.storiesViewPager.getCurrentPeerView();
+        if (currentPeerView == null || currentPeerView.switchToNext(z)) {
+            return;
+        }
+        if (this.storiesViewPager.switchToNext(z)) {
+            this.storiesViewPager.lockTouchEvent(150L);
+        } else if (z) {
+            close(true);
+        } else {
+            VideoPlayerHolder videoPlayerHolder = this.playerHolder;
+            if (videoPlayerHolder != null) {
+                videoPlayerHolder.loopBack();
+            }
+        }
     }
 
     public PeerStoriesView getCurrentPeerView() {
@@ -1985,7 +2089,7 @@ public class StoryViewer {
     }
 
     public boolean isPaused() {
-        return this.isPopupVisible || this.isBulletinVisible || this.isCaption || this.isWaiting || this.isInTouchMode || this.keyboardVisible || this.currentDialog != null || this.allowTouchesByViewpager || this.isClosed || this.isRecording || this.progressToOpen != 1.0f || this.selfStoriesViewsOffset != 0.0f || this.isHintVisible || (this.isSwiping && this.USE_SURFACE_VIEW) || this.isOverlayVisible || this.isInTextSelectionMode;
+        return this.isPopupVisible || this.isTranslating || this.isBulletinVisible || this.isCaption || this.isWaiting || this.isInTouchMode || this.keyboardVisible || this.currentDialog != null || this.allowTouchesByViewpager || this.isClosed || this.isRecording || this.progressToOpen != 1.0f || this.selfStoriesViewsOffset != 0.0f || this.isHintVisible || (this.isSwiping && this.USE_SURFACE_VIEW) || this.isOverlayVisible || this.isInTextSelectionMode || this.isLikesReactions;
     }
 
     public void updatePlayingMode() {
@@ -2006,7 +2110,7 @@ public class StoryViewer {
                 videoPlayerHolder.play();
             }
         }
-        this.storiesViewPager.enableTouch((this.keyboardVisible || this.isClosed || this.isRecording || this.isLongpressed || this.isInPinchToZoom || this.selfStoriesViewsOffset != 0.0f) ? false : false);
+        this.storiesViewPager.enableTouch((this.keyboardVisible || this.isClosed || this.isRecording || this.isLongpressed || this.isInPinchToZoom || this.selfStoriesViewsOffset != 0.0f || this.isInTextSelectionMode) ? false : false);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -2034,7 +2138,7 @@ public class StoryViewer {
             }
             if (currentPeerView == null || (chatActivityEnterView2 = currentPeerView.chatActivityEnterView) == null || chatActivityEnterView2.getVisibility() != 0 || f2 <= this.containerView.getY() + this.storiesViewPager.getY() + currentPeerView.getY() + currentPeerView.chatActivityEnterView.getY()) {
                 if (currentPeerView == null || (chatActivityEnterView = currentPeerView.chatActivityEnterView) == null || !chatActivityEnterView.isRecordingAudioVideo()) {
-                    return AndroidUtilities.findClickableView(frameLayout, f, f2);
+                    return AndroidUtilities.findClickableView(frameLayout, f, f2, currentPeerView);
                 }
                 return true;
             }
@@ -2133,11 +2237,13 @@ public class StoryViewer {
         this.openCloseAnimator.setDuration(250L);
         this.openCloseAnimator.setInterpolator(CubicBezierInterpolator.DEFAULT);
         this.openCloseAnimator.start();
-        Runnable runnable = this.doOnAnimationReady;
-        if (runnable != null) {
-            runnable.run();
-            this.doOnAnimationReady = null;
+        if (this.doOnAnimationReadyRunnables.isEmpty()) {
+            return;
         }
+        for (int i = 0; i < this.doOnAnimationReadyRunnables.size(); i++) {
+            this.doOnAnimationReadyRunnables.get(i).run();
+        }
+        this.doOnAnimationReadyRunnables.clear();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -2336,6 +2442,7 @@ public class StoryViewer {
             lockOrientation(false);
         }
         globalInstances.remove(this);
+        this.doOnAnimationReadyRunnables.clear();
         this.selfStoriesViewsOffset = 0.0f;
         lastStoryItem = null;
     }
@@ -2362,6 +2469,9 @@ public class StoryViewer {
 
     public boolean onBackPressed() {
         if (this.selfStoriesViewsOffset != 0.0f) {
+            if (this.selfStoryViewsView.onBackPressed()) {
+                return true;
+            }
             cancelSwipeToViews(false);
             return true;
         } else if (closeKeyboardOrEmoji()) {
@@ -2406,6 +2516,10 @@ public class StoryViewer {
             this.realKeyboardHeight = i;
             this.storiesViewPager.setKeyboardHeight(i);
             this.storiesViewPager.requestLayout();
+            SelfStoryViewsView selfStoryViewsView = this.selfStoryViewsView;
+            if (selfStoryViewsView != null) {
+                selfStoryViewsView.setKeyboardHeight(i);
+            }
         }
     }
 
@@ -2556,7 +2670,9 @@ public class StoryViewer {
     }
 
     public void doOnAnimationReady(Runnable runnable) {
-        this.doOnAnimationReady = runnable;
+        if (runnable != null) {
+            this.doOnAnimationReadyRunnables.add(runnable);
+        }
     }
 
     /* loaded from: classes4.dex */

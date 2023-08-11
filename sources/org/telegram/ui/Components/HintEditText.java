@@ -26,7 +26,7 @@ public class HintEditText extends EditTextBoldCursor {
         this.hintPaint.setColor(Theme.getColor(Theme.key_windowBackgroundWhiteHintText));
     }
 
-    @Override // android.widget.TextView
+    @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView
     public void setTextSize(int i, float f) {
         super.setTextSize(i, f);
         this.hintPaint.setTextSize(TypedValue.applyDimension(i, f, getResources().getDisplayMetrics()));

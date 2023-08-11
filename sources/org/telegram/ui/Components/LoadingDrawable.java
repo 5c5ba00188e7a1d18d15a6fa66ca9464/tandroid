@@ -433,6 +433,7 @@ public class LoadingDrawable extends Drawable {
     @Override // android.graphics.drawable.Drawable
     public void setAlpha(int i) {
         this.paint.setAlpha(i);
+        this.strokePaint.setAlpha(i);
         if (i > 0) {
             invalidateSelf();
         }

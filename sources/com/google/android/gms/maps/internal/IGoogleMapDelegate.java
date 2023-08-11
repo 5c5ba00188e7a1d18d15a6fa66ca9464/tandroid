@@ -25,6 +25,8 @@ public interface IGoogleMapDelegate extends IInterface {
 
     float getMaxZoomLevel() throws RemoteException;
 
+    float getMinZoomLevel() throws RemoteException;
+
     IProjectionDelegate getProjection() throws RemoteException;
 
     IUiSettingsDelegate getUiSettings() throws RemoteException;
@@ -36,6 +38,8 @@ public interface IGoogleMapDelegate extends IInterface {
     void setMapType(int i) throws RemoteException;
 
     void setMyLocationEnabled(boolean z) throws RemoteException;
+
+    void setOnCameraIdleListener(zzp zzpVar) throws RemoteException;
 
     void setOnCameraMoveListener(zzt zztVar) throws RemoteException;
 

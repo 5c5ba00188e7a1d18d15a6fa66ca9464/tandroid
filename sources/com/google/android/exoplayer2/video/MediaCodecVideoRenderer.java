@@ -41,7 +41,6 @@ import java.util.List;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.MediaController;
-import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.voip.VoIPService;
 /* loaded from: classes.dex */
 public class MediaCodecVideoRenderer extends MediaCodecRenderer {
@@ -2437,7 +2436,7 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
                             case '|':
                             case '}':
                             case '~':
-                            case MessagesStorage.LAST_DB_VERSION /* 127 */:
+                            case 127:
                             case 128:
                             case 129:
                             case 130:

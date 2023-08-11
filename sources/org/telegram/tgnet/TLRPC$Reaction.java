@@ -6,14 +6,7 @@ public abstract class TLRPC$Reaction extends TLObject {
         if (i == -1992950669) {
             tLRPC$TL_reactionCustomEmoji = new TLRPC$TL_reactionCustomEmoji();
         } else if (i != 455247544) {
-            tLRPC$TL_reactionCustomEmoji = i != 2046153753 ? null : new TLRPC$Reaction() { // from class: org.telegram.tgnet.TLRPC$TL_reactionEmpty
-                public static int constructor = 2046153753;
-
-                @Override // org.telegram.tgnet.TLObject
-                public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                    abstractSerializedData2.writeInt32(constructor);
-                }
-            };
+            tLRPC$TL_reactionCustomEmoji = i != 2046153753 ? null : new TLRPC$TL_reactionEmpty();
         } else {
             tLRPC$TL_reactionCustomEmoji = new TLRPC$TL_reactionEmoji();
         }

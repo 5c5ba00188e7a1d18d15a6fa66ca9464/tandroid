@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.telegram.messenger.FileLoader;
-import org.telegram.messenger.MessagesStorage;
 /* loaded from: classes.dex */
 public final class Cea608Decoder extends CeaDecoder {
     private int captionMode;
@@ -195,8 +194,8 @@ public final class Cea608Decoder extends CeaDecoder {
             int readUnsignedByte2 = this.ccData.readUnsignedByte();
             int readUnsignedByte3 = this.ccData.readUnsignedByte();
             if ((readUnsignedByte & 2) == 0 && (readUnsignedByte & 1) == this.selectedField) {
-                byte b = (byte) (readUnsignedByte2 & MessagesStorage.LAST_DB_VERSION);
-                byte b2 = (byte) (readUnsignedByte3 & MessagesStorage.LAST_DB_VERSION);
+                byte b = (byte) (readUnsignedByte2 & 127);
+                byte b2 = (byte) (readUnsignedByte3 & 127);
                 if (b != 0 || b2 != 0) {
                     boolean z3 = this.isCaptionValid;
                     if ((readUnsignedByte & 4) == 4) {

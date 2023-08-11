@@ -112,7 +112,7 @@ public class CacheChart extends View {
         private float lastWidth;
         Paint paint;
         Bitmap particle;
-        Paint particlePaint = new Paint(3);
+        Paint particlePaint;
         float particlesAlpha;
         AnimatedFloat particlesAlphaAnimated;
         Path path;
@@ -128,6 +128,9 @@ public class CacheChart extends View {
         Paint uncut;
 
         Sector() {
+            Paint paint = new Paint(3);
+            this.particlePaint = paint;
+            paint.setColor(-1);
             CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.EASE_OUT_QUINT;
             this.angleCenterAnimated = new AnimatedFloat(CacheChart.this, 650L, cubicBezierInterpolator);
             this.angleSizeAnimated = new AnimatedFloat(CacheChart.this, 650L, cubicBezierInterpolator);
@@ -147,9 +150,9 @@ public class CacheChart extends View {
             this.paint = new Paint(1);
             this.pathBounds = new RectF();
             this.uncut = new Paint(1);
-            Paint paint = new Paint(1);
-            this.cut = paint;
-            paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
+            Paint paint2 = new Paint(1);
+            this.cut = paint2;
+            paint2.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
             this.paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
             this.particlePaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_ATOP));
             this.rectF = new RectF();

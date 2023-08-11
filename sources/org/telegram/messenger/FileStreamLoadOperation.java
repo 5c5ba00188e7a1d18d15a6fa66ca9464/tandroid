@@ -173,6 +173,9 @@ public class FileStreamLoadOperation extends BaseDataSource implements FileLoadO
                 }
             }
             File currentFileFast = this.loadOperation.getCurrentFileFast();
+            if (BuildVars.LOGS_ENABLED) {
+                FileLog.d("check stream file " + currentFileFast);
+            }
             if (this.file == null || !Objects.equals(this.currentFile, currentFileFast)) {
                 RandomAccessFile randomAccessFile2 = this.file;
                 if (randomAccessFile2 != null) {

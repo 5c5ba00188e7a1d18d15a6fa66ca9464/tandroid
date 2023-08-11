@@ -281,7 +281,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
 
         public ItemInternal(DialogsAdapter dialogsAdapter, int i) {
             super(i, true);
-            this.emptyType = this.emptyType;
+            this.emptyType = i;
             if (i == 10) {
                 this.stableId = 1;
             } else if (this.viewType == 19) {
@@ -1309,14 +1309,14 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
             super(context);
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:78:0x015d, code lost:
-            if (r6 != false) goto L85;
+        /* JADX WARN: Code restructure failed: missing block: B:80:0x016b, code lost:
+            if (r6 != false) goto L87;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:79:0x015f, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:81:0x016d, code lost:
             r13 = r13 - r7;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:90:0x0184, code lost:
-            if (r6 != false) goto L85;
+        /* JADX WARN: Code restructure failed: missing block: B:92:0x0192, code lost:
+            if (r6 != false) goto L87;
          */
         @Override // android.widget.FrameLayout, android.view.View
         /*
@@ -1356,7 +1356,14 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
                     int i6 = 0;
                     for (int i7 = 0; i7 < size; i7++) {
                         if (DialogsAdapter.this.itemInternals.get(i7).viewType == 0) {
-                            i6 = (!DialogsAdapter.this.itemInternals.get(i7).isForumCell || z2) ? i6 + dp : i6 + AndroidUtilities.dp(SharedConfig.useThreeLinesLayout ? 86.0f : 91.0f);
+                            if (DialogsAdapter.this.itemInternals.get(i7).isForumCell && !z2) {
+                                i6 += AndroidUtilities.dp(SharedConfig.useThreeLinesLayout ? 86.0f : 91.0f);
+                            }
+                            i6 += dp;
+                        } else {
+                            if (DialogsAdapter.this.itemInternals.get(i7).viewType != 1) {
+                            }
+                            i6 += dp;
                         }
                     }
                     int i8 = i6 + (size - 1);
@@ -1398,9 +1405,9 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
     }
 
     /* JADX WARN: Removed duplicated region for block: B:116:0x02a4  */
-    /* JADX WARN: Removed duplicated region for block: B:152:0x0353 A[LOOP:2: B:152:0x0353->B:161:0x037a, LOOP_START, PHI: r4 
-      PHI: (r4v2 int) = (r4v1 int), (r4v4 int) binds: [B:151:0x0351, B:161:0x037a] A[DONT_GENERATE, DONT_INLINE]] */
-    /* JADX WARN: Removed duplicated region for block: B:162:0x037c A[ORIG_RETURN, RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:152:0x035b A[LOOP:2: B:152:0x035b->B:161:0x0382, LOOP_START, PHI: r4 
+      PHI: (r4v2 int) = (r4v1 int), (r4v4 int) binds: [B:151:0x0359, B:161:0x0382] A[DONT_GENERATE, DONT_INLINE]] */
+    /* JADX WARN: Removed duplicated region for block: B:162:0x0384 A[ORIG_RETURN, RETURN] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1525,6 +1532,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
                         if (this.dialogsCount != 0) {
                             this.itemInternals.add(new ItemInternal(this, 1));
                         }
+                        this.itemInternals.add(new ItemInternal(this, 10));
                     } else {
                         int i11 = this.dialogsCount;
                         if (i11 == 0) {

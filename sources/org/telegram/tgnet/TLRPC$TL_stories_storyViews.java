@@ -4,7 +4,7 @@ import java.util.ArrayList;
 /* loaded from: classes.dex */
 public class TLRPC$TL_stories_storyViews extends TLObject {
     public static int constructor = -560009955;
-    public ArrayList<TLRPC$TL_storyViews> views = new ArrayList<>();
+    public ArrayList<TLRPC$StoryViews> views = new ArrayList<>();
     public ArrayList<TLRPC$User> users = new ArrayList<>();
 
     public static TLRPC$TL_stories_storyViews TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
@@ -30,7 +30,7 @@ public class TLRPC$TL_stories_storyViews extends TLObject {
         }
         int readInt322 = abstractSerializedData.readInt32(z);
         for (int i = 0; i < readInt322; i++) {
-            TLRPC$TL_storyViews TLdeserialize = TLRPC$TL_storyViews.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+            TLRPC$StoryViews TLdeserialize = TLRPC$StoryViews.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
             if (TLdeserialize == null) {
                 return;
             }

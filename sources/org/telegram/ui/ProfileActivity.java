@@ -2070,11 +2070,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r11v2 */
-    /* JADX WARN: Type inference failed for: r11v3, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r11v3, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r11v5 */
     /* JADX WARN: Type inference failed for: r11v6 */
     /* JADX WARN: Type inference failed for: r12v2 */
-    /* JADX WARN: Type inference failed for: r12v3, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r12v3, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r12v5 */
     /* JADX WARN: Type inference failed for: r12v6 */
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -4644,6 +4644,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 SharedConfig.emojiInteractionsHintCount = 3;
                 SharedConfig.dayNightThemeSwitchHintCount = 3;
                 SharedConfig.fastScrollHintCount = 3;
+                SharedConfig.stealthModeSendMessageConfirm = 2;
+                SharedConfig.updateStealthModeSendMessageConfirm(2);
+                SharedConfig.setStoriesReactionsLongPressHintUsed(false);
                 ChatThemeController.getInstance(((BaseFragment) ProfileActivity.this).currentAccount).clearCache();
                 ProfileActivity.this.getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.newSuggestionsAvailable, new Object[0]);
                 RestrictedLanguagesSelectActivity.cleanup();
@@ -5797,7 +5800,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         public final void run() {
                             ProfileActivity.this.lambda$onMemberClick$24(tLRPC$ChannelParticipant4, tLRPC$ChatParticipant, user, callback);
                         }
-                    }).addIf(z6, R.drawable.msg_remove, (CharSequence) LocaleController.getString("KickFromGroup", R.string.KickFromGroup), true, new Runnable() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda34
+                    }).addIf(z6, R.drawable.msg_remove, LocaleController.getString("KickFromGroup", R.string.KickFromGroup), true, new Runnable() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda34
                         @Override // java.lang.Runnable
                         public final void run() {
                             ProfileActivity.this.lambda$onMemberClick$25(tLRPC$ChatParticipant);
@@ -8602,7 +8605,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     this.rowCount = i36 + 1;
                     this.clearLogsRow = i36;
                 }
-                if (BuildVars.DEBUG_PRIVATE_VERSION) {
+                if (BuildVars.DEBUG_VERSION) {
                     int i37 = this.rowCount;
                     this.rowCount = i37 + 1;
                     this.switchBackendRow = i37;

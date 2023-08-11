@@ -2911,11 +2911,6 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                     SelectAnimatedEmojiDialog.this.emojiSearchGridView.animatedEmojiDrawables.put(imageViewEmoji2.span.getDocumentId(), animatedEmojiDrawable);
                 }
                 imageViewEmoji2.setDrawable(animatedEmojiDrawable);
-                if (UserConfig.getInstance(SelectAnimatedEmojiDialog.this.currentAccount).isPremium() || SelectAnimatedEmojiDialog.this.type == 4 || SelectAnimatedEmojiDialog.this.type == 3) {
-                    return;
-                }
-                imageViewEmoji2.createPremiumLockView();
-                imageViewEmoji2.premiumLockIconView.setVisibility(0);
             } else if (viewHolder.getItemViewType() == 3) {
                 ImageViewEmoji imageViewEmoji3 = (ImageViewEmoji) viewHolder.itemView;
                 imageViewEmoji3.empty = false;
@@ -3092,8 +3087,8 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
             return 1;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:280:0x06a5  */
-        /* JADX WARN: Removed duplicated region for block: B:284:0x06e6  */
+        /* JADX WARN: Removed duplicated region for block: B:273:0x067c  */
+        /* JADX WARN: Removed duplicated region for block: B:277:0x06bd  */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -3197,11 +3192,6 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                         SelectAnimatedEmojiDialog.this.emojiGridView.animatedEmojiDrawables.put(imageViewEmoji.span.getDocumentId(), drawable);
                     }
                     imageViewEmoji.setDrawable(drawable);
-                    if (UserConfig.getInstance(SelectAnimatedEmojiDialog.this.currentAccount).isPremium() || SelectAnimatedEmojiDialog.this.type == 4 || SelectAnimatedEmojiDialog.this.type == 3) {
-                        return;
-                    }
-                    imageViewEmoji.createPremiumLockView();
-                    imageViewEmoji.premiumLockIconView.setVisibility(0);
                     return;
                 } else {
                     int i3 = 40;
@@ -3996,16 +3986,6 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
             }
             super.invalidate(i, i2, i3, i4);
         }
-
-        public void createPremiumLockView() {
-            if (this.premiumLockIconView == null) {
-                this.premiumLockIconView = new PremiumLockIconView(getContext(), PremiumLockIconView.TYPE_STICKERS_PREMIUM_LOCKED);
-                int makeMeasureSpec = View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(12.0f), 1073741824);
-                this.premiumLockIconView.measure(makeMeasureSpec, makeMeasureSpec);
-                PremiumLockIconView premiumLockIconView = this.premiumLockIconView;
-                premiumLockIconView.layout(0, 0, premiumLockIconView.getMeasuredWidth(), this.premiumLockIconView.getMeasuredHeight());
-            }
-        }
     }
 
     public void onEmojiClick(final View view, final AnimatedEmojiSpan animatedEmojiSpan) {
@@ -4103,7 +4083,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Removed duplicated region for block: B:239:0x0637  */
     /* JADX WARN: Type inference failed for: r7v2 */
-    /* JADX WARN: Type inference failed for: r7v3, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r7v3, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r7v7 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
