@@ -542,15 +542,18 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
         return emojiPack.installed;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:66:0x0117, code lost:
-        if (r1.documentId != r2.id) goto L82;
+    /* JADX WARN: Code restructure failed: missing block: B:66:0x0119, code lost:
+        if (r5 != 0) goto L86;
      */
+    /* JADX WARN: Multi-variable type inference failed */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void updateEmojiPacks(ArrayList<EmojiView.EmojiPack> arrayList) {
-        int i;
         boolean z;
+        DelayedAnimatedEmojiDrawable delayedAnimatedEmojiDrawable;
+        EmojiView.EmojiPack emojiPack;
+        Boolean bool;
         if (this.includeAnimated) {
             if (!this.first || MediaDataController.getInstance(UserConfig.selectedAccount).areStickersLoaded(5)) {
                 this.first = false;
@@ -561,6 +564,7 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
                 if (childCount == 0 && arrayList.size() > 0 && this.appearCount != arrayList.size()) {
                     boolean z2 = this.wasDrawn;
                 }
+                Boolean bool2 = null;
                 if (this.appearAnimation != null && this.appearCount != arrayList.size()) {
                     this.appearAnimation.cancel();
                     this.appearAnimation = null;
@@ -569,65 +573,77 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
                 doIncludeFeatured();
                 boolean z3 = UserConfig.getInstance(UserConfig.selectedAccount).isPremium() || allowEmojisForNonPremium();
                 ArrayList arrayList2 = new ArrayList();
-                int i2 = 0;
-                while (i2 < Math.max(arrayList.size(), childCount)) {
-                    EmojiTabButton emojiTabButton = i2 < childCount ? (EmojiTabButton) this.contentView.getChildAt(this.packsIndexStart + i2) : null;
-                    EmojiView.EmojiPack emojiPack = i2 < arrayList.size() ? arrayList.get(i2) : null;
-                    if (emojiPack == null) {
+                int i = 0;
+                while (i < Math.max(arrayList.size(), childCount)) {
+                    EmojiTabButton emojiTabButton = i < childCount ? (EmojiTabButton) this.contentView.getChildAt(this.packsIndexStart + i) : bool2;
+                    EmojiView.EmojiPack emojiPack2 = i < arrayList.size() ? arrayList.get(i) : bool2;
+                    if (emojiPack2 == null) {
                         if (emojiTabButton != null) {
                             this.contentView.removeView(emojiTabButton);
                         }
-                    } else if (emojiPack.resId == 0) {
-                        boolean z4 = emojiPack.free;
-                        DelayedAnimatedEmojiDrawable delayedAnimatedEmojiDrawable = (emojiTabButton == null || !(emojiTabButton.getDrawable() instanceof DelayedAnimatedEmojiDrawable)) ? null : (DelayedAnimatedEmojiDrawable) emojiTabButton.getDrawable();
-                        TLRPC$Document thumbDocument = getThumbDocument(emojiPack.set, emojiPack.documents);
+                    } else if (emojiPack2.resId == 0) {
+                        boolean z4 = emojiPack2.free;
+                        DelayedAnimatedEmojiDrawable delayedAnimatedEmojiDrawable2 = (emojiTabButton == null || !(emojiTabButton.getDrawable() instanceof DelayedAnimatedEmojiDrawable)) ? bool2 : (DelayedAnimatedEmojiDrawable) emojiTabButton.getDrawable();
+                        TLRPC$Document thumbDocument = getThumbDocument(emojiPack2.set, emojiPack2.documents);
                         if (thumbDocument != null) {
-                            if (delayedAnimatedEmojiDrawable != null) {
-                                i = childCount;
+                            if (delayedAnimatedEmojiDrawable2 != 0) {
+                                z = z3;
+                                int i2 = (delayedAnimatedEmojiDrawable2.documentId > thumbDocument.id ? 1 : (delayedAnimatedEmojiDrawable2.documentId == thumbDocument.id ? 0 : -1));
+                                delayedAnimatedEmojiDrawable = delayedAnimatedEmojiDrawable2;
                             } else {
-                                i = childCount;
+                                z = z3;
                             }
                             delayedAnimatedEmojiDrawable = new DelayedAnimatedEmojiDrawable(UserConfig.selectedAccount, this.animatedEmojiCacheType, thumbDocument);
                         } else {
-                            i = childCount;
+                            z = z3;
+                            delayedAnimatedEmojiDrawable = delayedAnimatedEmojiDrawable2;
                         }
-                        DelayedAnimatedEmojiDrawable delayedAnimatedEmojiDrawable2 = delayedAnimatedEmojiDrawable;
+                        DelayedAnimatedEmojiDrawable delayedAnimatedEmojiDrawable3 = delayedAnimatedEmojiDrawable;
                         if (emojiTabButton == null) {
-                            z = z4;
-                            EmojiTabButton emojiTabButton2 = new EmojiTabButton(getContext(), (Drawable) delayedAnimatedEmojiDrawable2, z4, false, false);
-                            emojiTabButton2.setDrawable(delayedAnimatedEmojiDrawable2);
+                            emojiPack = emojiPack2;
+                            EmojiTabButton emojiTabButton2 = new EmojiTabButton(getContext(), (Drawable) delayedAnimatedEmojiDrawable3, z4, false, false);
+                            emojiTabButton2.setDrawable(delayedAnimatedEmojiDrawable3);
                             onTabCreate(emojiTabButton2);
-                            this.contentView.addView(emojiTabButton2, this.packsIndexStart + i2);
+                            this.contentView.addView(emojiTabButton2, this.packsIndexStart + i);
                             emojiTabButton = emojiTabButton2;
                         } else {
-                            z = z4;
-                            if (emojiTabButton.getDrawable() != delayedAnimatedEmojiDrawable2) {
-                                emojiTabButton.setDrawable(delayedAnimatedEmojiDrawable2);
+                            emojiPack = emojiPack2;
+                            if (emojiTabButton.getDrawable() != delayedAnimatedEmojiDrawable3) {
+                                emojiTabButton.setDrawable(delayedAnimatedEmojiDrawable3);
                             }
                         }
+                        emojiTabButton.updateSelect(this.selected == i, false);
                         if (this.currentType == 4) {
+                            bool = null;
                             emojiTabButton.setLock(null);
-                        } else if (!z3 && !z) {
-                            emojiTabButton.setLock(Boolean.TRUE);
-                        } else if (!isInstalled(emojiPack)) {
-                            emojiTabButton.setLock(Boolean.FALSE);
                         } else {
-                            emojiTabButton.setLock(null);
+                            if (!z && !z4) {
+                                emojiTabButton.setLock(Boolean.TRUE);
+                            } else if (!isInstalled(emojiPack)) {
+                                emojiTabButton.setLock(Boolean.FALSE);
+                            } else {
+                                bool = null;
+                                emojiTabButton.setLock(null);
+                            }
+                            bool = null;
                         }
-                        i2++;
-                        childCount = i;
+                        i++;
+                        bool2 = bool;
+                        z3 = z;
                     } else if (emojiTabButton == null) {
-                        EmojiTabButton emojiTabButton3 = new EmojiTabButton(getContext(), emojiPack.resId, false, false);
+                        EmojiTabButton emojiTabButton3 = new EmojiTabButton(getContext(), emojiPack2.resId, false, false);
                         onTabCreate(emojiTabButton3);
-                        this.contentView.addView(emojiTabButton3, this.packsIndexStart + i2);
+                        this.contentView.addView(emojiTabButton3, this.packsIndexStart + i);
                     } else {
-                        emojiTabButton.setDrawable(getResources().getDrawable(emojiPack.resId).mutate());
+                        emojiTabButton.setDrawable(getResources().getDrawable(emojiPack2.resId).mutate());
                         emojiTabButton.updateColor();
-                        emojiTabButton.setLock(null);
+                        emojiTabButton.setLock(bool2);
                     }
-                    i = childCount;
-                    i2++;
-                    childCount = i;
+                    bool = bool2;
+                    z = z3;
+                    i++;
+                    bool2 = bool;
+                    z3 = z;
                 }
                 EmojiTabButton emojiTabButton4 = this.settingsTab;
                 if (emojiTabButton4 != null) {

@@ -5453,13 +5453,13 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     /* JADX WARN: Type inference failed for: r15v140, types: [org.telegram.tgnet.TLRPC$InputStickerSet] */
     /* JADX WARN: Type inference failed for: r2v1165 */
     /* JADX WARN: Type inference failed for: r2v1166 */
-    /* JADX WARN: Type inference failed for: r2v1189, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r2v1189, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r2v1190 */
     /* JADX WARN: Type inference failed for: r2v1192 */
     /* JADX WARN: Type inference failed for: r2v26 */
-    /* JADX WARN: Type inference failed for: r2v27, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r2v27, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r2v35 */
-    /* JADX WARN: Type inference failed for: r2v48, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r2v48, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r3v136 */
     /* JADX WARN: Type inference failed for: r3v137, types: [org.telegram.tgnet.TLRPC$Document, java.lang.Object, org.telegram.tgnet.TLRPC$PhotoSize] */
     /* JADX WARN: Type inference failed for: r3v166 */
@@ -5467,7 +5467,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     /* JADX WARN: Type inference failed for: r4v421 */
     /* JADX WARN: Type inference failed for: r4v422 */
     /* JADX WARN: Type inference failed for: r4v555 */
-    /* JADX WARN: Type inference failed for: r6v525, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r6v525, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r6v550 */
     /* JADX WARN: Type inference failed for: r6v752 */
     /* JADX WARN: Type inference failed for: r71v1 */
@@ -22995,7 +22995,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     /* JADX WARN: Removed duplicated region for block: B:415:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r15v1 */
     /* JADX WARN: Type inference failed for: r15v16 */
-    /* JADX WARN: Type inference failed for: r15v2, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r15v2, types: [boolean, int] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -25888,7 +25888,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     /* JADX WARN: Type inference failed for: r4v119 */
     /* JADX WARN: Type inference failed for: r4v2, types: [org.telegram.tgnet.TLRPC$Chat, org.telegram.tgnet.TLRPC$User, java.lang.String] */
     /* JADX WARN: Type inference failed for: r5v0 */
-    /* JADX WARN: Type inference failed for: r5v1, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r5v1, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r5v31 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

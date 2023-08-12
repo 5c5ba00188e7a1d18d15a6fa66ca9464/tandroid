@@ -2351,7 +2351,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         }
     }
 
-    private StoriesController getStoriesController() {
+    /* JADX INFO: Access modifiers changed from: private */
+    public StoriesController getStoriesController() {
         return getMessagesController().getStoriesController();
     }
 
@@ -3072,33 +3073,33 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Removed duplicated region for block: B:326:0x0d06  */
-    /* JADX WARN: Removed duplicated region for block: B:339:0x0d6b  */
-    /* JADX WARN: Removed duplicated region for block: B:346:0x0dab  */
-    /* JADX WARN: Removed duplicated region for block: B:350:0x0e5b  */
-    /* JADX WARN: Removed duplicated region for block: B:357:0x0eb8  */
-    /* JADX WARN: Removed duplicated region for block: B:361:0x0f00  */
-    /* JADX WARN: Removed duplicated region for block: B:362:0x0f03  */
-    /* JADX WARN: Removed duplicated region for block: B:365:0x0f10  */
-    /* JADX WARN: Removed duplicated region for block: B:373:0x0f97  */
-    /* JADX WARN: Removed duplicated region for block: B:374:0x0fa2  */
-    /* JADX WARN: Removed duplicated region for block: B:382:0x0fcc  */
+    /* JADX WARN: Removed duplicated region for block: B:339:0x0d60  */
+    /* JADX WARN: Removed duplicated region for block: B:346:0x0da0  */
+    /* JADX WARN: Removed duplicated region for block: B:350:0x0e50  */
+    /* JADX WARN: Removed duplicated region for block: B:357:0x0ead  */
+    /* JADX WARN: Removed duplicated region for block: B:361:0x0ef5  */
+    /* JADX WARN: Removed duplicated region for block: B:362:0x0ef8  */
+    /* JADX WARN: Removed duplicated region for block: B:365:0x0f05  */
+    /* JADX WARN: Removed duplicated region for block: B:373:0x0f8c  */
+    /* JADX WARN: Removed duplicated region for block: B:374:0x0f97  */
+    /* JADX WARN: Removed duplicated region for block: B:382:0x0fc1  */
+    /* JADX WARN: Type inference failed for: r0v108, types: [org.telegram.ui.ActionBar.ActionBar] */
     /* JADX WARN: Type inference failed for: r0v17, types: [org.telegram.ui.ActionBar.ActionBar] */
-    /* JADX WARN: Type inference failed for: r0v220, types: [org.telegram.ui.DialogsActivity$DialogsRecyclerView, org.telegram.ui.Components.RecyclerListView] */
+    /* JADX WARN: Type inference failed for: r0v224, types: [org.telegram.ui.DialogsActivity$DialogsRecyclerView, org.telegram.ui.Components.RecyclerListView] */
     /* JADX WARN: Type inference failed for: r0v30, types: [org.telegram.ui.ActionBar.ActionBar] */
     /* JADX WARN: Type inference failed for: r13v0 */
-    /* JADX WARN: Type inference failed for: r13v1, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r13v1, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r13v4 */
-    /* JADX WARN: Type inference failed for: r1v87, types: [org.telegram.ui.ActionBar.ActionBar] */
-    /* JADX WARN: Type inference failed for: r2v103, types: [org.telegram.ui.DialogsActivity$DialogsRecyclerView, org.telegram.ui.Components.RecyclerListView] */
-    /* JADX WARN: Type inference failed for: r2v104, types: [org.telegram.ui.DialogsActivity$DialogsRecyclerView, org.telegram.ui.Components.RecyclerListView] */
-    /* JADX WARN: Type inference failed for: r2v105, types: [org.telegram.ui.DialogsActivity$DialogsRecyclerView, org.telegram.ui.Components.RecyclerListView] */
-    /* JADX WARN: Type inference failed for: r2v106, types: [org.telegram.ui.DialogsActivity$DialogsRecyclerView, androidx.recyclerview.widget.RecyclerView] */
-    /* JADX WARN: Type inference failed for: r2v110, types: [org.telegram.ui.DialogsActivity$DialogsRecyclerView, org.telegram.ui.Components.RecyclerListView] */
-    /* JADX WARN: Type inference failed for: r2v111, types: [org.telegram.ui.DialogsActivity$DialogsRecyclerView, org.telegram.ui.Components.RecyclerListView] */
-    /* JADX WARN: Type inference failed for: r2v113, types: [androidx.recyclerview.widget.LinearLayoutManager] */
-    /* JADX WARN: Type inference failed for: r3v52, types: [android.graphics.drawable.BitmapDrawable] */
+    /* JADX WARN: Type inference failed for: r2v100, types: [org.telegram.ui.DialogsActivity$DialogsRecyclerView, org.telegram.ui.Components.RecyclerListView] */
+    /* JADX WARN: Type inference failed for: r2v101, types: [org.telegram.ui.DialogsActivity$DialogsRecyclerView, org.telegram.ui.Components.RecyclerListView] */
+    /* JADX WARN: Type inference failed for: r2v102, types: [org.telegram.ui.DialogsActivity$DialogsRecyclerView, org.telegram.ui.Components.RecyclerListView] */
+    /* JADX WARN: Type inference failed for: r2v103, types: [org.telegram.ui.DialogsActivity$DialogsRecyclerView, androidx.recyclerview.widget.RecyclerView] */
+    /* JADX WARN: Type inference failed for: r2v107, types: [org.telegram.ui.DialogsActivity$DialogsRecyclerView, org.telegram.ui.Components.RecyclerListView] */
+    /* JADX WARN: Type inference failed for: r2v108, types: [org.telegram.ui.DialogsActivity$DialogsRecyclerView, org.telegram.ui.Components.RecyclerListView] */
+    /* JADX WARN: Type inference failed for: r2v110, types: [androidx.recyclerview.widget.LinearLayoutManager] */
+    /* JADX WARN: Type inference failed for: r3v51, types: [android.graphics.drawable.BitmapDrawable] */
     /* JADX WARN: Type inference failed for: r7v0 */
-    /* JADX WARN: Type inference failed for: r7v1, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r7v1, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r7v14 */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
@@ -4209,7 +4210,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             this.animateToHasStories = false;
             this.hasOnlySlefStories = false;
             this.hasStories = false;
-            contentView3.addView(this.dialogStoriesCell, LayoutHelper.createFrame(-1, 81.0f));
             if (this.onlySelect || this.initialDialogsType == 3) {
                 createFrame = LayoutHelper.createFrame(-1, -2.0f);
                 if (this.inPreviewMode && Build.VERSION.SDK_INT >= 21) {
@@ -4553,6 +4553,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             this.rightSlidingDialogContainer = rightSlidingDialogContainer;
             rightSlidingDialogContainer.setOpenProgress(0.0f);
             contentView3.addView(this.rightSlidingDialogContainer, LayoutHelper.createFrame(-1, -1.0f));
+            contentView3.addView(this.dialogStoriesCell, LayoutHelper.createFrame(-1, 81.0f));
             updateStoriesVisibility(false);
             return this.fragmentView;
         }
@@ -4569,7 +4570,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         this.animateToHasStories = false;
         this.hasOnlySlefStories = false;
         this.hasStories = false;
-        contentView3.addView(this.dialogStoriesCell, LayoutHelper.createFrame(-1, 81.0f));
         if (this.onlySelect) {
         }
         createFrame = LayoutHelper.createFrame(-1, -2.0f);
@@ -4869,6 +4869,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         this.rightSlidingDialogContainer = rightSlidingDialogContainer2;
         rightSlidingDialogContainer2.setOpenProgress(0.0f);
         contentView3.addView(this.rightSlidingDialogContainer, LayoutHelper.createFrame(-1, -1.0f));
+        contentView3.addView(this.dialogStoriesCell, LayoutHelper.createFrame(-1, 81.0f));
         updateStoriesVisibility(false);
         return this.fragmentView;
     }
@@ -6329,6 +6330,16 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onUserLongPressed$8(long j) {
             DialogsActivity.this.toggleArciveForStory(j);
+        }
+
+        @Override // org.telegram.ui.Stories.DialogStoriesCell
+        public void onMiniListClicked() {
+            DialogsActivity dialogsActivity = DialogsActivity.this;
+            if (dialogsActivity.hasOnlySlefStories && dialogsActivity.getStoriesController().hasOnlySelfStories()) {
+                DialogsActivity.this.dialogStoriesCell.openSelfStories();
+            } else {
+                DialogsActivity.this.scrollToTop(true, true);
+            }
         }
     }
 

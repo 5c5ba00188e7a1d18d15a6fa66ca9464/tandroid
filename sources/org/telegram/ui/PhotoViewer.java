@@ -6362,7 +6362,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         /* JADX WARN: Removed duplicated region for block: B:468:? A[RETURN, SYNTHETIC] */
         /* JADX WARN: Type inference failed for: r10v33 */
         /* JADX WARN: Type inference failed for: r10v34 */
-        /* JADX WARN: Type inference failed for: r10v35, types: [int, boolean] */
+        /* JADX WARN: Type inference failed for: r10v35, types: [boolean, int] */
         /* JADX WARN: Type inference failed for: r10v36 */
         @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
         /*
@@ -14620,7 +14620,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     /* JADX WARN: Type inference failed for: r11v19, types: [org.telegram.ui.PhotoViewer$PhotoCountView] */
     /* JADX WARN: Type inference failed for: r11v5, types: [android.widget.ImageView] */
     /* JADX WARN: Type inference failed for: r1v123 */
-    /* JADX WARN: Type inference failed for: r1v124, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r1v124, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r1v139 */
     /* JADX WARN: Type inference failed for: r3v32 */
     /* JADX WARN: Type inference failed for: r3v33, types: [android.graphics.ColorFilter] */
@@ -19906,7 +19906,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     /* JADX WARN: Type inference failed for: r15v28 */
     /* JADX WARN: Type inference failed for: r15v3 */
     /* JADX WARN: Type inference failed for: r15v31 */
-    /* JADX WARN: Type inference failed for: r15v4, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r15v4, types: [boolean, int] */
     @SuppressLint({"NewApi", "DrawAllocation"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.
