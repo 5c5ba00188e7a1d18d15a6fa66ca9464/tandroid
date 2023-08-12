@@ -2450,7 +2450,7 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
         return getBitmap(arrayList, (int) size.width, (int) size.height, true, true);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:11:0x0032  */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x0036  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2467,7 +2467,7 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
             createBitmap = paintView.renderView.getResultBitmap();
         } else if (z2) {
             Bitmap resultBitmap = paintView.renderView.getResultBitmap();
-            createBitmap = Bitmap.createBitmap(resultBitmap.getWidth(), resultBitmap.getHeight(), Bitmap.Config.ARGB_8888);
+            createBitmap = resultBitmap != null ? Bitmap.createBitmap(resultBitmap.getWidth(), resultBitmap.getHeight(), Bitmap.Config.ARGB_8888) : null;
         } else {
             bitmap = null;
             paintView.lcm = BigInteger.ONE;

@@ -571,129 +571,134 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
                 return MediaActivity.this.initialTab;
             }
 
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.SharedMediaLayout
-            protected void showActionMode(final boolean z3) {
-                if (this.isActionModeShowed == z3) {
-                    return;
-                }
-                this.isActionModeShowed = z3;
-                AnimatorSet animatorSet = this.actionModeAnimation;
-                if (animatorSet != null) {
-                    animatorSet.cancel();
-                }
-                if (MediaActivity.this.type == 1) {
-                    disableScroll(z3);
-                }
-                if (z3) {
-                    MediaActivity.this.selectedTextView.setVisibility(0);
-                    if (MediaActivity.this.buttonContainer != null) {
-                        MediaActivity.this.buttonContainer.setVisibility(0);
-                    }
+            public void showActionMode(final boolean z3) {
+                if (MediaActivity.this.type == 0) {
+                    super.showActionMode(z3);
+                } else if (this.isActionModeShowed == z3) {
                 } else {
-                    MediaActivity.this.titlesContainer.setVisibility(0);
-                }
-                float f = 0.0f;
-                MediaActivity.this.backDrawable.setRotation(z3 ? 1.0f : 0.0f, true);
-                this.actionModeAnimation = new AnimatorSet();
-                ArrayList arrayList = new ArrayList();
-                AnimatedTextView animatedTextView2 = MediaActivity.this.selectedTextView;
-                Property property = View.ALPHA;
-                float[] fArr = new float[1];
-                fArr[0] = z3 ? 1.0f : 0.0f;
-                arrayList.add(ObjectAnimator.ofFloat(animatedTextView2, property, fArr));
-                FrameLayout frameLayout6 = MediaActivity.this.titlesContainer;
-                Property property2 = View.ALPHA;
-                float[] fArr2 = new float[1];
-                fArr2[0] = z3 ? 0.0f : 1.0f;
-                arrayList.add(ObjectAnimator.ofFloat(frameLayout6, property2, fArr2));
-                if (MediaActivity.this.buttonContainer != null) {
-                    FrameLayout frameLayout7 = MediaActivity.this.buttonContainer;
-                    Property property3 = View.ALPHA;
-                    float[] fArr3 = new float[1];
-                    fArr3[0] = z3 ? 1.0f : 0.0f;
-                    arrayList.add(ObjectAnimator.ofFloat(frameLayout7, property3, fArr3));
-                    FrameLayout frameLayout8 = MediaActivity.this.buttonContainer;
-                    Property property4 = View.TRANSLATION_Y;
-                    float[] fArr4 = new float[1];
-                    fArr4[0] = z3 ? 0.0f : MediaActivity.this.buttonContainer.getMeasuredHeight();
-                    arrayList.add(ObjectAnimator.ofFloat(frameLayout8, property4, fArr4));
-                }
-                if (MediaActivity.this.deleteItem != null) {
-                    MediaActivity.this.deleteItem.setVisibility(0);
-                    ActionBarMenuItem actionBarMenuItem3 = MediaActivity.this.deleteItem;
-                    Property property5 = View.ALPHA;
-                    float[] fArr5 = new float[1];
-                    fArr5[0] = z3 ? 1.0f : 0.0f;
-                    arrayList.add(ObjectAnimator.ofFloat(actionBarMenuItem3, property5, fArr5));
-                }
-                final boolean z4 = getStoriesCount(getClosestTab()) == 0;
-                if (MediaActivity.this.optionsItem != null) {
-                    MediaActivity.this.optionsItem.setVisibility(0);
-                    ActionBarMenuItem actionBarMenuItem4 = MediaActivity.this.optionsItem;
-                    Property property6 = View.ALPHA;
-                    float[] fArr6 = new float[1];
-                    if (!z3 && !z4) {
-                        f = 1.0f;
+                    this.isActionModeShowed = z3;
+                    AnimatorSet animatorSet = this.actionModeAnimation;
+                    if (animatorSet != null) {
+                        animatorSet.cancel();
                     }
-                    fArr6[0] = f;
-                    arrayList.add(ObjectAnimator.ofFloat(actionBarMenuItem4, property6, fArr6));
-                }
-                if (MediaActivity.this.tabsView != null) {
-                    StoriesTabsView storiesTabsView2 = MediaActivity.this.tabsView;
-                    Property property7 = View.ALPHA;
-                    float[] fArr7 = new float[1];
-                    fArr7[0] = z3 ? 0.4f : 1.0f;
-                    arrayList.add(ObjectAnimator.ofFloat(storiesTabsView2, property7, fArr7));
-                }
-                this.actionModeAnimation.playTogether(arrayList);
-                this.actionModeAnimation.setDuration(300L);
-                this.actionModeAnimation.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
-                this.actionModeAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.MediaActivity.6.1
-                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                    public void onAnimationCancel(Animator animator) {
-                        6.this.actionModeAnimation = null;
+                    if (MediaActivity.this.type == 1) {
+                        disableScroll(z3);
                     }
-
-                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                    public void onAnimationEnd(Animator animator) {
-                        if (6.this.actionModeAnimation == null) {
-                            return;
+                    if (z3) {
+                        MediaActivity.this.selectedTextView.setVisibility(0);
+                        if (MediaActivity.this.buttonContainer != null) {
+                            MediaActivity.this.buttonContainer.setVisibility(0);
                         }
-                        6.this.actionModeAnimation = null;
-                        if (!z3) {
-                            MediaActivity.this.selectedTextView.setVisibility(4);
-                            if (MediaActivity.this.buttonContainer != null) {
-                                MediaActivity.this.buttonContainer.setVisibility(4);
-                            }
-                            if (MediaActivity.this.deleteItem != null) {
-                                MediaActivity.this.deleteItem.setVisibility(8);
-                            }
-                            if (!z4 || MediaActivity.this.optionsItem == null) {
+                    } else {
+                        MediaActivity.this.titlesContainer.setVisibility(0);
+                    }
+                    float f = 0.0f;
+                    MediaActivity.this.backDrawable.setRotation(z3 ? 1.0f : 0.0f, true);
+                    this.actionModeAnimation = new AnimatorSet();
+                    ArrayList arrayList = new ArrayList();
+                    AnimatedTextView animatedTextView2 = MediaActivity.this.selectedTextView;
+                    Property property = View.ALPHA;
+                    float[] fArr = new float[1];
+                    fArr[0] = z3 ? 1.0f : 0.0f;
+                    arrayList.add(ObjectAnimator.ofFloat(animatedTextView2, property, fArr));
+                    FrameLayout frameLayout6 = MediaActivity.this.titlesContainer;
+                    Property property2 = View.ALPHA;
+                    float[] fArr2 = new float[1];
+                    fArr2[0] = z3 ? 0.0f : 1.0f;
+                    arrayList.add(ObjectAnimator.ofFloat(frameLayout6, property2, fArr2));
+                    if (MediaActivity.this.buttonContainer != null) {
+                        FrameLayout frameLayout7 = MediaActivity.this.buttonContainer;
+                        Property property3 = View.ALPHA;
+                        float[] fArr3 = new float[1];
+                        fArr3[0] = z3 ? 1.0f : 0.0f;
+                        arrayList.add(ObjectAnimator.ofFloat(frameLayout7, property3, fArr3));
+                        FrameLayout frameLayout8 = MediaActivity.this.buttonContainer;
+                        Property property4 = View.TRANSLATION_Y;
+                        float[] fArr4 = new float[1];
+                        fArr4[0] = z3 ? 0.0f : MediaActivity.this.buttonContainer.getMeasuredHeight();
+                        arrayList.add(ObjectAnimator.ofFloat(frameLayout8, property4, fArr4));
+                    }
+                    if (MediaActivity.this.deleteItem != null) {
+                        MediaActivity.this.deleteItem.setVisibility(0);
+                        ActionBarMenuItem actionBarMenuItem3 = MediaActivity.this.deleteItem;
+                        Property property5 = View.ALPHA;
+                        float[] fArr5 = new float[1];
+                        fArr5[0] = z3 ? 1.0f : 0.0f;
+                        arrayList.add(ObjectAnimator.ofFloat(actionBarMenuItem3, property5, fArr5));
+                    }
+                    final boolean z4 = getStoriesCount(getClosestTab()) == 0;
+                    if (MediaActivity.this.optionsItem != null) {
+                        MediaActivity.this.optionsItem.setVisibility(0);
+                        ActionBarMenuItem actionBarMenuItem4 = MediaActivity.this.optionsItem;
+                        Property property6 = View.ALPHA;
+                        float[] fArr6 = new float[1];
+                        if (!z3 && !z4) {
+                            f = 1.0f;
+                        }
+                        fArr6[0] = f;
+                        arrayList.add(ObjectAnimator.ofFloat(actionBarMenuItem4, property6, fArr6));
+                    }
+                    if (MediaActivity.this.tabsView != null) {
+                        StoriesTabsView storiesTabsView2 = MediaActivity.this.tabsView;
+                        Property property7 = View.ALPHA;
+                        float[] fArr7 = new float[1];
+                        fArr7[0] = z3 ? 0.4f : 1.0f;
+                        arrayList.add(ObjectAnimator.ofFloat(storiesTabsView2, property7, fArr7));
+                    }
+                    this.actionModeAnimation.playTogether(arrayList);
+                    this.actionModeAnimation.setDuration(300L);
+                    this.actionModeAnimation.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
+                    this.actionModeAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.MediaActivity.6.1
+                        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                        public void onAnimationCancel(Animator animator) {
+                            6.this.actionModeAnimation = null;
+                        }
+
+                        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                        public void onAnimationEnd(Animator animator) {
+                            if (6.this.actionModeAnimation == null) {
                                 return;
                             }
-                            MediaActivity.this.optionsItem.setVisibility(8);
-                            return;
+                            6.this.actionModeAnimation = null;
+                            if (!z3) {
+                                MediaActivity.this.selectedTextView.setVisibility(4);
+                                if (MediaActivity.this.buttonContainer != null) {
+                                    MediaActivity.this.buttonContainer.setVisibility(4);
+                                }
+                                if (MediaActivity.this.deleteItem != null) {
+                                    MediaActivity.this.deleteItem.setVisibility(8);
+                                }
+                                if (!z4 || MediaActivity.this.optionsItem == null) {
+                                    return;
+                                }
+                                MediaActivity.this.optionsItem.setVisibility(8);
+                                return;
+                            }
+                            MediaActivity.this.titlesContainer.setVisibility(4);
+                            if (MediaActivity.this.optionsItem != null) {
+                                MediaActivity.this.optionsItem.setVisibility(8);
+                            }
                         }
-                        MediaActivity.this.titlesContainer.setVisibility(4);
-                        if (MediaActivity.this.optionsItem != null) {
-                            MediaActivity.this.optionsItem.setVisibility(8);
-                        }
-                    }
-                });
-                this.actionModeAnimation.start();
+                    });
+                    this.actionModeAnimation.start();
+                }
             }
 
             @Override // org.telegram.ui.Components.SharedMediaLayout
             protected void onActionModeSelectedUpdate(SparseArray<MessageObject> sparseArray) {
                 int size = sparseArray.size();
                 MediaActivity.this.actionModeMessageObjects = sparseArray;
-                MediaActivity.this.selectedTextView.cancelAnimation();
-                MediaActivity.this.selectedTextView.setText(LocaleController.formatPluralString("StoriesSelected", size, new Object[0]), !LocaleController.isRTL);
-                if (MediaActivity.this.button != null) {
-                    MediaActivity.this.button.setEnabled(size > 0);
-                    MediaActivity.this.button.setCount(size, true);
-                    if (MediaActivity.this.sharedMediaLayout.getClosestTab() == 8) {
-                        MediaActivity.this.button.setText(LocaleController.formatPluralString("ArchiveStories", size, new Object[0]), true);
+                if (MediaActivity.this.type == 1) {
+                    MediaActivity.this.selectedTextView.cancelAnimation();
+                    MediaActivity.this.selectedTextView.setText(LocaleController.formatPluralString("StoriesSelected", size, new Object[0]), !LocaleController.isRTL);
+                    if (MediaActivity.this.button != null) {
+                        MediaActivity.this.button.setEnabled(size > 0);
+                        MediaActivity.this.button.setCount(size, true);
+                        if (MediaActivity.this.sharedMediaLayout.getClosestTab() == 8) {
+                            MediaActivity.this.button.setText(LocaleController.formatPluralString("ArchiveStories", size, new Object[0]), true);
+                        }
                     }
                 }
             }
