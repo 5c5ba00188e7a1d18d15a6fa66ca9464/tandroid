@@ -64,6 +64,7 @@ import org.telegram.ui.Components.TypefaceSpan;
 import org.telegram.ui.PremiumPreviewFragment;
 import org.telegram.ui.Stories.DialogStoriesCell;
 import org.telegram.ui.Stories.StoriesController;
+import org.telegram.ui.Stories.StoriesListPlaceProvider;
 import org.telegram.ui.Stories.StoriesUtilities;
 import org.telegram.ui.Stories.recorder.HintView2;
 import org.telegram.ui.Stories.recorder.StoryRecorder;
@@ -183,7 +184,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
             public void onScrolled(RecyclerView recyclerView, int i3, int i4) {
                 super.onScrolled(recyclerView, i3, i4);
                 DialogStoriesCell.this.invalidate();
-                DialogStoriesCell.this.lambda$didReceivedNotification$4();
+                DialogStoriesCell.this.lambda$didReceivedNotification$5();
                 if (DialogStoriesCell.this.premiumHint != null) {
                     DialogStoriesCell.this.premiumHint.hide();
                 }
@@ -332,7 +333,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
             Runnable runnable = new Runnable() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda8
                 @Override // java.lang.Runnable
                 public final void run() {
-                    DialogStoriesCell.this.lambda$openStoryForCell$2(storyCell, j);
+                    DialogStoriesCell.this.lambda$openStoryForCell$3(storyCell, j);
                 }
             };
             if (z) {
@@ -349,58 +350,86 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$openStoryForCell$2(StoryCell storyCell, final long j) {
+    /* JADX WARN: Removed duplicated region for block: B:56:0x0106  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public /* synthetic */ void lambda$openStoryForCell$3(StoryCell storyCell, final long j) {
         boolean z;
+        final boolean z2;
+        boolean z3;
+        BaseFragment baseFragment = this.fragment;
+        if (baseFragment == null || baseFragment.getParentActivity() == null) {
+            return;
+        }
         int i = storyCell.position;
         ArrayList<Long> arrayList = new ArrayList<>();
         int i2 = 0;
-        int i3 = 0;
         while (true) {
-            if (i3 >= this.items.size()) {
+            if (i2 >= this.items.size()) {
                 z = true;
                 break;
             }
-            long j2 = this.items.get(i3).dialogId;
+            long j2 = this.items.get(i2).dialogId;
             if (j2 != UserConfig.getInstance(this.currentAccount).clientUserId && this.storiesController.hasUnreadStories(j2)) {
                 z = false;
                 break;
             }
-            i3++;
+            i2++;
         }
         if (storyCell.isSelf && (!z || this.items.size() == 1)) {
             arrayList.add(Long.valueOf(storyCell.dialogId));
+            z2 = true;
         } else {
             if (!storyCell.isSelf && this.storiesController.hasUnreadStories(storyCell.dialogId)) {
-                while (i2 < this.items.size()) {
-                    long j3 = this.items.get(i2).dialogId;
+                for (int i3 = 0; i3 < this.items.size(); i3++) {
+                    long j3 = this.items.get(i3).dialogId;
                     if (!storyCell.isSelf && this.storiesController.hasUnreadStories(j3)) {
                         arrayList.add(Long.valueOf(j3));
                     }
                     if (j3 == storyCell.dialogId) {
                         i = arrayList.size() - 1;
                     }
-                    i2++;
                 }
-            } else {
-                while (i2 < this.items.size()) {
-                    if (this.storiesController.hasStories(this.items.get(i2).dialogId)) {
-                        arrayList.add(Long.valueOf(this.items.get(i2).dialogId));
-                    } else if (i2 <= i) {
-                        i--;
+                z2 = false;
+                z3 = true;
+                StoryViewer orCreateStoryViewer = this.fragment.getOrCreateStoryViewer();
+                orCreateStoryViewer.doOnAnimationReady(new Runnable() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda7
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        DialogStoriesCell.this.lambda$openStoryForCell$1(j);
                     }
-                    i2++;
+                });
+                orCreateStoryViewer.open(getContext(), null, arrayList, i, null, null, StoriesListPlaceProvider.of(this.recyclerListView).with(new StoriesListPlaceProvider.LoadNextInterface() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda11
+                    @Override // org.telegram.ui.Stories.StoriesListPlaceProvider.LoadNextInterface
+                    public final void loadNext(boolean z4) {
+                        DialogStoriesCell.this.lambda$openStoryForCell$2(z2, z4);
+                    }
+                }).setPaginationParaments(this.type == 1, z3, z2), false);
+            }
+            for (int i4 = 0; i4 < this.items.size(); i4++) {
+                if (this.storiesController.hasStories(this.items.get(i4).dialogId)) {
+                    arrayList.add(Long.valueOf(this.items.get(i4).dialogId));
+                } else if (i4 <= i) {
+                    i--;
                 }
             }
+            z2 = false;
         }
-        int i4 = i;
-        StoryViewer orCreateStoryViewer = this.fragment.getOrCreateStoryViewer();
-        orCreateStoryViewer.doOnAnimationReady(new Runnable() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda7
+        z3 = false;
+        StoryViewer orCreateStoryViewer2 = this.fragment.getOrCreateStoryViewer();
+        orCreateStoryViewer2.doOnAnimationReady(new Runnable() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
             public final void run() {
                 DialogStoriesCell.this.lambda$openStoryForCell$1(j);
             }
         });
-        orCreateStoryViewer.open(getContext(), null, arrayList, i4, null, null, StoriesListPlaceProvider.of(this.recyclerListView), false);
+        orCreateStoryViewer2.open(getContext(), null, arrayList, i, null, null, StoriesListPlaceProvider.of(this.recyclerListView).with(new StoriesListPlaceProvider.LoadNextInterface() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda11
+            @Override // org.telegram.ui.Stories.StoriesListPlaceProvider.LoadNextInterface
+            public final void loadNext(boolean z4) {
+                DialogStoriesCell.this.lambda$openStoryForCell$2(z2, z4);
+            }
+        }).setPaginationParaments(this.type == 1, z3, z2), false);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -409,11 +438,17 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* renamed from: checkLoadMore */
-    public void lambda$didReceivedNotification$4() {
-        if (this.layoutManager.findLastVisibleItemPosition() + 10 > this.items.size()) {
+    public /* synthetic */ void lambda$openStoryForCell$2(boolean z, boolean z2) {
+        if (!z && z2) {
             this.storiesController.loadNextStories(this.type == 1);
         }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    /* renamed from: checkLoadMore */
+    public void lambda$didReceivedNotification$5() {
+        this.layoutManager.findLastVisibleItemPosition();
+        this.items.size();
     }
 
     public void updateItems(boolean z, boolean z2) {
@@ -499,7 +534,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ int lambda$new$3(StoryCell storyCell, StoryCell storyCell2) {
+    public static /* synthetic */ int lambda$new$4(StoryCell storyCell, StoryCell storyCell2) {
         return storyCell2.position - storyCell.position;
     }
 
@@ -727,7 +762,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda4
                 @Override // java.lang.Runnable
                 public final void run() {
-                    DialogStoriesCell.this.lambda$didReceivedNotification$4();
+                    DialogStoriesCell.this.lambda$didReceivedNotification$5();
                 }
             });
         }
@@ -766,7 +801,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
                 valueAnimator2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda0
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator3) {
-                        DialogStoriesCell.this.lambda$setProgressToCollapse$5(valueAnimator3);
+                        DialogStoriesCell.this.lambda$setProgressToCollapse$6(valueAnimator3);
                     }
                 });
                 this.valueAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Stories.DialogStoriesCell.7
@@ -784,7 +819,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$setProgressToCollapse$5(ValueAnimator valueAnimator) {
+    public /* synthetic */ void lambda$setProgressToCollapse$6(ValueAnimator valueAnimator) {
         this.collapsedProgress2 = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         checkCollapsedProgres();
     }
@@ -812,21 +847,21 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
         AndroidUtilities.forEachViews(this.recyclerListView, new Consumer() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda1
             @Override // com.google.android.exoplayer2.util.Consumer
             public final void accept(Object obj) {
-                DialogStoriesCell.lambda$updateColors$6(textColor, (View) obj);
+                DialogStoriesCell.lambda$updateColors$7(textColor, (View) obj);
             }
         });
-        AndroidUtilities.forEachViews(this.listViewMini, DialogStoriesCell$$ExternalSyntheticLambda3.INSTANCE);
+        AndroidUtilities.forEachViews(this.listViewMini, DialogStoriesCell$$ExternalSyntheticLambda2.INSTANCE);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$updateColors$6(int i, View view) {
+    public static /* synthetic */ void lambda$updateColors$7(int i, View view) {
         StoryCell storyCell = (StoryCell) view;
         storyCell.invalidate();
         storyCell.textView.setTextColor(i);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$updateColors$7(View view) {
+    public static /* synthetic */ void lambda$updateColors$8(View view) {
         ((StoryCell) view).invalidate();
     }
 
@@ -1694,13 +1729,13 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda6
                 @Override // java.lang.Runnable
                 public final void run() {
-                    DialogStoriesCell.this.lambda$updateCurrentState$8();
+                    DialogStoriesCell.this.lambda$updateCurrentState$9();
                 }
             });
         }
         int i2 = this.currentState;
         if (i2 == 0) {
-            AndroidUtilities.forEachViews(this.recyclerListView, DialogStoriesCell$$ExternalSyntheticLambda2.INSTANCE);
+            AndroidUtilities.forEachViews(this.recyclerListView, DialogStoriesCell$$ExternalSyntheticLambda3.INSTANCE);
             this.listViewMini.setVisibility(4);
             this.recyclerListView.setVisibility(0);
             checkExpanded();
@@ -1731,12 +1766,12 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$updateCurrentState$8() {
+    public /* synthetic */ void lambda$updateCurrentState$9() {
         updateItems(true, false);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$updateCurrentState$9(View view) {
+    public static /* synthetic */ void lambda$updateCurrentState$10(View view) {
         view.setAlpha(1.0f);
         view.setTranslationX(0.0f);
         view.setTranslationY(0.0f);
@@ -1776,7 +1811,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
         SpannableStringBuilder replaceSingleTag = AndroidUtilities.replaceSingleTag(LocaleController.getString("StoriesPremiumHint2").replace('\n', ' '), Theme.key_undo_cancelColor, 0, new Runnable() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
-                DialogStoriesCell.this.lambda$makePremiumHint$10();
+                DialogStoriesCell.this.lambda$makePremiumHint$11();
             }
         });
         ClickableSpan[] clickableSpanArr = (ClickableSpan[]) replaceSingleTag.getSpans(0, replaceSingleTag.length(), ClickableSpan.class);
@@ -1794,7 +1829,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$makePremiumHint$10() {
+    public /* synthetic */ void lambda$makePremiumHint$11() {
         HintView2 hintView2 = this.premiumHint;
         if (hintView2 != null) {
             hintView2.hide();

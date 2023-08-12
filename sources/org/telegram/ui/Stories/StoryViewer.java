@@ -47,6 +47,7 @@ import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
@@ -77,7 +78,7 @@ import org.telegram.ui.Stories.StoriesUtilities;
 import org.telegram.ui.Stories.StoryViewer;
 import org.webrtc.MediaStreamTrack;
 /* loaded from: classes4.dex */
-public class StoryViewer {
+public class StoryViewer implements NotificationCenter.NotificationCenterDelegate {
     public static boolean animationInProgress;
     private static boolean isInSilentMode;
     private static TLRPC$StoryItem lastStoryItem;
@@ -139,7 +140,7 @@ public class StoryViewer {
     ValueAnimator openCloseAnimator;
     boolean openedFromLightNavigationBar;
     TLRPC$TL_userStories overrideUserStories;
-    private PlaceProvider placeProvider;
+    public PlaceProvider placeProvider;
     VideoPlayerHolder playerHolder;
     Bitmap playerStubBitmap;
     public Paint playerStubPaint;
@@ -203,7 +204,16 @@ public class StoryViewer {
 
     /* loaded from: classes4.dex */
     public interface PlaceProvider {
+
+        /* loaded from: classes4.dex */
+        public final /* synthetic */ class -CC {
+            public static void $default$loadNext(PlaceProvider placeProvider, boolean z) {
+            }
+        }
+
         boolean findView(long j, int i, int i2, int i3, TransitionViewHolder transitionViewHolder);
+
+        void loadNext(boolean z);
 
         void preLayout(long j, int i, Runnable runnable);
     }
@@ -1309,6 +1319,8 @@ public class StoryViewer {
                     return (int) (2.this.getMeasuredHeight() - (this.position[1] + currentPeerView.storyContainer.getMeasuredHeight()));
                 }
             });
+            NotificationCenter.getInstance(StoryViewer.this.currentAccount).addObserver(StoryViewer.this, NotificationCenter.storiesListUpdated);
+            NotificationCenter.getInstance(StoryViewer.this.currentAccount).addObserver(StoryViewer.this, NotificationCenter.storiesUpdated);
         }
 
         /* JADX INFO: Access modifiers changed from: protected */
@@ -1316,6 +1328,8 @@ public class StoryViewer {
         public void onDetachedFromWindow() {
             super.onDetachedFromWindow();
             Bulletin.removeDelegate(this);
+            NotificationCenter.getInstance(StoryViewer.this.currentAccount).removeObserver(StoryViewer.this, NotificationCenter.storiesListUpdated);
+            NotificationCenter.getInstance(StoryViewer.this.currentAccount).removeObserver(StoryViewer.this, NotificationCenter.storiesUpdated);
         }
 
         @Override // android.widget.FrameLayout, android.view.View
@@ -2678,6 +2692,56 @@ public class StoryViewer {
     public void doOnAnimationReady(Runnable runnable) {
         if (runnable != null) {
             this.doOnAnimationReadyRunnables.add(runnable);
+        }
+    }
+
+    @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
+    public void didReceivedNotification(int i, int i2, Object... objArr) {
+        int i3 = 0;
+        if (i == NotificationCenter.storiesListUpdated) {
+            if (this.storiesList == ((StoriesController.StoriesList) objArr[0])) {
+                getCurrentPeerView();
+                StoriesViewPager storiesViewPager = this.storiesViewPager;
+                StoriesController.StoriesList storiesList = this.storiesList;
+                storiesViewPager.setDays(storiesList.userId, storiesList.getDays(), this.currentAccount);
+                SelfStoryViewsView selfStoryViewsView = this.selfStoryViewsView;
+                if (selfStoryViewsView != null) {
+                    TLRPC$StoryItem selectedStory = selfStoryViewsView.getSelectedStory();
+                    ArrayList<TLRPC$StoryItem> arrayList = new ArrayList<>();
+                    int i4 = 0;
+                    while (i3 < this.storiesList.messageObjects.size()) {
+                        if (selectedStory != null && selectedStory.id == this.storiesList.messageObjects.get(i3).storyItem.id) {
+                            i4 = i3;
+                        }
+                        arrayList.add(this.storiesList.messageObjects.get(i3).storyItem);
+                        i3++;
+                    }
+                    this.selfStoryViewsView.setItems(arrayList, i4);
+                }
+            }
+        } else if (i == NotificationCenter.storiesUpdated) {
+            PlaceProvider placeProvider = this.placeProvider;
+            if (placeProvider instanceof StoriesListPlaceProvider) {
+                StoriesListPlaceProvider storiesListPlaceProvider = (StoriesListPlaceProvider) placeProvider;
+                if (!storiesListPlaceProvider.hasPaginationParams || storiesListPlaceProvider.onlySelfStories) {
+                    return;
+                }
+                StoriesController storiesController = MessagesController.getInstance(this.currentAccount).getStoriesController();
+                ArrayList<TLRPC$TL_userStories> hiddenList = storiesListPlaceProvider.hiddedStories ? storiesController.getHiddenList() : storiesController.getDialogListStories();
+                ArrayList<Long> dialogIds = this.storiesViewPager.getDialogIds();
+                boolean z = false;
+                while (i3 < hiddenList.size()) {
+                    TLRPC$TL_userStories tLRPC$TL_userStories = hiddenList.get(i3);
+                    if ((!storiesListPlaceProvider.onlyUnreadStories || storiesController.hasUnreadStories(tLRPC$TL_userStories.user_id)) && !dialogIds.contains(Long.valueOf(tLRPC$TL_userStories.user_id))) {
+                        dialogIds.add(Long.valueOf(tLRPC$TL_userStories.user_id));
+                        z = true;
+                    }
+                    i3++;
+                }
+                if (z) {
+                    this.storiesViewPager.getAdapter().notifyDataSetChanged();
+                }
+            }
         }
     }
 

@@ -965,6 +965,10 @@ public class StoriesUtilities {
     public static /* synthetic */ void lambda$ensureStoryFileLoaded$1(Runnable[] runnableArr, EnsureStoryFileLoadedObject ensureStoryFileLoadedObject) {
         runnableArr[0] = null;
         ensureStoryFileLoadedObject.runnable.run();
+        ImageReceiver imageReceiver = ensureStoryFileLoadedObject.imageReceiver;
+        if (imageReceiver != null) {
+            imageReceiver.onDetachedFromWindow();
+        }
     }
 
     /* loaded from: classes4.dex */

@@ -54,37 +54,38 @@ public class StoriesStorage {
     }
 
     public void getAllStories(final Consumer<TLRPC$TL_stories_allStories> consumer) {
-        this.storage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.StoriesStorage$$ExternalSyntheticLambda6
+        this.storage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.StoriesStorage$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
             public final void run() {
-                StoriesStorage.this.lambda$getAllStories$2(consumer);
+                StoriesStorage.this.lambda$getAllStories$3(consumer);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:47:0x0105  */
-    /* JADX WARN: Removed duplicated region for block: B:55:0x0145  */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x00f7  */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x0100  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public /* synthetic */ void lambda$getAllStories$2(final Consumer consumer) {
+    public /* synthetic */ void lambda$getAllStories$3(final Consumer consumer) {
         SQLiteCursor sQLiteCursor;
-        final TLRPC$TL_stories_allStories tLRPC$TL_stories_allStories;
-        int i;
+        boolean z;
         SQLiteDatabase sQLiteDatabase;
+        LongSparseIntArray longSparseIntArray;
         SQLiteDatabase database = this.storage.getDatabase();
         ArrayList<TLRPC$TL_userStories> arrayList = new ArrayList<>();
         ArrayList<Long> arrayList2 = new ArrayList<>();
         ArrayList arrayList3 = new ArrayList();
+        int i = 1;
         int i2 = 0;
         try {
             SQLiteCursor queryFinalized = database.queryFinalized("SELECT dialog_id, max_read FROM stories_counter", new Object[0]);
             try {
-                LongSparseIntArray longSparseIntArray = new LongSparseIntArray();
+                LongSparseIntArray longSparseIntArray2 = new LongSparseIntArray();
                 while (queryFinalized.next()) {
                     long longValue = queryFinalized.longValue(0);
-                    longSparseIntArray.put(longValue, queryFinalized.intValue(1));
+                    longSparseIntArray2.put(longValue, queryFinalized.intValue(1));
                     if (longValue > 0) {
                         arrayList2.add(Long.valueOf(longValue));
                     } else {
@@ -93,22 +94,23 @@ public class StoriesStorage {
                 }
                 queryFinalized.dispose();
                 int i3 = 0;
-                while (i3 < longSparseIntArray.size()) {
-                    long keyAt = longSparseIntArray.keyAt(i3);
-                    int valueAt = longSparseIntArray.valueAt(i3);
+                while (i3 < longSparseIntArray2.size()) {
+                    long keyAt = longSparseIntArray2.keyAt(i3);
+                    int valueAt = longSparseIntArray2.valueAt(i3);
                     Locale locale = Locale.US;
-                    Object[] objArr = new Object[1];
+                    Object[] objArr = new Object[i];
                     objArr[i2] = Long.valueOf(keyAt);
                     SQLiteCursor queryFinalized2 = database.queryFinalized(String.format(locale, "SELECT data, local_path, local_thumb_path, custom_params FROM stories WHERE dialog_id = %d", objArr), new Object[i2]);
                     try {
                         ArrayList<TLRPC$StoryItem> arrayList4 = new ArrayList<>();
                         while (queryFinalized2.next()) {
                             NativeByteBuffer byteBufferValue = queryFinalized2.byteBufferValue(i2);
-                            String stringValue = queryFinalized2.stringValue(1);
+                            String stringValue = queryFinalized2.stringValue(i);
                             String stringValue2 = queryFinalized2.stringValue(2);
                             NativeByteBuffer byteBufferValue2 = queryFinalized2.byteBufferValue(3);
                             if (byteBufferValue != null) {
                                 sQLiteDatabase = database;
+                                longSparseIntArray = longSparseIntArray2;
                                 TLRPC$StoryItem TLdeserialize = TLRPC$StoryItem.TLdeserialize(byteBufferValue, byteBufferValue.readInt32(true), true);
                                 TLdeserialize.dialogId = keyAt;
                                 TLdeserialize.attachPath = stringValue;
@@ -118,14 +120,18 @@ public class StoriesStorage {
                                 byteBufferValue.reuse();
                             } else {
                                 sQLiteDatabase = database;
+                                longSparseIntArray = longSparseIntArray2;
                             }
                             if (byteBufferValue2 != null) {
                                 byteBufferValue2.reuse();
                             }
+                            longSparseIntArray2 = longSparseIntArray;
                             database = sQLiteDatabase;
+                            i = 1;
                             i2 = 0;
                         }
                         SQLiteDatabase sQLiteDatabase2 = database;
+                        LongSparseIntArray longSparseIntArray3 = longSparseIntArray2;
                         queryFinalized2.dispose();
                         TLRPC$TL_userStories tLRPC$TL_userStories = new TLRPC$TL_userStories();
                         tLRPC$TL_userStories.stories = arrayList4;
@@ -133,74 +139,63 @@ public class StoriesStorage {
                         tLRPC$TL_userStories.user_id = keyAt;
                         arrayList.add(tLRPC$TL_userStories);
                         i3++;
+                        longSparseIntArray2 = longSparseIntArray3;
                         database = sQLiteDatabase2;
+                        i = 1;
                         i2 = 0;
-                    } catch (Exception e) {
-                        e = e;
+                    } catch (Throwable th) {
+                        th = th;
                         sQLiteCursor = queryFinalized2;
                         try {
-                            e.printStackTrace();
+                            FileLog.e(th);
                             if (sQLiteCursor != null) {
                                 sQLiteCursor.dispose();
                             }
-                            tLRPC$TL_stories_allStories = new TLRPC$TL_stories_allStories();
-                            tLRPC$TL_stories_allStories.user_stories = arrayList;
-                            tLRPC$TL_stories_allStories.users = this.storage.getUsers(arrayList2);
-                            i = 0;
-                            while (i < tLRPC$TL_stories_allStories.user_stories.size()) {
+                            z = true;
+                            if (!z) {
                             }
-                            Collections.sort(tLRPC$TL_stories_allStories.user_stories, Comparator$-CC.comparingInt(StoriesStorage$$ExternalSyntheticLambda14.INSTANCE));
-                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoriesStorage$$ExternalSyntheticLambda1
-                                @Override // java.lang.Runnable
-                                public final void run() {
-                                    Consumer.this.accept(tLRPC$TL_stories_allStories);
-                                }
-                            });
-                        } catch (Throwable th) {
-                            th = th;
+                        } catch (Throwable th2) {
                             if (sQLiteCursor != null) {
                                 sQLiteCursor.dispose();
                             }
-                            throw th;
+                            throw th2;
                         }
-                    } catch (Throwable th2) {
-                        th = th2;
-                        sQLiteCursor = queryFinalized2;
-                        if (sQLiteCursor != null) {
-                        }
-                        throw th;
                     }
                 }
-            } catch (Exception e2) {
-                e = e2;
-                sQLiteCursor = queryFinalized;
+                z = false;
             } catch (Throwable th3) {
                 th = th3;
                 sQLiteCursor = queryFinalized;
             }
-        } catch (Exception e3) {
-            e = e3;
-            sQLiteCursor = null;
         } catch (Throwable th4) {
             th = th4;
             sQLiteCursor = null;
         }
-        tLRPC$TL_stories_allStories = new TLRPC$TL_stories_allStories();
+        if (!z) {
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoriesStorage$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    Consumer.this.accept(null);
+                }
+            });
+            return;
+        }
+        final TLRPC$TL_stories_allStories tLRPC$TL_stories_allStories = new TLRPC$TL_stories_allStories();
         tLRPC$TL_stories_allStories.user_stories = arrayList;
         tLRPC$TL_stories_allStories.users = this.storage.getUsers(arrayList2);
-        i = 0;
-        while (i < tLRPC$TL_stories_allStories.user_stories.size()) {
-            TLRPC$TL_userStories tLRPC$TL_userStories2 = tLRPC$TL_stories_allStories.user_stories.get(i);
+        int i4 = 0;
+        while (i4 < tLRPC$TL_stories_allStories.user_stories.size()) {
+            TLRPC$TL_userStories tLRPC$TL_userStories2 = tLRPC$TL_stories_allStories.user_stories.get(i4);
             checkExpiredStories(tLRPC$TL_userStories2.user_id, tLRPC$TL_userStories2.stories);
             if (tLRPC$TL_userStories2.stories.isEmpty()) {
-                tLRPC$TL_stories_allStories.user_stories.remove(i);
-                i--;
+                tLRPC$TL_stories_allStories.user_stories.remove(i4);
+                i4--;
             }
             Collections.sort(tLRPC$TL_userStories2.stories, StoriesController.storiesComparator);
-            i++;
+            i4++;
         }
-        Collections.sort(tLRPC$TL_stories_allStories.user_stories, Comparator$-CC.comparingInt(StoriesStorage$$ExternalSyntheticLambda14.INSTANCE));
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoriesStorage$$ExternalSyntheticLambda1
+        Collections.sort(tLRPC$TL_stories_allStories.user_stories, Comparator$-CC.comparingInt(StoriesStorage$$ExternalSyntheticLambda15.INSTANCE));
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoriesStorage$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 Consumer.this.accept(tLRPC$TL_stories_allStories);
@@ -209,7 +204,7 @@ public class StoriesStorage {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ int lambda$getAllStories$0(TLRPC$TL_userStories tLRPC$TL_userStories) {
+    public static /* synthetic */ int lambda$getAllStories$1(TLRPC$TL_userStories tLRPC$TL_userStories) {
         ArrayList<TLRPC$StoryItem> arrayList = tLRPC$TL_userStories.stories;
         return -arrayList.get(arrayList.size() - 1).date;
     }
@@ -238,7 +233,7 @@ public class StoriesStorage {
             try {
                 database.executeFast(String.format(Locale.US, "DELETE FROM stories WHERE dialog_id = %d AND story_id IN (%s)", Long.valueOf(j), TextUtils.join(", ", arrayList3))).stepThis().dispose();
             } catch (SQLiteException e) {
-                e.printStackTrace();
+                FileLog.e(e);
             }
         }
     }
@@ -352,16 +347,16 @@ public class StoriesStorage {
     }
 
     public void saveAllStories(final ArrayList<TLRPC$TL_userStories> arrayList, final boolean z, final boolean z2, final Runnable runnable) {
-        this.storage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.StoriesStorage$$ExternalSyntheticLambda10
+        this.storage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.StoriesStorage$$ExternalSyntheticLambda11
             @Override // java.lang.Runnable
             public final void run() {
-                StoriesStorage.this.lambda$saveAllStories$3(arrayList, z, z2, runnable);
+                StoriesStorage.this.lambda$saveAllStories$4(arrayList, z, z2, runnable);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$saveAllStories$3(ArrayList arrayList, boolean z, boolean z2, Runnable runnable) {
+    public /* synthetic */ void lambda$saveAllStories$4(ArrayList arrayList, boolean z, boolean z2, Runnable runnable) {
         SQLiteDatabase database = this.storage.getDatabase();
         for (int i = 0; i < arrayList.size(); i++) {
             TLRPC$TL_userStories tLRPC$TL_userStories = (TLRPC$TL_userStories) arrayList.get(i);
@@ -441,7 +436,7 @@ public class StoriesStorage {
             }
             queryFinalized.dispose();
         } catch (SQLiteException e) {
-            e.printStackTrace();
+            FileLog.e(e);
         }
         return tLRPC$StoryItem;
     }
@@ -450,17 +445,17 @@ public class StoriesStorage {
         if (j == 0) {
             return;
         }
-        this.storage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.StoriesStorage$$ExternalSyntheticLambda5
+        this.storage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.StoriesStorage$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
-                StoriesStorage.this.lambda$updateStoryItem$6(j, tLRPC$StoryItem);
+                StoriesStorage.this.lambda$updateStoryItem$7(j, tLRPC$StoryItem);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     /* renamed from: updateStoryItemInternal */
-    public void lambda$updateStoryItem$6(long j, TLRPC$StoryItem tLRPC$StoryItem) {
+    public void lambda$updateStoryItem$7(long j, TLRPC$StoryItem tLRPC$StoryItem) {
         if (j == 0) {
             return;
         }
@@ -522,16 +517,16 @@ public class StoriesStorage {
             tLRPC$TL_userStories.max_read_id = i;
             this.storage.updateUserInfo(userFull, false);
         }
-        this.storage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.StoriesStorage$$ExternalSyntheticLambda4
+        this.storage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.StoriesStorage$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
-                StoriesStorage.this.lambda$updateMaxReadId$7(j, i);
+                StoriesStorage.this.lambda$updateMaxReadId$8(j, i);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$updateMaxReadId$7(long j, int i) {
+    public /* synthetic */ void lambda$updateMaxReadId$8(long j, int i) {
         try {
             this.storage.getDatabase().executeFast(String.format(Locale.US, "REPLACE INTO stories_counter VALUES(%d, 0, %d)", Long.valueOf(j), Integer.valueOf(i))).stepThis().dispose();
         } catch (Throwable th) {
@@ -540,10 +535,10 @@ public class StoriesStorage {
     }
 
     public void processUpdate(final TLRPC$TL_updateStory tLRPC$TL_updateStory) {
-        this.storage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.StoriesStorage$$ExternalSyntheticLambda11
+        this.storage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.StoriesStorage$$ExternalSyntheticLambda12
             @Override // java.lang.Runnable
             public final void run() {
-                StoriesStorage.this.lambda$processUpdate$8(tLRPC$TL_updateStory);
+                StoriesStorage.this.lambda$processUpdate$9(tLRPC$TL_updateStory);
             }
         });
     }
@@ -554,7 +549,7 @@ public class StoriesStorage {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public /* synthetic */ void lambda$processUpdate$8(TLRPC$TL_updateStory tLRPC$TL_updateStory) {
+    public /* synthetic */ void lambda$processUpdate$9(TLRPC$TL_updateStory tLRPC$TL_updateStory) {
         int i;
         boolean z;
         SQLiteDatabase database = this.storage.getDatabase();
@@ -601,7 +596,7 @@ public class StoriesStorage {
                 database.executeFast(String.format(Locale.US, "UPDATE stories_counter SET count = %d WHERE dialog_id = %d", Integer.valueOf(intValue + i), Long.valueOf(j))).stepThis().dispose();
             }
             if (tLRPC$StoryItem instanceof TLRPC$TL_storyItem) {
-                lambda$updateStoryItem$6(j, tLRPC$StoryItem);
+                lambda$updateStoryItem$7(j, tLRPC$StoryItem);
                 SQLiteCursor queryFinalized3 = database.queryFinalized(String.format(Locale.US, "SELECT story_id FROM stories WHERE dialog_id = %d AND story_id = %d", Long.valueOf(j), Integer.valueOf(i2)), new Object[0]);
                 boolean next = queryFinalized3.next();
                 queryFinalized3.dispose();
@@ -629,29 +624,29 @@ public class StoriesStorage {
         this.storage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.StoriesStorage$$ExternalSyntheticLambda13
             @Override // java.lang.Runnable
             public final void run() {
-                StoriesStorage.this.lambda$updateStories$9(tLRPC$TL_userStories);
+                StoriesStorage.this.lambda$updateStories$10(tLRPC$TL_userStories);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$updateStories$9(TLRPC$TL_userStories tLRPC$TL_userStories) {
+    public /* synthetic */ void lambda$updateStories$10(TLRPC$TL_userStories tLRPC$TL_userStories) {
         for (int i = 0; i < tLRPC$TL_userStories.stories.size(); i++) {
-            lambda$updateStoryItem$6(tLRPC$TL_userStories.user_id, tLRPC$TL_userStories.stories.get(i));
+            lambda$updateStoryItem$7(tLRPC$TL_userStories.user_id, tLRPC$TL_userStories.stories.get(i));
         }
     }
 
     public void deleteStory(final long j, final int i) {
-        this.storage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.StoriesStorage$$ExternalSyntheticLambda3
+        this.storage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.StoriesStorage$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
-                StoriesStorage.this.lambda$deleteStory$10(j, i);
+                StoriesStorage.this.lambda$deleteStory$11(j, i);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$deleteStory$10(long j, int i) {
+    public /* synthetic */ void lambda$deleteStory$11(long j, int i) {
         try {
             this.storage.getDatabase().executeFast(String.format(Locale.US, "DELETE FROM stories WHERE dialog_id = %d AND story_id = %d", Long.valueOf(j), Integer.valueOf(i))).stepThis().dispose();
         } catch (Throwable th) {
@@ -660,16 +655,16 @@ public class StoriesStorage {
     }
 
     public void deleteStories(final long j, final ArrayList<Integer> arrayList) {
-        this.storage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.StoriesStorage$$ExternalSyntheticLambda9
+        this.storage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.StoriesStorage$$ExternalSyntheticLambda10
             @Override // java.lang.Runnable
             public final void run() {
-                StoriesStorage.this.lambda$deleteStories$11(arrayList, j);
+                StoriesStorage.this.lambda$deleteStories$12(arrayList, j);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$deleteStories$11(ArrayList arrayList, long j) {
+    public /* synthetic */ void lambda$deleteStories$12(ArrayList arrayList, long j) {
         SQLiteDatabase database = this.storage.getDatabase();
         try {
             database.executeFast(String.format(Locale.US, "DELETE FROM stories WHERE dialog_id = %d AND story_id IN (%s)", Long.valueOf(j), TextUtils.join(", ", arrayList))).stepThis().dispose();
@@ -709,7 +704,7 @@ public class StoriesStorage {
             }
             i2++;
         }
-        lambda$fillMessagesWithStories$12(arrayList);
+        lambda$fillMessagesWithStories$13(arrayList);
         if (!longSparseArray.isEmpty()) {
             final int[] iArr = {longSparseArray.size()};
             for (int i4 = 0; i4 < longSparseArray.size(); i4++) {
@@ -720,10 +715,10 @@ public class StoriesStorage {
                 for (int i5 = 0; i5 < valueAt2.size(); i5++) {
                     tLRPC$TL_stories_getStoriesByID.id.add(Integer.valueOf(getStoryId(valueAt2.get(i5))));
                 }
-                int sendRequest = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_stories_getStoriesByID, new RequestDelegate() { // from class: org.telegram.ui.Stories.StoriesStorage$$ExternalSyntheticLambda15
+                int sendRequest = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_stories_getStoriesByID, new RequestDelegate() { // from class: org.telegram.ui.Stories.StoriesStorage$$ExternalSyntheticLambda16
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                        StoriesStorage.this.lambda$fillMessagesWithStories$13(valueAt2, keyAt2, iArr, runnable, tLObject, tLRPC$TL_error);
+                        StoriesStorage.this.lambda$fillMessagesWithStories$14(valueAt2, keyAt2, iArr, runnable, tLObject, tLRPC$TL_error);
                     }
                 });
                 if (i != 0) {
@@ -736,7 +731,7 @@ public class StoriesStorage {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$fillMessagesWithStories$13(final ArrayList arrayList, long j, int[] iArr, Runnable runnable, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$fillMessagesWithStories$14(final ArrayList arrayList, long j, int[] iArr, Runnable runnable, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         boolean z;
         if (tLObject != null) {
             TLRPC$TL_stories_stories tLRPC$TL_stories_stories = (TLRPC$TL_stories_stories) tLObject;
@@ -760,10 +755,10 @@ public class StoriesStorage {
                     tLRPC$TL_storyItemDeleted.id = getStoryId(messageObject);
                     applyStory(this.currentAccount, j, messageObject, tLRPC$TL_storyItemDeleted);
                 }
-                this.storage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.StoriesStorage$$ExternalSyntheticLambda8
+                this.storage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.StoriesStorage$$ExternalSyntheticLambda9
                     @Override // java.lang.Runnable
                     public final void run() {
-                        StoriesStorage.this.lambda$fillMessagesWithStories$12(arrayList);
+                        StoriesStorage.this.lambda$fillMessagesWithStories$13(arrayList);
                     }
                 });
             }
@@ -824,7 +819,7 @@ public class StoriesStorage {
     }
 
     /* renamed from: updateMessagesWithStories */
-    public void lambda$fillMessagesWithStories$12(List<MessageObject> list) {
+    public void lambda$fillMessagesWithStories$13(List<MessageObject> list) {
         try {
             SQLiteDatabase database = this.storage.getDatabase();
             if (list.isEmpty()) {
@@ -892,16 +887,16 @@ public class StoriesStorage {
     }
 
     public void getMaxReadIds(final Consumer<LongSparseIntArray> consumer) {
-        this.storage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.StoriesStorage$$ExternalSyntheticLambda7
+        this.storage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.StoriesStorage$$ExternalSyntheticLambda8
             @Override // java.lang.Runnable
             public final void run() {
-                StoriesStorage.this.lambda$getMaxReadIds$15(consumer);
+                StoriesStorage.this.lambda$getMaxReadIds$16(consumer);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$getMaxReadIds$15(final Consumer consumer) {
+    public /* synthetic */ void lambda$getMaxReadIds$16(final Consumer consumer) {
         SQLiteDatabase database = this.storage.getDatabase();
         final LongSparseIntArray longSparseIntArray = new LongSparseIntArray();
         try {
@@ -912,7 +907,7 @@ public class StoriesStorage {
         } catch (Exception e) {
             this.storage.checkSQLException(e);
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoriesStorage$$ExternalSyntheticLambda0
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoriesStorage$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 Consumer.this.accept(longSparseIntArray);
@@ -921,30 +916,30 @@ public class StoriesStorage {
     }
 
     public void putUserStories(final TLRPC$TL_userStories tLRPC$TL_userStories) {
-        this.storage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.StoriesStorage$$ExternalSyntheticLambda12
+        this.storage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.StoriesStorage$$ExternalSyntheticLambda14
             @Override // java.lang.Runnable
             public final void run() {
-                StoriesStorage.this.lambda$putUserStories$16(tLRPC$TL_userStories);
+                StoriesStorage.this.lambda$putUserStories$17(tLRPC$TL_userStories);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$putUserStories$16(TLRPC$TL_userStories tLRPC$TL_userStories) {
+    public /* synthetic */ void lambda$putUserStories$17(TLRPC$TL_userStories tLRPC$TL_userStories) {
         putStoriesInternal(tLRPC$TL_userStories.user_id, tLRPC$TL_userStories);
     }
 
     public void deleteAllUserStories(final long j) {
-        this.storage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.StoriesStorage$$ExternalSyntheticLambda2
+        this.storage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.StoriesStorage$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
-                StoriesStorage.this.lambda$deleteAllUserStories$17(j);
+                StoriesStorage.this.lambda$deleteAllUserStories$18(j);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$deleteAllUserStories$17(long j) {
+    public /* synthetic */ void lambda$deleteAllUserStories$18(long j) {
         try {
             this.storage.getDatabase().executeFast(String.format(Locale.US, "DELETE FROM stories WHERE dialog_id = %d", Long.valueOf(j))).stepThis().dispose();
         } catch (Throwable th) {

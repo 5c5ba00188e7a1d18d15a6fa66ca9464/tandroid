@@ -6,9 +6,7 @@ public abstract class TLRPC$upload_CdnFile extends TLObject {
 
     public static TLRPC$upload_CdnFile TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
         TLRPC$upload_CdnFile tLRPC$TL_upload_cdnFile;
-        if (i == -1449145777) {
-            tLRPC$TL_upload_cdnFile = new TLRPC$TL_upload_cdnFile();
-        } else {
+        if (i != -1449145777) {
             tLRPC$TL_upload_cdnFile = i != -290921362 ? null : new TLRPC$upload_CdnFile() { // from class: org.telegram.tgnet.TLRPC$TL_upload_cdnFileReuploadNeeded
                 public static int constructor = -290921362;
 
@@ -23,6 +21,8 @@ public abstract class TLRPC$upload_CdnFile extends TLObject {
                     abstractSerializedData2.writeByteArray(this.request_token);
                 }
             };
+        } else {
+            tLRPC$TL_upload_cdnFile = new TLRPC$TL_upload_cdnFile();
         }
         if (tLRPC$TL_upload_cdnFile == null && z) {
             throw new RuntimeException(String.format("can't parse magic %x in upload_CdnFile", Integer.valueOf(i)));

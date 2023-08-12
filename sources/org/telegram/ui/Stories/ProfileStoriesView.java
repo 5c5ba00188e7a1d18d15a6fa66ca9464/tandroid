@@ -806,6 +806,11 @@ public class ProfileStoriesView extends View implements NotificationCenter.Notif
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes4.dex */
     public class 2 implements StoryViewer.PlaceProvider {
+        @Override // org.telegram.ui.Stories.StoryViewer.PlaceProvider
+        public /* synthetic */ void loadNext(boolean z) {
+            StoryViewer.PlaceProvider.-CC.$default$loadNext(this, z);
+        }
+
         2() {
         }
 

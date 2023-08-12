@@ -155,7 +155,7 @@ public class ChatMessagesMetadataController {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadStoriesForMessages$0(ArrayList arrayList) {
-        this.chatActivity.getMessagesController().getStoriesController().getStoriesStorage().lambda$fillMessagesWithStories$12(arrayList);
+        this.chatActivity.getMessagesController().getStoriesController().getStoriesStorage().lambda$fillMessagesWithStories$13(arrayList);
     }
 
     public void loadReactionsForMessages(long j, ArrayList<MessageObject> arrayList) {

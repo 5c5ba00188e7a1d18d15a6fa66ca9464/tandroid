@@ -187,6 +187,11 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes3.dex */
     public class 1 implements StoryViewer.PlaceProvider {
+        @Override // org.telegram.ui.Stories.StoryViewer.PlaceProvider
+        public /* synthetic */ void loadNext(boolean z) {
+            StoryViewer.PlaceProvider.-CC.$default$loadNext(this, z);
+        }
+
         1() {
         }
 
