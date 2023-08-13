@@ -344,6 +344,10 @@ public class ReactedUserHolderView extends FrameLayout {
         invalidate();
     }
 
+    public float getAlphaInternal() {
+        return this.alphaInternal;
+    }
+
     @Override // android.view.ViewGroup, android.view.View
     protected void dispatchDraw(Canvas canvas) {
         boolean z;
@@ -365,5 +369,9 @@ public class ReactedUserHolderView extends FrameLayout {
         if (z) {
             canvas.restore();
         }
+    }
+
+    public Theme.ResourcesProvider getResourcesProvider() {
+        return this.resourcesProvider;
     }
 }

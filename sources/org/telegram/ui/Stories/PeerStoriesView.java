@@ -1642,6 +1642,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onCreate$5(Activity activity, StoryViewer storyViewer, final SharedResources sharedResources) {
+            File file;
             StoryViewer.VideoPlayerHolder videoPlayerHolder;
             StoryRecorder storyRecorder = StoryRecorder.getInstance(activity, PeerStoriesView.this.currentAccount);
             PeerStoriesView peerStoriesView = PeerStoriesView.this;
@@ -1650,7 +1651,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
             DraftsController draftsController = MessagesController.getInstance(peerStoriesView.currentAccount).getStoriesController().getDraftsController();
             TLRPC$StoryItem tLRPC$StoryItem = PeerStoriesView.this.currentStory.storyItem;
             StoryEntry forEdit = draftsController.getForEdit(tLRPC$StoryItem.dialogId, tLRPC$StoryItem);
-            if (forEdit == null) {
+            if (forEdit == null || (file = forEdit.file) == null || !file.exists()) {
                 forEdit = StoryEntry.fromStoryItem(PeerStoriesView.this.currentStory.getPath(), PeerStoriesView.this.currentStory.storyItem);
             }
             storyRecorder.openEdit(StoryRecorder.SourceView.fromStoryViewer(storyViewer), forEdit, j, true);
@@ -3697,16 +3698,16 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
         updatePosition(false);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:223:0x0572, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:227:0x057a, code lost:
         if (r1.captionTranslated != (r8 != null && r8.translated && r8.translatedText != null && android.text.TextUtils.equals(r8.translatedLng, org.telegram.ui.Components.TranslateAlert2.getToLanguage()))) goto L250;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:259:0x05e3  */
-    /* JADX WARN: Removed duplicated region for block: B:262:0x05ee  */
-    /* JADX WARN: Removed duplicated region for block: B:263:0x05f8  */
-    /* JADX WARN: Removed duplicated region for block: B:365:0x078d  */
-    /* JADX WARN: Removed duplicated region for block: B:368:0x079a  */
-    /* JADX WARN: Removed duplicated region for block: B:382:0x07f7  */
+    /* JADX WARN: Removed duplicated region for block: B:263:0x05eb  */
+    /* JADX WARN: Removed duplicated region for block: B:266:0x05f6  */
+    /* JADX WARN: Removed duplicated region for block: B:267:0x0600  */
+    /* JADX WARN: Removed duplicated region for block: B:369:0x0795  */
+    /* JADX WARN: Removed duplicated region for block: B:372:0x07a2  */
+    /* JADX WARN: Removed duplicated region for block: B:386:0x07ff  */
     /* JADX WARN: Type inference failed for: r2v4 */
     /* JADX WARN: Type inference failed for: r2v5, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r2v68 */
@@ -3716,6 +3717,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
     private void updatePosition(boolean z) {
         boolean z2;
         int i;
+        StoryViewer.TransitionViewHolder transitionViewHolder;
         ImageReceiver imageReceiver;
         boolean z3;
         TLRPC$StoryItem tLRPC$StoryItem;
@@ -3884,7 +3886,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                         tLRPC$StoryItem = tLRPC$StoryItem2;
                     } else {
                         StoryViewer storyViewer = this.storyViewer;
-                        Drawable drawable = ((storyViewer.storiesList != null || storyViewer.isSingleStory) && (imageReceiver = storyViewer.transitionViewHolder.storyImage) != null) ? imageReceiver.getDrawable() : null;
+                        Drawable drawable = ((storyViewer.storiesList != null || storyViewer.isSingleStory) && (transitionViewHolder = storyViewer.transitionViewHolder) != null && (imageReceiver = transitionViewHolder.storyImage) != null && transitionViewHolder.storyId == tLRPC$StoryItem11.id) ? imageReceiver.getDrawable() : null;
                         tLRPC$StoryItem11.dialogId = this.dialogId;
                         if (z10) {
                             TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tLRPC$StoryItem11.media.document.thumbs, 1000);

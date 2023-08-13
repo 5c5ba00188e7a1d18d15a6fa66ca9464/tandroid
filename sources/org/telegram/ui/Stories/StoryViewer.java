@@ -59,6 +59,7 @@ import org.telegram.tgnet.TLRPC$TL_userStories;
 import org.telegram.ui.ActionBar.AdjustPanLayoutHelper;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.ArticleViewer;
 import org.telegram.ui.Cells.ChatActionCell;
 import org.telegram.ui.Components.Bulletin;
 import org.telegram.ui.Components.ChatActivityEnterView;
@@ -701,8 +702,8 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
         }
 
         /* JADX INFO: Access modifiers changed from: protected */
-        /* JADX WARN: Removed duplicated region for block: B:152:0x0720  */
-        /* JADX WARN: Removed duplicated region for block: B:161:? A[RETURN, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:160:0x078a  */
+        /* JADX WARN: Removed duplicated region for block: B:169:? A[RETURN, SYNTHETIC] */
         @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -713,6 +714,8 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
             StoryViewer storyViewer;
             float lerp;
             float y;
+            float f2;
+            Paint paint;
             PeerStoriesView currentPeerView;
             StoryViewer storyViewer2;
             StoryViewer storyViewer3;
@@ -743,19 +746,19 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                 }
                 if (StoryViewer.this.invalidateOutRect) {
                     StoryViewer.this.invalidateOutRect = false;
-                    float f2 = 0.0f;
                     float f3 = 0.0f;
+                    float f4 = 0.0f;
                     for (View view = peerHeaderView2.backupImageView; view != this; view = (View) view.getParent()) {
                         if (view.getParent() == this) {
-                            f2 += view.getLeft();
+                            f3 += view.getLeft();
                             y2 = view.getTop();
                         } else if (view.getParent() != StoryViewer.this.storiesViewPager) {
-                            f2 += view.getX();
+                            f3 += view.getX();
                             y2 = view.getY();
                         }
-                        f3 += y2;
+                        f4 += y2;
                     }
-                    this.outFromRectAvatar.set(f2, f3, peerHeaderView2.backupImageView.getMeasuredWidth() + f2, peerHeaderView2.backupImageView.getMeasuredHeight() + f3);
+                    this.outFromRectAvatar.set(f3, f4, peerHeaderView2.backupImageView.getMeasuredWidth() + f3, peerHeaderView2.backupImageView.getMeasuredHeight() + f4);
                     this.outFromRectContainer.set(0.0f, currentPeerView2.getTop() + currentPeerView2.storyContainer.getTop(), StoryViewer.this.containerView.getMeasuredWidth(), StoryViewer.this.containerView.getMeasuredHeight());
                     StoryViewer.this.containerView.getMatrix().mapRect(this.outFromRectAvatar);
                     StoryViewer.this.containerView.getMatrix().mapRect(this.outFromRectContainer);
@@ -768,16 +771,16 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
             storyViewer9.storiesViewPager.setHorizontalProgressToDismiss((storyViewer9.swipeToDismissHorizontalOffset / storyViewer9.containerView.getMeasuredWidth()) * StoryViewer.this.progressToOpen);
             StoryViewer storyViewer10 = StoryViewer.this;
             if (storyViewer10.fromX != 0.0f || storyViewer10.fromY != 0.0f) {
-                float f4 = storyViewer10.progressToOpen;
-                if (f4 != 1.0f) {
+                float f5 = storyViewer10.progressToOpen;
+                if (f5 != 1.0f) {
                     if (storyViewer10.isClosed && StoryViewer.this.animateAvatar) {
-                        f4 = StoryViewer.this.progressToOpen;
-                        float clamp2 = 1.0f - Utilities.clamp(((1.0f - f4) - 0.8f) / 0.100000024f, 1.0f, 0.0f);
-                        f = Utilities.clamp(f4 - ((1.0f - clamp2) * 0.05f), 1.0f, 0.0f);
+                        f5 = StoryViewer.this.progressToOpen;
+                        float clamp2 = 1.0f - Utilities.clamp(((1.0f - f5) - 0.8f) / 0.100000024f, 1.0f, 0.0f);
+                        f = Utilities.clamp(f5 - ((1.0f - clamp2) * 0.05f), 1.0f, 0.0f);
                         StoryViewer.this.containerView.setAlpha(clamp2);
                     } else {
                         StoryViewer.this.containerView.setAlpha(1.0f);
-                        f = f4;
+                        f = f5;
                     }
                     if (!StoryViewer.this.isClosed || (transitionViewHolder = (storyViewer6 = StoryViewer.this).transitionViewHolder) == null || transitionViewHolder.storyImage == null) {
                         peerHeaderView = peerHeaderView2;
@@ -785,31 +788,31 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                     } else {
                         HwFrameLayout hwFrameLayout = storyViewer6.containerView;
                         peerHeaderView = peerHeaderView2;
-                        hwFrameLayout.setAlpha(hwFrameLayout.getAlpha() * ((float) Math.pow(f4, 0.20000000298023224d)));
+                        hwFrameLayout.setAlpha(hwFrameLayout.getAlpha() * ((float) Math.pow(f5, 0.20000000298023224d)));
                     }
                     StoryViewer storyViewer11 = StoryViewer.this;
                     HwFrameLayout hwFrameLayout2 = storyViewer11.containerView;
                     float left = (storyViewer11.fromX - hwFrameLayout2.getLeft()) - (StoryViewer.this.containerView.getMeasuredWidth() / 2.0f);
                     StoryViewer storyViewer12 = StoryViewer.this;
-                    float f5 = storyViewer12.progressToOpen;
-                    hwFrameLayout2.setTranslationX((left * (1.0f - f5)) + (storyViewer12.swipeToDismissHorizontalOffset * f5));
+                    float f6 = storyViewer12.progressToOpen;
+                    hwFrameLayout2.setTranslationX((left * (1.0f - f6)) + (storyViewer12.swipeToDismissHorizontalOffset * f6));
                     StoryViewer storyViewer13 = StoryViewer.this;
                     HwFrameLayout hwFrameLayout3 = storyViewer13.containerView;
                     float top = (storyViewer13.fromY - hwFrameLayout3.getTop()) - (StoryViewer.this.containerView.getMeasuredHeight() / 2.0f);
                     StoryViewer storyViewer14 = StoryViewer.this;
-                    float f6 = storyViewer14.progressToOpen;
-                    hwFrameLayout3.setTranslationY((top * (1.0f - f6)) + (storyViewer14.swipeToDismissOffset * f6));
+                    float f7 = storyViewer14.progressToOpen;
+                    hwFrameLayout3.setTranslationY((top * (1.0f - f7)) + (storyViewer14.swipeToDismissOffset * f7));
                     float lerp2 = AndroidUtilities.lerp(StoryViewer.this.fromWidth / storyViewer.containerView.getMeasuredWidth(), (clamp * 0.15f) + 0.85f, f);
                     StoryViewer.this.containerView.setScaleX(lerp2);
                     StoryViewer.this.containerView.setScaleY(lerp2);
                     this.path.rewind();
                     RectF rectF = this.rect1;
                     StoryViewer storyViewer15 = StoryViewer.this;
-                    float f7 = storyViewer15.fromX;
-                    float f8 = storyViewer15.fromWidth;
-                    float f9 = storyViewer15.fromY;
-                    float f10 = storyViewer15.fromHeight;
-                    rectF.set(f7 - (f8 / 2.0f), f9 - (f10 / 2.0f), f7 + (f8 / 2.0f), f9 + (f10 / 2.0f));
+                    float f8 = storyViewer15.fromX;
+                    float f9 = storyViewer15.fromWidth;
+                    float f10 = storyViewer15.fromY;
+                    float f11 = storyViewer15.fromHeight;
+                    rectF.set(f8 - (f9 / 2.0f), f10 - (f11 / 2.0f), f8 + (f9 / 2.0f), f10 + (f11 / 2.0f));
                     if (StoryViewer.this.isClosed && StoryViewer.this.animateAvatar) {
                         this.rect2.set(this.outFromRectContainer);
                     } else if (currentPeerView2 != null) {
@@ -828,21 +831,21 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                         this.rect1.inset(-AndroidUtilities.dp(12.0f), -AndroidUtilities.dp(12.0f));
                     }
                     RectF rectF2 = AndroidUtilities.rectTmp;
-                    float f11 = lerp6 / 2.0f;
-                    float f12 = lerp5 / 2.0f;
-                    rectF2.set(lerp3 - f11, lerp4 - f12, lerp3 + f11, lerp4 + f12);
+                    float f12 = lerp6 / 2.0f;
+                    float f13 = lerp5 / 2.0f;
+                    rectF2.set(lerp3 - f12, lerp4 - f13, lerp3 + f12, lerp4 + f13);
                     if (!StoryViewer.this.animateAvatar) {
-                        lerp = AndroidUtilities.lerp(StoryViewer.this.fromRadius, 0.0f, f4);
+                        lerp = AndroidUtilities.lerp(StoryViewer.this.fromRadius, 0.0f, f5);
                     } else {
                         lerp = AndroidUtilities.lerp(StoryViewer.this.fromWidth / 2.0f, 0.0f, f);
                     }
                     this.path.addRoundRect(rectF2, lerp, lerp, Path.Direction.CCW);
                     canvas.save();
                     StoryViewer storyViewer16 = StoryViewer.this;
-                    float f13 = storyViewer16.clipTop;
-                    if (f13 != 0.0f && storyViewer16.clipBottom != 0.0f) {
+                    float f14 = storyViewer16.clipTop;
+                    if (f14 != 0.0f && storyViewer16.clipBottom != 0.0f) {
                         StoryViewer storyViewer17 = StoryViewer.this;
-                        canvas.clipRect(0.0f, AndroidUtilities.lerp(0.0f, f13, (float) Math.pow(1.0f - storyViewer16.progressToOpen, 0.4000000059604645d)), getMeasuredWidth(), AndroidUtilities.lerp(getMeasuredHeight(), storyViewer17.clipBottom, 1.0f - storyViewer17.progressToOpen));
+                        canvas.clipRect(0.0f, AndroidUtilities.lerp(0.0f, f14, (float) Math.pow(1.0f - storyViewer16.progressToOpen, 0.4000000059604645d)), getMeasuredWidth(), AndroidUtilities.lerp(getMeasuredHeight(), storyViewer17.clipBottom, 1.0f - storyViewer17.progressToOpen));
                     }
                     canvas.save();
                     canvas.clipPath(this.path);
@@ -852,24 +855,28 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                     if (transitionViewHolder2 != null && transitionViewHolder2.storyImage != null && (currentPeerView = storyViewer18.storiesViewPager.getCurrentPeerView()) != null && currentPeerView.storyContainer != null) {
                         boolean visible = StoryViewer.this.transitionViewHolder.storyImage.getVisible();
                         this.rect2.set(StoryViewer.this.swipeToDismissHorizontalOffset + storyViewer2.containerView.getLeft() + currentPeerView.getX() + currentPeerView.storyContainer.getX(), StoryViewer.this.swipeToDismissOffset + storyViewer3.containerView.getTop() + currentPeerView.getY() + currentPeerView.storyContainer.getY(), ((StoryViewer.this.swipeToDismissHorizontalOffset + storyViewer4.containerView.getRight()) - (StoryViewer.this.containerView.getWidth() - currentPeerView.getRight())) - (currentPeerView.getWidth() - currentPeerView.storyContainer.getRight()), ((StoryViewer.this.swipeToDismissOffset + storyViewer5.containerView.getBottom()) - (StoryViewer.this.containerView.getHeight() - currentPeerView.getBottom())) - (currentPeerView.getHeight() - currentPeerView.storyContainer.getBottom()));
-                        AndroidUtilities.lerp(this.rect1, this.rect2, f4, this.rect3);
+                        AndroidUtilities.lerp(this.rect1, this.rect2, f5, this.rect3);
                         float imageX = StoryViewer.this.transitionViewHolder.storyImage.getImageX();
                         float imageY = StoryViewer.this.transitionViewHolder.storyImage.getImageY();
                         float imageWidth = StoryViewer.this.transitionViewHolder.storyImage.getImageWidth();
                         float imageHeight = StoryViewer.this.transitionViewHolder.storyImage.getImageHeight();
                         StoryViewer.this.transitionViewHolder.storyImage.setImageCoords(this.rect3);
-                        float f14 = 1.0f - f4;
-                        StoryViewer.this.transitionViewHolder.storyImage.setAlpha(f14);
+                        float f15 = 1.0f - f5;
+                        StoryViewer.this.transitionViewHolder.storyImage.setAlpha(f15);
                         StoryViewer.this.transitionViewHolder.storyImage.setVisible(true, false);
                         int saveCount = canvas.getSaveCount();
                         HolderClip holderClip = StoryViewer.this.transitionViewHolder.drawClip;
                         if (holderClip != null) {
-                            holderClip.clip(canvas, this.rect3, f14);
+                            holderClip.clip(canvas, this.rect3, f15);
                         }
+                        float alpha = StoryViewer.this.transitionViewHolder.storyImage.getAlpha();
+                        TransitionViewHolder transitionViewHolder3 = StoryViewer.this.transitionViewHolder;
+                        transitionViewHolder3.storyImage.setAlpha(AndroidUtilities.lerp(transitionViewHolder3.alpha, 1.0f, f5));
                         StoryViewer.this.transitionViewHolder.storyImage.draw(canvas);
+                        StoryViewer.this.transitionViewHolder.storyImage.setAlpha(alpha);
                         HolderDrawAbove holderDrawAbove = StoryViewer.this.transitionViewHolder.drawAbove;
                         if (holderDrawAbove != null) {
-                            holderDrawAbove.draw(canvas, this.rect3, f14);
+                            holderDrawAbove.draw(canvas, this.rect3, f15);
                         }
                         StoryViewer.this.transitionViewHolder.storyImage.setVisible(visible, false);
                         StoryViewer.this.transitionViewHolder.storyImage.setImageCoords(imageX, imageY, imageWidth, imageHeight);
@@ -878,40 +885,50 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                     canvas.restore();
                     if (peerHeaderView != null) {
                         StoryViewer storyViewer19 = StoryViewer.this;
-                        float f15 = storyViewer19.swipeToDismissHorizontalOffset;
-                        float f16 = storyViewer19.swipeToDismissOffset;
+                        float f16 = storyViewer19.swipeToDismissHorizontalOffset;
+                        float f17 = storyViewer19.swipeToDismissOffset;
                         PeerStoriesView.PeerHeaderView peerHeaderView3 = peerHeaderView;
                         if (storyViewer19.isClosed && StoryViewer.this.animateAvatar) {
                             this.rect2.set(this.outFromRectAvatar);
                         } else {
                             for (View view2 = peerHeaderView3.backupImageView; view2 != this; view2 = (View) view2.getParent()) {
                                 if (view2.getParent() == this) {
-                                    f15 += view2.getLeft();
+                                    f16 += view2.getLeft();
                                     y = view2.getTop();
                                 } else if (view2.getParent() != StoryViewer.this.storiesViewPager) {
-                                    f15 += view2.getX();
+                                    f16 += view2.getX();
                                     y = view2.getY();
                                 }
-                                f16 += y;
+                                f17 += y;
                             }
-                            this.rect2.set(f15, f16, peerHeaderView3.backupImageView.getMeasuredWidth() + f15, peerHeaderView3.backupImageView.getMeasuredHeight() + f16);
+                            this.rect2.set(f16, f17, peerHeaderView3.backupImageView.getMeasuredWidth() + f16, peerHeaderView3.backupImageView.getMeasuredHeight() + f17);
                         }
                         RectF rectF3 = this.rect1;
                         RectF rectF4 = this.rect2;
-                        float f17 = StoryViewer.this.progressToOpen;
+                        float f18 = StoryViewer.this.progressToOpen;
                         RectF rectF5 = AndroidUtilities.rectTmp;
-                        AndroidUtilities.lerp(rectF3, rectF4, f17, rectF5);
+                        AndroidUtilities.lerp(rectF3, rectF4, f18, rectF5);
                         if (StoryViewer.this.animateAvatar) {
                             StoryViewer storyViewer20 = StoryViewer.this;
-                            TransitionViewHolder transitionViewHolder3 = storyViewer20.transitionViewHolder;
-                            boolean z2 = (transitionViewHolder3 == null || transitionViewHolder3.crossfadeToAvatarImage == null) ? false : true;
+                            TransitionViewHolder transitionViewHolder4 = storyViewer20.transitionViewHolder;
+                            boolean z2 = (transitionViewHolder4 == null || transitionViewHolder4.crossfadeToAvatarImage == null) ? false : true;
                             if (!z2 || storyViewer20.progressToOpen != 0.0f) {
                                 peerHeaderView3.backupImageView.getImageReceiver().setImageCoords(rectF5);
                                 peerHeaderView3.backupImageView.getImageReceiver().setRoundRadius((int) (rectF5.width() / 2.0f));
                                 peerHeaderView3.backupImageView.getImageReceiver().setVisible(true, false);
-                                peerHeaderView3.backupImageView.getImageReceiver().setAlpha(z2 ? StoryViewer.this.progressToOpen : 1.0f);
+                                float f19 = z2 ? StoryViewer.this.progressToOpen : 1.0f;
+                                TransitionViewHolder transitionViewHolder5 = StoryViewer.this.transitionViewHolder;
+                                if (transitionViewHolder5 == null || transitionViewHolder5.alpha >= 1.0f || (paint = transitionViewHolder5.bgPaint) == null) {
+                                    f2 = f19;
+                                } else {
+                                    paint.setAlpha((int) ((1.0f - f5) * 255.0f));
+                                    canvas.drawCircle(rectF5.centerX(), rectF5.centerY(), rectF5.width() / 2.0f, StoryViewer.this.transitionViewHolder.bgPaint);
+                                    f2 = AndroidUtilities.lerp(StoryViewer.this.transitionViewHolder.alpha, f19, f5);
+                                }
+                                peerHeaderView3.backupImageView.getImageReceiver().setAlpha(f2);
                                 peerHeaderView3.drawUploadingProgress(canvas, rectF5, !StoryViewer.runOpenAnimationAfterLayout, StoryViewer.this.progressToOpen);
                                 peerHeaderView3.backupImageView.getImageReceiver().draw(canvas);
+                                peerHeaderView3.backupImageView.getImageReceiver().setAlpha(f19);
                                 peerHeaderView3.backupImageView.getImageReceiver().setVisible(false, false);
                             }
                             StoryViewer storyViewer21 = StoryViewer.this;
@@ -938,9 +955,9 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                         if (clamp3 != 1.0f) {
                             RectF rectF6 = AndroidUtilities.rectTmp;
                             StoryViewer storyViewer24 = StoryViewer.this;
-                            float f18 = storyViewer24.fromX;
-                            float f19 = storyViewer24.fromY;
-                            rectF6.set(f18, f19, storyViewer24.fromWidth + f18, storyViewer24.fromHeight + f19);
+                            float f20 = storyViewer24.fromX;
+                            float f21 = storyViewer24.fromY;
+                            rectF6.set(f20, f21, storyViewer24.fromWidth + f20, storyViewer24.fromHeight + f21);
                             rectF6.inset(-AndroidUtilities.dp(16.0f), -AndroidUtilities.dp(16.0f));
                             if (clamp3 != 0.0f) {
                                 canvas.saveLayerAlpha(rectF6, (int) ((1.0f - clamp3) * 255.0f), 31);
@@ -964,9 +981,9 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
             }
             storyViewer10.containerView.setAlpha(storyViewer10.progressToOpen);
             StoryViewer storyViewer26 = StoryViewer.this;
-            float f20 = (storyViewer26.progressToOpen * 0.1f) + 0.75f + (clamp * 0.15f);
-            storyViewer26.containerView.setScaleX(f20);
-            StoryViewer.this.containerView.setScaleY(f20);
+            float f22 = (storyViewer26.progressToOpen * 0.1f) + 0.75f + (clamp * 0.15f);
+            storyViewer26.containerView.setScaleX(f22);
+            StoryViewer.this.containerView.setScaleY(f22);
             StoryViewer storyViewer27 = StoryViewer.this;
             storyViewer27.containerView.setTranslationY(storyViewer27.swipeToDismissOffset);
             StoryViewer storyViewer28 = StoryViewer.this;
@@ -1321,6 +1338,8 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
             });
             NotificationCenter.getInstance(StoryViewer.this.currentAccount).addObserver(StoryViewer.this, NotificationCenter.storiesListUpdated);
             NotificationCenter.getInstance(StoryViewer.this.currentAccount).addObserver(StoryViewer.this, NotificationCenter.storiesUpdated);
+            NotificationCenter.getInstance(StoryViewer.this.currentAccount).addObserver(StoryViewer.this, NotificationCenter.articleClosed);
+            NotificationCenter.getInstance(StoryViewer.this.currentAccount).addObserver(StoryViewer.this, NotificationCenter.openArticle);
         }
 
         /* JADX INFO: Access modifiers changed from: protected */
@@ -1330,6 +1349,8 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
             Bulletin.removeDelegate(this);
             NotificationCenter.getInstance(StoryViewer.this.currentAccount).removeObserver(StoryViewer.this, NotificationCenter.storiesListUpdated);
             NotificationCenter.getInstance(StoryViewer.this.currentAccount).removeObserver(StoryViewer.this, NotificationCenter.storiesUpdated);
+            NotificationCenter.getInstance(StoryViewer.this.currentAccount).removeObserver(StoryViewer.this, NotificationCenter.articleClosed);
+            NotificationCenter.getInstance(StoryViewer.this.currentAccount).removeObserver(StoryViewer.this, NotificationCenter.openArticle);
         }
 
         @Override // android.widget.FrameLayout, android.view.View
@@ -1986,29 +2007,28 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
             if (tLRPC$StoryItem == null && this.isSingleStory) {
                 tLRPC$StoryItem = this.singleStory;
             }
-            this.transitionViewHolder.clear();
-            PlaceProvider placeProvider = this.placeProvider;
-            long currentDialogId = this.storiesViewPager.getCurrentDialogId();
-            int i2 = this.messageId;
             if (this.storiesList != null) {
                 i = this.dayStoryId;
             }
-            if (placeProvider.findView(currentDialogId, i2, i, tLRPC$StoryItem == null ? -1 : tLRPC$StoryItem.messageType, this.transitionViewHolder)) {
-                View view = this.transitionViewHolder.view;
+            this.transitionViewHolder.clear();
+            if (this.placeProvider.findView(this.storiesViewPager.getCurrentDialogId(), this.messageId, i, tLRPC$StoryItem == null ? -1 : tLRPC$StoryItem.messageType, this.transitionViewHolder)) {
+                TransitionViewHolder transitionViewHolder = this.transitionViewHolder;
+                transitionViewHolder.storyId = i;
+                View view = transitionViewHolder.view;
                 if (view != null) {
                     int[] iArr = new int[2];
                     view.getLocationOnScreen(iArr);
                     this.fromXCell = iArr[0];
                     this.fromYCell = iArr[1];
-                    TransitionViewHolder transitionViewHolder = this.transitionViewHolder;
-                    View view2 = transitionViewHolder.view;
+                    TransitionViewHolder transitionViewHolder2 = this.transitionViewHolder;
+                    View view2 = transitionViewHolder2.view;
                     if (view2 instanceof StoriesListPlaceProvider.AvatarOverlaysView) {
                         this.animateFromCell = (StoriesListPlaceProvider.AvatarOverlaysView) view2;
                     } else {
                         this.animateFromCell = null;
                     }
                     this.animateAvatar = false;
-                    ImageReceiver imageReceiver3 = transitionViewHolder.avatarImage;
+                    ImageReceiver imageReceiver3 = transitionViewHolder2.avatarImage;
                     if (imageReceiver3 != null) {
                         this.fromX = iArr[0] + imageReceiver3.getCenterX();
                         this.fromY = iArr[1] + this.transitionViewHolder.avatarImage.getCenterY();
@@ -2033,7 +2053,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                         }
                         this.animateAvatar = true;
                     } else {
-                        ImageReceiver imageReceiver4 = transitionViewHolder.storyImage;
+                        ImageReceiver imageReceiver4 = transitionViewHolder2.storyImage;
                         if (imageReceiver4 != null) {
                             this.fromX = iArr[0] + imageReceiver4.getCenterX();
                             this.fromY = iArr[1] + this.transitionViewHolder.storyImage.getCenterY();
@@ -2043,15 +2063,15 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                         }
                     }
                     this.transitionViewHolder.clipParent.getLocationOnScreen(iArr);
-                    TransitionViewHolder transitionViewHolder2 = this.transitionViewHolder;
-                    float f3 = transitionViewHolder2.clipTop;
-                    if (f3 == 0.0f && transitionViewHolder2.clipBottom == 0.0f) {
+                    TransitionViewHolder transitionViewHolder3 = this.transitionViewHolder;
+                    float f3 = transitionViewHolder3.clipTop;
+                    if (f3 == 0.0f && transitionViewHolder3.clipBottom == 0.0f) {
                         this.clipTop = 0.0f;
                         this.clipBottom = 0.0f;
                         return;
                     }
                     this.clipTop = iArr[1] + f3;
-                    this.clipBottom = iArr[1] + transitionViewHolder2.clipBottom;
+                    this.clipBottom = iArr[1] + transitionViewHolder3.clipBottom;
                     return;
                 }
                 this.animateAvatar = false;
@@ -2118,6 +2138,9 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
         boolean isPaused = isPaused();
         boolean z = true;
         if (this.ATTACH_TO_FRAGMENT && (this.fragment.isPaused() || !this.fragment.isLastFragment())) {
+            isPaused = true;
+        }
+        if (ArticleViewer.getInstance().isVisible()) {
             isPaused = true;
         }
         this.storiesViewPager.setPaused(isPaused);
@@ -2742,12 +2765,16 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                     this.storiesViewPager.getAdapter().notifyDataSetChanged();
                 }
             }
+        } else if (i == NotificationCenter.openArticle || i == NotificationCenter.articleClosed) {
+            updatePlayingMode();
         }
     }
 
     /* loaded from: classes4.dex */
     public static class TransitionViewHolder {
+        public float alpha = 1.0f;
         public ImageReceiver avatarImage;
+        public Paint bgPaint;
         public float clipBottom;
         public View clipParent;
         public float clipTop;
@@ -2756,6 +2783,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
         public HolderClip drawClip;
         StoriesUtilities.AvatarStoryParams params;
         public RadialProgress radialProgressUpload;
+        public int storyId;
         public ImageReceiver storyImage;
         public View view;
 
@@ -2771,6 +2799,9 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
             this.crossfadeToAvatarImage = null;
             this.clipTop = 0.0f;
             this.clipBottom = 0.0f;
+            this.storyId = 0;
+            this.bgPaint = null;
+            this.alpha = 1.0f;
         }
     }
 

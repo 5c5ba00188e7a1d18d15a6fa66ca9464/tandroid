@@ -868,6 +868,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
     }
 
     public void updateColors() {
+        StoriesUtilities.updateColors();
         final int textColor = getTextColor();
         this.titleView.setTextColor(textColor);
         AndroidUtilities.forEachViews(this.recyclerListView, new Consumer() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda1

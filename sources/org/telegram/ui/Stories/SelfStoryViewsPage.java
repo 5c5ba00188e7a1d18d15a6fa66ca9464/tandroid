@@ -308,7 +308,7 @@ public class SelfStoryViewsPage extends FrameLayout implements NotificationCente
                     public final void run() {
                         SelfStoryViewsPage.4.this.lambda$onItemClick$3(messagesController, user, reactedUserHolderView, tLRPC$TL_storyView);
                     }
-                }).addIf(z2, i2, LocaleController.getString(R.string.DeleteContact), true, new Runnable() { // from class: org.telegram.ui.Stories.SelfStoryViewsPage$4$$ExternalSyntheticLambda4
+                }).addIf(z2, i2, LocaleController.getString(R.string.StoryDeleteContact), true, new Runnable() { // from class: org.telegram.ui.Stories.SelfStoryViewsPage$4$$ExternalSyntheticLambda4
                     @Override // java.lang.Runnable
                     public final void run() {
                         SelfStoryViewsPage.4.this.lambda$onItemClick$4(user, str2, reactedUserHolderView, tLRPC$TL_storyView);

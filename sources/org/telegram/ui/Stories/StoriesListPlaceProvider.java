@@ -1,11 +1,13 @@
 package org.telegram.ui.Stories;
 
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.RectF;
 import android.view.View;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.UserConfig;
+import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.ChatActionCell;
 import org.telegram.ui.Cells.ChatMessageCell;
 import org.telegram.ui.Cells.DialogCell;
@@ -108,6 +110,7 @@ public class StoriesListPlaceProvider implements StoryViewer.PlaceProvider {
                     transitionViewHolder.clipParent = (DialogStoriesCell) storyCell.getParent().getParent();
                     transitionViewHolder.clipBottom = 0.0f;
                     transitionViewHolder.clipTop = 0.0f;
+                    transitionViewHolder.alpha = 1.0f;
                     return true;
                 }
             } else if (childAt instanceof DialogCell) {
@@ -120,6 +123,7 @@ public class StoriesListPlaceProvider implements StoryViewer.PlaceProvider {
                     if (this.isHiddenArchive) {
                         transitionViewHolder.crossfadeToAvatarImage = dialogCell.avatarImage;
                     }
+                    transitionViewHolder.alpha = 1.0f;
                     updateClip(transitionViewHolder);
                     return true;
                 }
@@ -133,6 +137,7 @@ public class StoriesListPlaceProvider implements StoryViewer.PlaceProvider {
                         transitionViewHolder.storyImage = chatMessageCell.replyImageReceiver;
                     }
                     transitionViewHolder.clipParent = (View) chatMessageCell.getParent();
+                    transitionViewHolder.alpha = 1.0f;
                     updateClip(transitionViewHolder);
                     return true;
                 }
@@ -146,6 +151,7 @@ public class StoriesListPlaceProvider implements StoryViewer.PlaceProvider {
                         transitionViewHolder.storyImage = chatActionCell.getPhotoImage();
                     }
                     transitionViewHolder.clipParent = (View) chatActionCell.getParent();
+                    transitionViewHolder.alpha = 1.0f;
                     updateClip(transitionViewHolder);
                     return true;
                 }
@@ -167,6 +173,7 @@ public class StoriesListPlaceProvider implements StoryViewer.PlaceProvider {
                         }
                     };
                     transitionViewHolder.clipParent = (View) sharedPhotoVideoCell2.getParent();
+                    transitionViewHolder.alpha = 1.0f;
                     updateClip(transitionViewHolder);
                     return true;
                 }
@@ -178,6 +185,7 @@ public class StoriesListPlaceProvider implements StoryViewer.PlaceProvider {
                     transitionViewHolder.params = userCell.storyParams;
                     transitionViewHolder.avatarImage = backupImageView.getImageReceiver();
                     transitionViewHolder.clipParent = (View) userCell.getParent();
+                    transitionViewHolder.alpha = 1.0f;
                     updateClip(transitionViewHolder);
                     return true;
                 }
@@ -189,6 +197,13 @@ public class StoriesListPlaceProvider implements StoryViewer.PlaceProvider {
                     transitionViewHolder.params = reactedUserHolderView.params;
                     transitionViewHolder.avatarImage = backupImageView2.getImageReceiver();
                     transitionViewHolder.clipParent = (View) reactedUserHolderView.getParent();
+                    float alpha = reactedUserHolderView.getAlpha() * reactedUserHolderView.getAlphaInternal();
+                    transitionViewHolder.alpha = alpha;
+                    if (alpha < 1.0f) {
+                        Paint paint = new Paint(1);
+                        transitionViewHolder.bgPaint = paint;
+                        paint.setColor(Theme.getColor(Theme.key_dialogBackground, reactedUserHolderView.getResourcesProvider()));
+                    }
                     updateClip(transitionViewHolder);
                     return true;
                 }
@@ -199,6 +214,7 @@ public class StoriesListPlaceProvider implements StoryViewer.PlaceProvider {
                     transitionViewHolder.params = profileSearchCell.avatarStoryParams;
                     transitionViewHolder.avatarImage = profileSearchCell.avatarImage;
                     transitionViewHolder.clipParent = (View) profileSearchCell.getParent();
+                    transitionViewHolder.alpha = 1.0f;
                     updateClip(transitionViewHolder);
                     return true;
                 }
