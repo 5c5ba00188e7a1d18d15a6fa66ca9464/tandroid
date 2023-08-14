@@ -3771,6 +3771,12 @@ public class ContactsController extends BaseController {
         if (str != null) {
             str = str.trim();
         }
+        if (str != null && str2 == null && i > 0 && str.contains(" ")) {
+            int indexOf = str.indexOf(" ");
+            String substring = str.substring(indexOf + 1);
+            str = str.substring(0, indexOf);
+            str2 = substring;
+        }
         if (str2 != null) {
             str2 = str2.trim();
         }
@@ -3778,7 +3784,7 @@ public class ContactsController extends BaseController {
         if (LocaleController.nameDisplayOrder == 1) {
             if (str != null && str.length() > 0) {
                 if (i > 0 && str.length() > i + 2) {
-                    return str.substring(0, i);
+                    return str.substring(0, i) + "…";
                 }
                 sb.append(str);
                 if (str2 != null && str2.length() > 0) {
@@ -3791,13 +3797,13 @@ public class ContactsController extends BaseController {
                 }
             } else if (str2 != null && str2.length() > 0) {
                 if (i > 0 && str2.length() > i + 2) {
-                    return str2.substring(0, i);
+                    return str2.substring(0, i) + "…";
                 }
                 sb.append(str2);
             }
         } else if (str2 != null && str2.length() > 0) {
             if (i > 0 && str2.length() > i + 2) {
-                return str2.substring(0, i);
+                return str2.substring(0, i) + "…";
             }
             sb.append(str2);
             if (str != null && str.length() > 0) {
@@ -3810,7 +3816,7 @@ public class ContactsController extends BaseController {
             }
         } else if (str != null && str.length() > 0) {
             if (i > 0 && str.length() > i + 2) {
-                return str.substring(0, i);
+                return str.substring(0, i) + "…";
             }
             sb.append(str);
         }

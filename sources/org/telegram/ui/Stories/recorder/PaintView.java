@@ -1979,10 +1979,10 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
                 PaintView.this.lambda$openStickersView$21(i, dialogInterface);
             }
         });
-        emojiBottomSheet.whenSelected(new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda47
-            @Override // org.telegram.messenger.Utilities.Callback
-            public final void run(Object obj) {
-                PaintView.this.lambda$openStickersView$23(emojiBottomSheet, (TLRPC$Document) obj);
+        emojiBottomSheet.whenSelected(new Utilities.Callback3() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda47
+            @Override // org.telegram.messenger.Utilities.Callback3
+            public final void run(Object obj, Object obj2, Object obj3) {
+                PaintView.this.lambda$openStickersView$23(emojiBottomSheet, obj, (TLRPC$Document) obj2, (Boolean) obj3);
             }
         });
         emojiBottomSheet.show();
@@ -2010,18 +2010,22 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$openStickersView$23(EmojiBottomSheet emojiBottomSheet, TLRPC$Document tLRPC$Document) {
+    public /* synthetic */ void lambda$openStickersView$23(EmojiBottomSheet emojiBottomSheet, Object obj, TLRPC$Document tLRPC$Document, Boolean bool) {
         if (tLRPC$Document == emojiBottomSheet.locationSticker) {
             showLocationAlert(null, new Utilities.Callback2() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda44
                 @Override // org.telegram.messenger.Utilities.Callback2
-                public final void run(Object obj, Object obj2) {
-                    PaintView.this.lambda$openStickersView$22((TLRPC$MessageMedia) obj, (TLRPC$MediaArea) obj2);
+                public final void run(Object obj2, Object obj3) {
+                    PaintView.this.lambda$openStickersView$22((TLRPC$MessageMedia) obj2, (TLRPC$MediaArea) obj3);
                 }
             });
             return;
         }
         this.forceChanges = true;
-        appearAnimation(createSticker(null, tLRPC$Document, false));
+        StickerView createSticker = createSticker(obj, tLRPC$Document, false);
+        if (bool.booleanValue()) {
+            createSticker.setScale(1.5f);
+        }
+        appearAnimation(createSticker);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -4038,12 +4042,15 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
 
     @Override // org.telegram.ui.Components.Paint.Views.EntityView.EntityViewDelegate
     public void getTransformedTouch(float f, float f2, float[] fArr) {
-        View view = (View) this.renderView.getParent();
-        View view2 = (View) view.getParent();
-        float x = (f - view.getX()) - view2.getLeft();
-        float y = (f2 - view.getY()) - view2.getTop();
-        fArr[0] = view.getPivotX() + ((x - view.getPivotX()) / view.getScaleX());
-        fArr[1] = view.getPivotY() + ((y - view.getPivotY()) / view.getScaleY());
+        View view;
+        View view2 = (View) this.renderView.getParent();
+        if (view2 == null || (view = (View) view2.getParent()) == null) {
+            return;
+        }
+        float x = (f - view2.getX()) - view.getLeft();
+        float y = (f2 - view2.getY()) - view.getTop();
+        fArr[0] = view2.getPivotX() + ((x - view2.getPivotX()) / view2.getScaleX());
+        fArr[1] = view2.getPivotY() + ((y - view2.getPivotY()) / view2.getScaleY());
     }
 
     @Override // org.telegram.ui.Components.Paint.Views.EntityView.EntityViewDelegate

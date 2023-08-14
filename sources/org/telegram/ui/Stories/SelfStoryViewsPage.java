@@ -39,9 +39,12 @@ import org.telegram.messenger.UserObject;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
+import org.telegram.tgnet.TLRPC$InputStickerSet;
+import org.telegram.tgnet.TLRPC$Reaction;
 import org.telegram.tgnet.TLRPC$StoryItem;
 import org.telegram.tgnet.TLRPC$StoryViews;
 import org.telegram.tgnet.TLRPC$TL_error;
+import org.telegram.tgnet.TLRPC$TL_reactionCustomEmoji;
 import org.telegram.tgnet.TLRPC$TL_stories_getStoryViewsList;
 import org.telegram.tgnet.TLRPC$TL_stories_storyViewsList;
 import org.telegram.tgnet.TLRPC$TL_storyView;
@@ -52,18 +55,22 @@ import org.telegram.ui.ActionBar.ActionBarMenuItem;
 import org.telegram.ui.ActionBar.ActionBarMenuSubItem;
 import org.telegram.ui.ActionBar.ActionBarPopupWindow;
 import org.telegram.ui.ActionBar.AdjustPanLayoutHelper;
+import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.FixedHeightEmptyCell;
 import org.telegram.ui.Cells.ReactedUserHolderView;
+import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.Bulletin;
 import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.CustomPopupMenu;
+import org.telegram.ui.Components.EmojiPacksAlert;
 import org.telegram.ui.Components.FillLastLinearLayoutManager;
 import org.telegram.ui.Components.FlickerLoadingView;
 import org.telegram.ui.Components.ItemOptions;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.LinkSpanDrawable;
+import org.telegram.ui.Components.MessageContainsEmojiButton;
 import org.telegram.ui.Components.Premium.PremiumFeatureBottomSheet;
 import org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble;
 import org.telegram.ui.Components.RecyclerAnimationScrollHelper;
@@ -265,6 +272,7 @@ public class SelfStoryViewsPage extends FrameLayout implements NotificationCente
         public boolean onItemClick(View view, int i) {
             final MessagesController messagesController;
             final TLRPC$User user;
+            final 4 r2;
             if (view instanceof ReactedUserHolderView) {
                 final ReactedUserHolderView reactedUserHolderView = (ReactedUserHolderView) view;
                 StoryViewer storyViewer = this.val$storyViewer;
@@ -285,12 +293,12 @@ public class SelfStoryViewsPage extends FrameLayout implements NotificationCente
                     str = str.substring(0, indexOf);
                 }
                 final String str2 = str;
-                ItemOptions cutTextInFancyHalf = ItemOptions.makeOptions(this.val$storyViewer.containerView, SelfStoryViewsPage.this.resourcesProvider, view).setGravity(3).ignoreX().setScrimViewBackground(new ColorDrawable(Theme.getColor(Theme.key_dialogBackground, SelfStoryViewsPage.this.resourcesProvider))).setDimAlpha(133).addIf((!isStoryShownToUser || isBlocked || z) ? false : true, R.drawable.msg_stories_myhide, LocaleController.formatString(R.string.StoryHideFrom, str2), new Runnable() { // from class: org.telegram.ui.Stories.SelfStoryViewsPage$4$$ExternalSyntheticLambda1
+                ItemOptions cutTextInFancyHalf = ItemOptions.makeOptions(this.val$storyViewer.containerView, SelfStoryViewsPage.this.resourcesProvider, view).setGravity(3).ignoreX().setScrimViewBackground(new ColorDrawable(Theme.getColor(Theme.key_dialogBackground, SelfStoryViewsPage.this.resourcesProvider))).setDimAlpha(133).addIf((!isStoryShownToUser || isBlocked || z) ? false : true, R.drawable.msg_stories_myhide, LocaleController.formatString(R.string.StoryHideFrom, str2), new Runnable() { // from class: org.telegram.ui.Stories.SelfStoryViewsPage$4$$ExternalSyntheticLambda2
                     @Override // java.lang.Runnable
                     public final void run() {
                         SelfStoryViewsPage.4.this.lambda$onItemClick$0(messagesController, user, str2, reactedUserHolderView, tLRPC$TL_storyView);
                     }
-                }).makeMultiline(false).cutTextInFancyHalf().addIf(isBlocked && !z, R.drawable.msg_menu_stories, LocaleController.formatString(R.string.StoryShowBackTo, str2), new Runnable() { // from class: org.telegram.ui.Stories.SelfStoryViewsPage$4$$ExternalSyntheticLambda0
+                }).makeMultiline(false).cutTextInFancyHalf().addIf(isBlocked && !z, R.drawable.msg_menu_stories, LocaleController.formatString(R.string.StoryShowBackTo, str2), new Runnable() { // from class: org.telegram.ui.Stories.SelfStoryViewsPage$4$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
                     public final void run() {
                         SelfStoryViewsPage.4.this.lambda$onItemClick$1(messagesController, user, str2, reactedUserHolderView, tLRPC$TL_storyView);
@@ -298,22 +306,44 @@ public class SelfStoryViewsPage extends FrameLayout implements NotificationCente
                 }).makeMultiline(false).cutTextInFancyHalf();
                 boolean z3 = (z2 || z) ? false : true;
                 int i2 = R.drawable.msg_user_remove;
-                cutTextInFancyHalf.addIf(z3, i2, LocaleController.getString(R.string.BlockUser), true, new Runnable() { // from class: org.telegram.ui.Stories.SelfStoryViewsPage$4$$ExternalSyntheticLambda2
+                final ItemOptions addIf = cutTextInFancyHalf.addIf(z3, i2, LocaleController.getString(R.string.BlockUser), true, new Runnable() { // from class: org.telegram.ui.Stories.SelfStoryViewsPage$4$$ExternalSyntheticLambda3
                     @Override // java.lang.Runnable
                     public final void run() {
                         SelfStoryViewsPage.4.this.lambda$onItemClick$2(messagesController, user, reactedUserHolderView, tLRPC$TL_storyView);
                     }
-                }).addIf(!z2 && z, R.drawable.msg_block, LocaleController.getString(R.string.Unblock), new Runnable() { // from class: org.telegram.ui.Stories.SelfStoryViewsPage$4$$ExternalSyntheticLambda3
+                }).addIf(!z2 && z, R.drawable.msg_block, LocaleController.getString(R.string.Unblock), new Runnable() { // from class: org.telegram.ui.Stories.SelfStoryViewsPage$4$$ExternalSyntheticLambda4
                     @Override // java.lang.Runnable
                     public final void run() {
                         SelfStoryViewsPage.4.this.lambda$onItemClick$3(messagesController, user, reactedUserHolderView, tLRPC$TL_storyView);
                     }
-                }).addIf(z2, i2, LocaleController.getString(R.string.StoryDeleteContact), true, new Runnable() { // from class: org.telegram.ui.Stories.SelfStoryViewsPage$4$$ExternalSyntheticLambda4
+                }).addIf(z2, i2, LocaleController.getString(R.string.StoryDeleteContact), true, new Runnable() { // from class: org.telegram.ui.Stories.SelfStoryViewsPage$4$$ExternalSyntheticLambda5
                     @Override // java.lang.Runnable
                     public final void run() {
                         SelfStoryViewsPage.4.this.lambda$onItemClick$4(user, str2, reactedUserHolderView, tLRPC$TL_storyView);
                     }
-                }).show();
+                });
+                TLRPC$Reaction tLRPC$Reaction = tLRPC$TL_storyView.reaction;
+                if (tLRPC$Reaction instanceof TLRPC$TL_reactionCustomEmoji) {
+                    r2 = this;
+                    TLRPC$InputStickerSet findStickerSet = AnimatedEmojiDrawable.getDocumentFetcher(SelfStoryViewsPage.this.currentAccount).findStickerSet(((TLRPC$TL_reactionCustomEmoji) tLRPC$Reaction).document_id);
+                    if (findStickerSet != null) {
+                        addIf.addGap();
+                        final ArrayList arrayList = new ArrayList();
+                        arrayList.add(findStickerSet);
+                        SelfStoryViewsPage selfStoryViewsPage = SelfStoryViewsPage.this;
+                        MessageContainsEmojiButton messageContainsEmojiButton = new MessageContainsEmojiButton(selfStoryViewsPage.currentAccount, selfStoryViewsPage.getContext(), SelfStoryViewsPage.this.resourcesProvider, arrayList, 3);
+                        messageContainsEmojiButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.SelfStoryViewsPage$4$$ExternalSyntheticLambda0
+                            @Override // android.view.View.OnClickListener
+                            public final void onClick(View view2) {
+                                SelfStoryViewsPage.4.this.lambda$onItemClick$5(arrayList, addIf, view2);
+                            }
+                        });
+                        addIf.addView(messageContainsEmojiButton);
+                    }
+                } else {
+                    r2 = this;
+                }
+                addIf.show();
                 try {
                     try {
                         SelfStoryViewsPage.this.performHapticFeedback(0, 1);
@@ -369,6 +399,27 @@ public class SelfStoryViewsPage extends FrameLayout implements NotificationCente
             SelfStoryViewsPage selfStoryViewsPage = SelfStoryViewsPage.this;
             BulletinFactory.of(selfStoryViewsPage, selfStoryViewsPage.resourcesProvider).createSimpleBulletin(R.raw.ic_ban, LocaleController.formatString(R.string.DeletedFromYourContacts, str)).show();
             reactedUserHolderView.animateAlpha(SelfStoryViewsPage.this.isStoryShownToUser(tLRPC$TL_storyView) ? 1.0f : 0.5f, true);
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$onItemClick$5(ArrayList arrayList, ItemOptions itemOptions, View view) {
+            new EmojiPacksAlert(new BaseFragment() { // from class: org.telegram.ui.Stories.SelfStoryViewsPage.4.1
+                @Override // org.telegram.ui.ActionBar.BaseFragment
+                public int getCurrentAccount() {
+                    return this.currentAccount;
+                }
+
+                @Override // org.telegram.ui.ActionBar.BaseFragment
+                public Context getContext() {
+                    return SelfStoryViewsPage.this.getContext();
+                }
+
+                @Override // org.telegram.ui.ActionBar.BaseFragment
+                public Theme.ResourcesProvider getResourceProvider() {
+                    return SelfStoryViewsPage.this.resourcesProvider;
+                }
+            }, SelfStoryViewsPage.this.getContext(), SelfStoryViewsPage.this.resourcesProvider, arrayList).show();
+            itemOptions.dismiss();
         }
     }
 

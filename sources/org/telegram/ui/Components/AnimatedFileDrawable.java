@@ -564,7 +564,7 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
             }
         };
         this.path = file;
-        this.PRERENDER_FRAME = SharedConfig.deviceIsAboveAverage() && this.limitFps;
+        this.PRERENDER_FRAME = SharedConfig.deviceIsAboveAverage();
         this.streamFileSize = j;
         this.streamLoadingPriority = i;
         this.currentAccount = i2;
@@ -609,8 +609,8 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
 
     public void setIsWebmSticker(boolean z) {
         this.isWebmSticker = z;
-        this.PRERENDER_FRAME = false;
         if (z) {
+            this.PRERENDER_FRAME = false;
             this.useSharedQueue = true;
         }
     }

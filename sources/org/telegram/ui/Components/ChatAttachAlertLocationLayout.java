@@ -2241,4 +2241,18 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
             }
         }
     }
+
+    @Override // org.telegram.ui.Components.ChatAttachAlert.AttachAlertLayout
+    public void onPanTransitionStart(boolean z, int i) {
+        if (z) {
+            this.adapter.animated = false;
+        }
+    }
+
+    @Override // org.telegram.ui.Components.ChatAttachAlert.AttachAlertLayout
+    public void onPanTransitionEnd() {
+        LocationActivityAdapter locationActivityAdapter = this.adapter;
+        ChatAttachAlert chatAttachAlert = this.parentAlert;
+        locationActivityAdapter.animated = (chatAttachAlert == null || chatAttachAlert.isKeyboardVisible()) ? false : true;
+    }
 }

@@ -476,6 +476,20 @@ public class AnimatedEmojiDrawable extends Drawable {
                 this.emojiDocumentsCache.put(Long.valueOf(tLRPC$Document.id), tLRPC$Document);
             }
         }
+
+        public TLRPC$InputStickerSet findStickerSet(long j) {
+            synchronized (this) {
+                HashMap<Long, TLRPC$Document> hashMap = this.emojiDocumentsCache;
+                if (hashMap == null) {
+                    return null;
+                }
+                TLRPC$Document tLRPC$Document = hashMap.get(Long.valueOf(j));
+                if (tLRPC$Document == null) {
+                    return null;
+                }
+                return MessageObject.getInputStickerSet(tLRPC$Document);
+            }
+        }
     }
 
     public static TLRPC$Document findDocument(int i, long j) {

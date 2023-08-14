@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
+import android.os.Build;
 import android.text.SpannableString;
 import android.view.MotionEvent;
 import android.view.View;
@@ -16,20 +17,24 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
+import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
+import org.telegram.messenger.VideoEditedInfo;
 import org.telegram.tgnet.TLRPC$BotInlineResult;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$DocumentAttribute;
+import org.telegram.tgnet.TLRPC$FileLocation;
 import org.telegram.tgnet.TLRPC$Photo;
 import org.telegram.tgnet.TLRPC$PhotoSize;
 import org.telegram.tgnet.TLRPC$TL_document;
@@ -41,18 +46,24 @@ import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Adapters.MentionsAdapter;
 import org.telegram.ui.Adapters.PaddedListAdapter;
+import org.telegram.ui.Cells.ContextLinkCell;
 import org.telegram.ui.Cells.StickerCell;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.ContentPreviewViewer;
+import org.telegram.ui.PhotoViewer;
+import org.webrtc.MediaStreamTrack;
 /* loaded from: classes4.dex */
 public class MentionsContainerView extends BlurredFrameLayout implements NotificationCenter.NotificationCenterDelegate {
     private MentionsAdapter adapter;
     private boolean allowBlur;
     BaseFragment baseFragment;
+    private PhotoViewer.PhotoViewerProvider botContextProvider;
+    private ArrayList<Object> botContextResults;
     private Integer color;
     private float containerBottom;
     private float containerPadding;
     private float containerTop;
+    private Delegate delegate;
     private ExtendedGridLayoutManager gridLayoutManager;
     private float hideT;
     private boolean ignoreLayout;
@@ -85,6 +96,9 @@ public class MentionsContainerView extends BlurredFrameLayout implements Notific
 
             public static void $default$onStickerSelected(Delegate delegate, TLRPC$TL_document tLRPC$TL_document, String str, Object obj) {
             }
+
+            public static void $default$sendBotInlineResult(Delegate delegate, TLRPC$BotInlineResult tLRPC$BotInlineResult, boolean z, int i) {
+            }
         }
 
         void addEmojiToRecent(String str);
@@ -94,6 +108,8 @@ public class MentionsContainerView extends BlurredFrameLayout implements Notific
         void onStickerSelected(TLRPC$TL_document tLRPC$TL_document, String str, Object obj);
 
         void replaceText(int i, int i2, CharSequence charSequence, boolean z);
+
+        void sendBotInlineResult(TLRPC$BotInlineResult tLRPC$BotInlineResult, boolean z, int i);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -138,6 +154,54 @@ public class MentionsContainerView extends BlurredFrameLayout implements Notific
         this.listViewHiding = false;
         this.hideT = 0.0f;
         this.switchLayoutManagerOnEnd = false;
+        this.botContextProvider = new PhotoViewer.EmptyPhotoViewerProvider() { // from class: org.telegram.ui.Components.MentionsContainerView.5
+            /* JADX WARN: Removed duplicated region for block: B:22:0x007c A[LOOP:0: B:8:0x0026->B:22:0x007c, LOOP_END] */
+            /* JADX WARN: Removed duplicated region for block: B:24:0x0047 A[SYNTHETIC] */
+            @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
+            /*
+                Code decompiled incorrectly, please refer to instructions dump.
+            */
+            public PhotoViewer.PlaceProviderObject getPlaceForPhoto(MessageObject messageObject, TLRPC$FileLocation tLRPC$FileLocation, int i2, boolean z) {
+                ImageReceiver imageReceiver;
+                if (i2 >= 0 && i2 < MentionsContainerView.this.botContextResults.size()) {
+                    int childCount = MentionsContainerView.this.getListView().getChildCount();
+                    Object obj = MentionsContainerView.this.botContextResults.get(i2);
+                    for (int i3 = 0; i3 < childCount; i3++) {
+                        View childAt = MentionsContainerView.this.getListView().getChildAt(i3);
+                        if (childAt instanceof ContextLinkCell) {
+                            ContextLinkCell contextLinkCell = (ContextLinkCell) childAt;
+                            if (contextLinkCell.getResult() == obj) {
+                                imageReceiver = contextLinkCell.getPhotoImage();
+                                if (imageReceiver == null) {
+                                    int[] iArr = new int[2];
+                                    childAt.getLocationInWindow(iArr);
+                                    PhotoViewer.PlaceProviderObject placeProviderObject = new PhotoViewer.PlaceProviderObject();
+                                    placeProviderObject.viewX = iArr[0];
+                                    placeProviderObject.viewY = iArr[1] - (Build.VERSION.SDK_INT < 21 ? AndroidUtilities.statusBarHeight : 0);
+                                    placeProviderObject.parentView = MentionsContainerView.this.getListView();
+                                    placeProviderObject.imageReceiver = imageReceiver;
+                                    placeProviderObject.thumb = imageReceiver.getBitmapSafe();
+                                    placeProviderObject.radius = imageReceiver.getRoundRadius();
+                                    return placeProviderObject;
+                                }
+                            }
+                        }
+                        imageReceiver = null;
+                        if (imageReceiver == null) {
+                        }
+                    }
+                }
+                return null;
+            }
+
+            @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
+            public void sendButtonPressed(int i2, VideoEditedInfo videoEditedInfo, boolean z, int i3, boolean z2) {
+                if (i2 < 0 || i2 >= MentionsContainerView.this.botContextResults.size()) {
+                    return;
+                }
+                MentionsContainerView.this.delegate.sendBotInlineResult((TLRPC$BotInlineResult) MentionsContainerView.this.botContextResults.get(i2), z, i3);
+            }
+        };
         this.baseFragment = baseFragment;
         this.sizeNotifierFrameLayout = sizeNotifierFrameLayout;
         this.resourcesProvider = resourcesProvider;
@@ -628,6 +692,7 @@ public class MentionsContainerView extends BlurredFrameLayout implements Notific
     }
 
     public void withDelegate(final Delegate delegate) {
+        this.delegate = delegate;
         MentionsListView listView = getListView();
         RecyclerListView.OnItemClickListener onItemClickListener = new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.MentionsContainerView$$ExternalSyntheticLambda5
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
@@ -672,11 +737,11 @@ public class MentionsContainerView extends BlurredFrameLayout implements Notific
             TLRPC$User tLRPC$User = (TLRPC$User) item;
             if (UserObject.getPublicUsername(tLRPC$User) != null) {
                 delegate.replaceText(resultStartPosition, resultLength, "@" + UserObject.getPublicUsername(tLRPC$User) + " ", false);
-                return;
+            } else {
+                SpannableString spannableString = new SpannableString(UserObject.getFirstName(tLRPC$User, false) + " ");
+                spannableString.setSpan(new URLSpanUserMention("" + tLRPC$User.id, 3), 0, spannableString.length(), 33);
+                delegate.replaceText(resultStartPosition, resultLength, spannableString, false);
             }
-            SpannableString spannableString = new SpannableString(UserObject.getFirstName(tLRPC$User, false) + " ");
-            spannableString.setSpan(new URLSpanUserMention("" + tLRPC$User.id, 3), 0, spannableString.length(), 33);
-            delegate.replaceText(resultStartPosition, resultLength, spannableString, false);
         } else if (item instanceof String) {
             delegate.replaceText(resultStartPosition, resultLength, item + " ", false);
         } else if (item instanceof MediaDataController.KeywordResult) {
@@ -707,6 +772,17 @@ public class MentionsContainerView extends BlurredFrameLayout implements Notific
                 delegate.replaceText(resultStartPosition, resultLength, str, true);
             }
             updateVisibility(false);
+        }
+        if (item instanceof TLRPC$BotInlineResult) {
+            TLRPC$BotInlineResult tLRPC$BotInlineResult = (TLRPC$BotInlineResult) item;
+            if ((tLRPC$BotInlineResult.type.equals("photo") && (tLRPC$BotInlineResult.photo != null || tLRPC$BotInlineResult.content != null)) || ((tLRPC$BotInlineResult.type.equals("gif") && (tLRPC$BotInlineResult.document != null || tLRPC$BotInlineResult.content != null)) || (tLRPC$BotInlineResult.type.equals(MediaStreamTrack.VIDEO_TRACK_KIND) && tLRPC$BotInlineResult.document != null))) {
+                ArrayList<Object> arrayList = new ArrayList<>(getAdapter().getSearchResultBotContext());
+                this.botContextResults = arrayList;
+                PhotoViewer.getInstance().setParentActivity(this.baseFragment, this.resourcesProvider);
+                PhotoViewer.getInstance().openPhotoForSelect(arrayList, getAdapter().getItemPosition(i2), 3, false, this.botContextProvider, null);
+                return;
+            }
+            delegate.sendBotInlineResult(tLRPC$BotInlineResult, true, 0);
         }
     }
 

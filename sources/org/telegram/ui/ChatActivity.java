@@ -4606,6 +4606,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     }
 
                     @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
+                    public /* synthetic */ boolean isPhotoEditor() {
+                        return ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$isPhotoEditor(this);
+                    }
+
+                    @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
                     public /* synthetic */ boolean needCopy(TLRPC$Document tLRPC$Document) {
                         return ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$needCopy(this, tLRPC$Document);
                     }
@@ -5948,6 +5953,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
             public /* synthetic */ void gifAddedOrDeleted() {
                 ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$gifAddedOrDeleted(this);
+            }
+
+            @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
+            public /* synthetic */ boolean isPhotoEditor() {
+                return ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$isPhotoEditor(this);
             }
 
             @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate

@@ -516,6 +516,11 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
     /* loaded from: classes4.dex */
     public class 2 implements ContentPreviewViewer.ContentPreviewViewerDelegate {
         @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
+        public /* synthetic */ boolean isPhotoEditor() {
+            return ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$isPhotoEditor(this);
+        }
+
+        @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
         public boolean needCopy(TLRPC$Document tLRPC$Document) {
             return true;
         }

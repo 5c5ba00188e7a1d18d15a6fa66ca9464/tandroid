@@ -28,6 +28,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
+import android.view.ViewPropertyAnimator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -58,6 +59,7 @@ import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
+import org.telegram.messenger.SendMessagesHelper;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.SvgHelper;
 import org.telegram.messenger.UserConfig;
@@ -68,6 +70,7 @@ import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$BotInlineResult;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$DocumentAttribute;
+import org.telegram.tgnet.TLRPC$InputStickerSet;
 import org.telegram.tgnet.TLRPC$PhotoSize;
 import org.telegram.tgnet.TLRPC$StickerSet;
 import org.telegram.tgnet.TLRPC$StickerSetCovered;
@@ -97,6 +100,7 @@ import org.telegram.ui.Components.AnimatedFileDrawable;
 import org.telegram.ui.Components.AnimatedFloat;
 import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.ButtonBounce;
+import org.telegram.ui.Components.CloseProgressDrawable2;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.DrawingInBackgroundThreadDrawable;
 import org.telegram.ui.Components.EditTextBoldCursor;
@@ -112,6 +116,7 @@ import org.telegram.ui.Components.SearchStateDrawable;
 import org.telegram.ui.Components.Size;
 import org.telegram.ui.Components.StickerCategoriesListView;
 import org.telegram.ui.Components.ViewPagerFixed;
+import org.telegram.ui.ContentPreviewViewer;
 import org.telegram.ui.SelectAnimatedEmojiDialog;
 import org.telegram.ui.Stories.recorder.EmojiBottomSheet;
 /* loaded from: classes4.dex */
@@ -122,14 +127,14 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
     private final ImageView galleryButton;
     public final TLRPC$Document locationSticker;
     private float maxPadding;
-    private Utilities.Callback<TLRPC$Document> onDocumentSelected;
+    private Utilities.Callback3<Object, TLRPC$Document, Boolean> onDocumentSelected;
     private String query;
     private final TabsView tabsView;
     private float top;
     private final ViewPagerFixed viewPager;
     private boolean wasKeyboardVisible;
 
-    static /* synthetic */ float access$5716(EmojiBottomSheet emojiBottomSheet, float f) {
+    static /* synthetic */ float access$5916(EmojiBottomSheet emojiBottomSheet, float f) {
         float f2 = emojiBottomSheet.top + f;
         emojiBottomSheet.top = f2;
         return f2;
@@ -162,13 +167,136 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
         private ArrayList<TLRPC$BotInlineResult> gifs;
         public ExtendedGridLayoutManager layoutManager;
         public RecyclerListView listView;
+        private ContentPreviewViewer.ContentPreviewViewerDelegate previewDelegate;
         public SearchField searchField;
 
         public GifPage(Context context) {
             super(EmojiBottomSheet.this, context);
+            this.previewDelegate = new ContentPreviewViewer.ContentPreviewViewerDelegate(this) { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet.GifPage.4
+                @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
+                public /* synthetic */ boolean can() {
+                    return ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$can(this);
+                }
+
+                @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
+                public boolean canSchedule() {
+                    return false;
+                }
+
+                @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
+                public /* synthetic */ Boolean canSetAsStatus(TLRPC$Document tLRPC$Document) {
+                    return ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$canSetAsStatus(this, tLRPC$Document);
+                }
+
+                @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
+                public /* synthetic */ void copyEmoji(TLRPC$Document tLRPC$Document) {
+                    ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$copyEmoji(this, tLRPC$Document);
+                }
+
+                @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
+                public long getDialogId() {
+                    return 0L;
+                }
+
+                @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
+                public /* synthetic */ String getQuery(boolean z) {
+                    return ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$getQuery(this, z);
+                }
+
+                @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
+                public /* synthetic */ void gifAddedOrDeleted() {
+                    ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$gifAddedOrDeleted(this);
+                }
+
+                @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
+                public boolean isInScheduleMode() {
+                    return false;
+                }
+
+                @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
+                public boolean isPhotoEditor() {
+                    return true;
+                }
+
+                @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
+                public /* synthetic */ boolean needCopy(TLRPC$Document tLRPC$Document) {
+                    return ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$needCopy(this, tLRPC$Document);
+                }
+
+                @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
+                public /* synthetic */ boolean needMenu() {
+                    return ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$needMenu(this);
+                }
+
+                @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
+                public /* synthetic */ boolean needOpen() {
+                    return ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$needOpen(this);
+                }
+
+                @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
+                public /* synthetic */ boolean needRemove() {
+                    return ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$needRemove(this);
+                }
+
+                @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
+                public /* synthetic */ boolean needRemoveFromRecent(TLRPC$Document tLRPC$Document) {
+                    return ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$needRemoveFromRecent(this, tLRPC$Document);
+                }
+
+                @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
+                public boolean needSend(int i) {
+                    return false;
+                }
+
+                @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
+                public void openSet(TLRPC$InputStickerSet tLRPC$InputStickerSet, boolean z) {
+                }
+
+                @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
+                public /* synthetic */ void remove(SendMessagesHelper.ImportingSticker importingSticker) {
+                    ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$remove(this, importingSticker);
+                }
+
+                @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
+                public /* synthetic */ void removeFromRecent(TLRPC$Document tLRPC$Document) {
+                    ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$removeFromRecent(this, tLRPC$Document);
+                }
+
+                @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
+                public /* synthetic */ void resetTouch() {
+                    ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$resetTouch(this);
+                }
+
+                @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
+                public /* synthetic */ void sendEmoji(TLRPC$Document tLRPC$Document) {
+                    ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$sendEmoji(this, tLRPC$Document);
+                }
+
+                @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
+                public /* synthetic */ void sendGif(Object obj, Object obj2, boolean z, int i) {
+                    ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$sendGif(this, obj, obj2, z, i);
+                }
+
+                @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
+                public /* synthetic */ void sendSticker(TLRPC$Document tLRPC$Document, String str, Object obj, boolean z, int i) {
+                    ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$sendSticker(this, tLRPC$Document, str, obj, z, i);
+                }
+
+                @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
+                public /* synthetic */ void setAsEmojiStatus(TLRPC$Document tLRPC$Document, Integer num) {
+                    ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$setAsEmojiStatus(this, tLRPC$Document, num);
+                }
+            };
             this.gifs = new ArrayList<>();
             new HashMap();
-            RecyclerListView recyclerListView = new RecyclerListView(context);
+            RecyclerListView recyclerListView = new RecyclerListView(context, EmojiBottomSheet.this) { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet.GifPage.1
+                @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup
+                public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
+                    ContentPreviewViewer contentPreviewViewer = ContentPreviewViewer.getInstance();
+                    GifPage gifPage = GifPage.this;
+                    return super.onInterceptTouchEvent(motionEvent) || contentPreviewViewer.onInterceptTouchEvent(motionEvent, gifPage.listView, 0, gifPage.previewDelegate, this.resourcesProvider);
+                }
+            };
             this.listView = recyclerListView;
             GifAdapter gifAdapter = new GifAdapter();
             this.adapter = gifAdapter;
@@ -177,7 +305,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
             GifLayoutManager gifLayoutManager = new GifLayoutManager(context);
             this.layoutManager = gifLayoutManager;
             recyclerListView2.setLayoutManager(gifLayoutManager);
-            this.listView.addItemDecoration(new RecyclerView.ItemDecoration(EmojiBottomSheet.this) { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet.GifPage.1
+            this.listView.addItemDecoration(new RecyclerView.ItemDecoration(EmojiBottomSheet.this) { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet.GifPage.2
                 @Override // androidx.recyclerview.widget.RecyclerView.ItemDecoration
                 public void getItemOffsets(Rect rect, View view, RecyclerView recyclerView, RecyclerView.State state) {
                     rect.right = GifPage.this.layoutManager.isLastInRow(recyclerView.getChildAdapterPosition(view) + (-1)) ? 0 : AndroidUtilities.dp(4.0f);
@@ -186,13 +314,22 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
             });
             this.listView.setClipToPadding(true);
             this.listView.setVerticalScrollBarEnabled(false);
-            this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet$GifPage$$ExternalSyntheticLambda1
+            final RecyclerListView.OnItemClickListener onItemClickListener = new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet$GifPage$$ExternalSyntheticLambda2
                 @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
                 public final void onItemClick(View view, int i) {
                     EmojiBottomSheet.GifPage.this.lambda$new$0(view, i);
                 }
+            };
+            this.listView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet$GifPage$$ExternalSyntheticLambda0
+                @Override // android.view.View.OnTouchListener
+                public final boolean onTouch(View view, MotionEvent motionEvent) {
+                    boolean lambda$new$1;
+                    lambda$new$1 = EmojiBottomSheet.GifPage.this.lambda$new$1(onItemClickListener, view, motionEvent);
+                    return lambda$new$1;
+                }
             });
-            this.listView.setOnScrollListener(new RecyclerView.OnScrollListener(EmojiBottomSheet.this) { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet.GifPage.2
+            this.listView.setOnItemClickListener(onItemClickListener);
+            this.listView.setOnScrollListener(new RecyclerView.OnScrollListener(EmojiBottomSheet.this) { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet.GifPage.3
                 @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
                 public void onScrolled(RecyclerView recyclerView, int i, int i2) {
                     SearchField searchField;
@@ -211,10 +348,10 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
             addView(this.listView, LayoutHelper.createFrame(-1, -1.0f, 119, 0.0f, 58.0f, 0.0f, 40.0f));
             SearchField searchField = new SearchField(context, ((BottomSheet) EmojiBottomSheet.this).resourcesProvider);
             this.searchField = searchField;
-            searchField.setOnSearchQuery(new Utilities.Callback2() { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet$GifPage$$ExternalSyntheticLambda0
+            searchField.setOnSearchQuery(new Utilities.Callback2() { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet$GifPage$$ExternalSyntheticLambda1
                 @Override // org.telegram.messenger.Utilities.Callback2
                 public final void run(Object obj, Object obj2) {
-                    EmojiBottomSheet.GifPage.this.lambda$new$1((String) obj, (Integer) obj2);
+                    EmojiBottomSheet.GifPage.this.lambda$new$2((String) obj, (Integer) obj2);
                 }
             });
             addView(this.searchField, LayoutHelper.createFrame(-1, -2, 48));
@@ -222,19 +359,25 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$0(View view, int i) {
+            TLRPC$BotInlineResult tLRPC$BotInlineResult;
             TLRPC$Document tLRPC$Document;
             int i2 = i - 1;
-            if (i2 < 0 || i2 >= this.gifs.size() || (tLRPC$Document = this.gifs.get(i2).document) == null) {
+            if (i2 < 0 || i2 >= this.gifs.size() || (tLRPC$BotInlineResult = this.gifs.get(i2)) == null || (tLRPC$Document = tLRPC$BotInlineResult.document) == null) {
                 return;
             }
             if (EmojiBottomSheet.this.onDocumentSelected != null) {
-                EmojiBottomSheet.this.onDocumentSelected.run(tLRPC$Document);
+                EmojiBottomSheet.this.onDocumentSelected.run(tLRPC$BotInlineResult, tLRPC$Document, Boolean.TRUE);
             }
             EmojiBottomSheet.this.dismiss();
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$new$1(String str, Integer num) {
+        public /* synthetic */ boolean lambda$new$1(RecyclerListView.OnItemClickListener onItemClickListener, View view, MotionEvent motionEvent) {
+            return ContentPreviewViewer.getInstance().onTouch(motionEvent, this.listView, 0, onItemClickListener, this.previewDelegate, ((BottomSheet) EmojiBottomSheet.this).resourcesProvider);
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$new$2(String str, Integer num) {
             EmojiBottomSheet.this.query = str;
             EmojiBottomSheet.this.categoryIndex = num.intValue();
             this.adapter.updateItems(str);
@@ -246,7 +389,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                 View childAt = this.listView.getChildAt(i);
                 Object tag = childAt.getTag();
                 if ((tag instanceof Integer) && ((Integer) tag).intValue() == 34) {
-                    return Math.max(0, childAt.getBottom() - AndroidUtilities.dp(8.0f));
+                    return Math.max(0, childAt.getBottom());
                 }
             }
             return 0.0f;
@@ -304,6 +447,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                     contextLinkCell = new View(GifPage.this.getContext());
                 } else {
                     ContextLinkCell contextLinkCell2 = new ContextLinkCell(GifPage.this.getContext());
+                    contextLinkCell2.allowButtonBounce(true);
                     contextLinkCell2.setIsKeyboard(true);
                     contextLinkCell2.setCanPreviewGif(true);
                     contextLinkCell = contextLinkCell2;
@@ -452,8 +596,13 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                     if (z) {
                         GifPage.this.gifs.clear();
                     }
+                    int size = GifPage.this.gifs.size();
                     GifPage.this.gifs.addAll(tLRPC$messages_BotResults.results);
-                    notifyDataSetChanged();
+                    if (!z) {
+                        notifyItemRangeInserted(size, GifPage.this.gifs.size() - size);
+                    } else {
+                        notifyDataSetChanged();
+                    }
                     GifPage.this.searchField.showProgress(false);
                     this.requesting = false;
                 }
@@ -479,8 +628,13 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                         if (z) {
                             GifPage.this.gifs.clear();
                         }
+                        int size = GifPage.this.gifs.size();
                         GifPage.this.gifs.addAll(tLRPC$messages_BotResults.results);
-                        notifyDataSetChanged();
+                        if (!z) {
+                            notifyItemRangeInserted(size, GifPage.this.gifs.size() - size);
+                        } else {
+                            notifyDataSetChanged();
+                        }
                     }
                     GifPage.this.searchField.showProgress(false);
                     this.requesting = false;
@@ -750,7 +904,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                 return;
             }
             if (EmojiBottomSheet.this.onDocumentSelected != null) {
-                EmojiBottomSheet.this.onDocumentSelected.run(tLRPC$Document);
+                EmojiBottomSheet.this.onDocumentSelected.run(null, tLRPC$Document, Boolean.FALSE);
             }
             EmojiBottomSheet.this.dismiss();
         }
@@ -1553,7 +1707,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
             for (View view : viewPages) {
                 if (view instanceof IPage) {
                     IPage iPage = (IPage) view;
-                    EmojiBottomSheet.access$5716(EmojiBottomSheet.this, iPage.top() * Utilities.clamp(1.0f - Math.abs(iPage.getTranslationX() / iPage.getMeasuredWidth()), 1.0f, 0.0f));
+                    EmojiBottomSheet.access$5916(EmojiBottomSheet.this, iPage.top() * Utilities.clamp(1.0f - Math.abs(iPage.getTranslationX() / iPage.getMeasuredWidth()), 1.0f, 0.0f));
                     if (iPage.getVisibility() == 0) {
                         iPage.updateTops();
                     }
@@ -1582,13 +1736,13 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
             canvas.restore();
         }
 
-        @Override // android.view.View
-        public boolean onTouchEvent(MotionEvent motionEvent) {
+        @Override // android.view.ViewGroup, android.view.View
+        public boolean dispatchTouchEvent(MotionEvent motionEvent) {
             if (motionEvent.getAction() == 0 && motionEvent.getY() < EmojiBottomSheet.this.top) {
                 EmojiBottomSheet.this.dismiss();
                 return true;
             }
-            return super.onTouchEvent(motionEvent);
+            return super.dispatchTouchEvent(motionEvent);
         }
     }
 
@@ -1600,8 +1754,8 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
         return (int) (this.containerView.getMeasuredHeight() - this.viewPager.getY());
     }
 
-    public EmojiBottomSheet whenSelected(Utilities.Callback<TLRPC$Document> callback) {
-        this.onDocumentSelected = callback;
+    public EmojiBottomSheet whenSelected(Utilities.Callback3<Object, TLRPC$Document, Boolean> callback3) {
+        this.onDocumentSelected = callback3;
         return this;
     }
 
@@ -2190,6 +2344,8 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
     public static class SearchField extends FrameLayout {
         private final FrameLayout box;
         private final StickerCategoriesListView categoriesListView;
+        private final ImageView clear;
+        private boolean clearVisible;
         private final EditTextBoldCursor editText;
         public boolean ignoreTextChange;
         private final FrameLayout inputBox;
@@ -2199,7 +2355,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
         private final SearchStateDrawable searchImageDrawable;
         private final ImageView searchImageView;
 
-        public SearchField(Context context, Theme.ResourcesProvider resourcesProvider) {
+        public SearchField(Context context, final Theme.ResourcesProvider resourcesProvider) {
             super(context);
             this.resourcesProvider = resourcesProvider;
             FrameLayout frameLayout = new FrameLayout(context);
@@ -2240,6 +2396,16 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                     }
                     return super.onTouchEvent(motionEvent);
                 }
+
+                /* JADX INFO: Access modifiers changed from: protected */
+                @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
+                public void onFocusChanged(boolean z, int i2, Rect rect) {
+                    super.onFocusChanged(z, i2, rect);
+                    if (z) {
+                        return;
+                    }
+                    AndroidUtilities.hideKeyboard(SearchField.this.editText);
+                }
             };
             this.editText = editTextBoldCursor;
             editTextBoldCursor.setTextSize(1, 16.0f);
@@ -2259,34 +2425,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
             editTextBoldCursor.setCursorWidth(1.5f);
             editTextBoldCursor.setTranslationY(AndroidUtilities.dp(-2.0f));
             frameLayout2.addView(editTextBoldCursor, LayoutHelper.createFrame(-1, 40.0f, 51, 0.0f, 0.0f, 28.0f, 0.0f));
-            editTextBoldCursor.addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet.SearchField.3
-                @Override // android.text.TextWatcher
-                public void beforeTextChanged(CharSequence charSequence, int i3, int i4, int i5) {
-                }
-
-                @Override // android.text.TextWatcher
-                public void onTextChanged(CharSequence charSequence, int i3, int i4, int i5) {
-                }
-
-                @Override // android.text.TextWatcher
-                public void afterTextChanged(Editable editable) {
-                    SearchField searchField = SearchField.this;
-                    if (searchField.ignoreTextChange) {
-                        return;
-                    }
-                    searchField.updateButton();
-                    String obj = SearchField.this.editText.getText().toString();
-                    SearchField.this.search(TextUtils.isEmpty(obj) ? null : obj, -1);
-                    if (SearchField.this.categoriesListView != null) {
-                        SearchField.this.categoriesListView.selectCategory((StickerCategoriesListView.EmojiCategory) null);
-                        SearchField.this.categoriesListView.updateCategoriesShown(TextUtils.isEmpty(obj), true);
-                    }
-                    if (SearchField.this.editText != null) {
-                        SearchField.this.editText.animate().cancel();
-                        SearchField.this.editText.animate().translationX(0.0f).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).start();
-                    }
-                }
-            });
+            editTextBoldCursor.addTextChangedListener(new 3());
             StickerCategoriesListView stickerCategoriesListView = new StickerCategoriesListView(context, null, 0, resourcesProvider) { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet.SearchField.4
                 @Override // org.telegram.ui.Components.StickerCategoriesListView
                 public void selectCategory(int i3) {
@@ -2302,25 +2441,109 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
             this.categoriesListView = stickerCategoriesListView;
             TextPaint paint = editTextBoldCursor.getPaint();
             stickerCategoriesListView.setDontOccupyWidth(((int) paint.measureText(((Object) editTextBoldCursor.getHint()) + "")) + AndroidUtilities.dp(16.0f));
-            stickerCategoriesListView.setOnScrollIntoOccupiedWidth(new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet$SearchField$$ExternalSyntheticLambda1
+            stickerCategoriesListView.setOnScrollIntoOccupiedWidth(new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet$SearchField$$ExternalSyntheticLambda2
                 @Override // org.telegram.messenger.Utilities.Callback
                 public final void run(Object obj) {
                     EmojiBottomSheet.SearchField.this.lambda$new$0((Integer) obj);
                 }
             });
-            stickerCategoriesListView.setOnCategoryClick(new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet$SearchField$$ExternalSyntheticLambda2
+            stickerCategoriesListView.setOnCategoryClick(new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet$SearchField$$ExternalSyntheticLambda3
                 @Override // org.telegram.messenger.Utilities.Callback
                 public final void run(Object obj) {
                     EmojiBottomSheet.SearchField.this.lambda$new$1((StickerCategoriesListView.EmojiCategory) obj);
                 }
             });
             frameLayout.addView(stickerCategoriesListView, LayoutHelper.createFrame(-1, 36.0f, 51, 36.0f, 0.0f, 0.0f, 0.0f));
-            imageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet$SearchField$$ExternalSyntheticLambda0
+            ImageView imageView2 = new ImageView(context);
+            this.clear = imageView2;
+            imageView2.setScaleType(ImageView.ScaleType.CENTER);
+            imageView2.setImageDrawable(new CloseProgressDrawable2(this, 1.25f) { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet.SearchField.5
+                {
+                    setSide(AndroidUtilities.dp(7.0f));
+                }
+
+                @Override // org.telegram.ui.Components.CloseProgressDrawable2
+                protected int getCurrentColor() {
+                    return Theme.getColor(Theme.key_chat_emojiSearchIcon, resourcesProvider);
+                }
+            });
+            imageView2.setBackground(Theme.createSelectorDrawable(Theme.getColor(Theme.key_listSelector, resourcesProvider), 1, AndroidUtilities.dp(15.0f)));
+            imageView2.setAlpha(0.0f);
+            imageView2.setScaleX(0.7f);
+            imageView2.setScaleY(0.7f);
+            imageView2.setVisibility(8);
+            imageView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet$SearchField$$ExternalSyntheticLambda0
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     EmojiBottomSheet.SearchField.this.lambda$new$2(view);
                 }
             });
+            frameLayout.addView(imageView2, LayoutHelper.createFrame(36, 36, 53));
+            imageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet$SearchField$$ExternalSyntheticLambda1
+                @Override // android.view.View.OnClickListener
+                public final void onClick(View view) {
+                    EmojiBottomSheet.SearchField.this.lambda$new$3(view);
+                }
+            });
+        }
+
+        /* JADX INFO: Access modifiers changed from: package-private */
+        /* loaded from: classes4.dex */
+        public class 3 implements TextWatcher {
+            @Override // android.text.TextWatcher
+            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+            }
+
+            @Override // android.text.TextWatcher
+            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+            }
+
+            3() {
+            }
+
+            @Override // android.text.TextWatcher
+            public void afterTextChanged(Editable editable) {
+                SearchField searchField = SearchField.this;
+                if (searchField.ignoreTextChange) {
+                    return;
+                }
+                searchField.updateButton();
+                String obj = SearchField.this.editText.getText().toString();
+                SearchField.this.search(TextUtils.isEmpty(obj) ? null : obj, -1);
+                if (SearchField.this.categoriesListView != null) {
+                    SearchField.this.categoriesListView.selectCategory((StickerCategoriesListView.EmojiCategory) null);
+                    SearchField.this.categoriesListView.updateCategoriesShown(TextUtils.isEmpty(obj), true);
+                }
+                if (SearchField.this.editText != null) {
+                    SearchField.this.editText.animate().cancel();
+                    ViewPropertyAnimator translationX = SearchField.this.editText.animate().translationX(0.0f);
+                    CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.EASE_OUT_QUINT;
+                    translationX.setInterpolator(cubicBezierInterpolator).start();
+                    if (SearchField.this.clear == null || SearchField.this.clearVisible == (!TextUtils.isEmpty(SearchField.this.editText.getText()))) {
+                        return;
+                    }
+                    SearchField searchField2 = SearchField.this;
+                    searchField2.clearVisible = true ^ searchField2.clearVisible;
+                    SearchField.this.clear.animate().cancel();
+                    if (SearchField.this.clearVisible) {
+                        SearchField.this.clear.setVisibility(0);
+                    }
+                    SearchField.this.clear.animate().scaleX(SearchField.this.clearVisible ? 1.0f : 0.7f).scaleY(SearchField.this.clearVisible ? 1.0f : 0.7f).alpha(SearchField.this.clearVisible ? 1.0f : 0.0f).withEndAction(new Runnable() { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet$SearchField$3$$ExternalSyntheticLambda0
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            EmojiBottomSheet.SearchField.3.this.lambda$afterTextChanged$0();
+                        }
+                    }).setInterpolator(cubicBezierInterpolator).setDuration(320L).setStartDelay(SearchField.this.clearVisible ? 240L : 0L).start();
+                }
+            }
+
+            /* JADX INFO: Access modifiers changed from: private */
+            public /* synthetic */ void lambda$afterTextChanged$0() {
+                if (SearchField.this.clearVisible) {
+                    return;
+                }
+                SearchField.this.clear.setVisibility(8);
+            }
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -2343,6 +2566,11 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$2(View view) {
+            clear();
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$new$3(View view) {
             if (this.searchImageDrawable.getIconState() == 1) {
                 clear();
                 this.categoriesListView.scrollToStart();

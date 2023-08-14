@@ -301,6 +301,7 @@ import org.telegram.ui.Components.spoilers.SpoilersTextView;
 import org.telegram.ui.DialogsActivity;
 import org.telegram.ui.PhotoViewer;
 import org.telegram.ui.Stories.DarkThemeResourceProvider;
+import org.telegram.ui.Stories.StoryViewer;
 import org.webrtc.MediaStreamTrack;
 @SuppressLint({"WrongConstant"})
 /* loaded from: classes3.dex */
@@ -7259,185 +7260,190 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:53:0x00d2, code lost:
-        if (r13 != false) goto L26;
+    /* JADX WARN: Code restructure failed: missing block: B:101:0x0175, code lost:
+        if (r3.getSelectedCount() <= 1) goto L87;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:57:0x00db, code lost:
-        if (org.telegram.messenger.UserObject.isUserSelf(r2) != false) goto L26;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:60:0x00e0, code lost:
-        if (r11 == 3) goto L100;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:61:0x00e2, code lost:
-        if (r4 == false) goto L26;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:63:0x00e5, code lost:
-        if (r11 != 4) goto L52;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:65:0x00e9, code lost:
-        if (r16.isCurrentVideo == false) goto L98;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:67:0x00f1, code lost:
-        if (r16.timeItem.getColorFilter() == null) goto L52;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:69:0x00f4, code lost:
-        r14 = r16.parentActivity;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:70:0x00f8, code lost:
-        if (r11 != 0) goto L79;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:71:0x00fa, code lost:
-        r15 = true;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:72:0x00fc, code lost:
-        r15 = false;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:74:0x00ff, code lost:
-        if (r11 != 3) goto L58;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:75:0x0101, code lost:
-        r3 = true;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:76:0x0102, code lost:
-        r13 = new org.telegram.ui.ActionBar.ActionBarMenuSubItem(r14, r15, r3, r17);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:77:0x0105, code lost:
-        if (r11 != 0) goto L66;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:79:0x010b, code lost:
-        if (org.telegram.messenger.UserObject.isUserSelf(r2) == false) goto L65;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:80:0x010d, code lost:
-        r13.setTextAndIcon(org.telegram.messenger.LocaleController.getString("SetReminder", org.telegram.messenger.R.string.SetReminder), org.telegram.messenger.R.drawable.msg_calendar2);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:81:0x011b, code lost:
-        r13.setTextAndIcon(org.telegram.messenger.LocaleController.getString("ScheduleMessage", org.telegram.messenger.R.string.ScheduleMessage), org.telegram.messenger.R.drawable.msg_calendar2);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:82:0x0129, code lost:
-        if (r11 != 1) goto L68;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:83:0x012b, code lost:
-        r13.setTextAndIcon(org.telegram.messenger.LocaleController.getString("SendWithoutSound", org.telegram.messenger.R.string.SendWithoutSound), org.telegram.messenger.R.drawable.input_notify_off);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:84:0x0139, code lost:
-        if (r11 != 2) goto L70;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:85:0x013b, code lost:
-        r13.setTextAndIcon(org.telegram.messenger.LocaleController.getString("ReplacePhoto", org.telegram.messenger.R.string.ReplacePhoto), org.telegram.messenger.R.drawable.msg_replace);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:86:0x0149, code lost:
-        if (r11 != 3) goto L72;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:87:0x014b, code lost:
-        r13.setTextAndIcon(org.telegram.messenger.LocaleController.getString("SendAsNewPhoto", org.telegram.messenger.R.string.SendAsNewPhoto), org.telegram.messenger.R.drawable.msg_send);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:88:0x0159, code lost:
-        if (r11 != 4) goto L63;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:89:0x015b, code lost:
-        r3 = r16.placeProvider;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:90:0x015d, code lost:
-        if (r3 == null) goto L78;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:92:0x0163, code lost:
-        if (r3.getSelectedCount() <= 1) goto L78;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:93:0x0165, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:102:0x0177, code lost:
         r13.setTextAndIcon(org.telegram.messenger.LocaleController.getString(org.telegram.messenger.R.string.SendAsFiles), org.telegram.messenger.R.drawable.msg_sendfile);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:94:0x0171, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:103:0x0183, code lost:
         r13.setTextAndIcon(org.telegram.messenger.LocaleController.getString(org.telegram.messenger.R.string.SendAsFile), org.telegram.messenger.R.drawable.msg_sendfile);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:95:0x017c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:104:0x018e, code lost:
         r13.setMinimumWidth(org.telegram.messenger.AndroidUtilities.dp(196.0f));
         r13.setColors(-1, -1);
         r16.sendPopupLayout.addView((android.view.View) r13, org.telegram.ui.Components.LayoutHelper.createLinear(-1, 48));
         r13.setOnClickListener(new org.telegram.ui.PhotoViewer$$ExternalSyntheticLambda46(r16, r11));
      */
+    /* JADX WARN: Code restructure failed: missing block: B:62:0x00e4, code lost:
+        if (r13 != false) goto L35;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:66:0x00ed, code lost:
+        if (org.telegram.messenger.UserObject.isUserSelf(r2) != false) goto L35;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:69:0x00f2, code lost:
+        if (r11 == 3) goto L109;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:70:0x00f4, code lost:
+        if (r5 == false) goto L35;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:72:0x00f7, code lost:
+        if (r11 != 4) goto L61;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:74:0x00fb, code lost:
+        if (r16.isCurrentVideo == false) goto L107;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:76:0x0103, code lost:
+        if (r16.timeItem.getColorFilter() == null) goto L61;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:78:0x0106, code lost:
+        r14 = r16.parentActivity;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:79:0x010a, code lost:
+        if (r11 != 0) goto L88;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:80:0x010c, code lost:
+        r15 = true;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:81:0x010e, code lost:
+        r15 = false;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:83:0x0111, code lost:
+        if (r11 != 3) goto L67;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:84:0x0113, code lost:
+        r3 = true;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:85:0x0114, code lost:
+        r13 = new org.telegram.ui.ActionBar.ActionBarMenuSubItem(r14, r15, r3, r17);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:86:0x0117, code lost:
+        if (r11 != 0) goto L75;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:88:0x011d, code lost:
+        if (org.telegram.messenger.UserObject.isUserSelf(r2) == false) goto L74;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:89:0x011f, code lost:
+        r13.setTextAndIcon(org.telegram.messenger.LocaleController.getString("SetReminder", org.telegram.messenger.R.string.SetReminder), org.telegram.messenger.R.drawable.msg_calendar2);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:90:0x012d, code lost:
+        r13.setTextAndIcon(org.telegram.messenger.LocaleController.getString("ScheduleMessage", org.telegram.messenger.R.string.ScheduleMessage), org.telegram.messenger.R.drawable.msg_calendar2);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:91:0x013b, code lost:
+        if (r11 != 1) goto L77;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:92:0x013d, code lost:
+        r13.setTextAndIcon(org.telegram.messenger.LocaleController.getString("SendWithoutSound", org.telegram.messenger.R.string.SendWithoutSound), org.telegram.messenger.R.drawable.input_notify_off);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:93:0x014b, code lost:
+        if (r11 != 2) goto L79;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:94:0x014d, code lost:
+        r13.setTextAndIcon(org.telegram.messenger.LocaleController.getString("ReplacePhoto", org.telegram.messenger.R.string.ReplacePhoto), org.telegram.messenger.R.drawable.msg_replace);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:95:0x015b, code lost:
+        if (r11 != 3) goto L81;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:96:0x015d, code lost:
+        r13.setTextAndIcon(org.telegram.messenger.LocaleController.getString("SendAsNewPhoto", org.telegram.messenger.R.string.SendAsNewPhoto), org.telegram.messenger.R.drawable.msg_send);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:97:0x016b, code lost:
+        if (r11 != 4) goto L72;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:98:0x016d, code lost:
+        r3 = r16.placeProvider;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:99:0x016f, code lost:
+        if (r3 == null) goto L87;
+     */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public /* synthetic */ boolean lambda$setParentActivity$15(Theme.ResourcesProvider resourcesProvider, View view) {
-        ChatActivity chatActivity;
         PhotoViewerProvider photoViewerProvider;
         boolean z;
+        ChatActivity chatActivity;
+        StoryViewer storyViewer;
         PhotoViewerProvider photoViewerProvider2 = this.placeProvider;
         boolean z2 = false;
-        if ((photoViewerProvider2 == null || photoViewerProvider2.allowSendingSubmenu()) && (chatActivity = this.parentChatActivity) != null && !chatActivity.isInScheduleMode() && this.captionEditText.getCaptionLimitOffset() >= 0) {
-            this.parentChatActivity.getCurrentChat();
-            TLRPC$User currentUser = this.parentChatActivity.getCurrentUser();
-            ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(this.parentActivity);
-            this.sendPopupLayout = actionBarPopupWindowLayout;
-            actionBarPopupWindowLayout.setAnimationEnabled(false);
-            this.sendPopupLayout.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.PhotoViewer$$ExternalSyntheticLambda51
-                @Override // android.view.View.OnTouchListener
-                public final boolean onTouch(View view2, MotionEvent motionEvent) {
-                    boolean lambda$setParentActivity$12;
-                    lambda$setParentActivity$12 = PhotoViewer.this.lambda$setParentActivity$12(view2, motionEvent);
-                    return lambda$setParentActivity$12;
-                }
-            });
-            this.sendPopupLayout.setDispatchKeyEventListener(new ActionBarPopupWindow.OnDispatchKeyEventListener() { // from class: org.telegram.ui.PhotoViewer$$ExternalSyntheticLambda86
-                @Override // org.telegram.ui.ActionBar.ActionBarPopupWindow.OnDispatchKeyEventListener
-                public final void onDispatchKeyEvent(KeyEvent keyEvent) {
-                    PhotoViewer.this.lambda$setParentActivity$13(keyEvent);
-                }
-            });
-            this.sendPopupLayout.setShownFromBottom(false);
-            this.sendPopupLayout.setBackgroundColor(-115203550);
-            PhotoViewerProvider photoViewerProvider3 = this.placeProvider;
-            boolean z3 = photoViewerProvider3 != null && photoViewerProvider3.canReplace(this.currentIndex);
-            int[] iArr = {4, 3, 2, 0, 1};
-            int i = 0;
-            for (int i2 = 5; i < i2; i2 = 5) {
-                final int i3 = iArr[i];
-                if ((i3 == 2 || i3 == 3 || !z3) && (i3 != 0 || this.parentChatActivity.canScheduleMessage())) {
-                    if (i3 != 0 || (photoViewerProvider = this.placeProvider) == null || photoViewerProvider.getSelectedPhotos() == null) {
-                        if (i3 == 1) {
-                        }
-                        if (i3 != 2) {
-                        }
-                    } else {
-                        for (Map.Entry<Object, Object> entry : this.placeProvider.getSelectedPhotos().entrySet()) {
-                            Object value = entry.getValue();
-                            if (value instanceof MediaController.PhotoEntry) {
-                                if (((MediaController.PhotoEntry) value).ttl != 0) {
+        if (photoViewerProvider2 == null || photoViewerProvider2.allowSendingSubmenu()) {
+            BaseFragment baseFragment = this.parentFragment;
+            if ((((baseFragment == null || (storyViewer = baseFragment.storyViewer) == null || !storyViewer.isShown()) ? false : true) || !((chatActivity = this.parentChatActivity) == null || chatActivity.isInScheduleMode())) && this.captionEditText.getCaptionLimitOffset() >= 0) {
+                this.parentChatActivity.getCurrentChat();
+                TLRPC$User currentUser = this.parentChatActivity.getCurrentUser();
+                ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(this.parentActivity);
+                this.sendPopupLayout = actionBarPopupWindowLayout;
+                actionBarPopupWindowLayout.setAnimationEnabled(false);
+                this.sendPopupLayout.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.PhotoViewer$$ExternalSyntheticLambda51
+                    @Override // android.view.View.OnTouchListener
+                    public final boolean onTouch(View view2, MotionEvent motionEvent) {
+                        boolean lambda$setParentActivity$12;
+                        lambda$setParentActivity$12 = PhotoViewer.this.lambda$setParentActivity$12(view2, motionEvent);
+                        return lambda$setParentActivity$12;
+                    }
+                });
+                this.sendPopupLayout.setDispatchKeyEventListener(new ActionBarPopupWindow.OnDispatchKeyEventListener() { // from class: org.telegram.ui.PhotoViewer$$ExternalSyntheticLambda86
+                    @Override // org.telegram.ui.ActionBar.ActionBarPopupWindow.OnDispatchKeyEventListener
+                    public final void onDispatchKeyEvent(KeyEvent keyEvent) {
+                        PhotoViewer.this.lambda$setParentActivity$13(keyEvent);
+                    }
+                });
+                this.sendPopupLayout.setShownFromBottom(false);
+                this.sendPopupLayout.setBackgroundColor(-115203550);
+                PhotoViewerProvider photoViewerProvider3 = this.placeProvider;
+                boolean z3 = photoViewerProvider3 != null && photoViewerProvider3.canReplace(this.currentIndex);
+                int[] iArr = {4, 3, 2, 0, 1};
+                int i = 0;
+                for (int i2 = 5; i < i2; i2 = 5) {
+                    final int i3 = iArr[i];
+                    if ((i3 == 2 || i3 == 3 || !z3) && (i3 != 0 || this.parentChatActivity.canScheduleMessage())) {
+                        if (i3 != 0 || (photoViewerProvider = this.placeProvider) == null || photoViewerProvider.getSelectedPhotos() == null) {
+                            if (i3 == 1) {
+                            }
+                            if (i3 != 2) {
+                            }
+                        } else {
+                            for (Map.Entry<Object, Object> entry : this.placeProvider.getSelectedPhotos().entrySet()) {
+                                Object value = entry.getValue();
+                                if (value instanceof MediaController.PhotoEntry) {
+                                    if (((MediaController.PhotoEntry) value).ttl != 0) {
+                                        z = true;
+                                        break;
+                                    }
+                                } else if ((value instanceof MediaController.SearchImage) && ((MediaController.SearchImage) value).ttl != 0) {
                                     z = true;
                                     break;
                                 }
-                            } else if ((value instanceof MediaController.SearchImage) && ((MediaController.SearchImage) value).ttl != 0) {
-                                z = true;
-                                break;
                             }
+                            z = false;
                         }
-                        z = false;
+                        i++;
+                        z2 = false;
                     }
                     i++;
                     z2 = false;
                 }
-                i++;
-                z2 = false;
-            }
-            if (this.sendPopupLayout.getChildCount() == 0) {
+                if (this.sendPopupLayout.getChildCount() == 0) {
+                    return false;
+                }
+                this.sendPopupLayout.setupRadialSelectors(620756991);
+                ActionBarPopupWindow actionBarPopupWindow = new ActionBarPopupWindow(this.sendPopupLayout, -2, -2);
+                this.sendPopupWindow = actionBarPopupWindow;
+                actionBarPopupWindow.setAnimationEnabled(false);
+                this.sendPopupWindow.setAnimationStyle(R.style.PopupContextAnimation2);
+                this.sendPopupWindow.setOutsideTouchable(true);
+                this.sendPopupWindow.setClippingEnabled(true);
+                this.sendPopupWindow.setInputMethodMode(2);
+                this.sendPopupWindow.setSoftInputMode(0);
+                this.sendPopupWindow.getContentView().setFocusableInTouchMode(true);
+                this.sendPopupLayout.measure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(1000.0f), Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(1000.0f), Integer.MIN_VALUE));
+                this.sendPopupWindow.setFocusable(true);
+                int[] iArr2 = new int[2];
+                view.getLocationInWindow(iArr2);
+                this.sendPopupWindow.showAtLocation(view, 51, ((iArr2[0] + view.getMeasuredWidth()) - this.sendPopupLayout.getMeasuredWidth()) + AndroidUtilities.dp(14.0f), (iArr2[1] - this.sendPopupLayout.getMeasuredHeight()) - AndroidUtilities.dp(18.0f));
+                view.performHapticFeedback(3, 2);
                 return false;
             }
-            this.sendPopupLayout.setupRadialSelectors(620756991);
-            ActionBarPopupWindow actionBarPopupWindow = new ActionBarPopupWindow(this.sendPopupLayout, -2, -2);
-            this.sendPopupWindow = actionBarPopupWindow;
-            actionBarPopupWindow.setAnimationEnabled(false);
-            this.sendPopupWindow.setAnimationStyle(R.style.PopupContextAnimation2);
-            this.sendPopupWindow.setOutsideTouchable(true);
-            this.sendPopupWindow.setClippingEnabled(true);
-            this.sendPopupWindow.setInputMethodMode(2);
-            this.sendPopupWindow.setSoftInputMode(0);
-            this.sendPopupWindow.getContentView().setFocusableInTouchMode(true);
-            this.sendPopupLayout.measure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(1000.0f), Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(1000.0f), Integer.MIN_VALUE));
-            this.sendPopupWindow.setFocusable(true);
-            int[] iArr2 = new int[2];
-            view.getLocationInWindow(iArr2);
-            this.sendPopupWindow.showAtLocation(view, 51, ((iArr2[0] + view.getMeasuredWidth()) - this.sendPopupLayout.getMeasuredWidth()) + AndroidUtilities.dp(14.0f), (iArr2[1] - this.sendPopupLayout.getMeasuredHeight()) - AndroidUtilities.dp(18.0f));
-            view.performHapticFeedback(3, 2);
             return false;
         }
         return false;

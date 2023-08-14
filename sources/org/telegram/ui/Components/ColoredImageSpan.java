@@ -12,6 +12,7 @@ import org.telegram.messenger.ApplicationLoader;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes4.dex */
 public class ColoredImageSpan extends ReplacementSpan {
+    private float alpha;
     private Runnable checkColorDelegate;
     int colorKey;
     Drawable drawable;
@@ -42,6 +43,7 @@ public class ColoredImageSpan extends ReplacementSpan {
     public ColoredImageSpan(Drawable drawable, int i) {
         this.usePaintColor = true;
         this.topOffset = 0;
+        this.alpha = 1.0f;
         this.scaleX = 1.0f;
         this.scaleY = 1.0f;
         this.drawable = drawable;
@@ -130,6 +132,10 @@ public class ColoredImageSpan extends ReplacementSpan {
             if (f2 != 1.0f || this.scaleY != 1.0f) {
                 canvas.scale(f2, this.scaleY, 0.0f, drawable3.getBounds().centerY());
             }
+            float f3 = this.alpha;
+            if (f3 != 1.0f) {
+                this.drawable.setAlpha((int) (f3 * 255.0f));
+            }
             this.drawable.draw(canvas);
         }
         canvas.restore();
@@ -155,5 +161,9 @@ public class ColoredImageSpan extends ReplacementSpan {
 
     public void setOverrideColor(int i) {
         this.overrideColor = i;
+    }
+
+    public void setAlpha(float f) {
+        this.alpha = f;
     }
 }

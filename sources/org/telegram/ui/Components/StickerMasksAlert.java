@@ -276,6 +276,11 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
             }
 
             @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
+            public /* synthetic */ boolean isPhotoEditor() {
+                return ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$isPhotoEditor(this);
+            }
+
+            @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
             public /* synthetic */ boolean needCopy(TLRPC$Document tLRPC$Document) {
                 return ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$needCopy(this, tLRPC$Document);
             }

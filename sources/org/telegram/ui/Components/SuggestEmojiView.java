@@ -115,6 +115,11 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
         }
 
         @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
+        public /* synthetic */ boolean isPhotoEditor() {
+            return ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$isPhotoEditor(this);
+        }
+
+        @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
         public /* synthetic */ boolean needMenu() {
             return ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$needMenu(this);
         }

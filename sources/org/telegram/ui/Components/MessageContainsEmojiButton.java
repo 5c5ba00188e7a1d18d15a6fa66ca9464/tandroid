@@ -68,8 +68,15 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
         }
     }
 
-    private MessageContainsEmojiButton(int i, Context context, Theme.ResourcesProvider resourcesProvider, int i2) {
+    public MessageContainsEmojiButton(int i, Context context, Theme.ResourcesProvider resourcesProvider, ArrayList<TLRPC$InputStickerSet> arrayList, int i2) {
         super(context);
+        String string;
+        String str;
+        TLRPC$Document tLRPC$Document;
+        TLRPC$TL_messages_stickerSet stickerSet;
+        TLRPC$StickerSet tLRPC$StickerSet;
+        ArrayList<TLRPC$Document> arrayList2;
+        String formatPluralString;
         this.emojiDrawableBounds = new android.graphics.Rect();
         this.loadingDrawableBoundsSet = false;
         this.lastWidth = -1;
@@ -81,23 +88,6 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
         this.textPaint = textPaint;
         textPaint.setTextSize(AndroidUtilities.dp(13.0f));
         this.textPaint.setColor(Theme.getColor(Theme.key_actionBarDefaultSubmenuItem, resourcesProvider));
-    }
-
-    /* JADX WARN: Code restructure failed: missing block: B:35:0x00ca, code lost:
-        r4 = null;
-     */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
-    public MessageContainsEmojiButton(int i, Context context, Theme.ResourcesProvider resourcesProvider, ArrayList<TLRPC$InputStickerSet> arrayList, int i2) {
-        this(i, context, resourcesProvider, i2);
-        String string;
-        String str;
-        TLRPC$Document tLRPC$Document;
-        TLRPC$TL_messages_stickerSet stickerSet;
-        TLRPC$StickerSet tLRPC$StickerSet;
-        ArrayList<TLRPC$Document> arrayList2;
-        String formatPluralString;
         if (arrayList.size() > 1) {
             if (i2 == 0) {
                 formatPluralString = LocaleController.formatPluralString("MessageContainsEmojiPacks", arrayList.size(), new Object[0]);
@@ -117,6 +107,8 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
         } else if (arrayList.size() == 1) {
             if (i2 == 0) {
                 string = LocaleController.getString("MessageContainsEmojiPack", R.string.MessageContainsEmojiPack);
+            } else if (i2 == 3) {
+                string = LocaleController.getString("MessageContainsReactionPack", R.string.MessageContainsReactionPack);
             } else {
                 string = LocaleController.getString("MessageContainsReactionsPack", R.string.MessageContainsReactionsPack);
             }
@@ -144,6 +136,7 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
                         i4++;
                     }
                 }
+                tLRPC$Document = null;
                 if (tLRPC$Document == null && (arrayList2 = stickerSet.documents) != null && arrayList2.size() > 0) {
                     tLRPC$Document = stickerSet.documents.get(0);
                 }

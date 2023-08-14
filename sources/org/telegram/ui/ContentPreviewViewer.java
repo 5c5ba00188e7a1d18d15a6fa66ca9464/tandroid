@@ -89,6 +89,7 @@ public class ContentPreviewViewer {
     private float finalMoveY;
     private SendMessagesHelper.ImportingSticker importingSticker;
     private TLRPC$BotInlineResult inlineResult;
+    private boolean isPhotoEditor;
     private boolean isRecentSticker;
     private WindowInsets lastInsets;
     private float lastTouchY;
@@ -140,6 +141,10 @@ public class ContentPreviewViewer {
             }
 
             public static void $default$gifAddedOrDeleted(ContentPreviewViewerDelegate contentPreviewViewerDelegate) {
+            }
+
+            public static boolean $default$isPhotoEditor(ContentPreviewViewerDelegate contentPreviewViewerDelegate) {
+                return false;
             }
 
             public static boolean $default$needCopy(ContentPreviewViewerDelegate contentPreviewViewerDelegate, TLRPC$Document tLRPC$Document) {
@@ -199,6 +204,8 @@ public class ContentPreviewViewer {
         void gifAddedOrDeleted();
 
         boolean isInScheduleMode();
+
+        boolean isPhotoEditor();
 
         boolean needCopy(TLRPC$Document tLRPC$Document);
 
@@ -262,7 +269,7 @@ public class ContentPreviewViewer {
             int i7;
             int i8;
             int min;
-            if (ContentPreviewViewer.this.parentActivity == null) {
+            if (ContentPreviewViewer.this.parentActivity == null || ContentPreviewViewer.this.isPhotoEditor) {
                 return;
             }
             ContentPreviewViewer.this.closeOnDismiss = true;
@@ -826,12 +833,12 @@ public class ContentPreviewViewer {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:276:0x015d  */
-    /* JADX WARN: Removed duplicated region for block: B:279:0x0166  */
-    /* JADX WARN: Removed duplicated region for block: B:280:0x016c  */
-    /* JADX WARN: Removed duplicated region for block: B:288:0x018b  */
-    /* JADX WARN: Removed duplicated region for block: B:291:0x0199  */
-    /* JADX WARN: Removed duplicated region for block: B:296:0x01d8  */
+    /* JADX WARN: Removed duplicated region for block: B:288:0x016b  */
+    /* JADX WARN: Removed duplicated region for block: B:291:0x0174  */
+    /* JADX WARN: Removed duplicated region for block: B:292:0x017a  */
+    /* JADX WARN: Removed duplicated region for block: B:300:0x0199  */
+    /* JADX WARN: Removed duplicated region for block: B:303:0x01a7  */
+    /* JADX WARN: Removed duplicated region for block: B:308:0x01e6  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -844,7 +851,11 @@ public class ContentPreviewViewer {
         View view2;
         TLRPC$Document tLRPC$Document;
         this.delegate = contentPreviewViewerDelegate;
-        if (contentPreviewViewerDelegate == null || contentPreviewViewerDelegate.can()) {
+        if (contentPreviewViewerDelegate != null) {
+            this.isPhotoEditor = contentPreviewViewerDelegate.isPhotoEditor();
+        }
+        ContentPreviewViewerDelegate contentPreviewViewerDelegate3 = this.delegate;
+        if (contentPreviewViewerDelegate3 == null || contentPreviewViewerDelegate3.can()) {
             if (this.openPreviewRunnable != null || isVisible()) {
                 if (motionEvent.getAction() == 1 || motionEvent.getAction() == 3 || motionEvent.getAction() == 6) {
                     AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ContentPreviewViewer$$ExternalSyntheticLambda4
@@ -874,7 +885,7 @@ public class ContentPreviewViewer {
                 } else if (motionEvent.getAction() != 0) {
                     if (this.isVisible) {
                         if (motionEvent.getAction() == 2) {
-                            if (this.currentContentType == 1) {
+                            if (this.currentContentType == 1 && !this.isPhotoEditor) {
                                 if (!this.menuVisible && this.showProgress == 1.0f) {
                                     if (this.lastTouchY == -10000.0f) {
                                         this.lastTouchY = motionEvent.getY();
@@ -974,22 +985,22 @@ public class ContentPreviewViewer {
                                                 TLRPC$Document sticker = stickerEmojiCell.getSticker();
                                                 SendMessagesHelper.ImportingSticker stickerPath = stickerEmojiCell.getStickerPath();
                                                 String findAnimatedEmojiEmoticon = MessageObject.findAnimatedEmojiEmoticon(stickerEmojiCell.getSticker(), null, Integer.valueOf(this.currentAccount));
-                                                ContentPreviewViewerDelegate contentPreviewViewerDelegate3 = this.delegate;
-                                                open(sticker, stickerPath, findAnimatedEmojiEmoticon, contentPreviewViewerDelegate3 != null ? contentPreviewViewerDelegate3.getQuery(false) : null, null, i2, stickerEmojiCell.isRecent(), stickerEmojiCell.getParentObject(), resourcesProvider);
+                                                ContentPreviewViewerDelegate contentPreviewViewerDelegate4 = this.delegate;
+                                                open(sticker, stickerPath, findAnimatedEmojiEmoticon, contentPreviewViewerDelegate4 != null ? contentPreviewViewerDelegate4.getQuery(false) : null, null, i2, stickerEmojiCell.isRecent(), stickerEmojiCell.getParentObject(), resourcesProvider);
                                                 stickerEmojiCell.setScaled(true);
                                             } else if (view2 instanceof StickerCell) {
                                                 StickerCell stickerCell = (StickerCell) view2;
                                                 TLRPC$Document sticker2 = stickerCell.getSticker();
-                                                ContentPreviewViewerDelegate contentPreviewViewerDelegate4 = this.delegate;
-                                                open(sticker2, null, null, contentPreviewViewerDelegate4 != null ? contentPreviewViewerDelegate4.getQuery(false) : null, null, i2, false, stickerCell.getParentObject(), resourcesProvider);
+                                                ContentPreviewViewerDelegate contentPreviewViewerDelegate5 = this.delegate;
+                                                open(sticker2, null, null, contentPreviewViewerDelegate5 != null ? contentPreviewViewerDelegate5.getQuery(false) : null, null, i2, false, stickerCell.getParentObject(), resourcesProvider);
                                                 stickerCell.setScaled(true);
                                                 this.clearsInputField = stickerCell.isClearsInputField();
                                             } else if (view2 instanceof ContextLinkCell) {
                                                 ContextLinkCell contextLinkCell2 = (ContextLinkCell) view2;
                                                 TLRPC$Document document = contextLinkCell2.getDocument();
-                                                ContentPreviewViewerDelegate contentPreviewViewerDelegate5 = this.delegate;
-                                                open(document, null, null, contentPreviewViewerDelegate5 != null ? contentPreviewViewerDelegate5.getQuery(true) : null, contextLinkCell2.getBotInlineResult(), i2, false, contextLinkCell2.getBotInlineResult() != null ? contextLinkCell2.getInlineBot() : contextLinkCell2.getParentObject(), resourcesProvider);
-                                                if (i2 != 1) {
+                                                ContentPreviewViewerDelegate contentPreviewViewerDelegate6 = this.delegate;
+                                                open(document, null, null, contentPreviewViewerDelegate6 != null ? contentPreviewViewerDelegate6.getQuery(true) : null, contextLinkCell2.getBotInlineResult(), i2, false, contextLinkCell2.getBotInlineResult() != null ? contextLinkCell2.getInlineBot() : contextLinkCell2.getParentObject(), resourcesProvider);
+                                                if (i2 != 1 || this.isPhotoEditor) {
                                                     contextLinkCell2.setScaled(true);
                                                 }
                                             } else if (view2 instanceof EmojiPacksAlert.EmojiImageView) {
@@ -1086,7 +1097,11 @@ public class ContentPreviewViewer {
 
     public boolean onInterceptTouchEvent(MotionEvent motionEvent, final RecyclerListView recyclerListView, int i, ContentPreviewViewerDelegate contentPreviewViewerDelegate, final Theme.ResourcesProvider resourcesProvider) {
         this.delegate = contentPreviewViewerDelegate;
-        if ((contentPreviewViewerDelegate == null || contentPreviewViewerDelegate.can()) && motionEvent.getAction() == 0) {
+        if (contentPreviewViewerDelegate != null) {
+            this.isPhotoEditor = contentPreviewViewerDelegate.isPhotoEditor();
+        }
+        ContentPreviewViewerDelegate contentPreviewViewerDelegate2 = this.delegate;
+        if ((contentPreviewViewerDelegate2 == null || contentPreviewViewerDelegate2.can()) && motionEvent.getAction() == 0) {
             int x = (int) motionEvent.getX();
             int y = (int) motionEvent.getY();
             int childCount = recyclerListView.getChildCount();
@@ -1188,7 +1203,7 @@ public class ContentPreviewViewer {
             TLRPC$Document document = contextLinkCell.getDocument();
             ContentPreviewViewerDelegate contentPreviewViewerDelegate3 = this.delegate;
             open(document, null, null, contentPreviewViewerDelegate3 != null ? contentPreviewViewerDelegate3.getQuery(true) : null, contextLinkCell.getBotInlineResult(), i, false, contextLinkCell.getBotInlineResult() != null ? contextLinkCell.getInlineBot() : contextLinkCell.getParentObject(), resourcesProvider);
-            if (i != 1) {
+            if (i != 1 || this.isPhotoEditor) {
                 contextLinkCell.setScaled(true);
             }
         } else if (view instanceof EmojiPacksAlert.EmojiImageView) {
@@ -1648,7 +1663,7 @@ public class ContentPreviewViewer {
             this.centerImage.setImageCoords(f12, f12, f13, f13);
             this.centerImage.draw(canvas);
         }
-        if (this.currentContentType == 1 && (drawable = this.slideUpDrawable) != null) {
+        if (this.currentContentType == 1 && !this.isPhotoEditor && (drawable = this.slideUpDrawable) != null) {
             int intrinsicWidth = drawable.getIntrinsicWidth();
             int intrinsicHeight = this.slideUpDrawable.getIntrinsicHeight();
             int dp = (int) (this.centerImage.getDrawRegion().top - AndroidUtilities.dp(((this.currentMoveY / AndroidUtilities.dp(60.0f)) * 6.0f) + 17.0f));

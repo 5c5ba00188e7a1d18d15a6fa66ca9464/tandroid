@@ -600,7 +600,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static /* synthetic */ void access$30700(ProfileActivity profileActivity, View view) {
+    public static /* synthetic */ void access$30800(ProfileActivity profileActivity, View view) {
         profileActivity.onTextDetailCellImageClicked(view);
     }
 
@@ -2785,10 +2785,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         this.storyView = new ProfileStoriesView(context, this.currentAccount, this.userId, this.avatarContainer, this.avatarImage, this.resourcesProvider) { // from class: org.telegram.ui.ProfileActivity.26
             @Override // org.telegram.ui.Stories.ProfileStoriesView
             protected void onTap(StoryViewer.PlaceProvider placeProvider) {
-                if (ProfileActivity.this.getMessagesController().getStoriesController().getStories(ProfileActivity.this.userId) != null) {
+                if (ProfileActivity.this.getMessagesController().getStoriesController().hasStories(ProfileActivity.this.userId)) {
                     ProfileActivity.this.getOrCreateStoryViewer().open(context, ProfileActivity.this.userId, placeProvider);
-                } else if (ProfileActivity.this.userInfo == null || ProfileActivity.this.userInfo.stories == null || ProfileActivity.this.userId == ProfileActivity.this.getUserConfig().clientUserId) {
-                    ProfileActivity.this.getOrCreateStoryViewer().open(context, ProfileActivity.this.userId, placeProvider);
+                } else if (ProfileActivity.this.userInfo == null || ProfileActivity.this.userInfo.stories == null || ProfileActivity.this.userInfo.stories.stories.isEmpty() || ProfileActivity.this.userId == ProfileActivity.this.getUserConfig().clientUserId) {
+                    ProfileActivity.this.expandAvatar();
                 } else {
                     ProfileActivity.this.getOrCreateStoryViewer().open(context, ProfileActivity.this.userInfo.stories, placeProvider);
                 }
@@ -5188,18 +5188,15 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$15(View view) {
-        RecyclerView.ViewHolder findContainingViewHolder;
-        Integer num;
         TLRPC$Document findDocument;
         Bulletin createContainsEmojiBulletin;
         if (this.avatarBig != null) {
             return;
         }
-        View view2 = null;
-        TLRPC$TL_forumTopic tLRPC$TL_forumTopic = null;
         if (this.isTopic && !getMessagesController().premiumLocked) {
             ArrayList<TLRPC$TL_forumTopic> topics = getMessagesController().getTopicsController().getTopics(this.chatId);
             if (topics != null) {
+                TLRPC$TL_forumTopic tLRPC$TL_forumTopic = null;
                 for (int i = 0; tLRPC$TL_forumTopic == null && i < topics.size(); i++) {
                     TLRPC$TL_forumTopic tLRPC$TL_forumTopic2 = topics.get(i);
                     if (tLRPC$TL_forumTopic2 != null && tLRPC$TL_forumTopic2.id == this.topicId) {
@@ -5217,33 +5214,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         return;
                     }
                     createContainsEmojiBulletin.show();
-                    return;
                 }
-                return;
             }
-            return;
+        } else if (!expandAvatar()) {
+            openAvatar();
         }
-        if (!AndroidUtilities.isTablet() && !this.isInLandscapeMode && this.avatarImage.getImageReceiver().hasNotThumb() && !AndroidUtilities.isAccessibilityScreenReaderEnabled()) {
-            this.openingAvatar = true;
-            this.allowPullingDown = true;
-            int i2 = 0;
-            while (true) {
-                if (i2 >= this.listView.getChildCount()) {
-                    break;
-                }
-                RecyclerListView recyclerListView = this.listView;
-                if (recyclerListView.getChildAdapterPosition(recyclerListView.getChildAt(i2)) == 0) {
-                    view2 = this.listView.getChildAt(i2);
-                    break;
-                }
-                i2++;
-            }
-            if (view2 != null && (findContainingViewHolder = this.listView.findContainingViewHolder(view2)) != null && (num = this.positionToOffset.get(Integer.valueOf(findContainingViewHolder.getAdapterPosition()))) != null) {
-                this.listView.smoothScrollBy(0, -(num.intValue() + ((this.listView.getPaddingTop() - view2.getTop()) - this.actionBar.getMeasuredHeight())), CubicBezierInterpolator.EASE_OUT_QUINT);
-                return;
-            }
-        }
-        openAvatar();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -5272,6 +5247,34 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$18(ValueAnimator valueAnimator) {
         setAvatarExpandProgress(valueAnimator.getAnimatedFraction());
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public boolean expandAvatar() {
+        RecyclerView.ViewHolder findContainingViewHolder;
+        Integer num;
+        if (!AndroidUtilities.isTablet() && !this.isInLandscapeMode && this.avatarImage.getImageReceiver().hasNotThumb() && !AndroidUtilities.isAccessibilityScreenReaderEnabled()) {
+            this.openingAvatar = true;
+            this.allowPullingDown = true;
+            View view = null;
+            int i = 0;
+            while (true) {
+                if (i >= this.listView.getChildCount()) {
+                    break;
+                }
+                RecyclerListView recyclerListView = this.listView;
+                if (recyclerListView.getChildAdapterPosition(recyclerListView.getChildAt(i)) == 0) {
+                    view = this.listView.getChildAt(i);
+                    break;
+                }
+                i++;
+            }
+            if (view != null && (findContainingViewHolder = this.listView.findContainingViewHolder(view)) != null && (num = this.positionToOffset.get(Integer.valueOf(findContainingViewHolder.getAdapterPosition()))) != null) {
+                this.listView.smoothScrollBy(0, -(num.intValue() + ((this.listView.getPaddingTop() - view.getTop()) - this.actionBar.getMeasuredHeight())), CubicBezierInterpolator.EASE_OUT_QUINT);
+                return true;
+            }
+        }
+        return false;
     }
 
     private void setAvatarExpandProgress(float f) {
@@ -6679,9 +6682,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$openAddMember$41(ArrayList arrayList, int i) {
+        TLRPC$ChatParticipants tLRPC$ChatParticipants;
         final HashSet hashSet = new HashSet();
         final ArrayList arrayList2 = new ArrayList();
-        if (this.chatInfo.participants.participants != null) {
+        TLRPC$ChatFull tLRPC$ChatFull = this.chatInfo;
+        if (tLRPC$ChatFull != null && (tLRPC$ChatParticipants = tLRPC$ChatFull.participants) != null && tLRPC$ChatParticipants.participants != null) {
             for (int i2 = 0; i2 < this.chatInfo.participants.participants.size(); i2++) {
                 hashSet.add(Long.valueOf(this.chatInfo.participants.participants.get(i2).user_id));
             }
@@ -11889,7 +11894,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 textDetailCell.setImageClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$ListAdapter$$ExternalSyntheticLambda0
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view2) {
-                        ProfileActivity.access$30700(ProfileActivity.this, view2);
+                        ProfileActivity.access$30800(ProfileActivity.this, view2);
                     }
                 });
             } else {
