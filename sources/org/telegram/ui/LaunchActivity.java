@@ -13326,13 +13326,19 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
 
     @Override // android.app.Activity, android.view.Window.Callback
     public boolean dispatchKeyEvent(KeyEvent keyEvent) {
-        BaseFragment lastFragment;
         StoryViewer storyViewer;
+        StoryViewer storyViewer2;
         keyEvent.getKeyCode();
         boolean z = true;
-        if ((keyEvent.getKeyCode() == 24 || keyEvent.getKeyCode() == 25) && (lastFragment = getLastFragment()) != null && (storyViewer = lastFragment.storyViewer) != null && storyViewer.isShown()) {
-            lastFragment.storyViewer.dispatchKeyEvent(keyEvent);
-            return true;
+        if (keyEvent.getKeyCode() == 24 || keyEvent.getKeyCode() == 25) {
+            BaseFragment lastFragment = getLastFragment();
+            if (lastFragment != null && (storyViewer2 = lastFragment.overlayStoryViewer) != null && storyViewer2.isShown()) {
+                lastFragment.overlayStoryViewer.dispatchKeyEvent(keyEvent);
+                return true;
+            } else if (lastFragment != null && (storyViewer = lastFragment.storyViewer) != null && storyViewer.isShown()) {
+                lastFragment.storyViewer.dispatchKeyEvent(keyEvent);
+                return true;
+            }
         }
         if (keyEvent.getAction() == 0 && (keyEvent.getKeyCode() == 24 || keyEvent.getKeyCode() == 25)) {
             if (VoIPService.getSharedInstance() != null) {
@@ -13648,14 +13654,13 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     }
 
     public void requestCustomNavigationBar() {
-        if (this.customNavigationBar != null || Build.VERSION.SDK_INT < 26) {
-            return;
-        }
-        View createNavigationBar = this.drawerLayoutContainer.createNavigationBar();
-        this.customNavigationBar = createNavigationBar;
-        if (createNavigationBar != null) {
+        if (this.customNavigationBar == null && Build.VERSION.SDK_INT >= 26) {
+            this.customNavigationBar = this.drawerLayoutContainer.createNavigationBar();
             ((FrameLayout) getWindow().getDecorView()).addView(this.customNavigationBar);
-            if (this.customNavigationBar.getLayoutParams().height == AndroidUtilities.navigationBarHeight && ((FrameLayout.LayoutParams) this.customNavigationBar.getLayoutParams()).topMargin == this.customNavigationBar.getHeight()) {
+        }
+        View view = this.customNavigationBar;
+        if (view != null) {
+            if (view.getLayoutParams().height == AndroidUtilities.navigationBarHeight && ((FrameLayout.LayoutParams) this.customNavigationBar.getLayoutParams()).topMargin == this.customNavigationBar.getHeight()) {
                 return;
             }
             this.customNavigationBar.getLayoutParams().height = AndroidUtilities.navigationBarHeight;

@@ -9035,17 +9035,17 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Can't wrap try/catch for region: R(38:16|(1:259)(1:20)|(1:22)(1:258)|23|(4:25|(1:256)(1:29)|30|(29:32|33|(1:35)|36|(1:(1:39)(1:(1:44)(1:43)))|45|(2:49|50)|(1:56)|57|(2:59|(2:61|(1:63))(1:223))(2:224|(1:251)(2:230|(1:232)(2:233|(1:235)(4:236|(1:238)(1:250)|239|(4:243|(1:245)(1:249)|246|(1:248))))))|64|(1:222)(1:68)|69|70|71|72|(4:75|(2:77|78)(10:(2:83|(8:97|(1:182)(1:100)|101|(1:103)(1:181)|104|(1:106)(1:180)|107|(10:109|(1:159)(2:113|(1:115)(11:136|(4:138|(2:140|(1:142))(1:157)|145|(8:147|148|118|(1:122)|123|(1:127)|128|(2:132|133))(4:149|(1:151)|152|(1:154)(2:155|156)))(1:158)|143|144|117|118|(1:122)|123|(2:125|127)|128|(1:135)(3:130|132|133)))|116|117|118|(0)|123|(0)|128|(0)(0))(11:160|(10:162|(1:179)(2:166|(1:168)(2:169|(9:178|144|117|118|(0)|123|(0)|128|(0)(0))(2:175|(8:177|148|118|(0)|123|(0)|128|(0)(0)))))|116|117|118|(0)|123|(0)|128|(0)(0))|156|116|117|118|(0)|123|(0)|128|(0)(0))))|183|(0)|182|101|(0)(0)|104|(0)(0)|107|(0)(0))|79|73)|184|185|(1:187)(2:212|(8:219|189|(1:191)|192|(1:211)(1:200)|201|(1:203)(1:210)|204)(1:218))|188|189|(0)|192|(3:194|196|198)|211|201|(0)(0)|204))(1:257)|255|33|(0)|36|(0)|45|(26:47|49|50|(2:52|56)|57|(0)(0)|64|(1:66)|222|69|70|71|72|(1:73)|184|185|(0)(0)|188|189|(0)|192|(0)|211|201|(0)(0)|204)|253|49|50|(0)|57|(0)(0)|64|(0)|222|69|70|71|72|(1:73)|184|185|(0)(0)|188|189|(0)|192|(0)|211|201|(0)(0)|204) */
-    /* JADX WARN: Code restructure failed: missing block: B:286:0x05be, code lost:
-        if (r36.chatInfo.can_view_participants != false) goto L282;
+    /* JADX WARN: Can't wrap try/catch for region: R(40:16|(1:262)(1:20)|(1:22)(1:261)|23|(4:25|(1:259)(1:29)|30|(31:32|33|(1:35)|36|(1:(1:39)(1:(1:44)(1:43)))|45|(2:49|50)|(1:56)|57|(2:59|(2:61|(1:63))(1:226))(2:227|(1:254)(2:233|(1:235)(2:236|(1:238)(4:239|(1:241)(1:253)|242|(4:246|(1:248)(1:252)|249|(1:251))))))|64|(1:225)(1:68)|69|70|71|72|(4:75|(2:77|78)(10:(2:83|(8:97|(1:182)(1:100)|101|(1:103)(1:181)|104|(1:106)(1:180)|107|(10:109|(1:159)(2:113|(1:115)(11:136|(4:138|(2:140|(1:142))(1:157)|145|(8:147|148|118|(1:122)|123|(1:127)|128|(2:132|133))(4:149|(1:151)|152|(1:154)(2:155|156)))(1:158)|143|144|117|118|(1:122)|123|(2:125|127)|128|(1:135)(3:130|132|133)))|116|117|118|(0)|123|(0)|128|(0)(0))(11:160|(10:162|(1:179)(2:166|(1:168)(2:169|(9:178|144|117|118|(0)|123|(0)|128|(0)(0))(2:175|(8:177|148|118|(0)|123|(0)|128|(0)(0)))))|116|117|118|(0)|123|(0)|128|(0)(0))|156|116|117|118|(0)|123|(0)|128|(0)(0))))|183|(0)|182|101|(0)(0)|104|(0)(0)|107|(0)(0))|79|73)|184|185|(1:187)(2:215|(10:222|189|(1:191)|192|(1:194)|195|(1:214)(1:203)|204|(1:206)(1:213)|207)(1:221))|188|189|(0)|192|(0)|195|(3:197|199|201)|214|204|(0)(0)|207))(1:260)|258|33|(0)|36|(0)|45|(28:47|49|50|(2:52|56)|57|(0)(0)|64|(1:66)|225|69|70|71|72|(1:73)|184|185|(0)(0)|188|189|(0)|192|(0)|195|(0)|214|204|(0)(0)|207)|256|49|50|(0)|57|(0)(0)|64|(0)|225|69|70|71|72|(1:73)|184|185|(0)(0)|188|189|(0)|192|(0)|195|(0)|214|204|(0)(0)|207) */
+    /* JADX WARN: Code restructure failed: missing block: B:289:0x05c2, code lost:
+        if (r36.chatInfo.can_view_participants != false) goto L285;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:366:0x07e9, code lost:
-        if (r36.nameTextView[r10].setText(r1) != false) goto L398;
+    /* JADX WARN: Code restructure failed: missing block: B:369:0x07ed, code lost:
+        if (r36.nameTextView[r10].setText(r1) != false) goto L401;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:374:0x0813, code lost:
-        if (r36.nameTextView[r10].setText(r1) != false) goto L398;
+    /* JADX WARN: Code restructure failed: missing block: B:377:0x0817, code lost:
+        if (r36.nameTextView[r10].setText(r1) != false) goto L401;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:375:0x0815, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:378:0x0819, code lost:
         r14 = true;
      */
     /* JADX WARN: Removed duplicated region for block: B:115:0x0226  */
@@ -9061,36 +9061,37 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     /* JADX WARN: Removed duplicated region for block: B:229:0x043d  */
     /* JADX WARN: Removed duplicated region for block: B:235:0x0469  */
     /* JADX WARN: Removed duplicated region for block: B:237:0x048a  */
-    /* JADX WARN: Removed duplicated region for block: B:247:0x0525  */
-    /* JADX WARN: Removed duplicated region for block: B:250:0x0534  */
-    /* JADX WARN: Removed duplicated region for block: B:260:0x054f  */
-    /* JADX WARN: Removed duplicated region for block: B:261:0x0551  */
-    /* JADX WARN: Removed duplicated region for block: B:348:0x0796  */
-    /* JADX WARN: Removed duplicated region for block: B:438:0x0926  */
-    /* JADX WARN: Removed duplicated region for block: B:439:0x0933  */
-    /* JADX WARN: Removed duplicated region for block: B:442:0x0943  */
-    /* JADX WARN: Removed duplicated region for block: B:452:0x09bb  */
-    /* JADX WARN: Removed duplicated region for block: B:455:0x09fa  */
-    /* JADX WARN: Removed duplicated region for block: B:456:0x09fd  */
-    /* JADX WARN: Removed duplicated region for block: B:459:0x0a06  */
-    /* JADX WARN: Removed duplicated region for block: B:462:0x0a0c  */
-    /* JADX WARN: Removed duplicated region for block: B:463:0x0a19  */
-    /* JADX WARN: Removed duplicated region for block: B:467:0x0a48  */
-    /* JADX WARN: Removed duplicated region for block: B:470:0x0a50  */
-    /* JADX WARN: Removed duplicated region for block: B:476:0x0a5c  */
-    /* JADX WARN: Removed duplicated region for block: B:477:0x0a6a  */
-    /* JADX WARN: Removed duplicated region for block: B:480:0x0a8b A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:485:0x0a9a  */
-    /* JADX WARN: Removed duplicated region for block: B:488:0x0ab0  */
-    /* JADX WARN: Removed duplicated region for block: B:494:0x0ac0  */
-    /* JADX WARN: Removed duplicated region for block: B:498:0x0ad5  */
+    /* JADX WARN: Removed duplicated region for block: B:247:0x051e  */
+    /* JADX WARN: Removed duplicated region for block: B:250:0x0529  */
+    /* JADX WARN: Removed duplicated region for block: B:253:0x0538  */
+    /* JADX WARN: Removed duplicated region for block: B:263:0x0553  */
+    /* JADX WARN: Removed duplicated region for block: B:264:0x0555  */
+    /* JADX WARN: Removed duplicated region for block: B:351:0x079a  */
+    /* JADX WARN: Removed duplicated region for block: B:441:0x092a  */
+    /* JADX WARN: Removed duplicated region for block: B:442:0x0937  */
+    /* JADX WARN: Removed duplicated region for block: B:445:0x0947  */
+    /* JADX WARN: Removed duplicated region for block: B:455:0x09bf  */
+    /* JADX WARN: Removed duplicated region for block: B:458:0x09fe  */
+    /* JADX WARN: Removed duplicated region for block: B:459:0x0a01  */
+    /* JADX WARN: Removed duplicated region for block: B:462:0x0a0a  */
+    /* JADX WARN: Removed duplicated region for block: B:465:0x0a10  */
+    /* JADX WARN: Removed duplicated region for block: B:466:0x0a1d  */
+    /* JADX WARN: Removed duplicated region for block: B:470:0x0a4c  */
+    /* JADX WARN: Removed duplicated region for block: B:473:0x0a54  */
+    /* JADX WARN: Removed duplicated region for block: B:479:0x0a60  */
+    /* JADX WARN: Removed duplicated region for block: B:480:0x0a6e  */
+    /* JADX WARN: Removed duplicated region for block: B:483:0x0a8f A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:488:0x0a9e  */
+    /* JADX WARN: Removed duplicated region for block: B:491:0x0ab4  */
+    /* JADX WARN: Removed duplicated region for block: B:497:0x0ac4  */
     /* JADX WARN: Removed duplicated region for block: B:49:0x00c0  */
-    /* JADX WARN: Removed duplicated region for block: B:505:0x0aff  */
-    /* JADX WARN: Removed duplicated region for block: B:515:0x0b1a  */
-    /* JADX WARN: Removed duplicated region for block: B:516:0x0b1c  */
+    /* JADX WARN: Removed duplicated region for block: B:501:0x0ad9  */
+    /* JADX WARN: Removed duplicated region for block: B:508:0x0b03  */
+    /* JADX WARN: Removed duplicated region for block: B:518:0x0b1e  */
+    /* JADX WARN: Removed duplicated region for block: B:519:0x0b20  */
     /* JADX WARN: Removed duplicated region for block: B:52:0x00c9  */
-    /* JADX WARN: Removed duplicated region for block: B:538:0x0455 A[ADDED_TO_REGION, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:543:0x0a29 A[ADDED_TO_REGION, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:541:0x0455 A[ADDED_TO_REGION, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:546:0x0a2d A[ADDED_TO_REGION, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:71:0x0126  */
     /* JADX WARN: Removed duplicated region for block: B:78:0x0159  */
     /* JADX WARN: Removed duplicated region for block: B:84:0x01a5  */
@@ -9471,7 +9472,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             spannableStringBuilder3.setSpan(new DotDividerSpan(), str19.length() + 1, str19.length() + 2, 0);
                             this.onlineTextView[2].setText(spannableStringBuilder3);
                             this.onlineTextView[c].setVisibility(i8);
-                            this.onlineTextView[3].setVisibility(i8);
+                            if (!this.searchMode) {
+                                this.onlineTextView[3].setVisibility(i8);
+                            }
                             chatActivityInterface = this.previousTransitionFragment;
                             if (chatActivityInterface != null) {
                                 chatActivityInterface.checkAndUpdateAvatar();
@@ -9482,7 +9485,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     c = 2;
                     i8 = 0;
                     this.onlineTextView[c].setVisibility(i8);
-                    this.onlineTextView[3].setVisibility(i8);
+                    if (!this.searchMode) {
+                    }
                     chatActivityInterface = this.previousTransitionFragment;
                     if (chatActivityInterface != null) {
                     }
@@ -9518,7 +9522,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 c = 2;
                 i8 = 0;
                 this.onlineTextView[c].setVisibility(i8);
-                this.onlineTextView[3].setVisibility(i8);
+                if (!this.searchMode) {
+                }
                 chatActivityInterface = this.previousTransitionFragment;
                 if (chatActivityInterface != null) {
                 }
@@ -9542,7 +9547,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             c = 2;
             i8 = 0;
             this.onlineTextView[c].setVisibility(i8);
-            this.onlineTextView[3].setVisibility(i8);
+            if (!this.searchMode) {
+            }
             chatActivityInterface = this.previousTransitionFragment;
             if (chatActivityInterface != null) {
             }
@@ -10561,6 +10567,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         this.avatarContainer.setVisibility(0);
         this.nameTextView[1].setVisibility(0);
         this.onlineTextView[1].setVisibility(0);
+        this.onlineTextView[3].setVisibility(0);
         this.actionBar.onSearchFieldVisibilityChanged(this.searchTransitionProgress > 0.5f);
         int i = this.searchTransitionProgress > 0.5f ? 0 : 8;
         ActionBarMenuItem actionBarMenuItem = this.otherItem;
@@ -10644,6 +10651,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         }
         this.nameTextView[1].setAlpha(f2);
         this.onlineTextView[1].setAlpha(f2);
+        this.onlineTextView[3].setAlpha(f2);
         this.searchItem.getSearchField().setAlpha(f3);
         if (z && this.searchTransitionProgress < 0.7f) {
             this.searchItem.requestFocusOnSearchView();
@@ -10690,6 +10698,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         }
         this.nameTextView[1].setVisibility(i2);
         this.onlineTextView[1].setVisibility(i2);
+        this.onlineTextView[3].setVisibility(i2);
         ActionBarMenuItem actionBarMenuItem = this.otherItem;
         if (actionBarMenuItem != null) {
             actionBarMenuItem.setAlpha(1.0f);

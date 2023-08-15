@@ -680,10 +680,10 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
             this.loadingDrawableAlpha.setDuration(100L);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:155:0x0501  */
-        /* JADX WARN: Removed duplicated region for block: B:158:0x050b  */
-        /* JADX WARN: Removed duplicated region for block: B:175:0x055d  */
-        /* JADX WARN: Removed duplicated region for block: B:177:? A[RETURN, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:160:0x0511  */
+        /* JADX WARN: Removed duplicated region for block: B:163:0x051b  */
+        /* JADX WARN: Removed duplicated region for block: B:180:0x056d  */
+        /* JADX WARN: Removed duplicated region for block: B:182:? A[RETURN, SYNTHETIC] */
         @Override // android.view.ViewGroup, android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -694,6 +694,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
             boolean z;
             boolean hasNotThumb;
             StoryViewer.VideoPlayerHolder videoPlayerHolder;
+            StoryViewer.VideoPlayerHolder videoPlayerHolder2;
             PeerStoriesView peerStoriesView2 = PeerStoriesView.this;
             boolean z2 = true;
             if (!peerStoriesView2.isActive) {
@@ -720,7 +721,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                     if (peerStoriesView5.isActive) {
                         StoryViewer storyViewer = this.val$storyViewer;
                         boolean z3 = storyViewer.USE_SURFACE_VIEW;
-                        if (!z3 || (videoPlayerHolder = peerStoriesView5.playerSharedScope.player) == null || !videoPlayerHolder.paused || storyViewer.playerStubBitmap == null || !videoPlayerHolder.stubAvailable) {
+                        if (!z3 || (videoPlayerHolder2 = peerStoriesView5.playerSharedScope.player) == null || !videoPlayerHolder2.paused || storyViewer.playerStubBitmap == null || !videoPlayerHolder2.stubAvailable) {
                             if (!z3 || peerStoriesView5.allowDrawSurface) {
                                 PeerStoriesView.this.playerSharedScope.renderView.draw(canvas);
                             }
@@ -757,9 +758,11 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                     hasNotThumb = PeerStoriesView.this.imageReceiver.hasNotThumb();
                 } else {
                     VideoPlayerSharedScope videoPlayerSharedScope2 = PeerStoriesView.this.playerSharedScope;
-                    hasNotThumb = (videoPlayerSharedScope2.renderView == null || !videoPlayerSharedScope2.firstFrameRendered || (videoPlayerSharedScope2.player.progress == 0.0f && videoPlayerSharedScope2.isBuffering())) ? false : true;
+                    hasNotThumb = (videoPlayerSharedScope2.renderView == null || (videoPlayerHolder = videoPlayerSharedScope2.player) == null || !videoPlayerSharedScope2.firstFrameRendered || (videoPlayerHolder.progress == 0.0f && videoPlayerSharedScope2.isBuffering() && !PeerStoriesView.this.playerSharedScope.player.paused)) ? false : true;
                 }
-                this.loadingDrawableAlpha2.set((hasNotThumb || PeerStoriesView.this.currentStory.uploadingStory != null) ? 0.0f : 1.0f);
+                AnimatedFloat animatedFloat = this.loadingDrawableAlpha2;
+                PeerStoriesView peerStoriesView7 = PeerStoriesView.this;
+                animatedFloat.set((peerStoriesView7.isActive && !hasNotThumb && peerStoriesView7.currentStory.uploadingStory == null) ? 1.0f : 0.0f);
                 this.loadingDrawableAlpha.set(this.loadingDrawableAlpha2.get() == 1.0f ? 1.0f : 0.0f);
                 if (this.loadingDrawableAlpha.get() > 0.0f) {
                     RectF rectF = AndroidUtilities.rectTmp;
@@ -782,12 +785,12 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
             int i = (int) (hideInterfaceAlpha * 255.0f);
             this.val$sharedResources.topOverlayGradient.setAlpha(i);
             this.val$sharedResources.topOverlayGradient.draw(canvas);
-            PeerStoriesView peerStoriesView7 = PeerStoriesView.this;
-            if (peerStoriesView7.isSelf || !peerStoriesView7.BIG_SCREEN || PeerStoriesView.this.storyCaptionView.getVisibility() == 0) {
+            PeerStoriesView peerStoriesView8 = PeerStoriesView.this;
+            if (peerStoriesView8.isSelf || !peerStoriesView8.BIG_SCREEN || PeerStoriesView.this.storyCaptionView.getVisibility() == 0) {
                 if (PeerStoriesView.this.storyCaptionView.getVisibility() != 0) {
                     int dp = AndroidUtilities.dp(PeerStoriesView.this.BIG_SCREEN ? 56.0f : 110.0f);
-                    PeerStoriesView peerStoriesView8 = PeerStoriesView.this;
-                    if ((peerStoriesView8.isSelf || !peerStoriesView8.BIG_SCREEN) && PeerStoriesView.this.storyCaptionView.getVisibility() == 0) {
+                    PeerStoriesView peerStoriesView9 = PeerStoriesView.this;
+                    if ((peerStoriesView9.isSelf || !peerStoriesView9.BIG_SCREEN) && PeerStoriesView.this.storyCaptionView.getVisibility() == 0) {
                         dp = (int) (dp * 2.5f);
                     }
                     this.val$sharedResources.bottomOverlayGradient.setBounds(0, PeerStoriesView.this.storyContainer.getMeasuredHeight() - dp, getMeasuredWidth(), PeerStoriesView.this.storyContainer.getMeasuredHeight());
@@ -804,14 +807,14 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                             PeerStoriesView.this.inBlackoutMode = true;
                         }
                     } else {
-                        PeerStoriesView peerStoriesView9 = PeerStoriesView.this;
-                        if (!peerStoriesView9.checkBlackoutMode) {
-                            if (peerStoriesView9.storyCaptionView.getProgressToBlackout() == 0.0f) {
+                        PeerStoriesView peerStoriesView10 = PeerStoriesView.this;
+                        if (!peerStoriesView10.checkBlackoutMode) {
+                            if (peerStoriesView10.storyCaptionView.getProgressToBlackout() == 0.0f) {
                                 PeerStoriesView.this.inBlackoutMode = false;
                             }
                         } else {
-                            peerStoriesView9.checkBlackoutMode = false;
-                            if ((measuredHeight - (((int) (peerStoriesView9.storyCaptionView.getMaxTop() - AndroidUtilities.dp(24.0f))) + PeerStoriesView.this.storyCaptionView.getTop())) / AndroidUtilities.dp(60.0f) > 0.0f) {
+                            peerStoriesView10.checkBlackoutMode = false;
+                            if ((measuredHeight - (((int) (peerStoriesView10.storyCaptionView.getMaxTop() - AndroidUtilities.dp(24.0f))) + PeerStoriesView.this.storyCaptionView.getTop())) / AndroidUtilities.dp(60.0f) > 0.0f) {
                                 PeerStoriesView.this.inBlackoutMode = true;
                             }
                         }
@@ -865,22 +868,22 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                     peerStoriesView = PeerStoriesView.this;
                     if (peerStoriesView.isActive) {
                         if (peerStoriesView.storyCaptionView.getVisibility() == 0) {
-                            PeerStoriesView peerStoriesView10 = PeerStoriesView.this;
-                            if (peerStoriesView10.inBlackoutMode || peerStoriesView10.storyCaptionView.isTouched()) {
+                            PeerStoriesView peerStoriesView11 = PeerStoriesView.this;
+                            if (peerStoriesView11.inBlackoutMode || peerStoriesView11.storyCaptionView.isTouched()) {
                                 z = true;
-                                PeerStoriesView peerStoriesView11 = PeerStoriesView.this;
-                                peerStoriesView11.isCaptionPartVisible = (peerStoriesView11.storyCaptionView.getVisibility() == 0 || PeerStoriesView.this.storyCaptionView.getProgressToBlackout() <= 0.0f) ? false : false;
-                                PeerStoriesView.this.delegate.setIsCaption(z);
                                 PeerStoriesView peerStoriesView12 = PeerStoriesView.this;
-                                peerStoriesView12.delegate.setIsCaptionPartVisible(peerStoriesView12.isCaptionPartVisible);
+                                peerStoriesView12.isCaptionPartVisible = (peerStoriesView12.storyCaptionView.getVisibility() == 0 || PeerStoriesView.this.storyCaptionView.getProgressToBlackout() <= 0.0f) ? false : false;
+                                PeerStoriesView.this.delegate.setIsCaption(z);
+                                PeerStoriesView peerStoriesView13 = PeerStoriesView.this;
+                                peerStoriesView13.delegate.setIsCaptionPartVisible(peerStoriesView13.isCaptionPartVisible);
                             }
                         }
                         z = false;
-                        PeerStoriesView peerStoriesView112 = PeerStoriesView.this;
-                        peerStoriesView112.isCaptionPartVisible = (peerStoriesView112.storyCaptionView.getVisibility() == 0 || PeerStoriesView.this.storyCaptionView.getProgressToBlackout() <= 0.0f) ? false : false;
-                        PeerStoriesView.this.delegate.setIsCaption(z);
                         PeerStoriesView peerStoriesView122 = PeerStoriesView.this;
-                        peerStoriesView122.delegate.setIsCaptionPartVisible(peerStoriesView122.isCaptionPartVisible);
+                        peerStoriesView122.isCaptionPartVisible = (peerStoriesView122.storyCaptionView.getVisibility() == 0 || PeerStoriesView.this.storyCaptionView.getProgressToBlackout() <= 0.0f) ? false : false;
+                        PeerStoriesView.this.delegate.setIsCaption(z);
+                        PeerStoriesView peerStoriesView132 = PeerStoriesView.this;
+                        peerStoriesView132.delegate.setIsCaptionPartVisible(peerStoriesView132.isCaptionPartVisible);
                     }
                     if (f > 0.0f) {
                         super.dispatchDraw(canvas);
@@ -6299,7 +6302,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
 
         @Override // org.telegram.ui.Components.ReactionsContainerLayout.ReactionsContainerDelegate
         public boolean needEnterText() {
-            PeerStoriesView.this.delegate.requestAdjust(true);
+            PeerStoriesView.this.delegate.requestAdjust(false);
             return false;
         }
     }
