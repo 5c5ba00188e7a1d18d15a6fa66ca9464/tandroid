@@ -27,6 +27,11 @@ public class LocationView extends EntityView {
     public TLRPC$MediaArea mediaArea;
 
     @Override // org.telegram.ui.Components.Paint.Views.EntityView
+    protected float getMaxScale() {
+        return 1.5f;
+    }
+
+    @Override // org.telegram.ui.Components.Paint.Views.EntityView
     protected float getStickyPaddingLeft() {
         return this.marker.padx;
     }
@@ -151,11 +156,6 @@ public class LocationView extends EntityView {
 
     public int getType() {
         return this.currentType;
-    }
-
-    @Override // org.telegram.ui.Components.Paint.Views.EntityView
-    protected Float getMaxScale() {
-        return Float.valueOf(1.5f);
     }
 
     @Override // org.telegram.ui.Components.Paint.Views.EntityView

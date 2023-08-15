@@ -2423,14 +2423,12 @@ public class MessagesController extends BaseController implements NotificationCe
                 FileLog.e(e3);
             }
         }
-        if (BuildVars.DEBUG_VERSION) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda16
-                @Override // java.lang.Runnable
-                public final void run() {
-                    MessagesController.this.loadAppConfig();
-                }
-            }, 2000L);
-        }
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda16
+            @Override // java.lang.Runnable
+            public final void run() {
+                MessagesController.this.loadAppConfig();
+            }
+        }, 2000L);
         this.topicsController = new TopicsController(i);
         this.cacheByChatsController = new CacheByChatsController(i);
         this.translateController = new TranslateController(this);
@@ -7028,6 +7026,8 @@ public class MessagesController extends BaseController implements NotificationCe
                     getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.notificationsSettingsUpdated, new Object[0]);
                 }
             }
+        } else if (i == NotificationCenter.currentUserPremiumStatusChanged) {
+            loadAppConfig(false);
         }
     }
 

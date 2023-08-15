@@ -1289,7 +1289,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         return this.customDate;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:318:0x0591  */
+    /* JADX WARN: Removed duplicated region for block: B:322:0x0593  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1495,7 +1495,10 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                 }
             } else {
                 f2 = 1.0f;
-                this.giftPremiumSubtitleLayout.draw(canvas);
+                StaticLayout staticLayout2 = this.giftPremiumSubtitleLayout;
+                if (staticLayout2 != null) {
+                    staticLayout2.draw(canvas);
+                }
             }
             canvas.restore();
             if (this.giftPremiumTitleLayout == null) {
@@ -1505,9 +1508,9 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                 f3 = 8.0f;
             }
             this.giftPremiumSubtitleLayout.getHeight();
-            StaticLayout staticLayout2 = this.giftPremiumButtonLayout;
-            if (staticLayout2 != null) {
-                staticLayout2.getHeight();
+            StaticLayout staticLayout3 = this.giftPremiumButtonLayout;
+            if (staticLayout3 != null) {
+                staticLayout3.getHeight();
             }
             getHeight();
             AndroidUtilities.dp(f3);

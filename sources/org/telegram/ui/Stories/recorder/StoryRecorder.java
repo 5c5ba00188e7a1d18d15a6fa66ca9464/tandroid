@@ -3911,19 +3911,19 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:151:0x0238  */
-    /* JADX WARN: Removed duplicated region for block: B:152:0x023b  */
-    /* JADX WARN: Removed duplicated region for block: B:160:0x0260  */
-    /* JADX WARN: Removed duplicated region for block: B:161:0x0276  */
-    /* JADX WARN: Removed duplicated region for block: B:165:0x0291  */
-    /* JADX WARN: Removed duplicated region for block: B:166:0x02a5  */
-    /* JADX WARN: Removed duplicated region for block: B:169:0x02c8  */
-    /* JADX WARN: Removed duplicated region for block: B:172:0x02db  */
-    /* JADX WARN: Removed duplicated region for block: B:179:0x02f2  */
-    /* JADX WARN: Removed duplicated region for block: B:186:0x030e  */
-    /* JADX WARN: Removed duplicated region for block: B:189:0x031e  */
-    /* JADX WARN: Removed duplicated region for block: B:193:0x034f A[LOOP:0: B:193:0x034f->B:195:0x0355, LOOP_START, PHI: r8 
-      PHI: (r8v1 int) = (r8v0 int), (r8v2 int) binds: [B:188:0x031c, B:195:0x0355] A[DONT_GENERATE, DONT_INLINE]] */
+    /* JADX WARN: Removed duplicated region for block: B:169:0x0230  */
+    /* JADX WARN: Removed duplicated region for block: B:170:0x0233  */
+    /* JADX WARN: Removed duplicated region for block: B:178:0x0258  */
+    /* JADX WARN: Removed duplicated region for block: B:179:0x026e  */
+    /* JADX WARN: Removed duplicated region for block: B:183:0x0289  */
+    /* JADX WARN: Removed duplicated region for block: B:184:0x029d  */
+    /* JADX WARN: Removed duplicated region for block: B:187:0x02c0  */
+    /* JADX WARN: Removed duplicated region for block: B:190:0x02d3  */
+    /* JADX WARN: Removed duplicated region for block: B:197:0x02ea  */
+    /* JADX WARN: Removed duplicated region for block: B:204:0x0306  */
+    /* JADX WARN: Removed duplicated region for block: B:207:0x0316  */
+    /* JADX WARN: Removed duplicated region for block: B:211:0x0347 A[LOOP:0: B:211:0x0347->B:213:0x034d, LOOP_START, PHI: r8 
+      PHI: (r8v1 int) = (r8v0 int), (r8v2 int) binds: [B:206:0x0314, B:213:0x034d] A[DONT_GENERATE, DONT_INLINE]] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -3950,11 +3950,15 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             createFilterPhotoView();
             PhotoFilterView photoFilterView2 = this.photoFilterView;
             this.previewTouchable = photoFilterView2;
-            photoFilterView2.getToolsView().setAlpha(0.0f);
-            this.photoFilterView.getToolsView().setVisibility(0);
-            arrayList.add(ObjectAnimator.ofFloat(this.photoFilterView.getToolsView(), View.TRANSLATION_Y, 0.0f));
-            arrayList.add(ObjectAnimator.ofFloat(this.photoFilterView.getToolsView(), View.ALPHA, 1.0f));
-            TextureView myTextureView = this.photoFilterView.getMyTextureView();
+            FrameLayout toolsView = photoFilterView2 != null ? photoFilterView2.getToolsView() : null;
+            if (toolsView != null) {
+                toolsView.setAlpha(0.0f);
+                toolsView.setVisibility(0);
+                arrayList.add(ObjectAnimator.ofFloat(toolsView, View.TRANSLATION_Y, 0.0f));
+                arrayList.add(ObjectAnimator.ofFloat(toolsView, View.ALPHA, 1.0f));
+            }
+            PhotoFilterView photoFilterView3 = this.photoFilterView;
+            TextureView myTextureView = photoFilterView3 != null ? photoFilterView3.getMyTextureView() : null;
             if (myTextureView != null) {
                 arrayList.add(ObjectAnimator.ofFloat(myTextureView, View.ALPHA, 1.0f));
             }
