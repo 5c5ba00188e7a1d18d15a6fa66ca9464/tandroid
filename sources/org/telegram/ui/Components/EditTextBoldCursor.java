@@ -583,7 +583,7 @@ public class EditTextBoldCursor extends EditTextEffects {
     public void setHintText(CharSequence charSequence, boolean z) {
         AnimatedTextView.AnimatedTextDrawable animatedTextDrawable = this.hintAnimatedDrawable;
         if (animatedTextDrawable != null) {
-            animatedTextDrawable.setText(charSequence, true);
+            animatedTextDrawable.setText(charSequence, !LocaleController.isRTL);
             return;
         }
         if (charSequence == null) {

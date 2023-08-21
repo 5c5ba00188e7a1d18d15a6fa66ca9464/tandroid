@@ -9,16 +9,15 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.graphics.SurfaceTexture;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Build;
+import android.util.LongSparseArray;
 import android.util.SparseArray;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
@@ -32,14 +31,12 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import androidx.core.graphics.ColorUtils;
 import androidx.core.math.MathUtils;
-import com.google.android.exoplayer2.analytics.AnalyticsListener;
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 import java.util.ArrayList;
 import java.util.Objects;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.AnimationNotificationsLocker;
 import org.telegram.messenger.BuildVars;
-import org.telegram.messenger.DispatchQueue;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.FileStreamLoadOperation;
@@ -52,6 +49,7 @@ import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.support.LongSparseIntArray;
+import org.telegram.messenger.video.VideoPlayerHolderBase;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$MessageMedia;
 import org.telegram.tgnet.TLRPC$StoryItem;
@@ -70,7 +68,6 @@ import org.telegram.ui.Components.ReactionsContainerLayout;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.ShareAlert;
 import org.telegram.ui.Components.SizeNotifierFrameLayout;
-import org.telegram.ui.Components.VideoPlayer;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.Stories.PeerStoriesView;
 import org.telegram.ui.Stories.StoriesController;
@@ -140,11 +137,11 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
     private Runnable onCloseListener;
     ValueAnimator openCloseAnimator;
     boolean openedFromLightNavigationBar;
+    private boolean opening;
     TLRPC$TL_userStories overrideUserStories;
+    LaunchActivity parentActivity;
     public PlaceProvider placeProvider;
     VideoPlayerHolder playerHolder;
-    Bitmap playerStubBitmap;
-    public Paint playerStubPaint;
     float progressToDismiss;
     float progressToOpen;
     private int realKeyboardHeight;
@@ -193,15 +190,16 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
         }
     };
     public LongSparseIntArray savedPositions = new LongSparseIntArray();
+    LongSparseArray<CharSequence> replyDrafts = new LongSparseArray<>();
 
     /* loaded from: classes4.dex */
     public interface HolderClip {
-        void clip(Canvas canvas, RectF rectF, float f);
+        void clip(Canvas canvas, RectF rectF, float f, boolean z);
     }
 
     /* loaded from: classes4.dex */
     public interface HolderDrawAbove {
-        void draw(Canvas canvas, RectF rectF, float f);
+        void draw(Canvas canvas, RectF rectF, float f, boolean z);
     }
 
     /* loaded from: classes4.dex */
@@ -704,8 +702,8 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
         }
 
         /* JADX INFO: Access modifiers changed from: protected */
-        /* JADX WARN: Removed duplicated region for block: B:160:0x0765  */
-        /* JADX WARN: Removed duplicated region for block: B:169:? A[RETURN, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:171:0x07b3  */
+        /* JADX WARN: Removed duplicated region for block: B:180:? A[RETURN, SYNTHETIC] */
         @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -716,8 +714,10 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
             StoryViewer storyViewer;
             float lerp;
             float y;
+            HolderDrawAbove holderDrawAbove;
             float f2;
             Paint paint;
+            HolderClip holderClip;
             PeerStoriesView currentPeerView;
             StoryViewer storyViewer2;
             StoryViewer storyViewer3;
@@ -867,14 +867,16 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                         StoryViewer.this.transitionViewHolder.storyImage.setAlpha(f15);
                         StoryViewer.this.transitionViewHolder.storyImage.setVisible(true, false);
                         int saveCount = canvas.getSaveCount();
-                        HolderClip holderClip = StoryViewer.this.transitionViewHolder.drawClip;
-                        if (holderClip != null) {
-                            holderClip.clip(canvas, this.rect3, f15);
+                        StoryViewer storyViewer19 = StoryViewer.this;
+                        HolderClip holderClip2 = storyViewer19.transitionViewHolder.drawClip;
+                        if (holderClip2 != null) {
+                            holderClip2.clip(canvas, this.rect3, f15, storyViewer19.opening);
                         }
                         StoryViewer.this.transitionViewHolder.storyImage.draw(canvas);
-                        HolderDrawAbove holderDrawAbove = StoryViewer.this.transitionViewHolder.drawAbove;
-                        if (holderDrawAbove != null) {
-                            holderDrawAbove.draw(canvas, this.rect3, f15);
+                        StoryViewer storyViewer20 = StoryViewer.this;
+                        HolderDrawAbove holderDrawAbove2 = storyViewer20.transitionViewHolder.drawAbove;
+                        if (holderDrawAbove2 != null) {
+                            holderDrawAbove2.draw(canvas, this.rect3, f15, storyViewer20.opening);
                         }
                         StoryViewer.this.transitionViewHolder.storyImage.setVisible(visible, false);
                         StoryViewer.this.transitionViewHolder.storyImage.setImageCoords(imageX, imageY, imageWidth, imageHeight);
@@ -882,11 +884,11 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                     }
                     canvas.restore();
                     if (peerHeaderView != null) {
-                        StoryViewer storyViewer19 = StoryViewer.this;
-                        float f16 = storyViewer19.swipeToDismissHorizontalOffset;
-                        float f17 = storyViewer19.swipeToDismissOffset;
+                        StoryViewer storyViewer21 = StoryViewer.this;
+                        float f16 = storyViewer21.swipeToDismissHorizontalOffset;
+                        float f17 = storyViewer21.swipeToDismissOffset;
                         PeerStoriesView.PeerHeaderView peerHeaderView3 = peerHeaderView;
-                        if (storyViewer19.isClosed && StoryViewer.this.animateAvatar) {
+                        if (storyViewer21.isClosed && StoryViewer.this.animateAvatar) {
                             this.rect2.set(this.outFromRectAvatar);
                         } else {
                             for (View view2 = peerHeaderView3.backupImageView; view2 != this; view2 = (View) view2.getParent()) {
@@ -901,69 +903,77 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                             }
                             this.rect2.set(f16, f17, peerHeaderView3.backupImageView.getMeasuredWidth() + f16, peerHeaderView3.backupImageView.getMeasuredHeight() + f17);
                         }
-                        RectF rectF3 = this.rect1;
-                        RectF rectF4 = this.rect2;
-                        float f18 = StoryViewer.this.progressToOpen;
-                        RectF rectF5 = AndroidUtilities.rectTmp;
-                        AndroidUtilities.lerp(rectF3, rectF4, f18, rectF5);
+                        AndroidUtilities.lerp(this.rect1, this.rect2, StoryViewer.this.progressToOpen, this.rect3);
+                        int saveCount2 = canvas.getSaveCount();
+                        StoryViewer storyViewer22 = StoryViewer.this;
+                        TransitionViewHolder transitionViewHolder3 = storyViewer22.transitionViewHolder;
+                        if (transitionViewHolder3 != null && (holderClip = transitionViewHolder3.drawClip) != null) {
+                            holderClip.clip(canvas, this.rect3, 1.0f - f5, storyViewer22.opening);
+                        }
                         if (StoryViewer.this.animateAvatar) {
-                            StoryViewer storyViewer20 = StoryViewer.this;
-                            TransitionViewHolder transitionViewHolder3 = storyViewer20.transitionViewHolder;
-                            boolean z2 = (transitionViewHolder3 == null || transitionViewHolder3.crossfadeToAvatarImage == null) ? false : true;
-                            if (!z2 || storyViewer20.progressToOpen != 0.0f) {
-                                peerHeaderView3.backupImageView.getImageReceiver().setImageCoords(rectF5);
-                                peerHeaderView3.backupImageView.getImageReceiver().setRoundRadius((int) (rectF5.width() / 2.0f));
+                            StoryViewer storyViewer23 = StoryViewer.this;
+                            TransitionViewHolder transitionViewHolder4 = storyViewer23.transitionViewHolder;
+                            boolean z2 = (transitionViewHolder4 == null || transitionViewHolder4.crossfadeToAvatarImage == null) ? false : true;
+                            if (!z2 || storyViewer23.progressToOpen != 0.0f) {
+                                peerHeaderView3.backupImageView.getImageReceiver().setImageCoords(this.rect3);
+                                peerHeaderView3.backupImageView.getImageReceiver().setRoundRadius((int) (this.rect3.width() / 2.0f));
                                 peerHeaderView3.backupImageView.getImageReceiver().setVisible(true, false);
-                                float f19 = z2 ? StoryViewer.this.progressToOpen : 1.0f;
-                                TransitionViewHolder transitionViewHolder4 = StoryViewer.this.transitionViewHolder;
-                                if (transitionViewHolder4 == null || transitionViewHolder4.alpha >= 1.0f || (paint = transitionViewHolder4.bgPaint) == null) {
-                                    f2 = f19;
+                                float f18 = z2 ? StoryViewer.this.progressToOpen : 1.0f;
+                                TransitionViewHolder transitionViewHolder5 = StoryViewer.this.transitionViewHolder;
+                                if (transitionViewHolder5 == null || transitionViewHolder5.alpha >= 1.0f || (paint = transitionViewHolder5.bgPaint) == null) {
+                                    f2 = f18;
                                 } else {
                                     paint.setAlpha((int) ((1.0f - f5) * 255.0f));
-                                    canvas.drawCircle(rectF5.centerX(), rectF5.centerY(), rectF5.width() / 2.0f, StoryViewer.this.transitionViewHolder.bgPaint);
-                                    f2 = AndroidUtilities.lerp(StoryViewer.this.transitionViewHolder.alpha, f19, f5);
+                                    canvas.drawCircle(this.rect3.centerX(), this.rect3.centerY(), this.rect3.width() / 2.0f, StoryViewer.this.transitionViewHolder.bgPaint);
+                                    f2 = AndroidUtilities.lerp(StoryViewer.this.transitionViewHolder.alpha, f18, f5);
                                 }
                                 peerHeaderView3.backupImageView.getImageReceiver().setAlpha(f2);
-                                peerHeaderView3.drawUploadingProgress(canvas, rectF5, !StoryViewer.runOpenAnimationAfterLayout, StoryViewer.this.progressToOpen);
+                                peerHeaderView3.drawUploadingProgress(canvas, this.rect3, !StoryViewer.runOpenAnimationAfterLayout, StoryViewer.this.progressToOpen);
                                 peerHeaderView3.backupImageView.getImageReceiver().draw(canvas);
-                                peerHeaderView3.backupImageView.getImageReceiver().setAlpha(f19);
+                                peerHeaderView3.backupImageView.getImageReceiver().setAlpha(f18);
                                 peerHeaderView3.backupImageView.getImageReceiver().setVisible(false, false);
                             }
-                            StoryViewer storyViewer21 = StoryViewer.this;
-                            if (storyViewer21.progressToOpen != 1.0f && z2) {
-                                storyViewer21.avatarRectTmp.set(storyViewer21.transitionViewHolder.crossfadeToAvatarImage.getImageX(), StoryViewer.this.transitionViewHolder.crossfadeToAvatarImage.getImageY(), StoryViewer.this.transitionViewHolder.crossfadeToAvatarImage.getImageX2(), StoryViewer.this.transitionViewHolder.crossfadeToAvatarImage.getImageY2());
+                            StoryViewer storyViewer24 = StoryViewer.this;
+                            if (storyViewer24.progressToOpen != 1.0f && z2) {
+                                storyViewer24.avatarRectTmp.set(storyViewer24.transitionViewHolder.crossfadeToAvatarImage.getImageX(), StoryViewer.this.transitionViewHolder.crossfadeToAvatarImage.getImageY(), StoryViewer.this.transitionViewHolder.crossfadeToAvatarImage.getImageX2(), StoryViewer.this.transitionViewHolder.crossfadeToAvatarImage.getImageY2());
                                 int i = StoryViewer.this.transitionViewHolder.crossfadeToAvatarImage.getRoundRadius()[0];
                                 boolean visible2 = StoryViewer.this.transitionViewHolder.crossfadeToAvatarImage.getVisible();
-                                StoryViewer.this.transitionViewHolder.crossfadeToAvatarImage.setImageCoords(rectF5);
-                                StoryViewer.this.transitionViewHolder.crossfadeToAvatarImage.setRoundRadius((int) (rectF5.width() / 2.0f));
+                                StoryViewer.this.transitionViewHolder.crossfadeToAvatarImage.setImageCoords(this.rect3);
+                                StoryViewer.this.transitionViewHolder.crossfadeToAvatarImage.setRoundRadius((int) (this.rect3.width() / 2.0f));
                                 StoryViewer.this.transitionViewHolder.crossfadeToAvatarImage.setVisible(true, false);
-                                canvas.saveLayerAlpha(rectF5, (int) ((1.0f - StoryViewer.this.progressToOpen) * 255.0f), 31);
+                                canvas.saveLayerAlpha(this.rect3, (int) ((1.0f - StoryViewer.this.progressToOpen) * 255.0f), 31);
                                 StoryViewer.this.transitionViewHolder.crossfadeToAvatarImage.draw(canvas);
                                 canvas.restore();
                                 StoryViewer.this.transitionViewHolder.crossfadeToAvatarImage.setVisible(visible2, false);
-                                StoryViewer storyViewer22 = StoryViewer.this;
-                                storyViewer22.transitionViewHolder.crossfadeToAvatarImage.setImageCoords(storyViewer22.avatarRectTmp);
+                                StoryViewer storyViewer25 = StoryViewer.this;
+                                storyViewer25.transitionViewHolder.crossfadeToAvatarImage.setImageCoords(storyViewer25.avatarRectTmp);
                                 StoryViewer.this.transitionViewHolder.crossfadeToAvatarImage.setRoundRadius(i);
                             }
                         }
+                        StoryViewer storyViewer26 = StoryViewer.this;
+                        TransitionViewHolder transitionViewHolder6 = storyViewer26.transitionViewHolder;
+                        if (transitionViewHolder6 != null && (holderDrawAbove = transitionViewHolder6.drawAbove) != null) {
+                            holderDrawAbove.draw(canvas, this.rect3, 1.0f - f5, storyViewer26.opening);
+                        }
+                        canvas.restoreToCount(saveCount2);
                     }
-                    StoryViewer storyViewer23 = StoryViewer.this;
-                    if (storyViewer23.animateFromCell != null) {
-                        float clamp3 = Utilities.clamp(storyViewer23.progressToOpen / 0.4f, 1.0f, 0.0f);
+                    StoryViewer storyViewer27 = StoryViewer.this;
+                    if (storyViewer27.animateFromCell != null) {
+                        float clamp3 = Utilities.clamp(storyViewer27.progressToOpen / 0.4f, 1.0f, 0.0f);
                         if (clamp3 != 1.0f) {
-                            RectF rectF6 = AndroidUtilities.rectTmp;
-                            StoryViewer storyViewer24 = StoryViewer.this;
-                            float f20 = storyViewer24.fromX;
-                            float f21 = storyViewer24.fromY;
-                            rectF6.set(f20, f21, storyViewer24.fromWidth + f20, storyViewer24.fromHeight + f21);
-                            rectF6.inset(-AndroidUtilities.dp(16.0f), -AndroidUtilities.dp(16.0f));
+                            RectF rectF3 = AndroidUtilities.rectTmp;
+                            StoryViewer storyViewer28 = StoryViewer.this;
+                            float f19 = storyViewer28.fromX;
+                            float f20 = storyViewer28.fromY;
+                            rectF3.set(f19, f20, storyViewer28.fromWidth + f19, storyViewer28.fromHeight + f20);
+                            rectF3.inset(-AndroidUtilities.dp(16.0f), -AndroidUtilities.dp(16.0f));
                             if (clamp3 != 0.0f) {
-                                canvas.saveLayerAlpha(rectF6, (int) ((1.0f - clamp3) * 255.0f), 31);
+                                canvas.saveLayerAlpha(rectF3, (int) ((1.0f - clamp3) * 255.0f), 31);
                             } else {
                                 canvas.save();
                             }
-                            StoryViewer storyViewer25 = StoryViewer.this;
-                            canvas.translate(storyViewer25.fromXCell, storyViewer25.fromYCell);
+                            StoryViewer storyViewer29 = StoryViewer.this;
+                            canvas.translate(storyViewer29.fromXCell, storyViewer29.fromYCell);
                             StoryViewer.this.animateFromCell.drawAvatarOverlays(canvas);
                             canvas.restore();
                         }
@@ -978,14 +988,14 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                 }
             }
             storyViewer10.containerView.setAlpha(storyViewer10.progressToOpen);
-            StoryViewer storyViewer26 = StoryViewer.this;
-            float f22 = (storyViewer26.progressToOpen * 0.1f) + 0.75f + (clamp * 0.15f);
-            storyViewer26.containerView.setScaleX(f22);
-            StoryViewer.this.containerView.setScaleY(f22);
-            StoryViewer storyViewer27 = StoryViewer.this;
-            storyViewer27.containerView.setTranslationY(storyViewer27.swipeToDismissOffset);
-            StoryViewer storyViewer28 = StoryViewer.this;
-            storyViewer28.containerView.setTranslationX(storyViewer28.swipeToDismissHorizontalOffset);
+            StoryViewer storyViewer30 = StoryViewer.this;
+            float f21 = (storyViewer30.progressToOpen * 0.1f) + 0.75f + (clamp * 0.15f);
+            storyViewer30.containerView.setScaleX(f21);
+            StoryViewer.this.containerView.setScaleY(f21);
+            StoryViewer storyViewer31 = StoryViewer.this;
+            storyViewer31.containerView.setTranslationY(storyViewer31.swipeToDismissOffset);
+            StoryViewer storyViewer32 = StoryViewer.this;
+            storyViewer32.containerView.setTranslationX(storyViewer32.swipeToDismissHorizontalOffset);
             super.dispatchDraw(canvas);
             if (StoryViewer.runOpenAnimationAfterLayout) {
             }
@@ -1543,7 +1553,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                             }
                             StoryViewer storyViewer5 = StoryViewer.this;
                             if (storyViewer5.playerHolder == null) {
-                                storyViewer5.playerHolder = new VideoPlayerHolder();
+                                storyViewer5.playerHolder = new VideoPlayerHolder(storyViewer5.surfaceView, StoryViewer.this.textureView);
                                 StoryViewer.this.playerHolder.document = tLRPC$Document;
                             }
                             StoryViewer storyViewer6 = StoryViewer.this;
@@ -1687,7 +1697,8 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                 }
                 for (int i3 = 0; i3 < arrayList2.size(); i3++) {
                     Uri uri = arrayList2.get(i3);
-                    VideoPlayerHolder videoPlayerHolder = new VideoPlayerHolder();
+                    StoryViewer storyViewer = StoryViewer.this;
+                    VideoPlayerHolder videoPlayerHolder = new VideoPlayerHolder(storyViewer.surfaceView, StoryViewer.this.textureView);
                     videoPlayerHolder.uri = uri;
                     TLRPC$Document tLRPC$Document = arrayList.get(i3);
                     videoPlayerHolder.document = tLRPC$Document;
@@ -2243,6 +2254,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
         if (this.transitionViewHolder.radialProgressUpload != null && (currentPeerView = getCurrentPeerView()) != null && (radialProgress = currentPeerView.headerView.radialProgress) != null) {
             radialProgress.copyParams(this.transitionViewHolder.radialProgressUpload);
         }
+        this.opening = true;
         ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
         this.openCloseAnimator = ofFloat;
         ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.StoryViewer$$ExternalSyntheticLambda3
@@ -2358,6 +2370,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
         updateTransitionParams();
         this.locker.lock();
         this.fromDismissOffset = this.swipeToDismissOffset;
+        this.opening = false;
         ValueAnimator ofFloat = ValueAnimator.ofFloat(this.progressToOpen, 0.0f);
         this.openCloseAnimator = ofFloat;
         ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.StoryViewer$$ExternalSyntheticLambda1
@@ -2783,6 +2796,28 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
         }
     }
 
+    public void saveDraft(long j, TLRPC$StoryItem tLRPC$StoryItem, CharSequence charSequence) {
+        if (j == 0 || tLRPC$StoryItem == null) {
+            return;
+        }
+        this.replyDrafts.put(draftHash(j, tLRPC$StoryItem), charSequence);
+    }
+
+    public CharSequence getDraft(long j, TLRPC$StoryItem tLRPC$StoryItem) {
+        return (j == 0 || tLRPC$StoryItem == null) ? "" : this.replyDrafts.get(draftHash(j, tLRPC$StoryItem), "");
+    }
+
+    public void clearDraft(long j, TLRPC$StoryItem tLRPC$StoryItem) {
+        if (j == 0 || tLRPC$StoryItem == null) {
+            return;
+        }
+        this.replyDrafts.remove(draftHash(j, tLRPC$StoryItem));
+    }
+
+    private long draftHash(long j, TLRPC$StoryItem tLRPC$StoryItem) {
+        return j + (j >> 16) + (tLRPC$StoryItem.id << 16);
+    }
+
     /* loaded from: classes4.dex */
     public static class TransitionViewHolder {
         public float alpha = 1.0f;
@@ -2819,477 +2854,73 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
     }
 
     /* loaded from: classes4.dex */
-    public class VideoPlayerHolder {
-        boolean audioDisabled;
-        public long currentPosition;
-        public TLRPC$Document document;
-        boolean firstFrameRendered;
-        Runnable initRunnable;
-        int lastState;
+    public class VideoPlayerHolder extends VideoPlayerHolderBase {
         boolean logBuffering;
-        private Runnable onReadyListener;
-        public boolean paused;
-        long playerDuration;
-        float progress;
-        volatile boolean released;
-        boolean stubAvailable;
-        Uri uri;
-        VideoPlayer videoPlayer;
-        final DispatchQueue dispatchQueue = Utilities.getOrCreatePlayerQueue();
-        Runnable progressRunnable = new Runnable() { // from class: org.telegram.ui.Stories.StoryViewer.VideoPlayerHolder.1
-            @Override // java.lang.Runnable
-            public void run() {
-                VideoPlayerHolder videoPlayerHolder = VideoPlayerHolder.this;
-                VideoPlayer videoPlayer = videoPlayerHolder.videoPlayer;
-                if (videoPlayer != null) {
-                    if (videoPlayerHolder.lastState == 4) {
-                        videoPlayerHolder.progress = 1.0f;
-                    } else {
-                        videoPlayerHolder.currentPosition = videoPlayer.getCurrentPosition();
-                        VideoPlayerHolder videoPlayerHolder2 = VideoPlayerHolder.this;
-                        videoPlayerHolder2.playerDuration = videoPlayerHolder2.videoPlayer.getDuration();
-                    }
-                    VideoPlayerHolder videoPlayerHolder3 = VideoPlayerHolder.this;
-                    if (videoPlayerHolder3.lastState == 3) {
-                        videoPlayerHolder3.dispatchQueue.cancelRunnable(videoPlayerHolder3.progressRunnable);
-                        VideoPlayerHolder videoPlayerHolder4 = VideoPlayerHolder.this;
-                        videoPlayerHolder4.dispatchQueue.postRunnable(videoPlayerHolder4.progressRunnable, 16L);
-                    }
-                }
-            }
-        };
 
-        public VideoPlayerHolder() {
-        }
-
-        void preparePlayer(final Uri uri, final boolean z) {
-            this.audioDisabled = z;
-            this.paused = true;
-            Runnable runnable = this.initRunnable;
-            if (runnable != null) {
-                this.dispatchQueue.cancelRunnable(runnable);
-            }
-            DispatchQueue dispatchQueue = this.dispatchQueue;
-            Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Stories.StoryViewer$VideoPlayerHolder$$ExternalSyntheticLambda5
-                @Override // java.lang.Runnable
-                public final void run() {
-                    StoryViewer.VideoPlayerHolder.this.lambda$preparePlayer$0(z, uri);
-                }
-            };
-            this.initRunnable = runnable2;
-            dispatchQueue.postRunnable(runnable2);
-        }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$preparePlayer$0(boolean z, Uri uri) {
-            if (this.released) {
-                return;
-            }
-            ensurePlayerCreated(z);
-            this.videoPlayer.preparePlayer(uri, "other", 0);
-            this.videoPlayer.setPlayWhenReady(false);
-            this.videoPlayer.setWorkerQueue(this.dispatchQueue);
-        }
-
-        void start(final boolean z, final Uri uri, final long j, final boolean z2) {
-            System.currentTimeMillis();
-            this.audioDisabled = z2;
-            this.paused = z;
-            DispatchQueue dispatchQueue = this.dispatchQueue;
-            Runnable runnable = new Runnable() { // from class: org.telegram.ui.Stories.StoryViewer$VideoPlayerHolder$$ExternalSyntheticLambda6
-                @Override // java.lang.Runnable
-                public final void run() {
-                    StoryViewer.VideoPlayerHolder.this.lambda$start$2(z2, uri, z, j);
-                }
-            };
-            this.initRunnable = runnable;
-            dispatchQueue.postRunnable(runnable);
-        }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$start$2(boolean z, Uri uri, boolean z2, long j) {
-            if (this.released) {
-                return;
-            }
-            VideoPlayer videoPlayer = this.videoPlayer;
-            if (videoPlayer == null) {
-                ensurePlayerCreated(z);
-                this.videoPlayer.preparePlayer(uri, "other");
-                this.videoPlayer.setWorkerQueue(this.dispatchQueue);
-                if (!z2) {
-                    StoryViewer storyViewer = StoryViewer.this;
-                    if (storyViewer.USE_SURFACE_VIEW) {
-                        this.videoPlayer.setSurfaceView(storyViewer.surfaceView);
-                    } else {
-                        this.videoPlayer.setTextureView(storyViewer.textureView);
-                    }
-                    this.videoPlayer.setPlayWhenReady(true);
-                }
-            } else if (!z2) {
-                StoryViewer storyViewer2 = StoryViewer.this;
-                if (storyViewer2.USE_SURFACE_VIEW) {
-                    videoPlayer.setSurfaceView(storyViewer2.surfaceView);
-                } else {
-                    videoPlayer.setTextureView(storyViewer2.textureView);
-                }
-                this.videoPlayer.play();
-            }
-            if (j > 0) {
-                this.videoPlayer.seekTo(j);
-            }
-            this.videoPlayer.setVolume(StoryViewer.isInSilentMode ? 0.0f : 1.0f);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoryViewer$VideoPlayerHolder$$ExternalSyntheticLambda0
-                @Override // java.lang.Runnable
-                public final void run() {
-                    StoryViewer.VideoPlayerHolder.this.lambda$start$1();
-                }
-            });
-        }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$start$1() {
-            this.initRunnable = null;
-        }
-
-        private void ensurePlayerCreated(boolean z) {
-            VideoPlayer videoPlayer = this.videoPlayer;
-            if (videoPlayer != null) {
-                videoPlayer.releasePlayer(true);
-            }
-            VideoPlayer videoPlayer2 = new VideoPlayer(false, z);
-            this.videoPlayer = videoPlayer2;
-            videoPlayer2.setDelegate(new 2());
-            this.videoPlayer.setIsStory();
-        }
-
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes4.dex */
-        public class 2 implements VideoPlayer.VideoPlayerDelegate {
-            @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
-            public /* synthetic */ void onRenderedFirstFrame(AnalyticsListener.EventTime eventTime) {
-                VideoPlayer.VideoPlayerDelegate.-CC.$default$onRenderedFirstFrame(this, eventTime);
-            }
-
-            @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
-            public /* synthetic */ void onSeekFinished(AnalyticsListener.EventTime eventTime) {
-                VideoPlayer.VideoPlayerDelegate.-CC.$default$onSeekFinished(this, eventTime);
-            }
-
-            @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
-            public /* synthetic */ void onSeekStarted(AnalyticsListener.EventTime eventTime) {
-                VideoPlayer.VideoPlayerDelegate.-CC.$default$onSeekStarted(this, eventTime);
-            }
-
-            @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
-            public boolean onSurfaceDestroyed(SurfaceTexture surfaceTexture) {
-                return false;
-            }
-
-            @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
-            public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) {
-            }
-
-            @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
-            public void onVideoSizeChanged(int i, int i2, int i3, float f) {
-            }
-
-            2() {
-            }
-
-            @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
-            public void onStateChanged(boolean z, int i) {
-                VideoPlayerHolder videoPlayerHolder = VideoPlayerHolder.this;
-                videoPlayerHolder.lastState = i;
-                if (i != 3 && i != 2) {
-                    if (i == 4) {
-                        if (StoryViewer.this.isCaptionPartVisible) {
-                            VideoPlayerHolder videoPlayerHolder2 = VideoPlayerHolder.this;
-                            videoPlayerHolder2.progress = 0.0f;
-                            videoPlayerHolder2.videoPlayer.seekTo(0L);
-                            VideoPlayerHolder.this.videoPlayer.play();
-                            return;
-                        }
-                        VideoPlayerHolder.this.progress = 1.0f;
-                        return;
-                    }
-                    return;
-                }
-                videoPlayerHolder.dispatchQueue.cancelRunnable(videoPlayerHolder.progressRunnable);
-                VideoPlayerHolder videoPlayerHolder3 = VideoPlayerHolder.this;
-                videoPlayerHolder3.dispatchQueue.postRunnable(videoPlayerHolder3.progressRunnable);
-                VideoPlayerHolder videoPlayerHolder4 = VideoPlayerHolder.this;
-                if (videoPlayerHolder4.firstFrameRendered && i == 2) {
-                    videoPlayerHolder4.logBuffering = true;
-                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoryViewer$VideoPlayerHolder$2$$ExternalSyntheticLambda1
-                        @Override // java.lang.Runnable
-                        public final void run() {
-                            StoryViewer.VideoPlayerHolder.2.this.lambda$onStateChanged$0();
-                        }
-                    });
-                }
-                VideoPlayerHolder videoPlayerHolder5 = VideoPlayerHolder.this;
-                if (videoPlayerHolder5.logBuffering && i == 3) {
-                    videoPlayerHolder5.logBuffering = false;
-                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoryViewer$VideoPlayerHolder$2$$ExternalSyntheticLambda0
-                        @Override // java.lang.Runnable
-                        public final void run() {
-                            StoryViewer.VideoPlayerHolder.2.this.lambda$onStateChanged$1();
-                        }
-                    });
-                }
-            }
-
-            /* JADX INFO: Access modifiers changed from: private */
-            public /* synthetic */ void lambda$onStateChanged$0() {
-                PeerStoriesView currentPeerView = StoryViewer.this.getCurrentPeerView();
-                if (currentPeerView == null || currentPeerView.currentStory.storyItem == null) {
-                    return;
-                }
-                FileLog.d("StoryViewer displayed story buffering dialogId=" + currentPeerView.getCurrentPeer() + " storyId=" + currentPeerView.currentStory.storyItem.id);
-            }
-
-            /* JADX INFO: Access modifiers changed from: private */
-            public /* synthetic */ void lambda$onStateChanged$1() {
-                PeerStoriesView currentPeerView = StoryViewer.this.getCurrentPeerView();
-                if (currentPeerView == null || currentPeerView.currentStory.storyItem == null) {
-                    return;
-                }
-                FileLog.d("StoryViewer displayed story playing dialogId=" + currentPeerView.getCurrentPeer() + " storyId=" + currentPeerView.currentStory.storyItem.id);
-            }
-
-            @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
-            public void onError(VideoPlayer videoPlayer, Exception exc) {
-                FileLog.e(exc);
-            }
-
-            @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
-            public void onRenderedFirstFrame() {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoryViewer$VideoPlayerHolder$2$$ExternalSyntheticLambda2
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        StoryViewer.VideoPlayerHolder.2.this.lambda$onRenderedFirstFrame$2();
-                    }
-                }, 16L);
-            }
-
-            /* JADX INFO: Access modifiers changed from: private */
-            public /* synthetic */ void lambda$onRenderedFirstFrame$2() {
-                if (VideoPlayerHolder.this.released) {
-                    return;
-                }
-                VideoPlayerHolder videoPlayerHolder = VideoPlayerHolder.this;
-                PeerStoriesView.VideoPlayerSharedScope videoPlayerSharedScope = StoryViewer.this.currentPlayerScope;
-                if (videoPlayerSharedScope == null) {
-                    return;
-                }
-                videoPlayerSharedScope.firstFrameRendered = true;
-                videoPlayerHolder.firstFrameRendered = true;
-                videoPlayerSharedScope.invalidate();
-                if (VideoPlayerHolder.this.onReadyListener != null) {
-                    VideoPlayerHolder.this.onReadyListener.run();
-                    VideoPlayerHolder.this.onReadyListener = null;
-                }
-            }
-        }
-
-        public void setOnReadyListener(Runnable runnable) {
-            this.onReadyListener = runnable;
-        }
-
-        boolean release(final Runnable runnable) {
-            final TLRPC$Document tLRPC$Document = this.document;
-            if (tLRPC$Document != null && FileStreamLoadOperation.getStreamPrioriy(tLRPC$Document) != 0) {
-                FileStreamLoadOperation.setPriorityForDocument(tLRPC$Document, 0);
-                FileLoader.getInstance(StoryViewer.this.currentAccount).changePriority(0, tLRPC$Document, null, null, null, null, null);
-            }
-            this.released = true;
-            this.dispatchQueue.cancelRunnable(this.initRunnable);
-            this.initRunnable = null;
-            this.dispatchQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.StoryViewer$VideoPlayerHolder$$ExternalSyntheticLambda4
-                @Override // java.lang.Runnable
-                public final void run() {
-                    StoryViewer.VideoPlayerHolder.this.lambda$release$3(tLRPC$Document, runnable);
-                }
-            });
-            Bitmap bitmap = StoryViewer.this.playerStubBitmap;
-            if (bitmap != null) {
-                AndroidUtilities.recycleBitmap(bitmap);
-                StoryViewer.this.playerStubBitmap = null;
-            }
-            return true;
-        }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$release$3(TLRPC$Document tLRPC$Document, Runnable runnable) {
-            VideoPlayer videoPlayer = this.videoPlayer;
-            if (videoPlayer != null) {
-                try {
-                    videoPlayer.setTextureView(null);
-                    this.videoPlayer.setSurfaceView(null);
-                } catch (Exception unused) {
-                }
-                this.videoPlayer.releasePlayer(false);
-            }
-            if (tLRPC$Document != null) {
-                FileLoader.getInstance(StoryViewer.this.currentAccount).cancelLoadFile(tLRPC$Document);
-            }
-            if (runnable != null) {
-                AndroidUtilities.runOnUIThread(runnable);
-            }
-            this.videoPlayer = null;
-        }
-
-        public void pause() {
-            if (this.released || this.paused) {
-                return;
-            }
-            this.paused = true;
-            StoryViewer storyViewer = StoryViewer.this;
-            if (storyViewer.USE_SURFACE_VIEW && storyViewer.surfaceView != null && this.firstFrameRendered && StoryViewer.this.surfaceView.getHolder().getSurface().isValid()) {
-                this.stubAvailable = true;
-                StoryViewer storyViewer2 = StoryViewer.this;
-                if (storyViewer2.playerStubBitmap == null) {
-                    storyViewer2.playerStubBitmap = Bitmap.createBitmap(720, 1280, Bitmap.Config.ARGB_8888);
-                    StoryViewer.this.playerStubPaint = new Paint(1);
-                }
-                if (Build.VERSION.SDK_INT >= 24) {
-                    AndroidUtilities.getBitmapFromSurface(StoryViewer.this.surfaceView, StoryViewer.this.playerStubBitmap);
-                }
-            }
-            this.dispatchQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.StoryViewer$VideoPlayerHolder$$ExternalSyntheticLambda3
-                @Override // java.lang.Runnable
-                public final void run() {
-                    StoryViewer.VideoPlayerHolder.this.lambda$pause$4();
-                }
-            });
-        }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$pause$4() {
-            VideoPlayer videoPlayer = this.videoPlayer;
-            if (videoPlayer != null) {
-                videoPlayer.pause();
-            }
-        }
-
-        public void play() {
-            if (!this.released && this.paused) {
-                this.paused = false;
-                this.dispatchQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.StoryViewer$VideoPlayerHolder$$ExternalSyntheticLambda2
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        StoryViewer.VideoPlayerHolder.this.lambda$play$5();
-                    }
-                });
-            }
-        }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$play$5() {
-            VideoPlayer videoPlayer = this.videoPlayer;
-            if (videoPlayer != null) {
-                StoryViewer storyViewer = StoryViewer.this;
-                if (storyViewer.USE_SURFACE_VIEW) {
-                    videoPlayer.setSurfaceView(storyViewer.surfaceView);
-                } else {
-                    videoPlayer.setTextureView(storyViewer.textureView);
-                }
-                this.videoPlayer.setPlayWhenReady(true);
-            }
-        }
-
-        public void setAudioEnabled(final boolean z, final boolean z2) {
-            boolean z3 = !z;
-            if (this.audioDisabled == z3) {
-                return;
-            }
-            this.audioDisabled = z3;
-            this.dispatchQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.StoryViewer$VideoPlayerHolder$$ExternalSyntheticLambda7
-                @Override // java.lang.Runnable
-                public final void run() {
-                    StoryViewer.VideoPlayerHolder.this.lambda$setAudioEnabled$6(z, z2);
-                }
-            });
-        }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$setAudioEnabled$6(boolean z, boolean z2) {
-            VideoPlayer videoPlayer = this.videoPlayer;
-            if (videoPlayer == null) {
-                return;
-            }
-            boolean isPlaying = videoPlayer.isPlaying();
-            if (z && !this.videoPlayer.createdWithAudioTrack()) {
-                this.videoPlayer.pause();
-                long currentPosition = this.videoPlayer.getCurrentPosition();
-                this.videoPlayer.releasePlayer(false);
-                this.videoPlayer = null;
-                ensurePlayerCreated(this.audioDisabled);
-                this.videoPlayer.preparePlayer(this.uri, "other");
-                this.videoPlayer.setWorkerQueue(this.dispatchQueue);
-                if (!z2) {
-                    StoryViewer storyViewer = StoryViewer.this;
-                    if (storyViewer.USE_SURFACE_VIEW) {
-                        this.videoPlayer.setSurfaceView(storyViewer.surfaceView);
-                    } else {
-                        this.videoPlayer.setTextureView(storyViewer.textureView);
-                    }
-                }
-                this.videoPlayer.seekTo(currentPosition + 50);
-                if (isPlaying && !z2) {
-                    this.videoPlayer.setPlayWhenReady(true);
-                    this.videoPlayer.play();
-                    return;
-                }
-                this.videoPlayer.setPlayWhenReady(false);
-                this.videoPlayer.pause();
-                return;
-            }
-            this.videoPlayer.setVolume(z ? 1.0f : 0.0f);
-        }
-
-        public float getPlaybackProgress(long j) {
-            float f;
-            if (this.lastState == 4) {
-                this.progress = 1.0f;
+        public VideoPlayerHolder(SurfaceView surfaceView, TextureView textureView) {
+            if (StoryViewer.this.USE_SURFACE_VIEW) {
+                with(surfaceView);
             } else {
-                if (j != 0) {
-                    f = ((float) this.currentPosition) / ((float) j);
-                } else {
-                    f = ((float) this.currentPosition) / ((float) this.playerDuration);
-                }
-                float f2 = this.progress;
-                if (f < f2) {
-                    return f2;
-                }
-                this.progress = f;
+                with(textureView);
             }
-            return this.progress;
         }
 
-        public void loopBack() {
-            this.progress = 0.0f;
-            this.lastState = 1;
-            this.dispatchQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.StoryViewer$VideoPlayerHolder$$ExternalSyntheticLambda1
-                @Override // java.lang.Runnable
-                public final void run() {
-                    StoryViewer.VideoPlayerHolder.this.lambda$loopBack$7();
+        @Override // org.telegram.messenger.video.VideoPlayerHolderBase
+        public boolean needRepeat() {
+            return StoryViewer.this.isCaptionPartVisible;
+        }
+
+        @Override // org.telegram.messenger.video.VideoPlayerHolderBase
+        public void onRenderedFirstFrame() {
+            PeerStoriesView.VideoPlayerSharedScope videoPlayerSharedScope = StoryViewer.this.currentPlayerScope;
+            if (videoPlayerSharedScope == null) {
+                return;
+            }
+            videoPlayerSharedScope.firstFrameRendered = true;
+            this.firstFrameRendered = true;
+            videoPlayerSharedScope.invalidate();
+        }
+
+        @Override // org.telegram.messenger.video.VideoPlayerHolderBase
+        public void onStateChanged(boolean z, int i) {
+            if (i == 3 || i == 2) {
+                if (this.firstFrameRendered && i == 2) {
+                    this.logBuffering = true;
+                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoryViewer$VideoPlayerHolder$$ExternalSyntheticLambda0
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            StoryViewer.VideoPlayerHolder.this.lambda$onStateChanged$0();
+                        }
+                    });
                 }
-            });
+                if (this.logBuffering && i == 3) {
+                    this.logBuffering = false;
+                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoryViewer$VideoPlayerHolder$$ExternalSyntheticLambda1
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            StoryViewer.VideoPlayerHolder.this.lambda$onStateChanged$1();
+                        }
+                    });
+                }
+            }
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$loopBack$7() {
-            VideoPlayer videoPlayer = this.videoPlayer;
-            if (videoPlayer != null) {
-                videoPlayer.seekTo(0L);
+        public /* synthetic */ void lambda$onStateChanged$0() {
+            PeerStoriesView currentPeerView = StoryViewer.this.getCurrentPeerView();
+            if (currentPeerView == null || currentPeerView.currentStory.storyItem == null) {
+                return;
             }
-            this.progress = 0.0f;
-            this.currentPosition = 0L;
+            FileLog.d("StoryViewer displayed story buffering dialogId=" + currentPeerView.getCurrentPeer() + " storyId=" + currentPeerView.currentStory.storyItem.id);
         }
 
-        public boolean isBuffering() {
-            return !this.released && this.lastState == 2;
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$onStateChanged$1() {
+            PeerStoriesView currentPeerView = StoryViewer.this.getCurrentPeerView();
+            if (currentPeerView == null || currentPeerView.currentStory.storyItem == null) {
+                return;
+            }
+            FileLog.d("StoryViewer displayed story playing dialogId=" + currentPeerView.getCurrentPeer() + " storyId=" + currentPeerView.currentStory.storyItem.id);
         }
     }
 }

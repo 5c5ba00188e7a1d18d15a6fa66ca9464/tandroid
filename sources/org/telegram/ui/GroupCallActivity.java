@@ -27,6 +27,7 @@ import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.media.AudioManager;
 import android.media.projection.MediaProjectionManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -198,6 +199,8 @@ import org.telegram.ui.Components.voip.RTMPStreamPipOverlay;
 import org.telegram.ui.Components.voip.VoIPToggleButton;
 import org.telegram.ui.GroupCallActivity;
 import org.telegram.ui.PinchToZoomHelper;
+import org.webrtc.MediaStreamTrack;
+import org.webrtc.voiceengine.WebRtcAudioTrack;
 /* loaded from: classes3.dex */
 public class GroupCallActivity extends BottomSheet implements NotificationCenter.NotificationCenterDelegate, VoIPService.StateListener {
     public static GroupCallActivity groupCallInstance;
@@ -10233,5 +10236,25 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
     public boolean isRtmpStream() {
         ChatObject.Call call = this.call;
         return call != null && call.call.rtmp_stream;
+    }
+
+    @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.view.Window.Callback
+    public boolean dispatchKeyEvent(KeyEvent keyEvent) {
+        if (this.parentActivity == null) {
+            return super.dispatchKeyEvent(keyEvent);
+        }
+        if (keyEvent.getAction() == 0 && ((keyEvent.getKeyCode() == 24 || keyEvent.getKeyCode() == 25) && VoIPService.getSharedInstance() != null && Build.VERSION.SDK_INT >= 32)) {
+            boolean isSpeakerMuted = WebRtcAudioTrack.isSpeakerMuted();
+            AudioManager audioManager = (AudioManager) this.parentActivity.getSystemService(MediaStreamTrack.AUDIO_TRACK_KIND);
+            boolean z = false;
+            if (audioManager.getStreamVolume(0) == audioManager.getStreamMinVolume(0) && keyEvent.getKeyCode() == 25) {
+                z = true;
+            }
+            WebRtcAudioTrack.setSpeakerMute(z);
+            if (isSpeakerMuted != WebRtcAudioTrack.isSpeakerMuted()) {
+                getUndoView().showWithAction(0L, z ? 42 : 43, (Runnable) null);
+            }
+        }
+        return super.dispatchKeyEvent(keyEvent);
     }
 }

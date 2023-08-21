@@ -1883,6 +1883,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         ContactsController.getInstance(this.currentAccount).checkAppAccount();
         MessagesController.getInstance(this.currentAccount).checkPromoInfo(true);
         ConnectionsManager.getInstance(this.currentAccount).updateDcSettings();
+        MessagesController.getInstance(this.currentAccount).loadAppConfig();
         if (tLRPC$TL_auth_authorization.future_auth_token != null) {
             AuthTokensHelper.saveLogInToken(tLRPC$TL_auth_authorization);
         } else {
@@ -4772,8 +4773,8 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             return LocaleController.getString("YourCode", R.string.YourCode);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:129:0x0371  */
-        /* JADX WARN: Removed duplicated region for block: B:130:0x037a  */
+        /* JADX WARN: Removed duplicated region for block: B:130:0x0373  */
+        /* JADX WARN: Removed duplicated region for block: B:131:0x037c  */
         @Override // org.telegram.ui.Components.SlideView
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -4925,7 +4926,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                         }
                     }
                 }
-            } else if (i7 == 2 && ((i = this.nextType) == 4 || i == 3)) {
+            } else if (i7 == 2 && ((i = this.nextType) == 2 || i == 4 || i == 3)) {
                 this.timeText.setText(LocaleController.formatString("CallAvailableIn", R.string.CallAvailableIn, 2, 0));
                 setProblemTextVisible(this.time < 1000);
                 this.timeText.setVisibility(this.time < 1000 ? 8 : 0);
@@ -5009,6 +5010,10 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                 return;
             }
             this.codeTime = 15000;
+            int i = this.time;
+            if (i > 15000) {
+                this.codeTime = i;
+            }
             this.codeTimer = new Timer();
             this.lastCodeTime = System.currentTimeMillis();
             this.codeTimer.schedule(new 7(), 0L, 1000L);
@@ -5107,8 +5112,12 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                     int i2 = (LoginActivitySmsView.this.time / 1000) - (i * 60);
                     if (LoginActivitySmsView.this.nextType == 4 || LoginActivitySmsView.this.nextType == 3 || LoginActivitySmsView.this.nextType == 11) {
                         LoginActivitySmsView.this.timeText.setText(LocaleController.formatString("CallAvailableIn", R.string.CallAvailableIn, Integer.valueOf(i), Integer.valueOf(i2)));
-                    } else if (LoginActivitySmsView.this.nextType == 2) {
-                        LoginActivitySmsView.this.timeText.setText(LocaleController.formatString("SmsAvailableIn", R.string.SmsAvailableIn, Integer.valueOf(i), Integer.valueOf(i2)));
+                    } else if (LoginActivitySmsView.this.currentType != 2 || LoginActivitySmsView.this.nextType != 2) {
+                        if (LoginActivitySmsView.this.nextType == 2) {
+                            LoginActivitySmsView.this.timeText.setText(LocaleController.formatString("SmsAvailableIn", R.string.SmsAvailableIn, Integer.valueOf(i), Integer.valueOf(i2)));
+                        }
+                    } else {
+                        LoginActivitySmsView.this.timeText.setText(LocaleController.formatString("ResendSmsAvailableIn", R.string.ResendSmsAvailableIn, Integer.valueOf(i), Integer.valueOf(i2)));
                     }
                     ProgressView unused = LoginActivitySmsView.this.progressView;
                     return;
@@ -5991,7 +6000,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                     this.codeField.setMaxLines(1);
                     int dp = AndroidUtilities.dp(16.0f);
                     this.codeField.setPadding(dp, dp, dp, dp);
-                    this.codeField.setInputType(129);
+                    this.codeField.setInputType(MessagesStorage.LAST_DB_VERSION);
                     this.codeField.setTransformationMethod(PasswordTransformationMethod.getInstance());
                     this.codeField.setTypeface(Typeface.DEFAULT);
                     this.codeField.setGravity(!LocaleController.isRTL ? 5 : 3);
@@ -6062,7 +6071,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             this.codeField.setMaxLines(1);
             int dp2 = AndroidUtilities.dp(16.0f);
             this.codeField.setPadding(dp2, dp2, dp2, dp2);
-            this.codeField.setInputType(129);
+            this.codeField.setInputType(MessagesStorage.LAST_DB_VERSION);
             this.codeField.setTransformationMethod(PasswordTransformationMethod.getInstance());
             this.codeField.setTypeface(Typeface.DEFAULT);
             this.codeField.setGravity(!LocaleController.isRTL ? 5 : 3);
@@ -8976,7 +8985,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                 int dp = AndroidUtilities.dp(16.0f);
                 this.codeField[i3].setPadding(dp, dp, dp, dp);
                 if (i == 0) {
-                    this.codeField[i3].setInputType(129);
+                    this.codeField[i3].setInputType(MessagesStorage.LAST_DB_VERSION);
                     this.codeField[i3].setTransformationMethod(PasswordTransformationMethod.getInstance());
                 }
                 this.codeField[i3].setTypeface(Typeface.DEFAULT);

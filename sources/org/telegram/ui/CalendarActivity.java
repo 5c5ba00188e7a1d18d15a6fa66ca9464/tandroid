@@ -218,8 +218,8 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
                                 if (CalendarActivity.this.storiesPlaceDrawAbove == null) {
                                     CalendarActivity.this.storiesPlaceDrawAbove = new StoryViewer.HolderDrawAbove() { // from class: org.telegram.ui.CalendarActivity$1$$ExternalSyntheticLambda0
                                         @Override // org.telegram.ui.Stories.StoryViewer.HolderDrawAbove
-                                        public final void draw(Canvas canvas, RectF rectF, float f) {
-                                            CalendarActivity.1.this.lambda$findView$0(canvas, rectF, f);
+                                        public final void draw(Canvas canvas, RectF rectF, float f, boolean z) {
+                                            CalendarActivity.1.this.lambda$findView$0(canvas, rectF, f, z);
                                         }
                                     };
                                 }
@@ -240,7 +240,7 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$findView$0(Canvas canvas, RectF rectF, float f) {
+        public /* synthetic */ void lambda$findView$0(Canvas canvas, RectF rectF, float f, boolean z) {
             CalendarActivity.this.blackoutPaint.setAlpha((int) (80.0f * f));
             float lerp = AndroidUtilities.lerp(0.0f, Math.min(rectF.width(), rectF.height()) / 2.0f, f);
             canvas.drawRoundRect(rectF, lerp, lerp, CalendarActivity.this.blackoutPaint);

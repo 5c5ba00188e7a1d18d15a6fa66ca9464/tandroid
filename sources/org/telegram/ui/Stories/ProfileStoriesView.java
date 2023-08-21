@@ -866,8 +866,8 @@ public class ProfileStoriesView extends View implements NotificationCenter.Notif
                 final RectF rectF2 = new RectF(storyCircle2.cachedRect);
                 transitionViewHolder.drawClip = new StoryViewer.HolderClip() { // from class: org.telegram.ui.Stories.ProfileStoriesView$2$$ExternalSyntheticLambda0
                     @Override // org.telegram.ui.Stories.StoryViewer.HolderClip
-                    public final void clip(Canvas canvas, RectF rectF3, float f) {
-                        ProfileStoriesView.2.this.lambda$findView$0(rectF, storyCircle, rectF2, storyCircle2, canvas, rectF3, f);
+                    public final void clip(Canvas canvas, RectF rectF3, float f, boolean z) {
+                        ProfileStoriesView.2.this.lambda$findView$0(rectF, storyCircle, rectF2, storyCircle2, canvas, rectF3, f, z);
                     }
                 };
             } else {
@@ -877,7 +877,7 @@ public class ProfileStoriesView extends View implements NotificationCenter.Notif
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$findView$0(RectF rectF, StoryCircle storyCircle, RectF rectF2, StoryCircle storyCircle2, Canvas canvas, RectF rectF3, float f) {
+        public /* synthetic */ void lambda$findView$0(RectF rectF, StoryCircle storyCircle, RectF rectF2, StoryCircle storyCircle2, Canvas canvas, RectF rectF3, float f, boolean z) {
             rectF.set(storyCircle.cachedRect);
             rectF2.set(storyCircle2.cachedRect);
             storyCircle.cachedRect.set(rectF3);

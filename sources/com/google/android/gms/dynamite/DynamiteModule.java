@@ -21,6 +21,7 @@ import com.google.android.gms.dynamic.ObjectWrapper;
 import dalvik.system.DelegateLastClassLoader;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import org.telegram.messenger.MessagesStorage;
 /* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 public final class DynamiteModule {
@@ -564,7 +565,7 @@ public final class DynamiteModule {
             Boolean valueOf = Boolean.valueOf(z);
             zzf = valueOf;
             z = valueOf.booleanValue();
-            if (z && resolveContentProvider != null && (applicationInfo = resolveContentProvider.applicationInfo) != null && (applicationInfo.flags & 129) == 0) {
+            if (z && resolveContentProvider != null && (applicationInfo = resolveContentProvider.applicationInfo) != null && (applicationInfo.flags & MessagesStorage.LAST_DB_VERSION) == 0) {
                 Log.i("DynamiteModule", "Non-system-image GmsCore APK, forcing V1");
                 zzd = true;
             }

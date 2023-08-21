@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.ImageReceiver;
+import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.voip.VoIPService;
 /* loaded from: classes.dex */
 public final class DefaultBandwidthMeter implements BandwidthMeter, TransferListener {
@@ -1923,7 +1924,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 return new int[]{3, 2, 4, 3, 2, 2};
             case 128:
                 return new int[]{3, 3, 2, 1, 2, 2};
-            case 129:
+            case MessagesStorage.LAST_DB_VERSION /* 129 */:
                 return new int[]{0, 2, 2, 0, 2, 2};
             case 130:
                 return new int[]{1, 0, 0, 0, 2, 2};

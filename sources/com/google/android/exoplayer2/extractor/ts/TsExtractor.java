@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.telegram.messenger.LiteMode;
+import org.telegram.messenger.MessagesStorage;
 /* loaded from: classes.dex */
 public final class TsExtractor implements Extractor {
     private int bytesSinceLastSync;
@@ -469,7 +470,7 @@ public final class TsExtractor implements Extractor {
                         }
                         i3 = 135;
                     }
-                    i3 = 129;
+                    i3 = MessagesStorage.LAST_DB_VERSION;
                 } else {
                     if (readUnsignedByte != 106) {
                         if (readUnsignedByte != 122) {
@@ -497,7 +498,7 @@ public final class TsExtractor implements Extractor {
                         }
                         i3 = 135;
                     }
-                    i3 = 129;
+                    i3 = MessagesStorage.LAST_DB_VERSION;
                 }
                 parsableByteArray.skipBytes(position2 - parsableByteArray.getPosition());
             }

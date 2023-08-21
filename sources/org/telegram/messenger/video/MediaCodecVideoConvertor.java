@@ -42,7 +42,7 @@ public class MediaCodecVideoConvertor {
     }
 
     /*  JADX ERROR: JadxRuntimeException in pass: BlockProcessor
-        jadx.core.utils.exceptions.JadxRuntimeException: Unreachable block: B:374:0x0868
+        jadx.core.utils.exceptions.JadxRuntimeException: Unreachable block: B:381:0x0857
         	at jadx.core.dex.visitors.blocks.BlockProcessor.checkForUnreachableBlocks(BlockProcessor.java:81)
         	at jadx.core.dex.visitors.blocks.BlockProcessor.processBlocksTree(BlockProcessor.java:47)
         	at jadx.core.dex.visitors.blocks.BlockProcessor.visit(BlockProcessor.java:39)
@@ -50,7 +50,7 @@ public class MediaCodecVideoConvertor {
     @android.annotation.TargetApi(18)
     private boolean convertVideoInternal(java.lang.String r77, java.io.File r78, int r79, boolean r80, int r81, int r82, int r83, int r84, int r85, int r86, int r87, long r88, long r90, long r92, long r94, boolean r96, boolean r97, org.telegram.messenger.MediaController.SavedFilterState r98, java.lang.String r99, java.util.ArrayList<org.telegram.messenger.VideoEditedInfo.MediaEntity> r100, boolean r101, org.telegram.messenger.MediaController.CropState r102, boolean r103, java.lang.Integer r104, java.lang.Integer r105, boolean r106, boolean r107, org.telegram.ui.Stories.recorder.StoryEntry.HDRInfo r108, java.util.ArrayList<org.telegram.ui.Stories.recorder.StoryEntry.Part> r109, int r110) {
         /*
-            Method dump skipped, instructions count: 6795
+            Method dump skipped, instructions count: 7411
             To view this dump add '--comments-level debug' option
         */
         throw new UnsupportedOperationException("Method not decompiled: org.telegram.messenger.video.MediaCodecVideoConvertor.convertVideoInternal(java.lang.String, java.io.File, int, boolean, int, int, int, int, int, int, int, long, long, long, long, boolean, boolean, org.telegram.messenger.MediaController$SavedFilterState, java.lang.String, java.util.ArrayList, boolean, org.telegram.messenger.MediaController$CropState, boolean, java.lang.Integer, java.lang.Integer, boolean, boolean, org.telegram.ui.Stories.recorder.StoryEntry$HDRInfo, java.util.ArrayList, int):boolean");

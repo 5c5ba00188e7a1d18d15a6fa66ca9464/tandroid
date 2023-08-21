@@ -853,12 +853,28 @@ public class SharedConfig {
             str = BuildVars.BUILD_VERSION_STRING;
         }
         str2 = tLRPC$TL_help_appUpdate.version;
-        if (str2 != null || str.compareTo(str2) >= 0) {
+        if (str2 != null || versionBiggerOrEqual(str, str2)) {
             return false;
         }
         pendingAppUpdate = tLRPC$TL_help_appUpdate;
         pendingAppUpdateBuildVersion = i;
         saveConfig();
+        return true;
+    }
+
+    private static boolean versionBiggerOrEqual(String str, String str2) {
+        String[] split = str.split("\\.");
+        String[] split2 = str2.split("\\.");
+        for (int i = 0; i < Math.min(split.length, split2.length); i++) {
+            int parseInt = Integer.parseInt(split[i]);
+            int parseInt2 = Integer.parseInt(split2[i]);
+            if (parseInt < parseInt2) {
+                return false;
+            }
+            if (parseInt > parseInt2) {
+                return true;
+            }
+        }
         return true;
     }
 

@@ -4032,6 +4032,7 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
     @Override // org.telegram.ui.Components.Paint.Views.EntityView.EntityViewDelegate
     public void onEntityDragEnd(boolean z) {
         updatePreviewViewTranslationY();
+        this.forceChanges = true;
     }
 
     @Override // org.telegram.ui.Components.Paint.Views.EntityView.EntityViewDelegate
