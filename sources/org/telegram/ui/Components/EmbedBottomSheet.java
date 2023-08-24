@@ -148,7 +148,7 @@ public class EmbedBottomSheet extends BottomSheet {
     }
 
     @SuppressLint({"SetJavaScriptEnabled"})
-    private EmbedBottomSheet(Context context, String str, String str2, String str3, String str4, int i, int i2, int i3) {
+    private EmbedBottomSheet(final Context context, String str, String str2, String str3, String str4, int i, int i2, int i3) {
         super(context, false);
         this.position = new int[2];
         this.prevOrientation = -2;
@@ -226,6 +226,18 @@ public class EmbedBottomSheet extends BottomSheet {
         frameLayout2.setOnTouchListener(EmbedBottomSheet$$ExternalSyntheticLambda5.INSTANCE);
         setCustomView(this.containerLayout);
         WebView webView = new WebView(context) { // from class: org.telegram.ui.Components.EmbedBottomSheet.3
+            @Override // android.webkit.WebView, android.view.ViewGroup, android.view.View
+            protected void onAttachedToWindow() {
+                AndroidUtilities.checkAndroidTheme(context, true);
+                super.onAttachedToWindow();
+            }
+
+            @Override // android.view.ViewGroup, android.view.View
+            protected void onDetachedFromWindow() {
+                AndroidUtilities.checkAndroidTheme(context, false);
+                super.onDetachedFromWindow();
+            }
+
             @Override // android.webkit.WebView, android.view.View
             public boolean onTouchEvent(MotionEvent motionEvent) {
                 boolean onTouchEvent = super.onTouchEvent(motionEvent);

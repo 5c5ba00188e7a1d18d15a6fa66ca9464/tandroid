@@ -5656,7 +5656,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
 
                     @Override // org.telegram.ui.Components.StickerCategoriesListView
                     protected boolean isTabIconsAnimationEnabled(boolean z) {
-                        return LiteMode.isEnabled(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD) && (!z || SelectAnimatedEmojiDialog.this.type == 4);
+                        return LiteMode.isEnabled(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD) || SelectAnimatedEmojiDialog.this.type == 4;
                     }
                 };
                 this.categoriesListView = stickerCategoriesListView;

@@ -5420,4 +5420,11 @@ public class AndroidUtilities {
         allocate.position(position);
         return allocate;
     }
+
+    public static void checkAndroidTheme(Context context, boolean z) {
+        if (context == null) {
+            return;
+        }
+        context.setTheme((Theme.isCurrentThemeDark() && z) ? R.style.Theme_TMessages_Dark : R.style.Theme_TMessages);
+    }
 }

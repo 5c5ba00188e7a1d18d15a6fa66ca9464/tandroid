@@ -559,27 +559,27 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:465:0x0fa4, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:465:0x0fa7, code lost:
         if (r6.email_requested == false) goto L467;
      */
     /* JADX WARN: Code restructure failed: missing block: B:75:0x0314, code lost:
         if (r12.email_requested == false) goto L166;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:595:0x1943  */
-    /* JADX WARN: Removed duplicated region for block: B:599:0x195b  */
-    /* JADX WARN: Removed duplicated region for block: B:605:0x1989  */
-    /* JADX WARN: Removed duplicated region for block: B:618:0x19c7  */
-    /* JADX WARN: Removed duplicated region for block: B:621:0x19cf  */
-    /* JADX WARN: Removed duplicated region for block: B:622:0x19d1  */
-    /* JADX WARN: Removed duplicated region for block: B:632:0x19e8  */
-    /* JADX WARN: Removed duplicated region for block: B:633:0x19eb  */
-    /* JADX WARN: Removed duplicated region for block: B:636:0x1a0f  */
-    /* JADX WARN: Removed duplicated region for block: B:642:0x1a60  */
-    /* JADX WARN: Removed duplicated region for block: B:648:0x1ab1  */
-    /* JADX WARN: Removed duplicated region for block: B:654:0x1b00  */
-    /* JADX WARN: Removed duplicated region for block: B:660:0x1b35  */
-    /* JADX WARN: Removed duplicated region for block: B:664:0x1b72  */
+    /* JADX WARN: Removed duplicated region for block: B:595:0x1946  */
+    /* JADX WARN: Removed duplicated region for block: B:599:0x195e  */
+    /* JADX WARN: Removed duplicated region for block: B:605:0x198c  */
+    /* JADX WARN: Removed duplicated region for block: B:618:0x19ca  */
+    /* JADX WARN: Removed duplicated region for block: B:621:0x19d2  */
+    /* JADX WARN: Removed duplicated region for block: B:622:0x19d4  */
+    /* JADX WARN: Removed duplicated region for block: B:632:0x19eb  */
+    /* JADX WARN: Removed duplicated region for block: B:633:0x19ee  */
+    /* JADX WARN: Removed duplicated region for block: B:636:0x1a12  */
+    /* JADX WARN: Removed duplicated region for block: B:642:0x1a63  */
+    /* JADX WARN: Removed duplicated region for block: B:648:0x1ab4  */
+    /* JADX WARN: Removed duplicated region for block: B:654:0x1b03  */
+    /* JADX WARN: Removed duplicated region for block: B:660:0x1b38  */
+    /* JADX WARN: Removed duplicated region for block: B:664:0x1b75  */
     /* JADX WARN: Type inference failed for: r0v90, types: [org.telegram.ui.Cells.RecurrentPaymentsAcceptCell] */
     /* JADX WARN: Type inference failed for: r10v11, types: [java.lang.StringBuilder] */
     /* JADX WARN: Type inference failed for: r10v117, types: [org.telegram.ui.Components.EditTextBoldCursor[]] */
@@ -1294,6 +1294,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                 this.progressView.setVisibility(0);
                 this.doneItem.setEnabled(false);
                 this.doneItem.getContentView().setVisibility(4);
+                AndroidUtilities.checkAndroidTheme(context, true);
                 WebView webView = new WebView(context) { // from class: org.telegram.ui.PaymentFormActivity.5
                     @Override // android.webkit.WebView, android.view.View
                     public boolean onTouchEvent(MotionEvent motionEvent) {
@@ -2448,6 +2449,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                         this.payTextView.setAlpha((!this.paymentForm.invoice.recurring || this.isAcceptTermsChecked) ? 1.0f : 0.8f);
                         this.doneItem.setEnabled(r12);
                         this.doneItem.getContentView().setVisibility(4);
+                        AndroidUtilities.checkAndroidTheme(context, true);
                         WebView webView2 = new WebView(this, context) { // from class: org.telegram.ui.PaymentFormActivity.17
                             @Override // android.webkit.WebView, android.view.View
                             public boolean onTouchEvent(MotionEvent motionEvent) {
@@ -3786,6 +3788,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
         if (paymentFormActivityDelegate != null) {
             paymentFormActivityDelegate.onFragmentDestroyed();
         }
+        AndroidUtilities.checkAndroidTheme(getContext(), false);
         if (!this.paymentStatusSent) {
             this.invoiceStatus = InvoiceStatus.CANCELLED;
             if (this.paymentFormCallback != null && getOtherSameFragmentDiff() == 0) {
