@@ -13,11 +13,13 @@ import org.telegram.messenger.DispatchQueue;
 import org.telegram.messenger.FileLog;
 /* loaded from: classes4.dex */
 public class Slice {
-    private RectF bounds;
+    private final RectF bounds;
     private File file;
+    private final int texture;
 
-    public Slice(ByteBuffer byteBuffer, RectF rectF, DispatchQueue dispatchQueue) {
+    public Slice(ByteBuffer byteBuffer, int i, RectF rectF, DispatchQueue dispatchQueue) {
         this.bounds = rectF;
+        this.texture = i;
         try {
             this.file = File.createTempFile("paint", ".bin", ApplicationLoader.applicationContext.getCacheDir());
         } catch (Exception e) {
@@ -104,5 +106,9 @@ public class Slice {
 
     public int getHeight() {
         return (int) this.bounds.height();
+    }
+
+    public int getTexture() {
+        return this.texture;
     }
 }

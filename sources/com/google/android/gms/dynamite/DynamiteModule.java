@@ -21,7 +21,6 @@ import com.google.android.gms.dynamic.ObjectWrapper;
 import dalvik.system.DelegateLastClassLoader;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import org.telegram.messenger.MessagesStorage;
 /* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 public final class DynamiteModule {
@@ -439,11 +438,11 @@ public final class DynamiteModule {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:40:0x009f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:40:0x00a0, code lost:
         r10.close();
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x00c9  */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x00ca  */
     /* JADX WARN: Type inference failed for: r0v0 */
     /* JADX WARN: Type inference failed for: r0v1, types: [android.database.Cursor] */
     /* JADX WARN: Type inference failed for: r0v2 */
@@ -565,7 +564,7 @@ public final class DynamiteModule {
             Boolean valueOf = Boolean.valueOf(z);
             zzf = valueOf;
             z = valueOf.booleanValue();
-            if (z && resolveContentProvider != null && (applicationInfo = resolveContentProvider.applicationInfo) != null && (applicationInfo.flags & MessagesStorage.LAST_DB_VERSION) == 0) {
+            if (z && resolveContentProvider != null && (applicationInfo = resolveContentProvider.applicationInfo) != null && (applicationInfo.flags & 129) == 0) {
                 Log.i("DynamiteModule", "Non-system-image GmsCore APK, forcing V1");
                 zzd = true;
             }

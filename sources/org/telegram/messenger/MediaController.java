@@ -315,6 +315,8 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         void didWriteData(long j, float f);
     }
 
+    public static native byte[] getMp3Waveform(String str, int i);
+
     private static int getVideoBitrateWithFactor(float f) {
         return (int) (f * 2000.0f * 1000.0f * 1.13f);
     }
@@ -518,7 +520,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         }
 
         public boolean isEmpty() {
-            return Math.abs(this.enhanceValue) < 0.1f && Math.abs(this.softenSkinValue) < 0.1f && Math.abs(this.exposureValue) < 0.1f && Math.abs(this.contrastValue) < 0.1f && Math.abs(this.warmthValue) < 0.1f && Math.abs(this.saturationValue) < 0.1f && Math.abs(this.fadeValue) < 0.1f && this.tintShadowsColor == 0 && this.tintHighlightsColor == 0 && Math.abs(this.highlightsValue) < 0.1f && Math.abs(this.shadowsValue) < 0.1f && Math.abs(this.vignetteValue) < 0.1f && Math.abs(this.grainValue) < 0.1f && this.blurType == 0 && Math.abs(this.sharpenValue) < 0.1f && Math.abs(this.blurExcludeSize) < 0.1f;
+            return Math.abs(this.enhanceValue) < 0.1f && Math.abs(this.softenSkinValue) < 0.1f && Math.abs(this.exposureValue) < 0.1f && Math.abs(this.contrastValue) < 0.1f && Math.abs(this.warmthValue) < 0.1f && Math.abs(this.saturationValue) < 0.1f && Math.abs(this.fadeValue) < 0.1f && this.tintShadowsColor == 0 && this.tintHighlightsColor == 0 && Math.abs(this.highlightsValue) < 0.1f && Math.abs(this.shadowsValue) < 0.1f && Math.abs(this.vignetteValue) < 0.1f && Math.abs(this.grainValue) < 0.1f && this.blurType == 0 && Math.abs(this.sharpenValue) < 0.1f;
         }
     }
 
@@ -7624,9 +7626,9 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     /* JADX WARN: Removed duplicated region for block: B:38:0x00ff  */
     /* JADX WARN: Removed duplicated region for block: B:39:0x0102  */
     /* JADX WARN: Removed duplicated region for block: B:59:0x0136  */
-    /* JADX WARN: Removed duplicated region for block: B:79:0x01d3  */
-    /* JADX WARN: Removed duplicated region for block: B:89:0x01e1  */
-    /* JADX WARN: Removed duplicated region for block: B:92:0x021d A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:81:0x01e7  */
+    /* JADX WARN: Removed duplicated region for block: B:91:0x01f5  */
+    /* JADX WARN: Removed duplicated region for block: B:94:0x0231 A[ADDED_TO_REGION] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -7730,7 +7732,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                 i5 = i12;
                 if (Math.min(i4, i2) <= 480) {
                     i6 = 30;
-                    boolean z3 = (j4 != -1 && videoEditedInfo.cropState == null && videoEditedInfo.mediaEntities == null && videoEditedInfo.paintPath == null && videoEditedInfo.filterState == null && i2 == i10 && i4 == i11 && i9 == 0 && !videoEditedInfo.roundVideo && j3 == -1) ? false : true;
+                    boolean z3 = (j4 != -1 && videoEditedInfo.cropState == null && videoEditedInfo.mediaEntities == null && videoEditedInfo.paintPath == null && videoEditedInfo.filterState == null && i2 == i10 && i4 == i11 && i9 == 0 && !videoEditedInfo.roundVideo && j3 == -1 && videoEditedInfo.mixedSoundInfos.isEmpty()) ? false : true;
                     SharedPreferences sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("videoconvert", 0);
                     long currentTimeMillis = System.currentTimeMillis();
                     final File file3 = file;
@@ -7759,7 +7761,9 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                     };
                     videoEditedInfo.videoConvertFirstWrite = true;
                     MediaCodecVideoConvertor mediaCodecVideoConvertor = new MediaCodecVideoConvertor();
-                    boolean convertVideo = mediaCodecVideoConvertor.convertVideo(str, file3, i9, z2, i10, i11, i2, i4, i6, i13, i, j3, j5, j4, z3, j2, videoEditedInfo.filterState, videoEditedInfo.paintPath, videoEditedInfo.mediaEntities, videoEditedInfo.isPhoto, videoEditedInfo.cropState, videoEditedInfo.roundVideo, videoConvertorListener, videoEditedInfo.gradientTopColor, videoEditedInfo.gradientBottomColor, videoEditedInfo.muted, videoEditedInfo.isStory, videoEditedInfo.hdrInfo, videoEditedInfo.parts);
+                    MediaCodecVideoConvertor.ConvertVideoParams of = MediaCodecVideoConvertor.ConvertVideoParams.of(str, file3, i9, z2, i10, i11, i2, i4, i6, i13, i, j3, j5, j4, z3, j2, videoEditedInfo.filterState, videoEditedInfo.paintPath, videoEditedInfo.blurPath, videoEditedInfo.mediaEntities, videoEditedInfo.isPhoto, videoEditedInfo.cropState, videoEditedInfo.roundVideo, videoConvertorListener, videoEditedInfo.gradientTopColor, videoEditedInfo.gradientBottomColor, videoEditedInfo.muted, videoEditedInfo.isStory, videoEditedInfo.hdrInfo, videoEditedInfo.parts);
+                    of.soundInfos.addAll(videoEditedInfo.mixedSoundInfos);
+                    boolean convertVideo = mediaCodecVideoConvertor.convertVideo(of);
                     z = videoEditedInfo.canceled;
                     if (!z) {
                         synchronized (this.videoConvertSync) {
@@ -7805,7 +7809,9 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             };
             videoEditedInfo.videoConvertFirstWrite = true;
             MediaCodecVideoConvertor mediaCodecVideoConvertor2 = new MediaCodecVideoConvertor();
-            boolean convertVideo2 = mediaCodecVideoConvertor2.convertVideo(str, file32, i9, z2, i10, i11, i2, i4, i6, i13, i, j3, j5, j4, z3, j2, videoEditedInfo.filterState, videoEditedInfo.paintPath, videoEditedInfo.mediaEntities, videoEditedInfo.isPhoto, videoEditedInfo.cropState, videoEditedInfo.roundVideo, videoConvertorListener2, videoEditedInfo.gradientTopColor, videoEditedInfo.gradientBottomColor, videoEditedInfo.muted, videoEditedInfo.isStory, videoEditedInfo.hdrInfo, videoEditedInfo.parts);
+            MediaCodecVideoConvertor.ConvertVideoParams of2 = MediaCodecVideoConvertor.ConvertVideoParams.of(str, file32, i9, z2, i10, i11, i2, i4, i6, i13, i, j3, j5, j4, z3, j2, videoEditedInfo.filterState, videoEditedInfo.paintPath, videoEditedInfo.blurPath, videoEditedInfo.mediaEntities, videoEditedInfo.isPhoto, videoEditedInfo.cropState, videoEditedInfo.roundVideo, videoConvertorListener2, videoEditedInfo.gradientTopColor, videoEditedInfo.gradientBottomColor, videoEditedInfo.muted, videoEditedInfo.isStory, videoEditedInfo.hdrInfo, videoEditedInfo.parts);
+            of2.soundInfos.addAll(videoEditedInfo.mixedSoundInfos);
+            boolean convertVideo2 = mediaCodecVideoConvertor2.convertVideo(of2);
             z = videoEditedInfo.canceled;
             if (!z) {
             }
@@ -7859,7 +7865,9 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         };
         videoEditedInfo.videoConvertFirstWrite = true;
         MediaCodecVideoConvertor mediaCodecVideoConvertor22 = new MediaCodecVideoConvertor();
-        boolean convertVideo22 = mediaCodecVideoConvertor22.convertVideo(str, file322, i9, z2, i10, i11, i2, i4, i6, i13, i, j3, j5, j4, z3, j2, videoEditedInfo.filterState, videoEditedInfo.paintPath, videoEditedInfo.mediaEntities, videoEditedInfo.isPhoto, videoEditedInfo.cropState, videoEditedInfo.roundVideo, videoConvertorListener22, videoEditedInfo.gradientTopColor, videoEditedInfo.gradientBottomColor, videoEditedInfo.muted, videoEditedInfo.isStory, videoEditedInfo.hdrInfo, videoEditedInfo.parts);
+        MediaCodecVideoConvertor.ConvertVideoParams of22 = MediaCodecVideoConvertor.ConvertVideoParams.of(str, file322, i9, z2, i10, i11, i2, i4, i6, i13, i, j3, j5, j4, z3, j2, videoEditedInfo.filterState, videoEditedInfo.paintPath, videoEditedInfo.blurPath, videoEditedInfo.mediaEntities, videoEditedInfo.isPhoto, videoEditedInfo.cropState, videoEditedInfo.roundVideo, videoConvertorListener22, videoEditedInfo.gradientTopColor, videoEditedInfo.gradientBottomColor, videoEditedInfo.muted, videoEditedInfo.isStory, videoEditedInfo.hdrInfo, videoEditedInfo.parts);
+        of22.soundInfos.addAll(videoEditedInfo.mixedSoundInfos);
+        boolean convertVideo22 = mediaCodecVideoConvertor22.convertVideo(of22);
         z = videoEditedInfo.canceled;
         if (!z) {
         }

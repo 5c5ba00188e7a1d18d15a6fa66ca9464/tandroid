@@ -139,57 +139,18 @@ public class DownloadButton extends ImageView {
             Utilities.Callback<Runnable> callback = this.prepare;
             if (callback != null) {
                 this.preparing = true;
-                callback.run(new Runnable() { // from class: org.telegram.ui.Stories.recorder.DownloadButton$$ExternalSyntheticLambda2
+                callback.run(new Runnable() { // from class: org.telegram.ui.Stories.recorder.DownloadButton$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
                     public final void run() {
                         DownloadButton.this.onClickInternal();
                     }
                 });
-            }
-            if (this.currentEntry.wouldBeVideo()) {
-                this.downloadingVideo = true;
-                PreparingVideoToast preparingVideoToast2 = new PreparingVideoToast(getContext());
-                this.toast = preparingVideoToast2;
-                preparingVideoToast2.setOnCancelListener(new Runnable() { // from class: org.telegram.ui.Stories.recorder.DownloadButton$$ExternalSyntheticLambda1
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        DownloadButton.this.lambda$onClick$1();
-                    }
-                });
-                this.container.addView(this.toast);
-            } else {
-                this.downloadingVideo = false;
             }
             updateImage();
-            Utilities.Callback<Runnable> callback2 = this.prepare;
-            if (callback2 != null) {
-                this.preparing = true;
-                callback2.run(new Runnable() { // from class: org.telegram.ui.Stories.recorder.DownloadButton$$ExternalSyntheticLambda2
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        DownloadButton.this.onClickInternal();
-                    }
-                });
-                return;
+            if (this.prepare == null) {
+                onClickInternal();
             }
-            onClickInternal();
         }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onClick$1() {
-        this.preparing = false;
-        BuildingVideo buildingVideo = this.buildingVideo;
-        if (buildingVideo != null) {
-            buildingVideo.stop(true);
-            this.buildingVideo = null;
-        }
-        PreparingVideoToast preparingVideoToast = this.toast;
-        if (preparingVideoToast != null) {
-            preparingVideoToast.hide();
-        }
-        this.downloading = false;
-        updateImage();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -200,6 +161,16 @@ public class DownloadButton extends ImageView {
         }
         this.preparing = false;
         if (storyEntry.wouldBeVideo()) {
+            this.downloadingVideo = true;
+            PreparingVideoToast preparingVideoToast = new PreparingVideoToast(getContext());
+            this.toast = preparingVideoToast;
+            preparingVideoToast.setOnCancelListener(new Runnable() { // from class: org.telegram.ui.Stories.recorder.DownloadButton$$ExternalSyntheticLambda2
+                @Override // java.lang.Runnable
+                public final void run() {
+                    DownloadButton.this.lambda$onClickInternal$1();
+                }
+            });
+            this.container.addView(this.toast);
             final File generateVideoPath = AndroidUtilities.generateVideoPath();
             this.buildingVideo = new BuildingVideo(this.currentAccount, this.currentEntry, generateVideoPath, new Runnable() { // from class: org.telegram.ui.Stories.recorder.DownloadButton$$ExternalSyntheticLambda6
                 @Override // java.lang.Runnable
@@ -218,6 +189,7 @@ public class DownloadButton extends ImageView {
                 }
             });
         } else {
+            this.downloadingVideo = false;
             final File generatePicturePath = AndroidUtilities.generatePicturePath(false, "png");
             if (generatePicturePath == null) {
                 this.toast.setDone(R.raw.error, LocaleController.getString("UnknownError"), 3500);
@@ -232,6 +204,22 @@ public class DownloadButton extends ImageView {
                 }
             });
         }
+        updateImage();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$onClickInternal$1() {
+        this.preparing = false;
+        BuildingVideo buildingVideo = this.buildingVideo;
+        if (buildingVideo != null) {
+            buildingVideo.stop(true);
+            this.buildingVideo = null;
+        }
+        PreparingVideoToast preparingVideoToast = this.toast;
+        if (preparingVideoToast != null) {
+            preparingVideoToast.hide();
+        }
+        this.downloading = false;
         updateImage();
     }
 

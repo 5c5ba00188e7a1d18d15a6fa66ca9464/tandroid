@@ -6000,7 +6000,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                     this.codeField.setMaxLines(1);
                     int dp = AndroidUtilities.dp(16.0f);
                     this.codeField.setPadding(dp, dp, dp, dp);
-                    this.codeField.setInputType(MessagesStorage.LAST_DB_VERSION);
+                    this.codeField.setInputType(129);
                     this.codeField.setTransformationMethod(PasswordTransformationMethod.getInstance());
                     this.codeField.setTypeface(Typeface.DEFAULT);
                     this.codeField.setGravity(!LocaleController.isRTL ? 5 : 3);
@@ -6071,7 +6071,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             this.codeField.setMaxLines(1);
             int dp2 = AndroidUtilities.dp(16.0f);
             this.codeField.setPadding(dp2, dp2, dp2, dp2);
-            this.codeField.setInputType(MessagesStorage.LAST_DB_VERSION);
+            this.codeField.setInputType(129);
             this.codeField.setTransformationMethod(PasswordTransformationMethod.getInstance());
             this.codeField.setTypeface(Typeface.DEFAULT);
             this.codeField.setGravity(!LocaleController.isRTL ? 5 : 3);
@@ -8985,7 +8985,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                 int dp = AndroidUtilities.dp(16.0f);
                 this.codeField[i3].setPadding(dp, dp, dp, dp);
                 if (i == 0) {
-                    this.codeField[i3].setInputType(MessagesStorage.LAST_DB_VERSION);
+                    this.codeField[i3].setInputType(129);
                     this.codeField[i3].setTransformationMethod(PasswordTransformationMethod.getInstance());
                 }
                 this.codeField[i3].setTypeface(Typeface.DEFAULT);

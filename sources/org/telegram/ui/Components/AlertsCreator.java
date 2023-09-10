@@ -491,7 +491,7 @@ public class AlertsCreator {
             if (z2 || (tLObject instanceof TLRPC$TL_channels_editAdmin) || (tLObject instanceof TLRPC$TL_channels_inviteToChannel) || (tLObject instanceof TLRPC$TL_messages_addChatUser) || (tLObject instanceof TLRPC$TL_messages_startBot) || (tLObject instanceof TLRPC$TL_channels_editBanned) || (tLObject instanceof TLRPC$TL_messages_editChatDefaultBannedRights) || (tLObject instanceof TLRPC$TL_messages_editChatAdmin) || (tLObject instanceof TLRPC$TL_messages_migrateChat) || (tLObject instanceof TLRPC$TL_phone_inviteToGroupCall)) {
                 if (baseFragment != null && str.equals("CHANNELS_TOO_MUCH")) {
                     if (baseFragment.getParentActivity() != null) {
-                        baseFragment.showDialog(new LimitReachedBottomSheet(baseFragment, baseFragment.getParentActivity(), 5, i));
+                        baseFragment.showDialog(new LimitReachedBottomSheet(baseFragment, baseFragment.getParentActivity(), 5, i, null));
                         return null;
                     } else if (z2 || (tLObject instanceof TLRPC$TL_channels_inviteToChannel)) {
                         baseFragment.presentFragment(new TooManyCommunitiesActivity(0));
@@ -508,7 +508,7 @@ public class AlertsCreator {
             } else if (tLObject instanceof TLRPC$TL_messages_createChat) {
                 if (str.equals("CHANNELS_TOO_MUCH")) {
                     if (baseFragment.getParentActivity() != null) {
-                        baseFragment.showDialog(new LimitReachedBottomSheet(baseFragment, baseFragment.getParentActivity(), 5, i));
+                        baseFragment.showDialog(new LimitReachedBottomSheet(baseFragment, baseFragment.getParentActivity(), 5, i, null));
                         return null;
                     }
                     baseFragment.presentFragment(new TooManyCommunitiesActivity(2));
@@ -521,7 +521,7 @@ public class AlertsCreator {
             } else if (tLObject instanceof TLRPC$TL_channels_createChannel) {
                 if (str.equals("CHANNELS_TOO_MUCH")) {
                     if (baseFragment.getParentActivity() != null) {
-                        baseFragment.showDialog(new LimitReachedBottomSheet(baseFragment, baseFragment.getParentActivity(), 5, i));
+                        baseFragment.showDialog(new LimitReachedBottomSheet(baseFragment, baseFragment.getParentActivity(), 5, i, null));
                         return null;
                     }
                     baseFragment.presentFragment(new TooManyCommunitiesActivity(2));
@@ -700,7 +700,7 @@ public class AlertsCreator {
                         showSimpleAlert(baseFragment, LocaleController.getString("JoinToGroupErrorFull", R.string.JoinToGroupErrorFull));
                     } else if (tLRPC$TL_error.text.equals("CHANNELS_TOO_MUCH")) {
                         if (baseFragment.getParentActivity() != null) {
-                            baseFragment.showDialog(new LimitReachedBottomSheet(baseFragment, baseFragment.getParentActivity(), 5, i));
+                            baseFragment.showDialog(new LimitReachedBottomSheet(baseFragment, baseFragment.getParentActivity(), 5, i, null));
                         } else {
                             baseFragment.presentFragment(new TooManyCommunitiesActivity(0));
                         }
@@ -940,7 +940,7 @@ public class AlertsCreator {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$createLanguageAlert$8(LaunchActivity launchActivity, DialogInterface dialogInterface, int i) {
-        launchActivity.lambda$runLinkRequest$80(new LanguageSelectActivity());
+        launchActivity.lambda$runLinkRequest$81(new LanguageSelectActivity());
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -3186,7 +3186,7 @@ public class AlertsCreator {
         if (lastFragment == null || lastFragment.getParentActivity() == null) {
             return;
         }
-        LimitReachedBottomSheet limitReachedBottomSheet = new LimitReachedBottomSheet(lastFragment, lastFragment.getParentActivity(), 11, i);
+        LimitReachedBottomSheet limitReachedBottomSheet = new LimitReachedBottomSheet(lastFragment, lastFragment.getParentActivity(), 11, i, null);
         limitReachedBottomSheet.setRestrictedUsers(tLRPC$Chat, arrayList);
         limitReachedBottomSheet.show();
     }
@@ -6095,7 +6095,7 @@ public class AlertsCreator {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$createFreeSpaceDialog$120(LaunchActivity launchActivity, DialogInterface dialogInterface, int i) {
-        launchActivity.lambda$runLinkRequest$80(new CacheControlActivity());
+        launchActivity.lambda$runLinkRequest$81(new CacheControlActivity());
     }
 
     public static Dialog createPrioritySelectDialog(Activity activity, long j, int i, int i2, Runnable runnable) {

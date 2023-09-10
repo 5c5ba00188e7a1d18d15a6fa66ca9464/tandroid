@@ -104,6 +104,9 @@ public class EntityView extends FrameLayout {
 
             public static void $default$onEntityDraggedTop(EntityViewDelegate entityViewDelegate, boolean z) {
             }
+
+            public static void $default$onEntityHandleTouched(EntityViewDelegate entityViewDelegate) {
+            }
         }
 
         boolean allowInteraction(EntityView entityView);
@@ -128,9 +131,19 @@ public class EntityView extends FrameLayout {
 
         void onEntityDraggedTop(boolean z);
 
+        void onEntityHandleTouched();
+
         boolean onEntityLongClicked(EntityView entityView);
 
         boolean onEntitySelected(EntityView entityView);
+    }
+
+    protected boolean allowHaptic() {
+        return true;
+    }
+
+    public boolean allowLongPressOnSelected() {
+        return false;
     }
 
     protected SelectionView createSelectionView() {
@@ -139,6 +152,10 @@ public class EntityView extends FrameLayout {
 
     protected float getMaxScale() {
         return 100.0f;
+    }
+
+    protected float getMinScale() {
+        return 0.0f;
     }
 
     protected float getStickyPaddingBottom() {
@@ -308,7 +325,7 @@ public class EntityView extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public void onTouchUp() {
+    public void onTouchUp(boolean z) {
         EntityViewDelegate entityViewDelegate;
         EntityViewDelegate entityViewDelegate2;
         if (this.announcedDrag) {
@@ -316,7 +333,7 @@ public class EntityView extends FrameLayout {
             this.announcedDrag = false;
         }
         this.announcedMultitouchDrag = false;
-        if (!this.recognizedLongPress && !this.hasPanned && !this.hasTransformed && !this.announcedSelection && (entityViewDelegate2 = this.delegate) != null) {
+        if (!z && !this.recognizedLongPress && !this.hasPanned && !this.hasTransformed && !this.announcedSelection && (entityViewDelegate2 = this.delegate) != null) {
             entityViewDelegate2.onEntitySelected(this);
         }
         if (this.hasPanned && (entityViewDelegate = this.delegate) != null) {
@@ -448,7 +465,7 @@ public class EntityView extends FrameLayout {
                 this.hadMultitouch = z2;
                 return !super.onTouchEvent(motionEvent) || z;
             }
-            onTouchUp();
+            onTouchUp(actionMasked == 3);
             this.bounce.setPressed(false);
             SelectionView selectionView2 = this.selectionView;
             if (selectionView2 != null) {
@@ -723,15 +740,15 @@ public class EntityView extends FrameLayout {
     public void scale(float f) {
         float f2 = this.scale * f;
         this.scale = f2;
-        float min = Math.min(Math.max(f2, 0.1f), getMaxScale());
-        if (getScale() < getMaxScale() && min >= getMaxScale()) {
+        float clamp = Utilities.clamp(Math.max(f2, 0.1f), getMaxScale(), getMinScale());
+        if (allowHaptic() && (clamp >= getMaxScale() || clamp <= getMinScale())) {
             try {
                 performHapticFeedback(3, 1);
             } catch (Exception unused) {
             }
         }
-        setScaleX(min);
-        setScaleY(min);
+        setScaleX(clamp);
+        setScaleY(clamp);
     }
 
     public void rotate(float f) {
@@ -1068,6 +1085,9 @@ public class EntityView extends FrameLayout {
                             float f3 = f - EntityView.this.previousLocationX;
                             float f4 = f2 - EntityView.this.previousLocationY;
                             if (EntityView.this.hasTransformed || Math.abs(f3) > AndroidUtilities.dp(2.0f) || Math.abs(f4) > AndroidUtilities.dp(2.0f)) {
+                                if (!EntityView.this.hasTransformed && EntityView.this.delegate != null) {
+                                    EntityView.this.delegate.onEntityHandleTouched();
+                                }
                                 EntityView.this.hasTransformed = true;
                                 AndroidUtilities.cancelRunOnUIThread(EntityView.this.longPressRunnable);
                                 int[] centerLocation = EntityView.this.delegate.getCenterLocation(EntityView.this);
@@ -1098,7 +1118,7 @@ public class EntityView extends FrameLayout {
                     }
                     z = false;
                 }
-                EntityView.this.onTouchUp();
+                EntityView.this.onTouchUp(actionMasked == 3);
                 this.currentHandle = 0;
                 hide(false);
                 z = true;
@@ -1116,6 +1136,9 @@ public class EntityView extends FrameLayout {
                     EntityView.this.hasReleased = false;
                     if (getParent() instanceof EntitiesContainerView) {
                         ((EntitiesContainerView) getParent()).invalidate();
+                    }
+                    if (pointInsideHandle == 3 && EntityView.this.allowLongPressOnSelected()) {
+                        AndroidUtilities.runOnUIThread(EntityView.this.longPressRunnable, ViewConfiguration.getLongPressTimeout());
                     }
                     z = true;
                 }

@@ -6755,7 +6755,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
             if (z) {
                 return;
             }
-            AndroidUtilities.forEachViews(this.emojiGridView, SelectAnimatedEmojiDialog$$ExternalSyntheticLambda11.INSTANCE);
+            AndroidUtilities.forEachViews((RecyclerView) this.emojiGridView, (com.google.android.exoplayer2.util.Consumer<View>) SelectAnimatedEmojiDialog$$ExternalSyntheticLambda11.INSTANCE);
             for (int i = 0; i < this.emojiTabs.contentView.getChildCount(); i++) {
                 View childAt = this.emojiTabs.contentView.getChildAt(i);
                 childAt.setScaleX(1.0f);

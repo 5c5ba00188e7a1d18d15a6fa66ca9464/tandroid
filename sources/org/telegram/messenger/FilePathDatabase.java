@@ -17,7 +17,8 @@ import org.telegram.ui.Storage.CacheModel;
 public class FilePathDatabase {
     private static final String DATABASE_BACKUP_NAME = "file_to_path_backup";
     private static final String DATABASE_NAME = "file_to_path";
-    private static final int LAST_DB_VERSION = 4;
+    public static final int FLAG_LOCALLY_CREATED = 1;
+    private static final int LAST_DB_VERSION = 5;
     public static final int MESSAGE_TYPE_VIDEO_MESSAGE = 0;
     private File cacheFile;
     private final int currentAccount;
@@ -55,10 +56,10 @@ public class FilePathDatabase {
             sQLiteDatabase.executeFast("PRAGMA secure_delete = ON").stepThis().dispose();
             this.database.executeFast("PRAGMA temp_store = MEMORY").stepThis().dispose();
             if (z2) {
-                this.database.executeFast("CREATE TABLE paths(document_id INTEGER, dc_id INTEGER, type INTEGER, path TEXT, PRIMARY KEY(document_id, dc_id, type));").stepThis().dispose();
+                this.database.executeFast("CREATE TABLE paths(document_id INTEGER, dc_id INTEGER, type INTEGER, path TEXT, flags INTEGER, PRIMARY KEY(document_id, dc_id, type));").stepThis().dispose();
                 this.database.executeFast("CREATE INDEX IF NOT EXISTS path_in_paths ON paths(path);").stepThis().dispose();
                 this.database.executeFast("CREATE TABLE paths_by_dialog_id(path TEXT PRIMARY KEY, dialog_id INTEGER, message_id INTEGER, message_type INTEGER);").stepThis().dispose();
-                this.database.executeFast("PRAGMA user_version = 4").stepThis().dispose();
+                this.database.executeFast("PRAGMA user_version = 5").stepThis().dispose();
             } else {
                 int intValue = this.database.executeInt("PRAGMA user_version", new Object[0]).intValue();
                 if (BuildVars.LOGS_ENABLED) {
@@ -104,6 +105,10 @@ public class FilePathDatabase {
             this.database.executeFast("ALTER TABLE paths_by_dialog_id ADD COLUMN message_id INTEGER default 0").stepThis().dispose();
             this.database.executeFast("ALTER TABLE paths_by_dialog_id ADD COLUMN message_type INTEGER default 0").stepThis().dispose();
             this.database.executeFast("PRAGMA user_version = 4").stepThis().dispose();
+        }
+        if (i == 4) {
+            this.database.executeFast("ALTER TABLE paths ADD COLUMN flags INTEGER default 0").stepThis().dispose();
+            this.database.executeFast("PRAGMA user_version = 5").stepThis().dispose();
         }
     }
 
@@ -260,22 +265,22 @@ public class FilePathDatabase {
         this.databaseCreated = true;
     }
 
-    public void putPath(final long j, final int i, final int i2, final String str) {
+    public void putPath(final long j, final int i, final int i2, final int i3, final String str) {
         postRunnable(new Runnable() { // from class: org.telegram.messenger.FilePathDatabase$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
-                FilePathDatabase.this.lambda$putPath$1(j, i, i2, str);
+                FilePathDatabase.this.lambda$putPath$1(j, i, i2, str, i3);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:36:0x00c1  */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x00c6  */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x00c5  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x00ca  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public /* synthetic */ void lambda$putPath$1(long j, int i, int i2, String str) {
+    public /* synthetic */ void lambda$putPath$1(long j, int i, int i2, String str, int i3) {
         SQLitePreparedStatement sQLitePreparedStatement;
         SQLitePreparedStatement sQLitePreparedStatement2;
         if (BuildVars.DEBUG_VERSION) {
@@ -293,12 +298,13 @@ public class FilePathDatabase {
                 try {
                     executeFast.bindString(1, str);
                     executeFast.step();
-                    sQLitePreparedStatement3 = this.database.executeFast("REPLACE INTO paths VALUES(?, ?, ?, ?)");
+                    sQLitePreparedStatement3 = this.database.executeFast("REPLACE INTO paths VALUES(?, ?, ?, ?, ?)");
                     sQLitePreparedStatement3.requery();
                     sQLitePreparedStatement3.bindLong(1, j);
                     sQLitePreparedStatement3.bindInteger(2, i);
                     sQLitePreparedStatement3.bindInteger(3, i2);
                     sQLitePreparedStatement3.bindString(4, str);
+                    sQLitePreparedStatement3.bindInteger(5, i3);
                     sQLitePreparedStatement3.step();
                     sQLitePreparedStatement3.dispose();
                     sQLitePreparedStatement2 = sQLitePreparedStatement3;
@@ -364,7 +370,7 @@ public class FilePathDatabase {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         long currentTimeMillis = System.currentTimeMillis();
         final long[] jArr = new long[1];
-        postToFrontRunnable(new Runnable() { // from class: org.telegram.messenger.FilePathDatabase$$ExternalSyntheticLambda6
+        postToFrontRunnable(new Runnable() { // from class: org.telegram.messenger.FilePathDatabase$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
             public final void run() {
                 FilePathDatabase.this.lambda$checkMediaExistance$2(arrayList2, jArr, countDownLatch);
@@ -552,7 +558,7 @@ public class FilePathDatabase {
     }
 
     public void removeFiles(final List<CacheModel.FileInfo> list) {
-        postRunnable(new Runnable() { // from class: org.telegram.messenger.FilePathDatabase$$ExternalSyntheticLambda7
+        postRunnable(new Runnable() { // from class: org.telegram.messenger.FilePathDatabase$$ExternalSyntheticLambda8
             @Override // java.lang.Runnable
             public final void run() {
                 FilePathDatabase.this.lambda$removeFiles$6(list);
@@ -579,7 +585,7 @@ public class FilePathDatabase {
     public LongSparseArray<ArrayList<CacheByChatsController.KeepMediaFile>> lookupFiles(final ArrayList<? extends CacheByChatsController.KeepMediaFile> arrayList) {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         final LongSparseArray<ArrayList<CacheByChatsController.KeepMediaFile>> longSparseArray = new LongSparseArray<>();
-        postRunnable(new Runnable() { // from class: org.telegram.messenger.FilePathDatabase$$ExternalSyntheticLambda5
+        postRunnable(new Runnable() { // from class: org.telegram.messenger.FilePathDatabase$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
                 FilePathDatabase.this.lambda$lookupFiles$7(arrayList, longSparseArray, countDownLatch);
@@ -639,6 +645,45 @@ public class FilePathDatabase {
                     dispatchQueue.setPriority(10);
                 }
             }
+        }
+    }
+
+    public boolean isLocallyCreated(final String str) {
+        final CountDownLatch countDownLatch = new CountDownLatch(1);
+        final boolean[] zArr = {false};
+        postRunnable(new Runnable() { // from class: org.telegram.messenger.FilePathDatabase$$ExternalSyntheticLambda5
+            @Override // java.lang.Runnable
+            public final void run() {
+                FilePathDatabase.this.lambda$isLocallyCreated$8(str, zArr, countDownLatch);
+            }
+        });
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            FileLog.e(e);
+        }
+        return zArr[0];
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$isLocallyCreated$8(String str, boolean[] zArr, CountDownLatch countDownLatch) {
+        ensureDatabaseCreated();
+        try {
+            try {
+                SQLiteDatabase sQLiteDatabase = this.database;
+                SQLiteCursor queryFinalized = sQLiteDatabase.queryFinalized("SELECT flags FROM paths WHERE path = '" + str + "'", new Object[0]);
+                if (queryFinalized.next()) {
+                    boolean z = true;
+                    if ((queryFinalized.intValue(0) & 1) == 0) {
+                        z = false;
+                    }
+                    zArr[0] = z;
+                }
+            } catch (Exception e) {
+                FileLog.e(e);
+            }
+        } finally {
+            countDownLatch.countDown();
         }
     }
 

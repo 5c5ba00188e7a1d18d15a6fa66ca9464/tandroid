@@ -14,6 +14,11 @@ public abstract class BasePlayer implements Player {
     public abstract void seekTo(int i, long j, int i2, boolean z);
 
     @Override // com.google.android.exoplayer2.Player
+    public final void pause() {
+        setPlayWhenReady(false);
+    }
+
+    @Override // com.google.android.exoplayer2.Player
     public final boolean hasPreviousMediaItem() {
         return getPreviousMediaItemIndex() != -1;
     }

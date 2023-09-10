@@ -139,6 +139,7 @@ import org.telegram.tgnet.TLRPC$TL_documentAttributeImageSize;
 import org.telegram.tgnet.TLRPC$TL_documentAttributeSticker;
 import org.telegram.tgnet.TLRPC$TL_documentAttributeSticker_layer55;
 import org.telegram.tgnet.TLRPC$TL_documentAttributeVideo;
+import org.telegram.tgnet.TLRPC$TL_documentAttributeVideo_layer159;
 import org.telegram.tgnet.TLRPC$TL_document_layer82;
 import org.telegram.tgnet.TLRPC$TL_error;
 import org.telegram.tgnet.TLRPC$TL_fileLocationUnavailable;
@@ -14963,7 +14964,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                                         tLRPC$TL_document5.mime_type = str8;
                                         accountInstance.getUserConfig().saveConfig(i14);
                                         if (z11) {
-                                            tLRPC$TL_documentAttributeVideo = new TLRPC$TL_documentAttributeVideo();
+                                            tLRPC$TL_documentAttributeVideo = new TLRPC$TL_documentAttributeVideo_layer159();
                                         } else {
                                             tLRPC$TL_documentAttributeVideo = new TLRPC$TL_documentAttributeVideo();
                                             tLRPC$TL_documentAttributeVideo.supports_streaming = true;
@@ -16272,7 +16273,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                                     if (accountInstance.getMessagesController().getEncryptedChat(Integer.valueOf(DialogObject.getEncryptedChatId(j))) == null) {
                                         return;
                                     }
-                                    tLRPC$TL_documentAttributeVideo = new TLRPC$TL_documentAttributeVideo();
+                                    tLRPC$TL_documentAttributeVideo = new TLRPC$TL_documentAttributeVideo_layer159();
                                 } else {
                                     tLRPC$TL_documentAttributeVideo = new TLRPC$TL_documentAttributeVideo();
                                     tLRPC$TL_documentAttributeVideo.supports_streaming = true;

@@ -63,29 +63,26 @@ public class StoriesStorage {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:41:0x00f7  */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x0100  */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x00d0  */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x00d9  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public /* synthetic */ void lambda$getAllStories$3(final Consumer consumer) {
         SQLiteCursor sQLiteCursor;
         boolean z;
-        SQLiteDatabase sQLiteDatabase;
-        LongSparseIntArray longSparseIntArray;
         SQLiteDatabase database = this.storage.getDatabase();
         ArrayList<TLRPC$TL_userStories> arrayList = new ArrayList<>();
         ArrayList<Long> arrayList2 = new ArrayList<>();
         ArrayList arrayList3 = new ArrayList();
-        int i = 1;
-        int i2 = 0;
+        int i = 0;
         try {
             SQLiteCursor queryFinalized = database.queryFinalized("SELECT dialog_id, max_read FROM stories_counter", new Object[0]);
             try {
-                LongSparseIntArray longSparseIntArray2 = new LongSparseIntArray();
+                LongSparseIntArray longSparseIntArray = new LongSparseIntArray();
                 while (queryFinalized.next()) {
                     long longValue = queryFinalized.longValue(0);
-                    longSparseIntArray2.put(longValue, queryFinalized.intValue(1));
+                    longSparseIntArray.put(longValue, queryFinalized.intValue(1));
                     if (longValue > 0) {
                         arrayList2.add(Long.valueOf(longValue));
                     } else {
@@ -93,56 +90,39 @@ public class StoriesStorage {
                     }
                 }
                 queryFinalized.dispose();
-                int i3 = 0;
-                while (i3 < longSparseIntArray2.size()) {
-                    long keyAt = longSparseIntArray2.keyAt(i3);
-                    int valueAt = longSparseIntArray2.valueAt(i3);
+                int i2 = 0;
+                while (i2 < longSparseIntArray.size()) {
+                    long keyAt = longSparseIntArray.keyAt(i2);
+                    int valueAt = longSparseIntArray.valueAt(i2);
                     Locale locale = Locale.US;
-                    Object[] objArr = new Object[i];
-                    objArr[i2] = Long.valueOf(keyAt);
-                    SQLiteCursor queryFinalized2 = database.queryFinalized(String.format(locale, "SELECT data, local_path, local_thumb_path, custom_params FROM stories WHERE dialog_id = %d", objArr), new Object[i2]);
+                    Object[] objArr = new Object[1];
+                    objArr[i] = Long.valueOf(keyAt);
+                    SQLiteCursor queryFinalized2 = database.queryFinalized(String.format(locale, "SELECT data, custom_params FROM stories WHERE dialog_id = %d", objArr), new Object[i]);
                     try {
                         ArrayList<TLRPC$StoryItem> arrayList4 = new ArrayList<>();
                         while (queryFinalized2.next()) {
-                            NativeByteBuffer byteBufferValue = queryFinalized2.byteBufferValue(i2);
-                            String stringValue = queryFinalized2.stringValue(i);
-                            String stringValue2 = queryFinalized2.stringValue(2);
-                            NativeByteBuffer byteBufferValue2 = queryFinalized2.byteBufferValue(3);
+                            NativeByteBuffer byteBufferValue = queryFinalized2.byteBufferValue(i);
+                            NativeByteBuffer byteBufferValue2 = queryFinalized2.byteBufferValue(1);
                             if (byteBufferValue != null) {
-                                sQLiteDatabase = database;
-                                longSparseIntArray = longSparseIntArray2;
                                 TLRPC$StoryItem TLdeserialize = TLRPC$StoryItem.TLdeserialize(byteBufferValue, byteBufferValue.readInt32(true), true);
                                 TLdeserialize.dialogId = keyAt;
-                                TLdeserialize.attachPath = stringValue;
-                                TLdeserialize.firstFramePath = stringValue2;
                                 StoryCustomParamsHelper.readLocalParams(TLdeserialize, byteBufferValue2);
                                 arrayList4.add(TLdeserialize);
                                 byteBufferValue.reuse();
-                            } else {
-                                sQLiteDatabase = database;
-                                longSparseIntArray = longSparseIntArray2;
                             }
                             if (byteBufferValue2 != null) {
                                 byteBufferValue2.reuse();
                             }
-                            longSparseIntArray2 = longSparseIntArray;
-                            database = sQLiteDatabase;
-                            i = 1;
-                            i2 = 0;
+                            i = 0;
                         }
-                        SQLiteDatabase sQLiteDatabase2 = database;
-                        LongSparseIntArray longSparseIntArray3 = longSparseIntArray2;
                         queryFinalized2.dispose();
                         TLRPC$TL_userStories tLRPC$TL_userStories = new TLRPC$TL_userStories();
                         tLRPC$TL_userStories.stories = arrayList4;
                         tLRPC$TL_userStories.max_read_id = valueAt;
                         tLRPC$TL_userStories.user_id = keyAt;
                         arrayList.add(tLRPC$TL_userStories);
-                        i3++;
-                        longSparseIntArray2 = longSparseIntArray3;
-                        database = sQLiteDatabase2;
-                        i = 1;
-                        i2 = 0;
+                        i2++;
+                        i = 0;
                     } catch (Throwable th) {
                         th = th;
                         sQLiteCursor = queryFinalized2;
@@ -183,16 +163,16 @@ public class StoriesStorage {
         final TLRPC$TL_stories_allStories tLRPC$TL_stories_allStories = new TLRPC$TL_stories_allStories();
         tLRPC$TL_stories_allStories.user_stories = arrayList;
         tLRPC$TL_stories_allStories.users = this.storage.getUsers(arrayList2);
-        int i4 = 0;
-        while (i4 < tLRPC$TL_stories_allStories.user_stories.size()) {
-            TLRPC$TL_userStories tLRPC$TL_userStories2 = tLRPC$TL_stories_allStories.user_stories.get(i4);
+        int i3 = 0;
+        while (i3 < tLRPC$TL_stories_allStories.user_stories.size()) {
+            TLRPC$TL_userStories tLRPC$TL_userStories2 = tLRPC$TL_stories_allStories.user_stories.get(i3);
             checkExpiredStories(tLRPC$TL_userStories2.user_id, tLRPC$TL_userStories2.stories);
             if (tLRPC$TL_userStories2.stories.isEmpty()) {
-                tLRPC$TL_stories_allStories.user_stories.remove(i4);
-                i4--;
+                tLRPC$TL_stories_allStories.user_stories.remove(i3);
+                i3--;
             }
             Collections.sort(tLRPC$TL_userStories2.stories, StoriesController.storiesComparator);
-            i4++;
+            i3++;
         }
         Collections.sort(tLRPC$TL_stories_allStories.user_stories, Comparator$-CC.comparingInt(StoriesStorage$$ExternalSyntheticLambda15.INSTANCE));
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoriesStorage$$ExternalSyntheticLambda2
@@ -243,18 +223,10 @@ public class StoriesStorage {
         if (tLRPC$TL_userStories != null) {
             try {
                 ArrayList<TLRPC$StoryItem> arrayList = tLRPC$TL_userStories.stories;
-                SQLitePreparedStatement executeFast = database.executeFast("REPLACE INTO stories VALUES(?, ?, ?, ?, ?, ?)");
+                SQLitePreparedStatement executeFast = database.executeFast("REPLACE INTO stories VALUES(?, ?, ?, ?)");
                 for (int i = 0; i < arrayList.size(); i++) {
                     executeFast.requery();
                     TLRPC$StoryItem tLRPC$StoryItem = arrayList.get(i);
-                    if (j == UserConfig.getInstance(this.currentAccount).getClientUserId()) {
-                        SQLiteCursor queryFinalized = database.queryFinalized(String.format(Locale.US, "SELECT local_path, local_thumb_path FROM stories WHERE dialog_id = %d AND story_id = %d", Long.valueOf(j), Integer.valueOf(tLRPC$StoryItem.id)), new Object[0]);
-                        if (queryFinalized.next()) {
-                            tLRPC$StoryItem.attachPath = queryFinalized.stringValue(1);
-                            tLRPC$StoryItem.firstFramePath = queryFinalized.stringValue(2);
-                        }
-                        queryFinalized.dispose();
-                    }
                     if (tLRPC$StoryItem instanceof TLRPC$TL_storyItemDeleted) {
                         FileLog.e("try write deleted story");
                     } else {
@@ -263,23 +235,11 @@ public class StoriesStorage {
                         NativeByteBuffer nativeByteBuffer = new NativeByteBuffer(tLRPC$StoryItem.getObjectSize());
                         tLRPC$StoryItem.serializeToStream(nativeByteBuffer);
                         executeFast.bindByteBuffer(3, nativeByteBuffer);
-                        String str = tLRPC$StoryItem.attachPath;
-                        if (str == null) {
-                            executeFast.bindNull(4);
-                        } else {
-                            executeFast.bindString(4, str);
-                        }
-                        String str2 = tLRPC$StoryItem.firstFramePath;
-                        if (str2 == null) {
-                            executeFast.bindNull(5);
-                        } else {
-                            executeFast.bindString(5, str2);
-                        }
                         NativeByteBuffer writeLocalParams = StoryCustomParamsHelper.writeLocalParams(tLRPC$StoryItem);
                         if (writeLocalParams != null) {
-                            executeFast.bindByteBuffer(6, writeLocalParams);
+                            executeFast.bindByteBuffer(4, writeLocalParams);
                         } else {
-                            executeFast.bindNull(6);
+                            executeFast.bindNull(4);
                         }
                         if (writeLocalParams != null) {
                             writeLocalParams.reuse();
@@ -297,17 +257,8 @@ public class StoriesStorage {
     }
 
     public void putStoryInternal(long j, TLRPC$StoryItem tLRPC$StoryItem) {
-        SQLiteDatabase database = this.storage.getDatabase();
         try {
-            SQLitePreparedStatement executeFast = database.executeFast("REPLACE INTO stories VALUES(?, ?, ?, ?, ?, ?)");
-            if (j == UserConfig.getInstance(this.currentAccount).getClientUserId()) {
-                SQLiteCursor queryFinalized = database.queryFinalized(String.format(Locale.US, "SELECT local_path, local_thumb_path FROM stories WHERE dialog_id = %d AND story_id = %d", Long.valueOf(j), Integer.valueOf(tLRPC$StoryItem.id)), new Object[0]);
-                if (queryFinalized.next()) {
-                    tLRPC$StoryItem.attachPath = queryFinalized.stringValue(1);
-                    tLRPC$StoryItem.firstFramePath = queryFinalized.stringValue(2);
-                }
-                queryFinalized.dispose();
-            }
+            SQLitePreparedStatement executeFast = this.storage.getDatabase().executeFast("REPLACE INTO stories VALUES(?, ?, ?, ?)");
             if (tLRPC$StoryItem instanceof TLRPC$TL_storyItemDeleted) {
                 FileLog.e("putStoryInternal: try write deleted story");
                 return;
@@ -317,23 +268,11 @@ public class StoriesStorage {
             NativeByteBuffer nativeByteBuffer = new NativeByteBuffer(tLRPC$StoryItem.getObjectSize());
             tLRPC$StoryItem.serializeToStream(nativeByteBuffer);
             executeFast.bindByteBuffer(3, nativeByteBuffer);
-            String str = tLRPC$StoryItem.attachPath;
-            if (str == null) {
-                executeFast.bindNull(4);
-            } else {
-                executeFast.bindString(4, str);
-            }
-            String str2 = tLRPC$StoryItem.firstFramePath;
-            if (str2 == null) {
-                executeFast.bindNull(5);
-            } else {
-                executeFast.bindString(5, str2);
-            }
             NativeByteBuffer writeLocalParams = StoryCustomParamsHelper.writeLocalParams(tLRPC$StoryItem);
             if (writeLocalParams != null) {
-                executeFast.bindByteBuffer(6, writeLocalParams);
+                executeFast.bindByteBuffer(4, writeLocalParams);
             } else {
-                executeFast.bindNull(6);
+                executeFast.bindNull(4);
             }
             if (writeLocalParams != null) {
                 writeLocalParams.reuse();
@@ -414,17 +353,13 @@ public class StoriesStorage {
     private TLRPC$StoryItem getStoryInternal(long j, int i) {
         TLRPC$StoryItem tLRPC$StoryItem = null;
         try {
-            SQLiteCursor queryFinalized = this.storage.getDatabase().queryFinalized(String.format(Locale.US, "SELECT data, local_path, local_thumb_path, custom_params FROM stories WHERE dialog_id = %d AND story_id = %d", Long.valueOf(j), Integer.valueOf(i)), new Object[0]);
+            SQLiteCursor queryFinalized = this.storage.getDatabase().queryFinalized(String.format(Locale.US, "SELECT data, custom_params FROM stories WHERE dialog_id = %d AND story_id = %d", Long.valueOf(j), Integer.valueOf(i)), new Object[0]);
             if (queryFinalized.next()) {
                 NativeByteBuffer byteBufferValue = queryFinalized.byteBufferValue(0);
-                String stringValue = queryFinalized.stringValue(1);
-                String stringValue2 = queryFinalized.stringValue(2);
-                NativeByteBuffer byteBufferValue2 = queryFinalized.byteBufferValue(3);
+                NativeByteBuffer byteBufferValue2 = queryFinalized.byteBufferValue(1);
                 if (byteBufferValue != null) {
                     tLRPC$StoryItem = TLRPC$StoryItem.TLdeserialize(byteBufferValue, byteBufferValue.readInt32(true), true);
                     tLRPC$StoryItem.dialogId = j;
-                    tLRPC$StoryItem.attachPath = stringValue;
-                    tLRPC$StoryItem.firstFramePath = stringValue2;
                     byteBufferValue.reuse();
                 }
                 if (tLRPC$StoryItem != null) {
@@ -465,40 +400,19 @@ public class StoriesStorage {
         if (StoriesUtilities.isExpired(this.currentAccount, tLRPC$StoryItem)) {
             FileLog.e("StoriesStorage: try write expired story");
         }
-        SQLiteDatabase database = this.storage.getDatabase();
         try {
-            String str = tLRPC$StoryItem.attachPath;
-            String str2 = tLRPC$StoryItem.firstFramePath;
-            if (j == UserConfig.getInstance(this.currentAccount).getClientUserId()) {
-                SQLiteCursor queryFinalized = database.queryFinalized(String.format(Locale.US, "SELECT local_path, local_thumb_path FROM stories WHERE dialog_id = %d AND story_id = %d", Long.valueOf(j), Integer.valueOf(tLRPC$StoryItem.id)), new Object[0]);
-                if (queryFinalized.next()) {
-                    str = queryFinalized.stringValue(1);
-                    str2 = queryFinalized.stringValue(2);
-                }
-                queryFinalized.dispose();
-            }
-            SQLitePreparedStatement executeFast = database.executeFast("REPLACE INTO stories VALUES(?, ?, ?, ?, ?, ?)");
+            SQLitePreparedStatement executeFast = this.storage.getDatabase().executeFast("REPLACE INTO stories VALUES(?, ?, ?, ?)");
             executeFast.requery();
             executeFast.bindLong(1, j);
             executeFast.bindLong(2, tLRPC$StoryItem.id);
             NativeByteBuffer nativeByteBuffer = new NativeByteBuffer(tLRPC$StoryItem.getObjectSize());
             tLRPC$StoryItem.serializeToStream(nativeByteBuffer);
             executeFast.bindByteBuffer(3, nativeByteBuffer);
-            if (str == null) {
-                executeFast.bindNull(4);
-            } else {
-                executeFast.bindString(4, str);
-            }
-            if (str2 == null) {
-                executeFast.bindNull(5);
-            } else {
-                executeFast.bindString(5, str2);
-            }
             NativeByteBuffer writeLocalParams = StoryCustomParamsHelper.writeLocalParams(tLRPC$StoryItem);
             if (writeLocalParams != null) {
-                executeFast.bindByteBuffer(6, writeLocalParams);
+                executeFast.bindByteBuffer(4, writeLocalParams);
             } else {
-                executeFast.bindNull(6);
+                executeFast.bindNull(4);
             }
             if (writeLocalParams != null) {
                 writeLocalParams.reuse();
@@ -544,8 +458,8 @@ public class StoriesStorage {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:25:0x00d4 A[Catch: all -> 0x0100, TryCatch #0 {all -> 0x0100, blocks: (B:3:0x0006, B:5:0x0013, B:7:0x0035, B:9:0x0048, B:11:0x005c, B:14:0x0062, B:23:0x00b7, B:25:0x00d4, B:27:0x00da, B:17:0x0088, B:19:0x008c), top: B:32:0x0006 }] */
-    /* JADX WARN: Removed duplicated region for block: B:26:0x00d9  */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x00c7 A[Catch: all -> 0x00f3, TryCatch #0 {all -> 0x00f3, blocks: (B:3:0x0006, B:5:0x0013, B:7:0x0035, B:9:0x003f, B:11:0x004f, B:14:0x0055, B:23:0x00aa, B:25:0x00c7, B:27:0x00cd, B:17:0x007b, B:19:0x007f), top: B:32:0x0006 }] */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x00cc  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -559,17 +473,12 @@ public class StoriesStorage {
             int i2 = tLRPC$StoryItem.id;
             if (tLRPC$StoryItem instanceof TLRPC$TL_storyItemDeleted) {
                 Locale locale = Locale.US;
-                SQLiteCursor queryFinalized = database.queryFinalized(String.format(locale, "SELECT data, local_path, local_thumb_path, custom_params FROM stories WHERE dialog_id = %d AND story_id = %d", Long.valueOf(j), Integer.valueOf(i2)), new Object[0]);
+                SQLiteCursor queryFinalized = database.queryFinalized(String.format(locale, "SELECT data, custom_params FROM stories WHERE dialog_id = %d AND story_id = %d", Long.valueOf(j), Integer.valueOf(i2)), new Object[0]);
                 if (queryFinalized.next()) {
                     NativeByteBuffer byteBufferValue = queryFinalized.byteBufferValue(0);
-                    String stringValue = queryFinalized.stringValue(1);
-                    String stringValue2 = queryFinalized.stringValue(2);
-                    NativeByteBuffer byteBufferValue2 = queryFinalized.byteBufferValue(3);
+                    NativeByteBuffer byteBufferValue2 = queryFinalized.byteBufferValue(1);
                     if (byteBufferValue != null) {
-                        TLRPC$StoryItem TLdeserialize = TLRPC$StoryItem.TLdeserialize(byteBufferValue, byteBufferValue.readInt32(true), true);
-                        TLdeserialize.attachPath = stringValue;
-                        TLdeserialize.firstFramePath = stringValue2;
-                        StoryCustomParamsHelper.readLocalParams(TLdeserialize, byteBufferValue2);
+                        StoryCustomParamsHelper.readLocalParams(TLRPC$StoryItem.TLdeserialize(byteBufferValue, byteBufferValue.readInt32(true), true), byteBufferValue2);
                         byteBufferValue.reuse();
                     }
                     if (byteBufferValue2 != null) {

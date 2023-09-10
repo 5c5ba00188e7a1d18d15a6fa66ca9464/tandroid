@@ -48,6 +48,8 @@ public interface ExoPlayer extends Player {
 
     void setMediaSource(MediaSource mediaSource, boolean z);
 
+    void setSeekParameters(SeekParameters seekParameters);
+
     void setWorkerQueue(DispatchQueue dispatchQueue);
 
     /* loaded from: classes.dex */

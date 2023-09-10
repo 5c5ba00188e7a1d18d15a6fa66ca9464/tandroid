@@ -578,8 +578,8 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
         return storyCell2.position - storyCell.position;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:115:0x0287  */
-    /* JADX WARN: Removed duplicated region for block: B:164:0x02ae A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:116:0x0278  */
+    /* JADX WARN: Removed duplicated region for block: B:161:0x029c A[SYNTHETIC] */
     @Override // android.view.ViewGroup, android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -588,39 +588,41 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
         int i;
         float f;
         StoryCell storyCell;
-        float f2;
         int dp;
         boolean z;
+        int i2;
+        int i3;
         int dp2;
-        float f3;
+        float f2;
+        int i4;
         int childAdapterPosition;
         canvas.save();
-        int i2 = this.clipTop;
-        if (i2 > 0) {
-            canvas.clipRect(0, i2, getMeasuredWidth(), getMeasuredHeight());
+        int i5 = this.clipTop;
+        if (i5 > 0) {
+            canvas.clipRect(0, i5, getMeasuredWidth(), getMeasuredHeight());
         }
-        float lerp = AndroidUtilities.lerp(0, ((getMeasuredHeight() - ActionBar.getCurrentActionBarHeight()) - AndroidUtilities.dp(4.0f)) - AndroidUtilities.dp(4.0f), this.collapsedProgress1);
+        float lerp = AndroidUtilities.lerp(0, (getMeasuredHeight() - ActionBar.getCurrentActionBarHeight()) - AndroidUtilities.dp(4.0f), this.collapsedProgress1);
         this.recyclerListView.setTranslationY(lerp);
         this.listViewMini.setTranslationY(lerp);
         this.listViewMini.setTranslationX(AndroidUtilities.dp(68.0f));
-        float f4 = 0.0f;
-        Utilities.clamp((CubicBezierInterpolator.EASE_OUT.getInterpolation(this.collapsedProgress) - 0.5f) / 0.5f, 1.0f, 0.0f);
-        for (int i3 = 0; i3 < this.viewsDrawInParent.size(); i3++) {
-            this.viewsDrawInParent.get(i3).drawInParent = false;
+        for (int i6 = 0; i6 < this.viewsDrawInParent.size(); i6++) {
+            this.viewsDrawInParent.get(i6).drawInParent = false;
         }
         this.viewsDrawInParent.clear();
-        int i4 = -1;
+        int i7 = -1;
         if (this.currentState == 1 && !this.animateToDialogIds.isEmpty()) {
             i = -1;
-            for (int i5 = 0; i5 < this.recyclerListView.getChildCount(); i5++) {
-                StoryCell storyCell2 = (StoryCell) this.recyclerListView.getChildAt(i5);
-                i = storyCell2.dialogId == this.animateToDialogIds.get(0).longValue() ? this.recyclerListView.getChildAdapterPosition(storyCell2) : i;
+            for (int i8 = 0; i8 < this.recyclerListView.getChildCount(); i8++) {
+                StoryCell storyCell2 = (StoryCell) this.recyclerListView.getChildAt(i8);
+                if (storyCell2.dialogId == this.animateToDialogIds.get(0).longValue()) {
+                    i = this.recyclerListView.getChildAdapterPosition(storyCell2);
+                }
             }
         } else {
             i = this.currentState == 2 ? 0 : -1;
         }
-        int i6 = this.currentState;
-        if (i6 >= 0 && i6 != 2) {
+        int i9 = this.currentState;
+        if (i9 >= 0 && i9 != 2) {
             if (i == -1) {
                 i = this.layoutManager.findFirstCompletelyVisibleItemPosition();
                 if (i == -1) {
@@ -630,39 +632,50 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
             } else {
                 z = false;
             }
+            float f3 = 1.0f;
             this.recyclerListView.setAlpha(1.0f - Utilities.clamp(this.collapsedProgress / this.K, 1.0f, 0.0f));
             this.overscrollSelectedPosition = -1;
             if (this.overscrollPrgoress != 0.0f) {
-                int i7 = 0;
-                int i8 = -1;
-                while (i7 < this.recyclerListView.getChildCount()) {
-                    View childAt = this.recyclerListView.getChildAt(i7);
-                    if (childAt.getX() >= f4 && childAt.getX() + childAt.getMeasuredWidth() <= getMeasuredWidth() && (childAdapterPosition = this.recyclerListView.getChildAdapterPosition(childAt)) >= 0 && ((i8 == i4 || childAdapterPosition < i8) && this.items.get(childAdapterPosition).dialogId != UserConfig.getInstance(this.currentAccount).clientUserId)) {
-                        this.overscrollSelectedView = (StoryCell) childAt;
-                        i8 = childAdapterPosition;
+                int i10 = 0;
+                int i11 = -1;
+                while (i10 < this.recyclerListView.getChildCount()) {
+                    View childAt = this.recyclerListView.getChildAt(i10);
+                    if (childAt.getX() < 0.0f || childAt.getX() + childAt.getMeasuredWidth() > getMeasuredWidth() || (childAdapterPosition = this.recyclerListView.getChildAdapterPosition(childAt)) < 0 || (i11 != i7 && childAdapterPosition >= i11)) {
+                        i4 = i;
+                    } else {
+                        i4 = i;
+                        if (this.items.get(childAdapterPosition).dialogId != UserConfig.getInstance(this.currentAccount).clientUserId) {
+                            this.overscrollSelectedView = (StoryCell) childAt;
+                            i11 = childAdapterPosition;
+                        }
                     }
-                    i7++;
-                    f4 = 0.0f;
-                    i4 = -1;
+                    i10++;
+                    i = i4;
+                    i7 = -1;
                 }
-                this.overscrollSelectedPosition = i8;
+                i2 = i;
+                this.overscrollSelectedPosition = i11;
+            } else {
+                i2 = i;
             }
+            int i12 = 0;
             f = 0.0f;
-            for (int i9 = 0; i9 < this.recyclerListView.getChildCount(); i9++) {
-                StoryCell storyCell3 = (StoryCell) this.recyclerListView.getChildAt(i9);
+            while (i12 < this.recyclerListView.getChildCount()) {
+                StoryCell storyCell3 = (StoryCell) this.recyclerListView.getChildAt(i12);
                 storyCell3.setProgressToCollapsed(this.collapsedProgress, this.collapsedProgress2, this.overscrollPrgoress, this.overscrollSelectedPosition == storyCell3.position);
-                float clamp = Utilities.clamp((this.overscrollPrgoress - 0.5f) / 0.5f, 1.0f, 0.0f);
+                float clamp = Utilities.clamp((this.overscrollPrgoress - 0.5f) / 0.5f, f3, 0.0f);
                 float dp3 = AndroidUtilities.dp(16.0f) * clamp;
-                double d = (1.0f - clamp) * 0.5f;
+                double d = (f3 - clamp) * 0.5f;
                 Double.isNaN(d);
-                float f5 = (float) (d + 0.5d);
+                float f4 = (float) (d + 0.5d);
                 if (this.collapsedProgress > 0.0f) {
                     int childAdapterPosition2 = this.recyclerListView.getChildAdapterPosition(storyCell3);
-                    boolean z2 = childAdapterPosition2 >= i && childAdapterPosition2 <= i + 2;
+                    i3 = i2;
+                    boolean z2 = childAdapterPosition2 >= i3 && childAdapterPosition2 <= i3 + 2;
                     if (z) {
-                        int i10 = childAdapterPosition2 - i;
-                        if (i10 >= 0 && i10 < this.animateToDialogIds.size()) {
-                            storyCell3.setCrossfadeTo(this.animateToDialogIds.get(i10).longValue());
+                        int i13 = childAdapterPosition2 - i3;
+                        if (i13 >= 0 && i13 < this.animateToDialogIds.size()) {
+                            storyCell3.setCrossfadeTo(this.animateToDialogIds.get(i13).longValue());
                         } else {
                             storyCell3.setCrossfadeTo(-1L);
                         }
@@ -670,58 +683,67 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
                         storyCell3.setCrossfadeTo(-1L);
                     }
                     storyCell3.drawInParent = z2;
-                    storyCell3.isFirst = childAdapterPosition2 == i;
-                    storyCell3.isLast = childAdapterPosition2 >= (this.animateToDialogIds.size() + i) + (-1);
-                    if (childAdapterPosition2 <= i) {
-                        f3 = 0.0f;
+                    storyCell3.isFirst = childAdapterPosition2 == i3;
+                    storyCell3.isLast = childAdapterPosition2 >= (this.animateToDialogIds.size() + i3) - 1;
+                    if (childAdapterPosition2 <= i3) {
+                        f2 = 0.0f;
                     } else {
-                        if (childAdapterPosition2 == i + 1) {
+                        if (childAdapterPosition2 == i3 + 1) {
                             dp2 = AndroidUtilities.dp(18.0f);
                         } else {
                             dp2 = AndroidUtilities.dp(18.0f) * 2;
                         }
-                        f3 = dp2;
+                        f2 = dp2;
                     }
-                    storyCell3.setTranslationX(AndroidUtilities.lerp(0.0f, (f3 + AndroidUtilities.dp(68.0f)) - storyCell3.getLeft(), CubicBezierInterpolator.EASE_OUT.getInterpolation(this.collapsedProgress)));
+                    storyCell3.setTranslationX(AndroidUtilities.lerp(0.0f, (f2 + AndroidUtilities.dp(68.0f)) - storyCell3.getLeft(), CubicBezierInterpolator.EASE_OUT.getInterpolation(this.collapsedProgress)));
                     if (z2) {
                         this.viewsDrawInParent.add(storyCell3);
                     }
-                } else if (this.recyclerListView.getItemAnimator() == null || !this.recyclerListView.getItemAnimator().isRunning()) {
-                    if (this.overscrollPrgoress > 0.0f) {
-                        int i11 = storyCell3.position;
-                        int i12 = this.overscrollSelectedPosition;
-                        if (i11 < i12) {
-                            storyCell3.setTranslationX(-dp3);
-                            storyCell3.setTranslationY(0.0f);
-                            storyCell3.setAlpha(f5);
-                        } else if (i11 > i12) {
-                            storyCell3.setTranslationX(dp3);
-                            storyCell3.setTranslationY(0.0f);
-                            storyCell3.setAlpha(f5);
+                } else {
+                    i3 = i2;
+                    if (this.recyclerListView.getItemAnimator() == null || !this.recyclerListView.getItemAnimator().isRunning()) {
+                        if (this.overscrollPrgoress > 0.0f) {
+                            int i14 = storyCell3.position;
+                            int i15 = this.overscrollSelectedPosition;
+                            if (i14 < i15) {
+                                storyCell3.setTranslationX(-dp3);
+                                storyCell3.setTranslationY(0.0f);
+                                storyCell3.setAlpha(f4);
+                            } else if (i14 > i15) {
+                                storyCell3.setTranslationX(dp3);
+                                storyCell3.setTranslationY(0.0f);
+                                storyCell3.setAlpha(f4);
+                            } else {
+                                storyCell3.setTranslationX(0.0f);
+                                storyCell3.setTranslationY((-dp3) / 2.0f);
+                                storyCell3.setAlpha(1.0f);
+                            }
                         } else {
                             storyCell3.setTranslationX(0.0f);
-                            storyCell3.setTranslationY((-dp3) / 2.0f);
+                            storyCell3.setTranslationY(0.0f);
                             storyCell3.setAlpha(1.0f);
                         }
-                    } else {
-                        storyCell3.setTranslationX(0.0f);
-                        storyCell3.setTranslationY(0.0f);
-                        storyCell3.setAlpha(1.0f);
-                    }
-                    if (!storyCell3.drawInParent) {
-                        float x = this.recyclerListView.getX() + storyCell3.getX() + (storyCell3.getMeasuredWidth() / 2.0f) + (AndroidUtilities.dp(70.0f) / 2.0f);
-                        if (f == 0.0f || x > f) {
-                            f = x;
+                        if (!storyCell3.drawInParent) {
+                            float x = this.recyclerListView.getX() + storyCell3.getX() + (storyCell3.getMeasuredWidth() / 2.0f) + (AndroidUtilities.dp(70.0f) / 2.0f);
+                            if (f == 0.0f || x > f) {
+                                f = x;
+                            }
                         }
+                        i12++;
+                        i2 = i3;
+                        f3 = 1.0f;
                     }
                 }
                 if (!storyCell3.drawInParent) {
                 }
+                i12++;
+                i2 = i3;
+                f3 = 1.0f;
             }
         } else {
             f = 0.0f;
-            for (int i13 = 0; i13 < this.listViewMini.getChildCount(); i13++) {
-                float x2 = this.listViewMini.getX() + ((StoryCell) this.listViewMini.getChildAt(i13)).getX() + storyCell.getMeasuredWidth();
+            for (int i16 = 0; i16 < this.listViewMini.getChildCount(); i16++) {
+                float x2 = this.listViewMini.getX() + ((StoryCell) this.listViewMini.getChildAt(i16)).getX() + storyCell.getMeasuredWidth();
                 if (f == 0.0f || x2 > f) {
                     f = x2;
                 }
@@ -732,13 +754,10 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
             if (this.recyclerListView.getChildCount() > 0) {
                 lerp2 += this.recyclerListView.getChildAt(0).getLeft();
             }
-            f2 = 0.0f;
             this.premiumHint.setJoint(0.0f, lerp2);
-        } else {
-            f2 = 0.0f;
         }
         float min = Math.min(this.collapsedProgress, this.collapsedProgress2);
-        if (min != f2) {
+        if (min != 0.0f) {
             this.titleView.setTranslationY(((lerp + AndroidUtilities.dp(14.0f)) - ((this.titleView.getMeasuredHeight() - this.titleView.getTextHeight()) / 2.0f)) + AndroidUtilities.dp(4.0f));
             float dp4 = f + (-dp) + AndroidUtilities.dp(6.0f) + getAvatarRight(AndroidUtilities.dp(72.0f), this.collapsedProgress) + AndroidUtilities.dp(12.0f);
             this.titleView.setTranslationX(dp4);
@@ -749,11 +768,11 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
             this.titleView.setVisibility(8);
         }
         super.dispatchDraw(canvas);
-        int i14 = this.currentState;
-        if (i14 >= 0 && i14 != 2) {
+        int i17 = this.currentState;
+        if (i17 >= 0 && i17 != 2) {
             Collections.sort(this.viewsDrawInParent, this.comparator);
-            for (int i15 = 0; i15 < this.viewsDrawInParent.size(); i15++) {
-                StoryCell storyCell4 = this.viewsDrawInParent.get(i15);
+            for (int i18 = 0; i18 < this.viewsDrawInParent.size(); i18++) {
+                StoryCell storyCell4 = this.viewsDrawInParent.get(i18);
                 canvas.save();
                 canvas.translate(this.recyclerListView.getX() + storyCell4.getX(), this.recyclerListView.getY() + storyCell4.getY());
                 storyCell4.draw(canvas);
@@ -881,13 +900,13 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
         StoriesUtilities.updateColors();
         final int textColor = getTextColor();
         this.titleView.setTextColor(textColor);
-        AndroidUtilities.forEachViews(this.recyclerListView, new Consumer() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda1
+        AndroidUtilities.forEachViews((RecyclerView) this.recyclerListView, (Consumer<View>) new Consumer() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda1
             @Override // com.google.android.exoplayer2.util.Consumer
             public final void accept(Object obj) {
                 DialogStoriesCell.lambda$updateColors$8(textColor, (View) obj);
             }
         });
-        AndroidUtilities.forEachViews(this.listViewMini, DialogStoriesCell$$ExternalSyntheticLambda3.INSTANCE);
+        AndroidUtilities.forEachViews((RecyclerView) this.listViewMini, (Consumer<View>) DialogStoriesCell$$ExternalSyntheticLambda3.INSTANCE);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -958,7 +977,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
     public void openStoryRecorder() {
         StoriesController.StoryLimit checkStoryLimit = MessagesController.getInstance(this.currentAccount).getStoriesController().checkStoryLimit();
         if (checkStoryLimit != null) {
-            this.fragment.showDialog(new LimitReachedBottomSheet(this.fragment, getContext(), checkStoryLimit.getLimitReachedType(), this.currentAccount));
+            this.fragment.showDialog(new LimitReachedBottomSheet(this.fragment, getContext(), checkStoryLimit.getLimitReachedType(), this.currentAccount, this.fragment.getResourceProvider()));
             return;
         }
         StoryCell storyCell = null;
@@ -1827,7 +1846,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
         }
         int i2 = this.currentState;
         if (i2 == 0) {
-            AndroidUtilities.forEachViews(this.recyclerListView, DialogStoriesCell$$ExternalSyntheticLambda2.INSTANCE);
+            AndroidUtilities.forEachViews((RecyclerView) this.recyclerListView, (Consumer<View>) DialogStoriesCell$$ExternalSyntheticLambda2.INSTANCE);
             this.listViewMini.setVisibility(4);
             this.recyclerListView.setVisibility(0);
             checkExpanded();

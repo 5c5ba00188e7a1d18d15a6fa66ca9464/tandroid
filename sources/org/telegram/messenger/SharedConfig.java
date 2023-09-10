@@ -70,6 +70,7 @@ public class SharedConfig {
     public static boolean disableVoiceAudioEffects = false;
     public static int distanceSystemType = 0;
     public static boolean dontAskManageStorage = false;
+    public static boolean drawActionBarShadow = false;
     public static boolean drawDialogIcons = false;
     public static int emojiInteractionsHintCount = 0;
     public static int fastScrollHintCount = 0;
@@ -116,6 +117,7 @@ public class SharedConfig {
     public static boolean pauseMusicOnRecord;
     public static TLRPC$TL_help_appUpdate pendingAppUpdate;
     public static int pendingAppUpdateBuildVersion;
+    public static boolean photoViewerBlur;
     public static boolean playOrderReversed;
     public static ArrayList<ProxyInfo> proxyList;
     private static boolean proxyListLoaded;
@@ -258,6 +260,11 @@ public class SharedConfig {
         ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", 0).edit().putBoolean("useSurfaceInStories", useSurfaceInStories).apply();
     }
 
+    public static void togglePhotoViewerBlur() {
+        photoViewerBlur = !photoViewerBlur;
+        ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", 0).edit().putBoolean("photoViewerBlur", photoViewerBlur).apply();
+    }
+
     static {
         HashSet<String> hashSet = new HashSet<>();
         hevcEncoderWhitelist = hashSet;
@@ -272,6 +279,7 @@ public class SharedConfig {
         useFingerprint = true;
         keepMedia = CacheByChatsController.KEEP_MEDIA_ONE_MONTH;
         updateStickersOrderOnSend = true;
+        photoViewerBlur = true;
         stealthModeSendMessageConfirm = 2;
         lastLocalId = -210000;
         passportConfigJson = "";
@@ -305,6 +313,7 @@ public class SharedConfig {
         LOW_SOC = new int[]{-1775228513, 802464304, 802464333, 802464302, 2067362118, 2067362060, 2067362084, 2067362241, 2067362117, 2067361998, -1853602818};
         loadConfig();
         proxyList = new ArrayList<>();
+        drawActionBarShadow = true;
     }
 
     public static String findGoodHevcEncoder() {
@@ -467,15 +476,15 @@ public class SharedConfig {
         return i;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:38:0x017e A[Catch: Exception -> 0x01a0, all -> 0x041e, TryCatch #0 {Exception -> 0x01a0, blocks: (B:22:0x012f, B:24:0x0137, B:26:0x0147, B:27:0x015b, B:38:0x017e, B:40:0x0182, B:41:0x0184, B:43:0x0188, B:45:0x018e, B:47:0x0194, B:49:0x0198, B:36:0x0178), top: B:87:0x012f, outer: #4 }] */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x0182 A[Catch: Exception -> 0x01a0, all -> 0x041e, TryCatch #0 {Exception -> 0x01a0, blocks: (B:22:0x012f, B:24:0x0137, B:26:0x0147, B:27:0x015b, B:38:0x017e, B:40:0x0182, B:41:0x0184, B:43:0x0188, B:45:0x018e, B:47:0x0194, B:49:0x0198, B:36:0x0178), top: B:87:0x012f, outer: #4 }] */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x0221  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x0224  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x0234  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x0236  */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x03ef  */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x03f1  */
-    /* JADX WARN: Removed duplicated region for block: B:89:0x040e A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x017e A[Catch: Exception -> 0x01a0, all -> 0x042a, TryCatch #0 {Exception -> 0x01a0, blocks: (B:22:0x012f, B:24:0x0137, B:26:0x0147, B:27:0x015b, B:38:0x017e, B:40:0x0182, B:41:0x0184, B:43:0x0188, B:45:0x018e, B:47:0x0194, B:49:0x0198, B:36:0x0178), top: B:87:0x012f, outer: #2 }] */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x0182 A[Catch: Exception -> 0x01a0, all -> 0x042a, TryCatch #0 {Exception -> 0x01a0, blocks: (B:22:0x012f, B:24:0x0137, B:26:0x0147, B:27:0x015b, B:38:0x017e, B:40:0x0182, B:41:0x0184, B:43:0x0188, B:45:0x018e, B:47:0x0194, B:49:0x0198, B:36:0x0178), top: B:87:0x012f, outer: #2 }] */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x0222  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x0225  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x0235  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x0237  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x03f0  */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x03f2  */
+    /* JADX WARN: Removed duplicated region for block: B:94:0x041a A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -627,6 +636,8 @@ public class SharedConfig {
                             bigCameraForRound = sharedPreferences2.getBoolean("bigCameraForRound", false);
                             i = Build.VERSION.SDK_INT;
                             useSurfaceInStories = sharedPreferences2.getBoolean("useSurfaceInStories", i < 30);
+                            photoViewerBlur = sharedPreferences2.getBoolean("photoViewerBlur", true);
+                            loadDebugConfig(sharedPreferences2);
                             showNotificationsForAllAccounts = ApplicationLoader.applicationContext.getSharedPreferences("Notifications", 0).getBoolean("AllAccounts", true);
                             configLoaded = true;
                             if (i >= 19) {
@@ -716,6 +727,8 @@ public class SharedConfig {
                 bigCameraForRound = sharedPreferences22.getBoolean("bigCameraForRound", false);
                 i = Build.VERSION.SDK_INT;
                 useSurfaceInStories = sharedPreferences22.getBoolean("useSurfaceInStories", i < 30);
+                photoViewerBlur = sharedPreferences22.getBoolean("photoViewerBlur", true);
+                loadDebugConfig(sharedPreferences22);
                 showNotificationsForAllAccounts = ApplicationLoader.applicationContext.getSharedPreferences("Notifications", 0).getBoolean("AllAccounts", true);
                 configLoaded = true;
                 if (i >= 19) {
@@ -1734,5 +1747,13 @@ public class SharedConfig {
             }
         }
         return legacyDevicePerformanceClass;
+    }
+
+    private static void loadDebugConfig(SharedPreferences sharedPreferences) {
+        drawActionBarShadow = sharedPreferences.getBoolean("drawActionBarShadow", true);
+    }
+
+    public static void saveDebugConfig() {
+        ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", 0).edit().putBoolean("drawActionBarShadow", drawActionBarShadow);
     }
 }

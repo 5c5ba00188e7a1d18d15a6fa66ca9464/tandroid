@@ -7,7 +7,6 @@ import android.content.pm.Signature;
 import android.util.Log;
 import com.google.android.gms.common.internal.Preconditions;
 import com.google.errorprone.annotations.RestrictedInheritance;
-import org.telegram.messenger.MessagesStorage;
 /* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 @RestrictedInheritance(allowedOnPath = ".*java.*/com/google/android/gms/common/testing/.*", explanation = "Sub classing of GMS Core's APIs are restricted to testing fakes.", link = "go/gmscore-restrictedinheritance")
 /* loaded from: classes.dex */
@@ -51,7 +50,7 @@ public class GoogleSignatureVerifier {
     public static final boolean zzb(PackageInfo packageInfo, boolean z) {
         if (z && packageInfo != null && ("com.android.vending".equals(packageInfo.packageName) || "com.google.android.gms".equals(packageInfo.packageName))) {
             ApplicationInfo applicationInfo = packageInfo.applicationInfo;
-            z = (applicationInfo == null || (applicationInfo.flags & MessagesStorage.LAST_DB_VERSION) == 0) ? false : true;
+            z = (applicationInfo == null || (applicationInfo.flags & 129) == 0) ? false : true;
         }
         if (packageInfo != null && packageInfo.signatures != null) {
             if ((z ? zza(packageInfo, zzm.zza) : zza(packageInfo, zzm.zza[0])) != null) {

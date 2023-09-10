@@ -2210,7 +2210,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
         this.containerView = new ContainerView(context);
         ViewPagerFixed viewPagerFixed = new ViewPagerFixed(context) { // from class: org.telegram.ui.Stories.recorder.StoryPrivacyBottomSheet.3
             @Override // org.telegram.ui.Components.ViewPagerFixed
-            protected void onTabAnimationUpdate() {
+            protected void onTabAnimationUpdate(boolean z) {
                 ((BottomSheet) StoryPrivacyBottomSheet.this).containerView.invalidate();
             }
 

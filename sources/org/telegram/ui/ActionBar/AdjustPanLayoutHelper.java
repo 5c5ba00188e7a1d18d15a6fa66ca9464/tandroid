@@ -38,7 +38,6 @@ public class AdjustPanLayoutHelper {
     private boolean ignoreOnce;
     boolean inverse;
     boolean isKeyboardVisible;
-    protected float keyboardSize;
     private boolean needDelay;
     AnimationNotificationsLocker notificationsLocker;
     ViewTreeObserver.OnPreDrawListener onPreDrawListener;
@@ -119,8 +118,8 @@ public class AdjustPanLayoutHelper {
         updateTransition(((Float) valueAnimator.getAnimatedValue()).floatValue());
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:13:0x0047  */
-    /* JADX WARN: Removed duplicated region for block: B:14:0x005b  */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x0044  */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x0058  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -140,7 +139,7 @@ public class AdjustPanLayoutHelper {
                 this.resizableView.requestLayout();
                 onTransitionStart(z, i, i2);
                 float f = i2 - i;
-                this.keyboardSize = Math.abs(f);
+                Math.abs(f);
                 this.animationInProgress = true;
                 if (i2 <= i) {
                     float f2 = f - startOffset;
@@ -166,7 +165,7 @@ public class AdjustPanLayoutHelper {
         this.resizableView.requestLayout();
         onTransitionStart(z, i, i2);
         float f4 = i2 - i;
-        this.keyboardSize = Math.abs(f4);
+        Math.abs(f4);
         this.animationInProgress = true;
         if (i2 <= i) {
         }

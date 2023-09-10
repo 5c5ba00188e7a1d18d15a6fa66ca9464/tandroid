@@ -333,6 +333,10 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     protected void invalidateBlur() {
     }
 
+    protected boolean isArchivedOnlyStoriesView() {
+        return false;
+    }
+
     protected boolean isStoriesView() {
         return false;
     }
@@ -621,8 +625,11 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     }
 
     public float getPhotoVideoOptionsAlpha(float f) {
-        MediaPage[] mediaPageArr = this.mediaPages;
         float f2 = 0.0f;
+        if (isArchivedOnlyStoriesView()) {
+            return 0.0f;
+        }
+        MediaPage[] mediaPageArr = this.mediaPages;
         if (mediaPageArr[1] != null && (mediaPageArr[1].selectedType == 0 || this.mediaPages[1].selectedType == 8 || this.mediaPages[1].selectedType == 9)) {
             f2 = 0.0f + f;
         }
@@ -1652,7 +1659,9 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         mutate.setColorFilter(new PorterDuffColorFilter(getThemedColor(i13), PorterDuff.Mode.MULTIPLY));
         this.photoVideoOptionsItem.setImageDrawable(mutate);
         this.photoVideoOptionsItem.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-        this.actionBar.addView(this.photoVideoOptionsItem, LayoutHelper.createFrame(48, 56, 85));
+        if (!isArchivedOnlyStoriesView()) {
+            this.actionBar.addView(this.photoVideoOptionsItem, LayoutHelper.createFrame(48, 56, 85));
+        }
         this.photoVideoOptionsItem.setOnClickListener(new 5(context, resourcesProvider));
         EditTextBoldCursor searchField = this.searchItem.getSearchField();
         int i14 = Theme.key_windowBackgroundWhiteBlackText;
@@ -1836,7 +1845,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                                 float photoVideoOptionsAlpha = SharedMediaLayout.this.getPhotoVideoOptionsAlpha(abs);
                                 SharedMediaLayout.this.photoVideoOptionsItem.setAlpha(photoVideoOptionsAlpha);
                                 SharedMediaLayout sharedMediaLayout = SharedMediaLayout.this;
-                                sharedMediaLayout.photoVideoOptionsItem.setVisibility((photoVideoOptionsAlpha == 0.0f || !sharedMediaLayout.canShowSearchItem()) ? 4 : 4);
+                                sharedMediaLayout.photoVideoOptionsItem.setVisibility((photoVideoOptionsAlpha == 0.0f || !sharedMediaLayout.canShowSearchItem() || SharedMediaLayout.this.isArchivedOnlyStoriesView()) ? 4 : 4);
                             } else {
                                 SharedMediaLayout.this.searchItem.setAlpha(0.0f);
                             }
@@ -1971,13 +1980,13 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                 }
 
                 /* JADX INFO: Access modifiers changed from: protected */
-                /* JADX WARN: Removed duplicated region for block: B:174:0x05a7  */
-                /* JADX WARN: Removed duplicated region for block: B:229:0x0980  */
-                /* JADX WARN: Removed duplicated region for block: B:238:0x09b3  */
-                /* JADX WARN: Removed duplicated region for block: B:239:0x09b9  */
-                /* JADX WARN: Removed duplicated region for block: B:246:0x09ce  */
-                /* JADX WARN: Removed duplicated region for block: B:252:0x09eb  */
-                /* JADX WARN: Removed duplicated region for block: B:272:0x05f6 A[SYNTHETIC] */
+                /* JADX WARN: Removed duplicated region for block: B:178:0x05b0  */
+                /* JADX WARN: Removed duplicated region for block: B:233:0x0989  */
+                /* JADX WARN: Removed duplicated region for block: B:242:0x09bc  */
+                /* JADX WARN: Removed duplicated region for block: B:243:0x09c2  */
+                /* JADX WARN: Removed duplicated region for block: B:250:0x09d7  */
+                /* JADX WARN: Removed duplicated region for block: B:256:0x09f4  */
+                /* JADX WARN: Removed duplicated region for block: B:276:0x05ff A[SYNTHETIC] */
                 @Override // org.telegram.ui.Components.BlurredRecyclerView, org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
                 /*
                     Code decompiled incorrectly, please refer to instructions dump.
@@ -2017,7 +2026,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                         int measuredWidth = getMeasuredWidth() - AndroidUtilities.dp(60.0f);
                         StaticLayout staticLayout = this.archivedHintLayout;
                         if (staticLayout == null || staticLayout.getWidth() != measuredWidth) {
-                            this.archivedHintLayout = new StaticLayout(LocaleController.getString("ProfileStoriesArchiveHint", R.string.ProfileStoriesArchiveHint), this.archivedHintPaint, measuredWidth, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
+                            this.archivedHintLayout = new StaticLayout(LocaleController.getString(SharedMediaLayout.this.isArchivedOnlyStoriesView() ? R.string.ProfileStoriesArchiveChannelHint : R.string.ProfileStoriesArchiveHint), this.archivedHintPaint, measuredWidth, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
                             this.archivedHintLayoutWidth = 0.0f;
                             this.archivedHintLayoutLeft = measuredWidth;
                             for (int i29 = 0; i29 < this.archivedHintLayout.getLineCount(); i29++) {
@@ -3602,7 +3611,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                     float photoVideoOptionsAlpha = SharedMediaLayout.this.getPhotoVideoOptionsAlpha(f);
                     SharedMediaLayout.this.photoVideoOptionsItem.setAlpha(photoVideoOptionsAlpha);
                     SharedMediaLayout sharedMediaLayout2 = SharedMediaLayout.this;
-                    sharedMediaLayout2.photoVideoOptionsItem.setVisibility((photoVideoOptionsAlpha == 0.0f || !sharedMediaLayout2.canShowSearchItem()) ? 4 : 0);
+                    sharedMediaLayout2.photoVideoOptionsItem.setVisibility((photoVideoOptionsAlpha == 0.0f || !sharedMediaLayout2.canShowSearchItem() || SharedMediaLayout.this.isArchivedOnlyStoriesView()) ? 4 : 0);
                     if (SharedMediaLayout.this.canShowSearchItem()) {
                         if (SharedMediaLayout.this.searchItemState == 1) {
                             SharedMediaLayout.this.searchItem.setAlpha(f);
@@ -4486,7 +4495,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                     }
                     float photoVideoOptionsAlpha = getPhotoVideoOptionsAlpha(abs2);
                     this.photoVideoOptionsItem.setAlpha(photoVideoOptionsAlpha);
-                    this.photoVideoOptionsItem.setVisibility((photoVideoOptionsAlpha == 0.0f || !canShowSearchItem()) ? 4 : 4);
+                    this.photoVideoOptionsItem.setVisibility((photoVideoOptionsAlpha == 0.0f || !canShowSearchItem() || isArchivedOnlyStoriesView()) ? 4 : 4);
                 } else {
                     this.searchItem.setAlpha(0.0f);
                 }
@@ -7605,8 +7614,12 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         public StoriesAdapter(Context context, boolean z) {
             super(context);
             this.isArchive = z;
-            StoriesController.StoriesList storiesList = SharedMediaLayout.this.profileActivity.getMessagesController().getStoriesController().getStoriesList(SharedMediaLayout.this.dialog_id, z ? 1 : 0);
-            this.storiesList = storiesList;
+            if ((!z || SharedMediaLayout.this.isStoriesView()) && (z || !SharedMediaLayout.this.isArchivedOnlyStoriesView())) {
+                this.storiesList = SharedMediaLayout.this.profileActivity.getMessagesController().getStoriesController().getStoriesList(SharedMediaLayout.this.dialog_id, z ? 1 : 0);
+            } else {
+                this.storiesList = null;
+            }
+            StoriesController.StoriesList storiesList = this.storiesList;
             if (storiesList != null) {
                 this.id = storiesList.link();
             }

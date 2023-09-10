@@ -1,9 +1,12 @@
 package org.telegram.ui.Components;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.graphics.SurfaceTexture;
 import android.view.Surface;
 import android.view.TextureView;
+import org.telegram.ui.Components.BlurringShader;
 import org.telegram.ui.Components.FilterGLThread;
 import org.telegram.ui.Stories.recorder.StoryEntry;
 /* loaded from: classes4.dex */
@@ -11,7 +14,10 @@ public class VideoEditTextureView extends TextureView implements TextureView.Sur
     private VideoPlayer currentVideoPlayer;
     private VideoEditTextureViewDelegate delegate;
     private FilterGLThread eglThread;
+    private int gradientBottom;
+    private int gradientTop;
     public StoryEntry.HDRInfo hdrInfo;
+    private BlurringShader.BlurManager uiBlurManager;
     private int videoHeight;
     private int videoWidth;
     private Rect viewRect;
@@ -81,13 +87,14 @@ public class VideoEditTextureView extends TextureView implements TextureView.Sur
             public final void onVideoSurfaceCreated(SurfaceTexture surfaceTexture2) {
                 VideoEditTextureView.this.lambda$onSurfaceTextureAvailable$0(surfaceTexture2);
             }
-        }, this.hdrInfo);
+        }, this.hdrInfo, this.uiBlurManager, i, i2);
         this.eglThread = filterGLThread;
+        filterGLThread.updateUiBlurGradient(this.gradientTop, this.gradientBottom);
+        this.eglThread.updateUiBlurManager(this.uiBlurManager);
         int i4 = this.videoWidth;
         if (i4 != 0 && (i3 = this.videoHeight) != 0) {
-            filterGLThread.setVideoSize(i4, i3);
+            this.eglThread.setVideoSize(i4, i3);
         }
-        this.eglThread.setSurfaceTextureSize(i, i2);
         this.eglThread.requestRender(true, true, false);
         VideoEditTextureViewDelegate videoEditTextureViewDelegate = this.delegate;
         if (videoEditTextureViewDelegate != null) {
@@ -163,5 +170,40 @@ public class VideoEditTextureView extends TextureView implements TextureView.Sur
             }
         }
         return false;
+    }
+
+    public Bitmap getUiBlurBitmap() {
+        FilterGLThread filterGLThread = this.eglThread;
+        if (filterGLThread == null) {
+            return null;
+        }
+        return filterGLThread.getUiBlurBitmap();
+    }
+
+    @Override // android.view.TextureView
+    public void setTransform(Matrix matrix) {
+        super.setTransform(matrix);
+        FilterGLThread filterGLThread = this.eglThread;
+        if (filterGLThread != null) {
+            filterGLThread.updateUiBlurTransform(matrix, getWidth(), getHeight());
+        }
+    }
+
+    public void updateUiBlurGradient(int i, int i2) {
+        FilterGLThread filterGLThread = this.eglThread;
+        if (filterGLThread == null) {
+            this.gradientTop = i;
+            this.gradientBottom = i2;
+            return;
+        }
+        filterGLThread.updateUiBlurGradient(i, i2);
+    }
+
+    public void updateUiBlurManager(BlurringShader.BlurManager blurManager) {
+        this.uiBlurManager = blurManager;
+        FilterGLThread filterGLThread = this.eglThread;
+        if (filterGLThread != null) {
+            filterGLThread.updateUiBlurManager(blurManager);
+        }
     }
 }

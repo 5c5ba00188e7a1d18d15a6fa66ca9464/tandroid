@@ -248,11 +248,11 @@ public final class Cea708Decoder extends CeaDecoder {
         int i2 = 1;
         switch (i) {
             case 128:
-            case MessagesStorage.LAST_DB_VERSION /* 129 */:
+            case 129:
             case 130:
             case 131:
             case 132:
-            case 133:
+            case MessagesStorage.LAST_DB_VERSION /* 133 */:
             case 134:
             case 135:
                 int i3 = i - 128;

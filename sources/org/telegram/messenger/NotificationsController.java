@@ -124,8 +124,6 @@ import org.telegram.tgnet.TLRPC$TL_notificationSoundLocal;
 import org.telegram.tgnet.TLRPC$TL_notificationSoundNone;
 import org.telegram.tgnet.TLRPC$TL_notificationSoundRingtone;
 import org.telegram.tgnet.TLRPC$TL_peerNotifySettings;
-import org.telegram.tgnet.TLRPC$TL_storyItemSkipped;
-import org.telegram.tgnet.TLRPC$TL_updateStory;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.tgnet.TLRPC$UserProfilePhoto;
 import org.telegram.ui.ActionBar.Theme;
@@ -1258,7 +1256,6 @@ public class NotificationsController extends BaseController {
                         z8 = true;
                         z11 = true;
                     }
-                    new TLRPC$TL_updateStory().story = new TLRPC$TL_storyItemSkipped();
                     Collections.sort(this.storyPushMessages, Comparator$-CC.comparingLong(NotificationsController$$ExternalSyntheticLambda47.INSTANCE));
                     i = i4;
                 } else {

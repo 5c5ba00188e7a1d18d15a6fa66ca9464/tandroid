@@ -72,6 +72,7 @@ public class BottomSheet extends Dialog {
     private int bottomInset;
     protected boolean calcMandatoryInsets;
     private boolean canDismissWithSwipe;
+    private boolean canDismissWithTouchOutside;
     protected ContainerView container;
     protected ViewGroup containerView;
     protected int currentAccount;
@@ -162,10 +163,6 @@ public class BottomSheet extends Dialog {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ boolean lambda$onCreate$2(View view, MotionEvent motionEvent) {
-        return true;
-    }
-
-    protected boolean canDismissWithTouchOutside() {
         return true;
     }
 
@@ -1223,6 +1220,7 @@ public class BottomSheet extends Dialog {
         int i = Theme.key_dialogBackground;
         this.behindKeyboardColorKey = i;
         this.canDismissWithSwipe = true;
+        this.canDismissWithTouchOutside = true;
         this.allowCustomAnimation = true;
         this.statusBarHeight = AndroidUtilities.statusBarHeight;
         this.openInterpolator = CubicBezierInterpolator.EASE_OUT_QUINT;
@@ -1282,6 +1280,53 @@ public class BottomSheet extends Dialog {
                 if (Build.VERSION.SDK_INT >= 21) {
                     BottomSheet.this.container.requestApplyInsets();
                 }
+            }
+
+            @Override // android.view.ViewGroup, android.view.View
+            protected void onAttachedToWindow() {
+                super.onAttachedToWindow();
+                Bulletin.addDelegate(this, new Bulletin.Delegate(this) { // from class: org.telegram.ui.ActionBar.BottomSheet.2.1
+                    @Override // org.telegram.ui.Components.Bulletin.Delegate
+                    public /* synthetic */ boolean allowLayoutChanges() {
+                        return Bulletin.Delegate.-CC.$default$allowLayoutChanges(this);
+                    }
+
+                    @Override // org.telegram.ui.Components.Bulletin.Delegate
+                    public /* synthetic */ boolean clipWithGradient(int i3) {
+                        return Bulletin.Delegate.-CC.$default$clipWithGradient(this, i3);
+                    }
+
+                    @Override // org.telegram.ui.Components.Bulletin.Delegate
+                    public /* synthetic */ int getBottomOffset(int i3) {
+                        return Bulletin.Delegate.-CC.$default$getBottomOffset(this, i3);
+                    }
+
+                    @Override // org.telegram.ui.Components.Bulletin.Delegate
+                    public /* synthetic */ void onBottomOffsetChange(float f) {
+                        Bulletin.Delegate.-CC.$default$onBottomOffsetChange(this, f);
+                    }
+
+                    @Override // org.telegram.ui.Components.Bulletin.Delegate
+                    public /* synthetic */ void onHide(Bulletin bulletin) {
+                        Bulletin.Delegate.-CC.$default$onHide(this, bulletin);
+                    }
+
+                    @Override // org.telegram.ui.Components.Bulletin.Delegate
+                    public /* synthetic */ void onShow(Bulletin bulletin) {
+                        Bulletin.Delegate.-CC.$default$onShow(this, bulletin);
+                    }
+
+                    @Override // org.telegram.ui.Components.Bulletin.Delegate
+                    public int getTopOffset(int i3) {
+                        return AndroidUtilities.statusBarHeight;
+                    }
+                });
+            }
+
+            @Override // android.view.ViewGroup, android.view.View
+            protected void onDetachedFromWindow() {
+                super.onDetachedFromWindow();
+                Bulletin.removeDelegate(this);
             }
         };
         this.container = containerView;
@@ -1620,6 +1665,14 @@ public class BottomSheet extends Dialog {
     /* JADX INFO: Access modifiers changed from: protected */
     public void onDismissWithTouchOutside() {
         dismiss();
+    }
+
+    protected boolean canDismissWithTouchOutside() {
+        return this.canDismissWithTouchOutside;
+    }
+
+    public void setCanDismissWithTouchOutside(boolean z) {
+        this.canDismissWithTouchOutside = z;
     }
 
     public TextView getTitleView() {
@@ -2117,11 +2170,6 @@ public class BottomSheet extends Dialog {
         public BottomSheet show() {
             this.bottomSheet.show();
             return this.bottomSheet;
-        }
-
-        public Builder setUseHardwareLayer(boolean z) {
-            this.bottomSheet.useHardwareLayer = z;
-            return this;
         }
 
         public Builder setDelegate(BottomSheetDelegate bottomSheetDelegate) {

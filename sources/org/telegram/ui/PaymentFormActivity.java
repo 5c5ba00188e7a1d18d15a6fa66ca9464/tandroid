@@ -97,7 +97,6 @@ import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
-import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SRPHelper;
@@ -1914,7 +1913,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                     this.inputFields[i18].setOnTouchListener(PaymentFormActivity$$ExternalSyntheticLambda24.INSTANCE);
                     this.inputFields[i18].setInputType(0);
                 } else {
-                    this.inputFields[i18].setInputType(MessagesStorage.LAST_DB_VERSION);
+                    this.inputFields[i18].setInputType(129);
                     this.inputFields[i18].setTypeface(Typeface.DEFAULT);
                 }
                 this.inputFields[i18].setImeOptions(268435462);
@@ -2715,7 +2714,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                 this.inputFields[i34].setCursorSize(AndroidUtilities.dp(20.0f));
                 this.inputFields[i34].setCursorWidth(1.5f);
                 if (i34 == 0 || i34 == 1) {
-                    this.inputFields[i34].setInputType(MessagesStorage.LAST_DB_VERSION);
+                    this.inputFields[i34].setInputType(129);
                     this.inputFields[i34].setTypeface(Typeface.DEFAULT);
                     this.inputFields[i34].setImeOptions(268435461);
                 } else {

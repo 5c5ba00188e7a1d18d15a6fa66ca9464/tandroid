@@ -255,7 +255,7 @@ public class VideoPlayerHolderBase {
                 public final void run() {
                     VideoPlayerHolderBase.2.this.lambda$onRenderedFirstFrame$0();
                 }
-            }, 16L);
+            }, VideoPlayerHolderBase.this.surfaceView == null ? 16L : 32L);
         }
 
         /* JADX INFO: Access modifiers changed from: private */

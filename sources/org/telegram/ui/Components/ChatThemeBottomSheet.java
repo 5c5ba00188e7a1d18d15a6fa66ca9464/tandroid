@@ -465,15 +465,16 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
     @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
-        ChatThemeController.preloadAllWallpaperThumbs(true);
-        ChatThemeController.preloadAllWallpaperThumbs(false);
-        ChatThemeController.preloadAllWallpaperImages(true);
-        ChatThemeController.preloadAllWallpaperImages(false);
+        ChatThemeController chatThemeController = ChatThemeController.getInstance(this.currentAccount);
+        chatThemeController.preloadAllWallpaperThumbs(true);
+        chatThemeController.preloadAllWallpaperThumbs(false);
+        chatThemeController.preloadAllWallpaperImages(true);
+        chatThemeController.preloadAllWallpaperImages(false);
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.emojiLoaded);
         this.isApplyClicked = false;
         List<EmojiThemes> cachedThemes = this.themeDelegate.getCachedThemes();
         if (cachedThemes == null || cachedThemes.isEmpty()) {
-            ChatThemeController.requestAllChatThemes(new 5(), true);
+            chatThemeController.requestAllChatThemes(new 5(), true);
         } else {
             onDataLoaded(cachedThemes);
         }

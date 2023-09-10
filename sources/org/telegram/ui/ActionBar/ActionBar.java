@@ -453,12 +453,7 @@ public class ActionBar extends FrameLayout {
         if (simpleTextViewArr[i] != null) {
             return;
         }
-        simpleTextViewArr[i] = new SimpleTextView(this, getContext()) { // from class: org.telegram.ui.ActionBar.ActionBar.1
-            @Override // android.view.View
-            public void setAlpha(float f) {
-                super.setAlpha(f);
-            }
-        };
+        simpleTextViewArr[i] = new SimpleTextView(getContext());
         this.titleTextView[i].setGravity(19);
         int i2 = this.titleColorToSet;
         if (i2 != 0) {
@@ -659,7 +654,7 @@ public class ActionBar extends FrameLayout {
             this.actionMode = null;
         }
         this.actionModeTag = str;
-        ActionBarMenu actionBarMenu2 = new ActionBarMenu(getContext(), this) { // from class: org.telegram.ui.ActionBar.ActionBar.2
+        ActionBarMenu actionBarMenu2 = new ActionBarMenu(getContext(), this) { // from class: org.telegram.ui.ActionBar.ActionBar.1
             @Override // android.view.View
             public void setBackgroundColor(int i) {
                 ActionBar.this.actionModeColor = i;
@@ -774,7 +769,7 @@ public class ActionBar extends FrameLayout {
                 this.actionModeAnimation.playTogether(ofFloat);
             }
             this.actionModeAnimation.setDuration(200L);
-            this.actionModeAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.ActionBar.3
+            this.actionModeAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.ActionBar.2
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationStart(Animator animator) {
                     ActionBar.this.actionMode.setVisibility(0);
@@ -954,7 +949,7 @@ public class ActionBar extends FrameLayout {
             this.actionModeAnimation.playTogether(ofFloat);
         }
         this.actionModeAnimation.setDuration(200L);
-        this.actionModeAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.ActionBar.4
+        this.actionModeAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.ActionBar.3
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationEnd(Animator animator) {
                 if (ActionBar.this.actionModeAnimation == null || !ActionBar.this.actionModeAnimation.equals(animator)) {
@@ -1161,7 +1156,7 @@ public class ActionBar extends FrameLayout {
         }
         this.centerScale = true;
         requestLayout();
-        this.searchVisibleAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.ActionBar.5
+        this.searchVisibleAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.ActionBar.4
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationEnd(Animator animator) {
                 for (int i2 = 0; i2 < arrayList.size(); i2++) {
@@ -1654,7 +1649,7 @@ public class ActionBar extends FrameLayout {
                         }
                         requestLayout();
                         this.centerScale = true;
-                        alpha.setDuration(220L).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.ActionBar.6
+                        alpha.setDuration(220L).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.ActionBar.5
                             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                             public void onAnimationEnd(Animator animator) {
                                 if (ActionBar.this.titleTextView[1] != null && ActionBar.this.titleTextView[1].getParent() != null) {
@@ -1856,7 +1851,7 @@ public class ActionBar extends FrameLayout {
         if (interpolator != null) {
             alpha.setInterpolator(interpolator);
         }
-        alpha.setDuration(j).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.ActionBar.7
+        alpha.setDuration(j).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.ActionBar.6
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationEnd(Animator animator) {
                 if (ActionBar.this.titleTextView[1] != null && ActionBar.this.titleTextView[1].getParent() != null) {
@@ -1939,7 +1934,7 @@ public class ActionBar extends FrameLayout {
         TransitionSet transitionSet = new TransitionSet();
         transitionSet.setOrdering(0);
         transitionSet.addTransition(new Fade());
-        transitionSet.addTransition(new ChangeBounds(this) { // from class: org.telegram.ui.ActionBar.ActionBar.8
+        transitionSet.addTransition(new ChangeBounds(this) { // from class: org.telegram.ui.ActionBar.ActionBar.7
             @Override // android.transition.ChangeBounds, android.transition.Transition
             public void captureStartValues(TransitionValues transitionValues) {
                 super.captureStartValues(transitionValues);
@@ -1973,7 +1968,7 @@ public class ActionBar extends FrameLayout {
                     }
                     animatorSet.playTogether(ObjectAnimator.ofFloat(transitionValues.view, View.SCALE_X, 1.0f));
                     animatorSet.playTogether(ObjectAnimator.ofFloat(transitionValues.view, View.SCALE_Y, 1.0f));
-                    animatorSet.addListener(new AnimatorListenerAdapter(this) { // from class: org.telegram.ui.ActionBar.ActionBar.8.1
+                    animatorSet.addListener(new AnimatorListenerAdapter(this) { // from class: org.telegram.ui.ActionBar.ActionBar.7.1
                         @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                         public void onAnimationStart(Animator animator) {
                             super.onAnimationStart(animator);
@@ -2034,7 +2029,7 @@ public class ActionBar extends FrameLayout {
     public void setUseContainerForTitles() {
         this.useContainerForTitles = true;
         if (this.titlesContainer == null) {
-            FrameLayout frameLayout = new FrameLayout(this, getContext()) { // from class: org.telegram.ui.ActionBar.ActionBar.9
+            FrameLayout frameLayout = new FrameLayout(this, getContext()) { // from class: org.telegram.ui.ActionBar.ActionBar.8
                 @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
                 protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
                 }

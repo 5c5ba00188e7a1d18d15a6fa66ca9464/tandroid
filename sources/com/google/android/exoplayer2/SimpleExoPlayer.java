@@ -165,6 +165,12 @@ public class SimpleExoPlayer extends BasePlayer implements ExoPlayer {
         this.player.setPlaybackParameters(playbackParameters);
     }
 
+    @Override // com.google.android.exoplayer2.ExoPlayer
+    public void setSeekParameters(SeekParameters seekParameters) {
+        blockUntilConstructorFinished();
+        this.player.setSeekParameters(seekParameters);
+    }
+
     @Override // com.google.android.exoplayer2.Player
     public void release() {
         release(false);

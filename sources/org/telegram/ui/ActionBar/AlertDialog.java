@@ -1330,6 +1330,10 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
         }
     }
 
+    public void setDismissDialogByButtons(boolean z) {
+        this.dismissDialogByButtons = z;
+    }
+
     public void setProgress(int i) {
         this.currentProgress = i;
         LineProgressView lineProgressView = this.lineProgressView;

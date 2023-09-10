@@ -8,7 +8,6 @@ import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.common.collect.ImmutableList;
 import java.util.ArrayList;
 import java.util.List;
-import org.telegram.messenger.MessagesStorage;
 /* loaded from: classes.dex */
 public final class DefaultTsPayloadReaderFactory implements TsPayloadReader.Factory {
     private final List<Format> closedCaptionFormats;
@@ -64,7 +63,7 @@ public final class DefaultTsPayloadReaderFactory implements TsPayloadReader.Fact
                                                     switch (i) {
                                                         case 128:
                                                             break;
-                                                        case MessagesStorage.LAST_DB_VERSION /* 129 */:
+                                                        case 129:
                                                             break;
                                                         case 130:
                                                             if (!isSet(64)) {

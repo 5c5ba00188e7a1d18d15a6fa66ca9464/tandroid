@@ -891,11 +891,15 @@ public class AnimatedEmojiSpan extends ReplacementSpan {
         return animatedEmojiSpan2;
     }
 
+    public static CharSequence cloneSpans(CharSequence charSequence) {
+        return cloneSpans(charSequence, -1);
+    }
+
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r7v0, types: [java.lang.CharSequence] */
     /* JADX WARN: Type inference failed for: r7v1, types: [java.lang.CharSequence] */
     /* JADX WARN: Type inference failed for: r7v2, types: [android.text.SpannableString] */
-    public static CharSequence cloneSpans(CharSequence charSequence) {
+    public static CharSequence cloneSpans(CharSequence charSequence, int i) {
         if (charSequence instanceof Spanned) {
             Spanned spanned = (Spanned) charSequence;
             CharacterStyle[] characterStyleArr = (CharacterStyle[]) spanned.getSpans(0, spanned.length(), CharacterStyle.class);
@@ -905,13 +909,17 @@ public class AnimatedEmojiSpan extends ReplacementSpan {
                     return charSequence;
                 }
                 charSequence = new SpannableString(spanned);
-                for (int i = 0; i < characterStyleArr.length; i++) {
-                    if (characterStyleArr[i] != null && (characterStyleArr[i] instanceof AnimatedEmojiSpan)) {
-                        int spanStart = spanned.getSpanStart(characterStyleArr[i]);
-                        int spanEnd = spanned.getSpanEnd(characterStyleArr[i]);
-                        AnimatedEmojiSpan animatedEmojiSpan = (AnimatedEmojiSpan) characterStyleArr[i];
+                for (int i2 = 0; i2 < characterStyleArr.length; i2++) {
+                    if (characterStyleArr[i2] != null && (characterStyleArr[i2] instanceof AnimatedEmojiSpan)) {
+                        int spanStart = spanned.getSpanStart(characterStyleArr[i2]);
+                        int spanEnd = spanned.getSpanEnd(characterStyleArr[i2]);
+                        AnimatedEmojiSpan animatedEmojiSpan = (AnimatedEmojiSpan) characterStyleArr[i2];
                         charSequence.removeSpan(animatedEmojiSpan);
-                        charSequence.setSpan(cloneSpan(animatedEmojiSpan), spanStart, spanEnd, 33);
+                        AnimatedEmojiSpan cloneSpan = cloneSpan(animatedEmojiSpan);
+                        if (i != -1) {
+                            cloneSpan.cacheType = i;
+                        }
+                        charSequence.setSpan(cloneSpan, spanStart, spanEnd, 33);
                     }
                 }
             }

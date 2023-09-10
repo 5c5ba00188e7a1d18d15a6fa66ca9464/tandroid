@@ -110,6 +110,7 @@ import org.telegram.ui.BubbleActivity;
 import org.telegram.ui.ChatActivity;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.AnimatedEmojiSpan;
+import org.telegram.ui.Components.BlurringShader;
 import org.telegram.ui.Components.ChatActivityEnterViewAnimatedIconView;
 import org.telegram.ui.Components.ChatAttachAlert;
 import org.telegram.ui.Components.CubicBezierInterpolator;
@@ -143,14 +144,16 @@ import org.telegram.ui.Components.Point;
 import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.Size;
+import org.telegram.ui.Components.SizeNotifierFrameLayout;
 import org.telegram.ui.Components.SizeNotifierFrameLayoutPhoto;
 import org.telegram.ui.Components.TrendingStickersLayout;
 import org.telegram.ui.PhotoViewer;
 import org.telegram.ui.Stories.recorder.PaintView;
 import org.telegram.ui.Stories.recorder.StoryRecorder;
 /* loaded from: classes4.dex */
-public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPaintView, PaintToolsView.Delegate, EntityView.EntityViewDelegate, PaintTextOptionsView.Delegate, SizeNotifierFrameLayoutPhoto.SizeNotifierFrameLayoutPhotoDelegate, StoryRecorder.Touchable {
-    private Bitmap bitmapToEdit;
+public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPaintView, PaintToolsView.Delegate, EntityView.EntityViewDelegate, PaintTextOptionsView.Delegate, SizeNotifierFrameLayout.SizeNotifierFrameLayoutDelegate, StoryRecorder.Touchable {
+    private final Bitmap bitmapToEdit;
+    private final Bitmap blurBitmapToEdit;
     private FrameLayout bottomLayout;
     private PaintCancelView cancelButton;
     private TextView cancelTextButton;
@@ -295,6 +298,11 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
         EntityView.EntityViewDelegate.-CC.$default$onEntityDraggedTop(this, z);
     }
 
+    @Override // org.telegram.ui.Components.Paint.Views.EntityView.EntityViewDelegate
+    public /* synthetic */ void onEntityHandleTouched() {
+        EntityView.EntityViewDelegate.-CC.$default$onEntityHandleTouched(this);
+    }
+
     protected void onGalleryClick() {
     }
 
@@ -302,6 +310,9 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
     }
 
     protected void onTextAdd() {
+    }
+
+    public void setBlurManager(BlurringShader.BlurManager blurManager) {
     }
 
     @Override // org.telegram.ui.Components.IPhotoPaintView
@@ -318,7 +329,7 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
     }
 
     @SuppressLint({"NotifyDataSetChanged"})
-    public PaintView(final Context context, boolean z, File file, boolean z2, final StoryRecorder.WindowView windowView, Activity activity, final int i, Bitmap bitmap, final Bitmap bitmap2, int i2, ArrayList<VideoEditedInfo.MediaEntity> arrayList, int i3, int i4, MediaController.CropState cropState, final Runnable runnable, final Theme.ResourcesProvider resourcesProvider) {
+    public PaintView(final Context context, boolean z, File file, boolean z2, final StoryRecorder.WindowView windowView, Activity activity, final int i, Bitmap bitmap, Bitmap bitmap2, final Bitmap bitmap3, int i2, ArrayList<VideoEditedInfo.MediaEntity> arrayList, int i3, int i4, MediaController.CropState cropState, final Runnable runnable, BlurringShader.BlurManager blurManager, final Theme.ResourcesProvider resourcesProvider) {
         super(context, activity, true);
         this.tabsSelectedIndex = 0;
         this.tabsNewSelectedIndex = -1;
@@ -484,11 +495,12 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
         this.colorSwatch.brushWeight = persistColorPalette.getCurrentWeight();
         this.queue = new DispatchQueue("Paint");
         this.bitmapToEdit = bitmap;
-        this.facesBitmap = bitmap2;
+        this.blurBitmapToEdit = bitmap2;
+        this.facesBitmap = bitmap3;
         this.originalBitmapRotation = i2;
         UndoStore undoStore = new UndoStore();
         this.undoStore = undoStore;
-        undoStore.setDelegate(new UndoStore.UndoStoreDelegate() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda50
+        undoStore.setDelegate(new UndoStore.UndoStoreDelegate() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda51
             @Override // org.telegram.ui.Components.Paint.UndoStore.UndoStoreDelegate
             public final void historyChanged() {
                 PaintView.this.lambda$new$0();
@@ -499,11 +511,11 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
         view.setVisibility(8);
         this.textDim.setBackgroundColor(1291845632);
         this.textDim.setAlpha(0.0f);
-        RenderView renderView = new RenderView(context, new Painting(getPaintingSize(), bitmap2, i2), this.bitmapToEdit) { // from class: org.telegram.ui.Stories.recorder.PaintView.3
+        RenderView renderView = new RenderView(context, new Painting(getPaintingSize(), bitmap3, i2, blurManager), bitmap, bitmap2, blurManager) { // from class: org.telegram.ui.Stories.recorder.PaintView.3
             @Override // org.telegram.ui.Components.Paint.RenderView
             public void selectBrush(Brush brush) {
                 int indexOf = Brush.BRUSHES_LIST.indexOf(brush) + 1;
-                if (indexOf > 1 && bitmap2 == null) {
+                if (indexOf > 1 && bitmap3 == null) {
                     indexOf--;
                 }
                 PaintView.this.paintToolsView.select(indexOf);
@@ -756,7 +768,7 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
         imageView.setImageResource(R.drawable.photo_undo2);
         this.undoButton.setPadding(AndroidUtilities.dp(3.0f), AndroidUtilities.dp(3.0f), AndroidUtilities.dp(3.0f), AndroidUtilities.dp(3.0f));
         this.undoButton.setBackground(Theme.createSelectorDrawable(1090519039));
-        this.undoButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda8
+        this.undoButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda9
             @Override // android.view.View.OnClickListener
             public final void onClick(View view3) {
                 PaintView.this.lambda$new$1(view3);
@@ -793,7 +805,7 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
         this.undoAllButton.setTextColor(-1);
         this.undoAllButton.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.undoAllButton.setTextSize(1, 16.0f);
-        this.undoAllButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda13
+        this.undoAllButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda14
             @Override // android.view.View.OnClickListener
             public final void onClick(View view3) {
                 PaintView.this.lambda$new$3(view3);
@@ -810,7 +822,7 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
         this.cancelTextButton.setTextColor(-1);
         this.cancelTextButton.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.cancelTextButton.setTextSize(1, 16.0f);
-        this.cancelTextButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda11
+        this.cancelTextButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda12
             @Override // android.view.View.OnClickListener
             public final void onClick(View view3) {
                 PaintView.this.lambda$new$4(view3);
@@ -828,7 +840,7 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
         this.doneTextButton.setTextColor(-1);
         this.doneTextButton.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.doneTextButton.setTextSize(1, 16.0f);
-        this.doneTextButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda14
+        this.doneTextButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda15
             @Override // android.view.View.OnClickListener
             public final void onClick(View view3) {
                 PaintView.this.lambda$new$5(view3);
@@ -931,7 +943,7 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
         frameLayout2.setPadding(AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f), 0);
         this.bottomLayout.setBackground(new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{0, Integer.MIN_VALUE}));
         addView(this.bottomLayout, LayoutHelper.createFrame(-1, 104, 80));
-        PaintToolsView paintToolsView = new PaintToolsView(context, bitmap2 != null);
+        PaintToolsView paintToolsView = new PaintToolsView(context, blurManager != null);
         this.paintToolsView = paintToolsView;
         paintToolsView.setPadding(AndroidUtilities.dp(16.0f), 0, AndroidUtilities.dp(16.0f), 0);
         this.paintToolsView.setDelegate(this);
@@ -986,7 +998,7 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
         PaintTypefaceListView paintTypefaceListView = new PaintTypefaceListView(context);
         this.typefaceListView = paintTypefaceListView;
         paintTypefaceListView.setVisibility(8);
-        this.typefaceListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda51
+        this.typefaceListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda52
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view3, int i5) {
                 PaintView.this.lambda$new$7(view3, i5);
@@ -1029,7 +1041,7 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
         paintCancelView.setPadding(AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f));
         this.cancelButton.setBackground(Theme.createSelectorDrawable(1090519039));
         this.bottomLayout.addView(this.cancelButton, LayoutHelper.createFrame(32, 32.0f, 83, 12.0f, 0.0f, 0.0f, 4.0f));
-        this.cancelButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda7
+        this.cancelButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda8
             @Override // android.view.View.OnClickListener
             public final void onClick(View view3) {
                 PaintView.this.lambda$new$9(view3);
@@ -1039,10 +1051,10 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
         this.doneButton = paintDoneView;
         paintDoneView.setPadding(AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f));
         this.doneButton.setBackground(Theme.createSelectorDrawable(1090519039));
-        this.doneButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda15
+        this.doneButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda16
             @Override // android.view.View.OnClickListener
             public final void onClick(View view3) {
-                PaintView.this.lambda$new$11(context, bitmap2, i, view3);
+                PaintView.this.lambda$new$11(context, bitmap3, i, view3);
             }
         });
         this.bottomLayout.addView(this.doneButton, LayoutHelper.createFrame(32, 32.0f, 85, 0.0f, 0.0f, 12.0f, 4.0f));
@@ -1132,7 +1144,7 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
         if (this.emojiViewVisible) {
             hideEmojiPopup(false);
         }
-        lambda$registerRemovalUndo$48(this.currentEntityView);
+        lambda$registerRemovalUndo$49(this.currentEntityView);
         selectEntity(null);
     }
 
@@ -1283,7 +1295,7 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
         AnimatorSet animatorSet;
         ArrayList arrayList;
         int i;
-        Integer valueOf = Integer.valueOf(Math.max(0, Integer.valueOf(Math.max(num.intValue() - windowView.getBottomPadding(false), this.emojiPadding - windowView.getPaddingUnderContainer())).intValue()));
+        Integer valueOf = Integer.valueOf(Math.max(0, Integer.valueOf(Math.max(num.intValue() - windowView.getBottomPadding2(), this.emojiPadding - windowView.getPaddingUnderContainer())).intValue()));
         notifyHeightChanged();
         if (valueOf.intValue() > 0) {
             EntityView entityView = this.currentEntityView;
@@ -1485,7 +1497,6 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
         Size paintingSize = getPaintingSize();
         Point startPositionRelativeToEntity = startPositionRelativeToEntity(null);
         TextPaintView textPaintView = new TextPaintView(getContext(), startPositionRelativeToEntity, (int) (paintingSize.width / 9.0f), "", this.colorSwatch, this.selectedTextType);
-        textPaintView.getEditText().betterFraming = true;
         if (startPositionRelativeToEntity.x == this.entitiesView.getMeasuredWidth() / 2.0f) {
             textPaintView.setStickyX(2);
         }
@@ -1643,7 +1654,7 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
         EntityView entityView5 = this.currentEntityView;
         this.currentEntityView = entityView;
         if ((entityView5 instanceof TextPaintView) && TextUtils.isEmpty(((TextPaintView) entityView5).getText())) {
-            lambda$registerRemovalUndo$48(entityView5);
+            lambda$registerRemovalUndo$49(entityView5);
         }
         EntityView entityView6 = this.currentEntityView;
         if (entityView6 != null) {
@@ -1776,7 +1787,7 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
         this.drawTab.setGravity(1);
         this.drawTab.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.drawTab.setSingleLine();
-        this.drawTab.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda10
+        this.drawTab.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda11
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 PaintView.this.lambda$setupTabsLayout$15(view);
@@ -1788,7 +1799,7 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
         textView3.setText(LocaleController.getString(R.string.PhotoEditorSticker).toUpperCase());
         this.stickerTab.setBackground(Theme.createSelectorDrawable(getThemedColor(i), 7));
         this.stickerTab.setPadding(0, AndroidUtilities.dp(8.0f), 0, AndroidUtilities.dp(8.0f));
-        this.stickerTab.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda12
+        this.stickerTab.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda13
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 PaintView.this.lambda$setupTabsLayout$16(view);
@@ -1812,7 +1823,7 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
         this.textTab.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.textTab.setAlpha(0.6f);
         this.textTab.setSingleLine();
-        this.textTab.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda9
+        this.textTab.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda10
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 PaintView.this.lambda$setupTabsLayout$17(view);
@@ -1951,7 +1962,7 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
                 PaintView.this.lambda$openStickersView$19();
             }
         }, 350L);
-        final EmojiBottomSheet emojiBottomSheet = new EmojiBottomSheet(getContext(), this.resourcesProvider) { // from class: org.telegram.ui.Stories.recorder.PaintView.17
+        final EmojiBottomSheet emojiBottomSheet = new EmojiBottomSheet(getContext(), this.isVideo, this.resourcesProvider) { // from class: org.telegram.ui.Stories.recorder.PaintView.17
             @Override // org.telegram.ui.ActionBar.BottomSheet
             public void onDismissAnimationStart() {
                 super.onDismissAnimationStart();
@@ -1967,22 +1978,23 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
                 StoryRecorder.WindowView.this.drawBlurBitmap((Bitmap) obj, ((Float) obj2).floatValue());
             }
         });
-        emojiBottomSheet.setOnGalleryClick(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda22
-            @Override // android.view.View.OnClickListener
-            public final void onClick(View view) {
-                PaintView.this.lambda$openStickersView$20(emojiBottomSheet, view);
-            }
-        });
-        emojiBottomSheet.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda5
+        final boolean[] zArr = {true};
+        emojiBottomSheet.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda6
             @Override // android.content.DialogInterface.OnDismissListener
             public final void onDismiss(DialogInterface dialogInterface) {
-                PaintView.this.lambda$openStickersView$21(i, dialogInterface);
+                PaintView.this.lambda$openStickersView$20(zArr, i, dialogInterface);
             }
         });
-        emojiBottomSheet.whenSelected(new Utilities.Callback3() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda47
+        emojiBottomSheet.whenDocumentSelected(new Utilities.Callback3() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda47
             @Override // org.telegram.messenger.Utilities.Callback3
             public final void run(Object obj, Object obj2, Object obj3) {
-                PaintView.this.lambda$openStickersView$23(emojiBottomSheet, obj, (TLRPC$Document) obj2, (Boolean) obj3);
+                PaintView.this.lambda$openStickersView$21(obj, (TLRPC$Document) obj2, (Boolean) obj3);
+            }
+        });
+        emojiBottomSheet.whenWidgetSelected(new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda49
+            @Override // org.telegram.messenger.Utilities.Callback
+            public final void run(Object obj) {
+                PaintView.this.lambda$openStickersView$23(zArr, emojiBottomSheet, (Integer) obj);
             }
         });
         emojiBottomSheet.show();
@@ -1997,35 +2009,38 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$openStickersView$20(EmojiBottomSheet emojiBottomSheet, View view) {
-        emojiBottomSheet.dismiss();
-        onGalleryClick();
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$openStickersView$21(int i, DialogInterface dialogInterface) {
+    public /* synthetic */ void lambda$openStickersView$20(boolean[] zArr, int i, DialogInterface dialogInterface) {
         this.emojiPopup = null;
-        onOpenCloseStickersAlert(false);
+        if (zArr[0]) {
+            onOpenCloseStickersAlert(false);
+        }
         switchTab(i);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$openStickersView$23(EmojiBottomSheet emojiBottomSheet, Object obj, TLRPC$Document tLRPC$Document, Boolean bool) {
-        if (tLRPC$Document == emojiBottomSheet.locationSticker) {
-            showLocationAlert(null, new Utilities.Callback2() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda44
-                @Override // org.telegram.messenger.Utilities.Callback2
-                public final void run(Object obj2, Object obj3) {
-                    PaintView.this.lambda$openStickersView$22((TLRPC$MessageMedia) obj2, (TLRPC$MediaArea) obj3);
-                }
-            });
-            return;
-        }
+    public /* synthetic */ void lambda$openStickersView$21(Object obj, TLRPC$Document tLRPC$Document, Boolean bool) {
         this.forceChanges = true;
         StickerView createSticker = createSticker(obj, tLRPC$Document, false);
         if (bool.booleanValue()) {
             createSticker.setScale(1.5f);
         }
         appearAnimation(createSticker);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$openStickersView$23(boolean[] zArr, EmojiBottomSheet emojiBottomSheet, Integer num) {
+        if (num.intValue() == 0) {
+            zArr[0] = false;
+            showLocationAlert(null, new Utilities.Callback2() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda44
+                @Override // org.telegram.messenger.Utilities.Callback2
+                public final void run(Object obj, Object obj2) {
+                    PaintView.this.lambda$openStickersView$22((TLRPC$MessageMedia) obj, (TLRPC$MediaArea) obj2);
+                }
+            });
+        } else if (num.intValue() == 2) {
+            emojiBottomSheet.dismiss();
+            onGalleryClick();
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -2170,8 +2185,19 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
         } else {
             chatAttachAlert.setStoryLocationPicker();
         }
+        chatAttachAlert.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda5
+            @Override // android.content.DialogInterface.OnDismissListener
+            public final void onDismiss(DialogInterface dialogInterface) {
+                PaintView.this.lambda$showLocationAlert$24(dialogInterface);
+            }
+        });
         chatAttachAlert.init();
         chatAttachAlert.show();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$showLocationAlert$24(DialogInterface dialogInterface) {
+        onOpenCloseStickersAlert(false);
     }
 
     @Override // android.view.View, android.view.ViewParent
@@ -2228,7 +2254,7 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    @Override // org.telegram.ui.Components.SizeNotifierFrameLayoutPhoto, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
+    @Override // org.telegram.ui.Components.SizeNotifierFrameLayoutPhoto, org.telegram.ui.Components.SizeNotifierFrameLayout, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
     public void onLayout(boolean z, int i, int i2, int i3, int i4) {
         super.onLayout(z, i, i2, i3, i4);
     }
@@ -2342,13 +2368,13 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
         this.queue.postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda34
             @Override // java.lang.Runnable
             public final void run() {
-                PaintView.this.lambda$detectFaces$24();
+                PaintView.this.lambda$detectFaces$25();
             }
         }, 200L);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$detectFaces$24() {
+    public /* synthetic */ void lambda$detectFaces$25() {
         int i;
         FaceDetector faceDetector = null;
         try {
@@ -2408,14 +2434,14 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$shutdown$25() {
+    public static /* synthetic */ void lambda$shutdown$26() {
         Looper myLooper = Looper.myLooper();
         if (myLooper != null) {
             myLooper.quit();
         }
     }
 
-    @Override // org.telegram.ui.Components.IPhotoPaintView
+    @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, org.telegram.ui.Components.IPhotoPaintView
     public void onResume() {
         this.renderView.redraw();
     }
@@ -2451,36 +2477,36 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
     @Override // org.telegram.ui.Components.IPhotoPaintView
     public Bitmap getBitmap(ArrayList<VideoEditedInfo.MediaEntity> arrayList, Bitmap[] bitmapArr) {
         Size size = this.paintingSize;
-        return getBitmap(arrayList, (int) size.width, (int) size.height, true, true);
+        return getBitmap(arrayList, (int) size.width, (int) size.height, true, true, false);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:14:0x0036  */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x0039  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public Bitmap getBitmap(ArrayList<VideoEditedInfo.MediaEntity> arrayList, int i, int i2, boolean z, boolean z2) {
+    public Bitmap getBitmap(ArrayList<VideoEditedInfo.MediaEntity> arrayList, int i, int i2, boolean z, boolean z2, boolean z3) {
         Bitmap bitmap;
         Bitmap createBitmap;
-        Bitmap bitmap2;
         int i3;
-        Bitmap bitmap3;
-        AnimatedEmojiSpan[] animatedEmojiSpanArr;
-        boolean z3;
-        PaintView paintView = this;
+        int i4;
+        View view;
+        View view2;
+        int i5;
+        int i6;
+        int i7 = 0;
         if (z) {
-            createBitmap = paintView.renderView.getResultBitmap();
+            createBitmap = this.renderView.getResultBitmap(false, z3);
         } else if (z2) {
-            Bitmap resultBitmap = paintView.renderView.getResultBitmap();
+            Bitmap resultBitmap = this.renderView.getResultBitmap(false, false);
             createBitmap = resultBitmap != null ? Bitmap.createBitmap(resultBitmap.getWidth(), resultBitmap.getHeight(), Bitmap.Config.ARGB_8888) : null;
         } else {
             bitmap = null;
-            paintView.lcm = BigInteger.ONE;
-            if (paintView.entitiesView.entitiesCount() > 0) {
-                int childCount = paintView.entitiesView.getChildCount();
-                int i4 = 0;
-                int i5 = 0;
-                while (i5 < childCount) {
-                    View childAt = paintView.entitiesView.getChildAt(i5);
+            this.lcm = BigInteger.ONE;
+            if (this.entitiesView.entitiesCount() > 0) {
+                int childCount = this.entitiesView.getChildCount();
+                int i8 = 0;
+                while (i8 < childCount) {
+                    View childAt = this.entitiesView.getChildAt(i8);
                     if (childAt instanceof EntityView) {
                         EntityView entityView = (EntityView) childAt;
                         entityView.getPosition();
@@ -2492,46 +2518,44 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
                                 CharSequence text = textPaintView.getText();
                                 if (text instanceof Spanned) {
                                     Spanned spanned = (Spanned) text;
-                                    AnimatedEmojiSpan[] animatedEmojiSpanArr2 = (AnimatedEmojiSpan[]) spanned.getSpans(i4, text.length(), AnimatedEmojiSpan.class);
-                                    if (animatedEmojiSpanArr2 != null) {
-                                        int i6 = 0;
-                                        while (i6 < animatedEmojiSpanArr2.length) {
-                                            AnimatedEmojiSpan animatedEmojiSpan = animatedEmojiSpanArr2[i6];
+                                    AnimatedEmojiSpan[] animatedEmojiSpanArr = (AnimatedEmojiSpan[]) spanned.getSpans(i7, text.length(), AnimatedEmojiSpan.class);
+                                    if (animatedEmojiSpanArr != null) {
+                                        int i9 = 0;
+                                        while (i9 < animatedEmojiSpanArr.length) {
+                                            AnimatedEmojiSpan animatedEmojiSpan = animatedEmojiSpanArr[i9];
                                             TLRPC$Document tLRPC$Document = animatedEmojiSpan.document;
                                             if (tLRPC$Document == null) {
-                                                bitmap3 = bitmap;
-                                                tLRPC$Document = AnimatedEmojiDrawable.findDocument(paintView.currentAccount, animatedEmojiSpan.getDocumentId());
+                                                i5 = childCount;
+                                                i6 = i8;
+                                                tLRPC$Document = AnimatedEmojiDrawable.findDocument(this.currentAccount, animatedEmojiSpan.getDocumentId());
                                             } else {
-                                                bitmap3 = bitmap;
+                                                i5 = childCount;
+                                                i6 = i8;
                                             }
                                             if (tLRPC$Document != null) {
-                                                AnimatedEmojiDrawable.getDocumentFetcher(paintView.currentAccount).putDocument(tLRPC$Document);
+                                                AnimatedEmojiDrawable.getDocumentFetcher(this.currentAccount).putDocument(tLRPC$Document);
                                             }
                                             VideoEditedInfo.EmojiEntity emojiEntity = new VideoEditedInfo.EmojiEntity();
-                                            int i7 = childCount;
+                                            View view3 = childAt;
                                             emojiEntity.document_id = animatedEmojiSpan.getDocumentId();
                                             emojiEntity.document = tLRPC$Document;
                                             emojiEntity.offset = spanned.getSpanStart(animatedEmojiSpan);
                                             emojiEntity.length = spanned.getSpanEnd(animatedEmojiSpan) - emojiEntity.offset;
-                                            emojiEntity.documentAbsolutePath = FileLoader.getInstance(paintView.currentAccount).getPathToAttach(tLRPC$Document, true).getAbsolutePath();
-                                            int i8 = 0;
+                                            emojiEntity.documentAbsolutePath = FileLoader.getInstance(this.currentAccount).getPathToAttach(tLRPC$Document, true).getAbsolutePath();
+                                            int i10 = 0;
                                             while (tLRPC$Document != null) {
                                                 ArrayList<TLRPC$PhotoSize> arrayList2 = tLRPC$Document.thumbs;
-                                                if (arrayList2 == null || arrayList2.isEmpty() || new File(emojiEntity.documentAbsolutePath).exists()) {
+                                                if (arrayList2 != null && !arrayList2.isEmpty() && !new File(emojiEntity.documentAbsolutePath).exists()) {
+                                                    emojiEntity.documentAbsolutePath = FileLoader.getInstance(this.currentAccount).getPathToAttach(tLRPC$Document.thumbs.get(i10), true).getAbsolutePath();
+                                                    i10++;
+                                                    if (i10 >= tLRPC$Document.thumbs.size()) {
+                                                        break;
+                                                    }
+                                                } else {
                                                     break;
                                                 }
-                                                animatedEmojiSpanArr = animatedEmojiSpanArr2;
-                                                z3 = true;
-                                                emojiEntity.documentAbsolutePath = FileLoader.getInstance(paintView.currentAccount).getPathToAttach(tLRPC$Document.thumbs.get(i8), true).getAbsolutePath();
-                                                i8++;
-                                                if (i8 >= tLRPC$Document.thumbs.size()) {
-                                                    break;
-                                                }
-                                                animatedEmojiSpanArr2 = animatedEmojiSpanArr;
                                             }
-                                            animatedEmojiSpanArr = animatedEmojiSpanArr2;
-                                            z3 = true;
-                                            boolean isAnimatedStickerDocument = MessageObject.isAnimatedStickerDocument(emojiEntity.document, z3);
+                                            boolean isAnimatedStickerDocument = MessageObject.isAnimatedStickerDocument(emojiEntity.document, true);
                                             if (isAnimatedStickerDocument || isVideoStickerDocument(emojiEntity.document)) {
                                                 emojiEntity.subType = (byte) ((isAnimatedStickerDocument ? (byte) 1 : (byte) 4) | emojiEntity.subType);
                                             }
@@ -2541,17 +2565,18 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
                                             mediaEntity.entities.add(emojiEntity);
                                             if (tLRPC$Document != null) {
                                                 BigInteger valueOf = BigInteger.valueOf(5000L);
-                                                paintView.lcm = paintView.lcm.multiply(valueOf).divide(paintView.lcm.gcd(valueOf));
+                                                this.lcm = this.lcm.multiply(valueOf).divide(this.lcm.gcd(valueOf));
                                             }
-                                            i6++;
-                                            bitmap = bitmap3;
-                                            childCount = i7;
-                                            animatedEmojiSpanArr2 = animatedEmojiSpanArr;
+                                            i9++;
+                                            childCount = i5;
+                                            i8 = i6;
+                                            childAt = view3;
                                         }
                                     }
                                 }
-                                bitmap2 = bitmap;
                                 i3 = childCount;
+                                i4 = i8;
+                                view = childAt;
                                 mediaEntity.text = text.toString();
                                 mediaEntity.subType = (byte) textPaintView.getType();
                                 mediaEntity.color = textPaintView.getSwatch().color;
@@ -2559,8 +2584,9 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
                                 mediaEntity.textTypeface = textPaintView.getTypeface();
                                 mediaEntity.textAlign = textPaintView.getAlign();
                             } else {
-                                bitmap2 = bitmap;
                                 i3 = childCount;
+                                i4 = i8;
+                                view = childAt;
                                 long j = 5000;
                                 if (entityView instanceof StickerView) {
                                     mediaEntity.type = (byte) 0;
@@ -2580,7 +2606,7 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
                                         }
                                         if (j != 0) {
                                             BigInteger valueOf2 = BigInteger.valueOf(j);
-                                            paintView.lcm = paintView.lcm.multiply(valueOf2).divide(paintView.lcm.gcd(valueOf2));
+                                            this.lcm = this.lcm.multiply(valueOf2).divide(this.lcm.gcd(valueOf2));
                                         }
                                     }
                                     if (MessageObject.isTextColorEmoji(sticker)) {
@@ -2596,64 +2622,61 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
                                     Size baseSize2 = photoView.getBaseSize();
                                     mediaEntity.width = baseSize2.width;
                                     mediaEntity.height = baseSize2.height;
-                                    mediaEntity.text = photoView.getPath(paintView.currentAccount);
+                                    mediaEntity.text = photoView.getPath(this.currentAccount);
                                     if (photoView.isMirrored()) {
                                         mediaEntity.subType = (byte) (mediaEntity.subType | 2);
                                     }
-                                } else {
-                                    if (entityView instanceof LocationView) {
-                                        LocationView locationView = (LocationView) entityView;
-                                        mediaEntity.type = (byte) 3;
-                                        mediaEntity.subType = (byte) locationView.getType();
-                                        mediaEntity.width = locationView.marker.getWidth();
-                                        mediaEntity.height = locationView.marker.getHeight();
-                                        mediaEntity.text = locationView.marker.getText();
-                                        mediaEntity.color = locationView.getColor();
-                                        mediaEntity.density = locationView.marker.density;
-                                        mediaEntity.mediaGeo = locationView.location;
-                                        TLRPC$MediaArea tLRPC$MediaArea = locationView.mediaArea;
-                                        mediaEntity.mediaArea = tLRPC$MediaArea;
-                                        tLRPC$MediaArea.coordinates = new TLRPC$TL_mediaAreaCoordinates();
-                                        TLRPC$Document countryCodeEmojiDocument = locationView.marker.getCountryCodeEmojiDocument();
-                                        if (countryCodeEmojiDocument != null) {
-                                            VideoEditedInfo.EmojiEntity emojiEntity2 = new VideoEditedInfo.EmojiEntity();
-                                            emojiEntity2.document_id = countryCodeEmojiDocument.id;
-                                            emojiEntity2.document = countryCodeEmojiDocument;
-                                            emojiEntity2.documentAbsolutePath = FileLoader.getInstance(paintView.currentAccount).getPathToAttach(countryCodeEmojiDocument, true).getAbsolutePath();
-                                            boolean isAnimatedStickerDocument3 = MessageObject.isAnimatedStickerDocument(emojiEntity2.document, true);
-                                            if (isAnimatedStickerDocument3 || isVideoStickerDocument(emojiEntity2.document)) {
-                                                emojiEntity2.subType = (byte) (emojiEntity2.subType | (isAnimatedStickerDocument3 ? (byte) 1 : (byte) 4));
-                                            }
-                                            mediaEntity.entities.add(emojiEntity2);
+                                } else if (entityView instanceof LocationView) {
+                                    LocationView locationView = (LocationView) entityView;
+                                    mediaEntity.type = (byte) 3;
+                                    mediaEntity.subType = (byte) locationView.getType();
+                                    mediaEntity.width = locationView.marker.getWidth();
+                                    mediaEntity.height = locationView.marker.getHeight();
+                                    mediaEntity.text = locationView.marker.getText();
+                                    mediaEntity.color = locationView.getColor();
+                                    mediaEntity.density = locationView.marker.density;
+                                    mediaEntity.mediaGeo = locationView.location;
+                                    TLRPC$MediaArea tLRPC$MediaArea = locationView.mediaArea;
+                                    mediaEntity.mediaArea = tLRPC$MediaArea;
+                                    tLRPC$MediaArea.coordinates = new TLRPC$TL_mediaAreaCoordinates();
+                                    TLRPC$Document countryCodeEmojiDocument = locationView.marker.getCountryCodeEmojiDocument();
+                                    if (countryCodeEmojiDocument != null) {
+                                        VideoEditedInfo.EmojiEntity emojiEntity2 = new VideoEditedInfo.EmojiEntity();
+                                        emojiEntity2.document_id = countryCodeEmojiDocument.id;
+                                        emojiEntity2.document = countryCodeEmojiDocument;
+                                        emojiEntity2.documentAbsolutePath = FileLoader.getInstance(this.currentAccount).getPathToAttach(countryCodeEmojiDocument, true).getAbsolutePath();
+                                        boolean isAnimatedStickerDocument3 = MessageObject.isAnimatedStickerDocument(emojiEntity2.document, true);
+                                        if (isAnimatedStickerDocument3 || isVideoStickerDocument(emojiEntity2.document)) {
+                                            emojiEntity2.subType = (byte) (emojiEntity2.subType | (isAnimatedStickerDocument3 ? (byte) 1 : (byte) 4));
                                         }
+                                        mediaEntity.entities.add(emojiEntity2);
                                     }
-                                    bitmap = bitmap2;
                                 }
                             }
                             arrayList.add(mediaEntity);
-                            float scaleX = childAt.getScaleX();
-                            float scaleY = childAt.getScaleY();
-                            float x = childAt.getX();
-                            float y = childAt.getY();
-                            mediaEntity.viewWidth = childAt.getWidth();
-                            mediaEntity.viewHeight = childAt.getHeight();
-                            mediaEntity.width = (childAt.getWidth() * scaleX) / paintView.entitiesView.getMeasuredWidth();
-                            mediaEntity.height = (childAt.getHeight() * scaleY) / paintView.entitiesView.getMeasuredHeight();
-                            mediaEntity.x = (((childAt.getWidth() * (1.0f - scaleX)) / 2.0f) + x) / paintView.entitiesView.getMeasuredWidth();
-                            mediaEntity.y = (((childAt.getHeight() * (1.0f - scaleY)) / 2.0f) + y) / paintView.entitiesView.getMeasuredHeight();
-                            double d = -childAt.getRotation();
+                            float scaleX = view.getScaleX();
+                            float scaleY = view.getScaleY();
+                            float x = view.getX();
+                            float y = view.getY();
+                            mediaEntity.viewWidth = view.getWidth();
+                            mediaEntity.viewHeight = view.getHeight();
+                            mediaEntity.width = (view.getWidth() * scaleX) / this.entitiesView.getMeasuredWidth();
+                            mediaEntity.height = (view.getHeight() * scaleY) / this.entitiesView.getMeasuredHeight();
+                            mediaEntity.x = (((view.getWidth() * (1.0f - scaleX)) / 2.0f) + x) / this.entitiesView.getMeasuredWidth();
+                            mediaEntity.y = (((view.getHeight() * (1.0f - scaleY)) / 2.0f) + y) / this.entitiesView.getMeasuredHeight();
+                            double d = -view.getRotation();
                             Double.isNaN(d);
                             mediaEntity.rotation = (float) (d * 0.017453292519943295d);
-                            mediaEntity.textViewX = (x + (childAt.getWidth() / 2.0f)) / paintView.entitiesView.getMeasuredWidth();
-                            mediaEntity.textViewY = (y + (childAt.getHeight() / 2.0f)) / paintView.entitiesView.getMeasuredHeight();
-                            mediaEntity.textViewWidth = mediaEntity.viewWidth / paintView.entitiesView.getMeasuredWidth();
-                            mediaEntity.textViewHeight = mediaEntity.viewHeight / paintView.entitiesView.getMeasuredHeight();
+                            mediaEntity.textViewX = (x + (view.getWidth() / 2.0f)) / this.entitiesView.getMeasuredWidth();
+                            mediaEntity.textViewY = (y + (view.getHeight() / 2.0f)) / this.entitiesView.getMeasuredHeight();
+                            mediaEntity.textViewWidth = mediaEntity.viewWidth / this.entitiesView.getMeasuredWidth();
+                            mediaEntity.textViewHeight = mediaEntity.viewHeight / this.entitiesView.getMeasuredHeight();
                             mediaEntity.scale = scaleX;
                             if (entityView instanceof StickerView) {
                                 float imageAspectRatio = ((StickerView) entityView).centerImage.getImageAspectRatio();
                                 float f = mediaEntity.x + (mediaEntity.width / 2.0f);
                                 float f2 = mediaEntity.y + (mediaEntity.height / 2.0f);
-                                float measuredWidth = paintView.entitiesView.getMeasuredWidth() / paintView.entitiesView.getMeasuredHeight();
+                                float measuredWidth = this.entitiesView.getMeasuredWidth() / this.entitiesView.getMeasuredHeight();
                                 if (imageAspectRatio > 1.0f) {
                                     float f3 = (mediaEntity.width * measuredWidth) / imageAspectRatio;
                                     mediaEntity.height = f3;
@@ -2665,46 +2688,51 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
                                     mediaEntity.viewWidth = (int) (mediaEntity.viewHeight * imageAspectRatio);
                                     mediaEntity.x = f - (f4 / 2.0f);
                                 }
-                            } else if (entityView instanceof LocationView) {
-                                TLRPC$TL_mediaAreaCoordinates tLRPC$TL_mediaAreaCoordinates = mediaEntity.mediaArea.coordinates;
-                                float f5 = mediaEntity.x;
-                                float f6 = mediaEntity.width;
-                                tLRPC$TL_mediaAreaCoordinates.x = (f5 + (f6 / 2.0f)) * 100.0f;
-                                tLRPC$TL_mediaAreaCoordinates.y = (mediaEntity.y + (mediaEntity.height / 2.0f)) * 100.0f;
-                                LocationView locationView2 = (LocationView) entityView;
-                                tLRPC$TL_mediaAreaCoordinates.w = (f6 - (((locationView2.marker.padx * 2) * scaleX) / paintView.entitiesView.getMeasuredWidth())) * 100.0f;
-                                mediaEntity.mediaArea.coordinates.h = (mediaEntity.height - (((locationView2.marker.pady * 2) * scaleY) / paintView.entitiesView.getMeasuredHeight())) * 100.0f;
-                                TLRPC$TL_mediaAreaCoordinates tLRPC$TL_mediaAreaCoordinates2 = mediaEntity.mediaArea.coordinates;
-                                double d2 = -mediaEntity.rotation;
-                                Double.isNaN(d2);
-                                tLRPC$TL_mediaAreaCoordinates2.rotation = (d2 / 3.141592653589793d) * 180.0d;
+                            } else {
+                                boolean z4 = entityView instanceof LocationView;
+                                if (z4) {
+                                    TLRPC$TL_mediaAreaCoordinates tLRPC$TL_mediaAreaCoordinates = mediaEntity.mediaArea.coordinates;
+                                    float f5 = mediaEntity.x;
+                                    float f6 = mediaEntity.width;
+                                    tLRPC$TL_mediaAreaCoordinates.x = (f5 + (f6 / 2.0f)) * 100.0f;
+                                    tLRPC$TL_mediaAreaCoordinates.y = (mediaEntity.y + (mediaEntity.height / 2.0f)) * 100.0f;
+                                    if (z4) {
+                                        LocationView locationView2 = (LocationView) entityView;
+                                        tLRPC$TL_mediaAreaCoordinates.w = (f6 - (((locationView2.marker.padx * 2) * scaleX) / this.entitiesView.getMeasuredWidth())) * 100.0f;
+                                        mediaEntity.mediaArea.coordinates.h = (mediaEntity.height - (((locationView2.marker.pady * 2) * scaleY) / this.entitiesView.getMeasuredHeight())) * 100.0f;
+                                    }
+                                    TLRPC$TL_mediaAreaCoordinates tLRPC$TL_mediaAreaCoordinates2 = mediaEntity.mediaArea.coordinates;
+                                    double d2 = -mediaEntity.rotation;
+                                    Double.isNaN(d2);
+                                    tLRPC$TL_mediaAreaCoordinates2.rotation = (d2 / 3.141592653589793d) * 180.0d;
+                                }
                             }
                         } else {
-                            bitmap2 = bitmap;
                             i3 = childCount;
+                            i4 = i8;
+                            view = childAt;
                         }
-                        if (z2 && bitmap2 != null) {
-                            bitmap = bitmap2;
+                        if (z2 && bitmap != null) {
                             Canvas canvas = new Canvas(bitmap);
-                            float width = bitmap.getWidth() / paintView.entitiesView.getMeasuredWidth();
-                            int i9 = 0;
-                            int i10 = 2;
-                            while (i9 < i10) {
-                                Canvas canvas2 = i9 == 0 ? canvas : null;
+                            float width = bitmap.getWidth() / this.entitiesView.getMeasuredWidth();
+                            int i11 = 0;
+                            while (i11 < 2) {
+                                Canvas canvas2 = i11 == 0 ? canvas : null;
                                 if (canvas2 != null) {
                                     canvas2.save();
                                     canvas2.scale(width, width);
-                                    canvas2.translate(mediaEntity.x * paintView.entitiesView.getMeasuredWidth(), mediaEntity.y * paintView.entitiesView.getMeasuredHeight());
-                                    canvas2.scale(childAt.getScaleX(), childAt.getScaleY());
-                                    canvas2.rotate(childAt.getRotation(), ((mediaEntity.width / 2.0f) / childAt.getScaleX()) * paintView.entitiesView.getMeasuredWidth(), ((mediaEntity.height / 2.0f) / childAt.getScaleY()) * paintView.entitiesView.getMeasuredHeight());
-                                    if ((childAt instanceof TextPaintView) && childAt.getHeight() > 0 && childAt.getWidth() > 0) {
-                                        int width2 = (int) (childAt.getWidth() * childAt.getScaleX());
-                                        int height = (int) (childAt.getHeight() * childAt.getScaleY());
+                                    canvas2.translate(mediaEntity.x * this.entitiesView.getMeasuredWidth(), mediaEntity.y * this.entitiesView.getMeasuredHeight());
+                                    canvas2.scale(view.getScaleX(), view.getScaleY());
+                                    canvas2.rotate(view.getRotation(), ((mediaEntity.width / 2.0f) / view.getScaleX()) * this.entitiesView.getMeasuredWidth(), ((mediaEntity.height / 2.0f) / view.getScaleY()) * this.entitiesView.getMeasuredHeight());
+                                    view2 = view;
+                                    if ((view2 instanceof TextPaintView) && view2.getHeight() > 0 && view2.getWidth() > 0) {
+                                        int width2 = (int) (view2.getWidth() * view2.getScaleX());
+                                        int height = (int) (view2.getHeight() * view2.getScaleY());
                                         Bitmap createBitmap2 = Bitmaps.createBitmap(width2, height, Bitmap.Config.ARGB_8888);
                                         Canvas canvas3 = new Canvas(createBitmap2);
-                                        canvas3.scale(childAt.getScaleX(), childAt.getScaleY());
-                                        childAt.draw(canvas3);
-                                        canvas2.scale(1.0f / childAt.getScaleX(), 1.0f / childAt.getScaleY());
+                                        canvas3.scale(view2.getScaleX(), view2.getScaleY());
+                                        view2.draw(canvas3);
+                                        canvas2.scale(1.0f / view2.getScaleX(), 1.0f / view2.getScaleY());
                                         canvas2.drawBitmap(createBitmap2, (Rect) null, new Rect(0, 0, width2, height), new Paint(3));
                                         try {
                                             canvas3.setBitmap(null);
@@ -2713,32 +2741,40 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
                                         }
                                         createBitmap2.recycle();
                                     } else {
-                                        childAt.draw(canvas2);
+                                        view2.draw(canvas2);
                                     }
                                     canvas2.restore();
+                                } else {
+                                    view2 = view;
                                 }
-                                i9++;
-                                i10 = 2;
-                                paintView = this;
+                                i11++;
+                                view = view2;
                             }
                         }
-                        bitmap = bitmap2;
                     } else {
                         i3 = childCount;
+                        i4 = i8;
                     }
-                    i5++;
-                    paintView = this;
+                    i8 = i4 + 1;
                     childCount = i3;
-                    i4 = 0;
+                    i7 = 0;
                 }
             }
             return bitmap;
         }
         bitmap = createBitmap;
-        paintView.lcm = BigInteger.ONE;
-        if (paintView.entitiesView.entitiesCount() > 0) {
+        this.lcm = BigInteger.ONE;
+        if (this.entitiesView.entitiesCount() > 0) {
         }
         return bitmap;
+    }
+
+    public boolean hasBlur() {
+        return this.renderView.getPainting().hasBlur;
+    }
+
+    public Bitmap getBlurBitmap() {
+        return this.renderView.getResultBitmap(true, false);
     }
 
     @Override // org.telegram.ui.Components.IPhotoPaintView
@@ -2947,13 +2983,13 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
             this.typefaceMenuTransformAnimation.addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda31
                 @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationUpdateListener
                 public final void onAnimationUpdate(DynamicAnimation dynamicAnimation, float f, float f2) {
-                    PaintView.this.lambda$showTypefaceMenu$28(dynamicAnimation, f, f2);
+                    PaintView.this.lambda$showTypefaceMenu$29(dynamicAnimation, f, f2);
                 }
             });
             this.typefaceMenuTransformAnimation.addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda29
                 @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationEndListener
                 public final void onAnimationEnd(DynamicAnimation dynamicAnimation, boolean z2, float f, float f2) {
-                    PaintView.this.lambda$showTypefaceMenu$29(z, dynamicAnimation, z2, f, f2);
+                    PaintView.this.lambda$showTypefaceMenu$30(z, dynamicAnimation, z2, f, f2);
                 }
             });
             this.typefaceMenuTransformAnimation.start();
@@ -2961,7 +2997,7 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showTypefaceMenu$28(DynamicAnimation dynamicAnimation, float f, float f2) {
+    public /* synthetic */ void lambda$showTypefaceMenu$29(DynamicAnimation dynamicAnimation, float f, float f2) {
         float f3 = f / 1000.0f;
         this.typefaceMenuTransformProgress = f3;
         this.typefaceListView.setAlpha(f3);
@@ -2971,7 +3007,7 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showTypefaceMenu$29(boolean z, DynamicAnimation dynamicAnimation, boolean z2, float f, float f2) {
+    public /* synthetic */ void lambda$showTypefaceMenu$30(boolean z, DynamicAnimation dynamicAnimation, boolean z2, float f, float f2) {
         if (dynamicAnimation == this.typefaceMenuTransformAnimation) {
             this.typefaceMenuTransformAnimation = null;
             if (!z) {
@@ -3005,13 +3041,13 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
             this.toolsTransformAnimation.addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda32
                 @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationUpdateListener
                 public final void onAnimationUpdate(DynamicAnimation dynamicAnimation, float f, float f2) {
-                    PaintView.this.lambda$showColorList$30(barView, z, zArr, alpha, translationY, dynamicAnimation, f, f2);
+                    PaintView.this.lambda$showColorList$31(barView, z, zArr, alpha, translationY, dynamicAnimation, f, f2);
                 }
             });
             this.toolsTransformAnimation.addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda30
                 @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationEndListener
                 public final void onAnimationEnd(DynamicAnimation dynamicAnimation, boolean z3, float f, float f2) {
-                    PaintView.this.lambda$showColorList$31(z, dynamicAnimation, z3, f, f2);
+                    PaintView.this.lambda$showColorList$32(z, dynamicAnimation, z3, f, f2);
                 }
             });
             this.toolsTransformAnimation.start();
@@ -3023,7 +3059,7 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showColorList$30(View view, boolean z, boolean[] zArr, float f, float f2, DynamicAnimation dynamicAnimation, float f3, float f4) {
+    public /* synthetic */ void lambda$showColorList$31(View view, boolean z, boolean[] zArr, float f, float f2, DynamicAnimation dynamicAnimation, float f3, float f4) {
         float f5 = f3 / 1000.0f;
         this.toolsTransformProgress = f5;
         float f6 = ((1.0f - f5) * 0.4f) + 0.6f;
@@ -3055,7 +3091,7 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showColorList$31(boolean z, DynamicAnimation dynamicAnimation, boolean z2, float f, float f2) {
+    public /* synthetic */ void lambda$showColorList$32(boolean z, DynamicAnimation dynamicAnimation, boolean z2, float f, float f2) {
         if (dynamicAnimation == this.toolsTransformAnimation) {
             this.toolsTransformAnimation = null;
             if (z) {
@@ -3128,7 +3164,7 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
         popupButton.setText(str);
         popupButton.setSelected(z);
         if (runnable != null) {
-            popupButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda6
+            popupButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda7
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     runnable.run();
@@ -3337,13 +3373,13 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
         showPopup(new Runnable() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda33
             @Override // java.lang.Runnable
             public final void run() {
-                PaintView.this.lambda$onAddButtonPressed$35();
+                PaintView.this.lambda$onAddButtonPressed$36();
             }
         }, this, 53, 0, getHeight());
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onAddButtonPressed$35() {
+    public /* synthetic */ void lambda$onAddButtonPressed$36() {
         boolean fillShapes = PersistColorPalette.getInstance(this.currentAccount).getFillShapes();
         for (int i = 0; i < Brush.Shape.SHAPES_LIST.size(); i++) {
             final Brush.Shape shape = Brush.Shape.SHAPES_LIST.get(i);
@@ -3351,15 +3387,15 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
             PopupButton buttonForPopup = buttonForPopup(shape.getShapeName(), filledIconRes, false, new Runnable() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda39
                 @Override // java.lang.Runnable
                 public final void run() {
-                    PaintView.this.lambda$onAddButtonPressed$33(shape, filledIconRes);
+                    PaintView.this.lambda$onAddButtonPressed$34(shape, filledIconRes);
                 }
             });
             buttonForPopup.setOnLongClickListener(new View.OnLongClickListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda24
                 @Override // android.view.View.OnLongClickListener
                 public final boolean onLongClick(View view) {
-                    boolean lambda$onAddButtonPressed$34;
-                    lambda$onAddButtonPressed$34 = PaintView.this.lambda$onAddButtonPressed$34(view);
-                    return lambda$onAddButtonPressed$34;
+                    boolean lambda$onAddButtonPressed$35;
+                    lambda$onAddButtonPressed$35 = PaintView.this.lambda$onAddButtonPressed$35(view);
+                    return lambda$onAddButtonPressed$35;
                 }
             });
             this.popupLayout.addView((View) buttonForPopup, LayoutHelper.createLinear(-1, 48));
@@ -3367,7 +3403,7 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onAddButtonPressed$33(Brush.Shape shape, int i) {
+    public /* synthetic */ void lambda$onAddButtonPressed$34(Brush.Shape shape, int i) {
         if (this.renderView.getCurrentBrush() instanceof Brush.Shape) {
             this.ignoreToolChangeAnimationOnce = true;
         }
@@ -3376,7 +3412,7 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ boolean lambda$onAddButtonPressed$34(View view) {
+    public /* synthetic */ boolean lambda$onAddButtonPressed$35(View view) {
         if (this.popupLayout != null) {
             PersistColorPalette.getInstance(this.currentAccount).toggleFillShapes();
             boolean fillShapes = PersistColorPalette.getInstance(this.currentAccount).getFillShapes();
@@ -3393,16 +3429,16 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
 
     private void showMenuForEntity(final EntityView entityView) {
         int[] centerLocationInWindow = getCenterLocationInWindow(entityView);
-        showPopup(new Runnable() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda40
+        showPopup(new Runnable() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda41
             @Override // java.lang.Runnable
             public final void run() {
-                PaintView.this.lambda$showMenuForEntity$43(entityView);
+                PaintView.this.lambda$showMenuForEntity$44(entityView);
             }
         }, this, 51, centerLocationInWindow[0], centerLocationInWindow[1] - AndroidUtilities.dp(32.0f));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showMenuForEntity$43(final EntityView entityView) {
+    public /* synthetic */ void lambda$showMenuForEntity$44(final EntityView entityView) {
         LinearLayout linearLayout = new LinearLayout(getContext());
         linearLayout.setOrientation(0);
         TextView textView = new TextView(getContext());
@@ -3420,7 +3456,7 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
         textView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda19
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
-                PaintView.this.lambda$showMenuForEntity$36(entityView, view);
+                PaintView.this.lambda$showMenuForEntity$37(entityView, view);
             }
         });
         linearLayout.addView(textView, LayoutHelper.createLinear(-2, 48));
@@ -3440,79 +3476,59 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
                 textView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda18
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
-                        PaintView.this.lambda$showMenuForEntity$37(entityView, view);
+                        PaintView.this.lambda$showMenuForEntity$38(entityView, view);
                     }
                 });
             } else {
                 textView2.setTag(1);
                 textView2.setText(LocaleController.getString("PaintEdit", R.string.PaintEdit));
-                textView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda17
+                textView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda20
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
-                        PaintView.this.lambda$showMenuForEntity$38(entityView, view);
+                        PaintView.this.lambda$showMenuForEntity$39(entityView, view);
                     }
                 });
             }
             linearLayout.addView(textView2, LayoutHelper.createLinear(-2, 48));
         } else if (entityView instanceof LocationView) {
-            TextView textView3 = new TextView(getContext());
-            textView3.setTextColor(getThemedColor(i));
-            textView3.setBackground(Theme.getSelectorDrawable(false));
-            textView3.setGravity(16);
-            textView3.setLines(1);
-            textView3.setSingleLine();
-            textView3.setEllipsize(TextUtils.TruncateAt.END);
-            textView3.setPadding(AndroidUtilities.dp(14.0f), 0, AndroidUtilities.dp(14.0f), 0);
-            textView3.setTextSize(1, 14.0f);
-            textView3.setTag(1);
-            textView3.setText(LocaleController.getString("PaintEdit", R.string.PaintEdit));
-            textView3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda21
-                @Override // android.view.View.OnClickListener
-                public final void onClick(View view) {
-                    PaintView.this.lambda$showMenuForEntity$40(entityView, view);
-                }
-            });
-            linearLayout.addView(textView3, LayoutHelper.createLinear(-2, 48));
-        }
-        if ((entityView instanceof StickerView) || (entityView instanceof PhotoView)) {
-            TextView textView4 = new TextView(getContext());
-            textView4.setTextColor(getThemedColor(i));
-            textView4.setBackground(Theme.getSelectorDrawable(false));
-            textView4.setLines(1);
-            textView4.setSingleLine();
-            textView4.setEllipsize(TextUtils.TruncateAt.END);
-            textView4.setGravity(16);
-            textView4.setPadding(AndroidUtilities.dp(14.0f), 0, AndroidUtilities.dp(14.0f), 0);
-            textView4.setTextSize(1, 14.0f);
-            textView4.setTag(4);
-            textView4.setText(LocaleController.getString(R.string.Flip));
-            textView4.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda20
+            TextView createActionLayoutButton = createActionLayoutButton(1, LocaleController.getString("PaintEdit", R.string.PaintEdit));
+            createActionLayoutButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda22
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     PaintView.this.lambda$showMenuForEntity$41(entityView, view);
                 }
             });
-            linearLayout.addView(textView4, LayoutHelper.createLinear(-2, 48));
+            linearLayout.addView(createActionLayoutButton, LayoutHelper.createLinear(-2, 48));
         }
-        if (!(entityView instanceof PhotoView) && !(entityView instanceof LocationView)) {
-            TextView textView5 = new TextView(getContext());
-            textView5.setTextColor(getThemedColor(i));
-            textView5.setBackground(Theme.getSelectorDrawable(false));
-            textView5.setLines(1);
-            textView5.setSingleLine();
-            textView5.setEllipsize(TextUtils.TruncateAt.END);
-            textView5.setGravity(16);
-            textView5.setPadding(AndroidUtilities.dp(14.0f), 0, AndroidUtilities.dp(14.0f), 0);
-            textView5.setTextSize(1, 14.0f);
-            textView5.setTag(2);
-            textView5.setText(LocaleController.getString("PaintDuplicate", R.string.PaintDuplicate));
-            textView5.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda16
+        if ((entityView instanceof StickerView) || (entityView instanceof PhotoView)) {
+            TextView createActionLayoutButton2 = createActionLayoutButton(4, LocaleController.getString("Flip", R.string.Flip));
+            createActionLayoutButton2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda17
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     PaintView.this.lambda$showMenuForEntity$42(entityView, view);
                 }
             });
-            linearLayout.addView(textView5, LayoutHelper.createLinear(-2, 48));
+            linearLayout.addView(createActionLayoutButton2, LayoutHelper.createLinear(-2, 48));
+        }
+        if (!(entityView instanceof PhotoView) && !(entityView instanceof LocationView)) {
+            TextView textView3 = new TextView(getContext());
+            textView3.setTextColor(getThemedColor(i));
+            textView3.setBackground(Theme.getSelectorDrawable(false));
+            textView3.setLines(1);
+            textView3.setSingleLine();
+            textView3.setEllipsize(TextUtils.TruncateAt.END);
+            textView3.setGravity(16);
+            textView3.setPadding(AndroidUtilities.dp(14.0f), 0, AndroidUtilities.dp(14.0f), 0);
+            textView3.setTextSize(1, 14.0f);
+            textView3.setTag(2);
+            textView3.setText(LocaleController.getString("PaintDuplicate", R.string.PaintDuplicate));
+            textView3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda21
+                @Override // android.view.View.OnClickListener
+                public final void onClick(View view) {
+                    PaintView.this.lambda$showMenuForEntity$43(entityView, view);
+                }
+            });
+            linearLayout.addView(textView3, LayoutHelper.createLinear(-2, 48));
         }
         this.popupLayout.addView(linearLayout);
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) linearLayout.getLayoutParams();
@@ -3522,8 +3538,8 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showMenuForEntity$36(EntityView entityView, View view) {
-        lambda$registerRemovalUndo$48(entityView);
+    public /* synthetic */ void lambda$showMenuForEntity$37(EntityView entityView, View view) {
+        lambda$registerRemovalUndo$49(entityView);
         ActionBarPopupWindow actionBarPopupWindow = this.popupWindow;
         if (actionBarPopupWindow == null || !actionBarPopupWindow.isShowing()) {
             return;
@@ -3532,7 +3548,7 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showMenuForEntity$37(EntityView entityView, View view) {
+    public /* synthetic */ void lambda$showMenuForEntity$38(EntityView entityView, View view) {
         try {
             ((TextPaintView) entityView).getEditText().onTextContextMenuItem(16908337);
         } catch (Exception e) {
@@ -3546,7 +3562,7 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showMenuForEntity$38(EntityView entityView, View view) {
+    public /* synthetic */ void lambda$showMenuForEntity$39(EntityView entityView, View view) {
         selectEntity(entityView);
         editSelectedTextEntity();
         ActionBarPopupWindow actionBarPopupWindow = this.popupWindow;
@@ -3557,12 +3573,12 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showMenuForEntity$40(final EntityView entityView, View view) {
+    public /* synthetic */ void lambda$showMenuForEntity$41(final EntityView entityView, View view) {
         selectEntity(null);
         showLocationAlert((LocationView) entityView, new Utilities.Callback2() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda45
             @Override // org.telegram.messenger.Utilities.Callback2
             public final void run(Object obj, Object obj2) {
-                PaintView.this.lambda$showMenuForEntity$39(entityView, (TLRPC$MessageMedia) obj, (TLRPC$MediaArea) obj2);
+                PaintView.this.lambda$showMenuForEntity$40(entityView, (TLRPC$MessageMedia) obj, (TLRPC$MediaArea) obj2);
             }
         });
         ActionBarPopupWindow actionBarPopupWindow = this.popupWindow;
@@ -3573,13 +3589,13 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showMenuForEntity$39(EntityView entityView, TLRPC$MessageMedia tLRPC$MessageMedia, TLRPC$MediaArea tLRPC$MediaArea) {
+    public /* synthetic */ void lambda$showMenuForEntity$40(EntityView entityView, TLRPC$MessageMedia tLRPC$MessageMedia, TLRPC$MediaArea tLRPC$MediaArea) {
         ((LocationView) entityView).setLocation(this.currentAccount, tLRPC$MessageMedia, tLRPC$MediaArea);
         appearAnimation(entityView);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showMenuForEntity$41(EntityView entityView, View view) {
+    public /* synthetic */ void lambda$showMenuForEntity$42(EntityView entityView, View view) {
         if (entityView instanceof StickerView) {
             ((StickerView) entityView).mirror(true);
         } else {
@@ -3593,13 +3609,28 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showMenuForEntity$42(EntityView entityView, View view) {
+    public /* synthetic */ void lambda$showMenuForEntity$43(EntityView entityView, View view) {
         duplicateEntity(entityView);
         ActionBarPopupWindow actionBarPopupWindow = this.popupWindow;
         if (actionBarPopupWindow == null || !actionBarPopupWindow.isShowing()) {
             return;
         }
         this.popupWindow.dismiss(true);
+    }
+
+    private TextView createActionLayoutButton(int i, String str) {
+        TextView textView = new TextView(getContext());
+        textView.setTextColor(getThemedColor(Theme.key_actionBarDefaultSubmenuItem));
+        textView.setBackground(Theme.getSelectorDrawable(false));
+        textView.setGravity(16);
+        textView.setLines(1);
+        textView.setSingleLine();
+        textView.setEllipsize(TextUtils.TruncateAt.END);
+        textView.setPadding(AndroidUtilities.dp(14.0f), 0, AndroidUtilities.dp(14.0f), 0);
+        textView.setTextSize(1, 14.0f);
+        textView.setTag(Integer.valueOf(i));
+        textView.setText(str);
+        return textView;
     }
 
     private void duplicateEntity(EntityView entityView) {
@@ -3617,7 +3648,6 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
             return;
         } else {
             TextPaintView textPaintView = new TextPaintView(getContext(), (TextPaintView) entityView, startPositionRelativeToEntity);
-            textPaintView.getEditText().betterFraming = true;
             textPaintView.setDelegate(this);
             textPaintView.setMaxWidth(this.w - AndroidUtilities.dp(32.0f));
             this.entitiesView.addView(textPaintView, LayoutHelper.createFrame(-2, -2.0f));
@@ -3673,15 +3703,15 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
             this.popupLayout.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda25
                 @Override // android.view.View.OnTouchListener
                 public final boolean onTouch(View view2, MotionEvent motionEvent) {
-                    boolean lambda$showPopup$44;
-                    lambda$showPopup$44 = PaintView.this.lambda$showPopup$44(view2, motionEvent);
-                    return lambda$showPopup$44;
+                    boolean lambda$showPopup$45;
+                    lambda$showPopup$45 = PaintView.this.lambda$showPopup$45(view2, motionEvent);
+                    return lambda$showPopup$45;
                 }
             });
-            this.popupLayout.setDispatchKeyEventListener(new ActionBarPopupWindow.OnDispatchKeyEventListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda49
+            this.popupLayout.setDispatchKeyEventListener(new ActionBarPopupWindow.OnDispatchKeyEventListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda50
                 @Override // org.telegram.ui.ActionBar.ActionBarPopupWindow.OnDispatchKeyEventListener
                 public final void onDispatchKeyEvent(KeyEvent keyEvent) {
-                    PaintView.this.lambda$showPopup$45(keyEvent);
+                    PaintView.this.lambda$showPopup$46(keyEvent);
                 }
             });
             this.popupLayout.setShownFromBottom(true);
@@ -3701,7 +3731,7 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
             this.popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda26
                 @Override // android.widget.PopupWindow.OnDismissListener
                 public final void onDismiss() {
-                    PaintView.this.lambda$showPopup$46();
+                    PaintView.this.lambda$showPopup$47();
                 }
             });
         }
@@ -3716,7 +3746,7 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ boolean lambda$showPopup$44(View view, MotionEvent motionEvent) {
+    public /* synthetic */ boolean lambda$showPopup$45(View view, MotionEvent motionEvent) {
         ActionBarPopupWindow actionBarPopupWindow;
         if (motionEvent.getActionMasked() == 0 && (actionBarPopupWindow = this.popupWindow) != null && actionBarPopupWindow.isShowing()) {
             view.getHitRect(this.popupRect);
@@ -3730,7 +3760,7 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showPopup$45(KeyEvent keyEvent) {
+    public /* synthetic */ void lambda$showPopup$46(KeyEvent keyEvent) {
         ActionBarPopupWindow actionBarPopupWindow;
         if (keyEvent.getKeyCode() == 4 && keyEvent.getRepeatCount() == 0 && (actionBarPopupWindow = this.popupWindow) != null && actionBarPopupWindow.isShowing()) {
             this.popupWindow.dismiss();
@@ -3738,7 +3768,7 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showPopup$46() {
+    public /* synthetic */ void lambda$showPopup$47() {
         this.popupLayout.removeInnerViews();
     }
 
@@ -3821,13 +3851,13 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
         view.animate().scaleX(scaleX).scaleY(scaleY).alpha(1.0f).setInterpolator(new OvershootInterpolator(3.0f)).setDuration(240L).withEndAction(new Runnable() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda38
             @Override // java.lang.Runnable
             public final void run() {
-                PaintView.this.lambda$appearAnimation$47(view);
+                PaintView.this.lambda$appearAnimation$48(view);
             }
         }).start();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$appearAnimation$47(View view) {
+    public /* synthetic */ void lambda$appearAnimation$48(View view) {
         if (view instanceof EntityView) {
             EntityView entityView = (EntityView) view;
             entityView.updateSelectionView();
@@ -3983,13 +4013,13 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
     public void removeCurrentEntity() {
         EntityView entityView = this.currentEntityView;
         if (entityView != null) {
-            lambda$registerRemovalUndo$48(entityView);
+            lambda$registerRemovalUndo$49(entityView);
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     /* renamed from: removeEntity */
-    public void lambda$registerRemovalUndo$48(EntityView entityView) {
+    public void lambda$registerRemovalUndo$49(EntityView entityView) {
         EntityView entityView2 = this.currentEntityView;
         if (entityView == entityView2 && entityView2 != null) {
             entityView2.deselect();
@@ -4016,10 +4046,10 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
         if (entityView == null) {
             return;
         }
-        this.undoStore.registerUndo(entityView.getUUID(), new Runnable() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda41
+        this.undoStore.registerUndo(entityView.getUUID(), new Runnable() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda40
             @Override // java.lang.Runnable
             public final void run() {
-                PaintView.this.lambda$registerRemovalUndo$48(entityView);
+                PaintView.this.lambda$registerRemovalUndo$49(entityView);
             }
         });
     }
@@ -4155,7 +4185,7 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
                     ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda0
                         @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                         public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                            PaintView.this.lambda$showEmojiPopup$49(valueAnimator);
+                            PaintView.this.lambda$showEmojiPopup$50(valueAnimator);
                         }
                     });
                     ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Stories.recorder.PaintView.22
@@ -4191,7 +4221,7 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showEmojiPopup$49(ValueAnimator valueAnimator) {
+    public /* synthetic */ void lambda$showEmojiPopup$50(ValueAnimator valueAnimator) {
         this.emojiView.setTranslationY(((Float) valueAnimator.getAnimatedValue()).floatValue());
     }
 
@@ -4206,7 +4236,7 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
                 ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda1
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                        PaintView.this.lambda$hideEmojiPopup$50(valueAnimator);
+                        PaintView.this.lambda$hideEmojiPopup$51(valueAnimator);
                     }
                 });
                 this.isAnimatePopupClosing = true;
@@ -4228,7 +4258,7 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$hideEmojiPopup$50(ValueAnimator valueAnimator) {
+    public /* synthetic */ void lambda$hideEmojiPopup$51(ValueAnimator valueAnimator) {
         this.emojiView.setTranslationY(((Float) valueAnimator.getAnimatedValue()).floatValue());
     }
 
@@ -4250,12 +4280,12 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
         }
     }
 
-    @Override // org.telegram.ui.Components.SizeNotifierFrameLayoutPhoto
+    @Override // org.telegram.ui.Components.SizeNotifierFrameLayoutPhoto, org.telegram.ui.Components.SizeNotifierFrameLayout
     public int measureKeyboardHeight() {
-        return this.keyboardNotifier.getKeyboardHeight() - this.parent.getBottomPadding(false);
+        return this.keyboardNotifier.getKeyboardHeight() - this.parent.getBottomPadding2();
     }
 
-    @Override // org.telegram.ui.Components.SizeNotifierFrameLayoutPhoto.SizeNotifierFrameLayoutPhotoDelegate
+    @Override // org.telegram.ui.Components.SizeNotifierFrameLayout.SizeNotifierFrameLayoutDelegate
     public void onSizeChanged(int i, boolean z) {
         boolean z2;
         if (i > AndroidUtilities.dp(50.0f) && this.keyboardVisible && !AndroidUtilities.isInMultiwindow && !AndroidUtilities.isTablet()) {
@@ -4319,13 +4349,13 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
         this.textDim.animate().alpha(z ? 1.0f : 0.0f).withEndAction(new Runnable() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda42
             @Override // java.lang.Runnable
             public final void run() {
-                PaintView.this.lambda$updateTextDim$51(z);
+                PaintView.this.lambda$updateTextDim$52(z);
             }
         }).start();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$updateTextDim$51(boolean z) {
+    public /* synthetic */ void lambda$updateTextDim$52(boolean z) {
         if (z) {
             return;
         }
@@ -4565,14 +4595,16 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
         }
     }
 
-    @Override // android.view.ViewGroup, android.view.View
-    protected void onAttachedToWindow() {
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
+    public void onAttachedToWindow() {
         this.destroyed = false;
         super.onAttachedToWindow();
     }
 
-    @Override // android.view.ViewGroup, android.view.View
-    protected void onDetachedFromWindow() {
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
+    public void onDetachedFromWindow() {
         this.destroyed = true;
         super.onDetachedFromWindow();
     }

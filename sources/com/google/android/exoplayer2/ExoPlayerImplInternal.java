@@ -214,6 +214,10 @@ public final class ExoPlayerImplInternal implements Handler.Callback, MediaPerio
         this.handler.obtainMessage(4, playbackParameters).sendToTarget();
     }
 
+    public void setSeekParameters(SeekParameters seekParameters) {
+        this.handler.obtainMessage(5, seekParameters).sendToTarget();
+    }
+
     public void stop() {
         this.handler.obtainMessage(6).sendToTarget();
     }

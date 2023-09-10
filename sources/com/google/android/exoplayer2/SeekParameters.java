@@ -4,6 +4,7 @@ import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
 /* loaded from: classes.dex */
 public final class SeekParameters {
+    public static final SeekParameters CLOSEST_SYNC;
     public static final SeekParameters DEFAULT;
     public static final SeekParameters EXACT;
     public final long toleranceAfterUs;
@@ -12,7 +13,7 @@ public final class SeekParameters {
     static {
         SeekParameters seekParameters = new SeekParameters(0L, 0L);
         EXACT = seekParameters;
-        new SeekParameters(Long.MAX_VALUE, Long.MAX_VALUE);
+        CLOSEST_SYNC = new SeekParameters(Long.MAX_VALUE, Long.MAX_VALUE);
         new SeekParameters(Long.MAX_VALUE, 0L);
         new SeekParameters(0L, Long.MAX_VALUE);
         DEFAULT = seekParameters;

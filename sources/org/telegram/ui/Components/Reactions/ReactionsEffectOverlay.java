@@ -86,9 +86,9 @@ public class ReactionsEffectOverlay {
         return f2;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:211:0x0657  */
-    /* JADX WARN: Removed duplicated region for block: B:216:0x0692  */
-    /* JADX WARN: Removed duplicated region for block: B:221:0x06ba  */
+    /* JADX WARN: Removed duplicated region for block: B:211:0x0659  */
+    /* JADX WARN: Removed duplicated region for block: B:216:0x0694  */
+    /* JADX WARN: Removed duplicated region for block: B:221:0x06bc  */
     /* JADX WARN: Removed duplicated region for block: B:60:0x01d5  */
     /* JADX WARN: Removed duplicated region for block: B:61:0x01f9  */
     /* JADX WARN: Type inference failed for: r2v32 */
@@ -427,7 +427,8 @@ public class ReactionsEffectOverlay {
                         i8 = -1;
                     }
                     animatedEmojiDrawable.setColorFilter(new PorterDuffColorFilter(i8, PorterDuff.Mode.SRC_IN));
-                    animationView.setAnimatedEmojiEffect(AnimatedEmojiEffect.createFrom(animatedEmojiDrawable, i5 == 0, true));
+                    boolean z3 = i5 == 0;
+                    animationView.setAnimatedEmojiEffect(AnimatedEmojiEffect.createFrom(animatedEmojiDrawable, z3, !z3));
                     r2 = 0;
                     this.windowView.setClipChildren(false);
                     animationView2.getImageReceiver().setAutoRepeat(r2);

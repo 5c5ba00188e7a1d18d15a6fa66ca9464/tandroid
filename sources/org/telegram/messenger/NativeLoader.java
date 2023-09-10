@@ -11,10 +11,10 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 /* loaded from: classes.dex */
 public class NativeLoader {
-    private static final String LIB_NAME = "tmessages.45";
-    private static final String LIB_SO_NAME = "libtmessages.45.so";
-    private static final int LIB_VERSION = 45;
-    private static final String LOCALE_LIB_SO_NAME = "libtmessages.45loc.so";
+    private static final String LIB_NAME = "tmessages.46";
+    private static final String LIB_SO_NAME = "libtmessages.46.so";
+    private static final int LIB_VERSION = 46;
+    private static final String LOCALE_LIB_SO_NAME = "libtmessages.46loc.so";
     public static StringBuilder log = new StringBuilder();
     private static volatile boolean nativeLoaded = false;
 
@@ -182,7 +182,7 @@ public class NativeLoader {
             } catch (Error e) {
                 FileLog.e(e);
                 StringBuilder sb = log;
-                sb.append("129: ");
+                sb.append("128: ");
                 sb.append(e);
                 sb.append("\n");
                 String abiFolder = getAbiFolder();
@@ -216,7 +216,7 @@ public class NativeLoader {
                             } catch (Error e3) {
                                 FileLog.e(e3);
                                 StringBuilder sb4 = log;
-                                sb4.append("185: ");
+                                sb4.append("184: ");
                                 sb4.append(e3);
                                 sb4.append("\n");
                             }

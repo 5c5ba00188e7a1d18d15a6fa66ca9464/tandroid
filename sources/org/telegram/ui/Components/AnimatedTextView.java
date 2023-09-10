@@ -317,7 +317,7 @@ public class AnimatedTextView extends View {
                     canvas.save();
                     int i6 = this.bounds.right;
                     float f20 = this.rightPadding;
-                    canvas.drawRect((i6 - f20) - dp, rect.top, i6 - f20, rect.bottom, this.ellipsizePaint);
+                    canvas.drawRect((i6 - f20) - dp, rect.top, (i6 - f20) + AndroidUtilities.dp(1.0f), this.bounds.bottom, this.ellipsizePaint);
                     canvas.restore();
                     canvas.restore();
                     return;
@@ -909,6 +909,17 @@ public class AnimatedTextView extends View {
         @Override // android.graphics.drawable.Drawable
         public android.graphics.Rect getDirtyBounds() {
             return this.bounds;
+        }
+
+        public float isNotEmpty() {
+            CharSequence charSequence = this.oldText;
+            float f = 0.0f;
+            float f2 = (charSequence == null || charSequence.length() <= 0) ? 0.0f : 1.0f;
+            CharSequence charSequence2 = this.currentText;
+            if (charSequence2 != null && charSequence2.length() > 0) {
+                f = 1.0f;
+            }
+            return AndroidUtilities.lerp(f2, f, this.oldText != null ? this.t : 1.0f);
         }
     }
 

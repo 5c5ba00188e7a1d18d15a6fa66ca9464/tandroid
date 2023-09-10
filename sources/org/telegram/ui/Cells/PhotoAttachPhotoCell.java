@@ -45,6 +45,7 @@ import org.telegram.ui.Components.CheckBox2;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.spoilers.SpoilerEffect;
+import org.telegram.ui.Components.spoilers.SpoilerEffect2;
 import org.telegram.ui.PhotoViewer;
 /* loaded from: classes3.dex */
 public class PhotoAttachPhotoCell extends FrameLayout {
@@ -71,6 +72,7 @@ public class PhotoAttachPhotoCell extends FrameLayout {
     private final Theme.ResourcesProvider resourcesProvider;
     private MediaController.SearchImage searchEntry;
     private SpoilerEffect spoilerEffect;
+    private SpoilerEffect2 spoilerEffect2;
     private float spoilerMaxRadius;
     private float spoilerRevealProgress;
     private float spoilerRevealX;
@@ -93,11 +95,34 @@ public class PhotoAttachPhotoCell extends FrameLayout {
         this.imageViewCrossfadeProgress = 1.0f;
         this.resourcesProvider = resourcesProvider;
         setWillNotDraw(false);
-        FrameLayout frameLayout = new FrameLayout(context);
+        FrameLayout frameLayout = new FrameLayout(context) { // from class: org.telegram.ui.Cells.PhotoAttachPhotoCell.1
+            @Override // android.view.ViewGroup
+            protected boolean drawChild(Canvas canvas, View view, long j) {
+                if (PhotoAttachPhotoCell.this.spoilerEffect2 != null && view == PhotoAttachPhotoCell.this.imageView) {
+                    boolean drawChild = super.drawChild(canvas, view, j);
+                    if (PhotoAttachPhotoCell.this.hasSpoiler && PhotoAttachPhotoCell.this.spoilerRevealProgress != 1.0f && (PhotoAttachPhotoCell.this.photoEntry == null || !PhotoAttachPhotoCell.this.photoEntry.isAttachSpoilerRevealed)) {
+                        if (PhotoAttachPhotoCell.this.spoilerRevealProgress != 0.0f) {
+                            canvas.save();
+                            PhotoAttachPhotoCell.this.path.rewind();
+                            PhotoAttachPhotoCell.this.path.addCircle(PhotoAttachPhotoCell.this.spoilerRevealX, PhotoAttachPhotoCell.this.spoilerRevealY, PhotoAttachPhotoCell.this.spoilerMaxRadius * PhotoAttachPhotoCell.this.spoilerRevealProgress, Path.Direction.CW);
+                            canvas.clipPath(PhotoAttachPhotoCell.this.path, Region.Op.DIFFERENCE);
+                        }
+                        CubicBezierInterpolator.DEFAULT.getInterpolation(1.0f - PhotoAttachPhotoCell.this.imageViewCrossfadeProgress);
+                        boolean unused = PhotoAttachPhotoCell.this.hasSpoiler;
+                        PhotoAttachPhotoCell.this.spoilerEffect2.draw(canvas, PhotoAttachPhotoCell.this.container, PhotoAttachPhotoCell.this.imageView.getMeasuredWidth(), PhotoAttachPhotoCell.this.imageView.getMeasuredHeight());
+                        if (PhotoAttachPhotoCell.this.spoilerRevealProgress != 0.0f) {
+                            canvas.restore();
+                        }
+                    }
+                    return drawChild;
+                }
+                return super.drawChild(canvas, view, j);
+            }
+        };
         this.container = frameLayout;
         addView(frameLayout, LayoutHelper.createFrame(80, 80.0f));
         this.spoilerEffect.setColor(ColorUtils.setAlphaComponent(-1, (int) (Color.alpha(-1) * 0.325f)));
-        BackupImageView backupImageView = new BackupImageView(context) { // from class: org.telegram.ui.Cells.PhotoAttachPhotoCell.1
+        BackupImageView backupImageView = new BackupImageView(context) { // from class: org.telegram.ui.Cells.PhotoAttachPhotoCell.2
             private Paint crossfadePaint = new Paint(1);
             private long lastUpdate;
 
@@ -129,8 +154,10 @@ public class PhotoAttachPhotoCell extends FrameLayout {
                         canvas.clipPath(PhotoAttachPhotoCell.this.path, Region.Op.DIFFERENCE);
                     }
                     this.blurImageReceiver.draw(canvas);
-                    PhotoAttachPhotoCell.this.spoilerEffect.setBounds(0, 0, getWidth(), getHeight());
-                    PhotoAttachPhotoCell.this.spoilerEffect.draw(canvas);
+                    if (PhotoAttachPhotoCell.this.spoilerEffect2 == null) {
+                        PhotoAttachPhotoCell.this.spoilerEffect.setBounds(0, 0, getWidth(), getHeight());
+                        PhotoAttachPhotoCell.this.spoilerEffect.draw(canvas);
+                    }
                     invalidate();
                     if (PhotoAttachPhotoCell.this.spoilerRevealProgress != 0.0f) {
                         canvas.restore();
@@ -154,12 +181,22 @@ public class PhotoAttachPhotoCell extends FrameLayout {
                 photoAttachPhotoCell.imageViewCrossfadeProgress = Math.min(1.0f, photoAttachPhotoCell.imageViewCrossfadeProgress + (((float) min) / floatValue));
                 this.lastUpdate = System.currentTimeMillis();
                 invalidate();
+                if (PhotoAttachPhotoCell.this.spoilerEffect2 != null) {
+                    PhotoAttachPhotoCell.this.container.invalidate();
+                }
+            }
+
+            @Override // android.view.View
+            protected void onMeasure(int i, int i2) {
+                super.onMeasure(i, i2);
+                PhotoAttachPhotoCell photoAttachPhotoCell = PhotoAttachPhotoCell.this;
+                photoAttachPhotoCell.updateSpoilers2(photoAttachPhotoCell.photoEntry != null && PhotoAttachPhotoCell.this.photoEntry.hasSpoiler);
             }
         };
         this.imageView = backupImageView;
         backupImageView.setBlurAllowed(true);
         this.container.addView(this.imageView, LayoutHelper.createFrame(-1, -1.0f));
-        FrameLayout frameLayout2 = new FrameLayout(this, context) { // from class: org.telegram.ui.Cells.PhotoAttachPhotoCell.2
+        FrameLayout frameLayout2 = new FrameLayout(this, context) { // from class: org.telegram.ui.Cells.PhotoAttachPhotoCell.3
             private RectF rect = new RectF();
 
             @Override // android.view.View
@@ -221,6 +258,51 @@ public class PhotoAttachPhotoCell extends FrameLayout {
             this.crossfadeDuration = f;
             this.imageView.setHasBlur(z);
             this.imageView.invalidate();
+            if (z) {
+                updateSpoilers2(z);
+            }
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void updateSpoilers2(boolean z) {
+        BackupImageView backupImageView;
+        if (this.container == null || (backupImageView = this.imageView) == null || backupImageView.getMeasuredHeight() <= 0 || this.imageView.getMeasuredWidth() <= 0) {
+            return;
+        }
+        if (z && SpoilerEffect2.supports()) {
+            if (this.spoilerEffect2 == null) {
+                this.spoilerEffect2 = SpoilerEffect2.getInstance(this.container);
+                return;
+            }
+            return;
+        }
+        SpoilerEffect2 spoilerEffect2 = this.spoilerEffect2;
+        if (spoilerEffect2 != null) {
+            spoilerEffect2.detach(this);
+            this.spoilerEffect2 = null;
+        }
+    }
+
+    @Override // android.view.ViewGroup, android.view.View
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        SpoilerEffect2 spoilerEffect2 = this.spoilerEffect2;
+        if (spoilerEffect2 != null) {
+            spoilerEffect2.detach(this);
+        }
+    }
+
+    @Override // android.view.ViewGroup, android.view.View
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        SpoilerEffect2 spoilerEffect2 = this.spoilerEffect2;
+        if (spoilerEffect2 != null) {
+            if (spoilerEffect2.destroyed) {
+                this.spoilerEffect2 = SpoilerEffect2.getInstance(this);
+            } else {
+                spoilerEffect2.attach(this);
+            }
         }
     }
 
@@ -396,7 +478,7 @@ public class PhotoAttachPhotoCell extends FrameLayout {
                 animatorArr[1] = ObjectAnimator.ofFloat(frameLayout2, property2, fArr2);
                 animatorSet2.playTogether(animatorArr);
                 this.animator.setDuration(200L);
-                this.animator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.PhotoAttachPhotoCell.4
+                this.animator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.PhotoAttachPhotoCell.5
                     @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                     public void onAnimationEnd(Animator animator) {
                         if (PhotoAttachPhotoCell.this.animator == null || !PhotoAttachPhotoCell.this.animator.equals(animator)) {
@@ -472,7 +554,7 @@ public class PhotoAttachPhotoCell extends FrameLayout {
             fArr2[0] = z ? 1.0f : 0.0f;
             animatorArr[1] = ObjectAnimator.ofFloat(checkBox2, property2, fArr2);
             animatorSet3.playTogether(animatorArr);
-            this.animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.PhotoAttachPhotoCell.5
+            this.animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.PhotoAttachPhotoCell.6
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationEnd(Animator animator) {
                     if (animator.equals(PhotoAttachPhotoCell.this.animatorSet)) {

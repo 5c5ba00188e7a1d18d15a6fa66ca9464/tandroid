@@ -134,7 +134,7 @@ public class FilterShaders {
     private int[] renderTexture = new int[4];
     private int[] bitmapTextre = new int[1];
     private int[] curveTextures = new int[1];
-    private boolean scaleBitmap = true;
+    public boolean scaleBitmap = true;
 
     /* loaded from: classes4.dex */
     public interface FilterShadersDelegate {
@@ -652,6 +652,11 @@ public class FilterShaders {
 
     public void setDelegate(FilterShadersDelegate filterShadersDelegate) {
         this.delegate = filterShadersDelegate;
+    }
+
+    public boolean drawOriginal() {
+        FilterShadersDelegate filterShadersDelegate = this.delegate;
+        return filterShadersDelegate == null || filterShadersDelegate.shouldShowOriginal();
     }
 
     public boolean create() {
@@ -1485,6 +1490,10 @@ public class FilterShaders {
 
     public FloatBuffer getVertexBuffer() {
         return this.vertexBuffer;
+    }
+
+    public FloatBuffer getVertexInvertBuffer() {
+        return this.vertexInvertBuffer;
     }
 
     public int getRenderBufferWidth() {

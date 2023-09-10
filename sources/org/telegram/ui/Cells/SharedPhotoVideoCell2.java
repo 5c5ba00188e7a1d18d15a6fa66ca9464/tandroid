@@ -24,6 +24,7 @@ import android.text.TextUtils;
 import android.util.SparseArray;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.FrameLayout;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.ColorUtils;
 import androidx.core.math.MathUtils;
@@ -48,10 +49,11 @@ import org.telegram.ui.Components.CombinedDrawable;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.FlickerLoadingView;
 import org.telegram.ui.Components.spoilers.SpoilerEffect;
+import org.telegram.ui.Components.spoilers.SpoilerEffect2;
 import org.telegram.ui.PhotoViewer;
 import org.telegram.ui.Stories.recorder.DominantColors;
 /* loaded from: classes3.dex */
-public class SharedPhotoVideoCell2 extends View {
+public class SharedPhotoVideoCell2 extends FrameLayout {
     static boolean lastAutoDownload;
     static long lastUpdateDownloadSettingsTime;
     ValueAnimator animator;
@@ -79,6 +81,7 @@ public class SharedPhotoVideoCell2 extends View {
     public boolean isLast;
     public boolean isStory;
     private SpoilerEffect mediaSpoilerEffect;
+    private SpoilerEffect2 mediaSpoilerEffect2;
     private Path path;
     SharedResources sharedResources;
     boolean showVideoLayout;
@@ -122,6 +125,7 @@ public class SharedPhotoVideoCell2 extends View {
                 ImageReceiver.ImageReceiverDelegate.-CC.$default$onAnimationReady(this, imageReceiver);
             }
         });
+        setWillNotDraw(false);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -173,6 +177,7 @@ public class SharedPhotoVideoCell2 extends View {
             this.currentMessageObject = messageObject;
             boolean z = true;
             this.isStory = messageObject != null && messageObject.isStory();
+            updateSpoilers2();
             if (messageObject == null) {
                 this.imageReceiver.onDetachedFromWindow();
                 this.blurImageReceiver.onDetachedFromWindow();
@@ -319,8 +324,8 @@ public class SharedPhotoVideoCell2 extends View {
         return this.currentParentColumnsCount == 9 ? AndroidUtilities.dpf2(0.5f) : AndroidUtilities.dpf2(1.0f);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:103:0x02ba, code lost:
-        if (r1.getProgress() != 0.0f) goto L75;
+    /* JADX WARN: Code restructure failed: missing block: B:107:0x02ed, code lost:
+        if (r1.getProgress() != 0.0f) goto L79;
      */
     @Override // android.view.View
     /*
@@ -430,9 +435,14 @@ public class SharedPhotoVideoCell2 extends View {
                     canvas.clipPath(this.path, Region.Op.DIFFERENCE);
                 }
                 this.blurImageReceiver.draw(canvas);
-                this.mediaSpoilerEffect.setColor(ColorUtils.setAlphaComponent(-1, (int) (Color.alpha(-1) * 0.325f)));
-                this.mediaSpoilerEffect.setBounds((int) this.imageReceiver.getImageX(), (int) this.imageReceiver.getImageY(), (int) this.imageReceiver.getImageX2(), (int) this.imageReceiver.getImageY2());
-                this.mediaSpoilerEffect.draw(canvas);
+                if (this.mediaSpoilerEffect2 != null) {
+                    canvas.clipRect(this.imageReceiver.getImageX(), this.imageReceiver.getImageY(), this.imageReceiver.getImageX2(), this.imageReceiver.getImageY2());
+                    this.mediaSpoilerEffect2.draw(canvas, this, (int) this.imageReceiver.getImageWidth(), (int) this.imageReceiver.getImageHeight());
+                } else {
+                    this.mediaSpoilerEffect.setColor(ColorUtils.setAlphaComponent(-1, (int) (Color.alpha(-1) * 0.325f)));
+                    this.mediaSpoilerEffect.setBounds((int) this.imageReceiver.getImageX(), (int) this.imageReceiver.getImageY(), (int) this.imageReceiver.getImageX2(), (int) this.imageReceiver.getImageY2());
+                    this.mediaSpoilerEffect.draw(canvas);
+                }
                 canvas.restore();
                 invalidate();
             }
@@ -564,7 +574,7 @@ public class SharedPhotoVideoCell2 extends View {
         invalidate();
     }
 
-    @Override // android.view.View
+    @Override // android.view.ViewGroup, android.view.View
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         this.attached = true;
@@ -576,9 +586,17 @@ public class SharedPhotoVideoCell2 extends View {
             this.imageReceiver.onAttachedToWindow();
             this.blurImageReceiver.onAttachedToWindow();
         }
+        SpoilerEffect2 spoilerEffect2 = this.mediaSpoilerEffect2;
+        if (spoilerEffect2 != null) {
+            if (spoilerEffect2.destroyed) {
+                this.mediaSpoilerEffect2 = SpoilerEffect2.getInstance(this);
+            } else {
+                spoilerEffect2.attach(this);
+            }
+        }
     }
 
-    @Override // android.view.View
+    @Override // android.view.ViewGroup, android.view.View
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         this.attached = false;
@@ -590,13 +608,17 @@ public class SharedPhotoVideoCell2 extends View {
             this.imageReceiver.onDetachedFromWindow();
             this.blurImageReceiver.onDetachedFromWindow();
         }
+        SpoilerEffect2 spoilerEffect2 = this.mediaSpoilerEffect2;
+        if (spoilerEffect2 != null) {
+            spoilerEffect2.detach(this);
+        }
     }
 
     public void setGradientView(FlickerLoadingView flickerLoadingView) {
         this.globalGradientView = flickerLoadingView;
     }
 
-    @Override // android.view.View
+    @Override // android.widget.FrameLayout, android.view.View
     protected void onMeasure(int i, int i2) {
         int size = View.MeasureSpec.getSize(i);
         boolean z = this.isStory;
@@ -605,6 +627,26 @@ public class SharedPhotoVideoCell2 extends View {
             i3 /= 2;
         }
         setMeasuredDimension(size, i3);
+        updateSpoilers2();
+    }
+
+    private void updateSpoilers2() {
+        if (getMeasuredHeight() <= 0 || getMeasuredWidth() <= 0) {
+            return;
+        }
+        MessageObject messageObject = this.currentMessageObject;
+        if (messageObject != null && messageObject.hasMediaSpoilers() && SpoilerEffect2.supports()) {
+            if (this.mediaSpoilerEffect2 == null) {
+                this.mediaSpoilerEffect2 = SpoilerEffect2.getInstance(this);
+                return;
+            }
+            return;
+        }
+        SpoilerEffect2 spoilerEffect2 = this.mediaSpoilerEffect2;
+        if (spoilerEffect2 != null) {
+            spoilerEffect2.detach(this);
+            this.mediaSpoilerEffect2 = null;
+        }
     }
 
     public int getMessageId() {

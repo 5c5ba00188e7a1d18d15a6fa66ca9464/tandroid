@@ -437,6 +437,19 @@ public final class ExoPlayerImpl extends BasePlayer implements ExoPlayer {
         updatePlaybackInfo(copyWithPlaybackParameters, 0, 1, false, false, 5, -9223372036854775807L, -1, false);
     }
 
+    @Override // com.google.android.exoplayer2.ExoPlayer
+    public void setSeekParameters(SeekParameters seekParameters) {
+        verifyApplicationThread();
+        if (seekParameters == null) {
+            seekParameters = SeekParameters.DEFAULT;
+        }
+        if (this.seekParameters.equals(seekParameters)) {
+            return;
+        }
+        this.seekParameters = seekParameters;
+        this.internalPlayer.setSeekParameters(seekParameters);
+    }
+
     @Override // com.google.android.exoplayer2.Player
     public void release() {
         AudioTrack audioTrack;

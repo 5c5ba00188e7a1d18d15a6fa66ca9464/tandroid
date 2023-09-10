@@ -314,6 +314,10 @@ public class ClippingImageView extends View {
         invalidate();
     }
 
+    public ImageReceiver.BitmapHolder getBitmapHolder() {
+        return this.bmp;
+    }
+
     public Bitmap getBitmap() {
         ImageReceiver.BitmapHolder bitmapHolder = this.bmp;
         if (bitmapHolder != null) {

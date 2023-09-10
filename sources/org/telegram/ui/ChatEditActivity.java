@@ -282,6 +282,9 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
 
         @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
         public boolean onDeletePhoto(int i) {
+            if (ChatEditActivity.this.userId == 0) {
+                return true;
+            }
             TLRPC$TL_photos_updateProfilePhoto tLRPC$TL_photos_updateProfilePhoto = new TLRPC$TL_photos_updateProfilePhoto();
             tLRPC$TL_photos_updateProfilePhoto.bot = ChatEditActivity.this.getMessagesController().getInputUser(ChatEditActivity.this.userId);
             tLRPC$TL_photos_updateProfilePhoto.flags |= 2;

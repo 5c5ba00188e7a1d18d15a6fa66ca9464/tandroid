@@ -586,7 +586,7 @@ public class FilterCreateActivity extends BaseFragment {
             }
         }
         if (arrayList.size() > (getUserConfig().isPremium() ? getMessagesController().dialogFiltersChatsLimitPremium : getMessagesController().dialogFiltersChatsLimitDefault)) {
-            showDialog(new LimitReachedBottomSheet(this, getContext(), 4, this.currentAccount));
+            showDialog(new LimitReachedBottomSheet(this, getContext(), 4, this.currentAccount, null));
         } else if (!arrayList.isEmpty()) {
             TLRPC$TL_chatlists_exportChatlistInvite tLRPC$TL_chatlists_exportChatlistInvite = new TLRPC$TL_chatlists_exportChatlistInvite();
             TLRPC$TL_inputChatlistDialogFilter tLRPC$TL_inputChatlistDialogFilter = new TLRPC$TL_inputChatlistDialogFilter();
@@ -2263,15 +2263,17 @@ public class FilterCreateActivity extends BaseFragment {
 
     /* loaded from: classes3.dex */
     public static class NewSpan extends ReplacementSpan {
+        Paint bgPaint;
         private int color;
         float height;
         StaticLayout layout;
         private boolean outline;
+        TextPaint textPaint;
         float width;
-        TextPaint textPaint = new TextPaint(1);
-        Paint bgPaint = new Paint(1);
 
         public NewSpan(boolean z) {
+            this.textPaint = new TextPaint(1);
+            this.bgPaint = new Paint(1);
             this.outline = z;
             this.textPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
             if (z) {
@@ -2288,6 +2290,15 @@ public class FilterCreateActivity extends BaseFragment {
             }
             this.bgPaint.setStyle(Paint.Style.FILL);
             this.textPaint.setTextSize(AndroidUtilities.dp(12.0f));
+        }
+
+        public NewSpan(float f) {
+            this.textPaint = new TextPaint(1);
+            this.bgPaint = new Paint(1);
+            this.outline = false;
+            this.textPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            this.bgPaint.setStyle(Paint.Style.FILL);
+            this.textPaint.setTextSize(AndroidUtilities.dp(f));
         }
 
         public void setColor(int i) {
@@ -2810,23 +2821,23 @@ public class FilterCreateActivity extends BaseFragment {
     public static boolean processErrors(TLRPC$TL_error tLRPC$TL_error, BaseFragment baseFragment, BulletinFactory bulletinFactory) {
         if (tLRPC$TL_error != null && !TextUtils.isEmpty(tLRPC$TL_error.text)) {
             if ("INVITE_PEERS_TOO_MUCH".equals(tLRPC$TL_error.text)) {
-                new LimitReachedBottomSheet(baseFragment, baseFragment.getContext(), 4, baseFragment.getCurrentAccount()).show();
+                new LimitReachedBottomSheet(baseFragment, baseFragment.getContext(), 4, baseFragment.getCurrentAccount(), null).show();
             } else if ("PEERS_LIST_EMPTY".equals(tLRPC$TL_error.text)) {
                 bulletinFactory.createErrorBulletin(LocaleController.getString("FolderLinkNoChatsError", R.string.FolderLinkNoChatsError)).show();
             } else if ("USER_CHANNELS_TOO_MUCH".equals(tLRPC$TL_error.text)) {
                 bulletinFactory.createErrorBulletin(LocaleController.getString("FolderLinkOtherAdminLimitError", R.string.FolderLinkOtherAdminLimitError)).show();
             } else if ("CHANNELS_TOO_MUCH".equals(tLRPC$TL_error.text)) {
-                new LimitReachedBottomSheet(baseFragment, baseFragment.getContext(), 5, baseFragment.getCurrentAccount()).show();
+                new LimitReachedBottomSheet(baseFragment, baseFragment.getContext(), 5, baseFragment.getCurrentAccount(), null).show();
             } else if ("INVITES_TOO_MUCH".equals(tLRPC$TL_error.text)) {
-                new LimitReachedBottomSheet(baseFragment, baseFragment.getContext(), 12, baseFragment.getCurrentAccount()).show();
+                new LimitReachedBottomSheet(baseFragment, baseFragment.getContext(), 12, baseFragment.getCurrentAccount(), null).show();
             } else if ("CHATLISTS_TOO_MUCH".equals(tLRPC$TL_error.text)) {
-                new LimitReachedBottomSheet(baseFragment, baseFragment.getContext(), 13, baseFragment.getCurrentAccount()).show();
+                new LimitReachedBottomSheet(baseFragment, baseFragment.getContext(), 13, baseFragment.getCurrentAccount(), null).show();
             } else if ("INVITE_SLUG_EXPIRED".equals(tLRPC$TL_error.text)) {
                 bulletinFactory.createErrorBulletin(LocaleController.getString("NoFolderFound", R.string.NoFolderFound)).show();
             } else if ("FILTER_INCLUDE_TOO_MUCH".equals(tLRPC$TL_error.text)) {
-                new LimitReachedBottomSheet(baseFragment, baseFragment.getContext(), 4, baseFragment.getCurrentAccount()).show();
+                new LimitReachedBottomSheet(baseFragment, baseFragment.getContext(), 4, baseFragment.getCurrentAccount(), null).show();
             } else if ("DIALOG_FILTERS_TOO_MUCH".equals(tLRPC$TL_error.text)) {
-                new LimitReachedBottomSheet(baseFragment, baseFragment.getContext(), 3, baseFragment.getCurrentAccount()).show();
+                new LimitReachedBottomSheet(baseFragment, baseFragment.getContext(), 3, baseFragment.getCurrentAccount(), null).show();
             } else {
                 bulletinFactory.createErrorBulletin(LocaleController.getString("UnknownError", R.string.UnknownError)).show();
             }

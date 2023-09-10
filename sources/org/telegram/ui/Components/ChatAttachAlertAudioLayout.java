@@ -493,15 +493,25 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
         new AlertDialog.Builder(getContext(), this.resourcesProvider).setTitle(LocaleController.getString("AppName", R.string.AppName)).setMessage(str).setPositiveButton(LocaleController.getString("OK", R.string.OK), null).show();
     }
 
+    /* JADX WARN: Removed duplicated region for block: B:22:0x0085  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     private void onItemClick(View view) {
         if (view instanceof SharedAudioCell) {
             SharedAudioCell sharedAudioCell = (SharedAudioCell) view;
             MediaController.AudioEntry audioEntry = (MediaController.AudioEntry) sharedAudioCell.getTag();
             boolean z = false;
-            if (this.selectedAudios.indexOfKey(audioEntry.id) >= 0) {
+            if (this.parentAlert.isStoryAudioPicker) {
+                this.sendPressed = true;
+                ArrayList<MessageObject> arrayList = new ArrayList<>();
+                arrayList.add(audioEntry.messageObject);
+                this.delegate.didSelectAudio(arrayList, this.parentAlert.commentTextView.getText(), false, 0);
+            } else if (this.selectedAudios.indexOfKey(audioEntry.id) >= 0) {
                 this.selectedAudios.remove(audioEntry.id);
                 this.selectedAudiosOrder.remove(audioEntry);
                 sharedAudioCell.setChecked(false, true);
+                this.parentAlert.updateCountButton(z ? 1 : 2);
             } else {
                 if (this.maxSelectedFiles >= 0) {
                     int size = this.selectedAudios.size();
@@ -514,8 +524,8 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
                 this.selectedAudios.put(audioEntry.id, audioEntry);
                 this.selectedAudiosOrder.add(audioEntry);
                 sharedAudioCell.setChecked(true, true);
-                z = true;
             }
+            z = true;
             this.parentAlert.updateCountButton(z ? 1 : 2);
         }
     }

@@ -36,7 +36,6 @@ import java.util.Locale;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
-import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SRPHelper;
@@ -309,7 +308,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
                 this.passwordEditText.setHintTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteHintText));
                 this.passwordEditText.setBackground(null);
                 this.passwordEditText.setSingleLine(true);
-                this.passwordEditText.setInputType(MessagesStorage.LAST_DB_VERSION);
+                this.passwordEditText.setInputType(129);
                 this.passwordEditText.setTransformationMethod(PasswordTransformationMethod.getInstance());
                 this.passwordEditText.setTypeface(Typeface.DEFAULT);
                 EditTextBoldCursor editTextBoldCursor2 = this.passwordEditText;
@@ -533,7 +532,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         this.passwordEditText.setHintTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteHintText));
         this.passwordEditText.setBackground(null);
         this.passwordEditText.setSingleLine(true);
-        this.passwordEditText.setInputType(MessagesStorage.LAST_DB_VERSION);
+        this.passwordEditText.setInputType(129);
         this.passwordEditText.setTransformationMethod(PasswordTransformationMethod.getInstance());
         this.passwordEditText.setTypeface(Typeface.DEFAULT);
         EditTextBoldCursor editTextBoldCursor22 = this.passwordEditText;

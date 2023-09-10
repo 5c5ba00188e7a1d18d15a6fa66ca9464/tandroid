@@ -228,6 +228,28 @@ public class FileLoader extends BaseController {
         return fileLoaderQueue;
     }
 
+    public void setLocalPathTo(TLObject tLObject, String str) {
+        int i;
+        if (tLObject instanceof TLRPC$Document) {
+            TLRPC$Document tLRPC$Document = (TLRPC$Document) tLObject;
+            if (tLRPC$Document.key != null) {
+                i = 4;
+            } else if (MessageObject.isVoiceDocument(tLRPC$Document)) {
+                i = 1;
+            } else {
+                i = MessageObject.isVideoDocument(tLRPC$Document) ? 2 : 3;
+            }
+            this.filePathDatabase.putPath(tLRPC$Document.id, tLRPC$Document.dc_id, i, 1, str);
+        } else if (tLObject instanceof TLRPC$PhotoSize) {
+            TLRPC$PhotoSize tLRPC$PhotoSize = (TLRPC$PhotoSize) tLObject;
+            if ((tLRPC$PhotoSize instanceof TLRPC$TL_photoStrippedSize) || (tLRPC$PhotoSize instanceof TLRPC$TL_photoPathSize)) {
+                return;
+            }
+            TLRPC$FileLocation tLRPC$FileLocation = tLRPC$PhotoSize.location;
+            this.filePathDatabase.putPath(tLRPC$FileLocation.volume_id, tLRPC$FileLocation.dc_id + (tLRPC$FileLocation.local_id << 16), (tLRPC$FileLocation == null || tLRPC$FileLocation.key != null || (tLRPC$FileLocation.volume_id == -2147483648L && tLRPC$FileLocation.local_id < 0) || tLRPC$PhotoSize.size < 0) ? 4 : 0, 1, str);
+        }
+    }
+
     public static FileLoader getInstance(int i) {
         FileLoader[] fileLoaderArr = Instance;
         FileLoader fileLoader = fileLoaderArr[i];
@@ -1222,12 +1244,17 @@ public class FileLoader extends BaseController {
 
         @Override // org.telegram.messenger.FileLoadOperation.FileLoadOperationDelegate
         public void saveFilePath(FilePathDatabase.PathData pathData, File file) {
-            FileLoader.this.getFileDatabase().putPath(pathData.id, pathData.dc, pathData.type, file != null ? file.toString() : null);
+            FileLoader.this.getFileDatabase().putPath(pathData.id, pathData.dc, pathData.type, 0, file != null ? file.toString() : null);
         }
 
         @Override // org.telegram.messenger.FileLoadOperation.FileLoadOperationDelegate
         public boolean hasAnotherRefOnFile(String str) {
             return FileLoader.this.getFileDatabase().hasAnotherRefOnFile(str);
+        }
+
+        @Override // org.telegram.messenger.FileLoadOperation.FileLoadOperationDelegate
+        public boolean isLocallyCreatedFile(String str) {
+            return FileLoader.this.getFileDatabase().isLocallyCreated(str);
         }
     }
 

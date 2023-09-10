@@ -59,6 +59,7 @@ public class StoryMediaAreasView extends FrameLayout implements View.OnClickList
         super(context);
         this.selectedArea = null;
         this.hintView = null;
+        new Matrix();
         this.rectF = new RectF();
         Paint paint = new Paint(1);
         this.cutPaint = paint;
@@ -67,6 +68,7 @@ public class StoryMediaAreasView extends FrameLayout implements View.OnClickList
         this.parentHighlightAlpha = new AnimatedFloat(this, 0L, 120L, new LinearInterpolator());
         this.shined = false;
         this.resourcesProvider = resourcesProvider;
+        setClipChildren(false);
         FrameLayout frameLayout = new FrameLayout(context);
         this.hintsContainer = frameLayout;
         addView(frameLayout);
@@ -148,7 +150,12 @@ public class StoryMediaAreasView extends FrameLayout implements View.OnClickList
                         StoryMediaAreasView.this.lambda$onClick$0();
                     }
                 }, 200L);
-                LocationActivity locationActivity = new LocationActivity(3);
+                LocationActivity locationActivity = new LocationActivity(this, 3) { // from class: org.telegram.ui.Stories.StoryMediaAreasView.1
+                    @Override // org.telegram.ui.LocationActivity
+                    protected boolean disablePermissionCheck() {
+                        return true;
+                    }
+                };
                 locationActivity.setResourceProvider(this.resourcesProvider);
                 TLRPC$TL_message tLRPC$TL_message = new TLRPC$TL_message();
                 TLRPC$MediaArea tLRPC$MediaArea = this.selectedArea.mediaArea;

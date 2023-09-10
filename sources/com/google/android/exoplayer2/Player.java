@@ -241,6 +241,8 @@ public interface Player {
 
     boolean isPlayingAd();
 
+    void pause();
+
     void prepare();
 
     void release();

@@ -8,6 +8,6 @@ public final /* synthetic */ class PaintView$$ExternalSyntheticLambda43 implemen
 
     @Override // java.lang.Runnable
     public final void run() {
-        PaintView.lambda$shutdown$25();
+        PaintView.lambda$shutdown$26();
     }
 }

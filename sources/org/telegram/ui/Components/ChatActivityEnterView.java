@@ -368,6 +368,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
     private Runnable openKeyboardRunnable;
     private int originalViewHeight;
     private CharSequence overrideHint;
+    private CharSequence overrideHint2;
     private boolean overrideKeyboardAnimation;
     private Paint paint;
     private AnimatorSet panelAnimation;
@@ -523,6 +524,9 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             public static void $default$onEditTextScroll(ChatActivityEnterViewDelegate chatActivityEnterViewDelegate) {
             }
 
+            public static void $default$onKeyboardRequested(ChatActivityEnterViewDelegate chatActivityEnterViewDelegate) {
+            }
+
             public static void $default$onTrendingStickersShowed(ChatActivityEnterViewDelegate chatActivityEnterViewDelegate, boolean z) {
             }
 
@@ -573,6 +577,8 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         void onContextMenuOpen();
 
         void onEditTextScroll();
+
+        void onKeyboardRequested();
 
         void onMessageEditEnd(boolean z);
 
@@ -2101,6 +2107,9 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                 ChatActivityEnterView chatActivityEnterView = ChatActivityEnterView.this;
                 if (chatActivityEnterView.messageEditText == null || !chatActivityEnterView.waitingForKeyboardOpen || ChatActivityEnterView.this.keyboardVisible || AndroidUtilities.usingHardwareInput || AndroidUtilities.isInMultiwindow) {
                     return;
+                }
+                if (ChatActivityEnterView.this.delegate != null) {
+                    ChatActivityEnterView.this.delegate.onKeyboardRequested();
                 }
                 ChatActivityEnterView.this.messageEditText.requestFocus();
                 AndroidUtilities.showKeyboard(ChatActivityEnterView.this.messageEditText);
@@ -5938,6 +5947,10 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         getVisibility();
         if (this.showKeyboardOnResume && (chatActivity = this.parentFragment) != null && chatActivity.isLastFragment()) {
             this.showKeyboardOnResume = false;
+            ChatActivityEnterViewDelegate chatActivityEnterViewDelegate = this.delegate;
+            if (chatActivityEnterViewDelegate != null) {
+                chatActivityEnterViewDelegate.onKeyboardRequested();
+            }
             if (this.searchingType == 0 && (editTextCaption = this.messageEditText) != null) {
                 editTextCaption.requestFocus();
             }
@@ -6115,6 +6128,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         CharSequence charSequence = this.overrideHint;
         if (charSequence != null) {
             editTextCaption.setHintText(charSequence, z);
+            this.messageEditText.setHintText2(this.overrideHint2, z);
             return;
         }
         boolean z3 = false;
@@ -6665,7 +6679,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         if (baseFragment != null) {
             new PremiumFeatureBottomSheet(baseFragment, 11, false).show();
         } else if (baseFragment.getContext() instanceof LaunchActivity) {
-            ((LaunchActivity) baseFragment.getContext()).lambda$runLinkRequest$80(new PremiumPreviewFragment(null));
+            ((LaunchActivity) baseFragment.getContext()).lambda$runLinkRequest$81(new PremiumPreviewFragment(null));
         }
     }
 
@@ -10992,6 +11006,10 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             return;
         }
         showPopup((AndroidUtilities.usingHardwareInput || AndroidUtilities.isInMultiwindow || ((chatActivity = this.parentFragment) != null && chatActivity.isInBubbleMode()) || this.isPaused) ? 0 : 2, 0);
+        ChatActivityEnterViewDelegate chatActivityEnterViewDelegate = this.delegate;
+        if (chatActivityEnterViewDelegate != null) {
+            chatActivityEnterViewDelegate.onKeyboardRequested();
+        }
         EditTextCaption editTextCaption = this.messageEditText;
         if (editTextCaption != null) {
             editTextCaption.requestFocus();
@@ -11031,8 +11049,15 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
     }
 
     public void openKeyboard() {
-        EditTextCaption editTextCaption;
-        if ((hasBotWebView() && botCommandsMenuIsShowing()) || (editTextCaption = this.messageEditText) == null || AndroidUtilities.showKeyboard(editTextCaption)) {
+        if (hasBotWebView() && botCommandsMenuIsShowing()) {
+            return;
+        }
+        ChatActivityEnterViewDelegate chatActivityEnterViewDelegate = this.delegate;
+        if (chatActivityEnterViewDelegate != null) {
+            chatActivityEnterViewDelegate.onKeyboardRequested();
+        }
+        EditTextCaption editTextCaption = this.messageEditText;
+        if (editTextCaption == null || AndroidUtilities.showKeyboard(editTextCaption)) {
             return;
         }
         this.messageEditText.clearFocus();
@@ -11403,7 +11428,6 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                         if (tLRPC$DocumentAttribute2 instanceof TLRPC$TL_documentAttributeAudio) {
                             byte[] bArr = tLRPC$DocumentAttribute2.waveform;
                             if (bArr == null || bArr.length == 0) {
-                                MediaController.getInstance();
                                 tLRPC$DocumentAttribute2.waveform = MediaController.getWaveform(this.audioToSendPath);
                             }
                             this.recordedAudioSeekBar.setWaveform(tLRPC$DocumentAttribute2.waveform);
@@ -12562,6 +12586,15 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                 view.invalidate();
             }
         }
+        if (this.messageEditText != null) {
+            float lerp = AndroidUtilities.lerp(0.88f, 1.0f, f2);
+            this.messageEditText.setPivotX(0.0f);
+            EditTextCaption editTextCaption = this.messageEditText;
+            editTextCaption.setPivotY(editTextCaption.getMeasuredHeight() / 2.0f);
+            this.messageEditText.setScaleX(lerp);
+            this.messageEditText.setScaleY(lerp);
+            this.messageEditText.setHintRightOffset(AndroidUtilities.lerp(AndroidUtilities.dp(30.0f), 0, f2));
+        }
     }
 
     public void updateMessageTextParams() {
@@ -12593,6 +12626,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
 
     public void setOverrideHint(CharSequence charSequence, boolean z) {
         this.overrideHint = charSequence;
+        this.overrideHint2 = null;
         updateFieldHint(z);
     }
 

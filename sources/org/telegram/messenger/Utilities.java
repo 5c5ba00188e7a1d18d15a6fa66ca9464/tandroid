@@ -13,6 +13,7 @@ import java.nio.ByteBuffer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.regex.Matcher;
@@ -44,8 +45,18 @@ public class Utilities {
     }
 
     /* loaded from: classes.dex */
+    public interface Callback2Return<T1, T2, ReturnType> {
+        ReturnType run(T1 t1, T2 t2);
+    }
+
+    /* loaded from: classes.dex */
     public interface Callback3<T, T2, T3> {
         void run(T t, T2 t2, T3 t3);
+    }
+
+    /* loaded from: classes.dex */
+    public interface Callback3Return<T1, T2, T3, ReturnType> {
+        ReturnType run(T1 t1, T2 t2, T3 t3);
     }
 
     /* loaded from: classes.dex */
@@ -54,8 +65,18 @@ public class Utilities {
     }
 
     /* loaded from: classes.dex */
+    public interface Callback5<T, T2, T3, T4, T5> {
+        void run(T t, T2 t2, T3 t3, T4 t4, T5 t5);
+    }
+
+    /* loaded from: classes.dex */
     public interface CallbackReturn<Arg, ReturnType> {
         ReturnType run(Arg arg);
+    }
+
+    /* loaded from: classes.dex */
+    public interface CallbackVoidReturn<ReturnType> {
+        ReturnType run();
     }
 
     public static native void aesCbcEncryption(ByteBuffer byteBuffer, byte[] bArr, byte[] bArr2, int i, int i2, int i3);
@@ -593,5 +614,9 @@ public class Utilities {
             videoPlayerQueue = new DispatchQueue("playerQueue");
         }
         return videoPlayerQueue;
+    }
+
+    public static boolean isNullOrEmpty(Collection<?> collection) {
+        return collection == null || collection.isEmpty();
     }
 }
