@@ -113,6 +113,26 @@ public class WindowInsetsCompat {
     }
 
     @Deprecated
+    public int getStableInsetTop() {
+        return this.mImpl.getStableInsets().top;
+    }
+
+    @Deprecated
+    public int getStableInsetLeft() {
+        return this.mImpl.getStableInsets().left;
+    }
+
+    @Deprecated
+    public int getStableInsetRight() {
+        return this.mImpl.getStableInsets().right;
+    }
+
+    @Deprecated
+    public int getStableInsetBottom() {
+        return this.mImpl.getStableInsets().bottom;
+    }
+
+    @Deprecated
     public WindowInsetsCompat consumeStableInsets() {
         return this.mImpl.consumeStableInsets();
     }

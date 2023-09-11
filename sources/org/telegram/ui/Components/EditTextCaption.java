@@ -35,6 +35,7 @@ import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.utils.CopyUtilities;
 import org.telegram.ui.ActionBar.AlertDialog;
+import org.telegram.ui.ActionBar.AlertDialogDecor;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.TextStyleSpan;
 /* loaded from: classes4.dex */
@@ -43,6 +44,7 @@ public class EditTextCaption extends EditTextBoldCursor {
     private String caption;
     private StaticLayout captionLayout;
     private boolean copyPasteShowed;
+    private AlertDialog creationLinkDialog;
     private EditTextCaptionDelegate delegate;
     private int hintColor;
     private boolean isInitLineCount;
@@ -160,7 +162,7 @@ public class EditTextCaption extends EditTextBoldCursor {
 
     public void makeSelectedUrl() {
         final int selectionEnd;
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), this.resourcesProvider);
+        AlertDialogDecor.Builder builder = new AlertDialogDecor.Builder(getContext(), this.resourcesProvider);
         builder.setTitle(LocaleController.getString("CreateLink", R.string.CreateLink));
         final EditTextBoldCursor editTextBoldCursor = new EditTextBoldCursor(this, getContext()) { // from class: org.telegram.ui.Components.EditTextCaption.2
             /* JADX INFO: Access modifiers changed from: protected */
@@ -198,12 +200,21 @@ public class EditTextCaption extends EditTextBoldCursor {
             }
         });
         builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-        builder.show().setOnShowListener(new DialogInterface.OnShowListener() { // from class: org.telegram.ui.Components.EditTextCaption$$ExternalSyntheticLambda1
-            @Override // android.content.DialogInterface.OnShowListener
-            public final void onShow(DialogInterface dialogInterface) {
-                EditTextCaption.lambda$makeSelectedUrl$1(EditTextBoldCursor.this, dialogInterface);
+        AlertDialog create = builder.create();
+        this.creationLinkDialog = create;
+        create.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Components.EditTextCaption$$ExternalSyntheticLambda1
+            @Override // android.content.DialogInterface.OnDismissListener
+            public final void onDismiss(DialogInterface dialogInterface) {
+                EditTextCaption.this.lambda$makeSelectedUrl$1(dialogInterface);
             }
         });
+        this.creationLinkDialog.setOnShowListener(new DialogInterface.OnShowListener() { // from class: org.telegram.ui.Components.EditTextCaption$$ExternalSyntheticLambda2
+            @Override // android.content.DialogInterface.OnShowListener
+            public final void onShow(DialogInterface dialogInterface) {
+                EditTextCaption.lambda$makeSelectedUrl$2(EditTextBoldCursor.this, dialogInterface);
+            }
+        });
+        this.creationLinkDialog.showDelayed(250L);
         ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) editTextBoldCursor.getLayoutParams();
         if (marginLayoutParams != null) {
             if (marginLayoutParams instanceof FrameLayout.LayoutParams) {
@@ -248,9 +259,24 @@ public class EditTextCaption extends EditTextBoldCursor {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$makeSelectedUrl$1(EditTextBoldCursor editTextBoldCursor, DialogInterface dialogInterface) {
+    public /* synthetic */ void lambda$makeSelectedUrl$1(DialogInterface dialogInterface) {
+        this.creationLinkDialog = null;
+        requestFocus();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$makeSelectedUrl$2(EditTextBoldCursor editTextBoldCursor, DialogInterface dialogInterface) {
         editTextBoldCursor.requestFocus();
         AndroidUtilities.showKeyboard(editTextBoldCursor);
+    }
+
+    public boolean closeCreationLinkDialog() {
+        AlertDialog alertDialog = this.creationLinkDialog;
+        if (alertDialog == null || !alertDialog.isShowing()) {
+            return false;
+        }
+        this.creationLinkDialog.dismiss();
+        return true;
     }
 
     public void makeSelectedRegular() {

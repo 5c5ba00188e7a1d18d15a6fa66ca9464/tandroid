@@ -10,8 +10,8 @@ public final /* synthetic */ class AlertsCreator$$ExternalSyntheticLambda120 imp
 
     @Override // org.telegram.ui.Components.NumberPicker.Formatter
     public final String format(int i) {
-        String lambda$createCalendarPickerDialog$96;
-        lambda$createCalendarPickerDialog$96 = AlertsCreator.lambda$createCalendarPickerDialog$96(i);
-        return lambda$createCalendarPickerDialog$96;
+        String lambda$createSoundFrequencyPickerDialog$84;
+        lambda$createSoundFrequencyPickerDialog$84 = AlertsCreator.lambda$createSoundFrequencyPickerDialog$84(i);
+        return lambda$createSoundFrequencyPickerDialog$84;
     }
 }

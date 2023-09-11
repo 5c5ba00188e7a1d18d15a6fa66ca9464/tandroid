@@ -379,6 +379,7 @@ public class MessageObject {
     public Boolean cachedIsSupergroup;
     public boolean cancelEditing;
     public CharSequence caption;
+    public int captionHeight;
     private boolean captionTranslated;
     public ArrayList<TLRPC$TL_pollAnswer> checkedVotes;
     public int contentType;
@@ -5856,13 +5857,14 @@ public class MessageObject {
         return false;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:23:0x004a  */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x004c  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void generateCaption() {
         boolean z;
         boolean z2;
+        StaticLayout staticLayout;
         TLRPC$StoryItem tLRPC$StoryItem;
         if ((this.caption == null || this.translated != this.captionTranslated) && !isRoundVideo()) {
             TLRPC$Message tLRPC$Message = this.messageOwner;
@@ -5879,9 +5881,8 @@ public class MessageObject {
                     this.captionTranslated = z2;
                     if (z2) {
                         TLRPC$TL_textWithEntities tLRPC$TL_textWithEntities = this.messageOwner.translatedText;
-                        String str2 = tLRPC$TL_textWithEntities.text;
+                        str = tLRPC$TL_textWithEntities.text;
                         arrayList = tLRPC$TL_textWithEntities.entities;
-                        str = str2;
                     }
                     if (!isMediaEmpty() || (getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaGame) || TextUtils.isEmpty(str)) {
                         return;
@@ -5889,6 +5890,21 @@ public class MessageObject {
                     CharSequence replaceEmoji = Emoji.replaceEmoji(str, Theme.chat_msgTextPaint.getFontMetricsInt(), AndroidUtilities.dp(20.0f), false);
                     this.caption = replaceEmoji;
                     this.caption = replaceAnimatedEmoji(replaceEmoji, arrayList, Theme.chat_msgTextPaint.getFontMetricsInt(), false);
+                    int maxMessageTextWidth = getMaxMessageTextWidth();
+                    Layout.Alignment alignment = Layout.Alignment.ALIGN_NORMAL;
+                    StaticLayout staticLayout2 = null;
+                    try {
+                        if (Build.VERSION.SDK_INT >= 24) {
+                            CharSequence charSequence = this.caption;
+                            staticLayout = StaticLayout.Builder.obtain(charSequence, 0, charSequence.length(), Theme.chat_msgTextPaint, maxMessageTextWidth).setLineSpacing(0.0f, 1.0f).setBreakStrategy(1).setHyphenationFrequency(0).setAlignment(alignment).build();
+                        } else {
+                            staticLayout = new StaticLayout(this.caption, Theme.chat_msgTextPaint, maxMessageTextWidth, alignment, 1.0f, 0.0f, false);
+                        }
+                        staticLayout2 = staticLayout;
+                    } catch (Exception e) {
+                        FileLog.e(e);
+                    }
+                    this.captionHeight = staticLayout2 == null ? 0 : staticLayout2.getHeight();
                     boolean z4 = this.messageOwner.send_state != 0 ? false : !arrayList.isEmpty();
                     if (!z && (z4 || (this.eventId == 0 && !(getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaPhoto_old) && !(getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaPhoto_layer68) && !(getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaPhoto_layer74) && !(getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaDocument_old) && !(getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaDocument_layer68) && !(getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaDocument_layer74) && ((!isOut() || this.messageOwner.send_state == 0) && this.messageOwner.id >= 0)))) {
                         z3 = false;
@@ -5897,8 +5913,8 @@ public class MessageObject {
                         if (containsUrls(this.caption)) {
                             try {
                                 AndroidUtilities.addLinks((Spannable) this.caption, 5);
-                            } catch (Exception e) {
-                                FileLog.e(e);
+                            } catch (Exception e2) {
+                                FileLog.e(e2);
                             }
                         }
                         addUrlsByPattern(isOutOwner(), this.caption, true, 0, 0, true);
@@ -8449,6 +8465,10 @@ public class MessageObject {
                     }
                     dp = (int) (min2 * 0.5f);
                 }
+            }
+            CharSequence charSequence = this.caption;
+            if (charSequence != null && !TextUtils.isEmpty(charSequence)) {
+                dp += this.captionHeight;
             }
             return dp + AndroidUtilities.dp(14.0f);
         }

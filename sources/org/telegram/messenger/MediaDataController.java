@@ -878,7 +878,7 @@ public class MediaDataController extends BaseController {
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:34:0x008e  */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x0094  */
     /* JADX WARN: Type inference failed for: r7v2, types: [org.telegram.tgnet.TLRPC$TL_attachMenuBots] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -887,79 +887,82 @@ public class MediaDataController extends BaseController {
         long j;
         Exception exc;
         TLRPC$TL_attachMenuBots tLRPC$TL_attachMenuBots;
-        SQLiteCursor sQLiteCursor;
         int i;
+        int i2;
         SQLiteCursor queryFinalized;
+        int i3;
         long j2 = 0;
         try {
             try {
                 queryFinalized = getMessagesStorage().getDatabase().queryFinalized("SELECT data, hash, date FROM attach_menu_bots", new Object[0]);
-            } catch (Throwable th) {
-                th = th;
+            } catch (Exception e) {
+                j = 0;
+                exc = e;
+                tLRPC$TL_attachMenuBots = null;
             }
-            try {
-                try {
-                    if (queryFinalized.next()) {
-                        NativeByteBuffer byteBufferValue = queryFinalized.byteBufferValue(0);
-                        if (byteBufferValue != null) {
-                            TLRPC$AttachMenuBots TLdeserialize = TLRPC$AttachMenuBots.TLdeserialize(byteBufferValue, byteBufferValue.readInt32(false), true);
-                            r1 = TLdeserialize instanceof TLRPC$TL_attachMenuBots ? (TLRPC$TL_attachMenuBots) TLdeserialize : null;
-                            byteBufferValue.reuse();
-                        }
-                        j2 = queryFinalized.longValue(1);
-                        j = j2;
-                        tLRPC$TL_attachMenuBots = r1;
-                        r1 = queryFinalized.intValue(2);
-                    } else {
-                        j = 0;
-                        tLRPC$TL_attachMenuBots = null;
-                        r1 = null;
-                    }
-                } catch (Exception e) {
-                    j = j2;
-                    exc = e;
-                    tLRPC$TL_attachMenuBots = r1;
-                    r1 = queryFinalized;
-                    sQLiteCursor = null;
-                    FileLog.e((Throwable) exc, false);
-                    if (r1 != null) {
-                        r1.dispose();
-                    }
-                    i = sQLiteCursor;
-                    processLoadedMenuBots(tLRPC$TL_attachMenuBots, j, i, true);
-                }
-                try {
-                    ArrayList<Long> arrayList = new ArrayList<>();
-                    for (int i2 = 0; i2 < tLRPC$TL_attachMenuBots.bots.size(); i2++) {
-                        arrayList.add(Long.valueOf(tLRPC$TL_attachMenuBots.bots.get(i2).bot_id));
-                    }
-                    tLRPC$TL_attachMenuBots.users = getMessagesStorage().getUsers(arrayList);
-                    queryFinalized.dispose();
-                    i = r1;
-                } catch (Exception e2) {
-                    exc = e2;
-                    sQLiteCursor = r1;
-                    r1 = queryFinalized;
-                    FileLog.e((Throwable) exc, false);
-                    if (r1 != null) {
-                    }
-                    i = sQLiteCursor;
-                    processLoadedMenuBots(tLRPC$TL_attachMenuBots, j, i, true);
-                }
-            } catch (Throwable th2) {
-                th = th2;
-                r1 = queryFinalized;
-                if (r1 != null) {
-                    r1.dispose();
-                }
-                throw th;
-            }
-        } catch (Exception e3) {
-            j = 0;
-            exc = e3;
-            tLRPC$TL_attachMenuBots = null;
+        } catch (Throwable th) {
+            th = th;
         }
-        processLoadedMenuBots(tLRPC$TL_attachMenuBots, j, i, true);
+        try {
+            try {
+                if (queryFinalized.next()) {
+                    NativeByteBuffer byteBufferValue = queryFinalized.byteBufferValue(0);
+                    if (byteBufferValue != null) {
+                        TLRPC$AttachMenuBots TLdeserialize = TLRPC$AttachMenuBots.TLdeserialize(byteBufferValue, byteBufferValue.readInt32(false), true);
+                        r1 = TLdeserialize instanceof TLRPC$TL_attachMenuBots ? (TLRPC$TL_attachMenuBots) TLdeserialize : null;
+                        byteBufferValue.reuse();
+                    }
+                    j2 = queryFinalized.longValue(1);
+                    j = j2;
+                    tLRPC$TL_attachMenuBots = r1;
+                    i3 = queryFinalized.intValue(2);
+                } else {
+                    j = 0;
+                    tLRPC$TL_attachMenuBots = null;
+                    i3 = 0;
+                }
+                if (tLRPC$TL_attachMenuBots != null) {
+                    try {
+                        ArrayList<Long> arrayList = new ArrayList<>();
+                        for (int i4 = 0; i4 < tLRPC$TL_attachMenuBots.bots.size(); i4++) {
+                            arrayList.add(Long.valueOf(tLRPC$TL_attachMenuBots.bots.get(i4).bot_id));
+                        }
+                        tLRPC$TL_attachMenuBots.users.addAll(getMessagesStorage().getUsers(arrayList));
+                    } catch (Exception e2) {
+                        exc = e2;
+                        i = i3;
+                        r1 = queryFinalized;
+                        FileLog.e((Throwable) exc, false);
+                        if (r1 != null) {
+                            r1.dispose();
+                        }
+                        i2 = i;
+                        processLoadedMenuBots(tLRPC$TL_attachMenuBots, j, i2, true);
+                    }
+                }
+                queryFinalized.dispose();
+                i2 = i3;
+            } catch (Exception e3) {
+                j = j2;
+                exc = e3;
+                tLRPC$TL_attachMenuBots = r1;
+                r1 = queryFinalized;
+                i = 0;
+                FileLog.e((Throwable) exc, false);
+                if (r1 != null) {
+                }
+                i2 = i;
+                processLoadedMenuBots(tLRPC$TL_attachMenuBots, j, i2, true);
+            }
+            processLoadedMenuBots(tLRPC$TL_attachMenuBots, j, i2, true);
+        } catch (Throwable th2) {
+            th = th2;
+            r1 = queryFinalized;
+            if (r1 != null) {
+                r1.dispose();
+            }
+            throw th;
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -986,6 +989,9 @@ public class MediaDataController extends BaseController {
         edit.putInt("menuBotsUpdateDate", i).commit();
         this.menuBotsUpdatedLocal = true;
         if (tLRPC$TL_attachMenuBots != null) {
+            if (!z) {
+                getMessagesStorage().putUsersAndChats(tLRPC$TL_attachMenuBots.users, null, true, false);
+            }
             getMessagesController().putUsers(tLRPC$TL_attachMenuBots.users, z);
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda15
                 @Override // java.lang.Runnable

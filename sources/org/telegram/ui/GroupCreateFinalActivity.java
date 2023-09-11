@@ -22,6 +22,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.text.InputFilter;
+import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -281,6 +282,48 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
         }
         this.editText.hidePopup(true);
         return false;
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:25:0x00b4  */
+    /* JADX WARN: Removed duplicated region for block: B:32:? A[RETURN, SYNTHETIC] */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    private void setDefaultGroupName() {
+        String formatString;
+        TLRPC$User currentUser = getUserConfig().getCurrentUser();
+        int size = this.selectedContacts.size() + 1;
+        if (size < 2 || size > 5 || !TextUtils.isEmpty(this.editText.getText())) {
+            return;
+        }
+        String str = "";
+        try {
+        } catch (Exception e) {
+            FileLog.e(e);
+        }
+        if (size == 2) {
+            formatString = LocaleController.formatString("GroupCreateMembersTwo", R.string.GroupCreateMembersTwo, currentUser.first_name, getFirstNameByPos(0));
+        } else if (size == 3) {
+            formatString = LocaleController.formatString("GroupCreateMembersThree", R.string.GroupCreateMembersThree, currentUser.first_name, getFirstNameByPos(0), getFirstNameByPos(1));
+        } else if (size == 4) {
+            formatString = LocaleController.formatString("GroupCreateMembersFour", R.string.GroupCreateMembersFour, currentUser.first_name, getFirstNameByPos(0), getFirstNameByPos(1), getFirstNameByPos(2));
+        } else {
+            if (size == 5) {
+                formatString = LocaleController.formatString("GroupCreateMembersFive", R.string.GroupCreateMembersFive, currentUser.first_name, getFirstNameByPos(0), getFirstNameByPos(1), getFirstNameByPos(2), getFirstNameByPos(3));
+            }
+            if (TextUtils.isEmpty(str)) {
+                this.editText.setText(str);
+                return;
+            }
+            return;
+        }
+        str = formatString;
+        if (TextUtils.isEmpty(str)) {
+        }
+    }
+
+    private String getFirstNameByPos(int i) {
+        return getMessagesController().getUser(this.selectedContacts.get(i)).first_name;
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -560,6 +603,7 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
             this.editText.setText(str2);
             this.nameToSet = null;
         }
+        setDefaultGroupName();
         this.editText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(100)});
         FrameLayout frameLayout6 = this.editTextContainer;
         EditTextEmoji editTextEmoji3 = this.editText;

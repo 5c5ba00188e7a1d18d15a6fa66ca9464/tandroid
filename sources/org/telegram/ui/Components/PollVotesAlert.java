@@ -299,6 +299,7 @@ public class PollVotesAlert extends BottomSheet {
         private boolean needDivider;
         private float placeholderAlpha;
         private int placeholderNum;
+        private StatusBadgeComponent statusBadgeComponent;
 
         @Override // android.view.View
         public boolean hasOverlappingRendering() {
@@ -326,6 +327,7 @@ public class PollVotesAlert extends BottomSheet {
             SimpleTextView simpleTextView2 = this.nameTextView;
             boolean z2 = LocaleController.isRTL;
             addView(simpleTextView2, LayoutHelper.createFrame(-1, 20.0f, (z2 ? 5 : 3) | 48, z2 ? 28.0f : 65.0f, 14.0f, z2 ? 65.0f : 28.0f, 0.0f));
+            this.statusBadgeComponent = new StatusBadgeComponent(this.nameTextView);
         }
 
         public void setData(TLObject tLObject, int i, boolean z) {
@@ -373,6 +375,18 @@ public class PollVotesAlert extends BottomSheet {
         @Override // android.widget.FrameLayout, android.view.View
         protected void onMeasure(int i, int i2) {
             super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(48.0f) + (this.needDivider ? 1 : 0), 1073741824));
+        }
+
+        @Override // android.view.ViewGroup, android.view.View
+        protected void onAttachedToWindow() {
+            super.onAttachedToWindow();
+            this.statusBadgeComponent.onAttachedToWindow();
+        }
+
+        @Override // android.view.ViewGroup, android.view.View
+        protected void onDetachedFromWindow() {
+            this.statusBadgeComponent.onDetachedFromWindow();
+            super.onDetachedFromWindow();
         }
 
         /* JADX WARN: Code restructure failed: missing block: B:52:0x0074, code lost:
@@ -448,6 +462,7 @@ public class PollVotesAlert extends BottomSheet {
                 }
             }
             this.nameTextView.setText(this.lastName);
+            this.nameTextView.setRightDrawable(this.statusBadgeComponent.updateDrawable(this.currentUser, this.currentChat, Theme.getColor(Theme.key_chats_verifiedBackground), false));
             this.lastAvatar = tLRPC$FileLocation;
             TLRPC$Chat tLRPC$Chat5 = this.currentChat;
             if (tLRPC$Chat5 != null) {

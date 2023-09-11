@@ -2,10 +2,10 @@ package org.telegram.ui;
 
 import org.telegram.messenger.Utilities;
 /* loaded from: classes3.dex */
-public final /* synthetic */ class LaunchActivity$$ExternalSyntheticLambda92 implements Utilities.Callback {
+public final /* synthetic */ class LaunchActivity$$ExternalSyntheticLambda94 implements Utilities.Callback {
     public final /* synthetic */ LaunchActivity f$0;
 
-    public /* synthetic */ LaunchActivity$$ExternalSyntheticLambda92(LaunchActivity launchActivity) {
+    public /* synthetic */ LaunchActivity$$ExternalSyntheticLambda94(LaunchActivity launchActivity) {
         this.f$0 = launchActivity;
     }
 
