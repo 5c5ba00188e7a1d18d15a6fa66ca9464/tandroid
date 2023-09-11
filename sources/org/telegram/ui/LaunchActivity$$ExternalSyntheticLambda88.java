@@ -8,6 +8,6 @@ public final /* synthetic */ class LaunchActivity$$ExternalSyntheticLambda88 imp
 
     @Override // java.lang.Runnable
     public final void run() {
-        LaunchActivity.lambda$runLinkRequest$51();
+        LaunchActivity.lambda$onResume$110();
     }
 }

@@ -23412,18 +23412,16 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$openAttachBotLayout$149(final TLRPC$User tLRPC$User, Boolean bool) {
-        if (bool.booleanValue()) {
-            TLRPC$TL_messages_toggleBotInAttachMenu tLRPC$TL_messages_toggleBotInAttachMenu = new TLRPC$TL_messages_toggleBotInAttachMenu();
-            tLRPC$TL_messages_toggleBotInAttachMenu.bot = MessagesController.getInstance(this.currentAccount).getInputUser(tLRPC$User.id);
-            tLRPC$TL_messages_toggleBotInAttachMenu.enabled = true;
-            tLRPC$TL_messages_toggleBotInAttachMenu.write_allowed = true;
-            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_toggleBotInAttachMenu, new RequestDelegate() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda270
-                @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    ChatActivity.this.lambda$openAttachBotLayout$148(tLRPC$User, tLObject, tLRPC$TL_error);
-                }
-            }, 66);
-        }
+        TLRPC$TL_messages_toggleBotInAttachMenu tLRPC$TL_messages_toggleBotInAttachMenu = new TLRPC$TL_messages_toggleBotInAttachMenu();
+        tLRPC$TL_messages_toggleBotInAttachMenu.bot = MessagesController.getInstance(this.currentAccount).getInputUser(tLRPC$User.id);
+        tLRPC$TL_messages_toggleBotInAttachMenu.enabled = true;
+        tLRPC$TL_messages_toggleBotInAttachMenu.write_allowed = true;
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_toggleBotInAttachMenu, new RequestDelegate() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda270
+            @Override // org.telegram.tgnet.RequestDelegate
+            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                ChatActivity.this.lambda$openAttachBotLayout$148(tLRPC$User, tLObject, tLRPC$TL_error);
+            }
+        }, 66);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
