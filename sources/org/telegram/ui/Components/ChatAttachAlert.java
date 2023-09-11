@@ -280,11 +280,11 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         return this.frameLayout2.getMeasuredHeight() - ((this.frameLayout2.getMeasuredHeight() - AndroidUtilities.dp(84.0f)) * (1.0f - this.frameLayout2.getAlpha()));
     }
 
-    public void showBotLayout(long j) {
-        showBotLayout(j, null, false);
+    public void showBotLayout(long j, boolean z) {
+        showBotLayout(j, null, false, z);
     }
 
-    public void showBotLayout(long j, String str, boolean z) {
+    public void showBotLayout(long j, String str, boolean z, boolean z2) {
         if ((this.botAttachLayouts.get(j) == null || !Objects.equals(str, this.botAttachLayouts.get(j).getStartCommand()) || this.botAttachLayouts.get(j).needReload()) && (this.baseFragment instanceof ChatActivity)) {
             ChatAttachAlertBotWebViewLayout chatAttachAlertBotWebViewLayout = new ChatAttachAlertBotWebViewLayout(this, getContext(), this.resourcesProvider);
             this.botAttachLayouts.put(j, chatAttachAlertBotWebViewLayout);
@@ -294,7 +294,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         }
         if (this.botAttachLayouts.get(j) != null) {
             this.botAttachLayouts.get(j).disallowSwipeOffsetAnimation();
-            showLayout(this.botAttachLayouts.get(j), -j);
+            showLayout(this.botAttachLayouts.get(j), -j, z2);
             if (z) {
                 this.botAttachLayouts.get(j).showJustAddedBulletin();
             }
@@ -2840,7 +2840,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         } else if (view instanceof AttachBotButton) {
             AttachBotButton attachBotButton = (AttachBotButton) view;
             if (attachBotButton.attachMenuBot != null) {
-                showBotLayout(attachBotButton.attachMenuBot.bot_id);
+                showBotLayout(attachBotButton.attachMenuBot.bot_id, true);
             } else {
                 this.delegate.didSelectBot(attachBotButton.currentUser);
                 dismiss();
@@ -3581,7 +3581,11 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         showLayout(attachAlertLayout, j);
     }
 
-    private void showLayout(final AttachAlertLayout attachAlertLayout, long j) {
+    private void showLayout(AttachAlertLayout attachAlertLayout, long j) {
+        showLayout(attachAlertLayout, j, true);
+    }
+
+    private void showLayout(AttachAlertLayout attachAlertLayout, long j, boolean z) {
         ChatAttachAlertPhotoLayout chatAttachAlertPhotoLayout;
         CameraView cameraView;
         ChatAttachAlertPhotoLayout chatAttachAlertPhotoLayout2;
@@ -3652,50 +3656,70 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                     ChatAttachAlert.this.lambda$showLayout$21();
                 }
             };
-            if (!(this.currentAttachLayout instanceof ChatAttachAlertPhotoLayoutPreview) && !(this.nextAttachLayout instanceof ChatAttachAlertPhotoLayoutPreview)) {
-                AnimatorSet animatorSet = new AnimatorSet();
-                this.nextAttachLayout.setAlpha(0.0f);
-                this.nextAttachLayout.setTranslationY(AndroidUtilities.dp(78.0f));
-                AttachAlertLayout attachAlertLayout5 = this.currentAttachLayout;
-                Property property = View.TRANSLATION_Y;
-                float[] fArr = {AndroidUtilities.dp(78.0f) + firstOffset};
-                ActionBar actionBar = this.actionBar;
-                animatorSet.playTogether(ObjectAnimator.ofFloat(attachAlertLayout5, property, fArr), ObjectAnimator.ofFloat(this.currentAttachLayout, this.ATTACH_ALERT_LAYOUT_TRANSLATION, 0.0f, 1.0f), ObjectAnimator.ofFloat(actionBar, View.ALPHA, actionBar.getAlpha(), 0.0f));
-                animatorSet.setDuration(180L);
-                animatorSet.setStartDelay(20L);
-                animatorSet.setInterpolator(CubicBezierInterpolator.DEFAULT);
-                animatorSet.addListener(new 17(runnable));
-                this.viewChangeAnimator = animatorSet;
-                animatorSet.start();
+            AttachAlertLayout attachAlertLayout5 = this.currentAttachLayout;
+            if (!(attachAlertLayout5 instanceof ChatAttachAlertPhotoLayoutPreview) && !(this.nextAttachLayout instanceof ChatAttachAlertPhotoLayoutPreview)) {
+                if (z) {
+                    AnimatorSet animatorSet = new AnimatorSet();
+                    this.nextAttachLayout.setAlpha(0.0f);
+                    this.nextAttachLayout.setTranslationY(AndroidUtilities.dp(78.0f));
+                    AttachAlertLayout attachAlertLayout6 = this.currentAttachLayout;
+                    Property property = View.TRANSLATION_Y;
+                    float[] fArr = {AndroidUtilities.dp(78.0f) + firstOffset};
+                    ActionBar actionBar = this.actionBar;
+                    animatorSet.playTogether(ObjectAnimator.ofFloat(attachAlertLayout6, property, fArr), ObjectAnimator.ofFloat(this.currentAttachLayout, this.ATTACH_ALERT_LAYOUT_TRANSLATION, 0.0f, 1.0f), ObjectAnimator.ofFloat(actionBar, View.ALPHA, actionBar.getAlpha(), 0.0f));
+                    animatorSet.setDuration(180L);
+                    animatorSet.setStartDelay(20L);
+                    animatorSet.setInterpolator(CubicBezierInterpolator.DEFAULT);
+                    animatorSet.addListener(new 17(runnable));
+                    this.viewChangeAnimator = animatorSet;
+                    animatorSet.start();
+                    return;
+                }
+                attachAlertLayout5.setAlpha(0.0f);
+                runnable.run();
+                updateSelectedPosition(0);
+                this.containerView.invalidate();
                 return;
             }
             int max = Math.max(this.nextAttachLayout.getWidth(), this.currentAttachLayout.getWidth());
-            AttachAlertLayout attachAlertLayout6 = this.nextAttachLayout;
-            if (attachAlertLayout6 instanceof ChatAttachAlertPhotoLayoutPreview) {
-                attachAlertLayout6.setTranslationX(max);
-                AttachAlertLayout attachAlertLayout7 = this.currentAttachLayout;
-                if ((attachAlertLayout7 instanceof ChatAttachAlertPhotoLayout) && (cameraView2 = (chatAttachAlertPhotoLayout2 = (ChatAttachAlertPhotoLayout) attachAlertLayout7).cameraView) != null) {
+            AttachAlertLayout attachAlertLayout7 = this.nextAttachLayout;
+            if (attachAlertLayout7 instanceof ChatAttachAlertPhotoLayoutPreview) {
+                attachAlertLayout7.setTranslationX(max);
+                AttachAlertLayout attachAlertLayout8 = this.currentAttachLayout;
+                if ((attachAlertLayout8 instanceof ChatAttachAlertPhotoLayout) && (cameraView2 = (chatAttachAlertPhotoLayout2 = (ChatAttachAlertPhotoLayout) attachAlertLayout8).cameraView) != null) {
                     cameraView2.setVisibility(4);
                     chatAttachAlertPhotoLayout2.cameraIcon.setVisibility(4);
                     chatAttachAlertPhotoLayout2.cameraCell.setVisibility(0);
                 }
             } else {
                 this.currentAttachLayout.setTranslationX(-max);
-                AttachAlertLayout attachAlertLayout8 = this.nextAttachLayout;
-                if (attachAlertLayout8 == this.photoLayout && (cameraView = (chatAttachAlertPhotoLayout = (ChatAttachAlertPhotoLayout) attachAlertLayout8).cameraView) != null) {
+                AttachAlertLayout attachAlertLayout9 = this.nextAttachLayout;
+                if (attachAlertLayout9 == this.photoLayout && (cameraView = (chatAttachAlertPhotoLayout = (ChatAttachAlertPhotoLayout) attachAlertLayout9).cameraView) != null) {
                     cameraView.setVisibility(0);
                     chatAttachAlertPhotoLayout.cameraIcon.setVisibility(0);
                 }
             }
             this.nextAttachLayout.setAlpha(1.0f);
             this.currentAttachLayout.setAlpha(1.0f);
-            this.ATTACH_ALERT_LAYOUT_TRANSLATION.set(this.currentAttachLayout, Float.valueOf(0.0f));
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlert$$ExternalSyntheticLambda24
-                @Override // java.lang.Runnable
-                public final void run() {
-                    ChatAttachAlert.this.lambda$showLayout$24(attachAlertLayout, runnable);
-                }
-            });
+            final boolean z2 = this.nextAttachLayout.getCurrentItemTop() <= attachAlertLayout.getButtonsHideOffset();
+            if (z) {
+                this.ATTACH_ALERT_LAYOUT_TRANSLATION.set(this.currentAttachLayout, Float.valueOf(0.0f));
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlert$$ExternalSyntheticLambda25
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        ChatAttachAlert.this.lambda$showLayout$24(z2, runnable);
+                    }
+                });
+                return;
+            }
+            this.currentAttachLayout.onHideShowProgress(1.0f);
+            this.nextAttachLayout.onHideShowProgress(1.0f);
+            this.currentAttachLayout.onContainerTranslationUpdated(this.currentPanTranslationY);
+            this.nextAttachLayout.onContainerTranslationUpdated(this.currentPanTranslationY);
+            this.containerView.invalidate();
+            this.ATTACH_ALERT_LAYOUT_TRANSLATION.set(this.currentAttachLayout, Float.valueOf(1.0f));
+            this.actionBar.setTag(z2 ? 1 : null);
+            runnable.run();
         }
     }
 
@@ -3776,9 +3800,8 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         }
     }
 
-    public /* synthetic */ void lambda$showLayout$24(AttachAlertLayout attachAlertLayout, final Runnable runnable) {
+    public /* synthetic */ void lambda$showLayout$24(final boolean z, final Runnable runnable) {
         final float alpha = this.actionBar.getAlpha();
-        final boolean z = this.nextAttachLayout.getCurrentItemTop() <= attachAlertLayout.getButtonsHideOffset();
         final float f = z ? 1.0f : 0.0f;
         SpringAnimation springAnimation = new SpringAnimation(new FloatValueHolder(0.0f));
         springAnimation.addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.Components.ChatAttachAlert$$ExternalSyntheticLambda18
@@ -4393,7 +4416,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         }
         boolean needEnterComment = chatAttachViewDelegate.needEnterComment();
         this.enterCommentEventSent = true;
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlert$$ExternalSyntheticLambda25
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlert$$ExternalSyntheticLambda24
             @Override // java.lang.Runnable
             public final void run() {
                 ChatAttachAlert.this.lambda$makeFocusable$33(editTextBoldCursor, z);

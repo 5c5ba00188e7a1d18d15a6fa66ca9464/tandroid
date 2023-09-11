@@ -211,6 +211,11 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
                 }
                 return super.dispatchTouchEvent(motionEvent);
             }
+
+            @Override // org.telegram.ui.Components.BotWebViewContainer
+            public void onWebViewCreated() {
+                ChatAttachAlertBotWebViewLayout.this.swipeContainer.setWebView(ChatAttachAlertBotWebViewLayout.this.webViewContainer.getWebView());
+            }
         };
         WebViewSwipeContainer webViewSwipeContainer = new WebViewSwipeContainer(context) { // from class: org.telegram.ui.Components.ChatAttachAlertBotWebViewLayout.3
             @Override // android.widget.FrameLayout, android.view.View
@@ -596,7 +601,6 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
             TLRPC$TL_webViewResultUrl tLRPC$TL_webViewResultUrl = (TLRPC$TL_webViewResultUrl) tLObject;
             this.queryId = tLRPC$TL_webViewResultUrl.query_id;
             this.webViewContainer.loadUrl(i, tLRPC$TL_webViewResultUrl.url);
-            this.swipeContainer.setWebView(this.webViewContainer.getWebView());
             AndroidUtilities.runOnUIThread(this.pollRunnable);
         }
     }
@@ -807,7 +811,7 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
             void onDismiss();
         }
 
-        static /* synthetic */ float access$1124(WebViewSwipeContainer webViewSwipeContainer, float f) {
+        static /* synthetic */ float access$1224(WebViewSwipeContainer webViewSwipeContainer, float f) {
             float f2 = webViewSwipeContainer.swipeOffsetY - f;
             webViewSwipeContainer.swipeOffsetY = f2;
             return f2;
@@ -885,16 +889,16 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
                                     float scrollY = WebViewSwipeContainer.this.webView.getScrollY() + f2;
                                     WebViewSwipeContainer.this.webView.setScrollY((int) MathUtils.clamp(scrollY, 0.0f, Math.max(WebViewSwipeContainer.this.webView.getContentHeight(), WebViewSwipeContainer.this.webView.getHeight()) - WebViewSwipeContainer.this.topActionBarOffsetY));
                                     if (scrollY < 0.0f) {
-                                        WebViewSwipeContainer.access$1124(WebViewSwipeContainer.this, scrollY);
+                                        WebViewSwipeContainer.access$1224(WebViewSwipeContainer.this, scrollY);
                                     }
                                 } else {
-                                    WebViewSwipeContainer.access$1124(WebViewSwipeContainer.this, f2);
+                                    WebViewSwipeContainer.access$1224(WebViewSwipeContainer.this, f2);
                                 }
                             } else {
-                                WebViewSwipeContainer.access$1124(WebViewSwipeContainer.this, f2);
+                                WebViewSwipeContainer.access$1224(WebViewSwipeContainer.this, f2);
                             }
                         } else {
-                            WebViewSwipeContainer.access$1124(WebViewSwipeContainer.this, f2);
+                            WebViewSwipeContainer.access$1224(WebViewSwipeContainer.this, f2);
                             if (WebViewSwipeContainer.this.webView != null && WebViewSwipeContainer.this.swipeOffsetY < (-WebViewSwipeContainer.this.offsetY) + WebViewSwipeContainer.this.topActionBarOffsetY) {
                                 WebViewSwipeContainer.this.webView.setScrollY((int) MathUtils.clamp(WebViewSwipeContainer.this.webView.getScrollY() - ((WebViewSwipeContainer.this.swipeOffsetY + WebViewSwipeContainer.this.offsetY) - WebViewSwipeContainer.this.topActionBarOffsetY), 0.0f, Math.max(WebViewSwipeContainer.this.webView.getContentHeight(), WebViewSwipeContainer.this.webView.getHeight()) - WebViewSwipeContainer.this.topActionBarOffsetY));
                             }

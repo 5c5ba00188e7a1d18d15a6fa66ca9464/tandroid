@@ -61,6 +61,7 @@ import org.telegram.ui.Components.StaticLayoutEx;
 import org.telegram.ui.Components.URLSpanMono;
 import org.telegram.ui.Components.spoilers.SpoilerEffect;
 import org.telegram.ui.Components.spoilers.SpoilersClickDetector;
+import org.telegram.ui.PhotoViewer$CaptionTextView$$ExternalSyntheticLambda1;
 import org.telegram.ui.Stories.StoryCaptionView;
 /* loaded from: classes4.dex */
 public class StoryCaptionView extends NestedScrollView {
@@ -569,7 +570,7 @@ public class StoryCaptionView extends NestedScrollView {
                 this.translateT = new AnimatedFloat(StoryCaptionView.this, 0L, 400L, CubicBezierInterpolator.EASE_OUT_QUINT);
                 this.loadingPath = new Path();
                 this.patchedLayout = new AtomicReference<>();
-                this.clickDetector = new SpoilersClickDetector(StoryCaptionTextView.this, arrayList, new SpoilersClickDetector.OnSpoilerClickedListener() { // from class: org.telegram.ui.Stories.StoryCaptionView$StoryCaptionTextView$TextState$$ExternalSyntheticLambda4
+                this.clickDetector = new SpoilersClickDetector(StoryCaptionTextView.this, arrayList, new SpoilersClickDetector.OnSpoilerClickedListener() { // from class: org.telegram.ui.Stories.StoryCaptionView$StoryCaptionTextView$TextState$$ExternalSyntheticLambda3
                     @Override // org.telegram.ui.Components.spoilers.SpoilersClickDetector.OnSpoilerClickedListener
                     public final void onSpoilerClicked(SpoilerEffect spoilerEffect, float f, float f2) {
                         StoryCaptionView.StoryCaptionTextView.TextState.this.lambda$new$2(spoilerEffect, f, f2);
@@ -588,7 +589,7 @@ public class StoryCaptionView extends NestedScrollView {
                 if (StoryCaptionTextView.this.isSpoilersRevealed) {
                     return;
                 }
-                spoilerEffect.setOnRippleEndCallback(new Runnable() { // from class: org.telegram.ui.Stories.StoryCaptionView$StoryCaptionTextView$TextState$$ExternalSyntheticLambda1
+                spoilerEffect.setOnRippleEndCallback(new Runnable() { // from class: org.telegram.ui.Stories.StoryCaptionView$StoryCaptionTextView$TextState$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
                         StoryCaptionView.StoryCaptionTextView.TextState.this.lambda$new$1();
@@ -602,7 +603,7 @@ public class StoryCaptionView extends NestedScrollView {
 
             /* JADX INFO: Access modifiers changed from: private */
             public /* synthetic */ void lambda$new$1() {
-                StoryCaptionTextView.this.post(new Runnable() { // from class: org.telegram.ui.Stories.StoryCaptionView$StoryCaptionTextView$TextState$$ExternalSyntheticLambda2
+                StoryCaptionTextView.this.post(new Runnable() { // from class: org.telegram.ui.Stories.StoryCaptionView$StoryCaptionTextView$TextState$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
                     public final void run() {
                         StoryCaptionView.StoryCaptionTextView.TextState.this.lambda$new$0();
@@ -928,7 +929,7 @@ public class StoryCaptionView extends NestedScrollView {
                                         this.fullLayout.getSelectionPath(spanStart, spanEnd, obtainNewPath);
                                         final LinkSpanDrawable<CharacterStyle> linkSpanDrawable2 = this.pressedLink;
                                         StoryCaptionView.this.textSelectionHelper.clear();
-                                        StoryCaptionTextView.this.postDelayed(new Runnable() { // from class: org.telegram.ui.Stories.StoryCaptionView$StoryCaptionTextView$TextState$$ExternalSyntheticLambda3
+                                        StoryCaptionTextView.this.postDelayed(new Runnable() { // from class: org.telegram.ui.Stories.StoryCaptionView$StoryCaptionTextView$TextState$$ExternalSyntheticLambda2
                                             @Override // java.lang.Runnable
                                             public final void run() {
                                                 StoryCaptionView.StoryCaptionTextView.TextState.this.lambda$touch$3(linkSpanDrawable2);
@@ -990,14 +991,9 @@ public class StoryCaptionView extends NestedScrollView {
                 LinkSpanDrawable<CharacterStyle> linkSpanDrawable2 = this.pressedLink;
                 if (linkSpanDrawable == linkSpanDrawable2 && linkSpanDrawable2 != null && (linkSpanDrawable2.getSpan() instanceof URLSpan)) {
                     StoryCaptionTextView storyCaptionTextView = StoryCaptionTextView.this;
-                    final LinkSpanDrawable.LinkCollector linkCollector = this.links;
+                    LinkSpanDrawable.LinkCollector linkCollector = this.links;
                     Objects.requireNonNull(linkCollector);
-                    StoryCaptionView.this.onLinkLongPress((URLSpan) this.pressedLink.getSpan(), storyCaptionTextView, new Runnable() { // from class: org.telegram.ui.Stories.StoryCaptionView$StoryCaptionTextView$TextState$$ExternalSyntheticLambda0
-                        @Override // java.lang.Runnable
-                        public final void run() {
-                            LinkSpanDrawable.LinkCollector.this.clear();
-                        }
-                    });
+                    StoryCaptionView.this.onLinkLongPress((URLSpan) this.pressedLink.getSpan(), storyCaptionTextView, new PhotoViewer$CaptionTextView$$ExternalSyntheticLambda1(linkCollector));
                     this.pressedLink = null;
                 }
             }

@@ -3046,8 +3046,9 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                     this.targetX = ((Utilities.random.nextInt(100) - 50) * 0.2f) / 50.0f;
                 }
 
+                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.ActionBar.SimpleTextView
-                protected boolean createLayout(int i9) {
+                public boolean createLayout(int i9) {
                     boolean createLayout = super.createLayout(i9);
                     int textWidth = getTextWidth();
                     if (textWidth != this.lastTextWidth) {
@@ -3061,6 +3062,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                     return createLayout;
                 }
 
+                /* JADX INFO: Access modifiers changed from: protected */
                 /* JADX WARN: Removed duplicated region for block: B:17:0x0065  */
                 /* JADX WARN: Removed duplicated region for block: B:24:0x008c  */
                 /* JADX WARN: Removed duplicated region for block: B:28:0x00ba  */
@@ -3068,7 +3070,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                 /*
                     Code decompiled incorrectly, please refer to instructions dump.
                 */
-                protected void onDraw(Canvas canvas) {
+                public void onDraw(Canvas canvas) {
                     long j;
                     float f;
                     float f2;

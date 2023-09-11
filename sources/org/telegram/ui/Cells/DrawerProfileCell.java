@@ -109,8 +109,9 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
         backupImageView.getImageReceiver().setRoundRadius(AndroidUtilities.dp(32.0f));
         addView(this.avatarImageView, LayoutHelper.createFrame(64, 64.0f, 83, 16.0f, 0.0f, 0.0f, 67.0f));
         SimpleTextView simpleTextView = new SimpleTextView(context) { // from class: org.telegram.ui.Cells.DrawerProfileCell.1
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.ActionBar.SimpleTextView, android.view.View
-            protected void onDraw(Canvas canvas) {
+            public void onDraw(Canvas canvas) {
                 super.onDraw(canvas);
                 if (DrawerProfileCell.this.updateRightDrawable) {
                     DrawerProfileCell.this.updateRightDrawable = false;

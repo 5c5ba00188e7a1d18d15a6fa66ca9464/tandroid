@@ -67,6 +67,7 @@ public class DrawingInBackgroundThreadDrawable implements NotificationCenter.Not
                 DrawingInBackgroundThreadDrawable drawingInBackgroundThreadDrawable5 = DrawingInBackgroundThreadDrawable.this;
                 drawingInBackgroundThreadDrawable5.drawInBackground(drawingInBackgroundThreadDrawable5.backgroundCanvas);
                 DrawingInBackgroundThreadDrawable.this.backgroundCanvas.restore();
+                DrawingInBackgroundThreadDrawable.this.backgroundBitmap.prepareToDraw();
             } catch (Exception e) {
                 FileLog.e(e);
                 DrawingInBackgroundThreadDrawable.this.error = true;

@@ -23445,7 +23445,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     public void openAttachBotLayout(long j, String str, boolean z) {
         openAttachMenu();
         createChatAttachView();
-        this.chatAttachAlert.showBotLayout(j, str, z);
+        this.chatAttachAlert.showBotLayout(j, str, z, false);
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
@@ -25440,8 +25440,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             return this.trackWidth;
         }
 
+        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.ActionBar.SimpleTextView
-        protected boolean createLayout(int i) {
+        public boolean createLayout(int i) {
             boolean createLayout = super.createLayout(i);
             if (this.trackWidth && getVisibility() == 0) {
                 ChatActivity.this.pinnedCounterTextViewX = getTextWidth() + AndroidUtilities.dp(4.0f);

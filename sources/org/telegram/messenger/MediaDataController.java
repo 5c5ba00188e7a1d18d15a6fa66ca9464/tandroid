@@ -265,6 +265,7 @@ public class MediaDataController extends BaseController {
     public static final String ATTACH_MENU_BOT_COLOR_LIGHT_ICON = "light_icon";
     public static final String ATTACH_MENU_BOT_COLOR_LIGHT_TEXT = "light_text";
     public static final String ATTACH_MENU_BOT_PLACEHOLDER_STATIC_KEY = "placeholder_static";
+    public static final String ATTACH_MENU_BOT_SIDE_MENU = "android_side_menu_static";
     public static final String ATTACH_MENU_BOT_STATIC_ICON_KEY = "default_static";
     public static final int MEDIA_AUDIO = 2;
     public static final int MEDIA_FILE = 1;
@@ -877,66 +878,88 @@ public class MediaDataController extends BaseController {
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Type inference failed for: r7v5, types: [org.telegram.tgnet.TLRPC$TL_attachMenuBots] */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x008e  */
+    /* JADX WARN: Type inference failed for: r7v2, types: [org.telegram.tgnet.TLRPC$TL_attachMenuBots] */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public /* synthetic */ void lambda$loadAttachMenuBots$2() {
-        SQLiteCursor sQLiteCursor;
-        Throwable th;
         long j;
-        SQLiteCursor sQLiteCursor2;
+        Exception exc;
         TLRPC$TL_attachMenuBots tLRPC$TL_attachMenuBots;
-        long j2;
+        SQLiteCursor sQLiteCursor;
         int i;
-        int i2 = 0;
-        long j3 = 0;
+        SQLiteCursor queryFinalized;
+        long j2 = 0;
         try {
             try {
-                sQLiteCursor = getMessagesStorage().getDatabase().queryFinalized("SELECT data, hash, date FROM attach_menu_bots", new Object[0]);
-            } catch (Exception e) {
-                e = e;
-                j = 0;
-                sQLiteCursor2 = null;
+                queryFinalized = getMessagesStorage().getDatabase().queryFinalized("SELECT data, hash, date FROM attach_menu_bots", new Object[0]);
+            } catch (Throwable th) {
+                th = th;
             }
-        } catch (Throwable th2) {
-            sQLiteCursor = r0;
-            th = th2;
-        }
-        try {
-            if (sQLiteCursor.next()) {
-                NativeByteBuffer byteBufferValue = sQLiteCursor.byteBufferValue(0);
-                if (byteBufferValue != null) {
-                    TLRPC$AttachMenuBots TLdeserialize = TLRPC$AttachMenuBots.TLdeserialize(byteBufferValue, byteBufferValue.readInt32(false), true);
-                    r0 = TLdeserialize instanceof TLRPC$TL_attachMenuBots ? (TLRPC$TL_attachMenuBots) TLdeserialize : null;
-                    byteBufferValue.reuse();
+            try {
+                try {
+                    if (queryFinalized.next()) {
+                        NativeByteBuffer byteBufferValue = queryFinalized.byteBufferValue(0);
+                        if (byteBufferValue != null) {
+                            TLRPC$AttachMenuBots TLdeserialize = TLRPC$AttachMenuBots.TLdeserialize(byteBufferValue, byteBufferValue.readInt32(false), true);
+                            r1 = TLdeserialize instanceof TLRPC$TL_attachMenuBots ? (TLRPC$TL_attachMenuBots) TLdeserialize : null;
+                            byteBufferValue.reuse();
+                        }
+                        j2 = queryFinalized.longValue(1);
+                        j = j2;
+                        tLRPC$TL_attachMenuBots = r1;
+                        r1 = queryFinalized.intValue(2);
+                    } else {
+                        j = 0;
+                        tLRPC$TL_attachMenuBots = null;
+                        r1 = null;
+                    }
+                } catch (Exception e) {
+                    j = j2;
+                    exc = e;
+                    tLRPC$TL_attachMenuBots = r1;
+                    r1 = queryFinalized;
+                    sQLiteCursor = null;
+                    FileLog.e((Throwable) exc, false);
+                    if (r1 != null) {
+                        r1.dispose();
+                    }
+                    i = sQLiteCursor;
+                    processLoadedMenuBots(tLRPC$TL_attachMenuBots, j, i, true);
                 }
-                j3 = sQLiteCursor.longValue(1);
-                i2 = sQLiteCursor.intValue(2);
+                try {
+                    ArrayList<Long> arrayList = new ArrayList<>();
+                    for (int i2 = 0; i2 < tLRPC$TL_attachMenuBots.bots.size(); i2++) {
+                        arrayList.add(Long.valueOf(tLRPC$TL_attachMenuBots.bots.get(i2).bot_id));
+                    }
+                    tLRPC$TL_attachMenuBots.users = getMessagesStorage().getUsers(arrayList);
+                    queryFinalized.dispose();
+                    i = r1;
+                } catch (Exception e2) {
+                    exc = e2;
+                    sQLiteCursor = r1;
+                    r1 = queryFinalized;
+                    FileLog.e((Throwable) exc, false);
+                    if (r1 != null) {
+                    }
+                    i = sQLiteCursor;
+                    processLoadedMenuBots(tLRPC$TL_attachMenuBots, j, i, true);
+                }
+            } catch (Throwable th2) {
+                th = th2;
+                r1 = queryFinalized;
+                if (r1 != null) {
+                    r1.dispose();
+                }
+                throw th;
             }
-            sQLiteCursor.dispose();
-            tLRPC$TL_attachMenuBots = r0;
-            i = i2;
-            j2 = j3;
-        } catch (Exception e2) {
-            e = e2;
-            long j4 = j3;
-            sQLiteCursor2 = r0;
-            r0 = sQLiteCursor;
-            j = j4;
-            FileLog.e((Throwable) e, false);
-            if (r0 != null) {
-                r0.dispose();
-            }
-            tLRPC$TL_attachMenuBots = sQLiteCursor2;
-            j2 = j;
-            i = 0;
-            processLoadedMenuBots(tLRPC$TL_attachMenuBots, j2, i, true);
-        } catch (Throwable th3) {
-            th = th3;
-            if (sQLiteCursor != null) {
-                sQLiteCursor.dispose();
-            }
-            throw th;
+        } catch (Exception e3) {
+            j = 0;
+            exc = e3;
+            tLRPC$TL_attachMenuBots = null;
         }
-        processLoadedMenuBots(tLRPC$TL_attachMenuBots, j2, i, true);
+        processLoadedMenuBots(tLRPC$TL_attachMenuBots, j, i, true);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -2476,6 +2499,17 @@ public class MediaDataController extends BaseController {
         while (it.hasNext()) {
             TLRPC$TL_attachMenuBotIcon next = it.next();
             if (next.name.equals(ATTACH_MENU_BOT_ANIMATED_ICON_KEY)) {
+                return next;
+            }
+        }
+        return null;
+    }
+
+    public static TLRPC$TL_attachMenuBotIcon getSideMenuBotIcon(TLRPC$TL_attachMenuBot tLRPC$TL_attachMenuBot) {
+        Iterator<TLRPC$TL_attachMenuBotIcon> it = tLRPC$TL_attachMenuBot.icons.iterator();
+        while (it.hasNext()) {
+            TLRPC$TL_attachMenuBotIcon next = it.next();
+            if (next.name.equals(ATTACH_MENU_BOT_SIDE_MENU)) {
                 return next;
             }
         }

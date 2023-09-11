@@ -269,8 +269,9 @@ public class ContextCompat {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    static class Api21Impl {
+    public static class Api21Impl {
         static Drawable getDrawable(Context context, int i) {
             return context.getDrawable(i);
         }
