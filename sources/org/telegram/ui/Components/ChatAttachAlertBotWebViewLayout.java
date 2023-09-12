@@ -781,7 +781,7 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$showJustAddedBulletin$14(String str) {
-        BulletinFactory.of(this.parentAlert.getContainer(), this.resourcesProvider).createSimpleBulletin(R.raw.info, AndroidUtilities.replaceTags(str)).setDuration(5000).show(true);
+        BulletinFactory.of(this.parentAlert.getContainer(), this.resourcesProvider).createSimpleBulletin(R.raw.contact_check, AndroidUtilities.replaceTags(str)).setDuration(5000).show(true);
     }
 
     /* loaded from: classes4.dex */

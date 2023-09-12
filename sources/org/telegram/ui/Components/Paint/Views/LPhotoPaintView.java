@@ -115,12 +115,11 @@ import org.telegram.ui.Components.TrendingStickersLayout;
 import org.telegram.ui.PhotoViewer;
 /* loaded from: classes4.dex */
 public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPaintView, PaintToolsView.Delegate, EntityView.EntityViewDelegate, PaintTextOptionsView.Delegate, SizeNotifierFrameLayout.SizeNotifierFrameLayoutDelegate, NotificationCenter.NotificationCenterDelegate {
-    AdjustPanLayoutHelper adjustPanLayoutHelper;
     private float baseScale;
     private Bitmap bitmapToEdit;
-    private FrameLayout bottomLayout;
+    public FrameLayout bottomLayout;
     private boolean bottomPanelIgnoreOnce;
-    private PaintCancelView cancelButton;
+    public PaintCancelView cancelButton;
     private TextView cancelTextButton;
     private Paint colorPickerRainbowPaint;
     private Swatch colorSwatch;
@@ -131,14 +130,13 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
     private MediaController.CropState currentCropState;
     private EntityView currentEntityView;
     private boolean destroyed;
-    private PaintDoneView doneButton;
+    public PaintDoneView doneButton;
     private TextView doneTextButton;
     private TextView drawTab;
     private boolean editingText;
     private int emojiPadding;
     private EmojiView emojiView;
-    private boolean emojiViewVisible;
-    private boolean emojiViewWasVisible;
+    public boolean emojiViewVisible;
     private EntitiesContainerView entitiesView;
     private ArrayList<PhotoFace> faces;
     private Bitmap facesBitmap;
@@ -149,12 +147,12 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
     private boolean inBubbleMode;
     private float inputTransformX;
     private float inputTransformY;
-    private boolean isAnimatePopupClosing;
+    public boolean isAnimatePopupClosing;
     private boolean isColorListShown;
     private boolean isTypefaceMenuShown;
     private int keyboardHeight;
     private int keyboardHeightLand;
-    private boolean keyboardVisible;
+    public boolean keyboardVisible;
     private int lastSizeChangeValue1;
     private boolean lastSizeChangeValue2;
     private BigInteger lcm;
@@ -162,11 +160,12 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
     private Runnable onDoneButtonClickedListener;
     private Runnable openKeyboardRunnable;
     private int originalBitmapRotation;
-    private FrameLayout overlayLayout;
+    public FrameLayout overlayLayout;
     private PaintToolsView paintToolsView;
     private Size paintingSize;
     private float panTranslationProgress;
     private float panTranslationY;
+    private float pany;
     private FrameLayout pipetteContainerLayout;
     private ActionBarPopupWindow.ActionBarPopupWindowLayout popupLayout;
     private Rect popupRect;
@@ -180,12 +179,12 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
     private int selectedTextType;
     private FrameLayout selectionContainerView;
     private TextView stickerTab;
-    private LinearLayout tabsLayout;
+    public LinearLayout tabsLayout;
     private int tabsNewSelectedIndex;
     private int tabsSelectedIndex;
     private ValueAnimator tabsSelectionAnimator;
     private float tabsSelectionProgress;
-    private PaintTextOptionsView textOptionsView;
+    public PaintTextOptionsView textOptionsView;
     private TextView textTab;
     private Paint toolsPaint;
     private SpringAnimation toolsTransformAnimation;
@@ -203,19 +202,28 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
     private ImageView undoButton;
     private UndoStore undoStore;
     private boolean waitingForKeyboardOpen;
-    private PaintWeightChooserView weightChooserView;
+    public PaintWeightChooserView weightChooserView;
     private PaintWeightChooserView.ValueOverride weightDefaultValueOverride;
     private LinearLayout zoomOutButton;
     private ImageView zoomOutImage;
     private TextView zoomOutText;
     private boolean zoomOutVisible;
 
+    private void bottomPanelTranslationY(float f, float f2) {
+    }
+
     protected void didSetAnimatedSticker(RLottieDrawable rLottieDrawable) {
     }
 
-    @Override // org.telegram.ui.Components.IPhotoPaintView
+    protected int getPKeyboardHeight() {
+        return 0;
+    }
+
     public /* bridge */ /* synthetic */ View getView() {
         return IPhotoPaintView.-CC.$default$getView(this);
+    }
+
+    protected void onEmojiViewCloseByClick() {
     }
 
     @Override // org.telegram.ui.Components.Paint.Views.EntityView.EntityViewDelegate
@@ -264,6 +272,9 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
     protected void onTextAdd() {
     }
 
+    protected void updateKeyboard() {
+    }
+
     @SuppressLint({"NotifyDataSetChanged"})
     public LPhotoPaintView(final Context context, Activity activity, final int i, Bitmap bitmap, final Bitmap bitmap2, int i2, ArrayList<VideoEditedInfo.MediaEntity> arrayList, MediaController.CropState cropState, final Runnable runnable, final Theme.ResourcesProvider resourcesProvider) {
         super(context, activity, true);
@@ -308,46 +319,6 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
                     AndroidUtilities.cancelRunOnUIThread(LPhotoPaintView.this.openKeyboardRunnable);
                     AndroidUtilities.runOnUIThread(LPhotoPaintView.this.openKeyboardRunnable, 100L);
                 }
-            }
-        };
-        this.adjustPanLayoutHelper = new AdjustPanLayoutHelper(this, false) { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView.21
-            @Override // org.telegram.ui.ActionBar.AdjustPanLayoutHelper
-            protected void onTransitionStart(boolean z, int i4, int i5) {
-                super.onTransitionStart(z, i5);
-                LPhotoPaintView.this.weightChooserView.startPanTransition(i4, i5);
-                if (LPhotoPaintView.this.isColorListShown) {
-                    LPhotoPaintView.this.showColorList(false);
-                }
-            }
-
-            /* JADX INFO: Access modifiers changed from: protected */
-            @Override // org.telegram.ui.ActionBar.AdjustPanLayoutHelper
-            public void onTransitionEnd() {
-                LPhotoPaintView.this.panTranslationY = 0.0f;
-                LPhotoPaintView.this.emojiViewWasVisible = false;
-                LPhotoPaintView lPhotoPaintView = LPhotoPaintView.this;
-                lPhotoPaintView.setTransform(lPhotoPaintView.scale, LPhotoPaintView.this.inputTransformX, LPhotoPaintView.this.inputTransformY, LPhotoPaintView.this.imageWidth, LPhotoPaintView.this.imageHeight);
-                super.onTransitionEnd();
-                LPhotoPaintView.this.weightChooserView.stopPanTransition();
-            }
-
-            /* JADX INFO: Access modifiers changed from: protected */
-            @Override // org.telegram.ui.ActionBar.AdjustPanLayoutHelper
-            public void onPanTranslationUpdate(float f, float f2, boolean z) {
-                LPhotoPaintView.this.topLayout.setTranslationY(f);
-                LPhotoPaintView.this.panTranslationProgress = 1.0f - f2;
-                LPhotoPaintView.this.panTranslationY = f / 2.0f;
-                LPhotoPaintView.this.bottomLayout.setTranslationY(AndroidUtilities.dp(40.0f) * f2);
-                LPhotoPaintView.this.weightChooserView.updatePanTransition(f, f2);
-                LPhotoPaintView lPhotoPaintView = LPhotoPaintView.this;
-                lPhotoPaintView.setTransform(lPhotoPaintView.scale, LPhotoPaintView.this.inputTransformX, LPhotoPaintView.this.inputTransformY, LPhotoPaintView.this.imageWidth, LPhotoPaintView.this.imageHeight);
-                super.onPanTranslationUpdate(f, f2, z);
-                ((View) LPhotoPaintView.this.getParent()).invalidate();
-            }
-
-            @Override // org.telegram.ui.ActionBar.AdjustPanLayoutHelper
-            protected boolean heightAnimationEnabled() {
-                return (LPhotoPaintView.this.destroyed || LPhotoPaintView.this.emojiViewVisible) ? false : true;
             }
         };
         setDelegate(this);
@@ -785,8 +756,9 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
             @Override // android.view.View
             public void setTranslationY(float f) {
                 super.setTranslationY(f);
-                if (LPhotoPaintView.this.overlayLayout != null) {
-                    LPhotoPaintView.this.overlayLayout.invalidate();
+                FrameLayout frameLayout4 = LPhotoPaintView.this.overlayLayout;
+                if (frameLayout4 != null) {
+                    frameLayout4.invalidate();
                 }
             }
 
@@ -1204,7 +1176,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         swatch.color = i;
         setCurrentSwatch(swatch, true);
         ValueAnimator duration = ValueAnimator.ofFloat(0.0f, 1.0f).setDuration(150L);
-        duration.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda0
+        duration.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda2
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 LPhotoPaintView.this.lambda$setNewColor$12(i2, i, valueAnimator);
@@ -1218,6 +1190,30 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         this.colorSwatch.color = ColorUtils.blendARGB(i, i2, floatValue);
         this.bottomLayout.invalidate();
+    }
+
+    public void translateY(float f) {
+        if (Math.abs(f - this.pany) > 0.1f) {
+            this.pany = f;
+            setTransform(this.scale, this.inputTransformX, this.inputTransformY, this.imageWidth, this.imageHeight);
+        }
+    }
+
+    public boolean isCurrentText() {
+        return this.currentEntityView instanceof TextPaintView;
+    }
+
+    public float getSelectedEntityCenterY() {
+        float y;
+        float positionY;
+        if (this.currentEntityView == null) {
+            y = getY() + this.entitiesView.getTop();
+            positionY = this.entitiesView.getMeasuredHeight() / 2.0f;
+        } else {
+            y = getY() + this.entitiesView.getTop();
+            positionY = this.currentEntityView.getPositionY();
+        }
+        return y + positionY;
     }
 
     private TextPaintView createText(boolean z) {
@@ -1255,7 +1251,6 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         return textPaintView;
     }
 
-    @Override // org.telegram.ui.Components.IPhotoPaintView
     public void setOnDoneButtonClickedListener(Runnable runnable) {
         this.onDoneButtonClickedListener = runnable;
     }
@@ -1273,7 +1268,6 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         AndroidUtilities.showKeyboard(focusedView);
     }
 
-    @Override // org.telegram.ui.Components.IPhotoPaintView
     public void updateZoom(boolean z) {
         boolean z2 = !z;
         if (this.zoomOutVisible != z2) {
@@ -1565,7 +1559,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         ValueAnimator duration = ValueAnimator.ofFloat(0.0f, 1.0f).setDuration(300L);
         this.tabsSelectionAnimator = duration;
         duration.setInterpolator(CubicBezierInterpolator.DEFAULT);
-        this.tabsSelectionAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda1
+        this.tabsSelectionAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda3
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                 LPhotoPaintView.this.lambda$switchTab$16(barView, barView2, valueAnimator2);
@@ -1578,16 +1572,17 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
                 if (barView != null && (view = barView2) != null) {
                     view.setVisibility(0);
                 }
-                if (i == 2) {
-                    LPhotoPaintView.this.weightChooserView.setMinMax(0.5f, 2.0f);
-                    return;
+                if (i != 2) {
+                    Brush currentBrush = LPhotoPaintView.this.renderView.getCurrentBrush();
+                    if ((currentBrush instanceof Brush.Blurer) || (currentBrush instanceof Brush.Eraser)) {
+                        LPhotoPaintView.this.weightChooserView.setMinMax(0.4f, 1.75f);
+                        return;
+                    } else {
+                        LPhotoPaintView.this.weightChooserView.setMinMax(0.05f, 1.0f);
+                        return;
+                    }
                 }
-                Brush currentBrush = LPhotoPaintView.this.renderView.getCurrentBrush();
-                if ((currentBrush instanceof Brush.Blurer) || (currentBrush instanceof Brush.Eraser)) {
-                    LPhotoPaintView.this.weightChooserView.setMinMax(0.4f, 1.75f);
-                } else {
-                    LPhotoPaintView.this.weightChooserView.setMinMax(0.05f, 1.0f);
-                }
+                LPhotoPaintView.this.weightChooserView.setMinMax(0.5f, 2.0f);
             }
 
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -1736,7 +1731,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         measureChild(this.bottomLayout, i, i2);
         measureChild(this.weightChooserView, i, i2);
         measureChild(this.pipetteContainerLayout, i, i2);
-        measureChild(this.overlayLayout, i, i2);
+        measureChild(this.overlayLayout, i, View.MeasureSpec.makeMeasureSpec(size2 - Math.max(getPKeyboardHeight(), this.emojiPadding), 1073741824));
         FrameLayout frameLayout = this.topLayout;
         frameLayout.setPadding(frameLayout.getPaddingLeft(), AndroidUtilities.dp(12.0f) + AndroidUtilities.statusBarHeight, this.topLayout.getPaddingRight(), this.topLayout.getPaddingBottom());
         measureChild(this.topLayout, i, i2);
@@ -1811,7 +1806,6 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         return size2;
     }
 
-    @Override // org.telegram.ui.Components.IPhotoPaintView
     public void init() {
         this.textOptionsView.setTypeface(PersistColorPalette.getInstance(this.currentAccount).getCurrentTypeface());
         this.entitiesView.setVisibility(0);
@@ -1888,7 +1882,6 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         }
     }
 
-    @Override // org.telegram.ui.Components.IPhotoPaintView
     public void shutdown() {
         this.renderView.shutdown();
         this.entitiesView.setVisibility(8);
@@ -1904,12 +1897,11 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         }
     }
 
-    @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, org.telegram.ui.Components.IPhotoPaintView
+    @Override // org.telegram.ui.Components.SizeNotifierFrameLayout
     public void onResume() {
         this.renderView.redraw();
     }
 
-    @Override // org.telegram.ui.Components.IPhotoPaintView
     public void onAnimationStateChanged(boolean z) {
         if (this.tabsSelectedIndex == 0) {
             this.weightChooserView.setLayerType(z ? 2 : 0, null);
@@ -1918,14 +1910,12 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         }
     }
 
-    @Override // org.telegram.ui.Components.IPhotoPaintView
     public void setOffsetTranslationX(float f) {
         if (this.tabsSelectedIndex == 0) {
             this.weightChooserView.setTranslationX(f);
         }
     }
 
-    @Override // org.telegram.ui.Components.IPhotoPaintView
     public void setOffsetTranslationY(float f, float f2, int i, boolean z) {
         this.offsetTranslationY = f;
         if (!z) {
@@ -1936,22 +1926,18 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         setTranslationY(0.0f);
     }
 
-    @Override // org.telegram.ui.Components.IPhotoPaintView
     public float getOffsetTranslationY() {
         return this.offsetTranslationY;
     }
 
-    @Override // org.telegram.ui.Components.IPhotoPaintView
     public void updateColors() {
         this.toolsPaint.setColor(-15132391);
     }
 
-    @Override // org.telegram.ui.Components.IPhotoPaintView
     public boolean hasChanges() {
         return this.undoStore.canUndo();
     }
 
-    @Override // org.telegram.ui.Components.IPhotoPaintView
     public Bitmap getBitmap(ArrayList<VideoEditedInfo.MediaEntity> arrayList, Bitmap[] bitmapArr) {
         Canvas canvas;
         Bitmap bitmap;
@@ -2160,12 +2146,10 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         return resultBitmap;
     }
 
-    @Override // org.telegram.ui.Components.IPhotoPaintView
     public void onCleanupEntities() {
         this.entitiesView.removeAllViews();
     }
 
-    @Override // org.telegram.ui.Components.IPhotoPaintView
     public long getLcm() {
         return this.lcm.longValue();
     }
@@ -2174,12 +2158,10 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         return this.doneButton;
     }
 
-    @Override // org.telegram.ui.Components.IPhotoPaintView
     public View getCancelView() {
         return this.cancelButton;
     }
 
-    @Override // org.telegram.ui.Components.IPhotoPaintView
     public void maybeShowDismissalAlert(PhotoViewer photoViewer, Activity activity, final Runnable runnable) {
         if (this.isColorListShown) {
             showColorList(false);
@@ -2205,7 +2187,6 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         }
     }
 
-    @Override // org.telegram.ui.Components.IPhotoPaintView
     public boolean onTouch(MotionEvent motionEvent) {
         if (this.currentEntityView != null) {
             selectEntity(null);
@@ -2231,22 +2212,18 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         return true;
     }
 
-    @Override // org.telegram.ui.Components.IPhotoPaintView
     public int getAdditionalTop() {
         return AndroidUtilities.dp(48.0f);
     }
 
-    @Override // org.telegram.ui.Components.IPhotoPaintView
     public int getAdditionalBottom() {
         return AndroidUtilities.dp(24.0f);
     }
 
-    @Override // org.telegram.ui.Components.IPhotoPaintView
     public RenderView getRenderView() {
         return this.renderView;
     }
 
-    @Override // org.telegram.ui.Components.IPhotoPaintView
     public void setTransform(float f, float f2, float f3, float f4, float f5) {
         View view;
         float f6;
@@ -2310,21 +2287,21 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
                 f10 = f7;
                 f11 = 0.0f;
             }
-            float f17 = f10 * f;
-            if (!Float.isNaN(f17)) {
-                f6 = f17;
+            float f17 = f9 + ((-this.emojiPadding) / 2.0f);
+            float f18 = f10 * f;
+            if (!Float.isNaN(f18)) {
+                f6 = f18;
             }
             view.setScaleX(f6);
             view.setScaleY(f6);
             view.setTranslationX(f8);
-            view.setTranslationY(f9);
+            view.setTranslationY(f17);
             view.setRotation(f11);
             view.invalidate();
         }
         invalidate();
     }
 
-    @Override // org.telegram.ui.Components.IPhotoPaintView
     public List<TLRPC$InputDocument> getMasks() {
         AnimatedEmojiSpan[] animatedEmojiSpanArr;
         int childCount = this.entitiesView.getChildCount();
@@ -2503,9 +2480,6 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         this.doneButton.setProgress(this.toolsTransformProgress);
         this.cancelButton.setProgress(this.toolsTransformProgress);
         this.tabsLayout.setTranslationY(AndroidUtilities.dp(32.0f) * this.toolsTransformProgress);
-        if (this.adjustPanLayoutHelper.animationInProgress()) {
-            zArr[0] = false;
-        }
         if (zArr[0]) {
             float f6 = this.toolsTransformProgress;
             if (!z) {
@@ -2554,7 +2528,6 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         }
     }
 
-    @Override // org.telegram.ui.Components.IPhotoPaintView
     public boolean onBackPressed() {
         if (this.isColorListShown) {
             showColorList(false);
@@ -3377,7 +3350,10 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         if (z && (this.currentEntityView instanceof TextPaintView)) {
             this.bottomPanelIgnoreOnce = true;
         }
-        showEmojiPopup(!z ? 1 : 0);
+        if (z) {
+            onEmojiViewCloseByClick();
+        }
+        showEmojiPopup(1 ^ (this.emojiViewVisible ? 1 : 0));
         if (z) {
             EntityView entityView = this.currentEntityView;
             if (entityView instanceof TextPaintView) {
@@ -3387,11 +3363,10 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
     }
 
     private void showEmojiPopup(int i) {
-        final boolean z = this.bottomPanelIgnoreOnce;
         this.bottomPanelIgnoreOnce = false;
         if (i == 1) {
             EmojiView emojiView = this.emojiView;
-            boolean z2 = emojiView != null && emojiView.getVisibility() == 0;
+            boolean z = emojiView != null && emojiView.getVisibility() == 0;
             createEmojiView();
             this.emojiView.setVisibility(0);
             this.emojiViewVisible = true;
@@ -3423,78 +3398,53 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
             }
             this.emojiPadding = i2;
             requestLayout();
+            updateKeyboard();
             ChatActivityEnterViewAnimatedIconView emojiButton = this.textOptionsView.getEmojiButton();
             if (emojiButton != null) {
                 emojiButton.setState(ChatActivityEnterViewAnimatedIconView.State.KEYBOARD, true);
             }
             onWindowSizeChanged();
-            if (!z2) {
-                if (this.keyboardVisible) {
-                    this.translateBottomPanelAfterResize = true;
-                    PaintWeightChooserView paintWeightChooserView = this.weightChooserView;
-                    int i3 = AndroidUtilities.displaySize.y;
-                    paintWeightChooserView.startPanTransition(i3, i3 - this.emojiPadding);
-                } else {
-                    ValueAnimator ofFloat = ValueAnimator.ofFloat(this.emojiPadding, 0.0f);
-                    PaintWeightChooserView paintWeightChooserView2 = this.weightChooserView;
-                    int i4 = AndroidUtilities.displaySize.y;
-                    paintWeightChooserView2.startPanTransition(i4, i4 - this.emojiPadding);
-                    ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda2
-                        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                        public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                            LPhotoPaintView.this.lambda$showEmojiPopup$39(z, valueAnimator);
-                        }
-                    });
-                    ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView.18
-                        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                        public void onAnimationEnd(Animator animator) {
-                            LPhotoPaintView.this.emojiView.setTranslationY(0.0f);
-                            if (!z) {
-                                LPhotoPaintView.this.bottomPanelTranslationY(0.0f, 1.0f);
-                            }
-                            LPhotoPaintView.this.weightChooserView.stopPanTransition();
-                        }
-                    });
-                    ofFloat.setDuration(250L);
-                    ofFloat.setInterpolator(AdjustPanLayoutHelper.keyboardInterpolator);
-                    ofFloat.start();
+            if (z || this.keyboardVisible) {
+                return;
+            }
+            ValueAnimator ofFloat = ValueAnimator.ofFloat(this.emojiPadding, 0.0f);
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda1
+                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    LPhotoPaintView.this.lambda$showEmojiPopup$39(valueAnimator);
                 }
-            }
-        } else {
-            ChatActivityEnterViewAnimatedIconView emojiButton2 = this.textOptionsView.getEmojiButton();
-            if (emojiButton2 != null) {
-                emojiButton2.setState(ChatActivityEnterViewAnimatedIconView.State.SMILE, true);
-            }
-            EmojiView emojiView3 = this.emojiView;
-            if (emojiView3 != null) {
-                this.emojiViewVisible = false;
-                if (AndroidUtilities.usingHardwareInput || AndroidUtilities.isInMultiwindow) {
-                    emojiView3.setVisibility(8);
+            });
+            ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView.18
+                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                public void onAnimationEnd(Animator animator) {
+                    LPhotoPaintView.this.emojiView.setTranslationY(0.0f);
                 }
-            }
-            if (i == 0) {
-                this.emojiPadding = 0;
-            }
-            bottomPanelTranslationY(0.0f, 0.0f);
-            PaintWeightChooserView paintWeightChooserView3 = this.weightChooserView;
-            int i5 = AndroidUtilities.displaySize.y;
-            paintWeightChooserView3.startPanTransition(i5 - this.emojiPadding, i5);
-            this.weightChooserView.updatePanTransition(0.0f, 1.0f);
-            this.weightChooserView.stopPanTransition();
-            requestLayout();
-            onWindowSizeChanged();
+            });
+            ofFloat.start();
+            return;
         }
-        updatePlusEmojiKeyboardButton();
+        ChatActivityEnterViewAnimatedIconView emojiButton2 = this.textOptionsView.getEmojiButton();
+        if (emojiButton2 != null) {
+            emojiButton2.setState(ChatActivityEnterViewAnimatedIconView.State.SMILE, true);
+        }
+        EmojiView emojiView3 = this.emojiView;
+        if (emojiView3 != null) {
+            this.emojiViewVisible = false;
+            if (AndroidUtilities.usingHardwareInput || AndroidUtilities.isInMultiwindow) {
+                emojiView3.setVisibility(8);
+            }
+        }
+        if (i == 0) {
+            this.emojiPadding = 0;
+        }
+        updateKeyboard();
+        requestLayout();
+        onWindowSizeChanged();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showEmojiPopup$39(boolean z, ValueAnimator valueAnimator) {
-        float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
-        this.emojiView.setTranslationY(floatValue);
-        if (z) {
-            return;
-        }
-        bottomPanelTranslationY(floatValue, 1.0f - (floatValue / this.emojiPadding));
+    public /* synthetic */ void lambda$showEmojiPopup$39(ValueAnimator valueAnimator) {
+        this.emojiView.setTranslationY(((Float) valueAnimator.getAnimatedValue()).floatValue());
     }
 
     private void hideEmojiPopup(boolean z) {
@@ -3504,29 +3454,21 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         if (z) {
             EmojiView emojiView = this.emojiView;
             if (emojiView != null && emojiView.getVisibility() == 0 && !this.waitingForKeyboardOpen) {
-                final int measuredHeight = this.emojiView.getMeasuredHeight();
-                ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, measuredHeight);
-                final boolean z2 = this.bottomPanelIgnoreOnce;
+                ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, this.emojiView.getMeasuredHeight());
                 this.bottomPanelIgnoreOnce = false;
-                PaintWeightChooserView paintWeightChooserView = this.weightChooserView;
-                int i = AndroidUtilities.displaySize.y;
-                paintWeightChooserView.startPanTransition(i - measuredHeight, i);
-                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda3
+                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda0
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                        LPhotoPaintView.this.lambda$hideEmojiPopup$40(z2, measuredHeight, valueAnimator);
+                        LPhotoPaintView.this.lambda$hideEmojiPopup$40(valueAnimator);
                     }
                 });
                 this.isAnimatePopupClosing = true;
                 ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView.19
                     @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                     public void onAnimationEnd(Animator animator) {
-                        LPhotoPaintView.this.isAnimatePopupClosing = false;
-                        LPhotoPaintView.this.emojiView.setTranslationY(0.0f);
-                        if (!z2) {
-                            LPhotoPaintView.this.bottomPanelTranslationY(0.0f, 0.0f);
-                        }
-                        LPhotoPaintView.this.weightChooserView.stopPanTransition();
+                        LPhotoPaintView lPhotoPaintView = LPhotoPaintView.this;
+                        lPhotoPaintView.isAnimatePopupClosing = false;
+                        lPhotoPaintView.emojiView.setTranslationY(0.0f);
                         LPhotoPaintView.this.hideEmojiView();
                     }
                 });
@@ -3540,32 +3482,10 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$hideEmojiPopup$40(boolean z, int i, ValueAnimator valueAnimator) {
-        float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
-        this.emojiView.setTranslationY(floatValue);
-        if (z) {
-            return;
-        }
-        float f = i;
-        bottomPanelTranslationY(floatValue - f, 1.0f - (floatValue / f));
+    public /* synthetic */ void lambda$hideEmojiPopup$40(ValueAnimator valueAnimator) {
+        this.emojiView.setTranslationY(((Float) valueAnimator.getAnimatedValue()).floatValue());
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public void bottomPanelTranslationY(float f, float f2) {
-        this.bottomLayout.setTranslationY((f - this.emojiPadding) + (AndroidUtilities.dp(40.0f) * f2));
-        float f3 = (f - this.emojiPadding) / 2.0f;
-        this.panTranslationY = f3;
-        this.panTranslationProgress = ((f3 * 2.0f) / this.keyboardHeight) + 1.0f;
-        PaintWeightChooserView paintWeightChooserView = this.weightChooserView;
-        if (!this.emojiViewVisible) {
-            f = 0.0f;
-        }
-        paintWeightChooserView.updatePanTransition(f, f2);
-        setTransform(this.scale, this.inputTransformX, this.inputTransformY, this.imageWidth, this.imageHeight);
-        ((View) getParent()).invalidate();
-    }
-
-    @Override // org.telegram.ui.Components.IPhotoPaintView
     public int getEmojiPadding(boolean z) {
         if (this.translateBottomPanelAfterResize && z) {
             bottomPanelTranslationY(0.0f, 1.0f);
@@ -3573,15 +3493,15 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         if (this.keyboardVisible && this.translateBottomPanelAfterResize && !z) {
             return 0;
         }
-        if (this.adjustPanLayoutHelper.animationInProgress() && !this.keyboardVisible) {
-            return this.keyboardHeight;
-        }
         return this.emojiPadding;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public void hideEmojiView() {
         EmojiView emojiView;
+        if (this.emojiPadding > 0) {
+            updateKeyboard();
+        }
         if (!this.emojiViewVisible && (emojiView = this.emojiView) != null && emojiView.getVisibility() != 8) {
             this.emojiView.setVisibility(8);
         }
@@ -3615,6 +3535,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
                 this.emojiView.setLayoutParams(layoutParams);
                 this.emojiPadding = layoutParams.height;
                 requestLayout();
+                updateKeyboard();
                 onWindowSizeChanged();
             }
         }
@@ -3637,6 +3558,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         if (this.emojiPadding != 0 && !(z2 = this.keyboardVisible) && z2 != z3 && !this.emojiViewVisible) {
             this.emojiPadding = 0;
             requestLayout();
+            updateKeyboard();
         }
         if (z3 && !this.keyboardVisible && this.emojiPadding > 0 && this.translateBottomPanelAfterResize) {
             this.translateBottomPanelAfterResize = false;
@@ -3648,10 +3570,9 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
             AndroidUtilities.cancelRunOnUIThread(this.openKeyboardRunnable);
         }
         onWindowSizeChanged();
-        updatePlusEmojiKeyboardButton();
     }
 
-    private void updatePlusEmojiKeyboardButton() {
+    public void updatePlusEmojiKeyboardButton() {
         PaintTextOptionsView paintTextOptionsView = this.textOptionsView;
         if (paintTextOptionsView != null) {
             if (this.keyboardVisible) {
@@ -3882,7 +3803,6 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         }
     }
 
-    @Override // org.telegram.ui.Components.IPhotoPaintView
     public float adjustPanLayoutHelperProgress() {
         return this.panTranslationProgress;
     }
@@ -3892,8 +3812,6 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
     public void onAttachedToWindow() {
         this.destroyed = false;
         super.onAttachedToWindow();
-        this.adjustPanLayoutHelper.setResizableView(this);
-        this.adjustPanLayoutHelper.onAttach();
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.customTypefacesLoaded);
     }
 
@@ -3902,7 +3820,6 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
     public void onDetachedFromWindow() {
         this.destroyed = true;
         super.onDetachedFromWindow();
-        this.adjustPanLayoutHelper.onDetach();
         NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.customTypefacesLoaded);
     }
 

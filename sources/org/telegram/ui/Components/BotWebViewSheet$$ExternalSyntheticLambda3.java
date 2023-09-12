@@ -11,8 +11,8 @@ public final /* synthetic */ class BotWebViewSheet$$ExternalSyntheticLambda3 imp
 
     @Override // android.view.View.OnApplyWindowInsetsListener
     public final WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
-        WindowInsets lambda$onCreate$13;
-        lambda$onCreate$13 = BotWebViewSheet.lambda$onCreate$13(view, windowInsets);
-        return lambda$onCreate$13;
+        WindowInsets lambda$onCreate$14;
+        lambda$onCreate$14 = BotWebViewSheet.lambda$onCreate$14(view, windowInsets);
+        return lambda$onCreate$14;
     }
 }
