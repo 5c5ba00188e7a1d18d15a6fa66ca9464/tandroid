@@ -3677,21 +3677,21 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Removed duplicated region for block: B:325:0x0d1a  */
     /* JADX WARN: Removed duplicated region for block: B:326:0x0d39  */
     /* JADX WARN: Removed duplicated region for block: B:329:0x0e00  */
-    /* JADX WARN: Removed duplicated region for block: B:332:0x0f09  */
-    /* JADX WARN: Removed duplicated region for block: B:342:0x0f49  */
-    /* JADX WARN: Removed duplicated region for block: B:345:0x0f55  */
-    /* JADX WARN: Removed duplicated region for block: B:353:0x101a  */
-    /* JADX WARN: Removed duplicated region for block: B:357:0x114a  */
-    /* JADX WARN: Removed duplicated region for block: B:378:0x13c3  */
-    /* JADX WARN: Removed duplicated region for block: B:379:0x13e0  */
-    /* JADX WARN: Removed duplicated region for block: B:382:0x1425  */
-    /* JADX WARN: Removed duplicated region for block: B:395:0x14ce  */
-    /* JADX WARN: Removed duplicated region for block: B:398:0x14e8  */
-    /* JADX WARN: Removed duplicated region for block: B:404:0x151e  */
-    /* JADX WARN: Removed duplicated region for block: B:406:0x1525  */
-    /* JADX WARN: Removed duplicated region for block: B:407:0x1534  */
-    /* JADX WARN: Removed duplicated region for block: B:410:0x1572  */
-    /* JADX WARN: Removed duplicated region for block: B:411:0x157d  */
+    /* JADX WARN: Removed duplicated region for block: B:332:0x0f12  */
+    /* JADX WARN: Removed duplicated region for block: B:342:0x0f52  */
+    /* JADX WARN: Removed duplicated region for block: B:345:0x0f5e  */
+    /* JADX WARN: Removed duplicated region for block: B:353:0x1023  */
+    /* JADX WARN: Removed duplicated region for block: B:357:0x1153  */
+    /* JADX WARN: Removed duplicated region for block: B:378:0x13cc  */
+    /* JADX WARN: Removed duplicated region for block: B:379:0x13e9  */
+    /* JADX WARN: Removed duplicated region for block: B:382:0x142e  */
+    /* JADX WARN: Removed duplicated region for block: B:395:0x14d7  */
+    /* JADX WARN: Removed duplicated region for block: B:398:0x14f1  */
+    /* JADX WARN: Removed duplicated region for block: B:404:0x1527  */
+    /* JADX WARN: Removed duplicated region for block: B:406:0x152e  */
+    /* JADX WARN: Removed duplicated region for block: B:407:0x153d  */
+    /* JADX WARN: Removed duplicated region for block: B:410:0x157b  */
+    /* JADX WARN: Removed duplicated region for block: B:411:0x1586  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -4956,7 +4956,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 this.forwardButton = null;
                 31 r8 = new 31(getParentActivity(), this.contentView, this, true, this.themeDelegate);
                 this.chatActivityEnterView = r8;
-                r8.setDelegate(new ChatActivityEnterViewDelegate());
+                r8.getEditField().adaptiveCreateLinkDialog = true;
+                this.chatActivityEnterView.setDelegate(new ChatActivityEnterViewDelegate());
                 this.chatActivityEnterView.setDialogId(this.dialog_id, this.currentAccount);
                 tLRPC$ChatFull = this.chatInfo;
                 if (tLRPC$ChatFull != null) {
@@ -6279,7 +6280,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         this.forwardButton = null;
         31 r82 = new 31(getParentActivity(), this.contentView, this, true, this.themeDelegate);
         this.chatActivityEnterView = r82;
-        r82.setDelegate(new ChatActivityEnterViewDelegate());
+        r82.getEditField().adaptiveCreateLinkDialog = true;
+        this.chatActivityEnterView.setDelegate(new ChatActivityEnterViewDelegate());
         this.chatActivityEnterView.setDialogId(this.dialog_id, this.currentAccount);
         tLRPC$ChatFull = this.chatInfo;
         if (tLRPC$ChatFull != null) {

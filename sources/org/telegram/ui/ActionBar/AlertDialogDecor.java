@@ -37,6 +37,11 @@ public class AlertDialogDecor extends AlertDialog {
     private View rootView;
     private final Runnable showRunnable;
 
+    @Override // org.telegram.ui.ActionBar.AlertDialog
+    protected boolean supportsNativeBlur() {
+        return false;
+    }
+
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0() {
         this.rootView.setVisibility(0);
