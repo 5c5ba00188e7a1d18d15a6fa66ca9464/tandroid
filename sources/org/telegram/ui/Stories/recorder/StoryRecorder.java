@@ -4004,6 +4004,8 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
                 i4 = 0;
             }
             videoTimeView.setVisibility(i4);
+            this.captionContainer.setAlpha(1.0f);
+            this.captionContainer.setTranslationY(0.0f);
         }
         if (i2 == 0 && this.showSavedDraftHint) {
             getDraftSavedHint().setVisibility(0);

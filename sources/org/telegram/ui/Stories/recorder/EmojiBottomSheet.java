@@ -443,7 +443,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
             }
 
             /* JADX WARN: Multi-variable type inference failed */
-            /* JADX WARN: Type inference failed for: r1v3, types: [android.view.View] */
+            /* JADX WARN: Type inference failed for: r2v3, types: [android.view.View] */
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
             public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
                 ContextLinkCell contextLinkCell;
@@ -451,6 +451,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                     contextLinkCell = new View(GifPage.this.getContext());
                 } else {
                     ContextLinkCell contextLinkCell2 = new ContextLinkCell(GifPage.this.getContext());
+                    contextLinkCell2.getPhotoImage().setLayerNum(7);
                     contextLinkCell2.allowButtonBounce(true);
                     contextLinkCell2.setIsKeyboard(true);
                     contextLinkCell2.setCanPreviewGif(true);
@@ -1049,8 +1050,8 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
             }
 
             /* JADX INFO: Access modifiers changed from: private */
-            /* JADX WARN: Removed duplicated region for block: B:135:0x02d9 A[SYNTHETIC] */
-            /* JADX WARN: Removed duplicated region for block: B:79:0x0265  */
+            /* JADX WARN: Removed duplicated region for block: B:138:0x02e3 A[SYNTHETIC] */
+            /* JADX WARN: Removed duplicated region for block: B:82:0x026f  */
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
             */
@@ -1082,8 +1083,10 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                 this.packs.clear();
                 Page page = Page.this;
                 if (page.currentType == 1) {
-                    this.documents.add(EmojiBottomSheet.this.widgets);
-                    this.itemsCount++;
+                    if (EmojiBottomSheet.this.hasWidgets()) {
+                        this.documents.add(EmojiBottomSheet.this.widgets);
+                        this.itemsCount++;
+                    }
                     ArrayList<TLRPC$Document> recentStickers = mediaDataController.getRecentStickers(2);
                     if (recentStickers != null && !recentStickers.isEmpty()) {
                         if (this.faveSet == null) {
@@ -1470,6 +1473,10 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                 return this.itemsCount;
             }
         }
+    }
+
+    public boolean hasWidgets() {
+        return canShowWidget(0) || canShowWidget(2);
     }
 
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
@@ -2838,8 +2845,12 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
             ArrayList arrayList = new ArrayList();
             this.widgets = arrayList;
             setPadding(AndroidUtilities.dp(0.0f), 0, AndroidUtilities.dp(0.0f), 0);
-            arrayList.add(new Button(0, R.drawable.map_pin3, LocaleController.getString(R.string.StoryWidgetLocation)));
-            arrayList.add(new Button(2, R.drawable.files_gallery, LocaleController.getString(R.string.StoryWidgetPhoto)));
+            if (emojiBottomSheet.canShowWidget(0)) {
+                arrayList.add(new Button(0, R.drawable.map_pin3, LocaleController.getString(R.string.StoryWidgetLocation)));
+            }
+            if (emojiBottomSheet.canShowWidget(2)) {
+                arrayList.add(new Button(2, R.drawable.files_gallery, LocaleController.getString(R.string.StoryWidgetPhoto)));
+            }
         }
 
         /* loaded from: classes4.dex */

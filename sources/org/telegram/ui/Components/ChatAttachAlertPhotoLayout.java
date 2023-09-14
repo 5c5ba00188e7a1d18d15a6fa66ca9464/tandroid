@@ -3570,14 +3570,13 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         return selectedPhotosOrder.size();
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:31:0x0092, code lost:
-        if (((org.telegram.ui.ChatActivity) r6).isSecretChat() != false) goto L25;
+    /* JADX WARN: Code restructure failed: missing block: B:33:0x00a5, code lost:
+        if (((org.telegram.ui.ChatActivity) r6).isSecretChat() != false) goto L24;
      */
-    /* JADX WARN: Removed duplicated region for block: B:13:0x0033  */
-    /* JADX WARN: Removed duplicated region for block: B:17:0x0041  */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x004a  */
-    /* JADX WARN: Removed duplicated region for block: B:21:0x0064  */
-    /* JADX WARN: Removed duplicated region for block: B:26:0x0082  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x0052  */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x005d  */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x0077  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x0095  */
     @Override // org.telegram.ui.Components.ChatAttachAlert.AttachAlertLayout
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -3587,10 +3586,14 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
             ChatAttachAlert chatAttachAlert = this.parentAlert;
             if (chatAttachAlert.editingMessageObject == null) {
                 chatAttachAlert.selectedMenuItem.showSubItem(0);
+                if (this.documentsEnabled) {
+                    this.parentAlert.selectedMenuItem.showSubItem(1);
+                } else {
+                    this.parentAlert.selectedMenuItem.hideSubItem(1);
+                }
                 if (i != 0) {
                     this.parentAlert.selectedMenuItem.hideSubItem(3);
                 }
-                this.compressItem.setVisibility(this.documentsEnabled ? 0 : 8);
                 if (i <= 1) {
                     this.parentAlert.selectedMenuItem.showSubItem(4);
                     this.parentAlert.selectedMenuItem.showSubItem(5);
@@ -3621,12 +3624,13 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         if (i == 0) {
             this.parentAlert.selectedMenuItem.showSubItem(3);
             this.parentAlert.selectedMenuItem.hideSubItem(1);
-        } else {
+        } else if (this.documentsEnabled) {
             this.parentAlert.selectedMenuItem.showSubItem(1);
+        } else {
+            this.parentAlert.selectedMenuItem.hideSubItem(1);
         }
         if (i != 0) {
         }
-        this.compressItem.setVisibility(this.documentsEnabled ? 0 : 8);
         if (i <= 1) {
         }
         if (i != 0) {

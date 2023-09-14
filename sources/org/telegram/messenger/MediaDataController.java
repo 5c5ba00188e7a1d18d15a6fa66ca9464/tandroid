@@ -99,6 +99,7 @@ import org.telegram.tgnet.TLRPC$TL_account_saveRingtone;
 import org.telegram.tgnet.TLRPC$TL_account_savedRingtoneConverted;
 import org.telegram.tgnet.TLRPC$TL_attachMenuBot;
 import org.telegram.tgnet.TLRPC$TL_attachMenuBotIcon;
+import org.telegram.tgnet.TLRPC$TL_attachMenuBot_layer162;
 import org.telegram.tgnet.TLRPC$TL_attachMenuBots;
 import org.telegram.tgnet.TLRPC$TL_attachMenuBotsNotModified;
 import org.telegram.tgnet.TLRPC$TL_attachMenuPeerTypeBotPM;
@@ -980,6 +981,7 @@ public class MediaDataController extends BaseController {
     }
 
     public void processLoadedMenuBots(TLRPC$TL_attachMenuBots tLRPC$TL_attachMenuBots, long j, int i, boolean z) {
+        boolean z2;
         if (tLRPC$TL_attachMenuBots != null && i != 0) {
             this.attachMenuBots = tLRPC$TL_attachMenuBots;
             this.menuBotsUpdateHash = j;
@@ -999,10 +1001,19 @@ public class MediaDataController extends BaseController {
                     MediaDataController.this.lambda$processLoadedMenuBots$4();
                 }
             });
+            z2 = false;
+            for (int i2 = 0; i2 < tLRPC$TL_attachMenuBots.bots.size(); i2++) {
+                if (tLRPC$TL_attachMenuBots.bots.get(i2) instanceof TLRPC$TL_attachMenuBot_layer162) {
+                    tLRPC$TL_attachMenuBots.bots.get(i2).show_in_attach_menu = true;
+                    z2 = true;
+                }
+            }
+        } else {
+            z2 = false;
         }
         if (!z) {
             putMenuBotsToCache(tLRPC$TL_attachMenuBots, j, i);
-        } else if (Math.abs((System.currentTimeMillis() / 1000) - i) >= 3600) {
+        } else if (z2 || Math.abs((System.currentTimeMillis() / 1000) - i) >= 3600) {
             loadAttachMenuBots(false, true);
         }
     }
@@ -4543,10 +4554,10 @@ public class MediaDataController extends BaseController {
     }
 
     public void toggleStickerSet(Context context, TLObject tLObject, int i, BaseFragment baseFragment, boolean z, boolean z2) {
-        toggleStickerSet(context, tLObject, i, baseFragment, z, z2, null);
+        toggleStickerSet(context, tLObject, i, baseFragment, z, z2, null, true);
     }
 
-    public void toggleStickerSet(final Context context, final TLObject tLObject, final int i, final BaseFragment baseFragment, final boolean z, boolean z2, final Runnable runnable) {
+    public void toggleStickerSet(final Context context, final TLObject tLObject, final int i, final BaseFragment baseFragment, final boolean z, boolean z2, final Runnable runnable, boolean z3) {
         TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet;
         TLRPC$StickerSet tLRPC$StickerSet;
         final TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet2;
@@ -4588,7 +4599,7 @@ public class MediaDataController extends BaseController {
                 this.stickerSets[i2].remove(i4);
                 if (i == 2) {
                     this.stickerSets[i2].add(0, tLRPC$TL_messages_stickerSet4);
-                } else {
+                } else if (z3) {
                     this.stickerSetsById.remove(tLRPC$TL_messages_stickerSet4.set.id);
                     this.installedStickerSetsById.remove(tLRPC$TL_messages_stickerSet4.set.id);
                     this.stickerSetsByName.remove(tLRPC$TL_messages_stickerSet4.set.short_name);

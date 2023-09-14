@@ -5740,7 +5740,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         ImageView imageView5 = new ImageView(this.parentActivity);
         this.paintItem = imageView5;
         imageView5.setScaleType(ImageView.ScaleType.CENTER);
-        this.paintItem.setImageResource(R.drawable.msg_draw_pen);
+        this.paintItem.setImageResource(R.drawable.media_draw);
         this.paintItem.setBackgroundDrawable(Theme.createSelectorDrawable(1090519039));
         this.itemsLayout.addView(this.paintItem, LayoutHelper.createLinear(48, 48));
         this.paintItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.PhotoViewer$$ExternalSyntheticLambda35
@@ -11713,7 +11713,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         this.photoCropView = photoCropView;
         photoCropView.setVisibility(8);
         this.photoCropView.onDisappear();
-        this.containerView.addView(this.photoCropView, this.containerView.indexOfChild(this.videoTimelineView) - 1, LayoutHelper.createFrame(-1, -1.0f, 51, 0.0f, 0.0f, 0.0f, 48.0f));
+        this.containerView.addView(this.photoCropView, this.containerView.indexOfChild(this.videoTimelineViewContainer) - 1, LayoutHelper.createFrame(-1, -1.0f, 51, 0.0f, 0.0f, 0.0f, 48.0f));
         this.photoCropView.setDelegate(new 51());
     }
 
@@ -17798,7 +17798,6 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                             PhotoViewer.this.pickerViewSendButton.setTranslationY(AndroidUtilities.dp(32.0f));
                             PhotoViewer.this.pickerViewSendButton.setAlpha(0.0f);
                             PhotoViewer.this.pickerViewSendButton.animate().alpha(1.0f).translationY(0.0f).setDuration(150L).setInterpolator(cubicBezierInterpolator).start();
-                            PhotoViewer.this.captionEdit.setAddPhotoVisible(true, true);
                             PhotoViewer.this.videoPreviewFrame.setTranslationY(AndroidUtilities.dp(32.0f));
                             PhotoViewer.this.videoPreviewFrame.animate().alpha(1.0f).translationY(0.0f).setDuration(150L).setInterpolator(cubicBezierInterpolator).start();
                             PhotoViewer.this.containerView.setAlpha(0.0f);

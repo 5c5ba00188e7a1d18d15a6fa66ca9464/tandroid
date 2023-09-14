@@ -2,16 +2,18 @@ package org.telegram.ui.Components.Paint.Views;
 
 import android.content.Context;
 import android.view.MotionEvent;
-import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import org.telegram.ui.Components.Paint.Views.RotationGestureDetector;
+import com.google.zxing.common.detector.MathUtils;
+import org.telegram.messenger.AndroidUtilities;
 /* loaded from: classes4.dex */
-public class EntitiesContainerView extends FrameLayout implements ScaleGestureDetector.OnScaleGestureListener, RotationGestureDetector.OnRotationGestureListener {
+public class EntitiesContainerView extends FrameLayout {
+    private boolean cancelled;
     private EntitiesContainerViewDelegate delegate;
     private boolean hasTransformed;
-    private float previousScale;
+    private float px;
+    private float py;
 
     /* loaded from: classes4.dex */
     public interface EntitiesContainerViewDelegate {
@@ -20,15 +22,8 @@ public class EntitiesContainerView extends FrameLayout implements ScaleGestureDe
         EntityView onSelectedEntityRequest();
     }
 
-    @Override // android.view.ScaleGestureDetector.OnScaleGestureListener
-    public void onScaleEnd(ScaleGestureDetector scaleGestureDetector) {
-    }
-
     public EntitiesContainerView(Context context, EntitiesContainerViewDelegate entitiesContainerViewDelegate) {
         super(context);
-        this.previousScale = 1.0f;
-        new ScaleGestureDetector(context, this);
-        new RotationGestureDetector(this);
         this.delegate = entitiesContainerViewDelegate;
     }
 
@@ -45,35 +40,45 @@ public class EntitiesContainerView extends FrameLayout implements ScaleGestureDe
     @Override // android.view.View
     public boolean onTouchEvent(MotionEvent motionEvent) {
         EntitiesContainerViewDelegate entitiesContainerViewDelegate;
-        if (this.delegate.onSelectedEntityRequest() == null) {
+        EntityView onSelectedEntityRequest = this.delegate.onSelectedEntityRequest();
+        if (onSelectedEntityRequest == null) {
             return false;
         }
         if (motionEvent.getPointerCount() == 1) {
             int actionMasked = motionEvent.getActionMasked();
             if (actionMasked == 0) {
                 this.hasTransformed = false;
-            } else if (actionMasked == 1 || actionMasked == 2) {
+                onSelectedEntityRequest.hasPanned = false;
+                onSelectedEntityRequest.hasReleased = false;
+                this.px = motionEvent.getX();
+                this.py = motionEvent.getY();
+                this.cancelled = false;
+            } else if (!this.cancelled && actionMasked == 2) {
+                float x = motionEvent.getX();
+                float y = motionEvent.getY();
+                if (this.hasTransformed || MathUtils.distance(x, y, this.px, this.py) > AndroidUtilities.touchSlop) {
+                    this.hasTransformed = true;
+                    onSelectedEntityRequest.hasPanned = true;
+                    onSelectedEntityRequest.pan(x - this.px, y - this.py);
+                    this.px = x;
+                    this.py = y;
+                }
+            } else if (actionMasked == 1 || actionMasked == 3) {
+                onSelectedEntityRequest.hasPanned = false;
+                onSelectedEntityRequest.hasReleased = true;
                 if (!this.hasTransformed && (entitiesContainerViewDelegate = this.delegate) != null) {
                     entitiesContainerViewDelegate.onEntityDeselect();
                 }
+                invalidate();
                 return false;
             }
+        } else {
+            onSelectedEntityRequest.hasPanned = false;
+            onSelectedEntityRequest.hasReleased = true;
+            this.hasTransformed = false;
+            this.cancelled = true;
+            invalidate();
         }
-        return true;
-    }
-
-    @Override // android.view.ScaleGestureDetector.OnScaleGestureListener
-    public boolean onScale(ScaleGestureDetector scaleGestureDetector) {
-        float scaleFactor = scaleGestureDetector.getScaleFactor();
-        this.delegate.onSelectedEntityRequest().scale(scaleFactor / this.previousScale);
-        this.previousScale = scaleFactor;
-        return false;
-    }
-
-    @Override // android.view.ScaleGestureDetector.OnScaleGestureListener
-    public boolean onScaleBegin(ScaleGestureDetector scaleGestureDetector) {
-        this.previousScale = 1.0f;
-        this.hasTransformed = true;
         return true;
     }
 

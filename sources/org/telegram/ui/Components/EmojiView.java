@@ -4153,7 +4153,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                 public final void run() {
                     EmojiView.EmojiPackHeader.this.lambda$uninstall$8(tLRPC$TL_messages_stickerSet);
                 }
-            });
+            }, false);
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -6504,7 +6504,12 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                     checkPanels();
                 }
             } else if (((Integer) objArr[0]).intValue() == 5) {
-                this.emojiAdapter.notifyDataSetChanged(((Boolean) objArr[1]).booleanValue());
+                if (((Boolean) objArr[1]).booleanValue()) {
+                    AndroidUtilities.cancelRunOnUIThread(this.updateStickersLoadedDelayed);
+                    AndroidUtilities.runOnUIThread(this.updateStickersLoadedDelayed, 100L);
+                    return;
+                }
+                this.emojiAdapter.notifyDataSetChanged(false);
             }
         } else if (i == NotificationCenter.recentDocumentsDidLoad) {
             boolean booleanValue = ((Boolean) objArr[0]).booleanValue();
@@ -7688,22 +7693,25 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                     } else {
                         emojiPack5.documents = tLRPC$StickerSetCovered.covers;
                     }
-                    int i5 = 0;
-                    while (true) {
-                        if (i5 >= emojiPack5.documents.size()) {
-                            z2 = false;
-                            break;
-                        } else if (!MessageObject.isFreeEmoji(emojiPack5.documents.get(i5))) {
-                            z2 = true;
-                            break;
-                        } else {
-                            i5++;
+                    ArrayList<TLRPC$Document> arrayList4 = emojiPack5.documents;
+                    if (arrayList4 != null && !arrayList4.isEmpty()) {
+                        int i5 = 0;
+                        while (true) {
+                            if (i5 >= emojiPack5.documents.size()) {
+                                z2 = false;
+                                break;
+                            } else if (!MessageObject.isFreeEmoji(emojiPack5.documents.get(i5))) {
+                                z2 = true;
+                                break;
+                            } else {
+                                i5++;
+                            }
                         }
+                        emojiPack5.free = !z2;
+                        emojiPack5.expanded = EmojiView.this.expandedEmojiSets.contains(Long.valueOf(emojiPack5.set.id));
+                        emojiPack5.featured = true;
+                        EmojiView.this.emojipacksProcessed.add(emojiPack5);
                     }
-                    emojiPack5.free = !z2;
-                    emojiPack5.expanded = EmojiView.this.expandedEmojiSets.contains(Long.valueOf(emojiPack5.set.id));
-                    emojiPack5.featured = true;
-                    EmojiView.this.emojipacksProcessed.add(emojiPack5);
                 }
                 if (EmojiView.this.emojiTabs != null) {
                     EmojiView.this.emojiTabs.updateEmojiPacks(EmojiView.this.getEmojipacks());
@@ -7791,6 +7799,9 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                 this.trendingRow = i2;
                 this.itemCount = i3 + 1;
                 this.recentlyUsedHeaderRow = i3;
+                this.rowHashCodes.add(324953);
+                this.rowHashCodes.add(123342);
+                this.rowHashCodes.add(929132);
             } else {
                 this.trendingHeaderRow = -1;
                 this.trendingRow = -1;
@@ -7846,21 +7857,25 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                     }
                     ArrayList<Integer> arrayList = this.rowHashCodes;
                     Object[] objArr = new Object[2];
-                    objArr[0] = Integer.valueOf(emojiPack.featured ? 56345 : -645231);
+                    objArr[0] = Integer.valueOf(emojiPack.featured ? 56345 : -495231);
                     TLRPC$StickerSet tLRPC$StickerSet = emojiPack.set;
                     objArr[1] = Long.valueOf(tLRPC$StickerSet == null ? i8 : tLRPC$StickerSet.id);
                     arrayList.add(Integer.valueOf(Objects.hash(objArr)));
                     for (int i9 = 1; i9 < size; i9++) {
                         ArrayList<Integer> arrayList2 = this.rowHashCodes;
                         Object[] objArr2 = new Object[2];
-                        objArr2[0] = Integer.valueOf(emojiPack.featured ? 3442 : 3213);
+                        objArr2[0] = Integer.valueOf(emojiPack.featured ? 3442 : -9964);
                         objArr2[1] = Long.valueOf(emojiPack.documents.get(i9 - 1).id);
                         arrayList2.add(Integer.valueOf(Objects.hash(objArr2)));
                     }
                     this.itemCount += size;
                     if (!emojiPack.expanded && emojiPack.documents.size() > spanCount) {
                         this.positionToExpand.put(this.itemCount, i8);
-                        this.rowHashCodes.add(Integer.valueOf(Objects.hash(-65174, Long.valueOf(emojiPack.set.id))));
+                        ArrayList<Integer> arrayList3 = this.rowHashCodes;
+                        Object[] objArr3 = new Object[2];
+                        objArr3[0] = Integer.valueOf(emojiPack.featured ? -65174 : 92242);
+                        objArr3[1] = Long.valueOf(emojiPack.set.id);
+                        arrayList3.add(Integer.valueOf(Objects.hash(objArr3)));
                         this.itemCount++;
                     }
                     i8++;

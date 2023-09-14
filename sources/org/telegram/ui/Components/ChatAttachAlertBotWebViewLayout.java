@@ -66,8 +66,10 @@ import org.telegram.ui.Components.ChatAttachAlertBotWebViewLayout;
 public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlertLayout implements NotificationCenter.NotificationCenterDelegate {
     private long botId;
     private int currentAccount;
+    private int customActionBarBackground;
     private int customBackground;
     private boolean destroyed;
+    private boolean hasCustomActionBarBackground;
     private boolean hasCustomBackground;
     private boolean ignoreLayout;
     private boolean ignoreMeasure;
@@ -362,6 +364,21 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
     @Override // org.telegram.ui.Components.ChatAttachAlert.AttachAlertLayout
     public int getCustomBackground() {
         return this.customBackground;
+    }
+
+    @Override // org.telegram.ui.Components.ChatAttachAlert.AttachAlertLayout
+    boolean hasCustomActionBarBackground() {
+        return this.hasCustomActionBarBackground;
+    }
+
+    @Override // org.telegram.ui.Components.ChatAttachAlert.AttachAlertLayout
+    int getCustomActionBarBackground() {
+        return this.customActionBarBackground;
+    }
+
+    public void setCustomActionBarBackground(int i) {
+        this.hasCustomActionBarBackground = true;
+        this.customActionBarBackground = i;
     }
 
     public boolean canExpandByRequest() {

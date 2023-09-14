@@ -1213,18 +1213,18 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         }
     }
 
-    public static void uninstallSet(BaseFragment baseFragment, TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet, boolean z, Runnable runnable) {
+    public static void uninstallSet(BaseFragment baseFragment, TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet, boolean z, Runnable runnable, boolean z2) {
         if (baseFragment == null || tLRPC$TL_messages_stickerSet == null || baseFragment.getFragmentView() == null) {
             return;
         }
-        MediaDataController.getInstance(baseFragment.getCurrentAccount()).toggleStickerSet(baseFragment.getFragmentView().getContext(), tLRPC$TL_messages_stickerSet, 0, baseFragment, true, z, runnable);
+        MediaDataController.getInstance(baseFragment.getCurrentAccount()).toggleStickerSet(baseFragment.getFragmentView().getContext(), tLRPC$TL_messages_stickerSet, 0, baseFragment, true, z, runnable, z2);
     }
 
     public static void uninstallSet(Context context, TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet, boolean z, Runnable runnable) {
         if (tLRPC$TL_messages_stickerSet == null) {
             return;
         }
-        MediaDataController.getInstance(UserConfig.selectedAccount).toggleStickerSet(context, tLRPC$TL_messages_stickerSet, 0, null, true, z, runnable);
+        MediaDataController.getInstance(UserConfig.selectedAccount).toggleStickerSet(context, tLRPC$TL_messages_stickerSet, 0, null, true, z, runnable, true);
     }
 
     private void loadAnimation() {
@@ -1390,7 +1390,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         } else {
             int i = 0;
             while (i < arrayList.size()) {
-                uninstallSet(getContext(), (TLRPC$TL_messages_stickerSet) arrayList.get(i), i == 0, (Runnable) null);
+                uninstallSet(getContext(), (TLRPC$TL_messages_stickerSet) arrayList.get(i), i == 0, null);
                 i++;
             }
         }
@@ -2003,7 +2003,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                 public final void run() {
                     EmojiPacksAlert.EmojiPackHeader.this.lambda$new$2();
                 }
-            });
+            }, true);
             toggle(false, true);
         }
 

@@ -5285,21 +5285,21 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:23:0x0042, code lost:
-        if (r5 > 0) goto L47;
+        if (r5 > 0) goto L50;
      */
-    /* JADX WARN: Removed duplicated region for block: B:178:0x04b0  */
-    /* JADX WARN: Removed duplicated region for block: B:185:0x04cf  */
-    /* JADX WARN: Removed duplicated region for block: B:188:0x04d5  */
-    /* JADX WARN: Removed duplicated region for block: B:193:0x04e8  */
-    /* JADX WARN: Removed duplicated region for block: B:200:0x0500  */
-    /* JADX WARN: Removed duplicated region for block: B:204:0x050b  */
-    /* JADX WARN: Removed duplicated region for block: B:207:0x0518  */
+    /* JADX WARN: Removed duplicated region for block: B:181:0x04ba  */
+    /* JADX WARN: Removed duplicated region for block: B:188:0x04d9  */
+    /* JADX WARN: Removed duplicated region for block: B:191:0x04df  */
+    /* JADX WARN: Removed duplicated region for block: B:196:0x04f2  */
+    /* JADX WARN: Removed duplicated region for block: B:203:0x050a  */
+    /* JADX WARN: Removed duplicated region for block: B:207:0x0515  */
+    /* JADX WARN: Removed duplicated region for block: B:210:0x0522  */
     /* JADX WARN: Removed duplicated region for block: B:27:0x0050  */
     /* JADX WARN: Removed duplicated region for block: B:30:0x0074  */
     /* JADX WARN: Removed duplicated region for block: B:31:0x0081  */
     /* JADX WARN: Removed duplicated region for block: B:34:0x00ac  */
-    /* JADX WARN: Removed duplicated region for block: B:37:0x00b8  */
-    /* JADX WARN: Removed duplicated region for block: B:48:0x011a  */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x00c2  */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x0124  */
     @Override // org.telegram.ui.Stories.StoriesListPlaceProvider.AvatarOverlaysView
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -5346,9 +5346,15 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                     this.timerDrawable.setBounds(0, 0, AndroidUtilities.dp(22.0f), AndroidUtilities.dp(22.0f));
                     this.timerDrawable.setTime(this.ttlPeriod);
                     if (!this.avatarImage.updateThumbShaderMatrix()) {
-                        BitmapShader bitmapShader = this.avatarImage.thumbShader;
+                        ImageReceiver imageReceiver = this.avatarImage;
+                        BitmapShader bitmapShader = imageReceiver.thumbShader;
                         if (bitmapShader != null) {
                             this.timerPaint.setShader(bitmapShader);
+                        } else {
+                            BitmapShader bitmapShader2 = imageReceiver.staticThumbShader;
+                            if (bitmapShader2 != null) {
+                                this.timerPaint.setShader(bitmapShader2);
+                            }
                         }
                     } else {
                         this.timerPaint.setShader(null);

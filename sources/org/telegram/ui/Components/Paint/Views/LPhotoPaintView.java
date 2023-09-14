@@ -110,9 +110,9 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.Size;
 import org.telegram.ui.Components.SizeNotifierFrameLayout;
 import org.telegram.ui.Components.SizeNotifierFrameLayoutPhoto;
-import org.telegram.ui.Components.StickerMasksAlert;
 import org.telegram.ui.Components.TrendingStickersLayout;
 import org.telegram.ui.PhotoViewer;
+import org.telegram.ui.Stories.recorder.EmojiBottomSheet;
 /* loaded from: classes4.dex */
 public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPaintView, PaintToolsView.Delegate, EntityView.EntityViewDelegate, PaintTextOptionsView.Delegate, SizeNotifierFrameLayout.SizeNotifierFrameLayoutDelegate, NotificationCenter.NotificationCenterDelegate {
     private float baseScale;
@@ -323,7 +323,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         };
         setDelegate(this);
         this.currentAccount = i;
-        this.resourcesProvider = new Theme.ResourcesProvider() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda37
+        this.resourcesProvider = new Theme.ResourcesProvider() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda38
             @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
             public /* synthetic */ void applyServiceShaderMatrix(int i4, int i5, float f, float f2) {
                 Theme.applyServiceShaderMatrix(i4, i5, f, f2);
@@ -390,7 +390,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         this.originalBitmapRotation = i2;
         UndoStore undoStore = new UndoStore();
         this.undoStore = undoStore;
-        undoStore.setDelegate(new UndoStore.UndoStoreDelegate() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda38
+        undoStore.setDelegate(new UndoStore.UndoStoreDelegate() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda39
             @Override // org.telegram.ui.Components.Paint.UndoStore.UndoStoreDelegate
             public final void historyChanged() {
                 LPhotoPaintView.this.lambda$new$1();
@@ -877,7 +877,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         PaintTypefaceListView paintTypefaceListView = new PaintTypefaceListView(context);
         this.typefaceListView = paintTypefaceListView;
         paintTypefaceListView.setVisibility(8);
-        this.typefaceListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda39
+        this.typefaceListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda40
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view2, int i6) {
                 LPhotoPaintView.this.lambda$new$7(view2, i6);
@@ -970,7 +970,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
             return -1;
         }
         if (i == Theme.key_dialogBackground) {
-            return -14803426;
+            return -14737633;
         }
         if (i == Theme.key_dialogTextBlack) {
             return -592138;
@@ -987,13 +987,11 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         if (i == Theme.key_chat_emojiBottomPanelIcon || i == Theme.key_chat_emojiPanelBackspace || i == Theme.key_chat_emojiPanelIcon) {
             return -9539985;
         }
-        if (i == Theme.key_chat_emojiPanelIconSelected) {
-            return -10177041;
-        }
-        if (i == Theme.key_windowBackgroundWhiteBlackText) {
+        if (i == Theme.key_chat_emojiPanelIconSelected || i == Theme.key_windowBackgroundWhiteBlackText) {
             return -1;
         }
-        if (i == Theme.key_featuredStickers_addedIcon) {
+        int i2 = Theme.key_featuredStickers_addedIcon;
+        if (i == i2) {
             return -11754001;
         }
         if (i == Theme.key_listSelector) {
@@ -1004,6 +1002,15 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         }
         if (i == Theme.key_profile_tabSelector) {
             return 352321535;
+        }
+        if (i == Theme.key_chat_emojiSearchIcon || i == i2) {
+            return -7895161;
+        }
+        if (i == Theme.key_chat_emojiSearchBackground) {
+            return 780633991;
+        }
+        if (i == Theme.key_windowBackgroundGray) {
+            return -15921907;
         }
         if (resourcesProvider != null) {
             return resourcesProvider.getColor(i);
@@ -1544,8 +1551,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         return null;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public void switchTab(final int i) {
+    private void switchTab(final int i) {
         if (this.tabsSelectedIndex == i || this.tabsNewSelectedIndex == i) {
             return;
         }
@@ -1640,27 +1646,25 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
                 LPhotoPaintView.this.lambda$openStickersView$17();
             }
         }, 350L);
-        StickerMasksAlert stickerMasksAlert = new StickerMasksAlert(getContext(), this.facesBitmap == null, this.resourcesProvider) { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView.15
-            @Override // org.telegram.ui.ActionBar.BottomSheet
-            public void onDismissAnimationStart() {
-                super.onDismissAnimationStart();
-                LPhotoPaintView.this.switchTab(i);
+        EmojiBottomSheet emojiBottomSheet = new EmojiBottomSheet(this, getContext(), false, this.resourcesProvider) { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView.15
+            @Override // org.telegram.ui.Stories.recorder.EmojiBottomSheet
+            public boolean canShowWidget(Integer num) {
+                return false;
             }
         };
-        stickerMasksAlert.setImageReceiverNumLevel(28, 28);
-        stickerMasksAlert.setDelegate(new StickerMasksAlert.StickerMasksAlertDelegate() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda40
-            @Override // org.telegram.ui.Components.StickerMasksAlert.StickerMasksAlertDelegate
-            public final void onStickerSelected(Object obj, TLRPC$Document tLRPC$Document) {
-                LPhotoPaintView.this.lambda$openStickersView$18(obj, tLRPC$Document);
+        emojiBottomSheet.whenDocumentSelected(new Utilities.Callback3() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda36
+            @Override // org.telegram.messenger.Utilities.Callback3
+            public final void run(Object obj, Object obj2, Object obj3) {
+                LPhotoPaintView.this.lambda$openStickersView$18(obj, (TLRPC$Document) obj2, (Boolean) obj3);
             }
         });
-        stickerMasksAlert.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda5
+        emojiBottomSheet.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda5
             @Override // android.content.DialogInterface.OnDismissListener
             public final void onDismiss(DialogInterface dialogInterface) {
                 LPhotoPaintView.this.lambda$openStickersView$19(i, dialogInterface);
             }
         });
-        stickerMasksAlert.show();
+        emojiBottomSheet.show();
         onOpenCloseStickersAlert(true);
     }
 
@@ -1672,8 +1676,11 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$openStickersView$18(Object obj, TLRPC$Document tLRPC$Document) {
-        createSticker(obj, tLRPC$Document, true);
+    public /* synthetic */ void lambda$openStickersView$18(Object obj, TLRPC$Document tLRPC$Document, Boolean bool) {
+        StickerView createSticker = createSticker(obj, tLRPC$Document, true);
+        if (bool.booleanValue()) {
+            createSticker.setScale(1.5f);
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -2998,7 +3005,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
                     return lambda$showPopup$35;
                 }
             });
-            this.popupLayout.setDispatchKeyEventListener(new ActionBarPopupWindow.OnDispatchKeyEventListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda36
+            this.popupLayout.setDispatchKeyEventListener(new ActionBarPopupWindow.OnDispatchKeyEventListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda37
                 @Override // org.telegram.ui.ActionBar.ActionBarPopupWindow.OnDispatchKeyEventListener
                 public final void onDispatchKeyEvent(KeyEvent keyEvent) {
                     LPhotoPaintView.this.lambda$showPopup$36(keyEvent);
@@ -3209,6 +3216,9 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
                 LPhotoPaintView.this.didSetAnimatedSticker(rLottieDrawable);
             }
         };
+        if (MessageObject.isTextColorEmoji(tLRPC$Document)) {
+            stickerView.centerImage.setColorFilter(new PorterDuffColorFilter(-1, PorterDuff.Mode.SRC_IN));
+        }
         stickerView.centerImage.setLayerNum(12);
         if (calculateStickerPosition.position.x == this.entitiesView.getMeasuredWidth() / 2.0f) {
             stickerView.setStickyX(2);
