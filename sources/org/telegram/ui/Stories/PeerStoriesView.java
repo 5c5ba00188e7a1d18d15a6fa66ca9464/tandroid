@@ -3800,7 +3800,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
     /* JADX WARN: Removed duplicated region for block: B:404:0x0861  */
     /* JADX WARN: Removed duplicated region for block: B:417:0x08df  */
     /* JADX WARN: Type inference failed for: r2v4 */
-    /* JADX WARN: Type inference failed for: r2v5, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r2v5, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r2v61 */
     /* JADX WARN: Type inference failed for: r5v33 */
     /* JADX WARN: Type inference failed for: r5v38, types: [org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble$VisibleReaction, android.view.ViewPropertyAnimator] */

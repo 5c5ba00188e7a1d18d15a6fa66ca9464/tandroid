@@ -4083,7 +4083,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Removed duplicated region for block: B:239:0x0637  */
     /* JADX WARN: Type inference failed for: r7v2 */
-    /* JADX WARN: Type inference failed for: r7v3, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r7v3, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r7v7 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
