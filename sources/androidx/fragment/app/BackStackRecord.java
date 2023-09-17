@@ -3,54 +3,16 @@ package androidx.fragment.app;
 import android.util.Log;
 import androidx.core.util.LogWriter;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManagerImpl;
-import java.io.FileDescriptor;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import java.io.PrintWriter;
-import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class BackStackRecord extends FragmentTransaction implements FragmentManagerImpl.OpGenerator {
-    boolean mAddToBackStack;
-    int mBreadCrumbShortTitleRes;
-    CharSequence mBreadCrumbShortTitleText;
-    int mBreadCrumbTitleRes;
-    CharSequence mBreadCrumbTitleText;
-    ArrayList<Runnable> mCommitRunnables;
+public final class BackStackRecord extends FragmentTransaction implements FragmentManager.OpGenerator {
     boolean mCommitted;
-    int mEnterAnim;
-    int mExitAnim;
-    final FragmentManagerImpl mManager;
-    String mName;
-    int mPopEnterAnim;
-    int mPopExitAnim;
-    ArrayList<String> mSharedElementSourceNames;
-    ArrayList<String> mSharedElementTargetNames;
-    int mTransition;
-    int mTransitionStyle;
-    ArrayList<Op> mOps = new ArrayList<>();
-    int mIndex = -1;
-    boolean mReorderingAllowed = false;
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static final class Op {
-        int cmd;
-        int enterAnim;
-        int exitAnim;
-        Fragment fragment;
-        int popEnterAnim;
-        int popExitAnim;
-
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public Op() {
-        }
-
-        Op(int i, Fragment fragment) {
-            this.cmd = i;
-            this.fragment = fragment;
-        }
-    }
+    int mIndex;
+    final FragmentManager mManager;
 
     public String toString() {
         StringBuilder sb = new StringBuilder(128);
@@ -68,7 +30,7 @@ public final class BackStackRecord extends FragmentTransaction implements Fragme
         return sb.toString();
     }
 
-    public void dump(String str, FileDescriptor fileDescriptor, PrintWriter printWriter, String[] strArr) {
+    public void dump(String str, PrintWriter printWriter) {
         dump(str, printWriter, true);
     }
 
@@ -86,8 +48,6 @@ public final class BackStackRecord extends FragmentTransaction implements Fragme
                 printWriter.print(str);
                 printWriter.print("mTransition=#");
                 printWriter.print(Integer.toHexString(this.mTransition));
-                printWriter.print(" mTransitionStyle=#");
-                printWriter.println(Integer.toHexString(this.mTransitionStyle));
             }
             if (this.mEnterAnim != 0 || this.mExitAnim != 0) {
                 printWriter.print(str);
@@ -125,8 +85,8 @@ public final class BackStackRecord extends FragmentTransaction implements Fragme
         printWriter.println("Operations:");
         int size = this.mOps.size();
         for (int i = 0; i < size; i++) {
-            Op op = this.mOps.get(i);
-            switch (op.cmd) {
+            FragmentTransaction.Op op = this.mOps.get(i);
+            switch (op.mCmd) {
                 case 0:
                     str2 = "NULL";
                     break;
@@ -157,8 +117,11 @@ public final class BackStackRecord extends FragmentTransaction implements Fragme
                 case 9:
                     str2 = "UNSET_PRIMARY_NAV";
                     break;
+                case 10:
+                    str2 = "OP_SET_MAX_LIFECYCLE";
+                    break;
                 default:
-                    str2 = "cmd=" + op.cmd;
+                    str2 = "cmd=" + op.mCmd;
                     break;
             }
             printWriter.print(str);
@@ -167,93 +130,68 @@ public final class BackStackRecord extends FragmentTransaction implements Fragme
             printWriter.print(": ");
             printWriter.print(str2);
             printWriter.print(" ");
-            printWriter.println(op.fragment);
+            printWriter.println(op.mFragment);
             if (z) {
-                if (op.enterAnim != 0 || op.exitAnim != 0) {
+                if (op.mEnterAnim != 0 || op.mExitAnim != 0) {
                     printWriter.print(str);
                     printWriter.print("enterAnim=#");
-                    printWriter.print(Integer.toHexString(op.enterAnim));
+                    printWriter.print(Integer.toHexString(op.mEnterAnim));
                     printWriter.print(" exitAnim=#");
-                    printWriter.println(Integer.toHexString(op.exitAnim));
+                    printWriter.println(Integer.toHexString(op.mExitAnim));
                 }
-                if (op.popEnterAnim != 0 || op.popExitAnim != 0) {
+                if (op.mPopEnterAnim != 0 || op.mPopExitAnim != 0) {
                     printWriter.print(str);
                     printWriter.print("popEnterAnim=#");
-                    printWriter.print(Integer.toHexString(op.popEnterAnim));
+                    printWriter.print(Integer.toHexString(op.mPopEnterAnim));
                     printWriter.print(" popExitAnim=#");
-                    printWriter.println(Integer.toHexString(op.popExitAnim));
+                    printWriter.println(Integer.toHexString(op.mPopExitAnim));
                 }
             }
         }
-    }
-
-    public BackStackRecord(FragmentManagerImpl fragmentManagerImpl) {
-        this.mManager = fragmentManagerImpl;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public void addOp(Op op) {
-        this.mOps.add(op);
-        op.enterAnim = this.mEnterAnim;
-        op.exitAnim = this.mExitAnim;
-        op.popEnterAnim = this.mPopEnterAnim;
-        op.popExitAnim = this.mPopExitAnim;
+    /* JADX WARN: Illegal instructions before constructor call */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public BackStackRecord(FragmentManager fragmentManager) {
+        super(r0, r1 != null ? r1.getContext().getClassLoader() : null);
+        FragmentFactory fragmentFactory = fragmentManager.getFragmentFactory();
+        FragmentHostCallback<?> fragmentHostCallback = fragmentManager.mHost;
+        this.mIndex = -1;
+        this.mManager = fragmentManager;
     }
 
     @Override // androidx.fragment.app.FragmentTransaction
-    public FragmentTransaction add(Fragment fragment, String str) {
-        doAddOp(0, fragment, str, 1);
-        return this;
-    }
-
-    private void doAddOp(int i, Fragment fragment, String str, int i2) {
-        Class<?> cls = fragment.getClass();
-        int modifiers = cls.getModifiers();
-        if (cls.isAnonymousClass() || !Modifier.isPublic(modifiers) || (cls.isMemberClass() && !Modifier.isStatic(modifiers))) {
-            throw new IllegalStateException("Fragment " + cls.getCanonicalName() + " must be a public static class to be  properly recreated from instance state.");
-        }
+    void doAddOp(int i, Fragment fragment, String str, int i2) {
+        super.doAddOp(i, fragment, str, i2);
         fragment.mFragmentManager = this.mManager;
-        if (str != null) {
-            String str2 = fragment.mTag;
-            if (str2 != null && !str.equals(str2)) {
-                throw new IllegalStateException("Can't change tag of fragment " + fragment + ": was " + fragment.mTag + " now " + str);
-            }
-            fragment.mTag = str;
-        }
-        if (i != 0) {
-            if (i == -1) {
-                throw new IllegalArgumentException("Can't add fragment " + fragment + " with tag " + str + " to container view with no id");
-            }
-            int i3 = fragment.mFragmentId;
-            if (i3 != 0 && i3 != i) {
-                throw new IllegalStateException("Can't change container ID of fragment " + fragment + ": was " + fragment.mFragmentId + " now " + i);
-            }
-            fragment.mFragmentId = i;
-            fragment.mContainerId = i;
-        }
-        addOp(new Op(i2, fragment));
     }
 
     @Override // androidx.fragment.app.FragmentTransaction
     public FragmentTransaction remove(Fragment fragment) {
-        addOp(new Op(3, fragment));
-        return this;
+        FragmentManager fragmentManager = fragment.mFragmentManager;
+        if (fragmentManager != null && fragmentManager != this.mManager) {
+            throw new IllegalStateException("Cannot remove Fragment attached to a different FragmentManager. Fragment " + fragment.toString() + " is already attached to a FragmentManager.");
+        }
+        return super.remove(fragment);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public void bumpBackStackNesting(int i) {
-        Op op;
+        FragmentTransaction.Op op;
         if (this.mAddToBackStack) {
-            if (FragmentManagerImpl.DEBUG) {
+            if (FragmentManager.isLoggingEnabled(2)) {
                 Log.v("FragmentManager", "Bump nesting in " + this + " by " + i);
             }
             int size = this.mOps.size();
             for (int i2 = 0; i2 < size; i2++) {
-                Fragment fragment = this.mOps.get(i2).fragment;
+                Fragment fragment = this.mOps.get(i2).mFragment;
                 if (fragment != null) {
                     fragment.mBackStackNesting += i;
-                    if (FragmentManagerImpl.DEBUG) {
-                        Log.v("FragmentManager", "Bump nesting of " + op.fragment + " to " + op.fragment.mBackStackNesting);
+                    if (FragmentManager.isLoggingEnabled(2)) {
+                        Log.v("FragmentManager", "Bump nesting of " + op.mFragment + " to " + op.mFragment.mBackStackNesting);
                     }
                 }
             }
@@ -261,10 +199,8 @@ public final class BackStackRecord extends FragmentTransaction implements Fragme
     }
 
     public void runOnCommitRunnables() {
-        ArrayList<Runnable> arrayList = this.mCommitRunnables;
-        if (arrayList != null) {
-            int size = arrayList.size();
-            for (int i = 0; i < size; i++) {
+        if (this.mCommitRunnables != null) {
+            for (int i = 0; i < this.mCommitRunnables.size(); i++) {
                 this.mCommitRunnables.get(i).run();
             }
             this.mCommitRunnables = null;
@@ -281,19 +217,25 @@ public final class BackStackRecord extends FragmentTransaction implements Fragme
         return commitInternal(true);
     }
 
+    @Override // androidx.fragment.app.FragmentTransaction
+    public void commitNowAllowingStateLoss() {
+        disallowAddToBackStack();
+        this.mManager.execSingleAction(this, true);
+    }
+
     int commitInternal(boolean z) {
         if (this.mCommitted) {
             throw new IllegalStateException("commit already called");
         }
-        if (FragmentManagerImpl.DEBUG) {
+        if (FragmentManager.isLoggingEnabled(2)) {
             Log.v("FragmentManager", "Commit: " + this);
             PrintWriter printWriter = new PrintWriter(new LogWriter("FragmentManager"));
-            dump("  ", null, printWriter, null);
+            dump("  ", printWriter);
             printWriter.close();
         }
         this.mCommitted = true;
         if (this.mAddToBackStack) {
-            this.mIndex = this.mManager.allocBackStackIndex(this);
+            this.mIndex = this.mManager.allocBackStackIndex();
         } else {
             this.mIndex = -1;
         }
@@ -301,9 +243,9 @@ public final class BackStackRecord extends FragmentTransaction implements Fragme
         return this.mIndex;
     }
 
-    @Override // androidx.fragment.app.FragmentManagerImpl.OpGenerator
+    @Override // androidx.fragment.app.FragmentManager.OpGenerator
     public boolean generateOps(ArrayList<BackStackRecord> arrayList, ArrayList<Boolean> arrayList2) {
-        if (FragmentManagerImpl.DEBUG) {
+        if (FragmentManager.isLoggingEnabled(2)) {
             Log.v("FragmentManager", "Run: " + this);
         }
         arrayList.add(this);
@@ -319,7 +261,7 @@ public final class BackStackRecord extends FragmentTransaction implements Fragme
     public boolean interactsWith(int i) {
         int size = this.mOps.size();
         for (int i2 = 0; i2 < size; i2++) {
-            Fragment fragment = this.mOps.get(i2).fragment;
+            Fragment fragment = this.mOps.get(i2).mFragment;
             int i3 = fragment != null ? fragment.mContainerId : 0;
             if (i3 != 0 && i3 == i) {
                 return true;
@@ -336,14 +278,14 @@ public final class BackStackRecord extends FragmentTransaction implements Fragme
         int size = this.mOps.size();
         int i3 = -1;
         for (int i4 = 0; i4 < size; i4++) {
-            Fragment fragment = this.mOps.get(i4).fragment;
+            Fragment fragment = this.mOps.get(i4).mFragment;
             int i5 = fragment != null ? fragment.mContainerId : 0;
             if (i5 != 0 && i5 != i3) {
                 for (int i6 = i; i6 < i2; i6++) {
                     BackStackRecord backStackRecord = arrayList.get(i6);
                     int size2 = backStackRecord.mOps.size();
                     for (int i7 = 0; i7 < size2; i7++) {
-                        Fragment fragment2 = backStackRecord.mOps.get(i7).fragment;
+                        Fragment fragment2 = backStackRecord.mOps.get(i7).mFragment;
                         if ((fragment2 != null ? fragment2.mContainerId : 0) == i5) {
                             return true;
                         }
@@ -359,37 +301,40 @@ public final class BackStackRecord extends FragmentTransaction implements Fragme
     public void executeOps() {
         int size = this.mOps.size();
         for (int i = 0; i < size; i++) {
-            Op op = this.mOps.get(i);
-            Fragment fragment = op.fragment;
+            FragmentTransaction.Op op = this.mOps.get(i);
+            Fragment fragment = op.mFragment;
             if (fragment != null) {
-                fragment.setNextTransition(this.mTransition, this.mTransitionStyle);
+                fragment.setNextTransition(this.mTransition);
             }
-            switch (op.cmd) {
+            switch (op.mCmd) {
                 case 1:
-                    fragment.setNextAnim(op.enterAnim);
-                    this.mManager.addFragment(fragment, false);
+                    fragment.setNextAnim(op.mEnterAnim);
+                    this.mManager.setExitAnimationOrder(fragment, false);
+                    this.mManager.addFragment(fragment);
                     break;
                 case 2:
                 default:
-                    throw new IllegalArgumentException("Unknown cmd: " + op.cmd);
+                    throw new IllegalArgumentException("Unknown cmd: " + op.mCmd);
                 case 3:
-                    fragment.setNextAnim(op.exitAnim);
+                    fragment.setNextAnim(op.mExitAnim);
                     this.mManager.removeFragment(fragment);
                     break;
                 case 4:
-                    fragment.setNextAnim(op.exitAnim);
+                    fragment.setNextAnim(op.mExitAnim);
                     this.mManager.hideFragment(fragment);
                     break;
                 case 5:
-                    fragment.setNextAnim(op.enterAnim);
+                    fragment.setNextAnim(op.mEnterAnim);
+                    this.mManager.setExitAnimationOrder(fragment, false);
                     this.mManager.showFragment(fragment);
                     break;
                 case 6:
-                    fragment.setNextAnim(op.exitAnim);
+                    fragment.setNextAnim(op.mExitAnim);
                     this.mManager.detachFragment(fragment);
                     break;
                 case 7:
-                    fragment.setNextAnim(op.enterAnim);
+                    fragment.setNextAnim(op.mEnterAnim);
+                    this.mManager.setExitAnimationOrder(fragment, false);
                     this.mManager.attachFragment(fragment);
                     break;
                 case 8:
@@ -398,52 +343,58 @@ public final class BackStackRecord extends FragmentTransaction implements Fragme
                 case 9:
                     this.mManager.setPrimaryNavigationFragment(null);
                     break;
+                case 10:
+                    this.mManager.setMaxLifecycle(fragment, op.mCurrentMaxState);
+                    break;
             }
-            if (!this.mReorderingAllowed && op.cmd != 1 && fragment != null) {
+            if (!this.mReorderingAllowed && op.mCmd != 1 && fragment != null) {
                 this.mManager.moveFragmentToExpectedState(fragment);
             }
         }
         if (this.mReorderingAllowed) {
             return;
         }
-        FragmentManagerImpl fragmentManagerImpl = this.mManager;
-        fragmentManagerImpl.moveToState(fragmentManagerImpl.mCurState, true);
+        FragmentManager fragmentManager = this.mManager;
+        fragmentManager.moveToState(fragmentManager.mCurState, true);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public void executePopOps(boolean z) {
         for (int size = this.mOps.size() - 1; size >= 0; size--) {
-            Op op = this.mOps.get(size);
-            Fragment fragment = op.fragment;
+            FragmentTransaction.Op op = this.mOps.get(size);
+            Fragment fragment = op.mFragment;
             if (fragment != null) {
-                fragment.setNextTransition(FragmentManagerImpl.reverseTransit(this.mTransition), this.mTransitionStyle);
+                fragment.setNextTransition(FragmentManager.reverseTransit(this.mTransition));
             }
-            switch (op.cmd) {
+            switch (op.mCmd) {
                 case 1:
-                    fragment.setNextAnim(op.popExitAnim);
+                    fragment.setNextAnim(op.mPopExitAnim);
+                    this.mManager.setExitAnimationOrder(fragment, true);
                     this.mManager.removeFragment(fragment);
                     break;
                 case 2:
                 default:
-                    throw new IllegalArgumentException("Unknown cmd: " + op.cmd);
+                    throw new IllegalArgumentException("Unknown cmd: " + op.mCmd);
                 case 3:
-                    fragment.setNextAnim(op.popEnterAnim);
-                    this.mManager.addFragment(fragment, false);
+                    fragment.setNextAnim(op.mPopEnterAnim);
+                    this.mManager.addFragment(fragment);
                     break;
                 case 4:
-                    fragment.setNextAnim(op.popEnterAnim);
+                    fragment.setNextAnim(op.mPopEnterAnim);
                     this.mManager.showFragment(fragment);
                     break;
                 case 5:
-                    fragment.setNextAnim(op.popExitAnim);
+                    fragment.setNextAnim(op.mPopExitAnim);
+                    this.mManager.setExitAnimationOrder(fragment, true);
                     this.mManager.hideFragment(fragment);
                     break;
                 case 6:
-                    fragment.setNextAnim(op.popEnterAnim);
+                    fragment.setNextAnim(op.mPopEnterAnim);
                     this.mManager.attachFragment(fragment);
                     break;
                 case 7:
-                    fragment.setNextAnim(op.popExitAnim);
+                    fragment.setNextAnim(op.mPopExitAnim);
+                    this.mManager.setExitAnimationOrder(fragment, true);
                     this.mManager.detachFragment(fragment);
                     break;
                 case 8:
@@ -452,16 +403,19 @@ public final class BackStackRecord extends FragmentTransaction implements Fragme
                 case 9:
                     this.mManager.setPrimaryNavigationFragment(fragment);
                     break;
+                case 10:
+                    this.mManager.setMaxLifecycle(fragment, op.mOldMaxState);
+                    break;
             }
-            if (!this.mReorderingAllowed && op.cmd != 3 && fragment != null) {
+            if (!this.mReorderingAllowed && op.mCmd != 3 && fragment != null) {
                 this.mManager.moveFragmentToExpectedState(fragment);
             }
         }
         if (this.mReorderingAllowed || !z) {
             return;
         }
-        FragmentManagerImpl fragmentManagerImpl = this.mManager;
-        fragmentManagerImpl.moveToState(fragmentManagerImpl.mCurState, true);
+        FragmentManager fragmentManager = this.mManager;
+        fragmentManager.moveToState(fragmentManager.mCurState, true);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -469,11 +423,11 @@ public final class BackStackRecord extends FragmentTransaction implements Fragme
         Fragment fragment2 = fragment;
         int i = 0;
         while (i < this.mOps.size()) {
-            Op op = this.mOps.get(i);
-            int i2 = op.cmd;
+            FragmentTransaction.Op op = this.mOps.get(i);
+            int i2 = op.mCmd;
             if (i2 != 1) {
                 if (i2 == 2) {
-                    Fragment fragment3 = op.fragment;
+                    Fragment fragment3 = op.mFragment;
                     int i3 = fragment3.mContainerId;
                     boolean z = false;
                     for (int size = arrayList.size() - 1; size >= 0; size--) {
@@ -483,15 +437,15 @@ public final class BackStackRecord extends FragmentTransaction implements Fragme
                                 z = true;
                             } else {
                                 if (fragment4 == fragment2) {
-                                    this.mOps.add(i, new Op(9, fragment4));
+                                    this.mOps.add(i, new FragmentTransaction.Op(9, fragment4));
                                     i++;
                                     fragment2 = null;
                                 }
-                                Op op2 = new Op(3, fragment4);
-                                op2.enterAnim = op.enterAnim;
-                                op2.popEnterAnim = op.popEnterAnim;
-                                op2.exitAnim = op.exitAnim;
-                                op2.popExitAnim = op.popExitAnim;
+                                FragmentTransaction.Op op2 = new FragmentTransaction.Op(3, fragment4);
+                                op2.mEnterAnim = op.mEnterAnim;
+                                op2.mPopEnterAnim = op.mPopEnterAnim;
+                                op2.mExitAnim = op.mExitAnim;
+                                op2.mPopExitAnim = op.mPopExitAnim;
                                 this.mOps.add(i, op2);
                                 arrayList.remove(fragment4);
                                 i++;
@@ -502,27 +456,27 @@ public final class BackStackRecord extends FragmentTransaction implements Fragme
                         this.mOps.remove(i);
                         i--;
                     } else {
-                        op.cmd = 1;
+                        op.mCmd = 1;
                         arrayList.add(fragment3);
                     }
                 } else if (i2 == 3 || i2 == 6) {
-                    arrayList.remove(op.fragment);
-                    Fragment fragment5 = op.fragment;
+                    arrayList.remove(op.mFragment);
+                    Fragment fragment5 = op.mFragment;
                     if (fragment5 == fragment2) {
-                        this.mOps.add(i, new Op(9, fragment5));
+                        this.mOps.add(i, new FragmentTransaction.Op(9, fragment5));
                         i++;
                         fragment2 = null;
                     }
                 } else if (i2 != 7) {
                     if (i2 == 8) {
-                        this.mOps.add(i, new Op(9, fragment2));
+                        this.mOps.add(i, new FragmentTransaction.Op(9, fragment2));
                         i++;
-                        fragment2 = op.fragment;
+                        fragment2 = op.mFragment;
                     }
                 }
                 i++;
             }
-            arrayList.add(op.fragment);
+            arrayList.add(op.mFragment);
             i++;
         }
         return fragment2;
@@ -530,23 +484,26 @@ public final class BackStackRecord extends FragmentTransaction implements Fragme
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public Fragment trackAddedFragmentsInPop(ArrayList<Fragment> arrayList, Fragment fragment) {
-        for (int i = 0; i < this.mOps.size(); i++) {
-            Op op = this.mOps.get(i);
-            int i2 = op.cmd;
-            if (i2 != 1) {
-                if (i2 != 3) {
-                    switch (i2) {
+        for (int size = this.mOps.size() - 1; size >= 0; size--) {
+            FragmentTransaction.Op op = this.mOps.get(size);
+            int i = op.mCmd;
+            if (i != 1) {
+                if (i != 3) {
+                    switch (i) {
                         case 8:
                             fragment = null;
                             break;
                         case 9:
-                            fragment = op.fragment;
+                            fragment = op.mFragment;
+                            break;
+                        case 10:
+                            op.mCurrentMaxState = op.mOldMaxState;
                             break;
                     }
                 }
-                arrayList.add(op.fragment);
+                arrayList.add(op.mFragment);
             }
-            arrayList.remove(op.fragment);
+            arrayList.remove(op.mFragment);
         }
         return fragment;
     }
@@ -564,15 +521,15 @@ public final class BackStackRecord extends FragmentTransaction implements Fragme
     /* JADX INFO: Access modifiers changed from: package-private */
     public void setOnStartPostponedListener(Fragment.OnStartEnterTransitionListener onStartEnterTransitionListener) {
         for (int i = 0; i < this.mOps.size(); i++) {
-            Op op = this.mOps.get(i);
+            FragmentTransaction.Op op = this.mOps.get(i);
             if (isFragmentPostponed(op)) {
-                op.fragment.setOnStartEnterTransitionListener(onStartEnterTransitionListener);
+                op.mFragment.setOnStartEnterTransitionListener(onStartEnterTransitionListener);
             }
         }
     }
 
-    private static boolean isFragmentPostponed(Op op) {
-        Fragment fragment = op.fragment;
+    private static boolean isFragmentPostponed(FragmentTransaction.Op op) {
+        Fragment fragment = op.mFragment;
         return (fragment == null || !fragment.mAdded || fragment.mView == null || fragment.mDetached || fragment.mHidden || !fragment.isPostponed()) ? false : true;
     }
 

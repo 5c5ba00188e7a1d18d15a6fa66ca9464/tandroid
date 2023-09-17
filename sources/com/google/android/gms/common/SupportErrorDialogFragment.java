@@ -15,7 +15,7 @@ public class SupportErrorDialogFragment extends DialogFragment {
     private DialogInterface.OnCancelListener zab;
     private Dialog zac;
 
-    @Override // android.content.DialogInterface.OnCancelListener
+    @Override // androidx.fragment.app.DialogFragment, android.content.DialogInterface.OnCancelListener
     public void onCancel(DialogInterface dialogInterface) {
         DialogInterface.OnCancelListener onCancelListener = this.zab;
         if (onCancelListener != null) {

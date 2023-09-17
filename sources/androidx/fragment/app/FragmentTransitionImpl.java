@@ -1,13 +1,17 @@
 package androidx.fragment.app;
 
+import android.annotation.SuppressLint;
 import android.graphics.Rect;
 import android.view.View;
 import android.view.ViewGroup;
+import androidx.core.os.CancellationSignal;
+import androidx.core.view.OneShotPreDrawListener;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.ViewGroupCompat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+@SuppressLint({"UnknownNullness"})
 /* loaded from: classes.dex */
 public abstract class FragmentTransitionImpl {
     public abstract void addTarget(Object obj, View view);
@@ -147,6 +151,10 @@ public abstract class FragmentTransitionImpl {
                 }
             }
         });
+    }
+
+    public void setListenerForTransitionEnd(Fragment fragment, Object obj, CancellationSignal cancellationSignal, Runnable runnable) {
+        runnable.run();
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

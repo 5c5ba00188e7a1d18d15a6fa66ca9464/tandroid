@@ -35,11 +35,6 @@ public class ComponentActivity extends Activity implements LifecycleOwner, KeyEv
         super.onSaveInstanceState(bundle);
     }
 
-    @Override // androidx.lifecycle.LifecycleOwner
-    public Lifecycle getLifecycle() {
-        return this.mLifecycleRegistry;
-    }
-
     @Override // androidx.core.view.KeyEventDispatcher.Component
     public boolean superDispatchKeyEvent(KeyEvent keyEvent) {
         return super.dispatchKeyEvent(keyEvent);

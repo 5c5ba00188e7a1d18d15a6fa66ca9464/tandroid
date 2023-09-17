@@ -9,6 +9,30 @@ public class ViewModelProvider {
         <T extends ViewModel> T create(Class<T> cls);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: classes.dex */
+    public static class OnRequeryFactory {
+        void onRequery(ViewModel viewModel) {
+        }
+
+        OnRequeryFactory() {
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: classes.dex */
+    public static abstract class KeyedFactory extends OnRequeryFactory implements Factory {
+        public abstract <T extends ViewModel> T create(String str, Class<T> cls);
+
+        KeyedFactory() {
+        }
+
+        @Override // androidx.lifecycle.ViewModelProvider.Factory
+        public <T extends ViewModel> T create(Class<T> cls) {
+            throw new UnsupportedOperationException("create(String, Class<?>) must be called on implementaions of KeyedFactory");
+        }
+    }
+
     public ViewModelProvider(ViewModelStore viewModelStore, Factory factory) {
         this.mFactory = factory;
         this.mViewModelStore = viewModelStore;
@@ -23,12 +47,22 @@ public class ViewModelProvider {
     }
 
     public <T extends ViewModel> T get(String str, Class<T> cls) {
-        T t = (T) this.mViewModelStore.get(str);
-        if (cls.isInstance(t)) {
-            return t;
+        T t;
+        T t2 = (T) this.mViewModelStore.get(str);
+        if (cls.isInstance(t2)) {
+            Factory factory = this.mFactory;
+            if (factory instanceof OnRequeryFactory) {
+                ((OnRequeryFactory) factory).onRequery(t2);
+            }
+            return t2;
         }
-        T t2 = (T) this.mFactory.create(cls);
-        this.mViewModelStore.put(str, t2);
-        return t2;
+        Factory factory2 = this.mFactory;
+        if (factory2 instanceof KeyedFactory) {
+            t = (T) ((KeyedFactory) factory2).create(str, cls);
+        } else {
+            t = (T) factory2.create(cls);
+        }
+        this.mViewModelStore.put(str, t);
+        return t;
     }
 }

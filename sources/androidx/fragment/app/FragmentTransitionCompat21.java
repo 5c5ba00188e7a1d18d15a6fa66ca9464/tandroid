@@ -6,6 +6,7 @@ import android.transition.TransitionManager;
 import android.transition.TransitionSet;
 import android.view.View;
 import android.view.ViewGroup;
+import androidx.core.os.CancellationSignal;
 import java.util.ArrayList;
 import java.util.List;
 /* loaded from: classes.dex */
@@ -121,6 +122,8 @@ class FragmentTransitionCompat21 extends FragmentTransitionImpl {
 
             @Override // android.transition.Transition.TransitionListener
             public void onTransitionStart(Transition transition) {
+                transition.removeListener(this);
+                transition.addListener(this);
             }
 
             @Override // android.transition.Transition.TransitionListener
@@ -169,10 +172,6 @@ class FragmentTransitionCompat21 extends FragmentTransitionImpl {
             }
 
             @Override // android.transition.Transition.TransitionListener
-            public void onTransitionEnd(Transition transition) {
-            }
-
-            @Override // android.transition.Transition.TransitionListener
             public void onTransitionPause(Transition transition) {
             }
 
@@ -194,6 +193,37 @@ class FragmentTransitionCompat21 extends FragmentTransitionImpl {
                 if (obj7 != null) {
                     FragmentTransitionCompat21.this.replaceTargets(obj7, arrayList3, null);
                 }
+            }
+
+            @Override // android.transition.Transition.TransitionListener
+            public void onTransitionEnd(Transition transition) {
+                transition.removeListener(this);
+            }
+        });
+    }
+
+    @Override // androidx.fragment.app.FragmentTransitionImpl
+    public void setListenerForTransitionEnd(Fragment fragment, Object obj, CancellationSignal cancellationSignal, final Runnable runnable) {
+        ((Transition) obj).addListener(new Transition.TransitionListener(this) { // from class: androidx.fragment.app.FragmentTransitionCompat21.4
+            @Override // android.transition.Transition.TransitionListener
+            public void onTransitionCancel(Transition transition) {
+            }
+
+            @Override // android.transition.Transition.TransitionListener
+            public void onTransitionPause(Transition transition) {
+            }
+
+            @Override // android.transition.Transition.TransitionListener
+            public void onTransitionResume(Transition transition) {
+            }
+
+            @Override // android.transition.Transition.TransitionListener
+            public void onTransitionStart(Transition transition) {
+            }
+
+            @Override // android.transition.Transition.TransitionListener
+            public void onTransitionEnd(Transition transition) {
+                runnable.run();
             }
         });
     }
@@ -249,7 +279,7 @@ class FragmentTransitionCompat21 extends FragmentTransitionImpl {
     @Override // androidx.fragment.app.FragmentTransitionImpl
     public void setEpicenter(Object obj, final Rect rect) {
         if (obj != null) {
-            ((Transition) obj).setEpicenterCallback(new Transition.EpicenterCallback(this) { // from class: androidx.fragment.app.FragmentTransitionCompat21.4
+            ((Transition) obj).setEpicenterCallback(new Transition.EpicenterCallback(this) { // from class: androidx.fragment.app.FragmentTransitionCompat21.5
                 @Override // android.transition.Transition.EpicenterCallback
                 public Rect onGetEpicenter(Transition transition) {
                     Rect rect2 = rect;

@@ -1,9 +1,11 @@
 package androidx.fragment.app;
 
+import android.annotation.SuppressLint;
 import android.os.Parcel;
 import android.os.Parcelable;
+import java.util.ArrayList;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: FragmentManager.java */
+@SuppressLint({"BanParcelableUsage"})
 /* loaded from: classes.dex */
 public final class FragmentManagerState implements Parcelable {
     public static final Parcelable.Creator<FragmentManagerState> CREATOR = new Parcelable.Creator<FragmentManagerState>() { // from class: androidx.fragment.app.FragmentManagerState.1
@@ -17,11 +19,11 @@ public final class FragmentManagerState implements Parcelable {
             return new FragmentManagerState[i];
         }
     };
-    FragmentState[] mActive;
-    int[] mAdded;
+    ArrayList<FragmentState> mActive;
+    ArrayList<String> mAdded;
     BackStackState[] mBackStack;
-    int mNextFragmentIndex;
-    int mPrimaryNavActiveIndex;
+    int mBackStackIndex;
+    String mPrimaryNavActiveWho;
 
     @Override // android.os.Parcelable
     public int describeContents() {
@@ -29,24 +31,24 @@ public final class FragmentManagerState implements Parcelable {
     }
 
     public FragmentManagerState() {
-        this.mPrimaryNavActiveIndex = -1;
+        this.mPrimaryNavActiveWho = null;
     }
 
     public FragmentManagerState(Parcel parcel) {
-        this.mPrimaryNavActiveIndex = -1;
-        this.mActive = (FragmentState[]) parcel.createTypedArray(FragmentState.CREATOR);
-        this.mAdded = parcel.createIntArray();
+        this.mPrimaryNavActiveWho = null;
+        this.mActive = parcel.createTypedArrayList(FragmentState.CREATOR);
+        this.mAdded = parcel.createStringArrayList();
         this.mBackStack = (BackStackState[]) parcel.createTypedArray(BackStackState.CREATOR);
-        this.mPrimaryNavActiveIndex = parcel.readInt();
-        this.mNextFragmentIndex = parcel.readInt();
+        this.mBackStackIndex = parcel.readInt();
+        this.mPrimaryNavActiveWho = parcel.readString();
     }
 
     @Override // android.os.Parcelable
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeTypedArray(this.mActive, i);
-        parcel.writeIntArray(this.mAdded);
+        parcel.writeTypedList(this.mActive);
+        parcel.writeStringList(this.mAdded);
         parcel.writeTypedArray(this.mBackStack, i);
-        parcel.writeInt(this.mPrimaryNavActiveIndex);
-        parcel.writeInt(this.mNextFragmentIndex);
+        parcel.writeInt(this.mBackStackIndex);
+        parcel.writeString(this.mPrimaryNavActiveWho);
     }
 }

@@ -1031,29 +1031,29 @@ public class FileLoadOperation {
         return start(this.stream, this.streamOffset, this.streamPriority);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:128:0x0415, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:128:0x0416, code lost:
         if (r10 != r28.cacheFileFinal.length()) goto L70;
      */
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Removed duplicated region for block: B:114:0x03b4  */
-    /* JADX WARN: Removed duplicated region for block: B:115:0x03da  */
-    /* JADX WARN: Removed duplicated region for block: B:121:0x03fb  */
-    /* JADX WARN: Removed duplicated region for block: B:139:0x0471  */
-    /* JADX WARN: Removed duplicated region for block: B:238:0x0678  */
-    /* JADX WARN: Removed duplicated region for block: B:253:0x06a3  */
-    /* JADX WARN: Removed duplicated region for block: B:271:0x0725  */
-    /* JADX WARN: Removed duplicated region for block: B:274:0x072b  */
-    /* JADX WARN: Removed duplicated region for block: B:277:0x0755  */
-    /* JADX WARN: Removed duplicated region for block: B:290:0x07b3  */
-    /* JADX WARN: Removed duplicated region for block: B:297:0x07de  */
-    /* JADX WARN: Removed duplicated region for block: B:303:0x080a  */
-    /* JADX WARN: Removed duplicated region for block: B:308:0x0853  */
-    /* JADX WARN: Removed duplicated region for block: B:334:0x08c1  */
-    /* JADX WARN: Removed duplicated region for block: B:342:0x08e6 A[Catch: Exception -> 0x08ec, TRY_LEAVE, TryCatch #2 {Exception -> 0x08ec, blocks: (B:340:0x08d5, B:342:0x08e6), top: B:382:0x08d5 }] */
-    /* JADX WARN: Removed duplicated region for block: B:355:0x0918  */
-    /* JADX WARN: Removed duplicated region for block: B:357:0x091c  */
-    /* JADX WARN: Removed duplicated region for block: B:358:0x092b  */
-    /* JADX WARN: Removed duplicated region for block: B:384:0x0683 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:115:0x03db  */
+    /* JADX WARN: Removed duplicated region for block: B:121:0x03fc  */
+    /* JADX WARN: Removed duplicated region for block: B:139:0x0472  */
+    /* JADX WARN: Removed duplicated region for block: B:238:0x0679  */
+    /* JADX WARN: Removed duplicated region for block: B:253:0x06a4  */
+    /* JADX WARN: Removed duplicated region for block: B:271:0x0726  */
+    /* JADX WARN: Removed duplicated region for block: B:274:0x072c  */
+    /* JADX WARN: Removed duplicated region for block: B:277:0x0756  */
+    /* JADX WARN: Removed duplicated region for block: B:290:0x07b4  */
+    /* JADX WARN: Removed duplicated region for block: B:297:0x07df  */
+    /* JADX WARN: Removed duplicated region for block: B:303:0x080b  */
+    /* JADX WARN: Removed duplicated region for block: B:308:0x0854  */
+    /* JADX WARN: Removed duplicated region for block: B:334:0x08c2  */
+    /* JADX WARN: Removed duplicated region for block: B:342:0x08e7 A[Catch: Exception -> 0x08ed, TRY_LEAVE, TryCatch #2 {Exception -> 0x08ed, blocks: (B:340:0x08d6, B:342:0x08e7), top: B:382:0x08d6 }] */
+    /* JADX WARN: Removed duplicated region for block: B:355:0x0919  */
+    /* JADX WARN: Removed duplicated region for block: B:357:0x091d  */
+    /* JADX WARN: Removed duplicated region for block: B:358:0x092c  */
+    /* JADX WARN: Removed duplicated region for block: B:384:0x0684 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r1v40 */
     /* JADX WARN: Type inference failed for: r1v41, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r1v45 */
@@ -1454,51 +1454,51 @@ public class FileLoadOperation {
                     }
                     try {
                         str9 = str8;
-                    } catch (Exception e10) {
-                        e = e10;
-                        str9 = str8;
-                    }
-                    try {
-                        RandomAccessFile randomAccessFile5 = new RandomAccessFile(this.cacheFileParts, str9);
-                        this.filePartsStream = randomAccessFile5;
-                        long length3 = randomAccessFile5.length();
-                        if (length3 % 8 == 4) {
-                            int readInt = this.filePartsStream.readInt();
-                            if (readInt <= (length3 - 4) / 2) {
-                                for (int i4 = 0; i4 < readInt; i4++) {
-                                    long readLong4 = this.filePartsStream.readLong();
-                                    long readLong5 = this.filePartsStream.readLong();
-                                    this.notLoadedBytesRanges.add(new Range(readLong4, readLong5));
-                                    this.notRequestedBytesRanges.add(new Range(readLong4, readLong5));
+                        try {
+                            RandomAccessFile randomAccessFile5 = new RandomAccessFile(this.cacheFileParts, str9);
+                            this.filePartsStream = randomAccessFile5;
+                            long length3 = randomAccessFile5.length();
+                            if (length3 % 8 == 4) {
+                                int readInt = this.filePartsStream.readInt();
+                                if (readInt <= (length3 - 4) / 2) {
+                                    for (int i4 = 0; i4 < readInt; i4++) {
+                                        long readLong4 = this.filePartsStream.readLong();
+                                        long readLong5 = this.filePartsStream.readLong();
+                                        this.notLoadedBytesRanges.add(new Range(readLong4, readLong5));
+                                        this.notRequestedBytesRanges.add(new Range(readLong4, readLong5));
+                                    }
                                 }
+                            }
+                        } catch (Exception e10) {
+                            e = e10;
+                            FileLog.e(e, !AndroidUtilities.isFilNotFoundException(e));
+                            if (this.fileMetadata != null) {
+                            }
+                            if (!this.cacheFileTemp.exists()) {
+                            }
+                            arrayList = this.notLoadedBytesRanges;
+                            if (arrayList != null) {
+                            }
+                            if (BuildVars.LOGS_ENABLED) {
+                            }
+                            if (str3 != null) {
+                            }
+                            if (!this.isPreloadVideoOperation) {
+                            }
+                            updateProgress();
+                            RandomAccessFile randomAccessFile3222 = new RandomAccessFile(this.cacheFileTemp, str9);
+                            this.fileOutputStream = randomAccessFile3222;
+                            j2 = this.downloadedBytes;
+                            if (j2 != 0) {
+                            }
+                            r1 = 0;
+                            z4 = true;
+                            if (this.fileOutputStream != null) {
                             }
                         }
                     } catch (Exception e11) {
                         e = e11;
-                        FileLog.e(e, !AndroidUtilities.isFilNotFoundException(e));
-                        if (this.fileMetadata != null) {
-                        }
-                        if (!this.cacheFileTemp.exists()) {
-                        }
-                        arrayList = this.notLoadedBytesRanges;
-                        if (arrayList != null) {
-                        }
-                        if (BuildVars.LOGS_ENABLED) {
-                        }
-                        if (str3 != null) {
-                        }
-                        if (!this.isPreloadVideoOperation) {
-                        }
-                        updateProgress();
-                        RandomAccessFile randomAccessFile3222 = new RandomAccessFile(this.cacheFileTemp, str9);
-                        this.fileOutputStream = randomAccessFile3222;
-                        j2 = this.downloadedBytes;
-                        if (j2 != 0) {
-                        }
-                        r1 = 0;
-                        z4 = true;
-                        if (this.fileOutputStream != null) {
-                        }
+                        str9 = str8;
                     }
                 } else {
                     str9 = str8;

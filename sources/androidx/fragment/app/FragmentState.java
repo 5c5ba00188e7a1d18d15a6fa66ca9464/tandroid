@@ -1,12 +1,11 @@
 package androidx.fragment.app;
 
-import android.content.Context;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
-import androidx.lifecycle.ViewModelStore;
 /* JADX INFO: Access modifiers changed from: package-private */
+@SuppressLint({"BanParcelableUsage"})
 /* loaded from: classes.dex */
 public final class FragmentState implements Parcelable {
     public static final Parcelable.Creator<FragmentState> CREATOR = new Parcelable.Creator<FragmentState>() { // from class: androidx.fragment.app.FragmentState.1
@@ -27,11 +26,12 @@ public final class FragmentState implements Parcelable {
     final int mFragmentId;
     final boolean mFromLayout;
     final boolean mHidden;
-    final int mIndex;
-    Fragment mInstance;
+    final int mMaxLifecycleState;
+    final boolean mRemoving;
     final boolean mRetainInstance;
     Bundle mSavedFragmentState;
     final String mTag;
+    final String mWho;
 
     @Override // android.os.Parcelable
     public int describeContents() {
@@ -41,81 +41,83 @@ public final class FragmentState implements Parcelable {
     /* JADX INFO: Access modifiers changed from: package-private */
     public FragmentState(Fragment fragment) {
         this.mClassName = fragment.getClass().getName();
-        this.mIndex = fragment.mIndex;
+        this.mWho = fragment.mWho;
         this.mFromLayout = fragment.mFromLayout;
         this.mFragmentId = fragment.mFragmentId;
         this.mContainerId = fragment.mContainerId;
         this.mTag = fragment.mTag;
         this.mRetainInstance = fragment.mRetainInstance;
+        this.mRemoving = fragment.mRemoving;
         this.mDetached = fragment.mDetached;
         this.mArguments = fragment.mArguments;
         this.mHidden = fragment.mHidden;
+        this.mMaxLifecycleState = fragment.mMaxState.ordinal();
     }
 
     FragmentState(Parcel parcel) {
         this.mClassName = parcel.readString();
-        this.mIndex = parcel.readInt();
+        this.mWho = parcel.readString();
         this.mFromLayout = parcel.readInt() != 0;
         this.mFragmentId = parcel.readInt();
         this.mContainerId = parcel.readInt();
         this.mTag = parcel.readString();
         this.mRetainInstance = parcel.readInt() != 0;
+        this.mRemoving = parcel.readInt() != 0;
         this.mDetached = parcel.readInt() != 0;
         this.mArguments = parcel.readBundle();
         this.mHidden = parcel.readInt() != 0;
         this.mSavedFragmentState = parcel.readBundle();
+        this.mMaxLifecycleState = parcel.readInt();
     }
 
-    public Fragment instantiate(FragmentHostCallback fragmentHostCallback, FragmentContainer fragmentContainer, Fragment fragment, FragmentManagerNonConfig fragmentManagerNonConfig, ViewModelStore viewModelStore) {
-        if (this.mInstance == null) {
-            Context context = fragmentHostCallback.getContext();
-            Bundle bundle = this.mArguments;
-            if (bundle != null) {
-                bundle.setClassLoader(context.getClassLoader());
-            }
-            if (fragmentContainer != null) {
-                this.mInstance = fragmentContainer.instantiate(context, this.mClassName, this.mArguments);
-            } else {
-                this.mInstance = Fragment.instantiate(context, this.mClassName, this.mArguments);
-            }
-            Bundle bundle2 = this.mSavedFragmentState;
-            if (bundle2 != null) {
-                bundle2.setClassLoader(context.getClassLoader());
-                this.mInstance.mSavedFragmentState = this.mSavedFragmentState;
-            }
-            this.mInstance.setIndex(this.mIndex, fragment);
-            Fragment fragment2 = this.mInstance;
-            fragment2.mFromLayout = this.mFromLayout;
-            fragment2.mRestored = true;
-            fragment2.mFragmentId = this.mFragmentId;
-            fragment2.mContainerId = this.mContainerId;
-            fragment2.mTag = this.mTag;
-            fragment2.mRetainInstance = this.mRetainInstance;
-            fragment2.mDetached = this.mDetached;
-            fragment2.mHidden = this.mHidden;
-            fragment2.mFragmentManager = fragmentHostCallback.mFragmentManager;
-            if (FragmentManagerImpl.DEBUG) {
-                Log.v("FragmentManager", "Instantiated fragment " + this.mInstance);
-            }
+    public String toString() {
+        StringBuilder sb = new StringBuilder(128);
+        sb.append("FragmentState{");
+        sb.append(this.mClassName);
+        sb.append(" (");
+        sb.append(this.mWho);
+        sb.append(")}:");
+        if (this.mFromLayout) {
+            sb.append(" fromLayout");
         }
-        Fragment fragment3 = this.mInstance;
-        fragment3.mChildNonConfig = fragmentManagerNonConfig;
-        fragment3.mViewModelStore = viewModelStore;
-        return fragment3;
+        if (this.mContainerId != 0) {
+            sb.append(" id=0x");
+            sb.append(Integer.toHexString(this.mContainerId));
+        }
+        String str = this.mTag;
+        if (str != null && !str.isEmpty()) {
+            sb.append(" tag=");
+            sb.append(this.mTag);
+        }
+        if (this.mRetainInstance) {
+            sb.append(" retainInstance");
+        }
+        if (this.mRemoving) {
+            sb.append(" removing");
+        }
+        if (this.mDetached) {
+            sb.append(" detached");
+        }
+        if (this.mHidden) {
+            sb.append(" hidden");
+        }
+        return sb.toString();
     }
 
     @Override // android.os.Parcelable
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(this.mClassName);
-        parcel.writeInt(this.mIndex);
+        parcel.writeString(this.mWho);
         parcel.writeInt(this.mFromLayout ? 1 : 0);
         parcel.writeInt(this.mFragmentId);
         parcel.writeInt(this.mContainerId);
         parcel.writeString(this.mTag);
         parcel.writeInt(this.mRetainInstance ? 1 : 0);
+        parcel.writeInt(this.mRemoving ? 1 : 0);
         parcel.writeInt(this.mDetached ? 1 : 0);
         parcel.writeBundle(this.mArguments);
         parcel.writeInt(this.mHidden ? 1 : 0);
         parcel.writeBundle(this.mSavedFragmentState);
+        parcel.writeInt(this.mMaxLifecycleState);
     }
 }

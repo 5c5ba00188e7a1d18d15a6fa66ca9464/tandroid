@@ -24,9 +24,7 @@ public abstract class LiveData<T> {
 
     public LiveData() {
         Object obj = NOT_SET;
-        this.mData = obj;
         this.mPendingData = obj;
-        this.mVersion = -1;
         this.mPostValueRunnable = new Runnable() { // from class: androidx.lifecycle.LiveData.1
             /* JADX WARN: Multi-variable type inference failed */
             @Override // java.lang.Runnable
@@ -39,6 +37,8 @@ public abstract class LiveData<T> {
                 LiveData.this.setValue(obj2);
             }
         };
+        this.mData = obj;
+        this.mVersion = -1;
     }
 
     private void considerNotify(LiveData<T>.ObserverWrapper observerWrapper) {
@@ -215,7 +215,7 @@ public abstract class LiveData<T> {
         }
     }
 
-    private static void assertMainThread(String str) {
+    static void assertMainThread(String str) {
         if (ArchTaskExecutor.getInstance().isMainThread()) {
             return;
         }

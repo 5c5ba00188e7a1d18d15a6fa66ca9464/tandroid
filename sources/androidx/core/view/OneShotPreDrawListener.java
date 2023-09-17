@@ -1,9 +1,10 @@
-package androidx.fragment.app;
+package androidx.core.view;
 
 import android.view.View;
 import android.view.ViewTreeObserver;
+import java.util.Objects;
 /* loaded from: classes.dex */
-class OneShotPreDrawListener implements ViewTreeObserver.OnPreDrawListener, View.OnAttachStateChangeListener {
+public final class OneShotPreDrawListener implements ViewTreeObserver.OnPreDrawListener, View.OnAttachStateChangeListener {
     private final Runnable mRunnable;
     private final View mView;
     private ViewTreeObserver mViewTreeObserver;
@@ -15,6 +16,8 @@ class OneShotPreDrawListener implements ViewTreeObserver.OnPreDrawListener, View
     }
 
     public static OneShotPreDrawListener add(View view, Runnable runnable) {
+        Objects.requireNonNull(view, "view == null");
+        Objects.requireNonNull(runnable, "runnable == null");
         OneShotPreDrawListener oneShotPreDrawListener = new OneShotPreDrawListener(view, runnable);
         view.getViewTreeObserver().addOnPreDrawListener(oneShotPreDrawListener);
         view.addOnAttachStateChangeListener(oneShotPreDrawListener);

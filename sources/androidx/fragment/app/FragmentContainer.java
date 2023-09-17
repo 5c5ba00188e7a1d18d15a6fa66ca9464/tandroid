@@ -9,6 +9,7 @@ public abstract class FragmentContainer {
 
     public abstract boolean onHasView();
 
+    @Deprecated
     public Fragment instantiate(Context context, String str, Bundle bundle) {
         return Fragment.instantiate(context, str, bundle);
     }

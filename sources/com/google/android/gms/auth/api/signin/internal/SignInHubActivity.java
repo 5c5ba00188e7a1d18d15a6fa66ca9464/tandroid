@@ -97,7 +97,7 @@ public class SignInHubActivity extends FragmentActivity {
         zbd(8);
     }
 
-    @Override // androidx.fragment.app.FragmentActivity, androidx.core.app.ComponentActivity, android.app.Activity
+    @Override // androidx.fragment.app.FragmentActivity, androidx.activity.ComponentActivity, androidx.core.app.ComponentActivity, android.app.Activity
     public final void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         Intent intent = getIntent();
@@ -147,7 +147,7 @@ public class SignInHubActivity extends FragmentActivity {
         zba = false;
     }
 
-    @Override // androidx.fragment.app.FragmentActivity, androidx.core.app.ComponentActivity, android.app.Activity
+    @Override // androidx.fragment.app.FragmentActivity, androidx.activity.ComponentActivity, androidx.core.app.ComponentActivity, android.app.Activity
     public final void onSaveInstanceState(Bundle bundle) {
         super.onSaveInstanceState(bundle);
         bundle.putBoolean("signingInGoogleApiClients", this.zbd);

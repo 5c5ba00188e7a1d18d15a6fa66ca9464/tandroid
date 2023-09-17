@@ -361,13 +361,6 @@ public class ViewCompat {
         return null;
     }
 
-    public static boolean hasOverlappingRendering(View view) {
-        if (Build.VERSION.SDK_INT >= 16) {
-            return Api16Impl.hasOverlappingRendering(view);
-        }
-        return true;
-    }
-
     public static void stopNestedScroll(View view) {
         if (Build.VERSION.SDK_INT >= 21) {
             Api21Impl.stopNestedScroll(view);

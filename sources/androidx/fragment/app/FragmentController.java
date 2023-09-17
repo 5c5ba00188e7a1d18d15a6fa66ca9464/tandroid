@@ -8,12 +8,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import androidx.core.util.Preconditions;
+import androidx.lifecycle.ViewModelStoreOwner;
 /* loaded from: classes.dex */
 public class FragmentController {
     private final FragmentHostCallback<?> mHost;
 
     public static FragmentController createController(FragmentHostCallback<?> fragmentHostCallback) {
-        return new FragmentController(fragmentHostCallback);
+        return new FragmentController((FragmentHostCallback) Preconditions.checkNotNull(fragmentHostCallback, "callbacks == null"));
     }
 
     private FragmentController(FragmentHostCallback<?> fragmentHostCallback) {
@@ -21,7 +23,7 @@ public class FragmentController {
     }
 
     public FragmentManager getSupportFragmentManager() {
-        return this.mHost.getFragmentManagerImpl();
+        return this.mHost.mFragmentManager;
     }
 
     public Fragment findFragmentByWho(String str) {
@@ -34,7 +36,7 @@ public class FragmentController {
     }
 
     public View onCreateView(View view, String str, Context context, AttributeSet attributeSet) {
-        return this.mHost.mFragmentManager.onCreateView(view, str, context, attributeSet);
+        return this.mHost.mFragmentManager.getLayoutInflaterFactory().onCreateView(view, str, context, attributeSet);
     }
 
     public void noteStateNotSaved() {
@@ -45,12 +47,12 @@ public class FragmentController {
         return this.mHost.mFragmentManager.saveAllState();
     }
 
-    public void restoreAllState(Parcelable parcelable, FragmentManagerNonConfig fragmentManagerNonConfig) {
-        this.mHost.mFragmentManager.restoreAllState(parcelable, fragmentManagerNonConfig);
-    }
-
-    public FragmentManagerNonConfig retainNestedNonConfig() {
-        return this.mHost.mFragmentManager.retainNonConfig();
+    public void restoreSaveState(Parcelable parcelable) {
+        FragmentHostCallback<?> fragmentHostCallback = this.mHost;
+        if (!(fragmentHostCallback instanceof ViewModelStoreOwner)) {
+            throw new IllegalStateException("Your FragmentHostCallback must implement ViewModelStoreOwner to call restoreSaveState(). Call restoreAllState()  if you're still using retainNestedNonConfig().");
+        }
+        fragmentHostCallback.mFragmentManager.restoreSaveState(parcelable);
     }
 
     public void dispatchCreate() {
@@ -118,6 +120,6 @@ public class FragmentController {
     }
 
     public boolean execPendingActions() {
-        return this.mHost.mFragmentManager.execPendingActions();
+        return this.mHost.mFragmentManager.execPendingActions(true);
     }
 }
