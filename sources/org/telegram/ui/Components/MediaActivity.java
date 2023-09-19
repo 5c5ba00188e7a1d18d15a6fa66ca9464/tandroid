@@ -190,7 +190,7 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
     /* JADX WARN: Removed duplicated region for block: B:94:0x059e  */
     /* JADX WARN: Removed duplicated region for block: B:95:0x05ac  */
     /* JADX WARN: Type inference failed for: r6v18 */
-    /* JADX WARN: Type inference failed for: r6v19, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r6v19, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r6v20 */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
@@ -1114,7 +1114,7 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$7(ArrayList arrayList, boolean z) {
-        getMessagesController().getStoriesController().updateStoriesPinned(arrayList, z, null);
+        getMessagesController().getStoriesController().updateStoriesPinned(this.dialogId, arrayList, z, null);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1495,7 +1495,10 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
 
         @Override // org.telegram.ui.Components.BottomPagerTabs
         public BottomPagerTabs.Tab[] createTabs() {
-            return new BottomPagerTabs.Tab[]{new BottomPagerTabs.Tab(0, R.raw.msg_stories_saved, LocaleController.getString("ProfileMyStoriesTab", R.string.ProfileMyStoriesTab)), new BottomPagerTabs.Tab(1, R.raw.msg_stories_archive, LocaleController.getString("ProfileStoriesArchiveTab", R.string.ProfileStoriesArchiveTab))};
+            BottomPagerTabs.Tab[] tabArr = {new BottomPagerTabs.Tab(0, R.raw.msg_stories_saved, LocaleController.getString("ProfileMyStoriesTab", R.string.ProfileMyStoriesTab)), new BottomPagerTabs.Tab(1, R.raw.msg_stories_archive, LocaleController.getString("ProfileStoriesArchiveTab", R.string.ProfileStoriesArchiveTab))};
+            tabArr[0].customEndFrameMid = 20;
+            tabArr[0].customEndFrameEnd = 40;
+            return tabArr;
         }
     }
 

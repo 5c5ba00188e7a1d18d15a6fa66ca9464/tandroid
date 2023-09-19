@@ -554,10 +554,10 @@ public class ViewPagerFixed extends FrameLayout {
                                 viewArr4[1].setTranslationX(this.animatingForward ? viewArr4[0].getMeasuredWidth() : -viewArr4[0].getMeasuredWidth());
                             }
                             this.nextPosition = 0;
-                            this.currentProgress = 0.0f;
+                            this.currentProgress = 1.0f;
                             TabsView tabsView2 = this.tabsView;
                             if (tabsView2 != null) {
-                                tabsView2.selectTab(this.currentPosition, 0, 0.0f);
+                                tabsView2.selectTab(0, this.currentPosition, 1.0f);
                             }
                             onTabAnimationUpdate(false);
                         }

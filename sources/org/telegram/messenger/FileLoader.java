@@ -1476,6 +1476,10 @@ public class FileLoader extends BaseController {
     }
 
     public File getPathToMessage(TLRPC$Message tLRPC$Message, boolean z) {
+        return getPathToMessage(tLRPC$Message, z, false);
+    }
+
+    public File getPathToMessage(TLRPC$Message tLRPC$Message, boolean z, boolean z2) {
         TLRPC$PhotoSize closestPhotoSizeWithSize;
         TLRPC$PhotoSize closestPhotoSizeWithSize2;
         TLRPC$PhotoSize closestPhotoSizeWithSize3;
@@ -1491,7 +1495,7 @@ public class FileLoader extends BaseController {
                 }
             }
         } else if (MessageObject.getMedia(tLRPC$Message) instanceof TLRPC$TL_messageMediaDocument) {
-            return getPathToAttach(MessageObject.getMedia(tLRPC$Message).document, null, MessageObject.getMedia(tLRPC$Message).ttl_seconds != 0, z);
+            return getPathToAttach(MessageObject.getMedia(tLRPC$Message).document, null, null, MessageObject.getMedia(tLRPC$Message).ttl_seconds != 0, z, z2);
         } else if (MessageObject.getMedia(tLRPC$Message) instanceof TLRPC$TL_messageMediaPhoto) {
             ArrayList<TLRPC$PhotoSize> arrayList2 = MessageObject.getMedia(tLRPC$Message).photo.sizes;
             if (arrayList2.size() > 0 && (closestPhotoSizeWithSize2 = getClosestPhotoSizeWithSize(arrayList2, AndroidUtilities.getPhotoSize(), false, null, true)) != null) {
@@ -1522,33 +1526,42 @@ public class FileLoader extends BaseController {
     }
 
     public File getPathToAttach(TLObject tLObject, String str, boolean z) {
-        return getPathToAttach(tLObject, null, str, z, true);
+        return getPathToAttach(tLObject, null, str, z, true, false);
     }
 
     public File getPathToAttach(TLObject tLObject, String str, boolean z, boolean z2) {
-        return getPathToAttach(tLObject, null, str, z, z2);
+        return getPathToAttach(tLObject, null, str, z, z2, false);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:110:0x0173  */
-    /* JADX WARN: Removed duplicated region for block: B:112:0x017b  */
+    /* JADX WARN: Multi-variable type inference failed */
+    /* JADX WARN: Removed duplicated region for block: B:117:0x01ab  */
+    /* JADX WARN: Removed duplicated region for block: B:119:0x01b3  */
+    /* JADX WARN: Type inference failed for: r5v15 */
+    /* JADX WARN: Type inference failed for: r5v30, types: [java.lang.CharSequence, java.lang.String] */
+    /* JADX WARN: Type inference failed for: r5v35 */
+    /* JADX WARN: Type inference failed for: r5v36, types: [java.lang.String] */
+    /* JADX WARN: Type inference failed for: r5v37, types: [java.lang.String] */
+    /* JADX WARN: Type inference failed for: r5v39 */
+    /* JADX WARN: Type inference failed for: r5v4 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public File getPathToAttach(TLObject tLObject, String str, String str2, boolean z, boolean z2) {
+    public File getPathToAttach(TLObject tLObject, String str, String str2, boolean z, boolean z2, boolean z3) {
         File directory;
         long j;
+        File file;
         int i;
-        long j2;
         int i2;
+        File directory2;
         int i3;
         int i4;
         int i5;
-        int i6;
         String path;
-        File file = null;
-        int i7 = 4;
+        File file2 = null;
+        int i6 = 4;
+        int i7 = 0;
         if (z) {
-            file = getDirectory(4);
+            directory = getDirectory(4);
         } else {
             if (tLObject instanceof TLRPC$Document) {
                 TLRPC$Document tLRPC$Document = (TLRPC$Document) tLObject;
@@ -1557,47 +1570,58 @@ public class FileLoader extends BaseController {
                 }
                 if (tLRPC$Document.key == null) {
                     if (MessageObject.isVoiceDocument(tLRPC$Document)) {
-                        i7 = 1;
+                        i6 = 1;
+                    } else if (MessageObject.isVideoDocument(tLRPC$Document)) {
+                        i6 = 2;
                     } else {
-                        i7 = MessageObject.isVideoDocument(tLRPC$Document) ? 2 : 3;
+                        ?? documentFileName = getDocumentFileName(tLRPC$Document);
+                        if (!z3 || TextUtils.isEmpty(documentFileName)) {
+                            i6 = 3;
+                        } else {
+                            file2 = documentFileName;
+                            i6 = 5;
+                        }
                     }
                 }
-                j2 = tLRPC$Document.id;
-                i6 = tLRPC$Document.dc_id;
-                file = getDirectory(i7);
+                long j2 = tLRPC$Document.id;
+                int i8 = tLRPC$Document.dc_id;
+                File directory3 = getDirectory(i6);
+                i2 = i6;
+                i = i8;
+                file = file2;
+                file2 = directory3;
+                j = j2;
             } else if (tLObject instanceof TLRPC$Photo) {
                 return getPathToAttach(getClosestPhotoSizeWithSize(((TLRPC$Photo) tLObject).sizes, AndroidUtilities.getPhotoSize()), str2, false, z2);
             } else {
                 if (tLObject instanceof TLRPC$PhotoSize) {
                     TLRPC$PhotoSize tLRPC$PhotoSize = (TLRPC$PhotoSize) tLObject;
-                    if (!(tLRPC$PhotoSize instanceof TLRPC$TL_photoStrippedSize) && !(tLRPC$PhotoSize instanceof TLRPC$TL_photoPathSize)) {
+                    if ((tLRPC$PhotoSize instanceof TLRPC$TL_photoStrippedSize) || (tLRPC$PhotoSize instanceof TLRPC$TL_photoPathSize)) {
+                        directory = null;
+                    } else {
                         TLRPC$FileLocation tLRPC$FileLocation = tLRPC$PhotoSize.location;
                         if (tLRPC$FileLocation == null || tLRPC$FileLocation.key != null || ((tLRPC$FileLocation.volume_id == -2147483648L && tLRPC$FileLocation.local_id < 0) || tLRPC$PhotoSize.size < 0)) {
-                            file = getDirectory(4);
-                            TLRPC$FileLocation tLRPC$FileLocation2 = tLRPC$PhotoSize.location;
-                            j2 = tLRPC$FileLocation2.volume_id;
-                            i4 = tLRPC$FileLocation2.dc_id;
-                            i5 = tLRPC$FileLocation2.local_id;
+                            directory = getDirectory(4);
+                            i7 = 4;
                         } else {
-                            file = getDirectory(0);
+                            directory = getDirectory(0);
                         }
                     }
-                    i7 = 0;
-                    TLRPC$FileLocation tLRPC$FileLocation22 = tLRPC$PhotoSize.location;
-                    j2 = tLRPC$FileLocation22.volume_id;
-                    i4 = tLRPC$FileLocation22.dc_id;
-                    i5 = tLRPC$FileLocation22.local_id;
+                    TLRPC$FileLocation tLRPC$FileLocation2 = tLRPC$PhotoSize.location;
+                    j = tLRPC$FileLocation2.volume_id;
+                    i4 = tLRPC$FileLocation2.dc_id;
+                    i5 = tLRPC$FileLocation2.local_id;
                 } else if (tLObject instanceof TLRPC$TL_videoSize) {
                     TLRPC$TL_videoSize tLRPC$TL_videoSize = (TLRPC$TL_videoSize) tLObject;
                     TLRPC$FileLocation tLRPC$FileLocation3 = tLRPC$TL_videoSize.location;
                     if (tLRPC$FileLocation3 == null || tLRPC$FileLocation3.key != null || ((tLRPC$FileLocation3.volume_id == -2147483648L && tLRPC$FileLocation3.local_id < 0) || tLRPC$TL_videoSize.size < 0)) {
-                        file = getDirectory(4);
+                        directory = getDirectory(4);
+                        i7 = 4;
                     } else {
-                        file = getDirectory(0);
-                        i7 = 0;
+                        directory = getDirectory(0);
                     }
                     TLRPC$FileLocation tLRPC$FileLocation4 = tLRPC$TL_videoSize.location;
-                    j2 = tLRPC$FileLocation4.volume_id;
+                    j = tLRPC$FileLocation4.volume_id;
                     i4 = tLRPC$FileLocation4.dc_id;
                     i5 = tLRPC$FileLocation4.local_id;
                 } else if (tLObject instanceof TLRPC$FileLocation) {
@@ -1605,36 +1629,26 @@ public class FileLoader extends BaseController {
                     if (tLRPC$FileLocation5.key == null) {
                         j = tLRPC$FileLocation5.volume_id;
                         if (j != -2147483648L || tLRPC$FileLocation5.local_id >= 0) {
-                            i = tLRPC$FileLocation5.dc_id + (tLRPC$FileLocation5.local_id << 16);
-                            file = getDirectory(0);
-                            j2 = j;
+                            i3 = tLRPC$FileLocation5.dc_id + (tLRPC$FileLocation5.local_id << 16);
+                            directory2 = getDirectory(0);
+                            i = i3;
                             i2 = 0;
-                            i3 = i;
-                            if (file != null) {
-                                return new File("");
-                            }
-                            if (j2 != 0 && (path = getInstance(UserConfig.selectedAccount).getFileDatabase().getPath(j2, i3, i2, z2)) != null) {
-                                return new File(path);
-                            }
-                            return new File(file, getAttachFileName(tLObject, str2));
+                            file = 0;
+                            file2 = directory2;
                         }
                     }
-                    file = getDirectory(4);
+                    directory2 = getDirectory(4);
                     j = 0;
-                    i = 0;
-                    j2 = j;
+                    i3 = 0;
+                    i = i3;
                     i2 = 0;
-                    i3 = i;
-                    if (file != null) {
-                    }
+                    file = 0;
+                    file2 = directory2;
                 } else if ((tLObject instanceof TLRPC$UserProfilePhoto) || (tLObject instanceof TLRPC$ChatPhoto)) {
-                    if (str == null) {
-                        str = "s";
-                    }
-                    if ("s".equals(str)) {
-                        file = getDirectory(4);
+                    if ("s".equals(str == null ? "s" : str)) {
+                        directory = getDirectory(4);
                     } else {
-                        file = getDirectory(0);
+                        directory = getDirectory(0);
                     }
                 } else if (tLObject instanceof WebFile) {
                     WebFile webFile = (WebFile) tLObject;
@@ -1647,21 +1661,38 @@ public class FileLoader extends BaseController {
                     } else {
                         directory = getDirectory(3);
                     }
-                    file = directory;
                 } else if ((tLObject instanceof TLRPC$TL_secureFile) || (tLObject instanceof SecureDocument)) {
-                    file = getDirectory(4);
+                    directory = getDirectory(4);
+                } else {
+                    j = 0;
+                    file = 0;
+                    i = 0;
+                    i2 = 0;
                 }
-                i6 = (i5 << 16) + i4;
+                i2 = i7;
+                i = (i5 << 16) + i4;
+                File file3 = directory;
+                file = 0;
+                file2 = file3;
             }
-            i3 = i6;
-            i2 = i7;
-            if (file != null) {
+            if (file2 != null) {
+                return new File("");
             }
+            if (j != 0 && (path = getInstance(UserConfig.selectedAccount).getFileDatabase().getPath(j, i, i2, z2)) != null) {
+                return new File(path);
+            }
+            if (file == 0) {
+                file = getAttachFileName(tLObject, str2);
+            }
+            return new File(file2, (String) file);
         }
-        j2 = 0;
-        i3 = 0;
+        j = 0;
+        i = 0;
         i2 = 0;
-        if (file != null) {
+        File file32 = directory;
+        file = 0;
+        file2 = file32;
+        if (file2 != null) {
         }
     }
 

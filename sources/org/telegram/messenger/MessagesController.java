@@ -630,6 +630,7 @@ public class MessagesController extends BaseController implements NotificationCe
     public int captionLengthLimitDefault;
     public int captionLengthLimitPremium;
     private LongSparseArray<LongSparseArray<TLRPC$ChannelParticipant>> channelAdmins;
+    private ChannelBoostsController channelBoostsControler;
     private LongSparseArray<ArrayList<Integer>> channelViewsToSend;
     public int channelsLimitDefault;
     public int channelsLimitPremium;
@@ -1039,6 +1040,22 @@ public class MessagesController extends BaseController implements NotificationCe
             TLRPC$TL_peerUser tLRPC$TL_peerUser = new TLRPC$TL_peerUser();
             tLRPC$TL_peerUser.user_id = tLRPC$InputPeer.user_id;
             return tLRPC$TL_peerUser;
+        }
+    }
+
+    public ChannelBoostsController getBoostsController() {
+        ChannelBoostsController channelBoostsController = this.channelBoostsControler;
+        if (channelBoostsController != null) {
+            return channelBoostsController;
+        }
+        synchronized (lockObjects[this.currentAccount]) {
+            ChannelBoostsController channelBoostsController2 = this.channelBoostsControler;
+            if (channelBoostsController2 != null) {
+                return channelBoostsController2;
+            }
+            ChannelBoostsController channelBoostsController3 = new ChannelBoostsController(this.currentAccount);
+            this.channelBoostsControler = channelBoostsController3;
+            return channelBoostsController3;
         }
     }
 
@@ -7847,6 +7864,9 @@ public class MessagesController extends BaseController implements NotificationCe
                     } else {
                         tLRPC$Chat2.flags |= LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM;
                     }
+                    if (!tLRPC$Chat.stories_hidden_min) {
+                        tLRPC$Chat.stories_hidden = tLRPC$Chat2.stories_hidden;
+                    }
                     if (i4 != i5 || i6 != i7) {
                         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda175
                             @Override // java.lang.Runnable
@@ -10622,7 +10642,7 @@ public class MessagesController extends BaseController implements NotificationCe
     /* JADX WARN: Removed duplicated region for block: B:411:0x03e0  */
     /* JADX WARN: Removed duplicated region for block: B:421:0x0419  */
     /* JADX WARN: Type inference failed for: r2v11 */
-    /* JADX WARN: Type inference failed for: r2v12, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r2v12, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r2v59 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -13020,9 +13040,9 @@ public class MessagesController extends BaseController implements NotificationCe
                     messageObject.scheduled = i11 == 1;
                     arrayList.add(messageObject);
                     if (z) {
-                        if (tLRPC$Message3.legacy && tLRPC$Message3.layer < 163) {
+                        if (tLRPC$Message3.legacy && tLRPC$Message3.layer < 164) {
                             arrayList2.add(Integer.valueOf(tLRPC$Message3.id));
-                        } else if ((MessageObject.getMedia(tLRPC$Message3) instanceof TLRPC$TL_messageMediaUnsupported) && MessageObject.getMedia(tLRPC$Message3).bytes != null && (MessageObject.getMedia(tLRPC$Message3).bytes.length == 0 || ((MessageObject.getMedia(tLRPC$Message3).bytes.length == 1 && MessageObject.getMedia(tLRPC$Message3).bytes[0] < 163) || (MessageObject.getMedia(tLRPC$Message3).bytes.length == 4 && Utilities.bytesToInt(MessageObject.getMedia(tLRPC$Message3).bytes) < 163)))) {
+                        } else if ((MessageObject.getMedia(tLRPC$Message3) instanceof TLRPC$TL_messageMediaUnsupported) && MessageObject.getMedia(tLRPC$Message3).bytes != null && (MessageObject.getMedia(tLRPC$Message3).bytes.length == 0 || ((MessageObject.getMedia(tLRPC$Message3).bytes.length == 1 && MessageObject.getMedia(tLRPC$Message3).bytes[0] < 164) || (MessageObject.getMedia(tLRPC$Message3).bytes.length == 4 && Utilities.bytesToInt(MessageObject.getMedia(tLRPC$Message3).bytes) < 164)))) {
                             arrayList2.add(Integer.valueOf(tLRPC$Message3.id));
                         }
                         if (MessageObject.getMedia(tLRPC$Message3) instanceof TLRPC$TL_messageMediaWebPage) {
@@ -14515,7 +14535,7 @@ public class MessagesController extends BaseController implements NotificationCe
     /* JADX WARN: Removed duplicated region for block: B:450:0x03e3  */
     /* JADX WARN: Removed duplicated region for block: B:453:0x0410  */
     /* JADX WARN: Type inference failed for: r13v1 */
-    /* JADX WARN: Type inference failed for: r13v2, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r13v2, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r13v5 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -21244,15 +21264,15 @@ public class MessagesController extends BaseController implements NotificationCe
     /* JADX WARN: Removed duplicated region for block: B:1798:0x095f  */
     /* JADX WARN: Removed duplicated region for block: B:1805:0x097f  */
     /* JADX WARN: Removed duplicated region for block: B:1809:0x09a0  */
-    /* JADX WARN: Removed duplicated region for block: B:2358:0x164e  */
-    /* JADX WARN: Removed duplicated region for block: B:2364:0x1667  */
-    /* JADX WARN: Removed duplicated region for block: B:2597:0x1b7f  */
-    /* JADX WARN: Removed duplicated region for block: B:2603:0x1bb0  */
-    /* JADX WARN: Removed duplicated region for block: B:2605:0x1bc0  */
-    /* JADX WARN: Removed duplicated region for block: B:2610:0x1bed  */
-    /* JADX WARN: Removed duplicated region for block: B:2615:0x1c19  */
-    /* JADX WARN: Removed duplicated region for block: B:2620:0x1c40  */
-    /* JADX WARN: Removed duplicated region for block: B:2625:0x1c66  */
+    /* JADX WARN: Removed duplicated region for block: B:2358:0x1652  */
+    /* JADX WARN: Removed duplicated region for block: B:2364:0x166b  */
+    /* JADX WARN: Removed duplicated region for block: B:2597:0x1b83  */
+    /* JADX WARN: Removed duplicated region for block: B:2603:0x1bb4  */
+    /* JADX WARN: Removed duplicated region for block: B:2605:0x1bc4  */
+    /* JADX WARN: Removed duplicated region for block: B:2610:0x1bf1  */
+    /* JADX WARN: Removed duplicated region for block: B:2615:0x1c1d  */
+    /* JADX WARN: Removed duplicated region for block: B:2620:0x1c44  */
+    /* JADX WARN: Removed duplicated region for block: B:2625:0x1c6a  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -21841,7 +21861,7 @@ public class MessagesController extends BaseController implements NotificationCe
                                         arrayList18.add(tLRPC$Update);
                                     } else if (tLRPC$Update instanceof TLRPC$TL_updateReadStories) {
                                         TLRPC$TL_updateReadStories tLRPC$TL_updateReadStories = (TLRPC$TL_updateReadStories) tLRPC$Update;
-                                        getStoriesController().markStoriesAsReadFromServer(tLRPC$TL_updateReadStories.user_id, tLRPC$TL_updateReadStories.max_id);
+                                        getStoriesController().markStoriesAsReadFromServer(DialogObject.getPeerDialogId(tLRPC$TL_updateReadStories.peer), tLRPC$TL_updateReadStories.max_id);
                                     } else {
                                         if (tLRPC$Update instanceof TLRPC$TL_updatePeerSettings) {
                                             TLRPC$TL_updatePeerSettings tLRPC$TL_updatePeerSettings = (TLRPC$TL_updatePeerSettings) tLRPC$Update;
@@ -23945,14 +23965,14 @@ public class MessagesController extends BaseController implements NotificationCe
      */
     /* JADX WARN: Removed duplicated region for block: B:1206:0x0564  */
     /* JADX WARN: Removed duplicated region for block: B:1468:0x0ab3  */
-    /* JADX WARN: Removed duplicated region for block: B:1705:0x10d8  */
-    /* JADX WARN: Removed duplicated region for block: B:1710:0x10f4  */
-    /* JADX WARN: Removed duplicated region for block: B:1754:0x11f8  */
-    /* JADX WARN: Removed duplicated region for block: B:1756:0x1206  */
-    /* JADX WARN: Removed duplicated region for block: B:1758:0x120c  */
-    /* JADX WARN: Removed duplicated region for block: B:1761:0x1218  */
-    /* JADX WARN: Removed duplicated region for block: B:1771:0x1254  */
-    /* JADX WARN: Removed duplicated region for block: B:1774:0x126a  */
+    /* JADX WARN: Removed duplicated region for block: B:1705:0x10dc  */
+    /* JADX WARN: Removed duplicated region for block: B:1710:0x10f8  */
+    /* JADX WARN: Removed duplicated region for block: B:1754:0x11fc  */
+    /* JADX WARN: Removed duplicated region for block: B:1756:0x120a  */
+    /* JADX WARN: Removed duplicated region for block: B:1758:0x1210  */
+    /* JADX WARN: Removed duplicated region for block: B:1761:0x121c  */
+    /* JADX WARN: Removed duplicated region for block: B:1771:0x1258  */
+    /* JADX WARN: Removed duplicated region for block: B:1774:0x126e  */
     /* JADX WARN: Removed duplicated region for block: B:1913:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -24801,7 +24821,7 @@ public class MessagesController extends BaseController implements NotificationCe
                                                 }
                                             } else if (tLRPC$Update instanceof TLRPC$TL_updateSentStoryReaction) {
                                                 TLRPC$TL_updateSentStoryReaction tLRPC$TL_updateSentStoryReaction = (TLRPC$TL_updateSentStoryReaction) tLRPC$Update;
-                                                getStoriesController().updateStoryReaction(tLRPC$TL_updateSentStoryReaction.user_id, tLRPC$TL_updateSentStoryReaction.story_id, tLRPC$TL_updateSentStoryReaction.reaction);
+                                                getStoriesController().updateStoryReaction(DialogObject.getPeerDialogId(tLRPC$TL_updateSentStoryReaction.peer), tLRPC$TL_updateSentStoryReaction.story_id, tLRPC$TL_updateSentStoryReaction.reaction);
                                             }
                                             i3 = i11;
                                         }

@@ -1642,9 +1642,8 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationEnd(Animator animator) {
                 if (SecretMediaViewer.this.photoAnimationEndRunnable != null) {
-                    Runnable runnable3 = SecretMediaViewer.this.photoAnimationEndRunnable;
+                    SecretMediaViewer.this.photoAnimationEndRunnable.run();
                     SecretMediaViewer.this.photoAnimationEndRunnable = null;
-                    runnable3.run();
                 }
             }
         });
@@ -2093,8 +2092,8 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         if (this.photoAnimationInProgress != 0 && Math.abs(this.photoTransitionAnimationStartTime - System.currentTimeMillis()) >= 500) {
             Runnable runnable = this.photoAnimationEndRunnable;
             if (runnable != null) {
-                this.photoAnimationEndRunnable = null;
                 runnable.run();
+                this.photoAnimationEndRunnable = null;
             }
             this.photoAnimationInProgress = 0;
         }
@@ -2251,9 +2250,8 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
                         @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                         public void onAnimationEnd(Animator animator) {
                             if (SecretMediaViewer.this.photoAnimationEndRunnable != null) {
-                                Runnable runnable3 = SecretMediaViewer.this.photoAnimationEndRunnable;
+                                SecretMediaViewer.this.photoAnimationEndRunnable.run();
                                 SecretMediaViewer.this.photoAnimationEndRunnable = null;
-                                runnable3.run();
                             }
                         }
                     });
@@ -2324,9 +2322,8 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onAnimationEnd$0() {
             if (SecretMediaViewer.this.photoAnimationEndRunnable != null) {
-                Runnable runnable = SecretMediaViewer.this.photoAnimationEndRunnable;
+                SecretMediaViewer.this.photoAnimationEndRunnable.run();
                 SecretMediaViewer.this.photoAnimationEndRunnable = null;
-                runnable.run();
             }
         }
     }

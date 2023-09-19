@@ -1,7 +1,6 @@
 package com.google.android.gms.internal.vision;
 
 import java.io.PrintStream;
-import org.telegram.messenger.MessagesStorage;
 /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
 public final class zzfe {
@@ -50,7 +49,7 @@ public final class zzfe {
                 th = th2;
                 PrintStream printStream = System.err;
                 String name = zza.class.getName();
-                StringBuilder sb = new StringBuilder(name.length() + MessagesStorage.LAST_DB_VERSION);
+                StringBuilder sb = new StringBuilder(name.length() + 133);
                 sb.append("An error has occurred when initializing the try-with-resources desuguring strategy. The default strategy ");
                 sb.append(name);
                 sb.append("will be used. The error is: ");

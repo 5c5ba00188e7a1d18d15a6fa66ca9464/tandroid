@@ -287,9 +287,6 @@ public abstract class TLRPC$Update extends TLObject {
             case -483443337:
                 tLRPC$TL_updateTheme = new TLRPC$TL_updateChatParticipantDelete();
                 break;
-            case -475579104:
-                tLRPC$TL_updateTheme = new TLRPC$TL_updateSentStoryReaction();
-                break;
             case -469536605:
                 tLRPC$TL_updateTheme = new TLRPC$TL_updateEditMessage();
                 break;
@@ -330,6 +327,9 @@ public abstract class TLRPC$Update extends TLObject {
             case -219423922:
                 tLRPC$TL_updateTheme = new TLRPC$TL_updateGroupCallParticipants();
                 break;
+            case -145845461:
+                tLRPC$TL_updateTheme = new TLRPC$TL_updateReadStories();
+                break;
             case -131960447:
                 tLRPC$TL_updateTheme = new TLRPC$TL_updateReadMessagesContents();
                 break;
@@ -351,9 +351,6 @@ public abstract class TLRPC$Update extends TLObject {
                 break;
             case -31881726:
                 tLRPC$TL_updateTheme = new TLRPC$TL_updateChannelPinnedTopics();
-                break;
-            case -21679014:
-                tLRPC$TL_updateTheme = new TLRPC$TL_updateReadStories();
                 break;
             case 8703322:
                 tLRPC$TL_updateTheme = new TLRPC$TL_updateTranscribedAudio();
@@ -418,9 +415,6 @@ public abstract class TLRPC$Update extends TLObject {
                 break;
             case 542282808:
                 tLRPC$TL_updateTheme = new TLRPC$TL_updateUser();
-                break;
-            case 542785843:
-                tLRPC$TL_updateTheme = new TLRPC$TL_updateStory();
                 break;
             case 619974263:
                 tLRPC$TL_updateTheme = new TLRPC$Update() { // from class: org.telegram.tgnet.TLRPC$TL_updateMessagePollVote
@@ -630,6 +624,12 @@ public abstract class TLRPC$Update extends TLObject {
                         abstractSerializedData2.writeInt32(constructor);
                     }
                 };
+                break;
+            case 1974712216:
+                tLRPC$TL_updateTheme = new TLRPC$TL_updateStory();
+                break;
+            case 2103604867:
+                tLRPC$TL_updateTheme = new TLRPC$TL_updateSentStoryReaction();
                 break;
             case 2139689491:
                 tLRPC$TL_updateTheme = new TLRPC$TL_updateWebPage();

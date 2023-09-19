@@ -52,6 +52,9 @@ public class DefaultItemAnimator extends SimpleItemAnimator {
     public void checkIsRunning() {
     }
 
+    protected void onAddAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
+    }
+
     /* JADX INFO: Access modifiers changed from: protected */
     public void onAllAnimationsDone() {
     }
@@ -62,6 +65,9 @@ public class DefaultItemAnimator extends SimpleItemAnimator {
 
     /* JADX INFO: Access modifiers changed from: protected */
     public void onMoveAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
+    }
+
+    protected void onRemoveAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
     }
 
     static {
@@ -227,7 +233,16 @@ public class DefaultItemAnimator extends SimpleItemAnimator {
         if (getRemoveDelay() > 0) {
             view.bringToFront();
         }
-        animate.setDuration(getRemoveDuration()).setStartDelay(getRemoveDelay()).setInterpolator(getRemoveInterpolator()).alpha(0.0f).scaleX(1.0f - animateByScale(view)).scaleY(1.0f - animateByScale(view)).setListener(new AnimatorListenerAdapter() { // from class: androidx.recyclerview.widget.DefaultItemAnimator.4
+        animate.setDuration(getRemoveDuration()).setStartDelay(getRemoveDelay()).setInterpolator(getRemoveInterpolator()).alpha(0.0f).scaleX(1.0f - animateByScale(view)).scaleY(1.0f - animateByScale(view));
+        if (Build.VERSION.SDK_INT >= 19) {
+            animate.setUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: androidx.recyclerview.widget.DefaultItemAnimator$$ExternalSyntheticLambda4
+                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    DefaultItemAnimator.this.lambda$animateRemoveImpl$0(viewHolder, valueAnimator);
+                }
+            });
+        }
+        animate.setListener(new AnimatorListenerAdapter() { // from class: androidx.recyclerview.widget.DefaultItemAnimator.4
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationStart(Animator animator) {
                 DefaultItemAnimator.this.dispatchRemoveStarting(viewHolder);
@@ -250,6 +265,11 @@ public class DefaultItemAnimator extends SimpleItemAnimator {
         }).start();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$animateRemoveImpl$0(RecyclerView.ViewHolder viewHolder, ValueAnimator valueAnimator) {
+        onRemoveAnimationUpdate(viewHolder);
+    }
+
     @Override // androidx.recyclerview.widget.SimpleItemAnimator
     public boolean animateAdd(RecyclerView.ViewHolder viewHolder) {
         resetAnimation(viewHolder);
@@ -269,7 +289,16 @@ public class DefaultItemAnimator extends SimpleItemAnimator {
         final View view = viewHolder.itemView;
         final ViewPropertyAnimator animate = view.animate();
         this.mAddAnimations.add(viewHolder);
-        animate.alpha(1.0f).scaleX(1.0f).scaleY(1.0f).setDuration(getAddDuration()).setStartDelay(getAddDelay()).setInterpolator(getAddInterpolator()).setListener(new AnimatorListenerAdapter() { // from class: androidx.recyclerview.widget.DefaultItemAnimator.5
+        animate.alpha(1.0f).scaleX(1.0f).scaleY(1.0f).setDuration(getAddDuration()).setStartDelay(getAddDelay()).setInterpolator(getAddInterpolator());
+        if (Build.VERSION.SDK_INT >= 19) {
+            animate.setUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: androidx.recyclerview.widget.DefaultItemAnimator$$ExternalSyntheticLambda3
+                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    DefaultItemAnimator.this.lambda$animateAddImpl$1(viewHolder, valueAnimator);
+                }
+            });
+        }
+        animate.setListener(new AnimatorListenerAdapter() { // from class: androidx.recyclerview.widget.DefaultItemAnimator.5
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationStart(Animator animator) {
                 DefaultItemAnimator.this.dispatchAddStarting(viewHolder);
@@ -292,6 +321,11 @@ public class DefaultItemAnimator extends SimpleItemAnimator {
                 DefaultItemAnimator.this.dispatchFinishedWhenDone();
             }
         }).start();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$animateAddImpl$1(RecyclerView.ViewHolder viewHolder, ValueAnimator valueAnimator) {
+        onAddAnimationUpdate(viewHolder);
     }
 
     @Override // androidx.recyclerview.widget.SimpleItemAnimator
@@ -338,7 +372,7 @@ public class DefaultItemAnimator extends SimpleItemAnimator {
             animate.setUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: androidx.recyclerview.widget.DefaultItemAnimator$$ExternalSyntheticLambda2
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    DefaultItemAnimator.this.lambda$animateMoveImpl$0(viewHolder, valueAnimator);
+                    DefaultItemAnimator.this.lambda$animateMoveImpl$2(viewHolder, valueAnimator);
                 }
             });
         }
@@ -377,7 +411,7 @@ public class DefaultItemAnimator extends SimpleItemAnimator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$animateMoveImpl$0(RecyclerView.ViewHolder viewHolder, ValueAnimator valueAnimator) {
+    public /* synthetic */ void lambda$animateMoveImpl$2(RecyclerView.ViewHolder viewHolder, ValueAnimator valueAnimator) {
         onMoveAnimationUpdate(viewHolder);
     }
 
@@ -428,10 +462,10 @@ public class DefaultItemAnimator extends SimpleItemAnimator {
                 startDelay.scaleX(1.0f - animateByScale(view)).scaleY(1.0f - animateByScale(view));
             }
             if (Build.VERSION.SDK_INT >= 19) {
-                startDelay.setUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: androidx.recyclerview.widget.DefaultItemAnimator$$ExternalSyntheticLambda1
+                startDelay.setUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: androidx.recyclerview.widget.DefaultItemAnimator$$ExternalSyntheticLambda0
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                        DefaultItemAnimator.this.lambda$animateChangeImpl$1(changeInfo, valueAnimator);
+                        DefaultItemAnimator.this.lambda$animateChangeImpl$3(changeInfo, valueAnimator);
                     }
                 });
             }
@@ -465,10 +499,10 @@ public class DefaultItemAnimator extends SimpleItemAnimator {
                 animate.scaleX(1.0f).scaleY(1.0f);
             }
             if (Build.VERSION.SDK_INT >= 19) {
-                animate.setUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: androidx.recyclerview.widget.DefaultItemAnimator$$ExternalSyntheticLambda0
+                animate.setUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: androidx.recyclerview.widget.DefaultItemAnimator$$ExternalSyntheticLambda1
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                        DefaultItemAnimator.this.lambda$animateChangeImpl$2(changeInfo, valueAnimator);
+                        DefaultItemAnimator.this.lambda$animateChangeImpl$4(changeInfo, valueAnimator);
                     }
                 });
             }
@@ -500,12 +534,12 @@ public class DefaultItemAnimator extends SimpleItemAnimator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$animateChangeImpl$1(ChangeInfo changeInfo, ValueAnimator valueAnimator) {
+    public /* synthetic */ void lambda$animateChangeImpl$3(ChangeInfo changeInfo, ValueAnimator valueAnimator) {
         onChangeAnimationUpdate(changeInfo.oldHolder);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$animateChangeImpl$2(ChangeInfo changeInfo, ValueAnimator valueAnimator) {
+    public /* synthetic */ void lambda$animateChangeImpl$4(ChangeInfo changeInfo, ValueAnimator valueAnimator) {
         onChangeAnimationUpdate(changeInfo.newHolder);
     }
 

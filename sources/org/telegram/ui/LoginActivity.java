@@ -4773,8 +4773,8 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             return LocaleController.getString("YourCode", R.string.YourCode);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:130:0x0373  */
-        /* JADX WARN: Removed duplicated region for block: B:131:0x037c  */
+        /* JADX WARN: Removed duplicated region for block: B:132:0x0383  */
+        /* JADX WARN: Removed duplicated region for block: B:133:0x038c  */
         @Override // org.telegram.ui.Components.SlideView
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -4873,6 +4873,8 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                     int i6 = this.nextType;
                     if (i6 == 3 || i6 == 4 || i6 == 11) {
                         this.problemText.setText(LocaleController.getString("DidNotGetTheCodePhone", R.string.DidNotGetTheCodePhone));
+                    } else if (i6 == 15) {
+                        this.problemText.setText(LocaleController.getString("DidNotGetTheCodeFragment", R.string.DidNotGetTheCodeFragment));
                     } else if (i6 == 0) {
                         this.problemText.setText(LocaleController.getString("DidNotGetTheCode", R.string.DidNotGetTheCode));
                     } else {

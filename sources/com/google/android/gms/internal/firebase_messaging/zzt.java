@@ -1,7 +1,6 @@
 package com.google.android.gms.internal.firebase_messaging;
 
 import java.io.PrintStream;
-import org.telegram.messenger.MessagesStorage;
 /* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
 /* loaded from: classes.dex */
 public final class zzt {
@@ -25,7 +24,7 @@ public final class zzt {
         } catch (Throwable th) {
             PrintStream printStream = System.err;
             String name = zzr.class.getName();
-            StringBuilder sb = new StringBuilder(name.length() + MessagesStorage.LAST_DB_VERSION);
+            StringBuilder sb = new StringBuilder(name.length() + 133);
             sb.append("An error has occurred when initializing the try-with-resources desuguring strategy. The default strategy ");
             sb.append(name);
             sb.append("will be used. The error is: ");

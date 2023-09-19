@@ -11,8 +11,8 @@ public final /* synthetic */ class DialogStoriesCell$$ExternalSyntheticLambda10 
 
     @Override // java.util.Comparator
     public final int compare(Object obj, Object obj2) {
-        int lambda$new$5;
-        lambda$new$5 = DialogStoriesCell.lambda$new$5((DialogStoriesCell.StoryCell) obj, (DialogStoriesCell.StoryCell) obj2);
-        return lambda$new$5;
+        int lambda$new$6;
+        lambda$new$6 = DialogStoriesCell.lambda$new$6((DialogStoriesCell.StoryCell) obj, (DialogStoriesCell.StoryCell) obj2);
+        return lambda$new$6;
     }
 }

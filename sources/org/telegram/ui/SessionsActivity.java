@@ -804,6 +804,10 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
         if (listAdapter2 != null) {
             listAdapter2.notifyDataSetChanged();
         }
+        Delegate delegate2 = this.delegate;
+        if (delegate2 != null) {
+            delegate2.sessionsLoaded();
+        }
         int i2 = this.repeatLoad;
         if (i2 > 0) {
             int i3 = i2 - 1;
@@ -1558,7 +1562,6 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     public int getSessionsCount() {
         if (this.sessions.size() == 0 && this.loading) {
             return 0;

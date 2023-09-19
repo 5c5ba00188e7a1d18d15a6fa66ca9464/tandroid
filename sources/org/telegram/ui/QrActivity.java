@@ -583,6 +583,7 @@ public class QrActivity extends BaseFragment {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$4() {
         onItemSelected(this.currentTheme, 0, true);
+        this.logoImageView.getAnimatedDrawable().cacheFrame(33);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -983,10 +984,8 @@ public class QrActivity extends BaseFragment {
         Canvas canvas = new Canvas(createBitmap);
         this.themeLayout.setVisibility(8);
         this.closeImageView.setVisibility(8);
-        this.logoImageView.stopAnimation();
+        this.logoImageView.setVisibility(8);
         RLottieDrawable animatedDrawable = this.logoImageView.getAnimatedDrawable();
-        int currentFrame = animatedDrawable.getCurrentFrame();
-        animatedDrawable.setCurrentFrame(33, false);
         QrView qrView = this.qrView;
         if (qrView != null) {
             qrView.setForShare(true);
@@ -994,11 +993,11 @@ public class QrActivity extends BaseFragment {
         this.fragmentView.measure(View.MeasureSpec.makeMeasureSpec(min, 1073741824), View.MeasureSpec.makeMeasureSpec(max, 1073741824));
         this.fragmentView.layout(0, 0, min, max);
         this.fragmentView.draw(canvas);
+        animatedDrawable.setBounds(this.logoImageView.getLeft(), this.logoImageView.getTop(), this.logoImageView.getRight(), this.logoImageView.getBottom());
+        animatedDrawable.drawFrame(canvas, 33);
         canvas.setBitmap(null);
         this.themeLayout.setVisibility(0);
         this.closeImageView.setVisibility(0);
-        animatedDrawable.setCurrentFrame(currentFrame, false);
-        this.logoImageView.playAnimation();
         ViewGroup viewGroup = (ViewGroup) this.fragmentView.getParent();
         this.fragmentView.layout(0, 0, viewGroup.getWidth(), viewGroup.getHeight());
         QrView qrView2 = this.qrView;

@@ -127,8 +127,13 @@ public class ChatSelectionReactionMenuOverlay extends FrameLayout {
     /* loaded from: classes4.dex */
     public class 3 implements ReactionsContainerLayout.ReactionsContainerDelegate {
         @Override // org.telegram.ui.Components.ReactionsContainerLayout.ReactionsContainerDelegate
-        public /* synthetic */ void drawRoundRect(Canvas canvas, RectF rectF, float f, float f2, float f3) {
-            ReactionsContainerLayout.ReactionsContainerDelegate.-CC.$default$drawRoundRect(this, canvas, rectF, f, f2, f3);
+        public /* synthetic */ boolean drawBackground() {
+            return ReactionsContainerLayout.ReactionsContainerDelegate.-CC.$default$drawBackground(this);
+        }
+
+        @Override // org.telegram.ui.Components.ReactionsContainerLayout.ReactionsContainerDelegate
+        public /* synthetic */ void drawRoundRect(Canvas canvas, RectF rectF, float f, float f2, float f3, int i, boolean z) {
+            ReactionsContainerLayout.ReactionsContainerDelegate.-CC.$default$drawRoundRect(this, canvas, rectF, f, f2, f3, i, z);
         }
 
         @Override // org.telegram.ui.Components.ReactionsContainerLayout.ReactionsContainerDelegate
@@ -397,18 +402,13 @@ public class ChatSelectionReactionMenuOverlay extends FrameLayout {
 
     private void animateVisible(boolean z) {
         if (z) {
-            this.currentPrimaryObject = findPrimaryObject();
-            checkCreateReactionsLayout();
-            invalidatePosition(false);
             setVisibility(0);
-            if (this.reactionsContainerLayout.isEnabled()) {
-                this.messageSet = true;
-                this.reactionsContainerLayout.setMessage(this.currentPrimaryObject, this.parentFragment.getCurrentChatInfo());
-                this.reactionsContainerLayout.startEnterAnimation(false);
-                return;
-            }
-            this.messageSet = false;
-            this.reactionsContainerLayout.setTransitionProgress(1.0f);
+            post(new Runnable() { // from class: org.telegram.ui.Components.Reactions.ChatSelectionReactionMenuOverlay$$ExternalSyntheticLambda2
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ChatSelectionReactionMenuOverlay.this.lambda$animateVisible$0();
+                }
+            });
             return;
         }
         this.messageSet = false;
@@ -416,7 +416,7 @@ public class ChatSelectionReactionMenuOverlay extends FrameLayout {
         duration.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Reactions.ChatSelectionReactionMenuOverlay$$ExternalSyntheticLambda0
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                ChatSelectionReactionMenuOverlay.this.lambda$animateVisible$0(valueAnimator);
+                ChatSelectionReactionMenuOverlay.this.lambda$animateVisible$1(valueAnimator);
             }
         });
         duration.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.Reactions.ChatSelectionReactionMenuOverlay.4
@@ -435,7 +435,22 @@ public class ChatSelectionReactionMenuOverlay extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$animateVisible$0(ValueAnimator valueAnimator) {
+    public /* synthetic */ void lambda$animateVisible$0() {
+        this.currentPrimaryObject = findPrimaryObject();
+        checkCreateReactionsLayout();
+        invalidatePosition(false);
+        if (this.reactionsContainerLayout.isEnabled()) {
+            this.messageSet = true;
+            this.reactionsContainerLayout.setMessage(this.currentPrimaryObject, this.parentFragment.getCurrentChatInfo());
+            this.reactionsContainerLayout.startEnterAnimation(false);
+            return;
+        }
+        this.messageSet = false;
+        this.reactionsContainerLayout.setTransitionProgress(1.0f);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$animateVisible$1(ValueAnimator valueAnimator) {
         float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         ReactionsContainerLayout reactionsContainerLayout = this.reactionsContainerLayout;
         if (reactionsContainerLayout != null) {

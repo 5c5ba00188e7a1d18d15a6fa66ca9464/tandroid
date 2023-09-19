@@ -320,17 +320,7 @@ public class VideoPlayerHolderBase {
             return;
         }
         this.paused = true;
-        SurfaceView surfaceView = this.surfaceView;
-        if (surfaceView != null && this.firstFrameRendered && surfaceView.getHolder().getSurface().isValid()) {
-            this.stubAvailable = true;
-            if (this.playerStubBitmap == null) {
-                this.playerStubBitmap = Bitmap.createBitmap(720, 1280, Bitmap.Config.ARGB_8888);
-                this.playerStubPaint = new Paint(1);
-            }
-            if (Build.VERSION.SDK_INT >= 24) {
-                AndroidUtilities.getBitmapFromSurface(this.surfaceView, this.playerStubBitmap);
-            }
-        }
+        prepareStub();
         this.dispatchQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.video.VideoPlayerHolderBase$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
@@ -344,6 +334,23 @@ public class VideoPlayerHolderBase {
         VideoPlayer videoPlayer = this.videoPlayer;
         if (videoPlayer != null) {
             videoPlayer.pause();
+        }
+    }
+
+    public void prepareStub() {
+        SurfaceView surfaceView = this.surfaceView;
+        if (surfaceView != null && this.firstFrameRendered && surfaceView.getHolder().getSurface().isValid()) {
+            this.stubAvailable = true;
+            if (this.playerStubBitmap == null) {
+                this.playerStubBitmap = Bitmap.createBitmap(720, 1280, Bitmap.Config.ARGB_8888);
+                this.playerStubPaint = new Paint(1);
+            }
+            if (Build.VERSION.SDK_INT >= 24) {
+                AndroidUtilities.getBitmapFromSurface(this.surfaceView, this.playerStubBitmap);
+                if (this.playerStubBitmap.getPixel(0, 0) == 0) {
+                    this.stubAvailable = false;
+                }
+            }
         }
     }
 

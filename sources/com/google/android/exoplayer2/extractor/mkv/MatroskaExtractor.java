@@ -41,6 +41,7 @@ import java.util.Map;
 import java.util.UUID;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.MediaController;
+import org.telegram.messenger.MessagesStorage;
 /* loaded from: classes.dex */
 public class MatroskaExtractor implements Extractor {
     private static final byte[] SSA_DIALOGUE_FORMAT;
@@ -146,7 +147,7 @@ public class MatroskaExtractor implements Extractor {
             case 2352003:
             case 2807729:
                 return 2;
-            case 134:
+            case MessagesStorage.LAST_DB_VERSION /* 134 */:
             case 17026:
             case 21358:
             case 2274716:

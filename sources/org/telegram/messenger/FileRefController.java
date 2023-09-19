@@ -488,7 +488,7 @@ public class FileRefController extends BaseController {
         if (obj instanceof TLRPC$StoryItem) {
             TLRPC$StoryItem tLRPC$StoryItem = (TLRPC$StoryItem) obj;
             TLRPC$TL_stories_getStoriesByID tLRPC$TL_stories_getStoriesByID = new TLRPC$TL_stories_getStoriesByID();
-            tLRPC$TL_stories_getStoriesByID.user_id = getMessagesController().getInputUser(tLRPC$StoryItem.dialogId);
+            tLRPC$TL_stories_getStoriesByID.peer = getMessagesController().getInputPeer(tLRPC$StoryItem.dialogId);
             tLRPC$TL_stories_getStoriesByID.id.add(Integer.valueOf(tLRPC$StoryItem.id));
             getConnectionsManager().sendRequest(tLRPC$TL_stories_getStoriesByID, new RequestDelegate() { // from class: org.telegram.messenger.FileRefController$$ExternalSyntheticLambda27
                 @Override // org.telegram.tgnet.RequestDelegate
@@ -1149,8 +1149,8 @@ public class FileRefController extends BaseController {
         getSendMessagesHelper().performSendMessageRequest((TLObject) objArr[0], (MessageObject) objArr[1], (String) objArr[2], (SendMessagesHelper.DelayedMessage) objArr[3], ((Boolean) objArr[4]).booleanValue(), (SendMessagesHelper.DelayedMessage) objArr[5], null, null, ((Boolean) objArr[6]).booleanValue());
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:321:0x0724  */
-    /* JADX WARN: Removed duplicated region for block: B:329:0x073c  */
+    /* JADX WARN: Removed duplicated region for block: B:321:0x072c  */
+    /* JADX WARN: Removed duplicated region for block: B:329:0x0744  */
     /* JADX WARN: Removed duplicated region for block: B:351:0x01aa A[SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:43:0x009f A[RETURN] */
     /* JADX WARN: Removed duplicated region for block: B:44:0x00a0  */
@@ -1628,7 +1628,7 @@ public class FileRefController extends BaseController {
                                                         TLRPC$StoryItem tLRPC$StoryItem2 = (TLRPC$StoryItem) obj2;
                                                         if (tLRPC$StoryItem == null) {
                                                             TLRPC$TL_updateStory tLRPC$TL_updateStory = new TLRPC$TL_updateStory();
-                                                            tLRPC$TL_updateStory.user_id = tLRPC$StoryItem2.dialogId;
+                                                            tLRPC$TL_updateStory.peer = getMessagesController().getPeer(tLRPC$StoryItem2.dialogId);
                                                             TLRPC$TL_storyItemDeleted tLRPC$TL_storyItemDeleted = new TLRPC$TL_storyItemDeleted();
                                                             tLRPC$TL_updateStory.story = tLRPC$TL_storyItemDeleted;
                                                             tLRPC$TL_storyItemDeleted.id = tLRPC$StoryItem2.id;

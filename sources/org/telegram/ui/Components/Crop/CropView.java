@@ -13,7 +13,6 @@ import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.RectF;
 import android.os.Build;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
@@ -992,7 +991,13 @@ public class CropView extends FrameLayout implements CropAreaView.AreaViewListen
         fitContentInBounds(true, true, false);
     }
 
+    /* JADX WARN: Removed duplicated region for block: B:28:0x010a A[Catch: all -> 0x0013, TryCatch #0 {all -> 0x0013, blocks: (B:4:0x000f, B:8:0x0018, B:10:0x001f, B:12:0x004d, B:13:0x0052, B:15:0x0092, B:17:0x0098, B:19:0x00a2, B:26:0x0106, B:28:0x010a, B:31:0x015b, B:33:0x01a5, B:30:0x012e, B:25:0x00fd, B:34:0x01b1), top: B:38:0x000f }] */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x012e A[Catch: all -> 0x0013, TryCatch #0 {all -> 0x0013, blocks: (B:4:0x000f, B:8:0x0018, B:10:0x001f, B:12:0x004d, B:13:0x0052, B:15:0x0092, B:17:0x0098, B:19:0x00a2, B:26:0x0106, B:28:0x010a, B:31:0x015b, B:33:0x01a5, B:30:0x012e, B:25:0x00fd, B:34:0x01b1), top: B:38:0x000f }] */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public static void editBitmap(Context context, String str, Bitmap bitmap, Canvas canvas, Bitmap bitmap2, Bitmap.CompressFormat compressFormat, Matrix matrix, int i, int i2, float f, float f2, float f3, float f4, boolean z, ArrayList<VideoEditedInfo.MediaEntity> arrayList, boolean z2) {
+        int i3 = i;
         char c = 0;
         if (z2) {
             try {
@@ -1023,37 +1028,63 @@ public class CropView extends FrameLayout implements CropAreaView.AreaViewListen
         if (arrayList != null && !arrayList.isEmpty()) {
             float[] fArr = new float[4];
             int size = arrayList.size();
-            int i3 = 0;
-            while (i3 < size) {
-                VideoEditedInfo.MediaEntity mediaEntity = arrayList.get(i3);
+            int i4 = 0;
+            while (i4 < size) {
+                VideoEditedInfo.MediaEntity mediaEntity = arrayList.get(i4);
                 fArr[c] = (mediaEntity.x + (mediaEntity.width / 2.0f)) * decodeFile.getWidth();
                 fArr[1] = (mediaEntity.y + (mediaEntity.height / 2.0f)) * decodeFile.getHeight();
                 fArr[c2] = mediaEntity.textViewX * decodeFile.getWidth();
                 fArr[3] = mediaEntity.textViewY * decodeFile.getHeight();
                 matrix2.mapPoints(fArr);
-                if (mediaEntity.type == 1) {
-                    mediaEntity.width = ((mediaEntity.width * i) / bitmap2.getWidth()) * f4 * f;
-                    mediaEntity.height = ((mediaEntity.height * i2) / bitmap2.getHeight()) * f4 * f;
-                } else {
-                    float f6 = i;
-                    mediaEntity.viewWidth = (int) ((mediaEntity.viewWidth / f6) * decodeFile.getWidth());
-                    float f7 = i2;
-                    mediaEntity.viewHeight = (int) ((mediaEntity.viewHeight / f7) * decodeFile.getHeight());
-                    mediaEntity.width = ((mediaEntity.width * f6) / decodeFile.getWidth()) * f4 * f;
-                    mediaEntity.height = ((mediaEntity.height * f7) / decodeFile.getHeight()) * f4 * f;
+                int width = decodeFile.getWidth();
+                int height = decodeFile.getHeight();
+                if (f3 != 90.0f) {
+                    if (f3 == 270.0f) {
+                    }
+                    int i5 = height;
+                    if (mediaEntity.type != 1) {
+                        mediaEntity.width = ((mediaEntity.width * i3) / bitmap2.getWidth()) * f4 * f;
+                        mediaEntity.height = ((mediaEntity.height * i2) / bitmap2.getHeight()) * f4 * f;
+                    } else {
+                        float f6 = i3;
+                        float f7 = width;
+                        mediaEntity.viewWidth = (int) ((mediaEntity.viewWidth / f6) * f7);
+                        float f8 = i2;
+                        float f9 = i5;
+                        mediaEntity.viewHeight = (int) ((mediaEntity.viewHeight / f8) * f9);
+                        mediaEntity.width = ((mediaEntity.width * f6) / f7) * f4 * f;
+                        mediaEntity.height = ((mediaEntity.height * f8) / f9) * f4 * f;
+                    }
+                    mediaEntity.x = (fArr[0] / bitmap2.getWidth()) - (mediaEntity.width / 2.0f);
+                    mediaEntity.y = (fArr[1] / bitmap2.getHeight()) - (mediaEntity.height / 2.0f);
+                    mediaEntity.textViewX = fArr[2] / bitmap2.getWidth();
+                    mediaEntity.textViewY = fArr[3] / bitmap2.getHeight();
+                    double d = mediaEntity.rotation;
+                    double d2 = f2 + f3;
+                    Double.isNaN(d2);
+                    Double.isNaN(d);
+                    mediaEntity.rotation = (float) (d - (d2 * 0.017453292519943295d));
+                    i4++;
+                    i3 = i;
+                    c = 0;
+                    c2 = 2;
+                }
+                width = decodeFile.getHeight();
+                height = decodeFile.getWidth();
+                int i52 = height;
+                if (mediaEntity.type != 1) {
                 }
                 mediaEntity.x = (fArr[0] / bitmap2.getWidth()) - (mediaEntity.width / 2.0f);
                 mediaEntity.y = (fArr[1] / bitmap2.getHeight()) - (mediaEntity.height / 2.0f);
                 mediaEntity.textViewX = fArr[2] / bitmap2.getWidth();
                 mediaEntity.textViewY = fArr[3] / bitmap2.getHeight();
-                double d = mediaEntity.rotation;
-                int i4 = i3;
-                double d2 = f2 + f3;
-                Double.isNaN(d2);
-                Double.isNaN(d);
-                mediaEntity.rotation = (float) (d - (d2 * 0.017453292519943295d));
-                Log.i("lolkek", "entity TO {x=" + mediaEntity.x + ", y=" + mediaEntity.y + ", w=" + mediaEntity.width + ", h=" + mediaEntity.height + ", s=" + mediaEntity.scale + ", vw=" + mediaEntity.viewWidth + ", vh=" + mediaEntity.viewHeight + "}");
-                i3 = i4 + 1;
+                double d3 = mediaEntity.rotation;
+                double d22 = f2 + f3;
+                Double.isNaN(d22);
+                Double.isNaN(d3);
+                mediaEntity.rotation = (float) (d3 - (d22 * 0.017453292519943295d));
+                i4++;
+                i3 = i;
                 c = 0;
                 c2 = 2;
             }

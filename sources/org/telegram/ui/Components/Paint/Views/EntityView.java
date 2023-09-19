@@ -610,7 +610,7 @@ public class EntityView extends FrameLayout {
         if (((View) getParent()) != null) {
             int i2 = 3;
             if (!this.lastIsMultitouch) {
-                if (Math.abs(this.position.x - (view.getMeasuredWidth() / 2.0f)) <= AndroidUtilities.dp(12.0f) && this.position.y < view.getMeasuredHeight() - AndroidUtilities.dp(176.0f)) {
+                if (Math.abs(this.position.x - (view.getMeasuredWidth() / 2.0f)) <= AndroidUtilities.dp(12.0f) && this.position.y < view.getMeasuredHeight() - AndroidUtilities.dp(112.0f)) {
                     i = 2;
                 } else if (Math.abs((this.position.x - (((width() / 2.0f) + getStickyPaddingLeft()) * getScaleX())) - AndroidUtilities.dp(8.0f)) <= AndroidUtilities.dp(12.0f)) {
                     i = 1;

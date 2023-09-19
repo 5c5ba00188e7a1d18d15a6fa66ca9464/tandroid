@@ -252,8 +252,8 @@ public final class Cea708Decoder extends CeaDecoder {
             case 130:
             case 131:
             case 132:
-            case MessagesStorage.LAST_DB_VERSION /* 133 */:
-            case 134:
+            case 133:
+            case MessagesStorage.LAST_DB_VERSION /* 134 */:
             case 135:
                 int i3 = i - 128;
                 if (this.currentWindow != i3) {

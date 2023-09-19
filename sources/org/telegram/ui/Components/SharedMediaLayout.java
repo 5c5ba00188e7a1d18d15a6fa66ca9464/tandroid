@@ -96,6 +96,7 @@ import org.telegram.tgnet.TLRPC$PhotoSize;
 import org.telegram.tgnet.TLRPC$StoryItem;
 import org.telegram.tgnet.TLRPC$TL_channelParticipantAdmin;
 import org.telegram.tgnet.TLRPC$TL_channelParticipantCreator;
+import org.telegram.tgnet.TLRPC$TL_chatAdminRights;
 import org.telegram.tgnet.TLRPC$TL_chatChannelParticipant;
 import org.telegram.tgnet.TLRPC$TL_chatParticipantAdmin;
 import org.telegram.tgnet.TLRPC$TL_chatParticipantCreator;
@@ -365,7 +366,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     protected void onTabScroll(boolean z) {
     }
 
-    static /* synthetic */ int access$5108(SharedMediaLayout sharedMediaLayout) {
+    static /* synthetic */ int access$5308(SharedMediaLayout sharedMediaLayout) {
         int i = sharedMediaLayout.animationSupportingSortedCellsOffset;
         sharedMediaLayout.animationSupportingSortedCellsOffset = i + 1;
         return i;
@@ -1157,7 +1158,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             return i;
         }
 
-        static /* synthetic */ int access$7910(SharedMediaData sharedMediaData) {
+        static /* synthetic */ int access$8010(SharedMediaData sharedMediaData) {
             int i = sharedMediaData.endLoadingStubs;
             sharedMediaData.endLoadingStubs = i - 1;
             return i;
@@ -1485,7 +1486,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         iArr[5] = lastMediaCount[5];
         iArr[6] = i7 == 0 ? i : 0;
         this.hasMedia = iArr;
-        if ((tLRPC$UserFull != null && tLRPC$UserFull.stories_pinned_available) || isStoriesView()) {
+        if ((tLRPC$UserFull != null && tLRPC$UserFull.stories_pinned_available) || ((tLRPC$ChatFull3 != null && tLRPC$ChatFull3.stories_pinned_available) || isStoriesView())) {
             this.initialTab = getInitialTab();
         } else if (z && this.topicId == 0) {
             this.initialTab = 7;
@@ -2103,7 +2104,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                                         if (childAt3 instanceof SharedPhotoVideoCell2) {
                                             SharedMediaLayout.this.animationSupportingSortedCells.add((SharedPhotoVideoCell2) childAt3);
                                         } else if (childAt3 instanceof TextView) {
-                                            SharedMediaLayout.access$5108(SharedMediaLayout.this);
+                                            SharedMediaLayout.access$5308(SharedMediaLayout.this);
                                         }
                                     }
                                 }
@@ -2612,6 +2613,8 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
 
         @Override // android.view.View.OnClickListener
         public void onClick(View view) {
+            TLRPC$Chat chat;
+            TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights;
             final DividerCell dividerCell = new DividerCell(this.val$context);
             ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(this, this.val$context, this.val$resourcesProvider) { // from class: org.telegram.ui.Components.SharedMediaLayout.5.1
                 /* JADX INFO: Access modifiers changed from: protected */
@@ -2634,7 +2637,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             SharedMediaLayout.this.mediaZoomInItem = new ActionBarMenuSubItem(this.val$context, true, false, this.val$resourcesProvider);
             SharedMediaLayout.this.mediaZoomOutItem = new ActionBarMenuSubItem(this.val$context, false, false, this.val$resourcesProvider);
             SharedMediaLayout.this.mediaZoomInItem.setTextAndIcon(LocaleController.getString("MediaZoomIn", R.string.MediaZoomIn), R.drawable.msg_zoomin);
-            SharedMediaLayout.this.mediaZoomInItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda0
+            SharedMediaLayout.this.mediaZoomInItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda1
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view2) {
                     SharedMediaLayout.5.this.lambda$onClick$0(view2);
@@ -2642,7 +2645,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             });
             actionBarPopupWindowLayout.addView(SharedMediaLayout.this.mediaZoomInItem);
             SharedMediaLayout.this.mediaZoomOutItem.setTextAndIcon(LocaleController.getString("MediaZoomOut", R.string.MediaZoomOut), R.drawable.msg_zoomout);
-            SharedMediaLayout.this.mediaZoomOutItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda1
+            SharedMediaLayout.this.mediaZoomOutItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda2
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view2) {
                     SharedMediaLayout.5.this.lambda$onClick$1(view2);
@@ -2678,50 +2681,61 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                         }
                     }
                 });
+                if (SharedMediaLayout.this.info != null && !SharedMediaLayout.this.isStoriesView() && (chat = MessagesController.getInstance(SharedMediaLayout.this.profileActivity.getCurrentAccount()).getChat(Long.valueOf(SharedMediaLayout.this.info.id))) != null && (tLRPC$TL_chatAdminRights = chat.admin_rights) != null && tLRPC$TL_chatAdminRights.edit_stories) {
+                    ActionBarMenuSubItem actionBarMenuSubItem2 = new ActionBarMenuSubItem(this.val$context, false, true, this.val$resourcesProvider);
+                    actionBarMenuSubItem2.setTextAndIcon(LocaleController.getString(R.string.OpenChannelArchiveStories), R.drawable.msg_archive);
+                    actionBarMenuSubItem2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda0
+                        @Override // android.view.View.OnClickListener
+                        public final void onClick(View view2) {
+                            SharedMediaLayout.5.this.lambda$onClick$2(view2);
+                        }
+                    });
+                    actionBarPopupWindowLayout.addView(actionBarMenuSubItem2);
+                }
                 if (z2) {
                     actionBarPopupWindowLayout.addView(dividerCell);
-                    final ActionBarMenuSubItem actionBarMenuSubItem2 = new ActionBarMenuSubItem(this.val$context, true, false, false, this.val$resourcesProvider);
-                    final ActionBarMenuSubItem actionBarMenuSubItem3 = new ActionBarMenuSubItem(this.val$context, true, false, true, this.val$resourcesProvider);
-                    actionBarMenuSubItem2.setTextAndIcon(LocaleController.getString("MediaShowPhotos", R.string.MediaShowPhotos), 0);
-                    actionBarPopupWindowLayout.addView(actionBarMenuSubItem2);
-                    actionBarMenuSubItem3.setTextAndIcon(LocaleController.getString("MediaShowVideos", R.string.MediaShowVideos), 0);
+                    final ActionBarMenuSubItem actionBarMenuSubItem3 = new ActionBarMenuSubItem(this.val$context, true, false, false, this.val$resourcesProvider);
+                    final ActionBarMenuSubItem actionBarMenuSubItem4 = new ActionBarMenuSubItem(this.val$context, true, false, true, this.val$resourcesProvider);
+                    actionBarMenuSubItem3.setTextAndIcon(LocaleController.getString("MediaShowPhotos", R.string.MediaShowPhotos), 0);
                     actionBarPopupWindowLayout.addView(actionBarMenuSubItem3);
+                    actionBarMenuSubItem4.setTextAndIcon(LocaleController.getString("MediaShowVideos", R.string.MediaShowVideos), 0);
+                    actionBarPopupWindowLayout.addView(actionBarMenuSubItem4);
                     if (c != 0) {
                         final StoriesAdapter storiesAdapter = closestTab == 8 ? SharedMediaLayout.this.storiesAdapter : SharedMediaLayout.this.archivedStoriesAdapter;
                         StoriesController.StoriesList storiesList = storiesAdapter.storiesList;
                         if (storiesList != null) {
-                            actionBarMenuSubItem2.setChecked(storiesList.showPhotos());
-                            actionBarMenuSubItem3.setChecked(storiesAdapter.storiesList.showVideos());
+                            actionBarMenuSubItem3.setChecked(storiesList.showPhotos());
+                            actionBarMenuSubItem4.setChecked(storiesAdapter.storiesList.showVideos());
                         }
-                        actionBarMenuSubItem2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda3
+                        actionBarMenuSubItem3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda3
                             @Override // android.view.View.OnClickListener
                             public final void onClick(View view2) {
-                                SharedMediaLayout.5.this.lambda$onClick$2(actionBarMenuSubItem3, actionBarMenuSubItem2, storiesAdapter, view2);
+                                SharedMediaLayout.5.this.lambda$onClick$3(actionBarMenuSubItem4, actionBarMenuSubItem3, storiesAdapter, view2);
                             }
                         });
-                        actionBarMenuSubItem3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda2
+                        actionBarMenuSubItem4.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda4
                             @Override // android.view.View.OnClickListener
                             public final void onClick(View view2) {
-                                SharedMediaLayout.5.this.lambda$onClick$3(actionBarMenuSubItem2, actionBarMenuSubItem3, storiesAdapter, view2);
+                                SharedMediaLayout.5.this.lambda$onClick$4(actionBarMenuSubItem3, actionBarMenuSubItem4, storiesAdapter, view2);
                             }
                         });
                     } else {
-                        actionBarMenuSubItem2.setChecked(SharedMediaLayout.this.sharedMediaData[0].filterType == 0 || SharedMediaLayout.this.sharedMediaData[0].filterType == 1);
-                        actionBarMenuSubItem2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.SharedMediaLayout.5.3
+                        actionBarMenuSubItem3.setChecked(SharedMediaLayout.this.sharedMediaData[0].filterType == 0 || SharedMediaLayout.this.sharedMediaData[0].filterType == 1);
+                        actionBarMenuSubItem3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.SharedMediaLayout.5.3
                             @Override // android.view.View.OnClickListener
                             public void onClick(View view2) {
                                 if (SharedMediaLayout.this.changeTypeAnimation) {
                                     return;
                                 }
-                                if (!actionBarMenuSubItem3.getCheckView().isChecked() && actionBarMenuSubItem2.getCheckView().isChecked()) {
-                                    ActionBarMenuSubItem actionBarMenuSubItem4 = actionBarMenuSubItem2;
+                                if (!actionBarMenuSubItem4.getCheckView().isChecked() && actionBarMenuSubItem3.getCheckView().isChecked()) {
+                                    ActionBarMenuSubItem actionBarMenuSubItem5 = actionBarMenuSubItem3;
                                     SharedMediaLayout sharedMediaLayout = SharedMediaLayout.this;
-                                    AndroidUtilities.shakeViewSpring(actionBarMenuSubItem4, sharedMediaLayout.shiftDp = -sharedMediaLayout.shiftDp);
+                                    AndroidUtilities.shakeViewSpring(actionBarMenuSubItem5, sharedMediaLayout.shiftDp = -sharedMediaLayout.shiftDp);
                                     return;
                                 }
-                                ActionBarMenuSubItem actionBarMenuSubItem5 = actionBarMenuSubItem2;
-                                actionBarMenuSubItem5.setChecked(!actionBarMenuSubItem5.getCheckView().isChecked());
-                                if (!actionBarMenuSubItem2.getCheckView().isChecked() || !actionBarMenuSubItem3.getCheckView().isChecked()) {
+                                ActionBarMenuSubItem actionBarMenuSubItem6 = actionBarMenuSubItem3;
+                                actionBarMenuSubItem6.setChecked(!actionBarMenuSubItem6.getCheckView().isChecked());
+                                if (!actionBarMenuSubItem3.getCheckView().isChecked() || !actionBarMenuSubItem4.getCheckView().isChecked()) {
                                     SharedMediaLayout.this.sharedMediaData[0].filterType = 2;
                                 } else {
                                     SharedMediaLayout.this.sharedMediaData[0].filterType = 0;
@@ -2732,22 +2746,22 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                         if (SharedMediaLayout.this.sharedMediaData[0].filterType != 0 && SharedMediaLayout.this.sharedMediaData[0].filterType != 2) {
                             z = false;
                         }
-                        actionBarMenuSubItem3.setChecked(z);
-                        actionBarMenuSubItem3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.SharedMediaLayout.5.4
+                        actionBarMenuSubItem4.setChecked(z);
+                        actionBarMenuSubItem4.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.SharedMediaLayout.5.4
                             @Override // android.view.View.OnClickListener
                             public void onClick(View view2) {
                                 if (SharedMediaLayout.this.changeTypeAnimation) {
                                     return;
                                 }
-                                if (!actionBarMenuSubItem2.getCheckView().isChecked() && actionBarMenuSubItem3.getCheckView().isChecked()) {
-                                    ActionBarMenuSubItem actionBarMenuSubItem4 = actionBarMenuSubItem3;
+                                if (!actionBarMenuSubItem3.getCheckView().isChecked() && actionBarMenuSubItem4.getCheckView().isChecked()) {
+                                    ActionBarMenuSubItem actionBarMenuSubItem5 = actionBarMenuSubItem4;
                                     SharedMediaLayout sharedMediaLayout = SharedMediaLayout.this;
-                                    AndroidUtilities.shakeViewSpring(actionBarMenuSubItem4, sharedMediaLayout.shiftDp = -sharedMediaLayout.shiftDp);
+                                    AndroidUtilities.shakeViewSpring(actionBarMenuSubItem5, sharedMediaLayout.shiftDp = -sharedMediaLayout.shiftDp);
                                     return;
                                 }
-                                ActionBarMenuSubItem actionBarMenuSubItem5 = actionBarMenuSubItem3;
-                                actionBarMenuSubItem5.setChecked(!actionBarMenuSubItem5.getCheckView().isChecked());
-                                if (!actionBarMenuSubItem2.getCheckView().isChecked() || !actionBarMenuSubItem3.getCheckView().isChecked()) {
+                                ActionBarMenuSubItem actionBarMenuSubItem6 = actionBarMenuSubItem4;
+                                actionBarMenuSubItem6.setChecked(!actionBarMenuSubItem6.getCheckView().isChecked());
+                                if (!actionBarMenuSubItem3.getCheckView().isChecked() || !actionBarMenuSubItem4.getCheckView().isChecked()) {
                                     SharedMediaLayout.this.sharedMediaData[0].filterType = 1;
                                 } else {
                                     SharedMediaLayout.this.sharedMediaData[0].filterType = 0;
@@ -2773,7 +2787,21 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onClick$2(ActionBarMenuSubItem actionBarMenuSubItem, ActionBarMenuSubItem actionBarMenuSubItem2, StoriesAdapter storiesAdapter, View view) {
+        public /* synthetic */ void lambda$onClick$2(View view) {
+            Bundle bundle = new Bundle();
+            bundle.putInt("type", 2);
+            bundle.putLong("dialog_id", -SharedMediaLayout.this.info.id);
+            MediaActivity mediaActivity = new MediaActivity(bundle, null);
+            mediaActivity.setChatInfo(SharedMediaLayout.this.info);
+            SharedMediaLayout.this.profileActivity.presentFragment(mediaActivity);
+            ActionBarPopupWindow actionBarPopupWindow = SharedMediaLayout.this.optionsWindow;
+            if (actionBarPopupWindow != null) {
+                actionBarPopupWindow.dismiss();
+            }
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$onClick$3(ActionBarMenuSubItem actionBarMenuSubItem, ActionBarMenuSubItem actionBarMenuSubItem2, StoriesAdapter storiesAdapter, View view) {
             if (SharedMediaLayout.this.changeTypeAnimation) {
                 return;
             }
@@ -2791,7 +2819,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onClick$3(ActionBarMenuSubItem actionBarMenuSubItem, ActionBarMenuSubItem actionBarMenuSubItem2, StoriesAdapter storiesAdapter, View view) {
+        public /* synthetic */ void lambda$onClick$4(ActionBarMenuSubItem actionBarMenuSubItem, ActionBarMenuSubItem actionBarMenuSubItem2, StoriesAdapter storiesAdapter, View view) {
             if (SharedMediaLayout.this.changeTypeAnimation) {
                 return;
             }
@@ -4800,7 +4828,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                             MessageObject messageObject2 = (MessageObject) arrayList.get(i10);
                             if (this.sharedMediaData[intValue3].addMessage(messageObject2, i9, false, isEncryptedDialog)) {
                                 sparseBooleanArray.put(messageObject2.getId(), true);
-                                SharedMediaData.access$7910(this.sharedMediaData[intValue3]);
+                                SharedMediaData.access$8010(this.sharedMediaData[intValue3]);
                                 if (this.sharedMediaData[intValue3].endLoadingStubs < 0) {
                                     this.sharedMediaData[intValue3].endLoadingStubs = 0;
                                 }
@@ -5393,25 +5421,35 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     }
 
     public void setChatInfo(TLRPC$ChatFull tLRPC$ChatFull) {
+        TLRPC$ChatFull tLRPC$ChatFull2 = this.info;
+        boolean z = tLRPC$ChatFull2 != null && tLRPC$ChatFull2.stories_pinned_available;
         this.info = tLRPC$ChatFull;
-        if (tLRPC$ChatFull == null) {
-            return;
-        }
-        long j = tLRPC$ChatFull.migrated_from_chat_id;
-        if (j == 0 || this.mergeDialogId != 0) {
-            return;
-        }
-        this.mergeDialogId = -j;
-        int i = 0;
-        while (true) {
-            SharedMediaData[] sharedMediaDataArr = this.sharedMediaData;
-            if (i >= sharedMediaDataArr.length) {
-                return;
+        if (tLRPC$ChatFull != null) {
+            long j = tLRPC$ChatFull.migrated_from_chat_id;
+            if (j != 0 && this.mergeDialogId == 0) {
+                this.mergeDialogId = -j;
+                int i = 0;
+                while (true) {
+                    SharedMediaData[] sharedMediaDataArr = this.sharedMediaData;
+                    if (i >= sharedMediaDataArr.length) {
+                        break;
+                    }
+                    sharedMediaDataArr[i].max_id[1] = this.info.migrated_from_max_id;
+                    sharedMediaDataArr[i].endReached[1] = false;
+                    i++;
+                }
             }
-            sharedMediaDataArr[i].max_id[1] = this.info.migrated_from_max_id;
-            sharedMediaDataArr[i].endReached[1] = false;
-            i++;
         }
+        TLRPC$ChatFull tLRPC$ChatFull3 = this.info;
+        if (tLRPC$ChatFull3 == null || z == tLRPC$ChatFull3.stories_pinned_available) {
+            return;
+        }
+        ScrollSlidingTextTabStripInner scrollSlidingTextTabStripInner = this.scrollSlidingTextTabStrip;
+        if (scrollSlidingTextTabStripInner != null) {
+            scrollSlidingTextTabStripInner.setInitialTabId(isArchivedOnlyStoriesView() ? 9 : 8);
+        }
+        updateTabs(true);
+        switchToCurrentSelectedMode(false);
     }
 
     public void setUserInfo(TLRPC$UserFull tLRPC$UserFull) {
@@ -5516,73 +5554,73 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         this.mergeDialogId = j;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:63:0x00b5, code lost:
-        if ((r13.hasMedia[4] <= 0) == r13.scrollSlidingTextTabStrip.hasTab(4)) goto L76;
+    /* JADX WARN: Code restructure failed: missing block: B:70:0x00ca, code lost:
+        if ((r16.hasMedia[4] <= 0) == r16.scrollSlidingTextTabStrip.hasTab(4)) goto L70;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:70:0x00c7, code lost:
-        if ((r13.hasMedia[4] <= 0) == r13.scrollSlidingTextTabStrip.hasTab(4)) goto L76;
+    /* JADX WARN: Code restructure failed: missing block: B:77:0x00dc, code lost:
+        if ((r16.hasMedia[4] <= 0) == r16.scrollSlidingTextTabStrip.hasTab(4)) goto L70;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:71:0x00c9, code lost:
-        r0 = r0 + 1;
+    /* JADX WARN: Code restructure failed: missing block: B:78:0x00de, code lost:
+        r3 = r3 + 1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:73:0x00cf, code lost:
-        if (r13.hasMedia[2] > 0) goto L75;
+    /* JADX WARN: Code restructure failed: missing block: B:80:0x00e4, code lost:
+        if (r16.hasMedia[2] > 0) goto L69;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:74:0x00d1, code lost:
-        r3 = true;
+    /* JADX WARN: Code restructure failed: missing block: B:81:0x00e6, code lost:
+        r5 = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:75:0x00d3, code lost:
-        r3 = false;
+    /* JADX WARN: Code restructure failed: missing block: B:82:0x00e8, code lost:
+        r5 = false;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:77:0x00da, code lost:
-        if (r3 != r13.scrollSlidingTextTabStrip.hasTab(2)) goto L61;
+    /* JADX WARN: Code restructure failed: missing block: B:84:0x00ef, code lost:
+        if (r5 != r16.scrollSlidingTextTabStrip.hasTab(2)) goto L55;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:78:0x00dc, code lost:
-        r0 = r0 + 1;
+    /* JADX WARN: Code restructure failed: missing block: B:85:0x00f1, code lost:
+        r3 = r3 + 1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:80:0x00e2, code lost:
-        if (r13.hasMedia[5] > 0) goto L74;
+    /* JADX WARN: Code restructure failed: missing block: B:87:0x00f7, code lost:
+        if (r16.hasMedia[5] > 0) goto L68;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:81:0x00e4, code lost:
-        r3 = true;
+    /* JADX WARN: Code restructure failed: missing block: B:88:0x00f9, code lost:
+        r5 = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:82:0x00e6, code lost:
-        r3 = false;
+    /* JADX WARN: Code restructure failed: missing block: B:89:0x00fb, code lost:
+        r5 = false;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:84:0x00ed, code lost:
-        if (r3 != r13.scrollSlidingTextTabStrip.hasTab(5)) goto L67;
+    /* JADX WARN: Code restructure failed: missing block: B:91:0x0102, code lost:
+        if (r5 != r16.scrollSlidingTextTabStrip.hasTab(5)) goto L61;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:85:0x00ef, code lost:
-        r0 = r0 + 1;
+    /* JADX WARN: Code restructure failed: missing block: B:92:0x0104, code lost:
+        r3 = r3 + 1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:87:0x00f5, code lost:
-        if (r13.hasMedia[6] > 0) goto L73;
+    /* JADX WARN: Code restructure failed: missing block: B:94:0x010a, code lost:
+        if (r16.hasMedia[6] > 0) goto L67;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:88:0x00f7, code lost:
-        r3 = true;
+    /* JADX WARN: Code restructure failed: missing block: B:95:0x010c, code lost:
+        r5 = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:89:0x00f9, code lost:
-        r3 = false;
+    /* JADX WARN: Code restructure failed: missing block: B:96:0x010e, code lost:
+        r5 = false;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:91:0x0100, code lost:
-        if (r3 != r13.scrollSlidingTextTabStrip.hasTab(6)) goto L88;
+    /* JADX WARN: Code restructure failed: missing block: B:98:0x0115, code lost:
+        if (r5 != r16.scrollSlidingTextTabStrip.hasTab(6)) goto L82;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:92:0x0102, code lost:
-        r0 = r0 + 1;
+    /* JADX WARN: Code restructure failed: missing block: B:99:0x0117, code lost:
+        r3 = r3 + 1;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private void updateTabs(boolean z) {
         TLRPC$UserFull tLRPC$UserFull;
+        TLRPC$ChatFull tLRPC$ChatFull;
         TLRPC$UserFull tLRPC$UserFull2;
+        TLRPC$ChatFull tLRPC$ChatFull2;
         if (this.scrollSlidingTextTabStrip == null) {
             return;
         }
-        if (!this.delegate.isFragmentOpened()) {
-            z = false;
-        }
-        int i = (DialogObject.isUserDialog(this.dialog_id) && !DialogObject.isEncryptedDialog(this.dialog_id) && ((((tLRPC$UserFull2 = this.userInfo) != null && tLRPC$UserFull2.stories_pinned_available) || isStoriesView()) && includeStories())) != this.scrollSlidingTextTabStrip.hasTab(8) ? 1 : 0;
+        boolean z2 = !this.delegate.isFragmentOpened() ? false : z;
+        int i = ((DialogObject.isUserDialog(this.dialog_id) || DialogObject.isChatDialog(this.dialog_id)) && !DialogObject.isEncryptedDialog(this.dialog_id) && ((((tLRPC$UserFull = this.userInfo) != null && tLRPC$UserFull.stories_pinned_available) || (((tLRPC$ChatFull = this.info) != null && tLRPC$ChatFull.stories_pinned_available) || isStoriesView())) && includeStories())) != this.scrollSlidingTextTabStrip.hasTab(8) ? 1 : 0;
         if (!isStoriesView()) {
             if ((this.chatUsersAdapter.chatInfo == null) == this.scrollSlidingTextTabStrip.hasTab(7)) {
                 i++;
@@ -5600,7 +5638,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             }
         }
         if (i > 0) {
-            if (z && Build.VERSION.SDK_INT >= 19) {
+            if (z2 && Build.VERSION.SDK_INT >= 19) {
                 TransitionSet transitionSet = new TransitionSet();
                 transitionSet.setOrdering(0);
                 transitionSet.addTransition(new ChangeBounds());
@@ -5629,15 +5667,22 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             if (i > 3) {
                 removeTabs = null;
             }
-            if (DialogObject.isUserDialog(this.dialog_id) && !DialogObject.isEncryptedDialog(this.dialog_id) && ((((tLRPC$UserFull = this.userInfo) != null && tLRPC$UserFull.stories_pinned_available) || isStoriesView()) && includeStories())) {
-                if (!this.scrollSlidingTextTabStrip.hasTab(8)) {
-                    this.scrollSlidingTextTabStrip.addTextTab(8, LocaleController.getString("ProfileStories", R.string.ProfileStories), removeTabs);
-                }
-                if (isStoriesView()) {
+            if ((DialogObject.isUserDialog(this.dialog_id) || DialogObject.isChatDialog(this.dialog_id)) && !DialogObject.isEncryptedDialog(this.dialog_id) && ((((tLRPC$UserFull2 = this.userInfo) != null && tLRPC$UserFull2.stories_pinned_available) || (((tLRPC$ChatFull2 = this.info) != null && tLRPC$ChatFull2.stories_pinned_available) || isStoriesView())) && includeStories())) {
+                if (isArchivedOnlyStoriesView()) {
                     if (!this.scrollSlidingTextTabStrip.hasTab(9)) {
                         this.scrollSlidingTextTabStrip.addTextTab(9, LocaleController.getString("ProfileStories", R.string.ProfileStories), removeTabs);
                     }
                     this.scrollSlidingTextTabStrip.animationDuration = 420L;
+                } else {
+                    if (!this.scrollSlidingTextTabStrip.hasTab(8)) {
+                        this.scrollSlidingTextTabStrip.addTextTab(8, LocaleController.getString("ProfileStories", R.string.ProfileStories), removeTabs);
+                    }
+                    if (isStoriesView()) {
+                        if (!this.scrollSlidingTextTabStrip.hasTab(9)) {
+                            this.scrollSlidingTextTabStrip.addTextTab(9, LocaleController.getString("ProfileStories", R.string.ProfileStories), removeTabs);
+                        }
+                        this.scrollSlidingTextTabStrip.animationDuration = 420L;
+                    }
                 }
             }
             if (!isStoriesView()) {

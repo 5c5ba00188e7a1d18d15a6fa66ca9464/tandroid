@@ -51,6 +51,7 @@ import org.telegram.ui.Components.FlickerLoadingView;
 import org.telegram.ui.Components.spoilers.SpoilerEffect;
 import org.telegram.ui.Components.spoilers.SpoilerEffect2;
 import org.telegram.ui.PhotoViewer;
+import org.telegram.ui.Stories.StoryWidgetsImageDecorator;
 import org.telegram.ui.Stories.recorder.DominantColors;
 /* loaded from: classes3.dex */
 public class SharedPhotoVideoCell2 extends FrameLayout {
@@ -201,6 +202,7 @@ public class SharedPhotoVideoCell2 extends FrameLayout {
             this.videoText = null;
             this.videoInfoLayot = null;
             this.showVideoLayout = false;
+            this.imageReceiver.clearDecorators();
             if (TextUtils.isEmpty(restrictionReason)) {
                 TLRPC$StoryItem tLRPC$StoryItem = messageObject.storyItem;
                 if (tLRPC$StoryItem != null && (tLRPC$StoryItem.media instanceof TLRPC$TL_messageMediaUnsupported)) {
@@ -278,6 +280,10 @@ public class SharedPhotoVideoCell2 extends FrameLayout {
             }
             if (this.imageReceiver.getBitmap() != null && this.currentMessageObject.hasMediaSpoilers() && !this.currentMessageObject.isMediaSpoilersRevealed) {
                 this.blurImageReceiver.setImageBitmap(Utilities.stackBlurBitmapMax(this.imageReceiver.getBitmap()));
+            }
+            TLRPC$StoryItem tLRPC$StoryItem2 = messageObject.storyItem;
+            if (tLRPC$StoryItem2 != null) {
+                this.imageReceiver.addDecorator(new StoryWidgetsImageDecorator(tLRPC$StoryItem2));
             }
             invalidate();
         }

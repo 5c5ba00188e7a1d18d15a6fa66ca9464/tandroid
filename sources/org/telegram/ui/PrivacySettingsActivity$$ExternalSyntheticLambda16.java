@@ -12,6 +12,6 @@ public final /* synthetic */ class PrivacySettingsActivity$$ExternalSyntheticLam
 
     @Override // org.telegram.tgnet.RequestDelegate
     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        PrivacySettingsActivity.lambda$onFragmentDestroy$1(tLObject, tLRPC$TL_error);
+        PrivacySettingsActivity.lambda$createView$16(tLObject, tLRPC$TL_error);
     }
 }

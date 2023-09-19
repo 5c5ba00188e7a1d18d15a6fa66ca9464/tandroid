@@ -139,6 +139,9 @@ public class SharedConfig {
     public static boolean roundCamera16to9;
     public static boolean saveIncomingPhotos;
     public static boolean saveStreamMedia;
+    public static long scheduledHintSeenAt;
+    public static int scheduledHintShows;
+    public static long scheduledOrNoSoundHintSeenAt;
     public static int scheduledOrNoSoundHintShows;
     public static int searchMessagesAsListHintShows;
     public static boolean searchMessagesAsListUsed;
@@ -436,6 +439,9 @@ public class SharedConfig {
                 edit.putBoolean("sortFilesByName", sortFilesByName);
                 edit.putInt("textSelectionHintShows", textSelectionHintShows);
                 edit.putInt("scheduledOrNoSoundHintShows", scheduledOrNoSoundHintShows);
+                edit.putLong("scheduledOrNoSoundHintSeenAt", scheduledOrNoSoundHintSeenAt);
+                edit.putInt("scheduledHintShows", scheduledHintShows);
+                edit.putLong("scheduledHintSeenAt", scheduledHintSeenAt);
                 edit.putBoolean("forwardingOptionsHintShown", forwardingOptionsHintShown);
                 edit.putInt("lockRecordAudioVideoHint", lockRecordAudioVideoHint);
                 edit.putString("storageCacheDir", !TextUtils.isEmpty(storageCacheDir) ? storageCacheDir : "");
@@ -476,15 +482,15 @@ public class SharedConfig {
         return i;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:38:0x017e A[Catch: Exception -> 0x01a0, all -> 0x042a, TryCatch #0 {Exception -> 0x01a0, blocks: (B:22:0x012f, B:24:0x0137, B:26:0x0147, B:27:0x015b, B:38:0x017e, B:40:0x0182, B:41:0x0184, B:43:0x0188, B:45:0x018e, B:47:0x0194, B:49:0x0198, B:36:0x0178), top: B:87:0x012f, outer: #2 }] */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x0182 A[Catch: Exception -> 0x01a0, all -> 0x042a, TryCatch #0 {Exception -> 0x01a0, blocks: (B:22:0x012f, B:24:0x0137, B:26:0x0147, B:27:0x015b, B:38:0x017e, B:40:0x0182, B:41:0x0184, B:43:0x0188, B:45:0x018e, B:47:0x0194, B:49:0x0198, B:36:0x0178), top: B:87:0x012f, outer: #2 }] */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x017e A[Catch: Exception -> 0x01a0, all -> 0x0445, TryCatch #0 {Exception -> 0x01a0, blocks: (B:22:0x012f, B:24:0x0137, B:26:0x0147, B:27:0x015b, B:38:0x017e, B:40:0x0182, B:41:0x0184, B:43:0x0188, B:45:0x018e, B:47:0x0194, B:49:0x0198, B:36:0x0178), top: B:87:0x012f, outer: #2 }] */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x0182 A[Catch: Exception -> 0x01a0, all -> 0x0445, TryCatch #0 {Exception -> 0x01a0, blocks: (B:22:0x012f, B:24:0x0137, B:26:0x0147, B:27:0x015b, B:38:0x017e, B:40:0x0182, B:41:0x0184, B:43:0x0188, B:45:0x018e, B:47:0x0194, B:49:0x0198, B:36:0x0178), top: B:87:0x012f, outer: #2 }] */
     /* JADX WARN: Removed duplicated region for block: B:61:0x0222  */
     /* JADX WARN: Removed duplicated region for block: B:62:0x0225  */
     /* JADX WARN: Removed duplicated region for block: B:65:0x0235  */
     /* JADX WARN: Removed duplicated region for block: B:66:0x0237  */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x03f0  */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x03f2  */
-    /* JADX WARN: Removed duplicated region for block: B:94:0x041a A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x040b  */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x040d  */
+    /* JADX WARN: Removed duplicated region for block: B:89:0x0435 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -616,6 +622,9 @@ public class SharedConfig {
                             storyReactionsLongPressHint = sharedPreferences2.getBoolean("storyReactionsLongPressHint", false);
                             textSelectionHintShows = sharedPreferences2.getInt("textSelectionHintShows", 0);
                             scheduledOrNoSoundHintShows = sharedPreferences2.getInt("scheduledOrNoSoundHintShows", 0);
+                            scheduledOrNoSoundHintSeenAt = sharedPreferences2.getLong("scheduledOrNoSoundHintSeenAt", 0L);
+                            scheduledHintShows = sharedPreferences2.getInt("scheduledHintShows", 0);
+                            scheduledHintSeenAt = sharedPreferences2.getLong("scheduledHintSeenAt", 0L);
                             forwardingOptionsHintShown = sharedPreferences2.getBoolean("forwardingOptionsHintShown", false);
                             lockRecordAudioVideoHint = sharedPreferences2.getInt("lockRecordAudioVideoHint", 0);
                             disableVoiceAudioEffects = sharedPreferences2.getBoolean("disableVoiceAudioEffects", false);
@@ -707,6 +716,9 @@ public class SharedConfig {
                 storyReactionsLongPressHint = sharedPreferences22.getBoolean("storyReactionsLongPressHint", false);
                 textSelectionHintShows = sharedPreferences22.getInt("textSelectionHintShows", 0);
                 scheduledOrNoSoundHintShows = sharedPreferences22.getInt("scheduledOrNoSoundHintShows", 0);
+                scheduledOrNoSoundHintSeenAt = sharedPreferences22.getLong("scheduledOrNoSoundHintSeenAt", 0L);
+                scheduledHintShows = sharedPreferences22.getInt("scheduledHintShows", 0);
+                scheduledHintSeenAt = sharedPreferences22.getLong("scheduledHintSeenAt", 0L);
                 forwardingOptionsHintShown = sharedPreferences22.getBoolean("forwardingOptionsHintShown", false);
                 lockRecordAudioVideoHint = sharedPreferences22.getInt("lockRecordAudioVideoHint", 0);
                 disableVoiceAudioEffects = sharedPreferences22.getBoolean("disableVoiceAudioEffects", false);
@@ -943,6 +955,9 @@ public class SharedConfig {
         lastUpdateVersion = BuildVars.BUILD_VERSION_STRING;
         textSelectionHintShows = 0;
         scheduledOrNoSoundHintShows = 0;
+        scheduledOrNoSoundHintSeenAt = 0L;
+        scheduledHintShows = 0;
+        scheduledHintSeenAt = 0L;
         lockRecordAudioVideoHint = 0;
         forwardingOptionsHintShown = false;
         messageSeenHintCount = 3;
@@ -1003,11 +1018,23 @@ public class SharedConfig {
         edit.apply();
     }
 
-    public static void increaseScheduledOrNoSuoundHintShowed() {
+    public static void increaseScheduledOrNoSoundHintShowed() {
         SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
+        scheduledOrNoSoundHintSeenAt = System.currentTimeMillis();
         int i = scheduledOrNoSoundHintShows + 1;
         scheduledOrNoSoundHintShows = i;
         edit.putInt("scheduledOrNoSoundHintShows", i);
+        edit.putLong("scheduledOrNoSoundHintSeenAt", scheduledOrNoSoundHintSeenAt);
+        edit.apply();
+    }
+
+    public static void increaseScheduledHintShowed() {
+        SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
+        scheduledHintSeenAt = System.currentTimeMillis();
+        int i = scheduledHintShows + 1;
+        scheduledHintShows = i;
+        edit.putInt("scheduledHintShows", i);
+        edit.putLong("scheduledHintSeenAt", scheduledHintSeenAt);
         edit.apply();
     }
 
@@ -1021,6 +1048,12 @@ public class SharedConfig {
     public static void removeScheduledOrNoSoundHint() {
         SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
         edit.putInt("scheduledOrNoSoundHintShows", 3);
+        edit.apply();
+    }
+
+    public static void removeScheduledHint() {
+        SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
+        edit.putInt("scheduledHintShows", 3);
         edit.apply();
     }
 

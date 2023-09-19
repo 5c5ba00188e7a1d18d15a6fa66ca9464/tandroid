@@ -3,11 +3,12 @@ package org.telegram.tgnet;
 import java.util.ArrayList;
 /* loaded from: classes.dex */
 public class TLRPC$TL_stories_sendStory extends TLObject {
-    public static int constructor = -732562196;
+    public static int constructor = -1128843708;
     public String caption;
     public int flags;
     public TLRPC$InputMedia media;
     public boolean noforwards;
+    public TLRPC$InputPeer peer;
     public int period;
     public boolean pinned;
     public long random_id;
@@ -28,6 +29,7 @@ public class TLRPC$TL_stories_sendStory extends TLObject {
         int i2 = this.noforwards ? i | 16 : i & (-17);
         this.flags = i2;
         abstractSerializedData.writeInt32(i2);
+        this.peer.serializeToStream(abstractSerializedData);
         this.media.serializeToStream(abstractSerializedData);
         if ((this.flags & 32) != 0) {
             abstractSerializedData.writeInt32(481674261);

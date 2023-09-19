@@ -14,6 +14,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.SparseIntArray;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -35,6 +36,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
+import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.LruCache;
 import org.telegram.messenger.MessageObject;
@@ -42,6 +44,7 @@ import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
+import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
@@ -107,6 +110,7 @@ import org.telegram.ui.Charts.view_data.LegendSignatureView;
 import org.telegram.ui.Charts.view_data.LineViewData;
 import org.telegram.ui.Charts.view_data.TransitionParams;
 import org.telegram.ui.ChatRightsEditActivity;
+import org.telegram.ui.Components.BottomPagerTabs;
 import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.ChatAvatarContainer;
 import org.telegram.ui.Components.CombinedDrawable;
@@ -115,6 +119,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RLottieImageView;
 import org.telegram.ui.Components.RadialProgressView;
 import org.telegram.ui.Components.RecyclerListView;
+import org.telegram.ui.Components.ViewPagerFixed;
 import org.telegram.ui.PeopleNearbyActivity;
 import org.telegram.ui.StatisticActivity;
 /* loaded from: classes3.dex */
@@ -123,6 +128,7 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
     private Adapter adapter;
     private RecyclerView.ItemAnimator animator;
     ChatAvatarContainer avatarContainer;
+    private ChannelBoostLayout boosLayout;
     private final TLRPC$ChatFull chat;
     private LruCache<ChartData> childDataCache;
     private DiffUtilsCallback diffUtilsCallback;
@@ -162,6 +168,7 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
     private ArrayList<MemberData> topInviters;
     private ArrayList<MemberData> topMembersAll;
     private ArrayList<MemberData> topMembersVisible;
+    private ViewPagerFixed viewPagerFixed;
     private ChartViewData viewsBySourceData;
 
     /* loaded from: classes3.dex */
@@ -414,9 +421,70 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public View createView(Context context) {
         this.sharedUi = new BaseChartView.SharedUiComponents();
-        FrameLayout frameLayout = new FrameLayout(context);
-        this.fragmentView = frameLayout;
-        this.recyclerListView = new RecyclerListView(context) { // from class: org.telegram.ui.StatisticActivity.3
+        final boolean isChannelAndNotMegaGroup = ChatObject.isChannelAndNotMegaGroup(this.chat.id, this.currentAccount);
+        final BottomPagerTabs bottomPagerTabs = new BottomPagerTabs(this, context, getResourceProvider()) { // from class: org.telegram.ui.StatisticActivity.3
+            @Override // org.telegram.ui.Components.BottomPagerTabs
+            public BottomPagerTabs.Tab[] createTabs() {
+                BottomPagerTabs.Tab[] tabArr = {new BottomPagerTabs.Tab(0, R.raw.stats, LocaleController.getString("Statistics", R.string.Statistics)), new BottomPagerTabs.Tab(1, R.raw.boosts, LocaleController.getString("Boosts", R.string.Boosts))};
+                tabArr[1].customEndFrameMid = 25;
+                tabArr[1].customEndFrameEnd = 49;
+                return tabArr;
+            }
+        };
+        this.viewPagerFixed = new ViewPagerFixed(this, getContext()) { // from class: org.telegram.ui.StatisticActivity.4
+            @Override // org.telegram.ui.Components.ViewPagerFixed
+            protected void onTabAnimationUpdate(boolean z) {
+                if (z) {
+                    return;
+                }
+                float f = this.currentProgress;
+                if (this.currentPosition == 0) {
+                    f = 1.0f - f;
+                }
+                bottomPagerTabs.setScrolling(true);
+                bottomPagerTabs.setProgress(f);
+            }
+        };
+        bottomPagerTabs.setOnTabClick(new Utilities.Callback() { // from class: org.telegram.ui.StatisticActivity$$ExternalSyntheticLambda4
+            @Override // org.telegram.messenger.Utilities.Callback
+            public final void run(Object obj) {
+                StatisticActivity.this.lambda$createView$3(bottomPagerTabs, (Integer) obj);
+            }
+        });
+        final FrameLayout frameLayout = new FrameLayout(context);
+        if (isChannelAndNotMegaGroup) {
+            this.boosLayout = new ChannelBoostLayout(this, -this.chat.id, getResourceProvider());
+        }
+        this.viewPagerFixed.setAdapter(new ViewPagerFixed.Adapter() { // from class: org.telegram.ui.StatisticActivity.5
+            @Override // org.telegram.ui.Components.ViewPagerFixed.Adapter
+            public void bindView(View view, int i, int i2) {
+            }
+
+            @Override // org.telegram.ui.Components.ViewPagerFixed.Adapter
+            public int getItemViewType(int i) {
+                return i;
+            }
+
+            @Override // org.telegram.ui.Components.ViewPagerFixed.Adapter
+            public int getItemCount() {
+                return isChannelAndNotMegaGroup ? 2 : 1;
+            }
+
+            @Override // org.telegram.ui.Components.ViewPagerFixed.Adapter
+            public View createView(int i) {
+                if (i != 0) {
+                    return StatisticActivity.this.boosLayout;
+                }
+                return frameLayout;
+            }
+        });
+        FrameLayout frameLayout2 = new FrameLayout(getContext());
+        frameLayout2.addView(this.viewPagerFixed, LayoutHelper.createFrame(-1, -1.0f, 0, 0.0f, 0.0f, 0.0f, isChannelAndNotMegaGroup ? 64.0f : 0.0f));
+        if (isChannelAndNotMegaGroup) {
+            frameLayout2.addView(bottomPagerTabs, LayoutHelper.createFrame(-1, -2, 87));
+        }
+        this.fragmentView = frameLayout2;
+        this.recyclerListView = new RecyclerListView(context) { // from class: org.telegram.ui.StatisticActivity.6
             int lastH;
 
             /* JADX INFO: Access modifiers changed from: protected */
@@ -463,14 +531,14 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
         this.layoutManager = linearLayoutManager;
         this.recyclerListView.setLayoutManager(linearLayoutManager);
-        this.animator = new DefaultItemAnimator(this) { // from class: org.telegram.ui.StatisticActivity.4
+        this.animator = new DefaultItemAnimator(this) { // from class: org.telegram.ui.StatisticActivity.7
             @Override // androidx.recyclerview.widget.DefaultItemAnimator
             protected long getAddAnimationDelay(long j, long j2, long j3) {
                 return j;
             }
         };
         this.recyclerListView.setItemAnimator(null);
-        this.recyclerListView.addOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.StatisticActivity.5
+        this.recyclerListView.addOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.StatisticActivity.8
             @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
             public void onScrolled(RecyclerView recyclerView, int i3, int i4) {
                 if (StatisticActivity.this.recentPostsAll.size() == StatisticActivity.this.recentPostsLoaded.size() || StatisticActivity.this.messagesIsLoading || StatisticActivity.this.layoutManager.findLastVisibleItemPosition() <= StatisticActivity.this.adapter.getItemCount() - 20) {
@@ -479,18 +547,18 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
                 StatisticActivity.this.loadMessages();
             }
         });
-        this.recyclerListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.StatisticActivity$$ExternalSyntheticLambda7
+        this.recyclerListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.StatisticActivity$$ExternalSyntheticLambda8
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i3) {
-                StatisticActivity.this.lambda$createView$3(view, i3);
+                StatisticActivity.this.lambda$createView$4(view, i3);
             }
         });
-        this.recyclerListView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.StatisticActivity$$ExternalSyntheticLambda8
+        this.recyclerListView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.StatisticActivity$$ExternalSyntheticLambda9
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListener
             public final boolean onItemClick(View view, int i3) {
-                boolean lambda$createView$5;
-                lambda$createView$5 = StatisticActivity.this.lambda$createView$5(view, i3);
-                return lambda$createView$5;
+                boolean lambda$createView$6;
+                lambda$createView$6 = StatisticActivity.this.lambda$createView$6(view, i3);
+                return lambda$createView$6;
             }
         });
         frameLayout.addView(this.recyclerListView);
@@ -501,9 +569,9 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
         TLRPC$Chat chat = getMessagesController().getChat(Long.valueOf(this.chat.id));
         this.avatarContainer.setChatAvatar(chat);
         this.avatarContainer.setTitle(chat.title);
-        this.avatarContainer.setSubtitle(LocaleController.getString("Statistics", R.string.Statistics));
+        this.avatarContainer.hideSubtitle();
         this.actionBar.setBackButtonDrawable(new BackDrawable(false));
-        this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.StatisticActivity.6
+        this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.StatisticActivity.9
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i3) {
                 if (i3 == -1) {
@@ -530,7 +598,15 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$3(View view, int i) {
+    public /* synthetic */ void lambda$createView$3(BottomPagerTabs bottomPagerTabs, Integer num) {
+        if (this.viewPagerFixed.scrollToPosition(num.intValue())) {
+            bottomPagerTabs.setScrolling(false);
+            bottomPagerTabs.setProgress(num.intValue());
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$createView$4(View view, int i) {
         Adapter adapter = this.adapter;
         int i2 = adapter.recentPostsStartRow;
         if (i >= i2 && i <= adapter.recentPostsEndRow) {
@@ -566,7 +642,7 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ boolean lambda$createView$5(View view, int i) {
+    public /* synthetic */ boolean lambda$createView$6(View view, int i) {
         Adapter adapter = this.adapter;
         int i2 = adapter.recentPostsStartRow;
         if (i >= i2 && i <= adapter.recentPostsEndRow) {
@@ -584,7 +660,7 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
             builder.setItems((CharSequence[]) arrayList.toArray(new CharSequence[arrayList2.size()]), AndroidUtilities.toIntArray(arrayList3), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.StatisticActivity$$ExternalSyntheticLambda0
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i3) {
-                    StatisticActivity.this.lambda$createView$4(messageObject, dialogInterface, i3);
+                    StatisticActivity.this.lambda$createView$5(messageObject, dialogInterface, i3);
                 }
             });
             showDialog(builder.create());
@@ -609,7 +685,7 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$4(MessageObject messageObject, DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$createView$5(MessageObject messageObject, DialogInterface dialogInterface, int i) {
         if (i == 0) {
             presentFragment(new MessageStatisticActivity(messageObject));
         } else if (i == 1) {
@@ -2175,16 +2251,16 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
         }
         tLRPC$TL_channels_getMessages.channel = MessagesController.getInstance(this.currentAccount).getInputChannel(this.chat.id);
         this.messagesIsLoading = true;
-        getConnectionsManager().sendRequest(tLRPC$TL_channels_getMessages, new RequestDelegate() { // from class: org.telegram.ui.StatisticActivity$$ExternalSyntheticLambda4
+        getConnectionsManager().sendRequest(tLRPC$TL_channels_getMessages, new RequestDelegate() { // from class: org.telegram.ui.StatisticActivity$$ExternalSyntheticLambda6
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                StatisticActivity.this.lambda$loadMessages$7(tLObject, tLRPC$TL_error);
+                StatisticActivity.this.lambda$loadMessages$8(tLObject, tLRPC$TL_error);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadMessages$7(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$loadMessages$8(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         final ArrayList arrayList = new ArrayList();
         if (tLObject instanceof TLRPC$messages_Messages) {
             ArrayList<TLRPC$Message> arrayList2 = ((TLRPC$messages_Messages) tLObject).messages;
@@ -2196,13 +2272,13 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.StatisticActivity$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
-                StatisticActivity.this.lambda$loadMessages$6(arrayList);
+                StatisticActivity.this.lambda$loadMessages$7(arrayList);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadMessages$6(ArrayList arrayList) {
+    public /* synthetic */ void lambda$loadMessages$7(ArrayList arrayList) {
         int i = 0;
         this.messagesIsLoading = false;
         if (arrayList.isEmpty()) {
@@ -2442,10 +2518,10 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
     public ArrayList<ThemeDescription> getThemeDescriptions() {
         ChartViewData chartViewData;
         ChartViewData chartViewData2;
-        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.StatisticActivity$$ExternalSyntheticLambda6
+        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.StatisticActivity$$ExternalSyntheticLambda7
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public final void didSetColor() {
-                StatisticActivity.this.lambda$getThemeDescriptions$8();
+                StatisticActivity.this.lambda$getThemeDescriptions$9();
             }
 
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
@@ -2539,7 +2615,7 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$getThemeDescriptions$8() {
+    public /* synthetic */ void lambda$getThemeDescriptions$9() {
         RecyclerListView recyclerListView = this.recyclerListView;
         if (recyclerListView != null) {
             int childCount = recyclerListView.getChildCount();
@@ -2912,6 +2988,13 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
             updateColors();
         }
 
+        public void setData(int i, String str, String str2, String str3) {
+            this.primary[i].setText(str);
+            this.secondary[i].setText(str2);
+            this.title[i].setText(str3);
+            updateColors();
+        }
+
         /* JADX INFO: Access modifiers changed from: private */
         public void updateColors() {
             for (int i = 0; i < 4; i++) {
@@ -3234,5 +3317,14 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public boolean isLightStatusBar() {
         return ColorUtils.calculateLuminance(Theme.getColor(Theme.key_windowBackgroundWhite)) > 0.699999988079071d;
+    }
+
+    @Override // org.telegram.ui.ActionBar.BaseFragment
+    public boolean isSwipeBackEnabled(MotionEvent motionEvent) {
+        ViewPagerFixed viewPagerFixed = this.viewPagerFixed;
+        if (viewPagerFixed == null || (viewPagerFixed.currentPosition == 0 && viewPagerFixed.currentProgress == 1.0f)) {
+            return super.isSwipeBackEnabled(motionEvent);
+        }
+        return false;
     }
 }

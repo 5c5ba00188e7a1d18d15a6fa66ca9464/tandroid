@@ -552,6 +552,11 @@ public class LinkActionView extends LinearLayout {
         }
     }
 
+    public void hideOptions() {
+        this.optionsView.setVisibility(8);
+        this.linkView.setGravity(17);
+    }
+
     /* loaded from: classes4.dex */
     public class AvatarsContainer extends FrameLayout {
         AvatarsImageView avatarsImageView;

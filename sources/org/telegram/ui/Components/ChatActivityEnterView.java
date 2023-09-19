@@ -4243,6 +4243,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                     }
                 });
                 this.sendPopupLayout.addView((View) actionBarMenuSubItem, LayoutHelper.createLinear(-1, 48));
+                SharedConfig.removeScheduledHint();
                 if (!z && this.dialog_id > 0) {
                     ActionBarMenuSubItem actionBarMenuSubItem2 = new ActionBarMenuSubItem(getContext(), true, !z3, this.resourcesProvider);
                     this.sendWhenOnlineButton = actionBarMenuSubItem2;
@@ -12632,6 +12633,12 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
     public void setOverrideHint(CharSequence charSequence, boolean z) {
         this.overrideHint = charSequence;
         this.overrideHint2 = null;
+        updateFieldHint(z);
+    }
+
+    public void setOverrideHint(CharSequence charSequence, CharSequence charSequence2, boolean z) {
+        this.overrideHint = charSequence;
+        this.overrideHint2 = charSequence2;
         updateFieldHint(z);
     }
 

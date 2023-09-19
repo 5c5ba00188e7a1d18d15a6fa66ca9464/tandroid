@@ -379,7 +379,6 @@ public class MessageObject {
     public Boolean cachedIsSupergroup;
     public boolean cancelEditing;
     public CharSequence caption;
-    public int captionHeight;
     private boolean captionTranslated;
     public ArrayList<TLRPC$TL_pollAnswer> checkedVotes;
     public int contentType;
@@ -1860,13 +1859,13 @@ public class MessageObject {
     /* JADX WARN: Removed duplicated region for block: B:190:0x04d3  */
     /* JADX WARN: Removed duplicated region for block: B:194:0x04d9 A[LOOP:0: B:170:0x048c->B:194:0x04d9, LOOP_END] */
     /* JADX WARN: Removed duplicated region for block: B:473:0x0cd2  */
-    /* JADX WARN: Removed duplicated region for block: B:824:0x1686  */
-    /* JADX WARN: Removed duplicated region for block: B:827:0x16d7  */
-    /* JADX WARN: Removed duplicated region for block: B:829:0x16da  */
-    /* JADX WARN: Removed duplicated region for block: B:841:0x175c  */
-    /* JADX WARN: Removed duplicated region for block: B:845:0x1763  */
-    /* JADX WARN: Removed duplicated region for block: B:871:0x04f2 A[EDGE_INSN: B:871:0x04f2->B:196:0x04f2 ?: BREAK  , SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:880:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:845:0x16fb  */
+    /* JADX WARN: Removed duplicated region for block: B:848:0x174c  */
+    /* JADX WARN: Removed duplicated region for block: B:850:0x174f  */
+    /* JADX WARN: Removed duplicated region for block: B:862:0x17d1  */
+    /* JADX WARN: Removed duplicated region for block: B:866:0x17d8  */
+    /* JADX WARN: Removed duplicated region for block: B:892:0x04f2 A[EDGE_INSN: B:892:0x04f2->B:196:0x04f2 ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:901:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2081,6 +2080,24 @@ public class MessageObject {
                             sb3.append(tLRPC$TL_chatAdminRights2.edit_messages ? '+' : '-');
                             sb3.append(' ');
                             sb3.append(LocaleController.getString("EventLogPromotedEditMessages", R.string.EventLogPromotedEditMessages));
+                        }
+                        if (tLRPC$TL_chatAdminRights.post_stories != tLRPC$TL_chatAdminRights2.post_stories) {
+                            sb3.append('\n');
+                            sb3.append(tLRPC$TL_chatAdminRights2.post_stories ? '+' : '-');
+                            sb3.append(' ');
+                            sb3.append(LocaleController.getString("EventLogPromotedPostStories", R.string.EventLogPromotedPostStories));
+                        }
+                        if (tLRPC$TL_chatAdminRights.edit_stories != tLRPC$TL_chatAdminRights2.edit_stories) {
+                            sb3.append('\n');
+                            sb3.append(tLRPC$TL_chatAdminRights2.edit_messages ? '+' : '-');
+                            sb3.append(' ');
+                            sb3.append(LocaleController.getString("EventLogPromotedEditStories", R.string.EventLogPromotedEditStories));
+                        }
+                        if (tLRPC$TL_chatAdminRights.delete_stories != tLRPC$TL_chatAdminRights2.delete_stories) {
+                            sb3.append('\n');
+                            sb3.append(tLRPC$TL_chatAdminRights2.delete_stories ? '+' : '-');
+                            sb3.append(' ');
+                            sb3.append(LocaleController.getString("EventLogPromotedDeleteStories", R.string.EventLogPromotedDeleteStories));
                         }
                     }
                     if (tLRPC$TL_chatAdminRights.delete_messages != tLRPC$TL_chatAdminRights2.delete_messages) {
@@ -5862,14 +5879,13 @@ public class MessageObject {
         return false;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:23:0x004c  */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x004a  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void generateCaption() {
         boolean z;
         boolean z2;
-        StaticLayout staticLayout;
         TLRPC$StoryItem tLRPC$StoryItem;
         if ((this.caption == null || this.translated != this.captionTranslated) && !isRoundVideo()) {
             TLRPC$Message tLRPC$Message = this.messageOwner;
@@ -5886,8 +5902,9 @@ public class MessageObject {
                     this.captionTranslated = z2;
                     if (z2) {
                         TLRPC$TL_textWithEntities tLRPC$TL_textWithEntities = this.messageOwner.translatedText;
-                        str = tLRPC$TL_textWithEntities.text;
+                        String str2 = tLRPC$TL_textWithEntities.text;
                         arrayList = tLRPC$TL_textWithEntities.entities;
+                        str = str2;
                     }
                     if (!isMediaEmpty() || (getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaGame) || TextUtils.isEmpty(str)) {
                         return;
@@ -5895,21 +5912,6 @@ public class MessageObject {
                     CharSequence replaceEmoji = Emoji.replaceEmoji(str, Theme.chat_msgTextPaint.getFontMetricsInt(), AndroidUtilities.dp(20.0f), false);
                     this.caption = replaceEmoji;
                     this.caption = replaceAnimatedEmoji(replaceEmoji, arrayList, Theme.chat_msgTextPaint.getFontMetricsInt(), false);
-                    int maxMessageTextWidth = getMaxMessageTextWidth();
-                    Layout.Alignment alignment = Layout.Alignment.ALIGN_NORMAL;
-                    StaticLayout staticLayout2 = null;
-                    try {
-                        if (Build.VERSION.SDK_INT >= 24) {
-                            CharSequence charSequence = this.caption;
-                            staticLayout = StaticLayout.Builder.obtain(charSequence, 0, charSequence.length(), Theme.chat_msgTextPaint, maxMessageTextWidth).setLineSpacing(0.0f, 1.0f).setBreakStrategy(1).setHyphenationFrequency(0).setAlignment(alignment).build();
-                        } else {
-                            staticLayout = new StaticLayout(this.caption, Theme.chat_msgTextPaint, maxMessageTextWidth, alignment, 1.0f, 0.0f, false);
-                        }
-                        staticLayout2 = staticLayout;
-                    } catch (Exception e) {
-                        FileLog.e(e);
-                    }
-                    this.captionHeight = staticLayout2 == null ? 0 : staticLayout2.getHeight();
                     boolean z4 = this.messageOwner.send_state != 0 ? false : !arrayList.isEmpty();
                     if (!z && (z4 || (this.eventId == 0 && !(getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaPhoto_old) && !(getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaPhoto_layer68) && !(getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaPhoto_layer74) && !(getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaDocument_old) && !(getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaDocument_layer68) && !(getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaDocument_layer74) && ((!isOut() || this.messageOwner.send_state == 0) && this.messageOwner.id >= 0)))) {
                         z3 = false;
@@ -5918,8 +5920,8 @@ public class MessageObject {
                         if (containsUrls(this.caption)) {
                             try {
                                 AndroidUtilities.addLinks((Spannable) this.caption, 5);
-                            } catch (Exception e2) {
-                                FileLog.e(e2);
+                            } catch (Exception e) {
+                                FileLog.e(e);
                             }
                         }
                         addUrlsByPattern(isOutOwner(), this.caption, true, 0, 0, true);
@@ -8471,10 +8473,6 @@ public class MessageObject {
                     dp = (int) (min2 * 0.5f);
                 }
             }
-            CharSequence charSequence = this.caption;
-            if (charSequence != null && !TextUtils.isEmpty(charSequence)) {
-                dp += this.captionHeight;
-            }
             return dp + AndroidUtilities.dp(14.0f);
         }
     }
@@ -9769,10 +9767,9 @@ public class MessageObject {
             TLRPC$TL_webPage tLRPC$TL_webPage = new TLRPC$TL_webPage();
             tLRPC$TL_webPage.type = "telegram_story";
             TLRPC$TL_webPageAttributeStory tLRPC$TL_webPageAttributeStory = new TLRPC$TL_webPageAttributeStory();
-            TLRPC$MessageMedia tLRPC$MessageMedia = this.messageOwner.media;
-            tLRPC$TL_webPageAttributeStory.id = tLRPC$MessageMedia.id;
-            tLRPC$TL_webPageAttributeStory.user_id = tLRPC$MessageMedia.user_id;
-            TLRPC$StoryItem tLRPC$StoryItem = tLRPC$MessageMedia.storyItem;
+            tLRPC$TL_webPageAttributeStory.id = this.messageOwner.media.id;
+            tLRPC$TL_webPageAttributeStory.peer = MessagesController.getInstance(this.currentAccount).getPeer(this.messageOwner.media.user_id);
+            TLRPC$StoryItem tLRPC$StoryItem = this.messageOwner.media.storyItem;
             if (tLRPC$StoryItem != null) {
                 tLRPC$TL_webPageAttributeStory.flags |= 1;
                 tLRPC$TL_webPageAttributeStory.storyItem = tLRPC$StoryItem;

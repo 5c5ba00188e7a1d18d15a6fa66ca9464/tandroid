@@ -1,6 +1,7 @@
 package org.telegram.ui.Components.Paint.Views;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import org.telegram.messenger.AndroidUtilities;
 public class EntitiesContainerView extends FrameLayout {
     private boolean cancelled;
     private EntitiesContainerViewDelegate delegate;
+    public boolean drawForThumb;
     private boolean hasTransformed;
     private float px;
     private float py;
@@ -90,5 +92,13 @@ public class EntitiesContainerView extends FrameLayout {
             return;
         }
         super.measureChildWithMargins(view, i, i2, i3, i4);
+    }
+
+    @Override // android.view.ViewGroup
+    protected boolean drawChild(Canvas canvas, View view, long j) {
+        if (this.drawForThumb && (view instanceof ReactionWidgetEntityView)) {
+            return true;
+        }
+        return super.drawChild(canvas, view, j);
     }
 }

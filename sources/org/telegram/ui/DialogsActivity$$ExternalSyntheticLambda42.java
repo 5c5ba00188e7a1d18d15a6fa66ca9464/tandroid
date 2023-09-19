@@ -11,8 +11,8 @@ public final /* synthetic */ class DialogsActivity$$ExternalSyntheticLambda42 im
 
     @Override // android.view.View.OnTouchListener
     public final boolean onTouch(View view, MotionEvent motionEvent) {
-        boolean lambda$createActionMode$43;
-        lambda$createActionMode$43 = DialogsActivity.lambda$createActionMode$43(view, motionEvent);
-        return lambda$createActionMode$43;
+        boolean lambda$createActionMode$44;
+        lambda$createActionMode$44 = DialogsActivity.lambda$createActionMode$44(view, motionEvent);
+        return lambda$createActionMode$44;
     }
 }

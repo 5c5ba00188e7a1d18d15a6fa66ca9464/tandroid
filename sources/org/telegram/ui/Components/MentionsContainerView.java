@@ -112,12 +112,14 @@ public class MentionsContainerView extends BlurredFrameLayout implements Notific
         void sendBotInlineResult(TLRPC$BotInlineResult tLRPC$BotInlineResult, boolean z, int i);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$updateListViewTranslation$3(DynamicAnimation dynamicAnimation, boolean z, float f, float f2) {
     }
 
     protected boolean canOpen() {
         return true;
+    }
+
+    protected void onAnimationScroll() {
     }
 
     protected void onClose() {
@@ -155,8 +157,12 @@ public class MentionsContainerView extends BlurredFrameLayout implements Notific
         this.hideT = 0.0f;
         this.switchLayoutManagerOnEnd = false;
         this.botContextProvider = new PhotoViewer.EmptyPhotoViewerProvider() { // from class: org.telegram.ui.Components.MentionsContainerView.5
-            /* JADX WARN: Removed duplicated region for block: B:22:0x007c A[LOOP:0: B:8:0x0026->B:22:0x007c, LOOP_END] */
-            /* JADX WARN: Removed duplicated region for block: B:24:0x0047 A[SYNTHETIC] */
+            {
+                MentionsContainerView.this = this;
+            }
+
+            /* JADX WARN: Removed duplicated region for block: B:48:0x007c A[LOOP:0: B:34:0x0026->B:48:0x007c, LOOP_END] */
+            /* JADX WARN: Removed duplicated region for block: B:50:0x0047 A[SYNTHETIC] */
             @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
@@ -219,6 +225,10 @@ public class MentionsContainerView extends BlurredFrameLayout implements Notific
                 return false;
             }
 
+            {
+                MentionsContainerView.this = this;
+            }
+
             @Override // androidx.recyclerview.widget.LinearLayoutManager
             public void setReverseLayout(boolean z) {
                 super.setReverseLayout(z);
@@ -229,6 +239,10 @@ public class MentionsContainerView extends BlurredFrameLayout implements Notific
         linearLayoutManager.setOrientation(1);
         ExtendedGridLayoutManager extendedGridLayoutManager = new ExtendedGridLayoutManager(context, 100, false, false) { // from class: org.telegram.ui.Components.MentionsContainerView.2
             private Size size = new Size();
+
+            {
+                MentionsContainerView.this = this;
+            }
 
             @Override // org.telegram.ui.Components.ExtendedGridLayoutManager
             protected Size getSizeForItem(int i2) {
@@ -299,7 +313,6 @@ public class MentionsContainerView extends BlurredFrameLayout implements Notific
                 return this.size;
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.ExtendedGridLayoutManager
             public int getFlowItemCount() {
                 if (MentionsContainerView.this.adapter.getBotContextSwitch() != null || MentionsContainerView.this.adapter.getBotWebViewSwitch() != null) {
@@ -310,6 +323,10 @@ public class MentionsContainerView extends BlurredFrameLayout implements Notific
         };
         this.gridLayoutManager = extendedGridLayoutManager;
         extendedGridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() { // from class: org.telegram.ui.Components.MentionsContainerView.3
+            {
+                MentionsContainerView.this = this;
+            }
+
             @Override // androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
             public int getSpanSize(int i2) {
                 if (i2 == 0) {
@@ -340,6 +357,10 @@ public class MentionsContainerView extends BlurredFrameLayout implements Notific
         this.listView.setClipToPadding(false);
         this.listView.setLayoutManager(this.linearLayoutManager);
         MentionsAdapter mentionsAdapter = new MentionsAdapter(context, false, j, i, new MentionsAdapter.MentionsAdapterDelegate() { // from class: org.telegram.ui.Components.MentionsContainerView.4
+            {
+                MentionsContainerView.this = this;
+            }
+
             @Override // org.telegram.ui.Adapters.MentionsAdapter.MentionsAdapterDelegate
             public void onItemCountUpdate(int i2, int i3) {
                 if (MentionsContainerView.this.listView.getLayoutManager() == MentionsContainerView.this.gridLayoutManager || !MentionsContainerView.this.shown) {
@@ -449,6 +470,7 @@ public class MentionsContainerView extends BlurredFrameLayout implements Notific
         boolean isReversed = isReversed();
         this.containerPadding = AndroidUtilities.dp(((this.adapter.isStickers() || this.adapter.isBotContext()) && this.adapter.isMediaLayout() && this.adapter.getBotContextSwitch() == null && this.adapter.getBotWebViewSwitch() == null ? 2 : 0) + 2);
         float dp = AndroidUtilities.dp(6.0f);
+        float f = this.containerTop;
         if (isReversed) {
             float min2 = Math.min(Math.max(0.0f, (this.paddedAdapter.paddingViewAttached ? paddedListAdapter2.paddingView.getTop() : getHeight()) + this.listView.getTranslationY()) + this.containerPadding, (1.0f - this.hideT) * getHeight());
             android.graphics.Rect rect = this.rect;
@@ -479,7 +501,10 @@ public class MentionsContainerView extends BlurredFrameLayout implements Notific
                 this.rect.bottom += (int) min;
             }
         }
-        float f = min;
+        float f2 = min;
+        if (Math.abs(f - this.containerTop) > 0.1f) {
+            onAnimationScroll();
+        }
         if (this.paint == null) {
             Paint paint = new Paint(1);
             this.paint = paint;
@@ -489,7 +514,7 @@ public class MentionsContainerView extends BlurredFrameLayout implements Notific
         Integer num = this.color;
         paint2.setColor(num != null ? num.intValue() : getThemedColor(Theme.key_chat_messagePanelBackground));
         if (this.allowBlur && SharedConfig.chatBlurEnabled() && this.sizeNotifierFrameLayout != null) {
-            if (f > 0.0f) {
+            if (f2 > 0.0f) {
                 canvas.save();
                 Path path = this.path;
                 if (path == null) {
@@ -499,15 +524,15 @@ public class MentionsContainerView extends BlurredFrameLayout implements Notific
                 }
                 RectF rectF = AndroidUtilities.rectTmp;
                 rectF.set(this.rect);
-                this.path.addRoundRect(rectF, f, f, Path.Direction.CW);
+                this.path.addRoundRect(rectF, f2, f2, Path.Direction.CW);
                 canvas.clipPath(this.path);
             }
             this.sizeNotifierFrameLayout.drawBlurRect(canvas, getY(), this.rect, this.paint, isReversed);
-            if (f > 0.0f) {
+            if (f2 > 0.0f) {
                 canvas.restore();
             }
         } else {
-            drawRoundRect(canvas, this.rect, f);
+            drawRoundRect(canvas, this.rect, f2);
         }
         canvas.save();
         canvas.clipRect(this.rect);
@@ -538,7 +563,6 @@ public class MentionsContainerView extends BlurredFrameLayout implements Notific
         super.requestLayout();
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0() {
         updateListViewTranslation(!this.shown, true);
     }
@@ -666,13 +690,12 @@ public class MentionsContainerView extends BlurredFrameLayout implements Notific
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$updateListViewTranslation$1(float f, float f2, float f3, float f4, DynamicAnimation dynamicAnimation, float f5, float f6) {
         this.listView.setTranslationY(f5);
+        onAnimationScroll();
         this.hideT = AndroidUtilities.lerp(f, f2, (f5 - f3) / (f4 - f3));
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$updateListViewTranslation$2(boolean z, DynamicAnimation dynamicAnimation, boolean z2, float f, float f2) {
         if (z2) {
             return;
@@ -712,7 +735,6 @@ public class MentionsContainerView extends BlurredFrameLayout implements Notific
         });
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$withDelegate$4(Delegate delegate, View view, int i) {
         AnimatedEmojiSpan animatedEmojiSpan;
         if (i == 0 || getAdapter().isBannedInline()) {
@@ -786,7 +808,6 @@ public class MentionsContainerView extends BlurredFrameLayout implements Notific
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$withDelegate$5(View view, MotionEvent motionEvent) {
         return ContentPreviewViewer.getInstance().onTouch(motionEvent, getListView(), 0, this.mentionsOnItemClickListener, null, this.resourcesProvider);
     }
@@ -798,9 +819,15 @@ public class MentionsContainerView extends BlurredFrameLayout implements Notific
         private int lastHeight;
         private int lastWidth;
 
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public MentionsListView(Context context, Theme.ResourcesProvider resourcesProvider) {
             super(context, resourcesProvider);
-            setOnScrollListener(new RecyclerView.OnScrollListener(MentionsContainerView.this) { // from class: org.telegram.ui.Components.MentionsContainerView.MentionsListView.1
+            MentionsContainerView.this = r1;
+            setOnScrollListener(new RecyclerView.OnScrollListener(r1) { // from class: org.telegram.ui.Components.MentionsContainerView.MentionsListView.1
+                {
+                    MentionsListView.this = this;
+                }
+
                 @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
                 public void onScrollStateChanged(RecyclerView recyclerView, int i) {
                     MentionsListView.this.isScrolling = i != 0;
@@ -817,7 +844,11 @@ public class MentionsContainerView extends BlurredFrameLayout implements Notific
                     MentionsContainerView.this.onScrolled(!mentionsListView.canScrollVertically(-1), true ^ MentionsListView.this.canScrollVertically(1));
                 }
             });
-            addItemDecoration(new RecyclerView.ItemDecoration(MentionsContainerView.this) { // from class: org.telegram.ui.Components.MentionsContainerView.MentionsListView.2
+            addItemDecoration(new RecyclerView.ItemDecoration(r1) { // from class: org.telegram.ui.Components.MentionsContainerView.MentionsListView.2
+                {
+                    MentionsListView.this = this;
+                }
+
                 @Override // androidx.recyclerview.widget.RecyclerView.ItemDecoration
                 public void getItemOffsets(android.graphics.Rect rect, View view, RecyclerView recyclerView, RecyclerView.State state) {
                     int childAdapterPosition;
@@ -883,7 +914,6 @@ public class MentionsContainerView extends BlurredFrameLayout implements Notific
             super.requestLayout();
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
         public void onLayout(boolean z, int i, int i2, int i3, int i4) {
             int i5;
@@ -921,7 +951,6 @@ public class MentionsContainerView extends BlurredFrameLayout implements Notific
             MentionsContainerView.this.invalidate();
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View
         public void onMeasure(int i, int i2) {
             int size = View.MeasureSpec.getSize(i2);
@@ -943,14 +972,12 @@ public class MentionsContainerView extends BlurredFrameLayout implements Notific
         return Theme.getColor(i, this.resourcesProvider);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.BlurredFrameLayout, android.view.ViewGroup, android.view.View
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.emojiLoaded);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.BlurredFrameLayout, android.view.ViewGroup, android.view.View
     public void onDetachedFromWindow() {
         super.onDetachedFromWindow();

@@ -1,12 +1,12 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_stories_sendReaction extends TLObject {
-    public static int constructor = 1235921331;
+    public static int constructor = 2144810674;
     public boolean add_to_recent;
     public int flags;
+    public TLRPC$InputPeer peer;
     public TLRPC$Reaction reaction;
     public int story_id;
-    public TLRPC$InputUser user_id;
 
     @Override // org.telegram.tgnet.TLObject
     public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i, boolean z) {
@@ -19,7 +19,7 @@ public class TLRPC$TL_stories_sendReaction extends TLObject {
         int i = this.add_to_recent ? this.flags | 1 : this.flags & (-2);
         this.flags = i;
         abstractSerializedData.writeInt32(i);
-        this.user_id.serializeToStream(abstractSerializedData);
+        this.peer.serializeToStream(abstractSerializedData);
         abstractSerializedData.writeInt32(this.story_id);
         this.reaction.serializeToStream(abstractSerializedData);
     }

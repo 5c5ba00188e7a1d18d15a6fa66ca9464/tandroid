@@ -492,6 +492,10 @@ public abstract class SelfStoriesPreviewView extends View {
                 canvas.restore();
             }
         }
+
+        public void update() {
+            updateLayout();
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -525,5 +529,11 @@ public abstract class SelfStoriesPreviewView extends View {
             this.lastDrawnImageReceivers.get(i).onDetach();
         }
         this.lastDrawnImageReceivers.clear();
+    }
+
+    public void update() {
+        for (int i = 0; i < this.lastDrawnImageReceivers.size(); i++) {
+            this.lastDrawnImageReceivers.get(i).update();
+        }
     }
 }

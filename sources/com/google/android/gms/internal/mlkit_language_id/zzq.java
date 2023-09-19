@@ -1,7 +1,6 @@
 package com.google.android.gms.internal.mlkit_language_id;
 
 import java.io.PrintStream;
-import org.telegram.messenger.MessagesStorage;
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 public final class zzq {
@@ -49,7 +48,7 @@ public final class zzq {
                 th = th2;
                 PrintStream printStream = System.err;
                 String name = zza.class.getName();
-                StringBuilder sb = new StringBuilder(name.length() + MessagesStorage.LAST_DB_VERSION);
+                StringBuilder sb = new StringBuilder(name.length() + 133);
                 sb.append("An error has occurred when initializing the try-with-resources desuguring strategy. The default strategy ");
                 sb.append(name);
                 sb.append("will be used. The error is: ");

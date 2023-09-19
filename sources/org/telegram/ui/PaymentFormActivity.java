@@ -592,7 +592,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
     /* JADX WARN: Type inference failed for: r10v220, types: [android.widget.LinearLayout] */
     /* JADX WARN: Type inference failed for: r10v82, types: [android.widget.LinearLayout] */
     /* JADX WARN: Type inference failed for: r12v1 */
-    /* JADX WARN: Type inference failed for: r12v2, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r12v2, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r12v5 */
     /* JADX WARN: Type inference failed for: r1v105, types: [org.telegram.ui.Cells.TextDetailSettingsCell[]] */
     /* JADX WARN: Type inference failed for: r1v106, types: [android.widget.FrameLayout] */
@@ -612,7 +612,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
     /* JADX WARN: Type inference failed for: r3v230, types: [android.view.ViewGroup] */
     /* JADX WARN: Type inference failed for: r3v267, types: [android.widget.LinearLayout, android.view.View, android.view.ViewGroup] */
     /* JADX WARN: Type inference failed for: r5v0 */
-    /* JADX WARN: Type inference failed for: r5v167, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r5v167, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r5v168 */
     /* JADX WARN: Type inference failed for: r6v8, types: [java.lang.CharSequence, android.text.SpannableString, java.lang.Object] */
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -2500,7 +2500,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                                 }
                             }
                         });
-                        if (this.paymentForm.invoice.recurring) {
+                        if (this.paymentForm.invoice.terms_url != null) {
                             RecurrentPaymentsAcceptCell recurrentPaymentsAcceptCell = new RecurrentPaymentsAcceptCell(context, getResourceProvider());
                             this.recurrentAcceptCell = recurrentPaymentsAcceptCell;
                             recurrentPaymentsAcceptCell.setChecked(this.paymentForm.invoice.recurring && this.isAcceptTermsChecked);
@@ -2512,7 +2512,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                             str11 = string2;
                             if (indexOf != -1 && lastIndexOf != -1) {
                                 ?? spannableString = new SpannableString(string2.substring(indexOf + 1, lastIndexOf));
-                                spannableString.setSpan(new URLSpanNoUnderline(this.paymentForm.invoice.recurring_terms_url), r12, spannableString.length(), 33);
+                                spannableString.setSpan(new URLSpanNoUnderline(this.paymentForm.invoice.terms_url), r12, spannableString.length(), 33);
                                 spannableStringBuilder.replace(indexOf, lastIndexOf + 1, spannableString);
                                 str11 = string2.substring(r12, indexOf) + spannableString + string2.substring(i3);
                             }

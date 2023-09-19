@@ -440,6 +440,7 @@ public class ActionBarPopupWindow extends PopupWindow {
             return super.dispatchKeyEvent(keyEvent);
         }
 
+        /* JADX INFO: Access modifiers changed from: protected */
         /* JADX WARN: Removed duplicated region for block: B:108:0x0284 A[SYNTHETIC] */
         /* JADX WARN: Removed duplicated region for block: B:38:0x00f9  */
         /* JADX WARN: Removed duplicated region for block: B:39:0x00fc  */
@@ -452,7 +453,7 @@ public class ActionBarPopupWindow extends PopupWindow {
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
-        protected void dispatchDraw(Canvas canvas) {
+        public void dispatchDraw(Canvas canvas) {
             int i;
             boolean z;
             int i2;

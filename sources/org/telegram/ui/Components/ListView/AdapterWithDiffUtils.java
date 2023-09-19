@@ -17,10 +17,12 @@ public abstract class AdapterWithDiffUtils extends RecyclerListView.SelectionAda
 
     /* loaded from: classes4.dex */
     public static abstract class Item {
+        public boolean selectable;
         public final int viewType;
 
         public Item(int i, boolean z) {
             this.viewType = i;
+            this.selectable = z;
         }
 
         boolean compare(Item item) {

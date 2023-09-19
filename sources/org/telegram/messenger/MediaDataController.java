@@ -268,6 +268,7 @@ public class MediaDataController extends BaseController {
     public static final String ATTACH_MENU_BOT_COLOR_LIGHT_TEXT = "light_text";
     public static final String ATTACH_MENU_BOT_PLACEHOLDER_STATIC_KEY = "placeholder_static";
     public static final String ATTACH_MENU_BOT_SIDE_MENU = "android_side_menu_static";
+    public static final String ATTACH_MENU_BOT_SIDE_MENU_ICON_KEY = "android_side_menu_static";
     public static final String ATTACH_MENU_BOT_STATIC_ICON_KEY = "default_static";
     public static final int MEDIA_AUDIO = 2;
     public static final int MEDIA_FILE = 1;
@@ -2527,7 +2528,7 @@ public class MediaDataController extends BaseController {
         Iterator<TLRPC$TL_attachMenuBotIcon> it = tLRPC$TL_attachMenuBot.icons.iterator();
         while (it.hasNext()) {
             TLRPC$TL_attachMenuBotIcon next = it.next();
-            if (next.name.equals(ATTACH_MENU_BOT_SIDE_MENU)) {
+            if (next.name.equals("android_side_menu_static")) {
                 return next;
             }
         }
@@ -2539,6 +2540,17 @@ public class MediaDataController extends BaseController {
         while (it.hasNext()) {
             TLRPC$TL_attachMenuBotIcon next = it.next();
             if (next.name.equals(ATTACH_MENU_BOT_STATIC_ICON_KEY)) {
+                return next;
+            }
+        }
+        return null;
+    }
+
+    public static TLRPC$TL_attachMenuBotIcon getSideAttachMenuBotIcon(TLRPC$TL_attachMenuBot tLRPC$TL_attachMenuBot) {
+        Iterator<TLRPC$TL_attachMenuBotIcon> it = tLRPC$TL_attachMenuBot.icons.iterator();
+        while (it.hasNext()) {
+            TLRPC$TL_attachMenuBotIcon next = it.next();
+            if (next.name.equals("android_side_menu_static")) {
                 return next;
             }
         }
@@ -7549,7 +7561,7 @@ public class MediaDataController extends BaseController {
     /* JADX WARN: Type inference failed for: r3v1, types: [java.lang.Object[]] */
     /* JADX WARN: Type inference failed for: r4v1 */
     /* JADX WARN: Type inference failed for: r4v11 */
-    /* JADX WARN: Type inference failed for: r4v2, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r4v2, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r7v1, types: [java.lang.String] */
     /* JADX WARN: Type inference failed for: r7v13, types: [java.lang.StringBuilder] */
     /* JADX WARN: Type inference failed for: r7v2 */
@@ -7928,9 +7940,9 @@ public class MediaDataController extends BaseController {
     /* JADX WARN: Code restructure failed: missing block: B:90:0x017f, code lost:
         r5.add(r4);
      */
-    /* JADX WARN: Removed duplicated region for block: B:106:0x01c5  */
-    /* JADX WARN: Removed duplicated region for block: B:117:0x01e4  */
-    /* JADX WARN: Removed duplicated region for block: B:147:0x0226 A[ADDED_TO_REGION, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:106:0x01d3  */
+    /* JADX WARN: Removed duplicated region for block: B:117:0x01f2  */
+    /* JADX WARN: Removed duplicated region for block: B:147:0x023e A[ADDED_TO_REGION, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -7984,14 +7996,13 @@ public class MediaDataController extends BaseController {
                 if (i6 == 23 || i6 == 24) {
                     longSparseArray = longSparseArray5;
                     TLRPC$MessageMedia tLRPC$MessageMedia2 = messageObject2.messageOwner.media;
-                    TLRPC$StoryItem tLRPC$StoryItem = tLRPC$MessageMedia2.storyItem;
-                    if (tLRPC$StoryItem == null) {
-                        long j4 = tLRPC$MessageMedia2.user_id;
+                    if (tLRPC$MessageMedia2.storyItem == null) {
+                        long peerDialogId = DialogObject.getPeerDialogId(tLRPC$MessageMedia2.peer);
                         LongSparseArray longSparseArray6 = longSparseArray == null ? new LongSparseArray() : longSparseArray;
-                        ArrayList arrayList4 = (ArrayList) longSparseArray6.get(j4);
+                        ArrayList arrayList4 = (ArrayList) longSparseArray6.get(peerDialogId);
                         if (arrayList4 == null) {
                             arrayList4 = new ArrayList();
-                            longSparseArray6.put(j4, arrayList4);
+                            longSparseArray6.put(peerDialogId, arrayList4);
                         }
                         arrayList4.add(messageObject2);
                         longSparseArray5 = longSparseArray6;
@@ -8000,26 +8011,27 @@ public class MediaDataController extends BaseController {
                                 TLRPC$WebPageAttribute tLRPC$WebPageAttribute = messageObject2.messageOwner.media.webpage.attributes.get(i3);
                                 if (tLRPC$WebPageAttribute instanceof TLRPC$TL_webPageAttributeStory) {
                                     TLRPC$TL_webPageAttributeStory tLRPC$TL_webPageAttributeStory = (TLRPC$TL_webPageAttributeStory) tLRPC$WebPageAttribute;
-                                    TLRPC$StoryItem tLRPC$StoryItem2 = tLRPC$TL_webPageAttributeStory.storyItem;
-                                    if (tLRPC$StoryItem2 == null) {
-                                        long j5 = tLRPC$TL_webPageAttributeStory.user_id;
+                                    if (tLRPC$TL_webPageAttributeStory.storyItem == null) {
+                                        long peerDialogId2 = DialogObject.getPeerDialogId(tLRPC$TL_webPageAttributeStory.peer);
                                         if (longSparseArray5 == null) {
                                             longSparseArray5 = new LongSparseArray();
                                         }
-                                        ArrayList arrayList5 = (ArrayList) longSparseArray5.get(j5);
+                                        ArrayList arrayList5 = (ArrayList) longSparseArray5.get(peerDialogId2);
                                         if (arrayList5 == null) {
                                             arrayList5 = new ArrayList();
-                                            longSparseArray5.put(j5, arrayList5);
+                                            longSparseArray5.put(peerDialogId2, arrayList5);
                                         }
                                         arrayList5.add(messageObject2);
                                     } else {
-                                        tLRPC$TL_webPageAttributeStory.storyItem = StoriesStorage.checkExpiredStateLocal(this.currentAccount, tLRPC$TL_webPageAttributeStory.user_id, tLRPC$StoryItem2);
+                                        tLRPC$TL_webPageAttributeStory.storyItem = StoriesStorage.checkExpiredStateLocal(this.currentAccount, DialogObject.getPeerDialogId(tLRPC$TL_webPageAttributeStory.peer), tLRPC$TL_webPageAttributeStory.storyItem);
                                     }
                                 }
                             }
                         }
                     } else {
-                        tLRPC$MessageMedia2.storyItem = StoriesStorage.checkExpiredStateLocal(this.currentAccount, tLRPC$MessageMedia2.user_id, tLRPC$StoryItem);
+                        long peerDialogId3 = DialogObject.getPeerDialogId(tLRPC$MessageMedia2.peer);
+                        TLRPC$MessageMedia tLRPC$MessageMedia3 = messageObject2.messageOwner.media;
+                        tLRPC$MessageMedia3.storyItem = StoriesStorage.checkExpiredStateLocal(this.currentAccount, peerDialogId3, tLRPC$MessageMedia3.storyItem);
                         longSparseArray5 = longSparseArray;
                         if (messageObject2.type == 0) {
                             while (i3 < messageObject2.messageOwner.media.webpage.attributes.size()) {
@@ -8029,22 +8041,22 @@ public class MediaDataController extends BaseController {
                 } else {
                     if (messageObject2.getId() > 0 && messageObject2.isReplyToStory()) {
                         TLRPC$Message tLRPC$Message2 = messageObject2.messageOwner;
-                        TLRPC$StoryItem tLRPC$StoryItem3 = tLRPC$Message2.replyStory;
-                        if (tLRPC$StoryItem3 == null) {
-                            long j6 = tLRPC$Message2.reply_to.user_id;
+                        TLRPC$StoryItem tLRPC$StoryItem = tLRPC$Message2.replyStory;
+                        if (tLRPC$StoryItem == null) {
+                            long j4 = tLRPC$Message2.reply_to.user_id;
                             if (longSparseArray5 == null) {
                                 longSparseArray5 = new LongSparseArray();
                             }
-                            ArrayList arrayList6 = (ArrayList) longSparseArray5.get(j6);
+                            ArrayList arrayList6 = (ArrayList) longSparseArray5.get(j4);
                             if (arrayList6 == null) {
                                 arrayList6 = new ArrayList();
-                                longSparseArray5.put(j6, arrayList6);
+                                longSparseArray5.put(j4, arrayList6);
                             }
                             arrayList6.add(messageObject2);
                             if (messageObject2.type == 0) {
                             }
                         } else {
-                            tLRPC$Message2.replyStory = StoriesStorage.checkExpiredStateLocal(this.currentAccount, tLRPC$Message2.reply_to.user_id, tLRPC$StoryItem3);
+                            tLRPC$Message2.replyStory = StoriesStorage.checkExpiredStateLocal(this.currentAccount, tLRPC$Message2.reply_to.user_id, tLRPC$StoryItem);
                         }
                     } else if (messageObject2.getId() > 0 && messageObject2.isReply()) {
                         TLRPC$Message tLRPC$Message3 = messageObject2.messageOwner;
@@ -8052,7 +8064,7 @@ public class MediaDataController extends BaseController {
                         int i7 = tLRPC$MessageReplyHeader.reply_to_msg_id;
                         if (i7 != i) {
                             TLRPC$Peer tLRPC$Peer = tLRPC$MessageReplyHeader.reply_to_peer_id;
-                            long j7 = 0;
+                            long j5 = 0;
                             if (tLRPC$Peer != null) {
                                 longSparseArray = longSparseArray5;
                                 j2 = tLRPC$Peer.channel_id;
@@ -8151,7 +8163,7 @@ public class MediaDataController extends BaseController {
     /* JADX WARN: Removed duplicated region for block: B:46:0x014a A[Catch: Exception -> 0x0282, TryCatch #0 {Exception -> 0x0282, blocks: (B:3:0x000c, B:5:0x0026, B:8:0x0031, B:10:0x0035, B:14:0x0059, B:48:0x0161, B:47:0x0151, B:28:0x008d, B:31:0x00e3, B:33:0x00e9, B:35:0x00ef, B:37:0x0122, B:39:0x0127, B:41:0x012f, B:43:0x013e, B:46:0x014a, B:30:0x00b9, B:49:0x0172, B:51:0x0179, B:52:0x0184, B:54:0x018a, B:55:0x0195, B:57:0x01a6, B:59:0x01ac, B:61:0x01b2, B:63:0x01ee, B:72:0x026a, B:66:0x01ff, B:68:0x0232, B:69:0x023a, B:71:0x0263, B:73:0x0272, B:76:0x027e), top: B:83:0x000c }] */
     /* JADX WARN: Type inference failed for: r12v16 */
     /* JADX WARN: Type inference failed for: r12v7 */
-    /* JADX WARN: Type inference failed for: r12v8, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r12v8, types: [boolean, int] */
     /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:45:0x0146 -> B:29:0x00b7). Please submit an issue!!! */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -10199,6 +10211,7 @@ public class MediaDataController extends BaseController {
 
     public void applyAttachMenuBot(TLRPC$TL_attachMenuBotsBot tLRPC$TL_attachMenuBotsBot) {
         this.attachMenuBots.bots.add(tLRPC$TL_attachMenuBotsBot.bot);
+        loadAttachMenuBots(false, true);
     }
 
     public boolean botInAttachMenu(long j) {

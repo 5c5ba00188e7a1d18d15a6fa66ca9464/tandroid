@@ -1321,10 +1321,10 @@ public class AlertsCreator {
 
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r10v0 */
-    /* JADX WARN: Type inference failed for: r10v1, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r10v1, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r10v3 */
     /* JADX WARN: Type inference failed for: r9v0 */
-    /* JADX WARN: Type inference failed for: r9v1, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r9v1, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r9v3 */
     public static void showCustomNotificationsDialog(final BaseFragment baseFragment, final long j, final int i, final int i2, final ArrayList<NotificationsSettingsActivity.NotificationException> arrayList, final ArrayList<NotificationsSettingsActivity.NotificationException> arrayList2, final int i3, final MessagesStorage.IntCallback intCallback, final MessagesStorage.IntCallback intCallback2) {
         int i4;
@@ -5005,7 +5005,7 @@ public class AlertsCreator {
         }
         if (i2 != 0) {
             TLRPC$TL_stories_report tLRPC$TL_stories_report = new TLRPC$TL_stories_report();
-            tLRPC$TL_stories_report.user_id = MessagesController.getInstance(UserConfig.selectedAccount).getInputUser(tLRPC$InputPeer.user_id);
+            tLRPC$TL_stories_report.peer = MessagesController.getInstance(UserConfig.selectedAccount).getInputPeer(tLRPC$InputPeer.user_id);
             tLRPC$TL_stories_report.id.add(Integer.valueOf(i2));
             tLRPC$TL_stories_report.message = str;
             tLRPC$TL_stories_report.reason = tLRPC$ReportReason;
@@ -5085,7 +5085,7 @@ public class AlertsCreator {
             if (i2 != 0) {
                 r8 = new TLRPC$TL_stories_report();
                 r8.id.add(Integer.valueOf(i2));
-                r8.user_id = MessagesController.getInstance(UserConfig.selectedAccount).getInputUser(j);
+                r8.peer = MessagesController.getInstance(UserConfig.selectedAccount).getInputPeer(j);
                 r8.message = "";
                 if (i4 == 0) {
                     r8.reason = new TLRPC$TL_inputReportReasonSpam();
