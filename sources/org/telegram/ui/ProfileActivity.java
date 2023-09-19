@@ -658,6 +658,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         private boolean hasStories;
         private final Paint placeholderPaint;
         float progressToExpand;
+        private float progressToInsets;
         private final RectF rect;
 
         public ChatActivityInterface getPrevFragment() {
@@ -674,6 +675,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             this.drawAvatar = true;
             this.bounceScale = 1.0f;
             this.drawForeground = true;
+            this.progressToInsets = 1.0f;
             this.foregroundImageReceiver = new ImageReceiver(this);
             Paint paint = new Paint(1);
             this.placeholderPaint = paint;
@@ -759,7 +761,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             float f = this.bounceScale;
             canvas.scale(f, f, getMeasuredWidth() / 2.0f, getMeasuredHeight() / 2.0f);
             if (imageReceiver != null && (this.foregroundAlpha < 1.0f || !this.drawForeground)) {
-                float dpf2 = (int) ((this.hasStories ? (int) AndroidUtilities.dpf2(3.5f) : 0) * (1.0f - this.progressToExpand));
+                float dpf2 = (this.hasStories ? (int) AndroidUtilities.dpf2(3.5f) : 0.0f) * (1.0f - this.progressToExpand) * this.progressToInsets;
                 float f2 = 2.0f * dpf2;
                 imageReceiver.setImageCoords(dpf2, dpf2, getMeasuredWidth() - f2, getMeasuredHeight() - f2);
                 if (this.drawAvatar) {
@@ -788,6 +790,14 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             if (profileGalleryView != null) {
                 profileGalleryView.invalidate();
             }
+        }
+
+        public void setProgressToStoriesInsets(float f) {
+            if (f == this.progressToInsets) {
+                return;
+            }
+            this.progressToInsets = f;
+            invalidate();
         }
 
         public void drawForeground(boolean z) {
@@ -1918,6 +1928,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         getNotificationCenter().addObserver(this, NotificationCenter.topicsDidLoaded);
         getNotificationCenter().addObserver(this, NotificationCenter.updateSearchSettings);
         getNotificationCenter().addObserver(this, NotificationCenter.reloadDialogPhotos);
+        getNotificationCenter().addObserver(this, NotificationCenter.storiesUpdated);
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.emojiLoaded);
         updateRowsIds();
         ListAdapter listAdapter = this.listAdapter;
@@ -2011,6 +2022,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         getNotificationCenter().removeObserver(this, NotificationCenter.topicsDidLoaded);
         getNotificationCenter().removeObserver(this, NotificationCenter.updateSearchSettings);
         getNotificationCenter().removeObserver(this, NotificationCenter.reloadDialogPhotos);
+        getNotificationCenter().removeObserver(this, NotificationCenter.storiesUpdated);
         NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.emojiLoaded);
         ProfileGalleryView profileGalleryView = this.avatarsViewPager;
         if (profileGalleryView != null) {
@@ -5477,15 +5489,16 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
     /* JADX INFO: Access modifiers changed from: private */
     public void collapseAvatarInstant() {
-        if (this.allowPullingDown) {
-            this.layoutManager.scrollToPositionWithOffset(0, AndroidUtilities.dp(88.0f) - this.listView.getPaddingTop());
-            this.listView.post(new Runnable() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda32
-                @Override // java.lang.Runnable
-                public final void run() {
-                    ProfileActivity.this.lambda$collapseAvatarInstant$23();
-                }
-            });
+        if (!this.allowPullingDown || this.currentExpandAnimatorValue <= 0.0f) {
+            return;
         }
+        this.layoutManager.scrollToPositionWithOffset(0, AndroidUtilities.dp(88.0f) - this.listView.getPaddingTop());
+        this.listView.post(new Runnable() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda32
+            @Override // java.lang.Runnable
+            public final void run() {
+                ProfileActivity.this.lambda$collapseAvatarInstant$23();
+            }
+        });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -7660,6 +7673,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     public void didReceivedNotification(int i, int i2, final Object... objArr) {
+        AvatarImageView avatarImageView;
         TLRPC$ChatFull tLRPC$ChatFull;
         TLRPC$ChatFull tLRPC$ChatFull2;
         TLRPC$TL_inputGroupCall tLRPC$TL_inputGroupCall;
@@ -7761,9 +7775,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     if (profileStoriesView != null && (tLRPC$ChatFull2 = this.chatInfo) != null) {
                         profileStoriesView.setStories(tLRPC$ChatFull2.stories);
                     }
-                    AvatarImageView avatarImageView = this.avatarImage;
-                    if (avatarImageView != null) {
-                        avatarImageView.setHasStories(needInsetForStories());
+                    AvatarImageView avatarImageView2 = this.avatarImage;
+                    if (avatarImageView2 != null) {
+                        avatarImageView2.setHasStories(needInsetForStories());
                     }
                 }
             }
@@ -7806,9 +7820,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 if (profileStoriesView2 != null && (tLRPC$ChatFull = this.chatInfo) != null) {
                     profileStoriesView2.setStories(tLRPC$ChatFull.stories);
                 }
-                AvatarImageView avatarImageView2 = this.avatarImage;
-                if (avatarImageView2 != null) {
-                    avatarImageView2.setHasStories(needInsetForStories());
+                AvatarImageView avatarImageView3 = this.avatarImage;
+                if (avatarImageView3 != null) {
+                    avatarImageView3.setHasStories(needInsetForStories());
                 }
                 SharedMediaLayout sharedMediaLayout2 = this.sharedMediaLayout;
                 if (sharedMediaLayout2 != null) {
@@ -7831,9 +7845,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 if (profileStoriesView3 != null) {
                     profileStoriesView3.setStories(tLRPC$UserFull.stories);
                 }
-                AvatarImageView avatarImageView3 = this.avatarImage;
-                if (avatarImageView3 != null) {
-                    avatarImageView3.setHasStories(needInsetForStories());
+                AvatarImageView avatarImageView4 = this.avatarImage;
+                if (avatarImageView4 != null) {
+                    avatarImageView4.setHasStories(needInsetForStories());
                 }
                 SharedMediaLayout sharedMediaLayout3 = this.sharedMediaLayout;
                 if (sharedMediaLayout3 != null) {
@@ -7924,6 +7938,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             }
         } else if (i == NotificationCenter.reloadDialogPhotos) {
             updateProfileData(false);
+        } else if (i != NotificationCenter.storiesUpdated || (avatarImageView = this.avatarImage) == null) {
+        } else {
+            avatarImageView.setHasStories(needInsetForStories());
         }
     }
 
@@ -8266,6 +8283,16 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         AboutLinkCell aboutLinkCell = this.aboutLinkCell;
         if (aboutLinkCell != null) {
             aboutLinkCell.invalidate();
+        }
+        if (getDialogId() > 0) {
+            AvatarImageView avatarImageView = this.avatarImage;
+            if (avatarImageView != null) {
+                avatarImageView.setProgressToStoriesInsets(this.avatarAnimationProgress);
+            }
+            ProfileStoriesView profileStoriesView = this.storyView;
+            if (profileStoriesView != null) {
+                profileStoriesView.setProgressToStoriesInsets(this.avatarAnimationProgress);
+            }
         }
     }
 
@@ -8664,7 +8691,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
     /* JADX INFO: Access modifiers changed from: private */
     public boolean needInsetForStories() {
-        return getDialogId() < 0 && getMessagesController().getStoriesController().hasStories(getDialogId());
+        return getMessagesController().getStoriesController().hasStories(getDialogId());
     }
 
     public void setUserInfo(TLRPC$UserFull tLRPC$UserFull) {

@@ -905,8 +905,8 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView {
 
         /* JADX WARN: Removed duplicated region for block: B:111:0x0331  */
         /* JADX WARN: Removed duplicated region for block: B:112:0x033b  */
-        /* JADX WARN: Removed duplicated region for block: B:125:0x03b1  */
-        /* JADX WARN: Removed duplicated region for block: B:126:0x03b4  */
+        /* JADX WARN: Removed duplicated region for block: B:125:0x03b8  */
+        /* JADX WARN: Removed duplicated region for block: B:126:0x03bb  */
         /* JADX WARN: Removed duplicated region for block: B:43:0x01dd  */
         /* JADX WARN: Removed duplicated region for block: B:44:0x01ed  */
         /* JADX WARN: Removed duplicated region for block: B:48:0x01f7  */
@@ -1053,6 +1053,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView {
                 TextView textView2 = this.title;
                 i7 = Theme.key_windowBackgroundWhiteBlackText;
                 textView2.setTextColor(Theme.getColor(i7, ((BottomSheet) LimitReachedBottomSheet.this).resourcesProvider));
+                this.title.setGravity(17);
                 addView(this.title, LayoutHelper.createLinear(-2, -2, 1, 0, !z ? 8 : 22, 0, 10));
                 if (LimitReachedBottomSheet.this.type == 19 && !LimitReachedBottomSheet.this.isCurrentChat) {
                     FrameLayout frameLayout = new FrameLayout(getContext());
@@ -1130,6 +1131,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView {
             TextView textView22 = this.title;
             i7 = Theme.key_windowBackgroundWhiteBlackText;
             textView22.setTextColor(Theme.getColor(i7, ((BottomSheet) LimitReachedBottomSheet.this).resourcesProvider));
+            this.title.setGravity(17);
             addView(this.title, LayoutHelper.createLinear(-2, -2, 1, 0, !z ? 8 : 22, 0, 10));
             if (LimitReachedBottomSheet.this.type == 19) {
                 FrameLayout frameLayout2 = new FrameLayout(getContext());
@@ -1184,6 +1186,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView {
             TextView textView2 = this.title;
             int i = Theme.key_windowBackgroundWhiteBlackText;
             textView2.setTextColor(Theme.getColor(i, ((BottomSheet) LimitReachedBottomSheet.this).resourcesProvider));
+            this.title.setGravity(17);
             addView(this.title, indexOfChild, LayoutHelper.createLinear(-2, -2, 1, 0, 22, 0, 10));
             removeView(this.description);
             TextView textView3 = new TextView(getContext());

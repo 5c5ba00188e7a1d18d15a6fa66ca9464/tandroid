@@ -6818,7 +6818,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                                 }
                                                                 i29 = this.drawInstantViewType;
                                                                 if (i29 != 18) {
-                                                                    string2 = LocaleController.getString("BoostLinkButton", R.string.BoostLinkButton);
+                                                                    string2 = LocaleController.getString("BoostChannel", R.string.BoostChannel);
                                                                 } else if (i29 == 11) {
                                                                     string2 = LocaleController.getString("VoipChannelVoiceChat", R.string.VoipChannelVoiceChat);
                                                                 } else if (i29 == 9) {

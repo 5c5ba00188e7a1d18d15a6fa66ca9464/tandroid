@@ -96,6 +96,8 @@ public interface INavigationLayout {
 
     boolean isPreviewOpenAnimationInProgress();
 
+    boolean isSheet();
+
     boolean isSwipeInProgress();
 
     boolean isTransitionAnimationInProgress();
@@ -165,6 +167,8 @@ public interface INavigationLayout {
     void setHighlightActionButtons(boolean z);
 
     void setInBubbleMode(boolean z);
+
+    void setIsSheet(boolean z);
 
     void setPulledDialogs(List<BackButtonMenu.PulledDialog> list);
 

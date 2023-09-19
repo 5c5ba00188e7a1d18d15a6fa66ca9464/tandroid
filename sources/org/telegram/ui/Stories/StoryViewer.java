@@ -99,6 +99,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
     private Runnable delayedTapRunnable;
     private boolean flingCalled;
     BaseFragment fragment;
+    public boolean fromBottomSheet;
     float fromDismissOffset;
     float fromHeight;
     private int fromRadius;
@@ -115,7 +116,6 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
     private boolean isBulletinVisible;
     private boolean isCaption;
     private boolean isCaptionPartVisible;
-    private boolean isClosed;
     private boolean isHintVisible;
     private boolean isInPinchToZoom;
     private boolean isInTextSelectionMode;
@@ -182,6 +182,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
     public final TransitionViewHolder transitionViewHolder = new TransitionViewHolder();
     private boolean allowTouchesByViewpager = false;
     ArrayList<Runnable> doOnAnimationReadyRunnables = new ArrayList<>();
+    private boolean isClosed = true;
     AnimationNotificationsLocker locker = new AnimationNotificationsLocker();
     ArrayList<VideoPlayerHolder> preparedPlayers = new ArrayList<>();
     public boolean isTranslating = false;
@@ -322,7 +323,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
             this.doOnAnimationReadyRunnables.clear();
             return;
         }
-        boolean z2 = !AndroidUtilities.isTablet();
+        boolean z2 = (AndroidUtilities.isTablet() || this.fromBottomSheet) ? false : true;
         this.ATTACH_TO_FRAGMENT = z2;
         this.USE_SURFACE_VIEW = SharedConfig.useSurfaceInStories && z2;
         this.messageId = tLRPC$StoryItem == null ? 0 : tLRPC$StoryItem.messageId;
@@ -2214,11 +2215,12 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
     }
 
     public boolean closeKeyboardOrEmoji() {
-        PeerStoriesView currentPeerView = this.storiesViewPager.getCurrentPeerView();
-        if (currentPeerView != null) {
-            return currentPeerView.closeKeyboardOrEmoji();
+        PeerStoriesView currentPeerView;
+        StoriesViewPager storiesViewPager = this.storiesViewPager;
+        if (storiesViewPager == null || (currentPeerView = storiesViewPager.getCurrentPeerView()) == null) {
+            return false;
         }
-        return false;
+        return currentPeerView.closeKeyboardOrEmoji();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
