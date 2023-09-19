@@ -2,6 +2,7 @@ package org.telegram.ui.Stories;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.SparseArray;
 import android.webkit.MimeTypeMap;
@@ -133,15 +134,17 @@ import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.Premium.LimitReachedBottomSheet;
 import org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble;
 import org.telegram.ui.LaunchActivity;
+import org.telegram.ui.StatisticActivity;
 import org.telegram.ui.Stories.SelfStoryViewsPage;
 import org.telegram.ui.Stories.StoriesController;
 import org.telegram.ui.Stories.recorder.DraftsController;
 import org.telegram.ui.Stories.recorder.StoryEntry;
 import org.telegram.ui.Stories.recorder.StoryPrivacyBottomSheet;
+import org.telegram.ui.Stories.recorder.StoryRecorder;
 import org.telegram.ui.Stories.recorder.StoryUploadingService;
 /* loaded from: classes4.dex */
 public class StoriesController {
-    public static final Comparator<TLRPC$StoryItem> storiesComparator = Comparator$-CC.comparingInt(StoriesController$$ExternalSyntheticLambda20.INSTANCE);
+    public static final Comparator<TLRPC$StoryItem> storiesComparator = Comparator$-CC.comparingInt(StoriesController$$ExternalSyntheticLambda21.INSTANCE);
     private int blocklistCount;
     private int blocklistReqId;
     private final int currentAccount;
@@ -180,7 +183,7 @@ public class StoriesController {
     HashSet<Long> loadingAllStories = new HashSet<>();
     LongSparseArray<TLRPC$StoryItem> resolvedStories = new LongSparseArray<>();
     private final HashMap<Long, StoriesList>[] storiesLists = new HashMap[2];
-    private final Comparator<TLRPC$PeerStories> peerStoriesComparator = new Comparator() { // from class: org.telegram.ui.Stories.StoriesController$$ExternalSyntheticLambda19
+    private final Comparator<TLRPC$PeerStories> peerStoriesComparator = new Comparator() { // from class: org.telegram.ui.Stories.StoriesController$$ExternalSyntheticLambda20
         @Override // java.util.Comparator
         public final int compare(Object obj, Object obj2) {
             int lambda$new$22;
@@ -303,7 +306,7 @@ public class StoriesController {
             public void serializeToStream(AbstractSerializedData abstractSerializedData) {
                 abstractSerializedData.writeInt32(constructor);
             }
-        }, new RequestDelegate() { // from class: org.telegram.ui.Stories.StoriesController$$ExternalSyntheticLambda24
+        }, new RequestDelegate() { // from class: org.telegram.ui.Stories.StoriesController$$ExternalSyntheticLambda26
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 StoriesController.this.lambda$loadStoriesRead$4(tLObject, tLRPC$TL_error);
@@ -375,7 +378,7 @@ public class StoriesController {
         if (j == 0) {
             return false;
         }
-        if (hasUploadingStories(j)) {
+        if (hasUploadingStories(j) || isLastUploadingFailed(j)) {
             return true;
         }
         TLRPC$PeerStories tLRPC$PeerStories = this.allStoriesMap.get(j);
@@ -502,7 +505,7 @@ public class StoriesController {
             TLRPC$TL_stories_togglePeerStoriesHidden tLRPC$TL_stories_togglePeerStoriesHidden = new TLRPC$TL_stories_togglePeerStoriesHidden();
             tLRPC$TL_stories_togglePeerStoriesHidden.peer = MessagesController.getInstance(this.currentAccount).getInputPeer(j);
             tLRPC$TL_stories_togglePeerStoriesHidden.hidden = z;
-            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_stories_togglePeerStoriesHidden, StoriesController$$ExternalSyntheticLambda35.INSTANCE);
+            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_stories_togglePeerStoriesHidden, StoriesController$$ExternalSyntheticLambda36.INSTANCE);
         }
     }
 
@@ -530,7 +533,7 @@ public class StoriesController {
                 tLRPC$TL_stories_getAllStories.next = true;
             }
             tLRPC$TL_stories_getAllStories.include_hidden = z;
-            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_stories_getAllStories, new RequestDelegate() { // from class: org.telegram.ui.Stories.StoriesController$$ExternalSyntheticLambda33
+            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_stories_getAllStories, new RequestDelegate() { // from class: org.telegram.ui.Stories.StoriesController$$ExternalSyntheticLambda34
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     StoriesController.this.lambda$loadFromServer$8(z, tLRPC$TL_stories_getAllStories, z2, tLObject, tLRPC$TL_error);
@@ -541,7 +544,7 @@ public class StoriesController {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadFromServer$8(final boolean z, final TLRPC$TL_stories_getAllStories tLRPC$TL_stories_getAllStories, final boolean z2, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoriesController$$ExternalSyntheticLambda16
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoriesController$$ExternalSyntheticLambda17
             @Override // java.lang.Runnable
             public final void run() {
                 StoriesController.this.lambda$loadFromServer$7(z, tLRPC$TL_stories_getAllStories, tLObject, z2);
@@ -664,7 +667,7 @@ public class StoriesController {
             }
         }
         if (!z2) {
-            this.storiesStorage.saveAllStories(tLRPC$TL_stories_allStories.peer_stories, z3, z, StoriesController$$ExternalSyntheticLambda18.INSTANCE);
+            this.storiesStorage.saveAllStories(tLRPC$TL_stories_allStories.peer_stories, z3, z, StoriesController$$ExternalSyntheticLambda19.INSTANCE);
         }
         sortUserStories();
     }
@@ -922,7 +925,7 @@ public class StoriesController {
             this.storiesStorage.processUpdate(tLRPC$TL_updateStory);
             tLRPC$User = null;
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoriesController$$ExternalSyntheticLambda10
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoriesController$$ExternalSyntheticLambda11
             @Override // java.lang.Runnable
             public final void run() {
                 StoriesController.this.lambda$processUpdate$10(peerDialogId, tLRPC$TL_updateStory, tLRPC$User);
@@ -1113,7 +1116,7 @@ public class StoriesController {
         FileLog.d("StoriesController loadAllStoriesForDialog " + j);
         TLRPC$TL_stories_getPeerStories tLRPC$TL_stories_getPeerStories = new TLRPC$TL_stories_getPeerStories();
         tLRPC$TL_stories_getPeerStories.peer = MessagesController.getInstance(this.currentAccount).getInputPeer(j);
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_stories_getPeerStories, new RequestDelegate() { // from class: org.telegram.ui.Stories.StoriesController$$ExternalSyntheticLambda30
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_stories_getPeerStories, new RequestDelegate() { // from class: org.telegram.ui.Stories.StoriesController$$ExternalSyntheticLambda31
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 StoriesController.this.lambda$loadAllStoriesForDialog$12(j, tLObject, tLRPC$TL_error);
@@ -1123,7 +1126,7 @@ public class StoriesController {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadAllStoriesForDialog$12(final long j, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoriesController$$ExternalSyntheticLambda9
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoriesController$$ExternalSyntheticLambda10
             @Override // java.lang.Runnable
             public final void run() {
                 StoriesController.this.lambda$loadAllStoriesForDialog$11(j, tLObject);
@@ -1220,7 +1223,7 @@ public class StoriesController {
         TLRPC$TL_stories_deleteStories tLRPC$TL_stories_deleteStories = new TLRPC$TL_stories_deleteStories();
         tLRPC$TL_stories_deleteStories.peer = MessagesController.getInstance(this.currentAccount).getInputPeer(j);
         tLRPC$TL_stories_deleteStories.id.add(Integer.valueOf(tLRPC$StoryItem.id));
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_stories_deleteStories, new RequestDelegate() { // from class: org.telegram.ui.Stories.StoriesController$$ExternalSyntheticLambda26
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_stories_deleteStories, new RequestDelegate() { // from class: org.telegram.ui.Stories.StoriesController$$ExternalSyntheticLambda28
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 StoriesController.this.lambda$deleteStory$13(tLObject, tLRPC$TL_error);
@@ -1266,7 +1269,7 @@ public class StoriesController {
                 tLRPC$TL_stories_deleteStories.id.add(Integer.valueOf(tLRPC$StoryItem.id));
             }
         }
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_stories_deleteStories, new RequestDelegate() { // from class: org.telegram.ui.Stories.StoriesController$$ExternalSyntheticLambda25
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_stories_deleteStories, new RequestDelegate() { // from class: org.telegram.ui.Stories.StoriesController$$ExternalSyntheticLambda27
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 StoriesController.this.lambda$deleteStories$14(tLObject, tLRPC$TL_error);
@@ -1304,7 +1307,7 @@ public class StoriesController {
         updateStoriesInLists(j, arrayList);
         tLRPC$TL_stories_togglePinned.pinned = z;
         tLRPC$TL_stories_togglePinned.peer = MessagesController.getInstance(this.currentAccount).getInputPeer(j);
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_stories_togglePinned, new RequestDelegate() { // from class: org.telegram.ui.Stories.StoriesController$$ExternalSyntheticLambda23
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_stories_togglePinned, new RequestDelegate() { // from class: org.telegram.ui.Stories.StoriesController$$ExternalSyntheticLambda24
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 StoriesController.lambda$updateStoriesPinned$16(Utilities.Callback.this, tLObject, tLRPC$TL_error);
@@ -1376,7 +1379,7 @@ public class StoriesController {
                 TLRPC$TL_stories_readStories tLRPC$TL_stories_readStories = new TLRPC$TL_stories_readStories();
                 tLRPC$TL_stories_readStories.peer = MessagesController.getInstance(this.currentAccount).getInputPeer(peerDialogId);
                 tLRPC$TL_stories_readStories.max_id = tLRPC$StoryItem.id;
-                ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_stories_readStories, StoriesController$$ExternalSyntheticLambda36.INSTANCE);
+                ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_stories_readStories, StoriesController$$ExternalSyntheticLambda37.INSTANCE);
                 return true;
             }
         }
@@ -1384,7 +1387,7 @@ public class StoriesController {
     }
 
     public void markStoriesAsReadFromServer(final long j, final int i) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoriesController$$ExternalSyntheticLambda8
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoriesController$$ExternalSyntheticLambda9
             @Override // java.lang.Runnable
             public final void run() {
                 StoriesController.this.lambda$markStoriesAsReadFromServer$18(j, i);
@@ -1447,7 +1450,7 @@ public class StoriesController {
                     z = true;
                 }
             }
-            return z ? 1 : 0;
+            return (!isLastUploadingFailed(j) && z) ? 1 : 0;
         }
         return 1;
     }
@@ -1465,7 +1468,7 @@ public class StoriesController {
         this.mainSettings.edit().putBoolean("stories_loaded", false).remove("last_stories_state").putBoolean("stories_loaded_hidden", false).remove("last_stories_state_hidden").putBoolean("read_loaded", false).apply();
         final DraftsController draftsController = this.draftsController;
         Objects.requireNonNull(draftsController);
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoriesController$$ExternalSyntheticLambda17
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoriesController$$ExternalSyntheticLambda18
             @Override // java.lang.Runnable
             public final void run() {
                 DraftsController.this.cleanup();
@@ -1530,7 +1533,7 @@ public class StoriesController {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadSkippedStories$20(final long j, final boolean z, final TLRPC$PeerStories tLRPC$PeerStories, final long j2, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoriesController$$ExternalSyntheticLambda11
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoriesController$$ExternalSyntheticLambda12
             @Override // java.lang.Runnable
             public final void run() {
                 StoriesController.this.lambda$loadSkippedStories$19(j, z, tLRPC$PeerStories, j2, tLObject);
@@ -1804,7 +1807,7 @@ public class StoriesController {
             tLRPC$StoryItem.sent_reaction = tLRPC$TL_reactionEmoji;
         }
         updateStoryItem(j, tLRPC$StoryItem);
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_stories_sendReaction, StoriesController$$ExternalSyntheticLambda34.INSTANCE);
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_stories_sendReaction, StoriesController$$ExternalSyntheticLambda35.INSTANCE);
     }
 
     public void updateStoryReaction(long j, int i, TLRPC$Reaction tLRPC$Reaction) {
@@ -2467,7 +2470,7 @@ public class StoriesController {
         if (storiesList == null && z) {
             HashMap<Long, StoriesList> hashMap = this.storiesLists[i];
             Long valueOf = Long.valueOf(j);
-            StoriesList storiesList2 = new StoriesList(this.currentAccount, j, i, new Utilities.Callback() { // from class: org.telegram.ui.Stories.StoriesController$$ExternalSyntheticLambda21
+            StoriesList storiesList2 = new StoriesList(this.currentAccount, j, i, new Utilities.Callback() { // from class: org.telegram.ui.Stories.StoriesController$$ExternalSyntheticLambda22
                 @Override // org.telegram.messenger.Utilities.Callback
                 public final void run(Object obj) {
                     StoriesController.this.destroyStoryList((StoriesController.StoriesList) obj);
@@ -3315,7 +3318,7 @@ public class StoriesController {
                     tLRPC$TL_contacts_getBlocked.offset = this.blocklist.size();
                     tLRPC$TL_contacts_getBlocked.limit = 25;
                 }
-                ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_contacts_getBlocked, new RequestDelegate() { // from class: org.telegram.ui.Stories.StoriesController$$ExternalSyntheticLambda27
+                ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_contacts_getBlocked, new RequestDelegate() { // from class: org.telegram.ui.Stories.StoriesController$$ExternalSyntheticLambda29
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                         StoriesController.this.lambda$loadBlocklist$24(tLObject, tLRPC$TL_error);
@@ -3391,7 +3394,7 @@ public class StoriesController {
         }
         this.blocklistCount += this.blocklist.size();
         tLRPC$TL_contacts_setBlocked.limit = Math.max(tLRPC$TL_contacts_setBlocked.limit, this.blocklist.size());
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_contacts_setBlocked, new RequestDelegate() { // from class: org.telegram.ui.Stories.StoriesController$$ExternalSyntheticLambda22
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_contacts_setBlocked, new RequestDelegate() { // from class: org.telegram.ui.Stories.StoriesController$$ExternalSyntheticLambda23
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 StoriesController.lambda$updateBlockedUsers$26(runnable, tLObject, tLRPC$TL_error);
@@ -3491,7 +3494,7 @@ public class StoriesController {
         }
         TLRPC$TL_stories_canSendStory tLRPC$TL_stories_canSendStory = new TLRPC$TL_stories_canSendStory();
         tLRPC$TL_stories_canSendStory.peer = MessagesController.getInstance(this.currentAccount).getInputPeer(UserConfig.getInstance(this.currentAccount).getClientUserId());
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_stories_canSendStory, new RequestDelegate() { // from class: org.telegram.ui.Stories.StoriesController$$ExternalSyntheticLambda28
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_stories_canSendStory, new RequestDelegate() { // from class: org.telegram.ui.Stories.StoriesController$$ExternalSyntheticLambda30
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 StoriesController.this.lambda$checkStoryLimit$28(tLObject, tLRPC$TL_error);
@@ -3502,7 +3505,7 @@ public class StoriesController {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$checkStoryLimit$28(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoriesController$$ExternalSyntheticLambda14
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoriesController$$ExternalSyntheticLambda15
             @Override // java.lang.Runnable
             public final void run() {
                 StoriesController.this.lambda$checkStoryLimit$27(tLObject, tLRPC$TL_error);
@@ -3521,38 +3524,43 @@ public class StoriesController {
         checkStoryError(tLRPC$TL_error);
     }
 
-    public void canSendStoryFor(final long j, final Consumer<Boolean> consumer, final Theme.ResourcesProvider resourcesProvider) {
+    public void canSendStoryFor(final long j, final Consumer<Boolean> consumer, final boolean z, final Theme.ResourcesProvider resourcesProvider) {
         TLRPC$TL_stories_canSendStory tLRPC$TL_stories_canSendStory = new TLRPC$TL_stories_canSendStory();
         tLRPC$TL_stories_canSendStory.peer = MessagesController.getInstance(this.currentAccount).getInputPeer(j);
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_stories_canSendStory, new RequestDelegate() { // from class: org.telegram.ui.Stories.StoriesController$$ExternalSyntheticLambda31
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_stories_canSendStory, new RequestDelegate() { // from class: org.telegram.ui.Stories.StoriesController$$ExternalSyntheticLambda33
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                StoriesController.this.lambda$canSendStoryFor$31(j, resourcesProvider, consumer, tLObject, tLRPC$TL_error);
+                StoriesController.this.lambda$canSendStoryFor$32(z, j, consumer, resourcesProvider, tLObject, tLRPC$TL_error);
             }
         }, 1024);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$canSendStoryFor$31(final long j, final Theme.ResourcesProvider resourcesProvider, final Consumer consumer, TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoriesController$$ExternalSyntheticLambda15
+    public /* synthetic */ void lambda$canSendStoryFor$32(final boolean z, final long j, final Consumer consumer, final Theme.ResourcesProvider resourcesProvider, TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoriesController$$ExternalSyntheticLambda16
             @Override // java.lang.Runnable
             public final void run() {
-                StoriesController.this.lambda$canSendStoryFor$30(tLRPC$TL_error, j, resourcesProvider, consumer);
+                StoriesController.this.lambda$canSendStoryFor$31(tLRPC$TL_error, z, j, consumer, resourcesProvider);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$canSendStoryFor$30(TLRPC$TL_error tLRPC$TL_error, final long j, final Theme.ResourcesProvider resourcesProvider, final Consumer consumer) {
+    public /* synthetic */ void lambda$canSendStoryFor$31(TLRPC$TL_error tLRPC$TL_error, boolean z, final long j, final Consumer consumer, final Theme.ResourcesProvider resourcesProvider) {
         if (tLRPC$TL_error != null) {
             if (tLRPC$TL_error.text.contains("BOOSTS_REQUIRED")) {
-                MessagesController.getInstance(this.currentAccount).getBoostsController().getBoostsStats(j, new Consumer() { // from class: org.telegram.ui.Stories.StoriesController$$ExternalSyntheticLambda2
-                    @Override // com.google.android.exoplayer2.util.Consumer
-                    public final void accept(Object obj) {
-                        StoriesController.this.lambda$canSendStoryFor$29(resourcesProvider, j, consumer, (TLRPC$TL_stories_boostsStatus) obj);
-                    }
-                });
-                return;
+                if (z) {
+                    MessagesController.getInstance(this.currentAccount).getBoostsController().getBoostsStats(j, new Consumer() { // from class: org.telegram.ui.Stories.StoriesController$$ExternalSyntheticLambda2
+                        @Override // com.google.android.exoplayer2.util.Consumer
+                        public final void accept(Object obj) {
+                            StoriesController.this.lambda$canSendStoryFor$30(consumer, resourcesProvider, j, (TLRPC$TL_stories_boostsStatus) obj);
+                        }
+                    });
+                    return;
+                } else {
+                    consumer.accept(Boolean.FALSE);
+                    return;
+                }
             }
             BulletinFactory global = BulletinFactory.global();
             if (global != null) {
@@ -3565,13 +3573,47 @@ public class StoriesController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$canSendStoryFor$29(Theme.ResourcesProvider resourcesProvider, long j, Consumer consumer, TLRPC$TL_stories_boostsStatus tLRPC$TL_stories_boostsStatus) {
+    public /* synthetic */ void lambda$canSendStoryFor$30(Consumer consumer, Theme.ResourcesProvider resourcesProvider, final long j, TLRPC$TL_stories_boostsStatus tLRPC$TL_stories_boostsStatus) {
+        if (tLRPC$TL_stories_boostsStatus == null) {
+            consumer.accept(Boolean.FALSE);
+            return;
+        }
         BaseFragment lastFragment = LaunchActivity.getLastFragment();
         LimitReachedBottomSheet limitReachedBottomSheet = new LimitReachedBottomSheet(lastFragment, lastFragment.getContext(), 18, this.currentAccount, resourcesProvider);
         limitReachedBottomSheet.setBoostsStats(tLRPC$TL_stories_boostsStatus, false);
         limitReachedBottomSheet.setDialogId(j);
+        if (canPostStories(j)) {
+            limitReachedBottomSheet.showStatisticButtonInLink(new Runnable() { // from class: org.telegram.ui.Stories.StoriesController$$ExternalSyntheticLambda8
+                @Override // java.lang.Runnable
+                public final void run() {
+                    StoriesController.this.lambda$canSendStoryFor$29(j);
+                }
+            });
+        }
         limitReachedBottomSheet.show();
         consumer.accept(Boolean.FALSE);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$canSendStoryFor$29(long j) {
+        long j2 = -j;
+        TLRPC$Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(j2));
+        Bundle bundle = new Bundle();
+        bundle.putLong("chat_id", j2);
+        bundle.putBoolean("is_megagroup", chat.megagroup);
+        bundle.putBoolean("start_from_boosts", true);
+        bundle.putBoolean("only_boosts", true);
+        StatisticActivity statisticActivity = new StatisticActivity(bundle);
+        BaseFragment lastFragment = LaunchActivity.getLastFragment();
+        if (lastFragment != null) {
+            if (StoryRecorder.isVisible()) {
+                BaseFragment.BottomSheetParams bottomSheetParams = new BaseFragment.BottomSheetParams();
+                bottomSheetParams.transitionFromLeft = true;
+                lastFragment.showAsSheet(statisticActivity, bottomSheetParams);
+                return;
+            }
+            lastFragment.presentFragment(statisticActivity);
+        }
     }
 
     /* JADX WARN: Removed duplicated region for block: B:24:0x0098  */
@@ -3668,26 +3710,26 @@ public class StoriesController {
             public void serializeToStream(AbstractSerializedData abstractSerializedData) {
                 abstractSerializedData.writeInt32(constructor);
             }
-        }, new RequestDelegate() { // from class: org.telegram.ui.Stories.StoriesController$$ExternalSyntheticLambda29
+        }, new RequestDelegate() { // from class: org.telegram.ui.Stories.StoriesController$$ExternalSyntheticLambda25
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                StoriesController.this.lambda$loadSendAs$33(tLObject, tLRPC$TL_error);
+                StoriesController.this.lambda$loadSendAs$34(tLObject, tLRPC$TL_error);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadSendAs$33(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoriesController$$ExternalSyntheticLambda12
+    public /* synthetic */ void lambda$loadSendAs$34(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoriesController$$ExternalSyntheticLambda14
             @Override // java.lang.Runnable
             public final void run() {
-                StoriesController.this.lambda$loadSendAs$32(tLObject);
+                StoriesController.this.lambda$loadSendAs$33(tLObject);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadSendAs$32(TLObject tLObject) {
+    public /* synthetic */ void lambda$loadSendAs$33(TLObject tLObject) {
         this.sendAs.clear();
         this.sendAs.add(new TLRPC$TL_inputPeerSelf());
         if (tLObject instanceof TLRPC$TL_messages_chats) {
@@ -3710,6 +3752,15 @@ public class StoriesController {
             return false;
         }
         return chat.creator || ((tLRPC$TL_chatAdminRights = chat.admin_rights) != null && tLRPC$TL_chatAdminRights.edit_stories);
+    }
+
+    public boolean canPostStories(long j) {
+        TLRPC$Chat chat;
+        TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights;
+        if (j >= 0 || (chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-j))) == null) {
+            return false;
+        }
+        return chat.creator || ((tLRPC$TL_chatAdminRights = chat.admin_rights) != null && tLRPC$TL_chatAdminRights.post_stories);
     }
 
     public boolean canEditStory(TLRPC$StoryItem tLRPC$StoryItem) {

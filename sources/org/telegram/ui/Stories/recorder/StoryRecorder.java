@@ -130,6 +130,7 @@ import org.telegram.ui.Components.URLSpanUserMention;
 import org.telegram.ui.Components.VideoEditTextureView;
 import org.telegram.ui.Components.ZoomControlView;
 import org.telegram.ui.LaunchActivity;
+import org.telegram.ui.ProfileActivity;
 import org.telegram.ui.Stories.DarkThemeResourceProvider;
 import org.telegram.ui.Stories.DialogStoriesCell;
 import org.telegram.ui.Stories.PeerStoriesView;
@@ -234,6 +235,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
     private HintView2 savedDualHint;
     private boolean scrollingX;
     private boolean scrollingY;
+    long selectedDialogId;
     private boolean showSavedDraftHint;
     private boolean shownLimitReached;
     private TimelineView timelineView;
@@ -359,11 +361,44 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             throw null;
         }
 
+        public static SourceView fromAvatarImage(final ProfileActivity.AvatarImageView avatarImageView) {
+            if (avatarImageView == null || avatarImageView.getRootView() == null) {
+                return null;
+            }
+            float scaleX = ((View) avatarImageView.getParent()).getScaleX();
+            float imageWidth = avatarImageView.getImageReceiver().getImageWidth() * scaleX;
+            SourceView sourceView = new SourceView() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder.SourceView.1
+                @Override // org.telegram.ui.Stories.recorder.StoryRecorder.SourceView
+                protected void show() {
+                    ProfileActivity.AvatarImageView avatarImageView2 = avatarImageView;
+                    avatarImageView2.drawAvatar = true;
+                    avatarImageView2.invalidate();
+                }
+
+                @Override // org.telegram.ui.Stories.recorder.StoryRecorder.SourceView
+                protected void hide() {
+                    ProfileActivity.AvatarImageView avatarImageView2 = avatarImageView;
+                    avatarImageView2.drawAvatar = false;
+                    avatarImageView2.invalidate();
+                }
+            };
+            int[] iArr = new int[2];
+            float[] fArr = new float[2];
+            avatarImageView.getRootView().getLocationOnScreen(iArr);
+            AndroidUtilities.getViewPositionInParent(avatarImageView, (ViewGroup) avatarImageView.getRootView(), fArr);
+            float imageX = iArr[0] + fArr[0] + (avatarImageView.getImageReceiver().getImageX() * scaleX);
+            float imageY = iArr[1] + fArr[1] + (avatarImageView.getImageReceiver().getImageY() * scaleX);
+            sourceView.screenRect.set(imageX, imageY, imageX + imageWidth, imageWidth + imageY);
+            sourceView.backgroundImageReceiver = avatarImageView.getImageReceiver();
+            sourceView.rounding = Math.max(sourceView.screenRect.width(), sourceView.screenRect.height()) / 2.0f;
+            return sourceView;
+        }
+
         public static SourceView fromStoryViewer(final StoryViewer storyViewer) {
             if (storyViewer == null) {
                 return null;
             }
-            SourceView sourceView = new SourceView() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder.SourceView.1
+            SourceView sourceView = new SourceView() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder.SourceView.2
                 @Override // org.telegram.ui.Stories.recorder.StoryRecorder.SourceView
                 protected void show() {
                     PeerStoriesView currentPeerView = storyViewer.getCurrentPeerView();
@@ -399,10 +434,10 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
 
         /* JADX INFO: Access modifiers changed from: package-private */
         /* loaded from: classes4.dex */
-        public class 2 extends SourceView {
+        public class 3 extends SourceView {
             final /* synthetic */ FrameLayout val$floatingButton;
 
-            2(FrameLayout frameLayout) {
+            3(FrameLayout frameLayout) {
                 this.val$floatingButton = frameLayout;
             }
 
@@ -414,7 +449,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             @Override // org.telegram.ui.Stories.recorder.StoryRecorder.SourceView
             protected void hide() {
                 final FrameLayout frameLayout = this.val$floatingButton;
-                frameLayout.post(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$SourceView$2$$ExternalSyntheticLambda0
+                frameLayout.post(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$SourceView$3$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
                         frameLayout.setVisibility(8);
@@ -427,7 +462,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             if (frameLayout == null) {
                 return null;
             }
-            2 r0 = new 2(frameLayout);
+            3 r0 = new 3(frameLayout);
             int[] iArr = new int[2];
             View childAt = frameLayout.getChildAt(0);
             childAt.getLocationOnScreen(iArr);
@@ -446,7 +481,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
                 return null;
             }
             float imageWidth = storyCell.avatarImage.getImageWidth();
-            3 r3 = new 3(storyCell, imageWidth / 2.0f);
+            4 r3 = new 4(storyCell, imageWidth / 2.0f);
             int[] iArr = new int[2];
             float[] fArr = new float[2];
             storyCell.getRootView().getLocationOnScreen(iArr);
@@ -461,11 +496,11 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
 
         /* JADX INFO: Access modifiers changed from: package-private */
         /* loaded from: classes4.dex */
-        public class 3 extends SourceView {
+        public class 4 extends SourceView {
             final /* synthetic */ float val$radius;
             final /* synthetic */ DialogStoriesCell.StoryCell val$storyCell;
 
-            3(DialogStoriesCell.StoryCell storyCell, float f) {
+            4(DialogStoriesCell.StoryCell storyCell, float f) {
                 this.val$storyCell = storyCell;
                 this.val$radius = f;
             }
@@ -480,10 +515,10 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             @Override // org.telegram.ui.Stories.recorder.StoryRecorder.SourceView
             protected void hide() {
                 final DialogStoriesCell.StoryCell storyCell = this.val$storyCell;
-                storyCell.post(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$SourceView$3$$ExternalSyntheticLambda0
+                storyCell.post(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$SourceView$4$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
-                        StoryRecorder.SourceView.3.lambda$hide$0(DialogStoriesCell.StoryCell.this);
+                        StoryRecorder.SourceView.4.lambda$hide$0(DialogStoriesCell.StoryCell.this);
                     }
                 });
             }
@@ -2316,6 +2351,9 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
                     applyFilter(null);
                     upload(true);
                     return;
+                }
+                if (this.selectedDialogId != 0) {
+                    storyEntry.peer = MessagesController.getInstance(this.currentAccount).getInputPeer(this.selectedDialogId);
                 }
                 this.previewView.updatePauseReason(3, true);
                 StoryPrivacyBottomSheet whenSelectedRules = new StoryPrivacyBottomSheet(this.activity, this.outputEntry.period, this.resourcesProvider).setValue(this.outputEntry.privacy).setPeer(this.outputEntry.peer).whenDismiss(new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda61
@@ -5781,6 +5819,11 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             this.muteButtonDrawable.setCustomEndFrame(43);
             this.muteButtonDrawable.start();
         }
+    }
+
+    public StoryRecorder selectedPeerId(long j) {
+        this.selectedDialogId = j;
+        return this;
     }
 
     public static CharSequence cameraBtnSpan(Context context) {

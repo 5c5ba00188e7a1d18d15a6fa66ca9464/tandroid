@@ -5561,6 +5561,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
 
             @Override // org.telegram.ui.Components.CaptionPhotoViewer, org.telegram.ui.Stories.recorder.CaptionContainerView
             protected void setupMentionContainer() {
+                if (PhotoViewer.this.parentChatActivity != null) {
+                    return;
+                }
                 this.mentionContainer.getAdapter().setAllowStickers(false);
                 this.mentionContainer.getAdapter().setAllowBots(false);
                 this.mentionContainer.getAdapter().setAllowChats(false);

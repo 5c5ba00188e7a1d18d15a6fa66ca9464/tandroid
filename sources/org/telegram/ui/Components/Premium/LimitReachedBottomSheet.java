@@ -115,6 +115,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView {
     private ArrayList<TLRPC$User> restrictedUsers;
     int rowCount;
     HashSet<Object> selectedChats;
+    Runnable statisticClickRunnable;
     final int type;
 
     /* loaded from: classes4.dex */
@@ -719,19 +720,36 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView {
                 case 7:
                     FrameLayout frameLayout2 = new FrameLayout(LimitReachedBottomSheet.this.getContext());
                     TextView textView = new TextView(context);
-                    textView.setPadding(AndroidUtilities.dp(18.0f), AndroidUtilities.dp(13.0f), AndroidUtilities.dp(40.0f), AndroidUtilities.dp(13.0f));
+                    textView.setPadding(AndroidUtilities.dp(18.0f), AndroidUtilities.dp(13.0f), AndroidUtilities.dp(50.0f), AndroidUtilities.dp(13.0f));
                     textView.setTextSize(1, 16.0f);
                     textView.setEllipsize(TextUtils.TruncateAt.MIDDLE);
                     textView.setSingleLine(true);
                     frameLayout2.addView(textView, LayoutHelper.createFrame(-1, -2.0f, 0, 11.0f, 0.0f, 11.0f, 0.0f));
-                    textView.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(8.0f), Theme.getColor(Theme.key_graySection, ((BottomSheet) LimitReachedBottomSheet.this).resourcesProvider), ColorUtils.setAlphaComponent(Theme.getColor(Theme.key_listSelector, ((BottomSheet) LimitReachedBottomSheet.this).resourcesProvider), 76)));
+                    int dp = AndroidUtilities.dp(8.0f);
+                    int color = Theme.getColor(Theme.key_graySection, ((BottomSheet) LimitReachedBottomSheet.this).resourcesProvider);
+                    int i2 = Theme.key_listSelector;
+                    textView.setBackground(Theme.createSimpleSelectorRoundRectDrawable(dp, color, ColorUtils.setAlphaComponent(Theme.getColor(i2, ((BottomSheet) LimitReachedBottomSheet.this).resourcesProvider), 76)));
                     textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, ((BottomSheet) LimitReachedBottomSheet.this).resourcesProvider));
-                    textView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet$4$$ExternalSyntheticLambda0
+                    textView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet$4$$ExternalSyntheticLambda1
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view) {
                             LimitReachedBottomSheet.4.this.lambda$onCreateViewHolder$0(view);
                         }
                     });
+                    if (LimitReachedBottomSheet.this.statisticClickRunnable != null) {
+                        ImageView imageView = new ImageView(LimitReachedBottomSheet.this.getContext());
+                        imageView.setImageResource(R.drawable.msg_stats);
+                        imageView.setColorFilter(Theme.getColor(Theme.key_dialogTextBlack, ((BottomSheet) LimitReachedBottomSheet.this).resourcesProvider));
+                        imageView.setPadding(AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f));
+                        imageView.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(20.0f), 0, ColorUtils.setAlphaComponent(Theme.getColor(i2, ((BottomSheet) LimitReachedBottomSheet.this).resourcesProvider), 76)));
+                        frameLayout2.addView(imageView, LayoutHelper.createFrame(40, 40.0f, 21, 15.0f, 0.0f, 15.0f, 0.0f));
+                        imageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet$4$$ExternalSyntheticLambda0
+                            @Override // android.view.View.OnClickListener
+                            public final void onClick(View view) {
+                                LimitReachedBottomSheet.4.this.lambda$onCreateViewHolder$1(view);
+                            }
+                        });
+                    }
                     textView.setText(LimitReachedBottomSheet.this.getBoostLink());
                     textView.setGravity(17);
                     frameLayout = frameLayout2;
@@ -747,6 +765,12 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView {
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onCreateViewHolder$0(View view) {
             AndroidUtilities.addToClipboard(LimitReachedBottomSheet.this.getBoostLink());
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$onCreateViewHolder$1(View view) {
+            LimitReachedBottomSheet.this.statisticClickRunnable.run();
+            LimitReachedBottomSheet.this.dismiss();
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -867,6 +891,10 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView {
     public void setCanApplyBoost(ChannelBoostsController.CanApplyBoost canApplyBoost) {
         this.canApplyBoost = canApplyBoost;
         updateButton();
+    }
+
+    public void showStatisticButtonInLink(Runnable runnable) {
+        this.statisticClickRunnable = runnable;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1192,7 +1220,10 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView {
         int i = tLRPC$TL_stories_boostsStatus.boosts;
         if ((i == tLRPC$TL_stories_boostsStatus.current_level_boosts) && this.canApplyBoost.alreadyActive) {
             int i2 = tLRPC$TL_stories_boostsStatus.level;
-            return i2 == 1 ? LocaleController.formatString("ChannelBoostsJustReachedLevel1", R.string.ChannelBoostsJustReachedLevel1, new Object[0]) : LocaleController.formatString("ChannelBoostsJustReachedLevelNext", R.string.ChannelBoostsJustReachedLevelNext, Integer.valueOf(i2), Integer.valueOf(this.boostsStatus.level));
+            if (i2 == 1) {
+                return LocaleController.formatString("ChannelBoostsJustReachedLevel1", R.string.ChannelBoostsJustReachedLevel1, new Object[0]);
+            }
+            return LocaleController.formatString("ChannelBoostsJustReachedLevelNext", R.string.ChannelBoostsJustReachedLevelNext, Integer.valueOf(i2), LocaleController.formatPluralString("BoostStories", this.boostsStatus.level, new Object[0]));
         } else if (this.canApplyBoost.alreadyActive) {
             if (tLRPC$TL_stories_boostsStatus.level == 0) {
                 int i3 = R.string.ChannelNeedBoostsAlreadyBoostedDescriptionLevel1;
@@ -1201,7 +1232,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView {
             }
             int i5 = R.string.ChannelNeedBoostsDescriptionLevelNext;
             int i6 = tLRPC$TL_stories_boostsStatus.next_level_boosts;
-            return LocaleController.formatString("ChannelNeedBoostsDescriptionLevelNext", i5, LocaleController.formatPluralString("MoreBoosts", i6 - i, Integer.valueOf(i6 - i)), Integer.valueOf(this.boostsStatus.level));
+            return LocaleController.formatString("ChannelNeedBoostsDescriptionLevelNext", i5, LocaleController.formatPluralString("MoreBoosts", i6 - i, Integer.valueOf(i6 - i)), LocaleController.formatPluralString("BoostStories", this.boostsStatus.level, new Object[0]));
         } else if (tLRPC$TL_stories_boostsStatus.level == 0) {
             int i7 = R.string.ChannelNeedBoostsDescriptionLevel1;
             int i8 = tLRPC$TL_stories_boostsStatus.next_level_boosts;
@@ -1209,7 +1240,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView {
         } else {
             int i9 = R.string.ChannelNeedBoostsDescriptionLevelNext;
             int i10 = tLRPC$TL_stories_boostsStatus.next_level_boosts;
-            return LocaleController.formatString("ChannelNeedBoostsDescriptionLevelNext", i9, LocaleController.formatPluralString("MoreBoosts", i10 - i, Integer.valueOf(i10 - i)), Integer.valueOf(this.boostsStatus.level));
+            return LocaleController.formatString("ChannelNeedBoostsDescriptionLevelNext", i9, LocaleController.formatPluralString("MoreBoosts", i10 - i, Integer.valueOf(i10 - i)), LocaleController.formatPluralString("BoostStories", this.boostsStatus.level, new Object[0]));
         }
     }
 

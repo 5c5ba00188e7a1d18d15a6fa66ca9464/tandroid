@@ -4085,20 +4085,20 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:254:0x05fd, code lost:
-        if (r1.captionTranslated != (r8 != null && r8.translated && r8.translatedText != null && android.text.TextUtils.equals(r8.translatedLng, org.telegram.ui.Components.TranslateAlert2.getToLanguage()))) goto L294;
+        if (r1.captionTranslated != (r8 != null && r8.translated && r8.translatedText != null && android.text.TextUtils.equals(r8.translatedLng, org.telegram.ui.Components.TranslateAlert2.getToLanguage()))) goto L298;
      */
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Removed duplicated region for block: B:292:0x0672  */
     /* JADX WARN: Removed duplicated region for block: B:295:0x067d  */
     /* JADX WARN: Removed duplicated region for block: B:296:0x0687  */
-    /* JADX WARN: Removed duplicated region for block: B:402:0x0822  */
-    /* JADX WARN: Removed duplicated region for block: B:403:0x082b  */
-    /* JADX WARN: Removed duplicated region for block: B:406:0x0831  */
-    /* JADX WARN: Removed duplicated region for block: B:425:0x089f  */
-    /* JADX WARN: Removed duplicated region for block: B:440:0x091f  */
+    /* JADX WARN: Removed duplicated region for block: B:406:0x0829  */
+    /* JADX WARN: Removed duplicated region for block: B:407:0x0832  */
+    /* JADX WARN: Removed duplicated region for block: B:410:0x0838  */
+    /* JADX WARN: Removed duplicated region for block: B:429:0x08a6  */
+    /* JADX WARN: Removed duplicated region for block: B:444:0x0926  */
     /* JADX WARN: Type inference failed for: r2v4 */
     /* JADX WARN: Type inference failed for: r2v5, types: [boolean, int] */
-    /* JADX WARN: Type inference failed for: r2v61 */
+    /* JADX WARN: Type inference failed for: r2v64 */
     /* JADX WARN: Type inference failed for: r5v37 */
     /* JADX WARN: Type inference failed for: r5v42, types: [org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble$VisibleReaction, android.view.ViewPropertyAnimator] */
     /* JADX WARN: Type inference failed for: r5v43 */
@@ -4490,7 +4490,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
         }
         if (this.isChannel) {
             this.shareButton.setVisibility(this.allowShare ? 0 : 8);
-            this.likeButtonContainer.setVisibility(0);
+            this.likeButtonContainer.setVisibility(this.isFailed ? 8 : 0);
         } else {
             this.shareButton.setVisibility(this.allowShare ? 0 : 8);
             this.likeButtonContainer.setVisibility(this.isSelf ? 8 : 0);

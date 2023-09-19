@@ -12,6 +12,6 @@ public final /* synthetic */ class StoriesController$$ExternalSyntheticLambda35 
 
     @Override // org.telegram.tgnet.RequestDelegate
     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        StoriesController.lambda$toggleHidden$6(tLObject, tLRPC$TL_error);
+        StoriesController.lambda$setStoryReaction$21(tLObject, tLRPC$TL_error);
     }
 }

@@ -163,6 +163,7 @@ public class ViewPagerFixed extends FrameLayout {
 
     public ViewPagerFixed(Context context, Theme.ResourcesProvider resourcesProvider) {
         super(context);
+        this.currentProgress = 1.0f;
         this.viewsByType = new SparseArray<>();
         this.updateTabProgress = new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.ViewPagerFixed.1
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
@@ -806,6 +807,10 @@ public class ViewPagerFixed extends FrameLayout {
     }
 
     public void setPosition(int i) {
+        if (this.adapter == null) {
+            this.currentPosition = i;
+            onTabAnimationUpdate(false);
+        }
         AnimatorSet animatorSet = this.tabsAnimation;
         if (animatorSet != null) {
             animatorSet.cancel();
