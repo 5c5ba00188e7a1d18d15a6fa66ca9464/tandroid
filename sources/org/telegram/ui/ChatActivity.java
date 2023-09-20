@@ -8667,7 +8667,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             }
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:304:0x05e3  */
+        /* JADX WARN: Removed duplicated region for block: B:315:0x05f2  */
         /* JADX WARN: Removed duplicated region for block: B:37:0x00a4  */
         /* JADX WARN: Removed duplicated region for block: B:39:0x00ab  */
         /* JADX WARN: Removed duplicated region for block: B:47:0x00cc  */
@@ -8684,11 +8684,12 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             float f;
             boolean z2;
             int adapterPosition;
+            int i3;
             int top;
             ChatMessageCell chatMessageCell2;
             int adapterPosition2;
-            int i3;
             int i4;
+            int i5;
             ChatMessageCell chatMessageCell3;
             if (ChatActivity.this.isSkeletonVisible()) {
                 invalidate();
@@ -8704,10 +8705,10 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 MessageObject.GroupedMessagePosition currentPosition = chatMessageCell.getCurrentPosition();
                 MessageObject.GroupedMessages currentMessagesGroup = chatMessageCell.getCurrentMessagesGroup();
                 if (currentPosition != null) {
-                    int i5 = currentPosition.pw;
-                    int i6 = currentPosition.spanSize;
-                    if (i5 != i6 && i6 == 1000 && currentPosition.siblingHeights == null && currentMessagesGroup.hasSibling) {
-                        i4 = chatMessageCell.getBackgroundDrawableLeft();
+                    int i6 = currentPosition.pw;
+                    int i7 = currentPosition.spanSize;
+                    if (i6 != i7 && i7 == 1000 && currentPosition.siblingHeights == null && currentMessagesGroup.hasSibling) {
+                        i5 = chatMessageCell.getBackgroundDrawableLeft();
                         i2 = 0;
                         if (chatMessageCell.needDelayRoundProgressDraw()) {
                         }
@@ -8719,13 +8720,13 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         }
                         if (z3) {
                         }
-                        int i7 = i4;
+                        int i8 = i5;
                         chatActionCell = null;
                         groupedMessages = currentMessagesGroup;
-                        i = i7;
+                        i = i8;
                     } else if (currentPosition.siblingHeights != null) {
                         i2 = view.getBottom() - AndroidUtilities.dp((chatMessageCell.isPinnedBottom() ? 1 : 0) + 1);
-                        i4 = 0;
+                        i5 = 0;
                         if (chatMessageCell.needDelayRoundProgressDraw()) {
                             ChatActivity.this.drawLaterRoundProgressCell = chatMessageCell;
                         }
@@ -8738,13 +8739,13 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         if (z3) {
                             chatMessageCell.getPhotoImage().skipDraw();
                         }
-                        int i72 = i4;
+                        int i82 = i5;
                         chatActionCell = null;
                         groupedMessages = currentMessagesGroup;
-                        i = i72;
+                        i = i82;
                     }
                 }
-                i4 = 0;
+                i5 = 0;
                 i2 = 0;
                 if (chatMessageCell.needDelayRoundProgressDraw()) {
                 }
@@ -8752,10 +8753,10 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 }
                 if (z3) {
                 }
-                int i722 = i4;
+                int i822 = i5;
                 chatActionCell = null;
                 groupedMessages = currentMessagesGroup;
-                i = i722;
+                i = i822;
             } else {
                 if (view instanceof ChatActionCell) {
                     chatActionCell = (ChatActionCell) view;
@@ -8865,28 +8866,28 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             }
                             if (adapterPosition2 >= 0) {
                                 if (validGroupedMessage == null || currentPosition2 == null) {
-                                    i3 = adapterPosition2 - 1;
+                                    i4 = adapterPosition2 - 1;
                                 } else {
                                     int indexOf = validGroupedMessage.posArray.indexOf(currentPosition2);
                                     int size = validGroupedMessage.posArray.size();
                                     if ((currentPosition2.flags & 8) != 0) {
-                                        i3 = (adapterPosition2 - size) + indexOf;
+                                        i4 = (adapterPosition2 - size) + indexOf;
                                     } else {
-                                        i3 = adapterPosition2 - 1;
-                                        for (int i8 = indexOf + 1; i8 < size && validGroupedMessage.posArray.get(i8).minY <= currentPosition2.maxY; i8++) {
-                                            i3--;
+                                        i4 = adapterPosition2 - 1;
+                                        for (int i9 = indexOf + 1; i9 < size && validGroupedMessage.posArray.get(i9).minY <= currentPosition2.maxY; i9++) {
+                                            i4--;
                                         }
                                     }
                                 }
                                 if (chatMessageCell.willRemovedAfterAnimation()) {
-                                    if (ChatActivity.this.chatScrollHelper.positionToOldView.get(i3) != null) {
+                                    if (ChatActivity.this.chatScrollHelper.positionToOldView.get(i4) != null) {
                                         if (view.getTranslationY() != 0.0f) {
                                             canvas.restore();
                                         }
                                         avatarImage.setVisible(false, false);
                                         return z;
                                     }
-                                } else if (ChatActivity.this.chatListView.findViewHolderForAdapterPosition(i3) != null) {
+                                } else if (ChatActivity.this.chatListView.findViewHolderForAdapterPosition(i4) != null) {
                                     if (view.getTranslationY() != 0.0f) {
                                         canvas.restore();
                                     }
@@ -8898,6 +8899,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         float slidingOffsetX = chatMessageCell.getSlidingOffsetX() + chatMessageCell.getCheckBoxTranslation();
                         int top3 = (int) ((z5 ? view.getTop() : view.getY()) + chatMessageCell.getLayoutHeight() + chatMessageCell.getTransitionParams().deltaBottom);
                         int measuredHeight = ChatActivity.this.chatListView.getMeasuredHeight() - ChatActivity.this.chatListView.getPaddingBottom();
+                        boolean z6 = chatMessageCell.isCheckBoxVisible() && slidingOffsetX == 0.0f;
                         if (chatMessageCell.isPlayingRound() || chatMessageCell.getTransitionParams().animatePlayingRound) {
                             if (chatMessageCell.getTransitionParams().animatePlayingRound) {
                                 float f2 = chatMessageCell.getTransitionParams().animateChangeProgress;
@@ -8922,15 +8924,15 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 adapterPosition = ChatActivity.this.chatListView.getChildViewHolder(view).getAdapterPosition();
                             }
                             if (adapterPosition >= 0) {
-                                int i9 = adapterPosition;
-                                int i10 = top2;
+                                int i10 = adapterPosition;
+                                int i11 = top2;
                                 ChatMessageCell chatMessageCell4 = chatMessageCell;
                                 float f3 = slidingOffsetX;
-                                int i11 = 0;
-                                while (i11 < 20) {
-                                    i11++;
+                                for (int i12 = 0; i12 < 20; i12 = i3) {
+                                    int i13 = i12 + 1;
                                     if (validGroupedMessage == null || currentPosition2 == null) {
-                                        i9++;
+                                        i3 = i13;
+                                        i10++;
                                     } else {
                                         int indexOf2 = validGroupedMessage.posArray.indexOf(currentPosition2);
                                         if (indexOf2 < 0) {
@@ -8938,68 +8940,80 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                         }
                                         validGroupedMessage.posArray.size();
                                         if ((currentPosition2.flags & 4) != 0) {
-                                            i9 = i9 + indexOf2 + 1;
+                                            i10 = i10 + indexOf2 + 1;
                                         } else {
-                                            i9++;
-                                            for (int i12 = indexOf2 - 1; i12 >= 0 && validGroupedMessage.posArray.get(i12).maxY >= currentPosition2.minY; i12--) {
-                                                i9++;
+                                            i10++;
+                                            int i14 = indexOf2 - 1;
+                                            while (i14 >= 0) {
+                                                i3 = i13;
+                                                if (validGroupedMessage.posArray.get(i14).maxY < currentPosition2.minY) {
+                                                    break;
+                                                }
+                                                i10++;
+                                                i14--;
+                                                i13 = i3;
                                             }
                                         }
+                                        i3 = i13;
                                     }
                                     if (chatMessageCell4.willRemovedAfterAnimation()) {
-                                        View view2 = ChatActivity.this.chatScrollHelper.positionToOldView.get(i9);
+                                        View view2 = ChatActivity.this.chatScrollHelper.positionToOldView.get(i10);
                                         if (view2 == null) {
                                             break;
                                         }
                                         top = view2.getTop();
                                         if (!(view2 instanceof ChatMessageCell)) {
-                                            slidingOffsetX = f3;
-                                            chatMessageCell = chatMessageCell4;
+                                            ChatMessageCell chatMessageCell5 = chatMessageCell4;
                                             top2 = top;
+                                            slidingOffsetX = f3;
+                                            chatMessageCell = chatMessageCell5;
                                             break;
                                         }
                                         chatMessageCell2 = (ChatMessageCell) view2;
-                                        if (chatMessageCell2.getSlidingOffsetX() + chatMessageCell2.getCheckBoxTranslation() > f3) {
-                                            f3 = chatMessageCell2.getSlidingOffsetX() + chatMessageCell2.getCheckBoxTranslation();
+                                        float slidingOffsetX2 = chatMessageCell2.getSlidingOffsetX() + chatMessageCell2.getCheckBoxTranslation();
+                                        if (z6 && slidingOffsetX2 > 0.0f) {
+                                            f3 = slidingOffsetX2;
                                         }
                                         if (!chatMessageCell2.drawPinnedTop()) {
-                                            slidingOffsetX = f3;
                                             top2 = top;
+                                            slidingOffsetX = f3;
                                             chatMessageCell = chatMessageCell2;
                                             break;
                                         }
                                         chatMessageCell4 = chatMessageCell2;
-                                        i10 = top;
+                                        i11 = top;
                                     } else {
-                                        RecyclerView.ViewHolder findViewHolderForAdapterPosition = ChatActivity.this.chatListView.findViewHolderForAdapterPosition(i9);
+                                        RecyclerView.ViewHolder findViewHolderForAdapterPosition = ChatActivity.this.chatListView.findViewHolderForAdapterPosition(i10);
                                         if (findViewHolderForAdapterPosition == null) {
                                             break;
                                         }
                                         top = findViewHolderForAdapterPosition.itemView.getTop();
                                         View view3 = findViewHolderForAdapterPosition.itemView;
                                         if (!(view3 instanceof ChatMessageCell)) {
-                                            slidingOffsetX = f3;
-                                            chatMessageCell = chatMessageCell4;
+                                            ChatMessageCell chatMessageCell52 = chatMessageCell4;
                                             top2 = top;
+                                            slidingOffsetX = f3;
+                                            chatMessageCell = chatMessageCell52;
                                             break;
                                         }
                                         chatMessageCell2 = (ChatMessageCell) view3;
-                                        if (chatMessageCell2.getSlidingOffsetX() + chatMessageCell2.getCheckBoxTranslation() > f3) {
-                                            f3 = chatMessageCell2.getSlidingOffsetX() + chatMessageCell2.getCheckBoxTranslation();
+                                        float slidingOffsetX3 = chatMessageCell2.getSlidingOffsetX() + chatMessageCell2.getCheckBoxTranslation();
+                                        if (z6 && slidingOffsetX3 > 0.0f) {
+                                            f3 = slidingOffsetX3;
                                         }
                                         if (!chatMessageCell2.drawPinnedTop()) {
-                                            slidingOffsetX = f3;
                                             top2 = top;
+                                            slidingOffsetX = f3;
                                             chatMessageCell = chatMessageCell2;
                                             break;
                                         }
                                         chatMessageCell4 = chatMessageCell2;
-                                        i10 = top;
+                                        i11 = top;
                                     }
                                 }
                                 slidingOffsetX = f3;
                                 chatMessageCell = chatMessageCell4;
-                                top2 = i10;
+                                top2 = i11;
                             }
                         }
                         if (top3 - AndroidUtilities.dp(48.0f) < top2) {

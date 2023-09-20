@@ -2968,12 +2968,22 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$updateStatus$2(View view) {
-        showSelectStatusDialog();
+        DialogStoriesCell dialogStoriesCell;
+        if (this.dialogStoriesCellVisible && (dialogStoriesCell = this.dialogStoriesCell) != null && !dialogStoriesCell.isExpanded()) {
+            scrollToTop(true, true);
+        } else {
+            showSelectStatusDialog();
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$updateStatus$3(View view) {
-        showSelectStatusDialog();
+        DialogStoriesCell dialogStoriesCell;
+        if (this.dialogStoriesCellVisible && (dialogStoriesCell = this.dialogStoriesCell) != null && !dialogStoriesCell.isExpanded()) {
+            scrollToTop(true, true);
+        } else {
+            showSelectStatusDialog();
+        }
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -6732,7 +6742,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     private void updateDialogsHint() {
-        if (this.dialogsHintCell == null || getContext() == null) {
+        if (this.dialogsHintCell == null || this.fragmentView == null || getContext() == null) {
             return;
         }
         if (!getMessagesController().getUnconfirmedAuthController().auths.isEmpty() && this.folderId == 0 && this.initialDialogsType == 0) {
