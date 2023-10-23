@@ -1,8 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_textConcat extends TLRPC$RichText {
-    public static int constructor = 2120376535;
-
     @Override // org.telegram.tgnet.TLObject
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
         int readInt32 = abstractSerializedData.readInt32(z);
@@ -24,7 +22,7 @@ public class TLRPC$TL_textConcat extends TLRPC$RichText {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(2120376535);
         abstractSerializedData.writeInt32(481674261);
         int size = this.texts.size();
         abstractSerializedData.writeInt32(size);

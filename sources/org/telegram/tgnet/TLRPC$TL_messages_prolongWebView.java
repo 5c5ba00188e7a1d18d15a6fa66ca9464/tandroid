@@ -3,7 +3,6 @@ package org.telegram.tgnet;
 import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public class TLRPC$TL_messages_prolongWebView extends TLObject {
-    public static int constructor = -1328014717;
     public TLRPC$InputUser bot;
     public int flags;
     public TLRPC$InputPeer peer;
@@ -19,7 +18,7 @@ public class TLRPC$TL_messages_prolongWebView extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-1328014717);
         int i = this.silent ? this.flags | 32 : this.flags & (-33);
         this.flags = i;
         abstractSerializedData.writeInt32(i);

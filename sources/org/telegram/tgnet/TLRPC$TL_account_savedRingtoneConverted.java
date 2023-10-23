@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_account_savedRingtoneConverted extends TLRPC$account_SavedRingtone {
-    public static int constructor = 523271863;
     public TLRPC$Document document;
 
     @Override // org.telegram.tgnet.TLObject
@@ -11,7 +10,7 @@ public class TLRPC$TL_account_savedRingtoneConverted extends TLRPC$account_Saved
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(523271863);
         this.document.serializeToStream(abstractSerializedData);
     }
 }

@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_passwordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow extends TLRPC$PasswordKdfAlgo {
-    public static int constructor = 982592842;
     public int g;
     public byte[] p;
     public byte[] salt1;
@@ -17,7 +16,7 @@ public class TLRPC$TL_passwordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA25
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(982592842);
         abstractSerializedData.writeByteArray(this.salt1);
         abstractSerializedData.writeByteArray(this.salt2);
         abstractSerializedData.writeInt32(this.g);

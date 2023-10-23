@@ -1,8 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_replyInlineMarkup extends TLRPC$ReplyMarkup {
-    public static int constructor = 1218642516;
-
     @Override // org.telegram.tgnet.TLObject
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
         int readInt32 = abstractSerializedData.readInt32(z);
@@ -24,7 +22,7 @@ public class TLRPC$TL_replyInlineMarkup extends TLRPC$ReplyMarkup {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(1218642516);
         abstractSerializedData.writeInt32(481674261);
         int size = this.rows.size();
         abstractSerializedData.writeInt32(size);

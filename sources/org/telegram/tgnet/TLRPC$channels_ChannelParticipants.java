@@ -12,8 +12,6 @@ public abstract class TLRPC$channels_ChannelParticipants extends TLObject {
         TLRPC$channels_ChannelParticipants tLRPC$channels_ChannelParticipants;
         if (i == -1699676497) {
             tLRPC$channels_ChannelParticipants = new TLRPC$channels_ChannelParticipants() { // from class: org.telegram.tgnet.TLRPC$TL_channels_channelParticipants
-                public static int constructor = -1699676497;
-
                 @Override // org.telegram.tgnet.TLObject
                 public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                     this.count = abstractSerializedData2.readInt32(z2);
@@ -66,7 +64,7 @@ public abstract class TLRPC$channels_ChannelParticipants extends TLObject {
 
                 @Override // org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                    abstractSerializedData2.writeInt32(constructor);
+                    abstractSerializedData2.writeInt32(-1699676497);
                     abstractSerializedData2.writeInt32(this.count);
                     abstractSerializedData2.writeInt32(481674261);
                     int size = this.participants.size();
@@ -90,11 +88,9 @@ public abstract class TLRPC$channels_ChannelParticipants extends TLObject {
             };
         } else {
             tLRPC$channels_ChannelParticipants = i != -266911767 ? null : new TLRPC$channels_ChannelParticipants() { // from class: org.telegram.tgnet.TLRPC$TL_channels_channelParticipantsNotModified
-                public static int constructor = -266911767;
-
                 @Override // org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                    abstractSerializedData2.writeInt32(constructor);
+                    abstractSerializedData2.writeInt32(-266911767);
                 }
             };
         }

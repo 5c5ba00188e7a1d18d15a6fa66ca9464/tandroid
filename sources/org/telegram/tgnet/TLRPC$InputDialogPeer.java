@@ -7,7 +7,6 @@ public abstract class TLRPC$InputDialogPeer extends TLObject {
             tLRPC$TL_inputDialogPeer = new TLRPC$TL_inputDialogPeer();
         } else {
             tLRPC$TL_inputDialogPeer = i != 1684014375 ? null : new TLRPC$InputDialogPeer() { // from class: org.telegram.tgnet.TLRPC$TL_inputDialogPeerFolder
-                public static int constructor = 1684014375;
                 public int folder_id;
 
                 @Override // org.telegram.tgnet.TLObject
@@ -17,7 +16,7 @@ public abstract class TLRPC$InputDialogPeer extends TLObject {
 
                 @Override // org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                    abstractSerializedData2.writeInt32(constructor);
+                    abstractSerializedData2.writeInt32(1684014375);
                     abstractSerializedData2.writeInt32(this.folder_id);
                 }
             };

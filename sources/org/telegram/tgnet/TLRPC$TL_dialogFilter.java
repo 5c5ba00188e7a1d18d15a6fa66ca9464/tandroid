@@ -3,8 +3,6 @@ package org.telegram.tgnet;
 import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public class TLRPC$TL_dialogFilter extends TLRPC$DialogFilter {
-    public static int constructor = 1949890536;
-
     @Override // org.telegram.tgnet.TLObject
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
         int readInt32 = abstractSerializedData.readInt32(z);
@@ -71,7 +69,7 @@ public class TLRPC$TL_dialogFilter extends TLRPC$DialogFilter {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(1949890536);
         int i = this.contacts ? this.flags | 1 : this.flags & (-2);
         this.flags = i;
         int i2 = this.non_contacts ? i | 2 : i & (-3);

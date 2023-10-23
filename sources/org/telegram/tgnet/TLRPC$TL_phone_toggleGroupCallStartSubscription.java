@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_phone_toggleGroupCallStartSubscription extends TLObject {
-    public static int constructor = 563885286;
     public TLRPC$TL_inputGroupCall call;
     public boolean subscribed;
 
@@ -12,7 +11,7 @@ public class TLRPC$TL_phone_toggleGroupCallStartSubscription extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(563885286);
         this.call.serializeToStream(abstractSerializedData);
         abstractSerializedData.writeBool(this.subscribed);
     }

@@ -1,13 +1,12 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_nearestDc extends TLObject {
-    public static int constructor = -1910892683;
     public String country;
     public int nearest_dc;
     public int this_dc;
 
     public static TLRPC$TL_nearestDc TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-        if (constructor != i) {
+        if (-1910892683 != i) {
             if (z) {
                 throw new RuntimeException(String.format("can't parse magic %x in TL_nearestDc", Integer.valueOf(i)));
             }
@@ -27,7 +26,7 @@ public class TLRPC$TL_nearestDc extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-1910892683);
         abstractSerializedData.writeString(this.country);
         abstractSerializedData.writeInt32(this.this_dc);
         abstractSerializedData.writeInt32(this.nearest_dc);

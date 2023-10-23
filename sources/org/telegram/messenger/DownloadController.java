@@ -417,8 +417,6 @@ public class DownloadController extends BaseController implements NotificationCe
         if (z || Math.abs(System.currentTimeMillis() - getUserConfig().autoDownloadConfigLoadTime) >= 86400000) {
             this.loadingAutoDownloadConfig = true;
             getConnectionsManager().sendRequest(new TLObject() { // from class: org.telegram.tgnet.TLRPC$TL_account_getAutoDownloadSettings
-                public static int constructor = 1457130303;
-
                 @Override // org.telegram.tgnet.TLObject
                 public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i, boolean z2) {
                     return TLRPC$TL_account_autoDownloadSettings.TLdeserialize(abstractSerializedData, i, z2);
@@ -426,7 +424,7 @@ public class DownloadController extends BaseController implements NotificationCe
 
                 @Override // org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-                    abstractSerializedData.writeInt32(constructor);
+                    abstractSerializedData.writeInt32(1457130303);
                 }
             }, new RequestDelegate() { // from class: org.telegram.messenger.DownloadController$$ExternalSyntheticLambda12
                 @Override // org.telegram.tgnet.RequestDelegate

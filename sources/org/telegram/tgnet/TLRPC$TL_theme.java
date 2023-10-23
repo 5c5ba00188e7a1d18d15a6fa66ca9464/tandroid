@@ -3,7 +3,6 @@ package org.telegram.tgnet;
 import java.util.ArrayList;
 /* loaded from: classes.dex */
 public class TLRPC$TL_theme extends TLRPC$Theme {
-    public static int constructor = -1609668650;
     public long access_hash;
     public boolean creator;
     public TLRPC$Document document;
@@ -58,7 +57,7 @@ public class TLRPC$TL_theme extends TLRPC$Theme {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-1609668650);
         int i = this.creator ? this.flags | 1 : this.flags & (-2);
         this.flags = i;
         int i2 = this.isDefault ? i | 2 : i & (-3);

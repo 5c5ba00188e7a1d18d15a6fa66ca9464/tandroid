@@ -3,7 +3,6 @@ package org.telegram.tgnet;
 import java.util.ArrayList;
 /* loaded from: classes.dex */
 public class TLRPC$TL_messages_forumTopics extends TLObject {
-    public static int constructor = 913709011;
     public int count;
     public int flags;
     public boolean order_by_create_date;
@@ -14,7 +13,7 @@ public class TLRPC$TL_messages_forumTopics extends TLObject {
     public ArrayList<TLRPC$User> users = new ArrayList<>();
 
     public static TLRPC$TL_messages_forumTopics TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-        if (constructor != i) {
+        if (913709011 != i) {
             if (z) {
                 throw new RuntimeException(String.format("can't parse magic %x in TL_messages_forumTopics", Integer.valueOf(i)));
             }
@@ -96,7 +95,7 @@ public class TLRPC$TL_messages_forumTopics extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(913709011);
         int i = this.order_by_create_date ? this.flags | 1 : this.flags & (-2);
         this.flags = i;
         abstractSerializedData.writeInt32(i);

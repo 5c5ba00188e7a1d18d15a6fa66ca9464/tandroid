@@ -34,7 +34,6 @@ public class MemberRequestsBottomSheet extends UsersAlertBase {
                     if (MemberRequestsBottomSheet.this.membersEmptyView.getVisibility() != 4) {
                         MemberRequestsBottomSheet.this.membersEmptyView.setVisibility(4);
                     }
-                    MemberRequestsBottomSheet.this.dismiss();
                 } else if (z2) {
                     MemberRequestsBottomSheet.this.searchView.searchEditText.setText("");
                 } else {
@@ -61,7 +60,7 @@ public class MemberRequestsBottomSheet extends UsersAlertBase {
         StickerEmptyView searchEmptyView = memberRequestsDelegate.getSearchEmptyView();
         this.membersSearchEmptyView = searchEmptyView;
         this.containerView.addView(searchEmptyView, indexOfChild, LayoutHelper.createFrame(-1, -1.0f));
-        memberRequestsDelegate.loadMembers();
+        memberRequestsDelegate.lambda$new$8();
     }
 
     @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog

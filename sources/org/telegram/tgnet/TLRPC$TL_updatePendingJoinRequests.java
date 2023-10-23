@@ -3,7 +3,6 @@ package org.telegram.tgnet;
 import java.util.ArrayList;
 /* loaded from: classes.dex */
 public class TLRPC$TL_updatePendingJoinRequests extends TLRPC$Update {
-    public static int constructor = 1885586395;
     public TLRPC$Peer peer;
     public ArrayList<Long> recent_requesters = new ArrayList<>();
     public int requests_pending;
@@ -27,7 +26,7 @@ public class TLRPC$TL_updatePendingJoinRequests extends TLRPC$Update {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(1885586395);
         this.peer.serializeToStream(abstractSerializedData);
         abstractSerializedData.writeInt32(this.requests_pending);
         abstractSerializedData.writeInt32(481674261);

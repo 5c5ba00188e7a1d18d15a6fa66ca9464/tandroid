@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_account_getTmpPassword extends TLObject {
-    public static int constructor = 1151208273;
     public TLRPC$InputCheckPasswordSRP password;
     public int period;
 
@@ -12,7 +11,7 @@ public class TLRPC$TL_account_getTmpPassword extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(1151208273);
         this.password.serializeToStream(abstractSerializedData);
         abstractSerializedData.writeInt32(this.period);
     }

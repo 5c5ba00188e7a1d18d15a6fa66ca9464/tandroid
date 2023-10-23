@@ -17,7 +17,6 @@ public abstract class TLRPC$MessagePeerReaction extends TLObject {
                 break;
             case -1826077446:
                 tLRPC$TL_messagePeerReaction = new TLRPC$MessagePeerReaction() { // from class: org.telegram.tgnet.TLRPC$TL_messagePeerReaction_layer137
-                    public static int constructor = -1826077446;
                     public long user_id;
 
                     @Override // org.telegram.tgnet.TLObject
@@ -33,7 +32,7 @@ public abstract class TLRPC$MessagePeerReaction extends TLObject {
 
                     @Override // org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(-1826077446);
                         abstractSerializedData2.writeInt64(this.user_id);
                         TLRPC$Reaction tLRPC$Reaction = this.reaction;
                         if (tLRPC$Reaction instanceof TLRPC$TL_reactionEmoji) {
@@ -46,8 +45,6 @@ public abstract class TLRPC$MessagePeerReaction extends TLObject {
                 break;
             case -1319698788:
                 tLRPC$TL_messagePeerReaction = new TLRPC$MessagePeerReaction() { // from class: org.telegram.tgnet.TLRPC$TL_messagePeerReaction_layer154
-                    public static int constructor = -1319698788;
-
                     @Override // org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
@@ -60,7 +57,7 @@ public abstract class TLRPC$MessagePeerReaction extends TLObject {
 
                     @Override // org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(-1319698788);
                         int i2 = this.big ? this.flags | 1 : this.flags & (-2);
                         this.flags = i2;
                         int i3 = this.unread ? i2 | 2 : i2 & (-3);
@@ -73,8 +70,6 @@ public abstract class TLRPC$MessagePeerReaction extends TLObject {
                 break;
             case 1370914559:
                 tLRPC$TL_messagePeerReaction = new TLRPC$MessagePeerReaction() { // from class: org.telegram.tgnet.TLRPC$TL_messagePeerReaction_layer144
-                    public static int constructor = 1370914559;
-
                     @Override // org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
@@ -89,7 +84,7 @@ public abstract class TLRPC$MessagePeerReaction extends TLObject {
 
                     @Override // org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(1370914559);
                         int i2 = this.big ? this.flags | 1 : this.flags & (-2);
                         this.flags = i2;
                         int i3 = this.unread ? i2 | 2 : i2 & (-3);

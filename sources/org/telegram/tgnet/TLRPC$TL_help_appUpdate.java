@@ -3,7 +3,6 @@ package org.telegram.tgnet;
 import java.util.ArrayList;
 /* loaded from: classes.dex */
 public class TLRPC$TL_help_appUpdate extends TLRPC$help_AppUpdate {
-    public static int constructor = -860107216;
     public boolean can_not_skip;
     public TLRPC$Document document;
     public ArrayList<TLRPC$MessageEntity> entities = new ArrayList<>();
@@ -50,7 +49,7 @@ public class TLRPC$TL_help_appUpdate extends TLRPC$help_AppUpdate {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-860107216);
         int i = this.can_not_skip ? this.flags | 1 : this.flags & (-2);
         this.flags = i;
         abstractSerializedData.writeInt32(i);

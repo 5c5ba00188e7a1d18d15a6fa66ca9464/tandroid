@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_jsonBool extends TLRPC$JSONValue {
-    public static int constructor = -952869270;
     public boolean value;
 
     @Override // org.telegram.tgnet.TLObject
@@ -11,7 +10,7 @@ public class TLRPC$TL_jsonBool extends TLRPC$JSONValue {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-952869270);
         abstractSerializedData.writeBool(this.value);
     }
 }

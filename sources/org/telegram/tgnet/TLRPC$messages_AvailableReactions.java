@@ -5,11 +5,9 @@ public abstract class TLRPC$messages_AvailableReactions extends TLObject {
         TLRPC$messages_AvailableReactions tLRPC$messages_AvailableReactions;
         if (i == -1626924713) {
             tLRPC$messages_AvailableReactions = new TLRPC$messages_AvailableReactions() { // from class: org.telegram.tgnet.TLRPC$TL_messages_availableReactionsNotModified
-                public static int constructor = -1626924713;
-
                 @Override // org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                    abstractSerializedData2.writeInt32(constructor);
+                    abstractSerializedData2.writeInt32(-1626924713);
                 }
             };
         } else {

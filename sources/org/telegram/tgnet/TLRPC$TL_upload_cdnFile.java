@@ -1,8 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_upload_cdnFile extends TLRPC$upload_CdnFile {
-    public static int constructor = -1449145777;
-
     @Override // org.telegram.tgnet.TLObject
     public void freeResources() {
         NativeByteBuffer nativeByteBuffer;
@@ -20,7 +18,7 @@ public class TLRPC$TL_upload_cdnFile extends TLRPC$upload_CdnFile {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-1449145777);
         abstractSerializedData.writeByteBuffer(this.bytes);
     }
 }

@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_channels_readHistory extends TLObject {
-    public static int constructor = -871347913;
     public TLRPC$InputChannel channel;
     public int max_id;
 
@@ -12,7 +11,7 @@ public class TLRPC$TL_channels_readHistory extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-871347913);
         this.channel.serializeToStream(abstractSerializedData);
         abstractSerializedData.writeInt32(this.max_id);
     }

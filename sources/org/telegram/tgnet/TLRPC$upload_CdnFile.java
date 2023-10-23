@@ -6,8 +6,6 @@ public abstract class TLRPC$upload_CdnFile extends TLObject {
 
     public static TLRPC$upload_CdnFile TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
         TLRPC$upload_CdnFile tLRPC$TL_upload_cdnFile = i != -1449145777 ? i != -290921362 ? null : new TLRPC$upload_CdnFile() { // from class: org.telegram.tgnet.TLRPC$TL_upload_cdnFileReuploadNeeded
-            public static int constructor = -290921362;
-
             @Override // org.telegram.tgnet.TLObject
             public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                 this.request_token = abstractSerializedData2.readByteArray(z2);
@@ -15,7 +13,7 @@ public abstract class TLRPC$upload_CdnFile extends TLObject {
 
             @Override // org.telegram.tgnet.TLObject
             public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                abstractSerializedData2.writeInt32(constructor);
+                abstractSerializedData2.writeInt32(-290921362);
                 abstractSerializedData2.writeByteArray(this.request_token);
             }
         } : new TLRPC$TL_upload_cdnFile();

@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.voip.VoIPService;
 import sun.misc.Unsafe;
 /* loaded from: classes.dex */
@@ -561,7 +562,7 @@ final class zzds<T> implements zzef<T> {
                     throw zzco.zzbl();
                 }
                 return zza;
-            case 26:
+            case MessageObject.TYPE_GIVEAWAY /* 26 */:
                 if (i5 == 2) {
                     int i19 = ((j & 536870912) > 0L ? 1 : ((j & 536870912) == 0L ? 0 : -1));
                     i8 = zzax.zza(bArr, i8, zzayVar);
@@ -2058,7 +2059,7 @@ final class zzds<T> implements zzef<T> {
                             zzeh.zzn(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, false);
                             continue;
                             i = i10 + 4;
-                        case 26:
+                        case MessageObject.TYPE_GIVEAWAY /* 26 */:
                             zzeh.zza(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar);
                             break;
                         case 27:
@@ -2521,7 +2522,7 @@ final class zzds<T> implements zzef<T> {
                 case 23:
                 case 24:
                 case 25:
-                case 26:
+                case MessageObject.TYPE_GIVEAWAY /* 26 */:
                 case 27:
                 case 28:
                 case 29:
@@ -2670,7 +2671,7 @@ final class zzds<T> implements zzef<T> {
                 case 23:
                 case 24:
                 case 25:
-                case 26:
+                case MessageObject.TYPE_GIVEAWAY /* 26 */:
                 case 27:
                 case 28:
                 case 29:
@@ -3092,7 +3093,7 @@ final class zzds<T> implements zzef<T> {
                             case 25:
                                 zzeh.zzn(this.zzmi[length2], (List) zzfd.zzo(t, zzag & 1048575), zzfrVar, false);
                                 break;
-                            case 26:
+                            case MessageObject.TYPE_GIVEAWAY /* 26 */:
                                 zzeh.zza(this.zzmi[length2], (List) zzfd.zzo(t, zzag & 1048575), zzfrVar);
                                 break;
                             case 27:
@@ -3494,7 +3495,7 @@ final class zzds<T> implements zzef<T> {
                             case 25:
                                 zzeh.zzn(this.zzmi[i], (List) zzfd.zzo(t, zzag2 & 1048575), zzfrVar, false);
                                 break;
-                            case 26:
+                            case MessageObject.TYPE_GIVEAWAY /* 26 */:
                                 zzeh.zza(this.zzmi[i], (List) zzfd.zzo(t, zzag2 & 1048575), zzfrVar);
                                 break;
                             case 27:
@@ -4119,7 +4120,7 @@ final class zzds<T> implements zzef<T> {
                 case 23:
                 case 24:
                 case 25:
-                case 26:
+                case MessageObject.TYPE_GIVEAWAY /* 26 */:
                 case 27:
                 case 28:
                 case 29:
@@ -4550,7 +4551,7 @@ final class zzds<T> implements zzef<T> {
                         i9 += zzw;
                         j = 0;
                         break;
-                    case 26:
+                    case MessageObject.TYPE_GIVEAWAY /* 26 */:
                         zzw = zzeh.zzc(i11, (List) unsafe.getObject(t, j3));
                         i9 += zzw;
                         j = 0;
@@ -4994,7 +4995,7 @@ final class zzds<T> implements zzef<T> {
                 case 25:
                     zzw2 = zzeh.zzx(i18, zzd(t, j4), false);
                     break;
-                case 26:
+                case MessageObject.TYPE_GIVEAWAY /* 26 */:
                     zzw2 = zzeh.zzc(i18, zzd(t, j4));
                     break;
                 case 27:

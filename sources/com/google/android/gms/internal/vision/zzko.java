@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Objects;
 import org.telegram.messenger.CharacterCompat;
 import org.telegram.messenger.LiteMode;
+import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.voip.VoIPService;
 import sun.misc.Unsafe;
 /* JADX INFO: Access modifiers changed from: package-private */
@@ -782,7 +783,7 @@ public final class zzko<T> implements zzlc<T> {
                     case 23:
                     case 24:
                     case 25:
-                    case 26:
+                    case MessageObject.TYPE_GIVEAWAY /* 26 */:
                     case 27:
                     case 28:
                     case 29:
@@ -965,7 +966,7 @@ public final class zzko<T> implements zzlc<T> {
                 case 23:
                 case 24:
                 case 25:
-                case 26:
+                case MessageObject.TYPE_GIVEAWAY /* 26 */:
                 case 27:
                 case 28:
                 case 29:
@@ -1316,7 +1317,7 @@ public final class zzko<T> implements zzlc<T> {
                 case 23:
                 case 24:
                 case 25:
-                case 26:
+                case MessageObject.TYPE_GIVEAWAY /* 26 */:
                 case 27:
                 case 28:
                 case 29:
@@ -1645,7 +1646,7 @@ public final class zzko<T> implements zzlc<T> {
                     case 25:
                         zzb3 = zzle.zzj(i8, zza(t, j2), false);
                         break;
-                    case 26:
+                    case MessageObject.TYPE_GIVEAWAY /* 26 */:
                         zzb3 = zzle.zza(i8, zza(t, j2));
                         break;
                     case 27:
@@ -2267,7 +2268,7 @@ public final class zzko<T> implements zzlc<T> {
                     i10 += 3;
                     i3 = 1048575;
                     i4 = 1;
-                case 26:
+                case MessageObject.TYPE_GIVEAWAY /* 26 */:
                     zzb2 = zzle.zza(i14, (List) unsafe2.getObject(t, j3));
                     i11 += zzb2;
                     j = 0;
@@ -2894,7 +2895,7 @@ public final class zzko<T> implements zzlc<T> {
                             case 25:
                                 zzle.zzn(this.zzc[length2], (List) zzma.zzf(t, zzd & 1048575), zzmrVar, false);
                                 break;
-                            case 26:
+                            case MessageObject.TYPE_GIVEAWAY /* 26 */:
                                 zzle.zza(this.zzc[length2], (List) zzma.zzf(t, zzd & 1048575), zzmrVar);
                                 break;
                             case 27:
@@ -3274,7 +3275,7 @@ public final class zzko<T> implements zzlc<T> {
                             case 25:
                                 zzle.zzn(this.zzc[i], (List) zzma.zzf(t, zzd2 & 1048575), zzmrVar, false);
                                 break;
-                            case 26:
+                            case MessageObject.TYPE_GIVEAWAY /* 26 */:
                                 zzle.zza(this.zzc[i], (List) zzma.zzf(t, zzd2 & 1048575), zzmrVar);
                                 break;
                             case 27:
@@ -3670,7 +3671,7 @@ public final class zzko<T> implements zzlc<T> {
                         case 25:
                             zzle.zzn(this.zzc[i], (List) unsafe.getObject(t, j), zzmrVar, false);
                             break;
-                        case 26:
+                        case MessageObject.TYPE_GIVEAWAY /* 26 */:
                             zzle.zza(this.zzc[i], (List) unsafe.getObject(t, j), zzmrVar);
                             break;
                         case 27:
@@ -4116,7 +4117,7 @@ public final class zzko<T> implements zzlc<T> {
                     }
                 }
                 return i9;
-            case 26:
+            case MessageObject.TYPE_GIVEAWAY /* 26 */:
                 if (i5 == 2) {
                     if ((j & 536870912) == 0) {
                         i9 = zzhl.zza(bArr, i9, zzhnVar);

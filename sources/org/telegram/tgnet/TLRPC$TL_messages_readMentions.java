@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_messages_readMentions extends TLObject {
-    public static int constructor = 921026381;
     public int flags;
     public TLRPC$InputPeer peer;
     public int top_msg_id;
@@ -13,7 +12,7 @@ public class TLRPC$TL_messages_readMentions extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(921026381);
         abstractSerializedData.writeInt32(this.flags);
         this.peer.serializeToStream(abstractSerializedData);
         if ((this.flags & 1) != 0) {

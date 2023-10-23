@@ -1,8 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_messageEntityPre extends TLRPC$MessageEntity {
-    public static int constructor = 1938967520;
-
     @Override // org.telegram.tgnet.TLObject
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
         this.offset = abstractSerializedData.readInt32(z);
@@ -12,7 +10,7 @@ public class TLRPC$TL_messageEntityPre extends TLRPC$MessageEntity {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(1938967520);
         abstractSerializedData.writeInt32(this.offset);
         abstractSerializedData.writeInt32(this.length);
         abstractSerializedData.writeString(this.language);

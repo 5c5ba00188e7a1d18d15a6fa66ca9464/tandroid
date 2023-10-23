@@ -2290,8 +2290,6 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
         if (z && this.waitingForEmail && this.currentPassword.has_password) {
             needShowProgress();
             ConnectionsManager.getInstance(this.currentAccount).sendRequest(new TLObject() { // from class: org.telegram.tgnet.TLRPC$TL_account_cancelPasswordEmail
-                public static int constructor = -1043606090;
-
                 @Override // org.telegram.tgnet.TLObject
                 public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i, boolean z2) {
                     return TLRPC$Bool.TLdeserialize(abstractSerializedData, i, z2);
@@ -2299,7 +2297,7 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
 
                 @Override // org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-                    abstractSerializedData.writeInt32(constructor);
+                    abstractSerializedData.writeInt32(-1043606090);
                 }
             }, new RequestDelegate() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda43
                 @Override // org.telegram.tgnet.RequestDelegate

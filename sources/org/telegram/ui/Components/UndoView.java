@@ -57,6 +57,7 @@ import org.telegram.tgnet.TLRPC$TL_payments_paymentReceipt;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.Components.Premium.boosts.BoostRepository;
 import org.telegram.ui.PaymentFormActivity;
 /* loaded from: classes4.dex */
 public class UndoView extends FrameLayout {
@@ -378,13 +379,13 @@ public class UndoView extends FrameLayout {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:602:0x17ba  */
-    /* JADX WARN: Removed duplicated region for block: B:605:0x17da  */
-    /* JADX WARN: Removed duplicated region for block: B:608:0x1801  */
-    /* JADX WARN: Removed duplicated region for block: B:612:0x1846  */
-    /* JADX WARN: Removed duplicated region for block: B:643:0x18f8  */
-    /* JADX WARN: Removed duplicated region for block: B:669:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Type inference failed for: r2v421, types: [java.lang.CharSequence] */
+    /* JADX WARN: Removed duplicated region for block: B:618:0x1856  */
+    /* JADX WARN: Removed duplicated region for block: B:621:0x1876  */
+    /* JADX WARN: Removed duplicated region for block: B:624:0x189d  */
+    /* JADX WARN: Removed duplicated region for block: B:628:0x18e2  */
+    /* JADX WARN: Removed duplicated region for block: B:659:0x1994  */
+    /* JADX WARN: Removed duplicated region for block: B:685:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Type inference failed for: r2v426, types: [java.lang.CharSequence] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1279,6 +1280,31 @@ public class UndoView extends FrameLayout {
                 layoutParams.height = -2;
                 this.avatarImageView.setVisibility(8);
                 this.undoButton.setVisibility(8);
+            } else if (i11 == 90 || i11 == 91 || i11 == 92 || i11 == 93) {
+                switch (i11) {
+                    case 90:
+                        this.infoTextView.setText(LocaleController.formatString("BoostingSelectUpToWarningChannels", R.string.BoostingSelectUpToWarningChannels, Long.valueOf(BoostRepository.giveawayAddPeersMax())));
+                        break;
+                    case 91:
+                        this.infoTextView.setText(LocaleController.getString("BoostingSelectUpToWarningUsers", R.string.BoostingSelectUpToWarningUsers));
+                        break;
+                    case 92:
+                        this.infoTextView.setText(LocaleController.formatString("BoostingSelectUpToWarningCountries", R.string.BoostingSelectUpToWarningCountries, Long.valueOf(BoostRepository.giveawayCountriesMax())));
+                        break;
+                    case 93:
+                        this.infoTextView.setText(AndroidUtilities.replaceTags(LocaleController.getString("BoostingWaitWarning", R.string.BoostingWaitWarning)));
+                        break;
+                }
+                layoutParams.leftMargin = AndroidUtilities.dp(58.0f);
+                layoutParams.rightMargin = AndroidUtilities.dp(8.0f);
+                this.infoTextView.setTextSize(1, 15.0f);
+                this.undoButton.setVisibility(8);
+                this.infoTextView.setTypeface(Typeface.DEFAULT);
+                this.subinfoTextView.setVisibility(8);
+                this.leftImageView.setVisibility(0);
+                this.leftImageView.setAnimation(R.raw.chats_infotip, 36, 36);
+                this.leftImageView.setProgress(0.0f);
+                this.leftImageView.playAnimation();
             } else if (i11 == 2 || i11 == 4) {
                 if (i == 2) {
                     this.infoTextView.setText(LocaleController.getString("ChatArchived", R.string.ChatArchived));

@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_phone_createGroupCall extends TLObject {
-    public static int constructor = 1221445336;
     public int flags;
     public TLRPC$InputPeer peer;
     public int random_id;
@@ -15,7 +14,7 @@ public class TLRPC$TL_phone_createGroupCall extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(1221445336);
         abstractSerializedData.writeInt32(this.flags);
         this.peer.serializeToStream(abstractSerializedData);
         abstractSerializedData.writeInt32(this.random_id);

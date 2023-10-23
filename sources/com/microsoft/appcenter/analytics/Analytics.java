@@ -311,8 +311,9 @@ public class Analytics extends AbstractAppCenterService {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.microsoft.appcenter.AbstractAppCenterService
-    protected synchronized void post(Runnable runnable) {
+    public synchronized void post(Runnable runnable) {
         super.post(runnable);
     }
 

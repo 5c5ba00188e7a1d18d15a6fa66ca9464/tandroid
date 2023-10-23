@@ -1,8 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_replyKeyboardMarkup extends TLRPC$ReplyMarkup {
-    public static int constructor = -2049074735;
-
     @Override // org.telegram.tgnet.TLObject
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
         int readInt32 = abstractSerializedData.readInt32(z);
@@ -33,7 +31,7 @@ public class TLRPC$TL_replyKeyboardMarkup extends TLRPC$ReplyMarkup {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-2049074735);
         int i = this.resize ? this.flags | 1 : this.flags & (-2);
         this.flags = i;
         int i2 = this.single_use ? i | 2 : i & (-3);

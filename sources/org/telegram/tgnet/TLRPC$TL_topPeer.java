@@ -1,12 +1,11 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_topPeer extends TLObject {
-    public static int constructor = -305282981;
     public TLRPC$Peer peer;
     public double rating;
 
     public static TLRPC$TL_topPeer TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-        if (constructor != i) {
+        if (-305282981 != i) {
             if (z) {
                 throw new RuntimeException(String.format("can't parse magic %x in TL_topPeer", Integer.valueOf(i)));
             }
@@ -25,7 +24,7 @@ public class TLRPC$TL_topPeer extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-305282981);
         this.peer.serializeToStream(abstractSerializedData);
         abstractSerializedData.writeDouble(this.rating);
     }

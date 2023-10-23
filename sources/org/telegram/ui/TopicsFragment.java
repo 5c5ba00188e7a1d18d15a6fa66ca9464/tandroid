@@ -207,6 +207,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
     private final AnimationNotificationsLocker notificationsLocker;
     OnTopicSelectedListener onTopicSelectedListener;
     private boolean openedForForward;
+    private boolean openedForQuote;
     private boolean opnendForSelect;
     private ActionBarMenuItem other;
     ActionBarMenuItem otherItem;
@@ -325,6 +326,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         this.chatId = j;
         this.opnendForSelect = this.arguments.getBoolean("for_select", false);
         this.openedForForward = this.arguments.getBoolean("forward_to", false);
+        this.openedForQuote = this.arguments.getBoolean("quote", false);
         this.topicsController = getMessagesController().getTopicsController();
         SharedPreferences preferences = getUserConfig().getPreferences();
         this.canShowProgress = !preferences.getBoolean("topics_end_reached_" + j, false);
@@ -417,13 +419,14 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
                 setMeasuredDimension(size, size2);
             }
 
+            /* JADX INFO: Access modifiers changed from: protected */
             /* JADX WARN: Removed duplicated region for block: B:23:0x006f  */
             /* JADX WARN: Removed duplicated region for block: B:38:0x00cf  */
             @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
             */
-            protected void onLayout(boolean z, int i2, int i3, int i4, int i5) {
+            public void onLayout(boolean z, int i2, int i3, int i4, int i5) {
                 int i6;
                 int i7;
                 int i8;
@@ -483,8 +486,9 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
                 }
             }
 
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.SizeNotifierFrameLayout
-            protected void drawList(Canvas canvas, boolean z) {
+            public void drawList(Canvas canvas, boolean z) {
                 for (int i2 = 0; i2 < TopicsFragment.this.recyclerListView.getChildCount(); i2++) {
                     View childAt = TopicsFragment.this.recyclerListView.getChildAt(i2);
                     if (childAt.getY() < AndroidUtilities.dp(100.0f) && childAt.getVisibility() == 0) {
@@ -496,8 +500,9 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
                 }
             }
 
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
-            protected void dispatchDraw(Canvas canvas) {
+            public void dispatchDraw(Canvas canvas) {
                 super.dispatchDraw(canvas);
                 if (TopicsFragment.this.isInPreviewMode()) {
                     this.actionBarPaint.setColor(TopicsFragment.this.getThemedColor(Theme.key_windowBackgroundWhite));
@@ -606,7 +611,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
             }
         };
         SpannableString spannableString = new SpannableString("#");
-        ForumUtilities.GeneralTopicDrawable createGeneralTopicDrawable = ForumUtilities.createGeneralTopicDrawable(getContext(), 0.85f, -1);
+        ForumUtilities.GeneralTopicDrawable createGeneralTopicDrawable = ForumUtilities.createGeneralTopicDrawable(getContext(), 0.85f, -1, false);
         createGeneralTopicDrawable.setBounds(0, AndroidUtilities.dp(2.0f), AndroidUtilities.dp(16.0f), AndroidUtilities.dp(18.0f));
         spannableString.setSpan(new ImageSpan(createGeneralTopicDrawable, 2), 0, 1, 33);
         PullForegroundDrawable pullForegroundDrawable = new PullForegroundDrawable(AndroidUtilities.replaceCharSequence("#", LocaleController.getString("AccSwipeForGeneral", R.string.AccSwipeForGeneral), spannableString), AndroidUtilities.replaceCharSequence("#", LocaleController.getString("AccReleaseForGeneral", R.string.AccReleaseForGeneral), spannableString)) { // from class: org.telegram.ui.TopicsFragment.6
@@ -2696,11 +2701,11 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         updateChatInfo(false);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:73:0x01ef  */
-    /* JADX WARN: Removed duplicated region for block: B:91:0x023f  */
-    /* JADX WARN: Removed duplicated region for block: B:92:0x0242  */
-    /* JADX WARN: Removed duplicated region for block: B:95:0x024e  */
-    /* JADX WARN: Removed duplicated region for block: B:96:0x0250  */
+    /* JADX WARN: Removed duplicated region for block: B:76:0x0201  */
+    /* JADX WARN: Removed duplicated region for block: B:94:0x0251  */
+    /* JADX WARN: Removed duplicated region for block: B:95:0x0254  */
+    /* JADX WARN: Removed duplicated region for block: B:98:0x0260  */
+    /* JADX WARN: Removed duplicated region for block: B:99:0x0262  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2727,7 +2732,9 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
             }
             updateSubtitle();
         } else {
-            if (this.openedForForward) {
+            if (this.openedForQuote) {
+                this.avatarContainer.setTitle(LocaleController.getString("QuoteTo", R.string.QuoteTo));
+            } else if (this.openedForForward) {
                 this.avatarContainer.setTitle(LocaleController.getString("ForwardTo", R.string.ForwardTo));
             } else {
                 this.avatarContainer.setTitle(LocaleController.getString("SelectTopic", R.string.SelectTopic));
@@ -3364,7 +3371,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
             }
             if (tLRPC$TL_forumTopic != null && tLRPC$TL_forumTopic.id == 1) {
                 setAnimatedEmojiDrawable(null);
-                setForumIcon(ForumUtilities.createGeneralTopicDrawable(getContext(), 1.0f, TopicsFragment.this.getThemedColor(Theme.key_chat_inMenu)));
+                setForumIcon(ForumUtilities.createGeneralTopicDrawable(getContext(), 1.0f, TopicsFragment.this.getThemedColor(Theme.key_chat_inMenu), false));
             } else if (tLRPC$TL_forumTopic != null && tLRPC$TL_forumTopic.icon_emoji_id != 0) {
                 setForumIcon(null);
                 AnimatedEmojiDrawable animatedEmojiDrawable = this.animatedEmojiDrawable;
@@ -3373,7 +3380,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
                 }
             } else {
                 setAnimatedEmojiDrawable(null);
-                setForumIcon(ForumUtilities.createTopicDrawable(tLRPC$TL_forumTopic));
+                setForumIcon(ForumUtilities.createTopicDrawable(tLRPC$TL_forumTopic, false));
             }
             if (tLRPC$TL_forumTopic != null && tLRPC$TL_forumTopic.hidden) {
                 z = true;

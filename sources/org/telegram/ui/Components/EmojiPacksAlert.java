@@ -142,7 +142,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static /* synthetic */ void access$6300(EmojiPacksAlert emojiPacksAlert, int i) {
+    public static /* synthetic */ void access$6400(EmojiPacksAlert emojiPacksAlert, int i) {
         emojiPacksAlert.onSubItemClick(i);
     }
 
@@ -547,7 +547,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         this.removeButtonView.setGravity(17);
         this.removeButtonView.setClickable(true);
         this.buttonsView.addView(this.removeButtonView, LayoutHelper.createFrame(-1, -1.0f, 80, 0.0f, 0.0f, 0.0f, 19.0f));
-        PremiumButtonView premiumButtonView = new PremiumButtonView(context, false);
+        PremiumButtonView premiumButtonView = new PremiumButtonView(context, false, this.resourcesProvider);
         this.premiumButtonView = premiumButtonView;
         premiumButtonView.setButton(LocaleController.getString("UnlockPremiumEmoji", R.string.UnlockPremiumEmoji), new View.OnClickListener() { // from class: org.telegram.ui.Components.EmojiPacksAlert$$ExternalSyntheticLambda1
             @Override // android.view.View.OnClickListener
@@ -1078,7 +1078,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         if (baseFragment != null) {
             new PremiumFeatureBottomSheet(baseFragment, 11, false).show();
         } else if (getContext() instanceof LaunchActivity) {
-            ((LaunchActivity) getContext()).lambda$runLinkRequest$75(new PremiumPreviewFragment(null));
+            ((LaunchActivity) getContext()).lambda$runLinkRequest$81(new PremiumPreviewFragment(null));
         }
     }
 
@@ -1870,7 +1870,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                 if (UserConfig.getInstance(((BottomSheet) EmojiPacksAlert.this).currentAccount).isPremium()) {
                     f2 = 8.0f;
                 } else {
-                    PremiumButtonView premiumButtonView = new PremiumButtonView(context, AndroidUtilities.dp(4.0f), false);
+                    PremiumButtonView premiumButtonView = new PremiumButtonView(context, AndroidUtilities.dp(4.0f), false, ((BottomSheet) EmojiPacksAlert.this).resourcesProvider);
                     this.unlockButtonView = premiumButtonView;
                     premiumButtonView.setButton(LocaleController.getString("Unlock", R.string.Unlock), new View.OnClickListener() { // from class: org.telegram.ui.Components.EmojiPacksAlert$EmojiPackHeader$$ExternalSyntheticLambda2
                         @Override // android.view.View.OnClickListener
@@ -1977,7 +1977,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                 this.optionsButton.setDelegate(new ActionBarMenuItem.ActionBarMenuItemDelegate() { // from class: org.telegram.ui.Components.EmojiPacksAlert$EmojiPackHeader$$ExternalSyntheticLambda6
                     @Override // org.telegram.ui.ActionBar.ActionBarMenuItem.ActionBarMenuItemDelegate
                     public final void onItemClick(int i2) {
-                        EmojiPacksAlert.access$6300(EmojiPacksAlert.this, i2);
+                        EmojiPacksAlert.access$6400(EmojiPacksAlert.this, i2);
                     }
                 });
                 this.optionsButton.setContentDescription(LocaleController.getString("AccDescrMoreOptions", R.string.AccDescrMoreOptions));

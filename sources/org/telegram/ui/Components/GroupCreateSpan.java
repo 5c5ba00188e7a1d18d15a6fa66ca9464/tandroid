@@ -26,6 +26,7 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserObject;
 import org.telegram.tgnet.TLRPC$Chat;
+import org.telegram.tgnet.TLRPC$TL_help_country;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes4.dex */
@@ -35,6 +36,7 @@ public class GroupCreateSpan extends View {
     private ContactsController.Contact currentContact;
     private Drawable deleteDrawable;
     private boolean deleting;
+    private boolean drawAvatarBackground;
     private ImageReceiver imageReceiver;
     private String key;
     private long lastUpdateTime;
@@ -66,16 +68,18 @@ public class GroupCreateSpan extends View {
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:27:0x00a8, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:27:0x00aa, code lost:
         if (r1.equals("non_contacts") != false) goto L11;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x022e  */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x0231  */
-    /* JADX WARN: Removed duplicated region for block: B:74:0x023b  */
-    /* JADX WARN: Removed duplicated region for block: B:77:0x024e  */
-    /* JADX WARN: Removed duplicated region for block: B:81:0x0260  */
-    /* JADX WARN: Removed duplicated region for block: B:88:0x02b2  */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x0283  */
+    /* JADX WARN: Removed duplicated region for block: B:73:0x0285  */
+    /* JADX WARN: Removed duplicated region for block: B:76:0x0292  */
+    /* JADX WARN: Removed duplicated region for block: B:77:0x0295  */
+    /* JADX WARN: Removed duplicated region for block: B:81:0x029f  */
+    /* JADX WARN: Removed duplicated region for block: B:84:0x02b1  */
+    /* JADX WARN: Removed duplicated region for block: B:88:0x02c3  */
+    /* JADX WARN: Removed duplicated region for block: B:95:0x0315  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -89,6 +93,8 @@ public class GroupCreateSpan extends View {
         StaticLayout staticLayout;
         this.rect = new RectF();
         this.colors = new int[8];
+        char c = 1;
+        this.drawAvatarBackground = true;
         this.resourcesProvider = resourcesProvider;
         this.small = z;
         this.currentContact = contact;
@@ -97,7 +103,6 @@ public class GroupCreateSpan extends View {
         AvatarDrawable avatarDrawable = new AvatarDrawable();
         this.avatarDrawable = avatarDrawable;
         avatarDrawable.setTextSize(AndroidUtilities.dp(20.0f));
-        char c = 1;
         ImageLocation imageLocation = null;
         if (obj instanceof String) {
             String str2 = (String) obj;
@@ -234,6 +239,19 @@ public class GroupCreateSpan extends View {
                 str = tLRPC$Chat.title;
                 forUserOrChat = ImageLocation.getForUserOrChat(tLRPC$Chat, 1);
                 tLRPC$User = tLRPC$Chat;
+            } else if (obj instanceof TLRPC$TL_help_country) {
+                TLRPC$TL_help_country tLRPC$TL_help_country = (TLRPC$TL_help_country) obj;
+                String languageFlag = LocaleController.getLanguageFlag(tLRPC$TL_help_country.iso2);
+                String str4 = tLRPC$TL_help_country.default_name;
+                this.avatarDrawable.setAvatarType(17);
+                this.avatarDrawable.setTextSize(AndroidUtilities.dp(24.0f));
+                this.avatarDrawable.setInfo(0L, languageFlag, null, null);
+                this.avatarDrawable.setColor(Theme.multAlpha(Theme.getColor(Theme.key_text_RedRegular, resourcesProvider), 0.7f));
+                AvatarDrawable avatarDrawable2 = this.avatarDrawable;
+                this.drawAvatarBackground = false;
+                avatarDrawable2.setDrawAvatarBackground(false);
+                this.uid = tLRPC$TL_help_country.default_name.hashCode();
+                str = str4;
             } else {
                 this.avatarDrawable.setInfo(0L, contact.first_name, contact.last_name);
                 this.uid = contact.contact_id;
@@ -248,7 +266,7 @@ public class GroupCreateSpan extends View {
             this.imageReceiver = imageReceiver;
             imageReceiver.setRoundRadius(AndroidUtilities.dp(16.0f));
             this.imageReceiver.setParentView(this);
-            this.imageReceiver.setImageCoords(0.0f, 0.0f, AndroidUtilities.dp(!z ? 28.0f : 32.0f), AndroidUtilities.dp(z ? 28.0f : 32.0f));
+            this.imageReceiver.setImageCoords(!this.drawAvatarBackground ? 0.0f : AndroidUtilities.dp(4.0f), 0.0f, AndroidUtilities.dp(!z ? 28.0f : 32.0f), AndroidUtilities.dp(z ? 28.0f : 32.0f));
             if (!AndroidUtilities.isTablet()) {
                 min = AndroidUtilities.dp(((530 - (z ? 28 : 32)) - 18) - 114) / 2;
             } else {
@@ -271,7 +289,7 @@ public class GroupCreateSpan extends View {
         this.imageReceiver = imageReceiver2;
         imageReceiver2.setRoundRadius(AndroidUtilities.dp(16.0f));
         this.imageReceiver.setParentView(this);
-        this.imageReceiver.setImageCoords(0.0f, 0.0f, AndroidUtilities.dp(!z ? 28.0f : 32.0f), AndroidUtilities.dp(z ? 28.0f : 32.0f));
+        this.imageReceiver.setImageCoords(!this.drawAvatarBackground ? 0.0f : AndroidUtilities.dp(4.0f), 0.0f, AndroidUtilities.dp(!z ? 28.0f : 32.0f), AndroidUtilities.dp(z ? 28.0f : 32.0f));
         if (!AndroidUtilities.isTablet()) {
         }
         staticLayout = new StaticLayout(TextUtils.ellipsize(Emoji.replaceEmoji(str.replace('\n', ' '), textPaint.getFontMetricsInt(), AndroidUtilities.dp(12.0f), false), textPaint, min, TextUtils.TruncateAt.END), textPaint, 1000, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);

@@ -23,32 +23,24 @@ public final /* synthetic */ class a implements BiConsumer, BiFunction, Consumer
         ((Consumer) this.c).accept(obj);
     }
 
-    @Override // j$.util.function.BiFunction
-    public BiFunction andThen(Function function) {
-        Objects.requireNonNull(function);
-        return new a(this, function);
+    @Override // j$.util.function.BiConsumer
+    public /* synthetic */ BiConsumer andThen(BiConsumer biConsumer) {
+        switch (this.a) {
+            case 0:
+                return Objects.requireNonNull(biConsumer);
+            default:
+                return Objects.requireNonNull(biConsumer);
+        }
     }
 
     @Override // j$.util.function.Consumer
     public /* synthetic */ Consumer andThen(Consumer consumer) {
-        return Objects.requireNonNull(consumer);
+        return Consumer.-CC.$default$andThen(this, consumer);
     }
 
     @Override // j$.util.function.BiFunction
     public Object apply(Object obj, Object obj2) {
         return ((Function) this.b).apply(((BiFunction) this.c).apply(obj, obj2));
-    }
-
-    @Override // j$.util.function.BiConsumer
-    public BiConsumer b(BiConsumer biConsumer) {
-        switch (this.a) {
-            case 0:
-                Objects.requireNonNull(biConsumer);
-                return new a(this, biConsumer);
-            default:
-                Objects.requireNonNull(biConsumer);
-                return new a(this, biConsumer);
-        }
     }
 
     public /* synthetic */ a(BiFunction biFunction, Function function) {
@@ -75,6 +67,12 @@ public final /* synthetic */ class a implements BiConsumer, BiFunction, Consumer
     public /* synthetic */ a(Consumer consumer, Consumer consumer2) {
         this.b = consumer;
         this.c = consumer2;
+    }
+
+    @Override // j$.util.function.BiFunction
+    public BiFunction andThen(Function function) {
+        Objects.requireNonNull(function);
+        return new a(this, function);
     }
 
     public /* synthetic */ a(ConcurrentMap concurrentMap, BiFunction biFunction) {

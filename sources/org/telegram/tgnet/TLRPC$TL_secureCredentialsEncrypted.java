@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_secureCredentialsEncrypted extends TLObject {
-    public static int constructor = 871426631;
     public byte[] data;
     public byte[] hash;
     public byte[] secret;
@@ -15,7 +14,7 @@ public class TLRPC$TL_secureCredentialsEncrypted extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(871426631);
         abstractSerializedData.writeByteArray(this.data);
         abstractSerializedData.writeByteArray(this.hash);
         abstractSerializedData.writeByteArray(this.secret);

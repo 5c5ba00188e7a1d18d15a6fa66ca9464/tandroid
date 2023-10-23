@@ -115,6 +115,7 @@ public class SharedConfig {
     private static HashMap<String, String> passportConfigMap;
     public static boolean pauseMusicOnMedia;
     public static boolean pauseMusicOnRecord;
+    public static boolean payByInvoice;
     public static TLRPC$TL_help_appUpdate pendingAppUpdate;
     public static int pendingAppUpdateBuildVersion;
     public static boolean photoViewerBlur;
@@ -136,6 +137,7 @@ public class SharedConfig {
     public static boolean readOnlyStorageDirAlertShowed;
     public static boolean recordViaSco;
     public static int repeatMode;
+    public static boolean replyingOptionsHintShown;
     public static boolean roundCamera16to9;
     public static boolean saveIncomingPhotos;
     public static boolean saveStreamMedia;
@@ -153,6 +155,7 @@ public class SharedConfig {
     public static boolean stickersReorderingHintUsed;
     public static String storageCacheDir;
     public static int storiesColumnsCount;
+    public static boolean storiesIntroShown;
     public static boolean storyReactionsLongPressHint;
     public static boolean streamAllVideo;
     public static boolean streamMedia;
@@ -256,6 +259,11 @@ public class SharedConfig {
             allowPreparingHevcPlayers = Boolean.valueOf(i2 >= 8);
         }
         return allowPreparingHevcPlayers.booleanValue();
+    }
+
+    public static void togglePaymentByInvoice() {
+        payByInvoice = !payByInvoice;
+        ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", 0).edit().putBoolean("payByInvoice", payByInvoice).apply();
     }
 
     public static void toggleSurfaceInStories() {
@@ -443,6 +451,7 @@ public class SharedConfig {
                 edit.putInt("scheduledHintShows", scheduledHintShows);
                 edit.putLong("scheduledHintSeenAt", scheduledHintSeenAt);
                 edit.putBoolean("forwardingOptionsHintShown", forwardingOptionsHintShown);
+                edit.putBoolean("replyingOptionsHintShown", replyingOptionsHintShown);
                 edit.putInt("lockRecordAudioVideoHint", lockRecordAudioVideoHint);
                 edit.putString("storageCacheDir", !TextUtils.isEmpty(storageCacheDir) ? storageCacheDir : "");
                 edit.putBoolean("proxyRotationEnabled", proxyRotationEnabled);
@@ -482,15 +491,15 @@ public class SharedConfig {
         return i;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:38:0x017e A[Catch: Exception -> 0x01a0, all -> 0x0445, TryCatch #0 {Exception -> 0x01a0, blocks: (B:22:0x012f, B:24:0x0137, B:26:0x0147, B:27:0x015b, B:38:0x017e, B:40:0x0182, B:41:0x0184, B:43:0x0188, B:45:0x018e, B:47:0x0194, B:49:0x0198, B:36:0x0178), top: B:87:0x012f, outer: #2 }] */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x0182 A[Catch: Exception -> 0x01a0, all -> 0x0445, TryCatch #0 {Exception -> 0x01a0, blocks: (B:22:0x012f, B:24:0x0137, B:26:0x0147, B:27:0x015b, B:38:0x017e, B:40:0x0182, B:41:0x0184, B:43:0x0188, B:45:0x018e, B:47:0x0194, B:49:0x0198, B:36:0x0178), top: B:87:0x012f, outer: #2 }] */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x0222  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x0225  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x0235  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x0237  */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x040b  */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x040d  */
-    /* JADX WARN: Removed duplicated region for block: B:89:0x0435 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x0184 A[Catch: Exception -> 0x01a6, all -> 0x0469, TryCatch #3 {Exception -> 0x01a6, blocks: (B:22:0x0135, B:24:0x013d, B:26:0x014d, B:27:0x0161, B:38:0x0184, B:40:0x0188, B:41:0x018a, B:43:0x018e, B:45:0x0194, B:47:0x019a, B:49:0x019e, B:36:0x017e), top: B:92:0x0135, outer: #2 }] */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x0188 A[Catch: Exception -> 0x01a6, all -> 0x0469, TryCatch #3 {Exception -> 0x01a6, blocks: (B:22:0x0135, B:24:0x013d, B:26:0x014d, B:27:0x0161, B:38:0x0184, B:40:0x0188, B:41:0x018a, B:43:0x018e, B:45:0x0194, B:47:0x019a, B:49:0x019e, B:36:0x017e), top: B:92:0x0135, outer: #2 }] */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x022c  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x022f  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x023f  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x0241  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x0427  */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x0429  */
+    /* JADX WARN: Removed duplicated region for block: B:94:0x0459 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -620,12 +629,14 @@ public class SharedConfig {
                             searchMessagesAsListUsed = sharedPreferences2.getBoolean("searchMessagesAsListUsed", false);
                             stickersReorderingHintUsed = sharedPreferences2.getBoolean("stickersReorderingHintUsed", false);
                             storyReactionsLongPressHint = sharedPreferences2.getBoolean("storyReactionsLongPressHint", false);
+                            storiesIntroShown = sharedPreferences2.getBoolean("storiesIntroShown", false);
                             textSelectionHintShows = sharedPreferences2.getInt("textSelectionHintShows", 0);
                             scheduledOrNoSoundHintShows = sharedPreferences2.getInt("scheduledOrNoSoundHintShows", 0);
                             scheduledOrNoSoundHintSeenAt = sharedPreferences2.getLong("scheduledOrNoSoundHintSeenAt", 0L);
                             scheduledHintShows = sharedPreferences2.getInt("scheduledHintShows", 0);
                             scheduledHintSeenAt = sharedPreferences2.getLong("scheduledHintSeenAt", 0L);
                             forwardingOptionsHintShown = sharedPreferences2.getBoolean("forwardingOptionsHintShown", false);
+                            replyingOptionsHintShown = sharedPreferences2.getBoolean("replyingOptionsHintShown", false);
                             lockRecordAudioVideoHint = sharedPreferences2.getInt("lockRecordAudioVideoHint", 0);
                             disableVoiceAudioEffects = sharedPreferences2.getBoolean("disableVoiceAudioEffects", false);
                             noiseSupression = sharedPreferences2.getBoolean("noiseSupression", false);
@@ -645,6 +656,7 @@ public class SharedConfig {
                             bigCameraForRound = sharedPreferences2.getBoolean("bigCameraForRound", false);
                             i = Build.VERSION.SDK_INT;
                             useSurfaceInStories = sharedPreferences2.getBoolean("useSurfaceInStories", i < 30);
+                            payByInvoice = sharedPreferences2.getBoolean("payByInvoice", false);
                             photoViewerBlur = sharedPreferences2.getBoolean("photoViewerBlur", true);
                             loadDebugConfig(sharedPreferences2);
                             showNotificationsForAllAccounts = ApplicationLoader.applicationContext.getSharedPreferences("Notifications", 0).getBoolean("AllAccounts", true);
@@ -714,12 +726,14 @@ public class SharedConfig {
                 searchMessagesAsListUsed = sharedPreferences22.getBoolean("searchMessagesAsListUsed", false);
                 stickersReorderingHintUsed = sharedPreferences22.getBoolean("stickersReorderingHintUsed", false);
                 storyReactionsLongPressHint = sharedPreferences22.getBoolean("storyReactionsLongPressHint", false);
+                storiesIntroShown = sharedPreferences22.getBoolean("storiesIntroShown", false);
                 textSelectionHintShows = sharedPreferences22.getInt("textSelectionHintShows", 0);
                 scheduledOrNoSoundHintShows = sharedPreferences22.getInt("scheduledOrNoSoundHintShows", 0);
                 scheduledOrNoSoundHintSeenAt = sharedPreferences22.getLong("scheduledOrNoSoundHintSeenAt", 0L);
                 scheduledHintShows = sharedPreferences22.getInt("scheduledHintShows", 0);
                 scheduledHintSeenAt = sharedPreferences22.getLong("scheduledHintSeenAt", 0L);
                 forwardingOptionsHintShown = sharedPreferences22.getBoolean("forwardingOptionsHintShown", false);
+                replyingOptionsHintShown = sharedPreferences22.getBoolean("replyingOptionsHintShown", false);
                 lockRecordAudioVideoHint = sharedPreferences22.getInt("lockRecordAudioVideoHint", 0);
                 disableVoiceAudioEffects = sharedPreferences22.getBoolean("disableVoiceAudioEffects", false);
                 noiseSupression = sharedPreferences22.getBoolean("noiseSupression", false);
@@ -739,6 +753,7 @@ public class SharedConfig {
                 bigCameraForRound = sharedPreferences22.getBoolean("bigCameraForRound", false);
                 i = Build.VERSION.SDK_INT;
                 useSurfaceInStories = sharedPreferences22.getBoolean("useSurfaceInStories", i < 30);
+                payByInvoice = sharedPreferences22.getBoolean("payByInvoice", false);
                 photoViewerBlur = sharedPreferences22.getBoolean("photoViewerBlur", true);
                 loadDebugConfig(sharedPreferences22);
                 showNotificationsForAllAccounts = ApplicationLoader.applicationContext.getSharedPreferences("Notifications", 0).getBoolean("AllAccounts", true);
@@ -827,7 +842,7 @@ public class SharedConfig {
     public static boolean isAppUpdateAvailable() {
         int i;
         TLRPC$TL_help_appUpdate tLRPC$TL_help_appUpdate = pendingAppUpdate;
-        if (tLRPC$TL_help_appUpdate == null || tLRPC$TL_help_appUpdate.document == null || !BuildVars.isStandaloneApp()) {
+        if (tLRPC$TL_help_appUpdate == null || tLRPC$TL_help_appUpdate.document == null || !ApplicationLoader.isStandaloneBuild()) {
             return false;
         }
         try {
@@ -960,6 +975,7 @@ public class SharedConfig {
         scheduledHintSeenAt = 0L;
         lockRecordAudioVideoHint = 0;
         forwardingOptionsHintShown = false;
+        replyingOptionsHintShown = false;
         messageSeenHintCount = 3;
         emojiInteractionsHintCount = 3;
         dayNightThemeSwitchHintCount = 3;
@@ -993,6 +1009,13 @@ public class SharedConfig {
         storyReactionsLongPressHint = z;
         SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
         edit.putBoolean("storyReactionsLongPressHint", storyReactionsLongPressHint);
+        edit.apply();
+    }
+
+    public static void setStoriesIntroShown(boolean z) {
+        storiesIntroShown = z;
+        SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
+        edit.putBoolean("storiesIntroShown", storiesIntroShown);
         edit.apply();
     }
 
@@ -1042,6 +1065,13 @@ public class SharedConfig {
         SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
         forwardingOptionsHintShown = true;
         edit.putBoolean("forwardingOptionsHintShown", true);
+        edit.apply();
+    }
+
+    public static void replyingOptionsHintHintShowed() {
+        SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
+        replyingOptionsHintShown = true;
+        edit.putBoolean("replyingOptionsHintShown", true);
         edit.apply();
     }
 

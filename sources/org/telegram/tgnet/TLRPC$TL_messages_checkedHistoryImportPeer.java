@@ -1,11 +1,10 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_messages_checkedHistoryImportPeer extends TLObject {
-    public static int constructor = -1571952873;
     public String confirm_text;
 
     public static TLRPC$TL_messages_checkedHistoryImportPeer TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-        if (constructor != i) {
+        if (-1571952873 != i) {
             if (z) {
                 throw new RuntimeException(String.format("can't parse magic %x in TL_messages_checkedHistoryImportPeer", Integer.valueOf(i)));
             }
@@ -23,7 +22,7 @@ public class TLRPC$TL_messages_checkedHistoryImportPeer extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-1571952873);
         abstractSerializedData.writeString(this.confirm_text);
     }
 }

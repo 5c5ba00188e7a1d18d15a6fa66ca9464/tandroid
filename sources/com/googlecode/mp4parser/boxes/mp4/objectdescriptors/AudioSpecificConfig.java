@@ -7,6 +7,7 @@ import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import org.telegram.messenger.MessageObject;
 @Descriptor(objectTypeIndication = 64, tags = {5})
 /* loaded from: classes.dex */
 public class AudioSpecificConfig extends BaseDescriptor {
@@ -184,7 +185,7 @@ public class AudioSpecificConfig extends BaseDescriptor {
                 throw new UnsupportedOperationException("can't parse ErrorResilientCelpSpecificConfig yet");
             case 25:
                 throw new UnsupportedOperationException("can't parse ErrorResilientHvxcSpecificConfig yet");
-            case 26:
+            case MessageObject.TYPE_GIVEAWAY /* 26 */:
             case 27:
                 parseParametricSpecificConfig(this.samplingFrequencyIndex, this.channelConfiguration, i2, bitReaderBuffer);
                 break;
@@ -222,7 +223,7 @@ public class AudioSpecificConfig extends BaseDescriptor {
                 case 23:
                 case 24:
                 case 25:
-                case 26:
+                case MessageObject.TYPE_GIVEAWAY /* 26 */:
                 case 27:
                     break;
                 default:

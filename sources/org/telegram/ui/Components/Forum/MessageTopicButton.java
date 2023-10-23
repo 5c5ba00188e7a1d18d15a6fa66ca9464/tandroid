@@ -134,7 +134,7 @@ public class MessageTopicButton {
         }
         if (tLRPC$TL_forumTopic.id == 1) {
             i3 = getThemedColor(messageObject.isOutOwner() ? Theme.key_chat_outReactionButtonText : Theme.key_chat_inReactionButtonText);
-            this.topicIconDrawable = ForumUtilities.createGeneralTopicDrawable(this.context, 0.65f, i3);
+            this.topicIconDrawable = ForumUtilities.createGeneralTopicDrawable(this.context, 0.65f, i3, false);
             f = textSize;
             i2 = dp2;
         } else {

@@ -3,7 +3,6 @@ package org.telegram.tgnet;
 import java.util.ArrayList;
 /* loaded from: classes.dex */
 public class TLRPC$TL_help_termsOfService extends TLObject {
-    public static int constructor = 2013922064;
     public ArrayList<TLRPC$MessageEntity> entities = new ArrayList<>();
     public int flags;
     public TLRPC$TL_dataJSON id;
@@ -12,7 +11,7 @@ public class TLRPC$TL_help_termsOfService extends TLObject {
     public String text;
 
     public static TLRPC$TL_help_termsOfService TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-        if (constructor != i) {
+        if (2013922064 != i) {
             if (z) {
                 throw new RuntimeException(String.format("can't parse magic %x in TL_help_termsOfService", Integer.valueOf(i)));
             }
@@ -52,7 +51,7 @@ public class TLRPC$TL_help_termsOfService extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(2013922064);
         int i = this.popup ? this.flags | 1 : this.flags & (-2);
         this.flags = i;
         abstractSerializedData.writeInt32(i);

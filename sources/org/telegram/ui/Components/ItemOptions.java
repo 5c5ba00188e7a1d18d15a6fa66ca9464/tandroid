@@ -43,6 +43,7 @@ public class ItemOptions {
     private boolean ignoreX;
     private ActionBarPopupWindow.ActionBarPopupWindowLayout lastLayout;
     private ViewGroup layout;
+    private int maxHeight;
     private int minWidthDp;
     private float offsetX;
     private float offsetY;
@@ -104,7 +105,16 @@ public class ItemOptions {
     }
 
     private void init() {
-        ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(this.context, this.resourcesProvider);
+        ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(this.context, this.resourcesProvider) { // from class: org.telegram.ui.Components.ItemOptions.1
+            /* JADX INFO: Access modifiers changed from: protected */
+            @Override // org.telegram.ui.ActionBar.ActionBarPopupWindow.ActionBarPopupWindowLayout, android.widget.FrameLayout, android.view.View
+            public void onMeasure(int i, int i2) {
+                if (this == ItemOptions.this.layout && ItemOptions.this.maxHeight > 0) {
+                    i2 = View.MeasureSpec.makeMeasureSpec(Math.min(ItemOptions.this.maxHeight, View.MeasureSpec.getSize(i2)), View.MeasureSpec.getMode(i2));
+                }
+                super.onMeasure(i, i2);
+            }
+        };
         this.lastLayout = actionBarPopupWindowLayout;
         actionBarPopupWindowLayout.setDispatchKeyEventListener(new ActionBarPopupWindow.OnDispatchKeyEventListener() { // from class: org.telegram.ui.Components.ItemOptions$$ExternalSyntheticLambda3
             @Override // org.telegram.ui.ActionBar.ActionBarPopupWindow.OnDispatchKeyEventListener
@@ -136,6 +146,10 @@ public class ItemOptions {
         return !z ? this : add(i, charSequence, Theme.key_actionBarDefaultSubmenuItemIcon, Theme.key_actionBarDefaultSubmenuItem, runnable);
     }
 
+    public ItemOptions add(CharSequence charSequence, Runnable runnable) {
+        return add(0, charSequence, false, runnable);
+    }
+
     public ItemOptions add(int i, CharSequence charSequence, Runnable runnable) {
         return add(i, charSequence, false, runnable);
     }
@@ -154,7 +168,11 @@ public class ItemOptions {
         }
         ActionBarMenuSubItem actionBarMenuSubItem = new ActionBarMenuSubItem(this.context, false, false, this.resourcesProvider);
         actionBarMenuSubItem.setPadding(AndroidUtilities.dp(18.0f), 0, AndroidUtilities.dp((LocaleController.isRTL ? 0 : 8) + 18), 0);
-        actionBarMenuSubItem.setTextAndIcon(charSequence, i);
+        if (i != 0) {
+            actionBarMenuSubItem.setTextAndIcon(charSequence, i);
+        } else {
+            actionBarMenuSubItem.setText(charSequence);
+        }
         actionBarMenuSubItem.setColors(Theme.getColor(i3, this.resourcesProvider), Theme.getColor(i2, this.resourcesProvider));
         actionBarMenuSubItem.setSelectorColor(Theme.multAlpha(Theme.getColor(i3, this.resourcesProvider), 0.12f));
         actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ItemOptions$$ExternalSyntheticLambda0
@@ -340,6 +358,11 @@ public class ItemOptions {
         return this;
     }
 
+    public ItemOptions setMaxHeight(int i) {
+        this.maxHeight = i;
+        return this;
+    }
+
     public ItemOptions setBlurBackground(BlurringShader.BlurManager blurManager, float f, float f2) {
         Drawable mutate = this.context.getResources().getDrawable(R.drawable.popup_fixed_alert2).mutate();
         ViewGroup viewGroup = this.layout;
@@ -440,7 +463,7 @@ public class ItemOptions {
                 }
                 this.layout.measure(View.MeasureSpec.makeMeasureSpec(viewGroup.getMeasuredWidth(), Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(viewGroup.getMeasuredHeight(), Integer.MIN_VALUE));
                 final ViewGroup viewGroup2 = viewGroup;
-                ActionBarPopupWindow actionBarPopupWindow = new ActionBarPopupWindow(this.layout, -2, -2) { // from class: org.telegram.ui.Components.ItemOptions.1
+                ActionBarPopupWindow actionBarPopupWindow = new ActionBarPopupWindow(this.layout, -2, -2) { // from class: org.telegram.ui.Components.ItemOptions.2
                     @Override // org.telegram.ui.ActionBar.ActionBarPopupWindow, android.widget.PopupWindow
                     public void dismiss() {
                         super.dismiss();
@@ -448,7 +471,7 @@ public class ItemOptions {
                     }
                 };
                 this.actionBarPopupWindow = actionBarPopupWindow;
-                actionBarPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() { // from class: org.telegram.ui.Components.ItemOptions.2
+                actionBarPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() { // from class: org.telegram.ui.Components.ItemOptions.3
                     @Override // android.widget.PopupWindow.OnDismissListener
                     public void onDismiss() {
                         ItemOptions.this.actionBarPopupWindow = null;
@@ -509,7 +532,7 @@ public class ItemOptions {
         }
         this.dimView = null;
         view.animate().cancel();
-        view.animate().alpha(0.0f).setDuration(150L).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ItemOptions.3
+        view.animate().alpha(0.0f).setDuration(150L).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ItemOptions.4
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationEnd(Animator animator) {
                 AndroidUtilities.removeFromParent(view);

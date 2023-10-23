@@ -1,8 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_pagePart_layer82 extends TLRPC$Page {
-    public static int constructor = -1908433218;
-
     @Override // org.telegram.tgnet.TLObject
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
         int readInt32 = abstractSerializedData.readInt32(z);
@@ -54,7 +52,7 @@ public class TLRPC$TL_pagePart_layer82 extends TLRPC$Page {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-1908433218);
         abstractSerializedData.writeInt32(481674261);
         int size = this.blocks.size();
         abstractSerializedData.writeInt32(size);

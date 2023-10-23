@@ -13,6 +13,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewPropertyAnimator;
 import android.view.accessibility.AccessibilityNodeInfo;
@@ -55,9 +56,11 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ChatActivity;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.AutoDeletePopupWrapper;
+import org.telegram.ui.Components.ChatAvatarContainer;
 import org.telegram.ui.Components.SharedMediaLayout;
 import org.telegram.ui.ProfileActivity;
 import org.telegram.ui.Stories.StoriesUtilities;
+import org.telegram.ui.Stories.StoryViewer;
 import org.telegram.ui.TopicsFragment;
 /* loaded from: classes4.dex */
 public class ChatAvatarContainer extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
@@ -160,39 +163,8 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
             this.parentFragment = (ChatActivity) baseFragment;
         }
         ChatActivity chatActivity = this.parentFragment;
-        final boolean z3 = (chatActivity == null || chatActivity.getChatMode() != 0 || UserObject.isReplyUser(this.parentFragment.getCurrentUser())) ? false : true;
-        this.avatarImageView = new BackupImageView(context) { // from class: org.telegram.ui.Components.ChatAvatarContainer.1
-            StoriesUtilities.AvatarStoryParams params = new StoriesUtilities.AvatarStoryParams(true);
-
-            @Override // android.view.View
-            public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
-                super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
-                if (z3 && getImageReceiver().hasNotThumb()) {
-                    accessibilityNodeInfo.setText(LocaleController.getString("AccDescrProfilePicture", R.string.AccDescrProfilePicture));
-                    if (Build.VERSION.SDK_INT >= 21) {
-                        accessibilityNodeInfo.addAction(new AccessibilityNodeInfo.AccessibilityAction(16, LocaleController.getString("Open", R.string.Open)));
-                        return;
-                    }
-                    return;
-                }
-                accessibilityNodeInfo.setVisibleToUser(false);
-            }
-
-            /* JADX INFO: Access modifiers changed from: protected */
-            @Override // org.telegram.ui.Components.BackupImageView, android.view.View
-            public void onDraw(Canvas canvas) {
-                if (ChatAvatarContainer.this.allowDrawStories && this.animatedEmojiDrawable == null) {
-                    this.params.originalAvatarRect.set(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight());
-                    StoriesUtilities.AvatarStoryParams avatarStoryParams = this.params;
-                    avatarStoryParams.drawSegments = true;
-                    avatarStoryParams.drawInside = true;
-                    avatarStoryParams.resourcesProvider = resourcesProvider;
-                    StoriesUtilities.drawAvatarWithStory(ChatAvatarContainer.this.parentFragment.getDialogId(), canvas, this.imageReceiver, this.params);
-                    return;
-                }
-                super.onDraw(canvas);
-            }
-        };
+        boolean z3 = (chatActivity == null || chatActivity.getChatMode() != 0 || UserObject.isReplyUser(this.parentFragment.getCurrentUser())) ? false : true;
+        this.avatarImageView = new 1(context, baseFragment, z3, resourcesProvider);
         if (z2 || (baseFragment instanceof TopicsFragment)) {
             this.sharedMediaPreloader = new SharedMediaLayout.SharedMediaPreloader(baseFragment);
             ChatActivity chatActivity2 = this.parentFragment;
@@ -289,6 +261,107 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
             }
         }
         this.emojiStatusDrawable = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(this.titleTextView, AndroidUtilities.dp(24.0f));
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: classes4.dex */
+    public class 1 extends BackupImageView {
+        StoriesUtilities.AvatarStoryParams params;
+        final /* synthetic */ boolean val$avatarClickable;
+        final /* synthetic */ BaseFragment val$baseFragment;
+        final /* synthetic */ Theme.ResourcesProvider val$resourcesProvider;
+
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        1(Context context, BaseFragment baseFragment, boolean z, Theme.ResourcesProvider resourcesProvider) {
+            super(context);
+            this.val$baseFragment = baseFragment;
+            this.val$avatarClickable = z;
+            this.val$resourcesProvider = resourcesProvider;
+            this.params = new 1(true);
+        }
+
+        /* JADX INFO: Access modifiers changed from: package-private */
+        /* loaded from: classes4.dex */
+        public class 1 extends StoriesUtilities.AvatarStoryParams {
+            1(boolean z) {
+                super(z);
+            }
+
+            @Override // org.telegram.ui.Stories.StoriesUtilities.AvatarStoryParams
+            public void openStory(long j, Runnable runnable) {
+                1.this.val$baseFragment.getOrCreateStoryViewer().open(1.this.getContext(), j, new StoryViewer.PlaceProvider() { // from class: org.telegram.ui.Components.ChatAvatarContainer$1$1$$ExternalSyntheticLambda0
+                    @Override // org.telegram.ui.Stories.StoryViewer.PlaceProvider
+                    public final boolean findView(long j2, int i, int i2, int i3, StoryViewer.TransitionViewHolder transitionViewHolder) {
+                        boolean lambda$openStory$0;
+                        lambda$openStory$0 = ChatAvatarContainer.1.1.this.lambda$openStory$0(j2, i, i2, i3, transitionViewHolder);
+                        return lambda$openStory$0;
+                    }
+
+                    @Override // org.telegram.ui.Stories.StoryViewer.PlaceProvider
+                    public /* synthetic */ void loadNext(boolean z) {
+                        StoryViewer.PlaceProvider.-CC.$default$loadNext(this, z);
+                    }
+
+                    @Override // org.telegram.ui.Stories.StoryViewer.PlaceProvider
+                    public /* synthetic */ void preLayout(long j2, int i, Runnable runnable2) {
+                        runnable2.run();
+                    }
+                });
+            }
+
+            /* JADX INFO: Access modifiers changed from: private */
+            public /* synthetic */ boolean lambda$openStory$0(long j, int i, int i2, int i3, StoryViewer.TransitionViewHolder transitionViewHolder) {
+                1 r1 = 1.this;
+                ImageReceiver imageReceiver = r1.imageReceiver;
+                transitionViewHolder.storyImage = imageReceiver;
+                transitionViewHolder.crossfadeToAvatarImage = imageReceiver;
+                transitionViewHolder.params = r1.params;
+                BackupImageView backupImageView = ChatAvatarContainer.this.avatarImageView;
+                transitionViewHolder.view = backupImageView;
+                transitionViewHolder.alpha = backupImageView.getAlpha();
+                transitionViewHolder.clipTop = 0.0f;
+                transitionViewHolder.clipBottom = AndroidUtilities.displaySize.y;
+                transitionViewHolder.clipParent = (View) 1.this.getParent();
+                return true;
+            }
+        }
+
+        @Override // android.view.View
+        public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
+            super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
+            if (this.val$avatarClickable && getImageReceiver().hasNotThumb()) {
+                accessibilityNodeInfo.setText(LocaleController.getString("AccDescrProfilePicture", R.string.AccDescrProfilePicture));
+                if (Build.VERSION.SDK_INT >= 21) {
+                    accessibilityNodeInfo.addAction(new AccessibilityNodeInfo.AccessibilityAction(16, LocaleController.getString("Open", R.string.Open)));
+                    return;
+                }
+                return;
+            }
+            accessibilityNodeInfo.setVisibleToUser(false);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        @Override // org.telegram.ui.Components.BackupImageView, android.view.View
+        public void onDraw(Canvas canvas) {
+            if (ChatAvatarContainer.this.allowDrawStories && this.animatedEmojiDrawable == null) {
+                this.params.originalAvatarRect.set(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight());
+                StoriesUtilities.AvatarStoryParams avatarStoryParams = this.params;
+                avatarStoryParams.drawSegments = true;
+                avatarStoryParams.drawInside = true;
+                avatarStoryParams.resourcesProvider = this.val$resourcesProvider;
+                StoriesUtilities.drawAvatarWithStory(ChatAvatarContainer.this.parentFragment.getDialogId(), canvas, this.imageReceiver, this.params);
+                return;
+            }
+            super.onDraw(canvas);
+        }
+
+        @Override // android.view.View
+        public boolean onTouchEvent(MotionEvent motionEvent) {
+            if (ChatAvatarContainer.this.allowDrawStories && this.params.checkOnTouchEvent(motionEvent, this)) {
+                return true;
+            }
+            return super.onTouchEvent(motionEvent);
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */

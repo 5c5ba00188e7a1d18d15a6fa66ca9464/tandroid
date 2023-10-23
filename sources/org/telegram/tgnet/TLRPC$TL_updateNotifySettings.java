@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_updateNotifySettings extends TLRPC$Update {
-    public static int constructor = -1094555409;
     public TLRPC$PeerNotifySettings notify_settings;
     public TLRPC$NotifyPeer peer;
 
@@ -13,7 +12,7 @@ public class TLRPC$TL_updateNotifySettings extends TLRPC$Update {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-1094555409);
         this.peer.serializeToStream(abstractSerializedData);
         this.notify_settings.serializeToStream(abstractSerializedData);
     }

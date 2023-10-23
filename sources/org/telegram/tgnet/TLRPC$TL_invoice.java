@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public class TLRPC$TL_invoice extends TLObject {
-    public static int constructor = 1572428309;
     public String currency;
     public boolean email_requested;
     public boolean email_to_provider;
@@ -27,8 +26,6 @@ public class TLRPC$TL_invoice extends TLObject {
             tLRPC$TL_invoice = i != 1572428309 ? null : new TLRPC$TL_invoice();
         } else {
             tLRPC$TL_invoice = new TLRPC$TL_invoice() { // from class: org.telegram.tgnet.TLRPC$TL_invoice_layer163
-                public static int constructor = 1048946971;
-
                 @Override // org.telegram.tgnet.TLRPC$TL_invoice, org.telegram.tgnet.TLObject
                 public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                     int readInt32 = abstractSerializedData2.readInt32(z2);
@@ -81,7 +78,7 @@ public class TLRPC$TL_invoice extends TLObject {
 
                 @Override // org.telegram.tgnet.TLRPC$TL_invoice, org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                    abstractSerializedData2.writeInt32(constructor);
+                    abstractSerializedData2.writeInt32(1048946971);
                     int i2 = this.test ? this.flags | 1 : this.flags & (-2);
                     this.flags = i2;
                     int i3 = this.name_requested ? i2 | 2 : i2 & (-3);
@@ -186,7 +183,7 @@ public class TLRPC$TL_invoice extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(1572428309);
         int i = this.test ? this.flags | 1 : this.flags & (-2);
         this.flags = i;
         int i2 = this.name_requested ? i | 2 : i & (-3);

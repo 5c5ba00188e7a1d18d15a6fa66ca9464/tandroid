@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_messages_setChatAvailableReactions extends TLObject {
-    public static int constructor = -21928079;
     public TLRPC$ChatReactions available_reactions;
     public TLRPC$InputPeer peer;
 
@@ -12,7 +11,7 @@ public class TLRPC$TL_messages_setChatAvailableReactions extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-21928079);
         this.peer.serializeToStream(abstractSerializedData);
         this.available_reactions.serializeToStream(abstractSerializedData);
     }

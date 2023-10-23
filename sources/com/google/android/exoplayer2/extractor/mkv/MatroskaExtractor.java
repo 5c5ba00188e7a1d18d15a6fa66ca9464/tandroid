@@ -41,7 +41,7 @@ import java.util.Map;
 import java.util.UUID;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.MediaController;
-import org.telegram.messenger.MessagesStorage;
+import org.telegram.messenger.MessageObject;
 /* loaded from: classes.dex */
 public class MatroskaExtractor implements Extractor {
     private static final byte[] SSA_DIALOGUE_FORMAT;
@@ -147,7 +147,7 @@ public class MatroskaExtractor implements Extractor {
             case 2352003:
             case 2807729:
                 return 2;
-            case MessagesStorage.LAST_DB_VERSION /* 134 */:
+            case 134:
             case 17026:
             case 21358:
             case 2274716:
@@ -1570,7 +1570,7 @@ public class MatroskaExtractor implements Extractor {
             case 23:
             case 24:
             case 25:
-            case 26:
+            case MessageObject.TYPE_GIVEAWAY /* 26 */:
             case 27:
             case 28:
             case 29:
@@ -2170,7 +2170,7 @@ public class MatroskaExtractor implements Extractor {
                     i2 = -1;
                     i3 = -1;
                     break;
-                case 26:
+                case MessageObject.TYPE_GIVEAWAY /* 26 */:
                     HevcConfig parse3 = HevcConfig.parse(new ParsableByteArray(getCodecPrivate(this.codecId)));
                     list = parse3.initializationData;
                     this.nalUnitLengthFieldLength = parse3.nalUnitLengthFieldLength;

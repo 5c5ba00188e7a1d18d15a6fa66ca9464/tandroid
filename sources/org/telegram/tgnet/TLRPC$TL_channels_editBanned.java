@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_channels_editBanned extends TLObject {
-    public static int constructor = -1763259007;
     public TLRPC$TL_chatBannedRights banned_rights;
     public TLRPC$InputChannel channel;
     public TLRPC$InputPeer participant;
@@ -13,7 +12,7 @@ public class TLRPC$TL_channels_editBanned extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-1763259007);
         this.channel.serializeToStream(abstractSerializedData);
         this.participant.serializeToStream(abstractSerializedData);
         this.banned_rights.serializeToStream(abstractSerializedData);

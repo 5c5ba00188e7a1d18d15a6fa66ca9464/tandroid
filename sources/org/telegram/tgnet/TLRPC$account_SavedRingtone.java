@@ -3,11 +3,9 @@ package org.telegram.tgnet;
 public abstract class TLRPC$account_SavedRingtone extends TLObject {
     public static TLRPC$account_SavedRingtone TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
         TLRPC$account_SavedRingtone tLRPC$TL_account_savedRingtoneConverted = i != -1222230163 ? i != 523271863 ? null : new TLRPC$TL_account_savedRingtoneConverted() : new TLRPC$account_SavedRingtone() { // from class: org.telegram.tgnet.TLRPC$TL_account_savedRingtone
-            public static int constructor = -1222230163;
-
             @Override // org.telegram.tgnet.TLObject
             public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                abstractSerializedData2.writeInt32(constructor);
+                abstractSerializedData2.writeInt32(-1222230163);
             }
         };
         if (tLRPC$TL_account_savedRingtoneConverted == null && z) {

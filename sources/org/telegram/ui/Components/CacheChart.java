@@ -726,7 +726,7 @@ public class CacheChart extends View {
                     Arrays.sort(segmentSizeArr2, CacheChart$$ExternalSyntheticLambda0.INSTANCE);
                     int i7 = 0;
                     while (true) {
-                        if (i7 >= segmentSizeArr2.length - 1) {
+                        if (i7 > segmentSizeArr2.length) {
                             break;
                         } else if (segmentSizeArr2[i7].index == segmentSizeArr2.length - 1) {
                             SegmentSize segmentSize = segmentSizeArr2[0];

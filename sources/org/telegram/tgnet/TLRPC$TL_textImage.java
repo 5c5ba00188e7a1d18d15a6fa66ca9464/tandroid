@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_textImage extends TLRPC$RichText {
-    public static int constructor = 136105807;
     public long document_id;
     public int h;
     public int w;
@@ -15,7 +14,7 @@ public class TLRPC$TL_textImage extends TLRPC$RichText {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(136105807);
         abstractSerializedData.writeInt64(this.document_id);
         abstractSerializedData.writeInt32(this.w);
         abstractSerializedData.writeInt32(this.h);

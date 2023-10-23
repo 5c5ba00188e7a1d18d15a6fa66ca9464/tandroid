@@ -508,7 +508,8 @@ public abstract class BaseFragment {
         }
         StoryViewer storyViewer = this.storyViewer;
         if (storyViewer != null) {
-            storyViewer.updatePlayingMode();
+            storyViewer.onPause();
+            this.storyViewer.updatePlayingMode();
         }
         StoryViewer storyViewer2 = this.overlayStoryViewer;
         if (storyViewer2 != null) {
@@ -828,8 +829,10 @@ public abstract class BaseFragment {
                 return lambda$showAsSheet$1;
             }
         })};
+        iNavigationLayoutArr[0].setIsSheet(true);
         LaunchActivity.instance.sheetFragmentsStack.add(iNavigationLayoutArr[0]);
-        final BottomSheet[] bottomSheetArr = {new 1(this, getParentActivity(), true, baseFragment.getResourceProvider(), iNavigationLayoutArr, baseFragment, bottomSheetParams)};
+        baseFragment.onTransitionAnimationStart(true, false);
+        final BottomSheet[] bottomSheetArr = {new 1(this, getParentActivity(), true, baseFragment.getResourceProvider(), iNavigationLayoutArr, baseFragment, bottomSheetParams, bottomSheetArr)};
         if (bottomSheetParams != null) {
             bottomSheetArr[0].setAllowNestedScroll(bottomSheetParams.allowNestedScroll);
             bottomSheetArr[0].transitionFromRight(bottomSheetParams.transitionFromLeft);
@@ -848,6 +851,7 @@ public abstract class BaseFragment {
     /* loaded from: classes3.dex */
     public class 1 extends BottomSheet {
         final /* synthetic */ INavigationLayout[] val$actionBarLayout;
+        final /* synthetic */ BottomSheet[] val$bottomSheet;
         final /* synthetic */ BaseFragment val$fragment;
         final /* synthetic */ BottomSheetParams val$params;
 
@@ -857,15 +861,15 @@ public abstract class BaseFragment {
         }
 
         /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        1(BaseFragment baseFragment, Context context, boolean z, Theme.ResourcesProvider resourcesProvider, INavigationLayout[] iNavigationLayoutArr, final BaseFragment baseFragment2, final BottomSheetParams bottomSheetParams) {
+        1(BaseFragment baseFragment, Context context, boolean z, Theme.ResourcesProvider resourcesProvider, INavigationLayout[] iNavigationLayoutArr, final BaseFragment baseFragment2, final BottomSheetParams bottomSheetParams, BottomSheet[] bottomSheetArr) {
             super(context, z, resourcesProvider);
             this.val$actionBarLayout = iNavigationLayoutArr;
             this.val$fragment = baseFragment2;
             this.val$params = bottomSheetParams;
+            this.val$bottomSheet = bottomSheetArr;
             this.drawNavigationBar = true;
             iNavigationLayoutArr[0].setFragmentStack(new ArrayList());
             iNavigationLayoutArr[0].addFragmentToStack(baseFragment2);
-            iNavigationLayoutArr[0].setIsSheet(true);
             iNavigationLayoutArr[0].showLastFragment();
             ViewGroup view = iNavigationLayoutArr[0].getView();
             int i = this.backgroundPaddingLeft;
@@ -894,8 +898,20 @@ public abstract class BaseFragment {
         @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog
         protected void onCreate(Bundle bundle) {
             super.onCreate(bundle);
+            this.val$actionBarLayout[0].setWindow(this.val$bottomSheet[0].getWindow());
             fixNavigationBar(Theme.getColor(Theme.key_dialogBackgroundGray, this.val$fragment.getResourceProvider()));
             AndroidUtilities.setLightStatusBar(getWindow(), this.val$fragment.isLightStatusBar());
+        }
+
+        @Override // org.telegram.ui.ActionBar.BottomSheet
+        protected boolean canSwipeToBack() {
+            if (this.val$params.transitionFromLeft) {
+                INavigationLayout[] iNavigationLayoutArr = this.val$actionBarLayout;
+                if (iNavigationLayoutArr[0] != null && iNavigationLayoutArr[0].getFragmentStack().size() <= 1) {
+                    return true;
+                }
+            }
+            return false;
         }
 
         @Override // android.app.Dialog
@@ -923,11 +939,24 @@ public abstract class BaseFragment {
         @Override // org.telegram.ui.ActionBar.BottomSheet
         public void onOpenAnimationEnd() {
             Runnable runnable;
+            this.val$fragment.onTransitionAnimationEnd(true, false);
             BottomSheetParams bottomSheetParams = this.val$params;
             if (bottomSheetParams == null || (runnable = bottomSheetParams.onOpenAnimationFinished) == null) {
                 return;
             }
             runnable.run();
+        }
+
+        @Override // org.telegram.ui.ActionBar.BottomSheet
+        protected void onInsetsChanged() {
+            INavigationLayout[] iNavigationLayoutArr = this.val$actionBarLayout;
+            if (iNavigationLayoutArr[0] != null) {
+                for (BaseFragment baseFragment : iNavigationLayoutArr[0].getFragmentStack()) {
+                    if (baseFragment.getFragmentView() != null) {
+                        baseFragment.getFragmentView().requestLayout();
+                    }
+                }
+            }
         }
     }
 
@@ -1067,7 +1096,8 @@ public abstract class BaseFragment {
     public StoryViewer getOrCreateStoryViewer() {
         if (this.storyViewer == null) {
             this.storyViewer = new StoryViewer(this);
-            if (this.parentLayout.isSheet()) {
+            INavigationLayout iNavigationLayout = this.parentLayout;
+            if (iNavigationLayout != null && iNavigationLayout.isSheet()) {
                 this.storyViewer.fromBottomSheet = true;
             }
         }

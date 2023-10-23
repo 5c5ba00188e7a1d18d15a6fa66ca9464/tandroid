@@ -7,7 +7,6 @@ public abstract class TLRPC$messages_FeaturedStickers extends TLObject {
             tLRPC$TL_messages_featuredStickers = new TLRPC$TL_messages_featuredStickers();
         } else {
             tLRPC$TL_messages_featuredStickers = i != -958657434 ? null : new TLRPC$messages_FeaturedStickers() { // from class: org.telegram.tgnet.TLRPC$TL_messages_featuredStickersNotModified
-                public static int constructor = -958657434;
                 public int count;
 
                 @Override // org.telegram.tgnet.TLObject
@@ -17,7 +16,7 @@ public abstract class TLRPC$messages_FeaturedStickers extends TLObject {
 
                 @Override // org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                    abstractSerializedData2.writeInt32(constructor);
+                    abstractSerializedData2.writeInt32(-958657434);
                     abstractSerializedData2.writeInt32(this.count);
                 }
             };

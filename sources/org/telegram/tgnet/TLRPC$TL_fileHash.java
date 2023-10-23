@@ -1,13 +1,12 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_fileHash extends TLObject {
-    public static int constructor = -207944868;
     public byte[] hash;
     public int limit;
     public long offset;
 
     public static TLRPC$TL_fileHash TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-        if (constructor != i) {
+        if (-207944868 != i) {
             if (z) {
                 throw new RuntimeException(String.format("can't parse magic %x in TL_fileHash", Integer.valueOf(i)));
             }
@@ -27,7 +26,7 @@ public class TLRPC$TL_fileHash extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-207944868);
         abstractSerializedData.writeInt64(this.offset);
         abstractSerializedData.writeInt32(this.limit);
         abstractSerializedData.writeByteArray(this.hash);

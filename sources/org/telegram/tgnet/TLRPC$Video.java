@@ -21,8 +21,6 @@ public abstract class TLRPC$Video extends TLObject {
         switch (i) {
             case -1056548696:
                 tLRPC$Video = new TLRPC$Video() { // from class: org.telegram.tgnet.TLRPC$TL_videoEmpty_layer45
-                    public static int constructor = -1056548696;
-
                     @Override // org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         this.id = abstractSerializedData2.readInt64(z2);
@@ -30,15 +28,13 @@ public abstract class TLRPC$Video extends TLObject {
 
                     @Override // org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(-1056548696);
                         abstractSerializedData2.writeInt64(this.id);
                     }
                 };
                 break;
             case -291550643:
                 tLRPC$Video = new TLRPC$TL_video_layer45() { // from class: org.telegram.tgnet.TLRPC$TL_video_old3
-                    public static int constructor = -291550643;
-
                     @Override // org.telegram.tgnet.TLRPC$TL_video_layer45, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         this.id = abstractSerializedData2.readInt64(z2);
@@ -55,7 +51,7 @@ public abstract class TLRPC$Video extends TLObject {
 
                     @Override // org.telegram.tgnet.TLRPC$TL_video_layer45, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(-291550643);
                         abstractSerializedData2.writeInt64(this.id);
                         abstractSerializedData2.writeInt64(this.access_hash);
                         abstractSerializedData2.writeInt32((int) this.user_id);
@@ -74,8 +70,6 @@ public abstract class TLRPC$Video extends TLObject {
                 break;
             case 948937617:
                 tLRPC$Video = new TLRPC$TL_video_layer45() { // from class: org.telegram.tgnet.TLRPC$TL_video_old2
-                    public static int constructor = 948937617;
-
                     @Override // org.telegram.tgnet.TLRPC$TL_video_layer45, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         this.id = abstractSerializedData2.readInt64(z2);
@@ -94,7 +88,7 @@ public abstract class TLRPC$Video extends TLObject {
 
                     @Override // org.telegram.tgnet.TLRPC$TL_video_layer45, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(948937617);
                         abstractSerializedData2.writeInt64(this.id);
                         abstractSerializedData2.writeInt64(this.access_hash);
                         abstractSerializedData2.writeInt32((int) this.user_id);
@@ -112,8 +106,6 @@ public abstract class TLRPC$Video extends TLObject {
                 break;
             case 1431655763:
                 tLRPC$Video = new TLRPC$TL_video_layer45() { // from class: org.telegram.tgnet.TLRPC$TL_videoEncrypted
-                    public static int constructor = 1431655763;
-
                     @Override // org.telegram.tgnet.TLRPC$TL_video_layer45, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         this.id = abstractSerializedData2.readInt64(z2);
@@ -133,7 +125,7 @@ public abstract class TLRPC$Video extends TLObject {
 
                     @Override // org.telegram.tgnet.TLRPC$TL_video_layer45, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(1431655763);
                         abstractSerializedData2.writeInt64(this.id);
                         abstractSerializedData2.writeInt64(this.access_hash);
                         abstractSerializedData2.writeInt32((int) this.user_id);
@@ -152,8 +144,6 @@ public abstract class TLRPC$Video extends TLObject {
                 break;
             case 1510253727:
                 tLRPC$Video = new TLRPC$TL_video_layer45() { // from class: org.telegram.tgnet.TLRPC$TL_video_old
-                    public static int constructor = 1510253727;
-
                     @Override // org.telegram.tgnet.TLRPC$TL_video_layer45, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         this.id = abstractSerializedData2.readInt64(z2);
@@ -171,7 +161,7 @@ public abstract class TLRPC$Video extends TLObject {
 
                     @Override // org.telegram.tgnet.TLRPC$TL_video_layer45, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(1510253727);
                         abstractSerializedData2.writeInt64(this.id);
                         abstractSerializedData2.writeInt64(this.access_hash);
                         abstractSerializedData2.writeInt32((int) this.user_id);

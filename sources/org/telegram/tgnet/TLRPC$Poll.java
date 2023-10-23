@@ -20,8 +20,6 @@ public abstract class TLRPC$Poll extends TLObject {
             tLRPC$TL_poll = new TLRPC$TL_poll();
         } else if (i == -1351325818) {
             tLRPC$TL_poll = new TLRPC$TL_poll() { // from class: org.telegram.tgnet.TLRPC$TL_poll_toDelete
-                public static int constructor = -1351325818;
-
                 @Override // org.telegram.tgnet.TLRPC$TL_poll, org.telegram.tgnet.TLObject
                 public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                     this.id = abstractSerializedData2.readInt64(z2);
@@ -54,7 +52,7 @@ public abstract class TLRPC$Poll extends TLObject {
 
                 @Override // org.telegram.tgnet.TLRPC$TL_poll, org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                    abstractSerializedData2.writeInt32(constructor);
+                    abstractSerializedData2.writeInt32(-1351325818);
                     abstractSerializedData2.writeInt64(this.id);
                     int i2 = this.closed ? this.flags | 1 : this.flags & (-2);
                     this.flags = i2;
@@ -79,8 +77,6 @@ public abstract class TLRPC$Poll extends TLObject {
             };
         } else {
             tLRPC$TL_poll = i != -716006138 ? null : new TLRPC$TL_poll() { // from class: org.telegram.tgnet.TLRPC$TL_poll_layer111
-                public static int constructor = -716006138;
-
                 @Override // org.telegram.tgnet.TLRPC$TL_poll, org.telegram.tgnet.TLObject
                 public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                     this.id = abstractSerializedData2.readInt64(z2);
@@ -110,7 +106,7 @@ public abstract class TLRPC$Poll extends TLObject {
 
                 @Override // org.telegram.tgnet.TLRPC$TL_poll, org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                    abstractSerializedData2.writeInt32(constructor);
+                    abstractSerializedData2.writeInt32(-716006138);
                     abstractSerializedData2.writeInt64(this.id);
                     int i2 = this.closed ? this.flags | 1 : this.flags & (-2);
                     this.flags = i2;

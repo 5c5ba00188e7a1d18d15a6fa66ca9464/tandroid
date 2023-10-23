@@ -25,8 +25,6 @@ public abstract class TLRPC$Dialog extends TLObject {
         TLRPC$Dialog tLRPC$Dialog;
         if (i == -1460809483) {
             tLRPC$Dialog = new TLRPC$TL_dialog() { // from class: org.telegram.tgnet.TLRPC$TL_dialog_layer149
-                public static int constructor = -1460809483;
-
                 @Override // org.telegram.tgnet.TLRPC$TL_dialog, org.telegram.tgnet.TLObject
                 public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                     int readInt32 = abstractSerializedData2.readInt32(z2);
@@ -57,7 +55,7 @@ public abstract class TLRPC$Dialog extends TLObject {
 
                 @Override // org.telegram.tgnet.TLRPC$TL_dialog, org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                    abstractSerializedData2.writeInt32(constructor);
+                    abstractSerializedData2.writeInt32(-1460809483);
                     int i2 = this.pinned ? this.flags | 4 : this.flags & (-5);
                     this.flags = i2;
                     int i3 = this.unread_mark ? i2 | 8 : i2 & (-9);

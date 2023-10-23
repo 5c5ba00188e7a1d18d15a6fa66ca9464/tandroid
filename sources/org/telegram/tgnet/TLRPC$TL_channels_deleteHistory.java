@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_channels_deleteHistory extends TLObject {
-    public static int constructor = -1683319225;
     public TLRPC$InputChannel channel;
     public int flags;
     public boolean for_everyone;
@@ -14,7 +13,7 @@ public class TLRPC$TL_channels_deleteHistory extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-1683319225);
         int i = this.for_everyone ? this.flags | 1 : this.flags & (-2);
         this.flags = i;
         abstractSerializedData.writeInt32(i);

@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_updateReadHistoryOutbox extends TLRPC$Update {
-    public static int constructor = 791617983;
     public int max_id;
     public TLRPC$Peer peer;
     public int pts;
@@ -17,7 +16,7 @@ public class TLRPC$TL_updateReadHistoryOutbox extends TLRPC$Update {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(791617983);
         this.peer.serializeToStream(abstractSerializedData);
         abstractSerializedData.writeInt32(this.max_id);
         abstractSerializedData.writeInt32(this.pts);

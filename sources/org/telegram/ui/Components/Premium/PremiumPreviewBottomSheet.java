@@ -211,7 +211,7 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView i
     public void onViewCreated(FrameLayout frameLayout) {
         super.onViewCreated(frameLayout);
         this.currentAccount = UserConfig.selectedAccount;
-        PremiumButtonView premiumButtonView = new PremiumButtonView(getContext(), false);
+        PremiumButtonView premiumButtonView = new PremiumButtonView(getContext(), false, this.resourcesProvider);
         premiumButtonView.setButton(PremiumPreviewFragment.getPremiumButtonText(this.currentAccount, null), new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet$$ExternalSyntheticLambda3
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
@@ -407,10 +407,13 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView i
                 this.subtitleView.setText(AndroidUtilities.replaceTags(LocaleController.getString(R.string.TelegramPremiumUserGiftedPremiumDialogSubtitle)));
                 return;
             }
-            LinkSpanDrawable.LinksTextView linksTextView3 = linksTextViewArr[0];
-            int i8 = R.string.TelegramPremiumUserDialogTitle;
             TLRPC$User tLRPC$User8 = this.user;
-            linksTextView3.setText(AndroidUtilities.replaceSingleTag(LocaleController.formatString(i8, ContactsController.formatName(tLRPC$User8.first_name, tLRPC$User8.last_name)), Theme.key_windowBackgroundWhiteBlueButton, 0, null));
+            if (tLRPC$User8 == null) {
+                linksTextViewArr[0].setText(LocaleController.getString(R.string.TelegramPremium));
+                this.subtitleView.setText(AndroidUtilities.replaceTags(LocaleController.getString(R.string.TelegramPremiumSubscribedSubtitle)));
+                return;
+            }
+            linksTextViewArr[0].setText(AndroidUtilities.replaceSingleTag(LocaleController.formatString(R.string.TelegramPremiumUserDialogTitle, ContactsController.formatName(tLRPC$User8.first_name, tLRPC$User8.last_name)), Theme.key_windowBackgroundWhiteBlueButton, 0, null));
             this.subtitleView.setText(AndroidUtilities.replaceTags(LocaleController.getString(R.string.TelegramPremiumUserDialogSubtitle)));
         }
     }
@@ -650,7 +653,7 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView i
                     }
                 };
             } else if (i != 4) {
-                view = new PremiumFeatureCell(context) { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet.Adapter.6
+                view = new PremiumFeatureCell(context, ((BottomSheet) PremiumPreviewBottomSheet.this).resourcesProvider) { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet.Adapter.6
                     /* JADX INFO: Access modifiers changed from: protected */
                     @Override // org.telegram.ui.PremiumFeatureCell, android.view.ViewGroup, android.view.View
                     public void dispatchDraw(Canvas canvas2) {

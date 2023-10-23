@@ -3,7 +3,6 @@ package org.telegram.tgnet;
 import java.util.ArrayList;
 /* loaded from: classes.dex */
 public class TLRPC$TL_updateGroupCallParticipants extends TLRPC$Update {
-    public static int constructor = -219423922;
     public TLRPC$TL_inputGroupCall call;
     public ArrayList<TLRPC$TL_groupCallParticipant> participants = new ArrayList<>();
     public int version;
@@ -31,7 +30,7 @@ public class TLRPC$TL_updateGroupCallParticipants extends TLRPC$Update {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-219423922);
         this.call.serializeToStream(abstractSerializedData);
         abstractSerializedData.writeInt32(481674261);
         int size = this.participants.size();

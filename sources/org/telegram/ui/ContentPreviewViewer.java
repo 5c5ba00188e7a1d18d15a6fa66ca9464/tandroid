@@ -279,8 +279,6 @@ public class ContentPreviewViewer {
                     ArrayList arrayList = new ArrayList();
                     ArrayList arrayList2 = new ArrayList();
                     ArrayList arrayList3 = new ArrayList();
-                    ContentPreviewViewer.this.menuVisible = true;
-                    ContentPreviewViewer.this.containerView.invalidate();
                     if (ContentPreviewViewer.this.delegate != null) {
                         if (ContentPreviewViewer.this.delegate.needSend(ContentPreviewViewer.this.currentContentType) && !ContentPreviewViewer.this.delegate.isInScheduleMode()) {
                             arrayList.add(LocaleController.getString("SendStickerPreview", R.string.SendStickerPreview));
@@ -321,6 +319,8 @@ public class ContentPreviewViewer {
                     if (arrayList.isEmpty()) {
                         return;
                     }
+                    ContentPreviewViewer.this.menuVisible = true;
+                    ContentPreviewViewer.this.containerView.invalidate();
                     int[] iArr = new int[arrayList3.size()];
                     for (int i9 = 0; i9 < arrayList3.size(); i9++) {
                         iArr[i9] = ((Integer) arrayList3.get(i9)).intValue();
@@ -380,8 +380,6 @@ public class ContentPreviewViewer {
                 ContentPreviewViewer.this.containerView.performHapticFeedback(0);
             } else if (ContentPreviewViewer.this.currentContentType != 2 || ContentPreviewViewer.this.delegate == null) {
                 if (ContentPreviewViewer.this.delegate != null) {
-                    ContentPreviewViewer.this.menuVisible = true;
-                    ContentPreviewViewer.this.containerView.invalidate();
                     ArrayList arrayList4 = new ArrayList();
                     final ArrayList arrayList5 = new ArrayList();
                     ArrayList arrayList6 = new ArrayList();
@@ -417,6 +415,8 @@ public class ContentPreviewViewer {
                     if (arrayList4.isEmpty()) {
                         return;
                     }
+                    ContentPreviewViewer.this.menuVisible = true;
+                    ContentPreviewViewer.this.containerView.invalidate();
                     int[] iArr2 = new int[arrayList6.size()];
                     for (int i11 = 0; i11 < arrayList6.size(); i11++) {
                         iArr2[i11] = ((Integer) arrayList6.get(i11)).intValue();
@@ -495,8 +495,6 @@ public class ContentPreviewViewer {
                     }
                 }
             } else {
-                ContentPreviewViewer.this.menuVisible = true;
-                ContentPreviewViewer.this.containerView.invalidate();
                 ArrayList arrayList7 = new ArrayList();
                 final ArrayList arrayList8 = new ArrayList();
                 ArrayList arrayList9 = new ArrayList();
@@ -536,6 +534,8 @@ public class ContentPreviewViewer {
                 if (arrayList7.isEmpty()) {
                     return;
                 }
+                ContentPreviewViewer.this.menuVisible = true;
+                ContentPreviewViewer.this.containerView.invalidate();
                 int[] iArr3 = new int[arrayList9.size()];
                 for (int i14 = 0; i14 < arrayList9.size(); i14++) {
                     iArr3[i14] = ((Integer) arrayList9.get(i14)).intValue();
@@ -789,7 +789,7 @@ public class ContentPreviewViewer {
             if (launchActivity.getActionBarLayout() != null && launchActivity.getActionBarLayout().getLastFragment() != null) {
                 launchActivity.getActionBarLayout().getLastFragment().dismissCurrentDialog();
             }
-            launchActivity.lambda$runLinkRequest$75(new PremiumPreviewFragment(PremiumPreviewFragment.featureTypeToServerString(5)));
+            launchActivity.lambda$runLinkRequest$81(new PremiumPreviewFragment(PremiumPreviewFragment.featureTypeToServerString(5)));
         }
         this.menuVisible = false;
         this.containerView.invalidate();

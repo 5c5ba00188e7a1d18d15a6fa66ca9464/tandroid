@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_decryptedMessageMediaVideo extends TLRPC$DecryptedMessageMedia {
-    public static int constructor = -1760785394;
     public byte[] thumb;
 
     @Override // org.telegram.tgnet.TLObject
@@ -21,7 +20,7 @@ public class TLRPC$TL_decryptedMessageMediaVideo extends TLRPC$DecryptedMessageM
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-1760785394);
         abstractSerializedData.writeByteArray(this.thumb);
         abstractSerializedData.writeInt32(this.thumb_w);
         abstractSerializedData.writeInt32(this.thumb_h);

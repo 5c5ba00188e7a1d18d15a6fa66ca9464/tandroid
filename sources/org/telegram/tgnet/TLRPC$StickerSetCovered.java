@@ -12,8 +12,6 @@ public abstract class TLRPC$StickerSetCovered extends TLObject {
         switch (i) {
             case 451763941:
                 tLRPC$StickerSetCovered = new TLRPC$TL_stickerSetFullCovered() { // from class: org.telegram.tgnet.TLRPC$TL_stickerSetFullCovered_layer146
-                    public static int constructor = 451763941;
-
                     @Override // org.telegram.tgnet.TLRPC$TL_stickerSetFullCovered, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         this.set = TLRPC$StickerSet.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
@@ -51,7 +49,7 @@ public abstract class TLRPC$StickerSetCovered extends TLObject {
 
                     @Override // org.telegram.tgnet.TLRPC$TL_stickerSetFullCovered, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(451763941);
                         this.set.serializeToStream(abstractSerializedData2);
                         abstractSerializedData2.writeInt32(481674261);
                         int size = this.packs.size();
@@ -70,8 +68,6 @@ public abstract class TLRPC$StickerSetCovered extends TLObject {
                 break;
             case 872932635:
                 tLRPC$StickerSetCovered = new TLRPC$StickerSetCovered() { // from class: org.telegram.tgnet.TLRPC$TL_stickerSetMultiCovered
-                    public static int constructor = 872932635;
-
                     @Override // org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         this.set = TLRPC$StickerSet.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
@@ -94,7 +90,7 @@ public abstract class TLRPC$StickerSetCovered extends TLObject {
 
                     @Override // org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(872932635);
                         this.set.serializeToStream(abstractSerializedData2);
                         abstractSerializedData2.writeInt32(481674261);
                         int size = this.covers.size();
@@ -110,8 +106,6 @@ public abstract class TLRPC$StickerSetCovered extends TLObject {
                 break;
             case 1678812626:
                 tLRPC$StickerSetCovered = new TLRPC$StickerSetCovered() { // from class: org.telegram.tgnet.TLRPC$TL_stickerSetCovered
-                    public static int constructor = 1678812626;
-
                     @Override // org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         this.set = TLRPC$StickerSet.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
@@ -120,7 +114,7 @@ public abstract class TLRPC$StickerSetCovered extends TLObject {
 
                     @Override // org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(1678812626);
                         this.set.serializeToStream(abstractSerializedData2);
                         this.cover.serializeToStream(abstractSerializedData2);
                     }

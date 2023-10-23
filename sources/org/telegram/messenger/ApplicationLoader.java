@@ -17,14 +17,18 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.PowerManager;
 import android.os.SystemClock;
+import android.view.ViewGroup;
 import androidx.multidex.MultiDex;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import java.io.File;
 import org.telegram.messenger.PushListenerController;
 import org.telegram.messenger.voip.VideoCapturerDevice;
 import org.telegram.tgnet.ConnectionsManager;
+import org.telegram.tgnet.TLRPC$Document;
+import org.telegram.tgnet.TLRPC$TL_help_appUpdate;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.Components.ForegroundDetector;
+import org.telegram.ui.IUpdateLayout;
 import org.telegram.ui.LauncherIconController;
 /* loaded from: classes.dex */
 public class ApplicationLoader extends Application {
@@ -32,7 +36,7 @@ public class ApplicationLoader extends Application {
     public static volatile Context applicationContext = null;
     public static volatile Handler applicationHandler = null;
     private static volatile boolean applicationInited = false;
-    private static ApplicationLoader applicationLoaderInstance = null;
+    public static ApplicationLoader applicationLoaderInstance = null;
     public static boolean canDrawOverlays = false;
     private static ConnectivityManager connectivityManager = null;
     public static volatile NetworkInfo currentNetworkInfo = null;
@@ -53,10 +57,18 @@ public class ApplicationLoader extends Application {
     protected void appCenterLogInternal(Throwable th) {
     }
 
+    public boolean checkApkInstallPermissions(Context context) {
+        return false;
+    }
+
     protected void checkForUpdatesInternal() {
     }
 
     protected boolean isHuaweiBuild() {
+        return false;
+    }
+
+    protected boolean isStandalone() {
         return false;
     }
 
@@ -67,7 +79,19 @@ public class ApplicationLoader extends Application {
         return null;
     }
 
+    public boolean openApkInstall(Activity activity, TLRPC$Document tLRPC$Document) {
+        return false;
+    }
+
+    public boolean showUpdateAppPopup(Context context, TLRPC$TL_help_appUpdate tLRPC$TL_help_appUpdate, int i) {
+        return false;
+    }
+
     protected void startAppCenterInternal(Activity activity) {
+    }
+
+    public IUpdateLayout takeUpdateLayout(Activity activity, ViewGroup viewGroup, ViewGroup viewGroup2) {
+        return null;
     }
 
     @Override // android.content.ContextWrapper
@@ -117,6 +141,10 @@ public class ApplicationLoader extends Application {
 
     public static boolean isHuaweiStoreBuild() {
         return applicationLoaderInstance.isHuaweiBuild();
+    }
+
+    public static boolean isStandaloneBuild() {
+        return applicationLoaderInstance.isStandalone();
     }
 
     public static File getFilesDirFixed() {

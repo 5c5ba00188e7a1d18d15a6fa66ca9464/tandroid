@@ -16,8 +16,6 @@ public abstract class TLRPC$PollResults extends TLObject {
         switch (i) {
             case -1159937629:
                 tLRPC$PollResults = new TLRPC$TL_pollResults() { // from class: org.telegram.tgnet.TLRPC$TL_pollResults_layer131
-                    public static int constructor = -1159937629;
-
                     @Override // org.telegram.tgnet.TLRPC$TL_pollResults, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
@@ -82,7 +80,7 @@ public abstract class TLRPC$PollResults extends TLObject {
 
                     @Override // org.telegram.tgnet.TLRPC$TL_pollResults, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(-1159937629);
                         int i2 = this.min ? this.flags | 1 : this.flags & (-2);
                         this.flags = i2;
                         abstractSerializedData2.writeInt32(i2);
@@ -121,8 +119,6 @@ public abstract class TLRPC$PollResults extends TLObject {
                 break;
             case -932174686:
                 tLRPC$PollResults = new TLRPC$PollResults() { // from class: org.telegram.tgnet.TLRPC$TL_pollResults_layer111
-                    public static int constructor = -932174686;
-
                     @Override // org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
@@ -167,7 +163,7 @@ public abstract class TLRPC$PollResults extends TLObject {
 
                     @Override // org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(-932174686);
                         int i2 = this.min ? this.flags | 1 : this.flags & (-2);
                         this.flags = i2;
                         abstractSerializedData2.writeInt32(i2);
@@ -195,8 +191,6 @@ public abstract class TLRPC$PollResults extends TLObject {
                 break;
             case -591909213:
                 tLRPC$PollResults = new TLRPC$PollResults() { // from class: org.telegram.tgnet.TLRPC$TL_pollResults_layer158
-                    public static int constructor = -591909213;
-
                     @Override // org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
@@ -261,7 +255,7 @@ public abstract class TLRPC$PollResults extends TLObject {
 
                     @Override // org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(-591909213);
                         int i2 = this.min ? this.flags | 1 : this.flags & (-2);
                         this.flags = i2;
                         abstractSerializedData2.writeInt32(i2);
@@ -300,8 +294,6 @@ public abstract class TLRPC$PollResults extends TLObject {
                 break;
             case 1465219162:
                 tLRPC$PollResults = new TLRPC$TL_pollResults() { // from class: org.telegram.tgnet.TLRPC$TL_pollResults_layer108
-                    public static int constructor = 1465219162;
-
                     @Override // org.telegram.tgnet.TLRPC$TL_pollResults, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
@@ -331,7 +323,7 @@ public abstract class TLRPC$PollResults extends TLObject {
 
                     @Override // org.telegram.tgnet.TLRPC$TL_pollResults, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(1465219162);
                         int i2 = this.min ? this.flags | 1 : this.flags & (-2);
                         this.flags = i2;
                         abstractSerializedData2.writeInt32(i2);

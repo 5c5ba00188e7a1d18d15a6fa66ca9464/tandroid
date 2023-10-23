@@ -86,6 +86,8 @@ public interface INavigationLayout {
 
     ViewGroup getView();
 
+    Window getWindow();
+
     boolean hasIntegratedBlurInPreview();
 
     boolean isActionBarInCrossfade();
@@ -178,10 +180,14 @@ public interface INavigationLayout {
 
     void setUseAlphaAnimations(boolean z);
 
+    void setWindow(Window window);
+
     @Deprecated
     void showLastFragment();
 
     void startActivityForResult(Intent intent, int i);
+
+    void updateTitleOverlay();
 
     /* loaded from: classes3.dex */
     public final /* synthetic */ class -CC {
@@ -254,13 +260,6 @@ public interface INavigationLayout {
                 return;
             }
             fragmentStack.get(fragmentStack.size() - 1).dismissCurrentDialog();
-        }
-
-        public static Window $default$getWindow(INavigationLayout _this) {
-            if (_this.getParentActivity() != null) {
-                return _this.getParentActivity().getWindow();
-            }
-            return null;
         }
     }
 

@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_phone_toggleGroupCallRecord extends TLObject {
-    public static int constructor = -248985848;
     public TLRPC$TL_inputGroupCall call;
     public int flags;
     public boolean start;
@@ -16,7 +15,7 @@ public class TLRPC$TL_phone_toggleGroupCallRecord extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-248985848);
         int i = this.start ? this.flags | 1 : this.flags & (-2);
         this.flags = i;
         int i2 = this.video ? i | 4 : i & (-5);

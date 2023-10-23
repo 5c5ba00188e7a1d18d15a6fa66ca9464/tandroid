@@ -13,8 +13,6 @@ public abstract class TLRPC$MessageReactions extends TLObject {
         TLRPC$TL_messageReactions tLRPC$TL_messageReactions;
         if (i == -1199954735) {
             tLRPC$TL_messageReactions = new TLRPC$TL_messageReactions() { // from class: org.telegram.tgnet.TLRPC$TL_messageReactions_layer137
-                public static int constructor = -1199954735;
-
                 @Override // org.telegram.tgnet.TLRPC$TL_messageReactions, org.telegram.tgnet.TLObject
                 public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                     int readInt32 = abstractSerializedData2.readInt32(z2);
@@ -39,7 +37,7 @@ public abstract class TLRPC$MessageReactions extends TLObject {
 
                 @Override // org.telegram.tgnet.TLRPC$TL_messageReactions, org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                    abstractSerializedData2.writeInt32(constructor);
+                    abstractSerializedData2.writeInt32(-1199954735);
                     int i2 = this.min ? this.flags | 1 : this.flags & (-2);
                     this.flags = i2;
                     abstractSerializedData2.writeInt32(i2);
@@ -53,8 +51,6 @@ public abstract class TLRPC$MessageReactions extends TLObject {
             };
         } else if (i == 142306870) {
             tLRPC$TL_messageReactions = new TLRPC$TL_messageReactions() { // from class: org.telegram.tgnet.TLRPC$TL_messageReactionsOld
-                public static int constructor = 142306870;
-
                 @Override // org.telegram.tgnet.TLRPC$TL_messageReactions, org.telegram.tgnet.TLObject
                 public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                     int readInt32 = abstractSerializedData2.readInt32(z2);
@@ -97,7 +93,7 @@ public abstract class TLRPC$MessageReactions extends TLObject {
 
                 @Override // org.telegram.tgnet.TLRPC$TL_messageReactions, org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                    abstractSerializedData2.writeInt32(constructor);
+                    abstractSerializedData2.writeInt32(142306870);
                     int i2 = this.min ? this.flags | 1 : this.flags & (-2);
                     this.flags = i2;
                     int i3 = this.can_see_list ? i2 | 4 : i2 & (-5);

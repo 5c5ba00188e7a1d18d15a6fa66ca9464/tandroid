@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_dialogFolder extends TLRPC$Dialog {
-    public static int constructor = 1908216652;
     public TLRPC$TL_folder folder;
     public int unread_muted_messages_count;
     public int unread_muted_peers_count;
@@ -24,7 +23,7 @@ public class TLRPC$TL_dialogFolder extends TLRPC$Dialog {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(1908216652);
         int i = this.pinned ? this.flags | 4 : this.flags & (-5);
         this.flags = i;
         abstractSerializedData.writeInt32(i);

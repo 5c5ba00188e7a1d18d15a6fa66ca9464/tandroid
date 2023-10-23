@@ -104,7 +104,7 @@ public class ShareDialogCell extends FrameLayout {
             }
         });
         addView(this.checkBox, LayoutHelper.createFrame(24, 24.0f, 49, 19.0f, this.currentType == 2 ? -40.0f : 42.0f, 0.0f, 0.0f));
-        setBackground(Theme.createRadSelectorDrawable(Theme.getColor(Theme.key_listSelector), AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f)));
+        setBackground(Theme.createRadSelectorDrawable(Theme.getColor(Theme.key_listSelector, resourcesProvider), AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f)));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -191,7 +191,7 @@ public class ShareDialogCell extends FrameLayout {
         }
         if (z3) {
             SimpleTextView simpleTextView2 = this.topicTextView;
-            simpleTextView2.setText(ForumUtilities.getTopicSpannedName(tLRPC$TL_forumTopic, simpleTextView2.getTextPaint()));
+            simpleTextView2.setText(ForumUtilities.getTopicSpannedName(tLRPC$TL_forumTopic, simpleTextView2.getTextPaint(), false));
             this.topicTextView.requestLayout();
         }
         if (z) {

@@ -22,7 +22,7 @@ public final /* synthetic */ class q implements BiConsumer {
     }
 
     @Override // j$.util.function.BiConsumer
-    public /* synthetic */ BiConsumer b(BiConsumer biConsumer) {
+    public /* synthetic */ BiConsumer andThen(BiConsumer biConsumer) {
         return a(this.a.andThen(r.a(biConsumer)));
     }
 }

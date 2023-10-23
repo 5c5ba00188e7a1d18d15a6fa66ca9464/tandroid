@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_pageListOrderedItemText extends TLRPC$PageListOrderedItem {
-    public static int constructor = 1577484359;
     public String num;
     public TLRPC$RichText text;
 
@@ -13,7 +12,7 @@ public class TLRPC$TL_pageListOrderedItemText extends TLRPC$PageListOrderedItem 
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(1577484359);
         abstractSerializedData.writeString(this.num);
         this.text.serializeToStream(abstractSerializedData);
     }

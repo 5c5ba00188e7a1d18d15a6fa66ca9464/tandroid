@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_account_getNotifyExceptions extends TLObject {
-    public static int constructor = 1398240377;
     public boolean compare_sound;
     public int flags;
     public TLRPC$InputNotifyPeer peer;
@@ -13,7 +12,7 @@ public class TLRPC$TL_account_getNotifyExceptions extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(1398240377);
         int i = this.compare_sound ? this.flags | 2 : this.flags & (-3);
         this.flags = i;
         abstractSerializedData.writeInt32(i);

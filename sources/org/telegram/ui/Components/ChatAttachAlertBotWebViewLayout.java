@@ -29,7 +29,6 @@ import java.util.Iterator;
 import org.json.JSONObject;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ContactsController;
-import org.telegram.messenger.FileLog;
 import org.telegram.messenger.GenericProvider;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
@@ -83,7 +82,7 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
     private WebProgressView progressView;
     private long queryId;
     private int replyToMsgId;
-    private ActionBarMenuSubItem settingsItem;
+    public ActionBarMenuSubItem settingsItem;
     private boolean silent;
     private String startCommand;
     private WebViewSwipeContainer swipeContainer;
@@ -112,9 +111,8 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
         tLRPC$TL_messages_prolongWebView.peer = MessagesController.getInstance(this.currentAccount).getInputPeer(this.peerId);
         tLRPC$TL_messages_prolongWebView.query_id = this.queryId;
         tLRPC$TL_messages_prolongWebView.silent = this.silent;
-        int i = this.replyToMsgId;
-        if (i != 0) {
-            tLRPC$TL_messages_prolongWebView.reply_to = SendMessagesHelper.creteReplyInput(i);
+        if (this.replyToMsgId != 0) {
+            tLRPC$TL_messages_prolongWebView.reply_to = SendMessagesHelper.getInstance(this.currentAccount).createReplyInput(this.replyToMsgId);
             tLRPC$TL_messages_prolongWebView.flags |= 1;
         }
         if (this.peerId < 0 && (chatFull = MessagesController.getInstance(this.currentAccount).getChatFull(-this.peerId)) != null && (tLRPC$Peer = chatFull.default_send_as) != null) {
@@ -151,6 +149,43 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
         }
     }
 
+    @Override // org.telegram.ui.Components.ChatAttachAlert.AttachAlertLayout
+    void onMenuItemClick(int i) {
+        if (i == -1) {
+            if (this.webViewContainer.onBackPressed()) {
+                return;
+            }
+            onCheckDismissByUser();
+        } else if (i == R.id.menu_open_bot) {
+            Bundle bundle = new Bundle();
+            bundle.putLong("user_id", this.botId);
+            this.parentAlert.baseFragment.presentFragment(new ChatActivity(bundle));
+            this.parentAlert.dismiss();
+        } else if (i == R.id.menu_reload_page) {
+            if (this.webViewContainer.getWebView() != null) {
+                this.webViewContainer.getWebView().animate().cancel();
+                this.webViewContainer.getWebView().animate().alpha(0.0f).start();
+            }
+            this.progressView.setLoadProgress(0.0f);
+            this.progressView.setAlpha(1.0f);
+            this.progressView.setVisibility(0);
+            this.webViewContainer.setBotUser(MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(this.botId)));
+            this.webViewContainer.loadFlickerAndSettingsItem(this.currentAccount, this.botId, this.settingsItem);
+            this.webViewContainer.reload();
+        } else if (i == R.id.menu_delete_bot) {
+            Iterator<TLRPC$TL_attachMenuBot> it = MediaDataController.getInstance(this.currentAccount).getAttachMenuBots().bots.iterator();
+            while (it.hasNext()) {
+                TLRPC$TL_attachMenuBot next = it.next();
+                if (next.bot_id == this.botId) {
+                    this.parentAlert.onLongClickBotButton(next, MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(this.botId)));
+                    return;
+                }
+            }
+        } else if (i == R.id.menu_settings) {
+            this.webViewContainer.onSettingsButtonPressed();
+        }
+    }
+
     public ChatAttachAlertBotWebViewLayout(ChatAttachAlert chatAttachAlert, Context context, Theme.ResourcesProvider resourcesProvider) {
         super(chatAttachAlert, context, resourcesProvider);
         this.pollRunnable = new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertBotWebViewLayout$$ExternalSyntheticLambda5
@@ -162,49 +197,12 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
         ActionBarMenuItem addItem = this.parentAlert.actionBar.createMenu().addItem(0, R.drawable.ic_ab_other);
         this.otherItem = addItem;
         addItem.addSubItem(R.id.menu_open_bot, R.drawable.msg_bot, LocaleController.getString(R.string.BotWebViewOpenBot));
-        this.settingsItem = this.otherItem.addSubItem(R.id.menu_settings, R.drawable.msg_settings, LocaleController.getString(R.string.BotWebViewSettings));
+        ActionBarMenuSubItem addSubItem = this.otherItem.addSubItem(R.id.menu_settings, R.drawable.msg_settings, LocaleController.getString(R.string.BotWebViewSettings));
+        this.settingsItem = addSubItem;
+        addSubItem.setVisibility(8);
         this.otherItem.addSubItem(R.id.menu_reload_page, R.drawable.msg_retry, LocaleController.getString(R.string.BotWebViewReloadPage));
         this.otherItem.addSubItem(R.id.menu_delete_bot, R.drawable.msg_delete, LocaleController.getString(R.string.BotWebViewDeleteBot));
-        this.parentAlert.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.Components.ChatAttachAlertBotWebViewLayout.1
-            @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
-            public void onItemClick(int i) {
-                if (i == -1) {
-                    if (ChatAttachAlertBotWebViewLayout.this.webViewContainer.onBackPressed()) {
-                        return;
-                    }
-                    ChatAttachAlertBotWebViewLayout.this.onCheckDismissByUser();
-                } else if (i == R.id.menu_open_bot) {
-                    Bundle bundle = new Bundle();
-                    bundle.putLong("user_id", ChatAttachAlertBotWebViewLayout.this.botId);
-                    ChatAttachAlertBotWebViewLayout.this.parentAlert.baseFragment.presentFragment(new ChatActivity(bundle));
-                    ChatAttachAlertBotWebViewLayout.this.parentAlert.dismiss();
-                } else if (i == R.id.menu_reload_page) {
-                    if (ChatAttachAlertBotWebViewLayout.this.webViewContainer.getWebView() != null) {
-                        ChatAttachAlertBotWebViewLayout.this.webViewContainer.getWebView().animate().cancel();
-                        ChatAttachAlertBotWebViewLayout.this.webViewContainer.getWebView().animate().alpha(0.0f).start();
-                    }
-                    ChatAttachAlertBotWebViewLayout.this.progressView.setLoadProgress(0.0f);
-                    ChatAttachAlertBotWebViewLayout.this.progressView.setAlpha(1.0f);
-                    ChatAttachAlertBotWebViewLayout.this.progressView.setVisibility(0);
-                    ChatAttachAlertBotWebViewLayout.this.webViewContainer.setBotUser(MessagesController.getInstance(ChatAttachAlertBotWebViewLayout.this.currentAccount).getUser(Long.valueOf(ChatAttachAlertBotWebViewLayout.this.botId)));
-                    ChatAttachAlertBotWebViewLayout.this.webViewContainer.loadFlickerAndSettingsItem(ChatAttachAlertBotWebViewLayout.this.currentAccount, ChatAttachAlertBotWebViewLayout.this.botId, ChatAttachAlertBotWebViewLayout.this.settingsItem);
-                    ChatAttachAlertBotWebViewLayout.this.webViewContainer.reload();
-                } else if (i == R.id.menu_delete_bot) {
-                    Iterator<TLRPC$TL_attachMenuBot> it = MediaDataController.getInstance(ChatAttachAlertBotWebViewLayout.this.currentAccount).getAttachMenuBots().bots.iterator();
-                    while (it.hasNext()) {
-                        TLRPC$TL_attachMenuBot next = it.next();
-                        if (next.bot_id == ChatAttachAlertBotWebViewLayout.this.botId) {
-                            ChatAttachAlertBotWebViewLayout chatAttachAlertBotWebViewLayout = ChatAttachAlertBotWebViewLayout.this;
-                            chatAttachAlertBotWebViewLayout.parentAlert.onLongClickBotButton(next, MessagesController.getInstance(chatAttachAlertBotWebViewLayout.currentAccount).getUser(Long.valueOf(ChatAttachAlertBotWebViewLayout.this.botId)));
-                            return;
-                        }
-                    }
-                } else if (i == R.id.menu_settings) {
-                    ChatAttachAlertBotWebViewLayout.this.webViewContainer.onSettingsButtonPressed();
-                }
-            }
-        });
-        this.webViewContainer = new BotWebViewContainer(context, resourcesProvider, getThemedColor(Theme.key_dialogBackground)) { // from class: org.telegram.ui.Components.ChatAttachAlertBotWebViewLayout.2
+        this.webViewContainer = new BotWebViewContainer(context, resourcesProvider, getThemedColor(Theme.key_dialogBackground)) { // from class: org.telegram.ui.Components.ChatAttachAlertBotWebViewLayout.1
             @Override // android.view.ViewGroup, android.view.View
             public boolean dispatchTouchEvent(MotionEvent motionEvent) {
                 if (motionEvent.getAction() == 0 && !ChatAttachAlertBotWebViewLayout.this.isBotButtonAvailable) {
@@ -219,7 +217,7 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
                 ChatAttachAlertBotWebViewLayout.this.swipeContainer.setWebView(ChatAttachAlertBotWebViewLayout.this.webViewContainer.getWebView());
             }
         };
-        WebViewSwipeContainer webViewSwipeContainer = new WebViewSwipeContainer(context) { // from class: org.telegram.ui.Components.ChatAttachAlertBotWebViewLayout.3
+        WebViewSwipeContainer webViewSwipeContainer = new WebViewSwipeContainer(context) { // from class: org.telegram.ui.Components.ChatAttachAlertBotWebViewLayout.2
             @Override // android.widget.FrameLayout, android.view.View
             protected void onMeasure(int i, int i2) {
                 super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(((View.MeasureSpec.getSize(i2) - ActionBar.getCurrentActionBarHeight()) - AndroidUtilities.dp(84.0f)) + ChatAttachAlertBotWebViewLayout.this.measureOffsetY, 1073741824));
@@ -303,7 +301,7 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
                     ChatAttachAlertBotWebViewLayout.this.lambda$new$7(valueAnimator);
                 }
             });
-            duration.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ChatAttachAlertBotWebViewLayout.4
+            duration.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ChatAttachAlertBotWebViewLayout.3
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationEnd(Animator animator) {
                     ChatAttachAlertBotWebViewLayout.this.progressView.setVisibility(8);
@@ -439,7 +437,7 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
                         ChatAttachAlertBotWebViewLayout.this.lambda$onPanTransitionStart$10(valueAnimator2);
                     }
                 });
-                this.webViewScrollAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ChatAttachAlertBotWebViewLayout.5
+                this.webViewScrollAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ChatAttachAlertBotWebViewLayout.4
                     @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                     public void onAnimationEnd(Animator animator) {
                         if (ChatAttachAlertBotWebViewLayout.this.webViewContainer.getWebView() != null) {
@@ -574,24 +572,15 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
             tLRPC$TL_messages_requestWebView.flags |= 8;
         }
         if (i2 != 0) {
-            tLRPC$TL_messages_requestWebView.reply_to = SendMessagesHelper.creteReplyInput(i2);
+            tLRPC$TL_messages_requestWebView.reply_to = SendMessagesHelper.getInstance(i).createReplyInput(i2);
             tLRPC$TL_messages_requestWebView.flags |= 1;
         }
-        try {
-            JSONObject jSONObject = new JSONObject();
-            jSONObject.put("bg_color", getThemedColor(Theme.key_dialogBackground));
-            jSONObject.put("secondary_bg_color", getThemedColor(Theme.key_windowBackgroundGray));
-            jSONObject.put("text_color", getThemedColor(Theme.key_windowBackgroundWhiteBlackText));
-            jSONObject.put("hint_color", getThemedColor(Theme.key_windowBackgroundWhiteHintText));
-            jSONObject.put("link_color", getThemedColor(Theme.key_windowBackgroundWhiteLinkText));
-            jSONObject.put("button_color", getThemedColor(Theme.key_featuredStickers_addButton));
-            jSONObject.put("button_text_color", getThemedColor(Theme.key_featuredStickers_buttonText));
+        JSONObject makeThemeParams = BotWebViewSheet.makeThemeParams(this.resourcesProvider);
+        if (makeThemeParams != null) {
             TLRPC$TL_dataJSON tLRPC$TL_dataJSON = new TLRPC$TL_dataJSON();
             tLRPC$TL_messages_requestWebView.theme_params = tLRPC$TL_dataJSON;
-            tLRPC$TL_dataJSON.data = jSONObject.toString();
+            tLRPC$TL_dataJSON.data = makeThemeParams.toString();
             tLRPC$TL_messages_requestWebView.flags |= 4;
-        } catch (Exception e) {
-            FileLog.e(e);
         }
         ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_messages_requestWebView, new RequestDelegate() { // from class: org.telegram.ui.Components.ChatAttachAlertBotWebViewLayout$$ExternalSyntheticLambda14
             @Override // org.telegram.tgnet.RequestDelegate
@@ -828,7 +817,7 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
             void onDismiss();
         }
 
-        static /* synthetic */ float access$1224(WebViewSwipeContainer webViewSwipeContainer, float f) {
+        static /* synthetic */ float access$824(WebViewSwipeContainer webViewSwipeContainer, float f) {
             float f2 = webViewSwipeContainer.swipeOffsetY - f;
             webViewSwipeContainer.swipeOffsetY = f2;
             return f2;
@@ -906,16 +895,16 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
                                     float scrollY = WebViewSwipeContainer.this.webView.getScrollY() + f2;
                                     WebViewSwipeContainer.this.webView.setScrollY((int) MathUtils.clamp(scrollY, 0.0f, Math.max(WebViewSwipeContainer.this.webView.getContentHeight(), WebViewSwipeContainer.this.webView.getHeight()) - WebViewSwipeContainer.this.topActionBarOffsetY));
                                     if (scrollY < 0.0f) {
-                                        WebViewSwipeContainer.access$1224(WebViewSwipeContainer.this, scrollY);
+                                        WebViewSwipeContainer.access$824(WebViewSwipeContainer.this, scrollY);
                                     }
                                 } else {
-                                    WebViewSwipeContainer.access$1224(WebViewSwipeContainer.this, f2);
+                                    WebViewSwipeContainer.access$824(WebViewSwipeContainer.this, f2);
                                 }
                             } else {
-                                WebViewSwipeContainer.access$1224(WebViewSwipeContainer.this, f2);
+                                WebViewSwipeContainer.access$824(WebViewSwipeContainer.this, f2);
                             }
                         } else {
-                            WebViewSwipeContainer.access$1224(WebViewSwipeContainer.this, f2);
+                            WebViewSwipeContainer.access$824(WebViewSwipeContainer.this, f2);
                             if (WebViewSwipeContainer.this.webView != null && WebViewSwipeContainer.this.swipeOffsetY < (-WebViewSwipeContainer.this.offsetY) + WebViewSwipeContainer.this.topActionBarOffsetY) {
                                 WebViewSwipeContainer.this.webView.setScrollY((int) MathUtils.clamp(WebViewSwipeContainer.this.webView.getScrollY() - ((WebViewSwipeContainer.this.swipeOffsetY + WebViewSwipeContainer.this.offsetY) - WebViewSwipeContainer.this.topActionBarOffsetY), 0.0f, Math.max(WebViewSwipeContainer.this.webView.getContentHeight(), WebViewSwipeContainer.this.webView.getHeight()) - WebViewSwipeContainer.this.topActionBarOffsetY));
                             }

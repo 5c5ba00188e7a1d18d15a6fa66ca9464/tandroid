@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_updateChatParticipants extends TLRPC$Update {
-    public static int constructor = 125178264;
     public TLRPC$ChatParticipants participants;
 
     @Override // org.telegram.tgnet.TLObject
@@ -11,7 +10,7 @@ public class TLRPC$TL_updateChatParticipants extends TLRPC$Update {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(125178264);
         this.participants.serializeToStream(abstractSerializedData);
     }
 }

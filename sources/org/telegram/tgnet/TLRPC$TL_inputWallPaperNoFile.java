@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_inputWallPaperNoFile extends TLRPC$InputWallPaper {
-    public static int constructor = -1770371538;
     public long id;
 
     @Override // org.telegram.tgnet.TLObject
@@ -11,7 +10,7 @@ public class TLRPC$TL_inputWallPaperNoFile extends TLRPC$InputWallPaper {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-1770371538);
         abstractSerializedData.writeInt64(this.id);
     }
 }

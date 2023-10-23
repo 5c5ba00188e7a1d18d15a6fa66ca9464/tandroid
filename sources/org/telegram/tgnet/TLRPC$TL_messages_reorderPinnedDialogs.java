@@ -3,7 +3,6 @@ package org.telegram.tgnet;
 import java.util.ArrayList;
 /* loaded from: classes.dex */
 public class TLRPC$TL_messages_reorderPinnedDialogs extends TLObject {
-    public static int constructor = 991616823;
     public int flags;
     public int folder_id;
     public boolean force;
@@ -16,7 +15,7 @@ public class TLRPC$TL_messages_reorderPinnedDialogs extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(991616823);
         int i = this.force ? this.flags | 1 : this.flags & (-2);
         this.flags = i;
         abstractSerializedData.writeInt32(i);

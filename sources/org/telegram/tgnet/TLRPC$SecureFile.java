@@ -5,11 +5,9 @@ public abstract class TLRPC$SecureFile extends TLObject {
         TLRPC$SecureFile tLRPC$SecureFile;
         if (i == 1679398724) {
             tLRPC$SecureFile = new TLRPC$SecureFile() { // from class: org.telegram.tgnet.TLRPC$TL_secureFileEmpty
-                public static int constructor = 1679398724;
-
                 @Override // org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                    abstractSerializedData2.writeInt32(constructor);
+                    abstractSerializedData2.writeInt32(1679398724);
                 }
             };
         } else {

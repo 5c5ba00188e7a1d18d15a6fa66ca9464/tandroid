@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_phone_saveCallDebug extends TLObject {
-    public static int constructor = 662363518;
     public TLRPC$TL_dataJSON debug;
     public TLRPC$TL_inputPhoneCall peer;
 
@@ -12,7 +11,7 @@ public class TLRPC$TL_phone_saveCallDebug extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(662363518);
         this.peer.serializeToStream(abstractSerializedData);
         this.debug.serializeToStream(abstractSerializedData);
     }

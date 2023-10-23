@@ -6,51 +6,41 @@ public abstract class TLRPC$AttachMenuPeerType extends TLObject {
         switch (i) {
             case -1020528102:
                 tLRPC$AttachMenuPeerType = new TLRPC$AttachMenuPeerType() { // from class: org.telegram.tgnet.TLRPC$TL_attachMenuPeerTypeBotPM
-                    public static int constructor = -1020528102;
-
                     @Override // org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(-1020528102);
                     }
                 };
                 break;
             case -247016673:
                 tLRPC$AttachMenuPeerType = new TLRPC$AttachMenuPeerType() { // from class: org.telegram.tgnet.TLRPC$TL_attachMenuPeerTypePM
-                    public static int constructor = -247016673;
-
                     @Override // org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(-247016673);
                     }
                 };
                 break;
             case 84480319:
                 tLRPC$AttachMenuPeerType = new TLRPC$AttachMenuPeerType() { // from class: org.telegram.tgnet.TLRPC$TL_attachMenuPeerTypeChat
-                    public static int constructor = 84480319;
-
                     @Override // org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(84480319);
                     }
                 };
                 break;
             case 2080104188:
                 tLRPC$AttachMenuPeerType = new TLRPC$AttachMenuPeerType() { // from class: org.telegram.tgnet.TLRPC$TL_attachMenuPeerTypeBroadcast
-                    public static int constructor = 2080104188;
-
                     @Override // org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(2080104188);
                     }
                 };
                 break;
             case 2104224014:
                 tLRPC$AttachMenuPeerType = new TLRPC$AttachMenuPeerType() { // from class: org.telegram.tgnet.TLRPC$TL_attachMenuPeerTypeSameBotPM
-                    public static int constructor = 2104224014;
-
                     @Override // org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(2104224014);
                     }
                 };
                 break;

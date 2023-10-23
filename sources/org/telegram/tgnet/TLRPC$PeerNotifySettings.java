@@ -21,8 +21,6 @@ public abstract class TLRPC$PeerNotifySettings extends TLObject {
         switch (i) {
             case -1923214866:
                 tLRPC$PeerNotifySettings = new TLRPC$TL_peerNotifySettings() { // from class: org.telegram.tgnet.TLRPC$TL_peerNotifySettings_layer47
-                    public static int constructor = -1923214866;
-
                     @Override // org.telegram.tgnet.TLRPC$TL_peerNotifySettings, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         this.mute_until = abstractSerializedData2.readInt32(z2);
@@ -33,7 +31,7 @@ public abstract class TLRPC$PeerNotifySettings extends TLObject {
 
                     @Override // org.telegram.tgnet.TLRPC$TL_peerNotifySettings, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(-1923214866);
                         abstractSerializedData2.writeInt32(this.mute_until);
                         abstractSerializedData2.writeString(this.sound);
                         abstractSerializedData2.writeBool(this.show_previews);
@@ -46,8 +44,6 @@ public abstract class TLRPC$PeerNotifySettings extends TLObject {
                 break;
             case -1697798976:
                 tLRPC$PeerNotifySettings = new TLRPC$TL_peerNotifySettings() { // from class: org.telegram.tgnet.TLRPC$TL_peerNotifySettings_layer77
-                    public static int constructor = -1697798976;
-
                     @Override // org.telegram.tgnet.TLRPC$TL_peerNotifySettings, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
@@ -60,7 +56,7 @@ public abstract class TLRPC$PeerNotifySettings extends TLObject {
 
                     @Override // org.telegram.tgnet.TLRPC$TL_peerNotifySettings, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(-1697798976);
                         int i2 = this.show_previews ? this.flags | 1 : this.flags & (-2);
                         this.flags = i2;
                         int i3 = this.silent ? i2 | 2 : i2 & (-3);
@@ -73,8 +69,6 @@ public abstract class TLRPC$PeerNotifySettings extends TLObject {
                 break;
             case -1472527322:
                 tLRPC$PeerNotifySettings = new TLRPC$TL_peerNotifySettings() { // from class: org.telegram.tgnet.TLRPC$TL_peerNotifySettings_layer156
-                    public static int constructor = -1472527322;
-
                     @Override // org.telegram.tgnet.TLRPC$TL_peerNotifySettings, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
@@ -101,7 +95,7 @@ public abstract class TLRPC$PeerNotifySettings extends TLObject {
 
                     @Override // org.telegram.tgnet.TLRPC$TL_peerNotifySettings, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(-1472527322);
                         abstractSerializedData2.writeInt32(this.flags);
                         if ((this.flags & 1) != 0) {
                             abstractSerializedData2.writeBool(this.show_previews);
@@ -126,8 +120,6 @@ public abstract class TLRPC$PeerNotifySettings extends TLObject {
                 break;
             case -1353671392:
                 tLRPC$PeerNotifySettings = new TLRPC$TL_peerNotifySettings() { // from class: org.telegram.tgnet.TLRPC$TL_peerNotifySettings_layer139
-                    public static int constructor = -1353671392;
-
                     @Override // org.telegram.tgnet.TLRPC$TL_peerNotifySettings, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
@@ -148,7 +140,7 @@ public abstract class TLRPC$PeerNotifySettings extends TLObject {
 
                     @Override // org.telegram.tgnet.TLRPC$TL_peerNotifySettings, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(-1353671392);
                         abstractSerializedData2.writeInt32(this.flags);
                         if ((this.flags & 1) != 0) {
                             abstractSerializedData2.writeBool(this.show_previews);

@@ -14,7 +14,6 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import androidx.core.util.Consumer;
 import androidx.recyclerview.widget.DiffUtil;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 import java.util.ArrayList;
@@ -23,6 +22,7 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Objects;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.ContactsController;
 import org.telegram.messenger.DialogObject;
@@ -33,6 +33,7 @@ import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
+import org.telegram.messenger.Utilities;
 import org.telegram.messenger.support.LongSparseIntArray;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLObject;
@@ -40,12 +41,12 @@ import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$Dialog;
 import org.telegram.tgnet.TLRPC$RecentMeUrl;
 import org.telegram.tgnet.TLRPC$RequestPeerType;
-import org.telegram.tgnet.TLRPC$TL_chatlists_chatlistUpdates;
 import org.telegram.tgnet.TLRPC$TL_contact;
 import org.telegram.tgnet.TLRPC$TL_requestPeerTypeBroadcast;
 import org.telegram.tgnet.TLRPC$TL_requestPeerTypeChat;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.tgnet.TLRPC$UserStatus;
+import org.telegram.tgnet.tl.TL_chatlists$TL_chatlists_chatlistUpdates;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Adapters.DialogsAdapter;
@@ -75,6 +76,7 @@ import org.telegram.ui.Stories.StoriesController;
 import org.telegram.ui.Stories.StoriesListPlaceProvider;
 /* loaded from: classes3.dex */
 public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements DialogCell.DialogCellDelegate {
+    private static final boolean ALLOW_UPDATE_IN_BACKGROUND = BuildVars.DEBUG_VERSION;
     private ArchiveHintCell archiveHintCell;
     private Drawable arrowDrawable;
     private boolean collapsedView;
@@ -88,6 +90,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
     private boolean forceUpdatingContacts;
     private boolean hasChatlistHint;
     private boolean hasHints;
+    boolean isCalculatingDiff;
     public boolean isEmpty;
     private boolean isOnlySelect;
     private boolean isReordering;
@@ -102,6 +105,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
     RecyclerListView recyclerListView;
     private TLRPC$RequestPeerType requestPeerType;
     private ArrayList<Long> selectedDialogs;
+    boolean updateListPending;
     ArrayList<ItemInternal> itemInternals = new ArrayList<>();
     ArrayList<ItemInternal> oldItems = new ArrayList<>();
     int stableIdPointer = 10;
@@ -219,7 +223,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class ItemInternal extends AdapterWithDiffUtils.Item {
-        TLRPC$TL_chatlists_chatlistUpdates chatlistUpdates;
+        TL_chatlists$TL_chatlists_chatlistUpdates chatlistUpdates;
         TLRPC$TL_contact contact;
         TLRPC$Dialog dialog;
         private int emptyType;
@@ -229,9 +233,9 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
         TLRPC$RecentMeUrl recentMeUrl;
         private final int stableId;
 
-        public ItemInternal(DialogsAdapter dialogsAdapter, TLRPC$TL_chatlists_chatlistUpdates tLRPC$TL_chatlists_chatlistUpdates) {
+        public ItemInternal(DialogsAdapter dialogsAdapter, TL_chatlists$TL_chatlists_chatlistUpdates tL_chatlists$TL_chatlists_chatlistUpdates) {
             super(17, true);
-            this.chatlistUpdates = tLRPC$TL_chatlists_chatlistUpdates;
+            this.chatlistUpdates = tL_chatlists$TL_chatlists_chatlistUpdates;
             int i = dialogsAdapter.stableIdPointer;
             dialogsAdapter.stableIdPointer = i + 1;
             this.stableId = i;
@@ -374,7 +378,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
                 try {
                     final int currentTime = ConnectionsManager.getInstance(this.currentAccount).getCurrentTime();
                     final MessagesController messagesController = MessagesController.getInstance(this.currentAccount);
-                    Collections.sort(this.onlineContacts, new Comparator() { // from class: org.telegram.ui.Adapters.DialogsAdapter$$ExternalSyntheticLambda4
+                    Collections.sort(this.onlineContacts, new Comparator() { // from class: org.telegram.ui.Adapters.DialogsAdapter$$ExternalSyntheticLambda6
                         @Override // java.util.Comparator
                         public final int compare(Object obj, Object obj2) {
                             int lambda$sortOnlineContacts$0;
@@ -484,39 +488,19 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
         this.hasHints = this.folderId == 0 && this.dialogsType == 0 && !this.isOnlySelect && !MessagesController.getInstance(this.currentAccount).hintDialogs.isEmpty();
     }
 
-    public void updateList(RecyclerListView recyclerListView, boolean z, float f, boolean z2) {
-        this.oldItems.clear();
-        this.oldItems.addAll(this.itemInternals);
-        updateItemList();
-        if (recyclerListView != null && recyclerListView.getScrollState() == 0 && recyclerListView.getChildCount() > 0 && recyclerListView.getLayoutManager() != null) {
-            LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerListView.getLayoutManager();
-            View view = null;
-            int i = ConnectionsManager.DEFAULT_DATACENTER_ID;
-            int i2 = -1;
-            for (int i3 = 0; i3 < recyclerListView.getChildCount(); i3++) {
-                int childAdapterPosition = recyclerListView.getChildAdapterPosition(recyclerListView.getChildAt(i3));
-                View childAt = recyclerListView.getChildAt(i3);
-                if (childAdapterPosition != -1 && childAt != null && childAt.getTop() < i) {
-                    i = childAt.getTop();
-                    i2 = childAdapterPosition;
-                    view = childAt;
-                }
-            }
-            if (view != null) {
-                float top = view.getTop() - recyclerListView.getPaddingTop();
-                if (z2) {
-                    f = 0.0f;
-                }
-                if (recyclerListView.getScrollState() != 1) {
-                    if (z && i2 == 0 && ((recyclerListView.getPaddingTop() - view.getTop()) - view.getMeasuredHeight()) + f < 0.0f) {
-                        top = f;
-                        i2 = 1;
-                    }
-                    linearLayoutManager.scrollToPositionWithOffset(i2, (int) top);
-                }
-            }
+    public void updateList(final Runnable runnable) {
+        if (this.isCalculatingDiff) {
+            this.updateListPending = true;
+            return;
         }
-        DiffUtil.calculateDiff(new DiffUtil.Callback() { // from class: org.telegram.ui.Adapters.DialogsAdapter.1
+        this.isCalculatingDiff = true;
+        ArrayList<ItemInternal> arrayList = new ArrayList<>();
+        this.oldItems = arrayList;
+        arrayList.addAll(this.itemInternals);
+        updateItemList();
+        final ArrayList<ItemInternal> arrayList2 = this.itemInternals;
+        this.itemInternals = this.oldItems;
+        final DiffUtil.Callback callback = new DiffUtil.Callback() { // from class: org.telegram.ui.Adapters.DialogsAdapter.1
             @Override // androidx.recyclerview.widget.DiffUtil.Callback
             public int getOldListSize() {
                 return DialogsAdapter.this.oldItems.size();
@@ -524,23 +508,70 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
 
             @Override // androidx.recyclerview.widget.DiffUtil.Callback
             public int getNewListSize() {
-                return DialogsAdapter.this.itemInternals.size();
+                return arrayList2.size();
             }
 
             @Override // androidx.recyclerview.widget.DiffUtil.Callback
-            public boolean areItemsTheSame(int i4, int i5) {
-                return DialogsAdapter.this.oldItems.get(i4).compare(DialogsAdapter.this.itemInternals.get(i5));
+            public boolean areItemsTheSame(int i, int i2) {
+                return DialogsAdapter.this.oldItems.get(i).compare((ItemInternal) arrayList2.get(i2));
             }
 
             @Override // androidx.recyclerview.widget.DiffUtil.Callback
-            public boolean areContentsTheSame(int i4, int i5) {
-                return DialogsAdapter.this.oldItems.get(i4).viewType == DialogsAdapter.this.itemInternals.get(i5).viewType;
+            public boolean areContentsTheSame(int i, int i2) {
+                return DialogsAdapter.this.oldItems.get(i).viewType == ((ItemInternal) arrayList2.get(i2)).viewType;
             }
-        }).dispatchUpdatesTo(this);
+        };
+        if (this.itemInternals.size() < 50 || !ALLOW_UPDATE_IN_BACKGROUND) {
+            DiffUtil.DiffResult calculateDiff = DiffUtil.calculateDiff(callback);
+            this.isCalculatingDiff = false;
+            if (runnable != null) {
+                runnable.run();
+            }
+            this.itemInternals = arrayList2;
+            calculateDiff.dispatchUpdatesTo(this);
+            return;
+        }
+        Utilities.searchQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Adapters.DialogsAdapter$$ExternalSyntheticLambda4
+            @Override // java.lang.Runnable
+            public final void run() {
+                DialogsAdapter.this.lambda$updateList$2(callback, runnable, arrayList2);
+            }
+        });
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$updateList$2(DiffUtil.Callback callback, final Runnable runnable, final ArrayList arrayList) {
+        final DiffUtil.DiffResult calculateDiff = DiffUtil.calculateDiff(callback);
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.DialogsAdapter$$ExternalSyntheticLambda5
+            @Override // java.lang.Runnable
+            public final void run() {
+                DialogsAdapter.this.lambda$updateList$1(runnable, arrayList, calculateDiff);
+            }
+        });
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$updateList$1(Runnable runnable, ArrayList arrayList, DiffUtil.DiffResult diffResult) {
+        if (this.isCalculatingDiff) {
+            this.isCalculatingDiff = false;
+            if (runnable != null) {
+                runnable.run();
+            }
+            this.itemInternals = arrayList;
+            diffResult.dispatchUpdatesTo(this);
+            if (this.updateListPending) {
+                this.updateListPending = false;
+                updateList(runnable);
+            }
+        }
     }
 
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
     public void notifyDataSetChanged() {
+        if (this.isCalculatingDiff) {
+            this.itemInternals = new ArrayList<>();
+        }
+        this.isCalculatingDiff = false;
         updateItemList();
         super.notifyDataSetChanged();
     }
@@ -563,7 +594,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onCreateViewHolder$1(View view) {
+    public /* synthetic */ void lambda$onCreateViewHolder$3(View view) {
         MessagesController.getInstance(this.currentAccount).hintDialogs.clear();
         MessagesController.getGlobalMainSettings().edit().remove("installReferer").commit();
         notifyDataSetChanged();
@@ -641,7 +672,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
                 textView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Adapters.DialogsAdapter$$ExternalSyntheticLambda0
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view3) {
-                        DialogsAdapter.this.lambda$onCreateViewHolder$1(view3);
+                        DialogsAdapter.this.lambda$onCreateViewHolder$3(view3);
                     }
                 });
                 break;
@@ -909,13 +940,13 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
                 dialogsEmptyCell.setOnUtyanAnimationEndListener(new Runnable() { // from class: org.telegram.ui.Adapters.DialogsAdapter$$ExternalSyntheticLambda3
                     @Override // java.lang.Runnable
                     public final void run() {
-                        DialogsAdapter.this.lambda$onBindViewHolder$2();
+                        DialogsAdapter.this.lambda$onBindViewHolder$4();
                     }
                 });
                 dialogsEmptyCell.setOnUtyanAnimationUpdateListener(new Consumer() { // from class: org.telegram.ui.Adapters.DialogsAdapter$$ExternalSyntheticLambda1
                     @Override // androidx.core.util.Consumer
                     public final void accept(Object obj) {
-                        DialogsAdapter.this.lambda$onBindViewHolder$3((Float) obj);
+                        DialogsAdapter.this.lambda$onBindViewHolder$5((Float) obj);
                     }
                 });
                 if (!dialogsEmptyCell.isUtyanAnimationTriggered() && this.dialogsCount == 0) {
@@ -986,9 +1017,9 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
                     break;
                 case 17:
                     DialogsHintCell dialogsHintCell = (DialogsHintCell) viewHolder.itemView;
-                    TLRPC$TL_chatlists_chatlistUpdates tLRPC$TL_chatlists_chatlistUpdates = this.itemInternals.get(i).chatlistUpdates;
-                    if (tLRPC$TL_chatlists_chatlistUpdates != null) {
-                        int size = tLRPC$TL_chatlists_chatlistUpdates.missing_peers.size();
+                    TL_chatlists$TL_chatlists_chatlistUpdates tL_chatlists$TL_chatlists_chatlistUpdates = this.itemInternals.get(i).chatlistUpdates;
+                    if (tL_chatlists$TL_chatlists_chatlistUpdates != null) {
+                        int size = tL_chatlists$TL_chatlists_chatlistUpdates.missing_peers.size();
                         dialogsHintCell.setText(AndroidUtilities.replaceSingleTag(LocaleController.formatPluralString("FolderUpdatesTitle", size, new Object[0]), Theme.key_windowBackgroundWhiteValueText, 0, null), LocaleController.formatPluralString("FolderUpdatesSubtitle", size, new Object[0]));
                         break;
                     }
@@ -1021,16 +1052,16 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onBindViewHolder$2() {
+    public /* synthetic */ void lambda$onBindViewHolder$4() {
         this.parentFragment.setScrollDisabled(false);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onBindViewHolder$3(Float f) {
+    public /* synthetic */ void lambda$onBindViewHolder$5(Float f) {
         this.parentFragment.setContactsAlpha(f.floatValue());
     }
 
-    public TLRPC$TL_chatlists_chatlistUpdates getChatlistUpdate() {
+    public TL_chatlists$TL_chatlists_chatlistUpdates getChatlistUpdate() {
         ItemInternal itemInternal = this.itemInternals.get(0);
         if (itemInternal == null || itemInternal.viewType != 17) {
             return null;
@@ -1065,7 +1096,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
             tLRPC$Dialog2.pinnedNum = i5;
         }
         Collections.swap(dialogsArray, fixPosition, fixPosition2);
-        updateList(recyclerListView, false, 0.0f, false);
+        updateList(null);
     }
 
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -1476,7 +1507,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
         int i6 = this.dialogsType;
         if ((i6 == 7 || i6 == 8) && (dialogFilter = messagesController.selectedDialogFilter[i6 - 7]) != null && dialogFilter.isChatlist()) {
             messagesController.checkChatlistFolderUpdate(dialogFilter.id, false);
-            TLRPC$TL_chatlists_chatlistUpdates chatlistFolderUpdates = messagesController.getChatlistFolderUpdates(dialogFilter.id);
+            TL_chatlists$TL_chatlists_chatlistUpdates chatlistFolderUpdates = messagesController.getChatlistFolderUpdates(dialogFilter.id);
             if (chatlistFolderUpdates != null && chatlistFolderUpdates.missing_peers.size() > 0) {
                 this.hasChatlistHint = true;
                 this.itemInternals.add(new ItemInternal(this, chatlistFolderUpdates));

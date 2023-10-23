@@ -1,13 +1,12 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_restrictionReason extends TLObject {
-    public static int constructor = -797791052;
     public String platform;
     public String reason;
     public String text;
 
     public static TLRPC$TL_restrictionReason TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-        if (constructor != i) {
+        if (-797791052 != i) {
             if (z) {
                 throw new RuntimeException(String.format("can't parse magic %x in TL_restrictionReason", Integer.valueOf(i)));
             }
@@ -27,7 +26,7 @@ public class TLRPC$TL_restrictionReason extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-797791052);
         abstractSerializedData.writeString(this.platform);
         abstractSerializedData.writeString(this.reason);
         abstractSerializedData.writeString(this.text);

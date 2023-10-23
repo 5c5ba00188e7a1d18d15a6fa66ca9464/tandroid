@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_pageBlockAudio extends TLRPC$PageBlock {
-    public static int constructor = -2143067670;
     public long audio_id;
     public TLRPC$TL_pageCaption caption;
 
@@ -13,7 +12,7 @@ public class TLRPC$TL_pageBlockAudio extends TLRPC$PageBlock {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-2143067670);
         abstractSerializedData.writeInt64(this.audio_id);
         this.caption.serializeToStream(abstractSerializedData);
     }

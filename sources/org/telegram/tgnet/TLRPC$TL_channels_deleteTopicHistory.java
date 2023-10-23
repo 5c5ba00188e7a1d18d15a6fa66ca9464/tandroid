@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_channels_deleteTopicHistory extends TLObject {
-    public static int constructor = 876830509;
     public TLRPC$InputChannel channel;
     public int top_msg_id;
 
@@ -12,7 +11,7 @@ public class TLRPC$TL_channels_deleteTopicHistory extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(876830509);
         this.channel.serializeToStream(abstractSerializedData);
         abstractSerializedData.writeInt32(this.top_msg_id);
     }

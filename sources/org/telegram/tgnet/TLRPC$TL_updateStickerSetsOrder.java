@@ -3,7 +3,6 @@ package org.telegram.tgnet;
 import java.util.ArrayList;
 /* loaded from: classes.dex */
 public class TLRPC$TL_updateStickerSetsOrder extends TLRPC$Update {
-    public static int constructor = 196268545;
     public boolean emojis;
     public int flags;
     public boolean masks;
@@ -30,7 +29,7 @@ public class TLRPC$TL_updateStickerSetsOrder extends TLRPC$Update {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(196268545);
         int i = this.masks ? this.flags | 1 : this.flags & (-2);
         this.flags = i;
         int i2 = this.emojis ? i | 2 : i & (-3);

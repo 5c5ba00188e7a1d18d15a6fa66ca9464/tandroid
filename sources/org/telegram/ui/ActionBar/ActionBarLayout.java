@@ -48,11 +48,14 @@ import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.ui.ActionBar.ActionBarLayout;
 import org.telegram.ui.ActionBar.ActionBarPopupWindow;
+import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.INavigationLayout;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ActionBar.ThemeDescription;
 import org.telegram.ui.Components.BackButtonMenu;
+import org.telegram.ui.Components.BotWebViewSheet;
 import org.telegram.ui.Components.Bulletin;
+import org.telegram.ui.Components.ChatAttachAlert;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.FloatingDebug.FloatingDebugController;
 import org.telegram.ui.Components.FloatingDebug.FloatingDebugProvider;
@@ -138,6 +141,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
     private boolean useAlphaAnimations;
     private VelocityTracker velocityTracker;
     private Runnable waitingForKeyboardCloseRunnable;
+    private Window window;
 
     @Override // org.telegram.ui.ActionBar.INavigationLayout
     public /* synthetic */ boolean addFragmentToStack(BaseFragment baseFragment) {
@@ -193,10 +197,6 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
     @Override // org.telegram.ui.ActionBar.INavigationLayout
     public /* bridge */ /* synthetic */ ViewGroup getView() {
         return INavigationLayout.-CC.$default$getView(this);
-    }
-
-    public /* bridge */ /* synthetic */ Window getWindow() {
-        return INavigationLayout.-CC.$default$getWindow(this);
     }
 
     @Override // org.telegram.ui.ActionBar.INavigationLayout
@@ -614,6 +614,16 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
     @Override // org.telegram.ui.ActionBar.INavigationLayout
     public boolean isSheet() {
         return this.isSheet;
+    }
+
+    @Override // org.telegram.ui.ActionBar.INavigationLayout
+    public void updateTitleOverlay() {
+        ActionBar actionBar;
+        BaseFragment lastFragment = getLastFragment();
+        if (lastFragment == null || (actionBar = lastFragment.actionBar) == null) {
+            return;
+        }
+        actionBar.setTitleOverlayText(this.titleOverlayText, this.titleOverlayTextId, this.overlayAction);
     }
 
     @Override // android.view.View
@@ -1367,6 +1377,14 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         if (baseFragment2 == null || checkTransitionAnimation() || !(((iNavigationLayoutDelegate = this.delegate) == null || !z3 || iNavigationLayoutDelegate.needPresentFragment(this, navigationParams)) && baseFragment2.onFragmentCreate())) {
             return false;
         }
+        BaseFragment lastFragment = getLastFragment();
+        if (lastFragment != null && lastFragment.getVisibleDialog() != null && shouldOpenFragmentOverlay(lastFragment.getVisibleDialog())) {
+            BaseFragment.BottomSheetParams bottomSheetParams = new BaseFragment.BottomSheetParams();
+            bottomSheetParams.transitionFromLeft = true;
+            bottomSheetParams.allowNestedScroll = false;
+            lastFragment.showAsSheet(baseFragment2, bottomSheetParams);
+            return true;
+        }
         if (BuildVars.LOGS_ENABLED) {
             FileLog.d("present fragment " + baseFragment2.getClass().getSimpleName() + " args=" + baseFragment2.getArguments());
         }
@@ -1699,6 +1717,10 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$presentFragment$2() {
         onAnimationEndCheck(false);
+    }
+
+    private boolean shouldOpenFragmentOverlay(Dialog dialog) {
+        return (dialog instanceof ChatAttachAlert) || (dialog instanceof BotWebViewSheet);
     }
 
     @Override // org.telegram.ui.ActionBar.INavigationLayout
@@ -2811,5 +2833,22 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
             return getLastFragment().storyViewer.windowView.dispatchTouchEvent(motionEvent);
         }
         return super.dispatchTouchEvent(motionEvent);
+    }
+
+    @Override // org.telegram.ui.ActionBar.INavigationLayout
+    public void setWindow(Window window) {
+        this.window = window;
+    }
+
+    @Override // org.telegram.ui.ActionBar.INavigationLayout
+    public Window getWindow() {
+        Window window = this.window;
+        if (window != null) {
+            return window;
+        }
+        if (getParentActivity() != null) {
+            return getParentActivity().getWindow();
+        }
+        return null;
     }
 }

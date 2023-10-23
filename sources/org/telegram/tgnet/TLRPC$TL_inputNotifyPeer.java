@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_inputNotifyPeer extends TLRPC$InputNotifyPeer {
-    public static int constructor = -1195615476;
     public TLRPC$InputPeer peer;
 
     @Override // org.telegram.tgnet.TLObject
@@ -11,7 +10,7 @@ public class TLRPC$TL_inputNotifyPeer extends TLRPC$InputNotifyPeer {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-1195615476);
         this.peer.serializeToStream(abstractSerializedData);
     }
 }

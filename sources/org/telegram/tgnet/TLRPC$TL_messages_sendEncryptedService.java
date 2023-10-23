@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_messages_sendEncryptedService extends TLObject {
-    public static int constructor = 852769188;
     public NativeByteBuffer data;
     public TLRPC$TL_inputEncryptedChat peer;
     public long random_id;
@@ -22,7 +21,7 @@ public class TLRPC$TL_messages_sendEncryptedService extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(852769188);
         this.peer.serializeToStream(abstractSerializedData);
         abstractSerializedData.writeInt64(this.random_id);
         abstractSerializedData.writeByteBuffer(this.data);

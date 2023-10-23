@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_account_setAccountTTL extends TLObject {
-    public static int constructor = 608323678;
     public TLRPC$TL_accountDaysTTL ttl;
 
     @Override // org.telegram.tgnet.TLObject
@@ -11,7 +10,7 @@ public class TLRPC$TL_account_setAccountTTL extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(608323678);
         this.ttl.serializeToStream(abstractSerializedData);
     }
 }

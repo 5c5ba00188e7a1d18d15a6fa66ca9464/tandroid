@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_messageActionGeoProximityReached extends TLRPC$MessageAction {
-    public static int constructor = -1730095465;
     public int distance;
     public TLRPC$Peer from_id;
     public TLRPC$Peer to_id;
@@ -15,7 +14,7 @@ public class TLRPC$TL_messageActionGeoProximityReached extends TLRPC$MessageActi
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-1730095465);
         this.from_id.serializeToStream(abstractSerializedData);
         this.to_id.serializeToStream(abstractSerializedData);
         abstractSerializedData.writeInt32(this.distance);

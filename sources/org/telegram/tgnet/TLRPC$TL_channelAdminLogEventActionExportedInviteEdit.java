@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_channelAdminLogEventActionExportedInviteEdit extends TLRPC$ChannelAdminLogEventAction {
-    public static int constructor = -384910503;
     public TLRPC$TL_chatInviteExported new_invite;
     public TLRPC$TL_chatInviteExported prev_invite;
 
@@ -13,7 +12,7 @@ public class TLRPC$TL_channelAdminLogEventActionExportedInviteEdit extends TLRPC
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-384910503);
         this.prev_invite.serializeToStream(abstractSerializedData);
         this.new_invite.serializeToStream(abstractSerializedData);
     }

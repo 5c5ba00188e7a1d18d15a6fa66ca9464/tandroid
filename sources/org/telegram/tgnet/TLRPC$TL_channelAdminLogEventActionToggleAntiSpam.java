@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_channelAdminLogEventActionToggleAntiSpam extends TLRPC$ChannelAdminLogEventAction {
-    public static int constructor = 1693675004;
     public boolean new_value;
 
     @Override // org.telegram.tgnet.TLObject
@@ -11,7 +10,7 @@ public class TLRPC$TL_channelAdminLogEventActionToggleAntiSpam extends TLRPC$Cha
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(1693675004);
         abstractSerializedData.writeBool(this.new_value);
     }
 }

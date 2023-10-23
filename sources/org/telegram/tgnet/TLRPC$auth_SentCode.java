@@ -12,8 +12,6 @@ public abstract class TLRPC$auth_SentCode extends TLObject {
         TLRPC$auth_SentCode tLRPC$auth_SentCode;
         if (i == 596704836) {
             tLRPC$auth_SentCode = new TLRPC$auth_SentCode() { // from class: org.telegram.tgnet.TLRPC$TL_auth_sentCodeSuccess
-                public static int constructor = 596704836;
-
                 @Override // org.telegram.tgnet.TLObject
                 public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                     this.authorization = TLRPC$auth_Authorization.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
@@ -21,14 +19,12 @@ public abstract class TLRPC$auth_SentCode extends TLObject {
 
                 @Override // org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                    abstractSerializedData2.writeInt32(constructor);
+                    abstractSerializedData2.writeInt32(596704836);
                     this.authorization.serializeToStream(abstractSerializedData2);
                 }
             };
         } else {
             tLRPC$auth_SentCode = i != 1577067778 ? null : new TLRPC$auth_SentCode() { // from class: org.telegram.tgnet.TLRPC$TL_auth_sentCode
-                public static int constructor = 1577067778;
-
                 @Override // org.telegram.tgnet.TLObject
                 public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                     this.flags = abstractSerializedData2.readInt32(z2);
@@ -44,7 +40,7 @@ public abstract class TLRPC$auth_SentCode extends TLObject {
 
                 @Override // org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                    abstractSerializedData2.writeInt32(constructor);
+                    abstractSerializedData2.writeInt32(1577067778);
                     abstractSerializedData2.writeInt32(this.flags);
                     this.type.serializeToStream(abstractSerializedData2);
                     abstractSerializedData2.writeString(this.phone_code_hash);

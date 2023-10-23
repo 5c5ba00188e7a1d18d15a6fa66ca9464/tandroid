@@ -46,16 +46,7 @@ import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$InputPeer;
 import org.telegram.tgnet.TLRPC$Peer;
-import org.telegram.tgnet.TLRPC$TL_chatlists_chatlistInvite;
-import org.telegram.tgnet.TLRPC$TL_chatlists_chatlistInviteAlready;
-import org.telegram.tgnet.TLRPC$TL_chatlists_chatlistUpdates;
-import org.telegram.tgnet.TLRPC$TL_chatlists_getLeaveChatlistSuggestions;
-import org.telegram.tgnet.TLRPC$TL_chatlists_hideChatlistUpdates;
-import org.telegram.tgnet.TLRPC$TL_chatlists_joinChatlistInvite;
-import org.telegram.tgnet.TLRPC$TL_chatlists_joinChatlistUpdates;
-import org.telegram.tgnet.TLRPC$TL_chatlists_leaveChatlist;
 import org.telegram.tgnet.TLRPC$TL_error;
-import org.telegram.tgnet.TLRPC$TL_inputChatlistDialogFilter;
 import org.telegram.tgnet.TLRPC$TL_peerChannel;
 import org.telegram.tgnet.TLRPC$TL_peerChat;
 import org.telegram.tgnet.TLRPC$TL_peerUser;
@@ -64,7 +55,16 @@ import org.telegram.tgnet.TLRPC$Update;
 import org.telegram.tgnet.TLRPC$Updates;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.tgnet.TLRPC$Vector;
-import org.telegram.tgnet.TLRPC$chatlist_ChatlistInvite;
+import org.telegram.tgnet.tl.TL_chatlists$TL_chatlists_chatlistInvite;
+import org.telegram.tgnet.tl.TL_chatlists$TL_chatlists_chatlistInviteAlready;
+import org.telegram.tgnet.tl.TL_chatlists$TL_chatlists_chatlistUpdates;
+import org.telegram.tgnet.tl.TL_chatlists$TL_chatlists_getLeaveChatlistSuggestions;
+import org.telegram.tgnet.tl.TL_chatlists$TL_chatlists_hideChatlistUpdates;
+import org.telegram.tgnet.tl.TL_chatlists$TL_chatlists_joinChatlistInvite;
+import org.telegram.tgnet.tl.TL_chatlists$TL_chatlists_joinChatlistUpdates;
+import org.telegram.tgnet.tl.TL_chatlists$TL_chatlists_leaveChatlist;
+import org.telegram.tgnet.tl.TL_chatlists$TL_inputChatlistDialogFilter;
+import org.telegram.tgnet.tl.TL_chatlists$chatlist_ChatlistInvite;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.INavigationLayout;
@@ -94,7 +94,7 @@ public class FolderBottomSheet extends BottomSheetWithRecyclerListView {
     private int filterId;
     private HeaderCell headerCell;
     private int headerRow;
-    private TLRPC$chatlist_ChatlistInvite invite;
+    private TL_chatlists$chatlist_ChatlistInvite invite;
     private long lastClicked;
     private long lastClickedDialogId;
     private Utilities.Callback<Boolean> onDone;
@@ -109,7 +109,7 @@ public class FolderBottomSheet extends BottomSheetWithRecyclerListView {
     private String title;
     private TitleCell titleCell;
     private int titleRow;
-    private TLRPC$TL_chatlists_chatlistUpdates updates;
+    private TL_chatlists$TL_chatlists_chatlistUpdates updates;
     private int usersEndRow;
     private int usersSectionRow;
     private int usersStartRow;
@@ -157,11 +157,11 @@ public class FolderBottomSheet extends BottomSheetWithRecyclerListView {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$showForDeletion$2(final int i, final BaseFragment baseFragment, final Utilities.Callback callback) {
-        TLRPC$TL_chatlists_getLeaveChatlistSuggestions tLRPC$TL_chatlists_getLeaveChatlistSuggestions = new TLRPC$TL_chatlists_getLeaveChatlistSuggestions();
-        TLRPC$TL_inputChatlistDialogFilter tLRPC$TL_inputChatlistDialogFilter = new TLRPC$TL_inputChatlistDialogFilter();
-        tLRPC$TL_chatlists_getLeaveChatlistSuggestions.chatlist = tLRPC$TL_inputChatlistDialogFilter;
-        tLRPC$TL_inputChatlistDialogFilter.filter_id = i;
-        baseFragment.getConnectionsManager().sendRequest(tLRPC$TL_chatlists_getLeaveChatlistSuggestions, new RequestDelegate() { // from class: org.telegram.ui.Components.FolderBottomSheet$$ExternalSyntheticLambda17
+        TL_chatlists$TL_chatlists_getLeaveChatlistSuggestions tL_chatlists$TL_chatlists_getLeaveChatlistSuggestions = new TL_chatlists$TL_chatlists_getLeaveChatlistSuggestions();
+        TL_chatlists$TL_inputChatlistDialogFilter tL_chatlists$TL_inputChatlistDialogFilter = new TL_chatlists$TL_inputChatlistDialogFilter();
+        tL_chatlists$TL_chatlists_getLeaveChatlistSuggestions.chatlist = tL_chatlists$TL_inputChatlistDialogFilter;
+        tL_chatlists$TL_inputChatlistDialogFilter.filter_id = i;
+        baseFragment.getConnectionsManager().sendRequest(tL_chatlists$TL_chatlists_getLeaveChatlistSuggestions, new RequestDelegate() { // from class: org.telegram.ui.Components.FolderBottomSheet$$ExternalSyntheticLambda17
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 FolderBottomSheet.lambda$showForDeletion$1(BaseFragment.this, i, callback, tLObject, tLRPC$TL_error);
@@ -260,7 +260,7 @@ public class FolderBottomSheet extends BottomSheetWithRecyclerListView {
     }
 
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public FolderBottomSheet(BaseFragment baseFragment, int i, TLRPC$TL_chatlists_chatlistUpdates tLRPC$TL_chatlists_chatlistUpdates) {
+    public FolderBottomSheet(BaseFragment baseFragment, int i, TL_chatlists$TL_chatlists_chatlistUpdates tL_chatlists$TL_chatlists_chatlistUpdates) {
         super(baseFragment, false, false);
         int i2 = 0;
         this.filterId = -1;
@@ -272,9 +272,9 @@ public class FolderBottomSheet extends BottomSheetWithRecyclerListView {
         this.reqId = -1;
         this.shiftDp = -5;
         this.filterId = i;
-        this.updates = tLRPC$TL_chatlists_chatlistUpdates;
+        this.updates = tL_chatlists$TL_chatlists_chatlistUpdates;
         arrayList.clear();
-        this.peers = tLRPC$TL_chatlists_chatlistUpdates.missing_peers;
+        this.peers = tL_chatlists$TL_chatlists_chatlistUpdates.missing_peers;
         ArrayList<MessagesController.DialogFilter> arrayList2 = baseFragment.getMessagesController().dialogFilters;
         if (arrayList2 != null) {
             while (true) {
@@ -292,7 +292,7 @@ public class FolderBottomSheet extends BottomSheetWithRecyclerListView {
     }
 
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public FolderBottomSheet(BaseFragment baseFragment, String str, TLRPC$chatlist_ChatlistInvite tLRPC$chatlist_ChatlistInvite) {
+    public FolderBottomSheet(BaseFragment baseFragment, String str, TL_chatlists$chatlist_ChatlistInvite tL_chatlists$chatlist_ChatlistInvite) {
         super(baseFragment, false, false);
         int i = 0;
         this.filterId = -1;
@@ -304,17 +304,17 @@ public class FolderBottomSheet extends BottomSheetWithRecyclerListView {
         this.reqId = -1;
         this.shiftDp = -5;
         this.slug = str;
-        this.invite = tLRPC$chatlist_ChatlistInvite;
+        this.invite = tL_chatlists$chatlist_ChatlistInvite;
         arrayList.clear();
-        if (tLRPC$chatlist_ChatlistInvite instanceof TLRPC$TL_chatlists_chatlistInvite) {
-            TLRPC$TL_chatlists_chatlistInvite tLRPC$TL_chatlists_chatlistInvite = (TLRPC$TL_chatlists_chatlistInvite) tLRPC$chatlist_ChatlistInvite;
-            this.title = tLRPC$TL_chatlists_chatlistInvite.title;
-            this.peers = tLRPC$TL_chatlists_chatlistInvite.peers;
-        } else if (tLRPC$chatlist_ChatlistInvite instanceof TLRPC$TL_chatlists_chatlistInviteAlready) {
-            TLRPC$TL_chatlists_chatlistInviteAlready tLRPC$TL_chatlists_chatlistInviteAlready = (TLRPC$TL_chatlists_chatlistInviteAlready) tLRPC$chatlist_ChatlistInvite;
-            this.peers = tLRPC$TL_chatlists_chatlistInviteAlready.missing_peers;
-            this.alreadyPeers = tLRPC$TL_chatlists_chatlistInviteAlready.already_peers;
-            this.filterId = tLRPC$TL_chatlists_chatlistInviteAlready.filter_id;
+        if (tL_chatlists$chatlist_ChatlistInvite instanceof TL_chatlists$TL_chatlists_chatlistInvite) {
+            TL_chatlists$TL_chatlists_chatlistInvite tL_chatlists$TL_chatlists_chatlistInvite = (TL_chatlists$TL_chatlists_chatlistInvite) tL_chatlists$chatlist_ChatlistInvite;
+            this.title = tL_chatlists$TL_chatlists_chatlistInvite.title;
+            this.peers = tL_chatlists$TL_chatlists_chatlistInvite.peers;
+        } else if (tL_chatlists$chatlist_ChatlistInvite instanceof TL_chatlists$TL_chatlists_chatlistInviteAlready) {
+            TL_chatlists$TL_chatlists_chatlistInviteAlready tL_chatlists$TL_chatlists_chatlistInviteAlready = (TL_chatlists$TL_chatlists_chatlistInviteAlready) tL_chatlists$chatlist_ChatlistInvite;
+            this.peers = tL_chatlists$TL_chatlists_chatlistInviteAlready.missing_peers;
+            this.alreadyPeers = tL_chatlists$TL_chatlists_chatlistInviteAlready.already_peers;
+            this.filterId = tL_chatlists$TL_chatlists_chatlistInviteAlready.filter_id;
             ArrayList<MessagesController.DialogFilter> arrayList2 = baseFragment.getMessagesController().dialogFilters;
             if (arrayList2 != null) {
                 while (true) {
@@ -446,7 +446,7 @@ public class FolderBottomSheet extends BottomSheetWithRecyclerListView {
 
     /* JADX WARN: Multi-variable type inference failed */
     private void onJoinButtonClicked() {
-        final TLRPC$TL_chatlists_joinChatlistInvite tLRPC$TL_chatlists_joinChatlistInvite;
+        final TL_chatlists$TL_chatlists_joinChatlistInvite tL_chatlists$TL_chatlists_joinChatlistInvite;
         final Utilities.Callback callback;
         boolean z;
         Button button = this.button;
@@ -456,7 +456,7 @@ public class FolderBottomSheet extends BottomSheetWithRecyclerListView {
                 dismiss();
             } else if (arrayList.isEmpty() && !this.deleting) {
                 dismiss();
-            } else if (this.selectedPeers.isEmpty() && (this.invite instanceof TLRPC$TL_chatlists_chatlistInvite)) {
+            } else if (this.selectedPeers.isEmpty() && (this.invite instanceof TL_chatlists$TL_chatlists_chatlistInvite)) {
                 Button button2 = this.button;
                 int i = -this.shiftDp;
                 this.shiftDp = i;
@@ -472,37 +472,37 @@ public class FolderBottomSheet extends BottomSheetWithRecyclerListView {
                 }
                 UndoView undoView = null;
                 if (this.deleting) {
-                    TLRPC$TL_chatlists_leaveChatlist tLRPC$TL_chatlists_leaveChatlist = new TLRPC$TL_chatlists_leaveChatlist();
-                    TLRPC$TL_inputChatlistDialogFilter tLRPC$TL_inputChatlistDialogFilter = new TLRPC$TL_inputChatlistDialogFilter();
-                    tLRPC$TL_chatlists_leaveChatlist.chatlist = tLRPC$TL_inputChatlistDialogFilter;
-                    tLRPC$TL_inputChatlistDialogFilter.filter_id = this.filterId;
-                    tLRPC$TL_chatlists_leaveChatlist.peers.addAll(arrayList2);
-                    tLRPC$TL_chatlists_joinChatlistInvite = tLRPC$TL_chatlists_leaveChatlist;
+                    TL_chatlists$TL_chatlists_leaveChatlist tL_chatlists$TL_chatlists_leaveChatlist = new TL_chatlists$TL_chatlists_leaveChatlist();
+                    TL_chatlists$TL_inputChatlistDialogFilter tL_chatlists$TL_inputChatlistDialogFilter = new TL_chatlists$TL_inputChatlistDialogFilter();
+                    tL_chatlists$TL_chatlists_leaveChatlist.chatlist = tL_chatlists$TL_inputChatlistDialogFilter;
+                    tL_chatlists$TL_inputChatlistDialogFilter.filter_id = this.filterId;
+                    tL_chatlists$TL_chatlists_leaveChatlist.peers.addAll(arrayList2);
+                    tL_chatlists$TL_chatlists_joinChatlistInvite = tL_chatlists$TL_chatlists_leaveChatlist;
                 } else if (this.updates != null) {
                     if (arrayList2.isEmpty()) {
-                        TLRPC$TL_chatlists_hideChatlistUpdates tLRPC$TL_chatlists_hideChatlistUpdates = new TLRPC$TL_chatlists_hideChatlistUpdates();
-                        TLRPC$TL_inputChatlistDialogFilter tLRPC$TL_inputChatlistDialogFilter2 = new TLRPC$TL_inputChatlistDialogFilter();
-                        tLRPC$TL_chatlists_hideChatlistUpdates.chatlist = tLRPC$TL_inputChatlistDialogFilter2;
-                        tLRPC$TL_inputChatlistDialogFilter2.filter_id = this.filterId;
-                        getBaseFragment().getConnectionsManager().sendRequest(tLRPC$TL_chatlists_hideChatlistUpdates, null);
+                        TL_chatlists$TL_chatlists_hideChatlistUpdates tL_chatlists$TL_chatlists_hideChatlistUpdates = new TL_chatlists$TL_chatlists_hideChatlistUpdates();
+                        TL_chatlists$TL_inputChatlistDialogFilter tL_chatlists$TL_inputChatlistDialogFilter2 = new TL_chatlists$TL_inputChatlistDialogFilter();
+                        tL_chatlists$TL_chatlists_hideChatlistUpdates.chatlist = tL_chatlists$TL_inputChatlistDialogFilter2;
+                        tL_chatlists$TL_inputChatlistDialogFilter2.filter_id = this.filterId;
+                        getBaseFragment().getConnectionsManager().sendRequest(tL_chatlists$TL_chatlists_hideChatlistUpdates, null);
                         getBaseFragment().getMessagesController().invalidateChatlistFolderUpdate(this.filterId);
                         dismiss();
                         return;
                     }
-                    TLRPC$TL_chatlists_joinChatlistUpdates tLRPC$TL_chatlists_joinChatlistUpdates = new TLRPC$TL_chatlists_joinChatlistUpdates();
-                    TLRPC$TL_inputChatlistDialogFilter tLRPC$TL_inputChatlistDialogFilter3 = new TLRPC$TL_inputChatlistDialogFilter();
-                    tLRPC$TL_chatlists_joinChatlistUpdates.chatlist = tLRPC$TL_inputChatlistDialogFilter3;
-                    tLRPC$TL_inputChatlistDialogFilter3.filter_id = this.filterId;
-                    tLRPC$TL_chatlists_joinChatlistUpdates.peers.addAll(arrayList2);
-                    tLRPC$TL_chatlists_joinChatlistInvite = tLRPC$TL_chatlists_joinChatlistUpdates;
-                } else if ((this.invite instanceof TLRPC$TL_chatlists_chatlistInviteAlready) && arrayList2.isEmpty()) {
+                    TL_chatlists$TL_chatlists_joinChatlistUpdates tL_chatlists$TL_chatlists_joinChatlistUpdates = new TL_chatlists$TL_chatlists_joinChatlistUpdates();
+                    TL_chatlists$TL_inputChatlistDialogFilter tL_chatlists$TL_inputChatlistDialogFilter3 = new TL_chatlists$TL_inputChatlistDialogFilter();
+                    tL_chatlists$TL_chatlists_joinChatlistUpdates.chatlist = tL_chatlists$TL_inputChatlistDialogFilter3;
+                    tL_chatlists$TL_inputChatlistDialogFilter3.filter_id = this.filterId;
+                    tL_chatlists$TL_chatlists_joinChatlistUpdates.peers.addAll(arrayList2);
+                    tL_chatlists$TL_chatlists_joinChatlistInvite = tL_chatlists$TL_chatlists_joinChatlistUpdates;
+                } else if ((this.invite instanceof TL_chatlists$TL_chatlists_chatlistInviteAlready) && arrayList2.isEmpty()) {
                     dismiss();
                     return;
                 } else {
-                    TLRPC$TL_chatlists_joinChatlistInvite tLRPC$TL_chatlists_joinChatlistInvite2 = new TLRPC$TL_chatlists_joinChatlistInvite();
-                    tLRPC$TL_chatlists_joinChatlistInvite2.slug = this.slug;
-                    tLRPC$TL_chatlists_joinChatlistInvite2.peers.addAll(arrayList2);
-                    tLRPC$TL_chatlists_joinChatlistInvite = tLRPC$TL_chatlists_joinChatlistInvite2;
+                    TL_chatlists$TL_chatlists_joinChatlistInvite tL_chatlists$TL_chatlists_joinChatlistInvite2 = new TL_chatlists$TL_chatlists_joinChatlistInvite();
+                    tL_chatlists$TL_chatlists_joinChatlistInvite2.slug = this.slug;
+                    tL_chatlists$TL_chatlists_joinChatlistInvite2.peers.addAll(arrayList2);
+                    tL_chatlists$TL_chatlists_joinChatlistInvite = tL_chatlists$TL_chatlists_joinChatlistInvite2;
                 }
                 final INavigationLayout parentLayout = getBaseFragment().getParentLayout();
                 if (!this.deleting) {
@@ -548,7 +548,7 @@ public class FolderBottomSheet extends BottomSheetWithRecyclerListView {
                             }
                         }
                         this.button.setLoading(true);
-                        this.reqId = getBaseFragment().getConnectionsManager().sendRequest(tLRPC$TL_chatlists_joinChatlistInvite, new RequestDelegate() { // from class: org.telegram.ui.Components.FolderBottomSheet$$ExternalSyntheticLambda19
+                        this.reqId = getBaseFragment().getConnectionsManager().sendRequest(tL_chatlists$TL_chatlists_joinChatlistInvite, new RequestDelegate() { // from class: org.telegram.ui.Components.FolderBottomSheet$$ExternalSyntheticLambda19
                             @Override // org.telegram.tgnet.RequestDelegate
                             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                                 FolderBottomSheet.this.lambda$onJoinButtonClicked$18(callback, tLObject, tLRPC$TL_error);
@@ -573,7 +573,7 @@ public class FolderBottomSheet extends BottomSheetWithRecyclerListView {
                     UndoView undoView2 = undoView;
                     if (undoView2 == null) {
                         this.button.setLoading(true);
-                        this.reqId = getBaseFragment().getConnectionsManager().sendRequest(tLRPC$TL_chatlists_joinChatlistInvite, new RequestDelegate() { // from class: org.telegram.ui.Components.FolderBottomSheet$$ExternalSyntheticLambda20
+                        this.reqId = getBaseFragment().getConnectionsManager().sendRequest(tL_chatlists$TL_chatlists_joinChatlistInvite, new RequestDelegate() { // from class: org.telegram.ui.Components.FolderBottomSheet$$ExternalSyntheticLambda20
                             @Override // org.telegram.tgnet.RequestDelegate
                             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                                 FolderBottomSheet.this.lambda$onJoinButtonClicked$7(lastFragment, arrayList2, tLObject, tLRPC$TL_error);
@@ -589,7 +589,7 @@ public class FolderBottomSheet extends BottomSheetWithRecyclerListView {
                     undoView2.showWithAction(0L, 88, this.title, Integer.valueOf(arrayList2.size()), new Runnable() { // from class: org.telegram.ui.Components.FolderBottomSheet$$ExternalSyntheticLambda7
                         @Override // java.lang.Runnable
                         public final void run() {
-                            FolderBottomSheet.this.lambda$onJoinButtonClicked$10(tLRPC$TL_chatlists_joinChatlistInvite, removeFolderTemporarily);
+                            FolderBottomSheet.this.lambda$onJoinButtonClicked$10(tL_chatlists$TL_chatlists_joinChatlistInvite, removeFolderTemporarily);
                         }
                     }, (Runnable) removeFolderTemporarily.second);
                     this.success = true;
@@ -648,7 +648,7 @@ public class FolderBottomSheet extends BottomSheetWithRecyclerListView {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onJoinButtonClicked$11(ArrayList arrayList, BaseFragment baseFragment) {
         String formatPluralString;
-        if (this.updates != null || (this.invite instanceof TLRPC$TL_chatlists_chatlistInviteAlready)) {
+        if (this.updates != null || (this.invite instanceof TL_chatlists$TL_chatlists_chatlistInviteAlready)) {
             BulletinFactory of = BulletinFactory.of(baseFragment);
             int i = R.raw.folder_in;
             SpannableStringBuilder replaceTags = AndroidUtilities.replaceTags(LocaleController.formatString("FolderLinkUpdatedTitle", R.string.FolderLinkUpdatedTitle, this.escapedTitle));
@@ -747,7 +747,7 @@ public class FolderBottomSheet extends BottomSheetWithRecyclerListView {
                     }
                 }
             }
-            if (this.invite instanceof TLRPC$TL_chatlists_chatlistInvite) {
+            if (this.invite instanceof TL_chatlists$TL_chatlists_chatlistInvite) {
                 getBaseFragment().getMessagesController().loadRemoteFilters(true, new Utilities.Callback() { // from class: org.telegram.ui.Components.FolderBottomSheet$$ExternalSyntheticLambda16
                     @Override // org.telegram.messenger.Utilities.Callback
                     public final void run(Object obj) {
@@ -871,14 +871,14 @@ public class FolderBottomSheet extends BottomSheetWithRecyclerListView {
                 ArrayList<TLRPC$Peer> arrayList = this.peers;
                 if (arrayList == null || arrayList.isEmpty()) {
                     this.button.setText(LocaleController.getString("OK", R.string.OK), z);
-                } else if (this.invite instanceof TLRPC$TL_chatlists_chatlistInvite) {
+                } else if (this.invite instanceof TL_chatlists$TL_chatlists_chatlistInvite) {
                     this.button.setText(LocaleController.formatString("FolderLinkButtonAdd", R.string.FolderLinkButtonAdd, this.title), z);
                 } else {
                     this.button.setText(size > 0 ? LocaleController.formatPluralString("FolderLinkButtonJoinPlural", size, new Object[0]) : LocaleController.getString("FolderLinkButtonNone", R.string.FolderLinkButtonNone), z);
                 }
             }
             this.button.setCount(size, z);
-            if (this.invite instanceof TLRPC$TL_chatlists_chatlistInvite) {
+            if (this.invite instanceof TL_chatlists$TL_chatlists_chatlistInvite) {
                 this.button.setEnabled(!this.selectedPeers.isEmpty());
             }
         }
@@ -1164,7 +1164,7 @@ public class FolderBottomSheet extends BottomSheetWithRecyclerListView {
         if (this.deleting) {
             return LocaleController.getString("FolderLinkTitleRemove", R.string.FolderLinkTitleRemove);
         }
-        if (this.invite instanceof TLRPC$TL_chatlists_chatlistInvite) {
+        if (this.invite instanceof TL_chatlists$TL_chatlists_chatlistInvite) {
             return LocaleController.getString("FolderLinkTitleAdd", R.string.FolderLinkTitleAdd);
         }
         ArrayList<TLRPC$Peer> arrayList = this.peers;
@@ -1189,7 +1189,7 @@ public class FolderBottomSheet extends BottomSheetWithRecyclerListView {
                 if (i == 0) {
                     FolderBottomSheet folderBottomSheet = FolderBottomSheet.this;
                     FolderBottomSheet folderBottomSheet2 = FolderBottomSheet.this;
-                    view = folderBottomSheet.titleCell = new TitleCell(folderBottomSheet2.getContext(), ((FolderBottomSheet.this.invite instanceof TLRPC$TL_chatlists_chatlistInviteAlready) || FolderBottomSheet.this.updates != null) ? true : true, FolderBottomSheet.this.escapedTitle);
+                    view = folderBottomSheet.titleCell = new TitleCell(folderBottomSheet2.getContext(), ((FolderBottomSheet.this.invite instanceof TL_chatlists$TL_chatlists_chatlistInviteAlready) || FolderBottomSheet.this.updates != null) ? true : true, FolderBottomSheet.this.escapedTitle);
                 } else if (i == 1) {
                     view = new TextInfoPrivacyCell(FolderBottomSheet.this.getContext());
                     view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray));

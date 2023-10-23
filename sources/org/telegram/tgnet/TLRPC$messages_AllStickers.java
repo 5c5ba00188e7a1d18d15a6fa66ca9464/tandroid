@@ -16,11 +16,9 @@ public abstract class TLRPC$messages_AllStickers extends TLObject {
             tLRPC$TL_messages_allStickers = new TLRPC$TL_messages_allStickers();
         } else {
             tLRPC$TL_messages_allStickers = i != -395967805 ? null : new TLRPC$messages_AllStickers() { // from class: org.telegram.tgnet.TLRPC$TL_messages_allStickersNotModified
-                public static int constructor = -395967805;
-
                 @Override // org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                    abstractSerializedData2.writeInt32(constructor);
+                    abstractSerializedData2.writeInt32(-395967805);
                 }
             };
         }

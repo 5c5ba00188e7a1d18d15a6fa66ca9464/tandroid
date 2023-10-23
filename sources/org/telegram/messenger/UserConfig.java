@@ -303,14 +303,14 @@ public class UserConfig extends BaseController {
     }
 
     /* JADX WARN: Can't wrap try/catch for region: R(20:9|(1:11)|12|(16:17|18|19|20|(1:24)|26|(1:28)|29|(1:33)|34|(1:38)|39|(1:41)|42|43|44)|47|18|19|20|(2:22|24)|26|(0)|29|(2:31|33)|34|(2:36|38)|39|(0)|42|43|44) */
-    /* JADX WARN: Code restructure failed: missing block: B:25:0x0140, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:25:0x0142, code lost:
         r2 = move-exception;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:26:0x0141, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:26:0x0143, code lost:
         org.telegram.messenger.FileLog.e(r2);
      */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x014e A[Catch: all -> 0x01c9, TryCatch #1 {, blocks: (B:4:0x0003, B:6:0x0007, B:8:0x0009, B:10:0x0012, B:11:0x001b, B:13:0x00d6, B:18:0x00e2, B:19:0x011e, B:21:0x0127, B:23:0x012d, B:27:0x0144, B:29:0x014e, B:30:0x0176, B:32:0x017f, B:34:0x0185, B:35:0x0197, B:37:0x01a0, B:39:0x01a6, B:40:0x01b8, B:42:0x01bc, B:43:0x01c5, B:44:0x01c7, B:26:0x0141), top: B:51:0x0003, inners: #0 }] */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x01bc A[Catch: all -> 0x01c9, TryCatch #1 {, blocks: (B:4:0x0003, B:6:0x0007, B:8:0x0009, B:10:0x0012, B:11:0x001b, B:13:0x00d6, B:18:0x00e2, B:19:0x011e, B:21:0x0127, B:23:0x012d, B:27:0x0144, B:29:0x014e, B:30:0x0176, B:32:0x017f, B:34:0x0185, B:35:0x0197, B:37:0x01a0, B:39:0x01a6, B:40:0x01b8, B:42:0x01bc, B:43:0x01c5, B:44:0x01c7, B:26:0x0141), top: B:51:0x0003, inners: #0 }] */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x0150 A[Catch: all -> 0x01cb, TryCatch #0 {, blocks: (B:4:0x0003, B:6:0x0007, B:8:0x0009, B:10:0x0012, B:11:0x001b, B:13:0x00d7, B:18:0x00e3, B:19:0x0120, B:21:0x0129, B:23:0x012f, B:27:0x0146, B:29:0x0150, B:30:0x0178, B:32:0x0181, B:34:0x0187, B:35:0x0199, B:37:0x01a2, B:39:0x01a8, B:40:0x01ba, B:42:0x01be, B:43:0x01c7, B:44:0x01c9, B:26:0x0143), top: B:49:0x0003, inners: #1 }] */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x01be A[Catch: all -> 0x01cb, TryCatch #0 {, blocks: (B:4:0x0003, B:6:0x0007, B:8:0x0009, B:10:0x0012, B:11:0x001b, B:13:0x00d7, B:18:0x00e3, B:19:0x0120, B:21:0x0129, B:23:0x012f, B:27:0x0146, B:29:0x0150, B:30:0x0178, B:32:0x0181, B:34:0x0187, B:35:0x0199, B:37:0x01a2, B:39:0x01a8, B:40:0x01ba, B:42:0x01be, B:43:0x01c7, B:44:0x01c9, B:26:0x0143), top: B:49:0x0003, inners: #1 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -675,8 +675,6 @@ public class UserConfig extends BaseController {
         }
         this.ttlIsLoading = true;
         getConnectionsManager().sendRequest(new TLObject() { // from class: org.telegram.tgnet.TLRPC$TL_messages_getDefaultHistoryTTL
-            public static int constructor = 1703637384;
-
             @Override // org.telegram.tgnet.TLObject
             public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i, boolean z) {
                 return TLRPC$TL_defaultHistoryTTL.TLdeserialize(abstractSerializedData, i, z);
@@ -684,7 +682,7 @@ public class UserConfig extends BaseController {
 
             @Override // org.telegram.tgnet.TLObject
             public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-                abstractSerializedData.writeInt32(constructor);
+                abstractSerializedData.writeInt32(1703637384);
             }
         }, new RequestDelegate() { // from class: org.telegram.messenger.UserConfig$$ExternalSyntheticLambda3
             @Override // org.telegram.tgnet.RequestDelegate

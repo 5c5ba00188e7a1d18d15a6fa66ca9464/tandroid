@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_phone_setCallRating extends TLObject {
-    public static int constructor = 1508562471;
     public String comment;
     public int flags;
     public TLRPC$TL_inputPhoneCall peer;
@@ -15,7 +14,7 @@ public class TLRPC$TL_phone_setCallRating extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(1508562471);
         int i = this.user_initiative ? this.flags | 1 : this.flags & (-2);
         this.flags = i;
         abstractSerializedData.writeInt32(i);

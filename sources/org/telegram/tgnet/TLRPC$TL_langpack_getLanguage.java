@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_langpack_getLanguage extends TLObject {
-    public static int constructor = 1784243458;
     public String lang_code;
     public String lang_pack;
 
@@ -12,7 +11,7 @@ public class TLRPC$TL_langpack_getLanguage extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(1784243458);
         abstractSerializedData.writeString(this.lang_pack);
         abstractSerializedData.writeString(this.lang_code);
     }

@@ -3,7 +3,6 @@ package org.telegram.tgnet;
 import java.util.ArrayList;
 /* loaded from: classes.dex */
 public class TLRPC$TL_updateDeleteScheduledMessages extends TLRPC$Update {
-    public static int constructor = -1870238482;
     public ArrayList<Integer> messages = new ArrayList<>();
     public TLRPC$Peer peer;
 
@@ -25,7 +24,7 @@ public class TLRPC$TL_updateDeleteScheduledMessages extends TLRPC$Update {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-1870238482);
         this.peer.serializeToStream(abstractSerializedData);
         abstractSerializedData.writeInt32(481674261);
         int size = this.messages.size();

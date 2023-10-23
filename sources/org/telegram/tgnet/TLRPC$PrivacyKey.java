@@ -6,101 +6,81 @@ public abstract class TLRPC$PrivacyKey extends TLObject {
         switch (i) {
             case -1777000467:
                 tLRPC$PrivacyKey = new TLRPC$PrivacyKey() { // from class: org.telegram.tgnet.TLRPC$TL_privacyKeyProfilePhoto
-                    public static int constructor = -1777000467;
-
                     @Override // org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(-1777000467);
                     }
                 };
                 break;
             case -1534675103:
                 tLRPC$PrivacyKey = new TLRPC$PrivacyKey() { // from class: org.telegram.tgnet.TLRPC$TL_privacyKeyAbout
-                    public static int constructor = -1534675103;
-
                     @Override // org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(-1534675103);
                     }
                 };
                 break;
             case -1137792208:
                 tLRPC$PrivacyKey = new TLRPC$PrivacyKey() { // from class: org.telegram.tgnet.TLRPC$TL_privacyKeyStatusTimestamp
-                    public static int constructor = -1137792208;
-
                     @Override // org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(-1137792208);
                     }
                 };
                 break;
             case -778378131:
                 tLRPC$PrivacyKey = new TLRPC$PrivacyKey() { // from class: org.telegram.tgnet.TLRPC$TL_privacyKeyPhoneNumber
-                    public static int constructor = -778378131;
-
                     @Override // org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(-778378131);
                     }
                 };
                 break;
             case 110621716:
                 tLRPC$PrivacyKey = new TLRPC$PrivacyKey() { // from class: org.telegram.tgnet.TLRPC$TL_privacyKeyVoiceMessages
-                    public static int constructor = 110621716;
-
                     @Override // org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(110621716);
                     }
                 };
                 break;
             case 961092808:
                 tLRPC$PrivacyKey = new TLRPC$PrivacyKey() { // from class: org.telegram.tgnet.TLRPC$TL_privacyKeyPhoneP2P
-                    public static int constructor = 961092808;
-
                     @Override // org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(961092808);
                     }
                 };
                 break;
             case 1030105979:
                 tLRPC$PrivacyKey = new TLRPC$PrivacyKey() { // from class: org.telegram.tgnet.TLRPC$TL_privacyKeyPhoneCall
-                    public static int constructor = 1030105979;
-
                     @Override // org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(1030105979);
                     }
                 };
                 break;
             case 1124062251:
                 tLRPC$PrivacyKey = new TLRPC$PrivacyKey() { // from class: org.telegram.tgnet.TLRPC$TL_privacyKeyAddedByPhone
-                    public static int constructor = 1124062251;
-
                     @Override // org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(1124062251);
                     }
                 };
                 break;
             case 1343122938:
                 tLRPC$PrivacyKey = new TLRPC$PrivacyKey() { // from class: org.telegram.tgnet.TLRPC$TL_privacyKeyChatInvite
-                    public static int constructor = 1343122938;
-
                     @Override // org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(1343122938);
                     }
                 };
                 break;
             case 1777096355:
                 tLRPC$PrivacyKey = new TLRPC$PrivacyKey() { // from class: org.telegram.tgnet.TLRPC$TL_privacyKeyForwards
-                    public static int constructor = 1777096355;
-
                     @Override // org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(1777096355);
                     }
                 };
                 break;

@@ -5,20 +5,16 @@ public abstract class TLRPC$Bool extends TLObject {
         TLRPC$Bool tLRPC$Bool;
         if (i == -1720552011) {
             tLRPC$Bool = new TLRPC$Bool() { // from class: org.telegram.tgnet.TLRPC$TL_boolTrue
-                public static int constructor = -1720552011;
-
                 @Override // org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                    abstractSerializedData2.writeInt32(constructor);
+                    abstractSerializedData2.writeInt32(-1720552011);
                 }
             };
         } else {
             tLRPC$Bool = i != -1132882121 ? null : new TLRPC$Bool() { // from class: org.telegram.tgnet.TLRPC$TL_boolFalse
-                public static int constructor = -1132882121;
-
                 @Override // org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                    abstractSerializedData2.writeInt32(constructor);
+                    abstractSerializedData2.writeInt32(-1132882121);
                 }
             };
         }

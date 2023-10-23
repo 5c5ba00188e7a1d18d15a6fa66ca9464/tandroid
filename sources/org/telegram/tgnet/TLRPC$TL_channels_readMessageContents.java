@@ -3,7 +3,6 @@ package org.telegram.tgnet;
 import java.util.ArrayList;
 /* loaded from: classes.dex */
 public class TLRPC$TL_channels_readMessageContents extends TLObject {
-    public static int constructor = -357180360;
     public TLRPC$InputChannel channel;
     public ArrayList<Integer> id = new ArrayList<>();
 
@@ -14,7 +13,7 @@ public class TLRPC$TL_channels_readMessageContents extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-357180360);
         this.channel.serializeToStream(abstractSerializedData);
         abstractSerializedData.writeInt32(481674261);
         int size = this.id.size();

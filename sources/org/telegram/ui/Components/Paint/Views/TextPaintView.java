@@ -21,6 +21,7 @@ import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
+import org.telegram.messenger.Utilities;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedEmojiSpan;
 import org.telegram.ui.Components.LayoutHelper;
@@ -34,8 +35,12 @@ public class TextPaintView extends EntityView {
     private int align;
     private int baseFontSize;
     private int currentType;
+    private boolean disableAutoresize;
     private EditTextOutline editText;
     private String lastTypefaceKey;
+    private int maxFontSize;
+    private int minFontSize;
+    private Runnable onFontChange;
     private Swatch swatch;
     private PaintTypeface typeface;
 
@@ -101,8 +106,7 @@ public class TextPaintView extends EntityView {
         setType(i2);
         updatePosition();
         this.editText.addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.Components.Paint.Views.TextPaintView.2
-            private int beforeCursorPosition = 0;
-            private String text;
+            boolean pasted;
 
             @Override // android.text.TextWatcher
             public void onTextChanged(CharSequence charSequence2, int i4, int i5, int i6) {
@@ -110,19 +114,23 @@ public class TextPaintView extends EntityView {
 
             @Override // android.text.TextWatcher
             public void beforeTextChanged(CharSequence charSequence2, int i4, int i5, int i6) {
-                this.text = charSequence2.toString();
-                this.beforeCursorPosition = i4;
+                this.pasted = i6 > 3;
             }
 
             @Override // android.text.TextWatcher
             public void afterTextChanged(Editable editable) {
-                TextPaintView.this.editText.removeTextChangedListener(this);
-                if (TextPaintView.this.editText.getLineCount() > 9) {
-                    TextPaintView.this.editText.setText(this.text);
-                    TextPaintView.this.editText.setSelection(this.beforeCursorPosition);
+                int clamp;
+                if (this.pasted && TextPaintView.this.minFontSize > 0 && TextPaintView.this.maxFontSize > 0 && !TextPaintView.this.disableAutoresize && TextPaintView.this.editText.getLayout() != null) {
+                    float f = AndroidUtilities.displaySize.y / 3.0f;
+                    float height = TextPaintView.this.editText.getLayout().getHeight();
+                    if (height > f && (clamp = Utilities.clamp((int) ((f / height) * TextPaintView.this.getBaseFontSize()), TextPaintView.this.maxFontSize, TextPaintView.this.minFontSize)) != TextPaintView.this.getBaseFontSize()) {
+                        TextPaintView.this.setBaseFontSize(clamp);
+                        if (TextPaintView.this.onFontChange != null) {
+                            TextPaintView.this.onFontChange.run();
+                        }
+                    }
                 }
                 TextPaintView.this.updateHint();
-                TextPaintView.this.editText.addTextChangedListener(this);
             }
         });
     }
@@ -195,6 +203,16 @@ public class TextPaintView extends EntityView {
 
     public int getBaseFontSize() {
         return this.baseFontSize;
+    }
+
+    public void setMinMaxFontSize(int i, int i2, Runnable runnable) {
+        this.minFontSize = i;
+        this.maxFontSize = i2;
+        this.onFontChange = runnable;
+    }
+
+    public void disableAutoresize(boolean z) {
+        this.disableAutoresize = z;
     }
 
     public void setBaseFontSize(int i) {

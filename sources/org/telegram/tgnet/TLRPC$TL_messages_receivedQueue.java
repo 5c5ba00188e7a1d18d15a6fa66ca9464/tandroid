@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_messages_receivedQueue extends TLObject {
-    public static int constructor = 1436924774;
     public int max_qts;
 
     @Override // org.telegram.tgnet.TLObject
@@ -16,7 +15,7 @@ public class TLRPC$TL_messages_receivedQueue extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(1436924774);
         abstractSerializedData.writeInt32(this.max_qts);
     }
 }

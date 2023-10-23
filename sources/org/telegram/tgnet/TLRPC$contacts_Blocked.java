@@ -12,8 +12,6 @@ public abstract class TLRPC$contacts_Blocked extends TLObject {
         TLRPC$contacts_Blocked tLRPC$contacts_Blocked;
         if (i != -513392236) {
             tLRPC$contacts_Blocked = i != 182326673 ? null : new TLRPC$contacts_Blocked() { // from class: org.telegram.tgnet.TLRPC$TL_contacts_blocked
-                public static int constructor = 182326673;
-
                 @Override // org.telegram.tgnet.TLObject
                 public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                     int readInt32 = abstractSerializedData2.readInt32(z2);
@@ -65,7 +63,7 @@ public abstract class TLRPC$contacts_Blocked extends TLObject {
 
                 @Override // org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                    abstractSerializedData2.writeInt32(constructor);
+                    abstractSerializedData2.writeInt32(182326673);
                     abstractSerializedData2.writeInt32(481674261);
                     int size = this.blocked.size();
                     abstractSerializedData2.writeInt32(size);
@@ -88,8 +86,6 @@ public abstract class TLRPC$contacts_Blocked extends TLObject {
             };
         } else {
             tLRPC$contacts_Blocked = new TLRPC$contacts_Blocked() { // from class: org.telegram.tgnet.TLRPC$TL_contacts_blockedSlice
-                public static int constructor = -513392236;
-
                 @Override // org.telegram.tgnet.TLObject
                 public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                     this.count = abstractSerializedData2.readInt32(z2);
@@ -142,7 +138,7 @@ public abstract class TLRPC$contacts_Blocked extends TLObject {
 
                 @Override // org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                    abstractSerializedData2.writeInt32(constructor);
+                    abstractSerializedData2.writeInt32(-513392236);
                     abstractSerializedData2.writeInt32(this.count);
                     abstractSerializedData2.writeInt32(481674261);
                     int size = this.blocked.size();

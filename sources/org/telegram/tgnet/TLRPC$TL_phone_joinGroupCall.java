@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_phone_joinGroupCall extends TLObject {
-    public static int constructor = -1322057861;
     public TLRPC$TL_inputGroupCall call;
     public int flags;
     public String invite_hash;
@@ -17,7 +16,7 @@ public class TLRPC$TL_phone_joinGroupCall extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-1322057861);
         int i = this.muted ? this.flags | 1 : this.flags & (-2);
         this.flags = i;
         int i2 = this.video_stopped ? i | 4 : i & (-5);

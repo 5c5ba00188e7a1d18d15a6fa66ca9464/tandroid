@@ -49,6 +49,8 @@ import org.telegram.ui.Cells.LetterSectionCell;
 import org.telegram.ui.Cells.TextSettingsCell;
 import org.telegram.ui.Components.EmptyTextProgressView;
 import org.telegram.ui.Components.LayoutHelper;
+import org.telegram.ui.Components.Premium.boosts.BoostRepository$$ExternalSyntheticLambda27;
+import org.telegram.ui.Components.Premium.boosts.BoostRepository$$ExternalSyntheticLambda29;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.CountrySelectActivity;
 /* loaded from: classes3.dex */
@@ -313,20 +315,15 @@ public class CountrySelectActivity extends BaseFragment {
                 }
             }
             if (Build.VERSION.SDK_INT >= 24) {
-                final Collator collator = Collator.getInstance(LocaleController.getInstance().getCurrentLocale() != null ? LocaleController.getInstance().getCurrentLocale() : Locale.getDefault());
+                Collator collator = Collator.getInstance(LocaleController.getInstance().getCurrentLocale() != null ? LocaleController.getInstance().getCurrentLocale() : Locale.getDefault());
                 Objects.requireNonNull(collator);
-                comparator = new Comparator() { // from class: org.telegram.ui.CountrySelectActivity$CountryAdapter$$ExternalSyntheticLambda0
-                    @Override // java.util.Comparator
-                    public final int compare(Object obj, Object obj2) {
-                        return collator.compare((String) obj, (String) obj2);
-                    }
-                };
+                comparator = new BoostRepository$$ExternalSyntheticLambda27(collator);
             } else {
-                comparator = CountrySelectActivity$CountryAdapter$$ExternalSyntheticLambda2.INSTANCE;
+                comparator = BoostRepository$$ExternalSyntheticLambda29.INSTANCE;
             }
             Collections.sort(this.sortedCountries, comparator);
             for (ArrayList<Country> arrayList4 : this.countries.values()) {
-                Collections.sort(arrayList4, new Comparator() { // from class: org.telegram.ui.CountrySelectActivity$CountryAdapter$$ExternalSyntheticLambda1
+                Collections.sort(arrayList4, new Comparator() { // from class: org.telegram.ui.CountrySelectActivity$CountryAdapter$$ExternalSyntheticLambda0
                     @Override // java.util.Comparator
                     public final int compare(Object obj, Object obj2) {
                         int lambda$new$0;

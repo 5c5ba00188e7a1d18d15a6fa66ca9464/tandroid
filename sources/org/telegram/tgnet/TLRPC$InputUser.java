@@ -18,7 +18,6 @@ public abstract class TLRPC$InputUser extends TLObject {
                 break;
             case 497305826:
                 tLRPC$TL_inputUserEmpty = new TLRPC$InputUser() { // from class: org.telegram.tgnet.TLRPC$TL_inputUserFromMessage
-                    public static int constructor = 497305826;
                     public int msg_id;
                     public TLRPC$InputPeer peer;
 
@@ -31,7 +30,7 @@ public abstract class TLRPC$InputUser extends TLObject {
 
                     @Override // org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(497305826);
                         this.peer.serializeToStream(abstractSerializedData2);
                         abstractSerializedData2.writeInt32(this.msg_id);
                         abstractSerializedData2.writeInt64(this.user_id);

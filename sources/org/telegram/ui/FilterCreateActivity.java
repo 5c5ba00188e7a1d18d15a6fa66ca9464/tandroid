@@ -54,21 +54,21 @@ import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$InputPeer;
-import org.telegram.tgnet.TLRPC$TL_chatlists_deleteExportedInvite;
-import org.telegram.tgnet.TLRPC$TL_chatlists_exportChatlistInvite;
-import org.telegram.tgnet.TLRPC$TL_chatlists_exportedChatlistInvite;
-import org.telegram.tgnet.TLRPC$TL_chatlists_exportedInvites;
-import org.telegram.tgnet.TLRPC$TL_chatlists_getExportedInvites;
 import org.telegram.tgnet.TLRPC$TL_dialogFilter;
 import org.telegram.tgnet.TLRPC$TL_error;
-import org.telegram.tgnet.TLRPC$TL_exportedChatlistInvite;
-import org.telegram.tgnet.TLRPC$TL_inputChatlistDialogFilter;
 import org.telegram.tgnet.TLRPC$TL_inputPeerChannel;
 import org.telegram.tgnet.TLRPC$TL_inputPeerChat;
 import org.telegram.tgnet.TLRPC$TL_inputPeerUser;
 import org.telegram.tgnet.TLRPC$TL_messages_updateDialogFilter;
 import org.telegram.tgnet.TLRPC$TL_messages_updateDialogFiltersOrder;
 import org.telegram.tgnet.TLRPC$User;
+import org.telegram.tgnet.tl.TL_chatlists$TL_chatlists_deleteExportedInvite;
+import org.telegram.tgnet.tl.TL_chatlists$TL_chatlists_exportChatlistInvite;
+import org.telegram.tgnet.tl.TL_chatlists$TL_chatlists_exportedChatlistInvite;
+import org.telegram.tgnet.tl.TL_chatlists$TL_chatlists_exportedInvites;
+import org.telegram.tgnet.tl.TL_chatlists$TL_chatlists_getExportedInvites;
+import org.telegram.tgnet.tl.TL_chatlists$TL_exportedChatlistInvite;
+import org.telegram.tgnet.tl.TL_chatlists$TL_inputChatlistDialogFilter;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.ActionBarMenu;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
@@ -112,7 +112,7 @@ public class FilterCreateActivity extends BaseFragment {
     private MessagesController.DialogFilter filter;
     private boolean hasUserChanged;
     private boolean includeExpanded;
-    private ArrayList<TLRPC$TL_exportedChatlistInvite> invites;
+    private ArrayList<TL_chatlists$TL_exportedChatlistInvite> invites;
     private ArrayList<ItemInner> items;
     private RecyclerListView listView;
     private boolean loadingInvites;
@@ -217,11 +217,11 @@ public class FilterCreateActivity extends BaseFragment {
             return;
         }
         this.loadingInvites = true;
-        TLRPC$TL_chatlists_getExportedInvites tLRPC$TL_chatlists_getExportedInvites = new TLRPC$TL_chatlists_getExportedInvites();
-        TLRPC$TL_inputChatlistDialogFilter tLRPC$TL_inputChatlistDialogFilter = new TLRPC$TL_inputChatlistDialogFilter();
-        tLRPC$TL_chatlists_getExportedInvites.chatlist = tLRPC$TL_inputChatlistDialogFilter;
-        tLRPC$TL_inputChatlistDialogFilter.filter_id = this.filter.id;
-        this.requestingInvitesReqId = getConnectionsManager().sendRequest(tLRPC$TL_chatlists_getExportedInvites, new RequestDelegate() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda24
+        TL_chatlists$TL_chatlists_getExportedInvites tL_chatlists$TL_chatlists_getExportedInvites = new TL_chatlists$TL_chatlists_getExportedInvites();
+        TL_chatlists$TL_inputChatlistDialogFilter tL_chatlists$TL_inputChatlistDialogFilter = new TL_chatlists$TL_inputChatlistDialogFilter();
+        tL_chatlists$TL_chatlists_getExportedInvites.chatlist = tL_chatlists$TL_inputChatlistDialogFilter;
+        tL_chatlists$TL_inputChatlistDialogFilter.filter_id = this.filter.id;
+        this.requestingInvitesReqId = getConnectionsManager().sendRequest(tL_chatlists$TL_chatlists_getExportedInvites, new RequestDelegate() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda24
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 FilterCreateActivity.this.lambda$loadInvites$1(tLObject, tLRPC$TL_error);
@@ -240,12 +240,12 @@ public class FilterCreateActivity extends BaseFragment {
 
     public /* synthetic */ void lambda$loadInvites$0(TLObject tLObject) {
         this.loadingInvites = false;
-        if (tLObject instanceof TLRPC$TL_chatlists_exportedInvites) {
-            TLRPC$TL_chatlists_exportedInvites tLRPC$TL_chatlists_exportedInvites = (TLRPC$TL_chatlists_exportedInvites) tLObject;
-            getMessagesController().putChats(tLRPC$TL_chatlists_exportedInvites.chats, false);
-            getMessagesController().putUsers(tLRPC$TL_chatlists_exportedInvites.users, false);
+        if (tLObject instanceof TL_chatlists$TL_chatlists_exportedInvites) {
+            TL_chatlists$TL_chatlists_exportedInvites tL_chatlists$TL_chatlists_exportedInvites = (TL_chatlists$TL_chatlists_exportedInvites) tLObject;
+            getMessagesController().putChats(tL_chatlists$TL_chatlists_exportedInvites.chats, false);
+            getMessagesController().putUsers(tL_chatlists$TL_chatlists_exportedInvites.users, false);
             this.invites.clear();
-            this.invites.addAll(tLRPC$TL_chatlists_exportedInvites.invites);
+            this.invites.addAll(tL_chatlists$TL_chatlists_exportedInvites.invites);
             updateRows();
         }
         this.requestingInvitesReqId = 0;
@@ -525,8 +525,8 @@ public class FilterCreateActivity extends BaseFragment {
 
     public /* synthetic */ void lambda$createView$6(ItemInner itemInner) {
         FilterChatlistActivity filterChatlistActivity = new FilterChatlistActivity(this.filter, itemInner.link);
-        filterChatlistActivity.setOnEdit(new FilterCreateActivity$$ExternalSyntheticLambda23(this));
-        filterChatlistActivity.setOnDelete(new FilterCreateActivity$$ExternalSyntheticLambda22(this));
+        filterChatlistActivity.setOnEdit(new FilterCreateActivity$$ExternalSyntheticLambda22(this));
+        filterChatlistActivity.setOnDelete(new FilterCreateActivity$$ExternalSyntheticLambda23(this));
         presentFragment(filterChatlistActivity);
     }
 
@@ -588,13 +588,13 @@ public class FilterCreateActivity extends BaseFragment {
         if (arrayList.size() > (getUserConfig().isPremium() ? getMessagesController().dialogFiltersChatsLimitPremium : getMessagesController().dialogFiltersChatsLimitDefault)) {
             showDialog(new LimitReachedBottomSheet(this, getContext(), 4, this.currentAccount, null));
         } else if (!arrayList.isEmpty()) {
-            TLRPC$TL_chatlists_exportChatlistInvite tLRPC$TL_chatlists_exportChatlistInvite = new TLRPC$TL_chatlists_exportChatlistInvite();
-            TLRPC$TL_inputChatlistDialogFilter tLRPC$TL_inputChatlistDialogFilter = new TLRPC$TL_inputChatlistDialogFilter();
-            tLRPC$TL_chatlists_exportChatlistInvite.chatlist = tLRPC$TL_inputChatlistDialogFilter;
-            tLRPC$TL_inputChatlistDialogFilter.filter_id = this.filter.id;
-            tLRPC$TL_chatlists_exportChatlistInvite.peers = arrayList;
-            tLRPC$TL_chatlists_exportChatlistInvite.title = "";
-            getConnectionsManager().sendRequest(tLRPC$TL_chatlists_exportChatlistInvite, new RequestDelegate() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda25
+            TL_chatlists$TL_chatlists_exportChatlistInvite tL_chatlists$TL_chatlists_exportChatlistInvite = new TL_chatlists$TL_chatlists_exportChatlistInvite();
+            TL_chatlists$TL_inputChatlistDialogFilter tL_chatlists$TL_inputChatlistDialogFilter = new TL_chatlists$TL_inputChatlistDialogFilter();
+            tL_chatlists$TL_chatlists_exportChatlistInvite.chatlist = tL_chatlists$TL_inputChatlistDialogFilter;
+            tL_chatlists$TL_inputChatlistDialogFilter.filter_id = this.filter.id;
+            tL_chatlists$TL_chatlists_exportChatlistInvite.peers = arrayList;
+            tL_chatlists$TL_chatlists_exportChatlistInvite.title = "";
+            getConnectionsManager().sendRequest(tL_chatlists$TL_chatlists_exportChatlistInvite, new RequestDelegate() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda25
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     FilterCreateActivity.this.lambda$onClickCreateLink$11(tLObject, tLRPC$TL_error);
@@ -602,14 +602,14 @@ public class FilterCreateActivity extends BaseFragment {
             });
         } else {
             FilterChatlistActivity filterChatlistActivity = new FilterChatlistActivity(this.filter, null);
-            filterChatlistActivity.setOnEdit(new FilterCreateActivity$$ExternalSyntheticLambda23(this));
-            filterChatlistActivity.setOnDelete(new FilterCreateActivity$$ExternalSyntheticLambda22(this));
+            filterChatlistActivity.setOnEdit(new FilterCreateActivity$$ExternalSyntheticLambda22(this));
+            filterChatlistActivity.setOnDelete(new FilterCreateActivity$$ExternalSyntheticLambda23(this));
             presentFragment(filterChatlistActivity);
         }
     }
 
     public /* synthetic */ void lambda$onClickCreateLink$11(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda15
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda14
             @Override // java.lang.Runnable
             public final void run() {
                 FilterCreateActivity.this.lambda$onClickCreateLink$10(tLRPC$TL_error, tLObject);
@@ -618,25 +618,25 @@ public class FilterCreateActivity extends BaseFragment {
     }
 
     public /* synthetic */ void lambda$onClickCreateLink$10(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
-        if (processErrors(tLRPC$TL_error, this, BulletinFactory.of(this)) && (tLObject instanceof TLRPC$TL_chatlists_exportedChatlistInvite)) {
+        if (processErrors(tLRPC$TL_error, this, BulletinFactory.of(this)) && (tLObject instanceof TL_chatlists$TL_chatlists_exportedChatlistInvite)) {
             hideNew(0);
             getMessagesController().loadRemoteFilters(true);
-            final TLRPC$TL_chatlists_exportedChatlistInvite tLRPC$TL_chatlists_exportedChatlistInvite = (TLRPC$TL_chatlists_exportedChatlistInvite) tLObject;
-            FilterChatlistActivity filterChatlistActivity = new FilterChatlistActivity(this.filter, tLRPC$TL_chatlists_exportedChatlistInvite.invite);
-            filterChatlistActivity.setOnEdit(new FilterCreateActivity$$ExternalSyntheticLambda23(this));
-            filterChatlistActivity.setOnDelete(new FilterCreateActivity$$ExternalSyntheticLambda22(this));
+            final TL_chatlists$TL_chatlists_exportedChatlistInvite tL_chatlists$TL_chatlists_exportedChatlistInvite = (TL_chatlists$TL_chatlists_exportedChatlistInvite) tLObject;
+            FilterChatlistActivity filterChatlistActivity = new FilterChatlistActivity(this.filter, tL_chatlists$TL_chatlists_exportedChatlistInvite.invite);
+            filterChatlistActivity.setOnEdit(new FilterCreateActivity$$ExternalSyntheticLambda22(this));
+            filterChatlistActivity.setOnDelete(new FilterCreateActivity$$ExternalSyntheticLambda23(this));
             presentFragment(filterChatlistActivity);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda14
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda15
                 @Override // java.lang.Runnable
                 public final void run() {
-                    FilterCreateActivity.this.lambda$onClickCreateLink$9(tLRPC$TL_chatlists_exportedChatlistInvite);
+                    FilterCreateActivity.this.lambda$onClickCreateLink$9(tL_chatlists$TL_chatlists_exportedChatlistInvite);
                 }
             }, 200L);
         }
     }
 
-    public /* synthetic */ void lambda$onClickCreateLink$9(TLRPC$TL_chatlists_exportedChatlistInvite tLRPC$TL_chatlists_exportedChatlistInvite) {
-        onEdit(tLRPC$TL_chatlists_exportedChatlistInvite.invite);
+    public /* synthetic */ void lambda$onClickCreateLink$9(TL_chatlists$TL_chatlists_exportedChatlistInvite tL_chatlists$TL_chatlists_exportedChatlistInvite) {
+        onEdit(tL_chatlists$TL_chatlists_exportedChatlistInvite.invite);
     }
 
     private void showSaveHint() {
@@ -669,8 +669,8 @@ public class FilterCreateActivity extends BaseFragment {
         return ChatObject.canUserDoAdminAction(tLRPC$Chat, 3) || (ChatObject.isPublic(tLRPC$Chat) && !tLRPC$Chat.join_request);
     }
 
-    public void onDelete(TLRPC$TL_exportedChatlistInvite tLRPC$TL_exportedChatlistInvite) {
-        if (tLRPC$TL_exportedChatlistInvite == null) {
+    public void onDelete(TL_chatlists$TL_exportedChatlistInvite tL_chatlists$TL_exportedChatlistInvite) {
+        if (tL_chatlists$TL_exportedChatlistInvite == null) {
             return;
         }
         int i = 0;
@@ -678,7 +678,7 @@ public class FilterCreateActivity extends BaseFragment {
             if (i >= this.invites.size()) {
                 i = -1;
                 break;
-            } else if (TextUtils.equals(this.invites.get(i).url, tLRPC$TL_exportedChatlistInvite.url)) {
+            } else if (TextUtils.equals(this.invites.get(i).url, tL_chatlists$TL_exportedChatlistInvite.url)) {
                 break;
             } else {
                 i++;
@@ -693,8 +693,8 @@ public class FilterCreateActivity extends BaseFragment {
         }
     }
 
-    public void onEdit(TLRPC$TL_exportedChatlistInvite tLRPC$TL_exportedChatlistInvite) {
-        if (tLRPC$TL_exportedChatlistInvite == null) {
+    public void onEdit(TL_chatlists$TL_exportedChatlistInvite tL_chatlists$TL_exportedChatlistInvite) {
+        if (tL_chatlists$TL_exportedChatlistInvite == null) {
             return;
         }
         int i = -1;
@@ -702,7 +702,7 @@ public class FilterCreateActivity extends BaseFragment {
         while (true) {
             if (i2 >= this.invites.size()) {
                 break;
-            } else if (TextUtils.equals(this.invites.get(i2).url, tLRPC$TL_exportedChatlistInvite.url)) {
+            } else if (TextUtils.equals(this.invites.get(i2).url, tL_chatlists$TL_exportedChatlistInvite.url)) {
                 i = i2;
                 break;
             } else {
@@ -710,9 +710,9 @@ public class FilterCreateActivity extends BaseFragment {
             }
         }
         if (i < 0) {
-            this.invites.add(tLRPC$TL_exportedChatlistInvite);
+            this.invites.add(tL_chatlists$TL_exportedChatlistInvite);
         } else {
-            this.invites.set(i, tLRPC$TL_exportedChatlistInvite);
+            this.invites.set(i, tL_chatlists$TL_exportedChatlistInvite);
         }
         updateRows();
     }
@@ -1354,7 +1354,7 @@ public class FilterCreateActivity extends BaseFragment {
         private int iconResId;
         private boolean include;
         private boolean isRed;
-        private TLRPC$TL_exportedChatlistInvite link;
+        private TL_chatlists$TL_exportedChatlistInvite link;
         private boolean newSpan;
         private View.OnClickListener onClickListener;
         private CharSequence text;
@@ -1402,9 +1402,9 @@ public class FilterCreateActivity extends BaseFragment {
             return itemInner;
         }
 
-        public static ItemInner asLink(TLRPC$TL_exportedChatlistInvite tLRPC$TL_exportedChatlistInvite) {
+        public static ItemInner asLink(TL_chatlists$TL_exportedChatlistInvite tL_chatlists$TL_exportedChatlistInvite) {
             ItemInner itemInner = new ItemInner(7, false);
-            itemInner.link = tLRPC$TL_exportedChatlistInvite;
+            itemInner.link = tL_chatlists$TL_exportedChatlistInvite;
             return itemInner;
         }
 
@@ -1431,8 +1431,8 @@ public class FilterCreateActivity extends BaseFragment {
         }
 
         public boolean equals(Object obj) {
-            TLRPC$TL_exportedChatlistInvite tLRPC$TL_exportedChatlistInvite;
-            TLRPC$TL_exportedChatlistInvite tLRPC$TL_exportedChatlistInvite2;
+            TL_chatlists$TL_exportedChatlistInvite tL_chatlists$TL_exportedChatlistInvite;
+            TL_chatlists$TL_exportedChatlistInvite tL_chatlists$TL_exportedChatlistInvite2;
             if (this == obj) {
                 return true;
             }
@@ -1452,14 +1452,14 @@ public class FilterCreateActivity extends BaseFragment {
                 return this.newSpan == itemInner.newSpan;
             } else if (i2 == 1) {
                 return this.did == itemInner.did && TextUtils.equals(this.chatType, itemInner.chatType) && this.flags == itemInner.flags;
-            } else if (i2 != 7 || (tLRPC$TL_exportedChatlistInvite = this.link) == (tLRPC$TL_exportedChatlistInvite2 = itemInner.link)) {
+            } else if (i2 != 7 || (tL_chatlists$TL_exportedChatlistInvite = this.link) == (tL_chatlists$TL_exportedChatlistInvite2 = itemInner.link)) {
                 return true;
             } else {
-                if (TextUtils.equals(tLRPC$TL_exportedChatlistInvite.url, tLRPC$TL_exportedChatlistInvite2.url)) {
-                    TLRPC$TL_exportedChatlistInvite tLRPC$TL_exportedChatlistInvite3 = this.link;
-                    boolean z = tLRPC$TL_exportedChatlistInvite3.revoked;
-                    TLRPC$TL_exportedChatlistInvite tLRPC$TL_exportedChatlistInvite4 = itemInner.link;
-                    if (z == tLRPC$TL_exportedChatlistInvite4.revoked && TextUtils.equals(tLRPC$TL_exportedChatlistInvite3.title, tLRPC$TL_exportedChatlistInvite4.title) && this.link.peers.size() == itemInner.link.peers.size()) {
+                if (TextUtils.equals(tL_chatlists$TL_exportedChatlistInvite.url, tL_chatlists$TL_exportedChatlistInvite2.url)) {
+                    TL_chatlists$TL_exportedChatlistInvite tL_chatlists$TL_exportedChatlistInvite3 = this.link;
+                    boolean z = tL_chatlists$TL_exportedChatlistInvite3.revoked;
+                    TL_chatlists$TL_exportedChatlistInvite tL_chatlists$TL_exportedChatlistInvite4 = itemInner.link;
+                    if (z == tL_chatlists$TL_exportedChatlistInvite4.revoked && TextUtils.equals(tL_chatlists$TL_exportedChatlistInvite3.title, tL_chatlists$TL_exportedChatlistInvite4.title) && this.link.peers.size() == itemInner.link.peers.size()) {
                         return true;
                     }
                 }
@@ -1578,8 +1578,8 @@ public class FilterCreateActivity extends BaseFragment {
                         }
 
                         @Override // org.telegram.ui.FilterCreateActivity.LinkCell
-                        protected void onDelete(TLRPC$TL_exportedChatlistInvite tLRPC$TL_exportedChatlistInvite) {
-                            FilterCreateActivity.this.onDelete(tLRPC$TL_exportedChatlistInvite);
+                        protected void onDelete(TL_chatlists$TL_exportedChatlistInvite tL_chatlists$TL_exportedChatlistInvite) {
+                            FilterCreateActivity.this.onDelete(tL_chatlists$TL_exportedChatlistInvite);
                         }
                     };
                     break;
@@ -1920,7 +1920,7 @@ public class FilterCreateActivity extends BaseFragment {
         private int currentAccount;
         private int filterId;
         private BaseFragment fragment;
-        private TLRPC$TL_exportedChatlistInvite lastInvite;
+        private TL_chatlists$TL_exportedChatlistInvite lastInvite;
         protected String lastUrl;
         Drawable linkIcon;
         boolean needDivider;
@@ -1933,7 +1933,7 @@ public class FilterCreateActivity extends BaseFragment {
         AnimatedTextView titleTextView;
         private ValueAnimator valueAnimator;
 
-        protected void onDelete(TLRPC$TL_exportedChatlistInvite tLRPC$TL_exportedChatlistInvite) {
+        protected void onDelete(TL_chatlists$TL_exportedChatlistInvite tL_chatlists$TL_exportedChatlistInvite) {
         }
 
         public LinkCell(Context context, BaseFragment baseFragment, int i, int i2) {
@@ -2067,10 +2067,10 @@ public class FilterCreateActivity extends BaseFragment {
             invalidate();
         }
 
-        public void setInvite(TLRPC$TL_exportedChatlistInvite tLRPC$TL_exportedChatlistInvite, boolean z) {
-            boolean z2 = this.lastInvite == tLRPC$TL_exportedChatlistInvite;
-            this.lastInvite = tLRPC$TL_exportedChatlistInvite;
-            String str = tLRPC$TL_exportedChatlistInvite.url;
+        public void setInvite(TL_chatlists$TL_exportedChatlistInvite tL_chatlists$TL_exportedChatlistInvite, boolean z) {
+            boolean z2 = this.lastInvite == tL_chatlists$TL_exportedChatlistInvite;
+            this.lastInvite = tL_chatlists$TL_exportedChatlistInvite;
+            String str = tL_chatlists$TL_exportedChatlistInvite.url;
             this.lastUrl = str;
             if (str.startsWith("http://")) {
                 str = str.substring(7);
@@ -2078,17 +2078,17 @@ public class FilterCreateActivity extends BaseFragment {
             if (str.startsWith("https://")) {
                 str = str.substring(8);
             }
-            if (TextUtils.isEmpty(tLRPC$TL_exportedChatlistInvite.title)) {
+            if (TextUtils.isEmpty(tL_chatlists$TL_exportedChatlistInvite.title)) {
                 this.titleTextView.setText(str, z2);
             } else {
-                this.titleTextView.setText(tLRPC$TL_exportedChatlistInvite.title, z2);
+                this.titleTextView.setText(tL_chatlists$TL_exportedChatlistInvite.title, z2);
             }
-            this.subtitleTextView.setText(LocaleController.formatPluralString("FilterInviteChats", tLRPC$TL_exportedChatlistInvite.peers.size(), new Object[0]), z2);
+            this.subtitleTextView.setText(LocaleController.formatPluralString("FilterInviteChats", tL_chatlists$TL_exportedChatlistInvite.peers.size(), new Object[0]), z2);
             if (this.needDivider != z) {
                 this.needDivider = z;
                 invalidate();
             }
-            setRevoked(tLRPC$TL_exportedChatlistInvite.revoked, z2);
+            setRevoked(tL_chatlists$TL_exportedChatlistInvite.revoked, z2);
         }
 
         @Override // android.widget.FrameLayout, android.view.View
@@ -2133,18 +2133,18 @@ public class FilterCreateActivity extends BaseFragment {
             if (slug == null) {
                 return;
             }
-            TLRPC$TL_chatlists_deleteExportedInvite tLRPC$TL_chatlists_deleteExportedInvite = new TLRPC$TL_chatlists_deleteExportedInvite();
-            TLRPC$TL_inputChatlistDialogFilter tLRPC$TL_inputChatlistDialogFilter = new TLRPC$TL_inputChatlistDialogFilter();
-            tLRPC$TL_chatlists_deleteExportedInvite.chatlist = tLRPC$TL_inputChatlistDialogFilter;
-            tLRPC$TL_inputChatlistDialogFilter.filter_id = this.filterId;
-            tLRPC$TL_chatlists_deleteExportedInvite.slug = slug;
+            TL_chatlists$TL_chatlists_deleteExportedInvite tL_chatlists$TL_chatlists_deleteExportedInvite = new TL_chatlists$TL_chatlists_deleteExportedInvite();
+            TL_chatlists$TL_inputChatlistDialogFilter tL_chatlists$TL_inputChatlistDialogFilter = new TL_chatlists$TL_inputChatlistDialogFilter();
+            tL_chatlists$TL_chatlists_deleteExportedInvite.chatlist = tL_chatlists$TL_inputChatlistDialogFilter;
+            tL_chatlists$TL_inputChatlistDialogFilter.filter_id = this.filterId;
+            tL_chatlists$TL_chatlists_deleteExportedInvite.slug = slug;
             final Runnable runnable = new Runnable() { // from class: org.telegram.ui.FilterCreateActivity$LinkCell$$ExternalSyntheticLambda4
                 @Override // java.lang.Runnable
                 public final void run() {
                     FilterCreateActivity.LinkCell.this.lambda$deleteLink$4();
                 }
             };
-            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_chatlists_deleteExportedInvite, new RequestDelegate() { // from class: org.telegram.ui.FilterCreateActivity$LinkCell$$ExternalSyntheticLambda6
+            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_chatlists$TL_chatlists_deleteExportedInvite, new RequestDelegate() { // from class: org.telegram.ui.FilterCreateActivity$LinkCell$$ExternalSyntheticLambda6
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     FilterCreateActivity.LinkCell.this.lambda$deleteLink$6(runnable, tLObject, tLRPC$TL_error);
@@ -2187,9 +2187,9 @@ public class FilterCreateActivity extends BaseFragment {
             String str;
             super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
             StringBuilder sb = new StringBuilder();
-            TLRPC$TL_exportedChatlistInvite tLRPC$TL_exportedChatlistInvite = this.lastInvite;
+            TL_chatlists$TL_exportedChatlistInvite tL_chatlists$TL_exportedChatlistInvite = this.lastInvite;
             String str2 = "";
-            if (tLRPC$TL_exportedChatlistInvite == null || TextUtils.isEmpty(tLRPC$TL_exportedChatlistInvite.title)) {
+            if (tL_chatlists$TL_exportedChatlistInvite == null || TextUtils.isEmpty(tL_chatlists$TL_exportedChatlistInvite.title)) {
                 str = "";
             } else {
                 str = this.lastInvite.title + "\n ";
@@ -2198,8 +2198,8 @@ public class FilterCreateActivity extends BaseFragment {
             sb.append(LocaleController.getString("InviteLink", R.string.InviteLink));
             sb.append(", ");
             sb.append((Object) this.subtitleTextView.getText());
-            TLRPC$TL_exportedChatlistInvite tLRPC$TL_exportedChatlistInvite2 = this.lastInvite;
-            if (tLRPC$TL_exportedChatlistInvite2 != null && TextUtils.isEmpty(tLRPC$TL_exportedChatlistInvite2.title)) {
+            TL_chatlists$TL_exportedChatlistInvite tL_chatlists$TL_exportedChatlistInvite2 = this.lastInvite;
+            if (tL_chatlists$TL_exportedChatlistInvite2 != null && TextUtils.isEmpty(tL_chatlists$TL_exportedChatlistInvite2.title)) {
                 str2 = "\n\n" + this.lastInvite.url;
             }
             sb.append(str2);
@@ -2392,17 +2392,17 @@ public class FilterCreateActivity extends BaseFragment {
         private FrameLayout bulletinContainer;
         private TextView button;
         private MessagesController.DialogFilter filter;
-        private ArrayList<TLRPC$TL_exportedChatlistInvite> invites;
+        private ArrayList<TL_chatlists$TL_exportedChatlistInvite> invites;
         private ArrayList<ItemInner> items;
         private ArrayList<ItemInner> oldItems;
 
         public static void show(final BaseFragment baseFragment, final MessagesController.DialogFilter dialogFilter, final Runnable runnable) {
             final long currentTimeMillis = System.currentTimeMillis();
-            TLRPC$TL_chatlists_getExportedInvites tLRPC$TL_chatlists_getExportedInvites = new TLRPC$TL_chatlists_getExportedInvites();
-            TLRPC$TL_inputChatlistDialogFilter tLRPC$TL_inputChatlistDialogFilter = new TLRPC$TL_inputChatlistDialogFilter();
-            tLRPC$TL_chatlists_getExportedInvites.chatlist = tLRPC$TL_inputChatlistDialogFilter;
-            tLRPC$TL_inputChatlistDialogFilter.filter_id = dialogFilter.id;
-            baseFragment.getConnectionsManager().sendRequest(tLRPC$TL_chatlists_getExportedInvites, new RequestDelegate() { // from class: org.telegram.ui.FilterCreateActivity$FilterInvitesBottomSheet$$ExternalSyntheticLambda3
+            TL_chatlists$TL_chatlists_getExportedInvites tL_chatlists$TL_chatlists_getExportedInvites = new TL_chatlists$TL_chatlists_getExportedInvites();
+            TL_chatlists$TL_inputChatlistDialogFilter tL_chatlists$TL_inputChatlistDialogFilter = new TL_chatlists$TL_inputChatlistDialogFilter();
+            tL_chatlists$TL_chatlists_getExportedInvites.chatlist = tL_chatlists$TL_inputChatlistDialogFilter;
+            tL_chatlists$TL_inputChatlistDialogFilter.filter_id = dialogFilter.id;
+            baseFragment.getConnectionsManager().sendRequest(tL_chatlists$TL_chatlists_getExportedInvites, new RequestDelegate() { // from class: org.telegram.ui.FilterCreateActivity$FilterInvitesBottomSheet$$ExternalSyntheticLambda3
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     FilterCreateActivity.FilterInvitesBottomSheet.lambda$show$1(BaseFragment.this, dialogFilter, runnable, currentTimeMillis, tLObject, tLRPC$TL_error);
@@ -2423,11 +2423,11 @@ public class FilterCreateActivity extends BaseFragment {
             if (baseFragment == null || baseFragment.getContext() == null) {
                 return;
             }
-            if (tLObject instanceof TLRPC$TL_chatlists_exportedInvites) {
-                TLRPC$TL_chatlists_exportedInvites tLRPC$TL_chatlists_exportedInvites = (TLRPC$TL_chatlists_exportedInvites) tLObject;
-                baseFragment.getMessagesController().putChats(tLRPC$TL_chatlists_exportedInvites.chats, false);
-                baseFragment.getMessagesController().putUsers(tLRPC$TL_chatlists_exportedInvites.users, false);
-                new FilterInvitesBottomSheet(baseFragment, dialogFilter, tLRPC$TL_chatlists_exportedInvites.invites).show();
+            if (tLObject instanceof TL_chatlists$TL_chatlists_exportedInvites) {
+                TL_chatlists$TL_chatlists_exportedInvites tL_chatlists$TL_chatlists_exportedInvites = (TL_chatlists$TL_chatlists_exportedInvites) tLObject;
+                baseFragment.getMessagesController().putChats(tL_chatlists$TL_chatlists_exportedInvites.chats, false);
+                baseFragment.getMessagesController().putUsers(tL_chatlists$TL_chatlists_exportedInvites.users, false);
+                new FilterInvitesBottomSheet(baseFragment, dialogFilter, tL_chatlists$TL_chatlists_exportedInvites.invites).show();
             } else if (tLRPC$TL_error != null && "FILTER_ID_INVALID".equals(tLRPC$TL_error.text) && !dialogFilter.isDefault()) {
                 new FilterInvitesBottomSheet(baseFragment, dialogFilter, null).show();
             } else {
@@ -2438,7 +2438,7 @@ public class FilterCreateActivity extends BaseFragment {
             }
         }
 
-        public FilterInvitesBottomSheet(BaseFragment baseFragment, MessagesController.DialogFilter dialogFilter, ArrayList<TLRPC$TL_exportedChatlistInvite> arrayList) {
+        public FilterInvitesBottomSheet(BaseFragment baseFragment, MessagesController.DialogFilter dialogFilter, ArrayList<TL_chatlists$TL_exportedChatlistInvite> arrayList) {
             super(baseFragment, false, false);
             this.invites = new ArrayList<>();
             this.oldItems = new ArrayList<>();
@@ -2625,8 +2625,8 @@ public class FilterCreateActivity extends BaseFragment {
                     }
 
                     @Override // org.telegram.ui.FilterCreateActivity.LinkCell
-                    protected void onDelete(TLRPC$TL_exportedChatlistInvite tLRPC$TL_exportedChatlistInvite) {
-                        FilterInvitesBottomSheet.this.invites.remove(tLRPC$TL_exportedChatlistInvite);
+                    protected void onDelete(TL_chatlists$TL_exportedChatlistInvite tL_chatlists$TL_exportedChatlistInvite) {
+                        FilterInvitesBottomSheet.this.invites.remove(tL_chatlists$TL_exportedChatlistInvite);
                         FilterInvitesBottomSheet.this.updateCreateInviteButton();
                         FilterInvitesBottomSheet.this.updateRows(true);
                     }
@@ -2752,13 +2752,13 @@ public class FilterCreateActivity extends BaseFragment {
                 getBaseFragment().presentFragment(new FilterChatlistActivity(this.filter, null));
                 return;
             }
-            TLRPC$TL_chatlists_exportChatlistInvite tLRPC$TL_chatlists_exportChatlistInvite = new TLRPC$TL_chatlists_exportChatlistInvite();
-            TLRPC$TL_inputChatlistDialogFilter tLRPC$TL_inputChatlistDialogFilter = new TLRPC$TL_inputChatlistDialogFilter();
-            tLRPC$TL_chatlists_exportChatlistInvite.chatlist = tLRPC$TL_inputChatlistDialogFilter;
-            tLRPC$TL_inputChatlistDialogFilter.filter_id = this.filter.id;
-            tLRPC$TL_chatlists_exportChatlistInvite.peers = arrayList;
-            tLRPC$TL_chatlists_exportChatlistInvite.title = "";
-            getBaseFragment().getConnectionsManager().sendRequest(tLRPC$TL_chatlists_exportChatlistInvite, new RequestDelegate() { // from class: org.telegram.ui.FilterCreateActivity$FilterInvitesBottomSheet$$ExternalSyntheticLambda4
+            TL_chatlists$TL_chatlists_exportChatlistInvite tL_chatlists$TL_chatlists_exportChatlistInvite = new TL_chatlists$TL_chatlists_exportChatlistInvite();
+            TL_chatlists$TL_inputChatlistDialogFilter tL_chatlists$TL_inputChatlistDialogFilter = new TL_chatlists$TL_inputChatlistDialogFilter();
+            tL_chatlists$TL_chatlists_exportChatlistInvite.chatlist = tL_chatlists$TL_inputChatlistDialogFilter;
+            tL_chatlists$TL_inputChatlistDialogFilter.filter_id = this.filter.id;
+            tL_chatlists$TL_chatlists_exportChatlistInvite.peers = arrayList;
+            tL_chatlists$TL_chatlists_exportChatlistInvite.title = "";
+            getBaseFragment().getConnectionsManager().sendRequest(tL_chatlists$TL_chatlists_exportChatlistInvite, new RequestDelegate() { // from class: org.telegram.ui.FilterCreateActivity$FilterInvitesBottomSheet$$ExternalSyntheticLambda4
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     FilterCreateActivity.FilterInvitesBottomSheet.this.lambda$createLink$4(tLObject, tLRPC$TL_error);
@@ -2776,11 +2776,11 @@ public class FilterCreateActivity extends BaseFragment {
         }
 
         public /* synthetic */ void lambda$createLink$3(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
-            if (FilterCreateActivity.processErrors(tLRPC$TL_error, getBaseFragment(), BulletinFactory.of(this.bulletinContainer, null)) && (tLObject instanceof TLRPC$TL_chatlists_exportedChatlistInvite)) {
+            if (FilterCreateActivity.processErrors(tLRPC$TL_error, getBaseFragment(), BulletinFactory.of(this.bulletinContainer, null)) && (tLObject instanceof TL_chatlists$TL_chatlists_exportedChatlistInvite)) {
                 FilterCreateActivity.hideNew(0);
                 dismiss();
                 getBaseFragment().getMessagesController().loadRemoteFilters(true);
-                getBaseFragment().presentFragment(new FilterChatlistActivity(this.filter, ((TLRPC$TL_chatlists_exportedChatlistInvite) tLObject).invite));
+                getBaseFragment().presentFragment(new FilterChatlistActivity(this.filter, ((TL_chatlists$TL_chatlists_exportedChatlistInvite) tLObject).invite));
             }
         }
 

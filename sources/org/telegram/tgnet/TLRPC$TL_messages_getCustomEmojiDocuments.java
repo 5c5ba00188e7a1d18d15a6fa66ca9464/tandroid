@@ -3,7 +3,6 @@ package org.telegram.tgnet;
 import java.util.ArrayList;
 /* loaded from: classes.dex */
 public class TLRPC$TL_messages_getCustomEmojiDocuments extends TLObject {
-    public static int constructor = -643100844;
     public ArrayList<Long> document_id = new ArrayList<>();
 
     @Override // org.telegram.tgnet.TLObject
@@ -22,7 +21,7 @@ public class TLRPC$TL_messages_getCustomEmojiDocuments extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-643100844);
         abstractSerializedData.writeInt32(481674261);
         int size = this.document_id.size();
         abstractSerializedData.writeInt32(size);

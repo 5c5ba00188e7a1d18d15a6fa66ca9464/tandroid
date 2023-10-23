@@ -23,7 +23,6 @@ import java.util.Iterator;
 import java.util.List;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.AnimationNotificationsLocker;
-import org.telegram.messenger.UserConfig;
 /* loaded from: classes3.dex */
 public class AdjustPanLayoutHelper {
     public static boolean USE_ANDROID11_INSET_ANIMATOR = false;
@@ -86,7 +85,6 @@ public class AdjustPanLayoutHelper {
                     AdjustPanLayoutHelper.this.lambda$animateHeight$0(valueAnimator);
                 }
             });
-            int i3 = UserConfig.selectedAccount;
             this.animator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.AdjustPanLayoutHelper.3
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationEnd(Animator animator) {

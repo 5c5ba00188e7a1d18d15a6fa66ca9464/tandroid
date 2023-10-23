@@ -22,8 +22,6 @@ public abstract class TLRPC$account_Password extends TLObject {
             tLRPC$TL_account_password = new TLRPC$TL_account_password();
         } else {
             tLRPC$TL_account_password = i != 408623183 ? null : new TLRPC$account_Password() { // from class: org.telegram.tgnet.TLRPC$TL_account_password_layer144
-                public static int constructor = 408623183;
-
                 @Override // org.telegram.tgnet.TLObject
                 public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                     int readInt32 = abstractSerializedData2.readInt32(z2);
@@ -56,7 +54,7 @@ public abstract class TLRPC$account_Password extends TLObject {
 
                 @Override // org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                    abstractSerializedData2.writeInt32(constructor);
+                    abstractSerializedData2.writeInt32(408623183);
                     int i2 = this.has_recovery ? this.flags | 1 : this.flags & (-2);
                     this.flags = i2;
                     int i3 = this.has_secure_values ? i2 | 2 : i2 & (-3);

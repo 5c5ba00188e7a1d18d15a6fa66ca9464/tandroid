@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_updateWebPage extends TLRPC$Update {
-    public static int constructor = 2139689491;
     public int pts;
     public int pts_count;
     public TLRPC$WebPage webpage;
@@ -15,7 +14,7 @@ public class TLRPC$TL_updateWebPage extends TLRPC$Update {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(2139689491);
         this.webpage.serializeToStream(abstractSerializedData);
         abstractSerializedData.writeInt32(this.pts);
         abstractSerializedData.writeInt32(this.pts_count);

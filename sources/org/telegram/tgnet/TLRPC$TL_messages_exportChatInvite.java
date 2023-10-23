@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_messages_exportChatInvite extends TLObject {
-    public static int constructor = -1607670315;
     public int expire_date;
     public int flags;
     public boolean legacy_revoke_permanent;
@@ -17,7 +16,7 @@ public class TLRPC$TL_messages_exportChatInvite extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-1607670315);
         int i = this.legacy_revoke_permanent ? this.flags | 4 : this.flags & (-5);
         this.flags = i;
         int i2 = this.request_needed ? i | 8 : i & (-9);

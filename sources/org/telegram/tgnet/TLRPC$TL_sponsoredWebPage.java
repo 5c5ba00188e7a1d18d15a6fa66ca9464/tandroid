@@ -1,14 +1,13 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_sponsoredWebPage extends TLObject {
-    public static int constructor = 1035529315;
     public int flags;
     public TLRPC$Photo photo;
     public String site_name;
     public String url;
 
     public static TLRPC$TL_sponsoredWebPage TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-        if (constructor != i) {
+        if (1035529315 != i) {
             if (z) {
                 throw new RuntimeException(String.format("can't parse magic %x in TL_sponsoredWebPage", Integer.valueOf(i)));
             }
@@ -31,7 +30,7 @@ public class TLRPC$TL_sponsoredWebPage extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(1035529315);
         abstractSerializedData.writeInt32(this.flags);
         abstractSerializedData.writeString(this.url);
         abstractSerializedData.writeString(this.site_name);

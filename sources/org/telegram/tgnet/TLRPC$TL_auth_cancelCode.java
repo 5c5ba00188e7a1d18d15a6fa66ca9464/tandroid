@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_auth_cancelCode extends TLObject {
-    public static int constructor = 520357240;
     public String phone_code_hash;
     public String phone_number;
 
@@ -12,7 +11,7 @@ public class TLRPC$TL_auth_cancelCode extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(520357240);
         abstractSerializedData.writeString(this.phone_number);
         abstractSerializedData.writeString(this.phone_code_hash);
     }

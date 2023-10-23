@@ -3,7 +3,6 @@ package org.telegram.tgnet;
 import java.util.ArrayList;
 /* loaded from: classes.dex */
 public class TLRPC$TL_photos_deletePhotos extends TLObject {
-    public static int constructor = -2016444625;
     public ArrayList<TLRPC$InputPhoto> id = new ArrayList<>();
 
     @Override // org.telegram.tgnet.TLObject
@@ -18,7 +17,7 @@ public class TLRPC$TL_photos_deletePhotos extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-2016444625);
         abstractSerializedData.writeInt32(481674261);
         int size = this.id.size();
         abstractSerializedData.writeInt32(size);

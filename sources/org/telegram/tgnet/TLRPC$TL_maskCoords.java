@@ -1,14 +1,13 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_maskCoords extends TLObject {
-    public static int constructor = -1361650766;
     public int n;
     public double x;
     public double y;
     public double zoom;
 
     public static TLRPC$TL_maskCoords TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-        if (constructor != i) {
+        if (-1361650766 != i) {
             if (z) {
                 throw new RuntimeException(String.format("can't parse magic %x in TL_maskCoords", Integer.valueOf(i)));
             }
@@ -29,7 +28,7 @@ public class TLRPC$TL_maskCoords extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-1361650766);
         abstractSerializedData.writeInt32(this.n);
         abstractSerializedData.writeDouble(this.x);
         abstractSerializedData.writeDouble(this.y);

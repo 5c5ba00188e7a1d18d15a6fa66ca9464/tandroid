@@ -208,6 +208,7 @@ public class AndroidUtilities {
     public static final int LIGHT_STATUS_BAR_OVERLAY = 251658240;
     public static final int REPLACING_TAG_TYPE_BOLD = 1;
     public static final int REPLACING_TAG_TYPE_LINK = 0;
+    public static final int REPLACING_TAG_TYPE_LINKBOLD = 2;
     public static final String STICKERS_PLACEHOLDER_PACK_NAME = "tg_placeholders_android";
     public static final String TYPEFACE_COURIER_NEW_BOLD = "fonts/courier_new_bold.ttf";
     public static final String TYPEFACE_MERRIWEATHER_BOLD = "fonts/mw_bold.ttf";
@@ -349,7 +350,7 @@ public class AndroidUtilities {
         documentMediaIcons = new int[]{R.drawable.media_doc_blue_b, R.drawable.media_doc_green_b, R.drawable.media_doc_red_b, R.drawable.media_doc_yellow_b};
         sUrlMatchFilter = AndroidUtilities$$ExternalSyntheticLambda4.INSTANCE;
         hasCallPermissions = Build.VERSION.SDK_INT >= 23;
-        numbersSignatureArray = new String[]{"", "K", "M", "G", "T", "P"};
+        numbersSignatureArray = new String[]{"", "K", "M", "B", "T", "P"};
         characters = new char[]{160, ' ', '!', '\"', '#', '%', '&', '\'', '(', ')', '*', ',', '-', '.', '/', ':', ';', '?', '@', '[', '\\', ']', '_', '{', '}', 161, 167, 171, 182, 183, 187, 191, 894, 903, 1370, 1371, 1372, 1373, 1374, 1375, 1417, 1418, 1470, 1472, 1475, 1478, 1523, 1524, 1545, 1546, 1548, 1549, 1563, 1566, 1567, 1642, 1643, 1644, 1645, 1748, 1792, 1793, 1794, 1795, 1796, 1797, 1798, 1799, 1800, 1801, 1802, 1803, 1804, 1805, 2039, 2040, 2041, 2096, 2097, 2098, 2099, 2100, 2101, 2102, 2103, 2104, 2105, 2106, 2107, 2108, 2109, 2110, 2142, 2404, 2405, 2416, 2557, 2678, 2800, 3191, 3204, 3572, 3663, 3674, 3675, 3844, 3845, 3846, 3847, 3848, 3849, 3850, 3851, 3852, 3853, 3854, 3855, 3856, 3857, 3858, 3860, 3898, 3899, 3900, 3901, 3973, 4048, 4049, 4050, 4051, 4052, 4057, 4058, 4170, 4171, 4172, 4173, 4174, 4175, 4347, 4960, 4961, 4962, 4963, 4964, 4965, 4966, 4967, 4968, 5120, 5742, 5787, 5788, 5867, 5868, 5869, 5941, 5942, 6100, 6101, 6102, 6104, 6105, 6106, 6144, 6145, 6146, 6147, 6148, 6149, 6150, 6151, 6152, 6153, 6154, 6468, 6469, 6686, 6687, 6816, 6817, 6818, 6819, 6820, 6821, 6822, 6824, 6825, 6826, 6827, 6828, 6829, 7002, 7003, 7004, 7005, 7006, 7007, 7008, 7164, 7165, 7166, 7167, 7227, 7228, 7229, 7230, 7231, 7294, 7295, 7360, 7361, 7362, 7363, 7364, 7365, 7366, 7367, 7379, 8208, 8209, 8210, 8211, 8212, 8213, 8214, 8215, 8216, 8217, 8218, 8219, 8220, 8221, 8222, 8223, 8224, 8225, 8226, 8227, 8228, 8229, 8230, 8231, 8240, 8241, 8242, 8243, 8244, 8245, 8246, 8247, 8248, 8249, 8250, 8251, 8252, 8253, 8254, 8255, 8256, 8257, 8258, 8259, 8261, 8262, 8263, 8264, 8265, 8266, 8267, 8268, 8269, 8270, 8271, 8272, 8273, 8275, 8276, 8277, 8278, 8279, 8280, 8281, 8282, 8283, 8284, 8285, 8286, 8317, 8318, 8333, 8334, 8968, 8969, 8970, 8971, 9001, 9002, 10088, 10089, 10090, 10091, 10092, 10093, 10094, 10095, 10096, 10097, 10098, 10099, 10100, 10101, 10181, 10182, 10214, 10215, 10216, 10217, 10218, 10219, 10220, 10221, 10222, 10223, 10627, 10628, 10629, 10630, 10631, 10632, 10633, 10634, 10635, 10636, 10637, 10638, 10639, 10640, 10641, 10642, 10643, 10644, 10645, 10646, 10647, 10648, 10712, 10713, 10714, 10715, 10748, 10749, 11513, 11514, 11515, 11516, 11518, 11519, 11632, 11776, 11777, 11778, 11779, 11780, 11781, 11782, 11783, 11784, 11785, 11786, 11787, 11788, 11789, 11790, 11791, 11792, 11793, 11794, 11795, 11796, 11797, 11798, 11799, 11800, 11801, 11802, 11803, 11804, 11805, 11806, 11807, 11808, 11809, 11810, 11811, 11812, 11813, 11814, 11815, 11816, 11817, 11818, 11819, 11820, 11821, 11822, 11824, 11825, 11826, 11827, 11828, 11829, 11830, 11831, 11832, 11833, 11834, 11835, 11836, 11837, 11838, 11839, 11840, 11841, 11842, 11843, 11844, 11845, 11846, 11847, 11848, 11849, 11850, 11851, 11852, 11853, 11854, 11855, 12289, 12290, 12291, 12296, 12297, 12298, 12299, 12300, 12301, 12302, 12303, 12304, 12305, 12308, 12309, 12310, 12311, 12312, 12313, 12314, 12315, 12316, 12317, 12318, 12319, 12336, 12349, 12448, 12539, 42238, 42239, 42509, 42510, 42511, 42611, 42622, 42738, 42739, 42740, 42741, 42742, 42743, 43124, 43125, 43126, 43127, 43214, 43215, 43256, 43257, 43258, 43260, 43310, 43311, 43359, 43457, 43458, 43459, 43460, 43461, 43462, 43463, 43464, 43465, 43466, 43467, 43468, 43469, 43486, 43487, 43612, 43613, 43614, 43615, 43742, 43743, 43760, 43761, 44011, 64830, 64831, 65040, 65041, 65042, 65043, 65044, 65045, 65046, 65047, 65048, 65049, 65072, 65073, 65074, 65075, 65076, 65077, 65078, 65079, 65080, 65081, 65082, 65083, 65084, 65085, 65086, 65087, 65088, 65089, 65090, 65091, 65092, 65093, 65094, 65095, 65096, 65097, 65098, 65099, 65100, 65101, 65102, 65103, 65104, 65105, 65106, 65108, 65109, 65110, 65111, 65112, 65113, 65114, 65115, 65116, 65117, 65118, 65119, 65120, 65121, 65123, 65128, 65130, 65131, 65281, 65282, 65283, 65285, 65286, 65287, 65288, 65289, 65290, 65292, 65293, 65294, 65295, 65306, 65307, 65311, 65312, 65339, 65340, 65341, 65343, 65371, 65373, 65375, 65376, 65377, 65378, 65379, 65380, 65381};
     }
 
@@ -490,6 +491,10 @@ public class AndroidUtilities {
         return null;
     }
 
+    public static CharSequence premiumText(String str, Runnable runnable) {
+        return replaceSingleTag(str, -1, 2, runnable);
+    }
+
     public static CharSequence replaceSingleTag(String str, Runnable runnable) {
         return replaceSingleTag(str, -1, 0, runnable);
     }
@@ -498,7 +503,7 @@ public class AndroidUtilities {
         return replaceSingleTag(str, i, i2, runnable, null);
     }
 
-    public static SpannableStringBuilder replaceSingleTag(String str, final int i, int i2, final Runnable runnable, final Theme.ResourcesProvider resourcesProvider) {
+    public static SpannableStringBuilder replaceSingleTag(String str, final int i, final int i2, final Runnable runnable, final Theme.ResourcesProvider resourcesProvider) {
         int i3;
         int i4;
         int indexOf = str.indexOf("**");
@@ -512,7 +517,7 @@ public class AndroidUtilities {
         }
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(replace);
         if (indexOf >= 0) {
-            if (i2 == 0) {
+            if (i2 == 0 || i2 == 2) {
                 spannableStringBuilder.setSpan(new ClickableSpan() { // from class: org.telegram.messenger.AndroidUtilities.1
                     @Override // android.text.style.ClickableSpan, android.text.style.CharacterStyle
                     public void updateDrawState(TextPaint textPaint) {
@@ -521,6 +526,9 @@ public class AndroidUtilities {
                         int i5 = i;
                         if (i5 >= 0) {
                             textPaint.setColor(Theme.getColor(i5, resourcesProvider));
+                        }
+                        if (i2 == 2) {
+                            textPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
                         }
                     }
 
@@ -642,7 +650,12 @@ public class AndroidUtilities {
         }
         for (int i = 0; i < viewGroup.getChildCount(); i++) {
             View childAt = viewGroup.getChildAt(i);
-            if (childAt.getVisibility() == 0 && ((!(childAt instanceof PeerStoriesView) || childAt == view) && (!(childAt instanceof StoryMediaAreasView.AreaView) || ((StoryMediaAreasView) viewGroup).hasSelected() || (f >= dp(60.0f) && f <= viewGroup.getWidth() - dp(60.0f))))) {
+            if (childAt.getVisibility() == 0 && (!(childAt instanceof PeerStoriesView) || childAt == view)) {
+                if (childAt instanceof StoryMediaAreasView.AreaView) {
+                    StoryMediaAreasView storyMediaAreasView = (StoryMediaAreasView) viewGroup;
+                    if ((!storyMediaAreasView.hasSelected() || (f >= dp(60.0f) && f <= viewGroup.getWidth() - dp(60.0f))) && !storyMediaAreasView.hasAreaAboveAt(f, f2)) {
+                    }
+                }
                 Rect rect = rectTmp2;
                 childAt.getHitRect(rect);
                 if (rect.contains((int) f, (int) f2) && childAt.isClickable()) {
@@ -3041,19 +3054,19 @@ public class AndroidUtilities {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:40:0x00b4, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:40:0x00b5, code lost:
         if (r2 == 1) goto L38;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:41:0x00b6, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:41:0x00b7, code lost:
         if (r2 == 2) goto L37;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:42:0x00b8, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:42:0x00b9, code lost:
         r1 = null;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:43:0x00ba, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:43:0x00bb, code lost:
         r1 = android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:44:0x00bd, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:44:0x00be, code lost:
         r1 = android.provider.MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
      */
     @SuppressLint({"NewApi"})
@@ -3870,13 +3883,13 @@ public class AndroidUtilities {
         return accessibilityManager.isEnabled() && accessibilityManager.isTouchExplorationEnabled();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:54:0x0114 A[Catch: Exception -> 0x0131, TRY_LEAVE, TryCatch #0 {Exception -> 0x0131, blocks: (B:5:0x000a, B:8:0x0014, B:10:0x001a, B:12:0x0022, B:15:0x0037, B:18:0x0040, B:20:0x0049, B:23:0x005c, B:25:0x0062, B:27:0x0068, B:29:0x006e, B:31:0x008c, B:32:0x0090, B:52:0x010e, B:54:0x0114, B:67:0x012d, B:33:0x00a6, B:35:0x00b7, B:37:0x00c0, B:39:0x00c9, B:41:0x00cf, B:43:0x00d7, B:45:0x00df, B:47:0x00e9, B:48:0x00ed), top: B:71:0x000a }] */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x011e  */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x0120  */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x0123  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x0125  */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x0128  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x012a  */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x0115 A[Catch: Exception -> 0x0132, TRY_LEAVE, TryCatch #0 {Exception -> 0x0132, blocks: (B:5:0x000a, B:8:0x0014, B:10:0x001a, B:12:0x0022, B:15:0x0038, B:18:0x0041, B:20:0x004a, B:23:0x005d, B:25:0x0063, B:27:0x0069, B:29:0x006f, B:31:0x008d, B:32:0x0091, B:52:0x010f, B:54:0x0115, B:67:0x012e, B:33:0x00a7, B:35:0x00b8, B:37:0x00c1, B:39:0x00ca, B:41:0x00d0, B:43:0x00d8, B:45:0x00e0, B:47:0x00ea, B:48:0x00ee), top: B:71:0x000a }] */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x011f  */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x0121  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x0124  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x0126  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x0129  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x012b  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -4529,6 +4542,16 @@ public class AndroidUtilities {
         int systemUiVisibility = view.getSystemUiVisibility();
         if (((systemUiVisibility & 16) > 0) != z) {
             view.setSystemUiVisibility(z ? systemUiVisibility | 16 : systemUiVisibility & (-17));
+        }
+    }
+
+    public static void setLightStatusBar(View view, boolean z) {
+        if (view == null || Build.VERSION.SDK_INT < 26) {
+            return;
+        }
+        int systemUiVisibility = view.getSystemUiVisibility();
+        if (((systemUiVisibility & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) > 0) != z) {
+            view.setSystemUiVisibility(z ? systemUiVisibility | LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM : systemUiVisibility & (-8193));
         }
     }
 
@@ -5215,7 +5238,11 @@ public class AndroidUtilities {
         return Math.max(i, i2) > Math.min(i3, i4) && Math.max(i3, i4) > Math.min(i, i2);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:18:0x0023, code lost:
+    public static boolean intersect1dInclusive(int i, int i2, int i3, int i4) {
+        return Math.max(i, i2) >= Math.min(i3, i4) && Math.max(i3, i4) >= Math.min(i, i2);
+    }
+
+    /* JADX WARN: Code restructure failed: missing block: B:18:0x0024, code lost:
         if (r1 == null) goto L11;
      */
     /*

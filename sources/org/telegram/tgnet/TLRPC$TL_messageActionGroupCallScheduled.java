@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_messageActionGroupCallScheduled extends TLRPC$MessageAction {
-    public static int constructor = -1281329567;
     public int schedule_date;
 
     @Override // org.telegram.tgnet.TLObject
@@ -12,7 +11,7 @@ public class TLRPC$TL_messageActionGroupCallScheduled extends TLRPC$MessageActio
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-1281329567);
         this.call.serializeToStream(abstractSerializedData);
         abstractSerializedData.writeInt32(this.schedule_date);
     }

@@ -4,7 +4,6 @@ import org.telegram.messenger.FileLoaderPriorityQueue;
 import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public class TLRPC$TL_chatBannedRights extends TLObject {
-    public static int constructor = -1626209256;
     public boolean change_info;
     public boolean embed_links;
     public int flags;
@@ -29,7 +28,7 @@ public class TLRPC$TL_chatBannedRights extends TLObject {
     public boolean view_messages;
 
     public static TLRPC$TL_chatBannedRights TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-        if (constructor != i) {
+        if (-1626209256 != i) {
             if (z) {
                 throw new RuntimeException(String.format("can't parse magic %x in TL_chatBannedRights", Integer.valueOf(i)));
             }
@@ -78,7 +77,7 @@ public class TLRPC$TL_chatBannedRights extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-1626209256);
         boolean z = this.send_photos;
         if (z && this.send_videos && this.send_roundvideos && this.send_audios && this.send_voices && this.send_docs) {
             this.send_media = true;
@@ -86,7 +85,7 @@ public class TLRPC$TL_chatBannedRights extends TLObject {
             this.send_media = false;
         }
         boolean z2 = this.send_plain;
-        if (z2 && this.send_media) {
+        if (z2 && this.send_media && this.send_stickers) {
             this.send_messages = true;
         } else {
             this.send_messages = false;

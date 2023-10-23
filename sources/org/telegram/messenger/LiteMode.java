@@ -80,11 +80,18 @@ public class LiteMode {
         return value;
     }
 
+    /* JADX WARN: Code restructure failed: missing block: B:5:0x0010, code lost:
+        if ((r0 - org.telegram.messenger.LiteMode.lastBatteryLevelChecked) > 12000) goto L8;
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public static int getBatteryLevel() {
-        BatteryManager batteryManager;
-        if ((lastBatteryLevelCached < 0 || System.currentTimeMillis() - lastBatteryLevelChecked > 12000) && (batteryManager = (BatteryManager) ApplicationLoader.applicationContext.getSystemService("batterymanager")) != null) {
+        long currentTimeMillis = lastBatteryLevelCached >= 0 ? System.currentTimeMillis() : 0L;
+        BatteryManager batteryManager = (BatteryManager) ApplicationLoader.applicationContext.getSystemService("batterymanager");
+        if (batteryManager != null) {
             lastBatteryLevelCached = batteryManager.getIntProperty(4);
-            lastBatteryLevelChecked = System.currentTimeMillis();
+            lastBatteryLevelChecked = currentTimeMillis;
         }
         return lastBatteryLevelCached;
     }

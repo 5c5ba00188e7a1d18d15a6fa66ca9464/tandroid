@@ -7,6 +7,7 @@ public class OrientationHelper {
     private static final int ORIENTATION_HYSTERESIS = 5;
     public static volatile int cameraOrientation;
     public static volatile int cameraRotation;
+    public static volatile boolean cameraRotationDisabled;
     private OrientationEventListener orientationEventListener = new OrientationEventListener(ApplicationLoader.applicationContext) { // from class: org.webrtc.OrientationHelper.1
         @Override // android.view.OrientationEventListener
         public void onOrientationChanged(int i) {
@@ -56,6 +57,9 @@ public class OrientationHelper {
     }
 
     public int getOrientation() {
+        if (cameraRotationDisabled) {
+            return 0;
+        }
         return this.rotation;
     }
 }

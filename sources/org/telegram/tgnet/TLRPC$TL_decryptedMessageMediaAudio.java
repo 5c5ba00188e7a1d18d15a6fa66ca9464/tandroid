@@ -1,8 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_decryptedMessageMediaAudio extends TLRPC$DecryptedMessageMedia {
-    public static int constructor = 1474341323;
-
     @Override // org.telegram.tgnet.TLObject
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
         this.duration = abstractSerializedData.readInt32(z);
@@ -14,7 +12,7 @@ public class TLRPC$TL_decryptedMessageMediaAudio extends TLRPC$DecryptedMessageM
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(1474341323);
         abstractSerializedData.writeInt32(this.duration);
         abstractSerializedData.writeString(this.mime_type);
         abstractSerializedData.writeInt32((int) this.size);

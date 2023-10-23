@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_channels_getForumTopics extends TLObject {
-    public static int constructor = 233136337;
     public TLRPC$InputChannel channel;
     public int flags;
     public int limit;
@@ -17,7 +16,7 @@ public class TLRPC$TL_channels_getForumTopics extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(233136337);
         abstractSerializedData.writeInt32(this.flags);
         this.channel.serializeToStream(abstractSerializedData);
         if ((this.flags & 1) != 0) {

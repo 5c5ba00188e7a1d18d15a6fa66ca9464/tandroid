@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_payments_clearSavedInfo extends TLObject {
-    public static int constructor = -667062079;
     public boolean credentials;
     public int flags;
     public boolean info;
@@ -13,7 +12,7 @@ public class TLRPC$TL_payments_clearSavedInfo extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-667062079);
         int i = this.credentials ? this.flags | 1 : this.flags & (-2);
         this.flags = i;
         int i2 = this.info ? i | 2 : i & (-3);

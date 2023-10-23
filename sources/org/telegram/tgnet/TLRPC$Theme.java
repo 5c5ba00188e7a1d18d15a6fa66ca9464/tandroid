@@ -9,8 +9,6 @@ public abstract class TLRPC$Theme extends TLObject {
                 break;
             case -402474788:
                 tLRPC$TL_theme = new TLRPC$TL_theme() { // from class: org.telegram.tgnet.TLRPC$TL_theme_layer133
-                    public static int constructor = -402474788;
-
                     @Override // org.telegram.tgnet.TLRPC$TL_theme, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
@@ -35,7 +33,7 @@ public abstract class TLRPC$Theme extends TLObject {
 
                     @Override // org.telegram.tgnet.TLRPC$TL_theme, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(-402474788);
                         int i2 = this.creator ? this.flags | 1 : this.flags & (-2);
                         this.flags = i2;
                         int i3 = this.isDefault ? i2 | 2 : i2 & (-3);
@@ -61,8 +59,6 @@ public abstract class TLRPC$Theme extends TLObject {
                 break;
             case -136770336:
                 tLRPC$TL_theme = new TLRPC$TL_theme() { // from class: org.telegram.tgnet.TLRPC$TL_theme_layer106
-                    public static int constructor = -136770336;
-
                     @Override // org.telegram.tgnet.TLRPC$TL_theme, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
@@ -81,7 +77,7 @@ public abstract class TLRPC$Theme extends TLObject {
 
                     @Override // org.telegram.tgnet.TLRPC$TL_theme, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(-136770336);
                         int i2 = this.creator ? this.flags | 1 : this.flags & (-2);
                         this.flags = i2;
                         int i3 = this.isDefault ? i2 | 2 : i2 & (-3);
@@ -100,8 +96,6 @@ public abstract class TLRPC$Theme extends TLObject {
                 break;
             case 42930452:
                 tLRPC$TL_theme = new TLRPC$TL_theme() { // from class: org.telegram.tgnet.TLRPC$TL_theme_layer131
-                    public static int constructor = 42930452;
-
                     @Override // org.telegram.tgnet.TLRPC$TL_theme, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
@@ -123,7 +117,7 @@ public abstract class TLRPC$Theme extends TLObject {
 
                     @Override // org.telegram.tgnet.TLRPC$TL_theme, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(42930452);
                         int i2 = this.creator ? this.flags | 1 : this.flags & (-2);
                         this.flags = i2;
                         int i3 = this.isDefault ? i2 | 2 : i2 & (-3);
@@ -145,11 +139,9 @@ public abstract class TLRPC$Theme extends TLObject {
                 break;
             case 1211967244:
                 tLRPC$TL_theme = new TLRPC$TL_theme() { // from class: org.telegram.tgnet.TLRPC$TL_themeDocumentNotModified_layer106
-                    public static int constructor = 1211967244;
-
                     @Override // org.telegram.tgnet.TLRPC$TL_theme, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(1211967244);
                     }
                 };
                 break;

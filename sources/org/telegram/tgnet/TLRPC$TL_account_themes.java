@@ -3,7 +3,6 @@ package org.telegram.tgnet;
 import java.util.ArrayList;
 /* loaded from: classes.dex */
 public class TLRPC$TL_account_themes extends TLRPC$account_Themes {
-    public static int constructor = -1707242387;
     public long hash;
     public ArrayList<TLRPC$TL_theme> themes = new ArrayList<>();
 
@@ -29,7 +28,7 @@ public class TLRPC$TL_account_themes extends TLRPC$account_Themes {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-1707242387);
         abstractSerializedData.writeInt64(this.hash);
         abstractSerializedData.writeInt32(481674261);
         int size = this.themes.size();

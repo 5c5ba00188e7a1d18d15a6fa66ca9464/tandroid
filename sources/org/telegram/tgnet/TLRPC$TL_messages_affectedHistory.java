@@ -1,13 +1,12 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_messages_affectedHistory extends TLObject {
-    public static int constructor = -1269012015;
     public int offset;
     public int pts;
     public int pts_count;
 
     public static TLRPC$TL_messages_affectedHistory TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-        if (constructor != i) {
+        if (-1269012015 != i) {
             if (z) {
                 throw new RuntimeException(String.format("can't parse magic %x in TL_messages_affectedHistory", Integer.valueOf(i)));
             }
@@ -27,7 +26,7 @@ public class TLRPC$TL_messages_affectedHistory extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-1269012015);
         abstractSerializedData.writeInt32(this.pts);
         abstractSerializedData.writeInt32(this.pts_count);
         abstractSerializedData.writeInt32(this.offset);

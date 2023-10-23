@@ -22,6 +22,7 @@ import android.util.Log;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 import java.util.concurrent.atomic.AtomicInteger;
+import org.telegram.messenger.MessageObject;
 import org.telegram.tgnet.ConnectionsManager;
 /* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
 /* loaded from: classes.dex */
@@ -155,7 +156,7 @@ public final class CommonNotificationBuilder {
         return Bundle.EMPTY;
     }
 
-    @TargetApi(26)
+    @TargetApi(MessageObject.TYPE_GIVEAWAY)
     public static String getOrCreateChannel(Context context, String str, Bundle bundle) {
         String string;
         if (Build.VERSION.SDK_INT < 26) {
@@ -266,7 +267,7 @@ public final class CommonNotificationBuilder {
         return string;
     }
 
-    @TargetApi(26)
+    @TargetApi(MessageObject.TYPE_GIVEAWAY)
     private static boolean isValidIcon(Resources resources, int i) {
         if (Build.VERSION.SDK_INT != 26) {
             return true;

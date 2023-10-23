@@ -3,7 +3,6 @@ package org.telegram.tgnet;
 import java.util.ArrayList;
 /* loaded from: classes.dex */
 public class TLRPC$TL_help_countriesList extends TLRPC$help_CountriesList {
-    public static int constructor = -2016381538;
     public ArrayList<TLRPC$TL_help_country> countries = new ArrayList<>();
     public int hash;
 
@@ -29,7 +28,7 @@ public class TLRPC$TL_help_countriesList extends TLRPC$help_CountriesList {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-2016381538);
         abstractSerializedData.writeInt32(481674261);
         int size = this.countries.size();
         abstractSerializedData.writeInt32(size);

@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_messages_uninstallStickerSet extends TLObject {
-    public static int constructor = -110209570;
     public TLRPC$InputStickerSet stickerset;
 
     @Override // org.telegram.tgnet.TLObject
@@ -11,7 +10,7 @@ public class TLRPC$TL_messages_uninstallStickerSet extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-110209570);
         this.stickerset.serializeToStream(abstractSerializedData);
     }
 }

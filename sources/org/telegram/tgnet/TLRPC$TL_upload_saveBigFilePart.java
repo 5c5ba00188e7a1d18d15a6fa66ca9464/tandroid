@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_upload_saveBigFilePart extends TLObject {
-    public static int constructor = -562337987;
     public NativeByteBuffer bytes;
     public long file_id;
     public int file_part;
@@ -24,7 +23,7 @@ public class TLRPC$TL_upload_saveBigFilePart extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-562337987);
         abstractSerializedData.writeInt64(this.file_id);
         abstractSerializedData.writeInt32(this.file_part);
         abstractSerializedData.writeInt32(this.file_total_parts);

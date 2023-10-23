@@ -769,7 +769,7 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
             }
             PhotoCropActivity photoCropActivity = new PhotoCropActivity(bundle);
             photoCropActivity.setDelegate(this);
-            launchActivity.lambda$runLinkRequest$75(photoCropActivity);
+            launchActivity.lambda$runLinkRequest$81(photoCropActivity);
         } catch (Exception e) {
             FileLog.e(e);
             processBitmap(ImageLoader.loadBitmap(str, uri, 800.0f, 800.0f, true), null);
@@ -937,7 +937,6 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
     public void didReceivedNotification(int i, int i2, Object... objArr) {
         ImageUpdaterDelegate imageUpdaterDelegate;
         BaseFragment baseFragment;
-        BaseFragment baseFragment2;
         int i3 = NotificationCenter.fileUploaded;
         if (i == i3 || i == NotificationCenter.fileUploadFailed) {
             String str = (String) objArr[0];
@@ -1001,18 +1000,15 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
             }
             int i6 = NotificationCenter.filePreparingFailed;
             if (i == i6) {
-                MessageObject messageObject = (MessageObject) objArr[0];
-                if (messageObject != this.convertingVideo || (baseFragment2 = this.parentFragment) == null) {
+                if (((MessageObject) objArr[0]) != this.convertingVideo || this.parentFragment == null) {
                     return;
                 }
-                baseFragment2.getSendMessagesHelper().stopVideoService(messageObject.messageOwner.attachPath);
                 NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.filePreparingStarted);
                 NotificationCenter.getInstance(this.currentAccount).removeObserver(this, i6);
                 NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.fileNewChunkAvailable);
                 cleanup();
             } else if (i == NotificationCenter.fileNewChunkAvailable) {
-                MessageObject messageObject2 = (MessageObject) objArr[0];
-                if (messageObject2 != this.convertingVideo || this.parentFragment == null) {
+                if (((MessageObject) objArr[0]) != this.convertingVideo || this.parentFragment == null) {
                     return;
                 }
                 String str4 = (String) objArr[1];
@@ -1055,7 +1051,6 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
                     NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.filePreparingStarted);
                     NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.filePreparingFailed);
                     NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.fileNewChunkAvailable);
-                    this.parentFragment.getSendMessagesHelper().stopVideoService(messageObject2.messageOwner.attachPath);
                     this.videoPath = str4;
                     this.uploadingVideo = str4;
                     this.convertingVideo = null;

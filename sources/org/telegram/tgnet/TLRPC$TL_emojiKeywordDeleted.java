@@ -3,7 +3,6 @@ package org.telegram.tgnet;
 import java.util.ArrayList;
 /* loaded from: classes.dex */
 public class TLRPC$TL_emojiKeywordDeleted extends TLRPC$EmojiKeyword {
-    public static int constructor = 594408994;
     public ArrayList<String> emoticons = new ArrayList<>();
     public String keyword;
 
@@ -25,7 +24,7 @@ public class TLRPC$TL_emojiKeywordDeleted extends TLRPC$EmojiKeyword {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(594408994);
         abstractSerializedData.writeString(this.keyword);
         abstractSerializedData.writeInt32(481674261);
         int size = this.emoticons.size();

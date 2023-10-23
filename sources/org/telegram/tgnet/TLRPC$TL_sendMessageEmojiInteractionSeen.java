@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_sendMessageEmojiInteractionSeen extends TLRPC$SendMessageAction {
-    public static int constructor = -1234857938;
     public String emoticon;
 
     @Override // org.telegram.tgnet.TLObject
@@ -11,7 +10,7 @@ public class TLRPC$TL_sendMessageEmojiInteractionSeen extends TLRPC$SendMessageA
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-1234857938);
         abstractSerializedData.writeString(this.emoticon);
     }
 }

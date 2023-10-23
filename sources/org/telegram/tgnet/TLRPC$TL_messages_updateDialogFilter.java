@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_messages_updateDialogFilter extends TLObject {
-    public static int constructor = 450142282;
     public TLRPC$TL_dialogFilter filter;
     public int flags;
     public int id;
@@ -13,7 +12,7 @@ public class TLRPC$TL_messages_updateDialogFilter extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(450142282);
         abstractSerializedData.writeInt32(this.flags);
         abstractSerializedData.writeInt32(this.id);
         if ((this.flags & 1) != 0) {

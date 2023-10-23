@@ -800,8 +800,6 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$cancelPasswordReset$10(DialogInterface dialogInterface, int i) {
         getConnectionsManager().sendRequest(new TLObject() { // from class: org.telegram.tgnet.TLRPC$TL_account_declinePasswordReset
-            public static int constructor = 1284770294;
-
             @Override // org.telegram.tgnet.TLObject
             public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i2, boolean z) {
                 return TLRPC$Bool.TLdeserialize(abstractSerializedData, i2, z);
@@ -809,7 +807,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
 
             @Override // org.telegram.tgnet.TLObject
             public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-                abstractSerializedData.writeInt32(constructor);
+                abstractSerializedData.writeInt32(1284770294);
             }
         }, new RequestDelegate() { // from class: org.telegram.ui.TwoStepVerificationActivity$$ExternalSyntheticLambda30
             @Override // org.telegram.tgnet.RequestDelegate
@@ -844,8 +842,6 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
     private void resetPassword() {
         needShowProgress(true);
         getConnectionsManager().sendRequest(new TLObject() { // from class: org.telegram.tgnet.TLRPC$TL_account_resetPassword
-            public static int constructor = -1828139493;
-
             @Override // org.telegram.tgnet.TLObject
             public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i, boolean z) {
                 return TLRPC$account_ResetPasswordResult.TLdeserialize(abstractSerializedData, i, z);
@@ -853,7 +849,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
 
             @Override // org.telegram.tgnet.TLObject
             public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-                abstractSerializedData.writeInt32(constructor);
+                abstractSerializedData.writeInt32(-1828139493);
             }
         }, new RequestDelegate() { // from class: org.telegram.ui.TwoStepVerificationActivity$$ExternalSyntheticLambda29
             @Override // org.telegram.tgnet.RequestDelegate

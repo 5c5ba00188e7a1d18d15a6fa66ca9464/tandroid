@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_updates_getChannelDifference extends TLObject {
-    public static int constructor = 51854712;
     public TLRPC$InputChannel channel;
     public TLRPC$ChannelMessagesFilter filter;
     public int flags;
@@ -16,7 +15,7 @@ public class TLRPC$TL_updates_getChannelDifference extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(51854712);
         int i = this.force ? this.flags | 1 : this.flags & (-2);
         this.flags = i;
         abstractSerializedData.writeInt32(i);

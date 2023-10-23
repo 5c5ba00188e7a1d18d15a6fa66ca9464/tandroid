@@ -819,7 +819,7 @@ public class Painting {
     }
 
     private void renderBlur() {
-        if (this.blurManager == null || this.bitmapBlurTexture == null) {
+        if (this.blurManager == null || this.bitmapBlurTexture == null || !this.hasBlur) {
             return;
         }
         GLES20.glBindFramebuffer(36160, 0);

@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_channelAdminLogEventActionParticipantUnmute extends TLRPC$ChannelAdminLogEventAction {
-    public static int constructor = -431740480;
     public TLRPC$TL_groupCallParticipant participant;
 
     @Override // org.telegram.tgnet.TLObject
@@ -11,7 +10,7 @@ public class TLRPC$TL_channelAdminLogEventActionParticipantUnmute extends TLRPC$
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-431740480);
         this.participant.serializeToStream(abstractSerializedData);
     }
 }

@@ -2820,7 +2820,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Type inference failed for: r0v7, types: [org.telegram.messenger.AccountInstance, java.lang.String] */
-    /* JADX WARN: Type inference failed for: r0v9, types: [java.lang.String, int] */
+    /* JADX WARN: Type inference failed for: r0v9, types: [int, java.lang.String] */
     public /* synthetic */ void lambda$createGroupInstance$45(final int i, final long j, long j2, final int i2, final int i3) {
         StringBuilder sb;
         if (i != 0) {
@@ -3119,22 +3119,21 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         return this.switchingStream;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:102:0x02d8 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:106:0x02eb A[Catch: Exception -> 0x03b9, TryCatch #2 {Exception -> 0x03b9, blocks: (B:5:0x0010, B:7:0x0014, B:8:0x002a, B:10:0x0036, B:12:0x0041, B:13:0x0068, B:15:0x0071, B:16:0x007b, B:18:0x0081, B:20:0x008e, B:26:0x009f, B:28:0x00a5, B:29:0x00a9, B:39:0x00c8, B:41:0x00df, B:43:0x00e7, B:45:0x00fc, B:51:0x0108, B:56:0x0112, B:58:0x0116, B:60:0x0139, B:64:0x017b, B:84:0x0258, B:86:0x0261, B:88:0x026c, B:90:0x0274, B:92:0x0287, B:94:0x028d, B:96:0x02ac, B:100:0x02cd, B:103:0x02da, B:104:0x02e7, B:106:0x02eb, B:108:0x02ef, B:110:0x02f5, B:112:0x02fd, B:116:0x030b, B:117:0x0317, B:118:0x031c, B:120:0x038a, B:121:0x038d, B:123:0x0395, B:124:0x03a5, B:59:0x0131, B:11:0x003c, B:22:0x0092), top: B:139:0x0010, inners: #1 }] */
-    /* JADX WARN: Removed duplicated region for block: B:120:0x038a A[Catch: Exception -> 0x03b9, TryCatch #2 {Exception -> 0x03b9, blocks: (B:5:0x0010, B:7:0x0014, B:8:0x002a, B:10:0x0036, B:12:0x0041, B:13:0x0068, B:15:0x0071, B:16:0x007b, B:18:0x0081, B:20:0x008e, B:26:0x009f, B:28:0x00a5, B:29:0x00a9, B:39:0x00c8, B:41:0x00df, B:43:0x00e7, B:45:0x00fc, B:51:0x0108, B:56:0x0112, B:58:0x0116, B:60:0x0139, B:64:0x017b, B:84:0x0258, B:86:0x0261, B:88:0x026c, B:90:0x0274, B:92:0x0287, B:94:0x028d, B:96:0x02ac, B:100:0x02cd, B:103:0x02da, B:104:0x02e7, B:106:0x02eb, B:108:0x02ef, B:110:0x02f5, B:112:0x02fd, B:116:0x030b, B:117:0x0317, B:118:0x031c, B:120:0x038a, B:121:0x038d, B:123:0x0395, B:124:0x03a5, B:59:0x0131, B:11:0x003c, B:22:0x0092), top: B:139:0x0010, inners: #1 }] */
-    /* JADX WARN: Removed duplicated region for block: B:131:0x03be  */
-    /* JADX WARN: Removed duplicated region for block: B:143:0x018d A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:51:0x0108 A[Catch: Exception -> 0x03b9, TryCatch #2 {Exception -> 0x03b9, blocks: (B:5:0x0010, B:7:0x0014, B:8:0x002a, B:10:0x0036, B:12:0x0041, B:13:0x0068, B:15:0x0071, B:16:0x007b, B:18:0x0081, B:20:0x008e, B:26:0x009f, B:28:0x00a5, B:29:0x00a9, B:39:0x00c8, B:41:0x00df, B:43:0x00e7, B:45:0x00fc, B:51:0x0108, B:56:0x0112, B:58:0x0116, B:60:0x0139, B:64:0x017b, B:84:0x0258, B:86:0x0261, B:88:0x026c, B:90:0x0274, B:92:0x0287, B:94:0x028d, B:96:0x02ac, B:100:0x02cd, B:103:0x02da, B:104:0x02e7, B:106:0x02eb, B:108:0x02ef, B:110:0x02f5, B:112:0x02fd, B:116:0x030b, B:117:0x0317, B:118:0x031c, B:120:0x038a, B:121:0x038d, B:123:0x0395, B:124:0x03a5, B:59:0x0131, B:11:0x003c, B:22:0x0092), top: B:139:0x0010, inners: #1 }] */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x0116 A[Catch: Exception -> 0x03b9, TryCatch #2 {Exception -> 0x03b9, blocks: (B:5:0x0010, B:7:0x0014, B:8:0x002a, B:10:0x0036, B:12:0x0041, B:13:0x0068, B:15:0x0071, B:16:0x007b, B:18:0x0081, B:20:0x008e, B:26:0x009f, B:28:0x00a5, B:29:0x00a9, B:39:0x00c8, B:41:0x00df, B:43:0x00e7, B:45:0x00fc, B:51:0x0108, B:56:0x0112, B:58:0x0116, B:60:0x0139, B:64:0x017b, B:84:0x0258, B:86:0x0261, B:88:0x026c, B:90:0x0274, B:92:0x0287, B:94:0x028d, B:96:0x02ac, B:100:0x02cd, B:103:0x02da, B:104:0x02e7, B:106:0x02eb, B:108:0x02ef, B:110:0x02f5, B:112:0x02fd, B:116:0x030b, B:117:0x0317, B:118:0x031c, B:120:0x038a, B:121:0x038d, B:123:0x0395, B:124:0x03a5, B:59:0x0131, B:11:0x003c, B:22:0x0092), top: B:139:0x0010, inners: #1 }] */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x0131 A[Catch: Exception -> 0x03b9, TryCatch #2 {Exception -> 0x03b9, blocks: (B:5:0x0010, B:7:0x0014, B:8:0x002a, B:10:0x0036, B:12:0x0041, B:13:0x0068, B:15:0x0071, B:16:0x007b, B:18:0x0081, B:20:0x008e, B:26:0x009f, B:28:0x00a5, B:29:0x00a9, B:39:0x00c8, B:41:0x00df, B:43:0x00e7, B:45:0x00fc, B:51:0x0108, B:56:0x0112, B:58:0x0116, B:60:0x0139, B:64:0x017b, B:84:0x0258, B:86:0x0261, B:88:0x026c, B:90:0x0274, B:92:0x0287, B:94:0x028d, B:96:0x02ac, B:100:0x02cd, B:103:0x02da, B:104:0x02e7, B:106:0x02eb, B:108:0x02ef, B:110:0x02f5, B:112:0x02fd, B:116:0x030b, B:117:0x0317, B:118:0x031c, B:120:0x038a, B:121:0x038d, B:123:0x0395, B:124:0x03a5, B:59:0x0131, B:11:0x003c, B:22:0x0092), top: B:139:0x0010, inners: #1 }] */
+    /* JADX WARN: Removed duplicated region for block: B:102:0x02df A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:106:0x02f2 A[Catch: Exception -> 0x03c0, TryCatch #1 {Exception -> 0x03c0, blocks: (B:5:0x0010, B:7:0x0014, B:8:0x002a, B:10:0x0036, B:12:0x0041, B:13:0x0068, B:15:0x0071, B:16:0x007b, B:18:0x0081, B:20:0x008e, B:26:0x009f, B:28:0x00a5, B:29:0x00a9, B:39:0x00c8, B:41:0x00df, B:43:0x00e7, B:45:0x00fc, B:51:0x0108, B:56:0x0112, B:58:0x0116, B:60:0x0139, B:64:0x017b, B:84:0x0258, B:86:0x0261, B:88:0x026d, B:90:0x0276, B:92:0x028b, B:94:0x0291, B:96:0x02b3, B:100:0x02d4, B:103:0x02e1, B:104:0x02ee, B:106:0x02f2, B:108:0x02f6, B:110:0x02fc, B:112:0x0304, B:116:0x0312, B:117:0x031e, B:118:0x0323, B:120:0x0391, B:121:0x0394, B:123:0x039c, B:124:0x03ac, B:59:0x0131, B:11:0x003c, B:22:0x0092), top: B:137:0x0010, inners: #2 }] */
+    /* JADX WARN: Removed duplicated region for block: B:120:0x0391 A[Catch: Exception -> 0x03c0, TryCatch #1 {Exception -> 0x03c0, blocks: (B:5:0x0010, B:7:0x0014, B:8:0x002a, B:10:0x0036, B:12:0x0041, B:13:0x0068, B:15:0x0071, B:16:0x007b, B:18:0x0081, B:20:0x008e, B:26:0x009f, B:28:0x00a5, B:29:0x00a9, B:39:0x00c8, B:41:0x00df, B:43:0x00e7, B:45:0x00fc, B:51:0x0108, B:56:0x0112, B:58:0x0116, B:60:0x0139, B:64:0x017b, B:84:0x0258, B:86:0x0261, B:88:0x026d, B:90:0x0276, B:92:0x028b, B:94:0x0291, B:96:0x02b3, B:100:0x02d4, B:103:0x02e1, B:104:0x02ee, B:106:0x02f2, B:108:0x02f6, B:110:0x02fc, B:112:0x0304, B:116:0x0312, B:117:0x031e, B:118:0x0323, B:120:0x0391, B:121:0x0394, B:123:0x039c, B:124:0x03ac, B:59:0x0131, B:11:0x003c, B:22:0x0092), top: B:137:0x0010, inners: #2 }] */
+    /* JADX WARN: Removed duplicated region for block: B:141:0x018d A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x0108 A[Catch: Exception -> 0x03c0, TryCatch #1 {Exception -> 0x03c0, blocks: (B:5:0x0010, B:7:0x0014, B:8:0x002a, B:10:0x0036, B:12:0x0041, B:13:0x0068, B:15:0x0071, B:16:0x007b, B:18:0x0081, B:20:0x008e, B:26:0x009f, B:28:0x00a5, B:29:0x00a9, B:39:0x00c8, B:41:0x00df, B:43:0x00e7, B:45:0x00fc, B:51:0x0108, B:56:0x0112, B:58:0x0116, B:60:0x0139, B:64:0x017b, B:84:0x0258, B:86:0x0261, B:88:0x026d, B:90:0x0276, B:92:0x028b, B:94:0x0291, B:96:0x02b3, B:100:0x02d4, B:103:0x02e1, B:104:0x02ee, B:106:0x02f2, B:108:0x02f6, B:110:0x02fc, B:112:0x0304, B:116:0x0312, B:117:0x031e, B:118:0x0323, B:120:0x0391, B:121:0x0394, B:123:0x039c, B:124:0x03ac, B:59:0x0131, B:11:0x003c, B:22:0x0092), top: B:137:0x0010, inners: #2 }] */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x0116 A[Catch: Exception -> 0x03c0, TryCatch #1 {Exception -> 0x03c0, blocks: (B:5:0x0010, B:7:0x0014, B:8:0x002a, B:10:0x0036, B:12:0x0041, B:13:0x0068, B:15:0x0071, B:16:0x007b, B:18:0x0081, B:20:0x008e, B:26:0x009f, B:28:0x00a5, B:29:0x00a9, B:39:0x00c8, B:41:0x00df, B:43:0x00e7, B:45:0x00fc, B:51:0x0108, B:56:0x0112, B:58:0x0116, B:60:0x0139, B:64:0x017b, B:84:0x0258, B:86:0x0261, B:88:0x026d, B:90:0x0276, B:92:0x028b, B:94:0x0291, B:96:0x02b3, B:100:0x02d4, B:103:0x02e1, B:104:0x02ee, B:106:0x02f2, B:108:0x02f6, B:110:0x02fc, B:112:0x0304, B:116:0x0312, B:117:0x031e, B:118:0x0323, B:120:0x0391, B:121:0x0394, B:123:0x039c, B:124:0x03ac, B:59:0x0131, B:11:0x003c, B:22:0x0092), top: B:137:0x0010, inners: #2 }] */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x0131 A[Catch: Exception -> 0x03c0, TryCatch #1 {Exception -> 0x03c0, blocks: (B:5:0x0010, B:7:0x0014, B:8:0x002a, B:10:0x0036, B:12:0x0041, B:13:0x0068, B:15:0x0071, B:16:0x007b, B:18:0x0081, B:20:0x008e, B:26:0x009f, B:28:0x00a5, B:29:0x00a9, B:39:0x00c8, B:41:0x00df, B:43:0x00e7, B:45:0x00fc, B:51:0x0108, B:56:0x0112, B:58:0x0116, B:60:0x0139, B:64:0x017b, B:84:0x0258, B:86:0x0261, B:88:0x026d, B:90:0x0276, B:92:0x028b, B:94:0x0291, B:96:0x02b3, B:100:0x02d4, B:103:0x02e1, B:104:0x02ee, B:106:0x02f2, B:108:0x02f6, B:110:0x02fc, B:112:0x0304, B:116:0x0312, B:117:0x031e, B:118:0x0323, B:120:0x0391, B:121:0x0394, B:123:0x039c, B:124:0x03ac, B:59:0x0131, B:11:0x003c, B:22:0x0092), top: B:137:0x0010, inners: #2 }] */
     /* JADX WARN: Removed duplicated region for block: B:62:0x0178  */
     /* JADX WARN: Removed duplicated region for block: B:63:0x017a  */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x020e A[Catch: Exception -> 0x03b5, TryCatch #4 {Exception -> 0x03b5, blocks: (B:67:0x018d, B:69:0x01e1, B:70:0x01ed, B:71:0x01ff, B:73:0x020e, B:74:0x0217, B:76:0x021d, B:80:0x0232, B:82:0x0254), top: B:143:0x018d }] */
-    /* JADX WARN: Removed duplicated region for block: B:82:0x0254 A[Catch: Exception -> 0x03b5, TRY_LEAVE, TryCatch #4 {Exception -> 0x03b5, blocks: (B:67:0x018d, B:69:0x01e1, B:70:0x01ed, B:71:0x01ff, B:73:0x020e, B:74:0x0217, B:76:0x021d, B:80:0x0232, B:82:0x0254), top: B:143:0x018d }] */
+    /* JADX WARN: Removed duplicated region for block: B:73:0x020e A[Catch: Exception -> 0x03bc, TryCatch #3 {Exception -> 0x03bc, blocks: (B:67:0x018d, B:69:0x01e1, B:70:0x01ed, B:71:0x01ff, B:73:0x020e, B:74:0x0217, B:76:0x021d, B:80:0x0232, B:82:0x0254), top: B:141:0x018d }] */
+    /* JADX WARN: Removed duplicated region for block: B:82:0x0254 A[Catch: Exception -> 0x03bc, TRY_LEAVE, TryCatch #3 {Exception -> 0x03bc, blocks: (B:67:0x018d, B:69:0x01e1, B:70:0x01ed, B:71:0x01ff, B:73:0x020e, B:74:0x0217, B:76:0x021d, B:80:0x0232, B:82:0x0254), top: B:141:0x018d }] */
     /* JADX WARN: Removed duplicated region for block: B:85:0x025f  */
-    /* JADX WARN: Removed duplicated region for block: B:88:0x026c A[Catch: Exception -> 0x03b9, TryCatch #2 {Exception -> 0x03b9, blocks: (B:5:0x0010, B:7:0x0014, B:8:0x002a, B:10:0x0036, B:12:0x0041, B:13:0x0068, B:15:0x0071, B:16:0x007b, B:18:0x0081, B:20:0x008e, B:26:0x009f, B:28:0x00a5, B:29:0x00a9, B:39:0x00c8, B:41:0x00df, B:43:0x00e7, B:45:0x00fc, B:51:0x0108, B:56:0x0112, B:58:0x0116, B:60:0x0139, B:64:0x017b, B:84:0x0258, B:86:0x0261, B:88:0x026c, B:90:0x0274, B:92:0x0287, B:94:0x028d, B:96:0x02ac, B:100:0x02cd, B:103:0x02da, B:104:0x02e7, B:106:0x02eb, B:108:0x02ef, B:110:0x02f5, B:112:0x02fd, B:116:0x030b, B:117:0x0317, B:118:0x031c, B:120:0x038a, B:121:0x038d, B:123:0x0395, B:124:0x03a5, B:59:0x0131, B:11:0x003c, B:22:0x0092), top: B:139:0x0010, inners: #1 }] */
-    /* JADX WARN: Removed duplicated region for block: B:98:0x02ca  */
-    /* JADX WARN: Removed duplicated region for block: B:99:0x02cc  */
+    /* JADX WARN: Removed duplicated region for block: B:88:0x026d A[Catch: Exception -> 0x03c0, TryCatch #1 {Exception -> 0x03c0, blocks: (B:5:0x0010, B:7:0x0014, B:8:0x002a, B:10:0x0036, B:12:0x0041, B:13:0x0068, B:15:0x0071, B:16:0x007b, B:18:0x0081, B:20:0x008e, B:26:0x009f, B:28:0x00a5, B:29:0x00a9, B:39:0x00c8, B:41:0x00df, B:43:0x00e7, B:45:0x00fc, B:51:0x0108, B:56:0x0112, B:58:0x0116, B:60:0x0139, B:64:0x017b, B:84:0x0258, B:86:0x0261, B:88:0x026d, B:90:0x0276, B:92:0x028b, B:94:0x0291, B:96:0x02b3, B:100:0x02d4, B:103:0x02e1, B:104:0x02ee, B:106:0x02f2, B:108:0x02f6, B:110:0x02fc, B:112:0x0304, B:116:0x0312, B:117:0x031e, B:118:0x0323, B:120:0x0391, B:121:0x0394, B:123:0x039c, B:124:0x03ac, B:59:0x0131, B:11:0x003c, B:22:0x0092), top: B:137:0x0010, inners: #2 }] */
+    /* JADX WARN: Removed duplicated region for block: B:98:0x02d1  */
+    /* JADX WARN: Removed duplicated region for block: B:99:0x02d3  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -3256,8 +3255,10 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
                             } catch (Exception e) {
                                 e = e;
                                 if (BuildVars.LOGS_ENABLED) {
+                                    FileLog.e("error starting call", e);
                                 }
                                 callFailed();
+                                return;
                             }
                         }
                         z4 = z6;
@@ -3912,10 +3913,6 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
             }, 5000L);
         } catch (Exception e2) {
             e = e2;
-            if (BuildVars.LOGS_ENABLED) {
-                FileLog.e("error starting call", e);
-            }
-            callFailed();
         }
     }
 
@@ -4472,7 +4469,8 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
             contentIntent.setSmallIcon(isMicMute() ? R.drawable.voicechat_muted : R.drawable.voicechat_active);
         } else {
             contentIntent.setContentTitle(LocaleController.getString("VoipOutgoingCall", R.string.VoipOutgoingCall));
-            contentIntent.setSmallIcon(R.drawable.notification);
+            contentIntent.setSmallIcon(R.drawable.ic_call);
+            contentIntent.setOngoing(true);
         }
         int i3 = Build.VERSION.SDK_INT;
         if (i3 >= 16) {
@@ -5048,7 +5046,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         return LaunchActivity.class;
     }
 
-    @TargetApi(26)
+    @TargetApi(MessageObject.TYPE_GIVEAWAY)
     public CallConnection getConnectionAndStartCall() {
         if (this.systemCallConnection == null) {
             if (BuildVars.LOGS_ENABLED) {
@@ -5129,8 +5127,6 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         final SharedPreferences mainSettings = MessagesController.getMainSettings(this.currentAccount);
         Instance.setGlobalServerConfig(mainSettings.getString("voip_server_config", "{}"));
         ConnectionsManager.getInstance(this.currentAccount).sendRequest(new TLObject() { // from class: org.telegram.tgnet.TLRPC$TL_phone_getCallConfig
-            public static int constructor = 1430593449;
-
             @Override // org.telegram.tgnet.TLObject
             public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i, boolean z) {
                 return TLRPC$TL_dataJSON.TLdeserialize(abstractSerializedData, i, z);
@@ -5138,7 +5134,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 
             @Override // org.telegram.tgnet.TLObject
             public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-                abstractSerializedData.writeInt32(constructor);
+                abstractSerializedData.writeInt32(1430593449);
             }
         }, new RequestDelegate() { // from class: org.telegram.messenger.voip.VoIPService$$ExternalSyntheticLambda77
             @Override // org.telegram.tgnet.RequestDelegate
@@ -5298,7 +5294,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         if (this.groupCall != null) {
             showWhen.setSmallIcon(isMicMute() ? R.drawable.voicechat_muted : R.drawable.voicechat_active);
         } else {
-            showWhen.setSmallIcon(R.drawable.notification);
+            showWhen.setSmallIcon(R.drawable.ic_call);
         }
         startForeground(ID_ONGOING_CALL_NOTIFICATION, showWhen.build());
     }
@@ -5765,86 +5761,83 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x00f8  */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x0147  */
-    /* JADX WARN: Type inference failed for: r6v25 */
-    /* JADX WARN: Type inference failed for: r6v6 */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x00e7  */
+    /* JADX WARN: Type inference failed for: r10v13 */
+    /* JADX WARN: Type inference failed for: r10v3 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private void showIncomingNotification(String str, TLObject tLObject, boolean z, int i) {
-        String str2;
-        String str3;
         int i2;
+        String str2;
         int i3;
         int i4;
         Notification notification;
-        int i5;
-        String str4;
         boolean z2;
         Intent intent = new Intent(this, LaunchActivity.class);
         intent.setAction("voip");
-        Notification.Builder contentIntent = new Notification.Builder(this).setContentTitle(z ? LocaleController.getString("VoipInVideoCallBranding", R.string.VoipInVideoCallBranding) : LocaleController.getString("VoipInCallBranding", R.string.VoipInCallBranding)).setSmallIcon(R.drawable.notification).setContentIntent(PendingIntent.getActivity(this, 0, intent, ConnectionsManager.FileTypeVideo));
-        Uri parse = Uri.parse("content://" + ApplicationLoader.getApplicationId() + ".call_sound_provider/start_ringing");
-        int i6 = Build.VERSION.SDK_INT;
-        if (i6 >= 26) {
+        Notification.Builder contentIntent = new Notification.Builder(this).setContentTitle(z ? LocaleController.getString("VoipInVideoCallBranding", R.string.VoipInVideoCallBranding) : LocaleController.getString("VoipInCallBranding", R.string.VoipInCallBranding)).setSmallIcon(R.drawable.ic_call).setContentIntent(PendingIntent.getActivity(this, 0, intent, ConnectionsManager.FileTypeVideo));
+        int i5 = Build.VERSION.SDK_INT;
+        if (i5 >= 26) {
             SharedPreferences globalNotificationsSettings = MessagesController.getGlobalNotificationsSettings();
-            int i7 = globalNotificationsSettings.getInt("calls_notification_channel", 0);
+            int i6 = globalNotificationsSettings.getInt("calls_notification_channel", 0);
             NotificationManager notificationManager = (NotificationManager) getSystemService("notification");
-            NotificationChannel notificationChannel = notificationManager.getNotificationChannel("incoming_calls2" + i7);
+            NotificationChannel notificationChannel = notificationManager.getNotificationChannel("incoming_calls2" + i6);
             if (notificationChannel != null) {
                 notificationManager.deleteNotificationChannel(notificationChannel.getId());
             }
-            NotificationChannel notificationChannel2 = notificationManager.getNotificationChannel("incoming_calls3" + i7);
-            str3 = "VoipInCallBranding";
+            NotificationChannel notificationChannel2 = notificationManager.getNotificationChannel("incoming_calls3" + i6);
             if (notificationChannel2 != null) {
-                if (notificationChannel2.getImportance() < 4 || !parse.equals(notificationChannel2.getSound()) || notificationChannel2.getVibrationPattern() != null || notificationChannel2.shouldVibrate()) {
+                notificationManager.deleteNotificationChannel(notificationChannel2.getId());
+            }
+            NotificationChannel notificationChannel3 = notificationManager.getNotificationChannel("incoming_calls4" + i6);
+            if (notificationChannel3 != null) {
+                if (notificationChannel3.getImportance() < 4 || notificationChannel3.getSound() != null) {
                     if (BuildVars.LOGS_ENABLED) {
                         FileLog.d("User messed up the notification channel; deleting it and creating a proper one");
                     }
-                    notificationManager.deleteNotificationChannel("incoming_calls3" + i7);
-                    i7++;
-                    globalNotificationsSettings.edit().putInt("calls_notification_channel", i7).commit();
+                    notificationManager.deleteNotificationChannel("incoming_calls4" + i6);
+                    i6++;
+                    globalNotificationsSettings.edit().putInt("calls_notification_channel", i6).commit();
                 } else {
                     z2 = false;
                     if (z2) {
-                        str2 = "VoipInVideoCallBranding";
-                    } else {
                         AudioAttributes build = new AudioAttributes.Builder().setContentType(4).setLegacyStreamType(2).setUsage(2).build();
-                        str2 = "VoipInVideoCallBranding";
-                        NotificationChannel notificationChannel3 = new NotificationChannel("incoming_calls3" + i7, LocaleController.getString("IncomingCalls", R.string.IncomingCalls), 4);
-                        notificationChannel3.setSound(parse, build);
-                        notificationChannel3.enableVibration(false);
-                        notificationChannel3.enableLights(false);
-                        notificationChannel3.setBypassDnd(true);
+                        NotificationChannel notificationChannel4 = new NotificationChannel("incoming_calls4" + i6, LocaleController.getString("IncomingCallsSystemSetting", R.string.IncomingCallsSystemSetting), 4);
                         try {
-                            notificationManager.createNotificationChannel(notificationChannel3);
+                            notificationChannel4.setSound(null, build);
                         } catch (Exception e) {
                             FileLog.e(e);
+                        }
+                        notificationChannel4.setDescription(LocaleController.getString("IncomingCallsSystemSettingDescription", R.string.IncomingCallsSystemSettingDescription));
+                        notificationChannel4.enableVibration(false);
+                        notificationChannel4.enableLights(false);
+                        notificationChannel4.setBypassDnd(true);
+                        try {
+                            notificationManager.createNotificationChannel(notificationChannel4);
+                        } catch (Exception e2) {
+                            FileLog.e(e2);
                             stopSelf();
                             return;
                         }
                     }
-                    contentIntent.setChannelId("incoming_calls3" + i7);
+                    contentIntent.setChannelId("incoming_calls4" + i6);
                 }
             }
             z2 = true;
             if (z2) {
             }
-            contentIntent.setChannelId("incoming_calls3" + i7);
-        } else {
-            str2 = "VoipInVideoCallBranding";
-            str3 = "VoipInCallBranding";
-            if (i6 >= 21) {
-                contentIntent.setSound(parse, 2);
-            }
+            contentIntent.setChannelId("incoming_calls4" + i6);
+        } else if (i5 >= 21) {
+            contentIntent.setSound(null);
         }
         Intent intent2 = new Intent(this, VoIPActionsReceiver.class);
         intent2.setAction(getPackageName() + ".DECLINE_CALL");
         intent2.putExtra("call_id", getCallID());
-        int i8 = R.string.VoipDeclineCall;
-        String string = LocaleController.getString("VoipDeclineCall", i8);
-        if (i6 < 24 || i6 >= 31) {
+        int i7 = R.string.VoipDeclineCall;
+        String string = LocaleController.getString("VoipDeclineCall", i7);
+        int i8 = Build.VERSION.SDK_INT;
+        if (i8 < 24 || i8 >= 31) {
             i2 = 0;
         } else {
             SpannableString spannableString = new SpannableString(string);
@@ -5858,22 +5851,24 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         intent3.putExtra("call_id", getCallID());
         int i9 = R.string.VoipAnswerCall;
         String string2 = LocaleController.getString("VoipAnswerCall", i9);
-        if (i6 < 24 || i6 >= 31) {
-            i3 = i8;
+        if (i8 < 24 || i8 >= 31) {
+            str2 = "VoipDeclineCall";
+            i3 = i9;
             i4 = 0;
         } else {
             SpannableString spannableString2 = new SpannableString(string2);
-            i3 = i8;
+            str2 = "VoipDeclineCall";
+            i3 = i9;
             i4 = 0;
             spannableString2.setSpan(new ForegroundColorSpan(-16733696), 0, spannableString2.length(), 0);
             string2 = spannableString2;
         }
         PendingIntent broadcast2 = PendingIntent.getBroadcast(this, i4, intent3, 301989888);
         contentIntent.setPriority(2);
-        if (i6 >= 17) {
+        if (i8 >= 17) {
             contentIntent.setShowWhen(i4);
         }
-        if (i6 >= 21) {
+        if (i8 >= 21) {
             contentIntent.setColor(-13851168);
             contentIntent.setVibrate(new long[i4]);
             contentIntent.setCategory("call");
@@ -5885,7 +5880,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
                 }
             }
         }
-        if (i6 >= 31) {
+        if (i8 >= 31) {
             Bitmap roundAvatarBitmap = getRoundAvatarBitmap(tLObject);
             String formatName = ContactsController.formatName(tLObject);
             if (TextUtils.isEmpty(formatName)) {
@@ -5893,7 +5888,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
             }
             contentIntent.setStyle(Notification.CallStyle.forIncomingCall(new Person.Builder().setName(formatName).setIcon(Icon.createWithAdaptiveBitmap(roundAvatarBitmap)).build(), broadcast, broadcast2));
             notification = contentIntent.build();
-        } else if (i6 >= 21) {
+        } else if (i8 >= 21) {
             contentIntent.addAction(R.drawable.ic_call_end_white_24dp, string, broadcast);
             contentIntent.addAction(R.drawable.ic_call, string2, broadcast2);
             contentIntent.setContentText(str);
@@ -5904,19 +5899,11 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
                 TLRPC$User currentUser = UserConfig.getInstance(this.currentAccount).getCurrentUser();
                 remoteViews.setTextViewText(R.id.title, z ? LocaleController.formatString("VoipInVideoCallBrandingWithName", R.string.VoipInVideoCallBrandingWithName, ContactsController.formatName(currentUser.first_name, currentUser.last_name)) : LocaleController.formatString("VoipInCallBrandingWithName", R.string.VoipInCallBrandingWithName, ContactsController.formatName(currentUser.first_name, currentUser.last_name)));
             } else {
-                int i10 = R.id.title;
-                if (z) {
-                    i5 = R.string.VoipInVideoCallBranding;
-                    str4 = str2;
-                } else {
-                    i5 = R.string.VoipInCallBranding;
-                    str4 = str3;
-                }
-                remoteViews.setTextViewText(i10, LocaleController.getString(str4, i5));
+                remoteViews.setTextViewText(R.id.title, z ? LocaleController.getString("VoipInVideoCallBranding", R.string.VoipInVideoCallBranding) : LocaleController.getString("VoipInCallBranding", R.string.VoipInCallBranding));
             }
             Bitmap roundAvatarBitmap2 = getRoundAvatarBitmap(tLObject);
-            remoteViews.setTextViewText(R.id.answer_text, LocaleController.getString("VoipAnswerCall", i9));
-            remoteViews.setTextViewText(R.id.decline_text, LocaleController.getString("VoipDeclineCall", i3));
+            remoteViews.setTextViewText(R.id.answer_text, LocaleController.getString("VoipAnswerCall", i3));
+            remoteViews.setTextViewText(R.id.decline_text, LocaleController.getString(str2, i7));
             remoteViews.setImageViewBitmap(R.id.photo, roundAvatarBitmap2);
             remoteViews.setOnClickPendingIntent(R.id.answer_btn, broadcast2);
             remoteViews.setOnClickPendingIntent(R.id.decline_btn, broadcast);
@@ -6369,7 +6356,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         return this.remoteVideoState;
     }
 
-    @TargetApi(26)
+    @TargetApi(MessageObject.TYPE_GIVEAWAY)
     private PhoneAccountHandle addAccountToTelecomManager() {
         TLRPC$User currentUser = UserConfig.getInstance(this.currentAccount).getCurrentUser();
         ComponentName componentName = new ComponentName(this, TelegramConnectionService.class);

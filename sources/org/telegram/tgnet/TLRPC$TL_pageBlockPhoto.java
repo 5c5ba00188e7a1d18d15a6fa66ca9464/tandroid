@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_pageBlockPhoto extends TLRPC$PageBlock {
-    public static int constructor = 391759200;
     public TLRPC$TL_pageCaption caption;
     public int flags;
     public long photo_id;
@@ -23,7 +22,7 @@ public class TLRPC$TL_pageBlockPhoto extends TLRPC$PageBlock {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(391759200);
         abstractSerializedData.writeInt32(this.flags);
         abstractSerializedData.writeInt64(this.photo_id);
         this.caption.serializeToStream(abstractSerializedData);

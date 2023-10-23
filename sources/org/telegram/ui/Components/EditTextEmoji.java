@@ -25,6 +25,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import java.util.ArrayList;
+import java.util.Objects;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.Emoji;
 import org.telegram.messenger.FileLog;
@@ -35,6 +36,8 @@ import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
+import org.telegram.messenger.Utilities;
+import org.telegram.messenger.XiaomiUtilities;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$InputStickerSet;
 import org.telegram.tgnet.TLRPC$StickerSet;
@@ -61,6 +64,7 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
     private int emojiPadding;
     private EmojiView emojiView;
     private boolean emojiViewVisible;
+    private ItemOptions formatOptions;
     public boolean includeNavigationBar;
     private int innerTextChange;
     private boolean isAnimatePopupClosing;
@@ -74,6 +78,7 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
     private BaseFragment parentFragment;
     private final Theme.ResourcesProvider resourcesProvider;
     private boolean showKeyboardOnResume;
+    private boolean shownFormatButton;
     private SizeNotifierFrameLayout sizeNotifierLayout;
     private boolean waitingForKeyboardOpen;
 
@@ -129,7 +134,7 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
         this(context, sizeNotifierFrameLayout, baseFragment, i, z, null);
     }
 
-    public EditTextEmoji(Context context, SizeNotifierFrameLayout sizeNotifierFrameLayout, BaseFragment baseFragment, final int i, boolean z, Theme.ResourcesProvider resourcesProvider) {
+    public EditTextEmoji(Context context, final SizeNotifierFrameLayout sizeNotifierFrameLayout, BaseFragment baseFragment, final int i, boolean z, final Theme.ResourcesProvider resourcesProvider) {
         super(context);
         this.isPaused = true;
         this.openKeyboardRunnable = new Runnable() { // from class: org.telegram.ui.Components.EditTextEmoji.1
@@ -152,6 +157,8 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
         this.sizeNotifierLayout = sizeNotifierFrameLayout;
         sizeNotifierFrameLayout.setDelegate(this);
         EditTextCaption editTextCaption = new EditTextCaption(context, resourcesProvider) { // from class: org.telegram.ui.Components.EditTextEmoji.2
+            private Drawable lastIcon = null;
+
             @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
             public boolean onTouchEvent(MotionEvent motionEvent) {
                 if (EditTextEmoji.this.isPopupShowing() && motionEvent.getAction() == 0) {
@@ -182,7 +189,8 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.EditTextBoldCursor
             public int getActionModeStyle() {
-                if (i == 2) {
+                int i2 = i;
+                if (i2 == 2 || i2 == 3) {
                     return 2;
                 }
                 return super.getActionModeStyle();
@@ -191,9 +199,8 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.EditTextBoldCursor
             public void extendActionMode(ActionMode actionMode, Menu menu) {
-                int i2 = i;
-                if (i2 == 2 || i2 == 3) {
-                    ChatActivity.fillActionModeMenu(menu, null);
+                if (EditTextEmoji.this.allowEntities()) {
+                    ChatActivity.fillActionModeMenu(menu, null, EditTextEmoji.this.currentStyle == 3);
                 }
                 super.extendActionMode(actionMode, menu);
             }
@@ -202,6 +209,30 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
             public void scrollTo(int i2, int i3) {
                 if (EditTextEmoji.this.onScrollYChange(i3)) {
                     super.scrollTo(i2, i3);
+                }
+            }
+
+            /* JADX INFO: Access modifiers changed from: protected */
+            @Override // org.telegram.ui.Components.EditTextEffects, android.widget.TextView
+            public void onSelectionChanged(int i2, int i3) {
+                super.onSelectionChanged(i2, i3);
+                if (EditTextEmoji.this.emojiIconDrawable != null) {
+                    boolean z2 = false;
+                    boolean z3 = i3 != i2;
+                    if (EditTextEmoji.this.allowEntities() && z3) {
+                        XiaomiUtilities.isMIUI();
+                        z2 = true;
+                    }
+                    if (EditTextEmoji.this.shownFormatButton != z2) {
+                        EditTextEmoji.this.shownFormatButton = z2;
+                        if (z2) {
+                            this.lastIcon = EditTextEmoji.this.emojiIconDrawable.getIcon();
+                            EditTextEmoji.this.emojiIconDrawable.setIcon(R.drawable.msg_edit, true);
+                            return;
+                        }
+                        EditTextEmoji.this.emojiIconDrawable.setIcon(this.lastIcon, true);
+                        this.lastIcon = null;
+                    }
                 }
             }
         };
@@ -243,7 +274,11 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
             this.editText.setHandlesColor(-1);
             this.editText.setHighlightColor(822083583);
             this.editText.setLinkTextColor(-12147733);
-            this.editText.setTextIsSelectable(true);
+            EditTextCaption editTextCaption6 = this.editText;
+            editTextCaption6.quoteColor = -1;
+            editTextCaption6.setTextIsSelectable(true);
+            setClipChildren(false);
+            setClipToPadding(false);
             addView(this.editText, LayoutHelper.createFrame(-1, -1.0f, 19, 40.0f, 0.0f, 24.0f, 0.0f));
         } else {
             this.editText.setTextSize(1, 18.0f);
@@ -290,27 +325,52 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
         this.emojiButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.EditTextEmoji$$ExternalSyntheticLambda2
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
-                EditTextEmoji.this.lambda$new$0(view);
+                EditTextEmoji.this.lambda$new$0(sizeNotifierFrameLayout, resourcesProvider, view);
             }
         });
         this.emojiButton.setContentDescription(LocaleController.getString("Emoji", R.string.Emoji));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$0(View view) {
+    public /* synthetic */ void lambda$new$0(SizeNotifierFrameLayout sizeNotifierFrameLayout, Theme.ResourcesProvider resourcesProvider, View view) {
         if (!this.emojiButton.isEnabled() || this.emojiButton.getAlpha() < 0.5f) {
             return;
         }
         AdjustPanLayoutHelper adjustPanLayoutHelper = this.adjustPanLayoutHelper;
         if (adjustPanLayoutHelper == null || !adjustPanLayoutHelper.animationInProgress()) {
-            if (!isPopupShowing()) {
+            if (this.shownFormatButton) {
+                ItemOptions itemOptions = this.formatOptions;
+                if (itemOptions == null) {
+                    this.editText.hideActionMode();
+                    ItemOptions makeOptions = ItemOptions.makeOptions(sizeNotifierFrameLayout, resourcesProvider, this.emojiButton);
+                    makeOptions.setMaxHeight(AndroidUtilities.dp(280.0f));
+                    final EditTextCaption editTextCaption = this.editText;
+                    Objects.requireNonNull(editTextCaption);
+                    editTextCaption.extendActionMode(null, new MenuToItemOptions(makeOptions, new Utilities.Callback() { // from class: org.telegram.ui.Components.EditTextEmoji$$ExternalSyntheticLambda3
+                        @Override // org.telegram.messenger.Utilities.Callback
+                        public final void run(Object obj) {
+                            EditTextCaption.this.performMenuAction(((Integer) obj).intValue());
+                        }
+                    }, this.editText.getOnPremiumMenuLockClickListener()));
+                    makeOptions.forceTop(true);
+                    makeOptions.show();
+                    return;
+                }
+                itemOptions.dismiss();
+                this.formatOptions = null;
+            } else if (!isPopupShowing()) {
                 showPopup(1);
                 this.emojiView.onOpen(this.editText.length() > 0);
                 this.editText.requestFocus();
-                return;
+            } else {
+                openKeyboardInternal();
             }
-            openKeyboardInternal();
         }
+    }
+
+    protected boolean allowEntities() {
+        int i = this.currentStyle;
+        return i == 2 || i == 3;
     }
 
     public void setSuggestionsEnabled(boolean z) {
@@ -422,6 +482,7 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
             this.editText.setCursorColor(-1);
             this.editText.setHandlesColor(-1);
             this.editText.setHighlightColor(822083583);
+            this.editText.quoteColor = -1;
         } else {
             this.editText.setHintTextColor(getThemedColor(Theme.key_dialogTextHint));
             this.editText.setTextColor(getThemedColor(Theme.key_dialogTextBlack));
@@ -501,9 +562,10 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$hidePopup$1(int i, ValueAnimator valueAnimator) {
+        int i2;
         float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         this.emojiView.setTranslationY(floatValue);
-        if (i > 0 && this.currentStyle == 2) {
+        if (i > 0 && ((i2 = this.currentStyle) == 2 || i2 == 3)) {
             this.emojiView.setAlpha(1.0f - (floatValue / i));
         }
         bottomPanelTranslationY(floatValue - i);
@@ -629,11 +691,12 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$showPopup$2(ValueAnimator valueAnimator) {
+        int i;
         float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         this.emojiView.setTranslationY(floatValue);
-        int i = this.emojiPadding;
-        if (i > 0 && this.currentStyle == 2) {
-            this.emojiView.setAlpha(1.0f - (floatValue / i));
+        int i2 = this.emojiPadding;
+        if (i2 > 0 && ((i = this.currentStyle) == 2 || i == 3)) {
+            this.emojiView.setAlpha(1.0f - (floatValue / i2));
         }
         bottomPanelTranslationY(floatValue);
     }
@@ -659,11 +722,15 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
         if (this.emojiView != null) {
             return;
         }
-        EmojiView emojiView2 = new EmojiView(this.parentFragment, this.allowAnimatedEmoji, false, false, getContext(), false, null, null, this.currentStyle != 2, this.resourcesProvider) { // from class: org.telegram.ui.Components.EditTextEmoji.6
+        BaseFragment baseFragment = this.parentFragment;
+        boolean z = this.allowAnimatedEmoji;
+        Context context = getContext();
+        int i = this.currentStyle;
+        EmojiView emojiView2 = new EmojiView(baseFragment, z, false, false, context, false, null, null, (i == 2 || i == 3) ? false : true, this.resourcesProvider, false) { // from class: org.telegram.ui.Components.EditTextEmoji.6
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.EmojiView, android.view.ViewGroup, android.view.View
             public void dispatchDraw(Canvas canvas) {
-                if (EditTextEmoji.this.currentStyle == 2) {
+                if (EditTextEmoji.this.currentStyle == 2 || EditTextEmoji.this.currentStyle == 3) {
                     EditTextEmoji.this.drawEmojiBackground(canvas, this);
                 }
                 super.dispatchDraw(canvas);

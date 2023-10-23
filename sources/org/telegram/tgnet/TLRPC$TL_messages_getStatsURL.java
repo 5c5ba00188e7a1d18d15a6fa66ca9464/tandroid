@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_messages_getStatsURL extends TLObject {
-    public static int constructor = -2127811866;
     public boolean dark;
     public int flags;
     public String params;
@@ -14,7 +13,7 @@ public class TLRPC$TL_messages_getStatsURL extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-2127811866);
         int i = this.dark ? this.flags | 1 : this.flags & (-2);
         this.flags = i;
         abstractSerializedData.writeInt32(i);

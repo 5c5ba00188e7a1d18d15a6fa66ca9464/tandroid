@@ -3,7 +3,6 @@ package org.telegram.tgnet;
 import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public class TLRPC$TL_groupCallParticipant extends TLObject {
-    public static int constructor = -341428482;
     public String about;
     public int active_date;
     public float amplitude;
@@ -40,7 +39,7 @@ public class TLRPC$TL_groupCallParticipant extends TLObject {
     public boolean volume_by_admin;
 
     public static TLRPC$TL_groupCallParticipant TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-        if (constructor != i) {
+        if (-341428482 != i) {
             if (z) {
                 throw new RuntimeException(String.format("can't parse magic %x in TL_groupCallParticipant", Integer.valueOf(i)));
             }
@@ -90,7 +89,7 @@ public class TLRPC$TL_groupCallParticipant extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-341428482);
         int i = this.muted ? this.flags | 1 : this.flags & (-2);
         this.flags = i;
         int i2 = this.left ? i | 2 : i & (-3);

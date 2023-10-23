@@ -19,8 +19,6 @@ public abstract class TLRPC$updates_Difference extends TLObject {
         switch (i) {
             case -1459938943:
                 tLRPC$updates_Difference = new TLRPC$updates_Difference() { // from class: org.telegram.tgnet.TLRPC$TL_updates_differenceSlice
-                    public static int constructor = -1459938943;
-
                     @Override // org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
@@ -103,7 +101,7 @@ public abstract class TLRPC$updates_Difference extends TLObject {
 
                     @Override // org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(-1459938943);
                         abstractSerializedData2.writeInt32(481674261);
                         int size = this.new_messages.size();
                         abstractSerializedData2.writeInt32(size);
@@ -140,8 +138,6 @@ public abstract class TLRPC$updates_Difference extends TLObject {
                 break;
             case 16030880:
                 tLRPC$updates_Difference = new TLRPC$updates_Difference() { // from class: org.telegram.tgnet.TLRPC$TL_updates_difference
-                    public static int constructor = 16030880;
-
                     @Override // org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
@@ -224,7 +220,7 @@ public abstract class TLRPC$updates_Difference extends TLObject {
 
                     @Override // org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(16030880);
                         abstractSerializedData2.writeInt32(481674261);
                         int size = this.new_messages.size();
                         abstractSerializedData2.writeInt32(size);
@@ -261,8 +257,6 @@ public abstract class TLRPC$updates_Difference extends TLObject {
                 break;
             case 1258196845:
                 tLRPC$updates_Difference = new TLRPC$updates_Difference() { // from class: org.telegram.tgnet.TLRPC$TL_updates_differenceTooLong
-                    public static int constructor = 1258196845;
-
                     @Override // org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         this.pts = abstractSerializedData2.readInt32(z2);
@@ -270,15 +264,13 @@ public abstract class TLRPC$updates_Difference extends TLObject {
 
                     @Override // org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(1258196845);
                         abstractSerializedData2.writeInt32(this.pts);
                     }
                 };
                 break;
             case 1567990072:
                 tLRPC$updates_Difference = new TLRPC$updates_Difference() { // from class: org.telegram.tgnet.TLRPC$TL_updates_differenceEmpty
-                    public static int constructor = 1567990072;
-
                     @Override // org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         this.date = abstractSerializedData2.readInt32(z2);
@@ -287,7 +279,7 @@ public abstract class TLRPC$updates_Difference extends TLObject {
 
                     @Override // org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(1567990072);
                         abstractSerializedData2.writeInt32(this.date);
                         abstractSerializedData2.writeInt32(this.seq);
                     }

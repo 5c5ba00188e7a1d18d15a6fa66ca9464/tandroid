@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_account_getDefaultProfilePhotoEmojis extends TLObject {
-    public static int constructor = -495647960;
     public long hash;
 
     @Override // org.telegram.tgnet.TLObject
@@ -11,7 +10,7 @@ public class TLRPC$TL_account_getDefaultProfilePhotoEmojis extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-495647960);
         abstractSerializedData.writeInt64(this.hash);
     }
 }

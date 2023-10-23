@@ -40,6 +40,11 @@ public class CaptionPhotoViewer extends CaptionContainerView {
     }
 
     @Override // org.telegram.ui.Stories.recorder.CaptionContainerView
+    protected int getEditTextStyle() {
+        return 3;
+    }
+
+    @Override // org.telegram.ui.Stories.recorder.CaptionContainerView
     protected void setupMentionContainer() {
     }
 

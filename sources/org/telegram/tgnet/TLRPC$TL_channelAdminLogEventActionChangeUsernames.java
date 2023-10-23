@@ -3,7 +3,6 @@ package org.telegram.tgnet;
 import java.util.ArrayList;
 /* loaded from: classes.dex */
 public class TLRPC$TL_channelAdminLogEventActionChangeUsernames extends TLRPC$ChannelAdminLogEventAction {
-    public static int constructor = -263212119;
     public ArrayList<String> prev_value = new ArrayList<>();
     public ArrayList<String> new_value = new ArrayList<>();
 
@@ -35,7 +34,7 @@ public class TLRPC$TL_channelAdminLogEventActionChangeUsernames extends TLRPC$Ch
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-263212119);
         abstractSerializedData.writeInt32(481674261);
         abstractSerializedData.writeInt32(this.prev_value.size());
         for (int i = 0; i < this.prev_value.size(); i++) {

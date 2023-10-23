@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_inputThemeSlug extends TLRPC$InputTheme {
-    public static int constructor = -175567375;
     public String slug;
 
     @Override // org.telegram.tgnet.TLObject
@@ -11,7 +10,7 @@ public class TLRPC$TL_inputThemeSlug extends TLRPC$InputTheme {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-175567375);
         abstractSerializedData.writeString(this.slug);
     }
 }

@@ -318,24 +318,16 @@ public class DesugarCollections {
         @Override // j$.util.Map
         public void forEach(BiConsumer biConsumer) {
             synchronized (this.b) {
-                try {
-                    java.util.Map map = this.a;
-                    if (map instanceof Map) {
-                        ((Map) map).forEach(biConsumer);
-                    } else if (map instanceof ConcurrentMap) {
-                        j$.lang.d.a((ConcurrentMap) map, biConsumer);
-                    } else {
-                        Map.-CC.$default$forEach(map, biConsumer);
-                    }
-                } catch (Throwable th) {
-                    throw th;
-                }
+                Map.-EL.forEach(this.a, biConsumer);
             }
         }
 
         @Override // java.util.Map
-        public /* synthetic */ void forEach(java.util.function.BiConsumer biConsumer) {
-            forEach(j$.wrappers.q.a(biConsumer));
+        public void forEach(java.util.function.BiConsumer biConsumer) {
+            BiConsumer a = j$.wrappers.q.a(biConsumer);
+            synchronized (this.b) {
+                Map.-EL.forEach(this.a, a);
+            }
         }
 
         @Override // java.util.Map, j$.util.Map

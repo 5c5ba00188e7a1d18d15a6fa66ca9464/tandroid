@@ -12,8 +12,6 @@ public abstract class TLRPC$InputGame extends TLObject {
             tLRPC$TL_inputGameShortName = new TLRPC$TL_inputGameShortName();
         } else {
             tLRPC$TL_inputGameShortName = i != 53231223 ? null : new TLRPC$InputGame() { // from class: org.telegram.tgnet.TLRPC$TL_inputGameID
-                public static int constructor = 53231223;
-
                 @Override // org.telegram.tgnet.TLObject
                 public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                     this.id = abstractSerializedData2.readInt64(z2);
@@ -22,7 +20,7 @@ public abstract class TLRPC$InputGame extends TLObject {
 
                 @Override // org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                    abstractSerializedData2.writeInt32(constructor);
+                    abstractSerializedData2.writeInt32(53231223);
                     abstractSerializedData2.writeInt64(this.id);
                     abstractSerializedData2.writeInt64(this.access_hash);
                 }

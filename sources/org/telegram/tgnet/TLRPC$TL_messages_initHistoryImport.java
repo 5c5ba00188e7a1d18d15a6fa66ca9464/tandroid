@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_messages_initHistoryImport extends TLObject {
-    public static int constructor = 873008187;
     public TLRPC$InputFile file;
     public int media_count;
     public TLRPC$InputPeer peer;
@@ -13,7 +12,7 @@ public class TLRPC$TL_messages_initHistoryImport extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(873008187);
         this.peer.serializeToStream(abstractSerializedData);
         this.file.serializeToStream(abstractSerializedData);
         abstractSerializedData.writeInt32(this.media_count);

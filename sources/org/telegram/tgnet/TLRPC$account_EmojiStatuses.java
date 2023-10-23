@@ -10,11 +10,9 @@ public abstract class TLRPC$account_EmojiStatuses extends TLObject {
         TLRPC$account_EmojiStatuses tLRPC$TL_account_emojiStatuses;
         if (i != -1866176559) {
             tLRPC$TL_account_emojiStatuses = i != -796072379 ? null : new TLRPC$account_EmojiStatuses() { // from class: org.telegram.tgnet.TLRPC$TL_account_emojiStatusesNotModified
-                public static int constructor = -796072379;
-
                 @Override // org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                    abstractSerializedData2.writeInt32(constructor);
+                    abstractSerializedData2.writeInt32(-796072379);
                 }
             };
         } else {

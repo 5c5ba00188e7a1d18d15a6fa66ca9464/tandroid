@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_updates_getDifference extends TLObject {
-    public static int constructor = 630429265;
     public int date;
     public int flags;
     public int pts;
@@ -15,7 +14,7 @@ public class TLRPC$TL_updates_getDifference extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(630429265);
         abstractSerializedData.writeInt32(this.flags);
         abstractSerializedData.writeInt32(this.pts);
         if ((this.flags & 1) != 0) {

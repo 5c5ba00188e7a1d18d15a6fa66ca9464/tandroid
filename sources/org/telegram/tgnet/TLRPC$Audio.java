@@ -17,8 +17,6 @@ public abstract class TLRPC$Audio extends TLObject {
         switch (i) {
             case -945003370:
                 tLRPC$Audio = new TLRPC$TL_audio_layer45() { // from class: org.telegram.tgnet.TLRPC$TL_audio_old2
-                    public static int constructor = -945003370;
-
                     @Override // org.telegram.tgnet.TLRPC$TL_audio_layer45, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         this.id = abstractSerializedData2.readInt64(z2);
@@ -33,7 +31,7 @@ public abstract class TLRPC$Audio extends TLObject {
 
                     @Override // org.telegram.tgnet.TLRPC$TL_audio_layer45, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(-945003370);
                         abstractSerializedData2.writeInt64(this.id);
                         abstractSerializedData2.writeInt64(this.access_hash);
                         abstractSerializedData2.writeInt32((int) this.user_id);
@@ -50,8 +48,6 @@ public abstract class TLRPC$Audio extends TLObject {
                 break;
             case 1114908135:
                 tLRPC$Audio = new TLRPC$TL_audio_layer45() { // from class: org.telegram.tgnet.TLRPC$TL_audio_old
-                    public static int constructor = 1114908135;
-
                     @Override // org.telegram.tgnet.TLRPC$TL_audio_layer45, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         this.id = abstractSerializedData2.readInt64(z2);
@@ -65,7 +61,7 @@ public abstract class TLRPC$Audio extends TLObject {
 
                     @Override // org.telegram.tgnet.TLRPC$TL_audio_layer45, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(1114908135);
                         abstractSerializedData2.writeInt64(this.id);
                         abstractSerializedData2.writeInt64(this.access_hash);
                         abstractSerializedData2.writeInt32((int) this.user_id);
@@ -78,8 +74,6 @@ public abstract class TLRPC$Audio extends TLObject {
                 break;
             case 1431655926:
                 tLRPC$Audio = new TLRPC$TL_audio_layer45() { // from class: org.telegram.tgnet.TLRPC$TL_audioEncrypted
-                    public static int constructor = 1431655926;
-
                     @Override // org.telegram.tgnet.TLRPC$TL_audio_layer45, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         this.id = abstractSerializedData2.readInt64(z2);
@@ -95,7 +89,7 @@ public abstract class TLRPC$Audio extends TLObject {
 
                     @Override // org.telegram.tgnet.TLRPC$TL_audio_layer45, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(1431655926);
                         abstractSerializedData2.writeInt64(this.id);
                         abstractSerializedData2.writeInt64(this.access_hash);
                         abstractSerializedData2.writeInt32((int) this.user_id);
@@ -110,8 +104,6 @@ public abstract class TLRPC$Audio extends TLObject {
                 break;
             case 1483311320:
                 tLRPC$Audio = new TLRPC$Audio() { // from class: org.telegram.tgnet.TLRPC$TL_audioEmpty_layer45
-                    public static int constructor = 1483311320;
-
                     @Override // org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         this.id = abstractSerializedData2.readInt64(z2);
@@ -119,7 +111,7 @@ public abstract class TLRPC$Audio extends TLObject {
 
                     @Override // org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(1483311320);
                         abstractSerializedData2.writeInt64(this.id);
                     }
                 };

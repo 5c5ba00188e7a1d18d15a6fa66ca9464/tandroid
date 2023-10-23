@@ -3,8 +3,6 @@ package org.telegram.tgnet;
 import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public class TLRPC$TL_webPage extends TLRPC$WebPage {
-    public static int constructor = -392411726;
-
     @Override // org.telegram.tgnet.TLObject
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
         this.flags = abstractSerializedData.readInt32(z);
@@ -72,7 +70,7 @@ public class TLRPC$TL_webPage extends TLRPC$WebPage {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-392411726);
         abstractSerializedData.writeInt32(this.flags);
         abstractSerializedData.writeInt64(this.id);
         abstractSerializedData.writeString(this.url);

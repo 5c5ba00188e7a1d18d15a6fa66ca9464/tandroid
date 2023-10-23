@@ -11,8 +11,6 @@ public abstract class TLRPC$EncryptedMessage extends TLObject {
         TLRPC$EncryptedMessage tLRPC$EncryptedMessage;
         if (i != -317144808) {
             tLRPC$EncryptedMessage = i != 594758406 ? null : new TLRPC$EncryptedMessage() { // from class: org.telegram.tgnet.TLRPC$TL_encryptedMessageService
-                public static int constructor = 594758406;
-
                 @Override // org.telegram.tgnet.TLObject
                 public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                     this.random_id = abstractSerializedData2.readInt64(z2);
@@ -23,7 +21,7 @@ public abstract class TLRPC$EncryptedMessage extends TLObject {
 
                 @Override // org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                    abstractSerializedData2.writeInt32(constructor);
+                    abstractSerializedData2.writeInt32(594758406);
                     abstractSerializedData2.writeInt64(this.random_id);
                     abstractSerializedData2.writeInt32(this.chat_id);
                     abstractSerializedData2.writeInt32(this.date);
@@ -32,8 +30,6 @@ public abstract class TLRPC$EncryptedMessage extends TLObject {
             };
         } else {
             tLRPC$EncryptedMessage = new TLRPC$EncryptedMessage() { // from class: org.telegram.tgnet.TLRPC$TL_encryptedMessage
-                public static int constructor = -317144808;
-
                 @Override // org.telegram.tgnet.TLObject
                 public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                     this.random_id = abstractSerializedData2.readInt64(z2);
@@ -45,7 +41,7 @@ public abstract class TLRPC$EncryptedMessage extends TLObject {
 
                 @Override // org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                    abstractSerializedData2.writeInt32(constructor);
+                    abstractSerializedData2.writeInt32(-317144808);
                     abstractSerializedData2.writeInt64(this.random_id);
                     abstractSerializedData2.writeInt32(this.chat_id);
                     abstractSerializedData2.writeInt32(this.date);

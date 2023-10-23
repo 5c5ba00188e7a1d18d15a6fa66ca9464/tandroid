@@ -1,8 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_decryptedMessageMediaWebPage extends TLRPC$DecryptedMessageMedia {
-    public static int constructor = -452652584;
-
     @Override // org.telegram.tgnet.TLObject
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
         this.url = abstractSerializedData.readString(z);
@@ -10,7 +8,7 @@ public class TLRPC$TL_decryptedMessageMediaWebPage extends TLRPC$DecryptedMessag
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-452652584);
         abstractSerializedData.writeString(this.url);
     }
 }

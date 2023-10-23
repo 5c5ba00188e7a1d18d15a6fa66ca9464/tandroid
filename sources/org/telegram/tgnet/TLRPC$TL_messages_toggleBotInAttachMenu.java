@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_messages_toggleBotInAttachMenu extends TLObject {
-    public static int constructor = 1777704297;
     public TLRPC$InputUser bot;
     public boolean enabled;
     public int flags;
@@ -14,7 +13,7 @@ public class TLRPC$TL_messages_toggleBotInAttachMenu extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(1777704297);
         int i = this.write_allowed ? this.flags | 1 : this.flags & (-2);
         this.flags = i;
         abstractSerializedData.writeInt32(i);

@@ -3,7 +3,6 @@ package org.telegram.tgnet;
 import java.util.ArrayList;
 /* loaded from: classes.dex */
 public class TLRPC$TL_account_acceptAuthorization extends TLObject {
-    public static int constructor = -202552205;
     public long bot_id;
     public TLRPC$TL_secureCredentialsEncrypted credentials;
     public String public_key;
@@ -17,7 +16,7 @@ public class TLRPC$TL_account_acceptAuthorization extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-202552205);
         abstractSerializedData.writeInt64(this.bot_id);
         abstractSerializedData.writeString(this.scope);
         abstractSerializedData.writeString(this.public_key);

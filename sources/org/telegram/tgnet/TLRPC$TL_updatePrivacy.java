@@ -3,7 +3,6 @@ package org.telegram.tgnet;
 import java.util.ArrayList;
 /* loaded from: classes.dex */
 public class TLRPC$TL_updatePrivacy extends TLRPC$Update {
-    public static int constructor = -298113238;
     public TLRPC$PrivacyKey key;
     public ArrayList<TLRPC$PrivacyRule> rules = new ArrayList<>();
 
@@ -29,7 +28,7 @@ public class TLRPC$TL_updatePrivacy extends TLRPC$Update {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-298113238);
         this.key.serializeToStream(abstractSerializedData);
         abstractSerializedData.writeInt32(481674261);
         int size = this.rules.size();

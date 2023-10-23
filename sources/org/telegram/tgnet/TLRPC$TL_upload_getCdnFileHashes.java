@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_upload_getCdnFileHashes extends TLObject {
-    public static int constructor = -1847836879;
     public byte[] file_token;
     public long offset;
 
@@ -21,7 +20,7 @@ public class TLRPC$TL_upload_getCdnFileHashes extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-1847836879);
         abstractSerializedData.writeByteArray(this.file_token);
         abstractSerializedData.writeInt64(this.offset);
     }

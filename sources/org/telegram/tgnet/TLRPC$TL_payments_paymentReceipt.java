@@ -3,7 +3,6 @@ package org.telegram.tgnet;
 import java.util.ArrayList;
 /* loaded from: classes.dex */
 public class TLRPC$TL_payments_paymentReceipt extends TLObject {
-    public static int constructor = 1891958275;
     public long bot_id;
     public String credentials_title;
     public String currency;
@@ -21,7 +20,7 @@ public class TLRPC$TL_payments_paymentReceipt extends TLObject {
     public ArrayList<TLRPC$User> users = new ArrayList<>();
 
     public static TLRPC$TL_payments_paymentReceipt TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-        if (constructor != i) {
+        if (1891958275 != i) {
             if (z) {
                 throw new RuntimeException(String.format("can't parse magic %x in TL_payments_paymentReceipt", Integer.valueOf(i)));
             }
@@ -75,7 +74,7 @@ public class TLRPC$TL_payments_paymentReceipt extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(1891958275);
         abstractSerializedData.writeInt32(this.flags);
         abstractSerializedData.writeInt32(this.date);
         abstractSerializedData.writeInt64(this.bot_id);

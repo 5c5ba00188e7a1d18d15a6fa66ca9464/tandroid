@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import org.telegram.messenger.MessageObject;
 /* loaded from: classes.dex */
 public class TLRPC$TL_forumTopic extends TLRPC$ForumTopic {
-    public static int constructor = 1903173033;
     public boolean closed;
     public int date;
     public TLRPC$DraftMessage draft;
@@ -74,7 +73,7 @@ public class TLRPC$TL_forumTopic extends TLRPC$ForumTopic {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(1903173033);
         int i = this.my ? this.flags | 2 : this.flags & (-3);
         this.flags = i;
         int i2 = this.closed ? i | 4 : i & (-5);

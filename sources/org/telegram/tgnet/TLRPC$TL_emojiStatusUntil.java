@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_emojiStatusUntil extends TLRPC$EmojiStatus {
-    public static int constructor = -97474361;
     public long document_id;
     public int until;
 
@@ -13,7 +12,7 @@ public class TLRPC$TL_emojiStatusUntil extends TLRPC$EmojiStatus {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-97474361);
         abstractSerializedData.writeInt64(this.document_id);
         abstractSerializedData.writeInt32(this.until);
     }

@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_messages_setTyping extends TLObject {
-    public static int constructor = 1486110434;
     public TLRPC$SendMessageAction action;
     public int flags;
     public TLRPC$InputPeer peer;
@@ -14,7 +13,7 @@ public class TLRPC$TL_messages_setTyping extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(1486110434);
         abstractSerializedData.writeInt32(this.flags);
         this.peer.serializeToStream(abstractSerializedData);
         if ((this.flags & 1) != 0) {

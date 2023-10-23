@@ -41,6 +41,8 @@ import java.util.List;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.MediaController;
+import org.telegram.messenger.MessageObject;
+import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.voip.VoIPService;
 /* loaded from: classes.dex */
@@ -2336,7 +2338,7 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
                             case 23:
                             case 24:
                             case 25:
-                            case 26:
+                            case MessageObject.TYPE_GIVEAWAY /* 26 */:
                             case 27:
                             case 28:
                             case 29:
@@ -2390,7 +2392,7 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
                             case 'M':
                             case 'N':
                             case 'O':
-                            case 'P':
+                            case MessagesController.DialogPhotos.STEP /* 80 */:
                             case 'Q':
                             case 'R':
                             case 'S':
@@ -2444,8 +2446,8 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
                             case 131:
                             case 132:
                             case 133:
-                            case MessagesStorage.LAST_DB_VERSION /* 134 */:
-                            case 135:
+                            case 134:
+                            case MessagesStorage.LAST_DB_VERSION /* 135 */:
                             case 136:
                             case 137:
                             case 138:

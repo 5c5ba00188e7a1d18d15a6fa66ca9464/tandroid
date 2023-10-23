@@ -1,7 +1,7 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_messageMediaPoll extends TLRPC$MessageMedia {
-    public static int constructor = 1272375192;
+    public static final int constructor = 1272375192;
     public TLRPC$Poll poll;
     public TLRPC$PollResults results;
 

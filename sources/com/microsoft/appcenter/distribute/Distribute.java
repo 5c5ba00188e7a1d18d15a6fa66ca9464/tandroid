@@ -103,8 +103,9 @@ public class Distribute extends AbstractAppCenterService {
         return "Distribute";
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.microsoft.appcenter.AbstractAppCenterService
-    protected int getTriggerCount() {
+    public int getTriggerCount() {
         return 1;
     }
 

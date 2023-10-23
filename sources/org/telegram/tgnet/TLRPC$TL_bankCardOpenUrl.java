@@ -1,12 +1,11 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_bankCardOpenUrl extends TLObject {
-    public static int constructor = -177732982;
     public String name;
     public String url;
 
     public static TLRPC$TL_bankCardOpenUrl TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-        if (constructor != i) {
+        if (-177732982 != i) {
             if (z) {
                 throw new RuntimeException(String.format("can't parse magic %x in TL_bankCardOpenUrl", Integer.valueOf(i)));
             }
@@ -25,7 +24,7 @@ public class TLRPC$TL_bankCardOpenUrl extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-177732982);
         abstractSerializedData.writeString(this.url);
         abstractSerializedData.writeString(this.name);
     }

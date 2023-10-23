@@ -11,17 +11,13 @@ public abstract class TLRPC$contacts_Contacts extends TLObject {
         TLRPC$contacts_Contacts tLRPC$contacts_Contacts;
         if (i == -1219778094) {
             tLRPC$contacts_Contacts = new TLRPC$contacts_Contacts() { // from class: org.telegram.tgnet.TLRPC$TL_contacts_contactsNotModified
-                public static int constructor = -1219778094;
-
                 @Override // org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                    abstractSerializedData2.writeInt32(constructor);
+                    abstractSerializedData2.writeInt32(-1219778094);
                 }
             };
         } else {
             tLRPC$contacts_Contacts = i != -353862078 ? null : new TLRPC$contacts_Contacts() { // from class: org.telegram.tgnet.TLRPC$TL_contacts_contacts
-                public static int constructor = -353862078;
-
                 @Override // org.telegram.tgnet.TLObject
                 public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                     int readInt32 = abstractSerializedData2.readInt32(z2);
@@ -59,7 +55,7 @@ public abstract class TLRPC$contacts_Contacts extends TLObject {
 
                 @Override // org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                    abstractSerializedData2.writeInt32(constructor);
+                    abstractSerializedData2.writeInt32(-353862078);
                     abstractSerializedData2.writeInt32(481674261);
                     int size = this.contacts.size();
                     abstractSerializedData2.writeInt32(size);

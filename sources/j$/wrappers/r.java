@@ -23,6 +23,6 @@ public final /* synthetic */ class r implements BiConsumer {
 
     @Override // java.util.function.BiConsumer
     public /* synthetic */ BiConsumer andThen(BiConsumer biConsumer) {
-        return a(this.a.b(q.a(biConsumer)));
+        return a(this.a.andThen(q.a(biConsumer)));
     }
 }

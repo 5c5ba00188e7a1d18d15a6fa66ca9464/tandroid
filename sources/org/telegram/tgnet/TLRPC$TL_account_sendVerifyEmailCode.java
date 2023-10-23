@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_account_sendVerifyEmailCode extends TLObject {
-    public static int constructor = -1730136133;
     public String email;
     public TLRPC$EmailVerifyPurpose purpose;
 
@@ -12,7 +11,7 @@ public class TLRPC$TL_account_sendVerifyEmailCode extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-1730136133);
         this.purpose.serializeToStream(abstractSerializedData);
         abstractSerializedData.writeString(this.email);
     }

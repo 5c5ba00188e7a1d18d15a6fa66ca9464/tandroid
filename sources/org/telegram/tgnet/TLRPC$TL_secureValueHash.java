@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_secureValueHash extends TLObject {
-    public static int constructor = -316748368;
     public byte[] hash;
     public TLRPC$SecureValueType type;
 
@@ -13,7 +12,7 @@ public class TLRPC$TL_secureValueHash extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-316748368);
         this.type.serializeToStream(abstractSerializedData);
         abstractSerializedData.writeByteArray(this.hash);
     }

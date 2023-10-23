@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_help_acceptTermsOfService extends TLObject {
-    public static int constructor = -294455398;
     public TLRPC$TL_dataJSON id;
 
     @Override // org.telegram.tgnet.TLObject
@@ -11,7 +10,7 @@ public class TLRPC$TL_help_acceptTermsOfService extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-294455398);
         this.id.serializeToStream(abstractSerializedData);
     }
 }

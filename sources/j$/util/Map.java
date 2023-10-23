@@ -135,6 +135,16 @@ public interface Map<K, V> {
             return map instanceof Map ? ((Map) map).putIfAbsent(obj, obj2) : -CC.$default$putIfAbsent(map, obj, obj2);
         }
 
+        public static /* synthetic */ void forEach(java.util.Map map, BiConsumer biConsumer) {
+            if (map instanceof Map) {
+                ((Map) map).forEach(biConsumer);
+            } else if (map instanceof ConcurrentMap) {
+                j$.lang.d.a((ConcurrentMap) map, biConsumer);
+            } else {
+                -CC.$default$forEach(map, biConsumer);
+            }
+        }
+
         public static Object getOrDefault(java.util.Map map, Object obj, Object obj2) {
             if (map instanceof Map) {
                 return ((Map) map).getOrDefault(obj, obj2);

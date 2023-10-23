@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.os.SystemClock;
 import android.view.animation.DecelerateInterpolator;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.MessagesStorage;
 import org.telegram.ui.Components.MediaActionDrawable;
 /* loaded from: classes3.dex */
 public class MenuDrawable extends Drawable {
@@ -211,7 +212,7 @@ public class MenuDrawable extends Drawable {
                         dp3 = dp7 + (AndroidUtilities.dp(0.25f) * this.currentRotation);
                     }
                 } else {
-                    canvas.rotate(this.currentRotation * (this.reverseAngle ? -225 : 135), AndroidUtilities.dp(9.0f), 0.0f);
+                    canvas.rotate(this.currentRotation * (this.reverseAngle ? -225 : MessagesStorage.LAST_DB_VERSION), AndroidUtilities.dp(9.0f), 0.0f);
                     if (this.miniIcon) {
                         this.paint.setColor(i9);
                         this.paint.setAlpha(this.alpha);

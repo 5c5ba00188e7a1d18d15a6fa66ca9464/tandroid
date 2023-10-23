@@ -24,13 +24,13 @@ import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$ChannelParticipant;
-import org.telegram.tgnet.TLRPC$ChannelParticipantsFilter;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$ChatParticipant;
 import org.telegram.tgnet.TLRPC$Peer;
 import org.telegram.tgnet.TLRPC$TL_channelParticipantsAdmins;
 import org.telegram.tgnet.TLRPC$TL_channelParticipantsBanned;
 import org.telegram.tgnet.TLRPC$TL_channelParticipantsKicked;
+import org.telegram.tgnet.TLRPC$TL_channelParticipantsSearch;
 import org.telegram.tgnet.TLRPC$TL_channels_channelParticipants;
 import org.telegram.tgnet.TLRPC$TL_channels_getParticipants;
 import org.telegram.tgnet.TLRPC$TL_contact;
@@ -168,20 +168,7 @@ public class SearchAdapterHelper {
                 } else if (i == 0) {
                     tLRPC$TL_channels_getParticipants.filter = new TLRPC$TL_channelParticipantsKicked();
                 } else {
-                    tLRPC$TL_channels_getParticipants.filter = new TLRPC$ChannelParticipantsFilter() { // from class: org.telegram.tgnet.TLRPC$TL_channelParticipantsSearch
-                        public static int constructor = 106343499;
-
-                        @Override // org.telegram.tgnet.TLObject
-                        public void readParams(AbstractSerializedData abstractSerializedData, boolean z10) {
-                            this.q = abstractSerializedData.readString(z10);
-                        }
-
-                        @Override // org.telegram.tgnet.TLObject
-                        public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-                            abstractSerializedData.writeInt32(constructor);
-                            abstractSerializedData.writeString(this.q);
-                        }
-                    };
+                    tLRPC$TL_channels_getParticipants.filter = new TLRPC$TL_channelParticipantsSearch();
                 }
                 tLRPC$TL_channels_getParticipants.filter.q = str;
                 tLRPC$TL_channels_getParticipants.limit = 50;

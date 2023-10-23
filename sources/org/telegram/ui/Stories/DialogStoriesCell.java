@@ -46,8 +46,8 @@ import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Chat;
-import org.telegram.tgnet.TLRPC$PeerStories;
 import org.telegram.tgnet.TLRPC$User;
+import org.telegram.tgnet.tl.TL_stories$PeerStories;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.SimpleTextView;
@@ -367,7 +367,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
                 openStoryRecorder();
             }
         } else if (this.storiesController.hasStories(storyCell.dialogId) || this.storiesController.hasUploadingStories(storyCell.dialogId)) {
-            TLRPC$PeerStories stories = this.storiesController.getStories(storyCell.dialogId);
+            TL_stories$PeerStories stories = this.storiesController.getStories(storyCell.dialogId);
             final long j = storyCell.dialogId;
             StoriesUtilities.EnsureStoryFileLoadedObject ensureStoryFileLoadedObject = this.globalCancelable;
             if (ensureStoryFileLoadedObject != null) {
@@ -509,7 +509,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
         if (this.type != 1) {
             this.items.add(new Item(this, UserConfig.getInstance(this.currentAccount).getClientUserId()));
         }
-        ArrayList<TLRPC$PeerStories> hiddenList = this.type == 1 ? this.storiesController.getHiddenList() : this.storiesController.getDialogListStories();
+        ArrayList<TL_stories$PeerStories> hiddenList = this.type == 1 ? this.storiesController.getHiddenList() : this.storiesController.getDialogListStories();
         for (int i = 0; i < hiddenList.size(); i++) {
             long peerDialogId = DialogObject.getPeerDialogId(hiddenList.get(i).peer);
             if (peerDialogId != UserConfig.getInstance(this.currentAccount).getClientUserId()) {
@@ -1060,7 +1060,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
     public void onResume() {
         this.storiesController.checkExpiredStories();
         for (int i = 0; i < this.items.size(); i++) {
-            TLRPC$PeerStories stories = this.storiesController.getStories(this.items.get(i).dialogId);
+            TL_stories$PeerStories stories = this.storiesController.getStories(this.items.get(i).dialogId);
             if (stories != null) {
                 this.storiesController.preloadUserStories(stories);
             }
@@ -1392,7 +1392,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
             float f7;
             float size;
             boolean isCloseFriends;
-            Paint activeCirclePaint;
+            Paint unreadCirclePaint;
             RadialProgress radialProgress;
             float dp = AndroidUtilities.dp(48.0f);
             float dp2 = AndroidUtilities.dp(28.0f);
@@ -1471,12 +1471,12 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
                 }
                 this.radialProgress.setDiff(0);
                 if (isCloseFriends) {
-                    activeCirclePaint = StoriesUtilities.getCloseFriendsPaint(this.avatarImage);
+                    unreadCirclePaint = StoriesUtilities.getCloseFriendsPaint(this.avatarImage);
                 } else {
-                    activeCirclePaint = StoriesUtilities.getActiveCirclePaint(this.avatarImage, true);
+                    unreadCirclePaint = StoriesUtilities.getUnreadCirclePaint(this.avatarImage, true);
                 }
-                activeCirclePaint.setAlpha(255);
-                this.radialProgress.setPaint(activeCirclePaint);
+                unreadCirclePaint.setAlpha(255);
+                this.radialProgress.setPaint(unreadCirclePaint);
                 this.radialProgress.setProgressRect((int) (this.avatarImage.getImageX() - AndroidUtilities.dp(3.0f)), (int) (this.avatarImage.getImageY() - AndroidUtilities.dp(3.0f)), (int) (this.avatarImage.getImageX2() + AndroidUtilities.dp(3.0f)), (int) (this.avatarImage.getImageY2() + AndroidUtilities.dp(3.0f)));
                 this.radialProgress.setProgress(Utilities.clamp(size, 1.0f, 0.0f), this.progressWasDrawn);
                 if (this.avatarImage.getVisible()) {

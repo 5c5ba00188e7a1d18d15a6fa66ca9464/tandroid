@@ -28,7 +28,6 @@ import org.telegram.tgnet.TLRPC$Photo;
 import org.telegram.tgnet.TLRPC$PhotoSize;
 import org.telegram.tgnet.TLRPC$StickerSet;
 import org.telegram.tgnet.TLRPC$StickerSetCovered;
-import org.telegram.tgnet.TLRPC$StoryItem;
 import org.telegram.tgnet.TLRPC$TL_account_getTheme;
 import org.telegram.tgnet.TLRPC$TL_account_getWallPaper;
 import org.telegram.tgnet.TLRPC$TL_account_getWallPapers;
@@ -90,13 +89,9 @@ import org.telegram.tgnet.TLRPC$TL_messages_search;
 import org.telegram.tgnet.TLRPC$TL_messages_sendMedia;
 import org.telegram.tgnet.TLRPC$TL_messages_sendMultiMedia;
 import org.telegram.tgnet.TLRPC$TL_messages_stickerSet;
+import org.telegram.tgnet.TLRPC$TL_messages_webPage;
 import org.telegram.tgnet.TLRPC$TL_photos_getUserPhotos;
-import org.telegram.tgnet.TLRPC$TL_stories_getStoriesByID;
-import org.telegram.tgnet.TLRPC$TL_stories_stories;
-import org.telegram.tgnet.TLRPC$TL_storyItem;
-import org.telegram.tgnet.TLRPC$TL_storyItemDeleted;
 import org.telegram.tgnet.TLRPC$TL_theme;
-import org.telegram.tgnet.TLRPC$TL_updateStory;
 import org.telegram.tgnet.TLRPC$TL_users_getFullUser;
 import org.telegram.tgnet.TLRPC$TL_users_getUsers;
 import org.telegram.tgnet.TLRPC$TL_users_userFull;
@@ -112,6 +107,12 @@ import org.telegram.tgnet.TLRPC$WebPage;
 import org.telegram.tgnet.TLRPC$WebPageAttribute;
 import org.telegram.tgnet.TLRPC$messages_Messages;
 import org.telegram.tgnet.TLRPC$photos_Photos;
+import org.telegram.tgnet.tl.TL_stories$StoryItem;
+import org.telegram.tgnet.tl.TL_stories$TL_stories_getStoriesByID;
+import org.telegram.tgnet.tl.TL_stories$TL_stories_stories;
+import org.telegram.tgnet.tl.TL_stories$TL_storyItem;
+import org.telegram.tgnet.tl.TL_stories$TL_storyItemDeleted;
+import org.telegram.tgnet.tl.TL_stories$TL_updateStory;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes.dex */
 public class FileRefController extends BaseController {
@@ -202,13 +203,13 @@ public class FileRefController extends BaseController {
     }
 
     public static String getKeyForParentObject(Object obj) {
-        if (obj instanceof TLRPC$StoryItem) {
-            TLRPC$StoryItem tLRPC$StoryItem = (TLRPC$StoryItem) obj;
-            if (tLRPC$StoryItem.dialogId == 0) {
+        if (obj instanceof TL_stories$StoryItem) {
+            TL_stories$StoryItem tL_stories$StoryItem = (TL_stories$StoryItem) obj;
+            if (tL_stories$StoryItem.dialogId == 0) {
                 FileLog.d("failed request reference can't find dialogId");
                 return null;
             }
-            return "story_" + tLRPC$StoryItem.dialogId + "_" + tLRPC$StoryItem.id;
+            return "story_" + tL_stories$StoryItem.dialogId + "_" + tL_stories$StoryItem.id;
         } else if (obj instanceof TLRPC$TL_help_premiumPromo) {
             return "premium_promo";
         } else {
@@ -254,11 +255,11 @@ public class FileRefController extends BaseController {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:114:0x039a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:114:0x039b, code lost:
         if ("update".equals(r1) != false) goto L33;
      */
-    /* JADX WARN: Removed duplicated region for block: B:119:0x03a7  */
-    /* JADX WARN: Removed duplicated region for block: B:123:0x03be  */
+    /* JADX WARN: Removed duplicated region for block: B:119:0x03a8  */
+    /* JADX WARN: Removed duplicated region for block: B:123:0x03bf  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -280,11 +281,11 @@ public class FileRefController extends BaseController {
         if (BuildVars.LOGS_ENABLED) {
             FileLog.d("start loading request reference parent " + getObjectString(obj) + " args = " + objArr[0]);
         }
-        if (objArr[0] instanceof TLRPC$TL_storyItem) {
-            TLRPC$TL_storyItem tLRPC$TL_storyItem = (TLRPC$TL_storyItem) objArr[0];
-            str = "story_" + tLRPC$TL_storyItem.id;
+        if (objArr[0] instanceof TL_stories$TL_storyItem) {
+            TL_stories$TL_storyItem tL_stories$TL_storyItem = (TL_stories$TL_storyItem) objArr[0];
+            str = "story_" + tL_stories$TL_storyItem.id;
             tLRPC$InputFileLocation = new TLRPC$TL_inputDocumentFileLocation();
-            tLRPC$InputFileLocation.id = tLRPC$TL_storyItem.media.document.id;
+            tLRPC$InputFileLocation.id = tL_stories$TL_storyItem.media.document.id;
         } else if (objArr[0] instanceof TLRPC$TL_inputSingleMedia) {
             TLRPC$InputMedia tLRPC$InputMedia = ((TLRPC$TL_inputSingleMedia) objArr[0]).media;
             if (tLRPC$InputMedia instanceof TLRPC$TL_inputMediaDocument) {
@@ -459,9 +460,9 @@ public class FileRefController extends BaseController {
         if (obj instanceof String) {
             return (String) obj;
         }
-        if (obj instanceof TLRPC$StoryItem) {
-            TLRPC$StoryItem tLRPC$StoryItem = (TLRPC$StoryItem) obj;
-            return "story(dialogId=" + tLRPC$StoryItem.dialogId + " id=" + tLRPC$StoryItem.id + ")";
+        if (obj instanceof TL_stories$StoryItem) {
+            TL_stories$StoryItem tL_stories$StoryItem = (TL_stories$StoryItem) obj;
+            return "story(dialogId=" + tL_stories$StoryItem.dialogId + " id=" + tL_stories$StoryItem.id + ")";
         } else if (!(obj instanceof MessageObject)) {
             if (obj == null) {
                 return null;
@@ -485,12 +486,12 @@ public class FileRefController extends BaseController {
     }
 
     private void requestReferenceFromServer(Object obj, final String str, final String str2, Object[] objArr) {
-        if (obj instanceof TLRPC$StoryItem) {
-            TLRPC$StoryItem tLRPC$StoryItem = (TLRPC$StoryItem) obj;
-            TLRPC$TL_stories_getStoriesByID tLRPC$TL_stories_getStoriesByID = new TLRPC$TL_stories_getStoriesByID();
-            tLRPC$TL_stories_getStoriesByID.peer = getMessagesController().getInputPeer(tLRPC$StoryItem.dialogId);
-            tLRPC$TL_stories_getStoriesByID.id.add(Integer.valueOf(tLRPC$StoryItem.id));
-            getConnectionsManager().sendRequest(tLRPC$TL_stories_getStoriesByID, new RequestDelegate() { // from class: org.telegram.messenger.FileRefController$$ExternalSyntheticLambda27
+        if (obj instanceof TL_stories$StoryItem) {
+            TL_stories$StoryItem tL_stories$StoryItem = (TL_stories$StoryItem) obj;
+            TL_stories$TL_stories_getStoriesByID tL_stories$TL_stories_getStoriesByID = new TL_stories$TL_stories_getStoriesByID();
+            tL_stories$TL_stories_getStoriesByID.peer = getMessagesController().getInputPeer(tL_stories$StoryItem.dialogId);
+            tL_stories$TL_stories_getStoriesByID.id.add(Integer.valueOf(tL_stories$StoryItem.id));
+            getConnectionsManager().sendRequest(tL_stories$TL_stories_getStoriesByID, new RequestDelegate() { // from class: org.telegram.messenger.FileRefController$$ExternalSyntheticLambda27
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     FileRefController.this.lambda$requestReferenceFromServer$0(str, str2, tLObject, tLRPC$TL_error);
@@ -928,7 +929,7 @@ public class FileRefController extends BaseController {
         if (BuildVars.DEBUG_VERSION) {
             FileLog.d("fileref updated for " + requester.args[0] + " " + requester.locationKey);
         }
-        if (!(requester.args[0] instanceof TLRPC$TL_storyItem)) {
+        if (!(requester.args[0] instanceof TL_stories$TL_storyItem)) {
             if (requester.args[0] instanceof TLRPC$TL_inputSingleMedia) {
                 final TLRPC$TL_messages_sendMultiMedia tLRPC$TL_messages_sendMultiMedia = (TLRPC$TL_messages_sendMultiMedia) requester.args[1];
                 final Object[] objArr = this.multiMediaCache.get(tLRPC$TL_messages_sendMultiMedia);
@@ -1084,7 +1085,7 @@ public class FileRefController extends BaseController {
             }
             return true;
         }
-        ((TLRPC$TL_storyItem) requester.args[0]).media.document.file_reference = bArr;
+        ((TL_stories$TL_storyItem) requester.args[0]).media.document.file_reference = bArr;
         return true;
     }
 
@@ -1149,12 +1150,12 @@ public class FileRefController extends BaseController {
         getSendMessagesHelper().performSendMessageRequest((TLObject) objArr[0], (MessageObject) objArr[1], (String) objArr[2], (SendMessagesHelper.DelayedMessage) objArr[3], ((Boolean) objArr[4]).booleanValue(), (SendMessagesHelper.DelayedMessage) objArr[5], null, null, ((Boolean) objArr[6]).booleanValue());
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:321:0x072c  */
-    /* JADX WARN: Removed duplicated region for block: B:329:0x0744  */
-    /* JADX WARN: Removed duplicated region for block: B:351:0x01aa A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x009f A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:44:0x00a0  */
-    /* JADX WARN: Removed duplicated region for block: B:92:0x01bb A[LOOP:2: B:65:0x0139->B:92:0x01bb, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:313:0x0708  */
+    /* JADX WARN: Removed duplicated region for block: B:320:0x071d  */
+    /* JADX WARN: Removed duplicated region for block: B:335:0x01aa A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x00a0 A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:44:0x00a1  */
+    /* JADX WARN: Removed duplicated region for block: B:93:0x01bb A[LOOP:2: B:66:0x0139->B:93:0x01bb, LOOP_END] */
     /* JADX WARN: Type inference failed for: r15v0 */
     /* JADX WARN: Type inference failed for: r15v13 */
     /*
@@ -1169,11 +1170,13 @@ public class FileRefController extends BaseController {
         int i;
         boolean z4;
         TLRPC$InputFileLocation tLRPC$InputFileLocation;
-        TLRPC$StoryItem tLRPC$StoryItem;
+        TL_stories$StoryItem tL_stories$StoryItem;
+        TLRPC$MessageMedia tLRPC$MessageMedia;
         byte[] fileReference;
+        byte[] fileReference2;
         boolean z5;
         TLRPC$InputFileLocation tLRPC$InputFileLocation2;
-        byte[] fileReference2;
+        byte[] fileReference3;
         ArrayList<Requester> arrayList3;
         int i2;
         int i3;
@@ -1225,8 +1228,8 @@ public class FileRefController extends BaseController {
                 return z3;
             }
             int size2 = arrayList.size();
-            boolean[] zArr = null;
             int i6 = 0;
+            boolean[] zArr = null;
             TLRPC$InputFileLocation[] tLRPC$InputFileLocationArr = null;
             byte[] bArr = null;
             while (i6 < size2) {
@@ -1234,7 +1237,6 @@ public class FileRefController extends BaseController {
                 if (requester2.completed) {
                     arrayList2 = arrayList;
                     i = size2;
-                    z4 = z6;
                 } else {
                     if (tLRPC$TL_error2 != null && BuildVars.LOGS_ENABLED && (requester2.args[i4] instanceof FileLoadOperation)) {
                         FileLog.e("debug_loading: " + ((FileLoadOperation) requester2.args[i4]).getCacheFileFinal().getName() + " can't update file reference: " + tLRPC$TL_error2.code + " " + tLRPC$TL_error2.text);
@@ -1243,7 +1245,6 @@ public class FileRefController extends BaseController {
                         tLRPC$InputFileLocationArr = new TLRPC$InputFileLocation[i4];
                         zArr = new boolean[i4];
                     }
-                    boolean[] zArr2 = zArr;
                     requester2.completed = i4;
                     if (tLObject instanceof TLRPC$messages_Messages) {
                         TLRPC$messages_Messages tLRPC$messages_Messages = (TLRPC$messages_Messages) tLObject;
@@ -1258,27 +1259,27 @@ public class FileRefController extends BaseController {
                                 }
                                 TLRPC$Message tLRPC$Message = tLRPC$messages_Messages.messages.get(i7);
                                 arrayList2 = arrayList;
-                                TLRPC$MessageMedia tLRPC$MessageMedia = tLRPC$Message.media;
-                                if (tLRPC$MessageMedia != null) {
+                                TLRPC$MessageMedia tLRPC$MessageMedia2 = tLRPC$Message.media;
+                                if (tLRPC$MessageMedia2 != null) {
                                     i = size2;
-                                    TLRPC$Document tLRPC$Document = tLRPC$MessageMedia.document;
+                                    TLRPC$Document tLRPC$Document = tLRPC$MessageMedia2.document;
                                     if (tLRPC$Document != null) {
-                                        fileReference2 = getFileReference(tLRPC$Document, requester2.location, zArr2, tLRPC$InputFileLocationArr);
+                                        fileReference3 = getFileReference(tLRPC$Document, requester2.location, zArr, tLRPC$InputFileLocationArr);
                                     } else {
-                                        TLRPC$TL_game tLRPC$TL_game = tLRPC$MessageMedia.game;
+                                        TLRPC$TL_game tLRPC$TL_game = tLRPC$MessageMedia2.game;
                                         if (tLRPC$TL_game != null) {
-                                            fileReference2 = getFileReference(tLRPC$TL_game.document, requester2.location, zArr2, tLRPC$InputFileLocationArr);
-                                            if (fileReference2 == null) {
-                                                fileReference2 = getFileReference(tLRPC$Message.media.game.photo, requester2.location, zArr2, tLRPC$InputFileLocationArr);
+                                            fileReference3 = getFileReference(tLRPC$TL_game.document, requester2.location, zArr, tLRPC$InputFileLocationArr);
+                                            if (fileReference3 == null) {
+                                                fileReference3 = getFileReference(tLRPC$Message.media.game.photo, requester2.location, zArr, tLRPC$InputFileLocationArr);
                                             }
                                         } else {
-                                            TLRPC$Photo tLRPC$Photo = tLRPC$MessageMedia.photo;
+                                            TLRPC$Photo tLRPC$Photo = tLRPC$MessageMedia2.photo;
                                             if (tLRPC$Photo != null) {
-                                                fileReference2 = getFileReference(tLRPC$Photo, requester2.location, zArr2, tLRPC$InputFileLocationArr);
+                                                fileReference3 = getFileReference(tLRPC$Photo, requester2.location, zArr, tLRPC$InputFileLocationArr);
                                             } else {
-                                                TLRPC$WebPage tLRPC$WebPage = tLRPC$MessageMedia.webpage;
+                                                TLRPC$WebPage tLRPC$WebPage = tLRPC$MessageMedia2.webpage;
                                                 if (tLRPC$WebPage != null) {
-                                                    fileReference2 = getFileReference(tLRPC$WebPage, requester2.location, zArr2, tLRPC$InputFileLocationArr);
+                                                    fileReference3 = getFileReference(tLRPC$WebPage, requester2.location, zArr, tLRPC$InputFileLocationArr);
                                                 }
                                                 if (bArr == null) {
                                                     i7++;
@@ -1290,15 +1291,15 @@ public class FileRefController extends BaseController {
                                             }
                                         }
                                     }
-                                    bArr = fileReference2;
+                                    bArr = fileReference3;
                                     if (bArr == null) {
                                     }
                                 } else {
                                     i = size2;
                                     TLRPC$MessageAction tLRPC$MessageAction = tLRPC$Message.action;
                                     if ((tLRPC$MessageAction instanceof TLRPC$TL_messageActionChatEditPhoto) || (tLRPC$MessageAction instanceof TLRPC$TL_messageActionSuggestProfilePhoto)) {
-                                        fileReference2 = getFileReference(tLRPC$MessageAction.photo, requester2.location, zArr2, tLRPC$InputFileLocationArr);
-                                        bArr = fileReference2;
+                                        fileReference3 = getFileReference(tLRPC$MessageAction.photo, requester2.location, zArr, tLRPC$InputFileLocationArr);
+                                        bArr = fileReference3;
                                     }
                                     if (bArr == null) {
                                     }
@@ -1322,7 +1323,7 @@ public class FileRefController extends BaseController {
                         i = size2;
                         if (z6) {
                             Iterator<TLRPC$Document> it = ((TLRPC$TL_help_premiumPromo) tLObject).videos.iterator();
-                            while (it.hasNext() && (bArr = getFileReference(it.next(), requester2.location, zArr2, tLRPC$InputFileLocationArr)) == null) {
+                            while (it.hasNext() && (bArr = getFileReference(it.next(), requester2.location, zArr, tLRPC$InputFileLocationArr)) == null) {
                             }
                         } else if (tLObject instanceof TLRPC$TL_messages_availableReactions) {
                             TLRPC$TL_messages_availableReactions tLRPC$TL_messages_availableReactions = (TLRPC$TL_messages_availableReactions) tLObject;
@@ -1330,31 +1331,31 @@ public class FileRefController extends BaseController {
                             Iterator<TLRPC$TL_availableReaction> it2 = tLRPC$TL_messages_availableReactions.reactions.iterator();
                             while (it2.hasNext()) {
                                 TLRPC$TL_availableReaction next = it2.next();
-                                bArr = getFileReference(next.static_icon, requester2.location, zArr2, tLRPC$InputFileLocationArr);
+                                bArr = getFileReference(next.static_icon, requester2.location, zArr, tLRPC$InputFileLocationArr);
                                 if (bArr != null) {
                                     break;
                                 }
-                                bArr = getFileReference(next.appear_animation, requester2.location, zArr2, tLRPC$InputFileLocationArr);
+                                bArr = getFileReference(next.appear_animation, requester2.location, zArr, tLRPC$InputFileLocationArr);
                                 if (bArr != null) {
                                     break;
                                 }
-                                bArr = getFileReference(next.select_animation, requester2.location, zArr2, tLRPC$InputFileLocationArr);
+                                bArr = getFileReference(next.select_animation, requester2.location, zArr, tLRPC$InputFileLocationArr);
                                 if (bArr != null) {
                                     break;
                                 }
-                                bArr = getFileReference(next.activate_animation, requester2.location, zArr2, tLRPC$InputFileLocationArr);
+                                bArr = getFileReference(next.activate_animation, requester2.location, zArr, tLRPC$InputFileLocationArr);
                                 if (bArr != null) {
                                     break;
                                 }
-                                bArr = getFileReference(next.effect_animation, requester2.location, zArr2, tLRPC$InputFileLocationArr);
+                                bArr = getFileReference(next.effect_animation, requester2.location, zArr, tLRPC$InputFileLocationArr);
                                 if (bArr != null) {
                                     break;
                                 }
-                                bArr = getFileReference(next.around_animation, requester2.location, zArr2, tLRPC$InputFileLocationArr);
+                                bArr = getFileReference(next.around_animation, requester2.location, zArr, tLRPC$InputFileLocationArr);
                                 if (bArr != null) {
                                     break;
                                 }
-                                bArr = getFileReference(next.center_icon, requester2.location, zArr2, tLRPC$InputFileLocationArr);
+                                bArr = getFileReference(next.center_icon, requester2.location, zArr, tLRPC$InputFileLocationArr);
                                 if (bArr != null) {
                                     break;
                                 }
@@ -1367,19 +1368,16 @@ public class FileRefController extends BaseController {
                             TLRPC$BotInfo tLRPC$BotInfo = tLRPC$UserFull.bot_info;
                             if (tLRPC$BotInfo != null) {
                                 getMessagesStorage().updateUserInfo(tLRPC$UserFull, true);
-                                bArr = getFileReference(tLRPC$BotInfo.description_document, requester2.location, zArr2, tLRPC$InputFileLocationArr);
-                                if (bArr != null) {
-                                    zArr = zArr2;
-                                    z4 = z6;
-                                } else {
-                                    bArr = getFileReference(tLRPC$BotInfo.description_photo, requester2.location, zArr2, tLRPC$InputFileLocationArr);
+                                bArr = getFileReference(tLRPC$BotInfo.description_document, requester2.location, zArr, tLRPC$InputFileLocationArr);
+                                if (bArr == null) {
+                                    bArr = getFileReference(tLRPC$BotInfo.description_photo, requester2.location, zArr, tLRPC$InputFileLocationArr);
                                 }
                             }
                         } else {
                             if (tLObject instanceof TLRPC$TL_attachMenuBotsBot) {
                                 TLRPC$TL_attachMenuBot tLRPC$TL_attachMenuBot = ((TLRPC$TL_attachMenuBotsBot) tLObject).bot;
                                 Iterator<TLRPC$TL_attachMenuBotIcon> it3 = tLRPC$TL_attachMenuBot.icons.iterator();
-                                while (it3.hasNext() && (bArr = getFileReference(it3.next().icon, requester2.location, zArr2, tLRPC$InputFileLocationArr)) == null) {
+                                while (it3.hasNext() && (bArr = getFileReference(it3.next().icon, requester2.location, zArr, tLRPC$InputFileLocationArr)) == null) {
                                 }
                                 if (z) {
                                     TLRPC$TL_attachMenuBots attachMenuBots = getMediaDataController().getAttachMenuBots();
@@ -1405,57 +1403,33 @@ public class FileRefController extends BaseController {
                                 z4 = z6;
                                 if (tLObject instanceof TLRPC$TL_help_appUpdate) {
                                     TLRPC$TL_help_appUpdate tLRPC$TL_help_appUpdate = (TLRPC$TL_help_appUpdate) tLObject;
-                                    try {
-                                        SharedConfig.pendingAppUpdate = tLRPC$TL_help_appUpdate;
-                                        SharedConfig.saveConfig();
-                                    } catch (Exception e) {
-                                        FileLog.e(e);
-                                    }
-                                    try {
-                                        NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.appUpdateAvailable, new Object[0]);
-                                    } catch (Exception e2) {
-                                        FileLog.e(e2);
-                                    }
-                                    try {
-                                        TLRPC$Document tLRPC$Document2 = tLRPC$TL_help_appUpdate.document;
-                                        if (tLRPC$Document2 != null) {
-                                            bArr = tLRPC$Document2.file_reference;
-                                            TLRPC$TL_inputDocumentFileLocation tLRPC$TL_inputDocumentFileLocation = new TLRPC$TL_inputDocumentFileLocation();
-                                            TLRPC$Document tLRPC$Document3 = tLRPC$TL_help_appUpdate.document;
-                                            tLRPC$TL_inputDocumentFileLocation.id = tLRPC$Document3.id;
-                                            tLRPC$TL_inputDocumentFileLocation.access_hash = tLRPC$Document3.access_hash;
-                                            tLRPC$TL_inputDocumentFileLocation.file_reference = tLRPC$Document3.file_reference;
-                                            tLRPC$TL_inputDocumentFileLocation.thumb_size = "";
-                                            tLRPC$InputFileLocationArr = new TLRPC$InputFileLocation[]{tLRPC$TL_inputDocumentFileLocation};
-                                        }
-                                    } catch (Exception e3) {
-                                        FileLog.e(e3);
-                                        bArr = null;
-                                    }
-                                    if (bArr == null) {
-                                        bArr = getFileReference(tLRPC$TL_help_appUpdate.document, requester2.location, zArr2, tLRPC$InputFileLocationArr);
-                                    }
-                                    if (bArr == null) {
-                                        bArr = getFileReference(tLRPC$TL_help_appUpdate.sticker, requester2.location, zArr2, tLRPC$InputFileLocationArr);
-                                    }
-                                } else if (tLObject instanceof TLRPC$WebPage) {
-                                    bArr = getFileReference((TLRPC$WebPage) tLObject, requester2.location, zArr2, tLRPC$InputFileLocationArr);
-                                } else if (tLObject instanceof TLRPC$TL_account_wallPapers) {
-                                    TLRPC$TL_account_wallPapers tLRPC$TL_account_wallPapers = (TLRPC$TL_account_wallPapers) tLObject;
-                                    int size4 = tLRPC$TL_account_wallPapers.wallpapers.size();
-                                    for (int i9 = 0; i9 < size4; i9++) {
-                                        bArr = getFileReference(tLRPC$TL_account_wallPapers.wallpapers.get(i9).document, requester2.location, zArr2, tLRPC$InputFileLocationArr);
-                                        if (bArr != null) {
-                                            break;
-                                        }
-                                    }
-                                    if (bArr != null && z) {
-                                        getMessagesStorage().putWallpapers(tLRPC$TL_account_wallPapers.wallpapers, 1);
+                                    fileReference = getFileReference(tLRPC$TL_help_appUpdate.document, requester2.location, zArr, tLRPC$InputFileLocationArr);
+                                    if (fileReference == null) {
+                                        fileReference = getFileReference(tLRPC$TL_help_appUpdate.sticker, requester2.location, zArr, tLRPC$InputFileLocationArr);
                                     }
                                 } else {
-                                    if (tLObject instanceof TLRPC$TL_wallPaper) {
+                                    if (tLObject instanceof TLRPC$TL_messages_webPage) {
+                                        TLRPC$TL_messages_webPage tLRPC$TL_messages_webPage = (TLRPC$TL_messages_webPage) tLObject;
+                                        getMessagesController().putChats(tLRPC$TL_messages_webPage.chats, false);
+                                        getMessagesController().putUsers(tLRPC$TL_messages_webPage.users, false);
+                                        fileReference2 = getFileReference(tLRPC$TL_messages_webPage.webpage, requester2.location, zArr, tLRPC$InputFileLocationArr);
+                                    } else if (tLObject instanceof TLRPC$WebPage) {
+                                        fileReference2 = getFileReference((TLRPC$WebPage) tLObject, requester2.location, zArr, tLRPC$InputFileLocationArr);
+                                    } else if (tLObject instanceof TLRPC$TL_account_wallPapers) {
+                                        TLRPC$TL_account_wallPapers tLRPC$TL_account_wallPapers = (TLRPC$TL_account_wallPapers) tLObject;
+                                        int size4 = tLRPC$TL_account_wallPapers.wallpapers.size();
+                                        for (int i9 = 0; i9 < size4; i9++) {
+                                            bArr = getFileReference(tLRPC$TL_account_wallPapers.wallpapers.get(i9).document, requester2.location, zArr, tLRPC$InputFileLocationArr);
+                                            if (bArr != null) {
+                                                break;
+                                            }
+                                        }
+                                        if (bArr != null && z) {
+                                            getMessagesStorage().putWallpapers(tLRPC$TL_account_wallPapers.wallpapers, 1);
+                                        }
+                                    } else if (tLObject instanceof TLRPC$TL_wallPaper) {
                                         TLRPC$TL_wallPaper tLRPC$TL_wallPaper = (TLRPC$TL_wallPaper) tLObject;
-                                        fileReference = getFileReference(tLRPC$TL_wallPaper.document, requester2.location, zArr2, tLRPC$InputFileLocationArr);
+                                        fileReference = getFileReference(tLRPC$TL_wallPaper.document, requester2.location, zArr, tLRPC$InputFileLocationArr);
                                         if (fileReference != null && z) {
                                             ArrayList<TLRPC$WallPaper> arrayList6 = new ArrayList<>();
                                             arrayList6.add(tLRPC$TL_wallPaper);
@@ -1463,7 +1437,7 @@ public class FileRefController extends BaseController {
                                         }
                                     } else if (tLObject instanceof TLRPC$TL_theme) {
                                         final TLRPC$TL_theme tLRPC$TL_theme = (TLRPC$TL_theme) tLObject;
-                                        fileReference = getFileReference(tLRPC$TL_theme.document, requester2.location, zArr2, tLRPC$InputFileLocationArr);
+                                        fileReference = getFileReference(tLRPC$TL_theme.document, requester2.location, zArr, tLRPC$InputFileLocationArr);
                                         if (fileReference != null && z) {
                                             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.FileRefController$$ExternalSyntheticLambda9
                                                 @Override // java.lang.Runnable
@@ -1480,7 +1454,7 @@ public class FileRefController extends BaseController {
                                                 Object obj = tLRPC$Vector.objects.get(i10);
                                                 if (obj instanceof TLRPC$User) {
                                                     final TLRPC$User tLRPC$User = (TLRPC$User) obj;
-                                                    bArr = getFileReference(tLRPC$User, requester2.location, zArr2, tLRPC$InputFileLocationArr);
+                                                    bArr = getFileReference(tLRPC$User, requester2.location, zArr, tLRPC$InputFileLocationArr);
                                                     if (z && bArr != null) {
                                                         ArrayList arrayList7 = new ArrayList();
                                                         arrayList7.add(tLRPC$User);
@@ -1494,7 +1468,7 @@ public class FileRefController extends BaseController {
                                                     }
                                                 } else if (obj instanceof TLRPC$Chat) {
                                                     final TLRPC$Chat tLRPC$Chat = (TLRPC$Chat) obj;
-                                                    bArr = getFileReference(tLRPC$Chat, requester2.location, zArr2, tLRPC$InputFileLocationArr);
+                                                    bArr = getFileReference(tLRPC$Chat, requester2.location, zArr, tLRPC$InputFileLocationArr);
                                                     if (z && bArr != null) {
                                                         ArrayList arrayList8 = new ArrayList();
                                                         arrayList8.add(tLRPC$Chat);
@@ -1520,8 +1494,8 @@ public class FileRefController extends BaseController {
                                                 int i11 = 0;
                                                 while (i11 < size6) {
                                                     final TLRPC$Chat tLRPC$Chat2 = tLRPC$TL_messages_chats.chats.get(i11);
-                                                    byte[] fileReference3 = getFileReference(tLRPC$Chat2, requester2.location, zArr2, tLRPC$InputFileLocationArr);
-                                                    if (fileReference3 != null) {
+                                                    byte[] fileReference4 = getFileReference(tLRPC$Chat2, requester2.location, zArr, tLRPC$InputFileLocationArr);
+                                                    if (fileReference4 != null) {
                                                         if (z) {
                                                             ArrayList arrayList9 = new ArrayList();
                                                             arrayList9.add(tLRPC$Chat2);
@@ -1536,10 +1510,10 @@ public class FileRefController extends BaseController {
                                                         } else {
                                                             tLRPC$InputFileLocation = null;
                                                         }
-                                                        bArr = fileReference3;
+                                                        bArr = fileReference4;
                                                     } else {
                                                         i11++;
-                                                        bArr = fileReference3;
+                                                        bArr = fileReference4;
                                                     }
                                                 }
                                             }
@@ -1549,7 +1523,7 @@ public class FileRefController extends BaseController {
                                                 TLRPC$TL_messages_savedGifs tLRPC$TL_messages_savedGifs = (TLRPC$TL_messages_savedGifs) tLObject;
                                                 int size7 = tLRPC$TL_messages_savedGifs.gifs.size();
                                                 for (int i12 = 0; i12 < size7; i12++) {
-                                                    bArr = getFileReference(tLRPC$TL_messages_savedGifs.gifs.get(i12), requester2.location, zArr2, tLRPC$InputFileLocationArr);
+                                                    bArr = getFileReference(tLRPC$TL_messages_savedGifs.gifs.get(i12), requester2.location, zArr, tLRPC$InputFileLocationArr);
                                                     if (bArr != null) {
                                                         break;
                                                     }
@@ -1562,7 +1536,7 @@ public class FileRefController extends BaseController {
                                                 if (bArr == null) {
                                                     int size8 = tLRPC$TL_messages_stickerSet.documents.size();
                                                     for (int i13 = 0; i13 < size8; i13++) {
-                                                        bArr = getFileReference(tLRPC$TL_messages_stickerSet.documents.get(i13), requester2.location, zArr2, tLRPC$InputFileLocationArr);
+                                                        bArr = getFileReference(tLRPC$TL_messages_stickerSet.documents.get(i13), requester2.location, zArr, tLRPC$InputFileLocationArr);
                                                         if (bArr != null) {
                                                             break;
                                                         }
@@ -1580,7 +1554,7 @@ public class FileRefController extends BaseController {
                                                 TLRPC$TL_messages_recentStickers tLRPC$TL_messages_recentStickers = (TLRPC$TL_messages_recentStickers) tLObject;
                                                 int size9 = tLRPC$TL_messages_recentStickers.stickers.size();
                                                 for (int i14 = 0; i14 < size9; i14++) {
-                                                    bArr = getFileReference(tLRPC$TL_messages_recentStickers.stickers.get(i14), requester2.location, zArr2, tLRPC$InputFileLocationArr);
+                                                    bArr = getFileReference(tLRPC$TL_messages_recentStickers.stickers.get(i14), requester2.location, zArr, tLRPC$InputFileLocationArr);
                                                     if (bArr != null) {
                                                         break;
                                                     }
@@ -1592,7 +1566,7 @@ public class FileRefController extends BaseController {
                                                 TLRPC$TL_messages_favedStickers tLRPC$TL_messages_favedStickers = (TLRPC$TL_messages_favedStickers) tLObject;
                                                 int size10 = tLRPC$TL_messages_favedStickers.stickers.size();
                                                 for (int i15 = 0; i15 < size10; i15++) {
-                                                    bArr = getFileReference(tLRPC$TL_messages_favedStickers.stickers.get(i15), requester2.location, zArr2, tLRPC$InputFileLocationArr);
+                                                    bArr = getFileReference(tLRPC$TL_messages_favedStickers.stickers.get(i15), requester2.location, zArr, tLRPC$InputFileLocationArr);
                                                     if (bArr != null) {
                                                         break;
                                                     }
@@ -1604,42 +1578,51 @@ public class FileRefController extends BaseController {
                                                 TLRPC$photos_Photos tLRPC$photos_Photos = (TLRPC$photos_Photos) tLObject;
                                                 int size11 = tLRPC$photos_Photos.photos.size();
                                                 for (int i16 = 0; i16 < size11; i16++) {
-                                                    bArr = getFileReference(tLRPC$photos_Photos.photos.get(i16), requester2.location, zArr2, tLRPC$InputFileLocationArr);
+                                                    bArr = getFileReference(tLRPC$photos_Photos.photos.get(i16), requester2.location, zArr, tLRPC$InputFileLocationArr);
                                                     if (bArr != null) {
                                                         break;
                                                     }
                                                 }
-                                            } else if (tLObject instanceof TLRPC$TL_stories_stories) {
-                                                TLRPC$TL_stories_stories tLRPC$TL_stories_stories = (TLRPC$TL_stories_stories) tLObject;
-                                                if (tLRPC$TL_stories_stories.stories.isEmpty() || tLRPC$TL_stories_stories.stories.get(0).media == null) {
-                                                    tLRPC$StoryItem = null;
+                                            } else if (tLObject instanceof TL_stories$TL_stories_stories) {
+                                                TL_stories$TL_stories_stories tL_stories$TL_stories_stories = (TL_stories$TL_stories_stories) tLObject;
+                                                if (tL_stories$TL_stories_stories.stories.isEmpty() || (tLRPC$MessageMedia = (tL_stories$StoryItem = tL_stories$TL_stories_stories.stories.get(0)).media) == null) {
+                                                    tL_stories$StoryItem = null;
                                                 } else {
-                                                    tLRPC$StoryItem = tLRPC$TL_stories_stories.stories.get(0);
-                                                    if (tLRPC$TL_stories_stories.stories.get(0).media.photo != null) {
-                                                        bArr = getFileReference(tLRPC$TL_stories_stories.stories.get(0).media.photo, requester2.location, zArr2, tLRPC$InputFileLocationArr);
+                                                    TLRPC$Photo tLRPC$Photo2 = tLRPC$MessageMedia.photo;
+                                                    if (tLRPC$Photo2 != null) {
+                                                        bArr = getFileReference(tLRPC$Photo2, requester2.location, zArr, tLRPC$InputFileLocationArr);
                                                     }
-                                                    if (tLRPC$TL_stories_stories.stories.get(0).media.document != null) {
-                                                        bArr = getFileReference(tLRPC$TL_stories_stories.stories.get(0).media.document, requester2.location, zArr2, tLRPC$InputFileLocationArr);
+                                                    TLRPC$Document tLRPC$Document2 = tL_stories$StoryItem.media.document;
+                                                    if (tLRPC$Document2 != null) {
+                                                        bArr = getFileReference(tLRPC$Document2, requester2.location, zArr, tLRPC$InputFileLocationArr);
                                                     }
                                                 }
                                                 if (requester2.args[1] instanceof FileLoadOperation) {
                                                     Object obj2 = ((FileLoadOperation) requester2.args[1]).parentObject;
-                                                    if (obj2 instanceof TLRPC$StoryItem) {
-                                                        TLRPC$StoryItem tLRPC$StoryItem2 = (TLRPC$StoryItem) obj2;
-                                                        if (tLRPC$StoryItem == null) {
-                                                            TLRPC$TL_updateStory tLRPC$TL_updateStory = new TLRPC$TL_updateStory();
-                                                            tLRPC$TL_updateStory.peer = getMessagesController().getPeer(tLRPC$StoryItem2.dialogId);
-                                                            TLRPC$TL_storyItemDeleted tLRPC$TL_storyItemDeleted = new TLRPC$TL_storyItemDeleted();
-                                                            tLRPC$TL_updateStory.story = tLRPC$TL_storyItemDeleted;
-                                                            tLRPC$TL_storyItemDeleted.id = tLRPC$StoryItem2.id;
+                                                    if (obj2 instanceof TL_stories$StoryItem) {
+                                                        TL_stories$StoryItem tL_stories$StoryItem2 = (TL_stories$StoryItem) obj2;
+                                                        if (tL_stories$StoryItem == null) {
+                                                            TL_stories$TL_updateStory tL_stories$TL_updateStory = new TL_stories$TL_updateStory();
+                                                            tL_stories$TL_updateStory.peer = getMessagesController().getPeer(tL_stories$StoryItem2.dialogId);
+                                                            TL_stories$TL_storyItemDeleted tL_stories$TL_storyItemDeleted = new TL_stories$TL_storyItemDeleted();
+                                                            tL_stories$TL_updateStory.story = tL_stories$TL_storyItemDeleted;
+                                                            tL_stories$TL_storyItemDeleted.id = tL_stories$StoryItem2.id;
                                                             ArrayList<TLRPC$Update> arrayList10 = new ArrayList<>();
-                                                            arrayList10.add(tLRPC$TL_updateStory);
+                                                            arrayList10.add(tL_stories$TL_updateStory);
                                                             getMessagesController().processUpdateArray(arrayList10, null, null, false, 0);
                                                         } else {
-                                                            TLRPC$User user = getMessagesController().getUser(Long.valueOf(tLRPC$StoryItem2.dialogId));
+                                                            TLRPC$User user = getMessagesController().getUser(Long.valueOf(tL_stories$StoryItem2.dialogId));
                                                             if (user != null && user.contact) {
-                                                                MessagesController.getInstance(this.currentAccount).getStoriesController().getStoriesStorage().updateStoryItem(tLRPC$StoryItem2.dialogId, tLRPC$StoryItem);
+                                                                MessagesController.getInstance(this.currentAccount).getStoriesController().getStoriesStorage().updateStoryItem(tL_stories$StoryItem2.dialogId, tL_stories$StoryItem);
                                                             }
+                                                        }
+                                                        if (tL_stories$StoryItem != null && bArr == null) {
+                                                            TL_stories$TL_updateStory tL_stories$TL_updateStory2 = new TL_stories$TL_updateStory();
+                                                            tL_stories$TL_updateStory2.peer = MessagesController.getInstance(this.currentAccount).getPeer(tL_stories$StoryItem2.dialogId);
+                                                            tL_stories$TL_updateStory2.story = tL_stories$StoryItem;
+                                                            ArrayList<TLRPC$Update> arrayList11 = new ArrayList<>();
+                                                            arrayList11.add(tL_stories$TL_updateStory2);
+                                                            MessagesController.getInstance(this.currentAccount).processUpdateArray(arrayList11, null, null, false, 0);
                                                         }
                                                     }
                                                 }
@@ -1654,29 +1637,45 @@ public class FileRefController extends BaseController {
                                                 tLRPC$InputFileLocation2 = tLRPC$InputFileLocation;
                                             }
                                             if (onUpdateObjectReference(requester2, bArr, tLRPC$InputFileLocation2, z5)) {
-                                                zArr = zArr2;
                                                 z3 = true;
                                             }
                                         } else {
                                             sendErrorToObject(requester2.args, 1);
                                         }
-                                        zArr = zArr2;
+                                        i6++;
+                                        tLRPC$TL_error2 = tLRPC$TL_error;
+                                        arrayList = arrayList2;
+                                        size2 = i;
+                                        z6 = z4;
+                                        i4 = 1;
                                     }
-                                    bArr = fileReference;
+                                    bArr = fileReference2;
                                 }
+                                bArr = fileReference;
                             }
                             tLRPC$InputFileLocation = null;
                             if (bArr != null) {
                             }
-                            zArr = zArr2;
+                            i6++;
+                            tLRPC$TL_error2 = tLRPC$TL_error;
+                            arrayList = arrayList2;
+                            size2 = i;
+                            z6 = z4;
+                            i4 = 1;
                         }
                     }
                     z4 = z6;
                     tLRPC$InputFileLocation = null;
                     if (bArr != null) {
                     }
-                    zArr = zArr2;
+                    i6++;
+                    tLRPC$TL_error2 = tLRPC$TL_error;
+                    arrayList = arrayList2;
+                    size2 = i;
+                    z6 = z4;
+                    i4 = 1;
                 }
+                z4 = z6;
                 i6++;
                 tLRPC$TL_error2 = tLRPC$TL_error;
                 arrayList = arrayList2;

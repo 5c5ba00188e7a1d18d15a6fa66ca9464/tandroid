@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_channels_toggleSlowMode extends TLObject {
-    public static int constructor = -304832784;
     public TLRPC$InputChannel channel;
     public int seconds;
 
@@ -12,7 +11,7 @@ public class TLRPC$TL_channels_toggleSlowMode extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-304832784);
         this.channel.serializeToStream(abstractSerializedData);
         abstractSerializedData.writeInt32(this.seconds);
     }

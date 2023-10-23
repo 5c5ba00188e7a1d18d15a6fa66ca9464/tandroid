@@ -957,6 +957,7 @@ public class AvatarConstructorFragment extends BaseFragment {
                     this.gradients.add(backgroundGradient);
                     i++;
                 } else {
+                    this.useLayoutPositionOnClick = true;
                     setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.AvatarConstructorFragment$BackgroundSelectView$$ExternalSyntheticLambda0
                         @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
                         public final void onItemClick(View view, int i3) {

@@ -45,9 +45,9 @@ import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$ChatFull;
 import org.telegram.tgnet.TLRPC$ChatParticipant;
 import org.telegram.tgnet.TLRPC$EncryptedChat;
-import org.telegram.tgnet.TLRPC$StoryItem;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.tgnet.TLRPC$UserFull;
+import org.telegram.tgnet.tl.TL_stories$StoryItem;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.ActionBarMenu;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
@@ -190,7 +190,7 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
     /* JADX WARN: Removed duplicated region for block: B:94:0x059e  */
     /* JADX WARN: Removed duplicated region for block: B:95:0x05ac  */
     /* JADX WARN: Type inference failed for: r6v18 */
-    /* JADX WARN: Type inference failed for: r6v19, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r6v19, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r6v20 */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
@@ -547,8 +547,10 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
                 return false;
             }
 
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.SharedMediaLayout
-            protected void onSelectedTabChanged() {
+            public void onSelectedTabChanged() {
+                super.onSelectedTabChanged();
                 MediaActivity.this.updateMediaCount();
             }
 
@@ -943,9 +945,9 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
             } else if (MediaActivity.this.actionModeMessageObjects != null) {
                 final ArrayList arrayList = new ArrayList();
                 for (int i3 = 0; i3 < MediaActivity.this.actionModeMessageObjects.size(); i3++) {
-                    TLRPC$StoryItem tLRPC$StoryItem = ((MessageObject) MediaActivity.this.actionModeMessageObjects.valueAt(i3)).storyItem;
-                    if (tLRPC$StoryItem != null) {
-                        arrayList.add(tLRPC$StoryItem);
+                    TL_stories$StoryItem tL_stories$StoryItem = ((MessageObject) MediaActivity.this.actionModeMessageObjects.valueAt(i3)).storyItem;
+                    if (tL_stories$StoryItem != null) {
+                        arrayList.add(tL_stories$StoryItem);
                     }
                 }
                 if (arrayList.isEmpty()) {
@@ -1062,9 +1064,9 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
         if (this.actionModeMessageObjects != null) {
             i = 0;
             for (int i2 = 0; i2 < this.actionModeMessageObjects.size(); i2++) {
-                TLRPC$StoryItem tLRPC$StoryItem = this.actionModeMessageObjects.valueAt(i2).storyItem;
-                if (tLRPC$StoryItem != null) {
-                    arrayList.add(tLRPC$StoryItem);
+                TL_stories$StoryItem tL_stories$StoryItem = this.actionModeMessageObjects.valueAt(i2).storyItem;
+                if (tL_stories$StoryItem != null) {
+                    arrayList.add(tL_stories$StoryItem);
                     i++;
                 }
             }
@@ -1081,9 +1083,9 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
         }
         final boolean[] zArr = new boolean[arrayList.size()];
         for (int i3 = 0; i3 < arrayList.size(); i3++) {
-            TLRPC$StoryItem tLRPC$StoryItem2 = (TLRPC$StoryItem) arrayList.get(i3);
-            zArr[i3] = tLRPC$StoryItem2.pinned;
-            tLRPC$StoryItem2.pinned = z;
+            TL_stories$StoryItem tL_stories$StoryItem2 = (TL_stories$StoryItem) arrayList.get(i3);
+            zArr[i3] = tL_stories$StoryItem2.pinned;
+            tL_stories$StoryItem2.pinned = z;
         }
         getMessagesController().getStoriesController().updateStoriesInLists(this.dialogId, arrayList);
         final boolean[] zArr2 = {false};
@@ -1122,7 +1124,7 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
         zArr[0] = true;
         AndroidUtilities.cancelRunOnUIThread(this.applyBulletin);
         for (int i = 0; i < arrayList.size(); i++) {
-            ((TLRPC$StoryItem) arrayList.get(i)).pinned = zArr2[i];
+            ((TL_stories$StoryItem) arrayList.get(i)).pinned = zArr2[i];
         }
         getMessagesController().getStoriesController().updateStoriesInLists(this.dialogId, arrayList);
     }
@@ -1171,7 +1173,11 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
 
     /* JADX INFO: Access modifiers changed from: private */
     public void updateMediaCount() {
-        int closestTab = this.sharedMediaLayout.getClosestTab();
+        SharedMediaLayout sharedMediaLayout = this.sharedMediaLayout;
+        if (sharedMediaLayout == null) {
+            return;
+        }
+        int closestTab = sharedMediaLayout.getClosestTab();
         int[] lastMediaCount = this.sharedMediaPreloader.getLastMediaCount();
         boolean z = !LocaleController.isRTL;
         int i = (this.type == 1 && closestTab != 8) ? 1 : 0;
@@ -1206,8 +1212,8 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
                 hideFloatingButton(closestTab != 9 || this.sharedMediaLayout.getStoriesCount(9) > 0, true);
             }
             if (this.optionsItem != null) {
-                SharedMediaLayout sharedMediaLayout = this.sharedMediaLayout;
-                final boolean z2 = sharedMediaLayout.getStoriesCount(sharedMediaLayout.getClosestTab()) <= 0;
+                SharedMediaLayout sharedMediaLayout2 = this.sharedMediaLayout;
+                final boolean z2 = sharedMediaLayout2.getStoriesCount(sharedMediaLayout2.getClosestTab()) <= 0;
                 if (!z2) {
                     this.optionsItem.setVisibility(0);
                 }

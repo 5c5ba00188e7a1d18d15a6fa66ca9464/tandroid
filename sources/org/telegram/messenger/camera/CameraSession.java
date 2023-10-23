@@ -38,7 +38,7 @@ public class CameraSession {
     private int lastOrientation = -1;
     private int lastDisplayOrientation = -1;
     private boolean flipFront = true;
-    protected ArrayList<String> availableFlashModes = new ArrayList<>();
+    public ArrayList<String> availableFlashModes = new ArrayList<>();
     private int infoCameraId = -1;
     Camera.CameraInfo info = new Camera.CameraInfo();
     private Camera.AutoFocusCallback autoFocusCallback = CameraSession$$ExternalSyntheticLambda0.INSTANCE;

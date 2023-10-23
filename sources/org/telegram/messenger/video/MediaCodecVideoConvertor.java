@@ -54,49 +54,49 @@ public class MediaCodecVideoConvertor {
     /* JADX WARN: Can't wrap try/catch for region: R(34:(2:13|(1:15)(2:581|(1:583)(1:584)))(1:(1:586))|(3:17|18|19)(1:580)|(15:561|562|563|(4:565|(1:567)|568|569)|570|(4:572|(1:574)|575|576)|21|(1:23)|25|26|27|28|29|30|(7:31|32|33|34|35|36|37))|(3:511|512|(30:514|40|41|42|43|44|45|(2:491|492)(1:47)|48|49|50|51|(5:467|468|470|471|472)(1:53)|54|(2:(5:187|188|(2:456|457)|190|(1:(11:195|196|(1:198)(1:455)|199|200|201|(1:203)(2:279|(4:444|445|(1:447)|448)(22:281|(5:283|(1:285)|286|(1:322)(7:289|290|291|292|(2:294|(8:296|297|298|299|(1:301)(1:308)|(1:303)(1:307)|304|305))(1:315)|314|305)|306)(2:323|(4:325|326|(1:328)(1:440)|(13:330|331|(7:348|349|350|(7:(1:396)(3:355|356|357)|(2:361|362)|363|364|365|366|(1:383)(12:370|371|(1:373)|374|375|376|335|336|337|(1:339)(1:342)|340|341))(8:397|(2:399|(6:401|(3:405|(2:411|(2:413|414)(1:420))|421)|426|415|(1:418)|419)(1:428))|335|336|337|(0)(0)|340|341)|205|(2:207|208)(3:(6:214|215|216|217|218|(1:220))(1:211)|212|213)|209)(1:333)|334|335|336|337|(0)(0)|340|341|205|(0)(0)|209)(3:437|438|439))(3:441|442|443))|225|226|227|228|(1:265)(1:231)|232|233|234|235|236|237|238|239|240|241|242|243|244|245|246))|204|205|(0)(0)|209)))(2:57|58)|194)|(2:185|186)|(1:61)|(1:63)|(1:65)|66|67|68|(1:70)|71|(2:109|110)|(2:105|106)|(2:101|102)|(2:97|98)|(2:93|94)|77))|39|40|41|42|43|44|45|(0)(0)|48|49|50|51|(0)(0)|54|(7:(0)|187|188|(0)|190|(12:(0)|195|196|(0)(0)|199|200|201|(0)(0)|204|205|(0)(0)|209)|194)|(0)|(0)|(0)|(0)|66|67|68|(0)|71|(0)|(0)|(0)|(0)|(0)|77) */
     /* JADX WARN: Can't wrap try/catch for region: R(48:(2:13|(1:15)(2:581|(1:583)(1:584)))(1:(1:586))|(3:17|18|19)(1:580)|561|562|563|(4:565|(1:567)|568|569)|570|(4:572|(1:574)|575|576)|21|(1:23)|25|26|27|28|29|30|(7:31|32|33|34|35|36|37)|(3:511|512|(30:514|40|41|42|43|44|45|(2:491|492)(1:47)|48|49|50|51|(5:467|468|470|471|472)(1:53)|54|(2:(5:187|188|(2:456|457)|190|(1:(11:195|196|(1:198)(1:455)|199|200|201|(1:203)(2:279|(4:444|445|(1:447)|448)(22:281|(5:283|(1:285)|286|(1:322)(7:289|290|291|292|(2:294|(8:296|297|298|299|(1:301)(1:308)|(1:303)(1:307)|304|305))(1:315)|314|305)|306)(2:323|(4:325|326|(1:328)(1:440)|(13:330|331|(7:348|349|350|(7:(1:396)(3:355|356|357)|(2:361|362)|363|364|365|366|(1:383)(12:370|371|(1:373)|374|375|376|335|336|337|(1:339)(1:342)|340|341))(8:397|(2:399|(6:401|(3:405|(2:411|(2:413|414)(1:420))|421)|426|415|(1:418)|419)(1:428))|335|336|337|(0)(0)|340|341)|205|(2:207|208)(3:(6:214|215|216|217|218|(1:220))(1:211)|212|213)|209)(1:333)|334|335|336|337|(0)(0)|340|341|205|(0)(0)|209)(3:437|438|439))(3:441|442|443))|225|226|227|228|(1:265)(1:231)|232|233|234|235|236|237|238|239|240|241|242|243|244|245|246))|204|205|(0)(0)|209)))(2:57|58)|194)|(2:185|186)|(1:61)|(1:63)|(1:65)|66|67|68|(1:70)|71|(2:109|110)|(2:105|106)|(2:101|102)|(2:97|98)|(2:93|94)|77))|39|40|41|42|43|44|45|(0)(0)|48|49|50|51|(0)(0)|54|(7:(0)|187|188|(0)|190|(12:(0)|195|196|(0)(0)|199|200|201|(0)(0)|204|205|(0)(0)|209)|194)|(0)|(0)|(0)|(0)|66|67|68|(0)|71|(0)|(0)|(0)|(0)|(0)|77) */
     /* JADX WARN: Can't wrap try/catch for region: R(9:(20:(1:653)(2:1537|(2:1539|1540)(50:1541|1542|(1:1536)(4:658|(2:663|664)|1535|664)|(47:1531|1532|(2:668|669)|746|747|(5:749|750|751|752|753)(1:1525)|754|755|(1:759)|760|761|(8:763|(1:765)(1:1517)|766|(1:768)(1:1516)|769|(1:771)|773|(35:1515|778|(3:1500|1501|(3:1504|(1:1506)|1507))(1:780)|781|782|783|784|785|787|788|789|790|791|792|793|794|795|796|(3:1451|1452|(18:1455|(1:1457)(1:1460)|1458|799|800|(3:803|804|(2:806|(13:808|809|810|811|812|813|814|815|816|(2:1402|1403)(1:818)|819|820|(11:1347|1348|1349|1350|(1:1352)|1387|(4:1389|1355|(1:1357)|(1:(12:1360|1361|1362|(1:1364)|1365|(1:1367)(1:1369)|1368|(1:831)(1:1343)|832|833|834|(2:(7:841|842|(3:844|845|846)(1:1333)|(6:848|849|850|851|(6:853|854|855|(4:857|(1:859)(1:1270)|860|(2:862|863)(1:1268))(1:1271)|1269|863)(3:1276|(2:1319|(1:1321))(10:1281|1282|(3:1284|1285|(2:1287|1288))(1:1314)|1289|(1:1291)|1292|(1:1294)(1:1313)|1295|(1:1312)(2:1301|(1:1311)(3:1305|(1:1307)|1308))|1309)|1310)|(4:867|868|869|(1:(11:874|875|876|(1:878)(1:1261)|879|880|881|(1:883)(3:1078|(4:1244|1245|(1:1247)|1248)(2:1080|(4:1202|1203|(1:1239)(7:1206|1207|1208|1209|(3:1211|1212|(7:1214|1215|1216|(1:1218)(1:1226)|(1:1220)(1:1225)|1221|1222))(1:1233)|1232|1222)|1223)(3:1082|1083|(4:1085|1086|(1:1088)(1:1194)|(12:1090|1091|(4:1108|1109|1110|(15:(1:1155)(3:1115|1116|1117)|(2:1121|1122)|1123|1124|1125|1126|(1:1142)(5:1130|1131|1132|(1:1134)|1135)|1136|1096|1097|(1:1099)(1:1102)|1100|1101|(3:1075|1076|1077)(6:886|(7:888|889|890|(1:892)(3:897|(2:902|(3:1054|1055|(1:1057))(1:(22:905|(1:907)(1:1049)|908|909|910|(1:1043)(3:914|915|916)|917|(4:919|920|921|(16:923|924|(14:926|(3:928|929|930)(4:1019|1020|1021|1022)|931|932|(1:1012)(1:938)|939|(1:941)(1:1011)|942|(2:946|(7:948|(1:950)|951|(1:953)(3:1000|(1:1004)|1005)|(9:963|964|965|(2:967|968)(1:991)|969|970|971|(4:973|974|975|976)(1:986)|977)(1:955)|956|(3:958|(1:960)|961)(4:962|901|894|895))(3:1006|(1:1008)|1009))|1010|(0)(0)|(0)(0)|956|(0)(0))|1027|932|(1:934)|1012|939|(0)(0)|942|(3:944|946|(0)(0))|1010|(0)(0)|(0)(0)|956|(0)(0)))(1:1034)|1028|1027|932|(0)|1012|939|(0)(0)|942|(0)|1010|(0)(0)|(0)(0)|956|(0)(0))(1:1050)))|899)|893|894|895)(1:1074)|900|901|894|895)|896)(2:1156|(14:1158|(3:1162|(2:1168|(2:1170|1171)(1:1177))|1178)|1183|1172|(1:1175)|1176|1095|1096|1097|(0)(0)|1100|1101|(0)(0)|896)))(1:1093)|1094|1095|1096|1097|(0)(0)|1100|1101|(0)(0)|896)(4:1190|1191|1192|1193))(3:1195|1196|1197)))|1224)|884|(0)(0)|896))))(1:1327)|1267|869|(12:(0)|874|875|876|(0)(0)|879|880|881|(0)(0)|884|(0)(0)|896))|873))(13:1374|(1:1376)|1377|(1:1379)|1380|1381|828|829|(0)(0)|832|833|834|(9:(0)|841|842|(0)(0)|(0)(0)|1267|869|(12:(0)|874|875|876|(0)(0)|879|880|881|(0)(0)|884|(0)(0)|896)|873)))(7:1382|829|(0)(0)|832|833|834|(9:(0)|841|842|(0)(0)|(0)(0)|1267|869|(12:(0)|874|875|876|(0)(0)|879|880|881|(0)(0)|884|(0)(0)|896)|873)))|1354|1355|(0)|(0)(0))(3:822|823|(10:825|826|827|828|829|(0)(0)|832|833|834|(9:(0)|841|842|(0)(0)|(0)(0)|1267|869|(12:(0)|874|875|876|(0)(0)|879|880|881|(0)(0)|884|(0)(0)|896)|873))(7:1345|829|(0)(0)|832|833|834|(9:(0)|841|842|(0)(0)|(0)(0)|1267|869|(12:(0)|874|875|876|(0)(0)|879|880|881|(0)(0)|884|(0)(0)|896)|873))))))|1425|(4:1427|1428|1429|(8:1431|(1:1433)(1:1442)|1434|1435|(1:1437)(1:1440)|1438|1439|810)(1:1443))|811|812|813|814|815|816|(0)(0)|819|820|(0)(0)))|798|799|800|(3:803|804|(0))|1425|(0)|811|812|813|814|815|816|(0)(0)|819|820|(0)(0)))(1:1518)|777|778|(0)(0)|781|782|783|784|785|787|788|789|790|791|792|793|794|795|796|(0)|798|799|800|(0)|1425|(0)|811|812|813|814|815|816|(0)(0)|819|820|(0)(0))|666|(0)|746|747|(0)(0)|754|755|(2:757|759)|760|761|(0)(0)|777|778|(0)(0)|781|782|783|784|785|787|788|789|790|791|792|793|794|795|796|(0)|798|799|800|(0)|1425|(0)|811|812|813|814|815|816|(0)(0)|819|820|(0)(0)))|795|796|(0)|798|799|800|(0)|1425|(0)|811|812|813|814|815|816|(0)(0)|819|820|(0)(0))|787|788|789|790|791|792|793|794) */
-    /* JADX WARN: Code restructure failed: missing block: B:1117:0x1516, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1117:0x1517, code lost:
         r59 = r2;
         r5 = r16;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1118:0x1531, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1118:0x1532, code lost:
         throw new java.lang.RuntimeException("unexpected result from decoder.dequeueOutputBuffer: " + r10);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1189:0x16ce, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1189:0x16cf, code lost:
         r0 = th;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1190:0x16cf, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1190:0x16d0, code lost:
         r4 = r85;
         r1 = r8;
         r19 = r9;
         r5 = r13;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1192:0x16e4, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1192:0x16e5, code lost:
         r0 = e;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1193:0x16e5, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1193:0x16e6, code lost:
         r4 = r85;
         r1 = r8;
         r19 = r9;
         r5 = r13;
         r21 = r14;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1195:0x16f8, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1195:0x16f9, code lost:
         r0 = th;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1196:0x16f9, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1196:0x16fa, code lost:
         r4 = r85;
         r1 = r8;
         r19 = r9;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1197:0x16ff, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1197:0x1700, code lost:
         r0 = e;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1198:0x1700, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1198:0x1701, code lost:
         r4 = r85;
         r1 = r8;
         r19 = r9;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1201:0x170e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1201:0x170f, code lost:
         r3 = r87;
         r2 = r0;
         r8 = r14;
@@ -107,7 +107,7 @@ public class MediaCodecVideoConvertor {
         r5 = null;
         r10 = null;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1206:0x172b, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1206:0x172c, code lost:
         r21 = r14;
         r2 = r0;
         r12 = r79;
@@ -115,43 +115,43 @@ public class MediaCodecVideoConvertor {
         r5 = null;
         r10 = -5;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1211:0x175e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1211:0x175f, code lost:
         r16 = null;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1216:0x1783, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1216:0x1784, code lost:
         r0 = e;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1218:0x1785, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1218:0x1786, code lost:
         r0 = move-exception;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1219:0x1786, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1219:0x1787, code lost:
         r1 = r8;
         r4 = r85;
         r3 = r87;
         r2 = r0;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1221:0x1794, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1221:0x1795, code lost:
         r0 = e;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1222:0x1795, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1222:0x1796, code lost:
         r74 = r1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1223:0x1797, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1223:0x1798, code lost:
         r1 = r8;
         r4 = r85;
         r21 = r14;
         r2 = r0;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:244:0x0530, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:244:0x0531, code lost:
         throw new java.lang.RuntimeException("unsupported!!");
      */
-    /* JADX WARN: Code restructure failed: missing block: B:27:0x0115, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:27:0x0116, code lost:
         if (r15.useMatrix == null) goto L561;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:302:0x0676, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:302:0x0677, code lost:
         r0 = th;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:303:0x0677, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:303:0x0678, code lost:
         r32 = r6;
         r3 = r87;
         r10 = r2;
@@ -159,16 +159,16 @@ public class MediaCodecVideoConvertor {
         r4 = r85;
         r8 = r21;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:304:0x0683, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:304:0x0684, code lost:
         r0 = e;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:305:0x0684, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:305:0x0685, code lost:
         r32 = r6;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:306:0x0687, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:306:0x0688, code lost:
         r0 = th;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:307:0x0688, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:307:0x0689, code lost:
         r32 = r6;
         r3 = r87;
         r10 = r2;
@@ -176,48 +176,48 @@ public class MediaCodecVideoConvertor {
         r8 = r12;
         r4 = r85;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:308:0x0692, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:308:0x0693, code lost:
         r49 = r32;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:310:0x06a4, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:310:0x06a5, code lost:
         r0 = e;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:311:0x06a5, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:311:0x06a6, code lost:
         r32 = r6;
         r21 = r12;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:312:0x06a9, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:312:0x06aa, code lost:
         r3 = r0;
         r2 = r2;
         r6 = r32;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:314:0x06b3, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:314:0x06b4, code lost:
         r0 = th;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:315:0x06b4, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:315:0x06b5, code lost:
         r3 = r87;
         r10 = r2;
         r9 = r8;
         r8 = r12;
         r4 = r85;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:316:0x06bd, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:316:0x06be, code lost:
         r0 = move-exception;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:317:0x06be, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:317:0x06bf, code lost:
         r21 = r12;
         r3 = r0;
         r2 = r2;
         r11 = r37;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:320:0x06d6, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:320:0x06d7, code lost:
         r65 = r12;
         r19 = r37;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:674:0x0de0, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:674:0x0de1, code lost:
         if (r8.getString(r12).equals(org.telegram.messenger.MediaController.AUIDO_MIME_TYPE) == false) goto L1387;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:733:0x0f19, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:733:0x0f1a, code lost:
         r3 = r10;
         r20 = r11;
         r44 = r12;
@@ -232,95 +232,95 @@ public class MediaCodecVideoConvertor {
      */
     /* JADX WARN: Finally extract failed */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:1045:0x1437 A[Catch: all -> 0x144a, Exception -> 0x144c, TryCatch #41 {all -> 0x144a, blocks: (B:1026:0x13eb, B:1031:0x13ff, B:1045:0x1437, B:1047:0x143f, B:1065:0x1468, B:1067:0x146c, B:1087:0x14bf, B:1090:0x14c7, B:1080:0x14aa, B:1069:0x148c, B:1071:0x1495, B:1030:0x13fc), top: B:1432:0x13eb }] */
-    /* JADX WARN: Removed duplicated region for block: B:1057:0x1457  */
-    /* JADX WARN: Removed duplicated region for block: B:1058:0x145a  */
-    /* JADX WARN: Removed duplicated region for block: B:1061:0x1460  */
-    /* JADX WARN: Removed duplicated region for block: B:1065:0x1468 A[Catch: all -> 0x144a, Exception -> 0x144c, TryCatch #41 {all -> 0x144a, blocks: (B:1026:0x13eb, B:1031:0x13ff, B:1045:0x1437, B:1047:0x143f, B:1065:0x1468, B:1067:0x146c, B:1087:0x14bf, B:1090:0x14c7, B:1080:0x14aa, B:1069:0x148c, B:1071:0x1495, B:1030:0x13fc), top: B:1432:0x13eb }] */
-    /* JADX WARN: Removed duplicated region for block: B:1069:0x148c A[Catch: all -> 0x144a, Exception -> 0x144c, TryCatch #41 {all -> 0x144a, blocks: (B:1026:0x13eb, B:1031:0x13ff, B:1045:0x1437, B:1047:0x143f, B:1065:0x1468, B:1067:0x146c, B:1087:0x14bf, B:1090:0x14c7, B:1080:0x14aa, B:1069:0x148c, B:1071:0x1495, B:1030:0x13fc), top: B:1432:0x13eb }] */
-    /* JADX WARN: Removed duplicated region for block: B:1075:0x149d  */
-    /* JADX WARN: Removed duplicated region for block: B:1076:0x14a0  */
-    /* JADX WARN: Removed duplicated region for block: B:1101:0x14eb  */
-    /* JADX WARN: Removed duplicated region for block: B:1104:0x14f6 A[Catch: all -> 0x1532, Exception -> 0x1534, TryCatch #181 {Exception -> 0x1534, all -> 0x1532, blocks: (B:1098:0x14df, B:1102:0x14f0, B:1104:0x14f6, B:1106:0x14fa, B:1107:0x14ff, B:1117:0x1516, B:1118:0x1531), top: B:1542:0x14df }] */
-    /* JADX WARN: Removed duplicated region for block: B:1108:0x1506  */
-    /* JADX WARN: Removed duplicated region for block: B:116:0x033a  */
-    /* JADX WARN: Removed duplicated region for block: B:117:0x0343  */
-    /* JADX WARN: Removed duplicated region for block: B:121:0x034e  */
-    /* JADX WARN: Removed duplicated region for block: B:1241:0x17d5  */
-    /* JADX WARN: Removed duplicated region for block: B:1244:0x17dc  */
-    /* JADX WARN: Removed duplicated region for block: B:124:0x0361  */
-    /* JADX WARN: Removed duplicated region for block: B:1259:0x1823 A[Catch: all -> 0x182e, TRY_LEAVE, TryCatch #7 {all -> 0x182e, blocks: (B:1257:0x181a, B:1259:0x1823), top: B:1401:0x181a }] */
-    /* JADX WARN: Removed duplicated region for block: B:1279:0x186d  */
-    /* JADX WARN: Removed duplicated region for block: B:1285:0x189a A[Catch: all -> 0x188e, TryCatch #83 {all -> 0x188e, blocks: (B:1281:0x1889, B:1285:0x189a, B:1287:0x18a1, B:1289:0x18aa, B:1290:0x18ad), top: B:1465:0x1889 }] */
-    /* JADX WARN: Removed duplicated region for block: B:1287:0x18a1 A[Catch: all -> 0x188e, TryCatch #83 {all -> 0x188e, blocks: (B:1281:0x1889, B:1285:0x189a, B:1287:0x18a1, B:1289:0x18aa, B:1290:0x18ad), top: B:1465:0x1889 }] */
-    /* JADX WARN: Removed duplicated region for block: B:1289:0x18aa A[Catch: all -> 0x188e, TryCatch #83 {all -> 0x188e, blocks: (B:1281:0x1889, B:1285:0x189a, B:1287:0x18a1, B:1289:0x18aa, B:1290:0x18ad), top: B:1465:0x1889 }] */
-    /* JADX WARN: Removed duplicated region for block: B:1294:0x18bb  */
-    /* JADX WARN: Removed duplicated region for block: B:1330:0x1952  */
-    /* JADX WARN: Removed duplicated region for block: B:1353:0x198c  */
-    /* JADX WARN: Removed duplicated region for block: B:1355:0x1998  */
-    /* JADX WARN: Removed duplicated region for block: B:1397:0x18ea A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1408:0x18dc A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1410:0x0acd A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1412:0x18d5 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1416:0x18e3 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1434:0x0303 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1446:0x1959 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1452:0x0d80 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1462:0x0ac5 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1463:0x029d A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1465:0x1889 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1477:0x196c A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1479:0x1973 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1484:0x18c2 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1486:0x197a A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1493:0x1981 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1503:0x07e7 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1562:0x14b5 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1568:0x0c26 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1592:0x0260 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1596:0x0dc6 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1614:0x0b9c A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1656:0x132f A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1658:0x1317 A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:260:0x0589  */
-    /* JADX WARN: Removed duplicated region for block: B:261:0x058b  */
-    /* JADX WARN: Removed duplicated region for block: B:265:0x0595  */
-    /* JADX WARN: Removed duplicated region for block: B:267:0x05a6  */
-    /* JADX WARN: Removed duplicated region for block: B:359:0x07a8 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:377:0x0806 A[Catch: all -> 0x07ec, TryCatch #149 {all -> 0x07ec, blocks: (B:373:0x07e7, B:377:0x0806, B:379:0x080c, B:381:0x0816, B:382:0x0819), top: B:1503:0x07e7 }] */
-    /* JADX WARN: Removed duplicated region for block: B:379:0x080c A[Catch: all -> 0x07ec, TryCatch #149 {all -> 0x07ec, blocks: (B:373:0x07e7, B:377:0x0806, B:379:0x080c, B:381:0x0816, B:382:0x0819), top: B:1503:0x07e7 }] */
-    /* JADX WARN: Removed duplicated region for block: B:381:0x0816 A[Catch: all -> 0x07ec, TryCatch #149 {all -> 0x07ec, blocks: (B:373:0x07e7, B:377:0x0806, B:379:0x080c, B:381:0x0816, B:382:0x0819), top: B:1503:0x07e7 }] */
-    /* JADX WARN: Removed duplicated region for block: B:442:0x09c0  */
-    /* JADX WARN: Removed duplicated region for block: B:530:0x0ae8  */
-    /* JADX WARN: Removed duplicated region for block: B:537:0x0b14  */
-    /* JADX WARN: Removed duplicated region for block: B:540:0x0b2f A[Catch: all -> 0x0ad2, Exception -> 0x0b11, TRY_ENTER, TryCatch #46 {Exception -> 0x0b11, blocks: (B:533:0x0af1, B:540:0x0b2f, B:542:0x0b35, B:546:0x0b51, B:548:0x0b59, B:550:0x0b65, B:552:0x0b6d, B:554:0x0b79, B:556:0x0b81), top: B:1438:0x0af1 }] */
-    /* JADX WARN: Removed duplicated region for block: B:546:0x0b51 A[Catch: all -> 0x0ad2, Exception -> 0x0b11, TRY_ENTER, TryCatch #46 {Exception -> 0x0b11, blocks: (B:533:0x0af1, B:540:0x0b2f, B:542:0x0b35, B:546:0x0b51, B:548:0x0b59, B:550:0x0b65, B:552:0x0b6d, B:554:0x0b79, B:556:0x0b81), top: B:1438:0x0af1 }] */
-    /* JADX WARN: Removed duplicated region for block: B:564:0x0b91  */
-    /* JADX WARN: Removed duplicated region for block: B:580:0x0bc6  */
-    /* JADX WARN: Removed duplicated region for block: B:613:0x0c7b A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:616:0x0c83 A[Catch: all -> 0x0cca, Exception -> 0x0cdc, TRY_LEAVE, TryCatch #180 {Exception -> 0x0cdc, all -> 0x0cca, blocks: (B:614:0x0c7d, B:616:0x0c83), top: B:1544:0x0c7d }] */
-    /* JADX WARN: Removed duplicated region for block: B:631:0x0cfd  */
-    /* JADX WARN: Removed duplicated region for block: B:666:0x0dad  */
-    /* JADX WARN: Removed duplicated region for block: B:681:0x0dfd  */
-    /* JADX WARN: Removed duplicated region for block: B:683:0x0e00  */
-    /* JADX WARN: Removed duplicated region for block: B:706:0x0e91  */
-    /* JADX WARN: Removed duplicated region for block: B:714:0x0eae  */
-    /* JADX WARN: Removed duplicated region for block: B:725:0x0ef1  */
-    /* JADX WARN: Removed duplicated region for block: B:726:0x0ef3  */
-    /* JADX WARN: Removed duplicated region for block: B:730:0x0f14 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:736:0x0f34  */
-    /* JADX WARN: Removed duplicated region for block: B:745:0x0f64  */
-    /* JADX WARN: Removed duplicated region for block: B:747:0x0f6a  */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x0276  */
-    /* JADX WARN: Removed duplicated region for block: B:820:0x10c9  */
-    /* JADX WARN: Removed duplicated region for block: B:824:0x10e3 A[ADDED_TO_REGION, EDGE_INSN: B:824:0x10e3->B:1657:0x10e6 ?: BREAK  ] */
-    /* JADX WARN: Removed duplicated region for block: B:830:0x1102  */
-    /* JADX WARN: Removed duplicated region for block: B:831:0x1111  */
-    /* JADX WARN: Removed duplicated region for block: B:835:0x1122  */
-    /* JADX WARN: Removed duplicated region for block: B:837:0x1135  */
-    /* JADX WARN: Removed duplicated region for block: B:94:0x02d8  */
-    /* JADX WARN: Removed duplicated region for block: B:973:0x130b  */
-    /* JADX WARN: Removed duplicated region for block: B:974:0x130d  */
+    /* JADX WARN: Removed duplicated region for block: B:1045:0x1438 A[Catch: all -> 0x144b, Exception -> 0x144d, TryCatch #41 {all -> 0x144b, blocks: (B:1026:0x13ec, B:1031:0x1400, B:1045:0x1438, B:1047:0x1440, B:1065:0x1469, B:1067:0x146d, B:1087:0x14c0, B:1090:0x14c8, B:1080:0x14ab, B:1069:0x148d, B:1071:0x1496, B:1030:0x13fd), top: B:1436:0x13ec }] */
+    /* JADX WARN: Removed duplicated region for block: B:1057:0x1458  */
+    /* JADX WARN: Removed duplicated region for block: B:1058:0x145b  */
+    /* JADX WARN: Removed duplicated region for block: B:1061:0x1461  */
+    /* JADX WARN: Removed duplicated region for block: B:1065:0x1469 A[Catch: all -> 0x144b, Exception -> 0x144d, TryCatch #41 {all -> 0x144b, blocks: (B:1026:0x13ec, B:1031:0x1400, B:1045:0x1438, B:1047:0x1440, B:1065:0x1469, B:1067:0x146d, B:1087:0x14c0, B:1090:0x14c8, B:1080:0x14ab, B:1069:0x148d, B:1071:0x1496, B:1030:0x13fd), top: B:1436:0x13ec }] */
+    /* JADX WARN: Removed duplicated region for block: B:1069:0x148d A[Catch: all -> 0x144b, Exception -> 0x144d, TryCatch #41 {all -> 0x144b, blocks: (B:1026:0x13ec, B:1031:0x1400, B:1045:0x1438, B:1047:0x1440, B:1065:0x1469, B:1067:0x146d, B:1087:0x14c0, B:1090:0x14c8, B:1080:0x14ab, B:1069:0x148d, B:1071:0x1496, B:1030:0x13fd), top: B:1436:0x13ec }] */
+    /* JADX WARN: Removed duplicated region for block: B:1075:0x149e  */
+    /* JADX WARN: Removed duplicated region for block: B:1076:0x14a1  */
+    /* JADX WARN: Removed duplicated region for block: B:1101:0x14ec  */
+    /* JADX WARN: Removed duplicated region for block: B:1104:0x14f7 A[Catch: all -> 0x1533, Exception -> 0x1535, TryCatch #181 {Exception -> 0x1535, all -> 0x1533, blocks: (B:1098:0x14e0, B:1102:0x14f1, B:1104:0x14f7, B:1106:0x14fb, B:1107:0x1500, B:1117:0x1517, B:1118:0x1532), top: B:1541:0x14e0 }] */
+    /* JADX WARN: Removed duplicated region for block: B:1108:0x1507  */
+    /* JADX WARN: Removed duplicated region for block: B:116:0x033b  */
+    /* JADX WARN: Removed duplicated region for block: B:117:0x0344  */
+    /* JADX WARN: Removed duplicated region for block: B:121:0x034f  */
+    /* JADX WARN: Removed duplicated region for block: B:1241:0x17d6  */
+    /* JADX WARN: Removed duplicated region for block: B:1244:0x17dd  */
+    /* JADX WARN: Removed duplicated region for block: B:124:0x0362  */
+    /* JADX WARN: Removed duplicated region for block: B:1259:0x1824 A[Catch: all -> 0x182f, TRY_LEAVE, TryCatch #9 {all -> 0x182f, blocks: (B:1257:0x181b, B:1259:0x1824), top: B:1401:0x181b }] */
+    /* JADX WARN: Removed duplicated region for block: B:1279:0x186e  */
+    /* JADX WARN: Removed duplicated region for block: B:1285:0x189b A[Catch: all -> 0x188f, TryCatch #83 {all -> 0x188f, blocks: (B:1281:0x188a, B:1285:0x189b, B:1287:0x18a2, B:1289:0x18ab, B:1290:0x18ae), top: B:1467:0x188a }] */
+    /* JADX WARN: Removed duplicated region for block: B:1287:0x18a2 A[Catch: all -> 0x188f, TryCatch #83 {all -> 0x188f, blocks: (B:1281:0x188a, B:1285:0x189b, B:1287:0x18a2, B:1289:0x18ab, B:1290:0x18ae), top: B:1467:0x188a }] */
+    /* JADX WARN: Removed duplicated region for block: B:1289:0x18ab A[Catch: all -> 0x188f, TryCatch #83 {all -> 0x188f, blocks: (B:1281:0x188a, B:1285:0x189b, B:1287:0x18a2, B:1289:0x18ab, B:1290:0x18ae), top: B:1467:0x188a }] */
+    /* JADX WARN: Removed duplicated region for block: B:1294:0x18bc  */
+    /* JADX WARN: Removed duplicated region for block: B:1330:0x1953  */
+    /* JADX WARN: Removed duplicated region for block: B:1353:0x198d  */
+    /* JADX WARN: Removed duplicated region for block: B:1355:0x1999  */
+    /* JADX WARN: Removed duplicated region for block: B:1397:0x18eb A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1405:0x0ace A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1407:0x18d6 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1409:0x18e4 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1420:0x18dd A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1428:0x0304 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1446:0x195a A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1452:0x0d81 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1460:0x0ac6 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1463:0x029e A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1467:0x188a A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1477:0x1974 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1479:0x196d A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1484:0x18c3 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1486:0x197b A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1493:0x1982 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1505:0x07e8 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1560:0x14b6 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1566:0x0c27 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1594:0x0261 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1608:0x0dc7 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1612:0x0b9d A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1656:0x1330 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1658:0x1318 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:260:0x058a  */
+    /* JADX WARN: Removed duplicated region for block: B:261:0x058c  */
+    /* JADX WARN: Removed duplicated region for block: B:265:0x0596  */
+    /* JADX WARN: Removed duplicated region for block: B:267:0x05a7  */
+    /* JADX WARN: Removed duplicated region for block: B:359:0x07a9 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:377:0x0807 A[Catch: all -> 0x07ed, TryCatch #149 {all -> 0x07ed, blocks: (B:373:0x07e8, B:377:0x0807, B:379:0x080d, B:381:0x0817, B:382:0x081a), top: B:1505:0x07e8 }] */
+    /* JADX WARN: Removed duplicated region for block: B:379:0x080d A[Catch: all -> 0x07ed, TryCatch #149 {all -> 0x07ed, blocks: (B:373:0x07e8, B:377:0x0807, B:379:0x080d, B:381:0x0817, B:382:0x081a), top: B:1505:0x07e8 }] */
+    /* JADX WARN: Removed duplicated region for block: B:381:0x0817 A[Catch: all -> 0x07ed, TryCatch #149 {all -> 0x07ed, blocks: (B:373:0x07e8, B:377:0x0807, B:379:0x080d, B:381:0x0817, B:382:0x081a), top: B:1505:0x07e8 }] */
+    /* JADX WARN: Removed duplicated region for block: B:442:0x09c1  */
+    /* JADX WARN: Removed duplicated region for block: B:530:0x0ae9  */
+    /* JADX WARN: Removed duplicated region for block: B:537:0x0b15  */
+    /* JADX WARN: Removed duplicated region for block: B:540:0x0b30 A[Catch: all -> 0x0ad3, Exception -> 0x0b12, TRY_ENTER, TryCatch #43 {Exception -> 0x0b12, blocks: (B:533:0x0af2, B:540:0x0b30, B:542:0x0b36, B:546:0x0b52, B:548:0x0b5a, B:550:0x0b66, B:552:0x0b6e, B:554:0x0b7a, B:556:0x0b82), top: B:1438:0x0af2 }] */
+    /* JADX WARN: Removed duplicated region for block: B:546:0x0b52 A[Catch: all -> 0x0ad3, Exception -> 0x0b12, TRY_ENTER, TryCatch #43 {Exception -> 0x0b12, blocks: (B:533:0x0af2, B:540:0x0b30, B:542:0x0b36, B:546:0x0b52, B:548:0x0b5a, B:550:0x0b66, B:552:0x0b6e, B:554:0x0b7a, B:556:0x0b82), top: B:1438:0x0af2 }] */
+    /* JADX WARN: Removed duplicated region for block: B:564:0x0b92  */
+    /* JADX WARN: Removed duplicated region for block: B:580:0x0bc7  */
+    /* JADX WARN: Removed duplicated region for block: B:613:0x0c7c A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:616:0x0c84 A[Catch: all -> 0x0ccb, Exception -> 0x0cdd, TRY_LEAVE, TryCatch #180 {Exception -> 0x0cdd, all -> 0x0ccb, blocks: (B:614:0x0c7e, B:616:0x0c84), top: B:1543:0x0c7e }] */
+    /* JADX WARN: Removed duplicated region for block: B:631:0x0cfe  */
+    /* JADX WARN: Removed duplicated region for block: B:666:0x0dae  */
+    /* JADX WARN: Removed duplicated region for block: B:681:0x0dfe  */
+    /* JADX WARN: Removed duplicated region for block: B:683:0x0e01  */
+    /* JADX WARN: Removed duplicated region for block: B:706:0x0e92  */
+    /* JADX WARN: Removed duplicated region for block: B:714:0x0eaf  */
+    /* JADX WARN: Removed duplicated region for block: B:725:0x0ef2  */
+    /* JADX WARN: Removed duplicated region for block: B:726:0x0ef4  */
+    /* JADX WARN: Removed duplicated region for block: B:730:0x0f15 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:736:0x0f35  */
+    /* JADX WARN: Removed duplicated region for block: B:745:0x0f65  */
+    /* JADX WARN: Removed duplicated region for block: B:747:0x0f6b  */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x0277  */
+    /* JADX WARN: Removed duplicated region for block: B:820:0x10ca  */
+    /* JADX WARN: Removed duplicated region for block: B:824:0x10e4 A[ADDED_TO_REGION, EDGE_INSN: B:824:0x10e4->B:1657:0x10e7 ?: BREAK  ] */
+    /* JADX WARN: Removed duplicated region for block: B:830:0x1103  */
+    /* JADX WARN: Removed duplicated region for block: B:831:0x1112  */
+    /* JADX WARN: Removed duplicated region for block: B:835:0x1123  */
+    /* JADX WARN: Removed duplicated region for block: B:837:0x1136  */
+    /* JADX WARN: Removed duplicated region for block: B:94:0x02d9  */
+    /* JADX WARN: Removed duplicated region for block: B:973:0x130c  */
+    /* JADX WARN: Removed duplicated region for block: B:974:0x130e  */
     /* JADX WARN: Type inference failed for: r10v113 */
     /* JADX WARN: Type inference failed for: r10v117 */
     /* JADX WARN: Type inference failed for: r10v131 */
@@ -3639,22 +3639,85 @@ public class MediaCodecVideoConvertor {
                                                                                                                         audioRecoder = null;
                                                                                                                         i15 = i17;
                                                                                                                         if (exc instanceof IllegalStateException) {
+                                                                                                                            z2 = z;
+                                                                                                                        } else {
+                                                                                                                            z2 = z;
+                                                                                                                            if (!z2) {
+                                                                                                                                z4 = true;
+                                                                                                                                StringBuilder sb4222 = new StringBuilder();
+                                                                                                                                sb4222.append("bitrate: ");
+                                                                                                                                sb4222.append(i70);
+                                                                                                                                sb4222.append(" framerate: ");
+                                                                                                                                i3 = arrayList;
+                                                                                                                                sb4222.append(i3);
+                                                                                                                                sb4222.append(" size: ");
+                                                                                                                                i2 = i15;
+                                                                                                                                sb4222.append(i2);
+                                                                                                                                str = str16;
+                                                                                                                                sb4222.append(str);
+                                                                                                                                i11 = i7;
+                                                                                                                                sb4222.append(i11);
+                                                                                                                                FileLog.e(sb4222.toString());
+                                                                                                                                FileLog.e(exc);
+                                                                                                                                i12 = i16;
+                                                                                                                                z5 = z9;
+                                                                                                                                z7 = true;
+                                                                                                                                mediaCodec4 = mediaCodec;
+                                                                                                                                mediaCodecVideoConvertor.extractor.unselectTrack(i14);
+                                                                                                                                if (mediaCodec4 != null) {
+                                                                                                                                    mediaCodec4.stop();
+                                                                                                                                    mediaCodec4.release();
+                                                                                                                                }
+                                                                                                                                mediaCodec3 = mediaCodec4;
+                                                                                                                                outputSurface2 = outputSurface4;
+                                                                                                                                if (outputSurface2 != null) {
+                                                                                                                                }
+                                                                                                                                if (inputSurface2 != null) {
+                                                                                                                                }
+                                                                                                                                if (mediaCodec2 != null) {
+                                                                                                                                }
+                                                                                                                                if (audioRecoder != null) {
+                                                                                                                                }
+                                                                                                                                checkConversionCanceled();
+                                                                                                                                i68 = i2;
+                                                                                                                                outputSurface3 = outputSurface2;
+                                                                                                                                i67 = i11;
+                                                                                                                                i13 = i12;
+                                                                                                                                z6 = z5;
+                                                                                                                                mediaExtractor2 = mediaCodecVideoConvertor.extractor;
+                                                                                                                                if (mediaExtractor2 != null) {
+                                                                                                                                }
+                                                                                                                                mP4Builder2 = mediaCodecVideoConvertor.mediaMuxer;
+                                                                                                                                if (mP4Builder2 != null) {
+                                                                                                                                }
+                                                                                                                                if (mediaCodec2 != null) {
+                                                                                                                                }
+                                                                                                                                if (mediaCodec3 != null) {
+                                                                                                                                }
+                                                                                                                                if (outputSurface3 != null) {
+                                                                                                                                }
+                                                                                                                                if (inputSurface2 != null) {
+                                                                                                                                }
+                                                                                                                                str3 = str2;
+                                                                                                                                if (z4) {
+                                                                                                                                }
+                                                                                                                            }
                                                                                                                         }
                                                                                                                         z4 = false;
-                                                                                                                        StringBuilder sb4222 = new StringBuilder();
-                                                                                                                        sb4222.append("bitrate: ");
-                                                                                                                        sb4222.append(i70);
-                                                                                                                        sb4222.append(" framerate: ");
+                                                                                                                        StringBuilder sb42222 = new StringBuilder();
+                                                                                                                        sb42222.append("bitrate: ");
+                                                                                                                        sb42222.append(i70);
+                                                                                                                        sb42222.append(" framerate: ");
                                                                                                                         i3 = arrayList;
-                                                                                                                        sb4222.append(i3);
-                                                                                                                        sb4222.append(" size: ");
+                                                                                                                        sb42222.append(i3);
+                                                                                                                        sb42222.append(" size: ");
                                                                                                                         i2 = i15;
-                                                                                                                        sb4222.append(i2);
+                                                                                                                        sb42222.append(i2);
                                                                                                                         str = str16;
-                                                                                                                        sb4222.append(str);
+                                                                                                                        sb42222.append(str);
                                                                                                                         i11 = i7;
-                                                                                                                        sb4222.append(i11);
-                                                                                                                        FileLog.e(sb4222.toString());
+                                                                                                                        sb42222.append(i11);
+                                                                                                                        FileLog.e(sb42222.toString());
                                                                                                                         FileLog.e(exc);
                                                                                                                         i12 = i16;
                                                                                                                         z5 = z9;
@@ -3766,20 +3829,20 @@ public class MediaCodecVideoConvertor {
                                                                                                                     if (exc instanceof IllegalStateException) {
                                                                                                                     }
                                                                                                                     z4 = false;
-                                                                                                                    StringBuilder sb42222 = new StringBuilder();
-                                                                                                                    sb42222.append("bitrate: ");
-                                                                                                                    sb42222.append(i70);
-                                                                                                                    sb42222.append(" framerate: ");
+                                                                                                                    StringBuilder sb422222 = new StringBuilder();
+                                                                                                                    sb422222.append("bitrate: ");
+                                                                                                                    sb422222.append(i70);
+                                                                                                                    sb422222.append(" framerate: ");
                                                                                                                     i3 = arrayList;
-                                                                                                                    sb42222.append(i3);
-                                                                                                                    sb42222.append(" size: ");
+                                                                                                                    sb422222.append(i3);
+                                                                                                                    sb422222.append(" size: ");
                                                                                                                     i2 = i15;
-                                                                                                                    sb42222.append(i2);
+                                                                                                                    sb422222.append(i2);
                                                                                                                     str = str16;
-                                                                                                                    sb42222.append(str);
+                                                                                                                    sb422222.append(str);
                                                                                                                     i11 = i7;
-                                                                                                                    sb42222.append(i11);
-                                                                                                                    FileLog.e(sb42222.toString());
+                                                                                                                    sb422222.append(i11);
+                                                                                                                    FileLog.e(sb422222.toString());
                                                                                                                     FileLog.e(exc);
                                                                                                                     i12 = i16;
                                                                                                                     z5 = z9;
@@ -3882,20 +3945,20 @@ public class MediaCodecVideoConvertor {
                                                                                                                             if (exc instanceof IllegalStateException) {
                                                                                                                             }
                                                                                                                             z4 = false;
-                                                                                                                            StringBuilder sb422222 = new StringBuilder();
-                                                                                                                            sb422222.append("bitrate: ");
-                                                                                                                            sb422222.append(i70);
-                                                                                                                            sb422222.append(" framerate: ");
+                                                                                                                            StringBuilder sb4222222 = new StringBuilder();
+                                                                                                                            sb4222222.append("bitrate: ");
+                                                                                                                            sb4222222.append(i70);
+                                                                                                                            sb4222222.append(" framerate: ");
                                                                                                                             i3 = arrayList;
-                                                                                                                            sb422222.append(i3);
-                                                                                                                            sb422222.append(" size: ");
+                                                                                                                            sb4222222.append(i3);
+                                                                                                                            sb4222222.append(" size: ");
                                                                                                                             i2 = i15;
-                                                                                                                            sb422222.append(i2);
+                                                                                                                            sb4222222.append(i2);
                                                                                                                             str = str16;
-                                                                                                                            sb422222.append(str);
+                                                                                                                            sb4222222.append(str);
                                                                                                                             i11 = i7;
-                                                                                                                            sb422222.append(i11);
-                                                                                                                            FileLog.e(sb422222.toString());
+                                                                                                                            sb4222222.append(i11);
+                                                                                                                            FileLog.e(sb4222222.toString());
                                                                                                                             FileLog.e(exc);
                                                                                                                             i12 = i16;
                                                                                                                             z5 = z9;
@@ -4047,20 +4110,20 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                             if (exc instanceof IllegalStateException) {
                                                                                                                                                             }
                                                                                                                                                             z4 = false;
-                                                                                                                                                            StringBuilder sb4222222 = new StringBuilder();
-                                                                                                                                                            sb4222222.append("bitrate: ");
-                                                                                                                                                            sb4222222.append(i70);
-                                                                                                                                                            sb4222222.append(" framerate: ");
+                                                                                                                                                            StringBuilder sb42222222 = new StringBuilder();
+                                                                                                                                                            sb42222222.append("bitrate: ");
+                                                                                                                                                            sb42222222.append(i70);
+                                                                                                                                                            sb42222222.append(" framerate: ");
                                                                                                                                                             i3 = arrayList;
-                                                                                                                                                            sb4222222.append(i3);
-                                                                                                                                                            sb4222222.append(" size: ");
+                                                                                                                                                            sb42222222.append(i3);
+                                                                                                                                                            sb42222222.append(" size: ");
                                                                                                                                                             i2 = i15;
-                                                                                                                                                            sb4222222.append(i2);
+                                                                                                                                                            sb42222222.append(i2);
                                                                                                                                                             str = str16;
-                                                                                                                                                            sb4222222.append(str);
+                                                                                                                                                            sb42222222.append(str);
                                                                                                                                                             i11 = i7;
-                                                                                                                                                            sb4222222.append(i11);
-                                                                                                                                                            FileLog.e(sb4222222.toString());
+                                                                                                                                                            sb42222222.append(i11);
+                                                                                                                                                            FileLog.e(sb42222222.toString());
                                                                                                                                                             FileLog.e(exc);
                                                                                                                                                             i12 = i16;
                                                                                                                                                             z5 = z9;
@@ -4286,20 +4349,20 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                         if (exc instanceof IllegalStateException) {
                                                                                                                                                                                         }
                                                                                                                                                                                         z4 = false;
-                                                                                                                                                                                        StringBuilder sb42222222 = new StringBuilder();
-                                                                                                                                                                                        sb42222222.append("bitrate: ");
-                                                                                                                                                                                        sb42222222.append(i70);
-                                                                                                                                                                                        sb42222222.append(" framerate: ");
+                                                                                                                                                                                        StringBuilder sb422222222 = new StringBuilder();
+                                                                                                                                                                                        sb422222222.append("bitrate: ");
+                                                                                                                                                                                        sb422222222.append(i70);
+                                                                                                                                                                                        sb422222222.append(" framerate: ");
                                                                                                                                                                                         i3 = arrayList;
-                                                                                                                                                                                        sb42222222.append(i3);
-                                                                                                                                                                                        sb42222222.append(" size: ");
+                                                                                                                                                                                        sb422222222.append(i3);
+                                                                                                                                                                                        sb422222222.append(" size: ");
                                                                                                                                                                                         i2 = i15;
-                                                                                                                                                                                        sb42222222.append(i2);
+                                                                                                                                                                                        sb422222222.append(i2);
                                                                                                                                                                                         str = str16;
-                                                                                                                                                                                        sb42222222.append(str);
+                                                                                                                                                                                        sb422222222.append(str);
                                                                                                                                                                                         i11 = i7;
-                                                                                                                                                                                        sb42222222.append(i11);
-                                                                                                                                                                                        FileLog.e(sb42222222.toString());
+                                                                                                                                                                                        sb422222222.append(i11);
+                                                                                                                                                                                        FileLog.e(sb422222222.toString());
                                                                                                                                                                                         FileLog.e(exc);
                                                                                                                                                                                         i12 = i16;
                                                                                                                                                                                         z5 = z9;
@@ -4441,20 +4504,20 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                     if (exc instanceof IllegalStateException) {
                                                                                                                                                                                                     }
                                                                                                                                                                                                     z4 = false;
-                                                                                                                                                                                                    StringBuilder sb422222222 = new StringBuilder();
-                                                                                                                                                                                                    sb422222222.append("bitrate: ");
-                                                                                                                                                                                                    sb422222222.append(i70);
-                                                                                                                                                                                                    sb422222222.append(" framerate: ");
+                                                                                                                                                                                                    StringBuilder sb4222222222 = new StringBuilder();
+                                                                                                                                                                                                    sb4222222222.append("bitrate: ");
+                                                                                                                                                                                                    sb4222222222.append(i70);
+                                                                                                                                                                                                    sb4222222222.append(" framerate: ");
                                                                                                                                                                                                     i3 = arrayList;
-                                                                                                                                                                                                    sb422222222.append(i3);
-                                                                                                                                                                                                    sb422222222.append(" size: ");
+                                                                                                                                                                                                    sb4222222222.append(i3);
+                                                                                                                                                                                                    sb4222222222.append(" size: ");
                                                                                                                                                                                                     i2 = i15;
-                                                                                                                                                                                                    sb422222222.append(i2);
+                                                                                                                                                                                                    sb4222222222.append(i2);
                                                                                                                                                                                                     str = str16;
-                                                                                                                                                                                                    sb422222222.append(str);
+                                                                                                                                                                                                    sb4222222222.append(str);
                                                                                                                                                                                                     i11 = i7;
-                                                                                                                                                                                                    sb422222222.append(i11);
-                                                                                                                                                                                                    FileLog.e(sb422222222.toString());
+                                                                                                                                                                                                    sb4222222222.append(i11);
+                                                                                                                                                                                                    FileLog.e(sb4222222222.toString());
                                                                                                                                                                                                     FileLog.e(exc);
                                                                                                                                                                                                     i12 = i16;
                                                                                                                                                                                                     z5 = z9;
@@ -4573,20 +4636,20 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                         if (exc instanceof IllegalStateException) {
                                                                                                                                                                                                         }
                                                                                                                                                                                                         z4 = false;
-                                                                                                                                                                                                        StringBuilder sb4222222222 = new StringBuilder();
-                                                                                                                                                                                                        sb4222222222.append("bitrate: ");
-                                                                                                                                                                                                        sb4222222222.append(i70);
-                                                                                                                                                                                                        sb4222222222.append(" framerate: ");
+                                                                                                                                                                                                        StringBuilder sb42222222222 = new StringBuilder();
+                                                                                                                                                                                                        sb42222222222.append("bitrate: ");
+                                                                                                                                                                                                        sb42222222222.append(i70);
+                                                                                                                                                                                                        sb42222222222.append(" framerate: ");
                                                                                                                                                                                                         i3 = arrayList;
-                                                                                                                                                                                                        sb4222222222.append(i3);
-                                                                                                                                                                                                        sb4222222222.append(" size: ");
+                                                                                                                                                                                                        sb42222222222.append(i3);
+                                                                                                                                                                                                        sb42222222222.append(" size: ");
                                                                                                                                                                                                         i2 = i15;
-                                                                                                                                                                                                        sb4222222222.append(i2);
+                                                                                                                                                                                                        sb42222222222.append(i2);
                                                                                                                                                                                                         str = str16;
-                                                                                                                                                                                                        sb4222222222.append(str);
+                                                                                                                                                                                                        sb42222222222.append(str);
                                                                                                                                                                                                         i11 = i7;
-                                                                                                                                                                                                        sb4222222222.append(i11);
-                                                                                                                                                                                                        FileLog.e(sb4222222222.toString());
+                                                                                                                                                                                                        sb42222222222.append(i11);
+                                                                                                                                                                                                        FileLog.e(sb42222222222.toString());
                                                                                                                                                                                                         FileLog.e(exc);
                                                                                                                                                                                                         i12 = i16;
                                                                                                                                                                                                         z5 = z9;
@@ -4736,20 +4799,20 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                             if (exc instanceof IllegalStateException) {
                                                                                                                                                                                                                             }
                                                                                                                                                                                                                             z4 = false;
-                                                                                                                                                                                                                            StringBuilder sb42222222222 = new StringBuilder();
-                                                                                                                                                                                                                            sb42222222222.append("bitrate: ");
-                                                                                                                                                                                                                            sb42222222222.append(i70);
-                                                                                                                                                                                                                            sb42222222222.append(" framerate: ");
+                                                                                                                                                                                                                            StringBuilder sb422222222222 = new StringBuilder();
+                                                                                                                                                                                                                            sb422222222222.append("bitrate: ");
+                                                                                                                                                                                                                            sb422222222222.append(i70);
+                                                                                                                                                                                                                            sb422222222222.append(" framerate: ");
                                                                                                                                                                                                                             i3 = arrayList;
-                                                                                                                                                                                                                            sb42222222222.append(i3);
-                                                                                                                                                                                                                            sb42222222222.append(" size: ");
+                                                                                                                                                                                                                            sb422222222222.append(i3);
+                                                                                                                                                                                                                            sb422222222222.append(" size: ");
                                                                                                                                                                                                                             i2 = i15;
-                                                                                                                                                                                                                            sb42222222222.append(i2);
+                                                                                                                                                                                                                            sb422222222222.append(i2);
                                                                                                                                                                                                                             str = str16;
-                                                                                                                                                                                                                            sb42222222222.append(str);
+                                                                                                                                                                                                                            sb422222222222.append(str);
                                                                                                                                                                                                                             i11 = i7;
-                                                                                                                                                                                                                            sb42222222222.append(i11);
-                                                                                                                                                                                                                            FileLog.e(sb42222222222.toString());
+                                                                                                                                                                                                                            sb422222222222.append(i11);
+                                                                                                                                                                                                                            FileLog.e(sb422222222222.toString());
                                                                                                                                                                                                                             FileLog.e(exc);
                                                                                                                                                                                                                             i12 = i16;
                                                                                                                                                                                                                             z5 = z9;
@@ -4824,20 +4887,20 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                                     if (exc instanceof IllegalStateException) {
                                                                                                                                                                                                                                                     }
                                                                                                                                                                                                                                                     z4 = false;
-                                                                                                                                                                                                                                                    StringBuilder sb422222222222 = new StringBuilder();
-                                                                                                                                                                                                                                                    sb422222222222.append("bitrate: ");
-                                                                                                                                                                                                                                                    sb422222222222.append(i70);
-                                                                                                                                                                                                                                                    sb422222222222.append(" framerate: ");
+                                                                                                                                                                                                                                                    StringBuilder sb4222222222222 = new StringBuilder();
+                                                                                                                                                                                                                                                    sb4222222222222.append("bitrate: ");
+                                                                                                                                                                                                                                                    sb4222222222222.append(i70);
+                                                                                                                                                                                                                                                    sb4222222222222.append(" framerate: ");
                                                                                                                                                                                                                                                     i3 = arrayList;
-                                                                                                                                                                                                                                                    sb422222222222.append(i3);
-                                                                                                                                                                                                                                                    sb422222222222.append(" size: ");
+                                                                                                                                                                                                                                                    sb4222222222222.append(i3);
+                                                                                                                                                                                                                                                    sb4222222222222.append(" size: ");
                                                                                                                                                                                                                                                     i2 = i15;
-                                                                                                                                                                                                                                                    sb422222222222.append(i2);
+                                                                                                                                                                                                                                                    sb4222222222222.append(i2);
                                                                                                                                                                                                                                                     str = str16;
-                                                                                                                                                                                                                                                    sb422222222222.append(str);
+                                                                                                                                                                                                                                                    sb4222222222222.append(str);
                                                                                                                                                                                                                                                     i11 = i7;
-                                                                                                                                                                                                                                                    sb422222222222.append(i11);
-                                                                                                                                                                                                                                                    FileLog.e(sb422222222222.toString());
+                                                                                                                                                                                                                                                    sb4222222222222.append(i11);
+                                                                                                                                                                                                                                                    FileLog.e(sb4222222222222.toString());
                                                                                                                                                                                                                                                     FileLog.e(exc);
                                                                                                                                                                                                                                                     i12 = i16;
                                                                                                                                                                                                                                                     z5 = z9;
@@ -5008,20 +5071,20 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                                         if (exc instanceof IllegalStateException) {
                                                                                                                                                                                                                                                         }
                                                                                                                                                                                                                                                         z4 = false;
-                                                                                                                                                                                                                                                        StringBuilder sb4222222222222 = new StringBuilder();
-                                                                                                                                                                                                                                                        sb4222222222222.append("bitrate: ");
-                                                                                                                                                                                                                                                        sb4222222222222.append(i70);
-                                                                                                                                                                                                                                                        sb4222222222222.append(" framerate: ");
+                                                                                                                                                                                                                                                        StringBuilder sb42222222222222 = new StringBuilder();
+                                                                                                                                                                                                                                                        sb42222222222222.append("bitrate: ");
+                                                                                                                                                                                                                                                        sb42222222222222.append(i70);
+                                                                                                                                                                                                                                                        sb42222222222222.append(" framerate: ");
                                                                                                                                                                                                                                                         i3 = arrayList;
-                                                                                                                                                                                                                                                        sb4222222222222.append(i3);
-                                                                                                                                                                                                                                                        sb4222222222222.append(" size: ");
+                                                                                                                                                                                                                                                        sb42222222222222.append(i3);
+                                                                                                                                                                                                                                                        sb42222222222222.append(" size: ");
                                                                                                                                                                                                                                                         i2 = i15;
-                                                                                                                                                                                                                                                        sb4222222222222.append(i2);
+                                                                                                                                                                                                                                                        sb42222222222222.append(i2);
                                                                                                                                                                                                                                                         str = str16;
-                                                                                                                                                                                                                                                        sb4222222222222.append(str);
+                                                                                                                                                                                                                                                        sb42222222222222.append(str);
                                                                                                                                                                                                                                                         i11 = i7;
-                                                                                                                                                                                                                                                        sb4222222222222.append(i11);
-                                                                                                                                                                                                                                                        FileLog.e(sb4222222222222.toString());
+                                                                                                                                                                                                                                                        sb42222222222222.append(i11);
+                                                                                                                                                                                                                                                        FileLog.e(sb42222222222222.toString());
                                                                                                                                                                                                                                                         FileLog.e(exc);
                                                                                                                                                                                                                                                         i12 = i16;
                                                                                                                                                                                                                                                         z5 = z9;
@@ -5131,20 +5194,20 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                                             if (exc instanceof IllegalStateException) {
                                                                                                                                                                                                                                                             }
                                                                                                                                                                                                                                                             z4 = false;
-                                                                                                                                                                                                                                                            StringBuilder sb42222222222222 = new StringBuilder();
-                                                                                                                                                                                                                                                            sb42222222222222.append("bitrate: ");
-                                                                                                                                                                                                                                                            sb42222222222222.append(i70);
-                                                                                                                                                                                                                                                            sb42222222222222.append(" framerate: ");
+                                                                                                                                                                                                                                                            StringBuilder sb422222222222222 = new StringBuilder();
+                                                                                                                                                                                                                                                            sb422222222222222.append("bitrate: ");
+                                                                                                                                                                                                                                                            sb422222222222222.append(i70);
+                                                                                                                                                                                                                                                            sb422222222222222.append(" framerate: ");
                                                                                                                                                                                                                                                             i3 = arrayList;
-                                                                                                                                                                                                                                                            sb42222222222222.append(i3);
-                                                                                                                                                                                                                                                            sb42222222222222.append(" size: ");
+                                                                                                                                                                                                                                                            sb422222222222222.append(i3);
+                                                                                                                                                                                                                                                            sb422222222222222.append(" size: ");
                                                                                                                                                                                                                                                             i2 = i15;
-                                                                                                                                                                                                                                                            sb42222222222222.append(i2);
+                                                                                                                                                                                                                                                            sb422222222222222.append(i2);
                                                                                                                                                                                                                                                             str = str16;
-                                                                                                                                                                                                                                                            sb42222222222222.append(str);
+                                                                                                                                                                                                                                                            sb422222222222222.append(str);
                                                                                                                                                                                                                                                             i11 = i7;
-                                                                                                                                                                                                                                                            sb42222222222222.append(i11);
-                                                                                                                                                                                                                                                            FileLog.e(sb42222222222222.toString());
+                                                                                                                                                                                                                                                            sb422222222222222.append(i11);
+                                                                                                                                                                                                                                                            FileLog.e(sb422222222222222.toString());
                                                                                                                                                                                                                                                             FileLog.e(exc);
                                                                                                                                                                                                                                                             i12 = i16;
                                                                                                                                                                                                                                                             z5 = z9;
@@ -5303,20 +5366,20 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                                                                         if (exc instanceof IllegalStateException) {
                                                                                                                                                                                                                                                                                         }
                                                                                                                                                                                                                                                                                         z4 = false;
-                                                                                                                                                                                                                                                                                        StringBuilder sb422222222222222 = new StringBuilder();
-                                                                                                                                                                                                                                                                                        sb422222222222222.append("bitrate: ");
-                                                                                                                                                                                                                                                                                        sb422222222222222.append(i70);
-                                                                                                                                                                                                                                                                                        sb422222222222222.append(" framerate: ");
+                                                                                                                                                                                                                                                                                        StringBuilder sb4222222222222222 = new StringBuilder();
+                                                                                                                                                                                                                                                                                        sb4222222222222222.append("bitrate: ");
+                                                                                                                                                                                                                                                                                        sb4222222222222222.append(i70);
+                                                                                                                                                                                                                                                                                        sb4222222222222222.append(" framerate: ");
                                                                                                                                                                                                                                                                                         i3 = arrayList;
-                                                                                                                                                                                                                                                                                        sb422222222222222.append(i3);
-                                                                                                                                                                                                                                                                                        sb422222222222222.append(" size: ");
+                                                                                                                                                                                                                                                                                        sb4222222222222222.append(i3);
+                                                                                                                                                                                                                                                                                        sb4222222222222222.append(" size: ");
                                                                                                                                                                                                                                                                                         i2 = i15;
-                                                                                                                                                                                                                                                                                        sb422222222222222.append(i2);
+                                                                                                                                                                                                                                                                                        sb4222222222222222.append(i2);
                                                                                                                                                                                                                                                                                         str = str16;
-                                                                                                                                                                                                                                                                                        sb422222222222222.append(str);
+                                                                                                                                                                                                                                                                                        sb4222222222222222.append(str);
                                                                                                                                                                                                                                                                                         i11 = i7;
-                                                                                                                                                                                                                                                                                        sb422222222222222.append(i11);
-                                                                                                                                                                                                                                                                                        FileLog.e(sb422222222222222.toString());
+                                                                                                                                                                                                                                                                                        sb4222222222222222.append(i11);
+                                                                                                                                                                                                                                                                                        FileLog.e(sb4222222222222222.toString());
                                                                                                                                                                                                                                                                                         FileLog.e(exc);
                                                                                                                                                                                                                                                                                         i12 = i16;
                                                                                                                                                                                                                                                                                         z5 = z9;
@@ -5454,20 +5517,20 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                                                                                         if (exc instanceof IllegalStateException) {
                                                                                                                                                                                                                                                                                                         }
                                                                                                                                                                                                                                                                                                         z4 = false;
-                                                                                                                                                                                                                                                                                                        StringBuilder sb4222222222222222 = new StringBuilder();
-                                                                                                                                                                                                                                                                                                        sb4222222222222222.append("bitrate: ");
-                                                                                                                                                                                                                                                                                                        sb4222222222222222.append(i70);
-                                                                                                                                                                                                                                                                                                        sb4222222222222222.append(" framerate: ");
+                                                                                                                                                                                                                                                                                                        StringBuilder sb42222222222222222 = new StringBuilder();
+                                                                                                                                                                                                                                                                                                        sb42222222222222222.append("bitrate: ");
+                                                                                                                                                                                                                                                                                                        sb42222222222222222.append(i70);
+                                                                                                                                                                                                                                                                                                        sb42222222222222222.append(" framerate: ");
                                                                                                                                                                                                                                                                                                         i3 = arrayList;
-                                                                                                                                                                                                                                                                                                        sb4222222222222222.append(i3);
-                                                                                                                                                                                                                                                                                                        sb4222222222222222.append(" size: ");
+                                                                                                                                                                                                                                                                                                        sb42222222222222222.append(i3);
+                                                                                                                                                                                                                                                                                                        sb42222222222222222.append(" size: ");
                                                                                                                                                                                                                                                                                                         i2 = i15;
-                                                                                                                                                                                                                                                                                                        sb4222222222222222.append(i2);
+                                                                                                                                                                                                                                                                                                        sb42222222222222222.append(i2);
                                                                                                                                                                                                                                                                                                         str = str16;
-                                                                                                                                                                                                                                                                                                        sb4222222222222222.append(str);
+                                                                                                                                                                                                                                                                                                        sb42222222222222222.append(str);
                                                                                                                                                                                                                                                                                                         i11 = i7;
-                                                                                                                                                                                                                                                                                                        sb4222222222222222.append(i11);
-                                                                                                                                                                                                                                                                                                        FileLog.e(sb4222222222222222.toString());
+                                                                                                                                                                                                                                                                                                        sb42222222222222222.append(i11);
+                                                                                                                                                                                                                                                                                                        FileLog.e(sb42222222222222222.toString());
                                                                                                                                                                                                                                                                                                         FileLog.e(exc);
                                                                                                                                                                                                                                                                                                         i12 = i16;
                                                                                                                                                                                                                                                                                                         z5 = z9;
@@ -5616,20 +5679,20 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                                                                                                         if (exc instanceof IllegalStateException) {
                                                                                                                                                                                                                                                                                                                         }
                                                                                                                                                                                                                                                                                                                         z4 = false;
-                                                                                                                                                                                                                                                                                                                        StringBuilder sb42222222222222222 = new StringBuilder();
-                                                                                                                                                                                                                                                                                                                        sb42222222222222222.append("bitrate: ");
-                                                                                                                                                                                                                                                                                                                        sb42222222222222222.append(i70);
-                                                                                                                                                                                                                                                                                                                        sb42222222222222222.append(" framerate: ");
+                                                                                                                                                                                                                                                                                                                        StringBuilder sb422222222222222222 = new StringBuilder();
+                                                                                                                                                                                                                                                                                                                        sb422222222222222222.append("bitrate: ");
+                                                                                                                                                                                                                                                                                                                        sb422222222222222222.append(i70);
+                                                                                                                                                                                                                                                                                                                        sb422222222222222222.append(" framerate: ");
                                                                                                                                                                                                                                                                                                                         i3 = arrayList;
-                                                                                                                                                                                                                                                                                                                        sb42222222222222222.append(i3);
-                                                                                                                                                                                                                                                                                                                        sb42222222222222222.append(" size: ");
+                                                                                                                                                                                                                                                                                                                        sb422222222222222222.append(i3);
+                                                                                                                                                                                                                                                                                                                        sb422222222222222222.append(" size: ");
                                                                                                                                                                                                                                                                                                                         i2 = i15;
-                                                                                                                                                                                                                                                                                                                        sb42222222222222222.append(i2);
+                                                                                                                                                                                                                                                                                                                        sb422222222222222222.append(i2);
                                                                                                                                                                                                                                                                                                                         str = str16;
-                                                                                                                                                                                                                                                                                                                        sb42222222222222222.append(str);
+                                                                                                                                                                                                                                                                                                                        sb422222222222222222.append(str);
                                                                                                                                                                                                                                                                                                                         i11 = i7;
-                                                                                                                                                                                                                                                                                                                        sb42222222222222222.append(i11);
-                                                                                                                                                                                                                                                                                                                        FileLog.e(sb42222222222222222.toString());
+                                                                                                                                                                                                                                                                                                                        sb422222222222222222.append(i11);
+                                                                                                                                                                                                                                                                                                                        FileLog.e(sb422222222222222222.toString());
                                                                                                                                                                                                                                                                                                                         FileLog.e(exc);
                                                                                                                                                                                                                                                                                                                         i12 = i16;
                                                                                                                                                                                                                                                                                                                         z5 = z9;
@@ -5721,20 +5784,20 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                                                                                                 if (exc instanceof IllegalStateException) {
                                                                                                                                                                                                                                                                                                                 }
                                                                                                                                                                                                                                                                                                                 z4 = false;
-                                                                                                                                                                                                                                                                                                                StringBuilder sb422222222222222222 = new StringBuilder();
-                                                                                                                                                                                                                                                                                                                sb422222222222222222.append("bitrate: ");
-                                                                                                                                                                                                                                                                                                                sb422222222222222222.append(i70);
-                                                                                                                                                                                                                                                                                                                sb422222222222222222.append(" framerate: ");
+                                                                                                                                                                                                                                                                                                                StringBuilder sb4222222222222222222 = new StringBuilder();
+                                                                                                                                                                                                                                                                                                                sb4222222222222222222.append("bitrate: ");
+                                                                                                                                                                                                                                                                                                                sb4222222222222222222.append(i70);
+                                                                                                                                                                                                                                                                                                                sb4222222222222222222.append(" framerate: ");
                                                                                                                                                                                                                                                                                                                 i3 = arrayList;
-                                                                                                                                                                                                                                                                                                                sb422222222222222222.append(i3);
-                                                                                                                                                                                                                                                                                                                sb422222222222222222.append(" size: ");
+                                                                                                                                                                                                                                                                                                                sb4222222222222222222.append(i3);
+                                                                                                                                                                                                                                                                                                                sb4222222222222222222.append(" size: ");
                                                                                                                                                                                                                                                                                                                 i2 = i15;
-                                                                                                                                                                                                                                                                                                                sb422222222222222222.append(i2);
+                                                                                                                                                                                                                                                                                                                sb4222222222222222222.append(i2);
                                                                                                                                                                                                                                                                                                                 str = str16;
-                                                                                                                                                                                                                                                                                                                sb422222222222222222.append(str);
+                                                                                                                                                                                                                                                                                                                sb4222222222222222222.append(str);
                                                                                                                                                                                                                                                                                                                 i11 = i7;
-                                                                                                                                                                                                                                                                                                                sb422222222222222222.append(i11);
-                                                                                                                                                                                                                                                                                                                FileLog.e(sb422222222222222222.toString());
+                                                                                                                                                                                                                                                                                                                sb4222222222222222222.append(i11);
+                                                                                                                                                                                                                                                                                                                FileLog.e(sb4222222222222222222.toString());
                                                                                                                                                                                                                                                                                                                 FileLog.e(exc);
                                                                                                                                                                                                                                                                                                                 i12 = i16;
                                                                                                                                                                                                                                                                                                                 z5 = z9;
@@ -5928,20 +5991,20 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                                                                 if (exc instanceof IllegalStateException) {
                                                                                                                                                                                                                                                                                 }
                                                                                                                                                                                                                                                                                 z4 = false;
-                                                                                                                                                                                                                                                                                StringBuilder sb4222222222222222222 = new StringBuilder();
-                                                                                                                                                                                                                                                                                sb4222222222222222222.append("bitrate: ");
-                                                                                                                                                                                                                                                                                sb4222222222222222222.append(i70);
-                                                                                                                                                                                                                                                                                sb4222222222222222222.append(" framerate: ");
+                                                                                                                                                                                                                                                                                StringBuilder sb42222222222222222222 = new StringBuilder();
+                                                                                                                                                                                                                                                                                sb42222222222222222222.append("bitrate: ");
+                                                                                                                                                                                                                                                                                sb42222222222222222222.append(i70);
+                                                                                                                                                                                                                                                                                sb42222222222222222222.append(" framerate: ");
                                                                                                                                                                                                                                                                                 i3 = arrayList;
-                                                                                                                                                                                                                                                                                sb4222222222222222222.append(i3);
-                                                                                                                                                                                                                                                                                sb4222222222222222222.append(" size: ");
+                                                                                                                                                                                                                                                                                sb42222222222222222222.append(i3);
+                                                                                                                                                                                                                                                                                sb42222222222222222222.append(" size: ");
                                                                                                                                                                                                                                                                                 i2 = i15;
-                                                                                                                                                                                                                                                                                sb4222222222222222222.append(i2);
+                                                                                                                                                                                                                                                                                sb42222222222222222222.append(i2);
                                                                                                                                                                                                                                                                                 str = str16;
-                                                                                                                                                                                                                                                                                sb4222222222222222222.append(str);
+                                                                                                                                                                                                                                                                                sb42222222222222222222.append(str);
                                                                                                                                                                                                                                                                                 i11 = i7;
-                                                                                                                                                                                                                                                                                sb4222222222222222222.append(i11);
-                                                                                                                                                                                                                                                                                FileLog.e(sb4222222222222222222.toString());
+                                                                                                                                                                                                                                                                                sb42222222222222222222.append(i11);
+                                                                                                                                                                                                                                                                                FileLog.e(sb42222222222222222222.toString());
                                                                                                                                                                                                                                                                                 FileLog.e(exc);
                                                                                                                                                                                                                                                                                 i12 = i16;
                                                                                                                                                                                                                                                                                 z5 = z9;
@@ -6149,20 +6212,20 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                     if (exc instanceof IllegalStateException) {
                                                                                                                                                                                                                                     }
                                                                                                                                                                                                                                     z4 = false;
-                                                                                                                                                                                                                                    StringBuilder sb42222222222222222222 = new StringBuilder();
-                                                                                                                                                                                                                                    sb42222222222222222222.append("bitrate: ");
-                                                                                                                                                                                                                                    sb42222222222222222222.append(i70);
-                                                                                                                                                                                                                                    sb42222222222222222222.append(" framerate: ");
+                                                                                                                                                                                                                                    StringBuilder sb422222222222222222222 = new StringBuilder();
+                                                                                                                                                                                                                                    sb422222222222222222222.append("bitrate: ");
+                                                                                                                                                                                                                                    sb422222222222222222222.append(i70);
+                                                                                                                                                                                                                                    sb422222222222222222222.append(" framerate: ");
                                                                                                                                                                                                                                     i3 = arrayList;
-                                                                                                                                                                                                                                    sb42222222222222222222.append(i3);
-                                                                                                                                                                                                                                    sb42222222222222222222.append(" size: ");
+                                                                                                                                                                                                                                    sb422222222222222222222.append(i3);
+                                                                                                                                                                                                                                    sb422222222222222222222.append(" size: ");
                                                                                                                                                                                                                                     i2 = i15;
-                                                                                                                                                                                                                                    sb42222222222222222222.append(i2);
+                                                                                                                                                                                                                                    sb422222222222222222222.append(i2);
                                                                                                                                                                                                                                     str = str16;
-                                                                                                                                                                                                                                    sb42222222222222222222.append(str);
+                                                                                                                                                                                                                                    sb422222222222222222222.append(str);
                                                                                                                                                                                                                                     i11 = i7;
-                                                                                                                                                                                                                                    sb42222222222222222222.append(i11);
-                                                                                                                                                                                                                                    FileLog.e(sb42222222222222222222.toString());
+                                                                                                                                                                                                                                    sb422222222222222222222.append(i11);
+                                                                                                                                                                                                                                    FileLog.e(sb422222222222222222222.toString());
                                                                                                                                                                                                                                     FileLog.e(exc);
                                                                                                                                                                                                                                     i12 = i16;
                                                                                                                                                                                                                                     z5 = z9;
@@ -6255,20 +6318,20 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                 if (exc instanceof IllegalStateException) {
                                                                                                                                                                                                                                 }
                                                                                                                                                                                                                                 z4 = false;
-                                                                                                                                                                                                                                StringBuilder sb422222222222222222222 = new StringBuilder();
-                                                                                                                                                                                                                                sb422222222222222222222.append("bitrate: ");
-                                                                                                                                                                                                                                sb422222222222222222222.append(i70);
-                                                                                                                                                                                                                                sb422222222222222222222.append(" framerate: ");
+                                                                                                                                                                                                                                StringBuilder sb4222222222222222222222 = new StringBuilder();
+                                                                                                                                                                                                                                sb4222222222222222222222.append("bitrate: ");
+                                                                                                                                                                                                                                sb4222222222222222222222.append(i70);
+                                                                                                                                                                                                                                sb4222222222222222222222.append(" framerate: ");
                                                                                                                                                                                                                                 i3 = arrayList;
-                                                                                                                                                                                                                                sb422222222222222222222.append(i3);
-                                                                                                                                                                                                                                sb422222222222222222222.append(" size: ");
+                                                                                                                                                                                                                                sb4222222222222222222222.append(i3);
+                                                                                                                                                                                                                                sb4222222222222222222222.append(" size: ");
                                                                                                                                                                                                                                 i2 = i15;
-                                                                                                                                                                                                                                sb422222222222222222222.append(i2);
+                                                                                                                                                                                                                                sb4222222222222222222222.append(i2);
                                                                                                                                                                                                                                 str = str16;
-                                                                                                                                                                                                                                sb422222222222222222222.append(str);
+                                                                                                                                                                                                                                sb4222222222222222222222.append(str);
                                                                                                                                                                                                                                 i11 = i7;
-                                                                                                                                                                                                                                sb422222222222222222222.append(i11);
-                                                                                                                                                                                                                                FileLog.e(sb422222222222222222222.toString());
+                                                                                                                                                                                                                                sb4222222222222222222222.append(i11);
+                                                                                                                                                                                                                                FileLog.e(sb4222222222222222222222.toString());
                                                                                                                                                                                                                                 FileLog.e(exc);
                                                                                                                                                                                                                                 i12 = i16;
                                                                                                                                                                                                                                 z5 = z9;
@@ -6370,20 +6433,20 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                 if (exc instanceof IllegalStateException) {
                                                                                                                                                                                                                 }
                                                                                                                                                                                                                 z4 = false;
-                                                                                                                                                                                                                StringBuilder sb4222222222222222222222 = new StringBuilder();
-                                                                                                                                                                                                                sb4222222222222222222222.append("bitrate: ");
-                                                                                                                                                                                                                sb4222222222222222222222.append(i70);
-                                                                                                                                                                                                                sb4222222222222222222222.append(" framerate: ");
+                                                                                                                                                                                                                StringBuilder sb42222222222222222222222 = new StringBuilder();
+                                                                                                                                                                                                                sb42222222222222222222222.append("bitrate: ");
+                                                                                                                                                                                                                sb42222222222222222222222.append(i70);
+                                                                                                                                                                                                                sb42222222222222222222222.append(" framerate: ");
                                                                                                                                                                                                                 i3 = arrayList;
-                                                                                                                                                                                                                sb4222222222222222222222.append(i3);
-                                                                                                                                                                                                                sb4222222222222222222222.append(" size: ");
+                                                                                                                                                                                                                sb42222222222222222222222.append(i3);
+                                                                                                                                                                                                                sb42222222222222222222222.append(" size: ");
                                                                                                                                                                                                                 i2 = i15;
-                                                                                                                                                                                                                sb4222222222222222222222.append(i2);
+                                                                                                                                                                                                                sb42222222222222222222222.append(i2);
                                                                                                                                                                                                                 str = str16;
-                                                                                                                                                                                                                sb4222222222222222222222.append(str);
+                                                                                                                                                                                                                sb42222222222222222222222.append(str);
                                                                                                                                                                                                                 i11 = i7;
-                                                                                                                                                                                                                sb4222222222222222222222.append(i11);
-                                                                                                                                                                                                                FileLog.e(sb4222222222222222222222.toString());
+                                                                                                                                                                                                                sb42222222222222222222222.append(i11);
+                                                                                                                                                                                                                FileLog.e(sb42222222222222222222222.toString());
                                                                                                                                                                                                                 FileLog.e(exc);
                                                                                                                                                                                                                 i12 = i16;
                                                                                                                                                                                                                 z5 = z9;
@@ -6579,20 +6642,20 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                     if (exc instanceof IllegalStateException) {
                                                                                                                                                                     }
                                                                                                                                                                     z4 = false;
-                                                                                                                                                                    StringBuilder sb42222222222222222222222 = new StringBuilder();
-                                                                                                                                                                    sb42222222222222222222222.append("bitrate: ");
-                                                                                                                                                                    sb42222222222222222222222.append(i70);
-                                                                                                                                                                    sb42222222222222222222222.append(" framerate: ");
+                                                                                                                                                                    StringBuilder sb422222222222222222222222 = new StringBuilder();
+                                                                                                                                                                    sb422222222222222222222222.append("bitrate: ");
+                                                                                                                                                                    sb422222222222222222222222.append(i70);
+                                                                                                                                                                    sb422222222222222222222222.append(" framerate: ");
                                                                                                                                                                     i3 = arrayList;
-                                                                                                                                                                    sb42222222222222222222222.append(i3);
-                                                                                                                                                                    sb42222222222222222222222.append(" size: ");
+                                                                                                                                                                    sb422222222222222222222222.append(i3);
+                                                                                                                                                                    sb422222222222222222222222.append(" size: ");
                                                                                                                                                                     i2 = i15;
-                                                                                                                                                                    sb42222222222222222222222.append(i2);
+                                                                                                                                                                    sb422222222222222222222222.append(i2);
                                                                                                                                                                     str = str16;
-                                                                                                                                                                    sb42222222222222222222222.append(str);
+                                                                                                                                                                    sb422222222222222222222222.append(str);
                                                                                                                                                                     i11 = i7;
-                                                                                                                                                                    sb42222222222222222222222.append(i11);
-                                                                                                                                                                    FileLog.e(sb42222222222222222222222.toString());
+                                                                                                                                                                    sb422222222222222222222222.append(i11);
+                                                                                                                                                                    FileLog.e(sb422222222222222222222222.toString());
                                                                                                                                                                     FileLog.e(exc);
                                                                                                                                                                     i12 = i16;
                                                                                                                                                                     z5 = z9;
@@ -6731,20 +6794,20 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                         if (exc instanceof IllegalStateException) {
                                                                                                                                                         }
                                                                                                                                                         z4 = false;
-                                                                                                                                                        StringBuilder sb422222222222222222222222 = new StringBuilder();
-                                                                                                                                                        sb422222222222222222222222.append("bitrate: ");
-                                                                                                                                                        sb422222222222222222222222.append(i70);
-                                                                                                                                                        sb422222222222222222222222.append(" framerate: ");
+                                                                                                                                                        StringBuilder sb4222222222222222222222222 = new StringBuilder();
+                                                                                                                                                        sb4222222222222222222222222.append("bitrate: ");
+                                                                                                                                                        sb4222222222222222222222222.append(i70);
+                                                                                                                                                        sb4222222222222222222222222.append(" framerate: ");
                                                                                                                                                         i3 = arrayList;
-                                                                                                                                                        sb422222222222222222222222.append(i3);
-                                                                                                                                                        sb422222222222222222222222.append(" size: ");
+                                                                                                                                                        sb4222222222222222222222222.append(i3);
+                                                                                                                                                        sb4222222222222222222222222.append(" size: ");
                                                                                                                                                         i2 = i15;
-                                                                                                                                                        sb422222222222222222222222.append(i2);
+                                                                                                                                                        sb4222222222222222222222222.append(i2);
                                                                                                                                                         str = str16;
-                                                                                                                                                        sb422222222222222222222222.append(str);
+                                                                                                                                                        sb4222222222222222222222222.append(str);
                                                                                                                                                         i11 = i7;
-                                                                                                                                                        sb422222222222222222222222.append(i11);
-                                                                                                                                                        FileLog.e(sb422222222222222222222222.toString());
+                                                                                                                                                        sb4222222222222222222222222.append(i11);
+                                                                                                                                                        FileLog.e(sb4222222222222222222222222.toString());
                                                                                                                                                         FileLog.e(exc);
                                                                                                                                                         i12 = i16;
                                                                                                                                                         z5 = z9;
@@ -6979,20 +7042,20 @@ public class MediaCodecVideoConvertor {
                                                                                                                                         if (exc instanceof IllegalStateException) {
                                                                                                                                         }
                                                                                                                                         z4 = false;
-                                                                                                                                        StringBuilder sb4222222222222222222222222 = new StringBuilder();
-                                                                                                                                        sb4222222222222222222222222.append("bitrate: ");
-                                                                                                                                        sb4222222222222222222222222.append(i70);
-                                                                                                                                        sb4222222222222222222222222.append(" framerate: ");
+                                                                                                                                        StringBuilder sb42222222222222222222222222 = new StringBuilder();
+                                                                                                                                        sb42222222222222222222222222.append("bitrate: ");
+                                                                                                                                        sb42222222222222222222222222.append(i70);
+                                                                                                                                        sb42222222222222222222222222.append(" framerate: ");
                                                                                                                                         i3 = arrayList;
-                                                                                                                                        sb4222222222222222222222222.append(i3);
-                                                                                                                                        sb4222222222222222222222222.append(" size: ");
+                                                                                                                                        sb42222222222222222222222222.append(i3);
+                                                                                                                                        sb42222222222222222222222222.append(" size: ");
                                                                                                                                         i2 = i15;
-                                                                                                                                        sb4222222222222222222222222.append(i2);
+                                                                                                                                        sb42222222222222222222222222.append(i2);
                                                                                                                                         str = str16;
-                                                                                                                                        sb4222222222222222222222222.append(str);
+                                                                                                                                        sb42222222222222222222222222.append(str);
                                                                                                                                         i11 = i7;
-                                                                                                                                        sb4222222222222222222222222.append(i11);
-                                                                                                                                        FileLog.e(sb4222222222222222222222222.toString());
+                                                                                                                                        sb42222222222222222222222222.append(i11);
+                                                                                                                                        FileLog.e(sb42222222222222222222222222.toString());
                                                                                                                                         FileLog.e(exc);
                                                                                                                                         i12 = i16;
                                                                                                                                         z5 = z9;
@@ -7119,20 +7182,20 @@ public class MediaCodecVideoConvertor {
                                                                                                                                         if (exc instanceof IllegalStateException) {
                                                                                                                                         }
                                                                                                                                         z4 = false;
-                                                                                                                                        StringBuilder sb42222222222222222222222222 = new StringBuilder();
-                                                                                                                                        sb42222222222222222222222222.append("bitrate: ");
-                                                                                                                                        sb42222222222222222222222222.append(i70);
-                                                                                                                                        sb42222222222222222222222222.append(" framerate: ");
+                                                                                                                                        StringBuilder sb422222222222222222222222222 = new StringBuilder();
+                                                                                                                                        sb422222222222222222222222222.append("bitrate: ");
+                                                                                                                                        sb422222222222222222222222222.append(i70);
+                                                                                                                                        sb422222222222222222222222222.append(" framerate: ");
                                                                                                                                         i3 = arrayList;
-                                                                                                                                        sb42222222222222222222222222.append(i3);
-                                                                                                                                        sb42222222222222222222222222.append(" size: ");
+                                                                                                                                        sb422222222222222222222222222.append(i3);
+                                                                                                                                        sb422222222222222222222222222.append(" size: ");
                                                                                                                                         i2 = i15;
-                                                                                                                                        sb42222222222222222222222222.append(i2);
+                                                                                                                                        sb422222222222222222222222222.append(i2);
                                                                                                                                         str = str16;
-                                                                                                                                        sb42222222222222222222222222.append(str);
+                                                                                                                                        sb422222222222222222222222222.append(str);
                                                                                                                                         i11 = i7;
-                                                                                                                                        sb42222222222222222222222222.append(i11);
-                                                                                                                                        FileLog.e(sb42222222222222222222222222.toString());
+                                                                                                                                        sb422222222222222222222222222.append(i11);
+                                                                                                                                        FileLog.e(sb422222222222222222222222222.toString());
                                                                                                                                         FileLog.e(exc);
                                                                                                                                         i12 = i16;
                                                                                                                                         z5 = z9;
@@ -7247,20 +7310,20 @@ public class MediaCodecVideoConvertor {
                                                                                                                             if (exc instanceof IllegalStateException) {
                                                                                                                             }
                                                                                                                             z4 = false;
-                                                                                                                            StringBuilder sb422222222222222222222222222 = new StringBuilder();
-                                                                                                                            sb422222222222222222222222222.append("bitrate: ");
-                                                                                                                            sb422222222222222222222222222.append(i70);
-                                                                                                                            sb422222222222222222222222222.append(" framerate: ");
+                                                                                                                            StringBuilder sb4222222222222222222222222222 = new StringBuilder();
+                                                                                                                            sb4222222222222222222222222222.append("bitrate: ");
+                                                                                                                            sb4222222222222222222222222222.append(i70);
+                                                                                                                            sb4222222222222222222222222222.append(" framerate: ");
                                                                                                                             i3 = arrayList;
-                                                                                                                            sb422222222222222222222222222.append(i3);
-                                                                                                                            sb422222222222222222222222222.append(" size: ");
+                                                                                                                            sb4222222222222222222222222222.append(i3);
+                                                                                                                            sb4222222222222222222222222222.append(" size: ");
                                                                                                                             i2 = i15;
-                                                                                                                            sb422222222222222222222222222.append(i2);
+                                                                                                                            sb4222222222222222222222222222.append(i2);
                                                                                                                             str = str16;
-                                                                                                                            sb422222222222222222222222222.append(str);
+                                                                                                                            sb4222222222222222222222222222.append(str);
                                                                                                                             i11 = i7;
-                                                                                                                            sb422222222222222222222222222.append(i11);
-                                                                                                                            FileLog.e(sb422222222222222222222222222.toString());
+                                                                                                                            sb4222222222222222222222222222.append(i11);
+                                                                                                                            FileLog.e(sb4222222222222222222222222222.toString());
                                                                                                                             FileLog.e(exc);
                                                                                                                             i12 = i16;
                                                                                                                             z5 = z9;
@@ -7502,20 +7565,20 @@ public class MediaCodecVideoConvertor {
                                                                                                         if (exc instanceof IllegalStateException) {
                                                                                                         }
                                                                                                         z4 = false;
-                                                                                                        StringBuilder sb4222222222222222222222222222 = new StringBuilder();
-                                                                                                        sb4222222222222222222222222222.append("bitrate: ");
-                                                                                                        sb4222222222222222222222222222.append(i70);
-                                                                                                        sb4222222222222222222222222222.append(" framerate: ");
+                                                                                                        StringBuilder sb42222222222222222222222222222 = new StringBuilder();
+                                                                                                        sb42222222222222222222222222222.append("bitrate: ");
+                                                                                                        sb42222222222222222222222222222.append(i70);
+                                                                                                        sb42222222222222222222222222222.append(" framerate: ");
                                                                                                         i3 = arrayList;
-                                                                                                        sb4222222222222222222222222222.append(i3);
-                                                                                                        sb4222222222222222222222222222.append(" size: ");
+                                                                                                        sb42222222222222222222222222222.append(i3);
+                                                                                                        sb42222222222222222222222222222.append(" size: ");
                                                                                                         i2 = i15;
-                                                                                                        sb4222222222222222222222222222.append(i2);
+                                                                                                        sb42222222222222222222222222222.append(i2);
                                                                                                         str = str16;
-                                                                                                        sb4222222222222222222222222222.append(str);
+                                                                                                        sb42222222222222222222222222222.append(str);
                                                                                                         i11 = i7;
-                                                                                                        sb4222222222222222222222222222.append(i11);
-                                                                                                        FileLog.e(sb4222222222222222222222222222.toString());
+                                                                                                        sb42222222222222222222222222222.append(i11);
+                                                                                                        FileLog.e(sb42222222222222222222222222222.toString());
                                                                                                         FileLog.e(exc);
                                                                                                         i12 = i16;
                                                                                                         z5 = z9;
@@ -7611,69 +7674,6 @@ public class MediaCodecVideoConvertor {
                                                                                             i16 = -5;
                                                                                             i15 = i80;
                                                                                             if (exc instanceof IllegalStateException) {
-                                                                                                z2 = z;
-                                                                                            } else {
-                                                                                                z2 = z;
-                                                                                                if (!z2) {
-                                                                                                    z4 = true;
-                                                                                                    StringBuilder sb42222222222222222222222222222 = new StringBuilder();
-                                                                                                    sb42222222222222222222222222222.append("bitrate: ");
-                                                                                                    sb42222222222222222222222222222.append(i70);
-                                                                                                    sb42222222222222222222222222222.append(" framerate: ");
-                                                                                                    i3 = arrayList;
-                                                                                                    sb42222222222222222222222222222.append(i3);
-                                                                                                    sb42222222222222222222222222222.append(" size: ");
-                                                                                                    i2 = i15;
-                                                                                                    sb42222222222222222222222222222.append(i2);
-                                                                                                    str = str16;
-                                                                                                    sb42222222222222222222222222222.append(str);
-                                                                                                    i11 = i7;
-                                                                                                    sb42222222222222222222222222222.append(i11);
-                                                                                                    FileLog.e(sb42222222222222222222222222222.toString());
-                                                                                                    FileLog.e(exc);
-                                                                                                    i12 = i16;
-                                                                                                    z5 = z9;
-                                                                                                    z7 = true;
-                                                                                                    mediaCodec4 = mediaCodec;
-                                                                                                    mediaCodecVideoConvertor.extractor.unselectTrack(i14);
-                                                                                                    if (mediaCodec4 != null) {
-                                                                                                        mediaCodec4.stop();
-                                                                                                        mediaCodec4.release();
-                                                                                                    }
-                                                                                                    mediaCodec3 = mediaCodec4;
-                                                                                                    outputSurface2 = outputSurface4;
-                                                                                                    if (outputSurface2 != null) {
-                                                                                                    }
-                                                                                                    if (inputSurface2 != null) {
-                                                                                                    }
-                                                                                                    if (mediaCodec2 != null) {
-                                                                                                    }
-                                                                                                    if (audioRecoder != null) {
-                                                                                                    }
-                                                                                                    checkConversionCanceled();
-                                                                                                    i68 = i2;
-                                                                                                    outputSurface3 = outputSurface2;
-                                                                                                    i67 = i11;
-                                                                                                    i13 = i12;
-                                                                                                    z6 = z5;
-                                                                                                    mediaExtractor2 = mediaCodecVideoConvertor.extractor;
-                                                                                                    if (mediaExtractor2 != null) {
-                                                                                                    }
-                                                                                                    mP4Builder2 = mediaCodecVideoConvertor.mediaMuxer;
-                                                                                                    if (mP4Builder2 != null) {
-                                                                                                    }
-                                                                                                    if (mediaCodec2 != null) {
-                                                                                                    }
-                                                                                                    if (mediaCodec3 != null) {
-                                                                                                    }
-                                                                                                    if (outputSurface3 != null) {
-                                                                                                    }
-                                                                                                    if (inputSurface2 != null) {
-                                                                                                    }
-                                                                                                    str3 = str2;
-                                                                                                    if (z4) {
-                                                                                                    }
-                                                                                                }
                                                                                             }
                                                                                             z4 = false;
                                                                                             StringBuilder sb422222222222222222222222222222 = new StringBuilder();

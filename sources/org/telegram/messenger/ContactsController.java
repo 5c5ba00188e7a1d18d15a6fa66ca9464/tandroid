@@ -391,8 +391,6 @@ public class ContactsController extends BaseController {
         if (this.inviteLink == null || Math.abs((System.currentTimeMillis() / 1000) - i) >= 86400) {
             this.updatingInviteLink = true;
             getConnectionsManager().sendRequest(new TLObject() { // from class: org.telegram.tgnet.TLRPC$TL_help_getInviteText
-                public static int constructor = 1295590211;
-
                 @Override // org.telegram.tgnet.TLObject
                 public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i2, boolean z) {
                     return TLRPC$TL_help_inviteText.TLdeserialize(abstractSerializedData, i2, z);
@@ -400,7 +398,7 @@ public class ContactsController extends BaseController {
 
                 @Override // org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-                    abstractSerializedData.writeInt32(constructor);
+                    abstractSerializedData.writeInt32(1295590211);
                 }
             }, new RequestDelegate() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda53
                 @Override // org.telegram.tgnet.RequestDelegate
@@ -678,8 +676,6 @@ public class ContactsController extends BaseController {
 
     public void resetImportedContacts() {
         getConnectionsManager().sendRequest(new TLObject() { // from class: org.telegram.tgnet.TLRPC$TL_contacts_resetSaved
-            public static int constructor = -2020263951;
-
             @Override // org.telegram.tgnet.TLObject
             public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i, boolean z) {
                 return TLRPC$Bool.TLdeserialize(abstractSerializedData, i, z);
@@ -687,7 +683,7 @@ public class ContactsController extends BaseController {
 
             @Override // org.telegram.tgnet.TLObject
             public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-                abstractSerializedData.writeInt32(constructor);
+                abstractSerializedData.writeInt32(-2020263951);
             }
         }, ContactsController$$ExternalSyntheticLambda61.INSTANCE);
     }
@@ -2987,7 +2983,7 @@ public class ContactsController extends BaseController {
 
     public long addContactToPhoneBook(TLRPC$User tLRPC$User, boolean z) {
         long j = -1;
-        if (this.systemAccount == null || tLRPC$User == null || !hasContactsPermission()) {
+        if (this.systemAccount == null || tLRPC$User == null || !hasContactsWritePermission()) {
             return -1L;
         }
         synchronized (this.observerLock) {
@@ -3008,7 +3004,8 @@ public class ContactsController extends BaseController {
             if (applyBatch != null && applyBatch.length > 0 && applyBatch[0].uri != null) {
                 j = Long.parseLong(applyBatch[0].uri.getLastPathSegment());
             }
-        } catch (Exception unused2) {
+        } catch (Exception e) {
+            FileLog.e(e);
         }
         synchronized (this.observerLock) {
             this.ignoreChanges = false;
@@ -3291,8 +3288,6 @@ public class ContactsController extends BaseController {
         final SharedPreferences.Editor edit = MessagesController.getMainSettings(this.currentAccount).edit();
         edit.putBoolean("needGetStatuses", true).commit();
         getConnectionsManager().sendRequest(new TLObject() { // from class: org.telegram.tgnet.TLRPC$TL_contacts_getStatuses
-            public static int constructor = -995929106;
-
             @Override // org.telegram.tgnet.TLObject
             public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i, boolean z) {
                 TLRPC$Vector tLRPC$Vector = new TLRPC$Vector();
@@ -3309,7 +3304,7 @@ public class ContactsController extends BaseController {
 
             @Override // org.telegram.tgnet.TLObject
             public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-                abstractSerializedData.writeInt32(constructor);
+                abstractSerializedData.writeInt32(-995929106);
             }
         }, new RequestDelegate() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda56
             @Override // org.telegram.tgnet.RequestDelegate
@@ -3368,8 +3363,6 @@ public class ContactsController extends BaseController {
         if (this.loadingGlobalSettings == 0) {
             this.loadingGlobalSettings = 1;
             getConnectionsManager().sendRequest(new TLObject() { // from class: org.telegram.tgnet.TLRPC$TL_account_getGlobalPrivacySettings
-                public static int constructor = -349483786;
-
                 @Override // org.telegram.tgnet.TLObject
                 public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i, boolean z) {
                     return TLRPC$TL_globalPrivacySettings.TLdeserialize(abstractSerializedData, i, z);
@@ -3377,7 +3370,7 @@ public class ContactsController extends BaseController {
 
                 @Override // org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-                    abstractSerializedData.writeInt32(constructor);
+                    abstractSerializedData.writeInt32(-349483786);
                 }
             }, new RequestDelegate() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda52
                 @Override // org.telegram.tgnet.RequestDelegate
@@ -3413,8 +3406,6 @@ public class ContactsController extends BaseController {
         if (this.loadingDeleteInfo == 0) {
             this.loadingDeleteInfo = 1;
             getConnectionsManager().sendRequest(new TLObject() { // from class: org.telegram.tgnet.TLRPC$TL_account_getAccountTTL
-                public static int constructor = 150761757;
-
                 @Override // org.telegram.tgnet.TLObject
                 public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i, boolean z) {
                     return TLRPC$TL_accountDaysTTL.TLdeserialize(abstractSerializedData, i, z);
@@ -3422,7 +3413,7 @@ public class ContactsController extends BaseController {
 
                 @Override // org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-                    abstractSerializedData.writeInt32(constructor);
+                    abstractSerializedData.writeInt32(150761757);
                 }
             }, new RequestDelegate() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda51
                 @Override // org.telegram.tgnet.RequestDelegate

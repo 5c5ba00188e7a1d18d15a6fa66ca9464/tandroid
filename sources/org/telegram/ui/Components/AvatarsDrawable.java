@@ -371,22 +371,22 @@ public class AvatarsDrawable {
         invalidate();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:158:0x027f  */
-    /* JADX WARN: Removed duplicated region for block: B:161:0x02b7  */
-    /* JADX WARN: Removed duplicated region for block: B:212:0x0362  */
-    /* JADX WARN: Removed duplicated region for block: B:243:0x0422  */
-    /* JADX WARN: Removed duplicated region for block: B:249:0x0436  */
-    /* JADX WARN: Removed duplicated region for block: B:296:0x05e7  */
-    /* JADX WARN: Removed duplicated region for block: B:302:0x0616  */
-    /* JADX WARN: Removed duplicated region for block: B:305:0x0632  */
-    /* JADX WARN: Removed duplicated region for block: B:309:0x0660  */
-    /* JADX WARN: Removed duplicated region for block: B:313:0x0672  */
-    /* JADX WARN: Removed duplicated region for block: B:318:0x0696  */
-    /* JADX WARN: Removed duplicated region for block: B:322:0x06c0  */
-    /* JADX WARN: Removed duplicated region for block: B:323:0x06d5  */
-    /* JADX WARN: Removed duplicated region for block: B:325:0x06da  */
-    /* JADX WARN: Removed duplicated region for block: B:340:0x02ba A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:348:0x06dd A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:158:0x0283  */
+    /* JADX WARN: Removed duplicated region for block: B:161:0x02bb  */
+    /* JADX WARN: Removed duplicated region for block: B:212:0x0368  */
+    /* JADX WARN: Removed duplicated region for block: B:243:0x042a  */
+    /* JADX WARN: Removed duplicated region for block: B:249:0x043e  */
+    /* JADX WARN: Removed duplicated region for block: B:296:0x05ef  */
+    /* JADX WARN: Removed duplicated region for block: B:302:0x061e  */
+    /* JADX WARN: Removed duplicated region for block: B:305:0x063a  */
+    /* JADX WARN: Removed duplicated region for block: B:309:0x0668  */
+    /* JADX WARN: Removed duplicated region for block: B:313:0x067a  */
+    /* JADX WARN: Removed duplicated region for block: B:318:0x069e  */
+    /* JADX WARN: Removed duplicated region for block: B:322:0x06c8  */
+    /* JADX WARN: Removed duplicated region for block: B:323:0x06dd  */
+    /* JADX WARN: Removed duplicated region for block: B:325:0x06e2  */
+    /* JADX WARN: Removed duplicated region for block: B:340:0x02be A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:348:0x06e5 A[SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -474,7 +474,8 @@ public class AvatarsDrawable {
                             ImageReceiver imageReceiver = drawingStateArr[i20].imageReceiver;
                             if (imageReceiver.hasImageSet()) {
                                 if (i21 == 0) {
-                                    imageReceiver.setImageX((this.centered ? ((this.width - (i17 * i12)) - AndroidUtilities.dp(z3 ? 8.0f : 4.0f)) / i : dp2) + (i12 * i20));
+                                    int dp5 = this.centered ? ((this.width - (i17 * i12)) - AndroidUtilities.dp(z3 ? 8.0f : 4.0f)) / i : dp2;
+                                    imageReceiver.setImageX(dp5 + (i12 * i20));
                                 } else {
                                     imageReceiver.setImageX(dp3 + (i12 * i20));
                                 }
@@ -489,14 +490,14 @@ public class AvatarsDrawable {
                                         if (drawingStateArr[i20].animationType != 0) {
                                             if (drawingStateArr[i20].animationType != i) {
                                                 if (drawingStateArr[i20].animationType == -1 && this.centered) {
-                                                    int dp5 = (((this.width - (i17 * i12)) - AndroidUtilities.dp(z3 ? 8.0f : 4.0f)) / i) + (i12 * i20);
+                                                    int dp6 = (((this.width - (i17 * i12)) - AndroidUtilities.dp(z3 ? 8.0f : 4.0f)) / i) + (i12 * i20);
                                                     float f11 = this.transitionProgress;
-                                                    imageReceiver.setImageX((int) ((dp5 * f11) + ((dp3 + i5) * (1.0f - f11))));
+                                                    imageReceiver.setImageX((int) ((dp6 * f11) + ((dp3 + i5) * (1.0f - f11))));
                                                 }
                                             } else {
-                                                int dp6 = this.centered ? ((this.width - (i17 * i12)) - AndroidUtilities.dp(z3 ? 8.0f : 4.0f)) / i : dp2;
+                                                int dp7 = this.centered ? ((this.width - (i17 * i12)) - AndroidUtilities.dp(z3 ? 8.0f : 4.0f)) / i : dp2;
                                                 float f12 = this.transitionProgress;
-                                                imageReceiver.setImageX((int) (((dp6 + (i12 * i20)) * f12) + ((dp3 + (drawingStateArr[i20].moveFromIndex * i12)) * (1.0f - f12))));
+                                                imageReceiver.setImageX((int) (((dp7 + (i12 * i20)) * f12) + ((dp3 + (drawingStateArr[i20].moveFromIndex * i12)) * (1.0f - f12))));
                                             }
                                         } else {
                                             canvas.save();
@@ -562,7 +563,8 @@ public class AvatarsDrawable {
                         ImageReceiver imageReceiver2 = drawingStateArr2[i23].imageReceiver;
                         if (imageReceiver2.hasImageSet()) {
                             if (i24 == 0) {
-                                imageReceiver2.setImageX((this.centered ? ((this.width - (i17 * i12)) - AndroidUtilities.dp(z3 ? 8.0f : 4.0f)) / i : dp2) + (i12 * i23));
+                                int dp8 = this.centered ? ((this.width - (i17 * i12)) - AndroidUtilities.dp(z3 ? 8.0f : 4.0f)) / i : dp2;
+                                imageReceiver2.setImageX(dp8 + (i12 * i23));
                             } else {
                                 imageReceiver2.setImageX(dp3 + (i12 * i23));
                             }
@@ -575,9 +577,9 @@ public class AvatarsDrawable {
                                             if (drawingStateArr2[i23].animationType != 0) {
                                                 if (drawingStateArr2[i23].animationType != i) {
                                                     if (drawingStateArr2[i23].animationType == -1 && this.centered) {
-                                                        int dp7 = (((this.width - (i17 * i12)) - AndroidUtilities.dp(z3 ? 8.0f : 4.0f)) / i) + (i12 * i23);
+                                                        int dp9 = (((this.width - (i17 * i12)) - AndroidUtilities.dp(z3 ? 8.0f : 4.0f)) / i) + (i12 * i23);
                                                         float f16 = this.transitionProgress;
-                                                        imageReceiver2.setImageX((int) ((dp7 * f16) + ((dp3 + i4) * (f10 - f16))));
+                                                        imageReceiver2.setImageX((int) ((dp9 * f16) + ((dp3 + i4) * (f10 - f16))));
                                                     }
                                                     z = false;
                                                     f = 1.0f;
@@ -725,9 +727,9 @@ public class AvatarsDrawable {
                                                     i24++;
                                                     i = 2;
                                                 } else {
-                                                    int dp8 = this.centered ? ((this.width - (i17 * i12)) - AndroidUtilities.dp(z3 ? 8.0f : 4.0f)) / i : dp2;
+                                                    int dp10 = this.centered ? ((this.width - (i17 * i12)) - AndroidUtilities.dp(z3 ? 8.0f : 4.0f)) / i : dp2;
                                                     float f17 = this.transitionProgress;
-                                                    imageReceiver2.setImageX((int) (((dp8 + (i12 * i23)) * f17) + ((dp3 + (drawingStateArr2[i23].moveFromIndex * i12)) * (f10 - f17))));
+                                                    imageReceiver2.setImageX((int) (((dp10 + (i12 * i23)) * f17) + ((dp3 + (drawingStateArr2[i23].moveFromIndex * i12)) * (f10 - f17))));
                                                 }
                                             } else {
                                                 canvas.save();

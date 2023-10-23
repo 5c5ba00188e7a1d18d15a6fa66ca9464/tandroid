@@ -3,7 +3,6 @@ package org.telegram.tgnet;
 import java.util.ArrayList;
 /* loaded from: classes.dex */
 public class TLRPC$TL_account_savedRingtones extends TLRPC$account_SavedRingtones {
-    public static int constructor = -1041683259;
     public long hash;
     public ArrayList<TLRPC$Document> ringtones = new ArrayList<>();
 
@@ -29,7 +28,7 @@ public class TLRPC$TL_account_savedRingtones extends TLRPC$account_SavedRingtone
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-1041683259);
         abstractSerializedData.writeInt64(this.hash);
         abstractSerializedData.writeInt32(481674261);
         int size = this.ringtones.size();

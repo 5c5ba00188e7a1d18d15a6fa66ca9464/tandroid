@@ -8,11 +8,13 @@ public abstract class TLRPC$Chat extends TLObject {
     public long access_hash;
     public TLRPC$TL_chatAdminRights admin_rights;
     public TLRPC$TL_channelAdminRights_layer92 admin_rights_layer92;
+    public long background_emoji_id;
     public TLRPC$TL_chatBannedRights banned_rights;
     public TLRPC$TL_channelBannedRights_layer92 banned_rights_layer92;
     public boolean broadcast;
     public boolean call_active;
     public boolean call_not_empty;
+    public int color;
     public boolean creator;
     public int date;
     public boolean deactivated;
@@ -62,8 +64,6 @@ public abstract class TLRPC$Chat extends TLObject {
         switch (i) {
             case -2107528095:
                 tLRPC$Chat = new TLRPC$TL_channel() { // from class: org.telegram.tgnet.TLRPC$TL_channel_layer147
-                    public static int constructor = -2107528095;
-
                     @Override // org.telegram.tgnet.TLRPC$TL_channel, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z3) {
                         int readInt32 = abstractSerializedData2.readInt32(z3);
@@ -131,7 +131,7 @@ public abstract class TLRPC$Chat extends TLObject {
 
                     @Override // org.telegram.tgnet.TLRPC$TL_channel, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(-2107528095);
                         int i2 = this.creator ? this.flags | 1 : this.flags & (-2);
                         this.flags = i2;
                         int i3 = this.left ? i2 | 4 : i2 & (-5);
@@ -208,8 +208,6 @@ public abstract class TLRPC$Chat extends TLObject {
                 break;
             case -2094689180:
                 tLRPC$Chat = new TLRPC$TL_channel() { // from class: org.telegram.tgnet.TLRPC$TL_channel_layer161
-                    public static int constructor = -2094689180;
-
                     @Override // org.telegram.tgnet.TLRPC$TL_channel, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z3) {
                         readParams(abstractSerializedData2, z3, true);
@@ -302,7 +300,7 @@ public abstract class TLRPC$Chat extends TLObject {
 
                     @Override // org.telegram.tgnet.TLRPC$TL_channel, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(-2094689180);
                         int i2 = this.creator ? this.flags | 1 : this.flags & (-2);
                         this.flags = i2;
                         int i3 = this.left ? i2 | 4 : i2 & (-5);
@@ -392,8 +390,6 @@ public abstract class TLRPC$Chat extends TLObject {
                 break;
             case -2059962289:
                 tLRPC$Chat = new TLRPC$TL_channelForbidden() { // from class: org.telegram.tgnet.TLRPC$TL_channelForbidden_layer67
-                    public static int constructor = -2059962289;
-
                     @Override // org.telegram.tgnet.TLRPC$TL_channelForbidden, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z3) {
                         int readInt32 = abstractSerializedData2.readInt32(z3);
@@ -407,7 +403,7 @@ public abstract class TLRPC$Chat extends TLObject {
 
                     @Override // org.telegram.tgnet.TLRPC$TL_channelForbidden, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(-2059962289);
                         int i2 = this.broadcast ? this.flags | 32 : this.flags & (-33);
                         this.flags = i2;
                         int i3 = this.megagroup ? i2 | LiteMode.FLAG_CHAT_BLUR : i2 & (-257);
@@ -420,12 +416,194 @@ public abstract class TLRPC$Chat extends TLObject {
                 };
                 break;
             case -1795845413:
-                tLRPC$Chat = new TLRPC$TL_channel();
+                tLRPC$Chat = new TLRPC$TL_channel() { // from class: org.telegram.tgnet.TLRPC$TL_channel_layer165_2
+                    @Override // org.telegram.tgnet.TLRPC$TL_channel, org.telegram.tgnet.TLObject
+                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z3) {
+                        int readInt32 = abstractSerializedData2.readInt32(z3);
+                        this.flags = readInt32;
+                        this.creator = (readInt32 & 1) != 0;
+                        this.left = (readInt32 & 4) != 0;
+                        this.broadcast = (readInt32 & 32) != 0;
+                        this.verified = (readInt32 & 128) != 0;
+                        this.megagroup = (readInt32 & LiteMode.FLAG_CHAT_BLUR) != 0;
+                        this.restricted = (readInt32 & LiteMode.FLAG_CALLS_ANIMATIONS) != 0;
+                        this.signatures = (readInt32 & LiteMode.FLAG_AUTOPLAY_GIFS) != 0;
+                        this.min = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM) != 0;
+                        this.scam = (524288 & readInt32) != 0;
+                        this.has_link = (1048576 & readInt32) != 0;
+                        this.has_geo = (2097152 & readInt32) != 0;
+                        this.slowmode_enabled = (4194304 & readInt32) != 0;
+                        this.call_active = (8388608 & readInt32) != 0;
+                        this.call_not_empty = (16777216 & readInt32) != 0;
+                        this.fake = (33554432 & readInt32) != 0;
+                        this.gigagroup = (67108864 & readInt32) != 0;
+                        this.noforwards = (134217728 & readInt32) != 0;
+                        this.join_to_send = (268435456 & readInt32) != 0;
+                        this.join_request = (536870912 & readInt32) != 0;
+                        this.forum = (readInt32 & 1073741824) != 0;
+                        int readInt322 = abstractSerializedData2.readInt32(z3);
+                        this.flags2 = readInt322;
+                        this.stories_hidden = (readInt322 & 2) != 0;
+                        this.stories_hidden_min = (readInt322 & 4) != 0;
+                        this.stories_unavailable = (readInt322 & 8) != 0;
+                        this.id = abstractSerializedData2.readInt64(z3);
+                        if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) != 0) {
+                            this.access_hash = abstractSerializedData2.readInt64(z3);
+                        }
+                        this.title = abstractSerializedData2.readString(z3);
+                        if ((this.flags & 64) != 0) {
+                            this.username = abstractSerializedData2.readString(z3);
+                        }
+                        this.photo = TLRPC$ChatPhoto.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z3), z3);
+                        this.date = abstractSerializedData2.readInt32(z3);
+                        if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
+                            int readInt323 = abstractSerializedData2.readInt32(z3);
+                            if (readInt323 != 481674261) {
+                                if (z3) {
+                                    throw new RuntimeException(String.format("wrong Vector magic, got %x", Integer.valueOf(readInt323)));
+                                }
+                                return;
+                            }
+                            int readInt324 = abstractSerializedData2.readInt32(z3);
+                            for (int i2 = 0; i2 < readInt324; i2++) {
+                                TLRPC$TL_restrictionReason TLdeserialize = TLRPC$TL_restrictionReason.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z3), z3);
+                                if (TLdeserialize == null) {
+                                    return;
+                                }
+                                this.restriction_reason.add(TLdeserialize);
+                            }
+                        }
+                        if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) != 0) {
+                            this.admin_rights = TLRPC$TL_chatAdminRights.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z3), z3);
+                        }
+                        if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
+                            this.banned_rights = TLRPC$TL_chatBannedRights.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z3), z3);
+                        }
+                        if ((this.flags & 262144) != 0) {
+                            this.default_banned_rights = TLRPC$TL_chatBannedRights.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z3), z3);
+                        }
+                        if ((this.flags & 131072) != 0) {
+                            this.participants_count = abstractSerializedData2.readInt32(z3);
+                        }
+                        if ((this.flags2 & 1) != 0) {
+                            int readInt325 = abstractSerializedData2.readInt32(z3);
+                            if (readInt325 != 481674261) {
+                                if (z3) {
+                                    throw new RuntimeException(String.format("wrong Vector magic, got %x", Integer.valueOf(readInt325)));
+                                }
+                                return;
+                            }
+                            int readInt326 = abstractSerializedData2.readInt32(z3);
+                            for (int i3 = 0; i3 < readInt326; i3++) {
+                                TLRPC$TL_username TLdeserialize2 = TLRPC$TL_username.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z3), z3);
+                                if (TLdeserialize2 == null) {
+                                    return;
+                                }
+                                this.usernames.add(TLdeserialize2);
+                            }
+                        }
+                        if ((this.flags2 & 16) != 0) {
+                            this.stories_max_id = abstractSerializedData2.readInt32(z3);
+                        }
+                    }
+
+                    @Override // org.telegram.tgnet.TLRPC$TL_channel, org.telegram.tgnet.TLObject
+                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
+                        abstractSerializedData2.writeInt32(-1795845413);
+                        int i2 = this.creator ? this.flags | 1 : this.flags & (-2);
+                        this.flags = i2;
+                        int i3 = this.left ? i2 | 4 : i2 & (-5);
+                        this.flags = i3;
+                        int i4 = this.broadcast ? i3 | 32 : i3 & (-33);
+                        this.flags = i4;
+                        int i5 = this.verified ? i4 | 128 : i4 & (-129);
+                        this.flags = i5;
+                        int i6 = this.megagroup ? i5 | LiteMode.FLAG_CHAT_BLUR : i5 & (-257);
+                        this.flags = i6;
+                        int i7 = this.restricted ? i6 | LiteMode.FLAG_CALLS_ANIMATIONS : i6 & (-513);
+                        this.flags = i7;
+                        int i8 = this.signatures ? i7 | LiteMode.FLAG_AUTOPLAY_GIFS : i7 & (-2049);
+                        this.flags = i8;
+                        int i9 = this.min ? i8 | LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM : i8 & (-4097);
+                        this.flags = i9;
+                        int i10 = this.scam ? i9 | 524288 : i9 & (-524289);
+                        this.flags = i10;
+                        int i11 = this.has_link ? i10 | FileLoaderPriorityQueue.PRIORITY_VALUE_MAX : i10 & (-1048577);
+                        this.flags = i11;
+                        int i12 = this.has_geo ? i11 | 2097152 : i11 & (-2097153);
+                        this.flags = i12;
+                        int i13 = this.slowmode_enabled ? i12 | 4194304 : i12 & (-4194305);
+                        this.flags = i13;
+                        int i14 = this.call_active ? i13 | 8388608 : i13 & (-8388609);
+                        this.flags = i14;
+                        int i15 = this.call_not_empty ? i14 | ConnectionsManager.FileTypePhoto : i14 & (-16777217);
+                        this.flags = i15;
+                        int i16 = this.fake ? i15 | ConnectionsManager.FileTypeVideo : i15 & (-33554433);
+                        this.flags = i16;
+                        int i17 = this.gigagroup ? i16 | ConnectionsManager.FileTypeFile : i16 & (-67108865);
+                        this.flags = i17;
+                        int i18 = this.noforwards ? i17 | 134217728 : i17 & (-134217729);
+                        this.flags = i18;
+                        int i19 = this.join_to_send ? i18 | 268435456 : i18 & (-268435457);
+                        this.flags = i19;
+                        int i20 = this.join_request ? i19 | 536870912 : i19 & (-536870913);
+                        this.flags = i20;
+                        int i21 = this.forum ? i20 | 1073741824 : i20 & (-1073741825);
+                        this.flags = i21;
+                        abstractSerializedData2.writeInt32(i21);
+                        int i22 = this.stories_hidden ? this.flags2 | 2 : this.flags2 & (-3);
+                        this.flags2 = i22;
+                        int i23 = this.stories_hidden_min ? i22 | 4 : i22 & (-5);
+                        this.flags2 = i23;
+                        int i24 = this.stories_unavailable ? i23 | 8 : i23 & (-9);
+                        this.flags2 = i24;
+                        abstractSerializedData2.writeInt32(i24);
+                        abstractSerializedData2.writeInt64(this.id);
+                        if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) != 0) {
+                            abstractSerializedData2.writeInt64(this.access_hash);
+                        }
+                        abstractSerializedData2.writeString(this.title);
+                        if ((this.flags & 64) != 0) {
+                            abstractSerializedData2.writeString(this.username);
+                        }
+                        this.photo.serializeToStream(abstractSerializedData2);
+                        abstractSerializedData2.writeInt32(this.date);
+                        if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
+                            abstractSerializedData2.writeInt32(481674261);
+                            int size = this.restriction_reason.size();
+                            abstractSerializedData2.writeInt32(size);
+                            for (int i25 = 0; i25 < size; i25++) {
+                                this.restriction_reason.get(i25).serializeToStream(abstractSerializedData2);
+                            }
+                        }
+                        if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) != 0) {
+                            this.admin_rights.serializeToStream(abstractSerializedData2);
+                        }
+                        if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
+                            this.banned_rights.serializeToStream(abstractSerializedData2);
+                        }
+                        if ((this.flags & 262144) != 0) {
+                            this.default_banned_rights.serializeToStream(abstractSerializedData2);
+                        }
+                        if ((this.flags & 131072) != 0) {
+                            abstractSerializedData2.writeInt32(this.participants_count);
+                        }
+                        if ((this.flags2 & 1) != 0) {
+                            abstractSerializedData2.writeInt32(481674261);
+                            int size2 = this.usernames.size();
+                            abstractSerializedData2.writeInt32(size2);
+                            for (int i26 = 0; i26 < size2; i26++) {
+                                this.usernames.get(i26).serializeToStream(abstractSerializedData2);
+                            }
+                        }
+                        if ((this.flags2 & 16) != 0) {
+                            abstractSerializedData2.writeInt32(this.stories_max_id);
+                        }
+                    }
+                };
                 break;
             case -1683826688:
                 tLRPC$Chat = new TLRPC$TL_chatEmpty() { // from class: org.telegram.tgnet.TLRPC$TL_chatEmpty_layer131
-                    public static int constructor = -1683826688;
-
                     @Override // org.telegram.tgnet.TLRPC$TL_chatEmpty, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z3) {
                         this.id = abstractSerializedData2.readInt32(z3);
@@ -434,15 +612,13 @@ public abstract class TLRPC$Chat extends TLObject {
 
                     @Override // org.telegram.tgnet.TLRPC$TL_chatEmpty, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(-1683826688);
                         abstractSerializedData2.writeInt32((int) this.id);
                     }
                 };
                 break;
             case -1588737454:
                 tLRPC$Chat = new TLRPC$TL_channel() { // from class: org.telegram.tgnet.TLRPC$TL_channel_layer67
-                    public static int constructor = -1588737454;
-
                     @Override // org.telegram.tgnet.TLRPC$TL_channel, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z3) {
                         int readInt32 = abstractSerializedData2.readInt32(z3);
@@ -475,7 +651,7 @@ public abstract class TLRPC$Chat extends TLObject {
 
                     @Override // org.telegram.tgnet.TLRPC$TL_channel, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(-1588737454);
                         int i2 = this.creator ? this.flags | 1 : this.flags & (-2);
                         this.flags = i2;
                         int i3 = this.kicked ? i2 | 2 : i2 & (-3);
@@ -516,8 +692,6 @@ public abstract class TLRPC$Chat extends TLObject {
                 break;
             case -930515796:
                 tLRPC$Chat = new TLRPC$TL_channel() { // from class: org.telegram.tgnet.TLRPC$TL_channel_layer92
-                    public static int constructor = -930515796;
-
                     @Override // org.telegram.tgnet.TLRPC$TL_channel, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z3) {
                         int readInt32 = abstractSerializedData2.readInt32(z3);
@@ -561,7 +735,7 @@ public abstract class TLRPC$Chat extends TLObject {
 
                     @Override // org.telegram.tgnet.TLRPC$TL_channel, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(-930515796);
                         int i2 = this.creator ? this.flags | 1 : this.flags & (-2);
                         this.flags = i2;
                         int i3 = this.left ? i2 | 4 : i2 & (-5);
@@ -607,8 +781,6 @@ public abstract class TLRPC$Chat extends TLObject {
                 break;
             case -753232354:
                 tLRPC$Chat = new TLRPC$TL_channel() { // from class: org.telegram.tgnet.TLRPC$TL_channel_layer131
-                    public static int constructor = -753232354;
-
                     @Override // org.telegram.tgnet.TLRPC$TL_channel, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z3) {
                         int readInt32 = abstractSerializedData2.readInt32(z3);
@@ -673,7 +845,7 @@ public abstract class TLRPC$Chat extends TLObject {
 
                     @Override // org.telegram.tgnet.TLRPC$TL_channel, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(-753232354);
                         int i2 = this.creator ? this.flags | 1 : this.flags & (-2);
                         this.flags = i2;
                         int i3 = this.left ? i2 | 4 : i2 & (-5);
@@ -743,8 +915,6 @@ public abstract class TLRPC$Chat extends TLObject {
                 break;
             case -652419756:
                 tLRPC$Chat = new TLRPC$TL_chat() { // from class: org.telegram.tgnet.TLRPC$TL_chat_layer92
-                    public static int constructor = -652419756;
-
                     @Override // org.telegram.tgnet.TLRPC$TL_chat, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z3) {
                         int readInt32 = abstractSerializedData2.readInt32(z3);
@@ -766,7 +936,7 @@ public abstract class TLRPC$Chat extends TLObject {
 
                     @Override // org.telegram.tgnet.TLRPC$TL_chat, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(-652419756);
                         int i2 = this.creator ? this.flags | 1 : this.flags & (-2);
                         this.flags = i2;
                         int i3 = this.kicked ? i2 | 2 : i2 & (-3);
@@ -790,8 +960,6 @@ public abstract class TLRPC$Chat extends TLObject {
                 break;
             case -83047359:
                 tLRPC$Chat = new TLRPC$TL_chatForbidden() { // from class: org.telegram.tgnet.TLRPC$TL_chatForbidden_old
-                    public static int constructor = -83047359;
-
                     @Override // org.telegram.tgnet.TLRPC$TL_chatForbidden, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z3) {
                         this.id = abstractSerializedData2.readInt32(z3);
@@ -801,7 +969,7 @@ public abstract class TLRPC$Chat extends TLObject {
 
                     @Override // org.telegram.tgnet.TLRPC$TL_chatForbidden, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(-83047359);
                         abstractSerializedData2.writeInt32((int) this.id);
                         abstractSerializedData2.writeString(this.title);
                         abstractSerializedData2.writeInt32(this.date);
@@ -810,8 +978,6 @@ public abstract class TLRPC$Chat extends TLObject {
                 break;
             case 120753115:
                 tLRPC$Chat = new TLRPC$TL_chatForbidden() { // from class: org.telegram.tgnet.TLRPC$TL_chatForbidden_layer131
-                    public static int constructor = 120753115;
-
                     @Override // org.telegram.tgnet.TLRPC$TL_chatForbidden, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z3) {
                         this.id = abstractSerializedData2.readInt32(z3);
@@ -820,7 +986,7 @@ public abstract class TLRPC$Chat extends TLObject {
 
                     @Override // org.telegram.tgnet.TLRPC$TL_chatForbidden, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(120753115);
                         abstractSerializedData2.writeInt32((int) this.id);
                         abstractSerializedData2.writeString(this.title);
                     }
@@ -828,8 +994,6 @@ public abstract class TLRPC$Chat extends TLObject {
                 break;
             case 213142300:
                 tLRPC$Chat = new TLRPC$TL_channel() { // from class: org.telegram.tgnet.TLRPC$TL_channel_layer72
-                    public static int constructor = 213142300;
-
                     @Override // org.telegram.tgnet.TLRPC$TL_channel, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z3) {
                         int readInt32 = abstractSerializedData2.readInt32(z3);
@@ -870,7 +1034,7 @@ public abstract class TLRPC$Chat extends TLObject {
 
                     @Override // org.telegram.tgnet.TLRPC$TL_channel, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(213142300);
                         int i2 = this.creator ? this.flags | 1 : this.flags & (-2);
                         this.flags = i2;
                         int i3 = this.kicked ? i2 | 2 : i2 & (-3);
@@ -916,10 +1080,206 @@ public abstract class TLRPC$Chat extends TLObject {
             case 399807445:
                 tLRPC$Chat = new TLRPC$TL_channelForbidden();
                 break;
+            case 427944574:
+                tLRPC$Chat = new TLRPC$TL_channel();
+                break;
+            case 609791884:
+                tLRPC$Chat = new TLRPC$TL_channel() { // from class: org.telegram.tgnet.TLRPC$TL_channel_layer165
+                    @Override // org.telegram.tgnet.TLRPC$TL_channel, org.telegram.tgnet.TLObject
+                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z3) {
+                        int readInt32 = abstractSerializedData2.readInt32(z3);
+                        this.flags = readInt32;
+                        this.creator = (readInt32 & 1) != 0;
+                        this.left = (readInt32 & 4) != 0;
+                        this.broadcast = (readInt32 & 32) != 0;
+                        this.verified = (readInt32 & 128) != 0;
+                        this.megagroup = (readInt32 & LiteMode.FLAG_CHAT_BLUR) != 0;
+                        this.restricted = (readInt32 & LiteMode.FLAG_CALLS_ANIMATIONS) != 0;
+                        this.signatures = (readInt32 & LiteMode.FLAG_AUTOPLAY_GIFS) != 0;
+                        this.min = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM) != 0;
+                        this.scam = (524288 & readInt32) != 0;
+                        this.has_link = (1048576 & readInt32) != 0;
+                        this.has_geo = (2097152 & readInt32) != 0;
+                        this.slowmode_enabled = (4194304 & readInt32) != 0;
+                        this.call_active = (8388608 & readInt32) != 0;
+                        this.call_not_empty = (16777216 & readInt32) != 0;
+                        this.fake = (33554432 & readInt32) != 0;
+                        this.gigagroup = (67108864 & readInt32) != 0;
+                        this.noforwards = (134217728 & readInt32) != 0;
+                        this.join_to_send = (268435456 & readInt32) != 0;
+                        this.join_request = (536870912 & readInt32) != 0;
+                        this.forum = (readInt32 & 1073741824) != 0;
+                        int readInt322 = abstractSerializedData2.readInt32(z3);
+                        this.flags2 = readInt322;
+                        this.stories_hidden = (readInt322 & 2) != 0;
+                        this.stories_hidden_min = (readInt322 & 4) != 0;
+                        this.stories_unavailable = (readInt322 & 8) != 0;
+                        this.id = abstractSerializedData2.readInt64(z3);
+                        if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) != 0) {
+                            this.access_hash = abstractSerializedData2.readInt64(z3);
+                        }
+                        this.title = abstractSerializedData2.readString(z3);
+                        if ((this.flags & 64) != 0) {
+                            this.username = abstractSerializedData2.readString(z3);
+                        }
+                        this.photo = TLRPC$ChatPhoto.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z3), z3);
+                        this.date = abstractSerializedData2.readInt32(z3);
+                        if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
+                            int readInt323 = abstractSerializedData2.readInt32(z3);
+                            if (readInt323 != 481674261) {
+                                if (z3) {
+                                    throw new RuntimeException(String.format("wrong Vector magic, got %x", Integer.valueOf(readInt323)));
+                                }
+                                return;
+                            }
+                            int readInt324 = abstractSerializedData2.readInt32(z3);
+                            for (int i2 = 0; i2 < readInt324; i2++) {
+                                TLRPC$TL_restrictionReason TLdeserialize = TLRPC$TL_restrictionReason.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z3), z3);
+                                if (TLdeserialize == null) {
+                                    return;
+                                }
+                                this.restriction_reason.add(TLdeserialize);
+                            }
+                        }
+                        if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) != 0) {
+                            this.admin_rights = TLRPC$TL_chatAdminRights.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z3), z3);
+                        }
+                        if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
+                            this.banned_rights = TLRPC$TL_chatBannedRights.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z3), z3);
+                        }
+                        if ((this.flags & 262144) != 0) {
+                            this.default_banned_rights = TLRPC$TL_chatBannedRights.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z3), z3);
+                        }
+                        if ((this.flags & 131072) != 0) {
+                            this.participants_count = abstractSerializedData2.readInt32(z3);
+                        }
+                        if ((this.flags2 & 1) != 0) {
+                            int readInt325 = abstractSerializedData2.readInt32(z3);
+                            if (readInt325 != 481674261) {
+                                if (z3) {
+                                    throw new RuntimeException(String.format("wrong Vector magic, got %x", Integer.valueOf(readInt325)));
+                                }
+                                return;
+                            }
+                            int readInt326 = abstractSerializedData2.readInt32(z3);
+                            for (int i3 = 0; i3 < readInt326; i3++) {
+                                TLRPC$TL_username TLdeserialize2 = TLRPC$TL_username.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z3), z3);
+                                if (TLdeserialize2 == null) {
+                                    return;
+                                }
+                                this.usernames.add(TLdeserialize2);
+                            }
+                        }
+                        if ((this.flags2 & 16) != 0) {
+                            this.stories_max_id = abstractSerializedData2.readInt32(z3);
+                        }
+                        this.color = abstractSerializedData2.readInt32(z3);
+                        if ((this.flags2 & 32) != 0) {
+                            this.background_emoji_id = abstractSerializedData2.readInt64(z3);
+                        }
+                    }
+
+                    @Override // org.telegram.tgnet.TLRPC$TL_channel, org.telegram.tgnet.TLObject
+                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
+                        abstractSerializedData2.writeInt32(609791884);
+                        int i2 = this.creator ? this.flags | 1 : this.flags & (-2);
+                        this.flags = i2;
+                        int i3 = this.left ? i2 | 4 : i2 & (-5);
+                        this.flags = i3;
+                        int i4 = this.broadcast ? i3 | 32 : i3 & (-33);
+                        this.flags = i4;
+                        int i5 = this.verified ? i4 | 128 : i4 & (-129);
+                        this.flags = i5;
+                        int i6 = this.megagroup ? i5 | LiteMode.FLAG_CHAT_BLUR : i5 & (-257);
+                        this.flags = i6;
+                        int i7 = this.restricted ? i6 | LiteMode.FLAG_CALLS_ANIMATIONS : i6 & (-513);
+                        this.flags = i7;
+                        int i8 = this.signatures ? i7 | LiteMode.FLAG_AUTOPLAY_GIFS : i7 & (-2049);
+                        this.flags = i8;
+                        int i9 = this.min ? i8 | LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM : i8 & (-4097);
+                        this.flags = i9;
+                        int i10 = this.scam ? i9 | 524288 : i9 & (-524289);
+                        this.flags = i10;
+                        int i11 = this.has_link ? i10 | FileLoaderPriorityQueue.PRIORITY_VALUE_MAX : i10 & (-1048577);
+                        this.flags = i11;
+                        int i12 = this.has_geo ? i11 | 2097152 : i11 & (-2097153);
+                        this.flags = i12;
+                        int i13 = this.slowmode_enabled ? i12 | 4194304 : i12 & (-4194305);
+                        this.flags = i13;
+                        int i14 = this.call_active ? i13 | 8388608 : i13 & (-8388609);
+                        this.flags = i14;
+                        int i15 = this.call_not_empty ? i14 | ConnectionsManager.FileTypePhoto : i14 & (-16777217);
+                        this.flags = i15;
+                        int i16 = this.fake ? i15 | ConnectionsManager.FileTypeVideo : i15 & (-33554433);
+                        this.flags = i16;
+                        int i17 = this.gigagroup ? i16 | ConnectionsManager.FileTypeFile : i16 & (-67108865);
+                        this.flags = i17;
+                        int i18 = this.noforwards ? i17 | 134217728 : i17 & (-134217729);
+                        this.flags = i18;
+                        int i19 = this.join_to_send ? i18 | 268435456 : i18 & (-268435457);
+                        this.flags = i19;
+                        int i20 = this.join_request ? i19 | 536870912 : i19 & (-536870913);
+                        this.flags = i20;
+                        int i21 = this.forum ? i20 | 1073741824 : i20 & (-1073741825);
+                        this.flags = i21;
+                        abstractSerializedData2.writeInt32(i21);
+                        int i22 = this.stories_hidden ? this.flags2 | 2 : this.flags2 & (-3);
+                        this.flags2 = i22;
+                        int i23 = this.stories_hidden_min ? i22 | 4 : i22 & (-5);
+                        this.flags2 = i23;
+                        int i24 = this.stories_unavailable ? i23 | 8 : i23 & (-9);
+                        this.flags2 = i24;
+                        abstractSerializedData2.writeInt32(i24);
+                        abstractSerializedData2.writeInt64(this.id);
+                        if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) != 0) {
+                            abstractSerializedData2.writeInt64(this.access_hash);
+                        }
+                        abstractSerializedData2.writeString(this.title);
+                        if ((this.flags & 64) != 0) {
+                            abstractSerializedData2.writeString(this.username);
+                        }
+                        this.photo.serializeToStream(abstractSerializedData2);
+                        abstractSerializedData2.writeInt32(this.date);
+                        if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
+                            abstractSerializedData2.writeInt32(481674261);
+                            int size = this.restriction_reason.size();
+                            abstractSerializedData2.writeInt32(size);
+                            for (int i25 = 0; i25 < size; i25++) {
+                                this.restriction_reason.get(i25).serializeToStream(abstractSerializedData2);
+                            }
+                        }
+                        if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) != 0) {
+                            this.admin_rights.serializeToStream(abstractSerializedData2);
+                        }
+                        if ((this.flags & LiteMode.FLAG_CHAT_SCALE) != 0) {
+                            this.banned_rights.serializeToStream(abstractSerializedData2);
+                        }
+                        if ((this.flags & 262144) != 0) {
+                            this.default_banned_rights.serializeToStream(abstractSerializedData2);
+                        }
+                        if ((this.flags & 131072) != 0) {
+                            abstractSerializedData2.writeInt32(this.participants_count);
+                        }
+                        if ((this.flags2 & 1) != 0) {
+                            abstractSerializedData2.writeInt32(481674261);
+                            int size2 = this.usernames.size();
+                            abstractSerializedData2.writeInt32(size2);
+                            for (int i26 = 0; i26 < size2; i26++) {
+                                this.usernames.get(i26).serializeToStream(abstractSerializedData2);
+                            }
+                        }
+                        if ((this.flags2 & 16) != 0) {
+                            abstractSerializedData2.writeInt32(this.stories_max_id);
+                        }
+                        abstractSerializedData2.writeInt32(this.color);
+                        if ((this.flags2 & 32) != 0) {
+                            abstractSerializedData2.writeInt64(this.background_emoji_id);
+                        }
+                    }
+                };
+                break;
             case 681420594:
                 tLRPC$Chat = new TLRPC$TL_channelForbidden() { // from class: org.telegram.tgnet.TLRPC$TL_channelForbidden_layer131
-                    public static int constructor = 681420594;
-
                     @Override // org.telegram.tgnet.TLRPC$TL_channelForbidden, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z3) {
                         int readInt32 = abstractSerializedData2.readInt32(z3);
@@ -936,7 +1296,7 @@ public abstract class TLRPC$Chat extends TLObject {
 
                     @Override // org.telegram.tgnet.TLRPC$TL_channelForbidden, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(681420594);
                         int i2 = this.broadcast ? this.flags | 32 : this.flags & (-33);
                         this.flags = i2;
                         int i3 = this.megagroup ? i2 | LiteMode.FLAG_CHAT_BLUR : i2 & (-257);
@@ -956,8 +1316,6 @@ public abstract class TLRPC$Chat extends TLObject {
                 break;
             case 763724588:
                 tLRPC$Chat = new TLRPC$TL_channelForbidden() { // from class: org.telegram.tgnet.TLRPC$TL_channelForbidden_layer52
-                    public static int constructor = 763724588;
-
                     @Override // org.telegram.tgnet.TLRPC$TL_channelForbidden, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z3) {
                         this.id = abstractSerializedData2.readInt32(z3);
@@ -967,7 +1325,7 @@ public abstract class TLRPC$Chat extends TLObject {
 
                     @Override // org.telegram.tgnet.TLRPC$TL_channelForbidden, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(763724588);
                         abstractSerializedData2.writeInt32((int) this.id);
                         abstractSerializedData2.writeInt64(this.access_hash);
                         abstractSerializedData2.writeString(this.title);
@@ -976,8 +1334,6 @@ public abstract class TLRPC$Chat extends TLObject {
                 break;
             case 1004149726:
                 tLRPC$Chat = new TLRPC$TL_chat() { // from class: org.telegram.tgnet.TLRPC$TL_chat_layer131
-                    public static int constructor = 1004149726;
-
                     @Override // org.telegram.tgnet.TLRPC$TL_chat, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z3) {
                         int readInt32 = abstractSerializedData2.readInt32(z3);
@@ -1007,7 +1363,7 @@ public abstract class TLRPC$Chat extends TLObject {
 
                     @Override // org.telegram.tgnet.TLRPC$TL_chat, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(1004149726);
                         int i2 = this.creator ? this.flags | 1 : this.flags & (-2);
                         this.flags = i2;
                         int i3 = this.kicked ? i2 | 2 : i2 & (-3);
@@ -1044,8 +1400,6 @@ public abstract class TLRPC$Chat extends TLObject {
                 break;
             case 1158377749:
                 tLRPC$Chat = new TLRPC$TL_channel() { // from class: org.telegram.tgnet.TLRPC$TL_channel_layer77
-                    public static int constructor = 1158377749;
-
                     @Override // org.telegram.tgnet.TLRPC$TL_channel, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z3) {
                         int readInt32 = abstractSerializedData2.readInt32(z3);
@@ -1089,7 +1443,7 @@ public abstract class TLRPC$Chat extends TLObject {
 
                     @Override // org.telegram.tgnet.TLRPC$TL_channel, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(1158377749);
                         int i2 = this.creator ? this.flags | 1 : this.flags & (-2);
                         this.flags = i2;
                         int i3 = this.left ? i2 | 4 : i2 & (-5);
@@ -1135,8 +1489,6 @@ public abstract class TLRPC$Chat extends TLObject {
                 break;
             case 1260090630:
                 tLRPC$Chat = new TLRPC$TL_channel() { // from class: org.telegram.tgnet.TLRPC$TL_channel_layer48
-                    public static int constructor = 1260090630;
-
                     @Override // org.telegram.tgnet.TLRPC$TL_channel, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z3) {
                         int readInt32 = abstractSerializedData2.readInt32(z3);
@@ -1166,7 +1518,7 @@ public abstract class TLRPC$Chat extends TLObject {
 
                     @Override // org.telegram.tgnet.TLRPC$TL_channel, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(1260090630);
                         int i2 = this.creator ? this.flags | 1 : this.flags & (-2);
                         this.flags = i2;
                         int i3 = this.kicked ? i2 | 2 : i2 & (-3);
@@ -1203,8 +1555,6 @@ public abstract class TLRPC$Chat extends TLObject {
                 break;
             case 1307772980:
                 tLRPC$Chat = new TLRPC$TL_channel() { // from class: org.telegram.tgnet.TLRPC$TL_channel_layer104
-                    public static int constructor = 1307772980;
-
                     @Override // org.telegram.tgnet.TLRPC$TL_channel, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z3) {
                         int readInt32 = abstractSerializedData2.readInt32(z3);
@@ -1251,7 +1601,7 @@ public abstract class TLRPC$Chat extends TLObject {
 
                     @Override // org.telegram.tgnet.TLRPC$TL_channel, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(1307772980);
                         int i2 = this.creator ? this.flags | 1 : this.flags & (-2);
                         this.flags = i2;
                         int i3 = this.left ? i2 | 4 : i2 & (-5);
@@ -1311,8 +1661,6 @@ public abstract class TLRPC$Chat extends TLObject {
                 break;
             case 1737397639:
                 tLRPC$Chat = new TLRPC$TL_channel() { // from class: org.telegram.tgnet.TLRPC$TL_channel_old
-                    public static int constructor = 1737397639;
-
                     @Override // org.telegram.tgnet.TLRPC$TL_channel, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z3) {
                         int readInt32 = abstractSerializedData2.readInt32(z3);
@@ -1338,7 +1686,7 @@ public abstract class TLRPC$Chat extends TLObject {
 
                     @Override // org.telegram.tgnet.TLRPC$TL_channel, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(1737397639);
                         int i2 = this.creator ? this.flags | 1 : this.flags & (-2);
                         this.flags = i2;
                         int i3 = this.kicked ? i2 | 2 : i2 & (-3);
@@ -1370,8 +1718,6 @@ public abstract class TLRPC$Chat extends TLObject {
                 break;
             case 1855757255:
                 tLRPC$Chat = new TLRPC$TL_chat() { // from class: org.telegram.tgnet.TLRPC$TL_chat_old
-                    public static int constructor = 1855757255;
-
                     @Override // org.telegram.tgnet.TLRPC$TL_chat, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z3) {
                         this.id = abstractSerializedData2.readInt32(z3);
@@ -1385,7 +1731,7 @@ public abstract class TLRPC$Chat extends TLObject {
 
                     @Override // org.telegram.tgnet.TLRPC$TL_chat, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(1855757255);
                         abstractSerializedData2.writeInt32((int) this.id);
                         abstractSerializedData2.writeString(this.title);
                         this.photo.serializeToStream(abstractSerializedData2);
@@ -1398,8 +1744,6 @@ public abstract class TLRPC$Chat extends TLObject {
                 break;
             case 1930607688:
                 tLRPC$Chat = new TLRPC$TL_chat() { // from class: org.telegram.tgnet.TLRPC$TL_chat_old2
-                    public static int constructor = 1930607688;
-
                     @Override // org.telegram.tgnet.TLRPC$TL_chat, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z3) {
                         int readInt32 = abstractSerializedData2.readInt32(z3);
@@ -1418,7 +1762,7 @@ public abstract class TLRPC$Chat extends TLObject {
 
                     @Override // org.telegram.tgnet.TLRPC$TL_chat, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(1930607688);
                         int i2 = this.creator ? this.flags | 1 : this.flags & (-2);
                         this.flags = i2;
                         int i3 = this.kicked ? i2 | 2 : i2 & (-3);

@@ -1,14 +1,13 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_statsGroupTopAdmin extends TLObject {
-    public static int constructor = -682079097;
     public int banned;
     public int deleted;
     public int kicked;
     public long user_id;
 
     public static TLRPC$TL_statsGroupTopAdmin TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-        if (constructor != i) {
+        if (-682079097 != i) {
             if (z) {
                 throw new RuntimeException(String.format("can't parse magic %x in TL_statsGroupTopAdmin", Integer.valueOf(i)));
             }
@@ -29,7 +28,7 @@ public class TLRPC$TL_statsGroupTopAdmin extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-682079097);
         abstractSerializedData.writeInt64(this.user_id);
         abstractSerializedData.writeInt32(this.deleted);
         abstractSerializedData.writeInt32(this.kicked);

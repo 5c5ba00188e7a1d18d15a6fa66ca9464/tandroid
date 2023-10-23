@@ -30,8 +30,6 @@ public abstract class TLRPC$DocumentAttribute extends TLObject {
                 break;
             case -1723033470:
                 tLRPC$TL_documentAttributeHasStickers = new TLRPC$TL_documentAttributeSticker() { // from class: org.telegram.tgnet.TLRPC$TL_documentAttributeSticker_old2
-                    public static int constructor = -1723033470;
-
                     @Override // org.telegram.tgnet.TLRPC$TL_documentAttributeSticker, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         this.alt = abstractSerializedData2.readString(z2);
@@ -39,7 +37,7 @@ public abstract class TLRPC$DocumentAttribute extends TLObject {
 
                     @Override // org.telegram.tgnet.TLRPC$TL_documentAttributeSticker, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(-1723033470);
                         abstractSerializedData2.writeString(this.alt);
                     }
                 };
@@ -49,8 +47,6 @@ public abstract class TLRPC$DocumentAttribute extends TLObject {
                 break;
             case -556656416:
                 tLRPC$TL_documentAttributeHasStickers = new TLRPC$TL_documentAttributeAudio() { // from class: org.telegram.tgnet.TLRPC$TL_documentAttributeAudio_layer45
-                    public static int constructor = -556656416;
-
                     @Override // org.telegram.tgnet.TLRPC$TL_documentAttributeAudio, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         this.duration = abstractSerializedData2.readInt32(z2);
@@ -60,7 +56,7 @@ public abstract class TLRPC$DocumentAttribute extends TLObject {
 
                     @Override // org.telegram.tgnet.TLRPC$TL_documentAttributeAudio, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(-556656416);
                         abstractSerializedData2.writeInt32((int) this.duration);
                         abstractSerializedData2.writeString(this.title);
                         abstractSerializedData2.writeString(this.performer);
@@ -69,15 +65,13 @@ public abstract class TLRPC$DocumentAttribute extends TLObject {
                 break;
             case -83208409:
                 tLRPC$TL_documentAttributeHasStickers = new TLRPC$TL_documentAttributeSticker() { // from class: org.telegram.tgnet.TLRPC$TL_documentAttributeSticker_old
-                    public static int constructor = -83208409;
-
                     @Override // org.telegram.tgnet.TLRPC$TL_documentAttributeSticker, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                     }
 
                     @Override // org.telegram.tgnet.TLRPC$TL_documentAttributeSticker, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(-83208409);
                     }
                 };
                 break;
@@ -86,8 +80,6 @@ public abstract class TLRPC$DocumentAttribute extends TLObject {
                 break;
             case 85215461:
                 tLRPC$TL_documentAttributeHasStickers = new TLRPC$TL_documentAttributeAudio() { // from class: org.telegram.tgnet.TLRPC$TL_documentAttributeAudio_old
-                    public static int constructor = 85215461;
-
                     @Override // org.telegram.tgnet.TLRPC$TL_documentAttributeAudio, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         this.duration = abstractSerializedData2.readInt32(z2);
@@ -95,7 +87,7 @@ public abstract class TLRPC$DocumentAttribute extends TLObject {
 
                     @Override // org.telegram.tgnet.TLRPC$TL_documentAttributeAudio, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(85215461);
                         abstractSerializedData2.writeInt32((int) this.duration);
                     }
                 };
@@ -114,8 +106,6 @@ public abstract class TLRPC$DocumentAttribute extends TLObject {
                 break;
             case 1494273227:
                 tLRPC$TL_documentAttributeHasStickers = new TLRPC$TL_documentAttributeVideo() { // from class: org.telegram.tgnet.TLRPC$TL_documentAttributeVideo_layer65
-                    public static int constructor = 1494273227;
-
                     @Override // org.telegram.tgnet.TLRPC$TL_documentAttributeVideo, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         this.duration = abstractSerializedData2.readInt32(z2);
@@ -125,7 +115,7 @@ public abstract class TLRPC$DocumentAttribute extends TLObject {
 
                     @Override // org.telegram.tgnet.TLRPC$TL_documentAttributeVideo, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(1494273227);
                         abstractSerializedData2.writeInt32((int) this.duration);
                         abstractSerializedData2.writeInt32(this.w);
                         abstractSerializedData2.writeInt32(this.h);

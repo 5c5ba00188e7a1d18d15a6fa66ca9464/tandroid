@@ -13,8 +13,6 @@ public abstract class TLRPC$photos_Photos extends TLObject {
             tLRPC$TL_photos_photos = new TLRPC$TL_photos_photos();
         } else {
             tLRPC$TL_photos_photos = i != 352657236 ? null : new TLRPC$photos_Photos() { // from class: org.telegram.tgnet.TLRPC$TL_photos_photosSlice
-                public static int constructor = 352657236;
-
                 @Override // org.telegram.tgnet.TLObject
                 public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                     this.count = abstractSerializedData2.readInt32(z2);
@@ -52,7 +50,7 @@ public abstract class TLRPC$photos_Photos extends TLObject {
 
                 @Override // org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                    abstractSerializedData2.writeInt32(constructor);
+                    abstractSerializedData2.writeInt32(352657236);
                     abstractSerializedData2.writeInt32(this.count);
                     abstractSerializedData2.writeInt32(481674261);
                     int size = this.photos.size();

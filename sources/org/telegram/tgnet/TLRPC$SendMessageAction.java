@@ -11,53 +11,45 @@ public abstract class TLRPC$SendMessageAction extends TLObject {
                 break;
             case -1884362354:
                 tLRPC$TL_sendMessageRecordRoundAction = new TLRPC$TL_sendMessageUploadDocumentAction() { // from class: org.telegram.tgnet.TLRPC$TL_sendMessageUploadDocumentAction_old
-                    public static int constructor = -1884362354;
-
                     @Override // org.telegram.tgnet.TLRPC$TL_sendMessageUploadDocumentAction, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                     }
 
                     @Override // org.telegram.tgnet.TLRPC$TL_sendMessageUploadDocumentAction, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(-1884362354);
                     }
                 };
                 break;
             case -1845219337:
                 tLRPC$TL_sendMessageRecordRoundAction = new TLRPC$TL_sendMessageUploadVideoAction() { // from class: org.telegram.tgnet.TLRPC$TL_sendMessageUploadVideoAction_old
-                    public static int constructor = -1845219337;
-
                     @Override // org.telegram.tgnet.TLRPC$TL_sendMessageUploadVideoAction, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                     }
 
                     @Override // org.telegram.tgnet.TLRPC$TL_sendMessageUploadVideoAction, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(-1845219337);
                     }
                 };
                 break;
             case -1727382502:
                 tLRPC$TL_sendMessageRecordRoundAction = new TLRPC$TL_sendMessageUploadPhotoAction() { // from class: org.telegram.tgnet.TLRPC$TL_sendMessageUploadPhotoAction_old
-                    public static int constructor = -1727382502;
-
                     @Override // org.telegram.tgnet.TLRPC$TL_sendMessageUploadPhotoAction, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                     }
 
                     @Override // org.telegram.tgnet.TLRPC$TL_sendMessageUploadPhotoAction, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(-1727382502);
                     }
                 };
                 break;
             case -1584933265:
                 tLRPC$TL_sendMessageRecordRoundAction = new TLRPC$SendMessageAction() { // from class: org.telegram.tgnet.TLRPC$TL_sendMessageRecordVideoAction
-                    public static int constructor = -1584933265;
-
                     @Override // org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(-1584933265);
                     }
                 };
                 break;
@@ -87,15 +79,13 @@ public abstract class TLRPC$SendMessageAction extends TLObject {
                 break;
             case -424899985:
                 tLRPC$TL_sendMessageRecordRoundAction = new TLRPC$TL_sendMessageUploadAudioAction() { // from class: org.telegram.tgnet.TLRPC$TL_sendMessageUploadAudioAction_old
-                    public static int constructor = -424899985;
-
                     @Override // org.telegram.tgnet.TLRPC$TL_sendMessageUploadAudioAction, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                     }
 
                     @Override // org.telegram.tgnet.TLRPC$TL_sendMessageUploadAudioAction, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(-424899985);
                     }
                 };
                 break;
@@ -113,11 +103,9 @@ public abstract class TLRPC$SendMessageAction extends TLObject {
                 break;
             case 393186209:
                 tLRPC$TL_sendMessageRecordRoundAction = new TLRPC$SendMessageAction() { // from class: org.telegram.tgnet.TLRPC$TL_sendMessageGeoLocationAction
-                    public static int constructor = 393186209;
-
                     @Override // org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(393186209);
                     }
                 };
                 break;
@@ -129,11 +117,9 @@ public abstract class TLRPC$SendMessageAction extends TLObject {
                 break;
             case 1653390447:
                 tLRPC$TL_sendMessageRecordRoundAction = new TLRPC$SendMessageAction() { // from class: org.telegram.tgnet.TLRPC$TL_sendMessageChooseContactAction
-                    public static int constructor = 1653390447;
-
                     @Override // org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(1653390447);
                     }
                 };
                 break;

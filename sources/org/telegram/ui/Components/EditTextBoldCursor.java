@@ -16,6 +16,7 @@ import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RectShape;
 import android.os.Build;
 import android.os.SystemClock;
+import android.text.Editable;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
@@ -41,6 +42,7 @@ import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.FileLoaderPriorityQueue;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.XiaomiUtilities;
@@ -49,6 +51,7 @@ import org.telegram.ui.ActionBar.FloatingActionMode;
 import org.telegram.ui.ActionBar.FloatingToolbar;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedTextView;
+import org.telegram.ui.Components.QuoteSpan;
 /* loaded from: classes4.dex */
 public class EditTextBoldCursor extends EditTextEffects {
     private static Class editorClass;
@@ -90,6 +93,7 @@ public class EditTextBoldCursor extends EditTextEffects {
     private int hintColor;
     private long hintLastUpdateTime;
     private StaticLayout hintLayout;
+    public float hintLayoutX;
     public boolean hintLayoutYFix;
     private boolean hintVisible;
     private int ignoreBottomCount;
@@ -129,7 +133,7 @@ public class EditTextBoldCursor extends EditTextEffects {
     }
 
     @Override // android.widget.TextView, android.view.View
-    @TargetApi(26)
+    @TargetApi(MessageObject.TYPE_GIVEAWAY)
     public int getAutofillType() {
         return 0;
     }
@@ -795,9 +799,13 @@ public class EditTextBoldCursor extends EditTextEffects {
                     float lineWidth = this.hintLayout.getLineWidth(0);
                     int i = lineLeft != 0.0f ? (int) (0 - lineLeft) : 0;
                     if (this.supportRtlHint && LocaleController.isRTL) {
-                        canvas.translate(i + getScrollX() + (getMeasuredWidth() - lineWidth), (this.lineY - this.hintLayout.getHeight()) - AndroidUtilities.dp(7.0f));
+                        float scrollX = i + getScrollX() + (getMeasuredWidth() - lineWidth);
+                        this.hintLayoutX = scrollX;
+                        canvas.translate(scrollX, (this.lineY - this.hintLayout.getHeight()) - AndroidUtilities.dp(7.0f));
                     } else {
-                        canvas.translate(i + getScrollX(), (this.lineY - this.hintLayout.getHeight()) - AndroidUtilities.dp2(7.0f));
+                        float scrollX2 = i + getScrollX();
+                        this.hintLayoutX = scrollX2;
+                        canvas.translate(scrollX2, (this.lineY - this.hintLayout.getHeight()) - AndroidUtilities.dp2(7.0f));
                     }
                     if (this.transformHintToHeader) {
                         float f3 = 1.0f - (this.headerAnimationProgress * 0.3f);
@@ -846,8 +854,8 @@ public class EditTextBoldCursor extends EditTextEffects {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x0117 A[Catch: all -> 0x0140, TryCatch #0 {all -> 0x0140, blocks: (B:31:0x006c, B:33:0x0070, B:35:0x0074, B:37:0x0086, B:42:0x0094, B:45:0x009a, B:47:0x00a1, B:49:0x00a9, B:54:0x00cf, B:56:0x0117, B:58:0x011a, B:59:0x011f, B:50:0x00bc, B:52:0x00c4, B:41:0x0090), top: B:145:0x006c }] */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x01ce A[Catch: all -> 0x01f8, TryCatch #1 {all -> 0x01f8, blocks: (B:69:0x0151, B:71:0x0158, B:73:0x0160, B:78:0x0186, B:80:0x01ce, B:82:0x01d1, B:83:0x01d6, B:74:0x0173, B:76:0x017b), top: B:147:0x0151 }] */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x010e A[Catch: all -> 0x0137, TryCatch #1 {all -> 0x0137, blocks: (B:31:0x0063, B:33:0x0067, B:35:0x006b, B:37:0x007d, B:42:0x008b, B:45:0x0091, B:47:0x0098, B:49:0x00a0, B:54:0x00c6, B:56:0x010e, B:58:0x0111, B:59:0x0116, B:50:0x00b3, B:52:0x00bb, B:41:0x0087), top: B:147:0x0063 }] */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x01c5 A[Catch: all -> 0x01ef, TryCatch #4 {all -> 0x01ef, blocks: (B:69:0x0148, B:71:0x014f, B:73:0x0157, B:78:0x017d, B:80:0x01c5, B:82:0x01c8, B:83:0x01cd, B:74:0x016a, B:76:0x0172), top: B:154:0x0148 }] */
     @Override // org.telegram.ui.Components.EditTextEffects, android.widget.TextView, android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -867,7 +875,7 @@ public class EditTextBoldCursor extends EditTextEffects {
         int i3;
         boolean z3;
         drawHint(canvas);
-        int extendedPaddingTop = getExtendedPaddingTop();
+        getExtendedPaddingTop();
         this.scrollY = ConnectionsManager.DEFAULT_DATACENTER_ID;
         try {
             Field field = mScrollYField;
@@ -882,10 +890,7 @@ public class EditTextBoldCursor extends EditTextEffects {
                 throw new RuntimeException(e);
             }
         }
-        this.ignoreTopCount = 1;
-        this.ignoreBottomCount = 1;
         canvas.save();
-        canvas.translate(0.0f, extendedPaddingTop);
         try {
             this.drawInMaim = true;
             super.onDraw(canvas);
@@ -1269,8 +1274,9 @@ public class EditTextBoldCursor extends EditTextEffects {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.EditTextEffects, android.widget.TextView, android.view.View
-    protected void onAttachedToWindow() {
+    public void onAttachedToWindow() {
         try {
             super.onAttachedToWindow();
         } catch (Exception e) {
@@ -1304,6 +1310,14 @@ public class EditTextBoldCursor extends EditTextEffects {
             FloatingToolbar floatingToolbar = new FloatingToolbar(context, view, getActionModeStyle(), getResourcesProvider());
             this.floatingToolbar = floatingToolbar;
             floatingToolbar.setOnPremiumLockClick(this.onPremiumMenuLockClickListener);
+            this.floatingToolbar.setQuoteShowVisible(new Utilities.Callback0Return() { // from class: org.telegram.ui.Components.EditTextBoldCursor$$ExternalSyntheticLambda2
+                @Override // org.telegram.messenger.Utilities.Callback0Return
+                public final Object run() {
+                    boolean shouldShowQuoteButton;
+                    shouldShowQuoteButton = EditTextBoldCursor.this.shouldShowQuoteButton();
+                    return Boolean.valueOf(shouldShowQuoteButton);
+                }
+            });
             this.floatingActionMode = new FloatingActionMode(getContext(), new ActionModeCallback2Wrapper(callback), this, this.floatingToolbar);
             this.floatingToolbarPreDrawListener = new ViewTreeObserver.OnPreDrawListener() { // from class: org.telegram.ui.Components.EditTextBoldCursor$$ExternalSyntheticLambda0
                 @Override // android.view.ViewTreeObserver.OnPreDrawListener
@@ -1333,6 +1347,16 @@ public class EditTextBoldCursor extends EditTextEffects {
             return true;
         }
         return true;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public boolean shouldShowQuoteButton() {
+        Editable text;
+        if (!hasSelection() || getSelectionStart() < 0 || getSelectionEnd() < 0 || getSelectionStart() == getSelectionEnd() || (text = getText()) == null) {
+            return false;
+        }
+        QuoteSpan.QuoteStyleSpan[] quoteStyleSpanArr = (QuoteSpan.QuoteStyleSpan[]) text.getSpans(getSelectionStart(), getSelectionEnd(), QuoteSpan.QuoteStyleSpan.class);
+        return quoteStyleSpanArr == null || quoteStyleSpanArr.length == 0;
     }
 
     @Override // android.view.View
@@ -1397,5 +1421,9 @@ public class EditTextBoldCursor extends EditTextEffects {
 
     public void setOnPremiumMenuLockClickListener(Runnable runnable) {
         this.onPremiumMenuLockClickListener = runnable;
+    }
+
+    public Runnable getOnPremiumMenuLockClickListener() {
+        return this.onPremiumMenuLockClickListener;
     }
 }

@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_messageExtendedMediaPreview extends TLRPC$MessageExtendedMedia {
-    public static int constructor = -1386050360;
     public int flags;
     public int h;
     public TLRPC$PhotoSize thumb;
@@ -28,7 +27,7 @@ public class TLRPC$TL_messageExtendedMediaPreview extends TLRPC$MessageExtendedM
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-1386050360);
         abstractSerializedData.writeInt32(this.flags);
         if ((this.flags & 1) != 0) {
             abstractSerializedData.writeInt32(this.w);

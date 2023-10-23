@@ -4,8 +4,6 @@ import android.text.TextUtils;
 import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public class TLRPC$TL_message_secret extends TLRPC$TL_message {
-    public static int constructor = 1431655930;
-
     @Override // org.telegram.tgnet.TLRPC$TL_message, org.telegram.tgnet.TLObject
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
         int readInt32 = abstractSerializedData.readInt32(z);
@@ -57,7 +55,7 @@ public class TLRPC$TL_message_secret extends TLRPC$TL_message {
 
     @Override // org.telegram.tgnet.TLRPC$TL_message, org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(1431655930);
         int i = this.unread ? this.flags | 1 : this.flags & (-2);
         this.flags = i;
         int i2 = this.out ? i | 2 : i & (-3);

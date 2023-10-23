@@ -1,12 +1,11 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_statsAbsValueAndPrev extends TLObject {
-    public static int constructor = -884757282;
     public double current;
     public double previous;
 
     public static TLRPC$TL_statsAbsValueAndPrev TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-        if (constructor != i) {
+        if (-884757282 != i) {
             if (z) {
                 throw new RuntimeException(String.format("can't parse magic %x in TL_statsAbsValueAndPrev", Integer.valueOf(i)));
             }
@@ -25,7 +24,7 @@ public class TLRPC$TL_statsAbsValueAndPrev extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-884757282);
         abstractSerializedData.writeDouble(this.current);
         abstractSerializedData.writeDouble(this.previous);
     }

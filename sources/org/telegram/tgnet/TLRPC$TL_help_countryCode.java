@@ -3,14 +3,13 @@ package org.telegram.tgnet;
 import java.util.ArrayList;
 /* loaded from: classes.dex */
 public class TLRPC$TL_help_countryCode extends TLObject {
-    public static int constructor = 1107543535;
     public String country_code;
     public int flags;
     public ArrayList<String> prefixes = new ArrayList<>();
     public ArrayList<String> patterns = new ArrayList<>();
 
     public static TLRPC$TL_help_countryCode TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-        if (constructor != i) {
+        if (1107543535 != i) {
             if (z) {
                 throw new RuntimeException(String.format("can't parse magic %x in TL_help_countryCode", Integer.valueOf(i)));
             }
@@ -55,7 +54,7 @@ public class TLRPC$TL_help_countryCode extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(1107543535);
         abstractSerializedData.writeInt32(this.flags);
         abstractSerializedData.writeString(this.country_code);
         if ((this.flags & 1) != 0) {

@@ -3,8 +3,6 @@ package org.telegram.tgnet;
 import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public class TLRPC$TL_peerNotifySettings extends TLRPC$PeerNotifySettings {
-    public static int constructor = -1721619444;
-
     @Override // org.telegram.tgnet.TLObject
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
         int readInt32 = abstractSerializedData.readInt32(z);
@@ -46,7 +44,7 @@ public class TLRPC$TL_peerNotifySettings extends TLRPC$PeerNotifySettings {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-1721619444);
         abstractSerializedData.writeInt32(this.flags);
         if ((this.flags & 1) != 0) {
             abstractSerializedData.writeBool(this.show_previews);

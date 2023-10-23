@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_messages_startHistoryImport extends TLObject {
-    public static int constructor = -1271008444;
     public long import_id;
     public TLRPC$InputPeer peer;
 
@@ -12,7 +11,7 @@ public class TLRPC$TL_messages_startHistoryImport extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-1271008444);
         this.peer.serializeToStream(abstractSerializedData);
         abstractSerializedData.writeInt64(this.import_id);
     }

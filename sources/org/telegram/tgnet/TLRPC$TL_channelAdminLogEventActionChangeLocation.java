@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_channelAdminLogEventActionChangeLocation extends TLRPC$ChannelAdminLogEventAction {
-    public static int constructor = 241923758;
     public TLRPC$ChannelLocation new_value;
     public TLRPC$ChannelLocation prev_value;
 
@@ -13,7 +12,7 @@ public class TLRPC$TL_channelAdminLogEventActionChangeLocation extends TLRPC$Cha
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(241923758);
         this.prev_value.serializeToStream(abstractSerializedData);
         this.new_value.serializeToStream(abstractSerializedData);
     }

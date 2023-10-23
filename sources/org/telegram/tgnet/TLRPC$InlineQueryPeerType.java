@@ -6,61 +6,49 @@ public abstract class TLRPC$InlineQueryPeerType extends TLObject {
         switch (i) {
             case -2093215828:
                 tLRPC$InlineQueryPeerType = new TLRPC$InlineQueryPeerType() { // from class: org.telegram.tgnet.TLRPC$TL_inlineQueryPeerTypePM
-                    public static int constructor = -2093215828;
-
                     @Override // org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(-2093215828);
                     }
                 };
                 break;
             case -681130742:
                 tLRPC$InlineQueryPeerType = new TLRPC$InlineQueryPeerType() { // from class: org.telegram.tgnet.TLRPC$TL_inlineQueryPeerTypeChat
-                    public static int constructor = -681130742;
-
                     @Override // org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(-681130742);
                     }
                 };
                 break;
             case 238759180:
                 tLRPC$InlineQueryPeerType = new TLRPC$InlineQueryPeerType() { // from class: org.telegram.tgnet.TLRPC$TL_inlineQueryPeerTypeBotPM
-                    public static int constructor = 238759180;
-
                     @Override // org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(238759180);
                     }
                 };
                 break;
             case 813821341:
                 tLRPC$InlineQueryPeerType = new TLRPC$InlineQueryPeerType() { // from class: org.telegram.tgnet.TLRPC$TL_inlineQueryPeerTypeSameBotPM
-                    public static int constructor = 813821341;
-
                     @Override // org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(813821341);
                     }
                 };
                 break;
             case 1589952067:
                 tLRPC$InlineQueryPeerType = new TLRPC$InlineQueryPeerType() { // from class: org.telegram.tgnet.TLRPC$TL_inlineQueryPeerTypeMegagroup
-                    public static int constructor = 1589952067;
-
                     @Override // org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(1589952067);
                     }
                 };
                 break;
             case 1664413338:
                 tLRPC$InlineQueryPeerType = new TLRPC$InlineQueryPeerType() { // from class: org.telegram.tgnet.TLRPC$TL_inlineQueryPeerTypeBroadcast
-                    public static int constructor = 1664413338;
-
                     @Override // org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(1664413338);
                     }
                 };
                 break;

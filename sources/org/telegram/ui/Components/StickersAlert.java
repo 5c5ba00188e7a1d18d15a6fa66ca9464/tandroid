@@ -1344,7 +1344,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
         this.pickerBottomFrameLayout = frameLayout3;
         frameLayout3.addView(this.pickerBottomLayout, LayoutHelper.createFrame(-1, 48.0f));
         this.containerView.addView(this.pickerBottomFrameLayout, LayoutHelper.createFrame(-1, -2, 83));
-        PremiumButtonView premiumButtonView = new PremiumButtonView(context, false);
+        PremiumButtonView premiumButtonView = new PremiumButtonView(context, false, this.resourcesProvider);
         this.premiumButtonView = premiumButtonView;
         premiumButtonView.setIcon(R.raw.unlock_icon);
         this.premiumButtonView.setVisibility(4);
@@ -1887,7 +1887,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
         if (baseFragment != null) {
             new PremiumFeatureBottomSheet(baseFragment, 11, false).show();
         } else if (getContext() instanceof LaunchActivity) {
-            ((LaunchActivity) getContext()).lambda$runLinkRequest$75(new PremiumPreviewFragment(null));
+            ((LaunchActivity) getContext()).lambda$runLinkRequest$81(new PremiumPreviewFragment(null));
         }
     }
 

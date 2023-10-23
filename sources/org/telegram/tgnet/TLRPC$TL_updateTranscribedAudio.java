@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_updateTranscribedAudio extends TLRPC$Update {
-    public static int constructor = 8703322;
     public int flags;
     public int msg_id;
     public TLRPC$Peer peer;
@@ -22,7 +21,7 @@ public class TLRPC$TL_updateTranscribedAudio extends TLRPC$Update {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(8703322);
         int i = this.pending ? this.flags | 1 : this.flags & (-2);
         this.flags = i;
         abstractSerializedData.writeInt32(i);

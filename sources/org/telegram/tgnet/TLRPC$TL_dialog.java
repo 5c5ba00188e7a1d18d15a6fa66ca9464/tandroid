@@ -1,8 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_dialog extends TLRPC$Dialog {
-    public static int constructor = -712374074;
-
     @Override // org.telegram.tgnet.TLObject
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
         int readInt32 = abstractSerializedData.readInt32(z);
@@ -33,7 +31,7 @@ public class TLRPC$TL_dialog extends TLRPC$Dialog {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-712374074);
         int i = this.pinned ? this.flags | 4 : this.flags & (-5);
         this.flags = i;
         int i2 = this.unread_mark ? i | 8 : i & (-9);

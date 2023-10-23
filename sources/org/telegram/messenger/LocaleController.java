@@ -69,8 +69,12 @@ public class LocaleController {
     private String currentSystemLocale;
     public FastDateFormat formatterBannedUntil;
     public FastDateFormat formatterBannedUntilThisYear;
+    public FastDateFormat formatterBoostExpired;
     public FastDateFormat formatterDay;
     public FastDateFormat formatterDayMonth;
+    public FastDateFormat formatterGiveawayCard;
+    public FastDateFormat formatterGiveawayMonthDay;
+    public FastDateFormat formatterGiveawayMonthDayYear;
     public FastDateFormat formatterMonthYear;
     public FastDateFormat formatterScheduleDay;
     public FastDateFormat formatterScheduleYear;
@@ -1769,7 +1773,7 @@ public class LocaleController {
             case 23:
             case 24:
             case 25:
-            case 26:
+            case MessageObject.TYPE_GIVEAWAY /* 26 */:
             case 27:
             case 28:
             case 29:
@@ -2036,7 +2040,7 @@ public class LocaleController {
             case 23:
             case 24:
             case 25:
-            case 26:
+            case MessageObject.TYPE_GIVEAWAY /* 26 */:
             case 27:
             case 28:
                 return 1;
@@ -2268,7 +2272,7 @@ public class LocaleController {
             case 23:
             case 24:
             case 25:
-            case 26:
+            case MessageObject.TYPE_GIVEAWAY /* 26 */:
             case 27:
             case 28:
             case 29:
@@ -2667,6 +2671,10 @@ public class LocaleController {
         String lowerCase = language.toLowerCase();
         isRTL = (lowerCase.length() == 2 && (lowerCase.equals("ar") || lowerCase.equals("fa") || lowerCase.equals("he") || lowerCase.equals("iw"))) || lowerCase.startsWith("ar_") || lowerCase.startsWith("fa_") || lowerCase.startsWith("he_") || lowerCase.startsWith("iw_") || ((localeInfo = this.currentLocaleInfo) != null && localeInfo.isRtl);
         nameDisplayOrder = lowerCase.equals("ko") ? 2 : 1;
+        this.formatterBoostExpired = createFormatter(locale, getStringInternal("formatterBoostExpired", R.string.formatterBoostExpired), "MMM dd, yyyy");
+        this.formatterGiveawayCard = createFormatter(locale, getStringInternal("formatterGiveawayCard", R.string.formatterGiveawayCard), "dd MMM yyyy");
+        this.formatterGiveawayMonthDay = createFormatter(locale, getStringInternal("formatterGiveawayMonthDay", R.string.formatterGiveawayMonthDay), "MMMM dd");
+        this.formatterGiveawayMonthDayYear = createFormatter(locale, getStringInternal("formatterGiveawayMonthDayYear", R.string.formatterGiveawayMonthDayYear), "MMMM dd, yyyy");
         this.formatterMonthYear = createFormatter(locale, getStringInternal("formatterMonthYear", R.string.formatterMonthYear), "MMM yyyy");
         this.formatterDayMonth = createFormatter(locale, getStringInternal("formatterMonth", R.string.formatterMonth), "dd MMM");
         this.formatterYear = createFormatter(locale, getStringInternal("formatterYear", R.string.formatterYear), "dd.MM.yy");
@@ -2796,16 +2804,15 @@ public class LocaleController {
     public static String stringForMessageListDate(long j) {
         long j2 = j * 1000;
         try {
-            Calendar calendar = Calendar.getInstance();
-            int i = calendar.get(6);
-            calendar.setTimeInMillis(j2);
-            int i2 = calendar.get(6);
             if (Math.abs(System.currentTimeMillis() - j2) >= 31536000000L) {
                 return getInstance().formatterYear.format(new Date(j2));
             }
-            int i3 = i2 - i;
-            if (i3 != 0 && (i3 != -1 || System.currentTimeMillis() - j2 >= 28800000)) {
-                if (i3 > -7 && i3 <= -1) {
+            Calendar calendar = Calendar.getInstance();
+            int i = calendar.get(6);
+            calendar.setTimeInMillis(j2);
+            int i2 = calendar.get(6) - i;
+            if (i2 != 0 && (i2 != -1 || System.currentTimeMillis() - j2 >= 28800000)) {
+                if (i2 > -7 && i2 <= -1) {
                     return getInstance().formatterWeek.format(new Date(j2));
                 }
                 return getInstance().formatterDayMonth.format(new Date(j2));
@@ -3108,8 +3115,6 @@ public class LocaleController {
         }
         this.loadingRemoteLanguages = true;
         ConnectionsManager.getInstance(i).sendRequest(new TLObject() { // from class: org.telegram.tgnet.TLRPC$TL_langpack_getLanguages
-            public static int constructor = -2146445955;
-
             @Override // org.telegram.tgnet.TLObject
             public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i2, boolean z2) {
                 TLRPC$Vector tLRPC$Vector = new TLRPC$Vector();
@@ -3126,7 +3131,7 @@ public class LocaleController {
 
             @Override // org.telegram.tgnet.TLObject
             public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-                abstractSerializedData.writeInt32(constructor);
+                abstractSerializedData.writeInt32(-2146445955);
             }
         }, new RequestDelegate() { // from class: org.telegram.messenger.LocaleController$$ExternalSyntheticLambda21
             @Override // org.telegram.tgnet.RequestDelegate

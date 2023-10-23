@@ -3,12 +3,11 @@ package org.telegram.tgnet;
 import java.util.ArrayList;
 /* loaded from: classes.dex */
 public class TLRPC$TL_textWithEntities extends TLObject {
-    public static int constructor = 1964978502;
     public ArrayList<TLRPC$MessageEntity> entities = new ArrayList<>();
     public String text;
 
     public static TLRPC$TL_textWithEntities TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-        if (constructor != i) {
+        if (1964978502 != i) {
             if (z) {
                 throw new RuntimeException(String.format("can't parse magic %x in TL_textWithEntities", Integer.valueOf(i)));
             }
@@ -41,7 +40,7 @@ public class TLRPC$TL_textWithEntities extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(1964978502);
         abstractSerializedData.writeString(this.text);
         abstractSerializedData.writeInt32(481674261);
         int size = this.entities.size();

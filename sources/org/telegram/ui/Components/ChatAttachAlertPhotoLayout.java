@@ -108,6 +108,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
     private static boolean mediaFromExternalCamera;
     private PhotoAttachAdapter adapter;
     float additionCloseCameraY;
+    private Runnable afterCameraInitRunnable;
     private int alertOnlyOnce;
     private int[] animateCameraValues;
     float animationClipBottom;
@@ -157,6 +158,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
     private android.graphics.Rect hitRect;
     private boolean ignoreLayout;
     private DecelerateInterpolator interpolator;
+    private Boolean isCameraFrontfaceBeforeEnteringEditMode;
     private boolean isHidden;
     private RecyclerViewItemRangeSelector itemRangeSelector;
     private int itemSize;
@@ -207,7 +209,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         return 1;
     }
 
-    static /* synthetic */ int access$2808(ChatAttachAlertPhotoLayout chatAttachAlertPhotoLayout) {
+    static /* synthetic */ int access$2908(ChatAttachAlertPhotoLayout chatAttachAlertPhotoLayout) {
         int i = chatAttachAlertPhotoLayout.videoRecordTime;
         chatAttachAlertPhotoLayout.videoRecordTime = i + 1;
         return i;
@@ -382,6 +384,11 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         }
 
         @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
+        public void onEditModeChanged(boolean z) {
+            ChatAttachAlertPhotoLayout.this.onPhotoEditModeChanged(z);
+        }
+
+        @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
         public PhotoViewer.PlaceProviderObject getPlaceForPhoto(MessageObject messageObject, TLRPC$FileLocation tLRPC$FileLocation, int i, boolean z) {
             PhotoAttachPhotoCell cellForIndex = ChatAttachAlertPhotoLayout.this.getCellForIndex(i);
             if (cellForIndex != null) {
@@ -495,7 +502,9 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                         if (obj instanceof MediaController.PhotoEntry) {
                             MediaController.PhotoEntry photoEntry = (MediaController.PhotoEntry) obj;
                             if (i3 == 0) {
-                                CharSequence charSequence = PhotoViewer.getInstance().captionForAllMedia;
+                                CharSequence[] charSequenceArr = {PhotoViewer.getInstance().captionForAllMedia};
+                                photoEntry.entities = MediaDataController.getInstance(UserConfig.selectedAccount).getEntities(charSequenceArr, false);
+                                CharSequence charSequence = charSequenceArr[0];
                                 photoEntry.caption = charSequence;
                                 if (ChatAttachAlertPhotoLayout.this.parentAlert.checkCaption(charSequence)) {
                                     return;
@@ -582,6 +591,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         this.viewPosition = new int[2];
         this.animateCameraValues = new int[5];
         this.interpolator = new DecelerateInterpolator(1.5f);
+        this.isCameraFrontfaceBeforeEnteringEditMode = null;
         this.hitRect = new android.graphics.Rect();
         int dp = AndroidUtilities.dp(80.0f);
         this.itemSize = dp;
@@ -756,7 +766,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
             }
         });
         this.gridView.setLayoutManager(this.layoutManager);
-        this.gridView.setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout$$ExternalSyntheticLambda22
+        this.gridView.setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout$$ExternalSyntheticLambda23
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
             public /* synthetic */ boolean hasDoubleTap(View view, int i2) {
                 return RecyclerListView.OnItemClickListenerExtended.-CC.$default$hasDoubleTap(this, view, i2);
@@ -772,7 +782,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                 ChatAttachAlertPhotoLayout.this.lambda$new$3(z2, resourcesProvider, view, i2, f, f2);
             }
         });
-        this.gridView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout$$ExternalSyntheticLambda23
+        this.gridView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout$$ExternalSyntheticLambda24
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListener
             public final boolean onItemClick(View view, int i2) {
                 boolean lambda$new$4;
@@ -924,7 +934,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         zoomControlView.setVisibility(8);
         this.zoomControlView.setAlpha(0.0f);
         container.addView(this.zoomControlView, LayoutHelper.createFrame(-2, 50.0f, 51, 0.0f, 0.0f, 0.0f, 116.0f));
-        this.zoomControlView.setDelegate(new ZoomControlView.ZoomControlViewDelegate() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout$$ExternalSyntheticLambda24
+        this.zoomControlView.setDelegate(new ZoomControlView.ZoomControlViewDelegate() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout$$ExternalSyntheticLambda25
             @Override // org.telegram.ui.Components.ZoomControlView.ZoomControlViewDelegate
             public final void didSetZoom(float f) {
                 ChatAttachAlertPhotoLayout.this.lambda$new$6(f);
@@ -1001,7 +1011,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         };
         this.cameraPhotoLayoutManager = linearLayoutManager;
         this.cameraPhotoRecyclerView.setLayoutManager(linearLayoutManager);
-        this.cameraPhotoRecyclerView.setOnItemClickListener(ChatAttachAlertPhotoLayout$$ExternalSyntheticLambda21.INSTANCE);
+        this.cameraPhotoRecyclerView.setOnItemClickListener(ChatAttachAlertPhotoLayout$$ExternalSyntheticLambda22.INSTANCE);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1113,7 +1123,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                 if (z2) {
                     setCurrentSpoilerVisible(i4, false);
                 }
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout$$ExternalSyntheticLambda12
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout$$ExternalSyntheticLambda13
                     @Override // java.lang.Runnable
                     public final void run() {
                         ChatAttachAlertPhotoLayout.this.lambda$new$2(i2, baseFragment2, allPhotosArray, i4, chatActivity);
@@ -1267,7 +1277,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
             if (ChatAttachAlertPhotoLayout.this.videoRecordRunnable == null) {
                 return;
             }
-            ChatAttachAlertPhotoLayout.access$2808(ChatAttachAlertPhotoLayout.this);
+            ChatAttachAlertPhotoLayout.access$2908(ChatAttachAlertPhotoLayout.this);
             ChatAttachAlertPhotoLayout.this.recordTime.setText(AndroidUtilities.formatLongDuration(ChatAttachAlertPhotoLayout.this.videoRecordTime));
             AndroidUtilities.runOnUIThread(ChatAttachAlertPhotoLayout.this.videoRecordRunnable, 1000L);
         }
@@ -1353,7 +1363,6 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
             if (ChatAttachAlertPhotoLayout.this.takingPhoto || (cameraView = ChatAttachAlertPhotoLayout.this.cameraView) == null || cameraView.getCameraSession() == null) {
                 return;
             }
-            boolean z = true;
             if (ChatAttachAlertPhotoLayout.this.shutterButton.getState() == ShutterButton.State.RECORDING) {
                 ChatAttachAlertPhotoLayout.this.resetRecordState();
                 CameraController.getInstance().stopVideoRecording(ChatAttachAlertPhotoLayout.this.cameraView.getCameraSession(), false);
@@ -1366,17 +1375,14 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                 final boolean isSameTakePictureOrientation = ChatAttachAlertPhotoLayout.this.cameraView.getCameraSession().isSameTakePictureOrientation();
                 CameraSession cameraSession = ChatAttachAlertPhotoLayout.this.cameraView.getCameraSession();
                 ChatAttachAlert chatAttachAlert = ChatAttachAlertPhotoLayout.this.parentAlert;
-                if (!(chatAttachAlert.baseFragment instanceof ChatActivity) && chatAttachAlert.avatarPicker != 2) {
-                    z = false;
-                }
-                cameraSession.setFlipFront(z);
+                cameraSession.setFlipFront((chatAttachAlert.baseFragment instanceof ChatActivity) || chatAttachAlert.avatarPicker == 2);
                 ChatAttachAlertPhotoLayout.this.takingPhoto = CameraController.getInstance().takePicture(generatePicturePath, false, ChatAttachAlertPhotoLayout.this.cameraView.getCameraSession(), new Utilities.Callback() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout$10$$ExternalSyntheticLambda2
                     @Override // org.telegram.messenger.Utilities.Callback
                     public final void run(Object obj) {
                         ChatAttachAlertPhotoLayout.10.this.lambda$shutterReleased$3(generatePicturePath, isSameTakePictureOrientation, (Integer) obj);
                     }
                 });
-                ChatAttachAlertPhotoLayout.this.cameraView.startTakePictureAnimation();
+                ChatAttachAlertPhotoLayout.this.cameraView.startTakePictureAnimation(true);
             }
         }
 
@@ -1520,7 +1526,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         if (tLRPC$VideoSize != null) {
             avatarConstructorFragment.startFrom(tLRPC$VideoSize);
         }
-        avatarConstructorFragment.setDelegate(new AvatarConstructorFragment.Delegate() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout$$ExternalSyntheticLambda20
+        avatarConstructorFragment.setDelegate(new AvatarConstructorFragment.Delegate() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout$$ExternalSyntheticLambda21
             @Override // org.telegram.ui.Components.AvatarConstructorFragment.Delegate
             public final void onDone(AvatarConstructorFragment.BackgroundGradient backgroundGradient, long j, TLRPC$Document tLRPC$Document, AvatarConstructorFragment.PreviewView previewView) {
                 ChatAttachAlertPhotoLayout.this.lambda$showAvatarConstructorFragment$10(backgroundGradient, j, tLRPC$Document, previewView);
@@ -1758,7 +1764,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
             }
             ArrayList<MediaController.AlbumEntry> arrayList2 = new ArrayList<>(arrayList);
             this.dropDownAlbums = arrayList2;
-            Collections.sort(arrayList2, new Comparator() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout$$ExternalSyntheticLambda17
+            Collections.sort(arrayList2, new Comparator() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout$$ExternalSyntheticLambda18
                 @Override // java.util.Comparator
                 public final int compare(Object obj, Object obj2) {
                     int lambda$updateAlbumsDropDown$11;
@@ -2019,6 +2025,21 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         }
 
         @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
+        public void onOpen() {
+            ChatAttachAlertPhotoLayout.this.pauseCameraPreview();
+        }
+
+        @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
+        public void onClose() {
+            ChatAttachAlertPhotoLayout.this.resumeCameraPreview();
+        }
+
+        @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
+        public void onEditModeChanged(boolean z) {
+            ChatAttachAlertPhotoLayout.this.onPhotoEditModeChanged(z);
+        }
+
+        @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
         public boolean cancelButtonPressed() {
             if (ChatAttachAlertPhotoLayout.this.cameraOpened && ChatAttachAlertPhotoLayout.this.cameraView != null) {
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout$15$$ExternalSyntheticLambda0
@@ -2146,7 +2167,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                 if (runnable != null) {
                     AndroidUtilities.cancelRunOnUIThread(runnable);
                 }
-                Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout$$ExternalSyntheticLambda8
+                Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout$$ExternalSyntheticLambda9
                     @Override // java.lang.Runnable
                     public final void run() {
                         ChatAttachAlertPhotoLayout.this.lambda$showZoomControls$13();
@@ -2182,7 +2203,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         });
         this.zoomControlAnimation.start();
         if (z) {
-            Runnable runnable3 = new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout$$ExternalSyntheticLambda11
+            Runnable runnable3 = new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout$$ExternalSyntheticLambda12
                 @Override // java.lang.Runnable
                 public final void run() {
                     ChatAttachAlertPhotoLayout.this.lambda$showZoomControls$14();
@@ -2497,7 +2518,9 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         }
         if (this.cameraView == null) {
             boolean z = !LiteMode.isEnabled(LiteMode.FLAGS_CHAT);
-            CameraView cameraView = new CameraView(getContext(), this.parentAlert.openWithFrontFaceCamera, z) { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout.18
+            Context context = getContext();
+            Boolean bool = this.isCameraFrontfaceBeforeEnteringEditMode;
+            CameraView cameraView = new CameraView(context, bool != null ? bool.booleanValue() : this.parentAlert.openWithFrontFaceCamera, z) { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout.18
                 Bulletin.Delegate bulletinDelegate = new Bulletin.Delegate() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout.18.1
                     @Override // org.telegram.ui.Components.Bulletin.Delegate
                     public /* synthetic */ boolean allowLayoutChanges() {
@@ -2651,38 +2674,40 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                     }
                     ChatAttachAlertPhotoLayout.this.switchCameraButton.setImageResource(ChatAttachAlertPhotoLayout.this.cameraView.isFrontface() ? R.drawable.camera_revert1 : R.drawable.camera_revert2);
                     ChatAttachAlertPhotoLayout.this.switchCameraButton.setVisibility(ChatAttachAlertPhotoLayout.this.cameraView.hasFrontFaceCamera() ? 0 : 4);
-                    if (ChatAttachAlertPhotoLayout.this.cameraOpened) {
-                        return;
-                    }
-                    ChatAttachAlertPhotoLayout.this.cameraInitAnimation = new AnimatorSet();
-                    ChatAttachAlertPhotoLayout.this.cameraInitAnimation.playTogether(ObjectAnimator.ofFloat(ChatAttachAlertPhotoLayout.this.cameraView, View.ALPHA, 0.0f, 1.0f), ObjectAnimator.ofFloat(ChatAttachAlertPhotoLayout.this.cameraIcon, View.ALPHA, 0.0f, 1.0f));
-                    ChatAttachAlertPhotoLayout.this.cameraInitAnimation.setDuration(180L);
-                    ChatAttachAlertPhotoLayout.this.cameraInitAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout.20.1
-                        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                        public void onAnimationEnd(Animator animator) {
-                            if (animator.equals(ChatAttachAlertPhotoLayout.this.cameraInitAnimation)) {
-                                ChatAttachAlertPhotoLayout.this.canSaveCameraPreview = true;
-                                ChatAttachAlertPhotoLayout.this.cameraInitAnimation = null;
-                                if (ChatAttachAlertPhotoLayout.this.isHidden) {
-                                    return;
-                                }
-                                int childCount = ChatAttachAlertPhotoLayout.this.gridView.getChildCount();
-                                for (int i4 = 0; i4 < childCount; i4++) {
-                                    View childAt = ChatAttachAlertPhotoLayout.this.gridView.getChildAt(i4);
-                                    if (childAt instanceof PhotoAttachCameraCell) {
-                                        childAt.setVisibility(4);
+                    if (!ChatAttachAlertPhotoLayout.this.cameraOpened) {
+                        ChatAttachAlertPhotoLayout.this.cameraInitAnimation = new AnimatorSet();
+                        ChatAttachAlertPhotoLayout.this.cameraInitAnimation.playTogether(ObjectAnimator.ofFloat(ChatAttachAlertPhotoLayout.this.cameraView, View.ALPHA, 0.0f, 1.0f), ObjectAnimator.ofFloat(ChatAttachAlertPhotoLayout.this.cameraIcon, View.ALPHA, 0.0f, 1.0f));
+                        ChatAttachAlertPhotoLayout.this.cameraInitAnimation.setDuration(180L);
+                        ChatAttachAlertPhotoLayout.this.cameraInitAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout.20.1
+                            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                            public void onAnimationEnd(Animator animator) {
+                                if (animator.equals(ChatAttachAlertPhotoLayout.this.cameraInitAnimation)) {
+                                    ChatAttachAlertPhotoLayout.this.canSaveCameraPreview = true;
+                                    ChatAttachAlertPhotoLayout.this.cameraInitAnimation = null;
+                                    if (ChatAttachAlertPhotoLayout.this.isHidden) {
                                         return;
+                                    }
+                                    int childCount = ChatAttachAlertPhotoLayout.this.gridView.getChildCount();
+                                    for (int i4 = 0; i4 < childCount; i4++) {
+                                        View childAt = ChatAttachAlertPhotoLayout.this.gridView.getChildAt(i4);
+                                        if (childAt instanceof PhotoAttachCameraCell) {
+                                            childAt.setVisibility(4);
+                                            return;
+                                        }
                                     }
                                 }
                             }
-                        }
 
-                        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                        public void onAnimationCancel(Animator animator) {
-                            ChatAttachAlertPhotoLayout.this.cameraInitAnimation = null;
-                        }
-                    });
-                    ChatAttachAlertPhotoLayout.this.cameraInitAnimation.start();
+                            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                            public void onAnimationCancel(Animator animator) {
+                                ChatAttachAlertPhotoLayout.this.cameraInitAnimation = null;
+                            }
+                        });
+                        ChatAttachAlertPhotoLayout.this.cameraInitAnimation.start();
+                    }
+                    if (ChatAttachAlertPhotoLayout.this.afterCameraInitRunnable != null) {
+                        ChatAttachAlertPhotoLayout.this.afterCameraInitRunnable.run();
+                    }
                 }
             });
             if (this.cameraIcon == null) {
@@ -2732,13 +2757,20 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                 this.cameraView.setVisibility(8);
                 this.cameraIcon.setVisibility(8);
             }
-            checkCameraViewPosition();
+            if (this.cameraOpened) {
+                this.cameraIcon.setAlpha(0.0f);
+            } else {
+                checkCameraViewPosition();
+            }
             invalidate();
         }
         ZoomControlView zoomControlView = this.zoomControlView;
         if (zoomControlView != null) {
             zoomControlView.setZoom(0.0f, false);
             this.cameraZoom = 0.0f;
+        }
+        if (this.cameraOpened) {
+            return;
         }
         this.cameraView.setTranslationX(this.cameraViewLocation[0]);
         this.cameraView.setTranslationY(this.cameraViewLocation[1] + this.currentPanTranslationY);
@@ -2771,7 +2803,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
             animatorSet.cancel();
             this.cameraInitAnimation = null;
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout$$ExternalSyntheticLambda9
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout$$ExternalSyntheticLambda10
             @Override // java.lang.Runnable
             public final void run() {
                 ChatAttachAlertPhotoLayout.this.lambda$hideCamera$15();
@@ -3285,7 +3317,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                     layoutParams.width = i;
                     layoutParams.height = i;
                     this.cameraView.setLayoutParams(layoutParams);
-                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout$$ExternalSyntheticLambda13
+                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout$$ExternalSyntheticLambda14
                         @Override // java.lang.Runnable
                         public final void run() {
                             ChatAttachAlertPhotoLayout.this.lambda$applyCameraViewPosition$16(layoutParams);
@@ -3303,7 +3335,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
             layoutParams2.width = i3;
             layoutParams2.height = i4;
             this.cameraIcon.setLayoutParams(layoutParams2);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout$$ExternalSyntheticLambda14
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout$$ExternalSyntheticLambda15
                 @Override // java.lang.Runnable
                 public final void run() {
                     ChatAttachAlertPhotoLayout.this.lambda$applyCameraViewPosition$17(layoutParams2);
@@ -3416,7 +3448,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
             if (chatAttachAlert.editingMessageObject == null) {
                 BaseFragment baseFragment2 = chatAttachAlert.baseFragment;
                 if ((baseFragment2 instanceof ChatActivity) && ((ChatActivity) baseFragment2).isInScheduleMode()) {
-                    AlertsCreator.createScheduleDatePickerDialog(getContext(), ((ChatActivity) this.parentAlert.baseFragment).getDialogId(), new AlertsCreator.ScheduleDatePickerDelegate() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout$$ExternalSyntheticLambda18
+                    AlertsCreator.createScheduleDatePickerDialog(getContext(), ((ChatActivity) this.parentAlert.baseFragment).getDialogId(), new AlertsCreator.ScheduleDatePickerDelegate() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout$$ExternalSyntheticLambda19
                         @Override // org.telegram.ui.Components.AlertsCreator.ScheduleDatePickerDelegate
                         public final void didSelectDate(boolean z2, int i2) {
                             ChatAttachAlertPhotoLayout.this.lambda$onMenuItemClick$18(z2, i2);
@@ -3432,7 +3464,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
             if (chatAttachAlert2.editingMessageObject == null) {
                 BaseFragment baseFragment3 = chatAttachAlert2.baseFragment;
                 if ((baseFragment3 instanceof ChatActivity) && ((ChatActivity) baseFragment3).isInScheduleMode()) {
-                    AlertsCreator.createScheduleDatePickerDialog(getContext(), ((ChatActivity) this.parentAlert.baseFragment).getDialogId(), new AlertsCreator.ScheduleDatePickerDelegate() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout$$ExternalSyntheticLambda19
+                    AlertsCreator.createScheduleDatePickerDialog(getContext(), ((ChatActivity) this.parentAlert.baseFragment).getDialogId(), new AlertsCreator.ScheduleDatePickerDelegate() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout$$ExternalSyntheticLambda20
                         @Override // org.telegram.ui.Components.AlertsCreator.ScheduleDatePickerDelegate
                         public final void didSelectDate(boolean z2, int i2) {
                             ChatAttachAlertPhotoLayout.this.lambda$onMenuItemClick$19(z2, i2);
@@ -3460,7 +3492,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                 }
             }
             final boolean z2 = !z;
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout$$ExternalSyntheticLambda16
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout$$ExternalSyntheticLambda17
                 @Override // java.lang.Runnable
                 public final void run() {
                     ChatAttachAlertPhotoLayout.this.lambda$onMenuItemClick$20(z2);
@@ -3652,18 +3684,29 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
     /* JADX INFO: Access modifiers changed from: package-private */
     @Override // org.telegram.ui.Components.ChatAttachAlert.AttachAlertLayout
     public void applyCaption(CharSequence charSequence) {
+        MediaController.PhotoEntry photoEntry;
         for (int i = 0; i < selectedPhotosOrder.size(); i++) {
             if (i == 0) {
-                Object obj = selectedPhotos.get(selectedPhotosOrder.get(i));
-                if (obj instanceof MediaController.PhotoEntry) {
-                    MediaController.PhotoEntry photoEntry = (MediaController.PhotoEntry) obj;
-                    photoEntry.caption = charSequence;
-                    photoEntry.entities = MediaDataController.getInstance(UserConfig.selectedAccount).getEntities(new CharSequence[]{charSequence}, false);
-                } else if (obj instanceof MediaController.SearchImage) {
-                    MediaController.SearchImage searchImage = (MediaController.SearchImage) obj;
-                    searchImage.caption = charSequence;
-                    searchImage.entities = MediaDataController.getInstance(UserConfig.selectedAccount).getEntities(new CharSequence[]{charSequence}, false);
+                Object obj = selectedPhotosOrder.get(i);
+                Object obj2 = selectedPhotos.get(obj);
+                if (obj2 instanceof MediaController.PhotoEntry) {
+                    MediaController.PhotoEntry clone = ((MediaController.PhotoEntry) obj2).clone();
+                    CharSequence[] charSequenceArr = {charSequence};
+                    clone.entities = MediaDataController.getInstance(UserConfig.selectedAccount).getEntities(charSequenceArr, false);
+                    clone.caption = charSequenceArr[0];
+                    photoEntry = clone;
+                } else {
+                    boolean z = obj2 instanceof MediaController.SearchImage;
+                    photoEntry = obj2;
+                    if (z) {
+                        MediaController.SearchImage clone2 = ((MediaController.SearchImage) obj2).clone();
+                        CharSequence[] charSequenceArr2 = {charSequence};
+                        clone2.entities = MediaDataController.getInstance(UserConfig.selectedAccount).getEntities(charSequenceArr2, false);
+                        clone2.caption = charSequenceArr2[0];
+                        photoEntry = clone2;
+                    }
                 }
+                selectedPhotos.put(obj, photoEntry);
             }
         }
     }
@@ -3924,7 +3967,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         this.parentAlert.actionBar.setTitle("");
         this.layoutManager.scrollToPositionWithOffset(0, 0);
         if (z) {
-            this.gridView.post(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout$$ExternalSyntheticLambda15
+            this.gridView.post(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout$$ExternalSyntheticLambda16
                 @Override // java.lang.Runnable
                 public final void run() {
                     ChatAttachAlertPhotoLayout.this.lambda$onShow$22(attachAlertLayout);
@@ -4021,7 +4064,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         if (viewPropertyAnimator != null) {
             viewPropertyAnimator.cancel();
         }
-        ViewPropertyAnimator withEndAction = this.dropDown.animate().alpha(0.0f).setDuration(150L).setInterpolator(CubicBezierInterpolator.EASE_BOTH).withEndAction(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout$$ExternalSyntheticLambda10
+        ViewPropertyAnimator withEndAction = this.dropDown.animate().alpha(0.0f).setDuration(150L).setInterpolator(CubicBezierInterpolator.EASE_BOTH).withEndAction(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout$$ExternalSyntheticLambda11
             @Override // java.lang.Runnable
             public final void run() {
                 ChatAttachAlertPhotoLayout.this.lambda$onHide$23();
@@ -4064,6 +4107,36 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         } catch (Exception e) {
             FileLog.e(e);
         }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void onPhotoEditModeChanged(boolean z) {
+        if (!this.needCamera || this.noCameraPermissions) {
+            return;
+        }
+        if (z) {
+            CameraView cameraView = this.cameraView;
+            if (cameraView != null) {
+                this.isCameraFrontfaceBeforeEnteringEditMode = Boolean.valueOf(cameraView.isFrontface());
+                hideCamera(true);
+                return;
+            }
+            return;
+        }
+        this.afterCameraInitRunnable = new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout$$ExternalSyntheticLambda7
+            @Override // java.lang.Runnable
+            public final void run() {
+                ChatAttachAlertPhotoLayout.this.lambda$onPhotoEditModeChanged$24();
+            }
+        };
+        showCamera();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$onPhotoEditModeChanged$24() {
+        pauseCameraPreview();
+        this.afterCameraInitRunnable = null;
+        this.isCameraFrontfaceBeforeEnteringEditMode = null;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -4123,10 +4196,10 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         this.itemSize = dp2;
         if (this.lastItemSize != dp2) {
             this.lastItemSize = dp2;
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout$$ExternalSyntheticLambda7
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout$$ExternalSyntheticLambda8
                 @Override // java.lang.Runnable
                 public final void run() {
-                    ChatAttachAlertPhotoLayout.this.lambda$onPreMeasure$24();
+                    ChatAttachAlertPhotoLayout.this.lambda$onPreMeasure$25();
                 }
             });
         }
@@ -4177,7 +4250,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onPreMeasure$24() {
+    public /* synthetic */ void lambda$onPreMeasure$25() {
         this.adapter.notifyDataSetChanged();
     }
 

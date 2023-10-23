@@ -3,8 +3,6 @@ package org.telegram.tgnet;
 public abstract class TLRPC$AttachMenuBot extends TLObject {
     public static TLRPC$TL_attachMenuBot TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
         TLRPC$TL_attachMenuBot tLRPC$TL_attachMenuBot = i != -928371502 ? i != -653423106 ? i != -381896846 ? null : new TLRPC$TL_attachMenuBot() { // from class: org.telegram.tgnet.TLRPC$TL_attachMenuBot_layer140
-            public static int constructor = -381896846;
-
             @Override // org.telegram.tgnet.TLRPC$TL_attachMenuBot, org.telegram.tgnet.TLObject
             public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                 int readInt32 = abstractSerializedData2.readInt32(z2);
@@ -31,7 +29,7 @@ public abstract class TLRPC$AttachMenuBot extends TLObject {
 
             @Override // org.telegram.tgnet.TLRPC$TL_attachMenuBot, org.telegram.tgnet.TLObject
             public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                abstractSerializedData2.writeInt32(constructor);
+                abstractSerializedData2.writeInt32(-381896846);
                 int i2 = this.inactive ? this.flags | 1 : this.flags & (-2);
                 this.flags = i2;
                 abstractSerializedData2.writeInt32(i2);
@@ -45,8 +43,6 @@ public abstract class TLRPC$AttachMenuBot extends TLObject {
                 }
             }
         } : new TLRPC$TL_attachMenuBot() : new TLRPC$TL_attachMenuBot() { // from class: org.telegram.tgnet.TLRPC$TL_attachMenuBot_layer162
-            public static int constructor = -928371502;
-
             @Override // org.telegram.tgnet.TLRPC$TL_attachMenuBot, org.telegram.tgnet.TLObject
             public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                 int readInt32 = abstractSerializedData2.readInt32(z2);
@@ -90,7 +86,7 @@ public abstract class TLRPC$AttachMenuBot extends TLObject {
 
             @Override // org.telegram.tgnet.TLRPC$TL_attachMenuBot, org.telegram.tgnet.TLObject
             public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                abstractSerializedData2.writeInt32(constructor);
+                abstractSerializedData2.writeInt32(-928371502);
                 int i2 = this.inactive ? this.flags | 1 : this.flags & (-2);
                 this.flags = i2;
                 int i3 = this.has_settings ? i2 | 2 : i2 & (-3);

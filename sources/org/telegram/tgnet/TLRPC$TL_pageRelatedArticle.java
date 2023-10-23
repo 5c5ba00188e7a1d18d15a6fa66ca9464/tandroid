@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_pageRelatedArticle extends TLObject {
-    public static int constructor = -1282352120;
     public String author;
     public String description;
     public int flags;
@@ -12,7 +11,7 @@ public class TLRPC$TL_pageRelatedArticle extends TLObject {
     public long webpage_id;
 
     public static TLRPC$TL_pageRelatedArticle TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-        if (constructor != i) {
+        if (-1282352120 != i) {
             if (z) {
                 throw new RuntimeException(String.format("can't parse magic %x in TL_pageRelatedArticle", Integer.valueOf(i)));
             }
@@ -47,7 +46,7 @@ public class TLRPC$TL_pageRelatedArticle extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-1282352120);
         abstractSerializedData.writeInt32(this.flags);
         abstractSerializedData.writeString(this.url);
         abstractSerializedData.writeInt64(this.webpage_id);

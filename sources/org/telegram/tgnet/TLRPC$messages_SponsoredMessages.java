@@ -13,8 +13,6 @@ public abstract class TLRPC$messages_SponsoredMessages extends TLObject {
         TLRPC$messages_SponsoredMessages tLRPC$messages_SponsoredMessages;
         if (i == -907141753) {
             tLRPC$messages_SponsoredMessages = new TLRPC$messages_SponsoredMessages() { // from class: org.telegram.tgnet.TLRPC$TL_messages_sponsoredMessages
-                public static int constructor = -907141753;
-
                 @Override // org.telegram.tgnet.TLObject
                 public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                     int readInt32 = abstractSerializedData2.readInt32(z2);
@@ -71,7 +69,7 @@ public abstract class TLRPC$messages_SponsoredMessages extends TLObject {
 
                 @Override // org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                    abstractSerializedData2.writeInt32(constructor);
+                    abstractSerializedData2.writeInt32(-907141753);
                     abstractSerializedData2.writeInt32(this.flags);
                     if ((this.flags & 1) != 0) {
                         abstractSerializedData2.writeInt32(this.posts_between);
@@ -98,17 +96,13 @@ public abstract class TLRPC$messages_SponsoredMessages extends TLObject {
             };
         } else if (i == 406407439) {
             tLRPC$messages_SponsoredMessages = new TLRPC$messages_SponsoredMessages() { // from class: org.telegram.tgnet.TLRPC$TL_messages_sponsoredMessagesEmpty
-                public static int constructor = 406407439;
-
                 @Override // org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                    abstractSerializedData2.writeInt32(constructor);
+                    abstractSerializedData2.writeInt32(406407439);
                 }
             };
         } else {
             tLRPC$messages_SponsoredMessages = i != 1705297877 ? null : new TLRPC$messages_SponsoredMessages() { // from class: org.telegram.tgnet.TLRPC$TL_messages_sponsoredMessagesLayer147
-                public static int constructor = -907141753;
-
                 @Override // org.telegram.tgnet.TLObject
                 public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                     int readInt32 = abstractSerializedData2.readInt32(z2);
@@ -160,7 +154,7 @@ public abstract class TLRPC$messages_SponsoredMessages extends TLObject {
 
                 @Override // org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                    abstractSerializedData2.writeInt32(constructor);
+                    abstractSerializedData2.writeInt32(-907141753);
                     abstractSerializedData2.writeInt32(481674261);
                     int size = this.messages.size();
                     abstractSerializedData2.writeInt32(size);

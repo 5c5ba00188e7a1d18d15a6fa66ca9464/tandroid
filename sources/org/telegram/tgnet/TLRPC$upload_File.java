@@ -14,8 +14,6 @@ public abstract class TLRPC$upload_File extends TLObject {
 
     public static TLRPC$upload_File TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
         TLRPC$upload_File tLRPC$TL_upload_file = i != -242427324 ? i != 157948117 ? null : new TLRPC$TL_upload_file() : new TLRPC$upload_File() { // from class: org.telegram.tgnet.TLRPC$TL_upload_fileCdnRedirect
-            public static int constructor = -242427324;
-
             @Override // org.telegram.tgnet.TLObject
             public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                 this.dc_id = abstractSerializedData2.readInt32(z2);
@@ -41,7 +39,7 @@ public abstract class TLRPC$upload_File extends TLObject {
 
             @Override // org.telegram.tgnet.TLObject
             public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                abstractSerializedData2.writeInt32(constructor);
+                abstractSerializedData2.writeInt32(-242427324);
                 abstractSerializedData2.writeInt32(this.dc_id);
                 abstractSerializedData2.writeByteArray(this.file_token);
                 abstractSerializedData2.writeByteArray(this.encryption_key);

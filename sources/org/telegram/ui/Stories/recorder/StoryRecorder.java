@@ -67,6 +67,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.AnimationNotificationsLocker;
@@ -138,6 +139,7 @@ import org.telegram.ui.Stories.StoriesController;
 import org.telegram.ui.Stories.StoryViewer;
 import org.telegram.ui.Stories.StoryWaveEffectView;
 import org.telegram.ui.Stories.recorder.DownloadButton;
+import org.telegram.ui.Stories.recorder.FlashViews;
 import org.telegram.ui.Stories.recorder.PreviewButtons;
 import org.telegram.ui.Stories.recorder.RecordControl;
 import org.telegram.ui.Stories.recorder.StoryEntry;
@@ -152,7 +154,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
     private Runnable afterPlayerAwait;
     private boolean animatedRecording;
     private Runnable audioGrantedCallback;
-    private ImageView backButton;
+    private FlashViews.ImageViewInvertable backButton;
     private BlurringShader.BlurManager blurManager;
     private HintView2 cameraHint;
     private DualCameraView cameraView;
@@ -171,12 +173,14 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
     private ToggleButton dualButton;
     private HintView2 dualHint;
     private AnimatorSet editModeAnimator;
-    private ImageView flashButton;
+    private FlashViews.ImageViewInvertable flashButton;
     private int flashButtonResId;
+    private FlashViews flashViews;
     private boolean forceBackgroundVisible;
     private boolean fromGallery;
     private float fromRounding;
     private SourceView fromSourceView;
+    private ArrayList<String> frontfaceFlashModes;
     private Float frozenDismissProgress;
     private boolean galleryClosing;
     private Runnable galleryLayouted;
@@ -201,6 +205,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
     private boolean noCameraPermission;
     private Runnable onCloseListener;
     private Utilities.Callback3<Long, Runnable, Boolean> onClosePrepareListener;
+    private Runnable onFullyOpenListener;
     private ValueAnimator openCloseAnimator;
     private float openProgress;
     private int openType;
@@ -259,6 +264,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
     private ZoomControlView zoomControlView;
     private final Theme.ResourcesProvider resourcesProvider = new DarkThemeResourceProvider();
     private RectF fromRect = new RectF();
+    private boolean canChangePeer = true;
     private AnimationNotificationsLocker notificationsLocker = new AnimationNotificationsLocker();
     private int currentPage = 0;
     private int currentEditMode = -1;
@@ -269,9 +275,10 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
     private boolean awaitingPlayer = false;
     private int shiftDp = -3;
     private boolean preparingUpload = false;
-    private final RecordControl.Delegate recordControlDelegate = new 10();
+    private final RecordControl.Delegate recordControlDelegate = new 11();
     private boolean videoTimerShown = true;
     private boolean applyContainerViewTranslation2 = true;
+    private int frontfaceFlashMode = -1;
 
     /* loaded from: classes4.dex */
     public interface ClosingViewProvider {
@@ -285,7 +292,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         boolean onTouch(MotionEvent motionEvent);
     }
 
-    static /* synthetic */ float access$3216(StoryRecorder storyRecorder, float f) {
+    static /* synthetic */ float access$3316(StoryRecorder storyRecorder, float f) {
         float f2 = storyRecorder.cameraZoom + f;
         storyRecorder.cameraZoom = f2;
         return f2;
@@ -390,7 +397,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             float imageY = iArr[1] + fArr[1] + (avatarImageView.getImageReceiver().getImageY() * scaleX);
             sourceView.screenRect.set(imageX, imageY, imageX + imageWidth, imageWidth + imageY);
             sourceView.backgroundImageReceiver = avatarImageView.getImageReceiver();
-            sourceView.rounding = Math.max(sourceView.screenRect.width(), sourceView.screenRect.height()) / 2.0f;
+            sourceView.rounding = (imageWidth / 2.0f) * 2.0f;
             return sourceView;
         }
 
@@ -583,7 +590,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         this.containerView.setScaleY(1.0f);
         this.dismissProgress = 0.0f;
         AndroidUtilities.lockOrientation(this.activity, 1);
-        animateOpenTo(1.0f, z, new StoryRecorder$$ExternalSyntheticLambda34(this));
+        animateOpenTo(1.0f, z, new StoryRecorder$$ExternalSyntheticLambda35(this));
         addNotificationObservers();
     }
 
@@ -623,7 +630,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         if (storyEntry2 != null) {
             this.captionEdit.setText(storyEntry2.caption);
         }
-        navigateToPreviewWithPlayerAwait(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda44
+        navigateToPreviewWithPlayerAwait(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda45
             @Override // java.lang.Runnable
             public final void run() {
                 StoryRecorder.this.lambda$openEdit$0(z);
@@ -635,7 +642,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
     }
 
     public /* synthetic */ void lambda$openEdit$0(boolean z) {
-        animateOpenTo(1.0f, z, new StoryRecorder$$ExternalSyntheticLambda34(this));
+        animateOpenTo(1.0f, z, new StoryRecorder$$ExternalSyntheticLambda35(this));
         this.previewButtons.appear(true, true);
     }
 
@@ -661,7 +668,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
                     return;
                 }
                 this.prepareClosing = true;
-                callback3.run(Long.valueOf(previewView.release()), new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda47
+                callback3.run(Long.valueOf(previewView.release()), new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda48
                     @Override // java.lang.Runnable
                     public final void run() {
                         StoryRecorder.this.lambda$close$1(z);
@@ -673,7 +680,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             if (previewView2 != null && !z) {
                 previewView2.set(null);
             }
-            animateOpenTo(0.0f, z, new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda20
+            animateOpenTo(0.0f, z, new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda21
                 @Override // java.lang.Runnable
                 public final void run() {
                     StoryRecorder.this.onCloseDone();
@@ -733,6 +740,10 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
                     NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.startAllHeavyOperations, Integer.valueOf((int) LiteMode.FLAG_CALLS_ANIMATIONS));
                     NotificationCenter.getGlobalInstance().runDelayedNotifications();
                     StoryRecorder.this.checkBackgroundVisibility();
+                    if (StoryRecorder.this.onFullyOpenListener != null) {
+                        StoryRecorder.this.onFullyOpenListener.run();
+                        StoryRecorder.this.onFullyOpenListener = null;
+                    }
                 }
             });
             if (f < 1.0f && this.wasSend) {
@@ -808,7 +819,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             }
         }
         this.outputFile = null;
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda37
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda38
             @Override // java.lang.Runnable
             public final void run() {
                 StoryRecorder.this.lambda$onCloseDone$3();
@@ -850,6 +861,10 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         this.windowManager.removeView(this.windowView);
     }
 
+    public void setOnFullyOpenListener(Runnable runnable) {
+        this.onFullyOpenListener = runnable;
+    }
+
     public void setOnPrepareCloseListener(Utilities.Callback3<Long, Runnable, Boolean> callback3) {
         this.onClosePrepareListener = callback3;
     }
@@ -870,19 +885,19 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         private float sty;
         private float ty;
 
-        static /* synthetic */ float access$3616(WindowView windowView, float f) {
+        static /* synthetic */ float access$3716(WindowView windowView, float f) {
             float f2 = windowView.sty + f;
             windowView.sty = f2;
             return f2;
         }
 
-        static /* synthetic */ float access$3716(WindowView windowView, float f) {
+        static /* synthetic */ float access$3816(WindowView windowView, float f) {
             float f2 = windowView.stx + f;
             windowView.stx = f2;
             return f2;
         }
 
-        static /* synthetic */ float access$4424(WindowView windowView, float f) {
+        static /* synthetic */ float access$4524(WindowView windowView, float f) {
             float f2 = windowView.ty - f;
             windowView.ty = f2;
             return f2;
@@ -915,14 +930,20 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         }
 
         /* JADX INFO: Access modifiers changed from: protected */
+        /* JADX WARN: Removed duplicated region for block: B:68:0x0290  */
+        /* JADX WARN: Removed duplicated region for block: B:71:0x029e  */
+        /* JADX WARN: Removed duplicated region for block: B:84:? A[RETURN, SYNTHETIC] */
         @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+        */
         public void dispatchDraw(Canvas canvas) {
             float floatValue = StoryRecorder.this.frozenDismissProgress != null ? StoryRecorder.this.frozenDismissProgress.floatValue() : StoryRecorder.this.dismissProgress;
             if (StoryRecorder.this.openType == 0) {
                 canvas.drawColor(ColorUtils.setAlphaComponent(-16777216, (int) (StoryRecorder.this.openProgress * 255.0f * (1.0f - floatValue))));
             }
-            boolean z = false;
             float lerp = AndroidUtilities.lerp(StoryRecorder.this.fromRounding, 0.0f, StoryRecorder.this.openProgress);
+            boolean z = true;
             if (StoryRecorder.this.openProgress != 1.0f) {
                 if (StoryRecorder.this.openType != 0) {
                     if (StoryRecorder.this.openType == 1) {
@@ -955,44 +976,55 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
                     canvas.translate(rectF.left, rectF.top - (StoryRecorder.this.containerView.getTranslationY() * StoryRecorder.this.openProgress));
                     float max = Math.max(this.rectF.width() / getWidth(), this.rectF.height() / getHeight());
                     canvas.scale(max, max);
-                    z = true;
+                    if (StoryRecorder.this.paintView != null) {
+                        StoryRecorder.this.paintView.onParentPreDraw();
+                    }
+                    super.dispatchDraw(canvas);
+                    if (z) {
+                        return;
+                    }
+                    canvas.restore();
+                    canvas.restore();
+                    if (StoryRecorder.this.fromSourceView != null) {
+                        float clamp = Utilities.clamp(1.0f - (StoryRecorder.this.openProgress * 1.5f), 1.0f, 0.0f);
+                        float centerX = this.rectF.centerX();
+                        float centerY = this.rectF.centerY();
+                        Math.min(this.rectF.width(), this.rectF.height());
+                        if (StoryRecorder.this.fromSourceView.backgroundImageReceiver != null) {
+                            StoryRecorder.this.fromSourceView.backgroundImageReceiver.setImageCoords(this.rectF);
+                            int i = StoryRecorder.this.fromSourceView.backgroundImageReceiver.getRoundRadius()[0];
+                            StoryRecorder.this.fromSourceView.backgroundImageReceiver.setRoundRadius((int) lerp);
+                            StoryRecorder.this.fromSourceView.backgroundImageReceiver.setAlpha(clamp);
+                            StoryRecorder.this.fromSourceView.backgroundImageReceiver.draw(canvas);
+                            StoryRecorder.this.fromSourceView.backgroundImageReceiver.setRoundRadius(i);
+                        } else if (StoryRecorder.this.fromSourceView.backgroundPaint != null) {
+                            StoryRecorder.this.fromSourceView.backgroundPaint.setShadowLayer(AndroidUtilities.dp(2.0f), 0.0f, AndroidUtilities.dp(3.0f), Theme.multAlpha(AndroidUtilities.DARK_STATUS_BAR_OVERLAY, clamp));
+                            StoryRecorder.this.fromSourceView.backgroundPaint.setAlpha((int) (255.0f * clamp));
+                            canvas.drawRoundRect(this.rectF, lerp, lerp, StoryRecorder.this.fromSourceView.backgroundPaint);
+                        }
+                        if (StoryRecorder.this.fromSourceView.iconDrawable != null) {
+                            this.rect.set(StoryRecorder.this.fromSourceView.iconDrawable.getBounds());
+                            StoryRecorder.this.fromSourceView.iconDrawable.setBounds((int) (centerX - (StoryRecorder.this.fromSourceView.iconSize / 2)), (int) (centerY - (StoryRecorder.this.fromSourceView.iconSize / 2)), (int) (centerX + (StoryRecorder.this.fromSourceView.iconSize / 2)), (int) (centerY + (StoryRecorder.this.fromSourceView.iconSize / 2)));
+                            int alpha = StoryRecorder.this.fromSourceView.iconDrawable.getAlpha();
+                            StoryRecorder.this.fromSourceView.iconDrawable.setAlpha((int) (alpha * clamp));
+                            StoryRecorder.this.fromSourceView.iconDrawable.draw(canvas);
+                            StoryRecorder.this.fromSourceView.iconDrawable.setBounds(this.rect);
+                            StoryRecorder.this.fromSourceView.iconDrawable.setAlpha(alpha);
+                        }
+                        canvas.save();
+                        canvas.translate(StoryRecorder.this.fromRect.left, StoryRecorder.this.fromRect.top);
+                        StoryRecorder.this.fromSourceView.drawAbove(canvas, clamp);
+                        canvas.restore();
+                        return;
+                    }
+                    return;
                 }
             }
+            z = false;
             if (StoryRecorder.this.paintView != null) {
-                StoryRecorder.this.paintView.onParentPreDraw();
             }
             super.dispatchDraw(canvas);
             if (z) {
-                canvas.restore();
-                canvas.restore();
-                if (StoryRecorder.this.fromSourceView != null) {
-                    float clamp = Utilities.clamp(1.0f - (StoryRecorder.this.openProgress * 1.5f), 1.0f, 0.0f);
-                    float centerX = this.rectF.centerX();
-                    float centerY = this.rectF.centerY();
-                    Math.min(this.rectF.width(), this.rectF.height());
-                    if (StoryRecorder.this.fromSourceView.backgroundImageReceiver != null) {
-                        StoryRecorder.this.fromSourceView.backgroundImageReceiver.setImageCoords(this.rectF);
-                        StoryRecorder.this.fromSourceView.backgroundImageReceiver.setAlpha(clamp);
-                        StoryRecorder.this.fromSourceView.backgroundImageReceiver.draw(canvas);
-                    } else if (StoryRecorder.this.fromSourceView.backgroundPaint != null) {
-                        StoryRecorder.this.fromSourceView.backgroundPaint.setShadowLayer(AndroidUtilities.dp(2.0f), 0.0f, AndroidUtilities.dp(3.0f), Theme.multAlpha(AndroidUtilities.DARK_STATUS_BAR_OVERLAY, clamp));
-                        StoryRecorder.this.fromSourceView.backgroundPaint.setAlpha((int) (255.0f * clamp));
-                        canvas.drawRoundRect(this.rectF, lerp, lerp, StoryRecorder.this.fromSourceView.backgroundPaint);
-                    }
-                    if (StoryRecorder.this.fromSourceView.iconDrawable != null) {
-                        this.rect.set(StoryRecorder.this.fromSourceView.iconDrawable.getBounds());
-                        StoryRecorder.this.fromSourceView.iconDrawable.setBounds((int) (centerX - (StoryRecorder.this.fromSourceView.iconSize / 2)), (int) (centerY - (StoryRecorder.this.fromSourceView.iconSize / 2)), (int) (centerX + (StoryRecorder.this.fromSourceView.iconSize / 2)), (int) (centerY + (StoryRecorder.this.fromSourceView.iconSize / 2)));
-                        int alpha = StoryRecorder.this.fromSourceView.iconDrawable.getAlpha();
-                        StoryRecorder.this.fromSourceView.iconDrawable.setAlpha((int) (alpha * clamp));
-                        StoryRecorder.this.fromSourceView.iconDrawable.draw(canvas);
-                        StoryRecorder.this.fromSourceView.iconDrawable.setBounds(this.rect);
-                        StoryRecorder.this.fromSourceView.iconDrawable.setAlpha(alpha);
-                    }
-                    canvas.save();
-                    canvas.translate(StoryRecorder.this.fromRect.left, StoryRecorder.this.fromRect.top);
-                    StoryRecorder.this.fromSourceView.drawAbove(canvas, clamp);
-                    canvas.restore();
-                }
             }
         }
 
@@ -1042,7 +1074,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
                 if (!WindowView.this.scaling || StoryRecorder.this.cameraView == null || StoryRecorder.this.currentPage != 0 || StoryRecorder.this.cameraView.isDualTouch()) {
                     return false;
                 }
-                StoryRecorder.access$3216(StoryRecorder.this, (scaleGestureDetector.getScaleFactor() - 1.0f) * 0.75f);
+                StoryRecorder.access$3316(StoryRecorder.this, (scaleGestureDetector.getScaleFactor() - 1.0f) * 0.75f);
                 StoryRecorder storyRecorder = StoryRecorder.this;
                 storyRecorder.cameraZoom = Utilities.clamp(storyRecorder.cameraZoom, 1.0f, 0.0f);
                 StoryRecorder.this.cameraView.setZoom(StoryRecorder.this.cameraZoom);
@@ -1119,7 +1151,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
                 if ((StoryRecorder.this.openCloseAnimator == null || !StoryRecorder.this.openCloseAnimator.isRunning()) && StoryRecorder.this.galleryOpenCloseSpringAnimator == null && StoryRecorder.this.galleryOpenCloseAnimator == null && !StoryRecorder.this.recordControl.isTouch() && ((StoryRecorder.this.cameraView == null || !StoryRecorder.this.cameraView.isDualTouch()) && !WindowView.this.scaling && ((StoryRecorder.this.zoomControlView == null || !StoryRecorder.this.zoomControlView.isTouch()) && !StoryRecorder.this.takingVideo && !StoryRecorder.this.takingPhoto && StoryRecorder.this.currentPage == 0))) {
                     z = true;
                     if (!StoryRecorder.this.scrollingX) {
-                        WindowView.access$3616(WindowView.this, f2);
+                        WindowView.access$3716(WindowView.this, f2);
                         if (!StoryRecorder.this.scrollingY && Math.abs(WindowView.this.sty) >= AndroidUtilities.touchSlop) {
                             StoryRecorder.this.scrollingY = true;
                         }
@@ -1134,7 +1166,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
                                 if (StoryRecorder.this.galleryListView != null && StoryRecorder.this.galleryListView.listView.canScrollVertically(-1)) {
                                     f2 = Math.max(0.0f, f2);
                                 }
-                                WindowView.access$4424(WindowView.this, f2);
+                                WindowView.access$4524(WindowView.this, f2);
                                 WindowView windowView2 = WindowView.this;
                                 windowView2.ty = Math.max(-measuredHeight, windowView2.ty);
                                 if (StoryRecorder.this.currentPage == 1) {
@@ -1160,7 +1192,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
                         if (StoryRecorder.this.galleryListView != null) {
                             f2 = Math.max(0.0f, f2);
                         }
-                        WindowView.access$4424(WindowView.this, f2);
+                        WindowView.access$4524(WindowView.this, f2);
                         WindowView windowView22 = WindowView.this;
                         windowView22.ty = Math.max(-measuredHeight, windowView22.ty);
                         if (StoryRecorder.this.currentPage == 1) {
@@ -1169,7 +1201,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
                         }
                     }
                     if (!StoryRecorder.this.scrollingY) {
-                        WindowView.access$3716(WindowView.this, f);
+                        WindowView.access$3816(WindowView.this, f);
                         if (!StoryRecorder.this.scrollingX && Math.abs(WindowView.this.stx) >= AndroidUtilities.touchSlop) {
                             StoryRecorder.this.scrollingX = true;
                         }
@@ -1298,6 +1330,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             int systemUiVisibility = getSystemUiVisibility();
             setSystemUiVisibility(StoryRecorder.this.underStatusBar ? systemUiVisibility | 4 : systemUiVisibility & (-5));
             StoryRecorder.this.containerView.measure(View.MeasureSpec.makeMeasureSpec(StoryRecorder.this.previewW, 1073741824), View.MeasureSpec.makeMeasureSpec(StoryRecorder.this.previewH + StoryRecorder.this.underControls, 1073741824));
+            StoryRecorder.this.flashViews.backgroundView.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(size2, 1073741824));
             if (StoryRecorder.this.galleryListView != null) {
                 StoryRecorder.this.galleryListView.measure(View.MeasureSpec.makeMeasureSpec(StoryRecorder.this.previewW, 1073741824), View.MeasureSpec.makeMeasureSpec(size2, 1073741824));
             }
@@ -1362,6 +1395,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
                 i5 = StoryRecorder.this.previewH;
             }
             StoryRecorder.this.containerView.layout(i9, i8, i10, i5 + i8 + measuredHeight);
+            StoryRecorder.this.flashViews.backgroundView.layout(0, 0, i6, i7);
             if (StoryRecorder.this.galleryListView != null) {
                 StoryRecorder.this.galleryListView.layout((i6 - StoryRecorder.this.galleryListView.getMeasuredWidth()) / 2, 0, (StoryRecorder.this.galleryListView.getMeasuredWidth() + i6) / 2, i7);
             }
@@ -1490,12 +1524,15 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
         protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
             int i5 = StoryRecorder.this.underStatusBar ? StoryRecorder.this.insetTop : 0;
+            int i6 = i3 - i;
+            int i7 = i4 - i2;
             StoryRecorder.this.previewContainer.layout(0, 0, StoryRecorder.this.previewW, StoryRecorder.this.previewH);
             StoryRecorder.this.previewContainer.setPivotX(StoryRecorder.this.previewW * 0.5f);
             StoryRecorder.this.actionBarContainer.layout(0, i5, StoryRecorder.this.previewW, StoryRecorder.this.actionBarContainer.getMeasuredHeight() + i5);
             StoryRecorder.this.controlContainer.layout(0, StoryRecorder.this.previewH - StoryRecorder.this.controlContainer.getMeasuredHeight(), StoryRecorder.this.previewW, StoryRecorder.this.previewH);
             StoryRecorder.this.navbarContainer.layout(0, StoryRecorder.this.previewH, StoryRecorder.this.previewW, StoryRecorder.this.previewH + StoryRecorder.this.navbarContainer.getMeasuredHeight());
             StoryRecorder.this.captionContainer.layout(0, 0, StoryRecorder.this.previewW, StoryRecorder.this.previewH);
+            StoryRecorder.this.flashViews.foregroundView.layout(0, 0, i6, i7);
             if (StoryRecorder.this.captionEdit.mentionContainer != null) {
                 StoryRecorder.this.captionEdit.mentionContainer.layout(0, 0, StoryRecorder.this.previewW, StoryRecorder.this.previewH);
                 StoryRecorder.this.captionEdit.updateMentionsLayoutPosition();
@@ -1506,8 +1543,6 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             if (StoryRecorder.this.paintView != null) {
                 StoryRecorder.this.paintView.layout(0, 0, StoryRecorder.this.paintView.getMeasuredWidth(), StoryRecorder.this.paintView.getMeasuredHeight());
             }
-            int i6 = i3 - i;
-            int i7 = i4 - i2;
             for (int i8 = 0; i8 < getChildCount(); i8++) {
                 View childAt = getChildAt(i8);
                 if (childAt instanceof ItemOptions.DimView) {
@@ -1528,6 +1563,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             measureChildExactly(StoryRecorder.this.controlContainer, StoryRecorder.this.previewW, AndroidUtilities.dp(220.0f));
             measureChildExactly(StoryRecorder.this.navbarContainer, StoryRecorder.this.previewW, StoryRecorder.this.underControls);
             measureChildExactly(StoryRecorder.this.captionContainer, StoryRecorder.this.previewW, StoryRecorder.this.previewH);
+            measureChildExactly(StoryRecorder.this.flashViews.foregroundView, size, size2);
             if (StoryRecorder.this.captionEdit.mentionContainer != null) {
                 measureChildExactly(StoryRecorder.this.captionEdit.mentionContainer, StoryRecorder.this.previewW, StoryRecorder.this.previewH);
             }
@@ -1561,7 +1597,9 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
                     this.topGradientPaint.setShader(linearGradient);
                 }
                 this.topGradientPaint.setAlpha((int) (StoryRecorder.this.openProgress * 255.0f));
-                canvas.drawRect(0.0f, 0.0f, getWidth(), AndroidUtilities.dp(72.0f) + f, this.topGradientPaint);
+                RectF rectF = AndroidUtilities.rectTmp;
+                rectF.set(0.0f, 0.0f, getWidth(), AndroidUtilities.dp(84.0f) + f);
+                canvas.drawRoundRect(rectF, AndroidUtilities.dp(12.0f), AndroidUtilities.dp(12.0f), this.topGradientPaint);
             }
             return drawChild;
         }
@@ -1608,12 +1646,33 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             });
         }
         this.windowView.setFocusable(true);
+        FlashViews flashViews = new FlashViews(context, this.windowManager, this.windowView, this.windowLayoutParams);
+        this.flashViews = flashViews;
+        flashViews.add(new FlashViews.Invertable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder.3
+            @Override // org.telegram.ui.Stories.recorder.FlashViews.Invertable
+            public void invalidate() {
+            }
+
+            {
+                StoryRecorder.this = this;
+            }
+
+            @Override // org.telegram.ui.Stories.recorder.FlashViews.Invertable
+            public void setInvert(float f) {
+                AndroidUtilities.setLightNavigationBar(StoryRecorder.this.windowView, f > 0.5f);
+                AndroidUtilities.setLightStatusBar(StoryRecorder.this.windowView, f > 0.5f);
+            }
+        });
+        this.windowView.addView(this.flashViews.backgroundView, new ViewGroup.LayoutParams(-1, -1));
         WindowView windowView2 = this.windowView;
         ContainerView containerView = new ContainerView(context);
         this.containerView = containerView;
         windowView2.addView(containerView);
         ContainerView containerView2 = this.containerView;
-        FrameLayout frameLayout = new FrameLayout(context) { // from class: org.telegram.ui.Stories.recorder.StoryRecorder.3
+        FrameLayout frameLayout = new FrameLayout(context) { // from class: org.telegram.ui.Stories.recorder.StoryRecorder.4
+            private final Rect leftExclRect = new Rect();
+            private final Rect rightExclRect = new Rect();
+
             {
                 StoryRecorder.this = this;
             }
@@ -1637,9 +1696,22 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
                     StoryRecorder.this.photoFilterViewBlurControl.setActualAreaSize(StoryRecorder.this.photoFilterViewBlurControl.getMeasuredWidth(), StoryRecorder.this.photoFilterViewBlurControl.getMeasuredHeight());
                 }
             }
+
+            @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
+            protected void onLayout(boolean z, int i2, int i3, int i4, int i5) {
+                super.onLayout(z, i2, i3, i4, i5);
+                if (Build.VERSION.SDK_INT >= 29) {
+                    int i6 = i4 - i2;
+                    int i7 = i5 - i3;
+                    this.leftExclRect.set(0, i7 - AndroidUtilities.dp(120.0f), AndroidUtilities.dp(40.0f), i7);
+                    this.rightExclRect.set(i6 - AndroidUtilities.dp(40.0f), i7 - AndroidUtilities.dp(120.0f), i6, i7);
+                    setSystemGestureExclusionRects(Arrays.asList(this.leftExclRect, this.rightExclRect));
+                }
+            }
         };
         this.previewContainer = frameLayout;
         containerView2.addView(frameLayout);
+        this.containerView.addView(this.flashViews.foregroundView, new ViewGroup.LayoutParams(-1, -1));
         this.blurManager = new BlurringShader.BlurManager(this.previewContainer);
         ContainerView containerView3 = this.containerView;
         FrameLayout frameLayout2 = new FrameLayout(context);
@@ -1650,7 +1722,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         this.controlContainer = frameLayout3;
         containerView4.addView(frameLayout3);
         ContainerView containerView5 = this.containerView;
-        FrameLayout frameLayout4 = new FrameLayout(context) { // from class: org.telegram.ui.Stories.recorder.StoryRecorder.4
+        FrameLayout frameLayout4 = new FrameLayout(context) { // from class: org.telegram.ui.Stories.recorder.StoryRecorder.5
             {
                 StoryRecorder.this = this;
             }
@@ -1672,7 +1744,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         FrameLayout frameLayout5 = new FrameLayout(context);
         this.navbarContainer = frameLayout5;
         containerView6.addView(frameLayout5);
-        Bulletin.addDelegate(this.windowView, new Bulletin.Delegate(this) { // from class: org.telegram.ui.Stories.recorder.StoryRecorder.5
+        Bulletin.addDelegate(this.windowView, new Bulletin.Delegate(this) { // from class: org.telegram.ui.Stories.recorder.StoryRecorder.6
             @Override // org.telegram.ui.Components.Bulletin.Delegate
             public /* synthetic */ boolean allowLayoutChanges() {
                 return Bulletin.Delegate.-CC.$default$allowLayoutChanges(this);
@@ -1711,7 +1783,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         ImageView imageView = new ImageView(context);
         this.cameraViewThumb = imageView;
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        this.cameraViewThumb.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda12
+        this.cameraViewThumb.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda13
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 StoryRecorder.this.lambda$initViews$4(view);
@@ -1721,7 +1793,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         this.previewContainer.addView(this.cameraViewThumb, LayoutHelper.createFrame(-1, -1, 119));
         this.previewContainer.setBackgroundColor(this.openType == 1 ? 0 : -14737633);
         if (i >= 21) {
-            this.previewContainer.setOutlineProvider(new ViewOutlineProvider(this) { // from class: org.telegram.ui.Stories.recorder.StoryRecorder.6
+            this.previewContainer.setOutlineProvider(new ViewOutlineProvider(this) { // from class: org.telegram.ui.Stories.recorder.StoryRecorder.7
                 @Override // android.view.ViewOutlineProvider
                 public void getOutline(View view, Outline outline) {
                     outline.setRoundRect(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight(), AndroidUtilities.dp(12.0f));
@@ -1729,28 +1801,28 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             });
             this.previewContainer.setClipToOutline(true);
         }
-        this.photoFilterEnhanceView = new PhotoFilterView.EnhanceView(context, new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda24
+        this.photoFilterEnhanceView = new PhotoFilterView.EnhanceView(context, new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda25
             @Override // java.lang.Runnable
             public final void run() {
                 StoryRecorder.this.createFilterPhotoView();
             }
         });
-        7 r0 = new 7(context, this.blurManager);
+        8 r0 = new 8(context, this.blurManager);
         this.previewView = r0;
-        r0.invalidateBlur = new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda19
+        r0.invalidateBlur = new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda20
             @Override // java.lang.Runnable
             public final void run() {
                 StoryRecorder.this.invalidateBlur();
             }
         };
-        this.previewView.setOnTapListener(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda25
+        this.previewView.setOnTapListener(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda26
             @Override // java.lang.Runnable
             public final void run() {
                 StoryRecorder.this.lambda$initViews$5();
             }
         });
         this.previewView.setVisibility(8);
-        this.previewView.whenError(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda33
+        this.previewView.whenError(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda34
             @Override // java.lang.Runnable
             public final void run() {
                 StoryRecorder.this.lambda$initViews$6();
@@ -1759,7 +1831,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         this.previewContainer.addView(this.previewView, LayoutHelper.createFrame(-1, -1, 119));
         this.previewContainer.addView(this.photoFilterEnhanceView, LayoutHelper.createFrame(-1, -1, 119));
         WindowView windowView3 = this.windowView;
-        CaptionStory captionStory = new CaptionStory(context, windowView3, windowView3, this.containerView, this.resourcesProvider, this.blurManager) { // from class: org.telegram.ui.Stories.recorder.StoryRecorder.8
+        CaptionStory captionStory = new CaptionStory(context, windowView3, windowView3, this.containerView, this.resourcesProvider, this.blurManager) { // from class: org.telegram.ui.Stories.recorder.StoryRecorder.9
             {
                 StoryRecorder.this = this;
             }
@@ -1789,9 +1861,9 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
                         if (indexOf2 >= 0) {
                             replaceTags.replace(indexOf2, indexOf2 + 2, (CharSequence) "");
                             replaceTags.setSpan(new ForegroundColorSpan(Theme.getColor(Theme.key_chat_messageLinkIn, this.resourcesProvider)), indexOf, indexOf2, 33);
-                            replaceTags.setSpan(new ClickableSpan() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder.8.1
+                            replaceTags.setSpan(new ClickableSpan() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder.9.1
                                 {
-                                    8.this = this;
+                                    9.this = this;
                                 }
 
                                 @Override // android.text.style.ClickableSpan, android.text.style.CharacterStyle
@@ -1822,7 +1894,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         };
         this.captionEdit = captionStory;
         captionStory.setAccount(this.currentAccount);
-        this.captionEdit.setUiBlurBitmap(new Utilities.CallbackVoidReturn() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda62
+        this.captionEdit.setUiBlurBitmap(new Utilities.CallbackVoidReturn() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda63
             @Override // org.telegram.messenger.Utilities.CallbackVoidReturn
             public final Object run() {
                 Bitmap uiBlurBitmap;
@@ -1830,7 +1902,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
                 return uiBlurBitmap;
             }
         });
-        Bulletin.addDelegate(this.captionContainer, new Bulletin.Delegate() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder.9
+        Bulletin.addDelegate(this.captionContainer, new Bulletin.Delegate() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder.10
             @Override // org.telegram.ui.Components.Bulletin.Delegate
             public /* synthetic */ boolean allowLayoutChanges() {
                 return Bulletin.Delegate.-CC.$default$allowLayoutChanges(this);
@@ -1870,25 +1942,25 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
                 return StoryRecorder.this.captionEdit.getEditTextHeight() + AndroidUtilities.dp(12.0f);
             }
         });
-        this.captionEdit.setOnHeightUpdate(new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda58
+        this.captionEdit.setOnHeightUpdate(new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda59
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 StoryRecorder.this.lambda$initViews$7((Integer) obj);
             }
         });
-        this.captionEdit.setOnPeriodUpdate(new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda56
+        this.captionEdit.setOnPeriodUpdate(new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda57
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 StoryRecorder.this.lambda$initViews$8((Integer) obj);
             }
         });
-        this.captionEdit.setOnPremiumHint(new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda55
+        this.captionEdit.setOnPremiumHint(new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda56
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 StoryRecorder.this.showPremiumPeriodBulletin(((Integer) obj).intValue());
             }
         });
-        this.captionEdit.setOnKeyboardOpen(new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda52
+        this.captionEdit.setOnKeyboardOpen(new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda53
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 StoryRecorder.this.lambda$initViews$9((Boolean) obj);
@@ -1909,20 +1981,21 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         this.videoTimelineContainerView.addView(this.videoTimeView, LayoutHelper.createFrame(-1, 25.0f, 55, 0.0f, 0.0f, 0.0f, 0.0f));
         this.captionContainer.addView(this.videoTimelineContainerView, LayoutHelper.createFrame(-1, 105.0f, 87, 0.0f, 0.0f, 0.0f, 68.0f));
         this.captionContainer.addView(this.captionEdit, LayoutHelper.createFrame(-1, -1.0f, 87, 0.0f, 200.0f, 0.0f, 0.0f));
-        ImageView imageView2 = new ImageView(context);
-        this.backButton = imageView2;
-        imageView2.setContentDescription(LocaleController.getString("AccDescrGoBack", R.string.AccDescrGoBack));
+        FlashViews.ImageViewInvertable imageViewInvertable = new FlashViews.ImageViewInvertable(context);
+        this.backButton = imageViewInvertable;
+        imageViewInvertable.setContentDescription(LocaleController.getString("AccDescrGoBack", R.string.AccDescrGoBack));
         this.backButton.setScaleType(ImageView.ScaleType.CENTER);
         this.backButton.setImageResource(R.drawable.msg_photo_back);
         this.backButton.setColorFilter(new PorterDuffColorFilter(-1, PorterDuff.Mode.MULTIPLY));
         this.backButton.setBackground(Theme.createSelectorDrawable(553648127));
-        this.backButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda17
+        this.backButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda18
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 StoryRecorder.this.lambda$initViews$10(view);
             }
         });
         this.actionBarContainer.addView(this.backButton, LayoutHelper.createFrame(56, 56, 51));
+        this.flashViews.add(this.backButton);
         SimpleTextView simpleTextView = new SimpleTextView(context);
         this.titleTextView = simpleTextView;
         simpleTextView.setTextSize(20);
@@ -1936,7 +2009,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         this.titleTextView.setEllipsizeByGradient(true);
         this.titleTextView.setRightPadding(AndroidUtilities.dp(144.0f));
         this.actionBarContainer.addView(this.titleTextView, LayoutHelper.createFrame(-1, 56.0f, 55, 71.0f, 0.0f, 0.0f, 0.0f));
-        DownloadButton downloadButton = new DownloadButton(context, new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda59
+        DownloadButton downloadButton = new DownloadButton(context, new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda60
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 StoryRecorder.this.lambda$initViews$11((Runnable) obj);
@@ -1956,7 +2029,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         rLottieImageView2.setImageResource((storyEntry == null || !storyEntry.muted) ? R.drawable.media_mute : R.drawable.media_unmute);
         this.muteButton.setColorFilter(new PorterDuffColorFilter(-1, PorterDuff.Mode.MULTIPLY));
         this.muteButton.setBackground(Theme.createSelectorDrawable(553648127));
-        this.muteButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda10
+        this.muteButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda11
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 StoryRecorder.this.lambda$initViews$12(view);
@@ -1970,19 +2043,19 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         playPauseButton.setBackground(Theme.createSelectorDrawable(553648127));
         this.playButton.setVisibility(8);
         this.playButton.setAlpha(0.0f);
-        this.playButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda13
+        this.playButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda14
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 StoryRecorder.this.lambda$initViews$13(view);
             }
         });
         this.actionBarContainer.addView(this.playButton, LayoutHelper.createFrame(56, 56.0f, 53, 0.0f, 0.0f, 96.0f, 0.0f));
-        ImageView imageView3 = new ImageView(context);
-        this.flashButton = imageView3;
-        imageView3.setScaleType(ImageView.ScaleType.CENTER);
+        FlashViews.ImageViewInvertable imageViewInvertable2 = new FlashViews.ImageViewInvertable(context);
+        this.flashButton = imageViewInvertable2;
+        imageViewInvertable2.setScaleType(ImageView.ScaleType.CENTER);
         this.flashButton.setColorFilter(new PorterDuffColorFilter(-1, PorterDuff.Mode.MULTIPLY));
         this.flashButton.setBackground(Theme.createSelectorDrawable(553648127));
-        this.flashButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda14
+        this.flashButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda15
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 StoryRecorder.this.lambda$initViews$14(view);
@@ -1990,18 +2063,20 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         });
         this.flashButton.setVisibility(8);
         this.flashButton.setAlpha(0.0f);
+        this.flashViews.add(this.flashButton);
         this.actionBarContainer.addView(this.flashButton, LayoutHelper.createFrame(56, 56, 53));
         ToggleButton toggleButton = new ToggleButton(context, R.drawable.media_dual_camera2_shadow, R.drawable.media_dual_camera2);
         this.dualButton = toggleButton;
-        toggleButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda16
+        toggleButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda17
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 StoryRecorder.this.lambda$initViews$15(view);
             }
         });
         this.dualButton.setVisibility(DualCameraView.dualAvailableStatic(context) ? 0 : 8);
+        this.flashViews.add(this.dualButton);
         this.actionBarContainer.addView(this.dualButton, LayoutHelper.createFrame(56, 56, 53));
-        HintView2 onHiddenListener = new HintView2(this.activity, 1).setJoint(1.0f, -20.0f).setDuration(5000L).setCloseButton(true).setText(LocaleController.getString(R.string.StoryCameraDualHint)).setOnHiddenListener(StoryRecorder$$ExternalSyntheticLambda50.INSTANCE);
+        HintView2 onHiddenListener = new HintView2(this.activity, 1).setJoint(1.0f, -20.0f).setDuration(5000L).setCloseButton(true).setText(LocaleController.getString(R.string.StoryCameraDualHint)).setOnHiddenListener(StoryRecorder$$ExternalSyntheticLambda51.INSTANCE);
         this.dualHint = onHiddenListener;
         onHiddenListener.setPadding(AndroidUtilities.dp(8.0f), 0, AndroidUtilities.dp(8.0f), 0);
         this.actionBarContainer.addView(this.dualHint, LayoutHelper.createFrame(-1, -1.0f, 48, 0.0f, 52.0f, 0.0f, 0.0f));
@@ -2011,6 +2086,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         this.videoTimerView = new VideoTimerView(context);
         showVideoTimer(false, false);
         this.actionBarContainer.addView(this.videoTimerView, LayoutHelper.createFrame(-1, 45.0f, 55, 56.0f, 0.0f, 56.0f, 0.0f));
+        this.flashViews.add(this.videoTimerView);
         if (i >= 21) {
             MediaController.loadGalleryPhotosAlbums(0);
         }
@@ -2019,6 +2095,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         recordControl.setDelegate(this.recordControlDelegate);
         this.recordControl.startAsVideo(this.isVideo);
         this.controlContainer.addView(this.recordControl, LayoutHelper.createFrame(-1, 100, 87));
+        this.flashViews.add(this.recordControl);
         HintView2 textAlign = new HintView2(this.activity, 3).setMultilineText(true).setText(LocaleController.getString(R.string.StoryCameraHint2)).setMaxWidth(320.0f).setDuration(5000L).setTextAlign(Layout.Alignment.ALIGN_CENTER);
         this.cameraHint = textAlign;
         this.controlContainer.addView(textAlign, LayoutHelper.createFrame(-1, -1.0f, 80, 0.0f, 0.0f, 0.0f, 100.0f));
@@ -2027,7 +2104,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         zoomControlView.enabledTouch = false;
         zoomControlView.setAlpha(0.0f);
         this.controlContainer.addView(this.zoomControlView, LayoutHelper.createFrame(-1, 50.0f, 81, 0.0f, 0.0f, 0.0f, 108.0f));
-        this.zoomControlView.setDelegate(new ZoomControlView.ZoomControlViewDelegate() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda65
+        this.zoomControlView.setDelegate(new ZoomControlView.ZoomControlViewDelegate() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda66
             @Override // org.telegram.ui.Components.ZoomControlView.ZoomControlViewDelegate
             public final void didSetZoom(float f) {
                 StoryRecorder.this.lambda$initViews$17(f);
@@ -2038,26 +2115,28 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         zoomControlView2.setZoom(0.0f, false);
         PhotoVideoSwitcherView photoVideoSwitcherView = new PhotoVideoSwitcherView(context);
         this.modeSwitcherView = photoVideoSwitcherView;
-        photoVideoSwitcherView.setOnSwitchModeListener(new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda53
+        photoVideoSwitcherView.setOnSwitchModeListener(new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda54
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 StoryRecorder.this.lambda$initViews$18((Boolean) obj);
             }
         });
-        this.modeSwitcherView.setOnSwitchingModeListener(new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda54
+        this.modeSwitcherView.setOnSwitchingModeListener(new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda55
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 StoryRecorder.this.lambda$initViews$19((Float) obj);
             }
         });
         this.navbarContainer.addView(this.modeSwitcherView, LayoutHelper.createFrame(-1, -1, 87));
+        this.flashViews.add(this.modeSwitcherView);
         HintTextView hintTextView = new HintTextView(context);
         this.hintTextView = hintTextView;
         this.navbarContainer.addView(hintTextView, LayoutHelper.createFrame(-1, 32.0f, 17, 8.0f, 0.0f, 8.0f, 8.0f));
+        this.flashViews.add(this.hintTextView);
         PreviewButtons previewButtons = new PreviewButtons(context);
         this.previewButtons = previewButtons;
         previewButtons.setVisibility(8);
-        this.previewButtons.setOnClickListener(new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda57
+        this.previewButtons.setOnClickListener(new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda58
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 StoryRecorder.this.lambda$initViews$25((Integer) obj);
@@ -2081,9 +2160,9 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* loaded from: classes4.dex */
-    public class 7 extends PreviewView {
+    public class 8 extends PreviewView {
         /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        7(Context context, BlurringShader.BlurManager blurManager) {
+        8(Context context, BlurringShader.BlurManager blurManager) {
             super(context, blurManager);
             StoryRecorder.this = r1;
         }
@@ -2117,10 +2196,10 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             duration.setInterpolator(cubicBezierInterpolator).start();
             StoryRecorder.this.trash.onDragInfo(false, z);
             StoryRecorder.this.trash.clearAnimation();
-            StoryRecorder.this.trash.animate().alpha(0.0f).withEndAction(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$7$$ExternalSyntheticLambda0
+            StoryRecorder.this.trash.animate().alpha(0.0f).withEndAction(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$8$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    StoryRecorder.7.this.lambda$onEntityDragEnd$0();
+                    StoryRecorder.8.this.lambda$onEntityDragEnd$0();
                 }
             }).setDuration(180L).setInterpolator(cubicBezierInterpolator).setStartDelay(z ? 500L : 0L).start();
             if (z) {
@@ -2243,17 +2322,15 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
     }
 
     public /* synthetic */ void lambda$initViews$14(View view) {
-        CameraSession cameraSession;
-        DualCameraView dualCameraView = this.cameraView;
-        if (dualCameraView == null || this.awaitingPlayer || (cameraSession = dualCameraView.getCameraSession()) == null) {
+        if (this.cameraView == null || this.awaitingPlayer) {
             return;
         }
-        String currentFlashMode = cameraSession.getCurrentFlashMode();
-        String nextFlashMode = cameraSession.getNextFlashMode();
-        if (currentFlashMode.equals(nextFlashMode)) {
+        String currentFlashMode = getCurrentFlashMode();
+        String nextFlashMode = getNextFlashMode();
+        if (currentFlashMode == null || currentFlashMode.equals(nextFlashMode)) {
             return;
         }
-        this.cameraView.getCameraSession().setCurrentFlashMode(nextFlashMode);
+        setCurrentFlashMode(nextFlashMode);
         setCameraFlashModeIcon(nextFlashMode, true);
     }
 
@@ -2356,17 +2433,17 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
                     storyEntry.peer = MessagesController.getInstance(this.currentAccount).getInputPeer(this.selectedDialogId);
                 }
                 this.previewView.updatePauseReason(3, true);
-                StoryPrivacyBottomSheet whenSelectedRules = new StoryPrivacyBottomSheet(this.activity, this.outputEntry.period, this.resourcesProvider).setValue(this.outputEntry.privacy).setPeer(this.outputEntry.peer).whenDismiss(new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda61
+                StoryPrivacyBottomSheet whenSelectedRules = new StoryPrivacyBottomSheet(this.activity, this.outputEntry.period, this.resourcesProvider).setValue(this.outputEntry.privacy).setPeer(this.outputEntry.peer).setCanChangePeer(this.canChangePeer).whenDismiss(new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda62
                     @Override // org.telegram.messenger.Utilities.Callback
                     public final void run(Object obj) {
                         StoryRecorder.this.lambda$initViews$20((StoryPrivacyBottomSheet.StoryPrivacy) obj);
                     }
-                }).isEdit(false).setWarnUsers(getUsersFrom(this.captionEdit.getText())).whenSelectedPeer(new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda60
+                }).isEdit(false).setWarnUsers(getUsersFrom(this.captionEdit.getText())).whenSelectedPeer(new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda61
                     @Override // org.telegram.messenger.Utilities.Callback
                     public final void run(Object obj) {
                         StoryRecorder.this.lambda$initViews$21((TLRPC$InputPeer) obj);
                     }
-                }).whenSelectedRules(new StoryPrivacyBottomSheet.DoneCallback() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda67
+                }).whenSelectedRules(new StoryPrivacyBottomSheet.DoneCallback() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda68
                     @Override // org.telegram.ui.Stories.recorder.StoryPrivacyBottomSheet.DoneCallback
                     public final void done(StoryPrivacyBottomSheet.StoryPrivacy storyPrivacy, boolean z, boolean z2, TLRPC$InputPeer tLRPC$InputPeer, Runnable runnable) {
                         StoryRecorder.this.lambda$initViews$23(storyPrivacy, z, z2, tLRPC$InputPeer, runnable);
@@ -2440,7 +2517,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         StoryEntry storyEntry2 = this.outputEntry;
         storyEntry2.editedPrivacy = true;
         storyEntry2.peer = tLRPC$InputPeer;
-        applyFilter(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda41
+        applyFilter(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda42
             @Override // java.lang.Runnable
             public final void run() {
                 StoryRecorder.this.lambda$initViews$22(runnable);
@@ -2529,7 +2606,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             return;
         }
         this.preparingUpload = true;
-        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda48
+        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda49
             @Override // java.lang.Runnable
             public final void run() {
                 StoryRecorder.this.lambda$upload$27(z);
@@ -2539,7 +2616,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
 
     public /* synthetic */ void lambda$upload$27(final boolean z) {
         applyPaint();
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda45
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda46
             @Override // java.lang.Runnable
             public final void run() {
                 StoryRecorder.this.lambda$upload$26(z);
@@ -2578,7 +2655,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         this.wasSend = true;
         this.forceBackgroundVisible = true;
         checkBackgroundVisibility();
-        Runnable runnable = new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda49
+        Runnable runnable = new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda50
             @Override // java.lang.Runnable
             public final void run() {
                 StoryRecorder.this.lambda$uploadInternal$29(z, j);
@@ -2618,7 +2695,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             this.closingSourceProvider = null;
             Activity activity = this.activity;
             if (activity instanceof LaunchActivity) {
-                ((LaunchActivity) activity).drawerLayoutContainer.post(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda30
+                ((LaunchActivity) activity).drawerLayoutContainer.post(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda31
                     @Override // java.lang.Runnable
                     public final void run() {
                         StoryRecorder.this.lambda$uploadInternal$28();
@@ -2707,7 +2784,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         Bitmap createScaledBitmap = Bitmap.createScaledBitmap(createBitmap, 40, 22, true);
         File makeCacheFile = StoryEntry.makeCacheFile(this.currentAccount, false);
         try {
-            createBitmap.compress(Bitmap.CompressFormat.JPEG, z ? 95 : 75, new FileOutputStream(makeCacheFile));
+            createBitmap.compress(Bitmap.CompressFormat.JPEG, z ? 95 : 99, new FileOutputStream(makeCacheFile));
         } catch (FileNotFoundException e3) {
             e3.printStackTrace();
         }
@@ -2731,7 +2808,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         if (str == null) {
             if (z) {
                 this.flashButton.setVisibility(0);
-                this.flashButton.animate().alpha(0.0f).withEndAction(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda27
+                this.flashButton.animate().alpha(0.0f).withEndAction(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda28
                     @Override // java.lang.Runnable
                     public final void run() {
                         StoryRecorder.this.lambda$setCameraFlashModeIcon$30();
@@ -2767,13 +2844,13 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             this.flashButton.setContentDescription(LocaleController.getString("AccDescrCameraFlashOff", R.string.AccDescrCameraFlashOff));
         }
         if (z && this.flashButtonResId != i) {
-            ImageView imageView = this.flashButton;
+            FlashViews.ImageViewInvertable imageViewInvertable = this.flashButton;
             this.flashButtonResId = i;
-            AndroidUtilities.updateImageViewImageAnimated(imageView, i);
+            AndroidUtilities.updateImageViewImageAnimated(imageViewInvertable, i);
         } else {
-            ImageView imageView2 = this.flashButton;
+            FlashViews.ImageViewInvertable imageViewInvertable2 = this.flashButton;
             this.flashButtonResId = i;
-            imageView2.setImageResource(i);
+            imageViewInvertable2.setImageResource(i);
         }
         this.flashButton.setVisibility(0);
         if (z) {
@@ -2788,8 +2865,10 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* loaded from: classes4.dex */
-    public class 10 implements RecordControl.Delegate {
-        10() {
+    public class 11 implements RecordControl.Delegate {
+        private boolean isDark;
+
+        11() {
             StoryRecorder.this = r1;
         }
 
@@ -2798,14 +2877,8 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             return StoryRecorder.this.requestAudioPermission();
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:96:0x00d8  */
-        /* JADX WARN: Removed duplicated region for block: B:97:0x00fb  */
         @Override // org.telegram.ui.Stories.recorder.RecordControl.Delegate
-        /*
-            Code decompiled incorrectly, please refer to instructions dump.
-        */
         public void onPhotoShoot() {
-            boolean z;
             if (StoryRecorder.this.takingPhoto || StoryRecorder.this.awaitingPlayer || StoryRecorder.this.currentPage != 0 || StoryRecorder.this.cameraView == null || !StoryRecorder.this.cameraView.isInited()) {
                 return;
             }
@@ -2819,9 +2892,57 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             }
             StoryRecorder storyRecorder = StoryRecorder.this;
             storyRecorder.outputFile = StoryEntry.makeCacheFile(storyRecorder.currentAccount, false);
-            StoryRecorder.this.cameraView.startTakePictureAnimation();
+            StoryRecorder.this.takingPhoto = true;
+            StoryRecorder.this.checkFrontfaceFlashModes();
+            if (StoryRecorder.this.frontfaceFlashMode == 1) {
+                checkIsDark();
+            }
+            if (useDisplayFlashlight()) {
+                StoryRecorder.this.flashViews.flash(new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$11$$ExternalSyntheticLambda6
+                    @Override // org.telegram.messenger.Utilities.Callback
+                    public final void run(Object obj) {
+                        StoryRecorder.11.this.takePicture((Utilities.Callback) obj);
+                    }
+                });
+            } else {
+                takePicture(null);
+            }
+        }
+
+        private void checkIsDark() {
+            Bitmap bitmap = StoryRecorder.this.cameraView.getTextureView().getBitmap();
+            int width = bitmap.getWidth() / 12;
+            int height = bitmap.getHeight() / 12;
+            float f = 0.0f;
+            for (int i = 0; i < 10; i++) {
+                int i2 = 0;
+                while (i2 < 10) {
+                    i2++;
+                    f += AndroidUtilities.computePerceivedBrightness(bitmap.getPixel((i + 1) * width, i2 * height));
+                }
+            }
+            bitmap.recycle();
+            this.isDark = f / 100.0f < 0.22f;
+        }
+
+        private boolean useDisplayFlashlight() {
+            if (StoryRecorder.this.frontfaceFlashMode != 2) {
+                return StoryRecorder.this.frontfaceFlashMode == 1 && this.isDark;
+            }
+            return true;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:68:0x007e  */
+        /* JADX WARN: Removed duplicated region for block: B:69:0x00a1  */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+        */
+        public void takePicture(final Utilities.Callback<Runnable> callback) {
+            boolean z;
+            if (!useDisplayFlashlight()) {
+                StoryRecorder.this.cameraView.startTakePictureAnimation(true);
+            }
             if (StoryRecorder.this.cameraView.isDual() && TextUtils.equals(StoryRecorder.this.cameraView.getCameraSession().getCurrentFlashMode(), "off")) {
-                StoryRecorder.this.takingPhoto = true;
                 StoryRecorder.this.cameraView.pauseAsTakingPicture();
                 Bitmap bitmap = StoryRecorder.this.cameraView.getTextureView().getBitmap();
                 try {
@@ -2848,24 +2969,39 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             }
             if (z) {
                 CameraSession cameraSession = StoryRecorder.this.cameraView.getCameraSession();
-                StoryRecorder.this.takingPhoto = CameraController.getInstance().takePicture(StoryRecorder.this.outputFile, true, cameraSession, new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$10$$ExternalSyntheticLambda3
+                StoryRecorder.this.takingPhoto = CameraController.getInstance().takePicture(StoryRecorder.this.outputFile, true, cameraSession, new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$11$$ExternalSyntheticLambda7
                     @Override // org.telegram.messenger.Utilities.Callback
                     public final void run(Object obj) {
-                        StoryRecorder.10.this.lambda$onPhotoShoot$0((Integer) obj);
+                        StoryRecorder.11.this.lambda$takePicture$1(callback, (Integer) obj);
                     }
                 });
                 return;
             }
             StoryRecorder.this.takingPhoto = false;
-            StoryRecorder storyRecorder2 = StoryRecorder.this;
-            storyRecorder2.outputEntry = StoryEntry.fromPhotoShoot(storyRecorder2.outputFile, 0);
+            StoryRecorder storyRecorder = StoryRecorder.this;
+            storyRecorder.outputEntry = StoryEntry.fromPhotoShoot(storyRecorder.outputFile, 0);
             StoryPrivacySelector.applySaved(StoryRecorder.this.currentAccount, StoryRecorder.this.outputEntry);
             StoryRecorder.this.fromGallery = false;
-            StoryRecorder.this.navigateTo(1, true);
+            if (callback != null) {
+                callback.run(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$11$$ExternalSyntheticLambda1
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        StoryRecorder.11.this.lambda$takePicture$2();
+                    }
+                });
+            } else {
+                StoryRecorder.this.navigateTo(1, true);
+            }
         }
 
-        public /* synthetic */ void lambda$onPhotoShoot$0(Integer num) {
+        public /* synthetic */ void lambda$takePicture$1(Utilities.Callback callback, Integer num) {
             int i;
+            if (useDisplayFlashlight()) {
+                try {
+                    StoryRecorder.this.windowView.performHapticFeedback(3, 1);
+                } catch (Exception unused) {
+                }
+            }
             StoryRecorder.this.takingPhoto = false;
             if (StoryRecorder.this.outputFile == null) {
                 return;
@@ -2880,9 +3016,9 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
                     i = options.outWidth;
                     try {
                         i2 = options.outHeight;
-                    } catch (Exception unused) {
+                    } catch (Exception unused2) {
                     }
-                } catch (Exception unused2) {
+                } catch (Exception unused3) {
                     i = -1;
                 }
                 if (i > i2) {
@@ -2893,6 +3029,23 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             storyRecorder.outputEntry = StoryEntry.fromPhotoShoot(storyRecorder.outputFile, i3);
             StoryPrivacySelector.applySaved(StoryRecorder.this.currentAccount, StoryRecorder.this.outputEntry);
             StoryRecorder.this.fromGallery = false;
+            if (callback != null) {
+                callback.run(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$11$$ExternalSyntheticLambda3
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        StoryRecorder.11.this.lambda$takePicture$0();
+                    }
+                });
+            } else {
+                StoryRecorder.this.navigateTo(1, true);
+            }
+        }
+
+        public /* synthetic */ void lambda$takePicture$0() {
+            StoryRecorder.this.navigateTo(1, true);
+        }
+
+        public /* synthetic */ void lambda$takePicture$2() {
             StoryRecorder.this.navigateTo(1, true);
         }
 
@@ -2918,30 +3071,51 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             }
             StoryRecorder storyRecorder = StoryRecorder.this;
             storyRecorder.outputFile = StoryEntry.makeCacheFile(storyRecorder.currentAccount, true);
-            CameraController.getInstance().recordVideo(StoryRecorder.this.cameraView.getCameraSession(), StoryRecorder.this.outputFile, false, new CameraController.VideoTakeCallback() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$10$$ExternalSyntheticLambda4
+            StoryRecorder.this.checkFrontfaceFlashModes();
+            if (StoryRecorder.this.frontfaceFlashMode == 1) {
+                checkIsDark();
+            }
+            if (useDisplayFlashlight()) {
+                StoryRecorder.this.flashViews.flashIn(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$11$$ExternalSyntheticLambda5
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        StoryRecorder.11.this.lambda$onVideoRecordStart$3(z, runnable);
+                    }
+                });
+            } else {
+                lambda$onVideoRecordStart$3(z, runnable);
+            }
+        }
+
+        /* renamed from: startRecording */
+        public void lambda$onVideoRecordStart$3(final boolean z, final Runnable runnable) {
+            CameraController.getInstance().recordVideo(StoryRecorder.this.cameraView.getCameraSession(), StoryRecorder.this.outputFile, false, new CameraController.VideoTakeCallback() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$11$$ExternalSyntheticLambda8
                 @Override // org.telegram.messenger.camera.CameraController.VideoTakeCallback
                 public final void onFinishVideoRecording(String str, long j) {
-                    StoryRecorder.10.this.lambda$onVideoRecordStart$2(str, j);
+                    StoryRecorder.11.this.lambda$startRecording$5(str, j);
                 }
-            }, new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$10$$ExternalSyntheticLambda2
+            }, new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$11$$ExternalSyntheticLambda4
                 @Override // java.lang.Runnable
                 public final void run() {
-                    StoryRecorder.10.this.lambda$onVideoRecordStart$3(runnable, z);
+                    StoryRecorder.11.this.lambda$startRecording$6(runnable, z);
                 }
             }, StoryRecorder.this.cameraView, true);
             if (StoryRecorder.this.isVideo) {
                 return;
             }
             StoryRecorder.this.isVideo = true;
-            StoryRecorder storyRecorder2 = StoryRecorder.this;
-            storyRecorder2.showVideoTimer(storyRecorder2.isVideo, true);
+            StoryRecorder storyRecorder = StoryRecorder.this;
+            storyRecorder.showVideoTimer(storyRecorder.isVideo, true);
             StoryRecorder.this.modeSwitcherView.switchMode(StoryRecorder.this.isVideo);
             StoryRecorder.this.recordControl.startAsVideo(StoryRecorder.this.isVideo);
         }
 
-        public /* synthetic */ void lambda$onVideoRecordStart$2(String str, long j) {
+        public /* synthetic */ void lambda$startRecording$5(String str, long j) {
             if (StoryRecorder.this.recordControl != null) {
                 StoryRecorder.this.recordControl.stopRecordingLoading(true);
+            }
+            if (useDisplayFlashlight()) {
+                StoryRecorder.this.flashViews.flashOut();
             }
             if (StoryRecorder.this.outputFile == null || StoryRecorder.this.cameraView == null) {
                 return;
@@ -2984,19 +3158,19 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
                 StoryRecorder.this.outputEntry.height = videoHeight;
                 StoryRecorder.this.outputEntry.setupMatrix();
             }
-            StoryRecorder.this.navigateToPreviewWithPlayerAwait(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$10$$ExternalSyntheticLambda1
+            StoryRecorder.this.navigateToPreviewWithPlayerAwait(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$11$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
-                    StoryRecorder.10.this.lambda$onVideoRecordStart$1();
+                    StoryRecorder.11.this.lambda$startRecording$4();
                 }
             }, 0L);
         }
 
-        public /* synthetic */ void lambda$onVideoRecordStart$1() {
+        public /* synthetic */ void lambda$startRecording$4() {
             StoryRecorder.this.navigateTo(1, true);
         }
 
-        public /* synthetic */ void lambda$onVideoRecordStart$3(Runnable runnable, boolean z) {
+        public /* synthetic */ void lambda$startRecording$6(Runnable runnable, boolean z) {
             int i;
             String str;
             runnable.run();
@@ -3026,15 +3200,15 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
                 return;
             }
             StoryRecorder.this.stoppingTakingVideo = true;
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$10$$ExternalSyntheticLambda0
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$11$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    StoryRecorder.10.this.lambda$onVideoRecordEnd$4();
+                    StoryRecorder.11.this.lambda$onVideoRecordEnd$7();
                 }
             }, z ? 0L : 400L);
         }
 
-        public /* synthetic */ void lambda$onVideoRecordEnd$4() {
+        public /* synthetic */ void lambda$onVideoRecordEnd$7() {
             if (StoryRecorder.this.takingVideo && StoryRecorder.this.stoppingTakingVideo && StoryRecorder.this.cameraView != null) {
                 StoryRecorder.this.showZoomControls(false, true);
                 CameraController.getInstance().stopVideoRecording(StoryRecorder.this.cameraView.getCameraSessionRecording(), false, false);
@@ -3048,9 +3222,10 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
 
         @Override // org.telegram.ui.Stories.recorder.RecordControl.Delegate
         public void onGalleryClick() {
-            if (StoryRecorder.this.currentPage == 0 && StoryRecorder.this.requestGalleryPermission()) {
-                StoryRecorder.this.lambda$animateGalleryListView$38(true);
+            if (StoryRecorder.this.currentPage != 0 || StoryRecorder.this.takingPhoto || StoryRecorder.this.takingVideo || !StoryRecorder.this.requestGalleryPermission()) {
+                return;
             }
+            StoryRecorder.this.lambda$animateGalleryListView$38(true);
         }
 
         @Override // org.telegram.ui.Stories.recorder.RecordControl.Delegate
@@ -3138,16 +3313,16 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             AnimatorSet animatorSet2 = new AnimatorSet();
             this.recordingAnimator = animatorSet2;
             Animator[] animatorArr = new Animator[7];
-            ImageView imageView = this.backButton;
+            FlashViews.ImageViewInvertable imageViewInvertable = this.backButton;
             Property property = View.ALPHA;
             float[] fArr = new float[1];
             fArr[0] = z ? 0.0f : 1.0f;
-            animatorArr[0] = ObjectAnimator.ofFloat(imageView, property, fArr);
-            ImageView imageView2 = this.flashButton;
+            animatorArr[0] = ObjectAnimator.ofFloat(imageViewInvertable, property, fArr);
+            FlashViews.ImageViewInvertable imageViewInvertable2 = this.flashButton;
             Property property2 = View.ALPHA;
             float[] fArr2 = new float[1];
             fArr2[0] = (z || this.currentPage != 0) ? 0.0f : 1.0f;
-            animatorArr[1] = ObjectAnimator.ofFloat(imageView2, property2, fArr2);
+            animatorArr[1] = ObjectAnimator.ofFloat(imageViewInvertable2, property2, fArr2);
             ToggleButton toggleButton2 = this.dualButton;
             Property property3 = View.ALPHA;
             float[] fArr3 = new float[1];
@@ -3177,7 +3352,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             fArr7[0] = f2;
             animatorArr[6] = ObjectAnimator.ofFloat(photoVideoSwitcherView2, property7, fArr7);
             animatorSet2.playTogether(animatorArr);
-            this.recordingAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder.11
+            this.recordingAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder.12
                 {
                     StoryRecorder.this = this;
                 }
@@ -3223,7 +3398,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         }
         this.videoTimerShown = z;
         if (z2) {
-            this.videoTimerView.animate().alpha(z ? 1.0f : 0.0f).setDuration(350L).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).withEndAction(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda43
+            this.videoTimerView.animate().alpha(z ? 1.0f : 0.0f).setDuration(350L).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).withEndAction(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda44
                 @Override // java.lang.Runnable
                 public final void run() {
                     StoryRecorder.this.lambda$showVideoTimer$31(z);
@@ -3253,7 +3428,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
                 if (runnable != null) {
                     AndroidUtilities.cancelRunOnUIThread(runnable);
                 }
-                Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda22
+                Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda23
                     @Override // java.lang.Runnable
                     public final void run() {
                         StoryRecorder.this.lambda$showZoomControls$32();
@@ -3284,7 +3459,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         fArr[0] = z ? 1.0f : 0.0f;
         animatorArr[0] = ObjectAnimator.ofFloat(zoomControlView, property, fArr);
         animatorSet3.playTogether(animatorArr);
-        this.zoomControlAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder.12
+        this.zoomControlAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder.13
             {
                 StoryRecorder.this = this;
             }
@@ -3299,7 +3474,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         });
         this.zoomControlAnimation.start();
         if (z) {
-            Runnable runnable3 = new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda38
+            Runnable runnable3 = new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda39
                 @Override // java.lang.Runnable
                 public final void run() {
                     StoryRecorder.this.lambda$showZoomControls$33();
@@ -3320,11 +3495,18 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         this.zoomControlHideRunnable = null;
     }
 
+    /* JADX WARN: Code restructure failed: missing block: B:113:0x0062, code lost:
+        if (r0.editedCaption == false) goto L68;
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public boolean onBackPressed() {
         StoryEntry storyEntry;
         PaintView paintView;
         StoryEntry storyEntry2;
         PaintView paintView2;
+        PaintView paintView3;
         if (this.takingVideo) {
             this.recordControl.stopRecording();
             return false;
@@ -3339,16 +3521,23 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
                 lambda$animateGalleryListView$38(false);
                 this.lastGallerySelectedAlbum = null;
                 return false;
-            } else if (this.currentEditMode == 0 && (paintView2 = this.paintView) != null && paintView2.onBackPressed()) {
+            } else if (this.currentEditMode == 0 && (paintView3 = this.paintView) != null && paintView3.onBackPressed()) {
                 return false;
             } else {
                 if (this.currentEditMode > -1) {
                     switchToEditMode(-1, true);
                     return false;
-                } else if (this.currentPage == 1 && ((storyEntry = this.outputEntry) == null || !storyEntry.isEdit)) {
-                    PaintView paintView3 = this.paintView;
-                    if (paintView3 == null || !paintView3.onBackPressed()) {
-                        if ((this.fromGallery && (((paintView = this.paintView) == null || !paintView.hasChanges()) && ((storyEntry2 = this.outputEntry) == null || storyEntry2.filterFile == null))) || !this.previewButtons.isShareEnabled()) {
+                }
+                if (this.currentPage == 1) {
+                    StoryEntry storyEntry3 = this.outputEntry;
+                    if (storyEntry3 != null && storyEntry3.isEdit && ((paintView2 = this.paintView) == null || !paintView2.hasChanges())) {
+                        StoryEntry storyEntry4 = this.outputEntry;
+                        if (!storyEntry4.editedMedia) {
+                        }
+                    }
+                    PaintView paintView4 = this.paintView;
+                    if (paintView4 == null || !paintView4.onBackPressed()) {
+                        if (((this.fromGallery && (((paintView = this.paintView) == null || !paintView.hasChanges()) && ((storyEntry2 = this.outputEntry) == null || storyEntry2.filterFile == null))) || !this.previewButtons.isShareEnabled()) && ((storyEntry = this.outputEntry) == null || !storyEntry.isEdit)) {
                             navigateTo(0, true);
                         } else {
                             showDismissEntry();
@@ -3356,10 +3545,9 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
                         return false;
                     }
                     return false;
-                } else {
-                    close(true);
-                    return true;
                 }
+                close(true);
+                return true;
             }
         }
     }
@@ -3374,7 +3562,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         }
         this.previewAlreadySet = true;
         this.awaitingPlayer = true;
-        this.afterPlayerAwait = new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda42
+        this.afterPlayerAwait = new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda43
             @Override // java.lang.Runnable
             public final void run() {
                 StoryRecorder.this.lambda$navigateToPreviewWithPlayerAwait$34(runnable);
@@ -3444,11 +3632,11 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             float[] fArr4 = new float[1];
             fArr4[0] = i == 0 ? 1.0f : 0.0f;
             arrayList.add(ObjectAnimator.ofFloat(recordControl, property4, fArr4));
-            ImageView imageView2 = this.flashButton;
+            FlashViews.ImageViewInvertable imageViewInvertable = this.flashButton;
             Property property5 = View.ALPHA;
             float[] fArr5 = new float[1];
             fArr5[0] = i == 0 ? 1.0f : 0.0f;
-            arrayList.add(ObjectAnimator.ofFloat(imageView2, property5, fArr5));
+            arrayList.add(ObjectAnimator.ofFloat(imageViewInvertable, property5, fArr5));
             ToggleButton toggleButton = this.dualButton;
             Property property6 = View.ALPHA;
             float[] fArr6 = new float[1];
@@ -3514,7 +3702,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             arrayList.add(ObjectAnimator.ofFloat(downloadButton, property17, fArr17));
             arrayList.add(ObjectAnimator.ofFloat(this.zoomControlView, View.ALPHA, 0.0f));
             this.pageAnimator.playTogether(arrayList);
-            this.pageAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder.13
+            this.pageAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder.14
                 {
                     StoryRecorder.this = this;
                 }
@@ -3576,7 +3764,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         });
         this.containerViewBackAnimator.setDuration(340L);
         this.containerViewBackAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
-        this.containerViewBackAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder.14
+        this.containerViewBackAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder.15
             {
                 StoryRecorder.this = this;
             }
@@ -3625,16 +3813,16 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         if (this.galleryListView != null || getContext() == null) {
             return;
         }
-        15 r0 = new 15(this.currentAccount, getContext(), this.resourcesProvider, this.lastGallerySelectedAlbum, z);
+        16 r0 = new 16(this.currentAccount, getContext(), this.resourcesProvider, this.lastGallerySelectedAlbum, z);
         this.galleryListView = r0;
         r0.allowSearch(z);
-        this.galleryListView.setOnBackClickListener(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda32
+        this.galleryListView.setOnBackClickListener(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda33
             @Override // java.lang.Runnable
             public final void run() {
                 StoryRecorder.this.lambda$createGalleryListView$36();
             }
         });
-        this.galleryListView.setOnSelectListener(new Utilities.Callback2() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda51
+        this.galleryListView.setOnSelectListener(new Utilities.Callback2() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda52
             @Override // org.telegram.messenger.Utilities.Callback2
             public final void run(Object obj, Object obj2) {
                 StoryRecorder.this.lambda$createGalleryListView$37(z, obj, (Bitmap) obj2);
@@ -3648,9 +3836,9 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* loaded from: classes4.dex */
-    public class 15 extends GalleryListView {
+    public class 16 extends GalleryListView {
         /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        15(int i, Context context, Theme.ResourcesProvider resourcesProvider, MediaController.AlbumEntry albumEntry, boolean z) {
+        16(int i, Context context, Theme.ResourcesProvider resourcesProvider, MediaController.AlbumEntry albumEntry, boolean z) {
             super(i, context, resourcesProvider, albumEntry, z);
             StoryRecorder.this = r7;
         }
@@ -3678,10 +3866,10 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         @Override // org.telegram.ui.Stories.recorder.GalleryListView
         protected void onFullScreen(boolean z) {
             if (StoryRecorder.this.currentPage == 0 && z) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$15$$ExternalSyntheticLambda0
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$16$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
-                        StoryRecorder.15.this.lambda$onFullScreen$0();
+                        StoryRecorder.16.this.lambda$onFullScreen$0();
                     }
                 });
             }
@@ -3780,7 +3968,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
                 }
             }
             if (this.galleryListView.firstLayout) {
-                this.galleryLayouted = new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda46
+                this.galleryLayouted = new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda47
                     @Override // java.lang.Runnable
                     public final void run() {
                         StoryRecorder.this.lambda$animateGalleryListView$38(z);
@@ -3824,7 +4012,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
                 this.galleryOpenCloseSpringAnimator = springAnimation2;
                 springAnimation2.getSpring().setDampingRatio(0.75f);
                 this.galleryOpenCloseSpringAnimator.getSpring().setStiffness(350.0f);
-                this.galleryOpenCloseSpringAnimator.addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda18
+                this.galleryOpenCloseSpringAnimator.addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda19
                     @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationEndListener
                     public final void onAnimationEnd(DynamicAnimation dynamicAnimation, boolean z2, float f, float f2) {
                         StoryRecorder.this.lambda$animateGalleryListView$39(height, dynamicAnimation, z2, f, f2);
@@ -3840,7 +4028,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
                         StoryRecorder.this.lambda$animateGalleryListView$40(valueAnimator2);
                     }
                 });
-                this.galleryOpenCloseAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder.16
+                this.galleryOpenCloseAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder.17
                     {
                         StoryRecorder.this = this;
                     }
@@ -3907,7 +4095,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         }
         if (i == 0) {
             setCameraFlashModeIcon(null, true);
-            saveLastCameraBitmap(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda36
+            saveLastCameraBitmap(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda37
                 @Override // java.lang.Runnable
                 public final void run() {
                     StoryRecorder.this.lambda$onNavigateStart$41();
@@ -3971,7 +4159,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
                 this.previewView.setupAudio(this.outputEntry, false);
             }
             this.previewAlreadySet = false;
-            this.captionEdit.editText.getEditText().setOnPremiumMenuLockClickListener(MessagesController.getInstance(this.currentAccount).storyEntitiesAllowed() ? null : new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda26
+            this.captionEdit.editText.getEditText().setOnPremiumMenuLockClickListener(MessagesController.getInstance(this.currentAccount).storyEntitiesAllowed() ? null : new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda27
                 @Override // java.lang.Runnable
                 public final void run() {
                     StoryRecorder.this.lambda$onNavigateStart$42();
@@ -3986,7 +4174,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
                 }
                 StoryEntry storyEntry9 = this.outputEntry;
                 if (storyEntry9.isVideo && storyEntry9.filterState != null && (textureView = this.previewView.getTextureView()) != null) {
-                    textureView.setDelegate(new VideoEditTextureView.VideoEditTextureViewDelegate() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda64
+                    textureView.setDelegate(new VideoEditTextureView.VideoEditTextureViewDelegate() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda65
                         @Override // org.telegram.ui.Components.VideoEditTextureView.VideoEditTextureViewDelegate
                         public final void onEGLThreadAvailable(FilterGLThread filterGLThread) {
                             StoryRecorder.this.lambda$onNavigateStart$43(filterGLThread);
@@ -4262,7 +4450,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
                 animatorSet2.playTogether(arrayList);
                 this.editModeAnimator.setDuration(320L);
                 this.editModeAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
-                this.editModeAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder.17
+                this.editModeAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder.18
                     {
                         StoryRecorder.this = this;
                     }
@@ -4399,7 +4587,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
                 int orientation = this.previewView.getOrientation();
                 StoryEntry storyEntry4 = this.outputEntry;
                 boolean z4 = z;
-                18 r13 = new 18(activity, z2, file3, z3, windowView, activity, i, bitmap2, createBitmap, null, orientation, storyEntry4 != null ? null : storyEntry4.mediaEntities, measuredWidth, measuredHeight, new MediaController.CropState(), null, this.blurManager, this.resourcesProvider);
+                19 r13 = new 19(activity, z2, file3, z3, windowView, activity, i, bitmap2, createBitmap, null, orientation, storyEntry4 != null ? null : storyEntry4.mediaEntities, measuredWidth, measuredHeight, new MediaController.CropState(), null, this.blurManager, this.resourcesProvider);
                 this.paintView = r13;
                 r13.setBlurManager(this.blurManager);
                 this.containerView.addView(this.paintView);
@@ -4430,13 +4618,13 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
                     this.previewContainer.addView(selectionEntitiesView);
                 }
                 orderPreviewViews();
-                this.paintView.setOnDoneButtonClickedListener(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda28
+                this.paintView.setOnDoneButtonClickedListener(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda29
                     @Override // java.lang.Runnable
                     public final void run() {
                         StoryRecorder.this.lambda$createPhotoPaintView$44();
                     }
                 });
-                this.paintView.setOnCancelButtonClickedListener(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda29
+                this.paintView.setOnCancelButtonClickedListener(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda30
                     @Override // java.lang.Runnable
                     public final void run() {
                         StoryRecorder.this.lambda$createPhotoPaintView$45();
@@ -4463,7 +4651,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         int orientation2 = this.previewView.getOrientation();
         StoryEntry storyEntry42 = this.outputEntry;
         boolean z42 = z;
-        18 r132 = new 18(activity2, z2, file3, z3, windowView2, activity2, i2, bitmap2, createBitmap, null, orientation2, storyEntry42 != null ? null : storyEntry42.mediaEntities, measuredWidth2, measuredHeight2, new MediaController.CropState(), null, this.blurManager, this.resourcesProvider);
+        19 r132 = new 19(activity2, z2, file3, z3, windowView2, activity2, i2, bitmap2, createBitmap, null, orientation2, storyEntry42 != null ? null : storyEntry42.mediaEntities, measuredWidth2, measuredHeight2, new MediaController.CropState(), null, this.blurManager, this.resourcesProvider);
         this.paintView = r132;
         r132.setBlurManager(this.blurManager);
         this.containerView.addView(this.paintView);
@@ -4488,13 +4676,13 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         if (selectionEntitiesView != null) {
         }
         orderPreviewViews();
-        this.paintView.setOnDoneButtonClickedListener(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda28
+        this.paintView.setOnDoneButtonClickedListener(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda29
             @Override // java.lang.Runnable
             public final void run() {
                 StoryRecorder.this.lambda$createPhotoPaintView$44();
             }
         });
-        this.paintView.setOnCancelButtonClickedListener(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda29
+        this.paintView.setOnCancelButtonClickedListener(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda30
             @Override // java.lang.Runnable
             public final void run() {
                 StoryRecorder.this.lambda$createPhotoPaintView$45();
@@ -4504,11 +4692,11 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* loaded from: classes4.dex */
-    public class 18 extends PaintView {
+    public class 19 extends PaintView {
         private boolean multitouch;
 
         /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        18(Context context, boolean z, File file, boolean z2, WindowView windowView, Activity activity, int i, Bitmap bitmap, Bitmap bitmap2, Bitmap bitmap3, int i2, ArrayList arrayList, int i3, int i4, MediaController.CropState cropState, Runnable runnable, BlurringShader.BlurManager blurManager, Theme.ResourcesProvider resourcesProvider) {
+        19(Context context, boolean z, File file, boolean z2, WindowView windowView, Activity activity, int i, Bitmap bitmap, Bitmap bitmap2, Bitmap bitmap3, int i2, ArrayList arrayList, int i3, int i4, MediaController.CropState cropState, Runnable runnable, BlurringShader.BlurManager blurManager, Theme.ResourcesProvider resourcesProvider) {
             super(context, z, file, z2, windowView, activity, i, bitmap, bitmap2, bitmap3, i2, arrayList, i3, i4, cropState, runnable, blurManager, resourcesProvider);
             StoryRecorder.this = r21;
         }
@@ -4540,10 +4728,10 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             duration.setInterpolator(cubicBezierInterpolator).start();
             StoryRecorder.this.trash.onDragInfo(false, z);
             StoryRecorder.this.trash.clearAnimation();
-            StoryRecorder.this.trash.animate().alpha(0.0f).withEndAction(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$18$$ExternalSyntheticLambda0
+            StoryRecorder.this.trash.animate().alpha(0.0f).withEndAction(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$19$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
-                    StoryRecorder.18.this.lambda$onEntityDragEnd$0();
+                    StoryRecorder.19.this.lambda$onEntityDragEnd$0();
                 }
             }).setDuration(180L).setInterpolator(cubicBezierInterpolator).setStartDelay(z ? 500L : 0L).start();
             if (z) {
@@ -4576,10 +4764,10 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             StoryRecorder.this.paintView.showReactionsLayout(false);
             StoryRecorder.this.trash.onDragInfo(false, false);
             StoryRecorder.this.trash.clearAnimation();
-            StoryRecorder.this.trash.animate().alpha(0.0f).withEndAction(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$18$$ExternalSyntheticLambda1
+            StoryRecorder.this.trash.animate().alpha(0.0f).withEndAction(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$19$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    StoryRecorder.18.this.lambda$onEntityDragMultitouchStart$1();
+                    StoryRecorder.19.this.lambda$onEntityDragMultitouchStart$1();
                 }
             }).setDuration(180L).setInterpolator(CubicBezierInterpolator.EASE_OUT).start();
         }
@@ -4640,10 +4828,10 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
                 StoryRecorder.this.playButton.drawable.setPause(!StoryRecorder.this.previewView.isPlaying(), false);
                 ((ViewGroup.MarginLayoutParams) StoryRecorder.this.playButton.getLayoutParams()).rightMargin = AndroidUtilities.dp((StoryRecorder.this.isVideo ? 48 : 0) + 48);
                 StoryRecorder.this.playButton.setVisibility(0);
-                StoryRecorder.this.playButton.animate().alpha(z ? 1.0f : 0.0f).withEndAction(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$18$$ExternalSyntheticLambda2
+                StoryRecorder.this.playButton.animate().alpha(z ? 1.0f : 0.0f).withEndAction(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$19$$ExternalSyntheticLambda2
                     @Override // java.lang.Runnable
                     public final void run() {
-                        StoryRecorder.18.this.lambda$onAudioSelect$2(z);
+                        StoryRecorder.19.this.lambda$onAudioSelect$2(z);
                     }
                 }).start();
             }
@@ -4975,7 +5163,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             if (storyEntry.filterFile == null) {
                 scaledBitmap = this.previewView.getPhotoBitmap();
             } else {
-                StoryEntry.DecodeBitmap decodeBitmap = new StoryEntry.DecodeBitmap() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda66
+                StoryEntry.DecodeBitmap decodeBitmap = new StoryEntry.DecodeBitmap() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda67
                     @Override // org.telegram.ui.Stories.recorder.StoryEntry.DecodeBitmap
                     public final Bitmap decode(BitmapFactory.Options options) {
                         Bitmap lambda$createFilterPhotoView$46;
@@ -5023,13 +5211,13 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
                 this.previewContainer.addView(curveControl);
             }
             orderPreviewViews();
-            this.photoFilterView.getDoneTextView().setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda15
+            this.photoFilterView.getDoneTextView().setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda16
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     StoryRecorder.this.lambda$createFilterPhotoView$47(view);
                 }
             });
-            this.photoFilterView.getCancelTextView().setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda11
+            this.photoFilterView.getCancelTextView().setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda12
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     StoryRecorder.this.lambda$createFilterPhotoView$48(view);
@@ -5113,12 +5301,12 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         if (this.cameraView != null || getContext() == null) {
             return;
         }
-        19 r0 = new 19(getContext(), getCameraFace(), false);
+        20 r0 = new 20(getContext(), getCameraFace(), false);
         this.cameraView = r0;
         r0.isStory = true;
         r0.setThumbDrawable(getCameraThumb());
         this.cameraView.initTexture();
-        this.cameraView.setDelegate(new CameraView.CameraViewDelegate() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda63
+        this.cameraView.setDelegate(new CameraView.CameraViewDelegate() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda64
             @Override // org.telegram.messenger.camera.CameraView.CameraViewDelegate
             public final void onCameraInit() {
                 StoryRecorder.this.lambda$createCameraView$49();
@@ -5137,9 +5325,9 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* loaded from: classes4.dex */
-    public class 19 extends DualCameraView {
+    public class 20 extends DualCameraView {
         /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        19(Context context, boolean z, boolean z2) {
+        20(Context context, boolean z, boolean z2) {
             super(context, z, z2);
             StoryRecorder.this = r1;
         }
@@ -5165,10 +5353,10 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         @Override // org.telegram.ui.Stories.recorder.DualCameraView
         protected void onSavedDualCameraSuccess() {
             if (MessagesController.getGlobalMainSettings().getInt("storysvddualhint", 0) < 2) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$19$$ExternalSyntheticLambda0
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$20$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
-                        StoryRecorder.19.this.lambda$onSavedDualCameraSuccess$0();
+                        StoryRecorder.20.this.lambda$onSavedDualCameraSuccess$0();
                     }
                 }, 340L);
             }
@@ -5188,8 +5376,8 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
     }
 
     public /* synthetic */ void lambda$createCameraView$49() {
-        String currentFlashMode = this.cameraView.getCameraSession().getCurrentFlashMode();
-        if (TextUtils.equals(currentFlashMode, this.cameraView.getCameraSession().getNextFlashMode())) {
+        String currentFlashMode = getCurrentFlashMode();
+        if (TextUtils.equals(currentFlashMode, getNextFlashMode())) {
             currentFlashMode = null;
         }
         setCameraFlashModeIcon(this.currentPage == 0 ? currentFlashMode : null, true);
@@ -5198,6 +5386,60 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             this.cameraZoom = 0.0f;
             zoomControlView.setZoom(0.0f, false);
         }
+    }
+
+    public void checkFrontfaceFlashModes() {
+        if (this.frontfaceFlashMode < 0) {
+            this.frontfaceFlashMode = MessagesController.getGlobalMainSettings().getInt("frontflash", 1);
+            ArrayList<String> arrayList = new ArrayList<>();
+            this.frontfaceFlashModes = arrayList;
+            arrayList.add("off");
+            this.frontfaceFlashModes.add("auto");
+            this.frontfaceFlashModes.add("on");
+            this.flashViews.setColor(MessagesController.getGlobalMainSettings().getInt("frontflash_color", 1));
+        }
+    }
+
+    private String getCurrentFlashMode() {
+        DualCameraView dualCameraView = this.cameraView;
+        if (dualCameraView == null || dualCameraView.getCameraSession() == null) {
+            return null;
+        }
+        if (this.cameraView.isFrontface() && this.cameraView.getCameraSession().availableFlashModes.isEmpty()) {
+            checkFrontfaceFlashModes();
+            return this.frontfaceFlashModes.get(this.frontfaceFlashMode);
+        }
+        return this.cameraView.getCameraSession().getCurrentFlashMode();
+    }
+
+    private String getNextFlashMode() {
+        DualCameraView dualCameraView = this.cameraView;
+        if (dualCameraView == null || dualCameraView.getCameraSession() == null) {
+            return null;
+        }
+        if (this.cameraView.isFrontface() && this.cameraView.getCameraSession().availableFlashModes.isEmpty()) {
+            checkFrontfaceFlashModes();
+            ArrayList<String> arrayList = this.frontfaceFlashModes;
+            return arrayList.get(this.frontfaceFlashMode + 1 >= arrayList.size() ? 0 : this.frontfaceFlashMode + 1);
+        }
+        return this.cameraView.getCameraSession().getNextFlashMode();
+    }
+
+    private void setCurrentFlashMode(String str) {
+        DualCameraView dualCameraView = this.cameraView;
+        if (dualCameraView == null || dualCameraView.getCameraSession() == null) {
+            return;
+        }
+        if (this.cameraView.isFrontface() && this.cameraView.getCameraSession().availableFlashModes.isEmpty()) {
+            int indexOf = this.frontfaceFlashModes.indexOf(str);
+            if (indexOf >= 0) {
+                this.frontfaceFlashMode = indexOf;
+                MessagesController.getGlobalMainSettings().edit().putInt("frontflash", this.frontfaceFlashMode).apply();
+                return;
+            }
+            return;
+        }
+        this.cameraView.getCameraSession().setCurrentFlashMode(str);
     }
 
     public Drawable getCameraThumb() {
@@ -5218,7 +5460,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         if (dualCameraView != null && dualCameraView.getTextureView() != null) {
             try {
                 final Bitmap bitmap = this.cameraView.getTextureView().getBitmap();
-                Utilities.themeQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda40
+                Utilities.themeQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda41
                     @Override // java.lang.Runnable
                     public final void run() {
                         StoryRecorder.this.lambda$saveLastCameraBitmap$50(bitmap, runnable);
@@ -5256,7 +5498,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         builder.setTitle(LocaleController.getString("DiscardChanges", R.string.DiscardChanges));
         builder.setMessage(LocaleController.getString("PhotoEditorDiscardAlert", R.string.PhotoEditorDiscardAlert));
         StoryEntry storyEntry = this.outputEntry;
-        if (storyEntry != null) {
+        if (storyEntry != null && !storyEntry.isEdit) {
             builder.setNeutralButton(LocaleController.getString(storyEntry.isDraft ? "StoryKeepDraft" : "StorySaveDraft"), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda3
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i) {
@@ -5265,7 +5507,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             });
         }
         StoryEntry storyEntry2 = this.outputEntry;
-        builder.setPositiveButton((storyEntry2 == null || !storyEntry2.isDraft) ? LocaleController.getString("Discard", R.string.Discard) : LocaleController.getString("StoryDeleteDraft"), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda4
+        builder.setPositiveButton((storyEntry2 == null || !storyEntry2.isDraft || storyEntry2.isEdit) ? LocaleController.getString("Discard", R.string.Discard) : LocaleController.getString("StoryDeleteDraft"), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda4
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
                 StoryRecorder.this.lambda$showDismissEntry$52(dialogInterface, i);
@@ -5308,17 +5550,22 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
 
     public /* synthetic */ void lambda$showDismissEntry$52(DialogInterface dialogInterface, int i) {
         StoryEntry storyEntry = this.outputEntry;
-        if (storyEntry != null && storyEntry.isDraft) {
+        if (storyEntry != null && !storyEntry.isEdit && storyEntry.isDraft) {
             MessagesController.getInstance(this.currentAccount).getStoriesController().getDraftsController().delete(this.outputEntry);
             this.outputEntry = null;
         }
-        navigateTo(0, true);
+        StoryEntry storyEntry2 = this.outputEntry;
+        if (storyEntry2 != null && storyEntry2.isEdit) {
+            close(true);
+        } else {
+            navigateTo(0, true);
+        }
     }
 
     public void destroyCameraView(boolean z) {
         if (this.cameraView != null) {
             if (z) {
-                saveLastCameraBitmap(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda39
+                saveLastCameraBitmap(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda40
                     @Override // java.lang.Runnable
                     public final void run() {
                         StoryRecorder.this.lambda$destroyCameraView$53();
@@ -5326,7 +5573,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
                 });
                 return;
             }
-            saveLastCameraBitmap(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda23
+            saveLastCameraBitmap(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda24
                 @Override // java.lang.Runnable
                 public final void run() {
                     StoryRecorder.this.lambda$destroyCameraView$54();
@@ -5366,7 +5613,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
                     combinedDrawable.setIconSize(AndroidUtilities.dp(64.0f), AndroidUtilities.dp(64.0f));
                     this.cameraViewThumb.setImageDrawable(combinedDrawable);
                     if (this.activity.shouldShowRequestPermissionRationale("android.permission.CAMERA")) {
-                        new AlertDialog.Builder(getContext()).setTopAnimation(R.raw.permission_request_camera, 72, false, Theme.getColor(Theme.key_dialogTopBackground)).setMessage(AndroidUtilities.replaceTags(LocaleController.getString("PermissionNoCameraWithHint", R.string.PermissionNoCameraWithHint))).setPositiveButton(LocaleController.getString("PermissionOpenSettings", R.string.PermissionOpenSettings), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda5
+                        new AlertDialog.Builder(getContext(), this.resourcesProvider).setTopAnimation(R.raw.permission_request_camera, 72, false, Theme.getColor(Theme.key_dialogTopBackground)).setMessage(AndroidUtilities.replaceTags(LocaleController.getString("PermissionNoCameraWithHint", R.string.PermissionNoCameraWithHint))).setPositiveButton(LocaleController.getString("PermissionOpenSettings", R.string.PermissionOpenSettings), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda6
                             @Override // android.content.DialogInterface.OnClickListener
                             public final void onClick(DialogInterface dialogInterface, int i) {
                                 StoryRecorder.this.lambda$requestCameraPermission$55(dialogInterface, i);
@@ -5385,7 +5632,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             if (CameraController.getInstance().isCameraInitied()) {
                 createCameraView();
             } else {
-                CameraController.getInstance().initCamera(new StoryRecorder$$ExternalSyntheticLambda31(this));
+                CameraController.getInstance().initCamera(new StoryRecorder$$ExternalSyntheticLambda32(this));
             }
         }
     }
@@ -5442,7 +5689,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         if (this.currentPage == 0) {
             ValueAnimator valueAnimator = this.openCloseAnimator;
             if (valueAnimator != null && valueAnimator.isRunning()) {
-                this.whenOpenDone = new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda21
+                this.whenOpenDone = new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda22
                     @Override // java.lang.Runnable
                     public final void run() {
                         StoryRecorder.this.lambda$onResumeInternal$56();
@@ -5515,7 +5762,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
                 if (CameraController.getInstance().isCameraInitied()) {
                     createCameraView();
                 } else {
-                    CameraController.getInstance().initCamera(new StoryRecorder$$ExternalSyntheticLambda31(this));
+                    CameraController.getInstance().initCamera(new StoryRecorder$$ExternalSyntheticLambda32(this));
                 }
             }
         } else if (i == 114) {
@@ -5527,13 +5774,21 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             if (z) {
                 return;
             }
-            new AlertDialog.Builder(getContext()).setTopAnimation(R.raw.permission_request_camera, 72, false, Theme.getColor(Theme.key_dialogTopBackground)).setMessage(AndroidUtilities.replaceTags(LocaleController.getString("PermissionNoCameraMicVideo", R.string.PermissionNoCameraMicVideo))).setPositiveButton(LocaleController.getString("PermissionOpenSettings", R.string.PermissionOpenSettings), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda6
+            new AlertDialog.Builder(getContext(), this.resourcesProvider).setTopAnimation(R.raw.permission_request_camera, 72, false, Theme.getColor(Theme.key_dialogTopBackground)).setMessage(AndroidUtilities.replaceTags(LocaleController.getString("PermissionNoCameraMicVideo", R.string.PermissionNoCameraMicVideo))).setPositiveButton(LocaleController.getString("PermissionOpenSettings", R.string.PermissionOpenSettings), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda7
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i2) {
                     StoryRecorder.this.lambda$onRequestPermissionsResultInternal$57(dialogInterface, i2);
                 }
             }).setNegativeButton(LocaleController.getString("ContactsPermissionAlertNotNow", R.string.ContactsPermissionAlertNotNow), null).create().show();
         } else if (i == 115) {
+            if (!z) {
+                new AlertDialog.Builder(getContext(), this.resourcesProvider).setTopAnimation(R.raw.permission_request_folder, 72, false, Theme.getColor(Theme.key_dialogTopBackground)).setMessage(AndroidUtilities.replaceTags(LocaleController.getString("PermissionNoAudioStorageStory", R.string.PermissionNoAudioStorageStory))).setPositiveButton(LocaleController.getString("PermissionOpenSettings", R.string.PermissionOpenSettings), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda5
+                    @Override // android.content.DialogInterface.OnClickListener
+                    public final void onClick(DialogInterface dialogInterface, int i2) {
+                        StoryRecorder.this.lambda$onRequestPermissionsResultInternal$58(dialogInterface, i2);
+                    }
+                }).setNegativeButton(LocaleController.getString("ContactsPermissionAlertNotNow", R.string.ContactsPermissionAlertNotNow), null).create().show();
+            }
             if (z && (runnable = this.audioGrantedCallback) != null) {
                 runnable.run();
             }
@@ -5542,6 +5797,16 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
     }
 
     public /* synthetic */ void lambda$onRequestPermissionsResultInternal$57(DialogInterface dialogInterface, int i) {
+        try {
+            Intent intent = new Intent("android.settings.APPLICATION_DETAILS_SETTINGS");
+            intent.setData(Uri.parse("package:" + ApplicationLoader.applicationContext.getPackageName()));
+            this.activity.startActivity(intent);
+        } catch (Exception e) {
+            FileLog.e(e);
+        }
+    }
+
+    public /* synthetic */ void lambda$onRequestPermissionsResultInternal$58(DialogInterface dialogInterface, int i) {
         try {
             Intent intent = new Intent("android.settings.APPLICATION_DETAILS_SETTINGS");
             intent.setData(Uri.parse("package:" + ApplicationLoader.applicationContext.getPackageName()));
@@ -5620,7 +5885,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         if (this.shownLimitReached) {
             return;
         }
-        LimitReachedBottomSheet limitReachedBottomSheet = new LimitReachedBottomSheet(new BaseFragment() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder.20
+        LimitReachedBottomSheet limitReachedBottomSheet = new LimitReachedBottomSheet(new BaseFragment() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder.21
             @Override // org.telegram.ui.ActionBar.BaseFragment
             public boolean isLightStatusBar() {
                 return false;
@@ -5637,7 +5902,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
 
             @Override // org.telegram.ui.ActionBar.BaseFragment
             public Theme.ResourcesProvider getResourceProvider() {
-                return new WrappedResourceProvider(this, StoryRecorder.this.resourcesProvider) { // from class: org.telegram.ui.Stories.recorder.StoryRecorder.20.1
+                return new WrappedResourceProvider(this, StoryRecorder.this.resourcesProvider) { // from class: org.telegram.ui.Stories.recorder.StoryRecorder.21.1
                     @Override // org.telegram.ui.WrappedResourceProvider
                     public void appendColors() {
                         this.sparseIntArray.append(Theme.key_dialogBackground, -14737633);
@@ -5652,10 +5917,10 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
                 return false;
             }
         }, this.activity, storyLimit.getLimitReachedType(), this.currentAccount, null);
-        limitReachedBottomSheet.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda9
+        limitReachedBottomSheet.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda10
             @Override // android.content.DialogInterface.OnDismissListener
             public final void onDismiss(DialogInterface dialogInterface) {
-                StoryRecorder.this.lambda$showLimitReachedSheet$58(z, dialogInterface);
+                StoryRecorder.this.lambda$showLimitReachedSheet$59(z, dialogInterface);
             }
         });
         this.previewView.updatePauseReason(7, true);
@@ -5663,7 +5928,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         limitReachedBottomSheet.show();
     }
 
-    public /* synthetic */ void lambda$showLimitReachedSheet$58(boolean z, DialogInterface dialogInterface) {
+    public /* synthetic */ void lambda$showLimitReachedSheet$59(boolean z, DialogInterface dialogInterface) {
         this.shownLimitReached = false;
         this.previewView.updatePauseReason(7, true);
         if (z) {
@@ -5692,7 +5957,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         if (captionStory != null) {
             captionStory.hidePeriodPopup();
         }
-        PremiumFeatureBottomSheet premiumFeatureBottomSheet = new PremiumFeatureBottomSheet(new BaseFragment() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder.21
+        PremiumFeatureBottomSheet premiumFeatureBottomSheet = new PremiumFeatureBottomSheet(new BaseFragment() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder.22
             @Override // org.telegram.ui.ActionBar.BaseFragment
             public boolean isLightStatusBar() {
                 return false;
@@ -5716,7 +5981,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
 
             @Override // org.telegram.ui.ActionBar.BaseFragment
             public Theme.ResourcesProvider getResourceProvider() {
-                return new WrappedResourceProvider(this, StoryRecorder.this.resourcesProvider) { // from class: org.telegram.ui.Stories.recorder.StoryRecorder.21.1
+                return new WrappedResourceProvider(this, StoryRecorder.this.resourcesProvider) { // from class: org.telegram.ui.Stories.recorder.StoryRecorder.22.1
                     @Override // org.telegram.ui.WrappedResourceProvider
                     public void appendColors() {
                         this.sparseIntArray.append(Theme.key_dialogBackground, -14803426);
@@ -5725,16 +5990,16 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
                 };
             }
         }, 14, false);
-        premiumFeatureBottomSheet.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda7
+        premiumFeatureBottomSheet.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda9
             @Override // android.content.DialogInterface.OnDismissListener
             public final void onDismiss(DialogInterface dialogInterface) {
-                StoryRecorder.this.lambda$openPremium$59(dialogInterface);
+                StoryRecorder.this.lambda$openPremium$60(dialogInterface);
             }
         });
         premiumFeatureBottomSheet.show();
     }
 
-    public /* synthetic */ void lambda$openPremium$59(DialogInterface dialogInterface) {
+    public /* synthetic */ void lambda$openPremium$60(DialogInterface dialogInterface) {
         PreviewView previewView = this.previewView;
         if (previewView != null) {
             previewView.updatePauseReason(4, false);
@@ -5742,7 +6007,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
     }
 
     private CharSequence premiumText(String str) {
-        return AndroidUtilities.replaceSingleTag(str, Theme.key_chat_messageLinkIn, 0, new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda35
+        return AndroidUtilities.replaceSingleTag(str, Theme.key_chat_messageLinkIn, 0, new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda36
             @Override // java.lang.Runnable
             public final void run() {
                 StoryRecorder.this.openPremium();
@@ -5752,7 +6017,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
 
     public void showPremiumPeriodBulletin(int i) {
         int i2 = i / 3600;
-        Bulletin.BulletinWindow.BulletinWindowLayout make = Bulletin.BulletinWindow.make(this.activity, new Bulletin.Delegate(this) { // from class: org.telegram.ui.Stories.recorder.StoryRecorder.22
+        Bulletin.BulletinWindow.BulletinWindowLayout make = Bulletin.BulletinWindow.make(this.activity, new Bulletin.Delegate(this) { // from class: org.telegram.ui.Stories.recorder.StoryRecorder.23
             @Override // org.telegram.ui.Components.Bulletin.Delegate
             public /* synthetic */ boolean allowLayoutChanges() {
                 return Bulletin.Delegate.-CC.$default$allowLayoutChanges(this);
@@ -5826,13 +6091,18 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         return this;
     }
 
+    public StoryRecorder canChangePeer(boolean z) {
+        this.canChangePeer = z;
+        return this;
+    }
+
     public static CharSequence cameraBtnSpan(Context context) {
         SpannableString spannableString = new SpannableString("c");
         final Drawable mutate = context.getResources().getDrawable(R.drawable.story_camera).mutate();
         int dp = AndroidUtilities.dp(35.0f);
         int i = -dp;
         mutate.setBounds(i / 4, i, (dp / 4) * 3, 0);
-        spannableString.setSpan(new ImageSpan(mutate) { // from class: org.telegram.ui.Stories.recorder.StoryRecorder.23
+        spannableString.setSpan(new ImageSpan(mutate) { // from class: org.telegram.ui.Stories.recorder.StoryRecorder.24
             @Override // android.text.style.DynamicDrawableSpan, android.text.style.ReplacementSpan
             public int getSize(Paint paint, CharSequence charSequence, int i2, int i3, Paint.FontMetricsInt fontMetricsInt) {
                 return (super.getSize(paint, charSequence, i2, i3, fontMetricsInt) / 3) * 2;

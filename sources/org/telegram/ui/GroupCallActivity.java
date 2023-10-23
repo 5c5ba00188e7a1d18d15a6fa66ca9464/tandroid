@@ -4791,7 +4791,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             if (groupCallInvitedCell.hasAvatarSet()) {
                 bundle.putBoolean("expandPhoto", true);
             }
-            this.parentActivity.lambda$runLinkRequest$75(new ProfileActivity(bundle));
+            this.parentActivity.lambda$runLinkRequest$81(new ProfileActivity(bundle));
             dismiss();
         } else if (i == this.listAdapter.addMemberRow) {
             if (ChatObject.isChannel(this.currentChat)) {
@@ -8417,7 +8417,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             } else {
                 bundle.putLong("chat_id", -j);
             }
-            this.parentActivity.lambda$runLinkRequest$75(new ChatActivity(bundle));
+            this.parentActivity.lambda$runLinkRequest$81(new ChatActivity(bundle));
             dismiss();
         } else if (i == 8) {
             this.parentActivity.switchToAccount(this.currentAccount, true);
@@ -8432,7 +8432,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             } else {
                 bundle2.putLong("chat_id", -j);
             }
-            this.parentActivity.lambda$runLinkRequest$75(new ChatActivity(bundle2));
+            this.parentActivity.lambda$runLinkRequest$81(new ChatActivity(bundle2));
             dismiss();
         } else if (i == 7) {
             sharedInstance.editCallMember(tLObject, Boolean.TRUE, null, null, Boolean.FALSE, null);
@@ -9954,7 +9954,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                 if (tLRPC$VideoSize != null && str != null) {
                     new File(str).renameTo(FileLoader.getInstance(((BottomSheet) GroupCallActivity.this).currentAccount).getPathToAttach(tLRPC$VideoSize, "mp4", true));
                 }
-                GroupCallActivity.this.accountInstance.getMessagesStorage().clearUserPhotos(user.id);
+                GroupCallActivity.this.accountInstance.getMessagesController().getDialogPhotos(user.id).reset();
                 ArrayList arrayList2 = new ArrayList();
                 arrayList2.add(user);
                 GroupCallActivity.this.accountInstance.getMessagesStorage().putUsersAndChats(arrayList2, null, false, true);

@@ -10,17 +10,13 @@ public abstract class TLRPC$messages_SavedGifs extends TLObject {
         TLRPC$messages_SavedGifs tLRPC$messages_SavedGifs;
         if (i != -2069878259) {
             tLRPC$messages_SavedGifs = i != -402498398 ? null : new TLRPC$messages_SavedGifs() { // from class: org.telegram.tgnet.TLRPC$TL_messages_savedGifsNotModified
-                public static int constructor = -402498398;
-
                 @Override // org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                    abstractSerializedData2.writeInt32(constructor);
+                    abstractSerializedData2.writeInt32(-402498398);
                 }
             };
         } else {
             tLRPC$messages_SavedGifs = new TLRPC$messages_SavedGifs() { // from class: org.telegram.tgnet.TLRPC$TL_messages_savedGifs
-                public static int constructor = -2069878259;
-
                 @Override // org.telegram.tgnet.TLObject
                 public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                     this.hash = abstractSerializedData2.readInt64(z2);
@@ -43,7 +39,7 @@ public abstract class TLRPC$messages_SavedGifs extends TLObject {
 
                 @Override // org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                    abstractSerializedData2.writeInt32(constructor);
+                    abstractSerializedData2.writeInt32(-2069878259);
                     abstractSerializedData2.writeInt64(this.hash);
                     abstractSerializedData2.writeInt32(481674261);
                     int size = this.gifs.size();

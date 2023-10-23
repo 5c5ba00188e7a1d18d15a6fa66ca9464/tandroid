@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_account_toggleUsername extends TLObject {
-    public static int constructor = 1490465654;
     public boolean active;
     public String username;
 
@@ -12,7 +11,7 @@ public class TLRPC$TL_account_toggleUsername extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(1490465654);
         abstractSerializedData.writeString(this.username);
         abstractSerializedData.writeBool(this.active);
     }

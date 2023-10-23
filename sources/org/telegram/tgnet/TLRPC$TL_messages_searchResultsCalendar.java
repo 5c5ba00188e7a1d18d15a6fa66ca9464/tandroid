@@ -3,7 +3,6 @@ package org.telegram.tgnet;
 import java.util.ArrayList;
 /* loaded from: classes.dex */
 public class TLRPC$TL_messages_searchResultsCalendar extends TLObject {
-    public static int constructor = 343859772;
     public int count;
     public int flags;
     public boolean inexact;
@@ -16,7 +15,7 @@ public class TLRPC$TL_messages_searchResultsCalendar extends TLObject {
     public ArrayList<TLRPC$User> users = new ArrayList<>();
 
     public static TLRPC$TL_messages_searchResultsCalendar TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-        if (constructor != i) {
+        if (343859772 != i) {
             if (z) {
                 throw new RuntimeException(String.format("can't parse magic %x in TL_messages_searchResultsCalendar", Integer.valueOf(i)));
             }
@@ -102,7 +101,7 @@ public class TLRPC$TL_messages_searchResultsCalendar extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(343859772);
         int i = this.inexact ? this.flags | 1 : this.flags & (-2);
         this.flags = i;
         abstractSerializedData.writeInt32(i);

@@ -10,6 +10,6 @@ public final /* synthetic */ class ProfileActivity$$ExternalSyntheticLambda20 im
 
     @Override // android.view.View.OnClickListener
     public final void onClick(View view) {
-        ProfileActivity.lambda$processOnClickOrPress$33(view);
+        ProfileActivity.lambda$processOnClickOrPress$34(view);
     }
 }

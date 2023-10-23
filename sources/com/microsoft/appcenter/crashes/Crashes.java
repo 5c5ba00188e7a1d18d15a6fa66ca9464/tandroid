@@ -94,8 +94,9 @@ public class Crashes extends AbstractAppCenterService {
         return "Crashes";
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.microsoft.appcenter.AbstractAppCenterService
-    protected int getTriggerCount() {
+    public int getTriggerCount() {
         return 1;
     }
 

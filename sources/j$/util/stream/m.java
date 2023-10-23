@@ -16,8 +16,7 @@ public final /* synthetic */ class m implements BiConsumer {
     }
 
     @Override // j$.util.function.BiConsumer
-    public BiConsumer b(BiConsumer biConsumer) {
-        Objects.requireNonNull(biConsumer);
-        return new j$.util.concurrent.a(this, biConsumer);
+    public /* synthetic */ BiConsumer andThen(BiConsumer biConsumer) {
+        return Objects.requireNonNull(biConsumer);
     }
 }

@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_messages_requestSimpleWebView extends TLObject {
-    public static int constructor = 440815626;
     public TLRPC$InputUser bot;
     public int flags;
     public boolean from_side_menu;
@@ -18,7 +17,7 @@ public class TLRPC$TL_messages_requestSimpleWebView extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(440815626);
         int i = this.from_switch_webview ? this.flags | 2 : this.flags & (-3);
         this.flags = i;
         int i2 = this.from_side_menu ? i | 4 : i & (-5);

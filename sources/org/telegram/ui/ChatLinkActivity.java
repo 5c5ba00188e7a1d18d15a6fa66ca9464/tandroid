@@ -753,8 +753,6 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
         if (!this.loadingChats && this.isChannel && this.info.linked_chat_id == 0) {
             this.loadingChats = true;
             getConnectionsManager().sendRequest(new TLObject() { // from class: org.telegram.tgnet.TLRPC$TL_channels_getGroupsForDiscussion
-                public static int constructor = -170208392;
-
                 @Override // org.telegram.tgnet.TLObject
                 public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i, boolean z) {
                     return TLRPC$messages_Chats.TLdeserialize(abstractSerializedData, i, z);
@@ -762,7 +760,7 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
 
                 @Override // org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-                    abstractSerializedData.writeInt32(constructor);
+                    abstractSerializedData.writeInt32(-170208392);
                 }
             }, new RequestDelegate() { // from class: org.telegram.ui.ChatLinkActivity$$ExternalSyntheticLambda14
                 @Override // org.telegram.tgnet.RequestDelegate

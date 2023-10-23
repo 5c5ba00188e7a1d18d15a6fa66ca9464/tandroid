@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_inputTheme extends TLRPC$InputTheme {
-    public static int constructor = 1012306921;
     public long access_hash;
     public long id;
 
@@ -13,7 +12,7 @@ public class TLRPC$TL_inputTheme extends TLRPC$InputTheme {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(1012306921);
         abstractSerializedData.writeInt64(this.id);
         abstractSerializedData.writeInt64(this.access_hash);
     }

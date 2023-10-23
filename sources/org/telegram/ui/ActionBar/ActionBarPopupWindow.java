@@ -441,14 +441,14 @@ public class ActionBarPopupWindow extends PopupWindow {
         }
 
         /* JADX INFO: Access modifiers changed from: protected */
-        /* JADX WARN: Removed duplicated region for block: B:108:0x0284 A[SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:118:0x0324  */
+        /* JADX WARN: Removed duplicated region for block: B:134:0x0327 A[SYNTHETIC] */
         /* JADX WARN: Removed duplicated region for block: B:38:0x00f9  */
         /* JADX WARN: Removed duplicated region for block: B:39:0x00fc  */
         /* JADX WARN: Removed duplicated region for block: B:42:0x0105  */
         /* JADX WARN: Removed duplicated region for block: B:43:0x0122  */
-        /* JADX WARN: Removed duplicated region for block: B:67:0x01b2  */
-        /* JADX WARN: Removed duplicated region for block: B:73:0x01dd  */
-        /* JADX WARN: Removed duplicated region for block: B:92:0x0281  */
+        /* JADX WARN: Removed duplicated region for block: B:93:0x0255  */
+        /* JADX WARN: Removed duplicated region for block: B:99:0x0280  */
         @Override // android.view.ViewGroup, android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -510,34 +510,56 @@ public class ActionBarPopupWindow extends PopupWindow {
                             } else if (scrollY > (-AndroidUtilities.dp(16.0f))) {
                                 int measuredHeight2 = (int) (getMeasuredHeight() * this.backScaleY);
                                 if (i2 == 0) {
-                                    Rect rect = AndroidUtilities.rectTmp2;
-                                    int dp = (-this.scrollView.getScrollY()) + (this.gapStartY != i3 ? AndroidUtilities.dp(1.0f) : 0);
-                                    int measuredWidth = (int) (getMeasuredWidth() * this.backScaleX);
-                                    if (this.gapStartY != i3) {
-                                        measuredHeight2 = Math.min(measuredHeight2, AndroidUtilities.dp(16.0f) + scrollY);
+                                    PopupSwipeBackLayout popupSwipeBackLayout = this.swipeBackLayout;
+                                    if (popupSwipeBackLayout != null && popupSwipeBackLayout.stickToRight) {
+                                        Rect rect = AndroidUtilities.rectTmp2;
+                                        int measuredWidth = getMeasuredWidth() - ((int) (getMeasuredWidth() * this.backScaleX));
+                                        int dp = (-this.scrollView.getScrollY()) + (this.gapStartY != i3 ? AndroidUtilities.dp(1.0f) : 0);
+                                        int measuredWidth2 = getMeasuredWidth();
+                                        if (this.gapStartY != i3) {
+                                            measuredHeight2 = Math.min(measuredHeight2, AndroidUtilities.dp(16.0f) + scrollY);
+                                        }
+                                        rect.set(measuredWidth, dp, measuredWidth2, measuredHeight2 - this.subtractBackgroundHeight);
+                                    } else {
+                                        Rect rect2 = AndroidUtilities.rectTmp2;
+                                        int dp2 = (-this.scrollView.getScrollY()) + (this.gapStartY != i3 ? AndroidUtilities.dp(1.0f) : 0);
+                                        int measuredWidth3 = (int) (getMeasuredWidth() * this.backScaleX);
+                                        if (this.gapStartY != i3) {
+                                            measuredHeight2 = Math.min(measuredHeight2, AndroidUtilities.dp(16.0f) + scrollY);
+                                        }
+                                        rect2.set(0, dp2, measuredWidth3, measuredHeight2 - this.subtractBackgroundHeight);
                                     }
-                                    rect.set(0, dp, measuredWidth, measuredHeight2 - this.subtractBackgroundHeight);
                                 } else if (measuredHeight2 < scrollY2) {
                                     if (this.gapStartY != i3) {
                                         canvas.restore();
                                     }
                                     i5 = i2 + 1;
                                 } else {
-                                    AndroidUtilities.rectTmp2.set(0, scrollY2, (int) (getMeasuredWidth() * this.backScaleX), measuredHeight2 - this.subtractBackgroundHeight);
+                                    PopupSwipeBackLayout popupSwipeBackLayout2 = this.swipeBackLayout;
+                                    if (popupSwipeBackLayout2 != null && popupSwipeBackLayout2.stickToRight) {
+                                        AndroidUtilities.rectTmp2.set(getMeasuredWidth() - ((int) (getMeasuredWidth() * this.backScaleX)), scrollY2, getMeasuredWidth(), measuredHeight2 - this.subtractBackgroundHeight);
+                                    } else {
+                                        AndroidUtilities.rectTmp2.set(0, scrollY2, (int) (getMeasuredWidth() * this.backScaleX), measuredHeight2 - this.subtractBackgroundHeight);
+                                    }
                                 }
                             } else {
-                                AndroidUtilities.rectTmp2.set(0, this.gapStartY < 0 ? 0 : -AndroidUtilities.dp(16.0f), (int) (getMeasuredWidth() * this.backScaleX), ((int) (getMeasuredHeight() * this.backScaleY)) - this.subtractBackgroundHeight);
+                                PopupSwipeBackLayout popupSwipeBackLayout3 = this.swipeBackLayout;
+                                if (popupSwipeBackLayout3 != null && popupSwipeBackLayout3.stickToRight) {
+                                    AndroidUtilities.rectTmp2.set(getMeasuredWidth() - ((int) (getMeasuredWidth() * this.backScaleX)), this.gapStartY < 0 ? 0 : -AndroidUtilities.dp(16.0f), getMeasuredWidth(), ((int) (getMeasuredHeight() * this.backScaleY)) - this.subtractBackgroundHeight);
+                                } else {
+                                    AndroidUtilities.rectTmp2.set(0, this.gapStartY < 0 ? 0 : -AndroidUtilities.dp(16.0f), (int) (getMeasuredWidth() * this.backScaleX), ((int) (getMeasuredHeight() * this.backScaleY)) - this.subtractBackgroundHeight);
+                                }
                             }
                             if (this.reactionsEnterProgress != 1.0f) {
                                 if (this.rect == null) {
                                     this.rect = new Rect();
                                 }
-                                Rect rect2 = this.rect;
-                                Rect rect3 = AndroidUtilities.rectTmp2;
-                                int i6 = rect3.right;
-                                int i7 = rect3.top;
-                                rect2.set(i6, i7, i6, i7);
-                                AndroidUtilities.lerp(this.rect, rect3, this.reactionsEnterProgress, rect3);
+                                Rect rect3 = this.rect;
+                                Rect rect4 = AndroidUtilities.rectTmp2;
+                                int i6 = rect4.right;
+                                int i7 = rect4.top;
+                                rect3.set(i6, i7, i6, i7);
+                                AndroidUtilities.lerp(this.rect, rect4, this.reactionsEnterProgress, rect4);
                             }
                             this.backgroundDrawable.setBounds(AndroidUtilities.rectTmp2);
                             this.backgroundDrawable.draw(canvas);
@@ -599,10 +621,10 @@ public class ActionBarPopupWindow extends PopupWindow {
             }
             float f4 = this.reactionsEnterProgress;
             if (f4 != 1.0f) {
-                Rect rect4 = AndroidUtilities.rectTmp2;
-                canvas.saveLayerAlpha(rect4.left, rect4.top, rect4.right, rect4.bottom, (int) (f4 * 255.0f), 31);
+                Rect rect5 = AndroidUtilities.rectTmp2;
+                canvas.saveLayerAlpha(rect5.left, rect5.top, rect5.right, rect5.bottom, (int) (f4 * 255.0f), 31);
                 float f5 = (this.reactionsEnterProgress * 0.5f) + 0.5f;
-                canvas.scale(f5, f5, rect4.right, rect4.top);
+                canvas.scale(f5, f5, rect5.right, rect5.top);
                 super.dispatchDraw(canvas);
                 canvas.restore();
                 return;

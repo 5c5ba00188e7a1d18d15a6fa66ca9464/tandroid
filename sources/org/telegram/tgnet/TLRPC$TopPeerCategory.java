@@ -6,41 +6,33 @@ public abstract class TLRPC$TopPeerCategory extends TLObject {
         switch (i) {
             case -1472172887:
                 tLRPC$TopPeerCategory = new TLRPC$TopPeerCategory() { // from class: org.telegram.tgnet.TLRPC$TL_topPeerCategoryForwardUsers
-                    public static int constructor = -1472172887;
-
                     @Override // org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(-1472172887);
                     }
                 };
                 break;
             case -1419371685:
                 tLRPC$TopPeerCategory = new TLRPC$TopPeerCategory() { // from class: org.telegram.tgnet.TLRPC$TL_topPeerCategoryBotsPM
-                    public static int constructor = -1419371685;
-
                     @Override // org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(-1419371685);
                     }
                 };
                 break;
             case -1122524854:
                 tLRPC$TopPeerCategory = new TLRPC$TopPeerCategory() { // from class: org.telegram.tgnet.TLRPC$TL_topPeerCategoryGroups
-                    public static int constructor = -1122524854;
-
                     @Override // org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(-1122524854);
                     }
                 };
                 break;
             case -68239120:
                 tLRPC$TopPeerCategory = new TLRPC$TopPeerCategory() { // from class: org.telegram.tgnet.TLRPC$TL_topPeerCategoryForwardChats
-                    public static int constructor = -68239120;
-
                     @Override // org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(-68239120);
                     }
                 };
                 break;
@@ -52,21 +44,17 @@ public abstract class TLRPC$TopPeerCategory extends TLObject {
                 break;
             case 371037736:
                 tLRPC$TopPeerCategory = new TLRPC$TopPeerCategory() { // from class: org.telegram.tgnet.TLRPC$TL_topPeerCategoryChannels
-                    public static int constructor = 371037736;
-
                     @Override // org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(371037736);
                     }
                 };
                 break;
             case 511092620:
                 tLRPC$TopPeerCategory = new TLRPC$TopPeerCategory() { // from class: org.telegram.tgnet.TLRPC$TL_topPeerCategoryPhoneCalls
-                    public static int constructor = 511092620;
-
                     @Override // org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(511092620);
                     }
                 };
                 break;

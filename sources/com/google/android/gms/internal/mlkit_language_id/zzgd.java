@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Objects;
 import org.telegram.messenger.CharacterCompat;
 import org.telegram.messenger.LiteMode;
+import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.voip.VoIPService;
 import sun.misc.Unsafe;
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
@@ -771,7 +772,7 @@ final class zzgd<T> implements zzgp<T> {
                     case 23:
                     case 24:
                     case 25:
-                    case 26:
+                    case MessageObject.TYPE_GIVEAWAY /* 26 */:
                     case 27:
                     case 28:
                     case 29:
@@ -954,7 +955,7 @@ final class zzgd<T> implements zzgp<T> {
                 case 23:
                 case 24:
                 case 25:
-                case 26:
+                case MessageObject.TYPE_GIVEAWAY /* 26 */:
                 case 27:
                 case 28:
                 case 29:
@@ -1305,7 +1306,7 @@ final class zzgd<T> implements zzgp<T> {
                 case 23:
                 case 24:
                 case 25:
-                case 26:
+                case MessageObject.TYPE_GIVEAWAY /* 26 */:
                 case 27:
                 case 28:
                 case 29:
@@ -1634,7 +1635,7 @@ final class zzgd<T> implements zzgp<T> {
                     case 25:
                         zzb3 = zzgr.zzj(i8, zza(t, j2), false);
                         break;
-                    case 26:
+                    case MessageObject.TYPE_GIVEAWAY /* 26 */:
                         zzb3 = zzgr.zza(i8, zza(t, j2));
                         break;
                     case 27:
@@ -2256,7 +2257,7 @@ final class zzgd<T> implements zzgp<T> {
                     i10 += 3;
                     i3 = 1048575;
                     i4 = 1;
-                case 26:
+                case MessageObject.TYPE_GIVEAWAY /* 26 */:
                     zzb2 = zzgr.zza(i14, (List) unsafe2.getObject(t, j3));
                     i11 += zzb2;
                     j = 0;
@@ -2883,7 +2884,7 @@ final class zzgd<T> implements zzgp<T> {
                             case 25:
                                 zzgr.zzn(this.zzc[length2], (List) zzhn.zzf(t, zzc & 1048575), zzibVar, false);
                                 break;
-                            case 26:
+                            case MessageObject.TYPE_GIVEAWAY /* 26 */:
                                 zzgr.zza(this.zzc[length2], (List) zzhn.zzf(t, zzc & 1048575), zzibVar);
                                 break;
                             case 27:
@@ -3263,7 +3264,7 @@ final class zzgd<T> implements zzgp<T> {
                             case 25:
                                 zzgr.zzn(this.zzc[i], (List) zzhn.zzf(t, zzc2 & 1048575), zzibVar, false);
                                 break;
-                            case 26:
+                            case MessageObject.TYPE_GIVEAWAY /* 26 */:
                                 zzgr.zza(this.zzc[i], (List) zzhn.zzf(t, zzc2 & 1048575), zzibVar);
                                 break;
                             case 27:
@@ -3659,7 +3660,7 @@ final class zzgd<T> implements zzgp<T> {
                         case 25:
                             zzgr.zzn(this.zzc[i], (List) unsafe.getObject(t, j), zzibVar, false);
                             break;
-                        case 26:
+                        case MessageObject.TYPE_GIVEAWAY /* 26 */:
                             zzgr.zza(this.zzc[i], (List) unsafe.getObject(t, j), zzibVar);
                             break;
                         case 27:

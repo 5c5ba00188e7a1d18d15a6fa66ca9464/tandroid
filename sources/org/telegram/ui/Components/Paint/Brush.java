@@ -19,6 +19,10 @@ public abstract class Brush {
         return 0.0f;
     }
 
+    public int getDefaultColor() {
+        return -16777216;
+    }
+
     public float getDefaultWeight() {
         return 0.25f;
     }
@@ -77,6 +81,11 @@ public abstract class Brush {
     /* loaded from: classes4.dex */
     public static class Radial extends Brush {
         @Override // org.telegram.ui.Components.Paint.Brush
+        public int getDefaultColor() {
+            return -47814;
+        }
+
+        @Override // org.telegram.ui.Components.Paint.Brush
         public int getIconRes() {
             return R.raw.photo_pen;
         }
@@ -87,6 +96,11 @@ public abstract class Brush {
         @Override // org.telegram.ui.Components.Paint.Brush
         public float getAlpha() {
             return 0.3f;
+        }
+
+        @Override // org.telegram.ui.Components.Paint.Brush
+        public int getDefaultColor() {
+            return -10742;
         }
 
         @Override // org.telegram.ui.Components.Paint.Brush
@@ -138,6 +152,11 @@ public abstract class Brush {
         }
 
         @Override // org.telegram.ui.Components.Paint.Brush
+        public int getDefaultColor() {
+            return -13318311;
+        }
+
+        @Override // org.telegram.ui.Components.Paint.Brush
         public float getDefaultWeight() {
             return 0.5f;
         }
@@ -184,6 +203,11 @@ public abstract class Brush {
 
     /* loaded from: classes4.dex */
     public static class Arrow extends Brush {
+        @Override // org.telegram.ui.Components.Paint.Brush
+        public int getDefaultColor() {
+            return -30208;
+        }
+
         @Override // org.telegram.ui.Components.Paint.Brush
         public float getDefaultWeight() {
             return 0.25f;

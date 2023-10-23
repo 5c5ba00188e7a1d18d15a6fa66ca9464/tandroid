@@ -1,8 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_documentAttributeAudio extends TLRPC$DocumentAttribute {
-    public static int constructor = -1739392570;
-
     @Override // org.telegram.tgnet.TLObject
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
         int readInt32 = abstractSerializedData.readInt32(z);
@@ -22,7 +20,7 @@ public class TLRPC$TL_documentAttributeAudio extends TLRPC$DocumentAttribute {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-1739392570);
         int i = this.voice ? this.flags | 1024 : this.flags & (-1025);
         this.flags = i;
         abstractSerializedData.writeInt32(i);

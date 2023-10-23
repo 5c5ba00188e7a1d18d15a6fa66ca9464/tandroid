@@ -12,8 +12,6 @@ public abstract class TLRPC$messages_ExportedChatInvite extends TLObject {
             tLRPC$messages_ExportedChatInvite = i != 572915951 ? null : new TLRPC$TL_messages_exportedChatInviteReplaced();
         } else {
             tLRPC$messages_ExportedChatInvite = new TLRPC$messages_ExportedChatInvite() { // from class: org.telegram.tgnet.TLRPC$TL_messages_exportedChatInvite
-                public static int constructor = 410107472;
-
                 @Override // org.telegram.tgnet.TLObject
                 public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                     this.invite = TLRPC$ExportedChatInvite.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
@@ -36,7 +34,7 @@ public abstract class TLRPC$messages_ExportedChatInvite extends TLObject {
 
                 @Override // org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                    abstractSerializedData2.writeInt32(constructor);
+                    abstractSerializedData2.writeInt32(410107472);
                     this.invite.serializeToStream(abstractSerializedData2);
                     abstractSerializedData2.writeInt32(481674261);
                     int size = this.users.size();

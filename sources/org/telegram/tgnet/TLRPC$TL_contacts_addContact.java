@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_contacts_addContact extends TLObject {
-    public static int constructor = -386636848;
     public boolean add_phone_privacy_exception;
     public String first_name;
     public int flags;
@@ -16,7 +15,7 @@ public class TLRPC$TL_contacts_addContact extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-386636848);
         int i = this.add_phone_privacy_exception ? this.flags | 1 : this.flags & (-2);
         this.flags = i;
         abstractSerializedData.writeInt32(i);

@@ -4,8 +4,6 @@ import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public class TLRPC$TL_decryptedMessage extends TLRPC$DecryptedMessage {
-    public static int constructor = -1848883596;
-
     @Override // org.telegram.tgnet.TLObject
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
         int readInt32 = abstractSerializedData.readInt32(z);
@@ -47,7 +45,7 @@ public class TLRPC$TL_decryptedMessage extends TLRPC$DecryptedMessage {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-1848883596);
         int i = this.silent ? this.flags | 32 : this.flags & (-33);
         this.flags = i;
         abstractSerializedData.writeInt32(i);

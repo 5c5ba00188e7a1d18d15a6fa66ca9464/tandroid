@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_notificationSoundLocal extends TLRPC$NotificationSound {
-    public static int constructor = -2096391452;
     public String data;
     public String title;
 
@@ -13,7 +12,7 @@ public class TLRPC$TL_notificationSoundLocal extends TLRPC$NotificationSound {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-2096391452);
         abstractSerializedData.writeString(this.title);
         abstractSerializedData.writeString(this.data);
     }

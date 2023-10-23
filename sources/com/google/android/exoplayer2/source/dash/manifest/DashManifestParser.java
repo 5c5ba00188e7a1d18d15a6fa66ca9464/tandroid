@@ -79,10 +79,10 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:78:0x01c2  */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x01e2  */
-    /* JADX WARN: Removed duplicated region for block: B:82:0x01e9 A[LOOP:0: B:25:0x00a7->B:82:0x01e9, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:84:0x01a5 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:78:0x01c4  */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x01e4  */
+    /* JADX WARN: Removed duplicated region for block: B:82:0x01eb A[LOOP:0: B:25:0x00a9->B:82:0x01eb, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:84:0x01a7 A[SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -618,7 +618,7 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
 
     /* JADX WARN: Removed duplicated region for block: B:49:0x00ba  */
     /* JADX WARN: Removed duplicated region for block: B:50:0x00c1  */
-    /* JADX WARN: Removed duplicated region for block: B:71:0x011f  */
+    /* JADX WARN: Removed duplicated region for block: B:71:0x0120  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

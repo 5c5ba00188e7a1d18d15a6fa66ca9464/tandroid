@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_messages_acceptEncryption extends TLObject {
-    public static int constructor = 1035731989;
     public byte[] g_b;
     public long key_fingerprint;
     public TLRPC$TL_inputEncryptedChat peer;
@@ -13,7 +12,7 @@ public class TLRPC$TL_messages_acceptEncryption extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(1035731989);
         this.peer.serializeToStream(abstractSerializedData);
         abstractSerializedData.writeByteArray(this.g_b);
         abstractSerializedData.writeInt64(this.key_fingerprint);

@@ -3,8 +3,6 @@ package org.telegram.tgnet;
 import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public class TLRPC$TL_channelForbidden extends TLRPC$Chat {
-    public static int constructor = 399807445;
-
     @Override // org.telegram.tgnet.TLObject
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
         int readInt32 = abstractSerializedData.readInt32(z);
@@ -21,7 +19,7 @@ public class TLRPC$TL_channelForbidden extends TLRPC$Chat {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(399807445);
         int i = this.broadcast ? this.flags | 32 : this.flags & (-33);
         this.flags = i;
         int i2 = this.megagroup ? i | LiteMode.FLAG_CHAT_BLUR : i & (-257);

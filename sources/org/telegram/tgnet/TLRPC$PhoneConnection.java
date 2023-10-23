@@ -17,8 +17,6 @@ public abstract class TLRPC$PhoneConnection extends TLObject {
         TLRPC$PhoneConnection tLRPC$PhoneConnection;
         if (i == -1665063993) {
             tLRPC$PhoneConnection = new TLRPC$PhoneConnection() { // from class: org.telegram.tgnet.TLRPC$TL_phoneConnection
-                public static int constructor = -1665063993;
-
                 @Override // org.telegram.tgnet.TLObject
                 public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                     int readInt32 = abstractSerializedData2.readInt32(z2);
@@ -33,7 +31,7 @@ public abstract class TLRPC$PhoneConnection extends TLObject {
 
                 @Override // org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                    abstractSerializedData2.writeInt32(constructor);
+                    abstractSerializedData2.writeInt32(-1665063993);
                     int i2 = this.tcp ? this.flags | 1 : this.flags & (-2);
                     this.flags = i2;
                     abstractSerializedData2.writeInt32(i2);
@@ -46,8 +44,6 @@ public abstract class TLRPC$PhoneConnection extends TLObject {
             };
         } else {
             tLRPC$PhoneConnection = i != 1667228533 ? null : new TLRPC$PhoneConnection() { // from class: org.telegram.tgnet.TLRPC$TL_phoneConnectionWebrtc
-                public static int constructor = 1667228533;
-
                 @Override // org.telegram.tgnet.TLObject
                 public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                     int readInt32 = abstractSerializedData2.readInt32(z2);
@@ -64,7 +60,7 @@ public abstract class TLRPC$PhoneConnection extends TLObject {
 
                 @Override // org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                    abstractSerializedData2.writeInt32(constructor);
+                    abstractSerializedData2.writeInt32(1667228533);
                     int i2 = this.turn ? this.flags | 1 : this.flags & (-2);
                     this.flags = i2;
                     int i3 = this.stun ? i2 | 2 : i2 & (-3);

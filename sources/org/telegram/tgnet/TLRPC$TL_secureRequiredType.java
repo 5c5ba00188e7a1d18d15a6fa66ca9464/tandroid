@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_secureRequiredType extends TLRPC$SecureRequiredType {
-    public static int constructor = -2103600678;
     public int flags;
     public boolean native_names;
     public boolean selfie_required;
@@ -20,7 +19,7 @@ public class TLRPC$TL_secureRequiredType extends TLRPC$SecureRequiredType {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-2103600678);
         int i = this.native_names ? this.flags | 1 : this.flags & (-2);
         this.flags = i;
         int i2 = this.selfie_required ? i | 2 : i & (-3);

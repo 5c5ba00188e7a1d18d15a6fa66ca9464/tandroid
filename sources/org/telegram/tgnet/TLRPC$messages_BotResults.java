@@ -19,8 +19,6 @@ public abstract class TLRPC$messages_BotResults extends TLObject {
             tLRPC$TL_messages_botResults_layer153 = new TLRPC$TL_messages_botResults_layer153();
         } else if (i == -858565059) {
             tLRPC$TL_messages_botResults_layer153 = new TLRPC$TL_messages_botResults_layer153() { // from class: org.telegram.tgnet.TLRPC$TL_messages_botResults_layer71
-                public static int constructor = -858565059;
-
                 @Override // org.telegram.tgnet.TLRPC$TL_messages_botResults_layer153, org.telegram.tgnet.TLObject
                 public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                     int readInt32 = abstractSerializedData2.readInt32(z2);
@@ -53,7 +51,7 @@ public abstract class TLRPC$messages_BotResults extends TLObject {
 
                 @Override // org.telegram.tgnet.TLRPC$TL_messages_botResults_layer153, org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                    abstractSerializedData2.writeInt32(constructor);
+                    abstractSerializedData2.writeInt32(-858565059);
                     int i2 = this.gallery ? this.flags | 1 : this.flags & (-2);
                     this.flags = i2;
                     abstractSerializedData2.writeInt32(i2);
@@ -75,8 +73,6 @@ public abstract class TLRPC$messages_BotResults extends TLObject {
             };
         } else {
             tLRPC$TL_messages_botResults_layer153 = i != -534646026 ? null : new TLRPC$messages_BotResults() { // from class: org.telegram.tgnet.TLRPC$TL_messages_botResults
-                public static int constructor = -534646026;
-
                 @Override // org.telegram.tgnet.TLObject
                 public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                     int readInt32 = abstractSerializedData2.readInt32(z2);
@@ -127,7 +123,7 @@ public abstract class TLRPC$messages_BotResults extends TLObject {
 
                 @Override // org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                    abstractSerializedData2.writeInt32(constructor);
+                    abstractSerializedData2.writeInt32(-534646026);
                     int i2 = this.gallery ? this.flags | 1 : this.flags & (-2);
                     this.flags = i2;
                     abstractSerializedData2.writeInt32(i2);

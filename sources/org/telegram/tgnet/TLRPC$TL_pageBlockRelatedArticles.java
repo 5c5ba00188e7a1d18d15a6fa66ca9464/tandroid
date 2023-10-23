@@ -3,7 +3,6 @@ package org.telegram.tgnet;
 import java.util.ArrayList;
 /* loaded from: classes.dex */
 public class TLRPC$TL_pageBlockRelatedArticles extends TLRPC$PageBlock {
-    public static int constructor = 370236054;
     public ArrayList<TLRPC$TL_pageRelatedArticle> articles = new ArrayList<>();
     public TLRPC$RichText title;
 
@@ -29,7 +28,7 @@ public class TLRPC$TL_pageBlockRelatedArticles extends TLRPC$PageBlock {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(370236054);
         this.title.serializeToStream(abstractSerializedData);
         abstractSerializedData.writeInt32(481674261);
         int size = this.articles.size();

@@ -184,10 +184,10 @@ public class Input {
         this.ignore = true;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:15:0x0084  */
-    /* JADX WARN: Removed duplicated region for block: B:18:0x00b7  */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x0206 A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x0207  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x009c  */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x00cf  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x021e A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x021f  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -206,6 +206,9 @@ public class Input {
         this.invertMatrix.mapPoints(fArr);
         float currentTimeMillis = (float) (System.currentTimeMillis() - this.lastVelocityUpdate);
         this.velocity = androidx.core.math.MathUtils.clamp(this.velocity - (currentTimeMillis / 125.0f), 0.6f, 1.0f);
+        if (this.renderView.getCurrentBrush() != null && (this.renderView.getCurrentBrush() instanceof Brush.Arrow)) {
+            this.velocity = 1.0f - this.velocity;
+        }
         this.lastVelocityUpdate = System.currentTimeMillis();
         float f2 = this.velocity;
         if (motionEvent.getToolType(motionEvent.getActionIndex()) == 2) {
@@ -213,7 +216,7 @@ public class Input {
             if ((motionEvent.getButtonState() & 32) == 32) {
                 z = true;
                 if (this.renderView.getCurrentBrush() != null) {
-                    f2 = ((f2 - 1.0f) * AndroidUtilities.lerp(1.0f, this.renderView.getCurrentBrush().getSmoothThicknessRate(), androidx.core.math.MathUtils.clamp(this.realPointsCount / 16.0f, 0.0f, 1.0f))) + 1.0f;
+                    f2 = ((f2 - 1.0f) * AndroidUtilities.lerp(this.renderView.getCurrentBrush().getSmoothThicknessRate(), 1.0f, androidx.core.math.MathUtils.clamp(this.realPointsCount / 16.0f, 0.0f, 1.0f))) + 1.0f;
                 }
                 float[] fArr2 = this.tempPoint;
                 boolean z3 = z;
@@ -241,7 +244,7 @@ public class Input {
                                     final Point point2 = this.points[this.pointsCount - 1];
                                     Point point3 = this.lastThickLocation;
                                     final double d = point3 == null ? point.z : point3.z;
-                                    final float currentWeight = this.renderView.getCurrentWeight() * ((float) d) * 4.5f;
+                                    final float currentWeight = this.renderView.getCurrentWeight() * ((float) d) * 12.0f;
                                     ValueAnimator valueAnimator = this.arrowAnimator;
                                     if (valueAnimator != null) {
                                         valueAnimator.cancel();
@@ -253,7 +256,7 @@ public class Input {
                                     ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Input$$ExternalSyntheticLambda0
                                         @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                                         public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                                            Input.this.lambda$process$2(point2, f3, currentWeight, fArr3, d, zArr, valueAnimator2);
+                                            Input.this.lambda$process$2(f3, point2, currentWeight, fArr3, d, zArr, valueAnimator2);
                                         }
                                     });
                                     this.arrowAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.Paint.Input.2
@@ -406,63 +409,53 @@ public class Input {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$process$2(Point point, float f, float f2, float[] fArr, double d, boolean[] zArr, ValueAnimator valueAnimator) {
+    public /* synthetic */ void lambda$process$2(float f, Point point, float f2, float[] fArr, double d, boolean[] zArr, ValueAnimator valueAnimator) {
         float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
-        double d2 = point.x;
-        double d3 = f;
-        Double.isNaN(d3);
-        double d4 = d3 - 2.356194490192345d;
-        double cos = Math.cos(d4);
-        double d5 = f2;
-        Double.isNaN(d5);
+        double d2 = f;
+        Double.isNaN(d2);
+        double cos = Math.cos(d2 - 2.5918139392115793d);
+        Double.isNaN(d2);
+        double sin = Math.sin(d2 - 2.748893571891069d);
+        double d3 = point.x;
+        double d4 = f2;
+        Double.isNaN(d4);
+        double d5 = cos * d4;
         double d6 = fArr[0];
         Double.isNaN(d6);
-        double d7 = d2 + (cos * d5 * d6);
+        double d7 = d3 + (d6 * d5);
         double d8 = point.y;
-        Double.isNaN(d3);
-        double d9 = d3 - 2.5132741228718345d;
-        double sin = Math.sin(d9);
-        Double.isNaN(d5);
-        double d10 = sin * d5;
-        double d11 = fArr[0];
-        Double.isNaN(d11);
-        double d12 = point.x;
-        double cos2 = Math.cos(d4);
-        Double.isNaN(d5);
-        double d13 = cos2 * d5;
-        double d14 = floatValue;
-        Double.isNaN(d14);
-        double d15 = d12 + (d13 * d14);
-        double d16 = point.y;
-        double sin2 = Math.sin(d9);
-        Double.isNaN(d5);
-        Double.isNaN(d14);
-        paintPath(new Path(new Point[]{new Point(d7, (d10 * d11) + d8, d), new Point(d15, d16 + (sin2 * d5 * d14), d, true)}));
-        double d17 = point.x;
-        Double.isNaN(d3);
-        double d18 = d3 + 2.356194490192345d;
-        double cos3 = Math.cos(d18);
-        Double.isNaN(d5);
-        double d19 = fArr[0];
-        Double.isNaN(d19);
-        double d20 = d17 + (cos3 * d5 * d19);
-        double d21 = point.y;
-        Double.isNaN(d3);
-        double d22 = d3 + 2.5132741228718345d;
-        double sin3 = Math.sin(d22);
-        Double.isNaN(d5);
-        double d23 = fArr[0];
-        Double.isNaN(d23);
-        double d24 = point.x;
-        double cos4 = Math.cos(d18);
-        Double.isNaN(d5);
-        Double.isNaN(d14);
-        double d25 = d24 + (cos4 * d5 * d14);
-        double d26 = point.y;
-        double sin4 = Math.sin(d22);
-        Double.isNaN(d5);
-        Double.isNaN(d14);
-        paintPath(new Path(new Point[]{new Point(d20, d21 + (sin3 * d5 * d23), d), new Point(d25, d26 + (sin4 * d5 * d14), d, true)}));
+        Double.isNaN(d4);
+        double d9 = sin * d4;
+        double d10 = fArr[0];
+        Double.isNaN(d10);
+        double d11 = point.x;
+        double d12 = floatValue;
+        Double.isNaN(d12);
+        double d13 = d11 + (d5 * d12);
+        double d14 = point.y;
+        Double.isNaN(d12);
+        paintPath(new Path(new Point[]{new Point(d7, d8 + (d10 * d9), d), new Point(d13, d14 + (d9 * d12), d, true)}));
+        Double.isNaN(d2);
+        double cos2 = Math.cos(d2 + 2.5918139392115793d);
+        Double.isNaN(d2);
+        double sin2 = Math.sin(d2 + 2.748893571891069d);
+        double d15 = point.x;
+        Double.isNaN(d4);
+        double d16 = cos2 * d4;
+        double d17 = fArr[0];
+        Double.isNaN(d17);
+        double d18 = d15 + (d17 * d16);
+        double d19 = point.y;
+        Double.isNaN(d4);
+        double d20 = d4 * sin2;
+        double d21 = fArr[0];
+        Double.isNaN(d21);
+        double d22 = point.x;
+        Double.isNaN(d12);
+        double d23 = d22 + (d16 * d12);
+        double d24 = point.y;
+        Double.isNaN(d12);
+        paintPath(new Path(new Point[]{new Point(d18, d19 + (d21 * d20), d), new Point(d23, d24 + (d20 * d12), d, true)}));
         if (!zArr[0] && floatValue > 0.4f) {
             zArr[0] = true;
             BotWebViewVibrationEffect.SELECTION_CHANGE.vibrate();
@@ -578,7 +571,7 @@ public class Input {
         Double.isNaN(d2);
         double d14 = point2.z;
         Double.isNaN(d3);
-        double lerp = AndroidUtilities.lerp(1.0f, f2, androidx.core.math.MathUtils.clamp(this.realPointsCount / 16.0f, 0.0f, 1.0f));
+        double lerp = AndroidUtilities.lerp(f2, 1.0f, androidx.core.math.MathUtils.clamp(this.realPointsCount / 16.0f, 0.0f, 1.0f));
         Double.isNaN(lerp);
         return new Point(d9, d11 + (d12 * d3), (((((point.z * pow) + (d13 * d2)) + (d14 * d3)) - 1.0d) * lerp) + 1.0d);
     }

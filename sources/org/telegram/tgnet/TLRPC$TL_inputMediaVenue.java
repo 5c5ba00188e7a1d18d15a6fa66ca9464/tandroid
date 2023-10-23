@@ -1,8 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_inputMediaVenue extends TLRPC$InputMedia {
-    public static int constructor = -1052959727;
-
     @Override // org.telegram.tgnet.TLObject
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
         this.geo_point = TLRPC$InputGeoPoint.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
@@ -15,7 +13,7 @@ public class TLRPC$TL_inputMediaVenue extends TLRPC$InputMedia {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-1052959727);
         this.geo_point.serializeToStream(abstractSerializedData);
         abstractSerializedData.writeString(this.title);
         abstractSerializedData.writeString(this.address);

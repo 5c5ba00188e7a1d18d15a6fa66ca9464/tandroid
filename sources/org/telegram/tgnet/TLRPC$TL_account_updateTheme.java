@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_account_updateTheme extends TLObject {
-    public static int constructor = 1555261397;
     public TLRPC$InputDocument document;
     public int flags;
     public String format;
@@ -17,7 +16,7 @@ public class TLRPC$TL_account_updateTheme extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(1555261397);
         abstractSerializedData.writeInt32(this.flags);
         abstractSerializedData.writeString(this.format);
         this.theme.serializeToStream(abstractSerializedData);

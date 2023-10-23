@@ -230,12 +230,12 @@ public class TopicsController extends BaseController {
         getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.topicsDidLoaded, Long.valueOf(j), Boolean.FALSE);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:75:0x0186, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:75:0x0187, code lost:
         if (r23 == 1) goto L100;
      */
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r4v3 */
-    /* JADX WARN: Type inference failed for: r4v4, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r4v4, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r4v5 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -645,7 +645,7 @@ public class TopicsController extends BaseController {
         if (i == 0 || (findTopic = findTopic(tLRPC$Chat.id, i)) == null) {
             return null;
         }
-        return ForumUtilities.getTopicSpannedName(findTopic, textPaint, drawableArr);
+        return ForumUtilities.getTopicSpannedName(findTopic, textPaint, drawableArr, false);
     }
 
     public int[] getForumUnreadCount(long j) {

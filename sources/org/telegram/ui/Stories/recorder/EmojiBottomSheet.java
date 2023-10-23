@@ -1315,7 +1315,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                     public final void run(ArrayList arrayList, String str2) {
                         EmojiBottomSheet.Page.Adapter.this.lambda$new$0(str, mediaDataController, arrayList, str2);
                     }
-                }, null, false, false, false, true, 50);
+                }, null, false, false, false, true, 50, false);
             }
 
             /* JADX INFO: Access modifiers changed from: private */

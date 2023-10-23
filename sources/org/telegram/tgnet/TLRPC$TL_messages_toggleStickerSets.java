@@ -3,7 +3,6 @@ package org.telegram.tgnet;
 import java.util.ArrayList;
 /* loaded from: classes.dex */
 public class TLRPC$TL_messages_toggleStickerSets extends TLObject {
-    public static int constructor = -1257951254;
     public boolean archive;
     public int flags;
     public ArrayList<TLRPC$InputStickerSet> stickersets = new ArrayList<>();
@@ -17,7 +16,7 @@ public class TLRPC$TL_messages_toggleStickerSets extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-1257951254);
         int i = this.uninstall ? this.flags | 1 : this.flags & (-2);
         this.flags = i;
         int i2 = this.archive ? i | 2 : i & (-3);

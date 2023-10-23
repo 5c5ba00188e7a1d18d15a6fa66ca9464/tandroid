@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import org.telegram.messenger.BillingController;
 /* loaded from: classes.dex */
 public class TLRPC$TL_help_premiumPromo extends TLObject {
-    public static int constructor = 1395946908;
     public String currency;
     public long monthly_amount;
     public String status_text;
@@ -18,8 +17,6 @@ public class TLRPC$TL_help_premiumPromo extends TLObject {
         TLRPC$TL_help_premiumPromo tLRPC$TL_help_premiumPromo;
         if (i == -1974518743) {
             tLRPC$TL_help_premiumPromo = new TLRPC$TL_help_premiumPromo() { // from class: org.telegram.tgnet.TLRPC$TL_help_premiumPromo_layer144
-                public static int constructor = -1974518743;
-
                 @Override // org.telegram.tgnet.TLRPC$TL_help_premiumPromo, org.telegram.tgnet.TLObject
                 public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                     this.status_text = abstractSerializedData2.readString(z2);
@@ -85,7 +82,7 @@ public class TLRPC$TL_help_premiumPromo extends TLObject {
 
                 @Override // org.telegram.tgnet.TLRPC$TL_help_premiumPromo, org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                    abstractSerializedData2.writeInt32(constructor);
+                    abstractSerializedData2.writeInt32(-1974518743);
                     abstractSerializedData2.writeString(this.status_text);
                     abstractSerializedData2.writeInt32(481674261);
                     int size = this.status_entities.size();
@@ -119,8 +116,6 @@ public class TLRPC$TL_help_premiumPromo extends TLObject {
             tLRPC$TL_help_premiumPromo = i != 1395946908 ? null : new TLRPC$TL_help_premiumPromo();
         } else {
             tLRPC$TL_help_premiumPromo = new TLRPC$TL_help_premiumPromo() { // from class: org.telegram.tgnet.TLRPC$TL_help_premiumPromo_layer140
-                public static int constructor = -533328101;
-
                 @Override // org.telegram.tgnet.TLRPC$TL_help_premiumPromo, org.telegram.tgnet.TLObject
                 public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                     this.status_text = abstractSerializedData2.readString(z2);
@@ -171,7 +166,7 @@ public class TLRPC$TL_help_premiumPromo extends TLObject {
 
                 @Override // org.telegram.tgnet.TLRPC$TL_help_premiumPromo, org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                    abstractSerializedData2.writeInt32(constructor);
+                    abstractSerializedData2.writeInt32(-533328101);
                     abstractSerializedData2.writeString(this.status_text);
                     abstractSerializedData2.writeInt32(481674261);
                     int size = this.status_entities.size();
@@ -293,7 +288,7 @@ public class TLRPC$TL_help_premiumPromo extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(1395946908);
         abstractSerializedData.writeString(this.status_text);
         abstractSerializedData.writeInt32(481674261);
         int size = this.status_entities.size();

@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_pollAnswerVoters extends TLObject {
-    public static int constructor = 997055186;
     public boolean chosen;
     public boolean correct;
     public int flags;
@@ -9,7 +8,7 @@ public class TLRPC$TL_pollAnswerVoters extends TLObject {
     public int voters;
 
     public static TLRPC$TL_pollAnswerVoters TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-        if (constructor != i) {
+        if (997055186 != i) {
             if (z) {
                 throw new RuntimeException(String.format("can't parse magic %x in TL_pollAnswerVoters", Integer.valueOf(i)));
             }
@@ -32,7 +31,7 @@ public class TLRPC$TL_pollAnswerVoters extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(997055186);
         int i = this.chosen ? this.flags | 1 : this.flags & (-2);
         this.flags = i;
         int i2 = this.correct ? i | 2 : i & (-3);

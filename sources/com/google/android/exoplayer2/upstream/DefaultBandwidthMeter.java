@@ -13,6 +13,8 @@ import java.util.HashMap;
 import java.util.Map;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.ImageReceiver;
+import org.telegram.messenger.MessageObject;
+import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.voip.VoIPService;
 /* loaded from: classes.dex */
@@ -1741,7 +1743,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
             case 132:
             case 175:
                 return new int[]{1, 2, 2, 2, 2, 2};
-            case 26:
+            case MessageObject.TYPE_GIVEAWAY /* 26 */:
                 return new int[]{3, 2, 0, 1, 2, 2};
             case 27:
                 return new int[]{1, 2, 3, 2, 2, 2};
@@ -1853,7 +1855,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 return new int[]{2, 2, 2, 4, 2, 2};
             case 'O':
                 return new int[]{4, 3, 2, 4, 2, 2};
-            case 'P':
+            case MessagesController.DialogPhotos.STEP /* 80 */:
                 return new int[]{4, 4, 4, 2, 2, 2};
             case 'Q':
                 return new int[]{3, 1, 1, 3, 2, 2};
@@ -1930,9 +1932,9 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 return new int[]{1, 0, 0, 0, 2, 2};
             case 131:
                 return new int[]{2, 0, 0, 1, 1, 2};
-            case MessagesStorage.LAST_DB_VERSION /* 134 */:
+            case 134:
                 return new int[]{4, 2, 1, 3, 2, 2};
-            case 135:
+            case MessagesStorage.LAST_DB_VERSION /* 135 */:
                 return new int[]{2, 0, 0, 1, 3, 2};
             case 136:
             case 217:

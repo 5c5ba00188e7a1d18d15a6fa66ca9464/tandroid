@@ -25,8 +25,6 @@ public abstract class TLRPC$ReplyMarkup extends TLObject {
                 break;
             case -200242528:
                 tLRPC$TL_replyKeyboardMarkup = new TLRPC$TL_replyKeyboardForceReply() { // from class: org.telegram.tgnet.TLRPC$TL_replyKeyboardForceReply_layer129
-                    public static int constructor = -200242528;
-
                     @Override // org.telegram.tgnet.TLRPC$TL_replyKeyboardForceReply, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
@@ -37,7 +35,7 @@ public abstract class TLRPC$ReplyMarkup extends TLObject {
 
                     @Override // org.telegram.tgnet.TLRPC$TL_replyKeyboardForceReply, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(-200242528);
                         int i2 = this.single_use ? this.flags | 2 : this.flags & (-3);
                         this.flags = i2;
                         int i3 = this.selective ? i2 | 4 : i2 & (-5);
@@ -48,8 +46,6 @@ public abstract class TLRPC$ReplyMarkup extends TLObject {
                 break;
             case 889353612:
                 tLRPC$TL_replyKeyboardMarkup = new TLRPC$TL_replyKeyboardMarkup() { // from class: org.telegram.tgnet.TLRPC$TL_replyKeyboardMarkup_layer129
-                    public static int constructor = 889353612;
-
                     @Override // org.telegram.tgnet.TLRPC$TL_replyKeyboardMarkup, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
@@ -76,7 +72,7 @@ public abstract class TLRPC$ReplyMarkup extends TLObject {
 
                     @Override // org.telegram.tgnet.TLRPC$TL_replyKeyboardMarkup, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(889353612);
                         int i2 = this.resize ? this.flags | 1 : this.flags & (-2);
                         this.flags = i2;
                         int i3 = this.single_use ? i2 | 2 : i2 & (-3);

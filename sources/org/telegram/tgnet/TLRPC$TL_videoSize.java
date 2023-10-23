@@ -1,8 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_videoSize extends TLRPC$VideoSize {
-    public static int constructor = -567037804;
-
     @Override // org.telegram.tgnet.TLObject
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
         this.flags = abstractSerializedData.readInt32(z);
@@ -17,7 +15,7 @@ public class TLRPC$TL_videoSize extends TLRPC$VideoSize {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-567037804);
         abstractSerializedData.writeInt32(this.flags);
         abstractSerializedData.writeString(this.type);
         abstractSerializedData.writeInt32(this.w);

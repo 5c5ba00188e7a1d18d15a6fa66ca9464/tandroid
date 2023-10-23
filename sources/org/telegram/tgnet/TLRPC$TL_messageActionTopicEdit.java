@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_messageActionTopicEdit extends TLRPC$MessageAction {
-    public static int constructor = -1064024032;
     public boolean closed;
     public boolean hidden;
     public long icon_emoji_id;
@@ -26,7 +25,7 @@ public class TLRPC$TL_messageActionTopicEdit extends TLRPC$MessageAction {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-1064024032);
         abstractSerializedData.writeInt32(this.flags);
         if ((this.flags & 1) != 0) {
             abstractSerializedData.writeString(this.title);

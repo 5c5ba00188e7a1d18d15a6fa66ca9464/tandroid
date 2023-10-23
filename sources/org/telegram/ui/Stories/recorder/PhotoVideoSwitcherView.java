@@ -12,12 +12,14 @@ import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewConfiguration;
+import androidx.core.graphics.ColorUtils;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.Utilities;
 import org.telegram.ui.Components.CubicBezierInterpolator;
+import org.telegram.ui.Stories.recorder.FlashViews;
 /* loaded from: classes4.dex */
-public class PhotoVideoSwitcherView extends View {
+public class PhotoVideoSwitcherView extends View implements FlashViews.Invertable {
     private ValueAnimator animator;
     private boolean mIsScrolling;
     private long mLastTouchTime;
@@ -221,5 +223,11 @@ public class PhotoVideoSwitcherView extends View {
         this.mVelocityTracker.recycle();
         this.mVelocityTracker = null;
         return super.onTouchEvent(motionEvent);
+    }
+
+    @Override // org.telegram.ui.Stories.recorder.FlashViews.Invertable
+    public void setInvert(float f) {
+        this.selectorPaint.setColor(ColorUtils.blendARGB(855638015, 536870912, f));
+        this.textPaint.setColor(ColorUtils.blendARGB(-1, -16777216, f));
     }
 }

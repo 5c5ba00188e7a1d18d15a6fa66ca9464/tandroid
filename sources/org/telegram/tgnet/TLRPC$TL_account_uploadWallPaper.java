@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_account_uploadWallPaper extends TLObject {
-    public static int constructor = -578472351;
     public TLRPC$InputFile file;
     public String mime_type;
     public TLRPC$TL_wallPaperSettings settings;
@@ -13,7 +12,7 @@ public class TLRPC$TL_account_uploadWallPaper extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-578472351);
         this.file.serializeToStream(abstractSerializedData);
         abstractSerializedData.writeString(this.mime_type);
         this.settings.serializeToStream(abstractSerializedData);

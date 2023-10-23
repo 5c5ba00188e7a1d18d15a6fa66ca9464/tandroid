@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_messages_requestAppWebView extends TLObject {
-    public static int constructor = -1940243652;
     public TLRPC$InputBotApp app;
     public int flags;
     public TLRPC$InputPeer peer;
@@ -17,7 +16,7 @@ public class TLRPC$TL_messages_requestAppWebView extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-1940243652);
         int i = this.write_allowed ? this.flags | 1 : this.flags & (-2);
         this.flags = i;
         abstractSerializedData.writeInt32(i);

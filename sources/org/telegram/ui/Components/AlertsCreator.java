@@ -166,12 +166,12 @@ import org.telegram.tgnet.TLRPC$TL_payments_sendPaymentForm;
 import org.telegram.tgnet.TLRPC$TL_payments_validateRequestedInfo;
 import org.telegram.tgnet.TLRPC$TL_peerNotifySettings;
 import org.telegram.tgnet.TLRPC$TL_phone_inviteToGroupCall;
-import org.telegram.tgnet.TLRPC$TL_stories_report;
 import org.telegram.tgnet.TLRPC$TL_updateGroupInvitePrivacyForbidden;
 import org.telegram.tgnet.TLRPC$Updates;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.tgnet.TLRPC$UserFull;
 import org.telegram.tgnet.TLRPC$UserStatus;
+import org.telegram.tgnet.tl.TL_stories$TL_stories_report;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
 import org.telegram.ui.ActionBar.ActionBarPopupWindow;
 import org.telegram.ui.ActionBar.AlertDialog;
@@ -197,7 +197,7 @@ import org.telegram.ui.NotificationsSettingsActivity;
 import org.telegram.ui.ProfileNotificationsActivity;
 import org.telegram.ui.ThemePreviewActivity;
 import org.telegram.ui.TooManyCommunitiesActivity;
-/* loaded from: classes4.dex */
+/* loaded from: classes.dex */
 public class AlertsCreator {
 
     /* loaded from: classes4.dex */
@@ -436,11 +436,11 @@ public class AlertsCreator {
     }
 
     public static Dialog processError(int i, TLRPC$TL_error tLRPC$TL_error, BaseFragment baseFragment, TLObject tLObject, Object... objArr) {
+        int i2;
         String str;
         TLRPC$InputPeer tLRPC$InputPeer;
         long peerDialogId;
-        int i2 = tLRPC$TL_error.code;
-        if (i2 == 406 || (str = tLRPC$TL_error.text) == null) {
+        if (tLRPC$TL_error == null || (i2 = tLRPC$TL_error.code) == 406 || (str = tLRPC$TL_error.text) == null) {
             return null;
         }
         boolean z = tLObject instanceof TLRPC$TL_messages_initHistoryImport;
@@ -759,7 +759,7 @@ public class AlertsCreator {
                     } else if (tLRPC$TL_error.text.startsWith("FLOOD_WAIT")) {
                         showSimpleAlert(baseFragment, LocaleController.getString("FloodWait", R.string.FloodWait));
                     } else if (tLRPC$TL_error.text.contains("FRESH_CHANGE_PHONE_FORBIDDEN")) {
-                        showSimpleAlert(baseFragment, LocaleController.getString("FreshChangePhoneForbidden", R.string.FreshChangePhoneForbidden));
+                        showSimpleAlert(baseFragment, LocaleController.getString(R.string.FreshChangePhoneForbiddenTitle), LocaleController.getString("FreshChangePhoneForbidden", R.string.FreshChangePhoneForbidden));
                     } else {
                         showSimpleAlert(baseFragment, tLRPC$TL_error.text);
                     }
@@ -940,7 +940,7 @@ public class AlertsCreator {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$createLanguageAlert$8(LaunchActivity launchActivity, DialogInterface dialogInterface, int i) {
-        launchActivity.lambda$runLinkRequest$75(new LanguageSelectActivity());
+        launchActivity.lambda$runLinkRequest$81(new LanguageSelectActivity());
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1321,10 +1321,10 @@ public class AlertsCreator {
 
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r10v0 */
-    /* JADX WARN: Type inference failed for: r10v1, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r10v1, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r10v3 */
     /* JADX WARN: Type inference failed for: r9v0 */
-    /* JADX WARN: Type inference failed for: r9v1, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r9v1, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r9v3 */
     public static void showCustomNotificationsDialog(final BaseFragment baseFragment, final long j, final int i, final int i2, final ArrayList<NotificationsSettingsActivity.NotificationException> arrayList, final ArrayList<NotificationsSettingsActivity.NotificationException> arrayList2, final int i3, final MessagesStorage.IntCallback intCallback, final MessagesStorage.IntCallback intCallback2) {
         int i4;
@@ -1770,8 +1770,6 @@ public class AlertsCreator {
             alertDialog.setCanCancel(false);
             alertDialog.show();
             ConnectionsManager.getInstance(currentAccount).sendRequest(new TLObject() { // from class: org.telegram.tgnet.TLRPC$TL_help_getSupport
-                public static int constructor = -1663104819;
-
                 @Override // org.telegram.tgnet.TLObject
                 public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i, boolean z) {
                     return TLRPC$TL_help_support.TLdeserialize(abstractSerializedData, i, z);
@@ -1779,7 +1777,7 @@ public class AlertsCreator {
 
                 @Override // org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-                    abstractSerializedData.writeInt32(constructor);
+                    abstractSerializedData.writeInt32(-1663104819);
                 }
             }, new RequestDelegate() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda105
                 @Override // org.telegram.tgnet.RequestDelegate
@@ -3526,7 +3524,7 @@ public class AlertsCreator {
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
-        private ScheduleDatePickerColors(Theme.ResourcesProvider resourcesProvider) {
+        public ScheduleDatePickerColors(Theme.ResourcesProvider resourcesProvider) {
             this(r2, r3, r4, r5, r6, r7, r8, r9, resourcesProvider != null ? resourcesProvider.getColorOrDefault(r0) : Theme.getColor(r0), resourcesProvider != null ? resourcesProvider.getColorOrDefault(Theme.key_featuredStickers_addButtonPressed) : Theme.getColor(Theme.key_featuredStickers_addButtonPressed));
             int i = Theme.key_dialogTextBlack;
             int colorOrDefault = resourcesProvider != null ? resourcesProvider.getColorOrDefault(i) : Theme.getColor(i);
@@ -4992,11 +4990,9 @@ public class AlertsCreator {
             tLRPC$ReportReason = new TLRPC$TL_inputReportReasonPersonalDetails();
         } else {
             tLRPC$ReportReason = i == 100 ? new TLRPC$ReportReason() { // from class: org.telegram.tgnet.TLRPC$TL_inputReportReasonOther
-                public static int constructor = -1041980751;
-
                 @Override // org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-                    abstractSerializedData.writeInt32(constructor);
+                    abstractSerializedData.writeInt32(-1041980751);
                 }
             } : null;
         }
@@ -5004,12 +5000,12 @@ public class AlertsCreator {
             return;
         }
         if (i2 != 0) {
-            TLRPC$TL_stories_report tLRPC$TL_stories_report = new TLRPC$TL_stories_report();
-            tLRPC$TL_stories_report.peer = MessagesController.getInstance(UserConfig.selectedAccount).getInputPeer(tLRPC$InputPeer.user_id);
-            tLRPC$TL_stories_report.id.add(Integer.valueOf(i2));
-            tLRPC$TL_stories_report.message = str;
-            tLRPC$TL_stories_report.reason = tLRPC$ReportReason;
-            ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tLRPC$TL_stories_report, AlertsCreator$$ExternalSyntheticLambda110.INSTANCE);
+            TL_stories$TL_stories_report tL_stories$TL_stories_report = new TL_stories$TL_stories_report();
+            tL_stories$TL_stories_report.peer = MessagesController.getInstance(UserConfig.selectedAccount).getInputPeer(tLRPC$InputPeer.user_id);
+            tL_stories$TL_stories_report.id.add(Integer.valueOf(i2));
+            tL_stories$TL_stories_report.message = str;
+            tL_stories$TL_stories_report.reason = tLRPC$ReportReason;
+            ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tL_stories$TL_stories_report, AlertsCreator$$ExternalSyntheticLambda110.INSTANCE);
             return;
         }
         TLRPC$TL_messages_report tLRPC$TL_messages_report = new TLRPC$TL_messages_report();
@@ -5068,7 +5064,7 @@ public class AlertsCreator {
     /* JADX WARN: Type inference failed for: r6v3, types: [org.telegram.tgnet.TLRPC$TL_messages_report] */
     /* JADX WARN: Type inference failed for: r8v4 */
     /* JADX WARN: Type inference failed for: r8v6, types: [org.telegram.tgnet.TLObject] */
-    /* JADX WARN: Type inference failed for: r8v7, types: [org.telegram.tgnet.TLRPC$TL_stories_report] */
+    /* JADX WARN: Type inference failed for: r8v7, types: [org.telegram.tgnet.tl.TL_stories$TL_stories_report] */
     public static /* synthetic */ void lambda$createReportAlert$105(int[] iArr, int i, BaseFragment baseFragment, Context context, Theme.ResourcesProvider resourcesProvider, long j, int i2, DialogInterface dialogInterface, int i3) {
         TLRPC$TL_account_reportPeer tLRPC$TL_account_reportPeer;
         ?? r8;
@@ -5083,7 +5079,7 @@ public class AlertsCreator {
         } else {
             TLRPC$InputPeer inputPeer = MessagesController.getInstance(UserConfig.selectedAccount).getInputPeer(j);
             if (i2 != 0) {
-                r8 = new TLRPC$TL_stories_report();
+                r8 = new TL_stories$TL_stories_report();
                 r8.id.add(Integer.valueOf(i2));
                 r8.peer = MessagesController.getInstance(UserConfig.selectedAccount).getInputPeer(j);
                 r8.message = "";
@@ -6095,7 +6091,7 @@ public class AlertsCreator {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$createFreeSpaceDialog$120(LaunchActivity launchActivity, DialogInterface dialogInterface, int i) {
-        launchActivity.lambda$runLinkRequest$75(new CacheControlActivity());
+        launchActivity.lambda$runLinkRequest$81(new CacheControlActivity());
     }
 
     public static Dialog createPrioritySelectDialog(Activity activity, long j, int i, int i2, Runnable runnable) {

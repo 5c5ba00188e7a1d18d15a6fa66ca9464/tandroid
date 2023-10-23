@@ -1023,8 +1023,8 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:313:0x0663 A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:314:0x0664  */
+    /* JADX WARN: Removed duplicated region for block: B:313:0x0669 A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:314:0x066a  */
     /* JADX WARN: Type inference failed for: r19v1 */
     /* JADX WARN: Type inference failed for: r29v0, types: [org.telegram.ui.ActionBar.BaseFragment, org.telegram.ui.ChatUsersActivity] */
     /*
@@ -1063,18 +1063,22 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
         TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights15;
         TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights16;
         TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights17;
-        TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights18;
         int i3 = 0;
         boolean z3 = this.listView.getAdapter() == this.listViewAdapter;
         if (z3) {
             if (isExpandableSendMediaRow(i)) {
                 CheckBoxCell checkBoxCell = (CheckBoxCell) view;
                 if (i == this.sendMediaPhotosRow) {
-                    this.defaultBannedRights.send_photos = !tLRPC$TL_chatBannedRights18.send_photos;
+                    this.defaultBannedRights.send_photos = !tLRPC$TL_chatBannedRights17.send_photos;
                 } else if (i == this.sendMediaVideosRow) {
-                    this.defaultBannedRights.send_videos = !tLRPC$TL_chatBannedRights17.send_videos;
+                    this.defaultBannedRights.send_videos = !tLRPC$TL_chatBannedRights16.send_videos;
                 } else if (i == this.sendMediaStickerGifsRow) {
-                    this.defaultBannedRights.send_stickers = !tLRPC$TL_chatBannedRights16.send_stickers;
+                    TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights18 = this.defaultBannedRights;
+                    boolean z4 = !tLRPC$TL_chatBannedRights18.send_stickers;
+                    tLRPC$TL_chatBannedRights18.send_inline = z4;
+                    tLRPC$TL_chatBannedRights18.send_gifs = z4;
+                    tLRPC$TL_chatBannedRights18.send_games = z4;
+                    tLRPC$TL_chatBannedRights18.send_stickers = z4;
                 } else if (i == this.sendMediaMusicRow) {
                     this.defaultBannedRights.send_audios = !tLRPC$TL_chatBannedRights15.send_audios;
                 } else if (i == this.sendMediaFilesRow) {
@@ -1192,14 +1196,14 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                     return;
                 } else {
                     this.antiSpamToggleLoading = true;
-                    final boolean z4 = this.info.antispam;
+                    final boolean z5 = this.info.antispam;
                     TLRPC$TL_channels_toggleAntiSpam tLRPC$TL_channels_toggleAntiSpam = new TLRPC$TL_channels_toggleAntiSpam();
                     tLRPC$TL_channels_toggleAntiSpam.channel = getMessagesController().getInputChannel(this.chatId);
                     TLRPC$ChatFull tLRPC$ChatFull4 = this.info;
-                    boolean z5 = true ^ tLRPC$ChatFull4.antispam;
-                    tLRPC$ChatFull4.antispam = z5;
-                    tLRPC$TL_channels_toggleAntiSpam.enabled = z5;
-                    textCell.setChecked(z5);
+                    boolean z6 = true ^ tLRPC$ChatFull4.antispam;
+                    tLRPC$ChatFull4.antispam = z6;
+                    tLRPC$TL_channels_toggleAntiSpam.enabled = z6;
+                    textCell.setChecked(z6);
                     Switch checkBox = textCell.getCheckBox();
                     if (!ChatObject.canUserDoAdminAction(this.currentChat, 13) || ((tLRPC$ChatFull2 = this.info) != null && !tLRPC$ChatFull2.antispam && getParticipantsCount() < getMessagesController().telegramAntispamGroupSizeMin)) {
                         i3 = R.drawable.permission_locked;
@@ -1208,7 +1212,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                     getConnectionsManager().sendRequest(tLRPC$TL_channels_toggleAntiSpam, new RequestDelegate() { // from class: org.telegram.ui.ChatUsersActivity$$ExternalSyntheticLambda27
                         @Override // org.telegram.tgnet.RequestDelegate
                         public final void run(TLObject tLObject2, TLRPC$TL_error tLRPC$TL_error) {
-                            ChatUsersActivity.this.lambda$createView$1(textCell, z4, tLObject2, tLRPC$TL_error);
+                            ChatUsersActivity.this.lambda$createView$1(textCell, z5, tLObject2, tLRPC$TL_error);
                         }
                     });
                     return;
@@ -1222,14 +1226,14 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                     return;
                 } else {
                     this.hideMembersToggleLoading = true;
-                    final boolean z6 = this.info.participants_hidden;
+                    final boolean z7 = this.info.participants_hidden;
                     TLRPC$TL_channels_toggleParticipantsHidden tLRPC$TL_channels_toggleParticipantsHidden = new TLRPC$TL_channels_toggleParticipantsHidden();
                     tLRPC$TL_channels_toggleParticipantsHidden.channel = getMessagesController().getInputChannel(this.chatId);
                     TLRPC$ChatFull tLRPC$ChatFull5 = this.info;
-                    boolean z7 = true ^ tLRPC$ChatFull5.participants_hidden;
-                    tLRPC$ChatFull5.participants_hidden = z7;
-                    tLRPC$TL_channels_toggleParticipantsHidden.enabled = z7;
-                    textCell2.setChecked(z7);
+                    boolean z8 = true ^ tLRPC$ChatFull5.participants_hidden;
+                    tLRPC$ChatFull5.participants_hidden = z8;
+                    tLRPC$TL_channels_toggleParticipantsHidden.enabled = z8;
+                    textCell2.setChecked(z8);
                     Switch checkBox2 = textCell2.getCheckBox();
                     if (!ChatObject.canUserDoAdminAction(this.currentChat, 2) || ((tLRPC$ChatFull = this.info) != null && !tLRPC$ChatFull.participants_hidden && getParticipantsCount() < getMessagesController().hiddenMembersGroupSizeMin)) {
                         i3 = R.drawable.permission_locked;
@@ -1238,7 +1242,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                     getConnectionsManager().sendRequest(tLRPC$TL_channels_toggleParticipantsHidden, new RequestDelegate() { // from class: org.telegram.ui.ChatUsersActivity$$ExternalSyntheticLambda26
                         @Override // org.telegram.tgnet.RequestDelegate
                         public final void run(TLObject tLObject2, TLRPC$TL_error tLRPC$TL_error) {
-                            ChatUsersActivity.this.lambda$createView$3(textCell2, z6, tLObject2, tLRPC$TL_error);
+                            ChatUsersActivity.this.lambda$createView$3(textCell2, z7, tLObject2, tLRPC$TL_error);
                         }
                     });
                     return;
@@ -1313,11 +1317,11 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                             return;
                         } else if (i == this.sendStickersRow) {
                             TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights19 = this.defaultBannedRights;
-                            boolean z8 = !tLRPC$TL_chatBannedRights19.send_stickers;
-                            tLRPC$TL_chatBannedRights19.send_inline = z8;
-                            tLRPC$TL_chatBannedRights19.send_gifs = z8;
-                            tLRPC$TL_chatBannedRights19.send_games = z8;
-                            tLRPC$TL_chatBannedRights19.send_stickers = z8;
+                            boolean z9 = !tLRPC$TL_chatBannedRights19.send_stickers;
+                            tLRPC$TL_chatBannedRights19.send_inline = z9;
+                            tLRPC$TL_chatBannedRights19.send_gifs = z9;
+                            tLRPC$TL_chatBannedRights19.send_games = z9;
+                            tLRPC$TL_chatBannedRights19.send_stickers = z9;
                             return;
                         } else if (i == this.embedLinksRow) {
                             this.defaultBannedRights.embed_links = !tLRPC$TL_chatBannedRights4.embed_links;
@@ -1341,7 +1345,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                 tLRPC$TL_chatBannedRights = tLRPC$ChannelParticipant.banned_rights;
                 TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights5 = tLRPC$ChannelParticipant.admin_rights;
                 String str2 = tLRPC$ChannelParticipant.rank;
-                boolean z9 = !((tLRPC$ChannelParticipant instanceof TLRPC$TL_channelParticipantAdmin) || (tLRPC$ChannelParticipant instanceof TLRPC$TL_channelParticipantCreator)) || tLRPC$ChannelParticipant.can_edit;
+                boolean z10 = !((tLRPC$ChannelParticipant instanceof TLRPC$TL_channelParticipantAdmin) || (tLRPC$ChannelParticipant instanceof TLRPC$TL_channelParticipantCreator)) || tLRPC$ChannelParticipant.can_edit;
                 if ((item instanceof TLRPC$TL_channelParticipantCreator) && (tLRPC$TL_chatAdminRights5 = ((TLRPC$TL_channelParticipantCreator) item).admin_rights) == null) {
                     tLRPC$TL_chatAdminRights5 = new TLRPC$TL_chatAdminRights();
                     tLRPC$TL_chatAdminRights5.add_admins = true;
@@ -1360,13 +1364,13 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                 tLObject = item;
                 tLRPC$TL_chatAdminRights2 = tLRPC$TL_chatAdminRights5;
                 str = str2;
-                z = z9;
+                z = z10;
                 long j2 = peerId;
                 tLRPC$TL_chatAdminRights3 = tLRPC$TL_chatBannedRights;
                 j = j2;
             } else if (item instanceof TLRPC$ChatParticipant) {
                 j = ((TLRPC$ChatParticipant) item).user_id;
-                boolean z10 = this.currentChat.creator;
+                boolean z11 = this.currentChat.creator;
                 if (item instanceof TLRPC$TL_chatParticipantCreator) {
                     tLRPC$TL_chatAdminRights4 = new TLRPC$TL_chatAdminRights();
                     tLRPC$TL_chatAdminRights4.add_admins = true;
@@ -1384,7 +1388,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                 } else {
                     tLRPC$TL_chatAdminRights4 = null;
                 }
-                z = z10;
+                z = z11;
                 tLRPC$TL_chatAdminRights2 = tLRPC$TL_chatAdminRights4;
                 str = "";
                 tLObject = item;
@@ -1415,12 +1419,12 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
             if (item2 instanceof TLRPC$ChannelParticipant) {
                 TLRPC$ChannelParticipant tLRPC$ChannelParticipant2 = (TLRPC$ChannelParticipant) item2;
                 peerId = MessageObject.getPeerId(tLRPC$ChannelParticipant2.peer);
-                boolean z11 = !((tLRPC$ChannelParticipant2 instanceof TLRPC$TL_channelParticipantAdmin) || (tLRPC$ChannelParticipant2 instanceof TLRPC$TL_channelParticipantCreator)) || tLRPC$ChannelParticipant2.can_edit;
+                boolean z12 = !((tLRPC$ChannelParticipant2 instanceof TLRPC$TL_channelParticipantAdmin) || (tLRPC$ChannelParticipant2 instanceof TLRPC$TL_channelParticipantCreator)) || tLRPC$ChannelParticipant2.can_edit;
                 tLRPC$TL_chatBannedRights = tLRPC$ChannelParticipant2.banned_rights;
                 TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights6 = tLRPC$ChannelParticipant2.admin_rights;
                 str = tLRPC$ChannelParticipant2.rank;
                 tLRPC$TL_chatAdminRights2 = tLRPC$TL_chatAdminRights6;
-                z = z11;
+                z = z12;
                 tLObject = item2;
                 long j22 = peerId;
                 tLRPC$TL_chatAdminRights3 = tLRPC$TL_chatBannedRights;
@@ -1461,11 +1465,11 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                     final TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights7 = tLRPC$TL_chatAdminRights2;
                     final TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights20 = tLRPC$TL_chatAdminRights3;
                     final String str3 = str;
-                    final boolean z12 = z;
+                    final boolean z13 = z;
                     builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChatUsersActivity$$ExternalSyntheticLambda3
                         @Override // android.content.DialogInterface.OnClickListener
                         public final void onClick(DialogInterface dialogInterface, int i8) {
-                            ChatUsersActivity.this.lambda$createView$4(user, tLObject2, tLRPC$TL_chatAdminRights7, tLRPC$TL_chatBannedRights20, str3, z12, dialogInterface, i8);
+                            ChatUsersActivity.this.lambda$createView$4(user, tLObject2, tLRPC$TL_chatAdminRights7, tLRPC$TL_chatBannedRights20, str3, z13, dialogInterface, i8);
                         }
                     });
                     builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
@@ -2878,11 +2882,9 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                 arrayList.addAll(loadChatParticipantsRequests(0, 200, false));
             } else if (!this.botsEndReached) {
                 tLRPC$TL_channels_getParticipants.filter = new TLRPC$ChannelParticipantsFilter() { // from class: org.telegram.tgnet.TLRPC$TL_channelParticipantsBots
-                    public static int constructor = -1328445861;
-
                     @Override // org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-                        abstractSerializedData.writeInt32(constructor);
+                        abstractSerializedData.writeInt32(-1328445861);
                     }
                 };
                 this.botsEndReached = true;

@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_inputMediaPhoto extends TLRPC$InputMedia {
-    public static int constructor = -1279654347;
     public TLRPC$InputPhoto id;
 
     @Override // org.telegram.tgnet.TLObject
@@ -17,7 +16,7 @@ public class TLRPC$TL_inputMediaPhoto extends TLRPC$InputMedia {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-1279654347);
         int i = this.spoiler ? this.flags | 2 : this.flags & (-3);
         this.flags = i;
         abstractSerializedData.writeInt32(i);

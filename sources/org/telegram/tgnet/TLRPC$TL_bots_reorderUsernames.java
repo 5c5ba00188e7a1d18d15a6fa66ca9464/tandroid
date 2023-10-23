@@ -3,7 +3,6 @@ package org.telegram.tgnet;
 import java.util.ArrayList;
 /* loaded from: classes.dex */
 public class TLRPC$TL_bots_reorderUsernames extends TLObject {
-    public static int constructor = -1760972350;
     public TLRPC$InputUser bot;
     public ArrayList<String> order = new ArrayList<>();
 
@@ -14,7 +13,7 @@ public class TLRPC$TL_bots_reorderUsernames extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-1760972350);
         this.bot.serializeToStream(abstractSerializedData);
         abstractSerializedData.writeInt32(481674261);
         int size = this.order.size();

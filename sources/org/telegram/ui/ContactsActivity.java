@@ -813,7 +813,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                     Bundle bundle = new Bundle();
                     bundle.putLong("user_id", tLRPC$User.id);
                     if (getMessagesController().checkCanOpenChat(bundle, this)) {
-                        presentFragment(new ChatActivity(bundle), true);
+                        presentFragment(new ChatActivity(bundle), this.needFinishFragment);
                         return;
                     }
                     return;
@@ -934,7 +934,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                 Bundle bundle4 = new Bundle();
                 bundle4.putLong("user_id", tLRPC$User2.id);
                 if (getMessagesController().checkCanOpenChat(bundle4, this)) {
-                    presentFragment(new ChatActivity(bundle4), true);
+                    presentFragment(new ChatActivity(bundle4), this.needFinishFragment);
                 }
             }
         } else if (item2 instanceof ContactsController.Contact) {
@@ -1423,7 +1423,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                 Bundle bundle = new Bundle();
                 bundle.putInt("enc_id", ((TLRPC$EncryptedChat) objArr[0]).id);
                 NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.closeChats, new Object[0]);
-                presentFragment(new ChatActivity(bundle), true);
+                presentFragment(new ChatActivity(bundle), false);
             }
         } else if (i != NotificationCenter.closeChats || this.creatingChat) {
         } else {
@@ -1529,7 +1529,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
         final boolean z2 = dialogsActivity.storiesEnabled;
         final RLottieImageView floatingButton = dialogsActivity.getFloatingButton();
         View view = floatingButton.getParent() != null ? (View) floatingButton.getParent() : null;
-        if (this.floatingButtonContainer == null || view == null || floatingButton.getVisibility() != 0 || Math.abs(view.getTranslationY()) > AndroidUtilities.dp(4.0f) || Math.abs(this.floatingButtonContainer.getTranslationY()) > AndroidUtilities.dp(4.0f)) {
+        if (this.floatingButton != null && (this.floatingButtonContainer == null || view == null || floatingButton.getVisibility() != 0 || Math.abs(view.getTranslationY()) > AndroidUtilities.dp(4.0f) || Math.abs(this.floatingButtonContainer.getTranslationY()) > AndroidUtilities.dp(4.0f))) {
             if (z2) {
                 this.floatingButton.setAnimation(R.raw.write_contacts_fab_icon_camera, 56, 56);
             } else {

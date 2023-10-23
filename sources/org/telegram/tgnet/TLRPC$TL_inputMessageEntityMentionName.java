@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_inputMessageEntityMentionName extends TLRPC$MessageEntity {
-    public static int constructor = 546203849;
     public TLRPC$InputUser user_id;
 
     @Override // org.telegram.tgnet.TLObject
@@ -13,7 +12,7 @@ public class TLRPC$TL_inputMessageEntityMentionName extends TLRPC$MessageEntity 
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(546203849);
         abstractSerializedData.writeInt32(this.offset);
         abstractSerializedData.writeInt32(this.length);
         this.user_id.serializeToStream(abstractSerializedData);

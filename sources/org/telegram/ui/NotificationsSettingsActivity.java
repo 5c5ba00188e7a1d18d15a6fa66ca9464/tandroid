@@ -1045,8 +1045,6 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
         }
         this.reseting = true;
         ConnectionsManager.getInstance(this.currentAccount).sendRequest(new TLObject() { // from class: org.telegram.tgnet.TLRPC$TL_account_resetNotifySettings
-            public static int constructor = -612493497;
-
             @Override // org.telegram.tgnet.TLObject
             public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i2, boolean z) {
                 return TLRPC$Bool.TLdeserialize(abstractSerializedData, i2, z);
@@ -1054,7 +1052,7 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
 
             @Override // org.telegram.tgnet.TLObject
             public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-                abstractSerializedData.writeInt32(constructor);
+                abstractSerializedData.writeInt32(-612493497);
             }
         }, new RequestDelegate() { // from class: org.telegram.ui.NotificationsSettingsActivity$$ExternalSyntheticLambda10
             @Override // org.telegram.tgnet.RequestDelegate

@@ -11,10 +11,10 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 /* loaded from: classes.dex */
 public class NativeLoader {
-    private static final String LIB_NAME = "tmessages.46";
-    private static final String LIB_SO_NAME = "libtmessages.46.so";
-    private static final int LIB_VERSION = 46;
-    private static final String LOCALE_LIB_SO_NAME = "libtmessages.46loc.so";
+    private static final String LIB_NAME = "tmessages.47";
+    private static final String LIB_SO_NAME = "libtmessages.47.so";
+    private static final int LIB_VERSION = 47;
+    private static final String LOCALE_LIB_SO_NAME = "libtmessages.47loc.so";
     public static StringBuilder log = new StringBuilder();
     private static volatile boolean nativeLoaded = false;
 

@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_bots_setBotInfo extends TLObject {
-    public static int constructor = 282013987;
     public String about;
     public TLRPC$InputUser bot;
     public String description;
@@ -16,7 +15,7 @@ public class TLRPC$TL_bots_setBotInfo extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(282013987);
         abstractSerializedData.writeInt32(this.flags);
         if ((this.flags & 4) != 0) {
             this.bot.serializeToStream(abstractSerializedData);

@@ -10,7 +10,6 @@ public abstract class TLRPC$MessagePeerVote extends TLObject {
         TLRPC$MessagePeerVote tLRPC$MessagePeerVote;
         if (i == -1228133028) {
             tLRPC$MessagePeerVote = new TLRPC$MessagePeerVote() { // from class: org.telegram.tgnet.TLRPC$TL_messagePeerVote
-                public static int constructor = -1228133028;
                 public byte[] option;
 
                 @Override // org.telegram.tgnet.TLObject
@@ -22,7 +21,7 @@ public abstract class TLRPC$MessagePeerVote extends TLObject {
 
                 @Override // org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                    abstractSerializedData2.writeInt32(constructor);
+                    abstractSerializedData2.writeInt32(-1228133028);
                     this.peer.serializeToStream(abstractSerializedData2);
                     abstractSerializedData2.writeByteArray(this.option);
                     abstractSerializedData2.writeInt32(this.date);
@@ -30,7 +29,6 @@ public abstract class TLRPC$MessagePeerVote extends TLObject {
             };
         } else if (i == 1177089766) {
             tLRPC$MessagePeerVote = new TLRPC$MessagePeerVote() { // from class: org.telegram.tgnet.TLRPC$TL_messagePeerVoteMultiple
-                public static int constructor = 1177089766;
                 public ArrayList<byte[]> options = new ArrayList<>();
 
                 @Override // org.telegram.tgnet.TLObject
@@ -52,7 +50,7 @@ public abstract class TLRPC$MessagePeerVote extends TLObject {
 
                 @Override // org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                    abstractSerializedData2.writeInt32(constructor);
+                    abstractSerializedData2.writeInt32(1177089766);
                     this.peer.serializeToStream(abstractSerializedData2);
                     abstractSerializedData2.writeInt32(481674261);
                     int size = this.options.size();

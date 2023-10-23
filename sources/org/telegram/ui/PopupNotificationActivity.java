@@ -54,15 +54,16 @@ import org.telegram.tgnet.TLRPC$GeoPoint;
 import org.telegram.tgnet.TLRPC$KeyboardButton;
 import org.telegram.tgnet.TLRPC$PhotoSize;
 import org.telegram.tgnet.TLRPC$ReplyMarkup;
-import org.telegram.tgnet.TLRPC$StoryItem;
 import org.telegram.tgnet.TLRPC$TL_channels_sendAsPeers;
 import org.telegram.tgnet.TLRPC$TL_keyboardButtonCallback;
 import org.telegram.tgnet.TLRPC$TL_keyboardButtonRow;
 import org.telegram.tgnet.TLRPC$User;
+import org.telegram.tgnet.tl.TL_stories$StoryItem;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.ChatActivity;
 import org.telegram.ui.Components.AvatarDrawable;
 import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.ChatActivityEnterView;
@@ -326,7 +327,12 @@ public class PopupNotificationActivity extends Activity implements NotificationC
             }
 
             @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-            public /* synthetic */ TLRPC$StoryItem getReplyToStory() {
+            public /* synthetic */ ChatActivity.ReplyQuote getReplyQuote() {
+                return ChatActivityEnterView.ChatActivityEnterViewDelegate.-CC.$default$getReplyQuote(this);
+            }
+
+            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+            public /* synthetic */ TL_stories$StoryItem getReplyToStory() {
                 return ChatActivityEnterView.ChatActivityEnterViewDelegate.-CC.$default$getReplyToStory(this);
             }
 
@@ -423,7 +429,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
             }
 
             @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
-            public void onTextChanged(CharSequence charSequence, boolean z) {
+            public void onTextChanged(CharSequence charSequence, boolean z, boolean z2) {
             }
 
             @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate

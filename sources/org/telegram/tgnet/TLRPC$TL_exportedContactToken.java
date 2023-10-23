@@ -1,12 +1,11 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_exportedContactToken extends TLObject {
-    public static int constructor = 1103040667;
     public int expires;
     public String url;
 
     public static TLRPC$TL_exportedContactToken TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-        if (constructor != i) {
+        if (1103040667 != i) {
             if (z) {
                 throw new RuntimeException(String.format("can't parse magic %x in TL_exportedContactToken", Integer.valueOf(i)));
             }
@@ -25,7 +24,7 @@ public class TLRPC$TL_exportedContactToken extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(1103040667);
         abstractSerializedData.writeString(this.url);
         abstractSerializedData.writeInt32(this.expires);
     }

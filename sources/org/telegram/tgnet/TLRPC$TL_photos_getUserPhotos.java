@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_photos_getUserPhotos extends TLObject {
-    public static int constructor = -1848823128;
     public int limit;
     public long max_id;
     public int offset;
@@ -14,7 +13,7 @@ public class TLRPC$TL_photos_getUserPhotos extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-1848823128);
         this.user_id.serializeToStream(abstractSerializedData);
         abstractSerializedData.writeInt32(this.offset);
         abstractSerializedData.writeInt64(this.max_id);

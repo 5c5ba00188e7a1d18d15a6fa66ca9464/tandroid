@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_messages_setChatWallPaper extends TLObject {
-    public static int constructor = -1879389471;
     public int flags;
     public int id;
     public TLRPC$InputPeer peer;
@@ -15,7 +14,7 @@ public class TLRPC$TL_messages_setChatWallPaper extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-1879389471);
         abstractSerializedData.writeInt32(this.flags);
         this.peer.serializeToStream(abstractSerializedData);
         if ((this.flags & 1) != 0) {

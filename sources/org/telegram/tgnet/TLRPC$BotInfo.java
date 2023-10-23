@@ -20,8 +20,6 @@ public abstract class TLRPC$BotInfo extends TLObject {
                 break;
             case -1729618630:
                 tLRPC$TL_botInfo = new TLRPC$TL_botInfo() { // from class: org.telegram.tgnet.TLRPC$TL_botInfo_layer131
-                    public static int constructor = -1729618630;
-
                     @Override // org.telegram.tgnet.TLRPC$TL_botInfo, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         this.user_id = abstractSerializedData2.readInt32(z2);
@@ -45,7 +43,7 @@ public abstract class TLRPC$BotInfo extends TLObject {
 
                     @Override // org.telegram.tgnet.TLRPC$TL_botInfo, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(-1729618630);
                         abstractSerializedData2.writeInt32((int) this.user_id);
                         abstractSerializedData2.writeString(this.description);
                         abstractSerializedData2.writeInt32(481674261);
@@ -59,18 +57,14 @@ public abstract class TLRPC$BotInfo extends TLObject {
                 break;
             case -1154598962:
                 tLRPC$TL_botInfo = new TLRPC$TL_botInfo() { // from class: org.telegram.tgnet.TLRPC$TL_botInfoEmpty_layer48
-                    public static int constructor = -1154598962;
-
                     @Override // org.telegram.tgnet.TLRPC$TL_botInfo, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(-1154598962);
                     }
                 };
                 break;
             case -468280483:
                 tLRPC$TL_botInfo = new TLRPC$TL_botInfo() { // from class: org.telegram.tgnet.TLRPC$TL_botInfo_layer140
-                    public static int constructor = -468280483;
-
                     @Override // org.telegram.tgnet.TLRPC$TL_botInfo, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         this.user_id = abstractSerializedData2.readInt64(z2);
@@ -95,7 +89,7 @@ public abstract class TLRPC$BotInfo extends TLObject {
 
                     @Override // org.telegram.tgnet.TLRPC$TL_botInfo, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(-468280483);
                         abstractSerializedData2.writeInt64(this.user_id);
                         abstractSerializedData2.writeString(this.description);
                         abstractSerializedData2.writeInt32(481674261);
@@ -110,8 +104,6 @@ public abstract class TLRPC$BotInfo extends TLObject {
                 break;
             case 164583517:
                 tLRPC$TL_botInfo = new TLRPC$TL_botInfo() { // from class: org.telegram.tgnet.TLRPC$TL_botInfo_layer48
-                    public static int constructor = 164583517;
-
                     @Override // org.telegram.tgnet.TLRPC$TL_botInfo, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         this.user_id = abstractSerializedData2.readInt32(z2);
@@ -137,7 +129,7 @@ public abstract class TLRPC$BotInfo extends TLObject {
 
                     @Override // org.telegram.tgnet.TLRPC$TL_botInfo, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(164583517);
                         abstractSerializedData2.writeInt32((int) this.user_id);
                         abstractSerializedData2.writeInt32(this.version);
                         abstractSerializedData2.writeString("");
@@ -153,8 +145,6 @@ public abstract class TLRPC$BotInfo extends TLObject {
                 break;
             case 460632885:
                 tLRPC$TL_botInfo = new TLRPC$BotInfo() { // from class: org.telegram.tgnet.TLRPC$TL_botInfo_layer139
-                    public static int constructor = 460632885;
-
                     @Override // org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         this.user_id = abstractSerializedData2.readInt64(z2);
@@ -178,7 +168,7 @@ public abstract class TLRPC$BotInfo extends TLObject {
 
                     @Override // org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(460632885);
                         abstractSerializedData2.writeInt64(this.user_id);
                         abstractSerializedData2.writeString(this.description);
                         abstractSerializedData2.writeInt32(481674261);

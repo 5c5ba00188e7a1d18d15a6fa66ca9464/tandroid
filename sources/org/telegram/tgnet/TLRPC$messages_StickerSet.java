@@ -12,8 +12,6 @@ public abstract class TLRPC$messages_StickerSet extends TLObject {
         TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet;
         if (i == -1240849242) {
             tLRPC$TL_messages_stickerSet = new TLRPC$TL_messages_stickerSet() { // from class: org.telegram.tgnet.TLRPC$TL_messages_stickerSet_layer146
-                public static int constructor = -1240849242;
-
                 @Override // org.telegram.tgnet.TLRPC$TL_messages_stickerSet, org.telegram.tgnet.TLObject
                 public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                     this.set = TLRPC$StickerSet.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
@@ -51,7 +49,7 @@ public abstract class TLRPC$messages_StickerSet extends TLObject {
 
                 @Override // org.telegram.tgnet.TLRPC$TL_messages_stickerSet, org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                    abstractSerializedData2.writeInt32(constructor);
+                    abstractSerializedData2.writeInt32(-1240849242);
                     this.set.serializeToStream(abstractSerializedData2);
                     abstractSerializedData2.writeInt32(481674261);
                     int size = this.packs.size();
@@ -71,11 +69,9 @@ public abstract class TLRPC$messages_StickerSet extends TLObject {
             tLRPC$TL_messages_stickerSet = i != 1846886166 ? null : new TLRPC$TL_messages_stickerSet();
         } else {
             tLRPC$TL_messages_stickerSet = new TLRPC$TL_messages_stickerSet() { // from class: org.telegram.tgnet.TLRPC$TL_messages_stickerSetNotModified
-                public static int constructor = -738646805;
-
                 @Override // org.telegram.tgnet.TLRPC$TL_messages_stickerSet, org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                    abstractSerializedData2.writeInt32(constructor);
+                    abstractSerializedData2.writeInt32(-738646805);
                 }
             };
         }

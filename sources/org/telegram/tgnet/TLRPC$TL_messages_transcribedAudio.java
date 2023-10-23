@@ -1,14 +1,13 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_messages_transcribedAudio extends TLObject {
-    public static int constructor = -1821037486;
     public int flags;
     public boolean pending;
     public String text;
     public long transcription_id;
 
     public static TLRPC$TL_messages_transcribedAudio TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-        if (constructor != i) {
+        if (-1821037486 != i) {
             if (z) {
                 throw new RuntimeException(String.format("can't parse magic %x in TL_messages_transcribedAudio", Integer.valueOf(i)));
             }
@@ -30,7 +29,7 @@ public class TLRPC$TL_messages_transcribedAudio extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-1821037486);
         int i = this.pending ? this.flags | 1 : this.flags & (-2);
         this.flags = i;
         abstractSerializedData.writeInt32(i);

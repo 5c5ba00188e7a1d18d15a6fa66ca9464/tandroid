@@ -12,8 +12,6 @@ public abstract class TLRPC$PhoneCallProtocol extends TLObject {
 
     public static TLRPC$PhoneCallProtocol TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
         TLRPC$TL_phoneCallProtocol tLRPC$TL_phoneCallProtocol = i != -1564789301 ? i != -58224696 ? null : new TLRPC$TL_phoneCallProtocol() : new TLRPC$TL_phoneCallProtocol() { // from class: org.telegram.tgnet.TLRPC$TL_phoneCallProtocol_layer110
-            public static int constructor = -1564789301;
-
             @Override // org.telegram.tgnet.TLRPC$TL_phoneCallProtocol, org.telegram.tgnet.TLObject
             public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                 int readInt32 = abstractSerializedData2.readInt32(z2);
@@ -26,7 +24,7 @@ public abstract class TLRPC$PhoneCallProtocol extends TLObject {
 
             @Override // org.telegram.tgnet.TLRPC$TL_phoneCallProtocol, org.telegram.tgnet.TLObject
             public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                abstractSerializedData2.writeInt32(constructor);
+                abstractSerializedData2.writeInt32(-1564789301);
                 int i2 = this.udp_p2p ? this.flags | 1 : this.flags & (-2);
                 this.flags = i2;
                 int i3 = this.udp_reflector ? i2 | 2 : i2 & (-3);

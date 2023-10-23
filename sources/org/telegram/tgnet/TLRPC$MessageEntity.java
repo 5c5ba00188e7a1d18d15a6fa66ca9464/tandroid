@@ -14,8 +14,6 @@ public abstract class TLRPC$MessageEntity extends TLObject {
                 break;
             case -1687559349:
                 tLRPC$TL_messageEntityItalic = new TLRPC$MessageEntity() { // from class: org.telegram.tgnet.TLRPC$TL_messageEntityPhone
-                    public static int constructor = -1687559349;
-
                     @Override // org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         this.offset = abstractSerializedData2.readInt32(z2);
@@ -24,7 +22,7 @@ public abstract class TLRPC$MessageEntity extends TLObject {
 
                     @Override // org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(-1687559349);
                         abstractSerializedData2.writeInt32(this.offset);
                         abstractSerializedData2.writeInt32(this.length);
                     }
@@ -35,8 +33,6 @@ public abstract class TLRPC$MessageEntity extends TLObject {
                 break;
             case -1148011883:
                 tLRPC$TL_messageEntityItalic = new TLRPC$MessageEntity() { // from class: org.telegram.tgnet.TLRPC$TL_messageEntityUnknown
-                    public static int constructor = -1148011883;
-
                     @Override // org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         this.offset = abstractSerializedData2.readInt32(z2);
@@ -45,7 +41,7 @@ public abstract class TLRPC$MessageEntity extends TLObject {
 
                     @Override // org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(-1148011883);
                         abstractSerializedData2.writeInt32(this.offset);
                         abstractSerializedData2.writeInt32(this.length);
                     }
@@ -57,7 +53,7 @@ public abstract class TLRPC$MessageEntity extends TLObject {
             case -1090087980:
                 tLRPC$TL_messageEntityItalic = new TLRPC$TL_messageEntityStrike();
                 break;
-            case -925956616:
+            case TLRPC$TL_messageEntityCustomEmoji.constructor /* -925956616 */:
                 tLRPC$TL_messageEntityItalic = new TLRPC$TL_messageEntityCustomEmoji();
                 break;
             case -595914432:
@@ -80,8 +76,6 @@ public abstract class TLRPC$MessageEntity extends TLObject {
                 break;
             case 892193368:
                 tLRPC$TL_messageEntityItalic = new TLRPC$TL_messageEntityMentionName() { // from class: org.telegram.tgnet.TLRPC$TL_messageEntityMentionName_layer131
-                    public static int constructor = 892193368;
-
                     @Override // org.telegram.tgnet.TLRPC$TL_messageEntityMentionName, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         this.offset = abstractSerializedData2.readInt32(z2);
@@ -91,7 +85,7 @@ public abstract class TLRPC$MessageEntity extends TLObject {
 
                     @Override // org.telegram.tgnet.TLRPC$TL_messageEntityMentionName, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(892193368);
                         abstractSerializedData2.writeInt32(this.offset);
                         abstractSerializedData2.writeInt32(this.length);
                         abstractSerializedData2.writeInt32((int) this.user_id);
@@ -100,8 +94,6 @@ public abstract class TLRPC$MessageEntity extends TLObject {
                 break;
             case 1280209983:
                 tLRPC$TL_messageEntityItalic = new TLRPC$MessageEntity() { // from class: org.telegram.tgnet.TLRPC$TL_messageEntityCashtag
-                    public static int constructor = 1280209983;
-
                     @Override // org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         this.offset = abstractSerializedData2.readInt32(z2);
@@ -110,27 +102,7 @@ public abstract class TLRPC$MessageEntity extends TLObject {
 
                     @Override // org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                        abstractSerializedData2.writeInt32(this.offset);
-                        abstractSerializedData2.writeInt32(this.length);
-                    }
-                };
-                break;
-            case 1592721940:
-                tLRPC$TL_messageEntityItalic = new TLRPC$MessageEntity() { // from class: org.telegram.tgnet.TLRPC$TL_messageEntityAnimatedEmoji
-                    public static int constructor = 1592721940;
-                    public int length;
-                    public int offset;
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                        this.offset = abstractSerializedData2.readInt32(z2);
-                        this.length = abstractSerializedData2.readInt32(z2);
-                    }
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(1280209983);
                         abstractSerializedData2.writeInt32(this.offset);
                         abstractSerializedData2.writeInt32(this.length);
                     }
@@ -138,8 +110,6 @@ public abstract class TLRPC$MessageEntity extends TLObject {
                 break;
             case 1692693954:
                 tLRPC$TL_messageEntityItalic = new TLRPC$MessageEntity() { // from class: org.telegram.tgnet.TLRPC$TL_messageEntityEmail
-                    public static int constructor = 1692693954;
-
                     @Override // org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         this.offset = abstractSerializedData2.readInt32(z2);
@@ -148,7 +118,7 @@ public abstract class TLRPC$MessageEntity extends TLObject {
 
                     @Override // org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(1692693954);
                         abstractSerializedData2.writeInt32(this.offset);
                         abstractSerializedData2.writeInt32(this.length);
                     }
@@ -156,8 +126,6 @@ public abstract class TLRPC$MessageEntity extends TLObject {
                 break;
             case 1827637959:
                 tLRPC$TL_messageEntityItalic = new TLRPC$MessageEntity() { // from class: org.telegram.tgnet.TLRPC$TL_messageEntityBotCommand
-                    public static int constructor = 1827637959;
-
                     @Override // org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         this.offset = abstractSerializedData2.readInt32(z2);
@@ -166,7 +134,7 @@ public abstract class TLRPC$MessageEntity extends TLObject {
 
                     @Override // org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(1827637959);
                         abstractSerializedData2.writeInt32(this.offset);
                         abstractSerializedData2.writeInt32(this.length);
                     }
@@ -177,8 +145,6 @@ public abstract class TLRPC$MessageEntity extends TLObject {
                 break;
             case 1868782349:
                 tLRPC$TL_messageEntityItalic = new TLRPC$MessageEntity() { // from class: org.telegram.tgnet.TLRPC$TL_messageEntityHashtag
-                    public static int constructor = 1868782349;
-
                     @Override // org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         this.offset = abstractSerializedData2.readInt32(z2);
@@ -187,7 +153,7 @@ public abstract class TLRPC$MessageEntity extends TLObject {
 
                     @Override // org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(1868782349);
                         abstractSerializedData2.writeInt32(this.offset);
                         abstractSerializedData2.writeInt32(this.length);
                     }
@@ -198,8 +164,6 @@ public abstract class TLRPC$MessageEntity extends TLObject {
                 break;
             case 1981704948:
                 tLRPC$TL_messageEntityItalic = new TLRPC$MessageEntity() { // from class: org.telegram.tgnet.TLRPC$TL_messageEntityBankCard
-                    public static int constructor = 1981704948;
-
                     @Override // org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         this.offset = abstractSerializedData2.readInt32(z2);
@@ -208,7 +172,7 @@ public abstract class TLRPC$MessageEntity extends TLObject {
 
                     @Override // org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(1981704948);
                         abstractSerializedData2.writeInt32(this.offset);
                         abstractSerializedData2.writeInt32(this.length);
                     }

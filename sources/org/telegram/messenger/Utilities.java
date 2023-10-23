@@ -40,6 +40,11 @@ public class Utilities {
     }
 
     /* loaded from: classes.dex */
+    public interface Callback0Return<ReturnType> {
+        ReturnType run();
+    }
+
+    /* loaded from: classes.dex */
     public interface Callback2<T, T2> {
         void run(T t, T2 t2);
     }

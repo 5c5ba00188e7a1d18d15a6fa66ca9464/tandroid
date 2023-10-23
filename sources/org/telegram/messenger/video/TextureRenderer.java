@@ -724,13 +724,13 @@ public class TextureRenderer {
         editTextOutline.setBreakStrategy(0);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:171:0x0609, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:171:0x060c, code lost:
         if (org.telegram.messenger.LocaleController.isRTL != false) goto L131;
      */
-    /* JADX WARN: Removed duplicated region for block: B:100:0x0322  */
-    /* JADX WARN: Removed duplicated region for block: B:103:0x0327  */
-    /* JADX WARN: Removed duplicated region for block: B:104:0x032a  */
-    /* JADX WARN: Removed duplicated region for block: B:99:0x031f  */
+    /* JADX WARN: Removed duplicated region for block: B:100:0x0325  */
+    /* JADX WARN: Removed duplicated region for block: B:103:0x032a  */
+    /* JADX WARN: Removed duplicated region for block: B:104:0x032d  */
+    /* JADX WARN: Removed duplicated region for block: B:99:0x0322  */
     @SuppressLint({"WrongConstant"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.

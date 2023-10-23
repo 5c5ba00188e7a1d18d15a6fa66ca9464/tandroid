@@ -601,6 +601,14 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         public void onSetBackButtonVisible(boolean z) {
             AndroidUtilities.updateImageViewImageAnimated(ChatAttachAlert.this.actionBar.getBackButton(), z ? R.drawable.ic_ab_back : R.drawable.ic_close_white);
         }
+
+        @Override // org.telegram.ui.Components.BotWebViewContainer.Delegate
+        public void onSetSettingsButtonVisible(boolean z) {
+            ActionBarMenuSubItem actionBarMenuSubItem = this.val$webViewLayout.settingsItem;
+            if (actionBarMenuSubItem != null) {
+                actionBarMenuSubItem.setVisibility(z ? 0 : 8);
+            }
+        }
     }
 
     public boolean checkCaption(CharSequence charSequence) {
@@ -3134,7 +3142,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                 chatAttachAlert.createMentionsContainer();
             }
             if (ChatAttachAlert.this.mentionContainer.getAdapter() != null) {
-                ChatAttachAlert.this.mentionContainer.getAdapter().searchUsernameOrHashtag(charSequence, ChatAttachAlert.this.commentTextView.getEditText().getSelectionStart(), null, false, false);
+                ChatAttachAlert.this.mentionContainer.getAdapter().lambda$searchUsernameOrHashtag$7(charSequence, ChatAttachAlert.this.commentTextView.getEditText().getSelectionStart(), null, false, false);
             }
         }
 

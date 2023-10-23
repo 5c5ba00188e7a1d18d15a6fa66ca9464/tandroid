@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_premiumSubscriptionOption extends TLObject {
-    public static int constructor = 1596792306;
     public long amount;
     public String bot_url;
     public boolean can_purchase_upgrade;
@@ -18,8 +17,6 @@ public class TLRPC$TL_premiumSubscriptionOption extends TLObject {
             tLRPC$TL_premiumSubscriptionOption = i != 1596792306 ? null : new TLRPC$TL_premiumSubscriptionOption();
         } else {
             tLRPC$TL_premiumSubscriptionOption = new TLRPC$TL_premiumSubscriptionOption() { // from class: org.telegram.tgnet.TLRPC$TL_premiumSubscriptionOption_layer151
-                public static int constructor = -1225711938;
-
                 @Override // org.telegram.tgnet.TLRPC$TL_premiumSubscriptionOption, org.telegram.tgnet.TLObject
                 public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                     this.flags = abstractSerializedData2.readInt32(z2);
@@ -34,7 +31,7 @@ public class TLRPC$TL_premiumSubscriptionOption extends TLObject {
 
                 @Override // org.telegram.tgnet.TLRPC$TL_premiumSubscriptionOption, org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                    abstractSerializedData2.writeInt32(constructor);
+                    abstractSerializedData2.writeInt32(-1225711938);
                     abstractSerializedData2.writeInt32(this.flags);
                     abstractSerializedData2.writeInt32(this.months);
                     abstractSerializedData2.writeString(this.currency);
@@ -75,7 +72,7 @@ public class TLRPC$TL_premiumSubscriptionOption extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(1596792306);
         int i = this.current ? this.flags | 2 : this.flags & (-3);
         this.flags = i;
         int i2 = this.can_purchase_upgrade ? i | 4 : i & (-5);

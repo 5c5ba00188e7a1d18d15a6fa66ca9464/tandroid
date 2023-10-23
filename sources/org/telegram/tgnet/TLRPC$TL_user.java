@@ -5,8 +5,6 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public class TLRPC$TL_user extends TLRPC$User {
-    public static int constructor = -1414139616;
-
     @Override // org.telegram.tgnet.TLObject
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
         int readInt32 = abstractSerializedData.readInt32(z);
@@ -110,6 +108,12 @@ public class TLRPC$TL_user extends TLRPC$User {
         } catch (Throwable th) {
             FileLog.e(th);
         }
+        if ((this.flags2 & 128) != 0) {
+            this.color = abstractSerializedData.readInt32(z);
+        }
+        if ((this.flags2 & 64) != 0) {
+            this.background_emoji_id = abstractSerializedData.readInt64(z);
+        }
     }
 
     @Override // org.telegram.tgnet.TLObject
@@ -117,7 +121,7 @@ public class TLRPC$TL_user extends TLRPC$User {
         if (this.username == null) {
             this.flags &= -9;
         }
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-346018011);
         int i = this.self ? this.flags | 1024 : this.flags & (-1025);
         this.flags = i;
         int i2 = this.contact ? i | LiteMode.FLAG_AUTOPLAY_GIFS : i & (-2049);
@@ -216,6 +220,12 @@ public class TLRPC$TL_user extends TLRPC$User {
         }
         if ((this.flags2 & 32) != 0) {
             abstractSerializedData.writeInt32(this.stories_max_id);
+        }
+        if ((this.flags2 & 128) != 0) {
+            abstractSerializedData.writeInt32(this.color);
+        }
+        if ((this.flags2 & 64) != 0) {
+            abstractSerializedData.writeInt64(this.background_emoji_id);
         }
     }
 }

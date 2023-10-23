@@ -3,7 +3,6 @@ package org.telegram.tgnet;
 import java.util.ArrayList;
 /* loaded from: classes.dex */
 public class TLRPC$TL_langpack_getStrings extends TLObject {
-    public static int constructor = 773776152;
     public ArrayList<String> keys = new ArrayList<>();
     public String lang_code;
 
@@ -23,7 +22,7 @@ public class TLRPC$TL_langpack_getStrings extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(773776152);
         abstractSerializedData.writeString(this.lang_code);
         abstractSerializedData.writeInt32(481674261);
         int size = this.keys.size();

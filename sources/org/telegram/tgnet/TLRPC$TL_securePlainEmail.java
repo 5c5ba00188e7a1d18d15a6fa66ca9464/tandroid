@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_securePlainEmail extends TLRPC$SecurePlainData {
-    public static int constructor = 569137759;
     public String email;
 
     @Override // org.telegram.tgnet.TLObject
@@ -11,7 +10,7 @@ public class TLRPC$TL_securePlainEmail extends TLRPC$SecurePlainData {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(569137759);
         abstractSerializedData.writeString(this.email);
     }
 }

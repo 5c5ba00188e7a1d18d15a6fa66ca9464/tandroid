@@ -280,8 +280,8 @@ public class FilePathDatabase {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:36:0x00c5  */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x00ca  */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x00c6  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x00cb  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

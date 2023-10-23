@@ -3,12 +3,11 @@ package org.telegram.tgnet;
 import java.util.ArrayList;
 /* loaded from: classes.dex */
 public class TLRPC$TL_stickerPack extends TLObject {
-    public static int constructor = 313694676;
     public ArrayList<Long> documents = new ArrayList<>();
     public String emoticon;
 
     public static TLRPC$TL_stickerPack TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-        if (constructor != i) {
+        if (313694676 != i) {
             if (z) {
                 throw new RuntimeException(String.format("can't parse magic %x in TL_stickerPack", Integer.valueOf(i)));
             }
@@ -37,7 +36,7 @@ public class TLRPC$TL_stickerPack extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(313694676);
         abstractSerializedData.writeString(this.emoticon);
         abstractSerializedData.writeInt32(481674261);
         int size = this.documents.size();

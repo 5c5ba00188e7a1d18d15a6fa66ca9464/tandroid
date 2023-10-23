@@ -287,6 +287,7 @@ public class PreviewView extends FrameLayout {
                 }
             });
             this.audioPlayer.preparePlayer(Uri.fromFile(new File(storyEntry.audioPath)), "other");
+            this.audioPlayer.setVolume(storyEntry.audioVolume);
             if (this.videoPlayer != null && getDuration() > 0) {
                 long duration = storyEntry.left * ((float) getDuration());
                 this.videoPlayer.seekTo(duration);
@@ -708,6 +709,9 @@ public class PreviewView extends FrameLayout {
         this.videoPlayer.preparePlayer(Uri.fromFile(storyEntry.getOriginalFile()), "other");
         this.videoPlayer.setPlayWhenReady(this.pauseLinks.isEmpty());
         this.videoPlayer.setLooping(true);
+        if (storyEntry.isEditSaved) {
+            j = (storyEntry.left * ((float) storyEntry.duration)) + ((float) j);
+        }
         if (j > 0) {
             this.videoPlayer.seekTo(j);
         }
@@ -716,6 +720,11 @@ public class PreviewView extends FrameLayout {
         this.timelineView.setVideo(storyEntry.getOriginalFile().getAbsolutePath(), getDuration());
         this.timelineView.setVideoLeft(storyEntry.left);
         this.timelineView.setVideoRight(storyEntry.right);
+        TimelineView timelineView2 = this.timelineView;
+        if (timelineView2 == null || j <= 0) {
+            return;
+        }
+        timelineView2.setProgress(j);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -945,7 +954,7 @@ public class PreviewView extends FrameLayout {
             return;
         }
         long currentPosition = videoPlayer.getCurrentPosition();
-        if (getDuration() > 0) {
+        if (getDuration() > 1) {
             float duration = ((float) currentPosition) / ((float) getDuration());
             if (!this.timelineView.isDragging()) {
                 StoryEntry storyEntry = this.entry;

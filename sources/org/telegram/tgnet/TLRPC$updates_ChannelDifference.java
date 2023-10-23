@@ -18,8 +18,6 @@ public abstract class TLRPC$updates_ChannelDifference extends TLObject {
         TLRPC$updates_ChannelDifference tLRPC$updates_ChannelDifference;
         if (i == -1531132162) {
             tLRPC$updates_ChannelDifference = new TLRPC$updates_ChannelDifference() { // from class: org.telegram.tgnet.TLRPC$TL_updates_channelDifferenceTooLong
-                public static int constructor = -1531132162;
-
                 @Override // org.telegram.tgnet.TLObject
                 public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                     int readInt32 = abstractSerializedData2.readInt32(z2);
@@ -78,7 +76,7 @@ public abstract class TLRPC$updates_ChannelDifference extends TLObject {
 
                 @Override // org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                    abstractSerializedData2.writeInt32(constructor);
+                    abstractSerializedData2.writeInt32(-1531132162);
                     int i2 = this.isFinal ? this.flags | 1 : this.flags & (-2);
                     this.flags = i2;
                     abstractSerializedData2.writeInt32(i2);
@@ -108,8 +106,6 @@ public abstract class TLRPC$updates_ChannelDifference extends TLObject {
             };
         } else if (i != 543450958) {
             tLRPC$updates_ChannelDifference = i != 1041346555 ? null : new TLRPC$updates_ChannelDifference() { // from class: org.telegram.tgnet.TLRPC$TL_updates_channelDifferenceEmpty
-                public static int constructor = 1041346555;
-
                 @Override // org.telegram.tgnet.TLObject
                 public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                     int readInt32 = abstractSerializedData2.readInt32(z2);
@@ -123,7 +119,7 @@ public abstract class TLRPC$updates_ChannelDifference extends TLObject {
 
                 @Override // org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                    abstractSerializedData2.writeInt32(constructor);
+                    abstractSerializedData2.writeInt32(1041346555);
                     int i2 = this.isFinal ? this.flags | 1 : this.flags & (-2);
                     this.flags = i2;
                     abstractSerializedData2.writeInt32(i2);
@@ -135,8 +131,6 @@ public abstract class TLRPC$updates_ChannelDifference extends TLObject {
             };
         } else {
             tLRPC$updates_ChannelDifference = new TLRPC$updates_ChannelDifference() { // from class: org.telegram.tgnet.TLRPC$TL_updates_channelDifference
-                public static int constructor = 543450958;
-
                 @Override // org.telegram.tgnet.TLObject
                 public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                     int readInt32 = abstractSerializedData2.readInt32(z2);
@@ -210,7 +204,7 @@ public abstract class TLRPC$updates_ChannelDifference extends TLObject {
 
                 @Override // org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                    abstractSerializedData2.writeInt32(constructor);
+                    abstractSerializedData2.writeInt32(543450958);
                     int i2 = this.isFinal ? this.flags | 1 : this.flags & (-2);
                     this.flags = i2;
                     abstractSerializedData2.writeInt32(i2);

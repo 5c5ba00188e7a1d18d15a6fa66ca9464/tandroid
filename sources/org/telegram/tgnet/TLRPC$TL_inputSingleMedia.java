@@ -3,7 +3,6 @@ package org.telegram.tgnet;
 import java.util.ArrayList;
 /* loaded from: classes.dex */
 public class TLRPC$TL_inputSingleMedia extends TLObject {
-    public static int constructor = 482797855;
     public ArrayList<TLRPC$MessageEntity> entities = new ArrayList<>();
     public int flags;
     public TLRPC$InputMedia media;
@@ -37,7 +36,7 @@ public class TLRPC$TL_inputSingleMedia extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(482797855);
         abstractSerializedData.writeInt32(this.flags);
         this.media.serializeToStream(abstractSerializedData);
         abstractSerializedData.writeInt64(this.random_id);

@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_updatePeerHistoryTTL extends TLRPC$Update {
-    public static int constructor = -1147422299;
     public int flags;
     public TLRPC$Peer peer;
     public int ttl_period;
@@ -17,7 +16,7 @@ public class TLRPC$TL_updatePeerHistoryTTL extends TLRPC$Update {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-1147422299);
         abstractSerializedData.writeInt32(this.flags);
         this.peer.serializeToStream(abstractSerializedData);
         if ((this.flags & 1) != 0) {

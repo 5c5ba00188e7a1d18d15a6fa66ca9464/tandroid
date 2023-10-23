@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import com.google.android.gms.common.GooglePlayServicesUtilLight;
+import org.telegram.messenger.MessageObject;
 /* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 public final class DeviceProperties {
@@ -43,7 +44,7 @@ public final class DeviceProperties {
         return zzd.booleanValue();
     }
 
-    @TargetApi(26)
+    @TargetApi(MessageObject.TYPE_GIVEAWAY)
     public static boolean isWearableWithoutPlayStore(Context context) {
         if (!isWearable(context) || PlatformVersion.isAtLeastN()) {
             if (zza(context)) {

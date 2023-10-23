@@ -289,4 +289,9 @@ public class EditTextOutline extends EditTextBoldCursor {
         }
         super.onDraw(canvas);
     }
+
+    @Override // android.widget.TextView
+    public boolean onTextContextMenuItem(int i) {
+        return super.onTextContextMenuItem(i);
+    }
 }

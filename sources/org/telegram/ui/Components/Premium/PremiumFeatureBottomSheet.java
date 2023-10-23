@@ -244,7 +244,7 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
         if (!z) {
             linearLayout.addView(bottomPagesView, LayoutHelper.createLinear(this.premiumFeatures.size() * 11, 5, 1, 0, 0, 0, 10));
         }
-        PremiumButtonView premiumButtonView = new PremiumButtonView(getContext(), true);
+        PremiumButtonView premiumButtonView = new PremiumButtonView(getContext(), true, this.resourcesProvider);
         this.premiumButtonView = premiumButtonView;
         premiumButtonView.buttonLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.PremiumFeatureBottomSheet$$ExternalSyntheticLambda2
             @Override // android.view.View.OnClickListener

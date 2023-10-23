@@ -24,8 +24,6 @@ public abstract class TLRPC$DialogFilter extends TLObject {
         TLRPC$DialogFilter tLRPC$DialogFilter;
         if (i == -699792216) {
             tLRPC$DialogFilter = new TLRPC$DialogFilter() { // from class: org.telegram.tgnet.TLRPC$TL_dialogFilterChatlist
-                public static int constructor = -699792216;
-
                 @Override // org.telegram.tgnet.TLObject
                 public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                     int readInt32 = abstractSerializedData2.readInt32(z2);
@@ -70,7 +68,7 @@ public abstract class TLRPC$DialogFilter extends TLObject {
 
                 @Override // org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                    abstractSerializedData2.writeInt32(constructor);
+                    abstractSerializedData2.writeInt32(-699792216);
                     int i2 = this.has_my_invites ? this.flags | ConnectionsManager.FileTypeFile : this.flags & (-67108865);
                     this.flags = i2;
                     abstractSerializedData2.writeInt32(i2);
@@ -95,11 +93,9 @@ public abstract class TLRPC$DialogFilter extends TLObject {
             };
         } else if (i == 909284270) {
             tLRPC$DialogFilter = new TLRPC$DialogFilter() { // from class: org.telegram.tgnet.TLRPC$TL_dialogFilterDefault
-                public static int constructor = 909284270;
-
                 @Override // org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                    abstractSerializedData2.writeInt32(constructor);
+                    abstractSerializedData2.writeInt32(909284270);
                 }
             };
         } else {

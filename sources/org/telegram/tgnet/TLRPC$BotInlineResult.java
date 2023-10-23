@@ -18,8 +18,6 @@ public abstract class TLRPC$BotInlineResult extends TLObject {
         TLRPC$BotInlineResult tLRPC$BotInlineResult;
         if (i == 295067450) {
             tLRPC$BotInlineResult = new TLRPC$BotInlineResult() { // from class: org.telegram.tgnet.TLRPC$TL_botInlineResult
-                public static int constructor = 295067450;
-
                 @Override // org.telegram.tgnet.TLObject
                 public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                     this.flags = abstractSerializedData2.readInt32(z2);
@@ -45,7 +43,7 @@ public abstract class TLRPC$BotInlineResult extends TLObject {
 
                 @Override // org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                    abstractSerializedData2.writeInt32(constructor);
+                    abstractSerializedData2.writeInt32(295067450);
                     abstractSerializedData2.writeInt32(this.flags);
                     abstractSerializedData2.writeString(this.id);
                     abstractSerializedData2.writeString(this.type);
@@ -69,8 +67,6 @@ public abstract class TLRPC$BotInlineResult extends TLObject {
             };
         } else {
             tLRPC$BotInlineResult = i != 400266251 ? null : new TLRPC$BotInlineResult() { // from class: org.telegram.tgnet.TLRPC$TL_botInlineMediaResult
-                public static int constructor = 400266251;
-
                 @Override // org.telegram.tgnet.TLObject
                 public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                     this.flags = abstractSerializedData2.readInt32(z2);
@@ -93,7 +89,7 @@ public abstract class TLRPC$BotInlineResult extends TLObject {
 
                 @Override // org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                    abstractSerializedData2.writeInt32(constructor);
+                    abstractSerializedData2.writeInt32(400266251);
                     abstractSerializedData2.writeInt32(this.flags);
                     abstractSerializedData2.writeString(this.id);
                     abstractSerializedData2.writeString(this.type);

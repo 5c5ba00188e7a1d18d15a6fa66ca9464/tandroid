@@ -134,6 +134,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
     private boolean allowSmallChats;
     private boolean applyWhenDismiss;
     private final Paint backgroundPaint;
+    private boolean canChangePeer;
     private final ArrayList<Long> excludedContacts;
     private final ArrayList<Long> excludedEveryone;
     private final HashMap<Long, ArrayList<Long>> excludedEveryoneByGroup;
@@ -430,7 +431,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
             ItemInner itemInner = this.items.get(i);
             int i2 = itemInner.viewType;
             if (i2 == 3) {
-                if (itemInner.sendAs) {
+                if (itemInner.sendAs && StoryPrivacyBottomSheet.this.canChangePeer) {
                     new ChoosePeerSheet(context, ((BottomSheet) StoryPrivacyBottomSheet.this).currentAccount, StoryPrivacyBottomSheet.this.selectedPeer, new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.StoryPrivacyBottomSheet$Page$$ExternalSyntheticLambda19
                         @Override // org.telegram.messenger.Utilities.Callback
                         public final void run(Object obj) {
@@ -1174,11 +1175,11 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
             updateItems(z, true);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:128:0x0613  */
-        /* JADX WARN: Removed duplicated region for block: B:247:0x0827  */
-        /* JADX WARN: Removed duplicated region for block: B:29:0x0105  */
-        /* JADX WARN: Removed duplicated region for block: B:30:0x0107  */
-        /* JADX WARN: Removed duplicated region for block: B:33:0x0111  */
+        /* JADX WARN: Removed duplicated region for block: B:129:0x061a  */
+        /* JADX WARN: Removed duplicated region for block: B:248:0x082e  */
+        /* JADX WARN: Removed duplicated region for block: B:39:0x0151  */
+        /* JADX WARN: Removed duplicated region for block: B:40:0x0153  */
+        /* JADX WARN: Removed duplicated region for block: B:43:0x015d  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -1189,10 +1190,10 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
             int i2;
             int dp2;
             boolean containsKey;
-            String string;
-            String string2;
             boolean z3;
             String formatPluralString;
+            String string;
+            String string2;
             this.oldItems.clear();
             this.oldItems.addAll(this.items);
             this.items.clear();
@@ -1201,7 +1202,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
                 this.containsHeader = false;
                 this.sectionCell.setVisibility(8);
                 ArrayList<TLRPC$InputPeer> arrayList = MessagesController.getInstance(((BottomSheet) StoryPrivacyBottomSheet.this).currentAccount).getStoriesController().sendAs;
-                if (StoryPrivacyBottomSheet.this.isEdit || arrayList == null || arrayList.size() <= 1) {
+                if (StoryPrivacyBottomSheet.this.canChangePeer && (StoryPrivacyBottomSheet.this.isEdit || arrayList == null || arrayList.size() <= 1)) {
                     ArrayList<ItemInner> arrayList2 = this.items;
                     if (StoryPrivacyBottomSheet.this.isEdit) {
                         string = LocaleController.getString("StoryPrivacyAlertEditTitle", R.string.StoryPrivacyAlertEditTitle);
@@ -1995,7 +1996,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
 
             @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
             public boolean isEnabled(RecyclerView.ViewHolder viewHolder) {
-                return viewHolder.getItemViewType() == 3 || viewHolder.getItemViewType() == 7;
+                return (viewHolder.getItemViewType() == 3 && StoryPrivacyBottomSheet.this.canChangePeer) || viewHolder.getItemViewType() == 7;
             }
 
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -2096,6 +2097,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
                     userCell.setChecked(z, false);
                     userCell.setDivider(z2);
                     userCell.setRedCheckbox(itemInner2.red);
+                    userCell.drawArrow = StoryPrivacyBottomSheet.this.canChangePeer;
                 } else if (itemViewType == 2) {
                 } else {
                     if (itemViewType == 0) {
@@ -2172,6 +2174,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
         this.selectedContactsCount = 0;
         this.allowScreenshots = true;
         this.keepOnMyPage = false;
+        this.canChangePeer = true;
         this.messageUsers = new ArrayList<>();
         this.activePage = 1;
         this.selectedType = 4;
@@ -2359,6 +2362,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
         this.selectedContactsCount = 0;
         this.allowScreenshots = true;
         this.keepOnMyPage = false;
+        this.canChangePeer = true;
         this.messageUsers = new ArrayList<>();
         this.activePage = 1;
         this.selectedType = 4;
@@ -2968,6 +2972,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
         private final AvatarDrawable avatarDrawable;
         private final CheckBox2 checkBox;
         private final Paint dividerPaint;
+        private boolean drawArrow;
         private final BackupImageView imageView;
         private boolean[] isOnline;
         private boolean needCheck;
@@ -2985,6 +2990,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
             this.dividerPaint = new Paint(1);
             this.sendAs = false;
             this.needCheck = true;
+            this.drawArrow = true;
             this.isOnline = new boolean[1];
             this.resourcesProvider = resourcesProvider;
             avatarDrawable.setRoundRadius(AndroidUtilities.dp(40.0f));
@@ -3297,7 +3303,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
                 }
             }
             Path path = this.arrowPath;
-            if (path == null || (paint = this.arrowPaint) == null || this.needCheck || !this.sendAs) {
+            if (path == null || (paint = this.arrowPaint) == null || this.needCheck || !this.sendAs || !this.drawArrow) {
                 return;
             }
             canvas.drawPath(path, paint);
@@ -4536,6 +4542,11 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
             sb2.append(TextUtils.join(",", entry2.getValue()));
         }
         MessagesController.getInstance(this.currentAccount).getMainSettings().edit().putString("story_prv_everyoneexcept", TextUtils.join(",", this.excludedEveryone)).putString("story_prv_grpeveryoneexcept", sb2.toString()).putString("story_prv_contacts", TextUtils.join(",", this.selectedContacts)).putString("story_prv_grpcontacts", sb.toString()).putString("story_prv_excluded", TextUtils.join(",", this.excludedContacts)).putBoolean("story_noforwards", !this.allowScreenshots).putBoolean("story_keep", this.keepOnMyPage).apply();
+    }
+
+    public StoryPrivacyBottomSheet setCanChangePeer(boolean z) {
+        this.canChangePeer = z;
+        return this;
     }
 
     /* loaded from: classes4.dex */

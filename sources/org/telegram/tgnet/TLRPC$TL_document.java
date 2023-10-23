@@ -1,7 +1,7 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_document extends TLRPC$Document {
-    public static int constructor = -1881881384;
+    public static final int constructor = -1881881384;
 
     @Override // org.telegram.tgnet.TLObject
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {

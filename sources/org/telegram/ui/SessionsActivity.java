@@ -392,8 +392,6 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
     public /* synthetic */ void lambda$createView$6(DialogInterface dialogInterface, int i) {
         if (this.currentType == 0) {
             ConnectionsManager.getInstance(this.currentAccount).sendRequest(new TLObject() { // from class: org.telegram.tgnet.TLRPC$TL_auth_resetAuthorizations
-                public static int constructor = -1616179942;
-
                 @Override // org.telegram.tgnet.TLObject
                 public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i2, boolean z) {
                     return TLRPC$Bool.TLdeserialize(abstractSerializedData, i2, z);
@@ -401,7 +399,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
 
                 @Override // org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-                    abstractSerializedData.writeInt32(constructor);
+                    abstractSerializedData.writeInt32(-1616179942);
                 }
             }, new RequestDelegate() { // from class: org.telegram.ui.SessionsActivity$$ExternalSyntheticLambda13
                 @Override // org.telegram.tgnet.RequestDelegate
@@ -412,8 +410,6 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
             return;
         }
         ConnectionsManager.getInstance(this.currentAccount).sendRequest(new TLObject() { // from class: org.telegram.tgnet.TLRPC$TL_account_resetWebAuthorizations
-            public static int constructor = 1747789204;
-
             @Override // org.telegram.tgnet.TLObject
             public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i2, boolean z) {
                 return TLRPC$Bool.TLdeserialize(abstractSerializedData, i2, z);
@@ -421,7 +417,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
 
             @Override // org.telegram.tgnet.TLObject
             public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-                abstractSerializedData.writeInt32(constructor);
+                abstractSerializedData.writeInt32(1747789204);
             }
         }, new RequestDelegate() { // from class: org.telegram.ui.SessionsActivity$$ExternalSyntheticLambda14
             @Override // org.telegram.tgnet.RequestDelegate
@@ -722,8 +718,6 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
         }
         if (this.currentType == 0) {
             ConnectionsManager.getInstance(this.currentAccount).bindRequestToGuid(ConnectionsManager.getInstance(this.currentAccount).sendRequest(new TLObject() { // from class: org.telegram.tgnet.TLRPC$TL_account_getAuthorizations
-                public static int constructor = -484392616;
-
                 @Override // org.telegram.tgnet.TLObject
                 public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i, boolean z2) {
                     return TLRPC$TL_account_authorizations.TLdeserialize(abstractSerializedData, i, z2);
@@ -731,7 +725,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
 
                 @Override // org.telegram.tgnet.TLObject
                 public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-                    abstractSerializedData.writeInt32(constructor);
+                    abstractSerializedData.writeInt32(-484392616);
                 }
             }, new RequestDelegate() { // from class: org.telegram.ui.SessionsActivity$$ExternalSyntheticLambda18
                 @Override // org.telegram.tgnet.RequestDelegate
@@ -742,8 +736,6 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
             return;
         }
         ConnectionsManager.getInstance(this.currentAccount).bindRequestToGuid(ConnectionsManager.getInstance(this.currentAccount).sendRequest(new TLObject() { // from class: org.telegram.tgnet.TLRPC$TL_account_getWebAuthorizations
-            public static int constructor = 405695855;
-
             @Override // org.telegram.tgnet.TLObject
             public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i, boolean z2) {
                 return TLRPC$TL_account_webAuthorizations.TLdeserialize(abstractSerializedData, i, z2);
@@ -751,7 +743,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
 
             @Override // org.telegram.tgnet.TLObject
             public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-                abstractSerializedData.writeInt32(constructor);
+                abstractSerializedData.writeInt32(405695855);
             }
         }, new RequestDelegate() { // from class: org.telegram.ui.SessionsActivity$$ExternalSyntheticLambda17
             @Override // org.telegram.tgnet.RequestDelegate
@@ -846,6 +838,10 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
         ListAdapter listAdapter = this.listAdapter;
         if (listAdapter != null) {
             listAdapter.notifyDataSetChanged();
+        }
+        Delegate delegate = this.delegate;
+        if (delegate != null) {
+            delegate.sessionsLoaded();
         }
         int i = this.repeatLoad;
         if (i > 0) {
@@ -1566,7 +1562,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
         if (this.sessions.size() == 0 && this.loading) {
             return 0;
         }
-        return this.sessions.size() + 1;
+        return this.sessions.size() + (this.currentType == 0 ? 1 : 0);
     }
 
     public void setDelegate(Delegate delegate) {

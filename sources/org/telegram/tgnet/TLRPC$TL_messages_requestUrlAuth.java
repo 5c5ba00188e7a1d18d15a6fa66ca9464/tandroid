@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_messages_requestUrlAuth extends TLObject {
-    public static int constructor = 428848198;
     public int button_id;
     public int flags;
     public int msg_id;
@@ -15,7 +14,7 @@ public class TLRPC$TL_messages_requestUrlAuth extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(428848198);
         abstractSerializedData.writeInt32(this.flags);
         if ((this.flags & 2) != 0) {
             this.peer.serializeToStream(abstractSerializedData);

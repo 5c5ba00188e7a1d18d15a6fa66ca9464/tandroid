@@ -3,12 +3,11 @@ package org.telegram.tgnet;
 import java.util.ArrayList;
 /* loaded from: classes.dex */
 public class TLRPC$TL_account_authorizations extends TLObject {
-    public static int constructor = 1275039392;
     public int authorization_ttl_days;
     public ArrayList<TLRPC$TL_authorization> authorizations = new ArrayList<>();
 
     public static TLRPC$TL_account_authorizations TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-        if (constructor != i) {
+        if (1275039392 != i) {
             if (z) {
                 throw new RuntimeException(String.format("can't parse magic %x in TL_account_authorizations", Integer.valueOf(i)));
             }
@@ -41,7 +40,7 @@ public class TLRPC$TL_account_authorizations extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(1275039392);
         abstractSerializedData.writeInt32(this.authorization_ttl_days);
         abstractSerializedData.writeInt32(481674261);
         int size = this.authorizations.size();

@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_messageActionWebViewDataSent extends TLRPC$MessageAction {
-    public static int constructor = -1262252875;
     public String text;
 
     @Override // org.telegram.tgnet.TLObject
@@ -11,7 +10,7 @@ public class TLRPC$TL_messageActionWebViewDataSent extends TLRPC$MessageAction {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-1262252875);
         abstractSerializedData.writeString(this.text);
     }
 }

@@ -3,12 +3,11 @@ package org.telegram.tgnet;
 import java.util.ArrayList;
 /* loaded from: classes.dex */
 public class TLRPC$TL_messages_archivedStickers extends TLObject {
-    public static int constructor = 1338747336;
     public int count;
     public ArrayList<TLRPC$StickerSetCovered> sets = new ArrayList<>();
 
     public static TLRPC$TL_messages_archivedStickers TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-        if (constructor != i) {
+        if (1338747336 != i) {
             if (z) {
                 throw new RuntimeException(String.format("can't parse magic %x in TL_messages_archivedStickers", Integer.valueOf(i)));
             }
@@ -41,7 +40,7 @@ public class TLRPC$TL_messages_archivedStickers extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(1338747336);
         abstractSerializedData.writeInt32(this.count);
         abstractSerializedData.writeInt32(481674261);
         int size = this.sets.size();

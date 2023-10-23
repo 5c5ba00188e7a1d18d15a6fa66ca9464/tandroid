@@ -1,16 +1,17 @@
 package org.telegram.ui;
 
-import org.telegram.messenger.Utilities;
+import org.telegram.messenger.GenericProvider;
 /* loaded from: classes3.dex */
-public final /* synthetic */ class LaunchActivity$$ExternalSyntheticLambda97 implements Utilities.Callback {
-    public final /* synthetic */ LaunchActivity f$0;
+public final /* synthetic */ class LaunchActivity$$ExternalSyntheticLambda97 implements GenericProvider {
+    public static final /* synthetic */ LaunchActivity$$ExternalSyntheticLambda97 INSTANCE = new LaunchActivity$$ExternalSyntheticLambda97();
 
-    public /* synthetic */ LaunchActivity$$ExternalSyntheticLambda97(LaunchActivity launchActivity) {
-        this.f$0 = launchActivity;
+    private /* synthetic */ LaunchActivity$$ExternalSyntheticLambda97() {
     }
 
-    @Override // org.telegram.messenger.Utilities.Callback
-    public final void run(Object obj) {
-        this.f$0.onPowerSaver(((Boolean) obj).booleanValue());
+    @Override // org.telegram.messenger.GenericProvider
+    public final Object provide(Object obj) {
+        DialogsActivity lambda$switchToAccount$10;
+        lambda$switchToAccount$10 = LaunchActivity.lambda$switchToAccount$10((Void) obj);
+        return lambda$switchToAccount$10;
     }
 }

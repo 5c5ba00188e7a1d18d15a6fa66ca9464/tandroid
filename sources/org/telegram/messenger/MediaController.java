@@ -87,13 +87,10 @@ import org.telegram.tgnet.TLRPC$DocumentAttribute;
 import org.telegram.tgnet.TLRPC$EncryptedChat;
 import org.telegram.tgnet.TLRPC$InputDocument;
 import org.telegram.tgnet.TLRPC$MessageEntity;
-import org.telegram.tgnet.TLRPC$MessageMedia;
 import org.telegram.tgnet.TLRPC$Peer;
 import org.telegram.tgnet.TLRPC$Photo;
 import org.telegram.tgnet.TLRPC$PhotoSize;
-import org.telegram.tgnet.TLRPC$StoryItem;
 import org.telegram.tgnet.TLRPC$TL_document;
-import org.telegram.tgnet.TLRPC$TL_documentAttributeAnimated;
 import org.telegram.tgnet.TLRPC$TL_documentAttributeAudio;
 import org.telegram.tgnet.TLRPC$TL_encryptedChat;
 import org.telegram.tgnet.TLRPC$TL_error;
@@ -104,6 +101,7 @@ import org.telegram.tgnet.TLRPC$TL_messages_searchGlobal;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.tgnet.TLRPC$VideoSize;
 import org.telegram.tgnet.TLRPC$messages_Messages;
+import org.telegram.tgnet.tl.TL_stories$StoryItem;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
@@ -156,6 +154,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     private float currentAspectRatioFrameLayoutRatio;
     private boolean currentAspectRatioFrameLayoutReady;
     private int currentAspectRatioFrameLayoutRotation;
+    private VideoConvertMessage currentForegroundConvertingVideo;
     private int currentPlaylistNum;
     private TextureView currentTextureView;
     private FrameLayout currentTextureViewContainer;
@@ -212,7 +211,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     private long recordDialogId;
     private DispatchQueue recordQueue;
     private MessageObject recordReplyingMsg;
-    private TLRPC$StoryItem recordReplyingStory;
+    private TL_stories$StoryItem recordReplyingStory;
     private MessageObject recordReplyingTopMsg;
     private Runnable recordStartRunnable;
     private long recordStartTime;
@@ -252,6 +251,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     private float[] gravityFast = new float[3];
     private float[] linearAcceleration = new float[3];
     private int audioFocus = 0;
+    private ArrayList<VideoConvertMessage> foregroundConvertingMessages = new ArrayList<>();
     private ArrayList<VideoConvertMessage> videoConvertQueue = new ArrayList<>();
     private final Object videoQueueSync = new Object();
     private HashMap<String, MessageObject> generatingWaveform = new HashMap<>();
@@ -370,6 +370,10 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             return videoPlayer.isBuffering();
         }
         return false;
+    }
+
+    public VideoConvertMessage getCurrentForegroundConverMessage() {
+        return this.currentForegroundConvertingVideo;
     }
 
     /* loaded from: classes.dex */
@@ -701,6 +705,26 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             this.hasSpoiler = (mediaEditState instanceof PhotoEntry) && ((PhotoEntry) mediaEditState).hasSpoiler;
         }
 
+        public PhotoEntry clone() {
+            int i = this.bucketId;
+            int i2 = this.imageId;
+            long j = this.dateTaken;
+            String str = this.path;
+            boolean z = this.isVideo;
+            PhotoEntry photoEntry = new PhotoEntry(i, i2, j, str, z ? this.duration : this.orientation, z, this.width, this.height, this.size);
+            photoEntry.invert = this.invert;
+            photoEntry.isMuted = this.isMuted;
+            photoEntry.canDeleteAfter = this.canDeleteAfter;
+            photoEntry.hasSpoiler = this.hasSpoiler;
+            photoEntry.isChatPreviewSpoilerRevealed = this.isChatPreviewSpoilerRevealed;
+            photoEntry.isAttachSpoilerRevealed = this.isAttachSpoilerRevealed;
+            photoEntry.emojiMarkup = this.emojiMarkup;
+            photoEntry.gradientTopColor = this.gradientTopColor;
+            photoEntry.gradientBottomColor = this.gradientBottomColor;
+            photoEntry.copyFrom(this);
+            return photoEntry;
+        }
+
         @Override // org.telegram.messenger.MediaController.MediaEditState
         public String getPath() {
             return this.path;
@@ -772,6 +796,26 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             }
             return this.imageUrl;
         }
+
+        public SearchImage clone() {
+            SearchImage searchImage = new SearchImage();
+            searchImage.id = this.id;
+            searchImage.imageUrl = this.imageUrl;
+            searchImage.thumbUrl = this.thumbUrl;
+            searchImage.width = this.width;
+            searchImage.height = this.height;
+            searchImage.size = this.size;
+            searchImage.type = this.type;
+            searchImage.date = this.date;
+            searchImage.caption = this.caption;
+            searchImage.document = this.document;
+            searchImage.photo = this.photo;
+            searchImage.photoSize = this.photoSize;
+            searchImage.thumbPhotoSize = this.thumbPhotoSize;
+            searchImage.inlineResult = this.inlineResult;
+            searchImage.params = this.params;
+            return searchImage;
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -781,7 +825,6 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class VideoConvertMessage {
         public int currentAccount;
@@ -4492,10 +4535,10 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         return this.downloadingCurrentMessage;
     }
 
-    public void setReplyingMessage(MessageObject messageObject, MessageObject messageObject2, TLRPC$StoryItem tLRPC$StoryItem) {
+    public void setReplyingMessage(MessageObject messageObject, MessageObject messageObject2, TL_stories$StoryItem tL_stories$StoryItem) {
         this.recordReplyingMsg = messageObject;
         this.recordReplyingTopMsg = messageObject2;
-        this.recordReplyingStory = tLRPC$StoryItem;
+        this.recordReplyingStory = tL_stories$StoryItem;
     }
 
     public void requestAudioFocus(boolean z) {
@@ -4509,7 +4552,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         }
     }
 
-    public void startRecording(final int i, final long j, final MessageObject messageObject, final MessageObject messageObject2, final TLRPC$StoryItem tLRPC$StoryItem, final int i2, boolean z) {
+    public void startRecording(final int i, final long j, final MessageObject messageObject, final MessageObject messageObject2, final TL_stories$StoryItem tL_stories$StoryItem, final int i2, boolean z) {
         boolean z2;
         boolean z3;
         MessageObject messageObject3 = this.playingMessageObject;
@@ -4530,7 +4573,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         Runnable runnable = new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda22
             @Override // java.lang.Runnable
             public final void run() {
-                MediaController.this.lambda$startRecording$27(i, i2, j, messageObject, messageObject2, tLRPC$StoryItem);
+                MediaController.this.lambda$startRecording$27(i, i2, j, messageObject, messageObject2, tL_stories$StoryItem);
             }
         };
         this.recordStartRunnable = runnable;
@@ -4538,7 +4581,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$startRecording$27(final int i, final int i2, long j, MessageObject messageObject, MessageObject messageObject2, TLRPC$StoryItem tLRPC$StoryItem) {
+    public /* synthetic */ void lambda$startRecording$27(final int i, final int i2, long j, MessageObject messageObject, MessageObject messageObject2, TL_stories$StoryItem tL_stories$StoryItem) {
         if (this.audioRecorder != null) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda20
                 @Override // java.lang.Runnable
@@ -4599,7 +4642,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             this.recordingCurrentAccount = i;
             this.recordReplyingMsg = messageObject;
             this.recordReplyingTopMsg = messageObject2;
-            this.recordReplyingStory = tLRPC$StoryItem;
+            this.recordReplyingStory = tL_stories$StoryItem;
             this.fileBuffer.rewind();
             this.audioRecorder.startRecording();
             this.recordQueue.postRunnable(this.recordRunnable);
@@ -4942,6 +4985,10 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         }
 
         /* JADX INFO: Access modifiers changed from: private */
+        /* JADX WARN: Removed duplicated region for block: B:25:0x0069 A[Catch: Exception -> 0x01b8, TryCatch #0 {Exception -> 0x01b8, blocks: (B:2:0x0000, B:4:0x0009, B:6:0x0011, B:8:0x0023, B:10:0x0029, B:14:0x0037, B:26:0x007d, B:28:0x0088, B:29:0x0097, B:32:0x009d, B:34:0x00a3, B:38:0x00aa, B:39:0x00b2, B:16:0x003d, B:18:0x004b, B:20:0x0051, B:22:0x005c, B:25:0x0069, B:81:0x01b4, B:40:0x00b6, B:42:0x00ba, B:44:0x00c7, B:46:0x00d3, B:48:0x00ea, B:54:0x00fc, B:56:0x0136, B:59:0x0143, B:55:0x011f, B:60:0x0147, B:62:0x014d, B:63:0x0150, B:65:0x0156, B:67:0x015c, B:71:0x016a, B:74:0x0184, B:76:0x018f, B:77:0x019e, B:79:0x01a4, B:80:0x01b0, B:73:0x0170, B:43:0x00c1), top: B:86:0x0000 }] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+        */
         public /* synthetic */ void lambda$start$2() {
             File externalStoragePublicDirectory;
             try {
@@ -4955,7 +5002,20 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                             str = null;
                         }
                         if (str == null || str.length() == 0) {
-                            str = FileLoader.getInstance(this.currentAccount.getCurrentAccount()).getPathToMessage(messageObject.messageOwner, true, !this.isMusic).toString();
+                            TLRPC$Document document = messageObject.getDocument();
+                            if (!TextUtils.isEmpty(FileLoader.getDocumentFileName(document)) && FileLoader.canSaveAsFile(messageObject)) {
+                                String documentFileName = FileLoader.getDocumentFileName(document);
+                                File directory = FileLoader.getDirectory(5);
+                                if (directory != null) {
+                                    str = new File(directory, documentFileName).getAbsolutePath();
+                                    if (str == null) {
+                                        str = FileLoader.getInstance(this.currentAccount.getCurrentAccount()).getPathToMessage(messageObject.messageOwner).toString();
+                                    }
+                                }
+                            }
+                            str = null;
+                            if (str == null) {
+                            }
                         }
                         File file = new File(str);
                         if (!file.exists()) {
@@ -5008,7 +5068,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                             str2 = null;
                         }
                         if (str2 == null || str2.length() == 0) {
-                            str2 = FileLoader.getInstance(this.currentAccount.getCurrentAccount()).getPathToMessage(messageObject2.messageOwner, true, !this.isMusic).toString();
+                            str2 = FileLoader.getInstance(this.currentAccount.getCurrentAccount()).getPathToMessage(messageObject2.messageOwner).toString();
                         }
                         File file4 = new File(str2);
                         if (!file4.exists()) {
@@ -5785,7 +5845,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:76:0x00c6 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:74:0x00c7 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -7372,7 +7432,12 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             if (z) {
                 new File(messageObject.messageOwner.attachPath).delete();
             }
-            this.videoConvertQueue.add(new VideoConvertMessage(messageObject, messageObject.videoEditedInfo, z2));
+            VideoConvertMessage videoConvertMessage = new VideoConvertMessage(messageObject, messageObject.videoEditedInfo, z2);
+            this.videoConvertQueue.add(videoConvertMessage);
+            if (videoConvertMessage.foreground) {
+                this.foregroundConvertingMessages.add(videoConvertMessage);
+                checkForegroundConvertMessage(false);
+            }
             if (this.videoConvertQueue.size() == 1) {
                 startVideoConvertFromQueue();
             }
@@ -7395,14 +7460,25 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                     }
                     return;
                 }
-                this.videoConvertQueue.remove(i);
+                this.foregroundConvertingMessages.remove(this.videoConvertQueue.remove(i));
+                checkForegroundConvertMessage(true);
                 return;
             }
         }
     }
 
+    private void checkForegroundConvertMessage(boolean z) {
+        if (!this.foregroundConvertingMessages.isEmpty()) {
+            this.currentForegroundConvertingVideo = this.foregroundConvertingMessages.get(0);
+        } else {
+            this.currentForegroundConvertingVideo = null;
+        }
+        if (this.currentForegroundConvertingVideo != null || z) {
+            VideoEncodingService.start(z);
+        }
+    }
+
     private boolean startVideoConvertFromQueue() {
-        int i = 0;
         if (this.videoConvertQueue.isEmpty()) {
             return false;
         }
@@ -7411,32 +7487,6 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         synchronized (this.videoConvertSync) {
             if (videoEditedInfo != null) {
                 videoEditedInfo.canceled = false;
-            }
-        }
-        if (videoConvertMessage.foreground) {
-            MessageObject messageObject = videoConvertMessage.messageObject;
-            Intent intent = new Intent(ApplicationLoader.applicationContext, VideoEncodingService.class);
-            intent.putExtra("path", messageObject.messageOwner.attachPath);
-            intent.putExtra("currentAccount", messageObject.currentAccount);
-            TLRPC$MessageMedia tLRPC$MessageMedia = messageObject.messageOwner.media;
-            if (tLRPC$MessageMedia != null && tLRPC$MessageMedia.document != null) {
-                while (true) {
-                    if (i >= messageObject.messageOwner.media.document.attributes.size()) {
-                        break;
-                    } else if (messageObject.messageOwner.media.document.attributes.get(i) instanceof TLRPC$TL_documentAttributeAnimated) {
-                        intent.putExtra("gif", true);
-                        break;
-                    } else {
-                        i++;
-                    }
-                }
-            }
-            if (messageObject.getId() != 0) {
-                try {
-                    ApplicationLoader.applicationContext.startService(intent);
-                } catch (Throwable th) {
-                    FileLog.e(th);
-                }
             }
         }
         VideoConvertRunnable.runConversion(videoConvertMessage);
@@ -7541,10 +7591,13 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$didWriteData$44(boolean z, boolean z2, VideoConvertMessage videoConvertMessage, File file, float f, long j, boolean z3, long j2) {
         if (z || z2) {
+            boolean z4 = videoConvertMessage.videoEditedInfo.canceled;
             synchronized (this.videoConvertSync) {
                 videoConvertMessage.videoEditedInfo.canceled = false;
             }
             this.videoConvertQueue.remove(videoConvertMessage);
+            this.foregroundConvertingMessages.remove(videoConvertMessage);
+            checkForegroundConvertMessage(z4 || z);
             startVideoConvertFromQueue();
         }
         if (z) {

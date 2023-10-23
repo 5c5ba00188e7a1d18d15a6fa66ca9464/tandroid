@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_inputGroupCallStream extends TLRPC$InputFileLocation {
-    public static int constructor = 93890858;
     public TLRPC$TL_inputGroupCall call;
     public int scale;
     public long time_ms;
@@ -24,7 +23,7 @@ public class TLRPC$TL_inputGroupCallStream extends TLRPC$InputFileLocation {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(93890858);
         abstractSerializedData.writeInt32(this.flags);
         this.call.serializeToStream(abstractSerializedData);
         abstractSerializedData.writeInt64(this.time_ms);

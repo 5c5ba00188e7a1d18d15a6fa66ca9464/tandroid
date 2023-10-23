@@ -610,7 +610,7 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
             public final void run(ArrayList arrayList, String str2) {
                 SuggestEmojiView.this.lambda$searchKeywords$3(i, str, arrayList, str2);
             }
-        }, true);
+        }, SharedConfig.suggestAnimatedEmoji && UserConfig.getInstance(this.currentAccount).isPremium());
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -688,7 +688,7 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
     public /* synthetic */ void lambda$searchAnimated$6(final String str, final int i) {
         final ArrayList<MediaDataController.KeywordResult> arrayList = new ArrayList<>(1);
         arrayList.add(new MediaDataController.KeywordResult(str, null));
-        MediaDataController.getInstance(this.currentAccount).fillWithAnimatedEmoji(arrayList, 15, false, false, new Runnable() { // from class: org.telegram.ui.Components.SuggestEmojiView$$ExternalSyntheticLambda3
+        MediaDataController.getInstance(this.currentAccount).fillWithAnimatedEmoji(arrayList, 15, false, false, false, new Runnable() { // from class: org.telegram.ui.Components.SuggestEmojiView$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 SuggestEmojiView.this.lambda$searchAnimated$5(i, str, arrayList);

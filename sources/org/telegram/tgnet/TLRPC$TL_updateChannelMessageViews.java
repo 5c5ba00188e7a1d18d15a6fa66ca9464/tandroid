@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_updateChannelMessageViews extends TLRPC$Update {
-    public static int constructor = -232346616;
     public long channel_id;
     public int id;
     public int views;
@@ -15,7 +14,7 @@ public class TLRPC$TL_updateChannelMessageViews extends TLRPC$Update {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-232346616);
         abstractSerializedData.writeInt64(this.channel_id);
         abstractSerializedData.writeInt32(this.id);
         abstractSerializedData.writeInt32(this.views);

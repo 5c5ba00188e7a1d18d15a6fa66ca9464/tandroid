@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_inputWebFileGeoPointLocation extends TLRPC$InputWebFileLocation {
-    public static int constructor = -1625153079;
     public long access_hash;
     public TLRPC$InputGeoPoint geo_point;
     public int h;
@@ -21,7 +20,7 @@ public class TLRPC$TL_inputWebFileGeoPointLocation extends TLRPC$InputWebFileLoc
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-1625153079);
         this.geo_point.serializeToStream(abstractSerializedData);
         abstractSerializedData.writeInt64(this.access_hash);
         abstractSerializedData.writeInt32(this.w);

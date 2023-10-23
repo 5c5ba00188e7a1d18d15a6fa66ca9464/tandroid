@@ -1,14 +1,13 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_messages_botApp extends TLObject {
-    public static int constructor = -347034123;
     public TLRPC$BotApp app;
     public int flags;
     public boolean inactive;
     public boolean request_write_access;
 
     public static TLRPC$TL_messages_botApp TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-        if (constructor != i) {
+        if (-347034123 != i) {
             if (z) {
                 throw new RuntimeException(String.format("can't parse magic %x in TL_messages_botApp", Integer.valueOf(i)));
             }
@@ -30,7 +29,7 @@ public class TLRPC$TL_messages_botApp extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-347034123);
         int i = this.inactive ? this.flags | 1 : this.flags & (-2);
         this.flags = i;
         int i2 = this.request_write_access ? i | 2 : i & (-3);
