@@ -546,7 +546,7 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
         this.messageView.drawNamesLayout(canvas, f7);
         this.messageView.drawCommentButton(canvas, f7);
         this.messageView.drawCaptionLayout(canvas, z, f7);
-        this.messageView.drawLinkPreview(canvas, f7, z);
+        this.messageView.drawLinkPreview(canvas, f7);
         canvas.restore();
         if (this.hasReply) {
             this.chatActivity.getReplyNameTextView().setAlpha(0.0f);

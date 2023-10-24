@@ -19,6 +19,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
 /* loaded from: classes3.dex */
 public class GraySectionCell extends FrameLayout {
+    private int layerHeight;
     private final Theme.ResourcesProvider resourcesProvider;
     private AnimatedTextView rightTextView;
     private TextView textView;
@@ -29,6 +30,7 @@ public class GraySectionCell extends FrameLayout {
 
     public GraySectionCell(Context context, Theme.ResourcesProvider resourcesProvider) {
         super(context);
+        this.layerHeight = 32;
         this.resourcesProvider = resourcesProvider;
         setBackgroundColor(getThemedColor(Theme.key_graySection));
         TextView textView = new TextView(getContext());
@@ -58,7 +60,12 @@ public class GraySectionCell extends FrameLayout {
 
     @Override // android.widget.FrameLayout, android.view.View
     protected void onMeasure(int i, int i2) {
-        super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(32.0f), 1073741824));
+        super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(this.layerHeight), 1073741824));
+    }
+
+    public void setLayerHeight(int i) {
+        this.layerHeight = i;
+        requestLayout();
     }
 
     public void setTextColor(int i) {

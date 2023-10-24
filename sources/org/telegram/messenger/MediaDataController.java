@@ -8941,219 +8941,105 @@ public class MediaDataController extends BaseController {
         return tLRPC$MessageEntity;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:28:0x0052, code lost:
-        if (r0 != null) goto L30;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:29:0x0054, code lost:
-        r0 = new java.util.ArrayList<>();
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:30:0x0059, code lost:
-        if (r4 == false) goto L91;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:31:0x005b, code lost:
-        r12 = 3;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:32:0x005d, code lost:
-        r12 = 1;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:33:0x005e, code lost:
-        r12 = r12 + r5;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:35:0x0065, code lost:
-        if (r12 >= r19[0].length()) goto L90;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:37:0x006d, code lost:
-        if (r19[0].charAt(r12) != '`') goto L38;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:38:0x006f, code lost:
-        r5 = r5 + 1;
-        r12 = r12 + 1;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:39:0x0074, code lost:
-        if (r4 == false) goto L89;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:40:0x0076, code lost:
-        r10 = 3;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:41:0x0078, code lost:
-        r10 = 1;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:42:0x0079, code lost:
-        r10 = r10 + r5;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:43:0x007a, code lost:
-        if (r4 == false) goto L84;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:44:0x007c, code lost:
-        if (r6 <= 0) goto L83;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:45:0x007e, code lost:
-        r4 = r19[0].charAt(r6 - 1);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:46:0x0087, code lost:
-        r4 = 0;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:48:0x008a, code lost:
-        if (r4 == ' ') goto L82;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:49:0x008c, code lost:
-        if (r4 != '\n') goto L48;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:51:0x008f, code lost:
-        r4 = 0;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:52:0x0091, code lost:
-        r4 = 1;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:53:0x0092, code lost:
-        r14 = r6 + 3;
-        r13 = android.text.TextUtils.indexOf(r19[0], '\n', r14);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:54:0x009c, code lost:
-        if ((r13 - r14) <= 0) goto L81;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:55:0x009e, code lost:
-        r13 = r19[0].toString().substring(r14, r13);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:56:0x00a9, code lost:
-        r13 = "";
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:57:0x00ab, code lost:
-        r3 = substring(r19[0], 0, r6 - r4);
-        r14 = substring(r19[0], (r14 + r13.length()) + (!r13.isEmpty()), r5);
-        r15 = r5 + 3;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:58:0x00cf, code lost:
-        if (r15 >= r19[0].length()) goto L80;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:59:0x00d1, code lost:
-        r11 = r19[0].charAt(r15);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:60:0x00d8, code lost:
-        r11 = 0;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:61:0x00d9, code lost:
-        r9 = r19[0];
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:62:0x00db, code lost:
-        if (r11 == ' ') goto L79;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:63:0x00dd, code lost:
-        if (r11 != '\n') goto L58;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:65:0x00e0, code lost:
-        r7 = 0;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:66:0x00e2, code lost:
-        r7 = 1;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:67:0x00e3, code lost:
-        r7 = substring(r9, r15 + r7, r19[0].length());
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:68:0x00f4, code lost:
-        if (r3.length() == 0) goto L78;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:69:0x00f6, code lost:
-        r15 = 1;
-        r3 = org.telegram.messenger.AndroidUtilities.concat(r3, "\n");
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:70:0x0102, code lost:
-        r15 = 1;
-        r4 = 1;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:72:0x0108, code lost:
-        if (r7.length() <= 0) goto L67;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:74:0x010e, code lost:
-        if (r7.charAt(0) == '\n') goto L67;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:75:0x0110, code lost:
-        r9 = new java.lang.CharSequence[2];
-        r9[0] = "\n";
-        r9[r15] = r7;
-        r7 = org.telegram.messenger.AndroidUtilities.concat(r9);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:77:0x011e, code lost:
-        if (r14.length() <= 0) goto L72;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:79:0x0129, code lost:
-        if (r14.charAt(r14.length() - r15) != '\n') goto L72;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:80:0x012b, code lost:
-        r14 = substring(r14, 0, r14.length() - r15);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:82:0x0138, code lost:
-        if (android.text.TextUtils.isEmpty(r14) != false) goto L77;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:83:0x013a, code lost:
-        r11 = new java.lang.CharSequence[3];
-        r11[0] = r3;
-        r11[r15] = r14;
-        r11[2] = r7;
-        r19[0] = org.telegram.messenger.AndroidUtilities.concat(r11);
-        r3 = new org.telegram.tgnet.TLRPC$TL_messageEntityPre();
-        r3.offset = (r4 ^ 1) + r6;
-        r3.length = (((r5 - r6) - 3) - (r13.length() + (!r13.isEmpty()))) + (r4 ^ 1);
-        r3.language = r13;
-        r0.add(r3);
-        r10 = r10 - 6;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:84:0x016f, code lost:
-        r3 = r6 + 1;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:85:0x0171, code lost:
-        if (r3 == r5) goto L88;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:86:0x0173, code lost:
-        r19[0] = org.telegram.messenger.AndroidUtilities.concat(substring(r19[0], 0, r6), substring(r19[0], r3, r5), substring(r19[0], r5 + 1, r19[0].length()));
-        r3 = new org.telegram.tgnet.TLRPC$TL_messageEntityCode();
-        r3.offset = r6;
-        r3.length = (r5 - r6) - 1;
-        r0.add(r3);
-        r10 = r10 - 2;
-     */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
     public ArrayList<TLRPC$MessageEntity> getEntities(CharSequence[] charSequenceArr, boolean z) {
         int i;
         int i2;
+        int i3;
         ArrayList<TLRPC$MessageEntity> arrayList = null;
         if (charSequenceArr != null && charSequenceArr[0] != null) {
-            int i3 = -1;
+            int i4 = -1;
             boolean z2 = false;
-            int i4 = 0;
+            int i5 = 0;
             loop0: while (true) {
                 i = -1;
                 while (true) {
-                    int indexOf = TextUtils.indexOf(charSequenceArr[0], !z2 ? "`" : "```", i4);
-                    int i5 = 1;
-                    if (indexOf == i3) {
+                    int indexOf = TextUtils.indexOf(charSequenceArr[0], !z2 ? "`" : "```", i5);
+                    if (indexOf == i4) {
                         break loop0;
-                    } else if (i != i3) {
-                        break;
-                    } else {
+                    } else if (i == i4) {
                         z2 = charSequenceArr[0].length() - indexOf > 2 && charSequenceArr[0].charAt(indexOf + 1) == '`' && charSequenceArr[0].charAt(indexOf + 2) == '`';
-                        if (z2) {
-                            i5 = 3;
-                        }
                         i = indexOf;
-                        i4 = indexOf + i5;
+                        i5 = indexOf + (z2 ? 3 : 1);
+                    } else {
+                        if (arrayList == null) {
+                            arrayList = new ArrayList<>();
+                        }
+                        for (int i6 = (z2 ? 3 : 1) + indexOf; i6 < charSequenceArr[0].length() && charSequenceArr[0].charAt(i6) == '`'; i6++) {
+                            indexOf++;
+                        }
+                        i2 = (z2 ? 3 : 1) + indexOf;
+                        if (z2) {
+                            char charAt = i > 0 ? charSequenceArr[0].charAt(i - 1) : (char) 0;
+                            int i7 = (charAt == ' ' || charAt == '\n') ? 1 : 0;
+                            int i8 = i + 3;
+                            int indexOf2 = TextUtils.indexOf(charSequenceArr[0], '\n', i8);
+                            String substring = (indexOf2 < 0 || indexOf2 - i8 <= 0) ? "" : charSequenceArr[0].toString().substring(i8, indexOf2);
+                            CharSequence substring2 = substring(charSequenceArr[0], 0, i - i7);
+                            int length = i8 + substring.length() + (!substring.isEmpty());
+                            if (length < 0 || length >= charSequenceArr[0].length()) {
+                                i5 = i2;
+                                i4 = -1;
+                            } else {
+                                CharSequence substring3 = substring(charSequenceArr[0], length, indexOf);
+                                int i9 = indexOf + 3;
+                                char charAt2 = i9 < charSequenceArr[0].length() ? charSequenceArr[0].charAt(i9) : (char) 0;
+                                CharSequence substring4 = substring(charSequenceArr[0], i9 + ((charAt2 == ' ' || charAt2 == '\n') ? 1 : 0), charSequenceArr[0].length());
+                                if (substring2.length() != 0) {
+                                    i3 = 1;
+                                    substring2 = AndroidUtilities.concat(substring2, "\n");
+                                } else {
+                                    i3 = 1;
+                                    i7 = 1;
+                                }
+                                if (substring4.length() > 0 && substring4.charAt(0) != '\n') {
+                                    CharSequence[] charSequenceArr2 = new CharSequence[2];
+                                    charSequenceArr2[0] = "\n";
+                                    charSequenceArr2[i3] = substring4;
+                                    substring4 = AndroidUtilities.concat(charSequenceArr2);
+                                }
+                                if (substring3.length() > 0 && substring3.charAt(substring3.length() - i3) == '\n') {
+                                    substring3 = substring(substring3, 0, substring3.length() - i3);
+                                }
+                                if (!TextUtils.isEmpty(substring3)) {
+                                    CharSequence[] charSequenceArr3 = new CharSequence[3];
+                                    charSequenceArr3[0] = substring2;
+                                    charSequenceArr3[i3] = substring3;
+                                    charSequenceArr3[2] = substring4;
+                                    charSequenceArr[0] = AndroidUtilities.concat(charSequenceArr3);
+                                    TLRPC$MessageEntity tLRPC$TL_messageEntityPre = new TLRPC$TL_messageEntityPre();
+                                    tLRPC$TL_messageEntityPre.offset = (i7 ^ 1) + i;
+                                    tLRPC$TL_messageEntityPre.length = (((indexOf - i) - 3) - (substring.length() + (!substring.isEmpty()))) + (i7 ^ 1);
+                                    tLRPC$TL_messageEntityPre.language = substring;
+                                    arrayList.add(tLRPC$TL_messageEntityPre);
+                                    i2 -= 6;
+                                }
+                            }
+                        } else {
+                            int i10 = i + 1;
+                            if (i10 != indexOf) {
+                                charSequenceArr[0] = AndroidUtilities.concat(substring(charSequenceArr[0], 0, i), substring(charSequenceArr[0], i10, indexOf), substring(charSequenceArr[0], indexOf + 1, charSequenceArr[0].length()));
+                                TLRPC$MessageEntity tLRPC$TL_messageEntityCode = new TLRPC$TL_messageEntityCode();
+                                tLRPC$TL_messageEntityCode.offset = i;
+                                tLRPC$TL_messageEntityCode.length = (indexOf - i) - 1;
+                                arrayList.add(tLRPC$TL_messageEntityCode);
+                                i2 -= 2;
+                            }
+                        }
                     }
                 }
-                i4 = i2;
-                i3 = -1;
+                i5 = i2;
+                i4 = -1;
                 z2 = false;
             }
-            if (i != i3 && z2) {
+            if (i != i4 && z2) {
                 charSequenceArr[0] = AndroidUtilities.concat(substring(charSequenceArr[0], 0, i), substring(charSequenceArr[0], i + 2, charSequenceArr[0].length()));
                 if (arrayList == null) {
                     arrayList = new ArrayList<>();
                 }
-                TLRPC$MessageEntity tLRPC$TL_messageEntityCode = new TLRPC$TL_messageEntityCode();
-                tLRPC$TL_messageEntityCode.offset = i;
-                tLRPC$TL_messageEntityCode.length = 1;
-                arrayList.add(tLRPC$TL_messageEntityCode);
+                TLRPC$MessageEntity tLRPC$TL_messageEntityCode2 = new TLRPC$TL_messageEntityCode();
+                tLRPC$TL_messageEntityCode2.offset = i;
+                tLRPC$TL_messageEntityCode2.length = 1;
+                arrayList.add(tLRPC$TL_messageEntityCode2);
             }
             if (charSequenceArr[0] instanceof Spanned) {
                 Spanned spanned = (Spanned) charSequenceArr[0];
@@ -9175,17 +9061,17 @@ public class MediaDataController extends BaseController {
                     if (arrayList == null) {
                         arrayList = new ArrayList<>();
                     }
-                    for (int i6 = 0; i6 < uRLSpanUserMentionArr.length; i6++) {
+                    for (int i11 = 0; i11 < uRLSpanUserMentionArr.length; i11++) {
                         TLRPC$TL_inputMessageEntityMentionName tLRPC$TL_inputMessageEntityMentionName = new TLRPC$TL_inputMessageEntityMentionName();
-                        TLRPC$InputUser inputUser = getMessagesController().getInputUser(Utilities.parseLong(uRLSpanUserMentionArr[i6].getURL()).longValue());
+                        TLRPC$InputUser inputUser = getMessagesController().getInputUser(Utilities.parseLong(uRLSpanUserMentionArr[i11].getURL()).longValue());
                         tLRPC$TL_inputMessageEntityMentionName.user_id = inputUser;
                         if (inputUser != null) {
-                            tLRPC$TL_inputMessageEntityMentionName.offset = spanned.getSpanStart(uRLSpanUserMentionArr[i6]);
-                            int min = Math.min(spanned.getSpanEnd(uRLSpanUserMentionArr[i6]), charSequenceArr[0].length());
-                            int i7 = tLRPC$TL_inputMessageEntityMentionName.offset;
-                            int i8 = min - i7;
-                            tLRPC$TL_inputMessageEntityMentionName.length = i8;
-                            if (charSequenceArr[0].charAt((i7 + i8) - 1) == ' ') {
+                            tLRPC$TL_inputMessageEntityMentionName.offset = spanned.getSpanStart(uRLSpanUserMentionArr[i11]);
+                            int min = Math.min(spanned.getSpanEnd(uRLSpanUserMentionArr[i11]), charSequenceArr[0].length());
+                            int i12 = tLRPC$TL_inputMessageEntityMentionName.offset;
+                            int i13 = min - i12;
+                            tLRPC$TL_inputMessageEntityMentionName.length = i13;
+                            if (charSequenceArr[0].charAt((i12 + i13) - 1) == ' ') {
                                 tLRPC$TL_inputMessageEntityMentionName.length--;
                             }
                             arrayList.add(tLRPC$TL_inputMessageEntityMentionName);
@@ -9197,17 +9083,17 @@ public class MediaDataController extends BaseController {
                     if (arrayList == null) {
                         arrayList = new ArrayList<>();
                     }
-                    for (int i9 = 0; i9 < uRLSpanReplacementArr.length; i9++) {
+                    for (int i14 = 0; i14 < uRLSpanReplacementArr.length; i14++) {
                         TLRPC$MessageEntity tLRPC$TL_messageEntityTextUrl = new TLRPC$TL_messageEntityTextUrl();
-                        tLRPC$TL_messageEntityTextUrl.offset = spanned.getSpanStart(uRLSpanReplacementArr[i9]);
-                        tLRPC$TL_messageEntityTextUrl.length = Math.min(spanned.getSpanEnd(uRLSpanReplacementArr[i9]), charSequenceArr[0].length()) - tLRPC$TL_messageEntityTextUrl.offset;
-                        tLRPC$TL_messageEntityTextUrl.url = uRLSpanReplacementArr[i9].getURL();
+                        tLRPC$TL_messageEntityTextUrl.offset = spanned.getSpanStart(uRLSpanReplacementArr[i14]);
+                        tLRPC$TL_messageEntityTextUrl.length = Math.min(spanned.getSpanEnd(uRLSpanReplacementArr[i14]), charSequenceArr[0].length()) - tLRPC$TL_messageEntityTextUrl.offset;
+                        tLRPC$TL_messageEntityTextUrl.url = uRLSpanReplacementArr[i14].getURL();
                         arrayList.add(tLRPC$TL_messageEntityTextUrl);
-                        TextStyleSpan.TextStyleRun textStyleRun = uRLSpanReplacementArr[i9].getTextStyleRun();
+                        TextStyleSpan.TextStyleRun textStyleRun = uRLSpanReplacementArr[i14].getTextStyleRun();
                         if (textStyleRun != null) {
-                            int i10 = textStyleRun.flags;
-                            int i11 = tLRPC$TL_messageEntityTextUrl.offset;
-                            addStyle(i10, i11, tLRPC$TL_messageEntityTextUrl.length + i11, arrayList);
+                            int i15 = textStyleRun.flags;
+                            int i16 = tLRPC$TL_messageEntityTextUrl.offset;
+                            addStyle(i15, i16, tLRPC$TL_messageEntityTextUrl.length + i16, arrayList);
                         }
                     }
                 }
@@ -9242,11 +9128,11 @@ public class MediaDataController extends BaseController {
                     for (CodeHighlighting.Span span : spanArr) {
                         if (span != null) {
                             try {
-                                TLRPC$MessageEntity tLRPC$TL_messageEntityPre = new TLRPC$TL_messageEntityPre();
-                                tLRPC$TL_messageEntityPre.offset = spanned.getSpanStart(span);
-                                tLRPC$TL_messageEntityPre.length = Math.min(spanned.getSpanEnd(span), charSequenceArr[0].length()) - tLRPC$TL_messageEntityPre.offset;
-                                tLRPC$TL_messageEntityPre.language = span.lng;
-                                arrayList3.add(tLRPC$TL_messageEntityPre);
+                                TLRPC$MessageEntity tLRPC$TL_messageEntityPre2 = new TLRPC$TL_messageEntityPre();
+                                tLRPC$TL_messageEntityPre2.offset = spanned.getSpanStart(span);
+                                tLRPC$TL_messageEntityPre2.length = Math.min(spanned.getSpanEnd(span), charSequenceArr[0].length()) - tLRPC$TL_messageEntityPre2.offset;
+                                tLRPC$TL_messageEntityPre2.language = span.lng;
+                                arrayList3.add(tLRPC$TL_messageEntityPre2);
                             } catch (Exception e2) {
                                 FileLog.e(e2);
                             }
@@ -9281,12 +9167,12 @@ public class MediaDataController extends BaseController {
                         if (arrayList == null) {
                             arrayList = new ArrayList<>();
                         }
-                        for (int i12 = 0; i12 < uRLSpanArr.length; i12++) {
-                            if (!(uRLSpanArr[i12] instanceof URLSpanReplacement) && !(uRLSpanArr[i12] instanceof URLSpanUserMention)) {
+                        for (int i17 = 0; i17 < uRLSpanArr.length; i17++) {
+                            if (!(uRLSpanArr[i17] instanceof URLSpanReplacement) && !(uRLSpanArr[i17] instanceof URLSpanUserMention)) {
                                 TLRPC$MessageEntity tLRPC$TL_messageEntityUrl = new TLRPC$TL_messageEntityUrl();
-                                tLRPC$TL_messageEntityUrl.offset = spanned.getSpanStart(uRLSpanArr[i12]);
-                                tLRPC$TL_messageEntityUrl.length = Math.min(spanned.getSpanEnd(uRLSpanArr[i12]), charSequenceArr[0].length()) - tLRPC$TL_messageEntityUrl.offset;
-                                tLRPC$TL_messageEntityUrl.url = uRLSpanArr[i12].getURL();
+                                tLRPC$TL_messageEntityUrl.offset = spanned.getSpanStart(uRLSpanArr[i17]);
+                                tLRPC$TL_messageEntityUrl.length = Math.min(spanned.getSpanEnd(uRLSpanArr[i17]), charSequenceArr[0].length()) - tLRPC$TL_messageEntityUrl.offset;
+                                tLRPC$TL_messageEntityUrl.url = uRLSpanArr[i17].getURL();
                                 arrayList.add(tLRPC$TL_messageEntityUrl);
                             }
                         }

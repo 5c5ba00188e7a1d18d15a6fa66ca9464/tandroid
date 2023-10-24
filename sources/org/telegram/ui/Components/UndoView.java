@@ -379,13 +379,13 @@ public class UndoView extends FrameLayout {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:618:0x1856  */
-    /* JADX WARN: Removed duplicated region for block: B:621:0x1876  */
-    /* JADX WARN: Removed duplicated region for block: B:624:0x189d  */
-    /* JADX WARN: Removed duplicated region for block: B:628:0x18e2  */
-    /* JADX WARN: Removed duplicated region for block: B:659:0x1994  */
-    /* JADX WARN: Removed duplicated region for block: B:685:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Type inference failed for: r2v426, types: [java.lang.CharSequence] */
+    /* JADX WARN: Removed duplicated region for block: B:621:0x1868  */
+    /* JADX WARN: Removed duplicated region for block: B:624:0x1888  */
+    /* JADX WARN: Removed duplicated region for block: B:627:0x18af  */
+    /* JADX WARN: Removed duplicated region for block: B:631:0x18f4  */
+    /* JADX WARN: Removed duplicated region for block: B:662:0x19a6  */
+    /* JADX WARN: Removed duplicated region for block: B:688:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Type inference failed for: r2v428, types: [java.lang.CharSequence] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1280,7 +1280,7 @@ public class UndoView extends FrameLayout {
                 layoutParams.height = -2;
                 this.avatarImageView.setVisibility(8);
                 this.undoButton.setVisibility(8);
-            } else if (i11 == 90 || i11 == 91 || i11 == 92 || i11 == 93) {
+            } else if (i11 == 90 || i11 == 91 || i11 == 92 || i11 == 93 || i11 == 94) {
                 switch (i11) {
                     case 90:
                         this.infoTextView.setText(LocaleController.formatString("BoostingSelectUpToWarningChannels", R.string.BoostingSelectUpToWarningChannels, Long.valueOf(BoostRepository.giveawayAddPeersMax())));
@@ -1293,6 +1293,9 @@ public class UndoView extends FrameLayout {
                         break;
                     case 93:
                         this.infoTextView.setText(AndroidUtilities.replaceTags(LocaleController.getString("BoostingWaitWarning", R.string.BoostingWaitWarning)));
+                        break;
+                    case 94:
+                        this.infoTextView.setText(LocaleController.getString("BoostingOnlyRecipientCode", R.string.BoostingOnlyRecipientCode));
                         break;
                 }
                 layoutParams.leftMargin = AndroidUtilities.dp(58.0f);

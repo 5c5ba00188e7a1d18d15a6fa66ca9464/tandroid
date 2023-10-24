@@ -3901,7 +3901,6 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         private RLottieDrawable starsToDotsDrawable;
         private int time;
         private LoadingTextView timeText;
-        private LoadingDrawable timeTextLoadingDrawable;
         private Timer timeTimer;
         private final Object timerSync;
         private TextView titleTextView;
@@ -3926,7 +3925,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             return i;
         }
 
-        static /* synthetic */ int access$9826(LoginActivitySmsView loginActivitySmsView, double d) {
+        static /* synthetic */ int access$9726(LoginActivitySmsView loginActivitySmsView, double d) {
             double d2 = loginActivitySmsView.codeTime;
             Double.isNaN(d2);
             int i = (int) (d2 - d);
@@ -4266,7 +4265,6 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         public /* synthetic */ void lambda$new$4(View view) {
             if (this.time <= 0 || this.timeTimer == null) {
                 this.isResendingCode = true;
-                this.timeTextLoadingDrawable.reset();
                 this.timeText.invalidate();
                 this.timeText.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteValueText));
                 int i = this.nextType;
@@ -4960,7 +4958,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
 
             @Override // android.widget.TextView, android.view.View
             protected boolean verifyDrawable(Drawable drawable) {
-                return drawable == this.rippleDrawable || drawable == LoginActivitySmsView.this.timeTextLoadingDrawable || super.verifyDrawable(drawable);
+                return drawable == this.rippleDrawable || super.verifyDrawable(drawable);
             }
 
             @Override // android.widget.TextView, android.view.View
@@ -5026,7 +5024,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                 double d = LoginActivitySmsView.this.lastCodeTime;
                 Double.isNaN(currentTimeMillis);
                 LoginActivitySmsView.this.lastCodeTime = currentTimeMillis;
-                LoginActivitySmsView.access$9826(LoginActivitySmsView.this, currentTimeMillis - d);
+                LoginActivitySmsView.access$9726(LoginActivitySmsView.this, currentTimeMillis - d);
                 if (LoginActivitySmsView.this.codeTime <= 1000) {
                     LoginActivitySmsView.this.setProblemTextVisible(true);
                     LoginActivitySmsView.this.timeText.setVisibility(8);
@@ -5859,10 +5857,6 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             super.onHide();
             this.isResendingCode = false;
             this.nextPressed = false;
-            LoadingDrawable loadingDrawable = this.timeTextLoadingDrawable;
-            if (loadingDrawable != null) {
-                loadingDrawable.disappear();
-            }
         }
 
         @Override // org.telegram.ui.Components.SlideView

@@ -20,6 +20,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.style.CharacterStyle;
 import android.text.style.URLSpan;
+import android.util.LongSparseArray;
 import android.util.Property;
 import android.view.MotionEvent;
 import android.view.View;
@@ -275,10 +276,15 @@ public class MessagePreviewView extends FrameLayout {
 
         public MessageObject getReplyMessage() {
             MessageObject.GroupedMessages valueAt;
-            if (MessagePreviewView.this.messagePreviewParams.replyMessage.groupedMessagesMap.size() > 0 && (valueAt = MessagePreviewView.this.messagePreviewParams.replyMessage.groupedMessagesMap.valueAt(0)) != null) {
-                return valueAt.captionMessage;
+            MessagePreviewParams.Messages messages = MessagePreviewView.this.messagePreviewParams.replyMessage;
+            if (messages != null) {
+                LongSparseArray<MessageObject.GroupedMessages> longSparseArray = messages.groupedMessagesMap;
+                if (longSparseArray != null && longSparseArray.size() > 0 && (valueAt = MessagePreviewView.this.messagePreviewParams.replyMessage.groupedMessagesMap.valueAt(0)) != null) {
+                    return valueAt.captionMessage;
+                }
+                return MessagePreviewView.this.messagePreviewParams.replyMessage.messages.get(0);
             }
-            return MessagePreviewView.this.messagePreviewParams.replyMessage.messages.get(0);
+            return null;
         }
 
         /* JADX WARN: Multi-variable type inference failed */
@@ -441,6 +447,7 @@ public class MessagePreviewView extends FrameLayout {
                         canvas.translate(chatMessageCell.getX(), chatMessageCell.getY());
                         canvas.save();
                         canvas.scale(chatMessageCell.getScaleX(), chatMessageCell.getScaleY(), chatMessageCell.getPivotX(), chatMessageCell.getPivotY());
+                        chatMessageCell.drawContent(canvas, true);
                         chatMessageCell.drawMessageText(canvas);
                         if (chatMessageCell.getCurrentMessagesGroup() == null || ((chatMessageCell.getCurrentPosition() != null && chatMessageCell.getCurrentPosition().last) || chatMessageCell.getTransitionParams().animateBackgroundBoundsInner)) {
                             chatMessageCell.drawCaptionLayout(canvas, false, chatMessageCell.getAlpha());
@@ -451,10 +458,7 @@ public class MessagePreviewView extends FrameLayout {
                         if ((chatMessageCell.getCurrentPosition() != null && chatMessageCell.getCurrentPosition().last) || chatMessageCell.getTransitionParams().animateBackgroundBoundsInner) {
                             chatMessageCell.drawTime(canvas, chatMessageCell.getAlpha(), true);
                         }
-                        chatMessageCell.drawLinkPreview(canvas, 1.0f, false);
-                        if (chatMessageCell.transitionParams.animateLinkAbove) {
-                            chatMessageCell.drawLinkPreview(canvas, 1.0f, true);
-                        }
+                        chatMessageCell.drawOverlays(canvas);
                         canvas.restore();
                         chatMessageCell.getTransitionParams().recordDrawingStatePreview();
                         canvas.restore();
@@ -1424,6 +1428,9 @@ public class MessagePreviewView extends FrameLayout {
                 tLRPC$Message.invert_media = MessagePreviewView.this.messagePreviewParams.webpageTop;
             }
             updateMessages();
+            if (MessagePreviewView.this.messagePreviewParams.webpageTop) {
+                this.chatListView.smoothScrollToPosition(1);
+            }
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -2701,6 +2708,9 @@ public class MessagePreviewView extends FrameLayout {
             this.textDrawable.setTextColor(messagePreviewView.getThemedColor(Theme.key_actionBarDefaultSubmenuItem));
             this.textDrawable.setCallback(this);
             this.textDrawable.setEllipsizeByGradient(true ^ LocaleController.isRTL);
+            if (LocaleController.isRTL) {
+                this.textDrawable.setGravity(5);
+            }
             int dp = (int) (AndroidUtilities.dp(77.0f) + Math.max(this.textDrawable.getPaint().measureText(str), this.textDrawable.getPaint().measureText(str2)));
             this.minWidth = dp;
             this.textDrawable.setOverrideFullWidth(dp);

@@ -8791,8 +8791,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:38:0x00ff  */
-    /* JADX WARN: Removed duplicated region for block: B:40:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x010d  */
+    /* JADX WARN: Removed duplicated region for block: B:41:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -8850,6 +8850,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             } else {
                 chatActivity2.setHighlightMessageId(i3);
             }
+            chatActivity2.scrollToMessageId(i3, 0, true, 0, true, 0, null);
         }
         lambda$runLinkRequest$81(chatActivity2);
         if (runnable == null) {

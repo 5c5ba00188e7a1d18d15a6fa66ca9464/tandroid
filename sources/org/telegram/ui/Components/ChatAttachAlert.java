@@ -291,33 +291,49 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         showBotLayout(j, null, false, z);
     }
 
+    /* JADX WARN: Code restructure failed: missing block: B:33:0x002c, code lost:
+        if (r16.botAttachLayouts.get(r17).needReload() == false) goto L7;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x009b  */
+    /* JADX WARN: Removed duplicated region for block: B:50:? A[RETURN, SYNTHETIC] */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public void showBotLayout(long j, String str, boolean z, boolean z2) {
-        if ((this.botAttachLayouts.get(j) == null || !Objects.equals(str, this.botAttachLayouts.get(j).getStartCommand()) || this.botAttachLayouts.get(j).needReload()) && (this.baseFragment instanceof ChatActivity)) {
+        long j2;
+        if (this.botAttachLayouts.get(j) != null) {
+            if (Objects.equals(str, this.botAttachLayouts.get(j).getStartCommand())) {
+            }
+        }
+        if (this.baseFragment instanceof ChatActivity) {
             ChatAttachAlertBotWebViewLayout chatAttachAlertBotWebViewLayout = new ChatAttachAlertBotWebViewLayout(this, getContext(), this.resourcesProvider);
             this.botAttachLayouts.put(j, chatAttachAlertBotWebViewLayout);
-            this.botAttachLayouts.get(j).setDelegate(new 1(chatAttachAlertBotWebViewLayout, str));
+            this.botAttachLayouts.get(j).setDelegate(new 1(chatAttachAlertBotWebViewLayout, str, j));
             MessageObject replyingMessageObject = ((ChatActivity) this.baseFragment).getChatActivityEnterView().getReplyingMessageObject();
+            j2 = j;
             this.botAttachLayouts.get(j).requestWebView(this.currentAccount, ((ChatActivity) this.baseFragment).getDialogId(), j, false, replyingMessageObject != null ? replyingMessageObject.messageOwner.id : 0, str);
-        }
-        if (this.botAttachLayouts.get(j) != null) {
-            this.botAttachLayouts.get(j).disallowSwipeOffsetAnimation();
-            showLayout(this.botAttachLayouts.get(j), -j, z2);
-            if (z) {
-                this.botAttachLayouts.get(j).showJustAddedBulletin();
+            if (this.botAttachLayouts.get(j2) == null) {
+                this.botAttachLayouts.get(j2).disallowSwipeOffsetAnimation();
+                showLayout(this.botAttachLayouts.get(j2), -j2, z2);
+                if (z) {
+                    this.botAttachLayouts.get(j2).showJustAddedBulletin();
+                    return;
+                }
+                return;
             }
+            return;
+        }
+        j2 = j;
+        if (this.botAttachLayouts.get(j2) == null) {
         }
     }
 
     /* loaded from: classes4.dex */
     public class 1 implements BotWebViewContainer.Delegate {
         private ValueAnimator botButtonAnimator;
+        final /* synthetic */ long val$id;
         final /* synthetic */ String val$startCommand;
         final /* synthetic */ ChatAttachAlertBotWebViewLayout val$webViewLayout;
-
-        @Override // org.telegram.ui.Components.BotWebViewContainer.Delegate
-        public boolean isClipboardAvailable() {
-            return true;
-        }
 
         @Override // org.telegram.ui.Components.BotWebViewContainer.Delegate
         public /* synthetic */ void onSendWebViewData(String str) {
@@ -329,10 +345,11 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             BotWebViewContainer.Delegate.-CC.$default$onWebAppReady(this);
         }
 
-        1(ChatAttachAlertBotWebViewLayout chatAttachAlertBotWebViewLayout, String str) {
+        1(ChatAttachAlertBotWebViewLayout chatAttachAlertBotWebViewLayout, String str, long j) {
             ChatAttachAlert.this = r1;
             this.val$webViewLayout = chatAttachAlertBotWebViewLayout;
             this.val$startCommand = str;
+            this.val$id = j;
         }
 
         @Override // org.telegram.ui.Components.BotWebViewContainer.Delegate
@@ -608,6 +625,11 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             if (actionBarMenuSubItem != null) {
                 actionBarMenuSubItem.setVisibility(z ? 0 : 8);
             }
+        }
+
+        @Override // org.telegram.ui.Components.BotWebViewContainer.Delegate
+        public boolean isClipboardAvailable() {
+            return MediaDataController.getInstance(ChatAttachAlert.this.currentAccount).botInAttachMenu(this.val$id);
         }
     }
 

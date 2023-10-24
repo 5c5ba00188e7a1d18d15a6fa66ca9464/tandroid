@@ -3763,7 +3763,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         protected boolean canShowQuote() {
             Cell cell;
             ChatActivity chatActivity = this.chatActivity;
-            return (chatActivity == null || chatActivity.getCurrentEncryptedChat() != null || this.chatActivity.textSelectionHelper.isDescription || (cell = this.selectedView) == 0 || ((ChatMessageCell) cell).getMessageObject() == null || ((ChatMessageCell) this.selectedView).getMessageObject().type == 23 || this.chatActivity.getMessagesController().getTranslateController().isTranslatingDialog(this.chatActivity.dialog_id)) ? false : true;
+            return (chatActivity == null || chatActivity.getCurrentEncryptedChat() != null || this.chatActivity.textSelectionHelper.isDescription || (cell = this.selectedView) == 0 || ((ChatMessageCell) cell).getMessageObject() == null || ((ChatMessageCell) this.selectedView).getMessageObject().type == 23 || ((ChatMessageCell) this.selectedView).getMessageObject().isVoiceTranscriptionOpen() || this.chatActivity.getMessagesController().getTranslateController().isTranslatingDialog(this.chatActivity.dialog_id)) ? false : true;
         }
 
         @Override // org.telegram.ui.Cells.TextSelectionHelper
@@ -15600,16 +15600,27 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         }
 
         public static ReplyQuote from(MessageObject messageObject, String str) {
+            TLRPC$Message tLRPC$Message;
             String str2;
             int indexOf;
-            TLRPC$Message tLRPC$Message = messageObject.messageOwner;
-            if (tLRPC$Message == null || (str2 = tLRPC$Message.message) == null || str == null || (indexOf = str2.indexOf(str)) < 0) {
+            if (messageObject == null || (tLRPC$Message = messageObject.messageOwner) == null || (str2 = tLRPC$Message.message) == null || str == null || (indexOf = str2.indexOf(str)) < 0) {
                 return null;
             }
             return new ReplyQuote(messageObject.getDialogId(), messageObject, indexOf, indexOf + str.length());
         }
 
+        public static ReplyQuote from(MessageObject messageObject) {
+            TLRPC$Message tLRPC$Message;
+            if (messageObject == null || (tLRPC$Message = messageObject.messageOwner) == null || tLRPC$Message.message == null) {
+                return null;
+            }
+            return from(messageObject, 0, Math.min(MessagesController.getInstance(messageObject.currentAccount).quoteLengthMax, messageObject.messageOwner.message.length()));
+        }
+
         public static ReplyQuote from(MessageObject messageObject, int i, int i2) {
+            if (messageObject == null) {
+                return null;
+            }
             return new ReplyQuote(messageObject.getDialogId(), messageObject, i, i2);
         }
 
@@ -17801,6 +17812,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             this.unselectRunnable = null;
         }
         this.highlightMessageId = ConnectionsManager.DEFAULT_DATACENTER_ID;
+        this.highlightMessageQuote = null;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -35740,11 +35752,10 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         /* JADX WARN: Removed duplicated region for block: B:260:0x0429  */
         /* JADX WARN: Removed duplicated region for block: B:263:0x0436  */
         /* JADX WARN: Removed duplicated region for block: B:269:0x044c  */
-        /* JADX WARN: Removed duplicated region for block: B:273:0x0459  */
-        /* JADX WARN: Removed duplicated region for block: B:279:0x046d  */
-        /* JADX WARN: Removed duplicated region for block: B:282:0x047b  */
-        /* JADX WARN: Removed duplicated region for block: B:305:0x04ff  */
-        /* JADX WARN: Removed duplicated region for block: B:349:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:274:0x045c  */
+        /* JADX WARN: Removed duplicated region for block: B:277:0x046a  */
+        /* JADX WARN: Removed duplicated region for block: B:300:0x04ee  */
+        /* JADX WARN: Removed duplicated region for block: B:344:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
         /* JADX WARN: Removed duplicated region for block: B:72:0x00ef  */
         /* JADX WARN: Removed duplicated region for block: B:83:0x0136  */
         /* JADX WARN: Removed duplicated region for block: B:89:0x0156  */
@@ -35977,13 +35988,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                             chatMessageCell.setSpoilersSuppressed(ChatActivity.this.chatListView.getScrollState() != 0);
                                             chatMessageCell.setHighlighted(ChatActivity.this.highlightMessageId == Integer.MAX_VALUE && messageObject.getId() == ChatActivity.this.highlightMessageId);
                                             if (chatMessageCell.isHighlighted() && (str = ChatActivity.this.highlightMessageQuote) != null) {
-                                                if (!chatMessageCell.setHighlightedText(str, true)) {
-                                                    ChatActivity chatActivity7 = ChatActivity.this;
-                                                    if (chatActivity7.showNoQuoteAlert) {
-                                                        chatActivity7.showNoQuoteFound();
-                                                    }
-                                                }
-                                                ChatActivity.this.showNoQuoteAlert = false;
+                                                chatMessageCell.setHighlightedText(str, true);
                                             }
                                             chatActivity = ChatActivity.this;
                                             if (chatActivity.highlightMessageId != Integer.MAX_VALUE) {
@@ -36132,9 +36137,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                     chatMessageCell.setSpoilersSuppressed(ChatActivity.this.chatListView.getScrollState() != 0);
                                     chatMessageCell.setHighlighted(ChatActivity.this.highlightMessageId == Integer.MAX_VALUE && messageObject.getId() == ChatActivity.this.highlightMessageId);
                                     if (chatMessageCell.isHighlighted()) {
-                                        if (!chatMessageCell.setHighlightedText(str, true)) {
-                                        }
-                                        ChatActivity.this.showNoQuoteAlert = false;
+                                        chatMessageCell.setHighlightedText(str, true);
                                     }
                                     chatActivity = ChatActivity.this;
                                     if (chatActivity.highlightMessageId != Integer.MAX_VALUE) {
@@ -37859,7 +37862,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     }
                     chat = j >= 0 ? ChatActivity.this.getMessagesController().getChat(Long.valueOf(-j)) : null;
                     if (j == Long.MAX_VALUE && (j == ChatActivity.this.dialog_id || chat == null || ChatObject.isPublic(chat) || (!chat.left && !chat.kicked))) {
-                        if ((j != ChatActivity.this.dialog_id || ChatObject.isForum(ChatActivity.this.currentChat)) && j != Long.MAX_VALUE) {
+                        if ((j != ChatActivity.this.dialog_id || (ChatObject.isForum(ChatActivity.this.currentChat) && !TextUtils.isEmpty(str))) && j != Long.MAX_VALUE) {
                             if (LaunchActivity.instance != null) {
                                 if (ChatActivity.this.progressDialogCurrent != null) {
                                     ChatActivity.this.progressDialogCurrent.cancel();

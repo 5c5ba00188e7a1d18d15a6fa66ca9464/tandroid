@@ -34,6 +34,7 @@ import org.telegram.messenger.DialogObject;
 import org.telegram.messenger.GenericProvider;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesStorage;
@@ -291,11 +292,6 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
         final /* synthetic */ ChatActivityEnterView val$parentEnterView;
 
         @Override // org.telegram.ui.Components.BotWebViewContainer.Delegate
-        public /* synthetic */ boolean isClipboardAvailable() {
-            return BotWebViewContainer.Delegate.-CC.$default$isClipboardAvailable(this);
-        }
-
-        @Override // org.telegram.ui.Components.BotWebViewContainer.Delegate
         public /* synthetic */ void onSendWebViewData(String str) {
             BotWebViewContainer.Delegate.-CC.$default$onSendWebViewData(this, str);
         }
@@ -496,6 +492,11 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
             if (BotWebViewMenuContainer.this.settingsItem != null) {
                 BotWebViewMenuContainer.this.settingsItem.setVisibility(z ? 0 : 8);
             }
+        }
+
+        @Override // org.telegram.ui.Components.BotWebViewContainer.Delegate
+        public boolean isClipboardAvailable() {
+            return MediaDataController.getInstance(BotWebViewMenuContainer.this.currentAccount).botInAttachMenu(BotWebViewMenuContainer.this.botId);
         }
     }
 

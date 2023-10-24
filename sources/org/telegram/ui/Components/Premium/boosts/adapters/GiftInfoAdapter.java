@@ -2,7 +2,6 @@ package org.telegram.ui.Components.Premium.boosts.adapters;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.recyclerview.widget.RecyclerView;
@@ -46,10 +45,34 @@ public abstract class GiftInfoAdapter extends RecyclerListView.SelectionAdapter 
         return 5;
     }
 
+    @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+    public int getItemViewType(int i) {
+        if (i != 0) {
+            int i2 = 1;
+            if (i != 1) {
+                i2 = 2;
+                if (i != 2) {
+                    i2 = 3;
+                    if (i != 3) {
+                        i2 = 4;
+                        if (i != 4) {
+                            return 5;
+                        }
+                    }
+                }
+            }
+            return i2;
+        }
+        return 0;
+    }
+
     @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
     public boolean isEnabled(RecyclerView.ViewHolder viewHolder) {
         return false;
     }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public abstract void onHiddenLinkClicked();
 
     /* JADX INFO: Access modifiers changed from: protected */
     public abstract void onObjectClicked(TLObject tLObject);
@@ -63,32 +86,6 @@ public abstract class GiftInfoAdapter extends RecyclerListView.SelectionAdapter 
         this.baseFragment = baseFragment;
         this.giftCode = tLRPC$TL_payments_checkedGiftCode;
         this.slug = str;
-    }
-
-    private boolean hasSlug() {
-        String str = this.slug;
-        return (str == null || TextUtils.isEmpty(str)) ? false : true;
-    }
-
-    @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-    public int getItemViewType(int i) {
-        if (i != 0) {
-            if (i == 1) {
-                return !hasSlug() ? 5 : 1;
-            }
-            int i2 = 2;
-            if (i != 2) {
-                i2 = 3;
-                if (i != 3) {
-                    i2 = 4;
-                    if (i != 4) {
-                        return 5;
-                    }
-                }
-            }
-            return i2;
-        }
-        return 0;
     }
 
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -114,6 +111,7 @@ public abstract class GiftInfoAdapter extends RecyclerListView.SelectionAdapter 
 
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
+        String string;
         int itemViewType = viewHolder.getItemViewType();
         if (itemViewType == 0) {
             HeaderCell headerCell = (HeaderCell) viewHolder.itemView;
@@ -122,13 +120,31 @@ public abstract class GiftInfoAdapter extends RecyclerListView.SelectionAdapter 
             } else {
                 headerCell.setUsedGiftLinkText();
             }
-            if (this.giftCode.boost != null) {
-                headerCell.setGiftLinkText();
+            TLRPC$TL_payments_checkedGiftCode tLRPC$TL_payments_checkedGiftCode = this.giftCode;
+            if (tLRPC$TL_payments_checkedGiftCode.boost != null) {
+                headerCell.setGiftLinkToUserText(tLRPC$TL_payments_checkedGiftCode.to_id, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.adapters.GiftInfoAdapter$$ExternalSyntheticLambda4
+                    @Override // org.telegram.messenger.Utilities.Callback
+                    public final void run(Object obj) {
+                        GiftInfoAdapter.this.onObjectClicked((TLObject) obj);
+                    }
+                });
+            }
+            if (this.giftCode.to_id == -1) {
+                headerCell.setUnclaimedText();
             }
         } else if (itemViewType == 1) {
-            ((LinkCell) viewHolder.itemView).setSlug(this.slug);
+            LinkCell linkCell = (LinkCell) viewHolder.itemView;
+            linkCell.setSlug(this.slug);
+            if (this.giftCode.boost != null) {
+                linkCell.hideSlug(new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.adapters.GiftInfoAdapter$$ExternalSyntheticLambda2
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        GiftInfoAdapter.this.onHiddenLinkClicked();
+                    }
+                });
+            }
         } else if (itemViewType == 2) {
-            ((TableCell) viewHolder.itemView).setData(this.giftCode, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.adapters.GiftInfoAdapter$$ExternalSyntheticLambda3
+            ((TableCell) viewHolder.itemView).setData(this.giftCode, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.adapters.GiftInfoAdapter$$ExternalSyntheticLambda4
                 @Override // org.telegram.messenger.Utilities.Callback
                 public final void run(Object obj) {
                     GiftInfoAdapter.this.onObjectClicked((TLObject) obj);
@@ -146,8 +162,9 @@ public abstract class GiftInfoAdapter extends RecyclerListView.SelectionAdapter 
                     GiftInfoAdapter.this.lambda$onBindViewHolder$4(actionBtnCell, view);
                 }
             });
-            if (this.giftCode.boost != null) {
-                actionBtnCell.setOkStyle(false);
+            TLRPC$TL_payments_checkedGiftCode tLRPC$TL_payments_checkedGiftCode2 = this.giftCode;
+            if (tLRPC$TL_payments_checkedGiftCode2.boost != null || tLRPC$TL_payments_checkedGiftCode2.to_id == -1) {
+                actionBtnCell.setCloseStyle();
                 actionBtnCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.adapters.GiftInfoAdapter$$ExternalSyntheticLambda0
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
@@ -161,20 +178,30 @@ public abstract class GiftInfoAdapter extends RecyclerListView.SelectionAdapter 
             textInfoCell.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
             textInfoCell.setTopPadding(14);
             textInfoCell.setBottomPadding(15);
-            if (!hasSlug()) {
-                textInfoCell.setVisibility(4);
-            }
-            if (this.isUnused) {
-                textInfoCell.setText(AndroidUtilities.replaceSingleTag(LocaleController.getString("BoostingSendLinkToFriends", R.string.BoostingSendLinkToFriends), Theme.key_chat_messageLinkIn, 0, new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.adapters.GiftInfoAdapter$$ExternalSyntheticLambda2
+            TLRPC$TL_payments_checkedGiftCode tLRPC$TL_payments_checkedGiftCode3 = this.giftCode;
+            if (tLRPC$TL_payments_checkedGiftCode3.boost != null) {
+                String str = this.slug;
+                if (str == null || str.isEmpty()) {
+                    textInfoCell.setText(LocaleController.getString("BoostingLinkNotActivated", R.string.BoostingLinkNotActivated));
+                } else {
+                    textInfoCell.setText("");
+                }
+            } else if (this.isUnused) {
+                if (tLRPC$TL_payments_checkedGiftCode3.to_id == -1) {
+                    string = LocaleController.getString("BoostingSendLinkToAnyone", R.string.BoostingSendLinkToAnyone);
+                } else {
+                    string = LocaleController.getString("BoostingSendLinkToFriends", R.string.BoostingSendLinkToFriends);
+                }
+                textInfoCell.setText(AndroidUtilities.replaceSingleTag(string, Theme.key_chat_messageLinkIn, 0, new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.adapters.GiftInfoAdapter$$ExternalSyntheticLambda3
                     @Override // java.lang.Runnable
                     public final void run() {
                         GiftInfoAdapter.this.lambda$onBindViewHolder$1();
                     }
                 }, this.resourcesProvider));
-                return;
+            } else {
+                Date date = new Date(this.giftCode.used_date * 1000);
+                textInfoCell.setText(LocaleController.formatString("BoostingUsedLinkDate", R.string.BoostingUsedLinkDate, LocaleController.formatString("formatDateAtTime", R.string.formatDateAtTime, LocaleController.getInstance().formatterYear.format(date), LocaleController.getInstance().formatterDay.format(date))));
             }
-            Date date = new Date(this.giftCode.used_date * 1000);
-            textInfoCell.setText(LocaleController.formatString("BoostingUsedLinkDate", R.string.BoostingUsedLinkDate, LocaleController.formatString("formatDateAtTime", R.string.formatDateAtTime, LocaleController.getInstance().formatterYear.format(date), LocaleController.getInstance().formatterDay.format(date))));
         }
     }
 
@@ -185,7 +212,7 @@ public abstract class GiftInfoAdapter extends RecyclerListView.SelectionAdapter 
         bundle.putBoolean("onlySelect", true);
         bundle.putInt("dialogsType", 3);
         DialogsActivity dialogsActivity = new DialogsActivity(bundle);
-        dialogsActivity.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.Components.Premium.boosts.adapters.GiftInfoAdapter$$ExternalSyntheticLambda6
+        dialogsActivity.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.Components.Premium.boosts.adapters.GiftInfoAdapter$$ExternalSyntheticLambda7
             @Override // org.telegram.ui.DialogsActivity.DialogsActivityDelegate
             public final boolean didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList, CharSequence charSequence, boolean z, TopicsFragment topicsFragment) {
                 boolean lambda$onBindViewHolder$0;
@@ -215,12 +242,12 @@ public abstract class GiftInfoAdapter extends RecyclerListView.SelectionAdapter 
                 return;
             }
             actionBtnCell.updateLoading(true);
-            BoostRepository.applyGiftCode(this.slug, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.adapters.GiftInfoAdapter$$ExternalSyntheticLambda4
+            BoostRepository.applyGiftCode(this.slug, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.adapters.GiftInfoAdapter$$ExternalSyntheticLambda5
                 @Override // org.telegram.messenger.Utilities.Callback
                 public final void run(Object obj) {
                     GiftInfoAdapter.this.lambda$onBindViewHolder$2(actionBtnCell, (Void) obj);
                 }
-            }, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.adapters.GiftInfoAdapter$$ExternalSyntheticLambda5
+            }, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.adapters.GiftInfoAdapter$$ExternalSyntheticLambda6
                 @Override // org.telegram.messenger.Utilities.Callback
                 public final void run(Object obj) {
                     GiftInfoAdapter.this.lambda$onBindViewHolder$3(actionBtnCell, (TLRPC$TL_error) obj);

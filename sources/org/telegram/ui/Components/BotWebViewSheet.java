@@ -554,11 +554,6 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
         final /* synthetic */ Theme.ResourcesProvider val$resourcesProvider;
 
         @Override // org.telegram.ui.Components.BotWebViewContainer.Delegate
-        public /* synthetic */ boolean isClipboardAvailable() {
-            return BotWebViewContainer.Delegate.-CC.$default$isClipboardAvailable(this);
-        }
-
-        @Override // org.telegram.ui.Components.BotWebViewContainer.Delegate
         public /* synthetic */ void onWebAppReady() {
             BotWebViewContainer.Delegate.-CC.$default$onWebAppReady(this);
         }
@@ -826,6 +821,11 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
                     }
                 }).start();
             }
+        }
+
+        @Override // org.telegram.ui.Components.BotWebViewContainer.Delegate
+        public boolean isClipboardAvailable() {
+            return MediaDataController.getInstance(BotWebViewSheet.this.currentAccount).botInAttachMenu(BotWebViewSheet.this.botId);
         }
     }
 

@@ -57,6 +57,7 @@ public class ToggleButton extends View implements FlashViews.Invertable {
         Bitmap bitmap = this.activeBitmap;
         if (bitmap != null) {
             bitmap.recycle();
+            this.activeBitmap = null;
         }
     }
 

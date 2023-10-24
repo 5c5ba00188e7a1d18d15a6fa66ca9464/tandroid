@@ -95,8 +95,8 @@ public class ThemePreviewMessagesCell extends LinearLayout {
         this(context, iNavigationLayout, i, 0L);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:47:0x03a1  */
-    /* JADX WARN: Removed duplicated region for block: B:60:0x03e9 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x03f6  */
+    /* JADX WARN: Removed duplicated region for block: B:68:0x043e A[SYNTHETIC] */
     @SuppressLint({"ClickableViewAccessibility"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -138,17 +138,28 @@ public class ThemePreviewMessagesCell extends LinearLayout {
             TLRPC$TL_messageReplyHeader tLRPC$TL_messageReplyHeader = new TLRPC$TL_messageReplyHeader();
             tLRPC$TL_message.reply_to = tLRPC$TL_messageReplyHeader;
             tLRPC$TL_messageReplyHeader.flags |= 1;
-            tLRPC$TL_messageReplyHeader.reply_to_peer_id = new TLRPC$TL_peerUser();
-            tLRPC$TL_message.reply_to.reply_to_peer_id.user_id = UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId();
+            if (j == 0) {
+                tLRPC$TL_messageReplyHeader.reply_to_peer_id = new TLRPC$TL_peerUser();
+                tLRPC$TL_message.reply_to.reply_to_peer_id.user_id = UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId();
+            } else {
+                tLRPC$TL_messageReplyHeader.reply_to_peer_id = new TLRPC$TL_peerChannel();
+                tLRPC$TL_message.reply_to.reply_to_peer_id.channel_id = -j;
+            }
             TLRPC$Message tLRPC$Message = new TLRPC$Message();
             tLRPC$TL_message.replyMessage = tLRPC$Message;
             tLRPC$Message.media = new TLRPC$TL_messageMediaEmpty();
             if (j == 0) {
                 tLRPC$TL_message.replyMessage.from_id = new TLRPC$TL_peerUser();
                 tLRPC$TL_message.replyMessage.from_id.user_id = UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId();
+                tLRPC$TL_message.replyMessage.peer_id = new TLRPC$TL_peerUser();
+                tLRPC$TL_message.replyMessage.peer_id.user_id = UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId();
             } else {
                 tLRPC$TL_message.replyMessage.from_id = new TLRPC$TL_peerChannel();
-                tLRPC$TL_message.replyMessage.from_id.channel_id = -j;
+                TLRPC$Message tLRPC$Message2 = tLRPC$TL_message.replyMessage;
+                long j2 = -j;
+                tLRPC$Message2.from_id.channel_id = j2;
+                tLRPC$Message2.peer_id = new TLRPC$TL_peerChannel();
+                tLRPC$TL_message.replyMessage.peer_id.channel_id = j2;
             }
             tLRPC$TL_message.replyMessage.message = LocaleController.getString(R.string.UserColorPreviewReply);
             TLRPC$TL_messageMediaWebPage tLRPC$TL_messageMediaWebPage = new TLRPC$TL_messageMediaWebPage();
@@ -178,13 +189,19 @@ public class ThemePreviewMessagesCell extends LinearLayout {
             }
             tLRPC$TL_message.id = 1;
             tLRPC$TL_message.out = false;
-            TLRPC$TL_peerUser tLRPC$TL_peerUser2 = new TLRPC$TL_peerUser();
-            tLRPC$TL_message.peer_id = tLRPC$TL_peerUser2;
-            tLRPC$TL_peerUser2.user_id = 0L;
-            messageObject = new MessageObject(UserConfig.selectedAccount, tLRPC$TL_message, true, false);
-            messageObject.forceAvatar = true;
-            messageObject.resetLayout();
-            messageObject.eventId = 1L;
+            if (j == 0) {
+                TLRPC$TL_peerUser tLRPC$TL_peerUser2 = new TLRPC$TL_peerUser();
+                tLRPC$TL_message.peer_id = tLRPC$TL_peerUser2;
+                tLRPC$TL_peerUser2.user_id = 0L;
+            } else {
+                TLRPC$TL_peerChannel tLRPC$TL_peerChannel2 = new TLRPC$TL_peerChannel();
+                tLRPC$TL_message.peer_id = tLRPC$TL_peerChannel2;
+                tLRPC$TL_peerChannel2.channel_id = -j;
+            }
+            messageObject2 = new MessageObject(UserConfig.selectedAccount, tLRPC$TL_message, true, false);
+            messageObject2.forceAvatar = true;
+            messageObject2.resetLayout();
+            messageObject2.eventId = 1L;
         } else if (i == 2) {
             TLRPC$TL_message tLRPC$TL_message2 = new TLRPC$TL_message();
             tLRPC$TL_message2.message = LocaleController.getString("DoubleTapPreviewMessage", R.string.DoubleTapPreviewMessage);
@@ -207,7 +224,7 @@ public class ThemePreviewMessagesCell extends LinearLayout {
             messageObject3.customAvatarDrawable = ContextCompat.getDrawable(context, R.drawable.dino_pic);
             messageObject3.overrideLinkColor = 5;
             messageObject3.overrideLinkEmoji = 0L;
-            messageObject = messageObject3;
+            messageObject2 = messageObject3;
         } else {
             TLRPC$TL_message tLRPC$TL_message3 = new TLRPC$TL_message();
             if (i == 0) {
@@ -276,11 +293,11 @@ public class ThemePreviewMessagesCell extends LinearLayout {
             TLRPC$TL_peerUser tLRPC$TL_peerUser8 = new TLRPC$TL_peerUser();
             tLRPC$TL_message4.peer_id = tLRPC$TL_peerUser8;
             tLRPC$TL_peerUser8.user_id = 0L;
-            messageObject = new MessageObject(UserConfig.selectedAccount, tLRPC$TL_message4, true, false);
-            messageObject.resetLayout();
-            messageObject.overrideLinkColor = 5;
-            messageObject.overrideLinkEmoji = 0L;
-            messageObject.eventId = 1L;
+            MessageObject messageObject5 = new MessageObject(UserConfig.selectedAccount, tLRPC$TL_message4, true, false);
+            messageObject5.resetLayout();
+            messageObject5.overrideLinkColor = 5;
+            messageObject5.overrideLinkEmoji = 0L;
+            messageObject5.eventId = 1L;
             TLRPC$TL_message tLRPC$TL_message5 = new TLRPC$TL_message();
             if (i == 0) {
                 tLRPC$TL_message5.message = LocaleController.getString("FontSizePreviewLine1", R.string.FontSizePreviewLine1);
@@ -301,17 +318,18 @@ public class ThemePreviewMessagesCell extends LinearLayout {
             TLRPC$TL_peerUser tLRPC$TL_peerUser9 = new TLRPC$TL_peerUser();
             tLRPC$TL_message5.peer_id = tLRPC$TL_peerUser9;
             tLRPC$TL_peerUser9.user_id = UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId();
-            messageObject2 = new MessageObject(UserConfig.selectedAccount, tLRPC$TL_message5, true, false);
+            messageObject = new MessageObject(UserConfig.selectedAccount, tLRPC$TL_message5, true, false);
             if (i == 0) {
-                messageObject2.customReplyName = LocaleController.getString("FontSizePreviewName", R.string.FontSizePreviewName);
+                messageObject.customReplyName = LocaleController.getString("FontSizePreviewName", R.string.FontSizePreviewName);
             } else {
-                messageObject2.customReplyName = LocaleController.getString("NewThemePreviewName", R.string.NewThemePreviewName);
+                messageObject.customReplyName = LocaleController.getString("NewThemePreviewName", R.string.NewThemePreviewName);
             }
-            messageObject2.eventId = 1L;
-            messageObject2.resetLayout();
-            messageObject2.overrideLinkColor = 5;
-            messageObject2.overrideLinkEmoji = 0L;
-            messageObject2.replyMessageObject = messageObject4;
+            messageObject.eventId = 1L;
+            messageObject.resetLayout();
+            messageObject.overrideLinkColor = 5;
+            messageObject.overrideLinkEmoji = 0L;
+            messageObject.replyMessageObject = messageObject4;
+            messageObject2 = messageObject5;
             i2 = 0;
             while (true) {
                 chatMessageCellArr = this.cells;
@@ -550,8 +568,8 @@ public class ThemePreviewMessagesCell extends LinearLayout {
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                    public /* synthetic */ void didPressViaBotNotInline(ChatMessageCell chatMessageCell, long j2) {
-                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressViaBotNotInline(this, chatMessageCell, j2);
+                    public /* synthetic */ void didPressViaBotNotInline(ChatMessageCell chatMessageCell, long j3) {
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressViaBotNotInline(this, chatMessageCell, j3);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
@@ -565,13 +583,13 @@ public class ThemePreviewMessagesCell extends LinearLayout {
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                    public /* synthetic */ void didStartVideoStream(MessageObject messageObject5) {
-                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didStartVideoStream(this, messageObject5);
+                    public /* synthetic */ void didStartVideoStream(MessageObject messageObject6) {
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didStartVideoStream(this, messageObject6);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                    public /* synthetic */ String getAdminRank(long j2) {
-                        return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$getAdminRank(this, j2);
+                    public /* synthetic */ String getAdminRank(long j3) {
+                        return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$getAdminRank(this, j3);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
@@ -620,8 +638,8 @@ public class ThemePreviewMessagesCell extends LinearLayout {
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                    public /* synthetic */ boolean needPlayMessage(MessageObject messageObject5, boolean z) {
-                        return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$needPlayMessage(this, messageObject5, z);
+                    public /* synthetic */ boolean needPlayMessage(MessageObject messageObject6, boolean z) {
+                        return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$needPlayMessage(this, messageObject6, z);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
@@ -645,8 +663,8 @@ public class ThemePreviewMessagesCell extends LinearLayout {
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                    public /* synthetic */ void setShouldNotRepeatSticker(MessageObject messageObject5) {
-                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$setShouldNotRepeatSticker(this, messageObject5);
+                    public /* synthetic */ void setShouldNotRepeatSticker(MessageObject messageObject6) {
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$setShouldNotRepeatSticker(this, messageObject6);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
@@ -655,8 +673,8 @@ public class ThemePreviewMessagesCell extends LinearLayout {
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                    public /* synthetic */ boolean shouldRepeatSticker(MessageObject messageObject5) {
-                        return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$shouldRepeatSticker(this, messageObject5);
+                    public /* synthetic */ boolean shouldRepeatSticker(MessageObject messageObject6) {
+                        return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$shouldRepeatSticker(this, messageObject6);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
@@ -685,7 +703,7 @@ public class ThemePreviewMessagesCell extends LinearLayout {
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                    public void needOpenWebView(MessageObject messageObject5, String str, String str2, String str3, String str4, int i5, int i6) {
+                    public void needOpenWebView(MessageObject messageObject6, String str, String str2, String str3, String str4, int i5, int i6) {
                         if (i == 3) {
                             ThemePreviewMessagesCell.this.progress = 2;
                             AndroidUtilities.cancelRunOnUIThread(ThemePreviewMessagesCell.this.cancelProgress);
@@ -711,15 +729,15 @@ public class ThemePreviewMessagesCell extends LinearLayout {
                 ChatMessageCell[] chatMessageCellArr2 = this.cells;
                 chatMessageCellArr2[i2].isChat = i == 2;
                 chatMessageCellArr2[i2].setFullyDraw(true);
-                MessageObject messageObject5 = i2 == 0 ? messageObject2 : messageObject;
-                if (messageObject5 != null) {
-                    this.cells[i2].setMessageObject(messageObject5, null, false, false);
+                MessageObject messageObject6 = i2 == 0 ? messageObject : messageObject2;
+                if (messageObject6 != null) {
+                    this.cells[i2].setMessageObject(messageObject6, null, false, false);
                     addView(this.cells[i2], LayoutHelper.createLinear(-1, -2));
                 }
                 i2++;
             }
         }
-        messageObject2 = null;
+        messageObject = null;
         i2 = 0;
         while (true) {
             chatMessageCellArr = this.cells;

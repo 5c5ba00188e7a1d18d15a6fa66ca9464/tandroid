@@ -240,7 +240,7 @@ public class TimelineView extends View {
         if (this.pressVideo || !this.hasAudio) {
             return;
         }
-        VolumeSliderView onValueChange = new VolumeSliderView(getContext()).setVolume(this.audioVolume).setOnValueChange(new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.TimelineView$$ExternalSyntheticLambda3
+        SliderView onValueChange = new SliderView(getContext(), 0).setValue(this.audioVolume).setMinMax(0.0f, 1.5f).setOnValueChange(new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.TimelineView$$ExternalSyntheticLambda3
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 TimelineView.this.lambda$new$0((Float) obj);

@@ -671,10 +671,10 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:101:0x036a, code lost:
-        if ("d".equals(((org.telegram.ui.WallpapersListActivity.ColorWallpaper) r1).slug) == false) goto L354;
+        if ("d".equals(((org.telegram.ui.WallpapersListActivity.ColorWallpaper) r1).slug) == false) goto L356;
      */
     /* JADX WARN: Code restructure failed: missing block: B:103:0x0370, code lost:
-        if ((r33.currentWallpaper instanceof org.telegram.tgnet.TLRPC$TL_wallPaper) != false) goto L354;
+        if ((r33.currentWallpaper instanceof org.telegram.tgnet.TLRPC$TL_wallPaper) != false) goto L356;
      */
     /* JADX WARN: Removed duplicated region for block: B:137:0x05a0  */
     /* JADX WARN: Removed duplicated region for block: B:138:0x05b0  */
@@ -701,9 +701,9 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
     /* JADX WARN: Removed duplicated region for block: B:376:0x0f77  */
     /* JADX WARN: Removed duplicated region for block: B:379:0x10aa  */
     /* JADX WARN: Removed duplicated region for block: B:37:0x0112  */
-    /* JADX WARN: Removed duplicated region for block: B:386:0x10d1  */
-    /* JADX WARN: Removed duplicated region for block: B:389:0x10e3  */
+    /* JADX WARN: Removed duplicated region for block: B:388:0x10d3  */
     /* JADX WARN: Removed duplicated region for block: B:38:0x0114  */
+    /* JADX WARN: Removed duplicated region for block: B:391:0x10e5  */
     /* JADX WARN: Removed duplicated region for block: B:41:0x011e  */
     /* JADX WARN: Removed duplicated region for block: B:42:0x0121  */
     /* JADX WARN: Removed duplicated region for block: B:45:0x0165  */
@@ -746,6 +746,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         FrameLayout.LayoutParams createFrame;
         Theme.ThemeAccent themeAccent;
         INavigationLayout iNavigationLayout;
+        Theme.ThemeAccent themeAccent2;
         this.msgOutDrawable.setResourceProvider(getResourceProvider());
         this.msgOutDrawableSelected.setResourceProvider(getResourceProvider());
         this.msgOutMediaDrawable.setResourceProvider(getResourceProvider());
@@ -1753,9 +1754,9 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                                             this.colorPicker.setMinBrightness(0.05f);
                                                             this.colorPicker.setMaxBrightness(0.8f);
                                                         }
-                                                        Theme.ThemeAccent themeAccent2 = this.accent;
-                                                        if (themeAccent2 != null) {
-                                                            this.colorPicker.setType(1, hasChanges(1), 2, themeAccent2.accentColor2 != 0 ? 2 : 1, false, 0, false);
+                                                        Theme.ThemeAccent themeAccent3 = this.accent;
+                                                        if (themeAccent3 != null) {
+                                                            this.colorPicker.setType(1, hasChanges(1), 2, themeAccent3.accentColor2 != 0 ? 2 : 1, false, 0, false);
                                                             this.colorPicker.setColor(this.accent.accentColor, 0);
                                                             int i25 = this.accent.accentColor2;
                                                             if (i25 != 0) {
@@ -2006,7 +2007,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                 }
                             });
                         }
-                        if (this.screenType == 1 && !Theme.hasCustomWallpaper() && this.accent.backgroundOverrideColor != 4294967296L) {
+                        if (this.screenType == 1 && !Theme.hasCustomWallpaper() && (themeAccent2 = this.accent) != null && themeAccent2.backgroundOverrideColor != 4294967296L) {
                             selectColorType(2);
                         }
                         this.themeDescriptions = getThemeDescriptionsInternal();
@@ -3985,12 +3986,16 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 }
             }
         } else {
-            this.accent.backgroundRotation += 45;
+            Theme.ThemeAccent themeAccent = this.accent;
+            if (themeAccent == null) {
+                return;
+            }
+            themeAccent.backgroundRotation += 45;
             while (true) {
-                Theme.ThemeAccent themeAccent = this.accent;
-                int i2 = themeAccent.backgroundRotation;
+                Theme.ThemeAccent themeAccent2 = this.accent;
+                int i2 = themeAccent2.backgroundRotation;
                 if (i2 >= 360) {
-                    themeAccent.backgroundRotation = i2 - 360;
+                    themeAccent2.backgroundRotation = i2 - 360;
                 } else {
                     Theme.refreshThemeColors();
                     return;
@@ -4006,7 +4011,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
 
     private void selectColorType(int i, boolean z) {
         int i2;
-        if (getParentActivity() == null || this.colorType == i || this.patternViewAnimation != null) {
+        if (getParentActivity() == null || this.colorType == i || this.patternViewAnimation != null || this.accent != null) {
             return;
         }
         if (z && i == 2 && (Theme.hasCustomWallpaper() || this.accent.backgroundOverrideColor == 4294967296L)) {

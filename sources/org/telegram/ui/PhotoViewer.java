@@ -4837,50 +4837,6 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         clippingImageView.setAnimationValues(this.animationValues);
         this.windowView.addView(this.animatingImageView, LayoutHelper.createFrame(40, 40.0f));
         FrameLayoutDrawer frameLayoutDrawer = new FrameLayoutDrawer(parentActivity, parentActivity) { // from class: org.telegram.ui.PhotoViewer.13
-            private Bulletin.Delegate delegate = new Bulletin.Delegate() { // from class: org.telegram.ui.PhotoViewer.13.1
-                @Override // org.telegram.ui.Components.Bulletin.Delegate
-                public /* synthetic */ boolean allowLayoutChanges() {
-                    return Bulletin.Delegate.-CC.$default$allowLayoutChanges(this);
-                }
-
-                @Override // org.telegram.ui.Components.Bulletin.Delegate
-                public /* synthetic */ boolean clipWithGradient(int i3) {
-                    return Bulletin.Delegate.-CC.$default$clipWithGradient(this, i3);
-                }
-
-                @Override // org.telegram.ui.Components.Bulletin.Delegate
-                public /* synthetic */ int getTopOffset(int i3) {
-                    return Bulletin.Delegate.-CC.$default$getTopOffset(this, i3);
-                }
-
-                @Override // org.telegram.ui.Components.Bulletin.Delegate
-                public /* synthetic */ void onBottomOffsetChange(float f) {
-                    Bulletin.Delegate.-CC.$default$onBottomOffsetChange(this, f);
-                }
-
-                @Override // org.telegram.ui.Components.Bulletin.Delegate
-                public /* synthetic */ void onHide(Bulletin bulletin) {
-                    Bulletin.Delegate.-CC.$default$onHide(this, bulletin);
-                }
-
-                @Override // org.telegram.ui.Components.Bulletin.Delegate
-                public /* synthetic */ void onShow(Bulletin bulletin) {
-                    Bulletin.Delegate.-CC.$default$onShow(this, bulletin);
-                }
-
-                {
-                    13.this = this;
-                }
-
-                @Override // org.telegram.ui.Components.Bulletin.Delegate
-                public int getBottomOffset(int i3) {
-                    if (PhotoViewer.this.captionEdit.editText.getVisibility() == 8) {
-                        return 0;
-                    }
-                    return getHeight() - PhotoViewer.this.captionEdit.editText.getTop();
-                }
-            };
-
             {
                 PhotoViewer.this = this;
             }
@@ -4898,18 +4854,6 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     return true;
                 }
                 return super.dispatchTouchEvent(motionEvent);
-            }
-
-            @Override // org.telegram.ui.PhotoViewer.FrameLayoutDrawer, org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
-            protected void onAttachedToWindow() {
-                super.onAttachedToWindow();
-                Bulletin.addDelegate(this, this.delegate);
-            }
-
-            @Override // org.telegram.ui.PhotoViewer.FrameLayoutDrawer, org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
-            protected void onDetachedFromWindow() {
-                super.onDetachedFromWindow();
-                Bulletin.removeDelegate(this);
             }
 
             @Override // org.telegram.ui.PhotoViewer.FrameLayoutDrawer, android.view.ViewGroup

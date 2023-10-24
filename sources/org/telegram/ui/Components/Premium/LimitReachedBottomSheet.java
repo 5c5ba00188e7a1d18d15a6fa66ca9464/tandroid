@@ -1106,18 +1106,18 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
         TextView title;
         LinearLayout titleLinearLayout;
 
-        /* JADX WARN: Removed duplicated region for block: B:107:0x0353  */
-        /* JADX WARN: Removed duplicated region for block: B:116:0x0372  */
-        /* JADX WARN: Removed duplicated region for block: B:121:0x03a7  */
-        /* JADX WARN: Removed duplicated region for block: B:122:0x03b2  */
-        /* JADX WARN: Removed duplicated region for block: B:141:0x0451  */
-        /* JADX WARN: Removed duplicated region for block: B:153:0x05ad  */
-        /* JADX WARN: Removed duplicated region for block: B:160:0x05e8  */
-        /* JADX WARN: Removed duplicated region for block: B:161:0x05f8  */
-        /* JADX WARN: Removed duplicated region for block: B:49:0x0246  */
-        /* JADX WARN: Removed duplicated region for block: B:50:0x0256  */
-        /* JADX WARN: Removed duplicated region for block: B:54:0x0260  */
-        /* JADX WARN: Removed duplicated region for block: B:90:0x02f2 A[ADDED_TO_REGION] */
+        /* JADX WARN: Removed duplicated region for block: B:106:0x0349  */
+        /* JADX WARN: Removed duplicated region for block: B:115:0x0368  */
+        /* JADX WARN: Removed duplicated region for block: B:120:0x039d  */
+        /* JADX WARN: Removed duplicated region for block: B:121:0x03a8  */
+        /* JADX WARN: Removed duplicated region for block: B:140:0x0447  */
+        /* JADX WARN: Removed duplicated region for block: B:152:0x05a3  */
+        /* JADX WARN: Removed duplicated region for block: B:159:0x05de  */
+        /* JADX WARN: Removed duplicated region for block: B:160:0x05ee  */
+        /* JADX WARN: Removed duplicated region for block: B:48:0x023c  */
+        /* JADX WARN: Removed duplicated region for block: B:49:0x024c  */
+        /* JADX WARN: Removed duplicated region for block: B:53:0x0256  */
+        /* JADX WARN: Removed duplicated region for block: B:89:0x02e8 A[ADDED_TO_REGION] */
         @SuppressLint({"SetTextI18n"})
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -1151,7 +1151,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
             } else if (i10 == 18) {
                 str = LimitReachedBottomSheet.this.boostsStatus.level == 0 ? LocaleController.formatString("ChannelNeedBoostsDescription", R.string.ChannelNeedBoostsDescription, LocaleController.formatPluralString("MoreBoosts", LimitReachedBottomSheet.this.boostsStatus.next_level_boosts, Integer.valueOf(LimitReachedBottomSheet.this.boostsStatus.next_level_boosts))) : LocaleController.formatString("ChannelNeedBoostsDescriptionNextLevel", R.string.ChannelNeedBoostsDescriptionNextLevel, LocaleController.formatPluralString("MoreBoosts", LimitReachedBottomSheet.this.boostsStatus.next_level_boosts, Integer.valueOf(LimitReachedBottomSheet.this.boostsStatus.next_level_boosts)), LocaleController.formatPluralString("BoostStories", LimitReachedBottomSheet.this.boostsStatus.level + 1, new Object[0]));
             } else if (i10 == 20) {
-                str = LocaleController.formatString("ChannelNeedBoostsForColorDescription", R.string.ChannelNeedBoostsForColorDescription, LocaleController.formatPluralString("MoreBoosts", LimitReachedBottomSheet.this.boostsStatus.next_level_boosts, Integer.valueOf(LimitReachedBottomSheet.this.boostsStatus.next_level_boosts)));
+                str = LocaleController.formatString("ChannelNeedBoostsForColorDescription", R.string.ChannelNeedBoostsForColorDescription, Integer.valueOf(MessagesController.getInstance(((BottomSheet) LimitReachedBottomSheet.this).currentAccount).channelColorLevelMin));
             } else if (i10 == 11) {
                 if (!LimitReachedBottomSheet.this.canSendLink) {
                     if (ChatObject.isChannelAndNotMegaGroup(LimitReachedBottomSheet.this.fromChat)) {

@@ -81,6 +81,7 @@ public class EditTextBoldCursor extends EditTextEffects {
     public FloatingActionMode floatingActionMode;
     private FloatingToolbar floatingToolbar;
     private ViewTreeObserver.OnPreDrawListener floatingToolbarPreDrawListener;
+    private boolean forceCursorEnd;
     private GradientDrawable gradientDrawable;
     private float headerAnimationProgress;
     private int headerHintColor;
@@ -216,6 +217,7 @@ public class EditTextBoldCursor extends EditTextEffects {
         this.hintVisible = true;
         this.hintAlpha = 1.0f;
         this.allowDrawCursor = true;
+        this.forceCursorEnd = false;
         this.cursorWidth = 2.0f;
         this.lineVisible = false;
         this.lineActive = false;
@@ -431,6 +433,11 @@ public class EditTextBoldCursor extends EditTextEffects {
 
     public void setAllowDrawCursor(boolean z) {
         this.allowDrawCursor = z;
+        invalidate();
+    }
+
+    public void setForceCursorEnd(boolean z) {
+        this.forceCursorEnd = z;
         invalidate();
     }
 
@@ -1212,9 +1219,9 @@ public class EditTextBoldCursor extends EditTextEffects {
 
     private boolean updateCursorPosition() {
         Layout layout = getLayout();
-        int selectionStart = getSelectionStart();
-        int lineForOffset = layout.getLineForOffset(selectionStart);
-        updateCursorPosition(layout.getLineTop(lineForOffset), layout.getLineTop(lineForOffset + 1), layout.getPrimaryHorizontal(selectionStart));
+        int length = this.forceCursorEnd ? layout.getText().length() : getSelectionStart();
+        int lineForOffset = layout.getLineForOffset(length);
+        updateCursorPosition(layout.getLineTop(lineForOffset), layout.getLineTop(lineForOffset + 1), layout.getPrimaryHorizontal(length));
         layout.getText();
         return true;
     }
