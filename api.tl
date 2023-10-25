@@ -247,7 +247,7 @@ documentAttributeSticker#6319d612 flags:# mask:flags.1?true alt:string stickerse
 documentAttributeVideo#d38ff1c2 flags:# round_message:flags.0?true supports_streaming:flags.1?true nosound:flags.3?true duration:double w:int h:int preload_prefix_size:flags.2?int = DocumentAttribute;
 documentEmpty#36f8c871 id:long = Document;
 documentEncrypted#55555558 id:long access_hash:long date:int mime_type:string size:int thumbs:Vector<PhotoSize> dc_id:int attributes:Vector<DocumentAttribute> key:bytes iv:bytes = Document;
-draftMessage#db074fa8 flags:# no_webpage:flags.1?true invert_media:flags.6?true reply_to:flags.4?MessageReplyHeader message:string entities:flags.3?Vector<MessageEntity> media:flags.5?MessageMedia date:int = DraftMessage;
+draftMessage#3fccf7ef flags:# no_webpage:flags.1?true invert_media:flags.6?true reply_to:flags.4?InputReplyTo message:string entities:flags.3?Vector<MessageEntity> media:flags.5?InputMedia date:int = DraftMessage;
 draftMessageEmpty#1b0c841a flags:# date:flags.0?int = DraftMessage;
 emailVerificationCode#922e55a9 code:string = EmailVerification;
 emailVerificationGoogle#db909ec2 token:string = EmailVerification;
