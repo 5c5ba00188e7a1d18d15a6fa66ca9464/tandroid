@@ -434,7 +434,7 @@ public class FilterTabsView extends FrameLayout {
                 this.currentText = str;
                 z = z4;
                 f = ceil;
-                StaticLayout staticLayout = new StaticLayout(Emoji.replaceEmoji(str, FilterTabsView.this.textPaint.getFontMetricsInt(), AndroidUtilities.dp(15.0f), false), FilterTabsView.this.textPaint, AndroidUtilities.dp(400.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+                StaticLayout staticLayout = new StaticLayout(Emoji.replaceEmoji((CharSequence) str, FilterTabsView.this.textPaint.getFontMetricsInt(), AndroidUtilities.dp(15.0f), false), FilterTabsView.this.textPaint, AndroidUtilities.dp(400.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
                 this.textLayout = staticLayout;
                 this.textHeight = staticLayout.getHeight();
                 this.textOffsetX = (int) (-this.textLayout.getLineLeft(0));
@@ -775,7 +775,7 @@ public class FilterTabsView extends FrameLayout {
                 }
                 int indexOf = str2.indexOf(str3);
                 if (indexOf >= 0) {
-                    CharSequence replaceEmoji = Emoji.replaceEmoji(str2, FilterTabsView.this.textPaint.getFontMetricsInt(), AndroidUtilities.dp(15.0f), false);
+                    CharSequence replaceEmoji = Emoji.replaceEmoji((CharSequence) str2, FilterTabsView.this.textPaint.getFontMetricsInt(), AndroidUtilities.dp(15.0f), false);
                     SpannableStringBuilder spannableStringBuilder4 = new SpannableStringBuilder(replaceEmoji);
                     SpannableStringBuilder spannableStringBuilder5 = new SpannableStringBuilder(replaceEmoji);
                     if (indexOf != 0) {

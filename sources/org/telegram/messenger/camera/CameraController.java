@@ -12,6 +12,7 @@ import android.hardware.Camera;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaRecorder;
 import android.os.Build;
+import android.text.TextUtils;
 import android.util.Base64;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -778,7 +779,8 @@ public class CameraController implements MediaRecorder.OnInfoListener {
             }
         }
         camera.setErrorCallback(getErrorListener(cameraSession));
-        List<String> supportedFlashModes = camera.getParameters().getSupportedFlashModes();
+        Camera.Parameters parameters = camera.getParameters();
+        List<String> supportedFlashModes = parameters.getSupportedFlashModes();
         cameraSession.availableFlashModes.clear();
         if (supportedFlashModes != null) {
             for (int i = 0; i < supportedFlashModes.size(); i++) {
@@ -786,6 +788,9 @@ public class CameraController implements MediaRecorder.OnInfoListener {
                 if (str.equals("off") || str.equals("on") || str.equals("auto")) {
                     cameraSession.availableFlashModes.add(str);
                 }
+            }
+            if (TextUtils.equals(cameraSession.getCurrentFlashMode(), parameters.getFlashMode()) && cameraSession.availableFlashModes.contains(cameraSession.getCurrentFlashMode())) {
+                cameraSession.checkFlashMode(cameraSession.getCurrentFlashMode());
             }
             cameraSession.checkFlashMode(cameraSession.availableFlashModes.get(0));
         }

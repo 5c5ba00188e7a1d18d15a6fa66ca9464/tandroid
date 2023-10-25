@@ -261,7 +261,7 @@ public class PollVotesAlert extends BottomSheet {
         public void setText(String str, int i, int i2, int i3, boolean z) {
             SpannableStringBuilder spannableStringBuilder;
             TextView textView = this.textView;
-            textView.setText(Emoji.replaceEmoji(str, textView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(14.0f), false));
+            textView.setText(Emoji.replaceEmoji((CharSequence) str, textView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(14.0f), false));
             String format = String.format("%d", Integer.valueOf(i));
             if (LocaleController.isRTL) {
                 spannableStringBuilder = new SpannableStringBuilder(String.format("%s%% – ", Integer.valueOf(i)));
@@ -849,7 +849,7 @@ public class PollVotesAlert extends BottomSheet {
         textView2.setTextColor(Theme.getColor(i11));
         this.titleTextView.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
         TextView textView3 = this.titleTextView;
-        textView3.setText(Emoji.replaceEmoji(this.poll.question, textView3.getPaint().getFontMetricsInt(), AndroidUtilities.dp(18.0f), false));
+        textView3.setText(Emoji.replaceEmoji((CharSequence) this.poll.question, textView3.getPaint().getFontMetricsInt(), AndroidUtilities.dp(18.0f), false));
         ActionBar actionBar = new ActionBar(parentActivity) { // from class: org.telegram.ui.Components.PollVotesAlert.7
             @Override // android.view.View
             public void setAlpha(float f) {

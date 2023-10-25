@@ -54,49 +54,49 @@ public class MediaCodecVideoConvertor {
     /* JADX WARN: Can't wrap try/catch for region: R(34:(2:13|(1:15)(2:581|(1:583)(1:584)))(1:(1:586))|(3:17|18|19)(1:580)|(15:561|562|563|(4:565|(1:567)|568|569)|570|(4:572|(1:574)|575|576)|21|(1:23)|25|26|27|28|29|30|(7:31|32|33|34|35|36|37))|(3:511|512|(30:514|40|41|42|43|44|45|(2:491|492)(1:47)|48|49|50|51|(5:467|468|470|471|472)(1:53)|54|(2:(5:187|188|(2:456|457)|190|(1:(11:195|196|(1:198)(1:455)|199|200|201|(1:203)(2:279|(4:444|445|(1:447)|448)(22:281|(5:283|(1:285)|286|(1:322)(7:289|290|291|292|(2:294|(8:296|297|298|299|(1:301)(1:308)|(1:303)(1:307)|304|305))(1:315)|314|305)|306)(2:323|(4:325|326|(1:328)(1:440)|(13:330|331|(7:348|349|350|(7:(1:396)(3:355|356|357)|(2:361|362)|363|364|365|366|(1:383)(12:370|371|(1:373)|374|375|376|335|336|337|(1:339)(1:342)|340|341))(8:397|(2:399|(6:401|(3:405|(2:411|(2:413|414)(1:420))|421)|426|415|(1:418)|419)(1:428))|335|336|337|(0)(0)|340|341)|205|(2:207|208)(3:(6:214|215|216|217|218|(1:220))(1:211)|212|213)|209)(1:333)|334|335|336|337|(0)(0)|340|341|205|(0)(0)|209)(3:437|438|439))(3:441|442|443))|225|226|227|228|(1:265)(1:231)|232|233|234|235|236|237|238|239|240|241|242|243|244|245|246))|204|205|(0)(0)|209)))(2:57|58)|194)|(2:185|186)|(1:61)|(1:63)|(1:65)|66|67|68|(1:70)|71|(2:109|110)|(2:105|106)|(2:101|102)|(2:97|98)|(2:93|94)|77))|39|40|41|42|43|44|45|(0)(0)|48|49|50|51|(0)(0)|54|(7:(0)|187|188|(0)|190|(12:(0)|195|196|(0)(0)|199|200|201|(0)(0)|204|205|(0)(0)|209)|194)|(0)|(0)|(0)|(0)|66|67|68|(0)|71|(0)|(0)|(0)|(0)|(0)|77) */
     /* JADX WARN: Can't wrap try/catch for region: R(48:(2:13|(1:15)(2:581|(1:583)(1:584)))(1:(1:586))|(3:17|18|19)(1:580)|561|562|563|(4:565|(1:567)|568|569)|570|(4:572|(1:574)|575|576)|21|(1:23)|25|26|27|28|29|30|(7:31|32|33|34|35|36|37)|(3:511|512|(30:514|40|41|42|43|44|45|(2:491|492)(1:47)|48|49|50|51|(5:467|468|470|471|472)(1:53)|54|(2:(5:187|188|(2:456|457)|190|(1:(11:195|196|(1:198)(1:455)|199|200|201|(1:203)(2:279|(4:444|445|(1:447)|448)(22:281|(5:283|(1:285)|286|(1:322)(7:289|290|291|292|(2:294|(8:296|297|298|299|(1:301)(1:308)|(1:303)(1:307)|304|305))(1:315)|314|305)|306)(2:323|(4:325|326|(1:328)(1:440)|(13:330|331|(7:348|349|350|(7:(1:396)(3:355|356|357)|(2:361|362)|363|364|365|366|(1:383)(12:370|371|(1:373)|374|375|376|335|336|337|(1:339)(1:342)|340|341))(8:397|(2:399|(6:401|(3:405|(2:411|(2:413|414)(1:420))|421)|426|415|(1:418)|419)(1:428))|335|336|337|(0)(0)|340|341)|205|(2:207|208)(3:(6:214|215|216|217|218|(1:220))(1:211)|212|213)|209)(1:333)|334|335|336|337|(0)(0)|340|341|205|(0)(0)|209)(3:437|438|439))(3:441|442|443))|225|226|227|228|(1:265)(1:231)|232|233|234|235|236|237|238|239|240|241|242|243|244|245|246))|204|205|(0)(0)|209)))(2:57|58)|194)|(2:185|186)|(1:61)|(1:63)|(1:65)|66|67|68|(1:70)|71|(2:109|110)|(2:105|106)|(2:101|102)|(2:97|98)|(2:93|94)|77))|39|40|41|42|43|44|45|(0)(0)|48|49|50|51|(0)(0)|54|(7:(0)|187|188|(0)|190|(12:(0)|195|196|(0)(0)|199|200|201|(0)(0)|204|205|(0)(0)|209)|194)|(0)|(0)|(0)|(0)|66|67|68|(0)|71|(0)|(0)|(0)|(0)|(0)|77) */
     /* JADX WARN: Can't wrap try/catch for region: R(9:(20:(1:653)(2:1537|(2:1539|1540)(50:1541|1542|(1:1536)(4:658|(2:663|664)|1535|664)|(47:1531|1532|(2:668|669)|746|747|(5:749|750|751|752|753)(1:1525)|754|755|(1:759)|760|761|(8:763|(1:765)(1:1517)|766|(1:768)(1:1516)|769|(1:771)|773|(35:1515|778|(3:1500|1501|(3:1504|(1:1506)|1507))(1:780)|781|782|783|784|785|787|788|789|790|791|792|793|794|795|796|(3:1451|1452|(18:1455|(1:1457)(1:1460)|1458|799|800|(3:803|804|(2:806|(13:808|809|810|811|812|813|814|815|816|(2:1402|1403)(1:818)|819|820|(11:1347|1348|1349|1350|(1:1352)|1387|(4:1389|1355|(1:1357)|(1:(12:1360|1361|1362|(1:1364)|1365|(1:1367)(1:1369)|1368|(1:831)(1:1343)|832|833|834|(2:(7:841|842|(3:844|845|846)(1:1333)|(6:848|849|850|851|(6:853|854|855|(4:857|(1:859)(1:1270)|860|(2:862|863)(1:1268))(1:1271)|1269|863)(3:1276|(2:1319|(1:1321))(10:1281|1282|(3:1284|1285|(2:1287|1288))(1:1314)|1289|(1:1291)|1292|(1:1294)(1:1313)|1295|(1:1312)(2:1301|(1:1311)(3:1305|(1:1307)|1308))|1309)|1310)|(4:867|868|869|(1:(11:874|875|876|(1:878)(1:1261)|879|880|881|(1:883)(3:1078|(4:1244|1245|(1:1247)|1248)(2:1080|(4:1202|1203|(1:1239)(7:1206|1207|1208|1209|(3:1211|1212|(7:1214|1215|1216|(1:1218)(1:1226)|(1:1220)(1:1225)|1221|1222))(1:1233)|1232|1222)|1223)(3:1082|1083|(4:1085|1086|(1:1088)(1:1194)|(12:1090|1091|(4:1108|1109|1110|(15:(1:1155)(3:1115|1116|1117)|(2:1121|1122)|1123|1124|1125|1126|(1:1142)(5:1130|1131|1132|(1:1134)|1135)|1136|1096|1097|(1:1099)(1:1102)|1100|1101|(3:1075|1076|1077)(6:886|(7:888|889|890|(1:892)(3:897|(2:902|(3:1054|1055|(1:1057))(1:(22:905|(1:907)(1:1049)|908|909|910|(1:1043)(3:914|915|916)|917|(4:919|920|921|(16:923|924|(14:926|(3:928|929|930)(4:1019|1020|1021|1022)|931|932|(1:1012)(1:938)|939|(1:941)(1:1011)|942|(2:946|(7:948|(1:950)|951|(1:953)(3:1000|(1:1004)|1005)|(9:963|964|965|(2:967|968)(1:991)|969|970|971|(4:973|974|975|976)(1:986)|977)(1:955)|956|(3:958|(1:960)|961)(4:962|901|894|895))(3:1006|(1:1008)|1009))|1010|(0)(0)|(0)(0)|956|(0)(0))|1027|932|(1:934)|1012|939|(0)(0)|942|(3:944|946|(0)(0))|1010|(0)(0)|(0)(0)|956|(0)(0)))(1:1034)|1028|1027|932|(0)|1012|939|(0)(0)|942|(0)|1010|(0)(0)|(0)(0)|956|(0)(0))(1:1050)))|899)|893|894|895)(1:1074)|900|901|894|895)|896)(2:1156|(14:1158|(3:1162|(2:1168|(2:1170|1171)(1:1177))|1178)|1183|1172|(1:1175)|1176|1095|1096|1097|(0)(0)|1100|1101|(0)(0)|896)))(1:1093)|1094|1095|1096|1097|(0)(0)|1100|1101|(0)(0)|896)(4:1190|1191|1192|1193))(3:1195|1196|1197)))|1224)|884|(0)(0)|896))))(1:1327)|1267|869|(12:(0)|874|875|876|(0)(0)|879|880|881|(0)(0)|884|(0)(0)|896))|873))(13:1374|(1:1376)|1377|(1:1379)|1380|1381|828|829|(0)(0)|832|833|834|(9:(0)|841|842|(0)(0)|(0)(0)|1267|869|(12:(0)|874|875|876|(0)(0)|879|880|881|(0)(0)|884|(0)(0)|896)|873)))(7:1382|829|(0)(0)|832|833|834|(9:(0)|841|842|(0)(0)|(0)(0)|1267|869|(12:(0)|874|875|876|(0)(0)|879|880|881|(0)(0)|884|(0)(0)|896)|873)))|1354|1355|(0)|(0)(0))(3:822|823|(10:825|826|827|828|829|(0)(0)|832|833|834|(9:(0)|841|842|(0)(0)|(0)(0)|1267|869|(12:(0)|874|875|876|(0)(0)|879|880|881|(0)(0)|884|(0)(0)|896)|873))(7:1345|829|(0)(0)|832|833|834|(9:(0)|841|842|(0)(0)|(0)(0)|1267|869|(12:(0)|874|875|876|(0)(0)|879|880|881|(0)(0)|884|(0)(0)|896)|873))))))|1425|(4:1427|1428|1429|(8:1431|(1:1433)(1:1442)|1434|1435|(1:1437)(1:1440)|1438|1439|810)(1:1443))|811|812|813|814|815|816|(0)(0)|819|820|(0)(0)))|798|799|800|(3:803|804|(0))|1425|(0)|811|812|813|814|815|816|(0)(0)|819|820|(0)(0)))(1:1518)|777|778|(0)(0)|781|782|783|784|785|787|788|789|790|791|792|793|794|795|796|(0)|798|799|800|(0)|1425|(0)|811|812|813|814|815|816|(0)(0)|819|820|(0)(0))|666|(0)|746|747|(0)(0)|754|755|(2:757|759)|760|761|(0)(0)|777|778|(0)(0)|781|782|783|784|785|787|788|789|790|791|792|793|794|795|796|(0)|798|799|800|(0)|1425|(0)|811|812|813|814|815|816|(0)(0)|819|820|(0)(0)))|795|796|(0)|798|799|800|(0)|1425|(0)|811|812|813|814|815|816|(0)(0)|819|820|(0)(0))|787|788|789|790|791|792|793|794) */
-    /* JADX WARN: Code restructure failed: missing block: B:1117:0x1517, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1117:0x1518, code lost:
         r59 = r2;
         r5 = r16;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1118:0x1532, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1118:0x1533, code lost:
         throw new java.lang.RuntimeException("unexpected result from decoder.dequeueOutputBuffer: " + r10);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1189:0x16cf, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1189:0x16d0, code lost:
         r0 = th;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1190:0x16d0, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1190:0x16d1, code lost:
         r4 = r85;
         r1 = r8;
         r19 = r9;
         r5 = r13;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1192:0x16e5, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1192:0x16e6, code lost:
         r0 = e;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1193:0x16e6, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1193:0x16e7, code lost:
         r4 = r85;
         r1 = r8;
         r19 = r9;
         r5 = r13;
         r21 = r14;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1195:0x16f9, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1195:0x16fa, code lost:
         r0 = th;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1196:0x16fa, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1196:0x16fb, code lost:
         r4 = r85;
         r1 = r8;
         r19 = r9;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1197:0x1700, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1197:0x1701, code lost:
         r0 = e;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1198:0x1701, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1198:0x1702, code lost:
         r4 = r85;
         r1 = r8;
         r19 = r9;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1201:0x170f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1201:0x1710, code lost:
         r3 = r87;
         r2 = r0;
         r8 = r14;
@@ -107,7 +107,7 @@ public class MediaCodecVideoConvertor {
         r5 = null;
         r10 = null;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1206:0x172c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1206:0x172d, code lost:
         r21 = r14;
         r2 = r0;
         r12 = r79;
@@ -115,43 +115,43 @@ public class MediaCodecVideoConvertor {
         r5 = null;
         r10 = -5;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1211:0x175f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1211:0x1760, code lost:
         r16 = null;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1216:0x1784, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1216:0x1785, code lost:
         r0 = e;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1218:0x1786, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1218:0x1787, code lost:
         r0 = move-exception;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1219:0x1787, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1219:0x1788, code lost:
         r1 = r8;
         r4 = r85;
         r3 = r87;
         r2 = r0;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1221:0x1795, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1221:0x1796, code lost:
         r0 = e;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1222:0x1796, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1222:0x1797, code lost:
         r74 = r1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1223:0x1798, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1223:0x1799, code lost:
         r1 = r8;
         r4 = r85;
         r21 = r14;
         r2 = r0;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:244:0x0531, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:244:0x0532, code lost:
         throw new java.lang.RuntimeException("unsupported!!");
      */
     /* JADX WARN: Code restructure failed: missing block: B:27:0x0116, code lost:
         if (r15.useMatrix == null) goto L561;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:302:0x0677, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:302:0x0678, code lost:
         r0 = th;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:303:0x0678, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:303:0x0679, code lost:
         r32 = r6;
         r3 = r87;
         r10 = r2;
@@ -159,16 +159,16 @@ public class MediaCodecVideoConvertor {
         r4 = r85;
         r8 = r21;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:304:0x0684, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:304:0x0685, code lost:
         r0 = e;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:305:0x0685, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:305:0x0686, code lost:
         r32 = r6;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:306:0x0688, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:306:0x0689, code lost:
         r0 = th;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:307:0x0689, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:307:0x068a, code lost:
         r32 = r6;
         r3 = r87;
         r10 = r2;
@@ -176,48 +176,48 @@ public class MediaCodecVideoConvertor {
         r8 = r12;
         r4 = r85;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:308:0x0693, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:308:0x0694, code lost:
         r49 = r32;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:310:0x06a5, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:310:0x06a6, code lost:
         r0 = e;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:311:0x06a6, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:311:0x06a7, code lost:
         r32 = r6;
         r21 = r12;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:312:0x06aa, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:312:0x06ab, code lost:
         r3 = r0;
         r2 = r2;
         r6 = r32;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:314:0x06b4, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:314:0x06b5, code lost:
         r0 = th;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:315:0x06b5, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:315:0x06b6, code lost:
         r3 = r87;
         r10 = r2;
         r9 = r8;
         r8 = r12;
         r4 = r85;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:316:0x06be, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:316:0x06bf, code lost:
         r0 = move-exception;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:317:0x06bf, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:317:0x06c0, code lost:
         r21 = r12;
         r3 = r0;
         r2 = r2;
         r11 = r37;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:320:0x06d7, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:320:0x06d8, code lost:
         r65 = r12;
         r19 = r37;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:674:0x0de1, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:674:0x0de2, code lost:
         if (r8.getString(r12).equals(org.telegram.messenger.MediaController.AUIDO_MIME_TYPE) == false) goto L1387;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:733:0x0f1a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:733:0x0f1b, code lost:
         r3 = r10;
         r20 = r11;
         r44 = r12;
@@ -232,95 +232,95 @@ public class MediaCodecVideoConvertor {
      */
     /* JADX WARN: Finally extract failed */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:1045:0x1438 A[Catch: all -> 0x144b, Exception -> 0x144d, TryCatch #41 {all -> 0x144b, blocks: (B:1026:0x13ec, B:1031:0x1400, B:1045:0x1438, B:1047:0x1440, B:1065:0x1469, B:1067:0x146d, B:1087:0x14c0, B:1090:0x14c8, B:1080:0x14ab, B:1069:0x148d, B:1071:0x1496, B:1030:0x13fd), top: B:1436:0x13ec }] */
-    /* JADX WARN: Removed duplicated region for block: B:1057:0x1458  */
-    /* JADX WARN: Removed duplicated region for block: B:1058:0x145b  */
-    /* JADX WARN: Removed duplicated region for block: B:1061:0x1461  */
-    /* JADX WARN: Removed duplicated region for block: B:1065:0x1469 A[Catch: all -> 0x144b, Exception -> 0x144d, TryCatch #41 {all -> 0x144b, blocks: (B:1026:0x13ec, B:1031:0x1400, B:1045:0x1438, B:1047:0x1440, B:1065:0x1469, B:1067:0x146d, B:1087:0x14c0, B:1090:0x14c8, B:1080:0x14ab, B:1069:0x148d, B:1071:0x1496, B:1030:0x13fd), top: B:1436:0x13ec }] */
-    /* JADX WARN: Removed duplicated region for block: B:1069:0x148d A[Catch: all -> 0x144b, Exception -> 0x144d, TryCatch #41 {all -> 0x144b, blocks: (B:1026:0x13ec, B:1031:0x1400, B:1045:0x1438, B:1047:0x1440, B:1065:0x1469, B:1067:0x146d, B:1087:0x14c0, B:1090:0x14c8, B:1080:0x14ab, B:1069:0x148d, B:1071:0x1496, B:1030:0x13fd), top: B:1436:0x13ec }] */
-    /* JADX WARN: Removed duplicated region for block: B:1075:0x149e  */
-    /* JADX WARN: Removed duplicated region for block: B:1076:0x14a1  */
-    /* JADX WARN: Removed duplicated region for block: B:1101:0x14ec  */
-    /* JADX WARN: Removed duplicated region for block: B:1104:0x14f7 A[Catch: all -> 0x1533, Exception -> 0x1535, TryCatch #181 {Exception -> 0x1535, all -> 0x1533, blocks: (B:1098:0x14e0, B:1102:0x14f1, B:1104:0x14f7, B:1106:0x14fb, B:1107:0x1500, B:1117:0x1517, B:1118:0x1532), top: B:1541:0x14e0 }] */
-    /* JADX WARN: Removed duplicated region for block: B:1108:0x1507  */
+    /* JADX WARN: Removed duplicated region for block: B:1045:0x1439 A[Catch: all -> 0x144c, Exception -> 0x144e, TryCatch #41 {all -> 0x144c, blocks: (B:1026:0x13ed, B:1031:0x1401, B:1045:0x1439, B:1047:0x1441, B:1065:0x146a, B:1067:0x146e, B:1087:0x14c1, B:1090:0x14c9, B:1080:0x14ac, B:1069:0x148e, B:1071:0x1497, B:1030:0x13fe), top: B:1436:0x13ed }] */
+    /* JADX WARN: Removed duplicated region for block: B:1057:0x1459  */
+    /* JADX WARN: Removed duplicated region for block: B:1058:0x145c  */
+    /* JADX WARN: Removed duplicated region for block: B:1061:0x1462  */
+    /* JADX WARN: Removed duplicated region for block: B:1065:0x146a A[Catch: all -> 0x144c, Exception -> 0x144e, TryCatch #41 {all -> 0x144c, blocks: (B:1026:0x13ed, B:1031:0x1401, B:1045:0x1439, B:1047:0x1441, B:1065:0x146a, B:1067:0x146e, B:1087:0x14c1, B:1090:0x14c9, B:1080:0x14ac, B:1069:0x148e, B:1071:0x1497, B:1030:0x13fe), top: B:1436:0x13ed }] */
+    /* JADX WARN: Removed duplicated region for block: B:1069:0x148e A[Catch: all -> 0x144c, Exception -> 0x144e, TryCatch #41 {all -> 0x144c, blocks: (B:1026:0x13ed, B:1031:0x1401, B:1045:0x1439, B:1047:0x1441, B:1065:0x146a, B:1067:0x146e, B:1087:0x14c1, B:1090:0x14c9, B:1080:0x14ac, B:1069:0x148e, B:1071:0x1497, B:1030:0x13fe), top: B:1436:0x13ed }] */
+    /* JADX WARN: Removed duplicated region for block: B:1075:0x149f  */
+    /* JADX WARN: Removed duplicated region for block: B:1076:0x14a2  */
+    /* JADX WARN: Removed duplicated region for block: B:1101:0x14ed  */
+    /* JADX WARN: Removed duplicated region for block: B:1104:0x14f8 A[Catch: all -> 0x1534, Exception -> 0x1536, TryCatch #180 {Exception -> 0x1536, all -> 0x1534, blocks: (B:1098:0x14e1, B:1102:0x14f2, B:1104:0x14f8, B:1106:0x14fc, B:1107:0x1501, B:1117:0x1518, B:1118:0x1533), top: B:1543:0x14e1 }] */
+    /* JADX WARN: Removed duplicated region for block: B:1108:0x1508  */
     /* JADX WARN: Removed duplicated region for block: B:116:0x033b  */
     /* JADX WARN: Removed duplicated region for block: B:117:0x0344  */
     /* JADX WARN: Removed duplicated region for block: B:121:0x034f  */
-    /* JADX WARN: Removed duplicated region for block: B:1241:0x17d6  */
-    /* JADX WARN: Removed duplicated region for block: B:1244:0x17dd  */
+    /* JADX WARN: Removed duplicated region for block: B:1241:0x17d7  */
+    /* JADX WARN: Removed duplicated region for block: B:1244:0x17de  */
     /* JADX WARN: Removed duplicated region for block: B:124:0x0362  */
-    /* JADX WARN: Removed duplicated region for block: B:1259:0x1824 A[Catch: all -> 0x182f, TRY_LEAVE, TryCatch #9 {all -> 0x182f, blocks: (B:1257:0x181b, B:1259:0x1824), top: B:1401:0x181b }] */
-    /* JADX WARN: Removed duplicated region for block: B:1279:0x186e  */
-    /* JADX WARN: Removed duplicated region for block: B:1285:0x189b A[Catch: all -> 0x188f, TryCatch #83 {all -> 0x188f, blocks: (B:1281:0x188a, B:1285:0x189b, B:1287:0x18a2, B:1289:0x18ab, B:1290:0x18ae), top: B:1467:0x188a }] */
-    /* JADX WARN: Removed duplicated region for block: B:1287:0x18a2 A[Catch: all -> 0x188f, TryCatch #83 {all -> 0x188f, blocks: (B:1281:0x188a, B:1285:0x189b, B:1287:0x18a2, B:1289:0x18ab, B:1290:0x18ae), top: B:1467:0x188a }] */
-    /* JADX WARN: Removed duplicated region for block: B:1289:0x18ab A[Catch: all -> 0x188f, TryCatch #83 {all -> 0x188f, blocks: (B:1281:0x188a, B:1285:0x189b, B:1287:0x18a2, B:1289:0x18ab, B:1290:0x18ae), top: B:1467:0x188a }] */
-    /* JADX WARN: Removed duplicated region for block: B:1294:0x18bc  */
-    /* JADX WARN: Removed duplicated region for block: B:1330:0x1953  */
-    /* JADX WARN: Removed duplicated region for block: B:1353:0x198d  */
-    /* JADX WARN: Removed duplicated region for block: B:1355:0x1999  */
-    /* JADX WARN: Removed duplicated region for block: B:1397:0x18eb A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1405:0x0ace A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1407:0x18d6 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1409:0x18e4 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1420:0x18dd A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1428:0x0304 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1446:0x195a A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1452:0x0d81 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1460:0x0ac6 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1259:0x1825 A[Catch: all -> 0x1830, TRY_LEAVE, TryCatch #10 {all -> 0x1830, blocks: (B:1257:0x181c, B:1259:0x1825), top: B:1403:0x181c }] */
+    /* JADX WARN: Removed duplicated region for block: B:1279:0x186f  */
+    /* JADX WARN: Removed duplicated region for block: B:1285:0x189c A[Catch: all -> 0x1890, TryCatch #84 {all -> 0x1890, blocks: (B:1281:0x188b, B:1285:0x189c, B:1287:0x18a3, B:1289:0x18ac, B:1290:0x18af), top: B:1467:0x188b }] */
+    /* JADX WARN: Removed duplicated region for block: B:1287:0x18a3 A[Catch: all -> 0x1890, TryCatch #84 {all -> 0x1890, blocks: (B:1281:0x188b, B:1285:0x189c, B:1287:0x18a3, B:1289:0x18ac, B:1290:0x18af), top: B:1467:0x188b }] */
+    /* JADX WARN: Removed duplicated region for block: B:1289:0x18ac A[Catch: all -> 0x1890, TryCatch #84 {all -> 0x1890, blocks: (B:1281:0x188b, B:1285:0x189c, B:1287:0x18a3, B:1289:0x18ac, B:1290:0x18af), top: B:1467:0x188b }] */
+    /* JADX WARN: Removed duplicated region for block: B:1294:0x18bd  */
+    /* JADX WARN: Removed duplicated region for block: B:1330:0x1954  */
+    /* JADX WARN: Removed duplicated region for block: B:1353:0x198e  */
+    /* JADX WARN: Removed duplicated region for block: B:1355:0x199a  */
+    /* JADX WARN: Removed duplicated region for block: B:1397:0x18ec A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1399:0x18e5 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1407:0x0acf A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1409:0x18d7 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1420:0x18de A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1430:0x0304 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1446:0x195b A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1450:0x0d82 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1460:0x0ac7 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:1463:0x029e A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1467:0x188a A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1477:0x1974 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1479:0x196d A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1484:0x18c3 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1486:0x197b A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1493:0x1982 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1505:0x07e8 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1560:0x14b6 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1566:0x0c27 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1467:0x188b A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1477:0x196e A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1482:0x197c A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1484:0x18c4 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1488:0x1975 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1490:0x1983 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1503:0x07e9 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1560:0x14b7 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1566:0x0c28 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:1594:0x0261 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1608:0x0dc7 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1612:0x0b9d A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1656:0x1330 A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1658:0x1318 A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:260:0x058a  */
-    /* JADX WARN: Removed duplicated region for block: B:261:0x058c  */
-    /* JADX WARN: Removed duplicated region for block: B:265:0x0596  */
-    /* JADX WARN: Removed duplicated region for block: B:267:0x05a7  */
-    /* JADX WARN: Removed duplicated region for block: B:359:0x07a9 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:377:0x0807 A[Catch: all -> 0x07ed, TryCatch #149 {all -> 0x07ed, blocks: (B:373:0x07e8, B:377:0x0807, B:379:0x080d, B:381:0x0817, B:382:0x081a), top: B:1505:0x07e8 }] */
-    /* JADX WARN: Removed duplicated region for block: B:379:0x080d A[Catch: all -> 0x07ed, TryCatch #149 {all -> 0x07ed, blocks: (B:373:0x07e8, B:377:0x0807, B:379:0x080d, B:381:0x0817, B:382:0x081a), top: B:1505:0x07e8 }] */
-    /* JADX WARN: Removed duplicated region for block: B:381:0x0817 A[Catch: all -> 0x07ed, TryCatch #149 {all -> 0x07ed, blocks: (B:373:0x07e8, B:377:0x0807, B:379:0x080d, B:381:0x0817, B:382:0x081a), top: B:1505:0x07e8 }] */
-    /* JADX WARN: Removed duplicated region for block: B:442:0x09c1  */
-    /* JADX WARN: Removed duplicated region for block: B:530:0x0ae9  */
-    /* JADX WARN: Removed duplicated region for block: B:537:0x0b15  */
-    /* JADX WARN: Removed duplicated region for block: B:540:0x0b30 A[Catch: all -> 0x0ad3, Exception -> 0x0b12, TRY_ENTER, TryCatch #43 {Exception -> 0x0b12, blocks: (B:533:0x0af2, B:540:0x0b30, B:542:0x0b36, B:546:0x0b52, B:548:0x0b5a, B:550:0x0b66, B:552:0x0b6e, B:554:0x0b7a, B:556:0x0b82), top: B:1438:0x0af2 }] */
-    /* JADX WARN: Removed duplicated region for block: B:546:0x0b52 A[Catch: all -> 0x0ad3, Exception -> 0x0b12, TRY_ENTER, TryCatch #43 {Exception -> 0x0b12, blocks: (B:533:0x0af2, B:540:0x0b30, B:542:0x0b36, B:546:0x0b52, B:548:0x0b5a, B:550:0x0b66, B:552:0x0b6e, B:554:0x0b7a, B:556:0x0b82), top: B:1438:0x0af2 }] */
-    /* JADX WARN: Removed duplicated region for block: B:564:0x0b92  */
-    /* JADX WARN: Removed duplicated region for block: B:580:0x0bc7  */
-    /* JADX WARN: Removed duplicated region for block: B:613:0x0c7c A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:616:0x0c84 A[Catch: all -> 0x0ccb, Exception -> 0x0cdd, TRY_LEAVE, TryCatch #180 {Exception -> 0x0cdd, all -> 0x0ccb, blocks: (B:614:0x0c7e, B:616:0x0c84), top: B:1543:0x0c7e }] */
-    /* JADX WARN: Removed duplicated region for block: B:631:0x0cfe  */
-    /* JADX WARN: Removed duplicated region for block: B:666:0x0dae  */
-    /* JADX WARN: Removed duplicated region for block: B:681:0x0dfe  */
-    /* JADX WARN: Removed duplicated region for block: B:683:0x0e01  */
-    /* JADX WARN: Removed duplicated region for block: B:706:0x0e92  */
-    /* JADX WARN: Removed duplicated region for block: B:714:0x0eaf  */
-    /* JADX WARN: Removed duplicated region for block: B:725:0x0ef2  */
-    /* JADX WARN: Removed duplicated region for block: B:726:0x0ef4  */
-    /* JADX WARN: Removed duplicated region for block: B:730:0x0f15 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:736:0x0f35  */
-    /* JADX WARN: Removed duplicated region for block: B:745:0x0f65  */
-    /* JADX WARN: Removed duplicated region for block: B:747:0x0f6b  */
+    /* JADX WARN: Removed duplicated region for block: B:1604:0x0dc8 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1625:0x0b9e A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1656:0x1331 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1658:0x1319 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:260:0x058b  */
+    /* JADX WARN: Removed duplicated region for block: B:261:0x058d  */
+    /* JADX WARN: Removed duplicated region for block: B:265:0x0597  */
+    /* JADX WARN: Removed duplicated region for block: B:267:0x05a8  */
+    /* JADX WARN: Removed duplicated region for block: B:359:0x07aa A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:377:0x0808 A[Catch: all -> 0x07ee, TryCatch #149 {all -> 0x07ee, blocks: (B:373:0x07e9, B:377:0x0808, B:379:0x080e, B:381:0x0818, B:382:0x081b), top: B:1503:0x07e9 }] */
+    /* JADX WARN: Removed duplicated region for block: B:379:0x080e A[Catch: all -> 0x07ee, TryCatch #149 {all -> 0x07ee, blocks: (B:373:0x07e9, B:377:0x0808, B:379:0x080e, B:381:0x0818, B:382:0x081b), top: B:1503:0x07e9 }] */
+    /* JADX WARN: Removed duplicated region for block: B:381:0x0818 A[Catch: all -> 0x07ee, TryCatch #149 {all -> 0x07ee, blocks: (B:373:0x07e9, B:377:0x0808, B:379:0x080e, B:381:0x0818, B:382:0x081b), top: B:1503:0x07e9 }] */
+    /* JADX WARN: Removed duplicated region for block: B:442:0x09c2  */
+    /* JADX WARN: Removed duplicated region for block: B:530:0x0aea  */
+    /* JADX WARN: Removed duplicated region for block: B:537:0x0b16  */
+    /* JADX WARN: Removed duplicated region for block: B:540:0x0b31 A[Catch: all -> 0x0ad4, Exception -> 0x0b13, TRY_ENTER, TryCatch #43 {Exception -> 0x0b13, blocks: (B:533:0x0af3, B:540:0x0b31, B:542:0x0b37, B:546:0x0b53, B:548:0x0b5b, B:550:0x0b67, B:552:0x0b6f, B:554:0x0b7b, B:556:0x0b83), top: B:1438:0x0af3 }] */
+    /* JADX WARN: Removed duplicated region for block: B:546:0x0b53 A[Catch: all -> 0x0ad4, Exception -> 0x0b13, TRY_ENTER, TryCatch #43 {Exception -> 0x0b13, blocks: (B:533:0x0af3, B:540:0x0b31, B:542:0x0b37, B:546:0x0b53, B:548:0x0b5b, B:550:0x0b67, B:552:0x0b6f, B:554:0x0b7b, B:556:0x0b83), top: B:1438:0x0af3 }] */
+    /* JADX WARN: Removed duplicated region for block: B:564:0x0b93  */
+    /* JADX WARN: Removed duplicated region for block: B:580:0x0bc8  */
+    /* JADX WARN: Removed duplicated region for block: B:613:0x0c7d A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:616:0x0c85 A[Catch: all -> 0x0ccc, Exception -> 0x0cde, TRY_LEAVE, TryCatch #182 {Exception -> 0x0cde, all -> 0x0ccc, blocks: (B:614:0x0c7f, B:616:0x0c85), top: B:1539:0x0c7f }] */
+    /* JADX WARN: Removed duplicated region for block: B:631:0x0cff  */
+    /* JADX WARN: Removed duplicated region for block: B:666:0x0daf  */
+    /* JADX WARN: Removed duplicated region for block: B:681:0x0dff  */
+    /* JADX WARN: Removed duplicated region for block: B:683:0x0e02  */
+    /* JADX WARN: Removed duplicated region for block: B:706:0x0e93  */
+    /* JADX WARN: Removed duplicated region for block: B:714:0x0eb0  */
+    /* JADX WARN: Removed duplicated region for block: B:725:0x0ef3  */
+    /* JADX WARN: Removed duplicated region for block: B:726:0x0ef5  */
+    /* JADX WARN: Removed duplicated region for block: B:730:0x0f16 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:736:0x0f36  */
+    /* JADX WARN: Removed duplicated region for block: B:745:0x0f66  */
+    /* JADX WARN: Removed duplicated region for block: B:747:0x0f6c  */
     /* JADX WARN: Removed duplicated region for block: B:80:0x0277  */
-    /* JADX WARN: Removed duplicated region for block: B:820:0x10ca  */
-    /* JADX WARN: Removed duplicated region for block: B:824:0x10e4 A[ADDED_TO_REGION, EDGE_INSN: B:824:0x10e4->B:1657:0x10e7 ?: BREAK  ] */
-    /* JADX WARN: Removed duplicated region for block: B:830:0x1103  */
-    /* JADX WARN: Removed duplicated region for block: B:831:0x1112  */
-    /* JADX WARN: Removed duplicated region for block: B:835:0x1123  */
-    /* JADX WARN: Removed duplicated region for block: B:837:0x1136  */
+    /* JADX WARN: Removed duplicated region for block: B:820:0x10cb  */
+    /* JADX WARN: Removed duplicated region for block: B:824:0x10e5 A[ADDED_TO_REGION, EDGE_INSN: B:824:0x10e5->B:1657:0x10e8 ?: BREAK  ] */
+    /* JADX WARN: Removed duplicated region for block: B:830:0x1104  */
+    /* JADX WARN: Removed duplicated region for block: B:831:0x1113  */
+    /* JADX WARN: Removed duplicated region for block: B:835:0x1124  */
+    /* JADX WARN: Removed duplicated region for block: B:837:0x1137  */
     /* JADX WARN: Removed duplicated region for block: B:94:0x02d9  */
-    /* JADX WARN: Removed duplicated region for block: B:973:0x130c  */
-    /* JADX WARN: Removed duplicated region for block: B:974:0x130e  */
+    /* JADX WARN: Removed duplicated region for block: B:973:0x130d  */
+    /* JADX WARN: Removed duplicated region for block: B:974:0x130f  */
     /* JADX WARN: Type inference failed for: r10v113 */
     /* JADX WARN: Type inference failed for: r10v117 */
     /* JADX WARN: Type inference failed for: r10v131 */
@@ -586,17 +586,18 @@ public class MediaCodecVideoConvertor {
         MediaController.VideoConvertorListener videoConvertorListener3;
         MediaCodec mediaCodec16;
         int i63;
+        int i64;
         String str13 = convertVideoParams.videoPath;
         File file2 = convertVideoParams.cacheFile;
-        int i64 = convertVideoParams.rotationValue;
+        int i65 = convertVideoParams.rotationValue;
         boolean z45 = convertVideoParams.isSecret;
-        int i65 = convertVideoParams.originalWidth;
-        int i66 = convertVideoParams.originalHeight;
-        int i67 = convertVideoParams.resultWidth;
-        int i68 = convertVideoParams.resultHeight;
-        int i69 = convertVideoParams.framerate;
-        int i70 = convertVideoParams.bitrate;
-        int i71 = convertVideoParams.originalBitrate;
+        int i66 = convertVideoParams.originalWidth;
+        int i67 = convertVideoParams.originalHeight;
+        int i68 = convertVideoParams.resultWidth;
+        int i69 = convertVideoParams.resultHeight;
+        int i70 = convertVideoParams.framerate;
+        int i71 = convertVideoParams.bitrate;
+        int i72 = convertVideoParams.originalBitrate;
         long j14 = convertVideoParams.startTime;
         long j15 = convertVideoParams.endTime;
         long j16 = convertVideoParams.avatarStartTime;
@@ -615,7 +616,7 @@ public class MediaCodecVideoConvertor {
         boolean z50 = convertVideoParams.isStory;
         StoryEntry.HDRInfo hDRInfo = convertVideoParams.hdrInfo;
         ArrayList<StoryEntry.Part> arrayList3 = convertVideoParams.parts;
-        FileLog.d("convertVideoInternal original=" + i65 + "x" + i66 + "  result=" + i67 + "x" + i68 + " " + j16);
+        FileLog.d("convertVideoInternal original=" + i66 + "x" + i67 + "  result=" + i68 + "x" + i69 + " " + j16);
         long currentTimeMillis = System.currentTimeMillis();
         String str16 = "x";
         boolean z51 = j16 >= 0;
@@ -626,7 +627,7 @@ public class MediaCodecVideoConvertor {
             mp4Movie2.setCacheFile(file2);
             long j18 = j16;
             mp4Movie2.setRotation(0);
-            mp4Movie2.setSize(i67, i68);
+            mp4Movie2.setSize(i68, i69);
             float f2 = ((float) j17) / 1000.0f;
             long j19 = j17 * 1000;
             this.endPresentationTime = j19;
@@ -635,17 +636,17 @@ public class MediaCodecVideoConvertor {
             String str18 = "prepend-sps-pps-to-idr-frames";
             if (z47) {
                 if (z51) {
-                    i70 = f2 <= 2000.0f ? 2600000 : f2 <= 5000.0f ? 2200000 : 1560000;
-                } else if (i70 <= 0) {
-                    i70 = 921600;
+                    i71 = f2 <= 2000.0f ? 2600000 : f2 <= 5000.0f ? 2200000 : 1560000;
+                } else if (i71 <= 0) {
+                    i71 = 921600;
                 }
                 if (cropState2 != null) {
                     cropState = cropState2;
                     try {
                     } catch (Exception e) {
                         exc2 = e;
-                        i53 = i70;
-                        i54 = i69;
+                        i53 = i71;
+                        i54 = i70;
                         mediaCodec2 = null;
                         inputSurface5 = null;
                         outputSurface7 = null;
@@ -670,11 +671,11 @@ public class MediaCodecVideoConvertor {
                                         mediaCodec13 = mediaCodec2;
                                         try {
                                             sb.append(" size: ");
-                                            sb.append(i68);
+                                            sb.append(i69);
                                             str10 = str16;
                                             try {
                                                 sb.append(str10);
-                                                sb.append(i67);
+                                                sb.append(i68);
                                                 FileLog.e(sb.toString());
                                                 FileLog.e(exc2);
                                                 z4 = z38;
@@ -690,7 +691,7 @@ public class MediaCodecVideoConvertor {
                                                 checkConversionCanceled();
                                                 z2 = z37;
                                                 outputSurface3 = outputSurface7;
-                                                i70 = i55;
+                                                i71 = i55;
                                                 str2 = str9;
                                                 mediaCodecVideoConvertor = this;
                                                 mediaCodec2 = mediaCodec13;
@@ -718,7 +719,7 @@ public class MediaCodecVideoConvertor {
                                                 th = th3;
                                                 z2 = z37;
                                                 outputSurface = outputSurface7;
-                                                i70 = i55;
+                                                i71 = i55;
                                                 str2 = str9;
                                                 z4 = z38;
                                                 mediaCodecVideoConvertor = this;
@@ -727,14 +728,14 @@ public class MediaCodecVideoConvertor {
                                                 file = file2;
                                                 mediaCodec = null;
                                                 str = str10;
-                                                i2 = i68;
+                                                i2 = i69;
                                                 i4 = i13;
                                                 i3 = i56;
                                                 mediaCodec2 = mediaCodec13;
                                                 inputSurface = inputSurface5;
                                                 th = th;
                                                 try {
-                                                    FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
+                                                    FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
                                                     FileLog.e(th);
                                                     mediaExtractor = mediaCodecVideoConvertor.extractor;
                                                     if (mediaExtractor != null) {
@@ -750,7 +751,7 @@ public class MediaCodecVideoConvertor {
                                                     }
                                                     if (inputSurface != null) {
                                                     }
-                                                    i68 = i2;
+                                                    i69 = i2;
                                                     str3 = str2;
                                                     z6 = z5;
                                                     z7 = true;
@@ -801,7 +802,7 @@ public class MediaCodecVideoConvertor {
                                             th = th6;
                                             z2 = z37;
                                             outputSurface = outputSurface7;
-                                            i70 = i55;
+                                            i71 = i55;
                                             str2 = str9;
                                             z4 = z38;
                                             mediaCodecVideoConvertor = this;
@@ -811,12 +812,12 @@ public class MediaCodecVideoConvertor {
                                             str = str16;
                                             file = file2;
                                             mediaCodec = null;
-                                            i2 = i68;
+                                            i2 = i69;
                                             i4 = i13;
                                             i3 = i56;
                                             inputSurface = inputSurface5;
                                             th = th;
-                                            FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
+                                            FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
                                             FileLog.e(th);
                                             mediaExtractor = mediaCodecVideoConvertor.extractor;
                                             if (mediaExtractor != null) {
@@ -832,7 +833,7 @@ public class MediaCodecVideoConvertor {
                                             }
                                             if (inputSurface != null) {
                                             }
-                                            i68 = i2;
+                                            i69 = i2;
                                             str3 = str2;
                                             z6 = z5;
                                             z7 = true;
@@ -843,7 +844,7 @@ public class MediaCodecVideoConvertor {
                                         th = th7;
                                         z2 = z37;
                                         outputSurface = outputSurface7;
-                                        i70 = i55;
+                                        i71 = i55;
                                         str2 = str9;
                                         z4 = z38;
                                         mediaCodecVideoConvertor = this;
@@ -852,7 +853,7 @@ public class MediaCodecVideoConvertor {
                                     th = th8;
                                     z2 = z37;
                                     outputSurface = outputSurface7;
-                                    i70 = i55;
+                                    i71 = i55;
                                     str2 = str9;
                                     z4 = z38;
                                     mediaCodecVideoConvertor = this;
@@ -861,12 +862,12 @@ public class MediaCodecVideoConvertor {
                                     str = str16;
                                     file = file2;
                                     mediaCodec = null;
-                                    i2 = i68;
+                                    i2 = i69;
                                     i4 = i13;
                                     i3 = i54;
                                     inputSurface = inputSurface5;
                                     th = th;
-                                    FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
+                                    FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
                                     FileLog.e(th);
                                     mediaExtractor = mediaCodecVideoConvertor.extractor;
                                     if (mediaExtractor != null) {
@@ -882,7 +883,7 @@ public class MediaCodecVideoConvertor {
                                     }
                                     if (inputSurface != null) {
                                     }
-                                    i68 = i2;
+                                    i69 = i2;
                                     str3 = str2;
                                     z6 = z5;
                                     z7 = true;
@@ -897,7 +898,7 @@ public class MediaCodecVideoConvertor {
                             th = th10;
                             z2 = z;
                             outputSurface = outputSurface7;
-                            i70 = i53;
+                            i71 = i53;
                             i4 = i13;
                             str2 = str9;
                             mediaCodecVideoConvertor = this;
@@ -908,7 +909,7 @@ public class MediaCodecVideoConvertor {
                             mediaCodec = null;
                             z4 = false;
                             inputSurface = inputSurface5;
-                            i2 = i68;
+                            i2 = i69;
                             i3 = i54;
                         }
                         if (z4) {
@@ -917,10 +918,10 @@ public class MediaCodecVideoConvertor {
                         th = th11;
                         z2 = z;
                         th = th;
-                        i2 = i68;
+                        i2 = i69;
                         mediaCodecVideoConvertor = this;
                         z3 = z46;
-                        i3 = i69;
+                        i3 = i70;
                         str = str16;
                         file = file2;
                         mediaCodec2 = null;
@@ -931,7 +932,7 @@ public class MediaCodecVideoConvertor {
                         outputSurface = null;
                         z4 = false;
                         z5 = false;
-                        FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
+                        FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
                         FileLog.e(th);
                         mediaExtractor = mediaCodecVideoConvertor.extractor;
                         if (mediaExtractor != null) {
@@ -947,7 +948,7 @@ public class MediaCodecVideoConvertor {
                         }
                         if (inputSurface != null) {
                         }
-                        i68 = i2;
+                        i69 = i2;
                         str3 = str2;
                         z6 = z5;
                         z7 = true;
@@ -958,26 +959,26 @@ public class MediaCodecVideoConvertor {
                     cropState = cropState2;
                 }
                 try {
-                    if (i67 % 16 != 0) {
-                        if (BuildVars.LOGS_ENABLED) {
-                            FileLog.d("changing width from " + i67 + " to " + (Math.round(i67 / 16.0f) * 16));
-                        }
-                        i67 = Math.round(i67 / 16.0f) * 16;
-                    }
                     if (i68 % 16 != 0) {
                         if (BuildVars.LOGS_ENABLED) {
-                            FileLog.d("changing height from " + i68 + " to " + (Math.round(i68 / 16.0f) * 16));
+                            FileLog.d("changing width from " + i68 + " to " + (Math.round(i68 / 16.0f) * 16));
                         }
                         i68 = Math.round(i68 / 16.0f) * 16;
                     }
+                    if (i69 % 16 != 0) {
+                        if (BuildVars.LOGS_ENABLED) {
+                            FileLog.d("changing height from " + i69 + " to " + (Math.round(i69 / 16.0f) * 16));
+                        }
+                        i69 = Math.round(i69 / 16.0f) * 16;
+                    }
                     if (BuildVars.LOGS_ENABLED) {
-                        FileLog.d("create photo encoder " + i67 + " " + i68 + " duration = " + j17);
+                        FileLog.d("create photo encoder " + i68 + " " + i69 + " duration = " + j17);
                     }
                     mediaCodec2 = createEncoderForMimeType();
                     try {
-                        MediaFormat createVideoFormat2 = MediaFormat.createVideoFormat(this.outputMimeType, i67, i68);
+                        MediaFormat createVideoFormat2 = MediaFormat.createVideoFormat(this.outputMimeType, i68, i69);
                         createVideoFormat2.setInteger("color-format", 2130708361);
-                        createVideoFormat2.setInteger("bitrate", i70);
+                        createVideoFormat2.setInteger("bitrate", i71);
                         createVideoFormat2.setInteger("frame-rate", 30);
                         createVideoFormat2.setInteger("i-frame-interval", 1);
                         str9 = mediaCodec2.getName();
@@ -985,7 +986,7 @@ public class MediaCodecVideoConvertor {
                             z36 = "c2.qti.avc.encoder".equalsIgnoreCase(str9);
                             try {
                                 StringBuilder sb2 = new StringBuilder();
-                                i53 = i70;
+                                i53 = i71;
                                 try {
                                     sb2.append("selected encoder ");
                                     sb2.append(str9);
@@ -996,7 +997,7 @@ public class MediaCodecVideoConvertor {
                                         inputSurface5.makeCurrent();
                                         mediaCodec2.start();
                                     } catch (Exception e2) {
-                                        i54 = i69;
+                                        i54 = i70;
                                         exc2 = e2;
                                         inputSurface5 = inputSurface5;
                                     } catch (Throwable th12) {
@@ -1004,13 +1005,13 @@ public class MediaCodecVideoConvertor {
                                         str11 = str9;
                                         z2 = z;
                                         inputSurface = inputSurface5;
-                                        i2 = i68;
+                                        i2 = i69;
                                         mediaCodecVideoConvertor = this;
-                                        i3 = i69;
+                                        i3 = i70;
                                     }
                                 } catch (Exception e3) {
                                     e = e3;
-                                    i54 = i69;
+                                    i54 = i70;
                                     exc2 = e;
                                     inputSurface5 = null;
                                     outputSurface7 = null;
@@ -1028,10 +1029,10 @@ public class MediaCodecVideoConvertor {
                                     sb3.append(i56);
                                     mediaCodec13 = mediaCodec2;
                                     sb3.append(" size: ");
-                                    sb3.append(i68);
+                                    sb3.append(i69);
                                     str10 = str16;
                                     sb3.append(str10);
-                                    sb3.append(i67);
+                                    sb3.append(i68);
                                     FileLog.e(sb3.toString());
                                     FileLog.e(exc2);
                                     z4 = z38;
@@ -1047,7 +1048,7 @@ public class MediaCodecVideoConvertor {
                                     checkConversionCanceled();
                                     z2 = z37;
                                     outputSurface3 = outputSurface7;
-                                    i70 = i55;
+                                    i71 = i55;
                                     str2 = str9;
                                     mediaCodecVideoConvertor = this;
                                     mediaCodec2 = mediaCodec13;
@@ -1076,13 +1077,13 @@ public class MediaCodecVideoConvertor {
                                 } catch (Throwable th13) {
                                     th = th13;
                                     z2 = z;
-                                    i2 = i68;
+                                    i2 = i69;
                                     mediaCodecVideoConvertor = this;
-                                    i3 = i69;
+                                    i3 = i70;
                                     z3 = z46;
                                     str2 = str9;
                                     z5 = z36;
-                                    i70 = i53;
+                                    i71 = i53;
                                     str = str16;
                                     file = file2;
                                     mediaCodec14 = null;
@@ -1092,7 +1093,7 @@ public class MediaCodecVideoConvertor {
                                     mediaCodec = mediaCodec14;
                                     z4 = false;
                                     th = th;
-                                    FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
+                                    FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
                                     FileLog.e(th);
                                     mediaExtractor = mediaCodecVideoConvertor.extractor;
                                     if (mediaExtractor != null) {
@@ -1108,7 +1109,7 @@ public class MediaCodecVideoConvertor {
                                     }
                                     if (inputSurface != null) {
                                     }
-                                    i68 = i2;
+                                    i69 = i2;
                                     str3 = str2;
                                     z6 = z5;
                                     z7 = true;
@@ -1117,20 +1118,20 @@ public class MediaCodecVideoConvertor {
                                 }
                             } catch (Exception e4) {
                                 e = e4;
-                                i53 = i70;
+                                i53 = i71;
                             } catch (Throwable th14) {
                                 th = th14;
                                 z2 = z;
-                                i2 = i68;
+                                i2 = i69;
                                 mediaCodecVideoConvertor = this;
-                                i3 = i69;
+                                i3 = i70;
                                 z3 = z46;
                                 str2 = str9;
                                 z5 = z36;
                             }
                         } catch (Exception e5) {
-                            i53 = i70;
-                            i54 = i69;
+                            i53 = i71;
+                            i54 = i70;
                             exc2 = e5;
                             inputSurface5 = null;
                             outputSurface7 = null;
@@ -1149,10 +1150,10 @@ public class MediaCodecVideoConvertor {
                             sb32.append(i56);
                             mediaCodec13 = mediaCodec2;
                             sb32.append(" size: ");
-                            sb32.append(i68);
+                            sb32.append(i69);
                             str10 = str16;
                             sb32.append(str10);
-                            sb32.append(i67);
+                            sb32.append(i68);
                             FileLog.e(sb32.toString());
                             FileLog.e(exc2);
                             z4 = z38;
@@ -1168,7 +1169,7 @@ public class MediaCodecVideoConvertor {
                             checkConversionCanceled();
                             z2 = z37;
                             outputSurface3 = outputSurface7;
-                            i70 = i55;
+                            i71 = i55;
                             str2 = str9;
                             mediaCodecVideoConvertor = this;
                             mediaCodec2 = mediaCodec13;
@@ -1197,9 +1198,9 @@ public class MediaCodecVideoConvertor {
                         } catch (Throwable th15) {
                             th = th15;
                             z2 = z;
-                            i2 = i68;
+                            i2 = i69;
                             mediaCodecVideoConvertor = this;
-                            i3 = i69;
+                            i3 = i70;
                             z3 = z46;
                             str2 = str9;
                             str = str16;
@@ -1211,7 +1212,7 @@ public class MediaCodecVideoConvertor {
                             z4 = false;
                             z5 = false;
                             th = th;
-                            FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
+                            FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
                             FileLog.e(th);
                             mediaExtractor = mediaCodecVideoConvertor.extractor;
                             if (mediaExtractor != null) {
@@ -1227,7 +1228,7 @@ public class MediaCodecVideoConvertor {
                             }
                             if (inputSurface != null) {
                             }
-                            i68 = i2;
+                            i69 = i2;
                             str3 = str2;
                             z6 = z5;
                             z7 = true;
@@ -1235,8 +1236,8 @@ public class MediaCodecVideoConvertor {
                             }
                         }
                     } catch (Exception e6) {
-                        i53 = i70;
-                        i54 = i69;
+                        i53 = i71;
+                        i54 = i70;
                         exc2 = e6;
                         inputSurface5 = null;
                         outputSurface7 = null;
@@ -1256,10 +1257,10 @@ public class MediaCodecVideoConvertor {
                         sb322.append(i56);
                         mediaCodec13 = mediaCodec2;
                         sb322.append(" size: ");
-                        sb322.append(i68);
+                        sb322.append(i69);
                         str10 = str16;
                         sb322.append(str10);
-                        sb322.append(i67);
+                        sb322.append(i68);
                         FileLog.e(sb322.toString());
                         FileLog.e(exc2);
                         z4 = z38;
@@ -1275,7 +1276,7 @@ public class MediaCodecVideoConvertor {
                         checkConversionCanceled();
                         z2 = z37;
                         outputSurface3 = outputSurface7;
-                        i70 = i55;
+                        i71 = i55;
                         str2 = str9;
                         mediaCodecVideoConvertor = this;
                         mediaCodec2 = mediaCodec13;
@@ -1304,10 +1305,10 @@ public class MediaCodecVideoConvertor {
                     } catch (Throwable th16) {
                         th = th16;
                         z2 = z;
-                        i2 = i68;
+                        i2 = i69;
                         mediaCodecVideoConvertor = this;
                         z3 = z46;
-                        i3 = i69;
+                        i3 = i70;
                         str = str16;
                         file = file2;
                         mediaCodec = null;
@@ -1316,8 +1317,8 @@ public class MediaCodecVideoConvertor {
                         str2 = null;
                     }
                 } catch (Exception e7) {
-                    i53 = i70;
-                    i54 = i69;
+                    i53 = i71;
+                    i54 = i70;
                     exc2 = e7;
                     mediaCodec2 = null;
                     inputSurface5 = null;
@@ -1338,10 +1339,10 @@ public class MediaCodecVideoConvertor {
                     sb3222.append(i56);
                     mediaCodec13 = mediaCodec2;
                     sb3222.append(" size: ");
-                    sb3222.append(i68);
+                    sb3222.append(i69);
                     str10 = str16;
                     sb3222.append(str10);
-                    sb3222.append(i67);
+                    sb3222.append(i68);
                     FileLog.e(sb3222.toString());
                     FileLog.e(exc2);
                     z4 = z38;
@@ -1357,7 +1358,7 @@ public class MediaCodecVideoConvertor {
                     checkConversionCanceled();
                     z2 = z37;
                     outputSurface3 = outputSurface7;
-                    i70 = i55;
+                    i71 = i55;
                     str2 = str9;
                     mediaCodecVideoConvertor = this;
                     mediaCodec2 = mediaCodec13;
@@ -1387,10 +1388,10 @@ public class MediaCodecVideoConvertor {
                     th = th17;
                     z2 = z;
                     th = th;
-                    i2 = i68;
+                    i2 = i69;
                     mediaCodecVideoConvertor = this;
                     z3 = z46;
-                    i3 = i69;
+                    i3 = i70;
                     str = str16;
                     file = file2;
                     mediaCodec2 = null;
@@ -1401,7 +1402,7 @@ public class MediaCodecVideoConvertor {
                     outputSurface = null;
                     z4 = false;
                     z5 = false;
-                    FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
+                    FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
                     FileLog.e(th);
                     mediaExtractor = mediaCodecVideoConvertor.extractor;
                     if (mediaExtractor != null) {
@@ -1417,7 +1418,7 @@ public class MediaCodecVideoConvertor {
                     }
                     if (inputSurface != null) {
                     }
-                    i68 = i2;
+                    i69 = i2;
                     str3 = str2;
                     z6 = z5;
                     z7 = true;
@@ -1428,7 +1429,7 @@ public class MediaCodecVideoConvertor {
                     try {
                     } catch (Exception e8) {
                         exc2 = e8;
-                        i54 = i69;
+                        i54 = i70;
                         outputSurface7 = null;
                         i13 = -5;
                         audioRecoder2 = null;
@@ -1444,10 +1445,10 @@ public class MediaCodecVideoConvertor {
                         sb32222.append(i56);
                         mediaCodec13 = mediaCodec2;
                         sb32222.append(" size: ");
-                        sb32222.append(i68);
+                        sb32222.append(i69);
                         str10 = str16;
                         sb32222.append(str10);
-                        sb32222.append(i67);
+                        sb32222.append(i68);
                         FileLog.e(sb32222.toString());
                         FileLog.e(exc2);
                         z4 = z38;
@@ -1463,7 +1464,7 @@ public class MediaCodecVideoConvertor {
                         checkConversionCanceled();
                         z2 = z37;
                         outputSurface3 = outputSurface7;
-                        i70 = i55;
+                        i71 = i55;
                         str2 = str9;
                         mediaCodecVideoConvertor = this;
                         mediaCodec2 = mediaCodec13;
@@ -1493,13 +1494,13 @@ public class MediaCodecVideoConvertor {
                         th = th18;
                         z2 = z;
                         inputSurface = inputSurface5;
-                        i2 = i68;
+                        i2 = i69;
                         str2 = str9;
                         mediaCodecVideoConvertor = this;
                         z3 = z46;
-                        i3 = i69;
+                        i3 = i70;
                         z5 = z36;
-                        i70 = i53;
+                        i71 = i53;
                         str = str16;
                         file = file2;
                         mediaCodec14 = null;
@@ -1508,7 +1509,7 @@ public class MediaCodecVideoConvertor {
                         mediaCodec = mediaCodec14;
                         z4 = false;
                         th = th;
-                        FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
+                        FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
                         FileLog.e(th);
                         mediaExtractor = mediaCodecVideoConvertor.extractor;
                         if (mediaExtractor != null) {
@@ -1524,7 +1525,7 @@ public class MediaCodecVideoConvertor {
                         }
                         if (inputSurface != null) {
                         }
-                        i68 = i2;
+                        i69 = i2;
                         str3 = str2;
                         z6 = z5;
                         z7 = true;
@@ -1532,9 +1533,9 @@ public class MediaCodecVideoConvertor {
                         }
                     }
                     if (cropState.useMatrix != null) {
-                        i57 = i69;
+                        i57 = i70;
                         str11 = str9;
-                        outputSurface7 = new OutputSurface(savedFilterState, str13, str14, str15, arrayList2, cropState, i67, i68, i65, i66, i64, i57, true, num, num2, null, arrayList3);
+                        outputSurface7 = new OutputSurface(savedFilterState, str13, str14, str15, arrayList2, cropState, i68, i69, i66, i67, i65, i57, true, num, num2, null, arrayList3);
                         if (Build.VERSION.SDK_INT >= 21) {
                             try {
                                 outputBuffers2 = mediaCodec2.getOutputBuffers();
@@ -1556,10 +1557,10 @@ public class MediaCodecVideoConvertor {
                                 sb322222.append(i56);
                                 mediaCodec13 = mediaCodec2;
                                 sb322222.append(" size: ");
-                                sb322222.append(i68);
+                                sb322222.append(i69);
                                 str10 = str16;
                                 sb322222.append(str10);
-                                sb322222.append(i67);
+                                sb322222.append(i68);
                                 FileLog.e(sb322222.toString());
                                 FileLog.e(exc2);
                                 z4 = z38;
@@ -1575,7 +1576,7 @@ public class MediaCodecVideoConvertor {
                                 checkConversionCanceled();
                                 z2 = z37;
                                 outputSurface3 = outputSurface7;
-                                i70 = i55;
+                                i71 = i55;
                                 str2 = str9;
                                 mediaCodecVideoConvertor = this;
                                 mediaCodec2 = mediaCodec13;
@@ -1606,20 +1607,20 @@ public class MediaCodecVideoConvertor {
                                 z2 = z;
                                 inputSurface = inputSurface5;
                                 outputSurface = outputSurface7;
-                                i2 = i68;
+                                i2 = i69;
                                 i3 = i57;
                                 mediaCodecVideoConvertor = this;
                                 z3 = z46;
                                 str2 = str11;
                                 z5 = z36;
-                                i70 = i53;
+                                i71 = i53;
                                 str = str16;
                                 file = file2;
                                 mediaCodec = null;
                                 i4 = -5;
                                 z4 = false;
                                 th = th;
-                                FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
+                                FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
                                 FileLog.e(th);
                                 mediaExtractor = mediaCodecVideoConvertor.extractor;
                                 if (mediaExtractor != null) {
@@ -1635,7 +1636,7 @@ public class MediaCodecVideoConvertor {
                                 }
                                 if (inputSurface != null) {
                                 }
-                                i68 = i2;
+                                i69 = i2;
                                 str3 = str2;
                                 z6 = z5;
                                 z7 = true;
@@ -1682,10 +1683,10 @@ public class MediaCodecVideoConvertor {
                                     sb3222222.append(i56);
                                     mediaCodec13 = mediaCodec2;
                                     sb3222222.append(" size: ");
-                                    sb3222222.append(i68);
+                                    sb3222222.append(i69);
                                     str10 = str16;
                                     sb3222222.append(str10);
-                                    sb3222222.append(i67);
+                                    sb3222222.append(i68);
                                     FileLog.e(sb3222222.toString());
                                     FileLog.e(exc2);
                                     z4 = z38;
@@ -1701,7 +1702,7 @@ public class MediaCodecVideoConvertor {
                                     checkConversionCanceled();
                                     z2 = z37;
                                     outputSurface3 = outputSurface7;
-                                    i70 = i55;
+                                    i71 = i55;
                                     str2 = str9;
                                     mediaCodecVideoConvertor = this;
                                     mediaCodec2 = mediaCodec13;
@@ -1733,20 +1734,20 @@ public class MediaCodecVideoConvertor {
                                 z2 = z;
                                 inputSurface = inputSurface5;
                                 outputSurface = outputSurface7;
-                                i2 = i68;
+                                i2 = i69;
                                 mediaCodecVideoConvertor = this;
                                 i3 = i54;
                                 z3 = z46;
                                 str2 = str11;
                                 z5 = z36;
-                                i70 = i53;
+                                i71 = i53;
                                 str = str16;
                                 file = file2;
                                 mediaCodec = null;
                                 i4 = -5;
                                 z4 = false;
                                 th = th;
-                                FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
+                                FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
                                 FileLog.e(th);
                                 mediaExtractor = mediaCodecVideoConvertor.extractor;
                                 if (mediaExtractor != null) {
@@ -1762,7 +1763,7 @@ public class MediaCodecVideoConvertor {
                                 }
                                 if (inputSurface != null) {
                                 }
-                                i68 = i2;
+                                i69 = i2;
                                 str3 = str2;
                                 z6 = z5;
                                 z7 = true;
@@ -1778,7 +1779,7 @@ public class MediaCodecVideoConvertor {
                         z40 = false;
                         long j20 = 0;
                         z41 = false;
-                        int i72 = 0;
+                        int i73 = 0;
                         i58 = 0;
                         boolean z52 = true;
                         loop0: while (true) {
@@ -1810,19 +1811,19 @@ public class MediaCodecVideoConvertor {
                                             z2 = z;
                                             inputSurface = inputSurface5;
                                             outputSurface = outputSurface7;
-                                            i2 = i68;
+                                            i2 = i69;
                                             mediaCodecVideoConvertor = this;
                                             i3 = i54;
                                             z3 = z46;
                                             str2 = str11;
                                             z5 = z36;
-                                            i70 = i53;
+                                            i71 = i53;
                                             str = str16;
                                             file = file2;
                                             mediaCodec = null;
                                             z4 = false;
                                             th = th;
-                                            FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
+                                            FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
                                             FileLog.e(th);
                                             mediaExtractor = mediaCodecVideoConvertor.extractor;
                                             if (mediaExtractor != null) {
@@ -1838,7 +1839,7 @@ public class MediaCodecVideoConvertor {
                                             }
                                             if (inputSurface != null) {
                                             }
-                                            i68 = i2;
+                                            i69 = i2;
                                             str3 = str2;
                                             z6 = z5;
                                             z7 = true;
@@ -1848,9 +1849,9 @@ public class MediaCodecVideoConvertor {
                                     }
                                     z42 = !z41;
                                     z43 = true;
-                                    int i73 = i58;
+                                    int i74 = i58;
                                     boolean z53 = z39;
-                                    i59 = i73;
+                                    i59 = i74;
                                 } catch (Throwable th22) {
                                     th = th22;
                                     outputSurface8 = outputSurface7;
@@ -1924,7 +1925,7 @@ public class MediaCodecVideoConvertor {
                                                             i63 = i4;
                                                             try {
                                                                 ByteBuffer byteBuffer8 = outputFormat.getByteBuffer("csd-1");
-                                                                i72 = (byteBuffer7 == null ? 0 : byteBuffer7.limit()) + (byteBuffer8 == null ? 0 : byteBuffer8.limit());
+                                                                i73 = (byteBuffer7 == null ? 0 : byteBuffer7.limit()) + (byteBuffer8 == null ? 0 : byteBuffer8.limit());
                                                                 i4 = i63;
                                                             } catch (Exception e16) {
                                                                 e = e16;
@@ -1944,10 +1945,10 @@ public class MediaCodecVideoConvertor {
                                                                 sb32222222.append(i56);
                                                                 mediaCodec13 = mediaCodec2;
                                                                 sb32222222.append(" size: ");
-                                                                sb32222222.append(i68);
+                                                                sb32222222.append(i69);
                                                                 str10 = str16;
                                                                 sb32222222.append(str10);
-                                                                sb32222222.append(i67);
+                                                                sb32222222.append(i68);
                                                                 FileLog.e(sb32222222.toString());
                                                                 FileLog.e(exc2);
                                                                 z4 = z38;
@@ -1963,7 +1964,7 @@ public class MediaCodecVideoConvertor {
                                                                 checkConversionCanceled();
                                                                 z2 = z37;
                                                                 outputSurface3 = outputSurface7;
-                                                                i70 = i55;
+                                                                i71 = i55;
                                                                 str2 = str9;
                                                                 mediaCodecVideoConvertor = this;
                                                                 mediaCodec2 = mediaCodec13;
@@ -1994,20 +1995,20 @@ public class MediaCodecVideoConvertor {
                                                                 z2 = z;
                                                                 inputSurface = inputSurface5;
                                                                 outputSurface = outputSurface7;
-                                                                i2 = i68;
+                                                                i2 = i69;
                                                                 mediaCodecVideoConvertor = this;
                                                                 i3 = i54;
                                                                 i4 = i63;
                                                                 z3 = z46;
                                                                 str2 = str11;
                                                                 z5 = z36;
-                                                                i70 = i53;
+                                                                i71 = i53;
                                                                 str = str16;
                                                                 file = file2;
                                                                 mediaCodec = null;
                                                                 z4 = false;
                                                                 th = th;
-                                                                FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
+                                                                FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
                                                                 FileLog.e(th);
                                                                 mediaExtractor = mediaCodecVideoConvertor.extractor;
                                                                 if (mediaExtractor != null) {
@@ -2023,7 +2024,7 @@ public class MediaCodecVideoConvertor {
                                                                 }
                                                                 if (inputSurface != null) {
                                                                 }
-                                                                i68 = i2;
+                                                                i69 = i2;
                                                                 str3 = str2;
                                                                 z6 = z5;
                                                                 z7 = true;
@@ -2045,19 +2046,19 @@ public class MediaCodecVideoConvertor {
                                                     z2 = z;
                                                     inputSurface = inputSurface5;
                                                     outputSurface = outputSurface7;
-                                                    i2 = i68;
+                                                    i2 = i69;
                                                     mediaCodecVideoConvertor = this;
                                                     i3 = i54;
                                                     z3 = z46;
                                                     str2 = str11;
                                                     z5 = z36;
-                                                    i70 = i53;
+                                                    i71 = i53;
                                                     str = str16;
                                                     file = file2;
                                                     mediaCodec = null;
                                                     z4 = false;
                                                     th = th;
-                                                    FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
+                                                    FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
                                                     FileLog.e(th);
                                                     mediaExtractor = mediaCodecVideoConvertor.extractor;
                                                     if (mediaExtractor != null) {
@@ -2073,7 +2074,7 @@ public class MediaCodecVideoConvertor {
                                                     }
                                                     if (inputSurface != null) {
                                                     }
-                                                    i68 = i2;
+                                                    i69 = i2;
                                                     str3 = str2;
                                                     z6 = z5;
                                                     z7 = true;
@@ -2097,20 +2098,20 @@ public class MediaCodecVideoConvertor {
                                             if (outputBuffer2 == null) {
                                                 throw new RuntimeException("encoderOutputBuffer " + dequeueOutputBuffer2 + " was null");
                                             }
-                                            int i74 = bufferInfo3.size;
+                                            int i75 = bufferInfo3.size;
                                             inputSurface7 = inputSurface5;
                                             try {
-                                                if (i74 > 1) {
+                                                if (i75 > 1) {
                                                     try {
-                                                        int i75 = bufferInfo3.flags;
-                                                        if ((i75 & 2) == 0) {
-                                                            if (i72 == 0 || (i75 & 1) == 0) {
+                                                        int i76 = bufferInfo3.flags;
+                                                        if ((i76 & 2) == 0) {
+                                                            if (i73 == 0 || (i76 & 1) == 0) {
                                                                 i61 = i59;
                                                             } else {
                                                                 i61 = i59;
                                                                 try {
-                                                                    bufferInfo3.offset += i72;
-                                                                    bufferInfo3.size = i74 - i72;
+                                                                    bufferInfo3.offset += i73;
+                                                                    bufferInfo3.size = i75 - i73;
                                                                 } catch (Exception e18) {
                                                                     e = e18;
                                                                     exc2 = e;
@@ -2130,10 +2131,10 @@ public class MediaCodecVideoConvertor {
                                                                     sb322222222.append(i56);
                                                                     mediaCodec13 = mediaCodec2;
                                                                     sb322222222.append(" size: ");
-                                                                    sb322222222.append(i68);
+                                                                    sb322222222.append(i69);
                                                                     str10 = str16;
                                                                     sb322222222.append(str10);
-                                                                    sb322222222.append(i67);
+                                                                    sb322222222.append(i68);
                                                                     FileLog.e(sb322222222.toString());
                                                                     FileLog.e(exc2);
                                                                     z4 = z38;
@@ -2149,7 +2150,7 @@ public class MediaCodecVideoConvertor {
                                                                     checkConversionCanceled();
                                                                     z2 = z37;
                                                                     outputSurface3 = outputSurface7;
-                                                                    i70 = i55;
+                                                                    i71 = i55;
                                                                     str2 = str9;
                                                                     mediaCodecVideoConvertor = this;
                                                                     mediaCodec2 = mediaCodec13;
@@ -2179,19 +2180,19 @@ public class MediaCodecVideoConvertor {
                                                                     z2 = z;
                                                                     th = th25;
                                                                     outputSurface = outputSurface7;
-                                                                    i2 = i68;
+                                                                    i2 = i69;
                                                                     mediaCodecVideoConvertor = this;
                                                                     i3 = i54;
                                                                     inputSurface = inputSurface7;
                                                                     z3 = z46;
                                                                     str2 = str11;
                                                                     z5 = z36;
-                                                                    i70 = i53;
+                                                                    i71 = i53;
                                                                     str = str16;
                                                                     file = file2;
                                                                     mediaCodec = null;
                                                                     z4 = false;
-                                                                    FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
+                                                                    FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
                                                                     FileLog.e(th);
                                                                     mediaExtractor = mediaCodecVideoConvertor.extractor;
                                                                     if (mediaExtractor != null) {
@@ -2207,7 +2208,7 @@ public class MediaCodecVideoConvertor {
                                                                     }
                                                                     if (inputSurface != null) {
                                                                     }
-                                                                    i68 = i2;
+                                                                    i69 = i2;
                                                                     str3 = str2;
                                                                     z6 = z5;
                                                                     z7 = true;
@@ -2215,7 +2216,7 @@ public class MediaCodecVideoConvertor {
                                                                     }
                                                                 }
                                                             }
-                                                            if (z52 && (i75 & 1) != 0) {
+                                                            if (z52 && (i76 & 1) != 0) {
                                                                 cutOfNalData(this.outputMimeType, outputBuffer2, bufferInfo3);
                                                                 z52 = false;
                                                             }
@@ -2248,7 +2249,7 @@ public class MediaCodecVideoConvertor {
                                                                     } catch (Throwable th26) {
                                                                         z2 = z;
                                                                         th = th26;
-                                                                        i2 = i68;
+                                                                        i2 = i69;
                                                                         mediaCodecVideoConvertor = this;
                                                                         i3 = i54;
                                                                         inputSurface = inputSurface7;
@@ -2257,12 +2258,12 @@ public class MediaCodecVideoConvertor {
                                                                         z3 = z46;
                                                                         str2 = str11;
                                                                         z5 = z36;
-                                                                        i70 = i53;
+                                                                        i71 = i53;
                                                                         str = str16;
                                                                         file = file2;
                                                                         mediaCodec = null;
                                                                         z4 = false;
-                                                                        FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
+                                                                        FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
                                                                         FileLog.e(th);
                                                                         mediaExtractor = mediaCodecVideoConvertor.extractor;
                                                                         if (mediaExtractor != null) {
@@ -2278,7 +2279,7 @@ public class MediaCodecVideoConvertor {
                                                                         }
                                                                         if (inputSurface != null) {
                                                                         }
-                                                                        i68 = i2;
+                                                                        i69 = i2;
                                                                         str3 = str2;
                                                                         z6 = z5;
                                                                         z7 = true;
@@ -2305,10 +2306,10 @@ public class MediaCodecVideoConvertor {
                                                                 sb3222222222.append(i56);
                                                                 mediaCodec13 = mediaCodec2;
                                                                 sb3222222222.append(" size: ");
-                                                                sb3222222222.append(i68);
+                                                                sb3222222222.append(i69);
                                                                 str10 = str16;
                                                                 sb3222222222.append(str10);
-                                                                sb3222222222.append(i67);
+                                                                sb3222222222.append(i68);
                                                                 FileLog.e(sb3222222222.toString());
                                                                 FileLog.e(exc2);
                                                                 z4 = z38;
@@ -2324,7 +2325,7 @@ public class MediaCodecVideoConvertor {
                                                                 checkConversionCanceled();
                                                                 z2 = z37;
                                                                 outputSurface3 = outputSurface7;
-                                                                i70 = i55;
+                                                                i71 = i55;
                                                                 str2 = str9;
                                                                 mediaCodecVideoConvertor = this;
                                                                 mediaCodec2 = mediaCodec13;
@@ -2354,7 +2355,7 @@ public class MediaCodecVideoConvertor {
                                                                 th = th27;
                                                                 z2 = z;
                                                                 th = th;
-                                                                i2 = i68;
+                                                                i2 = i69;
                                                                 mediaCodecVideoConvertor = this;
                                                                 i3 = i54;
                                                                 inputSurface = inputSurface7;
@@ -2362,12 +2363,12 @@ public class MediaCodecVideoConvertor {
                                                                 z3 = z46;
                                                                 str2 = str11;
                                                                 z5 = z36;
-                                                                i70 = i53;
+                                                                i71 = i53;
                                                                 str = str16;
                                                                 file = file2;
                                                                 mediaCodec = null;
                                                                 z4 = false;
-                                                                FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
+                                                                FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
                                                                 FileLog.e(th);
                                                                 mediaExtractor = mediaCodecVideoConvertor.extractor;
                                                                 if (mediaExtractor != null) {
@@ -2383,7 +2384,7 @@ public class MediaCodecVideoConvertor {
                                                                 }
                                                                 if (inputSurface != null) {
                                                                 }
-                                                                i68 = i2;
+                                                                i69 = i2;
                                                                 str3 = str2;
                                                                 z6 = z5;
                                                                 z7 = true;
@@ -2399,30 +2400,30 @@ public class MediaCodecVideoConvertor {
                                                                 if (this.outputMimeType.equals("video/hevc")) {
                                                                     break loop0;
                                                                 }
-                                                                int i76 = bufferInfo3.size;
-                                                                byte[] bArr = new byte[i76];
-                                                                outputBuffer2.limit(bufferInfo3.offset + i76);
+                                                                int i77 = bufferInfo3.size;
+                                                                byte[] bArr = new byte[i77];
+                                                                outputBuffer2.limit(bufferInfo3.offset + i77);
                                                                 outputBuffer2.position(bufferInfo3.offset);
                                                                 outputBuffer2.get(bArr);
                                                                 byte b = 1;
-                                                                int i77 = bufferInfo3.size - 1;
-                                                                while (i77 >= 0 && i77 > 3) {
-                                                                    if (bArr[i77] == b && bArr[i77 - 1] == 0 && bArr[i77 - 2] == 0) {
-                                                                        int i78 = i77 - 3;
-                                                                        if (bArr[i78] == 0) {
-                                                                            byteBuffer5 = ByteBuffer.allocate(i78);
-                                                                            byteBuffer6 = ByteBuffer.allocate(bufferInfo3.size - i78);
-                                                                            byteBuffer5.put(bArr, 0, i78).position(0);
-                                                                            byteBuffer6.put(bArr, i78, bufferInfo3.size - i78).position(0);
+                                                                int i78 = bufferInfo3.size - 1;
+                                                                while (i78 >= 0 && i78 > 3) {
+                                                                    if (bArr[i78] == b && bArr[i78 - 1] == 0 && bArr[i78 - 2] == 0) {
+                                                                        int i79 = i78 - 3;
+                                                                        if (bArr[i79] == 0) {
+                                                                            byteBuffer5 = ByteBuffer.allocate(i79);
+                                                                            byteBuffer6 = ByteBuffer.allocate(bufferInfo3.size - i79);
+                                                                            byteBuffer5.put(bArr, 0, i79).position(0);
+                                                                            byteBuffer6.put(bArr, i79, bufferInfo3.size - i79).position(0);
                                                                             break;
                                                                         }
                                                                     }
-                                                                    i77--;
+                                                                    i78--;
                                                                     b = 1;
                                                                 }
                                                                 byteBuffer5 = null;
                                                                 byteBuffer6 = null;
-                                                                MediaFormat createVideoFormat3 = MediaFormat.createVideoFormat(this.outputMimeType, i67, i68);
+                                                                MediaFormat createVideoFormat3 = MediaFormat.createVideoFormat(this.outputMimeType, i68, i69);
                                                                 if (byteBuffer5 != null && byteBuffer6 != null) {
                                                                     createVideoFormat3.setByteBuffer(str12, byteBuffer5);
                                                                     createVideoFormat3.setByteBuffer("csd-1", byteBuffer6);
@@ -2449,130 +2450,130 @@ public class MediaCodecVideoConvertor {
                                                             } else {
                                                                 try {
                                                                     outputSurface8.drawImage();
-                                                                    int i79 = i61;
+                                                                    i64 = i61;
                                                                     inputSurface6 = inputSurface7;
-                                                                    try {
-                                                                        inputSurface6.setPresentationTime((i79 / 30.0f) * 1000.0f * 1000.0f * 1000.0f);
-                                                                        inputSurface6.swapBuffers();
-                                                                        i59 = i79 + 1;
-                                                                        if (i59 >= 30.0f * f2) {
-                                                                            mediaCodec16.signalEndOfInputStream();
-                                                                            z41 = true;
-                                                                            z42 = false;
-                                                                        }
-                                                                    } catch (Exception e21) {
-                                                                        e = e21;
-                                                                        exc2 = e;
-                                                                        mediaCodec2 = mediaCodec16;
-                                                                        inputSurface5 = inputSurface6;
-                                                                        i13 = i4;
-                                                                        audioRecoder2 = audioRecoder3;
-                                                                        outputSurface7 = outputSurface8;
-                                                                        str9 = str11;
-                                                                        z37 = z;
-                                                                        if (exc2 instanceof IllegalStateException) {
-                                                                        }
-                                                                        StringBuilder sb32222222222 = new StringBuilder();
-                                                                        sb32222222222.append("bitrate: ");
-                                                                        i55 = i53;
-                                                                        sb32222222222.append(i55);
-                                                                        sb32222222222.append(" framerate: ");
-                                                                        i56 = i54;
-                                                                        sb32222222222.append(i56);
-                                                                        mediaCodec13 = mediaCodec2;
-                                                                        sb32222222222.append(" size: ");
-                                                                        sb32222222222.append(i68);
-                                                                        str10 = str16;
-                                                                        sb32222222222.append(str10);
-                                                                        sb32222222222.append(i67);
-                                                                        FileLog.e(sb32222222222.toString());
-                                                                        FileLog.e(exc2);
-                                                                        z4 = z38;
-                                                                        z7 = true;
-                                                                        if (outputSurface7 != null) {
-                                                                        }
-                                                                        if (inputSurface5 != null) {
-                                                                        }
-                                                                        if (mediaCodec13 != null) {
-                                                                        }
-                                                                        if (audioRecoder2 != null) {
-                                                                        }
-                                                                        checkConversionCanceled();
-                                                                        z2 = z37;
-                                                                        outputSurface3 = outputSurface7;
-                                                                        i70 = i55;
-                                                                        str2 = str9;
-                                                                        mediaCodecVideoConvertor = this;
-                                                                        mediaCodec2 = mediaCodec13;
-                                                                        z3 = z46;
-                                                                        z6 = z36;
-                                                                        file = file2;
-                                                                        inputSurface2 = inputSurface5;
-                                                                        mediaCodec3 = null;
-                                                                        mediaExtractor2 = mediaCodecVideoConvertor.extractor;
-                                                                        if (mediaExtractor2 != null) {
-                                                                        }
-                                                                        mP4Builder2 = mediaCodecVideoConvertor.mediaMuxer;
-                                                                        if (mP4Builder2 != null) {
-                                                                        }
-                                                                        if (mediaCodec2 != null) {
-                                                                        }
-                                                                        if (mediaCodec3 != null) {
-                                                                        }
-                                                                        if (outputSurface3 != null) {
-                                                                        }
-                                                                        if (inputSurface2 != null) {
-                                                                        }
-                                                                        str3 = str2;
-                                                                        if (z4) {
-                                                                        }
-                                                                    } catch (Throwable th28) {
-                                                                        th = th28;
-                                                                        z2 = z;
-                                                                        mediaCodec2 = mediaCodec16;
-                                                                        inputSurface = inputSurface6;
-                                                                        i2 = i68;
-                                                                        mediaCodecVideoConvertor = this;
-                                                                        i3 = i54;
-                                                                        outputSurface = outputSurface8;
-                                                                        z3 = z46;
-                                                                        str2 = str11;
-                                                                        z5 = z36;
-                                                                        i70 = i53;
-                                                                        str = str16;
-                                                                        file = file2;
-                                                                        mediaCodec = null;
-                                                                        z4 = false;
-                                                                        th = th;
-                                                                        FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
-                                                                        FileLog.e(th);
-                                                                        mediaExtractor = mediaCodecVideoConvertor.extractor;
-                                                                        if (mediaExtractor != null) {
-                                                                        }
-                                                                        mP4Builder = mediaCodecVideoConvertor.mediaMuxer;
-                                                                        if (mP4Builder != null) {
-                                                                        }
-                                                                        if (mediaCodec2 != null) {
-                                                                        }
-                                                                        if (mediaCodec != null) {
-                                                                        }
-                                                                        if (outputSurface != null) {
-                                                                        }
-                                                                        if (inputSurface != null) {
-                                                                        }
-                                                                        i68 = i2;
-                                                                        str3 = str2;
-                                                                        z6 = z5;
-                                                                        z7 = true;
-                                                                        if (z4) {
-                                                                        }
+                                                                } catch (Exception e21) {
+                                                                    e = e21;
+                                                                    inputSurface6 = inputSurface7;
+                                                                } catch (Throwable th28) {
+                                                                    th = th28;
+                                                                    inputSurface6 = inputSurface7;
+                                                                }
+                                                                try {
+                                                                    inputSurface6.setPresentationTime((i64 / 30.0f) * 1000.0f * 1000.0f * 1000.0f);
+                                                                    inputSurface6.swapBuffers();
+                                                                    i59 = i64 + 1;
+                                                                    if (i59 >= 30.0f * f2) {
+                                                                        mediaCodec16.signalEndOfInputStream();
+                                                                        z41 = true;
+                                                                        z42 = false;
                                                                     }
                                                                 } catch (Exception e22) {
                                                                     e = e22;
-                                                                    inputSurface6 = inputSurface7;
+                                                                    exc2 = e;
+                                                                    mediaCodec2 = mediaCodec16;
+                                                                    inputSurface5 = inputSurface6;
+                                                                    i13 = i4;
+                                                                    audioRecoder2 = audioRecoder3;
+                                                                    outputSurface7 = outputSurface8;
+                                                                    str9 = str11;
+                                                                    z37 = z;
+                                                                    if (exc2 instanceof IllegalStateException) {
+                                                                    }
+                                                                    StringBuilder sb32222222222 = new StringBuilder();
+                                                                    sb32222222222.append("bitrate: ");
+                                                                    i55 = i53;
+                                                                    sb32222222222.append(i55);
+                                                                    sb32222222222.append(" framerate: ");
+                                                                    i56 = i54;
+                                                                    sb32222222222.append(i56);
+                                                                    mediaCodec13 = mediaCodec2;
+                                                                    sb32222222222.append(" size: ");
+                                                                    sb32222222222.append(i69);
+                                                                    str10 = str16;
+                                                                    sb32222222222.append(str10);
+                                                                    sb32222222222.append(i68);
+                                                                    FileLog.e(sb32222222222.toString());
+                                                                    FileLog.e(exc2);
+                                                                    z4 = z38;
+                                                                    z7 = true;
+                                                                    if (outputSurface7 != null) {
+                                                                    }
+                                                                    if (inputSurface5 != null) {
+                                                                    }
+                                                                    if (mediaCodec13 != null) {
+                                                                    }
+                                                                    if (audioRecoder2 != null) {
+                                                                    }
+                                                                    checkConversionCanceled();
+                                                                    z2 = z37;
+                                                                    outputSurface3 = outputSurface7;
+                                                                    i71 = i55;
+                                                                    str2 = str9;
+                                                                    mediaCodecVideoConvertor = this;
+                                                                    mediaCodec2 = mediaCodec13;
+                                                                    z3 = z46;
+                                                                    z6 = z36;
+                                                                    file = file2;
+                                                                    inputSurface2 = inputSurface5;
+                                                                    mediaCodec3 = null;
+                                                                    mediaExtractor2 = mediaCodecVideoConvertor.extractor;
+                                                                    if (mediaExtractor2 != null) {
+                                                                    }
+                                                                    mP4Builder2 = mediaCodecVideoConvertor.mediaMuxer;
+                                                                    if (mP4Builder2 != null) {
+                                                                    }
+                                                                    if (mediaCodec2 != null) {
+                                                                    }
+                                                                    if (mediaCodec3 != null) {
+                                                                    }
+                                                                    if (outputSurface3 != null) {
+                                                                    }
+                                                                    if (inputSurface2 != null) {
+                                                                    }
+                                                                    str3 = str2;
+                                                                    if (z4) {
+                                                                    }
                                                                 } catch (Throwable th29) {
                                                                     th = th29;
-                                                                    inputSurface6 = inputSurface7;
+                                                                    z2 = z;
+                                                                    mediaCodec2 = mediaCodec16;
+                                                                    inputSurface = inputSurface6;
+                                                                    i2 = i69;
+                                                                    mediaCodecVideoConvertor = this;
+                                                                    i3 = i54;
+                                                                    outputSurface = outputSurface8;
+                                                                    z3 = z46;
+                                                                    str2 = str11;
+                                                                    z5 = z36;
+                                                                    i71 = i53;
+                                                                    str = str16;
+                                                                    file = file2;
+                                                                    mediaCodec = null;
+                                                                    z4 = false;
+                                                                    th = th;
+                                                                    FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
+                                                                    FileLog.e(th);
+                                                                    mediaExtractor = mediaCodecVideoConvertor.extractor;
+                                                                    if (mediaExtractor != null) {
+                                                                    }
+                                                                    mP4Builder = mediaCodecVideoConvertor.mediaMuxer;
+                                                                    if (mP4Builder != null) {
+                                                                    }
+                                                                    if (mediaCodec2 != null) {
+                                                                    }
+                                                                    if (mediaCodec != null) {
+                                                                    }
+                                                                    if (outputSurface != null) {
+                                                                    }
+                                                                    if (inputSurface != null) {
+                                                                    }
+                                                                    i69 = i2;
+                                                                    str3 = str2;
+                                                                    z6 = z5;
+                                                                    z7 = true;
+                                                                    if (z4) {
+                                                                    }
                                                                 }
                                                             }
                                                             mediaCodec2 = mediaCodec16;
@@ -2624,10 +2625,10 @@ public class MediaCodecVideoConvertor {
                                                 sb322222222222.append(i56);
                                                 mediaCodec13 = mediaCodec2;
                                                 sb322222222222.append(" size: ");
-                                                sb322222222222.append(i68);
+                                                sb322222222222.append(i69);
                                                 str10 = str16;
                                                 sb322222222222.append(str10);
-                                                sb322222222222.append(i67);
+                                                sb322222222222.append(i68);
                                                 FileLog.e(sb322222222222.toString());
                                                 FileLog.e(exc2);
                                                 z4 = z38;
@@ -2643,7 +2644,7 @@ public class MediaCodecVideoConvertor {
                                                 checkConversionCanceled();
                                                 z2 = z37;
                                                 outputSurface3 = outputSurface7;
-                                                i70 = i55;
+                                                i71 = i55;
                                                 str2 = str9;
                                                 mediaCodecVideoConvertor = this;
                                                 mediaCodec2 = mediaCodec13;
@@ -2676,20 +2677,20 @@ public class MediaCodecVideoConvertor {
                                                 z2 = z;
                                                 mediaCodec2 = mediaCodec16;
                                                 inputSurface = inputSurface6;
-                                                i2 = i68;
+                                                i2 = i69;
                                                 mediaCodecVideoConvertor = this;
                                                 i3 = i54;
                                                 outputSurface = outputSurface8;
                                                 z3 = z46;
                                                 str2 = str11;
                                                 z5 = z36;
-                                                i70 = i53;
+                                                i71 = i53;
                                                 str = str16;
                                                 file = file2;
                                                 mediaCodec = null;
                                                 z4 = false;
                                                 th = th;
-                                                FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
+                                                FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
                                                 FileLog.e(th);
                                                 mediaExtractor = mediaCodecVideoConvertor.extractor;
                                                 if (mediaExtractor != null) {
@@ -2705,7 +2706,7 @@ public class MediaCodecVideoConvertor {
                                                 }
                                                 if (inputSurface != null) {
                                                 }
-                                                i68 = i2;
+                                                i69 = i2;
                                                 str3 = str2;
                                                 z6 = z5;
                                                 z7 = true;
@@ -2726,10 +2727,10 @@ public class MediaCodecVideoConvertor {
                                         sb3222222222222.append(i56);
                                         mediaCodec13 = mediaCodec2;
                                         sb3222222222222.append(" size: ");
-                                        sb3222222222222.append(i68);
+                                        sb3222222222222.append(i69);
                                         str10 = str16;
                                         sb3222222222222.append(str10);
-                                        sb3222222222222.append(i67);
+                                        sb3222222222222.append(i68);
                                         FileLog.e(sb3222222222222.toString());
                                         FileLog.e(exc2);
                                         z4 = z38;
@@ -2754,7 +2755,7 @@ public class MediaCodecVideoConvertor {
                                 th = th32;
                                 z2 = z37;
                                 outputSurface = outputSurface7;
-                                i70 = i55;
+                                i71 = i55;
                                 i4 = i13;
                                 str2 = str9;
                                 mediaCodecVideoConvertor = this;
@@ -2764,11 +2765,11 @@ public class MediaCodecVideoConvertor {
                                 mediaCodec = null;
                                 str = str10;
                                 inputSurface = inputSurface5;
-                                i2 = i68;
+                                i2 = i69;
                                 i3 = i56;
                                 mediaCodec2 = mediaCodec13;
                                 th = th;
-                                FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
+                                FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
                                 FileLog.e(th);
                                 mediaExtractor = mediaCodecVideoConvertor.extractor;
                                 if (mediaExtractor != null) {
@@ -2784,7 +2785,7 @@ public class MediaCodecVideoConvertor {
                                 }
                                 if (inputSurface != null) {
                                 }
-                                i68 = i2;
+                                i69 = i2;
                                 str3 = str2;
                                 z6 = z5;
                                 z7 = true;
@@ -2807,7 +2808,7 @@ public class MediaCodecVideoConvertor {
                         checkConversionCanceled();
                         z2 = z37;
                         outputSurface3 = outputSurface7;
-                        i70 = i55;
+                        i71 = i55;
                         str2 = str9;
                         mediaCodecVideoConvertor = this;
                         mediaCodec2 = mediaCodec13;
@@ -2856,10 +2857,10 @@ public class MediaCodecVideoConvertor {
                         str3 = str2;
                     }
                 }
-                i57 = i69;
+                i57 = i70;
                 cropState = null;
                 str11 = str9;
-                outputSurface7 = new OutputSurface(savedFilterState, str13, str14, str15, arrayList2, cropState, i67, i68, i65, i66, i64, i57, true, num, num2, null, arrayList3);
+                outputSurface7 = new OutputSurface(savedFilterState, str13, str14, str15, arrayList2, cropState, i68, i69, i66, i67, i65, i57, true, num, num2, null, arrayList3);
                 if (Build.VERSION.SDK_INT >= 21) {
                 }
                 checkConversionCanceled();
@@ -2871,7 +2872,7 @@ public class MediaCodecVideoConvertor {
                 z40 = false;
                 long j202 = 0;
                 z41 = false;
-                int i722 = 0;
+                int i732 = 0;
                 i58 = 0;
                 boolean z522 = true;
                 loop0: while (true) {
@@ -2882,9 +2883,9 @@ public class MediaCodecVideoConvertor {
                     }
                     z42 = !z41;
                     z43 = true;
-                    int i732 = i58;
+                    int i742 = i58;
                     boolean z532 = z39;
-                    i59 = i732;
+                    i59 = i742;
                     while (true) {
                         if (!z42) {
                         }
@@ -2916,7 +2917,7 @@ public class MediaCodecVideoConvertor {
                 checkConversionCanceled();
                 z2 = z37;
                 outputSurface3 = outputSurface7;
-                i70 = i55;
+                i71 = i55;
                 str2 = str9;
                 mediaCodecVideoConvertor = this;
                 mediaCodec2 = mediaCodec13;
@@ -2949,7 +2950,7 @@ public class MediaCodecVideoConvertor {
                     mediaExtractor4.setDataSource(str13);
                     try {
                         int findTrack = MediaController.findTrack(this.extractor, false);
-                        if (i70 == -1 || z49) {
+                        if (i71 == -1 || z49) {
                             i5 = -1;
                         } else {
                             try {
@@ -2958,9 +2959,9 @@ public class MediaCodecVideoConvertor {
                                 th2 = th34;
                                 z2 = z;
                                 th = th2;
-                                i2 = i68;
+                                i2 = i69;
                                 mediaCodecVideoConvertor = this;
-                                i3 = i69;
+                                i3 = i70;
                                 str = str16;
                                 z3 = z46;
                                 file = file2;
@@ -2972,7 +2973,7 @@ public class MediaCodecVideoConvertor {
                                 outputSurface = null;
                                 z4 = false;
                                 z5 = false;
-                                FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
+                                FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
                                 FileLog.e(th);
                                 mediaExtractor = mediaCodecVideoConvertor.extractor;
                                 if (mediaExtractor != null) {
@@ -2988,7 +2989,7 @@ public class MediaCodecVideoConvertor {
                                 }
                                 if (inputSurface != null) {
                                 }
-                                i68 = i2;
+                                i69 = i2;
                                 str3 = str2;
                                 z6 = z5;
                                 z7 = true;
@@ -3001,14 +3002,14 @@ public class MediaCodecVideoConvertor {
                             if (findTrack >= 0) {
                                 i6 = i5;
                                 try {
-                                    i7 = i67;
+                                    i7 = i68;
                                 } catch (Throwable th35) {
                                     th2 = th35;
                                     z2 = z;
                                     th = th2;
-                                    i2 = i68;
+                                    i2 = i69;
                                     mediaCodecVideoConvertor = this;
-                                    i3 = i69;
+                                    i3 = i70;
                                     str = str16;
                                     z3 = z46;
                                     file = file2;
@@ -3020,7 +3021,7 @@ public class MediaCodecVideoConvertor {
                                     outputSurface = null;
                                     z4 = false;
                                     z5 = false;
-                                    FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
+                                    FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
                                     FileLog.e(th);
                                     mediaExtractor = mediaCodecVideoConvertor.extractor;
                                     if (mediaExtractor != null) {
@@ -3059,7 +3060,7 @@ public class MediaCodecVideoConvertor {
                                         } catch (Exception unused12) {
                                         }
                                     }
-                                    i68 = i2;
+                                    i69 = i2;
                                     str3 = str2;
                                     z6 = z5;
                                     z7 = true;
@@ -3070,13 +3071,13 @@ public class MediaCodecVideoConvertor {
                                     if (!this.extractor.getTrackFormat(findTrack).getString("mime").equals(MediaController.VIDEO_MIME_TYPE)) {
                                         z8 = true;
                                         if (!z46 || z8) {
-                                            int i80 = i68;
+                                            int i80 = i69;
                                             long j22 = j15;
-                                            int i81 = i69;
+                                            int i81 = i70;
                                             z3 = z46;
                                             file = file2;
                                             long j23 = j14;
-                                            int i82 = i70;
+                                            int i82 = i71;
                                             if (findTrack < 0) {
                                                 long j24 = -2147483648L;
                                                 try {
@@ -3090,7 +3091,7 @@ public class MediaCodecVideoConvertor {
                                                             i14 = findTrack;
                                                             mediaCodecVideoConvertor = this;
                                                             arrayList = i81;
-                                                            i70 = i82;
+                                                            i71 = i82;
                                                             mediaCodec2 = null;
                                                             mediaCodec = null;
                                                             i16 = -5;
@@ -3108,7 +3109,7 @@ public class MediaCodecVideoConvertor {
                                                                 try {
                                                                     StringBuilder sb4 = new StringBuilder();
                                                                     sb4.append("bitrate: ");
-                                                                    sb4.append(i70);
+                                                                    sb4.append(i71);
                                                                     sb4.append(" framerate: ");
                                                                     i3 = arrayList;
                                                                     try {
@@ -3144,9 +3145,9 @@ public class MediaCodecVideoConvertor {
                                                                                         if (audioRecoder != null) {
                                                                                         }
                                                                                         checkConversionCanceled();
-                                                                                        i68 = i2;
+                                                                                        i69 = i2;
                                                                                         outputSurface3 = outputSurface2;
-                                                                                        i67 = i11;
+                                                                                        i68 = i11;
                                                                                         i13 = i12;
                                                                                         z6 = z5;
                                                                                         mediaExtractor2 = mediaCodecVideoConvertor.extractor;
@@ -3167,11 +3168,11 @@ public class MediaCodecVideoConvertor {
                                                                                     } catch (Throwable th37) {
                                                                                         th = th37;
                                                                                         mediaCodec = mediaCodec4;
-                                                                                        i67 = i11;
+                                                                                        i68 = i11;
                                                                                         i4 = i12;
                                                                                         inputSurface = inputSurface2;
                                                                                         outputSurface = outputSurface4;
-                                                                                        FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
+                                                                                        FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
                                                                                         FileLog.e(th);
                                                                                         mediaExtractor = mediaCodecVideoConvertor.extractor;
                                                                                         if (mediaExtractor != null) {
@@ -3187,7 +3188,7 @@ public class MediaCodecVideoConvertor {
                                                                                         }
                                                                                         if (inputSurface != null) {
                                                                                         }
-                                                                                        i68 = i2;
+                                                                                        i69 = i2;
                                                                                         str3 = str2;
                                                                                         z6 = z5;
                                                                                         z7 = true;
@@ -3198,11 +3199,11 @@ public class MediaCodecVideoConvertor {
                                                                                     th = th38;
                                                                                     th = th;
                                                                                     z5 = z9;
-                                                                                    i67 = i11;
+                                                                                    i68 = i11;
                                                                                     outputSurface = outputSurface4;
                                                                                     i4 = i16;
                                                                                     inputSurface = inputSurface2;
-                                                                                    FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
+                                                                                    FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
                                                                                     FileLog.e(th);
                                                                                     mediaExtractor = mediaCodecVideoConvertor.extractor;
                                                                                     if (mediaExtractor != null) {
@@ -3218,7 +3219,7 @@ public class MediaCodecVideoConvertor {
                                                                                     }
                                                                                     if (inputSurface != null) {
                                                                                     }
-                                                                                    i68 = i2;
+                                                                                    i69 = i2;
                                                                                     str3 = str2;
                                                                                     z6 = z5;
                                                                                     z7 = true;
@@ -3235,11 +3236,11 @@ public class MediaCodecVideoConvertor {
                                                                             str = str16;
                                                                             th = th;
                                                                             z5 = z9;
-                                                                            i67 = i11;
+                                                                            i68 = i11;
                                                                             outputSurface = outputSurface4;
                                                                             i4 = i16;
                                                                             inputSurface = inputSurface2;
-                                                                            FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
+                                                                            FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
                                                                             FileLog.e(th);
                                                                             mediaExtractor = mediaCodecVideoConvertor.extractor;
                                                                             if (mediaExtractor != null) {
@@ -3255,7 +3256,7 @@ public class MediaCodecVideoConvertor {
                                                                             }
                                                                             if (inputSurface != null) {
                                                                             }
-                                                                            i68 = i2;
+                                                                            i69 = i2;
                                                                             str3 = str2;
                                                                             z6 = z5;
                                                                             z7 = true;
@@ -3269,11 +3270,11 @@ public class MediaCodecVideoConvertor {
                                                                         str = str16;
                                                                         th = th;
                                                                         z5 = z9;
-                                                                        i67 = i11;
+                                                                        i68 = i11;
                                                                         outputSurface = outputSurface4;
                                                                         i4 = i16;
                                                                         inputSurface = inputSurface2;
-                                                                        FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
+                                                                        FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
                                                                         FileLog.e(th);
                                                                         mediaExtractor = mediaCodecVideoConvertor.extractor;
                                                                         if (mediaExtractor != null) {
@@ -3289,7 +3290,7 @@ public class MediaCodecVideoConvertor {
                                                                         }
                                                                         if (inputSurface != null) {
                                                                         }
-                                                                        i68 = i2;
+                                                                        i69 = i2;
                                                                         str3 = str2;
                                                                         z6 = z5;
                                                                         z7 = true;
@@ -3307,7 +3308,7 @@ public class MediaCodecVideoConvertor {
                                                                 str = str16;
                                                                 th = th43;
                                                                 z5 = z9;
-                                                                i67 = i7;
+                                                                i68 = i7;
                                                                 outputSurface = outputSurface4;
                                                                 z4 = false;
                                                             }
@@ -3323,7 +3324,7 @@ public class MediaCodecVideoConvertor {
                                                     MediaFormat trackFormat = this.extractor.getTrackFormat(findTrack);
                                                     if (z51) {
                                                         int i83 = f2 <= 2000.0f ? 2600000 : f2 <= 5000.0f ? 2200000 : 1560000;
-                                                        i18 = i71;
+                                                        i18 = i72;
                                                         if (i18 >= 15000000) {
                                                             str6 = "OMX.google.h264.encoder";
                                                             i19 = i83;
@@ -3333,17 +3334,17 @@ public class MediaCodecVideoConvertor {
                                                         }
                                                         j18 = 0;
                                                     } else {
-                                                        i18 = i71;
+                                                        i18 = i72;
                                                         i19 = i82 <= 0 ? 921600 : i82;
                                                         str6 = null;
                                                     }
                                                     if (i18 > 0) {
                                                         try {
-                                                            i70 = Math.min(i18, i19);
+                                                            i71 = Math.min(i18, i19);
                                                         } catch (Exception e26) {
                                                             exc = e26;
                                                             i14 = findTrack;
-                                                            i70 = i19;
+                                                            i71 = i19;
                                                             mediaCodecVideoConvertor = this;
                                                             arrayList = i81;
                                                             mediaCodec2 = null;
@@ -3361,7 +3362,7 @@ public class MediaCodecVideoConvertor {
                                                             z4 = false;
                                                             StringBuilder sb42 = new StringBuilder();
                                                             sb42.append("bitrate: ");
-                                                            sb42.append(i70);
+                                                            sb42.append(i71);
                                                             sb42.append(" framerate: ");
                                                             i3 = arrayList;
                                                             sb42.append(i3);
@@ -3392,9 +3393,9 @@ public class MediaCodecVideoConvertor {
                                                             if (audioRecoder != null) {
                                                             }
                                                             checkConversionCanceled();
-                                                            i68 = i2;
+                                                            i69 = i2;
                                                             outputSurface3 = outputSurface2;
-                                                            i67 = i11;
+                                                            i68 = i11;
                                                             i13 = i12;
                                                             z6 = z5;
                                                             mediaExtractor2 = mediaCodecVideoConvertor.extractor;
@@ -3417,11 +3418,11 @@ public class MediaCodecVideoConvertor {
                                                         } catch (Throwable th44) {
                                                             z2 = z;
                                                             th = th44;
-                                                            i70 = i19;
+                                                            i71 = i19;
                                                             mediaCodecVideoConvertor = this;
                                                             i3 = i81;
                                                             i10 = i80;
-                                                            i67 = i7;
+                                                            i68 = i7;
                                                             i2 = i10;
                                                             str = str16;
                                                             mediaCodec2 = null;
@@ -3432,7 +3433,7 @@ public class MediaCodecVideoConvertor {
                                                             outputSurface = null;
                                                             z4 = false;
                                                             z5 = false;
-                                                            FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
+                                                            FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
                                                             FileLog.e(th);
                                                             mediaExtractor = mediaCodecVideoConvertor.extractor;
                                                             if (mediaExtractor != null) {
@@ -3448,7 +3449,7 @@ public class MediaCodecVideoConvertor {
                                                             }
                                                             if (inputSurface != null) {
                                                             }
-                                                            i68 = i2;
+                                                            i69 = i2;
                                                             str3 = str2;
                                                             z6 = z5;
                                                             z7 = true;
@@ -3456,7 +3457,7 @@ public class MediaCodecVideoConvertor {
                                                             }
                                                         }
                                                     } else {
-                                                        i70 = i19;
+                                                        i71 = i19;
                                                     }
                                                     long j27 = j18 >= 0 ? -1L : j18;
                                                     try {
@@ -3467,7 +3468,7 @@ public class MediaCodecVideoConvertor {
                                                             mediaCodecVideoConvertor = this;
                                                             i3 = i81;
                                                             i10 = i80;
-                                                            i67 = i7;
+                                                            i68 = i7;
                                                             i2 = i10;
                                                             str = str16;
                                                             mediaCodec2 = null;
@@ -3478,7 +3479,7 @@ public class MediaCodecVideoConvertor {
                                                             outputSurface = null;
                                                             z4 = false;
                                                             z5 = false;
-                                                            FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
+                                                            FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
                                                             FileLog.e(th);
                                                             mediaExtractor = mediaCodecVideoConvertor.extractor;
                                                             if (mediaExtractor != null) {
@@ -3494,7 +3495,7 @@ public class MediaCodecVideoConvertor {
                                                             }
                                                             if (inputSurface != null) {
                                                             }
-                                                            i68 = i2;
+                                                            i69 = i2;
                                                             str3 = str2;
                                                             z6 = z5;
                                                             z7 = true;
@@ -3521,7 +3522,7 @@ public class MediaCodecVideoConvertor {
                                                         z4 = false;
                                                         StringBuilder sb422 = new StringBuilder();
                                                         sb422.append("bitrate: ");
-                                                        sb422.append(i70);
+                                                        sb422.append(i71);
                                                         sb422.append(" framerate: ");
                                                         i3 = arrayList;
                                                         sb422.append(i3);
@@ -3552,9 +3553,9 @@ public class MediaCodecVideoConvertor {
                                                         if (audioRecoder != null) {
                                                         }
                                                         checkConversionCanceled();
-                                                        i68 = i2;
+                                                        i69 = i2;
                                                         outputSurface3 = outputSurface2;
-                                                        i67 = i11;
+                                                        i68 = i11;
                                                         i13 = i12;
                                                         z6 = z5;
                                                         mediaExtractor2 = mediaCodecVideoConvertor.extractor;
@@ -3600,7 +3601,7 @@ public class MediaCodecVideoConvertor {
                                                                                                         j23 = j23;
                                                                                                         this.extractor.seekTo(0L, 0);
                                                                                                         if (cropState2 == null && cropState2.useMatrix == null) {
-                                                                                                            i20 = i64;
+                                                                                                            i20 = i65;
                                                                                                             if (i20 != 90 && i20 != 270) {
                                                                                                                 i21 = cropState2.transformWidth;
                                                                                                                 i52 = cropState2.transformHeight;
@@ -3610,7 +3611,7 @@ public class MediaCodecVideoConvertor {
                                                                                                             i52 = cropState2.transformWidth;
                                                                                                             i22 = i52;
                                                                                                         } else {
-                                                                                                            i20 = i64;
+                                                                                                            i20 = i65;
                                                                                                             i21 = i7;
                                                                                                             i22 = i80;
                                                                                                         }
@@ -3646,7 +3647,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                                 z4 = true;
                                                                                                                                 StringBuilder sb4222 = new StringBuilder();
                                                                                                                                 sb4222.append("bitrate: ");
-                                                                                                                                sb4222.append(i70);
+                                                                                                                                sb4222.append(i71);
                                                                                                                                 sb4222.append(" framerate: ");
                                                                                                                                 i3 = arrayList;
                                                                                                                                 sb4222.append(i3);
@@ -3679,9 +3680,9 @@ public class MediaCodecVideoConvertor {
                                                                                                                                 if (audioRecoder != null) {
                                                                                                                                 }
                                                                                                                                 checkConversionCanceled();
-                                                                                                                                i68 = i2;
+                                                                                                                                i69 = i2;
                                                                                                                                 outputSurface3 = outputSurface2;
-                                                                                                                                i67 = i11;
+                                                                                                                                i68 = i11;
                                                                                                                                 i13 = i12;
                                                                                                                                 z6 = z5;
                                                                                                                                 mediaExtractor2 = mediaCodecVideoConvertor.extractor;
@@ -3706,7 +3707,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                         z4 = false;
                                                                                                                         StringBuilder sb42222 = new StringBuilder();
                                                                                                                         sb42222.append("bitrate: ");
-                                                                                                                        sb42222.append(i70);
+                                                                                                                        sb42222.append(i71);
                                                                                                                         sb42222.append(" framerate: ");
                                                                                                                         i3 = arrayList;
                                                                                                                         sb42222.append(i3);
@@ -3737,9 +3738,9 @@ public class MediaCodecVideoConvertor {
                                                                                                                         if (audioRecoder != null) {
                                                                                                                         }
                                                                                                                         checkConversionCanceled();
-                                                                                                                        i68 = i2;
+                                                                                                                        i69 = i2;
                                                                                                                         outputSurface3 = outputSurface2;
-                                                                                                                        i67 = i11;
+                                                                                                                        i68 = i11;
                                                                                                                         i13 = i12;
                                                                                                                         z6 = z5;
                                                                                                                         mediaExtractor2 = mediaCodecVideoConvertor.extractor;
@@ -3766,7 +3767,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                     mediaCodec2 = createByCodecName;
                                                                                                                     mediaCodecVideoConvertor = this;
                                                                                                                     i3 = i81;
-                                                                                                                    i67 = i7;
+                                                                                                                    i68 = i7;
                                                                                                                     i2 = i80;
                                                                                                                     str = str16;
                                                                                                                     mediaCodec = null;
@@ -3776,7 +3777,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                     outputSurface = null;
                                                                                                                     z4 = false;
                                                                                                                     z5 = false;
-                                                                                                                    FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
+                                                                                                                    FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
                                                                                                                     FileLog.e(th);
                                                                                                                     mediaExtractor = mediaCodecVideoConvertor.extractor;
                                                                                                                     if (mediaExtractor != null) {
@@ -3792,7 +3793,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                     }
                                                                                                                     if (inputSurface != null) {
                                                                                                                     }
-                                                                                                                    i68 = i2;
+                                                                                                                    i69 = i2;
                                                                                                                     str3 = str2;
                                                                                                                     z6 = z5;
                                                                                                                     z7 = true;
@@ -3810,7 +3811,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                     sb5.append(" h = ");
                                                                                                                     sb5.append(i22);
                                                                                                                     sb5.append(" bitrate = ");
-                                                                                                                    sb5.append(i70);
+                                                                                                                    sb5.append(i71);
                                                                                                                     FileLog.d(sb5.toString());
                                                                                                                 } catch (Exception e29) {
                                                                                                                     exc = e29;
@@ -3831,7 +3832,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                     z4 = false;
                                                                                                                     StringBuilder sb422222 = new StringBuilder();
                                                                                                                     sb422222.append("bitrate: ");
-                                                                                                                    sb422222.append(i70);
+                                                                                                                    sb422222.append(i71);
                                                                                                                     sb422222.append(" framerate: ");
                                                                                                                     i3 = arrayList;
                                                                                                                     sb422222.append(i3);
@@ -3862,9 +3863,9 @@ public class MediaCodecVideoConvertor {
                                                                                                                     if (audioRecoder != null) {
                                                                                                                     }
                                                                                                                     checkConversionCanceled();
-                                                                                                                    i68 = i2;
+                                                                                                                    i69 = i2;
                                                                                                                     outputSurface3 = outputSurface2;
-                                                                                                                    i67 = i11;
+                                                                                                                    i68 = i11;
                                                                                                                     i13 = i12;
                                                                                                                     z6 = z5;
                                                                                                                     mediaExtractor2 = mediaCodecVideoConvertor.extractor;
@@ -3891,11 +3892,11 @@ public class MediaCodecVideoConvertor {
                                                                                                             }
                                                                                                             createVideoFormat = MediaFormat.createVideoFormat(this.outputMimeType, i21, i22);
                                                                                                             createVideoFormat.setInteger("color-format", 2130708361);
-                                                                                                            createVideoFormat.setInteger("bitrate", i70);
+                                                                                                            createVideoFormat.setInteger("bitrate", i71);
                                                                                                             if (z51 && Build.VERSION.SDK_INT >= 21) {
                                                                                                                 createVideoFormat.setInteger("bitrate-mode", 2);
                                                                                                             }
-                                                                                                            createVideoFormat.setInteger("max-bitrate", i70);
+                                                                                                            createVideoFormat.setInteger("max-bitrate", i71);
                                                                                                             createVideoFormat.setInteger("frame-rate", i81);
                                                                                                             createVideoFormat.setInteger("i-frame-interval", 1);
                                                                                                             i23 = Build.VERSION.SDK_INT;
@@ -3923,10 +3924,10 @@ public class MediaCodecVideoConvertor {
                                                                                                                         try {
                                                                                                                             i26 = i22;
                                                                                                                             if (Math.min(i22, i21) <= 480 && !z51) {
-                                                                                                                                if (i70 > 921600) {
-                                                                                                                                    i70 = 921600;
+                                                                                                                                if (i71 > 921600) {
+                                                                                                                                    i71 = 921600;
                                                                                                                                 }
-                                                                                                                                createVideoFormat.setInteger("bitrate", i70);
+                                                                                                                                createVideoFormat.setInteger("bitrate", i71);
                                                                                                                             }
                                                                                                                         } catch (Exception e30) {
                                                                                                                             mediaCodecVideoConvertor = this;
@@ -3947,7 +3948,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                             z4 = false;
                                                                                                                             StringBuilder sb4222222 = new StringBuilder();
                                                                                                                             sb4222222.append("bitrate: ");
-                                                                                                                            sb4222222.append(i70);
+                                                                                                                            sb4222222.append(i71);
                                                                                                                             sb4222222.append(" framerate: ");
                                                                                                                             i3 = arrayList;
                                                                                                                             sb4222222.append(i3);
@@ -3978,9 +3979,9 @@ public class MediaCodecVideoConvertor {
                                                                                                                             if (audioRecoder != null) {
                                                                                                                             }
                                                                                                                             checkConversionCanceled();
-                                                                                                                            i68 = i2;
+                                                                                                                            i69 = i2;
                                                                                                                             outputSurface3 = outputSurface2;
-                                                                                                                            i67 = i11;
+                                                                                                                            i68 = i11;
                                                                                                                             i13 = i12;
                                                                                                                             z6 = z5;
                                                                                                                             mediaExtractor2 = mediaCodecVideoConvertor.extractor;
@@ -4006,7 +4007,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                             th = th47;
                                                                                                                             mediaCodec2 = createByCodecName;
                                                                                                                             i3 = i81;
-                                                                                                                            i67 = i7;
+                                                                                                                            i68 = i7;
                                                                                                                             i2 = i80;
                                                                                                                             str = str16;
                                                                                                                             mediaCodec = null;
@@ -4016,7 +4017,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                             outputSurface = null;
                                                                                                                             z4 = false;
                                                                                                                             z5 = false;
-                                                                                                                            FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
+                                                                                                                            FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
                                                                                                                             FileLog.e(th);
                                                                                                                             mediaExtractor = mediaCodecVideoConvertor.extractor;
                                                                                                                             if (mediaExtractor != null) {
@@ -4032,7 +4033,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                             }
                                                                                                                             if (inputSurface != null) {
                                                                                                                             }
-                                                                                                                            i68 = i2;
+                                                                                                                            i69 = i2;
                                                                                                                             str3 = str2;
                                                                                                                             z6 = z5;
                                                                                                                             z7 = true;
@@ -4042,7 +4043,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                     } else {
                                                                                                                         i26 = i22;
                                                                                                                     }
-                                                                                                                    i27 = i70;
+                                                                                                                    i27 = i71;
                                                                                                                     name = createByCodecName.getName();
                                                                                                                     z5 = "c2.qti.avc.encoder".equalsIgnoreCase(name);
                                                                                                                     StringBuilder sb6 = new StringBuilder();
@@ -4057,7 +4058,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                     mediaCodec5 = createByCodecName;
                                                                                                                     str2 = str14;
                                                                                                                     arrayList = arrayList2;
-                                                                                                                    inputSurface2 = new OutputSurface(savedFilterState, null, str2, str15, arrayList, cropState2, i7, i80, i65, i66, i20, i81, false, num, num2, hDRInfo, arrayList3);
+                                                                                                                    inputSurface2 = new OutputSurface(savedFilterState, null, str2, str15, arrayList, cropState2, i7, i80, i66, i67, i20, i81, false, num, num2, hDRInfo, arrayList3);
                                                                                                                     if (hDRInfo == null) {
                                                                                                                         try {
                                                                                                                             if (inputSurface2.supportsEXTYUV() && z11) {
@@ -4086,7 +4087,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                 str2 = name;
                                                                                                                                                 obj = "video/hevc";
                                                                                                                                                 i34 = i26;
-                                                                                                                                                outputSurface9.changeFragmentShader(hdrFragmentShader(i65, i66, i7, i80, true, hDRInfo), hdrFragmentShader(i65, i66, i7, i80, false, hDRInfo), true);
+                                                                                                                                                outputSurface9.changeFragmentShader(hdrFragmentShader(i66, i67, i7, i80, true, hDRInfo), hdrFragmentShader(i66, i67, i7, i80, false, hDRInfo), true);
                                                                                                                                                 i25 = outputSurface9;
                                                                                                                                                 i80 = i80;
                                                                                                                                                 mediaCodecVideoConvertor = this;
@@ -4103,7 +4104,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                             audioRecoder = null;
                                                                                                                                                             outputSurface4 = i25;
                                                                                                                                                             z9 = z5;
-                                                                                                                                                            i70 = i28;
+                                                                                                                                                            i71 = i28;
                                                                                                                                                             mediaCodec2 = mediaCodec5;
                                                                                                                                                             i16 = -5;
                                                                                                                                                             i15 = i80;
@@ -4112,7 +4113,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                             z4 = false;
                                                                                                                                                             StringBuilder sb42222222 = new StringBuilder();
                                                                                                                                                             sb42222222.append("bitrate: ");
-                                                                                                                                                            sb42222222.append(i70);
+                                                                                                                                                            sb42222222.append(i71);
                                                                                                                                                             sb42222222.append(" framerate: ");
                                                                                                                                                             i3 = arrayList;
                                                                                                                                                             sb42222222.append(i3);
@@ -4143,9 +4144,9 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                             if (audioRecoder != null) {
                                                                                                                                                             }
                                                                                                                                                             checkConversionCanceled();
-                                                                                                                                                            i68 = i2;
+                                                                                                                                                            i69 = i2;
                                                                                                                                                             outputSurface3 = outputSurface2;
-                                                                                                                                                            i67 = i11;
+                                                                                                                                                            i68 = i11;
                                                                                                                                                             i13 = i12;
                                                                                                                                                             z6 = z5;
                                                                                                                                                             mediaExtractor2 = mediaCodecVideoConvertor.extractor;
@@ -4173,14 +4174,14 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                         outputSurface = i25;
                                                                                                                                                         inputSurface = inputSurface2;
                                                                                                                                                         i3 = arrayList;
-                                                                                                                                                        i67 = i7;
+                                                                                                                                                        i68 = i7;
                                                                                                                                                         i2 = i80;
                                                                                                                                                         str = str16;
-                                                                                                                                                        i70 = i28;
+                                                                                                                                                        i71 = i28;
                                                                                                                                                         mediaCodec2 = mediaCodec5;
                                                                                                                                                         i4 = -5;
                                                                                                                                                         z4 = false;
-                                                                                                                                                        FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
+                                                                                                                                                        FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
                                                                                                                                                         FileLog.e(th);
                                                                                                                                                         mediaExtractor = mediaCodecVideoConvertor.extractor;
                                                                                                                                                         if (mediaExtractor != null) {
@@ -4196,7 +4197,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                         }
                                                                                                                                                         if (inputSurface != null) {
                                                                                                                                                         }
-                                                                                                                                                        i68 = i2;
+                                                                                                                                                        i69 = i2;
                                                                                                                                                         str3 = str2;
                                                                                                                                                         z6 = z5;
                                                                                                                                                         z7 = true;
@@ -4343,7 +4344,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                         audioRecoder = str7;
                                                                                                                                                                                         i16 = i39;
                                                                                                                                                                                         z9 = z5;
-                                                                                                                                                                                        i70 = i28;
+                                                                                                                                                                                        i71 = i28;
                                                                                                                                                                                         mediaCodec2 = mediaCodec5;
                                                                                                                                                                                         i15 = i80;
                                                                                                                                                                                         if (exc instanceof IllegalStateException) {
@@ -4351,7 +4352,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                         z4 = false;
                                                                                                                                                                                         StringBuilder sb422222222 = new StringBuilder();
                                                                                                                                                                                         sb422222222.append("bitrate: ");
-                                                                                                                                                                                        sb422222222.append(i70);
+                                                                                                                                                                                        sb422222222.append(i71);
                                                                                                                                                                                         sb422222222.append(" framerate: ");
                                                                                                                                                                                         i3 = arrayList;
                                                                                                                                                                                         sb422222222.append(i3);
@@ -4382,9 +4383,9 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                         if (audioRecoder != null) {
                                                                                                                                                                                         }
                                                                                                                                                                                         checkConversionCanceled();
-                                                                                                                                                                                        i68 = i2;
+                                                                                                                                                                                        i69 = i2;
                                                                                                                                                                                         outputSurface3 = outputSurface2;
-                                                                                                                                                                                        i67 = i11;
+                                                                                                                                                                                        i68 = i11;
                                                                                                                                                                                         i13 = i12;
                                                                                                                                                                                         z6 = z5;
                                                                                                                                                                                         mediaExtractor2 = mediaCodecVideoConvertor.extractor;
@@ -4410,14 +4411,14 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                         outputSurface = i25;
                                                                                                                                                                                         inputSurface = inputSurface2;
                                                                                                                                                                                         i3 = arrayList;
-                                                                                                                                                                                        i67 = i7;
+                                                                                                                                                                                        i68 = i7;
                                                                                                                                                                                         i4 = i39;
                                                                                                                                                                                         i2 = i80;
                                                                                                                                                                                         str = str16;
-                                                                                                                                                                                        i70 = i28;
+                                                                                                                                                                                        i71 = i28;
                                                                                                                                                                                         mediaCodec2 = mediaCodec5;
                                                                                                                                                                                         z4 = false;
-                                                                                                                                                                                        FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
+                                                                                                                                                                                        FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
                                                                                                                                                                                         FileLog.e(th);
                                                                                                                                                                                         mediaExtractor = mediaCodecVideoConvertor.extractor;
                                                                                                                                                                                         if (mediaExtractor != null) {
@@ -4433,7 +4434,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                         }
                                                                                                                                                                                         if (inputSurface != null) {
                                                                                                                                                                                         }
-                                                                                                                                                                                        i68 = i2;
+                                                                                                                                                                                        i69 = i2;
                                                                                                                                                                                         str3 = str2;
                                                                                                                                                                                         z6 = z5;
                                                                                                                                                                                         z7 = true;
@@ -4498,7 +4499,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                     i14 = i86;
                                                                                                                                                                                                     i16 = i39;
                                                                                                                                                                                                     z9 = z5;
-                                                                                                                                                                                                    i70 = i28;
+                                                                                                                                                                                                    i71 = i28;
                                                                                                                                                                                                     mediaCodec2 = mediaCodec5;
                                                                                                                                                                                                     i15 = i80;
                                                                                                                                                                                                     if (exc instanceof IllegalStateException) {
@@ -4506,7 +4507,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                     z4 = false;
                                                                                                                                                                                                     StringBuilder sb4222222222 = new StringBuilder();
                                                                                                                                                                                                     sb4222222222.append("bitrate: ");
-                                                                                                                                                                                                    sb4222222222.append(i70);
+                                                                                                                                                                                                    sb4222222222.append(i71);
                                                                                                                                                                                                     sb4222222222.append(" framerate: ");
                                                                                                                                                                                                     i3 = arrayList;
                                                                                                                                                                                                     sb4222222222.append(i3);
@@ -4537,9 +4538,9 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                     if (audioRecoder != null) {
                                                                                                                                                                                                     }
                                                                                                                                                                                                     checkConversionCanceled();
-                                                                                                                                                                                                    i68 = i2;
+                                                                                                                                                                                                    i69 = i2;
                                                                                                                                                                                                     outputSurface3 = outputSurface2;
-                                                                                                                                                                                                    i67 = i11;
+                                                                                                                                                                                                    i68 = i11;
                                                                                                                                                                                                     i13 = i12;
                                                                                                                                                                                                     z6 = z5;
                                                                                                                                                                                                     mediaExtractor2 = mediaCodecVideoConvertor.extractor;
@@ -4630,7 +4631,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                         outputSurface4 = i25;
                                                                                                                                                                                                         i16 = i39;
                                                                                                                                                                                                         z9 = z5;
-                                                                                                                                                                                                        i70 = i28;
+                                                                                                                                                                                                        i71 = i28;
                                                                                                                                                                                                         mediaCodec2 = mediaCodec5;
                                                                                                                                                                                                         i15 = i80;
                                                                                                                                                                                                         if (exc instanceof IllegalStateException) {
@@ -4638,7 +4639,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                         z4 = false;
                                                                                                                                                                                                         StringBuilder sb42222222222 = new StringBuilder();
                                                                                                                                                                                                         sb42222222222.append("bitrate: ");
-                                                                                                                                                                                                        sb42222222222.append(i70);
+                                                                                                                                                                                                        sb42222222222.append(i71);
                                                                                                                                                                                                         sb42222222222.append(" framerate: ");
                                                                                                                                                                                                         i3 = arrayList;
                                                                                                                                                                                                         sb42222222222.append(i3);
@@ -4669,9 +4670,9 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                         if (audioRecoder != null) {
                                                                                                                                                                                                         }
                                                                                                                                                                                                         checkConversionCanceled();
-                                                                                                                                                                                                        i68 = i2;
+                                                                                                                                                                                                        i69 = i2;
                                                                                                                                                                                                         outputSurface3 = outputSurface2;
-                                                                                                                                                                                                        i67 = i11;
+                                                                                                                                                                                                        i68 = i11;
                                                                                                                                                                                                         i13 = i12;
                                                                                                                                                                                                         z6 = z5;
                                                                                                                                                                                                         mediaExtractor2 = mediaCodecVideoConvertor.extractor;
@@ -4758,14 +4759,14 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                 z2 = z;
                                                                                                                                                                                                                                 inputSurface = inputSurface2;
                                                                                                                                                                                                                                 i3 = arrayList;
-                                                                                                                                                                                                                                i67 = i7;
+                                                                                                                                                                                                                                i68 = i7;
                                                                                                                                                                                                                                 i2 = i80;
                                                                                                                                                                                                                                 str = str16;
-                                                                                                                                                                                                                                i70 = i28;
+                                                                                                                                                                                                                                i71 = i28;
                                                                                                                                                                                                                                 mediaCodec = mediaCodec;
                                                                                                                                                                                                                                 z4 = false;
                                                                                                                                                                                                                                 th = th;
-                                                                                                                                                                                                                                FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
+                                                                                                                                                                                                                                FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
                                                                                                                                                                                                                                 FileLog.e(th);
                                                                                                                                                                                                                                 mediaExtractor = mediaCodecVideoConvertor.extractor;
                                                                                                                                                                                                                                 if (mediaExtractor != null) {
@@ -4781,7 +4782,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                 }
                                                                                                                                                                                                                                 if (inputSurface != null) {
                                                                                                                                                                                                                                 }
-                                                                                                                                                                                                                                i68 = i2;
+                                                                                                                                                                                                                                i69 = i2;
                                                                                                                                                                                                                                 str3 = str2;
                                                                                                                                                                                                                                 z6 = z5;
                                                                                                                                                                                                                                 z7 = true;
@@ -4793,7 +4794,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                             i16 = i41;
                                                                                                                                                                                                                             outputSurface4 = i25;
                                                                                                                                                                                                                             z9 = z5;
-                                                                                                                                                                                                                            i70 = i28;
+                                                                                                                                                                                                                            i71 = i28;
                                                                                                                                                                                                                             exc = e;
                                                                                                                                                                                                                             i15 = i80;
                                                                                                                                                                                                                             if (exc instanceof IllegalStateException) {
@@ -4801,7 +4802,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                             z4 = false;
                                                                                                                                                                                                                             StringBuilder sb422222222222 = new StringBuilder();
                                                                                                                                                                                                                             sb422222222222.append("bitrate: ");
-                                                                                                                                                                                                                            sb422222222222.append(i70);
+                                                                                                                                                                                                                            sb422222222222.append(i71);
                                                                                                                                                                                                                             sb422222222222.append(" framerate: ");
                                                                                                                                                                                                                             i3 = arrayList;
                                                                                                                                                                                                                             sb422222222222.append(i3);
@@ -4832,9 +4833,9 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                             if (audioRecoder != null) {
                                                                                                                                                                                                                             }
                                                                                                                                                                                                                             checkConversionCanceled();
-                                                                                                                                                                                                                            i68 = i2;
+                                                                                                                                                                                                                            i69 = i2;
                                                                                                                                                                                                                             outputSurface3 = outputSurface2;
-                                                                                                                                                                                                                            i67 = i11;
+                                                                                                                                                                                                                            i68 = i11;
                                                                                                                                                                                                                             i13 = i12;
                                                                                                                                                                                                                             z6 = z5;
                                                                                                                                                                                                                             mediaExtractor2 = mediaCodecVideoConvertor.extractor;
@@ -4882,14 +4883,14 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                                     outputSurface4 = i25;
                                                                                                                                                                                                                                                     i16 = i46;
                                                                                                                                                                                                                                                     z9 = z5;
-                                                                                                                                                                                                                                                    i70 = i28;
+                                                                                                                                                                                                                                                    i71 = i28;
                                                                                                                                                                                                                                                     i15 = i80;
                                                                                                                                                                                                                                                     if (exc instanceof IllegalStateException) {
                                                                                                                                                                                                                                                     }
                                                                                                                                                                                                                                                     z4 = false;
                                                                                                                                                                                                                                                     StringBuilder sb4222222222222 = new StringBuilder();
                                                                                                                                                                                                                                                     sb4222222222222.append("bitrate: ");
-                                                                                                                                                                                                                                                    sb4222222222222.append(i70);
+                                                                                                                                                                                                                                                    sb4222222222222.append(i71);
                                                                                                                                                                                                                                                     sb4222222222222.append(" framerate: ");
                                                                                                                                                                                                                                                     i3 = arrayList;
                                                                                                                                                                                                                                                     sb4222222222222.append(i3);
@@ -4920,9 +4921,9 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                                     if (audioRecoder != null) {
                                                                                                                                                                                                                                                     }
                                                                                                                                                                                                                                                     checkConversionCanceled();
-                                                                                                                                                                                                                                                    i68 = i2;
+                                                                                                                                                                                                                                                    i69 = i2;
                                                                                                                                                                                                                                                     outputSurface3 = outputSurface2;
-                                                                                                                                                                                                                                                    i67 = i11;
+                                                                                                                                                                                                                                                    i68 = i11;
                                                                                                                                                                                                                                                     i13 = i12;
                                                                                                                                                                                                                                                     z6 = z5;
                                                                                                                                                                                                                                                     mediaExtractor2 = mediaCodecVideoConvertor.extractor;
@@ -4950,12 +4951,12 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                                     inputSurface = inputSurface2;
                                                                                                                                                                                                                                                     i3 = arrayList;
                                                                                                                                                                                                                                                     i4 = i46;
-                                                                                                                                                                                                                                                    i67 = i7;
+                                                                                                                                                                                                                                                    i68 = i7;
                                                                                                                                                                                                                                                     i2 = i80;
                                                                                                                                                                                                                                                     str = str16;
-                                                                                                                                                                                                                                                    i70 = i28;
+                                                                                                                                                                                                                                                    i71 = i28;
                                                                                                                                                                                                                                                     z4 = false;
-                                                                                                                                                                                                                                                    FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
+                                                                                                                                                                                                                                                    FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
                                                                                                                                                                                                                                                     FileLog.e(th);
                                                                                                                                                                                                                                                     mediaExtractor = mediaCodecVideoConvertor.extractor;
                                                                                                                                                                                                                                                     if (mediaExtractor != null) {
@@ -4971,7 +4972,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                                     }
                                                                                                                                                                                                                                                     if (inputSurface != null) {
                                                                                                                                                                                                                                                     }
-                                                                                                                                                                                                                                                    i68 = i2;
+                                                                                                                                                                                                                                                    i69 = i2;
                                                                                                                                                                                                                                                     str3 = str2;
                                                                                                                                                                                                                                                     z6 = z5;
                                                                                                                                                                                                                                                     z7 = true;
@@ -5003,14 +5004,14 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                 outputSurface = i25;
                                                                                                                                                                                                                                 inputSurface = inputSurface2;
                                                                                                                                                                                                                                 i3 = arrayList;
-                                                                                                                                                                                                                                i67 = i7;
+                                                                                                                                                                                                                                i68 = i7;
                                                                                                                                                                                                                                 i2 = i80;
                                                                                                                                                                                                                                 str = str16;
-                                                                                                                                                                                                                                i70 = i28;
+                                                                                                                                                                                                                                i71 = i28;
                                                                                                                                                                                                                                 mediaCodec = mediaCodec;
                                                                                                                                                                                                                                 z4 = false;
                                                                                                                                                                                                                                 th = th;
-                                                                                                                                                                                                                                FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
+                                                                                                                                                                                                                                FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
                                                                                                                                                                                                                                 FileLog.e(th);
                                                                                                                                                                                                                                 mediaExtractor = mediaCodecVideoConvertor.extractor;
                                                                                                                                                                                                                                 if (mediaExtractor != null) {
@@ -5026,7 +5027,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                 }
                                                                                                                                                                                                                                 if (inputSurface != null) {
                                                                                                                                                                                                                                 }
-                                                                                                                                                                                                                                i68 = i2;
+                                                                                                                                                                                                                                i69 = i2;
                                                                                                                                                                                                                                 str3 = str2;
                                                                                                                                                                                                                                 z6 = z5;
                                                                                                                                                                                                                                 z7 = true;
@@ -5065,7 +5066,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                                         e = e39;
                                                                                                                                                                                                                                                         i16 = i41;
                                                                                                                                                                                                                                                         z9 = z5;
-                                                                                                                                                                                                                                                        i70 = i28;
+                                                                                                                                                                                                                                                        i71 = i28;
                                                                                                                                                                                                                                                         exc = e;
                                                                                                                                                                                                                                                         i15 = i80;
                                                                                                                                                                                                                                                         if (exc instanceof IllegalStateException) {
@@ -5073,7 +5074,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                                         z4 = false;
                                                                                                                                                                                                                                                         StringBuilder sb42222222222222 = new StringBuilder();
                                                                                                                                                                                                                                                         sb42222222222222.append("bitrate: ");
-                                                                                                                                                                                                                                                        sb42222222222222.append(i70);
+                                                                                                                                                                                                                                                        sb42222222222222.append(i71);
                                                                                                                                                                                                                                                         sb42222222222222.append(" framerate: ");
                                                                                                                                                                                                                                                         i3 = arrayList;
                                                                                                                                                                                                                                                         sb42222222222222.append(i3);
@@ -5104,9 +5105,9 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                                         if (audioRecoder != null) {
                                                                                                                                                                                                                                                         }
                                                                                                                                                                                                                                                         checkConversionCanceled();
-                                                                                                                                                                                                                                                        i68 = i2;
+                                                                                                                                                                                                                                                        i69 = i2;
                                                                                                                                                                                                                                                         outputSurface3 = outputSurface2;
-                                                                                                                                                                                                                                                        i67 = i11;
+                                                                                                                                                                                                                                                        i68 = i11;
                                                                                                                                                                                                                                                         i13 = i12;
                                                                                                                                                                                                                                                         z6 = z5;
                                                                                                                                                                                                                                                         mediaExtractor2 = mediaCodecVideoConvertor.extractor;
@@ -5133,14 +5134,14 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                                         inputSurface = inputSurface2;
                                                                                                                                                                                                                                                         outputSurface = outputSurface4;
                                                                                                                                                                                                                                                         i3 = arrayList;
-                                                                                                                                                                                                                                                        i67 = i7;
+                                                                                                                                                                                                                                                        i68 = i7;
                                                                                                                                                                                                                                                         i2 = i80;
                                                                                                                                                                                                                                                         str = str16;
-                                                                                                                                                                                                                                                        i70 = i28;
+                                                                                                                                                                                                                                                        i71 = i28;
                                                                                                                                                                                                                                                         mediaCodec = mediaCodec;
                                                                                                                                                                                                                                                         z4 = false;
                                                                                                                                                                                                                                                         th = th;
-                                                                                                                                                                                                                                                        FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
+                                                                                                                                                                                                                                                        FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
                                                                                                                                                                                                                                                         FileLog.e(th);
                                                                                                                                                                                                                                                         mediaExtractor = mediaCodecVideoConvertor.extractor;
                                                                                                                                                                                                                                                         if (mediaExtractor != null) {
@@ -5156,7 +5157,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                                         }
                                                                                                                                                                                                                                                         if (inputSurface != null) {
                                                                                                                                                                                                                                                         }
-                                                                                                                                                                                                                                                        i68 = i2;
+                                                                                                                                                                                                                                                        i69 = i2;
                                                                                                                                                                                                                                                         str3 = str2;
                                                                                                                                                                                                                                                         z6 = z5;
                                                                                                                                                                                                                                                         z7 = true;
@@ -5188,7 +5189,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                                             i16 = i41;
                                                                                                                                                                                                                                                             mediaCodec = mediaCodec8;
                                                                                                                                                                                                                                                             z9 = z5;
-                                                                                                                                                                                                                                                            i70 = i28;
+                                                                                                                                                                                                                                                            i71 = i28;
                                                                                                                                                                                                                                                             exc = e;
                                                                                                                                                                                                                                                             i15 = i80;
                                                                                                                                                                                                                                                             if (exc instanceof IllegalStateException) {
@@ -5196,7 +5197,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                                             z4 = false;
                                                                                                                                                                                                                                                             StringBuilder sb422222222222222 = new StringBuilder();
                                                                                                                                                                                                                                                             sb422222222222222.append("bitrate: ");
-                                                                                                                                                                                                                                                            sb422222222222222.append(i70);
+                                                                                                                                                                                                                                                            sb422222222222222.append(i71);
                                                                                                                                                                                                                                                             sb422222222222222.append(" framerate: ");
                                                                                                                                                                                                                                                             i3 = arrayList;
                                                                                                                                                                                                                                                             sb422222222222222.append(i3);
@@ -5227,9 +5228,9 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                                             if (audioRecoder != null) {
                                                                                                                                                                                                                                                             }
                                                                                                                                                                                                                                                             checkConversionCanceled();
-                                                                                                                                                                                                                                                            i68 = i2;
+                                                                                                                                                                                                                                                            i69 = i2;
                                                                                                                                                                                                                                                             outputSurface3 = outputSurface2;
-                                                                                                                                                                                                                                                            i67 = i11;
+                                                                                                                                                                                                                                                            i68 = i11;
                                                                                                                                                                                                                                                             i13 = i12;
                                                                                                                                                                                                                                                             z6 = z5;
                                                                                                                                                                                                                                                             mediaExtractor2 = mediaCodecVideoConvertor.extractor;
@@ -5257,14 +5258,14 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                                             outputSurface = outputSurface4;
                                                                                                                                                                                                                                                             i3 = arrayList;
                                                                                                                                                                                                                                                             mediaCodec = mediaCodec8;
-                                                                                                                                                                                                                                                            i67 = i7;
+                                                                                                                                                                                                                                                            i68 = i7;
                                                                                                                                                                                                                                                             i2 = i80;
                                                                                                                                                                                                                                                             str = str16;
-                                                                                                                                                                                                                                                            i70 = i28;
+                                                                                                                                                                                                                                                            i71 = i28;
                                                                                                                                                                                                                                                             mediaCodec = mediaCodec;
                                                                                                                                                                                                                                                             z4 = false;
                                                                                                                                                                                                                                                             th = th;
-                                                                                                                                                                                                                                                            FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
+                                                                                                                                                                                                                                                            FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
                                                                                                                                                                                                                                                             FileLog.e(th);
                                                                                                                                                                                                                                                             mediaExtractor = mediaCodecVideoConvertor.extractor;
                                                                                                                                                                                                                                                             if (mediaExtractor != null) {
@@ -5280,7 +5281,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                                             }
                                                                                                                                                                                                                                                             if (inputSurface != null) {
                                                                                                                                                                                                                                                             }
-                                                                                                                                                                                                                                                            i68 = i2;
+                                                                                                                                                                                                                                                            i69 = i2;
                                                                                                                                                                                                                                                             str3 = str2;
                                                                                                                                                                                                                                                             z6 = z5;
                                                                                                                                                                                                                                                             z7 = true;
@@ -5361,14 +5362,14 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                                                                         mediaCodec9 = mediaCodec6;
                                                                                                                                                                                                                                                                                         mediaCodec = mediaCodec9;
                                                                                                                                                                                                                                                                                         z9 = z5;
-                                                                                                                                                                                                                                                                                        i70 = i28;
+                                                                                                                                                                                                                                                                                        i71 = i28;
                                                                                                                                                                                                                                                                                         i15 = i80;
                                                                                                                                                                                                                                                                                         if (exc instanceof IllegalStateException) {
                                                                                                                                                                                                                                                                                         }
                                                                                                                                                                                                                                                                                         z4 = false;
                                                                                                                                                                                                                                                                                         StringBuilder sb4222222222222222 = new StringBuilder();
                                                                                                                                                                                                                                                                                         sb4222222222222222.append("bitrate: ");
-                                                                                                                                                                                                                                                                                        sb4222222222222222.append(i70);
+                                                                                                                                                                                                                                                                                        sb4222222222222222.append(i71);
                                                                                                                                                                                                                                                                                         sb4222222222222222.append(" framerate: ");
                                                                                                                                                                                                                                                                                         i3 = arrayList;
                                                                                                                                                                                                                                                                                         sb4222222222222222.append(i3);
@@ -5399,9 +5400,9 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                                                                         if (audioRecoder != null) {
                                                                                                                                                                                                                                                                                         }
                                                                                                                                                                                                                                                                                         checkConversionCanceled();
-                                                                                                                                                                                                                                                                                        i68 = i2;
+                                                                                                                                                                                                                                                                                        i69 = i2;
                                                                                                                                                                                                                                                                                         outputSurface3 = outputSurface2;
-                                                                                                                                                                                                                                                                                        i67 = i11;
+                                                                                                                                                                                                                                                                                        i68 = i11;
                                                                                                                                                                                                                                                                                         i13 = i12;
                                                                                                                                                                                                                                                                                         z6 = z5;
                                                                                                                                                                                                                                                                                         mediaExtractor2 = mediaCodecVideoConvertor.extractor;
@@ -5429,12 +5430,12 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                                                                         inputSurface = inputSurface2;
                                                                                                                                                                                                                                                                                         outputSurface = outputSurface4;
                                                                                                                                                                                                                                                                                         i3 = arrayList;
-                                                                                                                                                                                                                                                                                        i67 = i7;
+                                                                                                                                                                                                                                                                                        i68 = i7;
                                                                                                                                                                                                                                                                                         i2 = i80;
                                                                                                                                                                                                                                                                                         str = str16;
-                                                                                                                                                                                                                                                                                        i70 = i28;
+                                                                                                                                                                                                                                                                                        i71 = i28;
                                                                                                                                                                                                                                                                                         z4 = false;
-                                                                                                                                                                                                                                                                                        FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
+                                                                                                                                                                                                                                                                                        FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
                                                                                                                                                                                                                                                                                         FileLog.e(th);
                                                                                                                                                                                                                                                                                         mediaExtractor = mediaCodecVideoConvertor.extractor;
                                                                                                                                                                                                                                                                                         if (mediaExtractor != null) {
@@ -5450,7 +5451,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                                                                         }
                                                                                                                                                                                                                                                                                         if (inputSurface != null) {
                                                                                                                                                                                                                                                                                         }
-                                                                                                                                                                                                                                                                                        i68 = i2;
+                                                                                                                                                                                                                                                                                        i69 = i2;
                                                                                                                                                                                                                                                                                         str3 = str2;
                                                                                                                                                                                                                                                                                         z6 = z5;
                                                                                                                                                                                                                                                                                         z7 = true;
@@ -5477,13 +5478,13 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                                                                                             inputSurface = inputSurface2;
                                                                                                                                                                                                                                                                                                             outputSurface = outputSurface4;
                                                                                                                                                                                                                                                                                                             i3 = arrayList;
-                                                                                                                                                                                                                                                                                                            i67 = i7;
+                                                                                                                                                                                                                                                                                                            i68 = i7;
                                                                                                                                                                                                                                                                                                             i2 = i80;
                                                                                                                                                                                                                                                                                                             i4 = i47;
                                                                                                                                                                                                                                                                                                             str = str16;
-                                                                                                                                                                                                                                                                                                            i70 = i28;
+                                                                                                                                                                                                                                                                                                            i71 = i28;
                                                                                                                                                                                                                                                                                                             z4 = false;
-                                                                                                                                                                                                                                                                                                            FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
+                                                                                                                                                                                                                                                                                                            FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
                                                                                                                                                                                                                                                                                                             FileLog.e(th);
                                                                                                                                                                                                                                                                                                             mediaExtractor = mediaCodecVideoConvertor.extractor;
                                                                                                                                                                                                                                                                                                             if (mediaExtractor != null) {
@@ -5499,7 +5500,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                                                                                             }
                                                                                                                                                                                                                                                                                                             if (inputSurface != null) {
                                                                                                                                                                                                                                                                                                             }
-                                                                                                                                                                                                                                                                                                            i68 = i2;
+                                                                                                                                                                                                                                                                                                            i69 = i2;
                                                                                                                                                                                                                                                                                                             str3 = str2;
                                                                                                                                                                                                                                                                                                             z6 = z5;
                                                                                                                                                                                                                                                                                                             z7 = true;
@@ -5512,14 +5513,14 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                                                                                         mediaCodec = mediaCodec6;
                                                                                                                                                                                                                                                                                                         i16 = i47;
                                                                                                                                                                                                                                                                                                         z9 = z5;
-                                                                                                                                                                                                                                                                                                        i70 = i28;
+                                                                                                                                                                                                                                                                                                        i71 = i28;
                                                                                                                                                                                                                                                                                                         i15 = i80;
                                                                                                                                                                                                                                                                                                         if (exc instanceof IllegalStateException) {
                                                                                                                                                                                                                                                                                                         }
                                                                                                                                                                                                                                                                                                         z4 = false;
                                                                                                                                                                                                                                                                                                         StringBuilder sb42222222222222222 = new StringBuilder();
                                                                                                                                                                                                                                                                                                         sb42222222222222222.append("bitrate: ");
-                                                                                                                                                                                                                                                                                                        sb42222222222222222.append(i70);
+                                                                                                                                                                                                                                                                                                        sb42222222222222222.append(i71);
                                                                                                                                                                                                                                                                                                         sb42222222222222222.append(" framerate: ");
                                                                                                                                                                                                                                                                                                         i3 = arrayList;
                                                                                                                                                                                                                                                                                                         sb42222222222222222.append(i3);
@@ -5550,9 +5551,9 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                                                                                         if (audioRecoder != null) {
                                                                                                                                                                                                                                                                                                         }
                                                                                                                                                                                                                                                                                                         checkConversionCanceled();
-                                                                                                                                                                                                                                                                                                        i68 = i2;
+                                                                                                                                                                                                                                                                                                        i69 = i2;
                                                                                                                                                                                                                                                                                                         outputSurface3 = outputSurface2;
-                                                                                                                                                                                                                                                                                                        i67 = i11;
+                                                                                                                                                                                                                                                                                                        i68 = i11;
                                                                                                                                                                                                                                                                                                         i13 = i12;
                                                                                                                                                                                                                                                                                                         z6 = z5;
                                                                                                                                                                                                                                                                                                         mediaExtractor2 = mediaCodecVideoConvertor.extractor;
@@ -5585,13 +5586,13 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                                                                                         inputSurface = inputSurface2;
                                                                                                                                                                                                                                                                                                         outputSurface = outputSurface4;
                                                                                                                                                                                                                                                                                                         i3 = arrayList;
-                                                                                                                                                                                                                                                                                                        i67 = i7;
+                                                                                                                                                                                                                                                                                                        i68 = i7;
                                                                                                                                                                                                                                                                                                         i2 = i80;
                                                                                                                                                                                                                                                                                                         i4 = i47;
                                                                                                                                                                                                                                                                                                         str = str16;
-                                                                                                                                                                                                                                                                                                        i70 = i28;
+                                                                                                                                                                                                                                                                                                        i71 = i28;
                                                                                                                                                                                                                                                                                                         z4 = false;
-                                                                                                                                                                                                                                                                                                        FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
+                                                                                                                                                                                                                                                                                                        FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
                                                                                                                                                                                                                                                                                                         FileLog.e(th);
                                                                                                                                                                                                                                                                                                         mediaExtractor = mediaCodecVideoConvertor.extractor;
                                                                                                                                                                                                                                                                                                         if (mediaExtractor != null) {
@@ -5607,7 +5608,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                                                                                         }
                                                                                                                                                                                                                                                                                                         if (inputSurface != null) {
                                                                                                                                                                                                                                                                                                         }
-                                                                                                                                                                                                                                                                                                        i68 = i2;
+                                                                                                                                                                                                                                                                                                        i69 = i2;
                                                                                                                                                                                                                                                                                                         str3 = str2;
                                                                                                                                                                                                                                                                                                         z6 = z5;
                                                                                                                                                                                                                                                                                                         z7 = true;
@@ -5674,14 +5675,14 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                                                                                                         mediaCodec = mediaCodec6;
                                                                                                                                                                                                                                                                                                                         i16 = i47;
                                                                                                                                                                                                                                                                                                                         z9 = z5;
-                                                                                                                                                                                                                                                                                                                        i70 = i28;
+                                                                                                                                                                                                                                                                                                                        i71 = i28;
                                                                                                                                                                                                                                                                                                                         i15 = i80;
                                                                                                                                                                                                                                                                                                                         if (exc instanceof IllegalStateException) {
                                                                                                                                                                                                                                                                                                                         }
                                                                                                                                                                                                                                                                                                                         z4 = false;
                                                                                                                                                                                                                                                                                                                         StringBuilder sb422222222222222222 = new StringBuilder();
                                                                                                                                                                                                                                                                                                                         sb422222222222222222.append("bitrate: ");
-                                                                                                                                                                                                                                                                                                                        sb422222222222222222.append(i70);
+                                                                                                                                                                                                                                                                                                                        sb422222222222222222.append(i71);
                                                                                                                                                                                                                                                                                                                         sb422222222222222222.append(" framerate: ");
                                                                                                                                                                                                                                                                                                                         i3 = arrayList;
                                                                                                                                                                                                                                                                                                                         sb422222222222222222.append(i3);
@@ -5712,9 +5713,9 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                                                                                                         if (audioRecoder != null) {
                                                                                                                                                                                                                                                                                                                         }
                                                                                                                                                                                                                                                                                                                         checkConversionCanceled();
-                                                                                                                                                                                                                                                                                                                        i68 = i2;
+                                                                                                                                                                                                                                                                                                                        i69 = i2;
                                                                                                                                                                                                                                                                                                                         outputSurface3 = outputSurface2;
-                                                                                                                                                                                                                                                                                                                        i67 = i11;
+                                                                                                                                                                                                                                                                                                                        i68 = i11;
                                                                                                                                                                                                                                                                                                                         i13 = i12;
                                                                                                                                                                                                                                                                                                                         z6 = z5;
                                                                                                                                                                                                                                                                                                                         mediaExtractor2 = mediaCodecVideoConvertor.extractor;
@@ -5742,13 +5743,13 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                                                                                                         mediaCodec = mediaCodec6;
                                                                                                                                                                                                                                                                                                                         outputSurface = outputSurface4;
                                                                                                                                                                                                                                                                                                                         i3 = arrayList;
-                                                                                                                                                                                                                                                                                                                        i67 = i7;
+                                                                                                                                                                                                                                                                                                                        i68 = i7;
                                                                                                                                                                                                                                                                                                                         i2 = i80;
                                                                                                                                                                                                                                                                                                                         i4 = i47;
                                                                                                                                                                                                                                                                                                                         str = str16;
-                                                                                                                                                                                                                                                                                                                        i70 = i28;
+                                                                                                                                                                                                                                                                                                                        i71 = i28;
                                                                                                                                                                                                                                                                                                                         z4 = false;
-                                                                                                                                                                                                                                                                                                                        FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
+                                                                                                                                                                                                                                                                                                                        FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
                                                                                                                                                                                                                                                                                                                         FileLog.e(th);
                                                                                                                                                                                                                                                                                                                         mediaExtractor = mediaCodecVideoConvertor.extractor;
                                                                                                                                                                                                                                                                                                                         if (mediaExtractor != null) {
@@ -5764,7 +5765,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                                                                                                         }
                                                                                                                                                                                                                                                                                                                         if (inputSurface != null) {
                                                                                                                                                                                                                                                                                                                         }
-                                                                                                                                                                                                                                                                                                                        i68 = i2;
+                                                                                                                                                                                                                                                                                                                        i69 = i2;
                                                                                                                                                                                                                                                                                                                         str3 = str2;
                                                                                                                                                                                                                                                                                                                         z6 = z5;
                                                                                                                                                                                                                                                                                                                         z7 = true;
@@ -5779,14 +5780,14 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                                                                                                 mediaCodec = mediaCodec6;
                                                                                                                                                                                                                                                                                                                 i16 = i47;
                                                                                                                                                                                                                                                                                                                 z9 = z5;
-                                                                                                                                                                                                                                                                                                                i70 = i28;
+                                                                                                                                                                                                                                                                                                                i71 = i28;
                                                                                                                                                                                                                                                                                                                 i15 = i80;
                                                                                                                                                                                                                                                                                                                 if (exc instanceof IllegalStateException) {
                                                                                                                                                                                                                                                                                                                 }
                                                                                                                                                                                                                                                                                                                 z4 = false;
                                                                                                                                                                                                                                                                                                                 StringBuilder sb4222222222222222222 = new StringBuilder();
                                                                                                                                                                                                                                                                                                                 sb4222222222222222222.append("bitrate: ");
-                                                                                                                                                                                                                                                                                                                sb4222222222222222222.append(i70);
+                                                                                                                                                                                                                                                                                                                sb4222222222222222222.append(i71);
                                                                                                                                                                                                                                                                                                                 sb4222222222222222222.append(" framerate: ");
                                                                                                                                                                                                                                                                                                                 i3 = arrayList;
                                                                                                                                                                                                                                                                                                                 sb4222222222222222222.append(i3);
@@ -5817,9 +5818,9 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                                                                                                 if (audioRecoder != null) {
                                                                                                                                                                                                                                                                                                                 }
                                                                                                                                                                                                                                                                                                                 checkConversionCanceled();
-                                                                                                                                                                                                                                                                                                                i68 = i2;
+                                                                                                                                                                                                                                                                                                                i69 = i2;
                                                                                                                                                                                                                                                                                                                 outputSurface3 = outputSurface2;
-                                                                                                                                                                                                                                                                                                                i67 = i11;
+                                                                                                                                                                                                                                                                                                                i68 = i11;
                                                                                                                                                                                                                                                                                                                 i13 = i12;
                                                                                                                                                                                                                                                                                                                 z6 = z5;
                                                                                                                                                                                                                                                                                                                 mediaExtractor2 = mediaCodecVideoConvertor.extractor;
@@ -5848,13 +5849,13 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                                                                                                 mediaCodec = mediaCodec6;
                                                                                                                                                                                                                                                                                                                 outputSurface = outputSurface4;
                                                                                                                                                                                                                                                                                                                 i3 = arrayList;
-                                                                                                                                                                                                                                                                                                                i67 = i7;
+                                                                                                                                                                                                                                                                                                                i68 = i7;
                                                                                                                                                                                                                                                                                                                 i2 = i80;
                                                                                                                                                                                                                                                                                                                 i4 = i47;
                                                                                                                                                                                                                                                                                                                 str = str16;
-                                                                                                                                                                                                                                                                                                                i70 = i28;
+                                                                                                                                                                                                                                                                                                                i71 = i28;
                                                                                                                                                                                                                                                                                                                 z4 = false;
-                                                                                                                                                                                                                                                                                                                FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
+                                                                                                                                                                                                                                                                                                                FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
                                                                                                                                                                                                                                                                                                                 FileLog.e(th);
                                                                                                                                                                                                                                                                                                                 mediaExtractor = mediaCodecVideoConvertor.extractor;
                                                                                                                                                                                                                                                                                                                 if (mediaExtractor != null) {
@@ -5870,7 +5871,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                                                                                                 }
                                                                                                                                                                                                                                                                                                                 if (inputSurface != null) {
                                                                                                                                                                                                                                                                                                                 }
-                                                                                                                                                                                                                                                                                                                i68 = i2;
+                                                                                                                                                                                                                                                                                                                i69 = i2;
                                                                                                                                                                                                                                                                                                                 str3 = str2;
                                                                                                                                                                                                                                                                                                                 z6 = z5;
                                                                                                                                                                                                                                                                                                                 z7 = true;
@@ -5985,7 +5986,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                                                                 mediaCodec7 = mediaCodec6;
                                                                                                                                                                                                                                                                                 mediaCodec = mediaCodec7;
                                                                                                                                                                                                                                                                                 z9 = z5;
-                                                                                                                                                                                                                                                                                i70 = i28;
+                                                                                                                                                                                                                                                                                i71 = i28;
                                                                                                                                                                                                                                                                                 exc = e;
                                                                                                                                                                                                                                                                                 i15 = i80;
                                                                                                                                                                                                                                                                                 if (exc instanceof IllegalStateException) {
@@ -5993,7 +5994,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                                                                 z4 = false;
                                                                                                                                                                                                                                                                                 StringBuilder sb42222222222222222222 = new StringBuilder();
                                                                                                                                                                                                                                                                                 sb42222222222222222222.append("bitrate: ");
-                                                                                                                                                                                                                                                                                sb42222222222222222222.append(i70);
+                                                                                                                                                                                                                                                                                sb42222222222222222222.append(i71);
                                                                                                                                                                                                                                                                                 sb42222222222222222222.append(" framerate: ");
                                                                                                                                                                                                                                                                                 i3 = arrayList;
                                                                                                                                                                                                                                                                                 sb42222222222222222222.append(i3);
@@ -6024,9 +6025,9 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                                                                 if (audioRecoder != null) {
                                                                                                                                                                                                                                                                                 }
                                                                                                                                                                                                                                                                                 checkConversionCanceled();
-                                                                                                                                                                                                                                                                                i68 = i2;
+                                                                                                                                                                                                                                                                                i69 = i2;
                                                                                                                                                                                                                                                                                 outputSurface3 = outputSurface2;
-                                                                                                                                                                                                                                                                                i67 = i11;
+                                                                                                                                                                                                                                                                                i68 = i11;
                                                                                                                                                                                                                                                                                 i13 = i12;
                                                                                                                                                                                                                                                                                 z6 = z5;
                                                                                                                                                                                                                                                                                 mediaExtractor2 = mediaCodecVideoConvertor.extractor;
@@ -6054,14 +6055,14 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                                                                 inputSurface = inputSurface2;
                                                                                                                                                                                                                                                                                 outputSurface = outputSurface4;
                                                                                                                                                                                                                                                                                 i3 = arrayList;
-                                                                                                                                                                                                                                                                                i67 = i7;
+                                                                                                                                                                                                                                                                                i68 = i7;
                                                                                                                                                                                                                                                                                 i2 = i80;
                                                                                                                                                                                                                                                                                 str = str16;
-                                                                                                                                                                                                                                                                                i70 = i28;
+                                                                                                                                                                                                                                                                                i71 = i28;
                                                                                                                                                                                                                                                                                 mediaCodec = mediaCodec;
                                                                                                                                                                                                                                                                                 z4 = false;
                                                                                                                                                                                                                                                                                 th = th;
-                                                                                                                                                                                                                                                                                FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
+                                                                                                                                                                                                                                                                                FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
                                                                                                                                                                                                                                                                                 FileLog.e(th);
                                                                                                                                                                                                                                                                                 mediaExtractor = mediaCodecVideoConvertor.extractor;
                                                                                                                                                                                                                                                                                 if (mediaExtractor != null) {
@@ -6077,7 +6078,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                                                                 }
                                                                                                                                                                                                                                                                                 if (inputSurface != null) {
                                                                                                                                                                                                                                                                                 }
-                                                                                                                                                                                                                                                                                i68 = i2;
+                                                                                                                                                                                                                                                                                i69 = i2;
                                                                                                                                                                                                                                                                                 str3 = str2;
                                                                                                                                                                                                                                                                                 z6 = z5;
                                                                                                                                                                                                                                                                                 z7 = true;
@@ -6207,14 +6208,14 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                     exc = e52;
                                                                                                                                                                                                                                     mediaCodec = mediaCodec9;
                                                                                                                                                                                                                                     z9 = z5;
-                                                                                                                                                                                                                                    i70 = i28;
+                                                                                                                                                                                                                                    i71 = i28;
                                                                                                                                                                                                                                     i15 = i80;
                                                                                                                                                                                                                                     if (exc instanceof IllegalStateException) {
                                                                                                                                                                                                                                     }
                                                                                                                                                                                                                                     z4 = false;
                                                                                                                                                                                                                                     StringBuilder sb422222222222222222222 = new StringBuilder();
                                                                                                                                                                                                                                     sb422222222222222222222.append("bitrate: ");
-                                                                                                                                                                                                                                    sb422222222222222222222.append(i70);
+                                                                                                                                                                                                                                    sb422222222222222222222.append(i71);
                                                                                                                                                                                                                                     sb422222222222222222222.append(" framerate: ");
                                                                                                                                                                                                                                     i3 = arrayList;
                                                                                                                                                                                                                                     sb422222222222222222222.append(i3);
@@ -6245,9 +6246,9 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                     if (audioRecoder != null) {
                                                                                                                                                                                                                                     }
                                                                                                                                                                                                                                     checkConversionCanceled();
-                                                                                                                                                                                                                                    i68 = i2;
+                                                                                                                                                                                                                                    i69 = i2;
                                                                                                                                                                                                                                     outputSurface3 = outputSurface2;
-                                                                                                                                                                                                                                    i67 = i11;
+                                                                                                                                                                                                                                    i68 = i11;
                                                                                                                                                                                                                                     i13 = i12;
                                                                                                                                                                                                                                     z6 = z5;
                                                                                                                                                                                                                                     mediaExtractor2 = mediaCodecVideoConvertor.extractor;
@@ -6273,14 +6274,14 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                     i4 = i16;
                                                                                                                                                                                                                                     outputSurface = outputSurface4;
                                                                                                                                                                                                                                     i3 = arrayList;
-                                                                                                                                                                                                                                    i67 = i7;
+                                                                                                                                                                                                                                    i68 = i7;
                                                                                                                                                                                                                                     i2 = i80;
-                                                                                                                                                                                                                                    i70 = i28;
+                                                                                                                                                                                                                                    i71 = i28;
                                                                                                                                                                                                                                     z4 = false;
                                                                                                                                                                                                                                     inputSurface = inputSurface2;
                                                                                                                                                                                                                                     mediaCodec = mediaCodec8;
                                                                                                                                                                                                                                     str = str16;
-                                                                                                                                                                                                                                    FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
+                                                                                                                                                                                                                                    FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
                                                                                                                                                                                                                                     FileLog.e(th);
                                                                                                                                                                                                                                     mediaExtractor = mediaCodecVideoConvertor.extractor;
                                                                                                                                                                                                                                     if (mediaExtractor != null) {
@@ -6296,7 +6297,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                     }
                                                                                                                                                                                                                                     if (inputSurface != null) {
                                                                                                                                                                                                                                     }
-                                                                                                                                                                                                                                    i68 = i2;
+                                                                                                                                                                                                                                    i69 = i2;
                                                                                                                                                                                                                                     str3 = str2;
                                                                                                                                                                                                                                     z6 = z5;
                                                                                                                                                                                                                                     z7 = true;
@@ -6312,7 +6313,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                 mediaCodec7 = i25;
                                                                                                                                                                                                                                 mediaCodec = mediaCodec7;
                                                                                                                                                                                                                                 z9 = z5;
-                                                                                                                                                                                                                                i70 = i28;
+                                                                                                                                                                                                                                i71 = i28;
                                                                                                                                                                                                                                 exc = e;
                                                                                                                                                                                                                                 i15 = i80;
                                                                                                                                                                                                                                 if (exc instanceof IllegalStateException) {
@@ -6320,7 +6321,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                 z4 = false;
                                                                                                                                                                                                                                 StringBuilder sb4222222222222222222222 = new StringBuilder();
                                                                                                                                                                                                                                 sb4222222222222222222222.append("bitrate: ");
-                                                                                                                                                                                                                                sb4222222222222222222222.append(i70);
+                                                                                                                                                                                                                                sb4222222222222222222222.append(i71);
                                                                                                                                                                                                                                 sb4222222222222222222222.append(" framerate: ");
                                                                                                                                                                                                                                 i3 = arrayList;
                                                                                                                                                                                                                                 sb4222222222222222222222.append(i3);
@@ -6351,9 +6352,9 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                 if (audioRecoder != null) {
                                                                                                                                                                                                                                 }
                                                                                                                                                                                                                                 checkConversionCanceled();
-                                                                                                                                                                                                                                i68 = i2;
+                                                                                                                                                                                                                                i69 = i2;
                                                                                                                                                                                                                                 outputSurface3 = outputSurface2;
-                                                                                                                                                                                                                                i67 = i11;
+                                                                                                                                                                                                                                i68 = i11;
                                                                                                                                                                                                                                 i13 = i12;
                                                                                                                                                                                                                                 z6 = z5;
                                                                                                                                                                                                                                 mediaExtractor2 = mediaCodecVideoConvertor.extractor;
@@ -6381,14 +6382,14 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                 mediaCodec = i25;
                                                                                                                                                                                                                                 outputSurface = outputSurface4;
                                                                                                                                                                                                                                 i3 = arrayList;
-                                                                                                                                                                                                                                i67 = i7;
+                                                                                                                                                                                                                                i68 = i7;
                                                                                                                                                                                                                                 i2 = i80;
                                                                                                                                                                                                                                 str = str16;
-                                                                                                                                                                                                                                i70 = i28;
+                                                                                                                                                                                                                                i71 = i28;
                                                                                                                                                                                                                                 mediaCodec = mediaCodec;
                                                                                                                                                                                                                                 z4 = false;
                                                                                                                                                                                                                                 th = th;
-                                                                                                                                                                                                                                FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
+                                                                                                                                                                                                                                FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
                                                                                                                                                                                                                                 FileLog.e(th);
                                                                                                                                                                                                                                 mediaExtractor = mediaCodecVideoConvertor.extractor;
                                                                                                                                                                                                                                 if (mediaExtractor != null) {
@@ -6404,7 +6405,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                                 }
                                                                                                                                                                                                                                 if (inputSurface != null) {
                                                                                                                                                                                                                                 }
-                                                                                                                                                                                                                                i68 = i2;
+                                                                                                                                                                                                                                i69 = i2;
                                                                                                                                                                                                                                 str3 = str2;
                                                                                                                                                                                                                                 z6 = z5;
                                                                                                                                                                                                                                 z7 = true;
@@ -6427,7 +6428,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                 mediaCodec7 = mediaCodec6;
                                                                                                                                                                                                                 mediaCodec = mediaCodec7;
                                                                                                                                                                                                                 z9 = z5;
-                                                                                                                                                                                                                i70 = i28;
+                                                                                                                                                                                                                i71 = i28;
                                                                                                                                                                                                                 exc = e;
                                                                                                                                                                                                                 i15 = i80;
                                                                                                                                                                                                                 if (exc instanceof IllegalStateException) {
@@ -6435,7 +6436,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                 z4 = false;
                                                                                                                                                                                                                 StringBuilder sb42222222222222222222222 = new StringBuilder();
                                                                                                                                                                                                                 sb42222222222222222222222.append("bitrate: ");
-                                                                                                                                                                                                                sb42222222222222222222222.append(i70);
+                                                                                                                                                                                                                sb42222222222222222222222.append(i71);
                                                                                                                                                                                                                 sb42222222222222222222222.append(" framerate: ");
                                                                                                                                                                                                                 i3 = arrayList;
                                                                                                                                                                                                                 sb42222222222222222222222.append(i3);
@@ -6466,9 +6467,9 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                 if (audioRecoder != null) {
                                                                                                                                                                                                                 }
                                                                                                                                                                                                                 checkConversionCanceled();
-                                                                                                                                                                                                                i68 = i2;
+                                                                                                                                                                                                                i69 = i2;
                                                                                                                                                                                                                 outputSurface3 = outputSurface2;
-                                                                                                                                                                                                                i67 = i11;
+                                                                                                                                                                                                                i68 = i11;
                                                                                                                                                                                                                 i13 = i12;
                                                                                                                                                                                                                 z6 = z5;
                                                                                                                                                                                                                 mediaExtractor2 = mediaCodecVideoConvertor.extractor;
@@ -6499,14 +6500,14 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                 mediaCodec = i25;
                                                                                                                                                                                                                 outputSurface = outputSurface4;
                                                                                                                                                                                                                 i3 = arrayList;
-                                                                                                                                                                                                                i67 = i7;
+                                                                                                                                                                                                                i68 = i7;
                                                                                                                                                                                                                 i2 = i80;
                                                                                                                                                                                                                 str = str16;
-                                                                                                                                                                                                                i70 = i28;
+                                                                                                                                                                                                                i71 = i28;
                                                                                                                                                                                                                 mediaCodec = mediaCodec;
                                                                                                                                                                                                                 z4 = false;
                                                                                                                                                                                                                 th = th;
-                                                                                                                                                                                                                FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
+                                                                                                                                                                                                                FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
                                                                                                                                                                                                                 FileLog.e(th);
                                                                                                                                                                                                                 mediaExtractor = mediaCodecVideoConvertor.extractor;
                                                                                                                                                                                                                 if (mediaExtractor != null) {
@@ -6522,7 +6523,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                                                 }
                                                                                                                                                                                                                 if (inputSurface != null) {
                                                                                                                                                                                                                 }
-                                                                                                                                                                                                                i68 = i2;
+                                                                                                                                                                                                                i69 = i2;
                                                                                                                                                                                                                 str3 = str2;
                                                                                                                                                                                                                 z6 = z5;
                                                                                                                                                                                                                 z7 = true;
@@ -6550,14 +6551,14 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                         outputSurface = i25;
                                                                                                                                                                                         inputSurface = inputSurface2;
                                                                                                                                                                                         i3 = arrayList;
-                                                                                                                                                                                        i67 = i7;
+                                                                                                                                                                                        i68 = i7;
                                                                                                                                                                                         i4 = i39;
                                                                                                                                                                                         i2 = i80;
                                                                                                                                                                                         str = str16;
-                                                                                                                                                                                        i70 = i28;
+                                                                                                                                                                                        i71 = i28;
                                                                                                                                                                                         mediaCodec2 = mediaCodec5;
                                                                                                                                                                                         z4 = false;
-                                                                                                                                                                                        FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
+                                                                                                                                                                                        FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
                                                                                                                                                                                         FileLog.e(th);
                                                                                                                                                                                         mediaExtractor = mediaCodecVideoConvertor.extractor;
                                                                                                                                                                                         if (mediaExtractor != null) {
@@ -6573,7 +6574,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                         }
                                                                                                                                                                                         if (inputSurface != null) {
                                                                                                                                                                                         }
-                                                                                                                                                                                        i68 = i2;
+                                                                                                                                                                                        i69 = i2;
                                                                                                                                                                                         str3 = str2;
                                                                                                                                                                                         z6 = z5;
                                                                                                                                                                                         z7 = true;
@@ -6615,7 +6616,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                                 mediaCodec = mediaCodec;
                                                                                                                                                                                 outputSurface = i25;
                                                                                                                                                                                 i3 = arrayList;
-                                                                                                                                                                                i67 = i7;
+                                                                                                                                                                                i68 = i7;
                                                                                                                                                                                 i4 = i12;
                                                                                                                                                                             }
                                                                                                                                                                         }
@@ -6636,7 +6637,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                     exc = e58;
                                                                                                                                                                     mediaCodec = mediaCodec;
                                                                                                                                                                     z9 = z5;
-                                                                                                                                                                    i70 = i28;
+                                                                                                                                                                    i71 = i28;
                                                                                                                                                                     i16 = -5;
                                                                                                                                                                     i15 = i80;
                                                                                                                                                                     if (exc instanceof IllegalStateException) {
@@ -6644,7 +6645,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                     z4 = false;
                                                                                                                                                                     StringBuilder sb422222222222222222222222 = new StringBuilder();
                                                                                                                                                                     sb422222222222222222222222.append("bitrate: ");
-                                                                                                                                                                    sb422222222222222222222222.append(i70);
+                                                                                                                                                                    sb422222222222222222222222.append(i71);
                                                                                                                                                                     sb422222222222222222222222.append(" framerate: ");
                                                                                                                                                                     i3 = arrayList;
                                                                                                                                                                     sb422222222222222222222222.append(i3);
@@ -6675,9 +6676,9 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                                     if (audioRecoder != null) {
                                                                                                                                                                     }
                                                                                                                                                                     checkConversionCanceled();
-                                                                                                                                                                    i68 = i2;
+                                                                                                                                                                    i69 = i2;
                                                                                                                                                                     outputSurface3 = outputSurface2;
-                                                                                                                                                                    i67 = i11;
+                                                                                                                                                                    i68 = i11;
                                                                                                                                                                     i13 = i12;
                                                                                                                                                                     z6 = z5;
                                                                                                                                                                     mediaExtractor2 = mediaCodecVideoConvertor.extractor;
@@ -6784,7 +6785,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                         exc = e;
                                                                                                                                                         outputSurface4 = i25;
                                                                                                                                                         z9 = z5;
-                                                                                                                                                        i70 = i28;
+                                                                                                                                                        i71 = i28;
                                                                                                                                                         mediaCodec2 = mediaCodec5;
                                                                                                                                                         i32 = i80;
                                                                                                                                                         i16 = -5;
@@ -6796,7 +6797,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                         z4 = false;
                                                                                                                                                         StringBuilder sb4222222222222222222222222 = new StringBuilder();
                                                                                                                                                         sb4222222222222222222222222.append("bitrate: ");
-                                                                                                                                                        sb4222222222222222222222222.append(i70);
+                                                                                                                                                        sb4222222222222222222222222.append(i71);
                                                                                                                                                         sb4222222222222222222222222.append(" framerate: ");
                                                                                                                                                         i3 = arrayList;
                                                                                                                                                         sb4222222222222222222222222.append(i3);
@@ -6827,9 +6828,9 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                         if (audioRecoder != null) {
                                                                                                                                                         }
                                                                                                                                                         checkConversionCanceled();
-                                                                                                                                                        i68 = i2;
+                                                                                                                                                        i69 = i2;
                                                                                                                                                         outputSurface3 = outputSurface2;
-                                                                                                                                                        i67 = i11;
+                                                                                                                                                        i68 = i11;
                                                                                                                                                         i13 = i12;
                                                                                                                                                         z6 = z5;
                                                                                                                                                         mediaExtractor2 = mediaCodecVideoConvertor.extractor;
@@ -6856,14 +6857,14 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                         outputSurface = i25;
                                                                                                                                                         inputSurface = inputSurface2;
                                                                                                                                                         i3 = arrayList;
-                                                                                                                                                        i67 = i7;
+                                                                                                                                                        i68 = i7;
                                                                                                                                                         i2 = i80;
                                                                                                                                                         str = str16;
-                                                                                                                                                        i70 = i28;
+                                                                                                                                                        i71 = i28;
                                                                                                                                                         mediaCodec2 = mediaCodec5;
                                                                                                                                                         i4 = -5;
                                                                                                                                                         z4 = false;
-                                                                                                                                                        FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
+                                                                                                                                                        FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
                                                                                                                                                         FileLog.e(th);
                                                                                                                                                         mediaExtractor = mediaCodecVideoConvertor.extractor;
                                                                                                                                                         if (mediaExtractor != null) {
@@ -6879,7 +6880,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                                                         }
                                                                                                                                                         if (inputSurface != null) {
                                                                                                                                                         }
-                                                                                                                                                        i68 = i2;
+                                                                                                                                                        i69 = i2;
                                                                                                                                                         str3 = str2;
                                                                                                                                                         z6 = z5;
                                                                                                                                                         z7 = true;
@@ -7030,7 +7031,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                                         arrayList = arrayList;
                                                                                                                                         i30 = i80;
                                                                                                                                         z9 = z5;
-                                                                                                                                        i70 = i28;
+                                                                                                                                        i71 = i28;
                                                                                                                                         mediaCodec2 = mediaCodec5;
                                                                                                                                         i31 = i30;
                                                                                                                                         mediaCodec = null;
@@ -7044,7 +7045,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                                         z4 = false;
                                                                                                                                         StringBuilder sb42222222222222222222222222 = new StringBuilder();
                                                                                                                                         sb42222222222222222222222222.append("bitrate: ");
-                                                                                                                                        sb42222222222222222222222222.append(i70);
+                                                                                                                                        sb42222222222222222222222222.append(i71);
                                                                                                                                         sb42222222222222222222222222.append(" framerate: ");
                                                                                                                                         i3 = arrayList;
                                                                                                                                         sb42222222222222222222222222.append(i3);
@@ -7075,9 +7076,9 @@ public class MediaCodecVideoConvertor {
                                                                                                                                         if (audioRecoder != null) {
                                                                                                                                         }
                                                                                                                                         checkConversionCanceled();
-                                                                                                                                        i68 = i2;
+                                                                                                                                        i69 = i2;
                                                                                                                                         outputSurface3 = outputSurface2;
-                                                                                                                                        i67 = i11;
+                                                                                                                                        i68 = i11;
                                                                                                                                         i13 = i12;
                                                                                                                                         z6 = z5;
                                                                                                                                         mediaExtractor2 = mediaCodecVideoConvertor.extractor;
@@ -7106,15 +7107,15 @@ public class MediaCodecVideoConvertor {
                                                                                                                                         i3 = i81;
                                                                                                                                         inputSurface = inputSurface3;
                                                                                                                                         i29 = i80;
-                                                                                                                                        i67 = i7;
+                                                                                                                                        i68 = i7;
                                                                                                                                         i2 = i29;
                                                                                                                                         str = str16;
-                                                                                                                                        i70 = i28;
+                                                                                                                                        i71 = i28;
                                                                                                                                         mediaCodec2 = mediaCodec5;
                                                                                                                                         mediaCodec = null;
                                                                                                                                         i4 = -5;
                                                                                                                                         z4 = false;
-                                                                                                                                        FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
+                                                                                                                                        FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
                                                                                                                                         FileLog.e(th);
                                                                                                                                         mediaExtractor = mediaCodecVideoConvertor.extractor;
                                                                                                                                         if (mediaExtractor != null) {
@@ -7130,7 +7131,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                                         }
                                                                                                                                         if (inputSurface != null) {
                                                                                                                                         }
-                                                                                                                                        i68 = i2;
+                                                                                                                                        i69 = i2;
                                                                                                                                         str3 = str2;
                                                                                                                                         z6 = z5;
                                                                                                                                         z7 = true;
@@ -7150,10 +7151,10 @@ public class MediaCodecVideoConvertor {
                                                                                                                                 i34 = i26;
                                                                                                                                 if (!z48) {
                                                                                                                                     try {
-                                                                                                                                        if (Math.max(i80, i80) / Math.max(i66, i65) < 0.9f) {
-                                                                                                                                            String createFragmentShader = createFragmentShader(i65, i66, i7, i80, true, z50 ? 0 : 3);
+                                                                                                                                        if (Math.max(i80, i80) / Math.max(i67, i66) < 0.9f) {
+                                                                                                                                            String createFragmentShader = createFragmentShader(i66, i67, i7, i80, true, z50 ? 0 : 3);
                                                                                                                                             i80 = i80;
-                                                                                                                                            i25.changeFragmentShader(createFragmentShader, createFragmentShader(i65, i66, i7, i80, false, z50 ? 0 : 3), false);
+                                                                                                                                            i25.changeFragmentShader(createFragmentShader, createFragmentShader(i66, i67, i7, i80, false, z50 ? 0 : 3), false);
                                                                                                                                             i25 = i25;
                                                                                                                                             inputSurface2 = inputSurface2;
                                                                                                                                             arrayList = arrayList;
@@ -7170,7 +7171,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                                         arrayList = arrayList;
                                                                                                                                         i30 = i80;
                                                                                                                                         z9 = z5;
-                                                                                                                                        i70 = i28;
+                                                                                                                                        i71 = i28;
                                                                                                                                         mediaCodec2 = mediaCodec5;
                                                                                                                                         i31 = i30;
                                                                                                                                         mediaCodec = null;
@@ -7184,7 +7185,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                                         z4 = false;
                                                                                                                                         StringBuilder sb422222222222222222222222222 = new StringBuilder();
                                                                                                                                         sb422222222222222222222222222.append("bitrate: ");
-                                                                                                                                        sb422222222222222222222222222.append(i70);
+                                                                                                                                        sb422222222222222222222222222.append(i71);
                                                                                                                                         sb422222222222222222222222222.append(" framerate: ");
                                                                                                                                         i3 = arrayList;
                                                                                                                                         sb422222222222222222222222222.append(i3);
@@ -7215,9 +7216,9 @@ public class MediaCodecVideoConvertor {
                                                                                                                                         if (audioRecoder != null) {
                                                                                                                                         }
                                                                                                                                         checkConversionCanceled();
-                                                                                                                                        i68 = i2;
+                                                                                                                                        i69 = i2;
                                                                                                                                         outputSurface3 = outputSurface2;
-                                                                                                                                        i67 = i11;
+                                                                                                                                        i68 = i11;
                                                                                                                                         i13 = i12;
                                                                                                                                         z6 = z5;
                                                                                                                                         mediaExtractor2 = mediaCodecVideoConvertor.extractor;
@@ -7247,15 +7248,15 @@ public class MediaCodecVideoConvertor {
                                                                                                                                         inputSurface = inputSurface2;
                                                                                                                                         i3 = arrayList;
                                                                                                                                         i29 = i80;
-                                                                                                                                        i67 = i7;
+                                                                                                                                        i68 = i7;
                                                                                                                                         i2 = i29;
                                                                                                                                         str = str16;
-                                                                                                                                        i70 = i28;
+                                                                                                                                        i71 = i28;
                                                                                                                                         mediaCodec2 = mediaCodec5;
                                                                                                                                         mediaCodec = null;
                                                                                                                                         i4 = -5;
                                                                                                                                         z4 = false;
-                                                                                                                                        FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
+                                                                                                                                        FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
                                                                                                                                         FileLog.e(th);
                                                                                                                                         mediaExtractor = mediaCodecVideoConvertor.extractor;
                                                                                                                                         if (mediaExtractor != null) {
@@ -7271,7 +7272,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                                         }
                                                                                                                                         if (inputSurface != null) {
                                                                                                                                         }
-                                                                                                                                        i68 = i2;
+                                                                                                                                        i69 = i2;
                                                                                                                                         str3 = str2;
                                                                                                                                         z6 = z5;
                                                                                                                                         z7 = true;
@@ -7298,7 +7299,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                             arrayList = i81;
                                                                                                                             i30 = i80;
                                                                                                                             z9 = z5;
-                                                                                                                            i70 = i28;
+                                                                                                                            i71 = i28;
                                                                                                                             mediaCodec2 = mediaCodec5;
                                                                                                                             i31 = i30;
                                                                                                                             mediaCodec = null;
@@ -7312,7 +7313,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                             z4 = false;
                                                                                                                             StringBuilder sb4222222222222222222222222222 = new StringBuilder();
                                                                                                                             sb4222222222222222222222222222.append("bitrate: ");
-                                                                                                                            sb4222222222222222222222222222.append(i70);
+                                                                                                                            sb4222222222222222222222222222.append(i71);
                                                                                                                             sb4222222222222222222222222222.append(" framerate: ");
                                                                                                                             i3 = arrayList;
                                                                                                                             sb4222222222222222222222222222.append(i3);
@@ -7343,9 +7344,9 @@ public class MediaCodecVideoConvertor {
                                                                                                                             if (audioRecoder != null) {
                                                                                                                             }
                                                                                                                             checkConversionCanceled();
-                                                                                                                            i68 = i2;
+                                                                                                                            i69 = i2;
                                                                                                                             outputSurface3 = outputSurface2;
-                                                                                                                            i67 = i11;
+                                                                                                                            i68 = i11;
                                                                                                                             i13 = i12;
                                                                                                                             z6 = z5;
                                                                                                                             mediaExtractor2 = mediaCodecVideoConvertor.extractor;
@@ -7374,15 +7375,15 @@ public class MediaCodecVideoConvertor {
                                                                                                                             inputSurface = inputSurface3;
                                                                                                                             i3 = i81;
                                                                                                                             i29 = i80;
-                                                                                                                            i67 = i7;
+                                                                                                                            i68 = i7;
                                                                                                                             i2 = i29;
                                                                                                                             str = str16;
-                                                                                                                            i70 = i28;
+                                                                                                                            i71 = i28;
                                                                                                                             mediaCodec2 = mediaCodec5;
                                                                                                                             mediaCodec = null;
                                                                                                                             i4 = -5;
                                                                                                                             z4 = false;
-                                                                                                                            FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
+                                                                                                                            FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
                                                                                                                             FileLog.e(th);
                                                                                                                             mediaExtractor = mediaCodecVideoConvertor.extractor;
                                                                                                                             if (mediaExtractor != null) {
@@ -7398,7 +7399,7 @@ public class MediaCodecVideoConvertor {
                                                                                                                             }
                                                                                                                             if (inputSurface != null) {
                                                                                                                             }
-                                                                                                                            i68 = i2;
+                                                                                                                            i69 = i2;
                                                                                                                             str3 = str2;
                                                                                                                             z6 = z5;
                                                                                                                             z7 = true;
@@ -7442,7 +7443,7 @@ public class MediaCodecVideoConvertor {
                                                                                                             z11 = false;
                                                                                                             if (i23 >= 23) {
                                                                                                             }
-                                                                                                            i27 = i70;
+                                                                                                            i27 = i71;
                                                                                                             name = createByCodecName.getName();
                                                                                                             z5 = "c2.qti.avc.encoder".equalsIgnoreCase(name);
                                                                                                             StringBuilder sb62 = new StringBuilder();
@@ -7457,7 +7458,7 @@ public class MediaCodecVideoConvertor {
                                                                                                             mediaCodec5 = createByCodecName;
                                                                                                             str2 = str14;
                                                                                                             arrayList = arrayList2;
-                                                                                                            inputSurface2 = new OutputSurface(savedFilterState, null, str2, str15, arrayList, cropState2, i7, i80, i65, i66, i20, i81, false, num, num2, hDRInfo, arrayList3);
+                                                                                                            inputSurface2 = new OutputSurface(savedFilterState, null, str2, str15, arrayList, cropState2, i7, i80, i66, i67, i20, i81, false, num, num2, hDRInfo, arrayList3);
                                                                                                             if (hDRInfo == null) {
                                                                                                             }
                                                                                                             c2 = 3;
@@ -7492,11 +7493,11 @@ public class MediaCodecVideoConvertor {
                                                                                                         }
                                                                                                         createVideoFormat = MediaFormat.createVideoFormat(this.outputMimeType, i21, i22);
                                                                                                         createVideoFormat.setInteger("color-format", 2130708361);
-                                                                                                        createVideoFormat.setInteger("bitrate", i70);
+                                                                                                        createVideoFormat.setInteger("bitrate", i71);
                                                                                                         if (z51) {
                                                                                                             createVideoFormat.setInteger("bitrate-mode", 2);
                                                                                                         }
-                                                                                                        createVideoFormat.setInteger("max-bitrate", i70);
+                                                                                                        createVideoFormat.setInteger("max-bitrate", i71);
                                                                                                         createVideoFormat.setInteger("frame-rate", i81);
                                                                                                         createVideoFormat.setInteger("i-frame-interval", 1);
                                                                                                         i23 = Build.VERSION.SDK_INT;
@@ -7505,7 +7506,7 @@ public class MediaCodecVideoConvertor {
                                                                                                         z11 = false;
                                                                                                         if (i23 >= 23) {
                                                                                                         }
-                                                                                                        i27 = i70;
+                                                                                                        i27 = i71;
                                                                                                         name = createByCodecName.getName();
                                                                                                         z5 = "c2.qti.avc.encoder".equalsIgnoreCase(name);
                                                                                                         StringBuilder sb622 = new StringBuilder();
@@ -7520,7 +7521,7 @@ public class MediaCodecVideoConvertor {
                                                                                                         mediaCodec5 = createByCodecName;
                                                                                                         str2 = str14;
                                                                                                         arrayList = arrayList2;
-                                                                                                        inputSurface2 = new OutputSurface(savedFilterState, null, str2, str15, arrayList, cropState2, i7, i80, i65, i66, i20, i81, false, num, num2, hDRInfo, arrayList3);
+                                                                                                        inputSurface2 = new OutputSurface(savedFilterState, null, str2, str15, arrayList, cropState2, i7, i80, i66, i67, i20, i81, false, num, num2, hDRInfo, arrayList3);
                                                                                                         if (hDRInfo == null) {
                                                                                                         }
                                                                                                         c2 = 3;
@@ -7567,7 +7568,7 @@ public class MediaCodecVideoConvertor {
                                                                                                         z4 = false;
                                                                                                         StringBuilder sb42222222222222222222222222222 = new StringBuilder();
                                                                                                         sb42222222222222222222222222222.append("bitrate: ");
-                                                                                                        sb42222222222222222222222222222.append(i70);
+                                                                                                        sb42222222222222222222222222222.append(i71);
                                                                                                         sb42222222222222222222222222222.append(" framerate: ");
                                                                                                         i3 = arrayList;
                                                                                                         sb42222222222222222222222222222.append(i3);
@@ -7598,9 +7599,9 @@ public class MediaCodecVideoConvertor {
                                                                                                         if (audioRecoder != null) {
                                                                                                         }
                                                                                                         checkConversionCanceled();
-                                                                                                        i68 = i2;
+                                                                                                        i69 = i2;
                                                                                                         outputSurface3 = outputSurface2;
-                                                                                                        i67 = i11;
+                                                                                                        i68 = i11;
                                                                                                         i13 = i12;
                                                                                                         z6 = z5;
                                                                                                         mediaExtractor2 = mediaCodecVideoConvertor.extractor;
@@ -7626,7 +7627,7 @@ public class MediaCodecVideoConvertor {
                                                                                                         th = th77;
                                                                                                         i3 = i81;
                                                                                                         i10 = i80;
-                                                                                                        i67 = i7;
+                                                                                                        i68 = i7;
                                                                                                         i2 = i10;
                                                                                                         str = str16;
                                                                                                         mediaCodec2 = null;
@@ -7637,7 +7638,7 @@ public class MediaCodecVideoConvertor {
                                                                                                         outputSurface = null;
                                                                                                         z4 = false;
                                                                                                         z5 = false;
-                                                                                                        FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
+                                                                                                        FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
                                                                                                         FileLog.e(th);
                                                                                                         mediaExtractor = mediaCodecVideoConvertor.extractor;
                                                                                                         if (mediaExtractor != null) {
@@ -7653,7 +7654,7 @@ public class MediaCodecVideoConvertor {
                                                                                                         }
                                                                                                         if (inputSurface != null) {
                                                                                                         }
-                                                                                                        i68 = i2;
+                                                                                                        i69 = i2;
                                                                                                         str3 = str2;
                                                                                                         z6 = z5;
                                                                                                         z7 = true;
@@ -7669,7 +7670,7 @@ public class MediaCodecVideoConvertor {
                                                                                             outputSurface4 = i25;
                                                                                             audioRecoder = str7;
                                                                                             z9 = z5;
-                                                                                            i70 = i28;
+                                                                                            i71 = i28;
                                                                                             mediaCodec2 = mediaCodec5;
                                                                                             i16 = -5;
                                                                                             i15 = i80;
@@ -7678,7 +7679,7 @@ public class MediaCodecVideoConvertor {
                                                                                             z4 = false;
                                                                                             StringBuilder sb422222222222222222222222222222 = new StringBuilder();
                                                                                             sb422222222222222222222222222222.append("bitrate: ");
-                                                                                            sb422222222222222222222222222222.append(i70);
+                                                                                            sb422222222222222222222222222222.append(i71);
                                                                                             sb422222222222222222222222222222.append(" framerate: ");
                                                                                             i3 = arrayList;
                                                                                             sb422222222222222222222222222222.append(i3);
@@ -7709,9 +7710,9 @@ public class MediaCodecVideoConvertor {
                                                                                             if (audioRecoder != null) {
                                                                                             }
                                                                                             checkConversionCanceled();
-                                                                                            i68 = i2;
+                                                                                            i69 = i2;
                                                                                             outputSurface3 = outputSurface2;
-                                                                                            i67 = i11;
+                                                                                            i68 = i11;
                                                                                             i13 = i12;
                                                                                             z6 = z5;
                                                                                             mediaExtractor2 = mediaCodecVideoConvertor.extractor;
@@ -7748,10 +7749,10 @@ public class MediaCodecVideoConvertor {
                                                                                     mediaCodec = mediaCodec;
                                                                                     outputSurface = i25;
                                                                                     i3 = arrayList;
-                                                                                    i67 = i7;
+                                                                                    i68 = i7;
                                                                                     i2 = i80;
                                                                                     str = str16;
-                                                                                    i70 = i28;
+                                                                                    i71 = i28;
                                                                                 }
                                                                             } catch (Exception e66) {
                                                                                 outputSurface4 = i25;
@@ -7759,7 +7760,7 @@ public class MediaCodecVideoConvertor {
                                                                                 exc = e66;
                                                                                 mediaCodec = mediaCodec;
                                                                                 z9 = z5;
-                                                                                i70 = i28;
+                                                                                i71 = i28;
                                                                                 i32 = i80;
                                                                             }
                                                                             mediaCodec = mediaCodecVideoConvertor.getDecoderByFormat(trackFormat);
@@ -7768,7 +7769,7 @@ public class MediaCodecVideoConvertor {
                                                                             mediaCodec2 = mediaCodec5;
                                                                             exc = e67;
                                                                             z9 = z5;
-                                                                            i70 = i28;
+                                                                            i71 = i28;
                                                                             i31 = i80;
                                                                             mediaCodec = null;
                                                                             i32 = i31;
@@ -7781,7 +7782,7 @@ public class MediaCodecVideoConvertor {
                                                                             z4 = false;
                                                                             StringBuilder sb4222222222222222222222222222222 = new StringBuilder();
                                                                             sb4222222222222222222222222222222.append("bitrate: ");
-                                                                            sb4222222222222222222222222222222.append(i70);
+                                                                            sb4222222222222222222222222222222.append(i71);
                                                                             sb4222222222222222222222222222222.append(" framerate: ");
                                                                             i3 = arrayList;
                                                                             sb4222222222222222222222222222222.append(i3);
@@ -7812,9 +7813,9 @@ public class MediaCodecVideoConvertor {
                                                                             if (audioRecoder != null) {
                                                                             }
                                                                             checkConversionCanceled();
-                                                                            i68 = i2;
+                                                                            i69 = i2;
                                                                             outputSurface3 = outputSurface2;
-                                                                            i67 = i11;
+                                                                            i68 = i11;
                                                                             i13 = i12;
                                                                             z6 = z5;
                                                                             mediaExtractor2 = mediaCodecVideoConvertor.extractor;
@@ -7841,14 +7842,14 @@ public class MediaCodecVideoConvertor {
                                                                             inputSurface = inputSurface2;
                                                                             outputSurface = i25;
                                                                             i3 = arrayList;
-                                                                            i67 = i7;
+                                                                            i68 = i7;
                                                                             i2 = i80;
                                                                             str = str16;
-                                                                            i70 = i28;
+                                                                            i71 = i28;
                                                                             mediaCodec = null;
                                                                             i4 = -5;
                                                                             z4 = false;
-                                                                            FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
+                                                                            FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
                                                                             FileLog.e(th);
                                                                             mediaExtractor = mediaCodecVideoConvertor.extractor;
                                                                             if (mediaExtractor != null) {
@@ -7864,7 +7865,7 @@ public class MediaCodecVideoConvertor {
                                                                             }
                                                                             if (inputSurface != null) {
                                                                             }
-                                                                            i68 = i2;
+                                                                            i69 = i2;
                                                                             str3 = str2;
                                                                             z6 = z5;
                                                                             z7 = true;
@@ -7891,7 +7892,7 @@ public class MediaCodecVideoConvertor {
                                                                     } catch (Throwable th80) {
                                                                         th = th80;
                                                                     }
-                                                                    inputSurface2 = new OutputSurface(savedFilterState, null, str2, str15, arrayList, cropState2, i7, i80, i65, i66, i20, i81, false, num, num2, hDRInfo, arrayList3);
+                                                                    inputSurface2 = new OutputSurface(savedFilterState, null, str2, str15, arrayList, cropState2, i7, i80, i66, i67, i20, i81, false, num, num2, hDRInfo, arrayList3);
                                                                     if (hDRInfo == null) {
                                                                     }
                                                                     c2 = 3;
@@ -7905,7 +7906,7 @@ public class MediaCodecVideoConvertor {
                                                                     exc = e;
                                                                     inputSurface2 = inputSurface8;
                                                                     z9 = z5;
-                                                                    i70 = i28;
+                                                                    i71 = i28;
                                                                     mediaCodec = null;
                                                                     i16 = -5;
                                                                     outputSurface4 = null;
@@ -7917,7 +7918,7 @@ public class MediaCodecVideoConvertor {
                                                                     z4 = false;
                                                                     StringBuilder sb42222222222222222222222222222222 = new StringBuilder();
                                                                     sb42222222222222222222222222222222.append("bitrate: ");
-                                                                    sb42222222222222222222222222222222.append(i70);
+                                                                    sb42222222222222222222222222222222.append(i71);
                                                                     sb42222222222222222222222222222222.append(" framerate: ");
                                                                     i3 = arrayList;
                                                                     sb42222222222222222222222222222222.append(i3);
@@ -7948,9 +7949,9 @@ public class MediaCodecVideoConvertor {
                                                                     if (audioRecoder != null) {
                                                                     }
                                                                     checkConversionCanceled();
-                                                                    i68 = i2;
+                                                                    i69 = i2;
                                                                     outputSurface3 = outputSurface2;
-                                                                    i67 = i11;
+                                                                    i68 = i11;
                                                                     i13 = i12;
                                                                     z6 = z5;
                                                                     mediaExtractor2 = mediaCodecVideoConvertor.extractor;
@@ -7980,15 +7981,15 @@ public class MediaCodecVideoConvertor {
                                                                     th = th;
                                                                     inputSurface = inputSurface9;
                                                                     i3 = i81;
-                                                                    i67 = i7;
+                                                                    i68 = i7;
                                                                     i2 = i80;
                                                                     str = str16;
-                                                                    i70 = i28;
+                                                                    i71 = i28;
                                                                     mediaCodec = null;
                                                                     i4 = -5;
                                                                     outputSurface = null;
                                                                     z4 = false;
-                                                                    FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
+                                                                    FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
                                                                     FileLog.e(th);
                                                                     mediaExtractor = mediaCodecVideoConvertor.extractor;
                                                                     if (mediaExtractor != null) {
@@ -8004,7 +8005,7 @@ public class MediaCodecVideoConvertor {
                                                                     }
                                                                     if (inputSurface != null) {
                                                                     }
-                                                                    i68 = i2;
+                                                                    i69 = i2;
                                                                     str3 = str2;
                                                                     z6 = z5;
                                                                     z7 = true;
@@ -8043,7 +8044,7 @@ public class MediaCodecVideoConvertor {
                                                             str2 = name;
                                                             arrayList = i81;
                                                             exc = e71;
-                                                            i70 = i27;
+                                                            i71 = i27;
                                                             mediaCodec = null;
                                                             i16 = -5;
                                                             z9 = false;
@@ -8054,17 +8055,17 @@ public class MediaCodecVideoConvertor {
                                                             z2 = z;
                                                             th = th83;
                                                             i3 = i81;
-                                                            i67 = i7;
+                                                            i68 = i7;
                                                             i2 = i80;
                                                             str = str16;
-                                                            i70 = i27;
+                                                            i71 = i27;
                                                             mediaCodec = null;
                                                             inputSurface = null;
                                                             i4 = -5;
                                                             outputSurface = null;
                                                             z4 = false;
                                                             z5 = false;
-                                                            FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
+                                                            FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
                                                             FileLog.e(th);
                                                             mediaExtractor = mediaCodecVideoConvertor.extractor;
                                                             if (mediaExtractor != null) {
@@ -8080,7 +8081,7 @@ public class MediaCodecVideoConvertor {
                                                             }
                                                             if (inputSurface != null) {
                                                             }
-                                                            i68 = i2;
+                                                            i69 = i2;
                                                             str3 = str2;
                                                             z6 = z5;
                                                             z7 = true;
@@ -8093,7 +8094,7 @@ public class MediaCodecVideoConvertor {
                                                         mediaCodec2 = createByCodecName;
                                                         arrayList = i81;
                                                         exc = e72;
-                                                        i70 = i27;
+                                                        i71 = i27;
                                                         mediaCodec = null;
                                                         i16 = -5;
                                                         z9 = false;
@@ -8108,7 +8109,7 @@ public class MediaCodecVideoConvertor {
                                                         z4 = false;
                                                         StringBuilder sb422222222222222222222222222222222 = new StringBuilder();
                                                         sb422222222222222222222222222222222.append("bitrate: ");
-                                                        sb422222222222222222222222222222222.append(i70);
+                                                        sb422222222222222222222222222222222.append(i71);
                                                         sb422222222222222222222222222222222.append(" framerate: ");
                                                         i3 = arrayList;
                                                         sb422222222222222222222222222222222.append(i3);
@@ -8139,9 +8140,9 @@ public class MediaCodecVideoConvertor {
                                                         if (audioRecoder != null) {
                                                         }
                                                         checkConversionCanceled();
-                                                        i68 = i2;
+                                                        i69 = i2;
                                                         outputSurface3 = outputSurface2;
-                                                        i67 = i11;
+                                                        i68 = i11;
                                                         i13 = i12;
                                                         z6 = z5;
                                                         mediaExtractor2 = mediaCodecVideoConvertor.extractor;
@@ -8167,10 +8168,10 @@ public class MediaCodecVideoConvertor {
                                                         z2 = z;
                                                         th = th84;
                                                         i3 = i81;
-                                                        i67 = i7;
+                                                        i68 = i7;
                                                         i2 = i80;
                                                         str = str16;
-                                                        i70 = i27;
+                                                        i71 = i27;
                                                         mediaCodec = null;
                                                         inputSurface = null;
                                                         i4 = -5;
@@ -8178,7 +8179,7 @@ public class MediaCodecVideoConvertor {
                                                         outputSurface = null;
                                                         z4 = false;
                                                         z5 = false;
-                                                        FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
+                                                        FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
                                                         FileLog.e(th);
                                                         mediaExtractor = mediaCodecVideoConvertor.extractor;
                                                         if (mediaExtractor != null) {
@@ -8194,7 +8195,7 @@ public class MediaCodecVideoConvertor {
                                                         }
                                                         if (inputSurface != null) {
                                                         }
-                                                        i68 = i2;
+                                                        i69 = i2;
                                                         str3 = str2;
                                                         z6 = z5;
                                                         z7 = true;
@@ -8203,7 +8204,7 @@ public class MediaCodecVideoConvertor {
                                                     }
                                                     if (cropState2 == null) {
                                                     }
-                                                    i20 = i64;
+                                                    i20 = i65;
                                                     i21 = i7;
                                                     i22 = i80;
                                                     if (str6 != null) {
@@ -8215,10 +8216,10 @@ public class MediaCodecVideoConvertor {
                                                     }
                                                     createVideoFormat = MediaFormat.createVideoFormat(this.outputMimeType, i21, i22);
                                                     createVideoFormat.setInteger("color-format", 2130708361);
-                                                    createVideoFormat.setInteger("bitrate", i70);
+                                                    createVideoFormat.setInteger("bitrate", i71);
                                                     if (z51) {
                                                     }
-                                                    createVideoFormat.setInteger("max-bitrate", i70);
+                                                    createVideoFormat.setInteger("max-bitrate", i71);
                                                     createVideoFormat.setInteger("frame-rate", i81);
                                                     createVideoFormat.setInteger("i-frame-interval", 1);
                                                     i23 = Build.VERSION.SDK_INT;
@@ -8227,7 +8228,7 @@ public class MediaCodecVideoConvertor {
                                                     z11 = false;
                                                     if (i23 >= 23) {
                                                     }
-                                                    i27 = i70;
+                                                    i27 = i71;
                                                 } catch (Exception e73) {
                                                     i14 = findTrack;
                                                     mediaCodecVideoConvertor = this;
@@ -8241,9 +8242,9 @@ public class MediaCodecVideoConvertor {
                                                     i8 = i82;
                                                     str4 = i80;
                                                     i3 = i9;
-                                                    i70 = i8;
+                                                    i71 = i8;
                                                     i10 = str4;
-                                                    i67 = i7;
+                                                    i68 = i7;
                                                     i2 = i10;
                                                     str = str16;
                                                     mediaCodec2 = null;
@@ -8254,7 +8255,7 @@ public class MediaCodecVideoConvertor {
                                                     outputSurface = null;
                                                     z4 = false;
                                                     z5 = false;
-                                                    FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
+                                                    FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
                                                     FileLog.e(th);
                                                     mediaExtractor = mediaCodecVideoConvertor.extractor;
                                                     if (mediaExtractor != null) {
@@ -8270,7 +8271,7 @@ public class MediaCodecVideoConvertor {
                                                     }
                                                     if (inputSurface != null) {
                                                     }
-                                                    i68 = i2;
+                                                    i69 = i2;
                                                     str3 = str2;
                                                     z6 = z5;
                                                     z7 = true;
@@ -8284,7 +8285,7 @@ public class MediaCodecVideoConvertor {
                                                 i11 = i7;
                                                 i2 = i80;
                                                 str = str16;
-                                                i70 = i82;
+                                                i71 = i82;
                                                 mediaCodec2 = null;
                                                 mediaCodec3 = null;
                                                 outputSurface2 = null;
@@ -8304,11 +8305,11 @@ public class MediaCodecVideoConvertor {
                                                     th = th86;
                                                     mediaCodec = mediaCodec3;
                                                     outputSurface = outputSurface2;
-                                                    i67 = i11;
+                                                    i68 = i11;
                                                     i4 = i12;
                                                     inputSurface = inputSurface2;
                                                     th = th;
-                                                    FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
+                                                    FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
                                                     FileLog.e(th);
                                                     mediaExtractor = mediaCodecVideoConvertor.extractor;
                                                     if (mediaExtractor != null) {
@@ -8324,7 +8325,7 @@ public class MediaCodecVideoConvertor {
                                                     }
                                                     if (inputSurface != null) {
                                                     }
-                                                    i68 = i2;
+                                                    i69 = i2;
                                                     str3 = str2;
                                                     z6 = z5;
                                                     z7 = true;
@@ -8345,9 +8346,9 @@ public class MediaCodecVideoConvertor {
                                                 audioRecoder.release();
                                             }
                                             checkConversionCanceled();
-                                            i68 = i2;
+                                            i69 = i2;
                                             outputSurface3 = outputSurface2;
-                                            i67 = i11;
+                                            i68 = i11;
                                             i13 = i12;
                                             z6 = z5;
                                         } else {
@@ -8355,7 +8356,7 @@ public class MediaCodecVideoConvertor {
                                                 MP4Builder createMovie = new MP4Builder().createMovie(mp4Movie2, z45, false);
                                                 this.mediaMuxer = createMovie;
                                                 MediaExtractor mediaExtractor5 = this.extractor;
-                                                if (i70 == -1 || z49) {
+                                                if (i71 == -1 || z49) {
                                                     j12 = j17;
                                                     z35 = false;
                                                 } else {
@@ -8368,9 +8369,9 @@ public class MediaCodecVideoConvertor {
                                                 readAndWriteTracks(mediaExtractor5, createMovie, bufferInfo3, j14, j15, j12, file, z35);
                                                 z2 = z;
                                                 mediaCodecVideoConvertor = this;
-                                                i70 = i70;
-                                                i67 = i7;
-                                                i68 = i68;
+                                                i71 = i71;
+                                                i68 = i7;
+                                                i69 = i69;
                                                 mediaCodec2 = null;
                                                 mediaCodec3 = null;
                                                 i13 = -5;
@@ -8385,10 +8386,10 @@ public class MediaCodecVideoConvertor {
                                                 z2 = z;
                                                 th = th87;
                                                 mediaCodecVideoConvertor = this;
-                                                i3 = i69;
+                                                i3 = i70;
                                                 str = str16;
-                                                i67 = i7;
-                                                i2 = i68;
+                                                i68 = i7;
+                                                i2 = i69;
                                                 mediaCodec2 = null;
                                                 mediaCodec = null;
                                                 inputSurface = null;
@@ -8397,7 +8398,7 @@ public class MediaCodecVideoConvertor {
                                                 outputSurface = null;
                                                 z4 = false;
                                                 z5 = false;
-                                                FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
+                                                FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
                                                 FileLog.e(th);
                                                 mediaExtractor = mediaCodecVideoConvertor.extractor;
                                                 if (mediaExtractor != null) {
@@ -8413,7 +8414,7 @@ public class MediaCodecVideoConvertor {
                                                 }
                                                 if (inputSurface != null) {
                                                 }
-                                                i68 = i2;
+                                                i69 = i2;
                                                 str3 = str2;
                                                 z6 = z5;
                                                 z7 = true;
@@ -8440,12 +8441,12 @@ public class MediaCodecVideoConvertor {
                                 } catch (Throwable th88) {
                                     z2 = z;
                                     th = th88;
-                                    i2 = i68;
+                                    i2 = i69;
                                     mediaCodecVideoConvertor = this;
-                                    i3 = i69;
+                                    i3 = i70;
                                     str = str16;
                                     z3 = z46;
-                                    i67 = i7;
+                                    i68 = i7;
                                     file = file2;
                                     mediaCodec2 = null;
                                     mediaCodec = null;
@@ -8455,7 +8456,7 @@ public class MediaCodecVideoConvertor {
                                     outputSurface = null;
                                     z4 = false;
                                     z5 = false;
-                                    FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
+                                    FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
                                     FileLog.e(th);
                                     mediaExtractor = mediaCodecVideoConvertor.extractor;
                                     if (mediaExtractor != null) {
@@ -8471,7 +8472,7 @@ public class MediaCodecVideoConvertor {
                                     }
                                     if (inputSurface != null) {
                                     }
-                                    i68 = i2;
+                                    i69 = i2;
                                     str3 = str2;
                                     z6 = z5;
                                     z7 = true;
@@ -8480,17 +8481,17 @@ public class MediaCodecVideoConvertor {
                                 }
                             } else {
                                 i6 = i5;
-                                i7 = i67;
+                                i7 = i68;
                             }
                             if (!z46) {
                             }
-                            int i802 = i68;
+                            int i802 = i69;
                             long j222 = j15;
-                            int i812 = i69;
+                            int i812 = i70;
                             z3 = z46;
                             file = file2;
                             long j232 = j14;
-                            int i822 = i70;
+                            int i822 = i71;
                             if (findTrack < 0) {
                             }
                             if (outputSurface2 != null) {
@@ -8502,9 +8503,9 @@ public class MediaCodecVideoConvertor {
                             if (audioRecoder != null) {
                             }
                             checkConversionCanceled();
-                            i68 = i2;
+                            i69 = i2;
                             outputSurface3 = outputSurface2;
-                            i67 = i11;
+                            i68 = i11;
                             i13 = i12;
                             z6 = z5;
                             mediaExtractor2 = mediaCodecVideoConvertor.extractor;
@@ -8534,9 +8535,9 @@ public class MediaCodecVideoConvertor {
                     } catch (Throwable th90) {
                         th = th90;
                         z2 = z;
-                        i2 = i68;
+                        i2 = i69;
                         mediaCodecVideoConvertor = this;
-                        i3 = i69;
+                        i3 = i70;
                         str = str16;
                         z3 = z46;
                         file = file2;
@@ -8549,7 +8550,7 @@ public class MediaCodecVideoConvertor {
                         outputSurface = null;
                         z4 = false;
                         z5 = false;
-                        FileLog.e("bitrate: " + i70 + " framerate: " + i3 + " size: " + i2 + str + i67);
+                        FileLog.e("bitrate: " + i71 + " framerate: " + i3 + " size: " + i2 + str + i68);
                         FileLog.e(th);
                         mediaExtractor = mediaCodecVideoConvertor.extractor;
                         if (mediaExtractor != null) {
@@ -8565,7 +8566,7 @@ public class MediaCodecVideoConvertor {
                         }
                         if (inputSurface != null) {
                         }
-                        i68 = i2;
+                        i69 = i2;
                         str3 = str2;
                         z6 = z5;
                         z7 = true;
@@ -8580,11 +8581,11 @@ public class MediaCodecVideoConvertor {
         } catch (Throwable th92) {
             th = th92;
             z2 = z;
-            i2 = i68;
+            i2 = i69;
             file = file2;
             mediaCodecVideoConvertor = this;
             z3 = z46;
-            i3 = i69;
+            i3 = i70;
             str = str16;
         }
         if (z4) {
@@ -8593,7 +8594,7 @@ public class MediaCodecVideoConvertor {
             }
             long currentTimeMillis2 = System.currentTimeMillis() - currentTimeMillis;
             if (BuildVars.LOGS_ENABLED) {
-                FileLog.d("compression completed time=" + currentTimeMillis2 + " needCompress=" + z3 + " w=" + i67 + " h=" + i68 + " bitrate=" + i70 + " file size=" + AndroidUtilities.formatFileSize(file.length()) + " encoder_name=" + str3);
+                FileLog.d("compression completed time=" + currentTimeMillis2 + " needCompress=" + z3 + " w=" + i68 + " h=" + i69 + " bitrate=" + i71 + " file size=" + AndroidUtilities.formatFileSize(file.length()) + " encoder_name=" + str3);
             }
             return z7;
         }

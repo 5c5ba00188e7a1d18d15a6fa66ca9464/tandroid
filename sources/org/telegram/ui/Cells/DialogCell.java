@@ -75,13 +75,13 @@ import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$DraftMessage;
 import org.telegram.tgnet.TLRPC$EncryptedChat;
 import org.telegram.tgnet.TLRPC$ForumTopic;
+import org.telegram.tgnet.TLRPC$InputReplyTo;
 import org.telegram.tgnet.TLRPC$Message;
 import org.telegram.tgnet.TLRPC$MessageAction;
 import org.telegram.tgnet.TLRPC$MessageEntity;
 import org.telegram.tgnet.TLRPC$MessageFwdHeader;
 import org.telegram.tgnet.TLRPC$MessageMedia;
 import org.telegram.tgnet.TLRPC$MessagePeerReaction;
-import org.telegram.tgnet.TLRPC$MessageReplyHeader;
 import org.telegram.tgnet.TLRPC$Photo;
 import org.telegram.tgnet.TLRPC$PhotoSize;
 import org.telegram.tgnet.TLRPC$TL_chatAdminRights;
@@ -993,7 +993,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
             }
             spannableStringBuilder.append((CharSequence) LocaleController.formatPluralString("Stories", max, new Object[0]));
         }
-        return Emoji.replaceEmoji(spannableStringBuilder, Theme.dialogs_messagePaint[this.paintIndex].getFontMetricsInt(), AndroidUtilities.dp(17.0f), false);
+        return Emoji.replaceEmoji((CharSequence) spannableStringBuilder, Theme.dialogs_messagePaint[this.paintIndex].getFontMetricsInt(), AndroidUtilities.dp(17.0f), false);
     }
 
     /* JADX WARN: Can't wrap try/catch for region: R(93:14|(1:1454)(1:18)|19|(1:1453)(1:25)|26|(1:1452)(1:30)|31|(1:33)|34|(2:36|(1:1441)(1:40))(2:1442|(1:1451)(1:1446))|41|(1:43)|44|(1:46)(1:1436)|47|(7:49|(1:51)|52|53|(1:55)|56|57)|58|(9:60|(2:62|(2:696|(1:698)(1:699))(2:66|(1:68)(1:695)))(4:700|(1:717)(1:704)|705|(2:713|(1:715)(1:716))(2:709|(1:711)(1:712)))|69|(3:71|(1:73)(4:682|(1:684)|685|(1:690)(1:689))|74)(3:691|(1:693)|694)|75|(1:77)(1:681)|78|(1:80)(1:(1:677)(1:(1:679)(1:680)))|81)(23:718|(2:1432|(1:1434)(1:1435))(2:722|(1:724)(1:1431))|725|(2:727|(2:729|(2:737|(1:739)(1:740))(2:733|(1:735)(1:736))))(2:1385|(2:1387|(2:1389|(1:1391)(2:1392|(1:1394)(3:1395|(1:1401)(1:1399)|1400)))(2:1402|(7:1404|(1:1406)(2:1421|(1:1423)(3:1424|(1:1430)(1:1428)|1429))|1407|(2:1409|(3:1413|1414|(2:1416|(1:1418)(1:1419))))|1420|1414|(0)))))|741|(1:745)|746|(2:748|(1:752))(2:1381|(1:1383)(1:1384))|753|(6:1359|(2:1361|(2:1363|(2:1365|(1:1367))))|1369|(2:1371|(1:1373))|1375|(14:1377|(1:1379)|762|(7:764|(1:766)(1:934)|767|(1:769)(1:933)|770|(1:775)|776)(3:(6:936|(1:938)(1:1353)|939|(1:941)(1:1352)|(1:943)(1:1351)|944)(1:1354)|945|(4:947|(2:949|(2:956|955)(1:953))(7:957|(1:959)|960|(3:964|(1:966)(1:968)|967)|969|(1:973)|974)|954|955)(5:975|(1:977)(2:981|(2:983|(1:985)(5:986|(2:988|(1:990)(2:991|(1:993)(2:994|(1:996)(2:997|(2:999|(1:1001)(1:1002))))))(2:1004|(4:1008|(1:1014)(1:1012)|1013|980))|1003|979|980))(12:1015|(1:1017)(1:1350)|1018|(2:1032|(9:1034|(2:1036|(9:1038|(1:1040)(3:1342|(1:1344)(1:1346)|1345)|1041|(6:1050|(3:1052|(4:1054|(2:1056|(2:1058|(1:1060)(2:1063|(1:1065)(1:1066))))|1067|(1:1069)(2:1070|(1:1072)(2:1073|(1:1075)(1:1076))))(1:1077)|1061)(2:1078|(6:1089|(5:1096|(2:1112|(9:1176|(8:1206|(4:1208|(1:1219)|1214|(1:1218))(2:1220|(4:1227|(2:1229|(1:1234))|1235|(4:1237|(1:1239)(2:1261|(1:1263)(2:1264|(1:1266)(2:1267|(1:1269)(2:1270|(1:1272)(1:1273)))))|1240|(3:1253|(3:1255|(1:1257)(1:1259)|1258)|1260)(4:1244|(2:1246|(1:1248)(1:1249))|(1:1251)|1252))(2:1274|(3:1276|(3:1278|(1:1280)(1:1283)|1281)(3:1284|(1:1286)(1:1288)|1287)|1282)(5:1289|(1:1291)(2:1298|(1:1300)(2:1301|(1:1303)(2:1304|(1:1306)(2:1307|(1:1309)(2:1310|(3:1324|(4:1330|(1:1332)|1333|(2:1335|(3:1337|(1:1339)(1:1341)|1340)))(1:1328)|1329)(2:1314|(3:1316|(2:1318|(1:1320))(1:1322)|1321)(1:1323)))))))|1292|1293|(1:1297))))(1:1226))|1179|(1:1181)|1182|(7:1184|(3:1199|(1:1201)|1202)(1:1188)|1189|(1:1191)(1:1198)|1192|(1:1196)|1197)|1203|(1:1205))|1178|1179|(0)|1182|(0)|1203|(0))(13:1123|(2:1129|(12:1131|(1:1174)(1:1135)|1136|1137|(1:1173)(5:1143|1144|1145|1146|1147)|1148|(1:1152)|1153|(4:1155|(1:1157)|1158|(1:1160)(1:1161))|1162|1046|(1:1048)(1:1049)))|1175|1137|(2:1139|1169)|1173|1148|(2:1150|1152)|1153|(0)|1162|1046|(0)(0)))(4:1102|(1:1111)(1:1106)|1107|(1:1109)(1:1110))|1045|1046|(0)(0))(1:1095)|1044|1045|1046|(0)(0))(3:1082|(1:1088)(1:1086)|1087))|1062|1045|1046|(0)(0))|1043|1044|1045|1046|(0)(0)))(1:1348)|1347|(0)|1043|1044|1045|1046|(0)(0)))|1349|1347|(0)|1043|1044|1045|1046|(0)(0)))|978|979|980))|777|(1:779)(2:926|(1:928)(2:929|(1:931)(1:932)))|780|(1:782)(5:843|(4:845|(1:(1:848)(2:899|850))(1:900)|849|850)(7:901|(1:903)(6:913|(2:922|(1:924)(1:925))(1:921)|905|(1:907)(1:912)|908|(1:910)(1:911))|904|905|(0)(0)|908|(0)(0))|851|(2:856|(2:858|(1:860)(2:861|(1:863)(2:864|(3:866|(3:868|(1:870)(1:873)|871)(2:874|(3:876|(1:888)(1:880)|881)(3:889|(1:897)(1:895)|896))|872)))))|898)|783|(5:787|(1:789)(2:833|(5:835|(1:837)|838|(1:840)|841))|790|(1:792)(2:794|(3:796|(3:798|(1:800)|801)(2:808|(4:810|(1:812)|813|(1:815)(1:816))(1:817))|(1:806))(4:818|(3:820|(1:822)(2:823|(2:825|(1:827)(3:828|(1:830)|831))(1:832))|(2:804|806))|807|(0)))|793)|842|790|(0)(0)|793))|761|762|(0)(0)|777|(0)(0)|780|(0)(0)|783|(6:785|787|(0)(0)|790|(0)(0)|793)|842|790|(0)(0)|793)|(3:83|(1:85)(1:674)|86)(1:675)|87|(3:89|(1:91)(1:672)|92)(1:673)|93|(1:95)(1:671)|96|(3:98|(1:100)(1:102)|101)|103|(2:105|(1:107)(1:658))(2:659|(2:661|(2:663|(1:665)(1:666))(2:667|(1:669)(1:670))))|108|(2:628|(2:655|(1:657))(2:632|(2:634|(1:636))(2:637|(2:639|(1:641))(2:642|(4:644|(1:646)(1:650)|647|(1:649))))))(2:112|(1:114))|115|116|117|(1:119)|120|(1:122)|123|(3:125|(1:127)(1:129)|128)|130|(1:132)(1:625)|133|(1:135)|136|(1:624)(1:142)|143|(1:145)(1:623)|146|(1:622)(1:150)|151|152|(4:606|(1:608)(1:620)|609|(2:610|(3:612|(2:614|615)(2:617|618)|616)(1:619)))(8:156|(1:158)(1:605)|159|(1:161)(1:604)|162|(1:164)(1:603)|165|(2:166|(3:168|(2:170|171)(2:173|174)|172)(1:175)))|176|(1:178)|179|(2:181|(1:183)(1:184))|185|(2:187|(1:189)(1:533))(1:(4:(3:545|(1:547)(1:601)|548)(1:602)|(5:550|(1:552)(1:599)|553|(3:555|(1:557)(1:593)|558)(3:594|(1:596)(1:598)|597)|559)(1:600)|560|(2:562|(4:564|(3:566|(1:568)(1:570)|569)|571|(3:573|(1:575)(1:577)|576))(5:578|(3:580|(1:582)(1:584)|583)|585|(3:587|(1:589)(1:591)|590)|592)))(3:538|(2:540|(1:542))|543))|(7:(1:192)|193|(1:195)|196|(1:207)(1:200)|201|(1:205))|208|(1:532)(1:212)|213|(4:215|(1:483)(1:219)|220|(2:221|(1:223)(1:224)))(2:484|(8:509|510|(2:512|(2:514|(1:516)))|517|518|(1:528)(1:522)|523|(2:524|(1:526)(1:527)))(2:488|(4:493|(1:503)(1:497)|498|(2:499|(1:501)(1:502)))(1:492)))|225|(1:227)|228|(4:229|230|(1:232)(1:481)|233)|234|235|236|(3:238|(1:243)|244)|245|247|248|(1:476)(2:(2:255|(1:470)(1:261))|262)|263|(3:265|(3:267|(2:284|285)|282)|286)|287|(1:469)(1:291)|292|(12:297|(2:299|(1:303))|304|305|306|307|308|(10:310|(6:314|(1:316)|317|(1:344)(2:321|(1:323)(2:329|(1:331)(2:332|(3:334|(1:336)(1:338)|337)(1:339))))|324|(2:326|(1:328)))|345|(3:349|(1:(1:358)(2:351|(1:353)(2:354|355)))|(1:357))|359|(3:363|(1:(1:372)(2:365|(1:367)(2:368|369)))|(1:371))|373|(2:379|(1:381))|382|(4:386|(1:388)|389|390))(10:408|(5:412|(1:414)|415|(4:417|(1:419)|420|(1:422))|423)|424|(4:428|(1:430)|431|432)|433|(4:437|(1:439)|440|441)|442|(4:446|(1:448)|449|450)|451|(1:455))|391|(3:(1:405)(1:400)|401|(1:403)(1:404))|406|407)|460|(1:463)|464|(1:466)(1:468)|467|305|306|307|308|(0)(0)|391|(6:393|395|(1:398)|405|401|(0)(0))|406|407) */
@@ -1161,7 +1161,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
         String str16;
         boolean z8;
         int i5;
-        TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader;
+        TLRPC$InputReplyTo tLRPC$InputReplyTo;
         MessageObject messageObject3;
         int i6;
         int i7;
@@ -1337,7 +1337,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                         formatInternal = formatInternal(i, str19.replace('\n', ' '), str17);
                     }
                 }
-                charSequence10 = Emoji.replaceEmoji(formatInternal, Theme.dialogs_messagePaint[this.paintIndex].getFontMetricsInt(), AndroidUtilities.dp(20.0f), false);
+                charSequence10 = Emoji.replaceEmoji((CharSequence) formatInternal, Theme.dialogs_messagePaint[this.paintIndex].getFontMetricsInt(), AndroidUtilities.dp(20.0f), false);
                 z7 = false;
             } else {
                 charSequence10 = customDialog2.message;
@@ -1488,7 +1488,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                 this.draftMessage = null;
             }
             TLRPC$DraftMessage tLRPC$DraftMessage2 = this.draftMessage;
-            if (tLRPC$DraftMessage2 == null || ((!TextUtils.isEmpty(tLRPC$DraftMessage2.message) || ((tLRPC$MessageReplyHeader = this.draftMessage.reply_to) != null && tLRPC$MessageReplyHeader.reply_to_msg_id != 0)) && (i14 <= this.draftMessage.date || this.unreadCount == 0))) {
+            if (tLRPC$DraftMessage2 == null || ((!TextUtils.isEmpty(tLRPC$DraftMessage2.message) || ((tLRPC$InputReplyTo = this.draftMessage.reply_to) != null && tLRPC$InputReplyTo.reply_to_msg_id != 0)) && (i14 <= this.draftMessage.date || this.unreadCount == 0))) {
                 if (ChatObject.isChannel(this.chat)) {
                     TLRPC$Chat tLRPC$Chat2 = this.chat;
                     if (!tLRPC$Chat2.megagroup) {
@@ -1584,7 +1584,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                                 if (!this.useForceThreeLines && !SharedConfig.useThreeLinesLayout) {
                                     formatInternal2.setSpan(new ForegroundColorSpanThemable(Theme.key_chats_draft, this.resourcesProvider), 0, string2.length() + 1, 33);
                                 }
-                                spannableStringBuilder4 = Emoji.replaceEmoji(formatInternal2, Theme.dialogs_messagePaint[this.paintIndex].getFontMetricsInt(), AndroidUtilities.dp(20.0f), false);
+                                spannableStringBuilder4 = Emoji.replaceEmoji((CharSequence) formatInternal2, Theme.dialogs_messagePaint[this.paintIndex].getFontMetricsInt(), AndroidUtilities.dp(20.0f), false);
                             }
                             z5 = z10;
                             charSequence4 = spannableStringBuilder4;
@@ -1764,7 +1764,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                                                                                     } catch (Exception e2) {
                                                                                         e = e2;
                                                                                         FileLog.e(e);
-                                                                                        replaceEmoji = Emoji.replaceEmoji(messageStringFormatted, Theme.dialogs_messagePaint[this.paintIndex].getFontMetricsInt(), AndroidUtilities.dp(20.0f), false);
+                                                                                        replaceEmoji = Emoji.replaceEmoji((CharSequence) messageStringFormatted, Theme.dialogs_messagePaint[this.paintIndex].getFontMetricsInt(), AndroidUtilities.dp(20.0f), false);
                                                                                         if (this.message.hasHighlightedWords()) {
                                                                                         }
                                                                                         if (this.thumbsCount > 0) {
@@ -1926,7 +1926,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                                                                                         updateThumbsPosition();
                                                                                     }
                                                                                 }
-                                                                                replaceEmoji = Emoji.replaceEmoji(messageStringFormatted, Theme.dialogs_messagePaint[this.paintIndex].getFontMetricsInt(), AndroidUtilities.dp(20.0f), false);
+                                                                                replaceEmoji = Emoji.replaceEmoji((CharSequence) messageStringFormatted, Theme.dialogs_messagePaint[this.paintIndex].getFontMetricsInt(), AndroidUtilities.dp(20.0f), false);
                                                                                 if (this.message.hasHighlightedWords() && (highlightText2 = AndroidUtilities.highlightText(replaceEmoji, this.message.highlightedWords, this.resourcesProvider)) != null) {
                                                                                     replaceEmoji = highlightText2;
                                                                                 }
@@ -1972,7 +1972,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                                                                         if (this.useFromUserAsAvatar) {
                                                                         }
                                                                         i3 = 0;
-                                                                        replaceEmoji = Emoji.replaceEmoji(messageStringFormatted2, Theme.dialogs_messagePaint[this.paintIndex].getFontMetricsInt(), AndroidUtilities.dp(20.0f), false);
+                                                                        replaceEmoji = Emoji.replaceEmoji((CharSequence) messageStringFormatted2, Theme.dialogs_messagePaint[this.paintIndex].getFontMetricsInt(), AndroidUtilities.dp(20.0f), false);
                                                                         if (this.message.hasHighlightedWords()) {
                                                                             replaceEmoji = highlightText2;
                                                                         }
@@ -2137,7 +2137,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                                                                                 SpannableStringBuilder spannableStringBuilder18 = (SpannableStringBuilder) str4;
                                                                                 spannableStringBuilder18.insert(0, (CharSequence) " ");
                                                                                 spannableStringBuilder18.setSpan(new FixedWidthSpan(AndroidUtilities.dp((((this.thumbSize + 2) * this.thumbsCount) - 2) + 5)), 0, 1, 33);
-                                                                                Emoji.replaceEmoji(spannableStringBuilder18, Theme.dialogs_messagePaint[this.paintIndex].getFontMetricsInt(), AndroidUtilities.dp(17.0f), false);
+                                                                                Emoji.replaceEmoji((CharSequence) spannableStringBuilder18, Theme.dialogs_messagePaint[this.paintIndex].getFontMetricsInt(), AndroidUtilities.dp(17.0f), false);
                                                                                 if (this.message.hasHighlightedWords() && (highlightText = AndroidUtilities.highlightText(spannableStringBuilder18, this.message.highlightedWords, this.resourcesProvider)) != null) {
                                                                                     str4 = highlightText;
                                                                                 }
@@ -2885,7 +2885,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
         try {
             this.buttonCreated = false;
             if (TextUtils.isEmpty(spannableStringBuilder5)) {
-                this.buttonLayout = new StaticLayout(TextUtils.ellipsize(Emoji.replaceEmoji(spannableStringBuilder5, this.currentMessagePaint.getFontMetricsInt(), AndroidUtilities.dp(17.0f), false), this.currentMessagePaint, max - AndroidUtilities.dp(26.0f), TextUtils.TruncateAt.END), this.currentMessagePaint, max - AndroidUtilities.dp(20.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+                this.buttonLayout = new StaticLayout(TextUtils.ellipsize(Emoji.replaceEmoji((CharSequence) spannableStringBuilder5, this.currentMessagePaint.getFontMetricsInt(), AndroidUtilities.dp(17.0f), false), this.currentMessagePaint, max - AndroidUtilities.dp(26.0f), TextUtils.TruncateAt.END), this.currentMessagePaint, max - AndroidUtilities.dp(20.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
                 this.spoilersPool2.addAll(this.spoilers2);
                 this.spoilers2.clear();
                 SpoilerEffect.addSpoilers((View) this, this.buttonLayout, this.spoilersPool2, this.spoilers2);
@@ -6699,8 +6699,8 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                     i2 = 0;
                 } else {
                     int hashCode = tLRPC$DraftMessage.message.hashCode();
-                    TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader = tLRPC$DraftMessage.reply_to;
-                    i2 = hashCode + (tLRPC$MessageReplyHeader != null ? tLRPC$MessageReplyHeader.reply_to_msg_id << 16 : 0);
+                    TLRPC$InputReplyTo tLRPC$InputReplyTo = tLRPC$DraftMessage.reply_to;
+                    i2 = hashCode + (tLRPC$InputReplyTo != null ? tLRPC$InputReplyTo.reply_to_msg_id << 16 : 0);
                 }
                 z = DialogCell.this.chat == null && DialogCell.this.chat.call_active && DialogCell.this.chat.call_not_empty;
                 isTranslatingDialog = MessagesController.getInstance(DialogCell.this.currentAccount).getTranslateController().isTranslatingDialog(DialogCell.this.currentDialogId);

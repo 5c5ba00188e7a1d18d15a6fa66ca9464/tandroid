@@ -3,10 +3,10 @@ package org.telegram.ui.Components.Premium.boosts;
 import android.view.MotionEvent;
 import android.view.View;
 /* loaded from: classes4.dex */
-public final /* synthetic */ class BoostDialogs$$ExternalSyntheticLambda14 implements View.OnTouchListener {
-    public static final /* synthetic */ BoostDialogs$$ExternalSyntheticLambda14 INSTANCE = new BoostDialogs$$ExternalSyntheticLambda14();
+public final /* synthetic */ class BoostDialogs$$ExternalSyntheticLambda15 implements View.OnTouchListener {
+    public static final /* synthetic */ BoostDialogs$$ExternalSyntheticLambda15 INSTANCE = new BoostDialogs$$ExternalSyntheticLambda15();
 
-    private /* synthetic */ BoostDialogs$$ExternalSyntheticLambda14() {
+    private /* synthetic */ BoostDialogs$$ExternalSyntheticLambda15() {
     }
 
     @Override // android.view.View.OnTouchListener

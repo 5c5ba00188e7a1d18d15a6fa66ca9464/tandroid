@@ -1465,13 +1465,13 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
             this.val$popupStillVisible = zArr;
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:48:0x0141, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:48:0x0143, code lost:
             if (r13.stories_hidden != false) goto L38;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:49:0x0143, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:49:0x0145, code lost:
             r1 = true;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:58:0x0156, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:58:0x0158, code lost:
             if (r14.stories_hidden != false) goto L38;
          */
         @Override // org.telegram.ui.Components.CustomPopupMenu
@@ -1515,7 +1515,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                 if (tLRPC$User == null) {
                     trim = chat == null ? "" : chat.title;
                 } else {
-                    trim = tLRPC$User.first_name.trim();
+                    trim = UserObject.getFirstName(tLRPC$User).trim();
                 }
                 int indexOf = trim.indexOf(" ");
                 if (indexOf > 0) {
@@ -5945,7 +5945,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                     TLRPC$TL_textWithEntities tLRPC$TL_textWithEntities = peerStoriesView2.currentStory.storyItem.translatedText;
                     String str = tLRPC$TL_textWithEntities.text;
                     this.caption = str;
-                    CharSequence replaceEmoji2 = Emoji.replaceEmoji(str, peerStoriesView2.storyCaptionView.captionTextview.getPaint().getFontMetricsInt(), AndroidUtilities.dp(20.0f), false);
+                    CharSequence replaceEmoji2 = Emoji.replaceEmoji((CharSequence) str, peerStoriesView2.storyCaptionView.captionTextview.getPaint().getFontMetricsInt(), AndroidUtilities.dp(20.0f), false);
                     this.caption = replaceEmoji2;
                     if (replaceEmoji2 == null || tLRPC$TL_textWithEntities.entities == null) {
                         return;
@@ -5963,7 +5963,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                 PeerStoriesView peerStoriesView3 = PeerStoriesView.this;
                 String str2 = peerStoriesView3.currentStory.storyItem.caption;
                 this.caption = str2;
-                CharSequence replaceEmoji3 = Emoji.replaceEmoji(str2, peerStoriesView3.storyCaptionView.captionTextview.getPaint().getFontMetricsInt(), AndroidUtilities.dp(20.0f), false);
+                CharSequence replaceEmoji3 = Emoji.replaceEmoji((CharSequence) str2, peerStoriesView3.storyCaptionView.captionTextview.getPaint().getFontMetricsInt(), AndroidUtilities.dp(20.0f), false);
                 this.caption = replaceEmoji3;
                 if (replaceEmoji3 == null || PeerStoriesView.this.currentStory.storyItem.entities == null) {
                     return;

@@ -1,15 +1,6 @@
 package org.telegram.tgnet;
-
-import java.util.ArrayList;
 /* loaded from: classes.dex */
 public class TLRPC$TL_inputReplyToMessage extends TLRPC$InputReplyTo {
-    public int flags;
-    public ArrayList<TLRPC$MessageEntity> quote_entities = new ArrayList<>();
-    public String quote_text;
-    public int reply_to_msg_id;
-    public TLRPC$InputPeer reply_to_peer_id;
-    public int top_msg_id;
-
     @Override // org.telegram.tgnet.TLObject
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
         this.flags = abstractSerializedData.readInt32(z);

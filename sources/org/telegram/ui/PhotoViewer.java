@@ -15286,7 +15286,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         if (messageObject == null || messageObject.messageOwner == null) {
             return "";
         }
-        Spannable replaceAnimatedEmoji = MessageObject.replaceAnimatedEmoji(Emoji.replaceEmoji(new SpannableStringBuilder(messageObject.messageOwner.translatedText.text), Theme.chat_msgTextPaint.getFontMetricsInt(), AndroidUtilities.dp(20.0f), false), messageObject.messageOwner.translatedText.entities, Theme.chat_msgTextPaint.getFontMetricsInt(), false);
+        Spannable replaceAnimatedEmoji = MessageObject.replaceAnimatedEmoji(Emoji.replaceEmoji((CharSequence) new SpannableStringBuilder(messageObject.messageOwner.translatedText.text), Theme.chat_msgTextPaint.getFontMetricsInt(), AndroidUtilities.dp(20.0f), false), messageObject.messageOwner.translatedText.entities, Theme.chat_msgTextPaint.getFontMetricsInt(), false);
         if (MessageObject.containsUrls(replaceAnimatedEmoji)) {
             try {
                 AndroidUtilities.addLinks(replaceAnimatedEmoji, 5);
@@ -16153,9 +16153,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     if (messageObject.isVideo()) {
                         MessageObject.addUrlsByPattern(messageObject.isOutOwner(), spannableString, false, 3, (int) messageObject.getDuration(), false);
                     }
-                    cloneSpans = Emoji.replaceEmoji(spannableString, nextView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(20.0f), false);
+                    cloneSpans = Emoji.replaceEmoji((CharSequence) spannableString, nextView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(20.0f), false);
                 } else {
-                    cloneSpans = Emoji.replaceEmoji(new SpannableStringBuilder(cloneSpans), nextView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(20.0f), false);
+                    cloneSpans = Emoji.replaceEmoji((CharSequence) new SpannableStringBuilder(cloneSpans), nextView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(20.0f), false);
                 }
             }
             this.captionTextViewSwitcher.setTag(cloneSpans);
@@ -16663,16 +16663,16 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         paintingOverlay.setData(str, arrayList, z, false);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:877:0x07db, code lost:
-        if (r4.imageType == 2) goto L392;
+    /* JADX WARN: Code restructure failed: missing block: B:886:0x07e3, code lost:
+        if (r4.imageType == 2) goto L397;
      */
-    /* JADX WARN: Removed duplicated region for block: B:631:0x03b5  */
-    /* JADX WARN: Removed duplicated region for block: B:636:0x03f0  */
-    /* JADX WARN: Removed duplicated region for block: B:637:0x03f6  */
-    /* JADX WARN: Removed duplicated region for block: B:837:0x072a  */
-    /* JADX WARN: Removed duplicated region for block: B:846:0x0745  */
-    /* JADX WARN: Removed duplicated region for block: B:862:0x0793  */
-    /* JADX WARN: Removed duplicated region for block: B:874:0x07ce  */
+    /* JADX WARN: Removed duplicated region for block: B:636:0x03b5  */
+    /* JADX WARN: Removed duplicated region for block: B:641:0x03f0  */
+    /* JADX WARN: Removed duplicated region for block: B:642:0x03f6  */
+    /* JADX WARN: Removed duplicated region for block: B:846:0x0732  */
+    /* JADX WARN: Removed duplicated region for block: B:855:0x074d  */
+    /* JADX WARN: Removed duplicated region for block: B:871:0x079b  */
+    /* JADX WARN: Removed duplicated region for block: B:883:0x07d6  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -16687,6 +16687,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         TLObject chat;
         ImageLocation imageLocation3;
         TLRPC$Photo tLRPC$Photo;
+        AnimatedFileDrawable animatedFileDrawable;
+        AnimatedFileDrawable animatedFileDrawable2;
         TLRPC$PhotoSize tLRPC$PhotoSize2;
         TLRPC$Document tLRPC$Document;
         WebFile webFile;
@@ -17052,13 +17054,11 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         }
                         imageReceiver.setImageBitmap(this.parentActivity.getResources().getDrawable(R.drawable.photoview_placeholder));
                         return;
+                    } else if (imageReceiver != this.centerImage || (animatedFileDrawable2 = this.currentAnimation) == null) {
+                        return;
                     } else {
-                        AnimatedFileDrawable animatedFileDrawable = this.currentAnimation;
-                        if (animatedFileDrawable != null) {
-                            imageReceiver.setImageBitmap(animatedFileDrawable);
-                            this.currentAnimation.addSecondParentView(this.containerView);
-                            return;
-                        }
+                        imageReceiver.setImageBitmap(animatedFileDrawable2);
+                        this.currentAnimation.addSecondParentView(this.containerView);
                         return;
                     }
                 } else if (iArr[0] == 0) {
@@ -17095,26 +17095,23 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     }
                     imageReceiver.setImageBitmap(this.parentActivity.getResources().getDrawable(R.drawable.photoview_placeholder));
                     return;
-                } else {
-                    AnimatedFileDrawable animatedFileDrawable2 = this.currentAnimation;
-                    if (animatedFileDrawable2 != null) {
-                        animatedFileDrawable2.addSecondParentView(this.containerView);
-                        imageReceiver.setImageBitmap(this.currentAnimation);
-                        return;
-                    } else if (this.sharedMediaType == 1) {
-                        if (messageObject.canPreviewDocument()) {
-                            TLRPC$Document document = messageObject.getDocument();
-                            imageReceiver.setNeedsQualityThumb(true);
-                            ImageReceiver.BitmapHolder bitmapHolder7 = (this.currentThumb == null || imageReceiver != this.centerImage) ? null : null;
-                            int i4 = (int) (2048.0f / AndroidUtilities.density);
-                            boolean z7 = ((DownloadController.getInstance(this.currentAccount).getAutodownloadMask() & 8) != 0) || this.currentIndex == i || FileLoader.getInstance(this.currentAccount).getPathToAttach(document).exists();
-                            imageReceiver.setImage(z7 ? ImageLocation.getForDocument(document) : null, String.format(Locale.US, "%d_%d", Integer.valueOf(i4), Integer.valueOf(i4)), bitmapHolder7 == null ? ImageLocation.getForDocument(FileLoader.getClosestPhotoSizeWithSize(messageObject.photoThumbs, 100), document) : null, "b", bitmapHolder7 != null ? new BitmapDrawable(bitmapHolder7.bitmap) : null, document.size, null, messageObject, 0);
-                            imageReceiver.setMark(z7 ? null : 1);
-                            return;
-                        }
-                        imageReceiver.setImageBitmap(new OtherDocumentPlaceholderDrawable(this.parentActivity, this.containerView, messageObject));
+                } else if (imageReceiver == this.centerImage && (animatedFileDrawable = this.currentAnimation) != null) {
+                    animatedFileDrawable.addSecondParentView(this.containerView);
+                    imageReceiver.setImageBitmap(this.currentAnimation);
+                    return;
+                } else if (this.sharedMediaType == 1) {
+                    if (messageObject.canPreviewDocument()) {
+                        TLRPC$Document document = messageObject.getDocument();
+                        imageReceiver.setNeedsQualityThumb(true);
+                        ImageReceiver.BitmapHolder bitmapHolder7 = (this.currentThumb == null || imageReceiver != this.centerImage) ? null : null;
+                        int i4 = (int) (2048.0f / AndroidUtilities.density);
+                        boolean z7 = ((DownloadController.getInstance(this.currentAccount).getAutodownloadMask() & 8) != 0) || this.currentIndex == i || FileLoader.getInstance(this.currentAccount).getPathToAttach(document).exists();
+                        imageReceiver.setImage(z7 ? ImageLocation.getForDocument(document) : null, String.format(Locale.US, "%d_%d", Integer.valueOf(i4), Integer.valueOf(i4)), bitmapHolder7 == null ? ImageLocation.getForDocument(FileLoader.getClosestPhotoSizeWithSize(messageObject.photoThumbs, 100), document) : null, "b", bitmapHolder7 != null ? new BitmapDrawable(bitmapHolder7.bitmap) : null, document.size, null, messageObject, 0);
+                        imageReceiver.setMark(z7 ? null : 1);
                         return;
                     }
+                    imageReceiver.setImageBitmap(new OtherDocumentPlaceholderDrawable(this.parentActivity, this.containerView, messageObject));
+                    return;
                 }
             }
             long[] jArr = new long[1];

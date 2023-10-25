@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
@@ -101,6 +102,8 @@ import org.telegram.ui.ProfileActivity;
 public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.NotificationCenterDelegate {
     private static Pattern urlPattern;
     private Adapter adapter;
+    private int adaptiveEmojiColor;
+    private ColorFilter adaptiveEmojiColorFilter;
     private TextView addButtonView;
     private LongSparseArray<AnimatedEmojiDrawable> animatedEmojiDrawables;
     private FrameLayout buttonsView;
@@ -142,7 +145,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static /* synthetic */ void access$6400(EmojiPacksAlert emojiPacksAlert, int i) {
+    public static /* synthetic */ void access$6500(EmojiPacksAlert emojiPacksAlert, int i) {
         emojiPacksAlert.onSubItemClick(i);
     }
 
@@ -812,7 +815,8 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                             if (EmojiPacksAlert.this.animatedEmojiDrawables != null && (animatedEmojiSpan = emojiImageView.span) != null) {
                                 AnimatedEmojiDrawable animatedEmojiDrawable = (AnimatedEmojiDrawable) EmojiPacksAlert.this.animatedEmojiDrawables.get(animatedEmojiSpan.getDocumentId());
                                 if (animatedEmojiDrawable != null) {
-                                    animatedEmojiDrawable.setColorFilter(Theme.getAnimatedEmojiColorFilter(((BottomSheet) EmojiPacksAlert.this).resourcesProvider));
+                                    EmojiPacksAlert emojiPacksAlert3 = EmojiPacksAlert.this;
+                                    animatedEmojiDrawable.setColorFilter(emojiPacksAlert3.getAdaptiveEmojiColorFilter(emojiPacksAlert3.getThemedColor(Theme.key_windowBackgroundWhiteBlueIcon)));
                                     ArrayList<EmojiImageView> arrayList = this.viewsGroupedByLines.get(childAt.getTop());
                                     if (arrayList == null) {
                                         if (!this.unusedArrays.isEmpty()) {
@@ -957,7 +961,8 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                         android.graphics.Rect rect = AndroidUtilities.rectTmp2;
                         rect.set(emojiImageView.getLeft() + emojiImageView.getPaddingLeft(), emojiImageView.getPaddingTop(), emojiImageView.getRight() - emojiImageView.getPaddingRight(), emojiImageView.getMeasuredHeight() - emojiImageView.getPaddingBottom());
                         emojiImageView.backgroundThreadDrawHolder[this.threadIndex].setBounds(rect);
-                        animatedEmojiDrawable.setColorFilter(Theme.getAnimatedEmojiColorFilter(((BottomSheet) EmojiPacksAlert.this).resourcesProvider));
+                        EmojiPacksAlert emojiPacksAlert = EmojiPacksAlert.this;
+                        animatedEmojiDrawable.setColorFilter(emojiPacksAlert.getAdaptiveEmojiColorFilter(emojiPacksAlert.getThemedColor(Theme.key_windowBackgroundWhiteBlueIcon)));
                         emojiImageView.imageReceiver = animatedEmojiDrawable.getImageReceiver();
                         this.drawInBackgroundViews.add(emojiImageView);
                     }
@@ -1977,7 +1982,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                 this.optionsButton.setDelegate(new ActionBarMenuItem.ActionBarMenuItemDelegate() { // from class: org.telegram.ui.Components.EmojiPacksAlert$EmojiPackHeader$$ExternalSyntheticLambda6
                     @Override // org.telegram.ui.ActionBar.ActionBarMenuItem.ActionBarMenuItemDelegate
                     public final void onItemClick(int i2) {
-                        EmojiPacksAlert.access$6400(EmojiPacksAlert.this, i2);
+                        EmojiPacksAlert.access$6500(EmojiPacksAlert.this, i2);
                     }
                 });
                 this.optionsButton.setContentDescription(LocaleController.getString("AccDescrMoreOptions", R.string.AccDescrMoreOptions));
@@ -2501,5 +2506,14 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
             }
             return null;
         }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public ColorFilter getAdaptiveEmojiColorFilter(int i) {
+        if (i != this.adaptiveEmojiColor || this.adaptiveEmojiColorFilter == null) {
+            this.adaptiveEmojiColor = i;
+            this.adaptiveEmojiColorFilter = new PorterDuffColorFilter(i, PorterDuff.Mode.SRC_IN);
+        }
+        return this.adaptiveEmojiColorFilter;
     }
 }

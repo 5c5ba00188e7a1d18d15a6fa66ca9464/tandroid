@@ -5223,7 +5223,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             }
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:139:0x017b  */
+        /* JADX WARN: Removed duplicated region for block: B:139:0x017a  */
         /* JADX WARN: Removed duplicated region for block: B:142:0x018c  */
         /* JADX WARN: Removed duplicated region for block: B:143:0x018e  */
         /* JADX WARN: Removed duplicated region for block: B:146:0x0194  */
@@ -5251,7 +5251,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                         for (ImageSpan imageSpan : (ImageSpan[]) editable.getSpans(0, editable.length(), ImageSpan.class)) {
                             editable.removeSpan(imageSpan);
                         }
-                        Emoji.replaceEmoji((CharSequence) editable, ChatActivityEnterView.this.messageEditText.getPaint().getFontMetricsInt(), false, (int[]) null, 2);
+                        Emoji.replaceEmoji((CharSequence) editable, ChatActivityEnterView.this.messageEditText.getPaint().getFontMetricsInt(), false, (int[]) null);
                         this.processChange = false;
                     }
                 }
@@ -8696,14 +8696,12 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:373:0x032a A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:383:0x034e  */
-    /* JADX WARN: Removed duplicated region for block: B:394:0x0364  */
-    /* JADX WARN: Removed duplicated region for block: B:395:0x0371  */
-    /* JADX WARN: Removed duplicated region for block: B:401:0x0382  */
-    /* JADX WARN: Removed duplicated region for block: B:404:0x038c  */
-    /* JADX WARN: Removed duplicated region for block: B:407:0x03c2  */
-    /* JADX WARN: Removed duplicated region for block: B:455:0x02c3 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:364:0x0344  */
+    /* JADX WARN: Removed duplicated region for block: B:365:0x0351  */
+    /* JADX WARN: Removed duplicated region for block: B:371:0x0362  */
+    /* JADX WARN: Removed duplicated region for block: B:374:0x036c  */
+    /* JADX WARN: Removed duplicated region for block: B:377:0x03a2  */
+    /* JADX WARN: Removed duplicated region for block: B:419:0x02a7 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -8715,8 +8713,6 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         EditTextCaption editTextCaption2;
         ImageView imageView;
         Paint.FontMetricsInt fontMetricsInt;
-        ArrayList<TLRPC$MessageEntity> arrayList;
-        Paint.FontMetricsInt fontMetricsInt2;
         AnimatedEmojiSpan animatedEmojiSpan;
         if (this.audioToSend == null && this.videoToSendMessageObject == null && this.editingMessageObject != messageObject) {
             createMessageEditText();
@@ -8751,9 +8747,9 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                         paint = new TextPaint();
                         paint.setTextSize(AndroidUtilities.dp(18.0f));
                     }
-                    Paint.FontMetricsInt fontMetricsInt3 = paint.getFontMetricsInt();
-                    ArrayList<TLRPC$MessageEntity> arrayList2 = this.editingMessageObject.messageOwner.entities;
-                    MediaDataController.sortEntities(arrayList2);
+                    Paint.FontMetricsInt fontMetricsInt2 = paint.getFontMetricsInt();
+                    ArrayList<TLRPC$MessageEntity> arrayList = this.editingMessageObject.messageOwner.entities;
+                    MediaDataController.sortEntities(arrayList);
                     SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(charSequence);
                     Object[] spans = spannableStringBuilder.getSpans(0, spannableStringBuilder.length(), Object.class);
                     if (spans != null && spans.length > 0) {
@@ -8761,273 +8757,180 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                             spannableStringBuilder.removeSpan(obj);
                         }
                     }
-                    if (arrayList2 != null) {
+                    if (arrayList != null) {
                         int i3 = 0;
-                        while (i3 < arrayList2.size()) {
+                        while (i3 < arrayList.size()) {
                             try {
-                                TLRPC$MessageEntity tLRPC$MessageEntity = arrayList2.get(i3);
-                                if (tLRPC$MessageEntity.offset + tLRPC$MessageEntity.length > spannableStringBuilder.length()) {
-                                    fontMetricsInt = fontMetricsInt3;
-                                    arrayList = arrayList2;
-                                } else if (tLRPC$MessageEntity instanceof TLRPC$TL_inputMessageEntityMentionName) {
-                                    try {
+                                TLRPC$MessageEntity tLRPC$MessageEntity = arrayList.get(i3);
+                                if (tLRPC$MessageEntity.offset + tLRPC$MessageEntity.length <= spannableStringBuilder.length()) {
+                                    if (tLRPC$MessageEntity instanceof TLRPC$TL_inputMessageEntityMentionName) {
                                         if (tLRPC$MessageEntity.offset + tLRPC$MessageEntity.length < spannableStringBuilder.length() && spannableStringBuilder.charAt(tLRPC$MessageEntity.offset + tLRPC$MessageEntity.length) == ' ') {
                                             tLRPC$MessageEntity.length += i2;
                                         }
-                                        StringBuilder sb = new StringBuilder();
-                                        sb.append("");
-                                        arrayList = arrayList2;
-                                        try {
-                                            sb.append(((TLRPC$TL_inputMessageEntityMentionName) tLRPC$MessageEntity).user_id.user_id);
-                                            URLSpanUserMention uRLSpanUserMention = new URLSpanUserMention(sb.toString(), 3);
-                                            int i4 = tLRPC$MessageEntity.offset;
-                                            spannableStringBuilder.setSpan(uRLSpanUserMention, i4, tLRPC$MessageEntity.length + i4, 33);
-                                            fontMetricsInt = fontMetricsInt3;
-                                        } catch (Exception e) {
-                                            e = e;
-                                            fontMetricsInt = fontMetricsInt3;
-                                            FileLog.e(e);
-                                            CharSequence replaceEmoji = Emoji.replaceEmoji((CharSequence) new SpannableStringBuilder(spannableStringBuilder), fontMetricsInt, false, (int[]) null, 2);
-                                            if (arrayList != null) {
-                                            }
-                                            charSequence2 = replaceEmoji;
-                                            if (this.draftMessage == null) {
-                                                EditTextCaption editTextCaption4 = this.messageEditText;
-                                                this.draftMessage = (editTextCaption4 != null || editTextCaption4.length() <= 0) ? null : this.messageEditText.getText();
-                                                this.draftSearchWebpage = this.messageWebPageSearch;
-                                            }
-                                            MessageObject messageObject2 = this.editingMessageObject;
-                                            TLRPC$MessageMedia tLRPC$MessageMedia = messageObject2.messageOwner.media;
-                                            this.messageWebPageSearch = ((tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaWebPage) || !tLRPC$MessageMedia.manual) && ((i = messageObject2.type) == 0 || i == 19);
-                                            if (this.keyboardVisible) {
-                                            }
-                                            editTextCaption = this.messageEditText;
-                                            if (editTextCaption != null) {
-                                            }
-                                            openKeyboard();
-                                            editTextCaption2 = this.messageEditText;
-                                            if (editTextCaption2 != null) {
-                                            }
-                                            this.sendButton.setVisibility(8);
-                                            setSlowModeButtonVisible(false);
-                                            this.cancelBotButton.setVisibility(8);
-                                            this.audioVideoButtonContainer.setVisibility(8);
-                                            this.attachLayout.setVisibility(8);
-                                            this.sendButtonContainer.setVisibility(8);
-                                            imageView = this.scheduledButton;
-                                            if (imageView != null) {
-                                            }
-                                            z2 = true;
-                                            updateFieldHint(z2);
-                                            updateSendAsButton(z2);
-                                        }
-                                    } catch (Exception e2) {
-                                        e = e2;
-                                        arrayList = arrayList2;
-                                    }
-                                } else {
-                                    arrayList = arrayList2;
-                                    if (tLRPC$MessageEntity instanceof TLRPC$TL_messageEntityMentionName) {
-                                        if (tLRPC$MessageEntity.offset + tLRPC$MessageEntity.length < spannableStringBuilder.length() && spannableStringBuilder.charAt(tLRPC$MessageEntity.offset + tLRPC$MessageEntity.length) == ' ') {
-                                            tLRPC$MessageEntity.length += i2;
-                                        }
-                                        StringBuilder sb2 = new StringBuilder();
-                                        sb2.append("");
-                                        fontMetricsInt2 = fontMetricsInt3;
-                                        try {
-                                            sb2.append(((TLRPC$TL_messageEntityMentionName) tLRPC$MessageEntity).user_id);
-                                            URLSpanUserMention uRLSpanUserMention2 = new URLSpanUserMention(sb2.toString(), 3);
-                                            int i5 = tLRPC$MessageEntity.offset;
-                                            spannableStringBuilder.setSpan(uRLSpanUserMention2, i5, tLRPC$MessageEntity.length + i5, 33);
-                                        } catch (Exception e3) {
-                                            e = e3;
-                                            fontMetricsInt = fontMetricsInt2;
-                                            FileLog.e(e);
-                                            CharSequence replaceEmoji2 = Emoji.replaceEmoji((CharSequence) new SpannableStringBuilder(spannableStringBuilder), fontMetricsInt, false, (int[]) null, 2);
-                                            if (arrayList != null) {
-                                            }
-                                            charSequence2 = replaceEmoji2;
-                                            if (this.draftMessage == null) {
-                                            }
-                                            MessageObject messageObject22 = this.editingMessageObject;
-                                            TLRPC$MessageMedia tLRPC$MessageMedia2 = messageObject22.messageOwner.media;
-                                            this.messageWebPageSearch = ((tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaWebPage) || !tLRPC$MessageMedia2.manual) && ((i = messageObject22.type) == 0 || i == 19);
-                                            if (this.keyboardVisible) {
-                                            }
-                                            editTextCaption = this.messageEditText;
-                                            if (editTextCaption != null) {
-                                            }
-                                            openKeyboard();
-                                            editTextCaption2 = this.messageEditText;
-                                            if (editTextCaption2 != null) {
-                                            }
-                                            this.sendButton.setVisibility(8);
-                                            setSlowModeButtonVisible(false);
-                                            this.cancelBotButton.setVisibility(8);
-                                            this.audioVideoButtonContainer.setVisibility(8);
-                                            this.attachLayout.setVisibility(8);
-                                            this.sendButtonContainer.setVisibility(8);
-                                            imageView = this.scheduledButton;
-                                            if (imageView != null) {
-                                            }
-                                            z2 = true;
-                                            updateFieldHint(z2);
-                                            updateSendAsButton(z2);
-                                        }
+                                        URLSpanUserMention uRLSpanUserMention = new URLSpanUserMention("" + ((TLRPC$TL_inputMessageEntityMentionName) tLRPC$MessageEntity).user_id.user_id, 3);
+                                        int i4 = tLRPC$MessageEntity.offset;
+                                        spannableStringBuilder.setSpan(uRLSpanUserMention, i4, tLRPC$MessageEntity.length + i4, 33);
                                     } else {
-                                        fontMetricsInt2 = fontMetricsInt3;
-                                        if (tLRPC$MessageEntity instanceof TLRPC$TL_messageEntityCode) {
-                                            TextStyleSpan.TextStyleRun textStyleRun = new TextStyleSpan.TextStyleRun();
-                                            textStyleRun.flags |= 4;
-                                            TextStyleSpan textStyleSpan = new TextStyleSpan(textStyleRun);
-                                            int i6 = tLRPC$MessageEntity.offset;
-                                            MediaDataController.addStyleToText(textStyleSpan, i6, tLRPC$MessageEntity.length + i6, spannableStringBuilder, true);
-                                        } else if (!(tLRPC$MessageEntity instanceof TLRPC$TL_messageEntityPre)) {
-                                            if (tLRPC$MessageEntity instanceof TLRPC$TL_messageEntityBold) {
-                                                TextStyleSpan.TextStyleRun textStyleRun2 = new TextStyleSpan.TextStyleRun();
-                                                textStyleRun2.flags |= 1;
-                                                TextStyleSpan textStyleSpan2 = new TextStyleSpan(textStyleRun2);
-                                                int i7 = tLRPC$MessageEntity.offset;
-                                                MediaDataController.addStyleToText(textStyleSpan2, i7, tLRPC$MessageEntity.length + i7, spannableStringBuilder, true);
-                                            } else if (tLRPC$MessageEntity instanceof TLRPC$TL_messageEntityItalic) {
-                                                TextStyleSpan.TextStyleRun textStyleRun3 = new TextStyleSpan.TextStyleRun();
-                                                textStyleRun3.flags |= 2;
-                                                TextStyleSpan textStyleSpan3 = new TextStyleSpan(textStyleRun3);
-                                                int i8 = tLRPC$MessageEntity.offset;
-                                                MediaDataController.addStyleToText(textStyleSpan3, i8, tLRPC$MessageEntity.length + i8, spannableStringBuilder, true);
-                                            } else if (tLRPC$MessageEntity instanceof TLRPC$TL_messageEntityStrike) {
-                                                TextStyleSpan.TextStyleRun textStyleRun4 = new TextStyleSpan.TextStyleRun();
-                                                textStyleRun4.flags |= 8;
-                                                TextStyleSpan textStyleSpan4 = new TextStyleSpan(textStyleRun4);
-                                                int i9 = tLRPC$MessageEntity.offset;
-                                                MediaDataController.addStyleToText(textStyleSpan4, i9, tLRPC$MessageEntity.length + i9, spannableStringBuilder, true);
-                                            } else if (tLRPC$MessageEntity instanceof TLRPC$TL_messageEntityUnderline) {
-                                                TextStyleSpan.TextStyleRun textStyleRun5 = new TextStyleSpan.TextStyleRun();
-                                                textStyleRun5.flags |= 16;
-                                                TextStyleSpan textStyleSpan5 = new TextStyleSpan(textStyleRun5);
-                                                int i10 = tLRPC$MessageEntity.offset;
-                                                MediaDataController.addStyleToText(textStyleSpan5, i10, tLRPC$MessageEntity.length + i10, spannableStringBuilder, true);
-                                            } else if (tLRPC$MessageEntity instanceof TLRPC$TL_messageEntityTextUrl) {
-                                                URLSpanReplacement uRLSpanReplacement = new URLSpanReplacement(tLRPC$MessageEntity.url);
-                                                int i11 = tLRPC$MessageEntity.offset;
-                                                spannableStringBuilder.setSpan(uRLSpanReplacement, i11, tLRPC$MessageEntity.length + i11, 33);
-                                            } else if (tLRPC$MessageEntity instanceof TLRPC$TL_messageEntitySpoiler) {
-                                                TextStyleSpan.TextStyleRun textStyleRun6 = new TextStyleSpan.TextStyleRun();
-                                                textStyleRun6.flags |= LiteMode.FLAG_CHAT_BLUR;
-                                                TextStyleSpan textStyleSpan6 = new TextStyleSpan(textStyleRun6);
-                                                int i12 = tLRPC$MessageEntity.offset;
-                                                MediaDataController.addStyleToText(textStyleSpan6, i12, tLRPC$MessageEntity.length + i12, spannableStringBuilder, true);
-                                            } else if (tLRPC$MessageEntity instanceof TLRPC$TL_messageEntityCustomEmoji) {
-                                                TLRPC$TL_messageEntityCustomEmoji tLRPC$TL_messageEntityCustomEmoji = (TLRPC$TL_messageEntityCustomEmoji) tLRPC$MessageEntity;
-                                                if (tLRPC$TL_messageEntityCustomEmoji.document != null) {
-                                                    fontMetricsInt = fontMetricsInt2;
-                                                    try {
-                                                        animatedEmojiSpan = new AnimatedEmojiSpan(tLRPC$TL_messageEntityCustomEmoji.document, fontMetricsInt);
-                                                    } catch (Exception e4) {
-                                                        e = e4;
-                                                        FileLog.e(e);
-                                                        CharSequence replaceEmoji22 = Emoji.replaceEmoji((CharSequence) new SpannableStringBuilder(spannableStringBuilder), fontMetricsInt, false, (int[]) null, 2);
-                                                        if (arrayList != null) {
-                                                        }
-                                                        charSequence2 = replaceEmoji22;
-                                                        if (this.draftMessage == null) {
-                                                        }
-                                                        MessageObject messageObject222 = this.editingMessageObject;
-                                                        TLRPC$MessageMedia tLRPC$MessageMedia22 = messageObject222.messageOwner.media;
-                                                        this.messageWebPageSearch = ((tLRPC$MessageMedia22 instanceof TLRPC$TL_messageMediaWebPage) || !tLRPC$MessageMedia22.manual) && ((i = messageObject222.type) == 0 || i == 19);
-                                                        if (this.keyboardVisible) {
-                                                        }
-                                                        editTextCaption = this.messageEditText;
-                                                        if (editTextCaption != null) {
-                                                        }
-                                                        openKeyboard();
-                                                        editTextCaption2 = this.messageEditText;
-                                                        if (editTextCaption2 != null) {
-                                                        }
-                                                        this.sendButton.setVisibility(8);
-                                                        setSlowModeButtonVisible(false);
-                                                        this.cancelBotButton.setVisibility(8);
-                                                        this.audioVideoButtonContainer.setVisibility(8);
-                                                        this.attachLayout.setVisibility(8);
-                                                        this.sendButtonContainer.setVisibility(8);
-                                                        imageView = this.scheduledButton;
-                                                        if (imageView != null) {
-                                                        }
-                                                        z2 = true;
-                                                        updateFieldHint(z2);
-                                                        updateSendAsButton(z2);
-                                                    }
-                                                } else {
-                                                    fontMetricsInt = fontMetricsInt2;
-                                                    animatedEmojiSpan = new AnimatedEmojiSpan(tLRPC$TL_messageEntityCustomEmoji.document_id, fontMetricsInt);
+                                        if (tLRPC$MessageEntity instanceof TLRPC$TL_messageEntityMentionName) {
+                                            if (tLRPC$MessageEntity.offset + tLRPC$MessageEntity.length < spannableStringBuilder.length() && spannableStringBuilder.charAt(tLRPC$MessageEntity.offset + tLRPC$MessageEntity.length) == ' ') {
+                                                tLRPC$MessageEntity.length += i2;
+                                            }
+                                            StringBuilder sb = new StringBuilder();
+                                            sb.append("");
+                                            fontMetricsInt = fontMetricsInt2;
+                                            try {
+                                                sb.append(((TLRPC$TL_messageEntityMentionName) tLRPC$MessageEntity).user_id);
+                                                URLSpanUserMention uRLSpanUserMention2 = new URLSpanUserMention(sb.toString(), 3);
+                                                int i5 = tLRPC$MessageEntity.offset;
+                                                spannableStringBuilder.setSpan(uRLSpanUserMention2, i5, tLRPC$MessageEntity.length + i5, 33);
+                                            } catch (Exception e) {
+                                                e = e;
+                                                fontMetricsInt2 = fontMetricsInt;
+                                                FileLog.e(e);
+                                                CharSequence replaceEmoji = Emoji.replaceEmoji((CharSequence) new SpannableStringBuilder(spannableStringBuilder), fontMetricsInt2, false, (int[]) null);
+                                                if (arrayList != null) {
                                                 }
-                                                int i13 = tLRPC$MessageEntity.offset;
-                                                spannableStringBuilder.setSpan(animatedEmojiSpan, i13, tLRPC$MessageEntity.length + i13, 33);
-                                            } else {
-                                                fontMetricsInt = fontMetricsInt2;
-                                                if (tLRPC$MessageEntity instanceof TLRPC$TL_messageEntityBlockquote) {
-                                                    int i14 = tLRPC$MessageEntity.offset;
-                                                    QuoteSpan.putQuoteToEditable(spannableStringBuilder, i14, tLRPC$MessageEntity.length + i14);
+                                                charSequence2 = replaceEmoji;
+                                                if (this.draftMessage == null) {
+                                                    EditTextCaption editTextCaption4 = this.messageEditText;
+                                                    this.draftMessage = (editTextCaption4 != null || editTextCaption4.length() <= 0) ? null : this.messageEditText.getText();
+                                                    this.draftSearchWebpage = this.messageWebPageSearch;
+                                                }
+                                                MessageObject messageObject2 = this.editingMessageObject;
+                                                TLRPC$MessageMedia tLRPC$MessageMedia = messageObject2.messageOwner.media;
+                                                this.messageWebPageSearch = ((tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaWebPage) || !tLRPC$MessageMedia.manual) && ((i = messageObject2.type) == 0 || i == 19);
+                                                if (this.keyboardVisible) {
+                                                }
+                                                editTextCaption = this.messageEditText;
+                                                if (editTextCaption != null) {
+                                                }
+                                                openKeyboard();
+                                                editTextCaption2 = this.messageEditText;
+                                                if (editTextCaption2 != null) {
+                                                }
+                                                this.sendButton.setVisibility(8);
+                                                setSlowModeButtonVisible(false);
+                                                this.cancelBotButton.setVisibility(8);
+                                                this.audioVideoButtonContainer.setVisibility(8);
+                                                this.attachLayout.setVisibility(8);
+                                                this.sendButtonContainer.setVisibility(8);
+                                                imageView = this.scheduledButton;
+                                                if (imageView != null) {
+                                                }
+                                                z2 = true;
+                                                updateFieldHint(z2);
+                                                updateSendAsButton(z2);
+                                            }
+                                        } else {
+                                            fontMetricsInt = fontMetricsInt2;
+                                            if (tLRPC$MessageEntity instanceof TLRPC$TL_messageEntityCode) {
+                                                TextStyleSpan.TextStyleRun textStyleRun = new TextStyleSpan.TextStyleRun();
+                                                textStyleRun.flags |= 4;
+                                                TextStyleSpan textStyleSpan = new TextStyleSpan(textStyleRun);
+                                                int i6 = tLRPC$MessageEntity.offset;
+                                                MediaDataController.addStyleToText(textStyleSpan, i6, tLRPC$MessageEntity.length + i6, spannableStringBuilder, true);
+                                            } else if (!(tLRPC$MessageEntity instanceof TLRPC$TL_messageEntityPre)) {
+                                                if (tLRPC$MessageEntity instanceof TLRPC$TL_messageEntityBold) {
+                                                    TextStyleSpan.TextStyleRun textStyleRun2 = new TextStyleSpan.TextStyleRun();
+                                                    textStyleRun2.flags |= 1;
+                                                    TextStyleSpan textStyleSpan2 = new TextStyleSpan(textStyleRun2);
+                                                    int i7 = tLRPC$MessageEntity.offset;
+                                                    MediaDataController.addStyleToText(textStyleSpan2, i7, tLRPC$MessageEntity.length + i7, spannableStringBuilder, true);
+                                                } else if (tLRPC$MessageEntity instanceof TLRPC$TL_messageEntityItalic) {
+                                                    TextStyleSpan.TextStyleRun textStyleRun3 = new TextStyleSpan.TextStyleRun();
+                                                    textStyleRun3.flags |= 2;
+                                                    TextStyleSpan textStyleSpan3 = new TextStyleSpan(textStyleRun3);
+                                                    int i8 = tLRPC$MessageEntity.offset;
+                                                    MediaDataController.addStyleToText(textStyleSpan3, i8, tLRPC$MessageEntity.length + i8, spannableStringBuilder, true);
+                                                } else if (tLRPC$MessageEntity instanceof TLRPC$TL_messageEntityStrike) {
+                                                    TextStyleSpan.TextStyleRun textStyleRun4 = new TextStyleSpan.TextStyleRun();
+                                                    textStyleRun4.flags |= 8;
+                                                    TextStyleSpan textStyleSpan4 = new TextStyleSpan(textStyleRun4);
+                                                    int i9 = tLRPC$MessageEntity.offset;
+                                                    MediaDataController.addStyleToText(textStyleSpan4, i9, tLRPC$MessageEntity.length + i9, spannableStringBuilder, true);
+                                                } else if (tLRPC$MessageEntity instanceof TLRPC$TL_messageEntityUnderline) {
+                                                    TextStyleSpan.TextStyleRun textStyleRun5 = new TextStyleSpan.TextStyleRun();
+                                                    textStyleRun5.flags |= 16;
+                                                    TextStyleSpan textStyleSpan5 = new TextStyleSpan(textStyleRun5);
+                                                    int i10 = tLRPC$MessageEntity.offset;
+                                                    MediaDataController.addStyleToText(textStyleSpan5, i10, tLRPC$MessageEntity.length + i10, spannableStringBuilder, true);
+                                                } else if (tLRPC$MessageEntity instanceof TLRPC$TL_messageEntityTextUrl) {
+                                                    URLSpanReplacement uRLSpanReplacement = new URLSpanReplacement(tLRPC$MessageEntity.url);
+                                                    int i11 = tLRPC$MessageEntity.offset;
+                                                    spannableStringBuilder.setSpan(uRLSpanReplacement, i11, tLRPC$MessageEntity.length + i11, 33);
+                                                } else if (tLRPC$MessageEntity instanceof TLRPC$TL_messageEntitySpoiler) {
+                                                    TextStyleSpan.TextStyleRun textStyleRun6 = new TextStyleSpan.TextStyleRun();
+                                                    textStyleRun6.flags |= LiteMode.FLAG_CHAT_BLUR;
+                                                    TextStyleSpan textStyleSpan6 = new TextStyleSpan(textStyleRun6);
+                                                    int i12 = tLRPC$MessageEntity.offset;
+                                                    MediaDataController.addStyleToText(textStyleSpan6, i12, tLRPC$MessageEntity.length + i12, spannableStringBuilder, true);
+                                                } else if (tLRPC$MessageEntity instanceof TLRPC$TL_messageEntityCustomEmoji) {
+                                                    TLRPC$TL_messageEntityCustomEmoji tLRPC$TL_messageEntityCustomEmoji = (TLRPC$TL_messageEntityCustomEmoji) tLRPC$MessageEntity;
+                                                    if (tLRPC$TL_messageEntityCustomEmoji.document != null) {
+                                                        fontMetricsInt2 = fontMetricsInt;
+                                                        animatedEmojiSpan = new AnimatedEmojiSpan(tLRPC$TL_messageEntityCustomEmoji.document, fontMetricsInt2);
+                                                    } else {
+                                                        fontMetricsInt2 = fontMetricsInt;
+                                                        animatedEmojiSpan = new AnimatedEmojiSpan(tLRPC$TL_messageEntityCustomEmoji.document_id, fontMetricsInt2);
+                                                    }
+                                                    int i13 = tLRPC$MessageEntity.offset;
+                                                    spannableStringBuilder.setSpan(animatedEmojiSpan, i13, tLRPC$MessageEntity.length + i13, 33);
+                                                } else {
+                                                    fontMetricsInt2 = fontMetricsInt;
+                                                    if (tLRPC$MessageEntity instanceof TLRPC$TL_messageEntityBlockquote) {
+                                                        int i14 = tLRPC$MessageEntity.offset;
+                                                        QuoteSpan.putQuoteToEditable(spannableStringBuilder, i14, tLRPC$MessageEntity.length + i14);
+                                                    }
                                                 }
                                             }
                                         }
+                                        fontMetricsInt2 = fontMetricsInt;
                                     }
-                                    fontMetricsInt = fontMetricsInt2;
                                 }
                                 i3++;
-                                arrayList2 = arrayList;
-                                fontMetricsInt3 = fontMetricsInt;
                                 i2 = 1;
-                            } catch (Exception e5) {
-                                e = e5;
-                                fontMetricsInt = fontMetricsInt3;
-                                arrayList = arrayList2;
+                            } catch (Exception e2) {
+                                e = e2;
                             }
                         }
                     }
-                    fontMetricsInt = fontMetricsInt3;
-                    arrayList = arrayList2;
-                    CharSequence replaceEmoji222 = Emoji.replaceEmoji((CharSequence) new SpannableStringBuilder(spannableStringBuilder), fontMetricsInt, false, (int[]) null, 2);
+                    CharSequence replaceEmoji2 = Emoji.replaceEmoji((CharSequence) new SpannableStringBuilder(spannableStringBuilder), fontMetricsInt2, false, (int[]) null);
                     if (arrayList != null) {
                         try {
-                            int size = arrayList.size() - 1;
-                            while (size >= 0) {
-                                ArrayList<TLRPC$MessageEntity> arrayList3 = arrayList;
-                                TLRPC$MessageEntity tLRPC$MessageEntity2 = arrayList3.get(size);
-                                if ((tLRPC$MessageEntity2 instanceof TLRPC$TL_messageEntityPre) && tLRPC$MessageEntity2.offset + tLRPC$MessageEntity2.length <= replaceEmoji222.length()) {
-                                    if (!(replaceEmoji222 instanceof Spannable)) {
-                                        replaceEmoji222 = new SpannableStringBuilder(replaceEmoji222);
+                            for (int size = arrayList.size() - 1; size >= 0; size--) {
+                                TLRPC$MessageEntity tLRPC$MessageEntity2 = arrayList.get(size);
+                                if ((tLRPC$MessageEntity2 instanceof TLRPC$TL_messageEntityPre) && tLRPC$MessageEntity2.offset + tLRPC$MessageEntity2.length <= replaceEmoji2.length()) {
+                                    if (!(replaceEmoji2 instanceof Spannable)) {
+                                        replaceEmoji2 = new SpannableStringBuilder(replaceEmoji2);
                                     }
-                                    ((SpannableStringBuilder) replaceEmoji222).insert(tLRPC$MessageEntity2.offset + tLRPC$MessageEntity2.length, (CharSequence) "```\n");
-                                    SpannableStringBuilder spannableStringBuilder2 = (SpannableStringBuilder) replaceEmoji222;
+                                    ((SpannableStringBuilder) replaceEmoji2).insert(tLRPC$MessageEntity2.offset + tLRPC$MessageEntity2.length, (CharSequence) "```\n");
+                                    SpannableStringBuilder spannableStringBuilder2 = (SpannableStringBuilder) replaceEmoji2;
                                     int i15 = tLRPC$MessageEntity2.offset;
-                                    StringBuilder sb3 = new StringBuilder();
-                                    sb3.append("```");
+                                    StringBuilder sb2 = new StringBuilder();
+                                    sb2.append("```");
                                     String str = tLRPC$MessageEntity2.language;
                                     if (str == null) {
                                         str = "";
                                     }
-                                    sb3.append(str);
-                                    sb3.append("\n");
-                                    spannableStringBuilder2.insert(i15, (CharSequence) sb3.toString());
+                                    sb2.append(str);
+                                    sb2.append("\n");
+                                    spannableStringBuilder2.insert(i15, (CharSequence) sb2.toString());
                                 }
-                                size--;
-                                arrayList = arrayList3;
                             }
-                        } catch (Exception e6) {
-                            FileLog.e(e6);
+                        } catch (Exception e3) {
+                            FileLog.e(e3);
                         }
                     }
-                    charSequence2 = replaceEmoji222;
+                    charSequence2 = replaceEmoji2;
                 }
                 if (this.draftMessage == null && !z3) {
                     EditTextCaption editTextCaption42 = this.messageEditText;
                     this.draftMessage = (editTextCaption42 != null || editTextCaption42.length() <= 0) ? null : this.messageEditText.getText();
                     this.draftSearchWebpage = this.messageWebPageSearch;
                 }
-                MessageObject messageObject2222 = this.editingMessageObject;
-                TLRPC$MessageMedia tLRPC$MessageMedia222 = messageObject2222.messageOwner.media;
-                this.messageWebPageSearch = ((tLRPC$MessageMedia222 instanceof TLRPC$TL_messageMediaWebPage) || !tLRPC$MessageMedia222.manual) && ((i = messageObject2222.type) == 0 || i == 19);
+                MessageObject messageObject22 = this.editingMessageObject;
+                TLRPC$MessageMedia tLRPC$MessageMedia2 = messageObject22.messageOwner.media;
+                this.messageWebPageSearch = ((tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaWebPage) || !tLRPC$MessageMedia2.manual) && ((i = messageObject22.type) == 0 || i == 19);
                 if (this.keyboardVisible) {
                     Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.ChatActivityEnterView$$ExternalSyntheticLambda49
                         @Override // java.lang.Runnable
@@ -9346,7 +9249,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(this.messageEditText.getText());
             spannableStringBuilder.replace(i, i2 + i, charSequence);
             if (z) {
-                Emoji.replaceEmoji((CharSequence) spannableStringBuilder, this.messageEditText.getPaint().getFontMetricsInt(), false, (int[]) null, 2);
+                Emoji.replaceEmoji((CharSequence) spannableStringBuilder, this.messageEditText.getPaint().getFontMetricsInt(), false, (int[]) null);
             }
             this.messageEditText.setText(spannableStringBuilder);
             this.messageEditText.setSelection(i + charSequence.length());
@@ -10472,7 +10375,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             try {
                 try {
                     ChatActivityEnterView.this.innerTextChange = 2;
-                    CharSequence replaceEmoji = Emoji.replaceEmoji((CharSequence) str, ChatActivityEnterView.this.messageEditText.getPaint().getFontMetricsInt(), false, (int[]) null, 2);
+                    CharSequence replaceEmoji = Emoji.replaceEmoji((CharSequence) str, ChatActivityEnterView.this.messageEditText.getPaint().getFontMetricsInt(), false, (int[]) null);
                     EditTextCaption editTextCaption2 = ChatActivityEnterView.this.messageEditText;
                     editTextCaption2.setText(editTextCaption2.getText().insert(selectionEnd, replaceEmoji));
                     int length = selectionEnd + replaceEmoji.length();

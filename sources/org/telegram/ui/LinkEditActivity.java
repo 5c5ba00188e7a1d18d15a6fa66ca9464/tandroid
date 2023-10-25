@@ -467,7 +467,7 @@ public class LinkEditActivity extends BaseFragment {
 
             @Override // android.text.TextWatcher
             public void afterTextChanged(Editable editable) {
-                Emoji.replaceEmoji(editable, LinkEditActivity.this.nameEditText.getPaint().getFontMetricsInt(), (int) LinkEditActivity.this.nameEditText.getPaint().getTextSize(), false);
+                Emoji.replaceEmoji((CharSequence) editable, LinkEditActivity.this.nameEditText.getPaint().getFontMetricsInt(), (int) LinkEditActivity.this.nameEditText.getPaint().getTextSize(), false);
             }
         });
         this.nameEditText.setCursorVisible(false);
@@ -971,7 +971,7 @@ public class LinkEditActivity extends BaseFragment {
             return;
         }
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(tLRPC$TL_chatInviteExported.title);
-        Emoji.replaceEmoji(spannableStringBuilder, this.nameEditText.getPaint().getFontMetricsInt(), (int) this.nameEditText.getPaint().getTextSize(), false);
+        Emoji.replaceEmoji((CharSequence) spannableStringBuilder, this.nameEditText.getPaint().getFontMetricsInt(), (int) this.nameEditText.getPaint().getTextSize(), false);
         this.nameEditText.setText(spannableStringBuilder);
     }
 

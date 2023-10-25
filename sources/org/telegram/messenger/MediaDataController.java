@@ -8976,7 +8976,7 @@ public class MediaDataController extends BaseController {
                             String substring = (indexOf2 < 0 || indexOf2 - i8 <= 0) ? "" : charSequenceArr[0].toString().substring(i8, indexOf2);
                             CharSequence substring2 = substring(charSequenceArr[0], 0, i - i7);
                             int length = i8 + substring.length() + (!substring.isEmpty());
-                            if (length < 0 || length >= charSequenceArr[0].length()) {
+                            if (length < 0 || length >= charSequenceArr[0].length() || length > indexOf) {
                                 i5 = i2;
                                 i4 = -1;
                             } else {
@@ -9370,7 +9370,7 @@ public class MediaDataController extends BaseController {
 
     public void saveDraft(long j, int i, CharSequence charSequence, ArrayList<TLRPC$MessageEntity> arrayList, TLRPC$Message tLRPC$Message, ChatActivity.ReplyQuote replyQuote, boolean z, boolean z2) {
         TLRPC$DraftMessage tLRPC$TL_draftMessage;
-        TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader;
+        TLRPC$InputReplyTo tLRPC$InputReplyTo;
         TLRPC$Message tLRPC$Message2 = (getMessagesController().isForum(j) && i == 0) ? null : tLRPC$Message;
         if (!TextUtils.isEmpty(charSequence) || tLRPC$Message2 != null) {
             tLRPC$TL_draftMessage = new TLRPC$TL_draftMessage();
@@ -9382,17 +9382,17 @@ public class MediaDataController extends BaseController {
         tLRPC$DraftMessage.message = charSequence == null ? "" : charSequence.toString();
         tLRPC$DraftMessage.no_webpage = z;
         if (tLRPC$Message2 != null) {
-            TLRPC$TL_messageReplyHeader tLRPC$TL_messageReplyHeader = new TLRPC$TL_messageReplyHeader();
-            tLRPC$DraftMessage.reply_to = tLRPC$TL_messageReplyHeader;
+            TLRPC$TL_inputReplyToMessage tLRPC$TL_inputReplyToMessage = new TLRPC$TL_inputReplyToMessage();
+            tLRPC$DraftMessage.reply_to = tLRPC$TL_inputReplyToMessage;
             tLRPC$DraftMessage.flags |= 16;
-            tLRPC$TL_messageReplyHeader.reply_to_msg_id = tLRPC$Message2.id;
+            tLRPC$TL_inputReplyToMessage.reply_to_msg_id = tLRPC$Message2.id;
             if (replyQuote != null) {
-                tLRPC$TL_messageReplyHeader.quote_text = replyQuote.getText();
-                TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader2 = tLRPC$DraftMessage.reply_to;
-                if (tLRPC$MessageReplyHeader2.quote_text != null) {
-                    tLRPC$MessageReplyHeader2.flags |= 64;
+                tLRPC$TL_inputReplyToMessage.quote_text = replyQuote.getText();
+                TLRPC$InputReplyTo tLRPC$InputReplyTo2 = tLRPC$DraftMessage.reply_to;
+                if (tLRPC$InputReplyTo2.quote_text != null) {
+                    tLRPC$InputReplyTo2.flags |= 64;
                 }
-                tLRPC$MessageReplyHeader2.quote_entities = replyQuote.getEntities();
+                tLRPC$InputReplyTo2.quote_entities = replyQuote.getEntities();
                 ArrayList<TLRPC$MessageEntity> arrayList2 = tLRPC$DraftMessage.reply_to.quote_entities;
                 if (arrayList2 != null && !arrayList2.isEmpty()) {
                     tLRPC$DraftMessage.reply_to.quote_entities = new ArrayList<>(tLRPC$DraftMessage.reply_to.quote_entities);
@@ -9403,9 +9403,9 @@ public class MediaDataController extends BaseController {
                     TLRPC$Peer peer = getMessagesController().getPeer(j);
                     TLRPC$Peer tLRPC$Peer = replyQuote.message.messageOwner.peer_id;
                     if (peer != null && !MessageObject.peersEqual(peer, tLRPC$Peer)) {
-                        TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader3 = tLRPC$DraftMessage.reply_to;
-                        tLRPC$MessageReplyHeader3.flags |= 1;
-                        tLRPC$MessageReplyHeader3.reply_to_peer_id = peer;
+                        TLRPC$InputReplyTo tLRPC$InputReplyTo3 = tLRPC$DraftMessage.reply_to;
+                        tLRPC$InputReplyTo3.flags |= 1;
+                        tLRPC$InputReplyTo3.reply_to_peer_id = getMessagesController().getInputPeer(peer);
                     }
                 }
             }
@@ -9420,7 +9420,7 @@ public class MediaDataController extends BaseController {
             if (tLRPC$DraftMessage2 != null && tLRPC$DraftMessage2.message.equals(tLRPC$DraftMessage.message) && replyToEquals(tLRPC$DraftMessage2.reply_to, tLRPC$DraftMessage.reply_to) && tLRPC$DraftMessage2.no_webpage == tLRPC$DraftMessage.no_webpage) {
                 return;
             }
-            if (tLRPC$DraftMessage2 == null && TextUtils.isEmpty(tLRPC$DraftMessage.message) && ((tLRPC$MessageReplyHeader = tLRPC$DraftMessage.reply_to) == null || tLRPC$MessageReplyHeader.reply_to_msg_id == 0)) {
+            if (tLRPC$DraftMessage2 == null && TextUtils.isEmpty(tLRPC$DraftMessage.message) && ((tLRPC$InputReplyTo = tLRPC$DraftMessage.reply_to) == null || tLRPC$InputReplyTo.reply_to_msg_id == 0)) {
                 return;
             }
         }
@@ -9435,9 +9435,9 @@ public class MediaDataController extends BaseController {
                 }
                 tLRPC$TL_messages_saveDraft.message = tLRPC$DraftMessage.message;
                 tLRPC$TL_messages_saveDraft.no_webpage = tLRPC$DraftMessage.no_webpage;
-                TLRPC$InputReplyTo inputReplyTo = toInputReplyTo(this.currentAccount, tLRPC$DraftMessage.reply_to);
-                tLRPC$TL_messages_saveDraft.reply_to = inputReplyTo;
-                if (inputReplyTo != null) {
+                TLRPC$InputReplyTo tLRPC$InputReplyTo4 = tLRPC$DraftMessage.reply_to;
+                tLRPC$TL_messages_saveDraft.reply_to = tLRPC$InputReplyTo4;
+                if (tLRPC$InputReplyTo4 != null) {
                     tLRPC$TL_messages_saveDraft.flags |= 16;
                 }
                 if ((tLRPC$DraftMessage.flags & 8) != 0) {
@@ -9451,18 +9451,18 @@ public class MediaDataController extends BaseController {
         }
     }
 
-    private static boolean replyToEquals(TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader, TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader2) {
-        if (tLRPC$MessageReplyHeader == tLRPC$MessageReplyHeader2) {
+    private static boolean replyToEquals(TLRPC$InputReplyTo tLRPC$InputReplyTo, TLRPC$InputReplyTo tLRPC$InputReplyTo2) {
+        if (tLRPC$InputReplyTo == tLRPC$InputReplyTo2) {
             return true;
         }
-        boolean z = tLRPC$MessageReplyHeader instanceof TLRPC$TL_messageReplyHeader;
-        if (z != (tLRPC$MessageReplyHeader2 instanceof TLRPC$TL_messageReplyHeader)) {
+        boolean z = tLRPC$InputReplyTo instanceof TLRPC$TL_inputReplyToMessage;
+        if (z != (tLRPC$InputReplyTo2 instanceof TLRPC$TL_inputReplyToMessage)) {
             return false;
         }
         if (z) {
-            return tLRPC$MessageReplyHeader.reply_to_msg_id == tLRPC$MessageReplyHeader2.reply_to_msg_id;
-        } else if (tLRPC$MessageReplyHeader instanceof TLRPC$TL_messageReplyStoryHeader) {
-            return tLRPC$MessageReplyHeader.user_id == tLRPC$MessageReplyHeader2.user_id && tLRPC$MessageReplyHeader.story_id == tLRPC$MessageReplyHeader2.story_id;
+            return MessageObject.peersEqual(tLRPC$InputReplyTo.reply_to_peer_id, tLRPC$InputReplyTo2.reply_to_peer_id) && TextUtils.equals(tLRPC$InputReplyTo.quote_text, tLRPC$InputReplyTo2.quote_text) && tLRPC$InputReplyTo.reply_to_msg_id == tLRPC$InputReplyTo2.reply_to_msg_id;
+        } else if (tLRPC$InputReplyTo instanceof TLRPC$TL_inputReplyToStory) {
+            return tLRPC$InputReplyTo.user_id == tLRPC$InputReplyTo2.user_id && tLRPC$InputReplyTo.story_id == tLRPC$InputReplyTo2.story_id;
         } else {
             return true;
         }
@@ -9503,10 +9503,10 @@ public class MediaDataController extends BaseController {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:55:0x0182, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:55:0x0184, code lost:
         if (org.telegram.messenger.MessageObject.peersEqual(r4.peer_id, getMessagesController().getPeer(r20.reply_to.reply_to_msg_id)) == false) goto L79;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:59:0x0189, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:59:0x018b, code lost:
         if (r20.reply_to == null) goto L79;
      */
     /*
@@ -9515,14 +9515,14 @@ public class MediaDataController extends BaseController {
     public void saveDraft(final long j, final int i, TLRPC$DraftMessage tLRPC$DraftMessage, TLRPC$Message tLRPC$Message, boolean z) {
         TLRPC$Message tLRPC$Message2;
         StringBuilder sb;
-        TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader;
+        TLRPC$InputReplyTo tLRPC$InputReplyTo;
         TLRPC$Chat chat;
         TLRPC$User tLRPC$User;
         String str;
         if (getMessagesController().isForum(j) && i == 0 && TextUtils.isEmpty(tLRPC$DraftMessage.message)) {
-            TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader2 = tLRPC$DraftMessage.reply_to;
-            if (tLRPC$MessageReplyHeader2 instanceof TLRPC$TL_messageReplyHeader) {
-                tLRPC$MessageReplyHeader2.reply_to_msg_id = 0;
+            TLRPC$InputReplyTo tLRPC$InputReplyTo2 = tLRPC$DraftMessage.reply_to;
+            if (tLRPC$InputReplyTo2 instanceof TLRPC$TL_inputReplyToMessage) {
+                ((TLRPC$TL_inputReplyToMessage) tLRPC$InputReplyTo2).reply_to_msg_id = 0;
             }
         }
         SharedPreferences.Editor edit = this.draftPreferences.edit();
@@ -9621,7 +9621,7 @@ public class MediaDataController extends BaseController {
         edit.commit();
         if (z) {
             if (i == 0 || getMessagesController().isForum(j)) {
-                if (tLRPC$DraftMessage != null && (tLRPC$MessageReplyHeader = tLRPC$DraftMessage.reply_to) != null && tLRPC$MessageReplyHeader.reply_to_msg_id != 0 && tLRPC$Message2 == 0) {
+                if (tLRPC$DraftMessage != null && (tLRPC$InputReplyTo = tLRPC$DraftMessage.reply_to) != null && tLRPC$InputReplyTo.reply_to_msg_id != 0 && tLRPC$Message2 == 0) {
                     if (DialogObject.isUserDialog(j)) {
                         tLRPC$User = getMessagesController().getUser(Long.valueOf(j));
                         chat = null;
@@ -9720,11 +9720,11 @@ public class MediaDataController extends BaseController {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$saveDraftReplyMessage$181(long j, int i, TLRPC$Message tLRPC$Message) {
-        TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader;
+        TLRPC$InputReplyTo tLRPC$InputReplyTo;
         String str;
         SparseArray<TLRPC$DraftMessage> sparseArray = this.drafts.get(j);
         TLRPC$DraftMessage tLRPC$DraftMessage = sparseArray != null ? sparseArray.get(i) : null;
-        if (tLRPC$DraftMessage == null || (tLRPC$MessageReplyHeader = tLRPC$DraftMessage.reply_to) == null || tLRPC$MessageReplyHeader.reply_to_msg_id != tLRPC$Message.id) {
+        if (tLRPC$DraftMessage == null || (tLRPC$InputReplyTo = tLRPC$DraftMessage.reply_to) == null || tLRPC$InputReplyTo.reply_to_msg_id != tLRPC$Message.id) {
             return;
         }
         SparseArray<TLRPC$Message> sparseArray2 = this.draftMessages.get(j);
@@ -9787,10 +9787,10 @@ public class MediaDataController extends BaseController {
             this.draftPreferences.edit().remove("t_" + j + "_" + i).remove("rt_" + j + "_" + i).commit();
             return;
         }
-        TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader = tLRPC$DraftMessage.reply_to;
-        if (tLRPC$MessageReplyHeader == null || tLRPC$MessageReplyHeader.reply_to_msg_id != 0) {
-            if (tLRPC$MessageReplyHeader != null) {
-                tLRPC$MessageReplyHeader.reply_to_msg_id = 0;
+        TLRPC$InputReplyTo tLRPC$InputReplyTo = tLRPC$DraftMessage.reply_to;
+        if (tLRPC$InputReplyTo == null || tLRPC$InputReplyTo.reply_to_msg_id != 0) {
+            if (tLRPC$InputReplyTo != null) {
+                tLRPC$InputReplyTo.reply_to_msg_id = 0;
             }
             tLRPC$DraftMessage.flags &= -2;
             saveDraft(j, i, tLRPC$DraftMessage.message, tLRPC$DraftMessage.entities, null, null, tLRPC$DraftMessage.no_webpage, true);

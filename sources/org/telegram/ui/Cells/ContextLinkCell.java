@@ -288,7 +288,7 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                 } else {
                     if (tLRPC$BotInlineResult2.title != null) {
                         try {
-                            this.titleLayout = new StaticLayout(TextUtils.ellipsize(Emoji.replaceEmoji(this.inlineResult.title.replace('\n', ' '), Theme.chat_contextResult_titleTextPaint.getFontMetricsInt(), AndroidUtilities.dp(15.0f), false), Theme.chat_contextResult_titleTextPaint, Math.min((int) Math.ceil(Theme.chat_contextResult_titleTextPaint.measureText(str7)), dp2), TextUtils.TruncateAt.END), Theme.chat_contextResult_titleTextPaint, dp2 + AndroidUtilities.dp(4.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+                            this.titleLayout = new StaticLayout(TextUtils.ellipsize(Emoji.replaceEmoji((CharSequence) this.inlineResult.title.replace('\n', ' '), Theme.chat_contextResult_titleTextPaint.getFontMetricsInt(), AndroidUtilities.dp(15.0f), false), Theme.chat_contextResult_titleTextPaint, Math.min((int) Math.ceil(Theme.chat_contextResult_titleTextPaint.measureText(str7)), dp2), TextUtils.TruncateAt.END), Theme.chat_contextResult_titleTextPaint, dp2 + AndroidUtilities.dp(4.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
                         } catch (Exception e) {
                             FileLog.e(e);
                         }
@@ -309,7 +309,7 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                             c2 = ' ';
                         }
                         try {
-                            StaticLayout generateStaticLayout = ChatMessageCell.generateStaticLayout(Emoji.replaceEmoji(str9, Theme.chat_contextResult_descriptionTextPaint.getFontMetricsInt(), AndroidUtilities.dp(13.0f), false), Theme.chat_contextResult_descriptionTextPaint, dp2, dp2, 0, 3);
+                            StaticLayout generateStaticLayout = ChatMessageCell.generateStaticLayout(Emoji.replaceEmoji((CharSequence) str9, Theme.chat_contextResult_descriptionTextPaint.getFontMetricsInt(), AndroidUtilities.dp(13.0f), false), Theme.chat_contextResult_descriptionTextPaint, dp2, dp2, 0, 3);
                             this.descriptionLayout = generateStaticLayout;
                             if (generateStaticLayout.getLineCount() > 0) {
                                 int i6 = this.descriptionY;

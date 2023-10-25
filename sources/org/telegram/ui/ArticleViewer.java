@@ -2829,7 +2829,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             textPaint = getTextPaint(tLRPC$RichText, tLRPC$RichText, tLRPC$PageBlock);
         }
         TextPaint textPaint9 = textPaint;
-        CharSequence replaceEmoji = Emoji.replaceEmoji(text, textPaint9.getFontMetricsInt(), false, (int[]) null, 1);
+        CharSequence replaceEmoji = Emoji.replaceEmoji(text, textPaint9.getFontMetricsInt(), false, null, 1);
         if (i3 != 0) {
             if (tLRPC$PageBlock instanceof TLRPC$TL_pageBlockPullquote) {
                 staticLayout = StaticLayoutEx.createStaticLayout(replaceEmoji, textPaint9, dp, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false, TextUtils.TruncateAt.END, dp, i3);

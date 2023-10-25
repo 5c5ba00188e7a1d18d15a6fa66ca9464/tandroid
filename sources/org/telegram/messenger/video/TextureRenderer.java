@@ -1074,7 +1074,7 @@ public class TextureRenderer {
                             EditTextOutline editTextOutline3 = editTextOutline;
                             VideoEditedInfo.MediaEntity mediaEntity5 = mediaEntity2;
                             i3 = i14;
-                            editTextOutline3.setText(Emoji.replaceEmoji(spannableString, editTextOutline3.getPaint().getFontMetricsInt(), (int) (editTextOutline3.getTextSize() * 0.8f), false));
+                            editTextOutline3.setText(Emoji.replaceEmoji((CharSequence) spannableString, editTextOutline3.getPaint().getFontMetricsInt(), (int) (editTextOutline3.getTextSize() * 0.8f), false));
                             editTextOutline3.setTextColor(mediaEntity5.color);
                             Editable text = editTextOutline3.getText();
                             if (text instanceof Spanned) {

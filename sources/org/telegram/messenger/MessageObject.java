@@ -1685,7 +1685,7 @@ public class MessageObject {
                 textPaint = Theme.chat_msgTextPaint;
             }
             int[] iArr = allowsBigEmoji() ? new int[1] : null;
-            CharSequence replaceEmoji = Emoji.replaceEmoji(this.messageText, textPaint.getFontMetricsInt(), AndroidUtilities.dp(20.0f), false, iArr);
+            CharSequence replaceEmoji = Emoji.replaceEmoji(this.messageText, textPaint.getFontMetricsInt(), false, iArr);
             this.messageText = replaceEmoji;
             Spannable replaceAnimatedEmoji = replaceAnimatedEmoji(replaceEmoji, textPaint.getFontMetricsInt());
             this.messageText = replaceAnimatedEmoji;
@@ -1834,10 +1834,8 @@ public class MessageObject {
     }
 
     private void checkEmojiOnly(Integer num) {
-        TLRPC$Message tLRPC$Message;
-        ArrayList<TLRPC$MessageEntity> arrayList;
         TextPaint textPaint;
-        if (num != null && num.intValue() >= 1 && (tLRPC$Message = this.messageOwner) != null && ((arrayList = tLRPC$Message.entities) == null || arrayList.size() <= 0)) {
+        if (num != null && num.intValue() >= 1 && this.messageOwner != null && !hasNonEmojiEntities()) {
             CharSequence charSequence = this.messageText;
             Emoji.EmojiSpan[] emojiSpanArr = (Emoji.EmojiSpan[]) ((Spannable) charSequence).getSpans(0, charSequence.length(), Emoji.EmojiSpan.class);
             CharSequence charSequence2 = this.messageText;
@@ -2873,7 +2871,7 @@ public class MessageObject {
                                                 textPaint = Theme.chat_msgTextPaint;
                                             }
                                             int[] iArr3 = allowsBigEmoji() ? new int[1] : iArr2;
-                                            CharSequence replaceEmoji = Emoji.replaceEmoji(this.messageText, textPaint.getFontMetricsInt(), AndroidUtilities.dp(20.0f), false, iArr3);
+                                            CharSequence replaceEmoji = Emoji.replaceEmoji(this.messageText, textPaint.getFontMetricsInt(), false, iArr3);
                                             this.messageText = replaceEmoji;
                                             Spannable replaceAnimatedEmoji = replaceAnimatedEmoji(replaceEmoji, textPaint.getFontMetricsInt());
                                             this.messageText = replaceAnimatedEmoji;
@@ -3504,7 +3502,7 @@ public class MessageObject {
             textPaint = Theme.chat_msgTextPaint;
         }
         int[] iArr = allowsBigEmoji() ? new int[1] : null;
-        CharSequence replaceEmoji = Emoji.replaceEmoji(this.messageText, textPaint.getFontMetricsInt(), AndroidUtilities.dp(20.0f), false, iArr);
+        CharSequence replaceEmoji = Emoji.replaceEmoji(this.messageText, textPaint.getFontMetricsInt(), false, iArr);
         this.messageText = replaceEmoji;
         Spannable replaceAnimatedEmoji = replaceAnimatedEmoji(replaceEmoji, arrayList, textPaint.getFontMetricsInt());
         this.messageText = replaceAnimatedEmoji;
@@ -4181,7 +4179,7 @@ public class MessageObject {
                     if (str == null) {
                         str = "";
                     }
-                    replaceEmoji = Emoji.replaceEmoji(str, Theme.chat_msgBotButtonPaint.getFontMetricsInt(), AndroidUtilities.dp(15.0f), false);
+                    replaceEmoji = Emoji.replaceEmoji((CharSequence) str, Theme.chat_msgBotButtonPaint.getFontMetricsInt(), AndroidUtilities.dp(15.0f), false);
                 }
                 StaticLayout staticLayout = new StaticLayout(replaceEmoji, Theme.chat_msgBotButtonPaint, AndroidUtilities.dp(2000.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
                 if (staticLayout.getLineCount() > 0) {
@@ -5269,15 +5267,25 @@ public class MessageObject {
         return tLRPC$MessageMedia != null && (tLRPC$MessageMedia.extended_media instanceof TLRPC$TL_messageExtendedMediaPreview);
     }
 
+    private boolean hasNonEmojiEntities() {
+        TLRPC$Message tLRPC$Message = this.messageOwner;
+        if (tLRPC$Message != null && tLRPC$Message.entities != null) {
+            for (int i = 0; i < this.messageOwner.entities.size(); i++) {
+                if (!(this.messageOwner.entities.get(i) instanceof TLRPC$TL_messageEntityCustomEmoji)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public void setType() {
-        TLRPC$Message tLRPC$Message;
-        ArrayList<TLRPC$MessageEntity> arrayList;
         int i;
         int i2 = this.type;
         this.type = 1000;
         this.isRoundVideoCached = 0;
-        TLRPC$Message tLRPC$Message2 = this.messageOwner;
-        if ((tLRPC$Message2 instanceof TLRPC$TL_message) || (tLRPC$Message2 instanceof TLRPC$TL_messageForwarded_old2)) {
+        TLRPC$Message tLRPC$Message = this.messageOwner;
+        if ((tLRPC$Message instanceof TLRPC$TL_message) || (tLRPC$Message instanceof TLRPC$TL_messageForwarded_old2)) {
             if (this.isRestrictedMessage) {
                 this.type = 0;
             } else if (this.emojiAnimatedSticker != null || this.emojiAnimatedStickerId != null) {
@@ -5286,7 +5294,7 @@ public class MessageObject {
                 } else {
                     this.type = 15;
                 }
-            } else if (isMediaEmpty(false) && !isDice() && this.emojiOnlyCount >= 1 && !this.hasUnwrappedEmoji && (tLRPC$Message = this.messageOwner) != null && ((arrayList = tLRPC$Message.entities) == null || arrayList.size() == 0)) {
+            } else if (isMediaEmpty(false) && !isDice() && this.emojiOnlyCount >= 1 && !this.hasUnwrappedEmoji && this.messageOwner != null && !hasNonEmojiEntities()) {
                 this.type = 19;
             } else if (isMediaEmpty()) {
                 this.type = 0;
@@ -5358,8 +5366,8 @@ public class MessageObject {
                     this.contentType = 1;
                 }
             }
-        } else if (tLRPC$Message2 instanceof TLRPC$TL_messageService) {
-            TLRPC$MessageAction tLRPC$MessageAction = tLRPC$Message2.action;
+        } else if (tLRPC$Message instanceof TLRPC$TL_messageService) {
+            TLRPC$MessageAction tLRPC$MessageAction = tLRPC$Message.action;
             if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionSetSameChatWallPaper) {
                 this.contentType = 1;
                 this.type = 0;
@@ -5367,19 +5375,19 @@ public class MessageObject {
                 this.contentType = 1;
                 this.type = 22;
                 TLRPC$TL_messageActionSetChatWallPaper tLRPC$TL_messageActionSetChatWallPaper = (TLRPC$TL_messageActionSetChatWallPaper) tLRPC$MessageAction;
-                ArrayList<TLRPC$PhotoSize> arrayList2 = new ArrayList<>();
-                this.photoThumbs = arrayList2;
+                ArrayList<TLRPC$PhotoSize> arrayList = new ArrayList<>();
+                this.photoThumbs = arrayList;
                 TLRPC$Document tLRPC$Document = tLRPC$TL_messageActionSetChatWallPaper.wallpaper.document;
                 if (tLRPC$Document != null) {
-                    arrayList2.addAll(tLRPC$Document.thumbs);
+                    arrayList.addAll(tLRPC$Document.thumbs);
                     this.photoThumbsObject = tLRPC$TL_messageActionSetChatWallPaper.wallpaper.document;
                 }
             } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionSuggestProfilePhoto) {
                 this.contentType = 1;
                 this.type = 21;
-                ArrayList<TLRPC$PhotoSize> arrayList3 = new ArrayList<>();
-                this.photoThumbs = arrayList3;
-                arrayList3.addAll(this.messageOwner.action.photo.sizes);
+                ArrayList<TLRPC$PhotoSize> arrayList2 = new ArrayList<>();
+                this.photoThumbs = arrayList2;
+                arrayList2.addAll(this.messageOwner.action.photo.sizes);
                 this.photoThumbsObject = this.messageOwner.action.photo;
             } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionLoginUnknownLocation) {
                 this.type = 0;
@@ -5439,7 +5447,7 @@ public class MessageObject {
                     textPaint = Theme.chat_msgTextPaint;
                 }
                 int[] iArr = allowsBigEmoji() ? new int[1] : null;
-                CharSequence replaceEmoji = Emoji.replaceEmoji(this.messageText, textPaint.getFontMetricsInt(), AndroidUtilities.dp(20.0f), false, iArr);
+                CharSequence replaceEmoji = Emoji.replaceEmoji(this.messageText, textPaint.getFontMetricsInt(), false, iArr);
                 this.messageText = replaceEmoji;
                 Spannable replaceAnimatedEmoji = replaceAnimatedEmoji(replaceEmoji, textPaint.getFontMetricsInt());
                 this.messageText = replaceAnimatedEmoji;
@@ -6065,7 +6073,7 @@ public class MessageObject {
             return spannableString;
         }
         String str2 = this.messageOwner.voiceTranscription;
-        return !TextUtils.isEmpty(str2) ? Emoji.replaceEmoji(str2, Theme.chat_msgTextPaint.getFontMetricsInt(), AndroidUtilities.dp(20.0f), false) : str2;
+        return !TextUtils.isEmpty(str2) ? Emoji.replaceEmoji((CharSequence) str2, Theme.chat_msgTextPaint.getFontMetricsInt(), AndroidUtilities.dp(20.0f), false) : str2;
     }
 
     public float measureVoiceTranscriptionHeight() {
@@ -6123,7 +6131,7 @@ public class MessageObject {
                     if (!isMediaEmpty() || (getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaGame) || TextUtils.isEmpty(str)) {
                         return;
                     }
-                    CharSequence replaceEmoji = Emoji.replaceEmoji(str, Theme.chat_msgTextPaint.getFontMetricsInt(), AndroidUtilities.dp(20.0f), false);
+                    CharSequence replaceEmoji = Emoji.replaceEmoji((CharSequence) str, Theme.chat_msgTextPaint.getFontMetricsInt(), AndroidUtilities.dp(20.0f), false);
                     this.caption = replaceEmoji;
                     this.caption = replaceAnimatedEmoji(replaceEmoji, arrayList, Theme.chat_msgTextPaint.getFontMetricsInt(), false);
                     boolean z4 = this.messageOwner.send_state != 0 ? false : !arrayList.isEmpty();
@@ -6811,7 +6819,7 @@ public class MessageObject {
 
     public boolean needDrawShareButton() {
         int i;
-        if (this.hasCode || this.preview || this.scheduled || this.eventId != 0) {
+        if (isSponsored() || this.hasCode || this.preview || this.scheduled || this.eventId != 0) {
             return false;
         }
         TLRPC$Message tLRPC$Message = this.messageOwner;
@@ -6971,27 +6979,30 @@ public class MessageObject {
         return addEntitiesToText(this.messageText, z);
     }
 
-    /* JADX WARN: Can't wrap try/catch for region: R(37:78|(1:80)(1:325)|81|(1:83)(1:324)|84|(1:86)|(1:88)|(1:323)(1:93)|94|(2:96|(2:(1:310)|311)(1:99))(2:312|(5:314|(1:316)(1:322)|317|(1:319)(1:321)|320))|100|(2:102|(1:104)(1:307))(1:308)|105|(5:(1:262)(2:112|(3:257|(1:259)(1:261)|260)(5:116|(1:118)(1:256)|119|(2:121|(1:123))(1:255)|124))|125|126|(2:128|(2:130|(2:132|(1:134))(1:135))(1:136))|137)(3:263|(2:265|266)(6:267|(2:302|303)(1:269)|(3:297|(1:299)(1:301)|300)(8:273|(1:275)(1:296)|276|277|278|279|(2:281|(1:283))(1:291)|284)|285|(1:289)|290)|230)|138|139|140|(1:144)|145|146|147|148|(1:150)|151|(1:153)|154|(1:156)|157|(3:159|(8:161|162|163|164|165|166|168|169)|175)|176|(6:178|(14:180|181|182|183|184|(1:186)(1:214)|187|188|189|(1:191)(1:211)|192|(1:194)(1:210)|(6:198|199|200|(1:205)|202|203)|204)|217|218|(1:(1:221))(2:(1:232)|233)|222)(3:234|(5:236|(1:238)(1:245)|239|(1:241)(1:244)|242)(1:246)|243)|223|(1:227)|228|229|230|76) */
-    /* JADX WARN: Code restructure failed: missing block: B:229:0x048d, code lost:
-        r0 = move-exception;
+    /* JADX WARN: Can't wrap try/catch for region: R(38:78|(1:80)(1:344)|81|(1:83)(1:343)|84|(1:86)|(1:88)|(1:342)(1:93)|94|(2:96|(2:(1:329)|330)(1:99))(2:331|(5:333|(1:335)(1:341)|336|(1:338)(1:340)|339))|100|(2:102|(1:104)(1:326))(1:327)|105|(5:107|(1:270)(2:115|(3:265|(1:267)(1:269)|268)(5:119|(1:121)(1:264)|122|(2:124|(1:126))(1:263)|127))|128|(2:130|(2:132|(2:134|(1:136))(1:137))(1:138))|139)(3:271|(2:273|274)(8:275|276|277|(1:322)(1:281)|(3:317|(1:319)(1:321)|320)(11:285|(1:287)(1:316)|288|289|290|291|292|293|294|(2:296|(1:298))(1:306)|299)|300|(1:304)|305)|239)|140|141|142|143|(2:147|148)|259|154|155|156|(1:158)|159|(1:161)|162|(1:164)|165|(3:167|(8:169|170|171|172|173|174|176|177)|183)|184|(6:186|(15:188|189|190|191|192|(1:194)|195|196|197|(1:199)(1:221)|200|(2:202|(3:204|(5:208|209|(1:214)|211|212)|213))(1:220)|219|(1:218)(6:206|208|209|(0)|211|212)|213)|226|227|(1:(1:230))(2:(1:241)|242)|231)(3:243|(5:245|(1:247)(1:254)|248|(1:250)(1:253)|251)(1:255)|252)|232|(1:236)|237|238|239|76) */
+    /* JADX WARN: Code restructure failed: missing block: B:242:0x048a, code lost:
+        r0 = e;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:230:0x048e, code lost:
-        if (r7 == 0) goto L253;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:231:0x0490, code lost:
-        r36.textXOffset = 0.0f;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:232:0x0493, code lost:
-        org.telegram.messenger.FileLog.e(r0);
+    /* JADX WARN: Code restructure failed: missing block: B:243:0x048b, code lost:
         r4 = 0.0f;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:235:0x04a0, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:249:0x049d, code lost:
         r0 = move-exception;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:236:0x04a1, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:250:0x049e, code lost:
         org.telegram.messenger.FileLog.e(r0);
         r0 = 0.0f;
      */
+    /* JADX WARN: Code restructure failed: missing block: B:350:0x068c, code lost:
+        if (r37.textWidth > (r37.generatedWithMinSize - org.telegram.messenger.AndroidUtilities.dp(80 + ((!needDrawAvatarInternal() || isOutOwner() || r37.messageOwner.isThreadMessage) ? 0 : 52)))) goto L357;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:253:0x04a6  */
+    /* JADX WARN: Removed duplicated region for block: B:256:0x04bb  */
+    /* JADX WARN: Removed duplicated region for block: B:259:0x04c0  */
+    /* JADX WARN: Removed duplicated region for block: B:262:0x04d6  */
+    /* JADX WARN: Removed duplicated region for block: B:274:0x0504  */
+    /* JADX WARN: Removed duplicated region for block: B:313:0x05d5  */
+    /* JADX WARN: Removed duplicated region for block: B:395:0x0581 A[SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -7001,32 +7012,34 @@ public class MessageObject {
         Layout.Alignment alignment;
         float f;
         StaticLayout staticLayout;
-        boolean z;
         TextPaint textPaint2;
-        TextPaint textPaint3;
-        Layout.Alignment alignment2;
         float f2;
-        StaticLayout staticLayout2;
-        boolean z2;
-        SpannableString highlighted;
-        int i2;
+        TextPaint textPaint3;
+        boolean z;
         ArrayList arrayList;
-        Layout.Alignment alignment3;
+        SpannableString valueOf;
+        Layout.Alignment alignment2;
+        int i2;
         float f3;
+        int ceil;
         int i3;
         float f4;
+        StaticLayout staticLayout2;
+        float f5;
         int i4;
         int i5;
-        float f5;
+        StaticLayout staticLayout3;
         float f6;
         float f7;
         float f8;
         int i6;
         float f9;
-        Layout.Alignment alignment4;
         int i7;
-        int i8 = this.type;
-        if ((i8 != 0 && i8 != 19 && i8 != 24) || this.messageOwner.peer_id == null || TextUtils.isEmpty(this.messageText)) {
+        ArrayList arrayList2;
+        Layout.Alignment alignment3;
+        int i8;
+        int i9 = this.type;
+        if ((i9 != 0 && i9 != 19 && i9 != 24) || this.messageOwner.peer_id == null || TextUtils.isEmpty(this.messageText)) {
             return;
         }
         boolean applyEntities = applyEntities();
@@ -7056,125 +7069,125 @@ public class MessageObject {
             textPaint = Theme.chat_msgTextPaint;
         }
         float f10 = this.totalAnimatedEmojiCount >= 4 ? -1.0f : 0.0f;
-        Layout.Alignment alignment5 = Layout.Alignment.ALIGN_NORMAL;
+        Layout.Alignment alignment4 = Layout.Alignment.ALIGN_NORMAL;
         try {
-            int i9 = Build.VERSION.SDK_INT;
-            if (i9 >= 24) {
+            int i10 = Build.VERSION.SDK_INT;
+            if (i10 >= 24) {
                 CharSequence charSequence4 = this.messageText;
-                StaticLayout.Builder alignment6 = StaticLayout.Builder.obtain(charSequence4, 0, charSequence4.length(), textPaint, maxMessageTextWidth).setLineSpacing(f10, 1.0f).setBreakStrategy(1).setHyphenationFrequency(0).setAlignment(alignment5);
+                StaticLayout.Builder alignment5 = StaticLayout.Builder.obtain(charSequence4, 0, charSequence4.length(), textPaint, maxMessageTextWidth).setLineSpacing(f10, 1.0f).setBreakStrategy(1).setHyphenationFrequency(0).setAlignment(alignment4);
                 if (this.emojiOnlyCount > 0) {
-                    alignment6.setIncludePad(false);
-                    if (i9 >= 28) {
-                        alignment6.setUseLineSpacingFromFallbacks(false);
+                    alignment5.setIncludePad(false);
+                    if (i10 >= 28) {
+                        alignment5.setUseLineSpacingFromFallbacks(false);
                     }
                 }
-                staticLayout = alignment6.build();
-                i = i9;
-                alignment = alignment5;
+                staticLayout = alignment5.build();
+                i = i10;
+                alignment = alignment4;
                 f = f10;
             } else {
-                i = i9;
-                alignment = alignment5;
+                i = i10;
+                alignment = alignment4;
                 f = f10;
-                staticLayout = new StaticLayout(this.messageText, textPaint, maxMessageTextWidth, alignment5, 1.0f, f10, false);
+                staticLayout = new StaticLayout(this.messageText, textPaint, maxMessageTextWidth, alignment4, 1.0f, f10, false);
             }
             if (this.hasSingleQuote) {
                 maxMessageTextWidth += AndroidUtilities.dp(32.0f);
             }
-            int i10 = maxMessageTextWidth;
+            int i11 = maxMessageTextWidth;
             this.textHeight = 0;
             int lineCount = staticLayout.getLineCount();
-            int i11 = this.totalAnimatedEmojiCount;
-            int i12 = i11 >= 50 ? 5 : 10;
-            boolean z3 = i >= 24 && i11 < 50;
-            int ceil = z3 ? 1 : (int) Math.ceil(lineCount / i12);
-            ArrayList arrayList2 = new ArrayList();
+            int i12 = this.totalAnimatedEmojiCount;
+            int i13 = i12 >= 50 ? 5 : 10;
+            boolean z2 = i >= 24 && i12 < 50;
+            int ceil2 = z2 ? 1 : (int) Math.ceil(lineCount / i13);
+            ArrayList arrayList3 = new ArrayList();
             CharSequence charSequence5 = this.messageText;
             if ((charSequence5 instanceof Spanned) && (this.hasQuote || this.hasCode)) {
-                cutIntoRanges(charSequence5, arrayList2);
-            } else if (z3 || ceil == 1) {
-                arrayList2.add(new TextRange(0, staticLayout.getText().length()));
+                cutIntoRanges(charSequence5, arrayList3);
+            } else if (z2 || ceil2 == 1) {
+                arrayList3.add(new TextRange(0, staticLayout.getText().length()));
             } else {
-                int i13 = 0;
-                for (int i14 = 0; i14 < ceil; i14++) {
-                    int min = z3 ? lineCount : Math.min(i12, lineCount - i13);
-                    int lineStart = staticLayout.getLineStart(i13);
-                    int i15 = min + i13;
-                    int lineEnd = staticLayout.getLineEnd(i15 - 1);
+                int i14 = 0;
+                for (int i15 = 0; i15 < ceil2; i15++) {
+                    int min = z2 ? lineCount : Math.min(i13, lineCount - i14);
+                    int lineStart = staticLayout.getLineStart(i14);
+                    int i16 = min + i14;
+                    int lineEnd = staticLayout.getLineEnd(i16 - 1);
                     if (lineEnd >= lineStart) {
-                        arrayList2.add(new TextRange(lineStart, lineEnd));
-                        i13 = i15;
+                        arrayList3.add(new TextRange(lineStart, lineEnd));
+                        i14 = i16;
                     }
                 }
             }
-            int size = arrayList2.size();
+            int size = arrayList3.size();
             this.hasCodeAtTop = false;
             this.hasCodeAtBottom = false;
             this.hasQuoteAtBottom = false;
             this.hasSingleQuote = false;
             float f11 = 0.0f;
-            int i16 = 0;
+            int i17 = 0;
             float f12 = 0.0f;
-            while (i16 < arrayList2.size()) {
+            while (i17 < arrayList3.size()) {
                 TextLayoutBlock textLayoutBlock = new TextLayoutBlock();
-                TextRange textRange = (TextRange) arrayList2.get(i16);
+                TextRange textRange = (TextRange) arrayList3.get(i17);
                 textLayoutBlock.code = textRange.code;
                 textLayoutBlock.quote = textRange.quote;
-                textLayoutBlock.first = i16 == 0;
-                boolean z4 = i16 == arrayList2.size() - 1;
-                textLayoutBlock.last = z4;
-                boolean z5 = textLayoutBlock.first;
-                if (z5) {
+                textLayoutBlock.first = i17 == 0;
+                boolean z3 = i17 == arrayList3.size() - 1;
+                textLayoutBlock.last = z3;
+                boolean z4 = textLayoutBlock.first;
+                if (z4) {
                     this.hasCodeAtTop = textLayoutBlock.code;
                 }
-                if (z4) {
+                if (z3) {
                     this.hasQuoteAtBottom = textLayoutBlock.quote;
                     this.hasCodeAtBottom = textLayoutBlock.code;
                 }
-                this.hasSingleQuote = z5 && z4 && textLayoutBlock.quote;
+                this.hasSingleQuote = z4 && z3 && textLayoutBlock.quote;
                 if (textLayoutBlock.quote) {
-                    if (z5 && z4) {
+                    if (z4 && z3) {
                         int dp = AndroidUtilities.dp(6.0f);
                         textLayoutBlock.padBottom = dp;
                         textLayoutBlock.padTop = dp;
                     } else {
-                        textLayoutBlock.padTop = AndroidUtilities.dp(z5 ? 8.0f : 6.0f);
+                        textLayoutBlock.padTop = AndroidUtilities.dp(z4 ? 8.0f : 6.0f);
                         textLayoutBlock.padBottom = AndroidUtilities.dp(7.0f);
                     }
                 } else if (textLayoutBlock.code) {
-                    textLayoutBlock.padTop = z5 ? 0 : AndroidUtilities.dp(5.0f);
+                    textLayoutBlock.padTop = z4 ? 0 : AndroidUtilities.dp(5.0f);
                     textLayoutBlock.padBottom = textLayoutBlock.last ? 0 : AndroidUtilities.dp(5.0f);
                 }
-                boolean z6 = textLayoutBlock.code;
-                if (z6) {
+                if (textLayoutBlock.code) {
                     textPaint2 = textRange.end - textRange.start <= 80 ? Theme.chat_msgTextCodePaint : Theme.chat_msgTextCode2Paint;
                 } else {
                     textPaint2 = textPaint;
                 }
+                CharSequence subSequence = this.messageText.subSequence(textRange.start, textRange.end);
                 if (size == 1) {
-                    if (z6 && (staticLayout.getText() instanceof Spannable) && !TextUtils.isEmpty(textRange.language)) {
-                        SpannableString highlighted2 = CodeHighlighting.getHighlighted(this.messageText.subSequence(textRange.start, textRange.end).toString(), textRange.language);
-                        if (applyEntities && (i7 = Build.VERSION.SDK_INT) >= 24) {
-                            StaticLayout.Builder obtain = StaticLayout.Builder.obtain(highlighted2, 0, highlighted2.length(), textPaint2, (i10 - (textLayoutBlock.quote ? AndroidUtilities.dp(24.0f) : 0)) + AndroidUtilities.dp(2.0f));
+                    if (!textLayoutBlock.code || textLayoutBlock.quote || !(staticLayout.getText() instanceof Spannable) || TextUtils.isEmpty(textRange.language)) {
+                        alignment3 = alignment;
+                        f2 = f;
+                    } else {
+                        SpannableString highlighted = CodeHighlighting.getHighlighted(subSequence.toString(), textRange.language);
+                        if (applyEntities && (i8 = Build.VERSION.SDK_INT) >= 24) {
+                            StaticLayout.Builder obtain = StaticLayout.Builder.obtain(highlighted, 0, highlighted.length(), textPaint2, (i11 - (textLayoutBlock.quote ? AndroidUtilities.dp(24.0f) : 0)) + AndroidUtilities.dp(2.0f));
                             f2 = f;
-                            Layout.Alignment alignment7 = alignment;
-                            StaticLayout.Builder alignment8 = obtain.setLineSpacing(f2, 1.0f).setBreakStrategy(1).setHyphenationFrequency(0).setAlignment(alignment7);
+                            Layout.Alignment alignment6 = alignment;
+                            StaticLayout.Builder alignment7 = obtain.setLineSpacing(f2, 1.0f).setBreakStrategy(1).setHyphenationFrequency(0).setAlignment(alignment6);
                             if (this.emojiOnlyCount > 0) {
-                                alignment8.setIncludePad(false);
-                                if (i7 >= 28) {
-                                    alignment8.setUseLineSpacingFromFallbacks(false);
+                                alignment7.setIncludePad(false);
+                                if (i8 >= 28) {
+                                    alignment7.setUseLineSpacingFromFallbacks(false);
                                 }
                             }
-                            staticLayout = alignment8.build();
-                            alignment4 = alignment7;
+                            staticLayout = alignment7.build();
+                            alignment3 = alignment6;
                         } else {
-                            alignment4 = alignment;
+                            alignment3 = alignment;
                             f2 = f;
-                            staticLayout = new StaticLayout(highlighted2, 0, highlighted2.length(), textPaint2, i10 - (textLayoutBlock.quote ? AndroidUtilities.dp(24.0f) : 0), alignment4, 1.0f, f2, false);
+                            staticLayout = new StaticLayout(highlighted, 0, highlighted.length(), textPaint2, i11 - (textLayoutBlock.quote ? AndroidUtilities.dp(24.0f) : 0), alignment3, 1.0f, f2, false);
                         }
-                    } else {
-                        alignment4 = alignment;
-                        f2 = f;
                     }
                     textLayoutBlock.textLayout = staticLayout;
                     textLayoutBlock.textYOffset = 0.0f;
@@ -7182,180 +7195,210 @@ public class MessageObject {
                     textLayoutBlock.charactersEnd = staticLayout.getText().length();
                     int height = staticLayout.getHeight();
                     textLayoutBlock.height = height;
-                    int i17 = textLayoutBlock.padTop + height + textLayoutBlock.padBottom;
-                    this.textHeight = i17;
-                    int i18 = this.emojiOnlyCount;
-                    if (i18 != 0) {
-                        if (i18 == 1) {
-                            this.textHeight = i17 - AndroidUtilities.dp(5.3f);
+                    int i18 = textLayoutBlock.padTop + height + textLayoutBlock.padBottom;
+                    this.textHeight = i18;
+                    int i19 = this.emojiOnlyCount;
+                    if (i19 != 0) {
+                        if (i19 == 1) {
+                            this.textHeight = i18 - AndroidUtilities.dp(5.3f);
                             textLayoutBlock.textYOffset -= AndroidUtilities.dp(5.3f);
-                        } else if (i18 == 2) {
-                            this.textHeight = i17 - AndroidUtilities.dp(4.5f);
+                        } else if (i19 == 2) {
+                            this.textHeight = i18 - AndroidUtilities.dp(4.5f);
                             textLayoutBlock.textYOffset -= AndroidUtilities.dp(4.5f);
-                        } else if (i18 == 3) {
-                            this.textHeight = i17 - AndroidUtilities.dp(4.2f);
+                        } else if (i19 == 3) {
+                            this.textHeight = i18 - AndroidUtilities.dp(4.2f);
                             textLayoutBlock.textYOffset -= AndroidUtilities.dp(4.2f);
                         }
                     }
-                    z2 = applyEntities;
-                    alignment2 = alignment4;
+                    z = applyEntities;
                     textPaint3 = textPaint;
-                    staticLayout2 = staticLayout;
+                    alignment2 = alignment3;
                 } else {
-                    textPaint3 = textPaint;
-                    alignment2 = alignment;
+                    Layout.Alignment alignment8 = alignment;
                     f2 = f;
-                    int i19 = textRange.start;
-                    staticLayout2 = staticLayout;
-                    int i20 = textRange.end;
-                    if (i20 < i19) {
-                        z2 = applyEntities;
-                        i2 = i10;
-                        arrayList = arrayList2;
-                        alignment3 = alignment2;
-                        f3 = f2;
+                    int i20 = textRange.start;
+                    textPaint3 = textPaint;
+                    int i21 = textRange.end;
+                    if (i21 < i20) {
+                        z = applyEntities;
+                        arrayList = arrayList3;
+                        f = f2;
+                        alignment = alignment8;
                     } else {
-                        textLayoutBlock.charactersOffset = i19;
-                        textLayoutBlock.charactersEnd = i20;
-                        if (z6) {
-                            try {
-                                highlighted = CodeHighlighting.getHighlighted(this.messageText.subSequence(i19, i20).toString(), textRange.language);
-                            } catch (Exception e) {
-                                e = e;
-                                z2 = applyEntities;
-                                i2 = i10;
-                                arrayList = arrayList2;
-                                alignment3 = alignment2;
-                                f3 = f2;
-                                FileLog.e(e);
-                                staticLayout = staticLayout2;
-                                i16++;
-                                i10 = i2;
-                                arrayList2 = arrayList;
-                                alignment = alignment3;
-                                f = f3;
-                                textPaint = textPaint3;
-                                applyEntities = z2;
+                        textLayoutBlock.charactersOffset = i20;
+                        textLayoutBlock.charactersEnd = i21;
+                        try {
+                            if (textLayoutBlock.code && !textLayoutBlock.quote) {
+                                valueOf = CodeHighlighting.getHighlighted(subSequence.toString(), textRange.language);
+                            } else {
+                                valueOf = SpannableString.valueOf(subSequence);
                             }
-                        } else {
-                            highlighted = SpannableString.valueOf(this.messageText.subSequence(i19, i20));
-                        }
-                        if (applyEntities && (i3 = Build.VERSION.SDK_INT) >= 24) {
-                            z2 = applyEntities;
-                            try {
-                                StaticLayout.Builder alignment9 = StaticLayout.Builder.obtain(highlighted, 0, highlighted.length(), textPaint2, (i10 - (textLayoutBlock.quote ? AndroidUtilities.dp(24.0f) : 0)) + AndroidUtilities.dp(2.0f)).setLineSpacing(f2, 1.0f).setBreakStrategy(1).setHyphenationFrequency(0).setAlignment(alignment2);
-                                if (this.emojiOnlyCount > 0) {
-                                    alignment9.setIncludePad(false);
-                                    if (i3 >= 28) {
-                                        alignment9.setUseLineSpacingFromFallbacks(false);
-                                    }
+                            if (!applyEntities || (i2 = Build.VERSION.SDK_INT) < 24) {
+                                z = applyEntities;
+                                alignment2 = alignment8;
+                                textLayoutBlock.textLayout = new StaticLayout(valueOf, 0, valueOf.length(), textPaint2, i11 - (textLayoutBlock.quote ? AndroidUtilities.dp(24.0f) : 0), alignment2, 1.0f, f2, false);
+                            } else {
+                                z = applyEntities;
+                                try {
+                                    alignment2 = alignment8;
+                                } catch (Exception e) {
+                                    e = e;
+                                    arrayList = arrayList3;
+                                    f = f2;
+                                    alignment = alignment8;
+                                    FileLog.e(e);
+                                    i17++;
+                                    arrayList3 = arrayList;
+                                    textPaint = textPaint3;
+                                    applyEntities = z;
                                 }
-                                textLayoutBlock.textLayout = alignment9.build();
-                            } catch (Exception e2) {
-                                e = e2;
-                                i2 = i10;
-                                arrayList = arrayList2;
-                                alignment3 = alignment2;
-                                f3 = f2;
-                                FileLog.e(e);
-                                staticLayout = staticLayout2;
-                                i16++;
-                                i10 = i2;
-                                arrayList2 = arrayList;
-                                alignment = alignment3;
-                                f = f3;
-                                textPaint = textPaint3;
-                                applyEntities = z2;
+                                try {
+                                    StaticLayout.Builder alignment9 = StaticLayout.Builder.obtain(valueOf, 0, valueOf.length(), textPaint2, (i11 - (textLayoutBlock.quote ? AndroidUtilities.dp(24.0f) : 0)) + AndroidUtilities.dp(2.0f)).setLineSpacing(f2, 1.0f).setBreakStrategy(1).setHyphenationFrequency(0).setAlignment(alignment2);
+                                    if (this.emojiOnlyCount > 0) {
+                                        alignment9.setIncludePad(false);
+                                        if (i2 >= 28) {
+                                            alignment9.setUseLineSpacingFromFallbacks(false);
+                                        }
+                                    }
+                                    textLayoutBlock.textLayout = alignment9.build();
+                                } catch (Exception e2) {
+                                    e = e2;
+                                    alignment = alignment2;
+                                    arrayList = arrayList3;
+                                    f = f2;
+                                    FileLog.e(e);
+                                    i17++;
+                                    arrayList3 = arrayList;
+                                    textPaint = textPaint3;
+                                    applyEntities = z;
+                                }
                             }
-                        } else {
-                            z2 = applyEntities;
-                            textLayoutBlock.textLayout = new StaticLayout(highlighted, 0, highlighted.length(), textPaint2, i10 - (textLayoutBlock.quote ? AndroidUtilities.dp(24.0f) : 0), alignment2, 1.0f, f2, false);
+                            textLayoutBlock.textYOffset = f12;
+                            if (i17 != 0 && this.emojiOnlyCount <= 0) {
+                                textLayoutBlock.height = (int) (f12 - f11);
+                            }
+                            int height2 = textLayoutBlock.textLayout.getHeight();
+                            textLayoutBlock.height = height2;
+                            this.textHeight += textLayoutBlock.padTop + height2 + textLayoutBlock.padBottom;
+                            f11 = textLayoutBlock.textYOffset;
+                        } catch (Exception e3) {
+                            e = e3;
+                            z = applyEntities;
                         }
-                        textLayoutBlock.textYOffset = f12;
-                        if (i16 != 0 && this.emojiOnlyCount <= 0) {
-                            textLayoutBlock.height = (int) (f12 - f11);
-                        }
-                        int height2 = textLayoutBlock.textLayout.getHeight();
-                        textLayoutBlock.height = height2;
-                        this.textHeight += textLayoutBlock.padTop + height2 + textLayoutBlock.padBottom;
-                        f11 = textLayoutBlock.textYOffset;
                     }
-                    staticLayout = staticLayout2;
-                    i16++;
-                    i10 = i2;
-                    arrayList2 = arrayList;
-                    alignment = alignment3;
-                    f = f3;
+                    i17++;
+                    arrayList3 = arrayList;
                     textPaint = textPaint3;
-                    applyEntities = z2;
+                    applyEntities = z;
                 }
                 float f13 = f12 + textLayoutBlock.padTop + textLayoutBlock.height + textLayoutBlock.padBottom;
                 this.textLayoutBlocks.add(textLayoutBlock);
                 int lineCount2 = textLayoutBlock.textLayout.getLineCount();
                 float lineLeft = textLayoutBlock.textLayout.getLineLeft(lineCount2 - 1);
-                if (i16 == 0 && lineLeft >= 0.0f) {
-                    this.textXOffset = lineLeft;
+                float f14 = 0.0f;
+                if (i17 == 0 && lineLeft >= 0.0f) {
+                    try {
+                        this.textXOffset = lineLeft;
+                    } catch (Exception e4) {
+                        e = e4;
+                        if (i17 == 0) {
+                            this.textXOffset = f14;
+                        }
+                        FileLog.e(e);
+                        f3 = 0.0f;
+                        float f15 = textLayoutBlock.textLayout.getLineWidth(lineCount2 - 1);
+                        if (textLayoutBlock.quote) {
+                        }
+                        alignment = alignment2;
+                        ArrayList arrayList4 = arrayList3;
+                        ceil = (int) Math.ceil(f15);
+                        if (ceil > i11 + 80) {
+                        }
+                        i3 = size - 1;
+                        if (i17 == i3) {
+                        }
+                        float f16 = ceil;
+                        f = f2;
+                        int ceil3 = (int) Math.ceil(f16 + Math.max(0.0f, f3));
+                        if (textLayoutBlock.quote) {
+                        }
+                        int i22 = ceil;
+                        arrayList = arrayList4;
+                        if (lineCount2 <= 1) {
+                        }
+                        textLayoutBlock.spoilers.clear();
+                        if (!this.isSpoilersRevealed) {
+                            SpoilerEffect.addSpoilers(null, textLayoutBlock.textLayout, -1, i5, null, textLayoutBlock.spoilers);
+                        }
+                        f11 = f4;
+                        staticLayout = staticLayout2;
+                        f12 = f5;
+                        i17++;
+                        arrayList3 = arrayList;
+                        textPaint = textPaint3;
+                        applyEntities = z;
+                    }
                 }
-                float f14 = lineLeft;
-                float f15 = textLayoutBlock.textLayout.getLineWidth(lineCount2 - 1);
+                f3 = lineLeft;
+                float f152 = textLayoutBlock.textLayout.getLineWidth(lineCount2 - 1);
                 if (textLayoutBlock.quote) {
-                    f15 += AndroidUtilities.dp(32.0f);
+                    f152 += AndroidUtilities.dp(32.0f);
                 }
-                int i21 = i10;
-                int ceil2 = (int) Math.ceil(f15);
-                if (ceil2 > i21 + 80) {
-                    ceil2 = i21;
+                alignment = alignment2;
+                ArrayList arrayList42 = arrayList3;
+                ceil = (int) Math.ceil(f152);
+                if (ceil > i11 + 80) {
+                    ceil = i11;
                 }
-                int i22 = size - 1;
-                if (i16 == i22) {
-                    this.lastLineWidth = ceil2;
+                i3 = size - 1;
+                if (i17 == i3) {
+                    this.lastLineWidth = ceil;
                 }
-                float f16 = ceil2;
-                arrayList = arrayList2;
-                int ceil3 = (int) Math.ceil(f16 + Math.max(0.0f, f14));
+                float f162 = ceil;
+                f = f2;
+                int ceil32 = (int) Math.ceil(f162 + Math.max(0.0f, f3));
                 if (textLayoutBlock.quote) {
                     textLayoutBlock.maxRight = 0.0f;
                     int i23 = 0;
                     while (i23 < lineCount2) {
-                        int i24 = ceil2;
+                        int i24 = ceil;
                         try {
-                            f9 = f11;
+                            arrayList2 = arrayList42;
                         } catch (Exception unused) {
-                            f9 = f11;
+                            arrayList2 = arrayList42;
                         }
                         try {
                             textLayoutBlock.maxRight = Math.max(textLayoutBlock.maxRight, textLayoutBlock.textLayout.getLineRight(i23));
                         } catch (Exception unused2) {
                             textLayoutBlock.maxRight = this.textWidth;
                             i23++;
-                            ceil2 = i24;
-                            f11 = f9;
+                            ceil = i24;
+                            arrayList42 = arrayList2;
                         }
                         i23++;
-                        ceil2 = i24;
-                        f11 = f9;
+                        ceil = i24;
+                        arrayList42 = arrayList2;
                     }
                 }
-                int i25 = ceil2;
-                float f17 = f11;
-                if (lineCount2 > 1) {
-                    alignment3 = alignment2;
-                    int i26 = i25;
+                int i222 = ceil;
+                arrayList = arrayList42;
+                if (lineCount2 <= 1) {
+                    f4 = f11;
+                    int i25 = ceil32;
+                    int i26 = i222;
                     int i27 = 0;
-                    boolean z7 = false;
+                    boolean z5 = false;
+                    float f17 = 0.0f;
                     float f18 = 0.0f;
-                    float f19 = 0.0f;
-                    int i28 = ceil3;
                     while (i27 < lineCount2) {
-                        int i29 = lineCount2;
+                        int i28 = lineCount2;
                         try {
                             f6 = textLayoutBlock.textLayout.getLineWidth(i27);
-                            f5 = f2;
+                            staticLayout3 = staticLayout;
                         } catch (Exception unused3) {
-                            f5 = f2;
+                            staticLayout3 = staticLayout;
                             f6 = 0.0f;
                         }
-                        float f20 = f13;
                         if (textLayoutBlock.quote) {
                             f6 += AndroidUtilities.dp(32.0f);
                         }
@@ -7364,99 +7407,116 @@ public class MessageObject {
                         } catch (Exception unused4) {
                             f7 = 0.0f;
                         }
-                        if (f6 > i21 + 20) {
-                            f6 = i21;
+                        float f19 = f7;
+                        if (f6 > i11 + 20) {
+                            f6 = i11;
                             f8 = 0.0f;
-                            f7 = 0.0f;
                         } else {
-                            f8 = 0.0f;
+                            f8 = f19;
                         }
-                        if (f7 > f8) {
-                            this.textXOffset = Math.min(this.textXOffset, f7);
-                            i6 = i21;
-                            textLayoutBlock.directionFlags = (byte) (textLayoutBlock.directionFlags | 1);
-                            this.hasRtl = true;
-                        } else {
-                            i6 = i21;
-                            textLayoutBlock.directionFlags = (byte) (textLayoutBlock.directionFlags | 2);
-                        }
-                        if (!z7 && f7 == 0.0f) {
-                            try {
-                                if (textLayoutBlock.textLayout.getParagraphDirection(i27) != 1) {
+                        if (f8 <= 0.0f) {
+                            f9 = f13;
+                            i6 = i11;
+                            if (textLayoutBlock.textLayout.getParagraphDirection(i27) != -1) {
+                                textLayoutBlock.directionFlags = (byte) (textLayoutBlock.directionFlags | 2);
+                                i7 = 1;
+                                if (!z5 && f8 == 0.0f) {
+                                    try {
+                                        if (textLayoutBlock.textLayout.getParagraphDirection(i27) != i7) {
+                                        }
+                                    } catch (Exception unused5) {
+                                    }
+                                    z5 = true;
                                 }
-                            } catch (Exception unused5) {
+                                float max = Math.max(f18, f6);
+                                float f20 = f8 + f6;
+                                f17 = Math.max(f17, f20);
+                                i26 = Math.max(i26, (int) Math.ceil(f6));
+                                i25 = Math.max(i25, (int) Math.ceil(f20));
+                                i27++;
+                                f18 = max;
+                                lineCount2 = i28;
+                                staticLayout = staticLayout3;
+                                f13 = f9;
+                                i11 = i6;
                             }
-                            z7 = true;
+                        } else {
+                            i6 = i11;
+                            f9 = f13;
                         }
-                        f19 = Math.max(f19, f6);
-                        float f21 = f7 + f6;
-                        f18 = Math.max(f18, f21);
+                        this.textXOffset = Math.min(this.textXOffset, f8);
+                        i7 = 1;
+                        textLayoutBlock.directionFlags = (byte) (textLayoutBlock.directionFlags | 1);
+                        this.hasRtl = true;
+                        if (!z5) {
+                            if (textLayoutBlock.textLayout.getParagraphDirection(i27) != i7) {
+                            }
+                            z5 = true;
+                        }
+                        float max2 = Math.max(f18, f6);
+                        float f202 = f8 + f6;
+                        f17 = Math.max(f17, f202);
                         i26 = Math.max(i26, (int) Math.ceil(f6));
-                        i28 = Math.max(i28, (int) Math.ceil(f21));
+                        i25 = Math.max(i25, (int) Math.ceil(f202));
                         i27++;
-                        z7 = z7;
-                        lineCount2 = i29;
-                        f2 = f5;
-                        f13 = f20;
-                        i21 = i6;
+                        f18 = max2;
+                        lineCount2 = i28;
+                        staticLayout = staticLayout3;
+                        f13 = f9;
+                        i11 = i6;
                     }
-                    int i30 = i21;
-                    f3 = f2;
-                    f4 = f13;
-                    if (!z7) {
-                        if (i16 == i22) {
+                    staticLayout2 = staticLayout;
+                    int i29 = i11;
+                    f5 = f13;
+                    if (!z5) {
+                        if (i17 == i3) {
                             this.lastLineWidth = i26;
                         }
-                        f18 = f19;
-                    } else if (i16 == i22) {
-                        this.lastLineWidth = ceil3;
+                        f17 = f18;
+                    } else if (i17 == i3) {
+                        this.lastLineWidth = ceil32;
                     }
-                    this.textWidth = Math.max(this.textWidth, (int) Math.ceil(f18));
-                    i5 = i28;
-                    i2 = i30;
+                    this.textWidth = Math.max(this.textWidth, (int) Math.ceil(f17));
+                    i5 = i25;
+                    i11 = i29;
                 } else {
-                    alignment3 = alignment2;
-                    f3 = f2;
-                    f4 = f13;
-                    if (f14 > 0.0f) {
-                        float min2 = Math.min(this.textXOffset, f14);
+                    f4 = f11;
+                    staticLayout2 = staticLayout;
+                    int i30 = i11;
+                    f5 = f13;
+                    if (f3 > 0.0f) {
+                        float min2 = Math.min(this.textXOffset, f3);
                         this.textXOffset = min2;
-                        i4 = min2 == 0.0f ? (int) (f16 + f14) : i25;
+                        i4 = min2 == 0.0f ? (int) (f162 + f3) : i222;
                         this.hasRtl = size != 1;
                         textLayoutBlock.directionFlags = (byte) (textLayoutBlock.directionFlags | 1);
                     } else {
                         textLayoutBlock.directionFlags = (byte) (textLayoutBlock.directionFlags | 2);
-                        i4 = i25;
+                        i4 = i222;
                     }
-                    i2 = i21;
-                    this.textWidth = Math.max(this.textWidth, Math.min(i2, i4));
-                    i5 = ceil3;
+                    i11 = i30;
+                    this.textWidth = Math.max(this.textWidth, Math.min(i11, i4));
+                    i5 = ceil32;
                 }
                 textLayoutBlock.spoilers.clear();
                 if (!this.isSpoilersRevealed && !this.spoiledLoginCode) {
                     SpoilerEffect.addSpoilers(null, textLayoutBlock.textLayout, -1, i5, null, textLayoutBlock.spoilers);
                 }
-                f11 = f17;
-                f12 = f4;
+                f11 = f4;
                 staticLayout = staticLayout2;
-                i16++;
-                i10 = i2;
-                arrayList2 = arrayList;
-                alignment = alignment3;
-                f = f3;
+                f12 = f5;
+                i17++;
+                arrayList3 = arrayList;
                 textPaint = textPaint3;
-                applyEntities = z2;
+                applyEntities = z;
             }
+            boolean z6 = true;
             if (this.hasCode) {
-                if (this.textWidth > this.generatedWithMinSize - AndroidUtilities.dp(80 + ((!needDrawAvatarInternal() || isOutOwner() || this.messageOwner.isThreadMessage) ? 0 : 52))) {
-                    z = true;
-                    this.hasWideCode = z;
-                }
             }
-            z = false;
-            this.hasWideCode = z;
-        } catch (Exception e3) {
-            FileLog.e(e3);
+            z6 = false;
+            this.hasWideCode = z6;
+        } catch (Exception e5) {
+            FileLog.e(e5);
         }
     }
 
@@ -7476,27 +7536,32 @@ public class MessageObject {
         public int textWidth;
         public float textXOffset;
 
-        /* JADX WARN: Can't wrap try/catch for region: R(34:53|(1:55)(1:232)|56|(1:58)(1:231)|59|(1:61)|(1:63)|(1:230)(1:68)|69|(2:71|(2:(1:217)|218)(1:74))(2:219|(5:221|(1:223)(1:229)|224|(1:226)(1:228)|227))|75|(1:77)(3:198|(2:200|201)(7:202|203|204|(1:206)(1:211)|207|(1:209)|210)|173)|78|(1:84)|85|86|87|(1:91)|92|93|94|95|(1:97)|98|(1:100)|101|(3:103|(7:105|106|107|108|109|111|112)|118)|119|(6:121|(14:123|124|125|126|127|(1:129)(1:156)|130|131|132|(1:134)|135|(1:137)(1:153)|(6:141|142|143|(1:148)|145|146)|147)|159|160|(1:(1:163))(2:(1:175)|176)|164)(3:177|(5:179|(1:181)(1:188)|182|(1:184)(1:187)|185)(1:189)|186)|(1:170)|171|172|173|51) */
-        /* JADX WARN: Code restructure failed: missing block: B:139:0x02d4, code lost:
+        /* JADX WARN: Can't wrap try/catch for region: R(37:53|(1:55)(1:274)|56|(1:58)(1:273)|59|(1:61)|(1:63)|(1:272)(1:68)|69|(2:71|(2:(1:259)|260)(1:74))(2:261|(5:263|(1:265)(1:271)|266|(1:268)(1:270)|269))|75|(2:77|(1:79)(1:256))(1:257)|80|(3:(1:218)(2:89|(1:91)(2:217|93))|92|93)(5:219|(1:221)(13:224|(3:249|250|(11:252|227|(1:229)(1:248)|230|231|232|233|234|(3:236|237|238)|242|243))|226|227|(0)(0)|230|231|232|233|234|(0)|242|243)|222|223|192)|94|(1:100)|101|102|103|(1:107)|108|109|110|111|112|(1:114)|115|(1:117)|118|(3:120|(8:122|123|124|125|126|127|129|130)|136)|137|(6:139|(14:141|142|143|144|(1:146)(1:175)|147|148|149|(1:151)|152|(2:154|(3:156|(5:160|161|(1:166)|163|164)|165))(1:172)|171|(1:170)(6:158|160|161|(0)|163|164)|165)|178|179|(1:(1:182))(2:(1:194)|195)|183)(3:196|(5:198|(1:200)(1:207)|201|(1:203)(1:206)|204)(1:208)|205)|(1:189)|190|191|192|51) */
+        /* JADX WARN: Code restructure failed: missing block: B:169:0x03ae, code lost:
             r0 = move-exception;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:140:0x02d5, code lost:
-            if (r6 == 0) goto L196;
+        /* JADX WARN: Code restructure failed: missing block: B:170:0x03af, code lost:
+            if (r7 == 0) goto L215;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:141:0x02d7, code lost:
-            r28.textXOffset = r10;
+        /* JADX WARN: Code restructure failed: missing block: B:171:0x03b1, code lost:
+            r34.textXOffset = r14;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:142:0x02d9, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:172:0x03b3, code lost:
             org.telegram.messenger.FileLog.e(r0);
-            r13 = 0.0f;
+            r5 = 0.0f;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:145:0x02e6, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:175:0x03c2, code lost:
             r0 = move-exception;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:146:0x02e7, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:176:0x03c3, code lost:
             org.telegram.messenger.FileLog.e(r0);
+            r31 = r7;
             r0 = 0.0f;
          */
+        /* JADX WARN: Removed duplicated region for block: B:144:0x0310 A[Catch: Exception -> 0x0554, TryCatch #8 {Exception -> 0x0554, blocks: (B:138:0x02e7, B:140:0x02eb, B:142:0x0302, B:144:0x0310, B:146:0x0318, B:141:0x02fa), top: B:286:0x02e7 }] */
+        /* JADX WARN: Removed duplicated region for block: B:145:0x0317  */
+        /* JADX WARN: Removed duplicated region for block: B:151:0x0333  */
+        /* JADX WARN: Removed duplicated region for block: B:303:0x0491 A[SYNTHETIC] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -7504,22 +7569,31 @@ public class MessageObject {
             int i2;
             Layout.Alignment alignment;
             StaticLayout staticLayout;
-            float f;
-            StaticLayout staticLayout2;
-            ArrayList arrayList;
-            MessageObject messageObject2;
-            float f2;
+            TextPaint textPaint2;
+            TextLayoutBlock textLayoutBlock;
             int i3;
+            Layout.Alignment alignment2;
+            float f;
+            MessageObject messageObject2;
+            ArrayList arrayList;
             int i4;
+            float f2;
+            SpannableString highlighted;
             int i5;
             float f3;
-            float f4;
             int i6;
             int i7;
+            float f4;
+            float f5;
+            int i8;
+            int i9;
+            StaticLayout staticLayout2;
+            int i10;
+            float f6;
             MessageObject messageObject3 = messageObject;
             CharSequence charSequence2 = charSequence;
             this.text = charSequence2;
-            int i8 = 0;
+            int i11 = 0;
             this.textWidth = 0;
             boolean z = charSequence2 instanceof Spanned;
             this.hasCode = z && ((CodeHighlighting.Span[]) ((Spanned) charSequence2).getSpans(0, charSequence.length(), CodeHighlighting.Span.class)).length > 0;
@@ -7534,17 +7608,17 @@ public class MessageObject {
                 this.hasSingleQuote = quoteSpanArr.length == 1 && spanned.getSpanStart(quoteSpanArr[0]) == 0 && spanned.getSpanEnd(quoteSpanArr[0]) == spanned.length();
             }
             int dp = this.hasSingleQuote ? i - AndroidUtilities.dp(32.0f) : i;
-            Layout.Alignment alignment2 = Layout.Alignment.ALIGN_NORMAL;
+            Layout.Alignment alignment3 = Layout.Alignment.ALIGN_NORMAL;
             try {
-                int i9 = Build.VERSION.SDK_INT;
-                if (i9 >= 24) {
-                    staticLayout = StaticLayout.Builder.obtain(charSequence2, 0, charSequence.length(), textPaint, dp).setLineSpacing(0.0f, 1.0f).setBreakStrategy(1).setHyphenationFrequency(0).setAlignment(alignment2).build();
-                    i2 = i9;
-                    alignment = alignment2;
+                int i12 = Build.VERSION.SDK_INT;
+                if (i12 >= 24) {
+                    staticLayout = StaticLayout.Builder.obtain(charSequence2, 0, charSequence.length(), textPaint, dp).setLineSpacing(0.0f, 1.0f).setBreakStrategy(1).setHyphenationFrequency(0).setAlignment(alignment3).build();
+                    i2 = i12;
+                    alignment = alignment3;
                 } else {
-                    i2 = i9;
-                    alignment = alignment2;
-                    staticLayout = new StaticLayout(charSequence, textPaint, dp, alignment2, 1.0f, 0.0f, false);
+                    i2 = i12;
+                    alignment = alignment3;
+                    staticLayout = new StaticLayout(charSequence, textPaint, dp, alignment3, 1.0f, 0.0f, false);
                 }
                 dp = this.hasSingleQuote ? dp + AndroidUtilities.dp(32.0f) : dp;
                 this.textHeight = 0;
@@ -7557,15 +7631,15 @@ public class MessageObject {
                 } else if (z2 || ceil == 1) {
                     arrayList2.add(new TextRange(0, staticLayout.getText().length()));
                 } else {
-                    int i10 = 0;
-                    for (int i11 = 0; i11 < ceil; i11++) {
-                        int min = Math.min(10, lineCount - i10);
-                        int lineStart = staticLayout.getLineStart(i10);
-                        int i12 = min + i10;
-                        int lineEnd = staticLayout.getLineEnd(i12 - 1);
+                    int i13 = 0;
+                    for (int i14 = 0; i14 < ceil; i14++) {
+                        int min = Math.min(10, lineCount - i13);
+                        int lineStart = staticLayout.getLineStart(i13);
+                        int i15 = min + i13;
+                        int lineEnd = staticLayout.getLineEnd(i15 - 1);
                         if (lineEnd >= lineStart) {
                             arrayList2.add(new TextRange(lineStart, lineEnd));
-                            i10 = i12;
+                            i13 = i15;
                         }
                     }
                 }
@@ -7574,231 +7648,358 @@ public class MessageObject {
                 this.hasCodeAtBottom = false;
                 this.hasQuoteAtBottom = false;
                 this.hasSingleQuote = false;
-                float f5 = 0.0f;
-                int i13 = 0;
-                float f6 = 0.0f;
-                while (i13 < arrayList2.size()) {
-                    TextLayoutBlock textLayoutBlock = new TextLayoutBlock();
-                    TextRange textRange = (TextRange) arrayList2.get(i13);
-                    textLayoutBlock.code = textRange.code;
-                    textLayoutBlock.quote = textRange.quote;
-                    textLayoutBlock.first = i13 == 0;
-                    boolean z3 = i13 == arrayList2.size() - 1;
-                    textLayoutBlock.last = z3;
-                    boolean z4 = textLayoutBlock.first;
+                int i16 = 0;
+                float f7 = 0.0f;
+                float f8 = 0.0f;
+                while (i16 < arrayList2.size()) {
+                    TextLayoutBlock textLayoutBlock2 = new TextLayoutBlock();
+                    TextRange textRange = (TextRange) arrayList2.get(i16);
+                    textLayoutBlock2.code = textRange.code;
+                    textLayoutBlock2.quote = textRange.quote;
+                    textLayoutBlock2.first = i16 == 0;
+                    boolean z3 = i16 == arrayList2.size() - 1;
+                    textLayoutBlock2.last = z3;
+                    boolean z4 = textLayoutBlock2.first;
                     if (z4) {
-                        this.hasCodeAtTop = textLayoutBlock.code;
+                        this.hasCodeAtTop = textLayoutBlock2.code;
                     }
                     if (z3) {
-                        this.hasQuoteAtBottom = textLayoutBlock.quote;
-                        this.hasCodeAtBottom = textLayoutBlock.code;
+                        this.hasQuoteAtBottom = textLayoutBlock2.quote;
+                        this.hasCodeAtBottom = textLayoutBlock2.code;
                     }
-                    this.hasSingleQuote = z4 && z3 && textLayoutBlock.quote;
-                    if (textLayoutBlock.quote) {
+                    this.hasSingleQuote = z4 && z3 && textLayoutBlock2.quote;
+                    if (textLayoutBlock2.quote) {
                         if (z4 && z3) {
                             int dp2 = AndroidUtilities.dp(6.0f);
-                            textLayoutBlock.padBottom = dp2;
-                            textLayoutBlock.padTop = dp2;
+                            textLayoutBlock2.padBottom = dp2;
+                            textLayoutBlock2.padTop = dp2;
                         } else {
-                            textLayoutBlock.padTop = AndroidUtilities.dp(z4 ? 8.0f : 6.0f);
-                            textLayoutBlock.padBottom = AndroidUtilities.dp(7.0f);
+                            textLayoutBlock2.padTop = AndroidUtilities.dp(z4 ? 8.0f : 6.0f);
+                            textLayoutBlock2.padBottom = AndroidUtilities.dp(7.0f);
                         }
-                    } else if (textLayoutBlock.code) {
-                        textLayoutBlock.padTop = z4 ? 0 : AndroidUtilities.dp(5.0f);
-                        textLayoutBlock.padBottom = textLayoutBlock.last ? 0 : AndroidUtilities.dp(5.0f);
+                    } else if (textLayoutBlock2.code) {
+                        textLayoutBlock2.padTop = z4 ? 0 : AndroidUtilities.dp(5.0f);
+                        textLayoutBlock2.padBottom = textLayoutBlock2.last ? 0 : AndroidUtilities.dp(5.0f);
+                    }
+                    boolean z5 = textLayoutBlock2.code;
+                    if (z5) {
+                        textPaint2 = textRange.end - textRange.start <= 80 ? Theme.chat_msgTextCodePaint : Theme.chat_msgTextCode2Paint;
+                    } else {
+                        textPaint2 = textPaint;
                     }
                     if (size == 1) {
-                        textLayoutBlock.textLayout = staticLayout;
-                        f = 0.0f;
-                        textLayoutBlock.textYOffset = 0.0f;
-                        textLayoutBlock.charactersOffset = i8;
-                        textLayoutBlock.charactersEnd = staticLayout.getText().length();
-                        int height = staticLayout.getHeight();
-                        textLayoutBlock.height = height;
-                        this.textHeight = textLayoutBlock.padTop + height + textLayoutBlock.padBottom;
-                    } else {
-                        f = 0.0f;
-                        int i14 = textRange.start;
-                        int i15 = textRange.end;
-                        if (i15 < i14) {
-                            staticLayout2 = staticLayout;
-                            arrayList = arrayList2;
-                            messageObject2 = messageObject3;
+                        if (!z5 || textLayoutBlock2.quote || !(staticLayout.getText() instanceof Spannable) || TextUtils.isEmpty(textRange.language)) {
+                            textLayoutBlock = textLayoutBlock2;
+                            i10 = i16;
+                            f6 = f7;
+                            i3 = size;
+                            alignment2 = alignment;
                         } else {
-                            textLayoutBlock.charactersOffset = i14;
-                            textLayoutBlock.charactersEnd = i15;
-                            try {
-                                SpannableStringBuilder valueOf = SpannableStringBuilder.valueOf(charSequence2.subSequence(i14, i15));
-                                StaticLayout staticLayout3 = new StaticLayout(valueOf, 0, valueOf.length(), textPaint, dp - (textLayoutBlock.quote ? AndroidUtilities.dp(24.0f) : 0), alignment, 1.0f, 0.0f, false);
-                                textLayoutBlock.textLayout = staticLayout3;
-                                textLayoutBlock.textYOffset = f6;
-                                if (i13 != 0) {
-                                    textLayoutBlock.height = (int) (f6 - f5);
-                                }
-                                int height2 = staticLayout3.getHeight();
-                                textLayoutBlock.height = height2;
-                                this.textHeight += textLayoutBlock.padTop + height2 + textLayoutBlock.padBottom;
-                                f5 = textLayoutBlock.textYOffset;
-                            } catch (Exception e) {
-                                staticLayout2 = staticLayout;
-                                arrayList = arrayList2;
-                                messageObject2 = messageObject3;
-                                FileLog.e(e);
+                            SpannableString highlighted2 = CodeHighlighting.getHighlighted(charSequence2.subSequence(textRange.start, textRange.end).toString(), textRange.language);
+                            if (Build.VERSION.SDK_INT >= 24) {
+                                Layout.Alignment alignment4 = alignment;
+                                staticLayout = StaticLayout.Builder.obtain(highlighted2, i11, charSequence.length(), textPaint2, dp).setLineSpacing(0.0f, 1.0f).setBreakStrategy(1).setHyphenationFrequency(i11).setAlignment(alignment4).build();
+                                alignment2 = alignment4;
+                                textLayoutBlock = textLayoutBlock2;
+                                i10 = i16;
+                                f6 = f7;
+                                i3 = size;
+                            } else {
+                                alignment2 = alignment;
+                                f = 0.0f;
+                                textLayoutBlock = textLayoutBlock2;
+                                i10 = i16;
+                                f6 = f7;
+                                i3 = size;
+                                staticLayout = new StaticLayout(highlighted2, textPaint2, dp, alignment2, 1.0f, 0.0f, false);
+                                textLayoutBlock.textLayout = staticLayout;
+                                textLayoutBlock.textYOffset = f;
+                                textLayoutBlock.charactersOffset = 0;
+                                textLayoutBlock.charactersEnd = staticLayout.getText().length();
+                                int height = staticLayout.getHeight();
+                                textLayoutBlock.height = height;
+                                this.textHeight = textLayoutBlock.padTop + height + textLayoutBlock.padBottom;
+                                i4 = i10;
+                                f2 = f6;
                             }
                         }
-                        i13++;
+                        f = 0.0f;
+                        textLayoutBlock.textLayout = staticLayout;
+                        textLayoutBlock.textYOffset = f;
+                        textLayoutBlock.charactersOffset = 0;
+                        textLayoutBlock.charactersEnd = staticLayout.getText().length();
+                        int height2 = staticLayout.getHeight();
+                        textLayoutBlock.height = height2;
+                        this.textHeight = textLayoutBlock.padTop + height2 + textLayoutBlock.padBottom;
+                        i4 = i10;
+                        f2 = f6;
+                    } else {
+                        textLayoutBlock = textLayoutBlock2;
+                        int i17 = i16;
+                        float f9 = f7;
+                        i3 = size;
+                        alignment2 = alignment;
+                        f = 0.0f;
+                        int i18 = textRange.start;
+                        int i19 = textRange.end;
+                        if (i19 < i18) {
+                            messageObject2 = messageObject3;
+                            arrayList = arrayList2;
+                            i4 = i17;
+                            f2 = f9;
+                            i5 = i3;
+                        } else {
+                            textLayoutBlock.charactersOffset = i18;
+                            textLayoutBlock.charactersEnd = i19;
+                            try {
+                                if (z5) {
+                                    try {
+                                        if (!textLayoutBlock.quote) {
+                                            highlighted = CodeHighlighting.getHighlighted(charSequence2.subSequence(i18, i19).toString(), textRange.language);
+                                            SpannableString spannableString = highlighted;
+                                            StaticLayout staticLayout3 = new StaticLayout(spannableString, 0, spannableString.length(), textPaint2, dp - (!textLayoutBlock.quote ? AndroidUtilities.dp(24.0f) : 0), alignment2, 1.0f, 0.0f, false);
+                                            textLayoutBlock.textLayout = staticLayout3;
+                                            f2 = f9;
+                                            textLayoutBlock.textYOffset = f2;
+                                            i4 = i17;
+                                            if (i4 != 0) {
+                                                try {
+                                                    textLayoutBlock.height = (int) (f2 - f8);
+                                                } catch (Exception e) {
+                                                    e = e;
+                                                    messageObject2 = messageObject3;
+                                                    arrayList = arrayList2;
+                                                    i5 = i3;
+                                                    FileLog.e(e);
+                                                    f7 = f2;
+                                                    charSequence2 = charSequence;
+                                                    arrayList2 = arrayList;
+                                                    size = i5;
+                                                    messageObject3 = messageObject2;
+                                                    alignment = alignment2;
+                                                    i11 = 0;
+                                                    i16 = i4 + 1;
+                                                }
+                                            }
+                                            int height3 = staticLayout3.getHeight();
+                                            textLayoutBlock.height = height3;
+                                            this.textHeight += textLayoutBlock.padTop + height3 + textLayoutBlock.padBottom;
+                                            f8 = textLayoutBlock.textYOffset;
+                                        }
+                                    } catch (Exception e2) {
+                                        e = e2;
+                                        messageObject2 = messageObject3;
+                                        arrayList = arrayList2;
+                                        i4 = i17;
+                                        f2 = f9;
+                                        i5 = i3;
+                                        FileLog.e(e);
+                                        f7 = f2;
+                                        charSequence2 = charSequence;
+                                        arrayList2 = arrayList;
+                                        size = i5;
+                                        messageObject3 = messageObject2;
+                                        alignment = alignment2;
+                                        i11 = 0;
+                                        i16 = i4 + 1;
+                                    }
+                                }
+                                textLayoutBlock.textYOffset = f2;
+                                i4 = i17;
+                                if (i4 != 0) {
+                                }
+                                int height32 = staticLayout3.getHeight();
+                                textLayoutBlock.height = height32;
+                                this.textHeight += textLayoutBlock.padTop + height32 + textLayoutBlock.padBottom;
+                                f8 = textLayoutBlock.textYOffset;
+                            } catch (Exception e3) {
+                                e = e3;
+                                messageObject2 = messageObject3;
+                                arrayList = arrayList2;
+                                i4 = i17;
+                            }
+                            highlighted = SpannableString.valueOf(charSequence2.subSequence(i18, i19));
+                            SpannableString spannableString2 = highlighted;
+                            StaticLayout staticLayout32 = new StaticLayout(spannableString2, 0, spannableString2.length(), textPaint2, dp - (!textLayoutBlock.quote ? AndroidUtilities.dp(24.0f) : 0), alignment2, 1.0f, 0.0f, false);
+                            textLayoutBlock.textLayout = staticLayout32;
+                            f2 = f9;
+                        }
+                        f7 = f2;
                         charSequence2 = charSequence;
-                        messageObject3 = messageObject2;
-                        staticLayout = staticLayout2;
-                        i8 = 0;
                         arrayList2 = arrayList;
+                        size = i5;
+                        messageObject3 = messageObject2;
+                        alignment = alignment2;
+                        i11 = 0;
+                        i16 = i4 + 1;
                     }
                     if (textLayoutBlock.code && (textLayoutBlock.textLayout.getText() instanceof Spannable) && TextUtils.isEmpty(textRange.language)) {
                         CodeHighlighting.highlight((Spannable) textLayoutBlock.textLayout.getText(), 0, textLayoutBlock.textLayout.getText().length(), textRange.language, 0, null, true);
                     }
-                    float f7 = f6 + textLayoutBlock.padTop + textLayoutBlock.height + textLayoutBlock.padBottom;
+                    float f10 = f2 + textLayoutBlock.padTop + textLayoutBlock.height + textLayoutBlock.padBottom;
                     this.textLayoutBlocks.add(textLayoutBlock);
                     int lineCount2 = textLayoutBlock.textLayout.getLineCount();
                     float lineLeft = textLayoutBlock.textLayout.getLineLeft(lineCount2 - 1);
-                    if (i13 == 0 && lineLeft >= f) {
+                    if (i4 == 0 && lineLeft >= f) {
                         this.textXOffset = lineLeft;
                     }
-                    float f8 = lineLeft;
-                    float f9 = textLayoutBlock.textLayout.getLineWidth(lineCount2 - 1);
-                    int ceil2 = (int) Math.ceil(f9);
+                    float f11 = lineLeft;
+                    float f12 = textLayoutBlock.textLayout.getLineWidth(lineCount2 - 1);
+                    int i20 = i4;
+                    int ceil2 = (int) Math.ceil(f12);
                     ceil2 = ceil2 > dp + 80 ? dp : ceil2;
-                    int i16 = size - 1;
-                    if (i13 == i16) {
+                    i5 = i3;
+                    int i21 = i5 - 1;
+                    i4 = i20;
+                    if (i4 == i21) {
                         this.lastLineWidth = ceil2;
                     }
-                    float f10 = ceil2;
+                    float f13 = ceil2;
                     arrayList = arrayList2;
-                    int ceil3 = (int) Math.ceil(f10 + Math.max(0.0f, f8));
+                    int ceil3 = (int) Math.ceil(f13 + Math.max(f, f11));
                     if (textLayoutBlock.quote) {
                         textLayoutBlock.maxRight = 0.0f;
-                        int i17 = 0;
-                        while (i17 < lineCount2) {
+                        int i22 = 0;
+                        while (i22 < lineCount2) {
+                            int i23 = ceil2;
                             try {
-                                i7 = ceil2;
+                                staticLayout2 = staticLayout;
                                 try {
-                                    textLayoutBlock.maxRight = Math.max(textLayoutBlock.maxRight, textLayoutBlock.textLayout.getLineRight(i17));
+                                    textLayoutBlock.maxRight = Math.max(textLayoutBlock.maxRight, textLayoutBlock.textLayout.getLineRight(i22));
                                 } catch (Exception unused) {
                                     textLayoutBlock.maxRight = this.textWidth;
-                                    i17++;
-                                    ceil2 = i7;
+                                    i22++;
+                                    ceil2 = i23;
+                                    staticLayout = staticLayout2;
                                 }
                             } catch (Exception unused2) {
-                                i7 = ceil2;
+                                staticLayout2 = staticLayout;
                             }
-                            i17++;
-                            ceil2 = i7;
+                            i22++;
+                            ceil2 = i23;
+                            staticLayout = staticLayout2;
                         }
                     }
-                    int i18 = ceil2;
+                    int i24 = ceil2;
+                    StaticLayout staticLayout4 = staticLayout;
                     if (lineCount2 > 1) {
-                        staticLayout2 = staticLayout;
-                        int i19 = ceil3;
-                        int i20 = i18;
-                        float f11 = 0.0f;
-                        float f12 = 0.0f;
-                        int i21 = 0;
-                        boolean z5 = false;
-                        while (i21 < lineCount2) {
-                            float f13 = f5;
+                        f3 = f10;
+                        int i25 = ceil3;
+                        int i26 = i24;
+                        float f14 = 0.0f;
+                        float f15 = 0.0f;
+                        int i27 = 0;
+                        boolean z6 = false;
+                        while (i27 < lineCount2) {
+                            int i28 = lineCount2;
                             try {
-                                f3 = textLayoutBlock.textLayout.getLineWidth(i21);
-                                i5 = lineCount2;
+                                f4 = textLayoutBlock.textLayout.getLineWidth(i27);
                             } catch (Exception unused3) {
-                                i5 = lineCount2;
-                                f3 = 0.0f;
+                                f4 = 0.0f;
                             }
                             if (textLayoutBlock.quote) {
-                                f3 += AndroidUtilities.dp(32.0f);
+                                f4 += AndroidUtilities.dp(32.0f);
                             }
                             try {
-                                f4 = textLayoutBlock.textLayout.getLineLeft(i21);
+                                f5 = textLayoutBlock.textLayout.getLineLeft(i27);
                             } catch (Exception unused4) {
-                                f4 = 0.0f;
+                                f5 = 0.0f;
                             }
-                            if (f3 > dp + 20) {
-                                f3 = dp;
-                                f4 = 0.0f;
+                            if (f4 > dp + 20) {
+                                f4 = dp;
+                                f5 = 0.0f;
                             }
-                            if (f4 > 0.0f) {
-                                this.textXOffset = Math.min(this.textXOffset, f4);
-                                i6 = dp;
-                                textLayoutBlock.directionFlags = (byte) (textLayoutBlock.directionFlags | 1);
-                                this.hasRtl = true;
-                            } else {
-                                i6 = dp;
-                                textLayoutBlock.directionFlags = (byte) (textLayoutBlock.directionFlags | 2);
-                            }
-                            if (!z5 && f4 == 0.0f) {
-                                try {
-                                    if (textLayoutBlock.textLayout.getParagraphDirection(i21) != 1) {
+                            if (f5 <= 0.0f) {
+                                i8 = dp;
+                                if (textLayoutBlock.textLayout.getParagraphDirection(i27) != -1) {
+                                    textLayoutBlock.directionFlags = (byte) (textLayoutBlock.directionFlags | 2);
+                                    i9 = 1;
+                                    if (!z6 && f5 == 0.0f) {
+                                        try {
+                                            if (textLayoutBlock.textLayout.getParagraphDirection(i27) != i9) {
+                                            }
+                                        } catch (Exception unused5) {
+                                        }
+                                        z6 = true;
                                     }
-                                } catch (Exception unused5) {
+                                    f15 = Math.max(f15, f4);
+                                    float f16 = f5 + f4;
+                                    float max = Math.max(f14, f16);
+                                    i26 = Math.max(i26, (int) Math.ceil(f4));
+                                    i25 = Math.max(i25, (int) Math.ceil(f16));
+                                    i27++;
+                                    f14 = max;
+                                    lineCount2 = i28;
+                                    dp = i8;
                                 }
-                                z5 = true;
+                            } else {
+                                i8 = dp;
                             }
-                            float max = Math.max(f12, f3);
-                            float f14 = f4 + f3;
-                            f11 = Math.max(f11, f14);
-                            i20 = Math.max(i20, (int) Math.ceil(f3));
-                            i19 = Math.max(i19, (int) Math.ceil(f14));
-                            i21++;
-                            f12 = max;
-                            f5 = f13;
-                            lineCount2 = i5;
-                            dp = i6;
+                            this.textXOffset = Math.min(this.textXOffset, f5);
+                            i9 = 1;
+                            textLayoutBlock.directionFlags = (byte) (textLayoutBlock.directionFlags | 1);
+                            this.hasRtl = true;
+                            if (!z6) {
+                                if (textLayoutBlock.textLayout.getParagraphDirection(i27) != i9) {
+                                }
+                                z6 = true;
+                            }
+                            f15 = Math.max(f15, f4);
+                            float f162 = f5 + f4;
+                            float max2 = Math.max(f14, f162);
+                            i26 = Math.max(i26, (int) Math.ceil(f4));
+                            i25 = Math.max(i25, (int) Math.ceil(f162));
+                            i27++;
+                            f14 = max2;
+                            lineCount2 = i28;
+                            dp = i8;
                         }
-                        f2 = f5;
-                        int i22 = dp;
-                        if (!z5) {
-                            if (i13 == i16) {
-                                this.lastLineWidth = i20;
+                        int i29 = dp;
+                        if (!z6) {
+                            if (i4 == i21) {
+                                this.lastLineWidth = i26;
                             }
-                            f11 = f12;
-                        } else if (i13 == i16) {
+                            f14 = f15;
+                        } else if (i4 == i21) {
                             this.lastLineWidth = ceil3;
                         }
-                        this.textWidth = Math.max(this.textWidth, (int) Math.ceil(f11));
+                        this.textWidth = Math.max(this.textWidth, (int) Math.ceil(f14));
                         messageObject2 = messageObject;
-                        i4 = i19;
-                        dp = i22;
+                        i7 = i25;
+                        dp = i29;
                     } else {
-                        staticLayout2 = staticLayout;
-                        f2 = f5;
-                        int i23 = dp;
-                        if (f8 > 0.0f) {
-                            float min2 = Math.min(this.textXOffset, f8);
+                        f3 = f10;
+                        int i30 = dp;
+                        if (f11 > 0.0f) {
+                            float min2 = Math.min(this.textXOffset, f11);
                             this.textXOffset = min2;
-                            i3 = min2 == 0.0f ? (int) (f10 + f8) : i18;
-                            this.hasRtl = size != 1;
+                            i6 = min2 == 0.0f ? (int) (f13 + f11) : i24;
+                            this.hasRtl = i5 != 1;
                             textLayoutBlock.directionFlags = (byte) (textLayoutBlock.directionFlags | 1);
                         } else {
                             textLayoutBlock.directionFlags = (byte) (textLayoutBlock.directionFlags | 2);
-                            i3 = i18;
+                            i6 = i24;
                         }
-                        dp = i23;
-                        this.textWidth = Math.max(this.textWidth, Math.min(dp, i3));
+                        dp = i30;
+                        this.textWidth = Math.max(this.textWidth, Math.min(dp, i6));
                         messageObject2 = messageObject;
-                        i4 = ceil3;
+                        i7 = ceil3;
                     }
                     if (messageObject2 != null && !messageObject2.isSpoilersRevealed && !messageObject.spoiledLoginCode) {
-                        SpoilerEffect.addSpoilers(null, textLayoutBlock.textLayout, -1, i4, null, textLayoutBlock.spoilers);
+                        SpoilerEffect.addSpoilers(null, textLayoutBlock.textLayout, -1, i7, null, textLayoutBlock.spoilers);
                     }
-                    f6 = f7;
-                    f5 = f2;
-                    i13++;
+                    staticLayout = staticLayout4;
+                    f7 = f3;
                     charSequence2 = charSequence;
-                    messageObject3 = messageObject2;
-                    staticLayout = staticLayout2;
-                    i8 = 0;
                     arrayList2 = arrayList;
+                    size = i5;
+                    messageObject3 = messageObject2;
+                    alignment = alignment2;
+                    i11 = 0;
+                    i16 = i4 + 1;
                 }
-            } catch (Exception e2) {
-                FileLog.e(e2);
+            } catch (Exception e4) {
+                FileLog.e(e4);
             }
         }
     }
@@ -10389,8 +10590,10 @@ public class MessageObject {
         MessageObject messageObject = this.replyMessageObject;
         if (messageObject != null) {
             if (DialogObject.isChatDialog(messageObject.getSenderId())) {
-                charSequence = peerNameWithIcon(this.currentAccount, this.replyMessageObject.getSenderId());
-            } else {
+                if (charSequence == null) {
+                    charSequence = peerNameWithIcon(this.currentAccount, this.replyMessageObject.getSenderId());
+                }
+            } else if (charSequence2 == null) {
                 charSequence2 = peerNameWithIcon(this.currentAccount, this.replyMessageObject.getSenderId());
             }
         }

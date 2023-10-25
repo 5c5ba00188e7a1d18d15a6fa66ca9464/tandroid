@@ -466,7 +466,7 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
                         this.progressToLock = this.currentFilter.locked ? 1.0f : 0.0f;
                     }
                     SimpleTextView simpleTextView = this.textView;
-                    simpleTextView.setText(Emoji.replaceEmoji(str, simpleTextView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(20.0f), false));
+                    simpleTextView.setText(Emoji.replaceEmoji((CharSequence) str, simpleTextView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(20.0f), false));
                     this.valueTextView.setText(sb);
                     this.needDivider = z;
                     if (!dialogFilter.isDefault()) {
@@ -491,7 +491,7 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
             if (!z2) {
             }
             SimpleTextView simpleTextView2 = this.textView;
-            simpleTextView2.setText(Emoji.replaceEmoji(str2, simpleTextView2.getPaint().getFontMetricsInt(), AndroidUtilities.dp(20.0f), false));
+            simpleTextView2.setText(Emoji.replaceEmoji((CharSequence) str2, simpleTextView2.getPaint().getFontMetricsInt(), AndroidUtilities.dp(20.0f), false));
             this.valueTextView.setText(sb);
             this.needDivider = z;
             if (!dialogFilter.isDefault()) {

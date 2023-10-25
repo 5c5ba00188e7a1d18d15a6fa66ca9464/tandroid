@@ -221,6 +221,7 @@ public abstract class GiftInfoAdapter extends RecyclerListView.SelectionAdapter 
             }
         });
         this.baseFragment.presentFragment(dialogsActivity);
+        dismiss();
     }
 
     /* JADX INFO: Access modifiers changed from: private */

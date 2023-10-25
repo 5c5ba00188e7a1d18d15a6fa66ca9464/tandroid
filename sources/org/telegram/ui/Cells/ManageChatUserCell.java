@@ -288,7 +288,7 @@ public class ManageChatUserCell extends FrameLayout {
                 }
                 this.lastName = str2;
                 SimpleTextView simpleTextView = this.nameTextView;
-                simpleTextView.setText(Emoji.replaceEmoji(str2, simpleTextView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(15.0f), false));
+                simpleTextView.setText(Emoji.replaceEmoji((CharSequence) str2, simpleTextView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(15.0f), false));
             }
             if (this.currrntStatus != null) {
                 this.statusTextView.setTextColor(this.statusColor);

@@ -133,6 +133,11 @@ public class GiftInfoBottomSheet extends BottomSheetWithRecyclerListView {
         ((ViewGroup) getWindow().getDecorView()).addView(this.undoView, LayoutHelper.createFrame(-1, -2.0f, 51, 10.0f, 42.0f, 10.0f, 8.0f));
     }
 
+    @Override // org.telegram.ui.ActionBar.BottomSheet
+    public void onDismissAnimationStart() {
+        this.undoView.animate().alpha(0.0f).setDuration(150L).start();
+    }
+
     @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView
     protected CharSequence getTitle() {
         return this.isUnused ? LocaleController.getString("BoostingGiftLink", R.string.BoostingGiftLink) : LocaleController.getString("BoostingUsedGiftLink", R.string.BoostingUsedGiftLink);

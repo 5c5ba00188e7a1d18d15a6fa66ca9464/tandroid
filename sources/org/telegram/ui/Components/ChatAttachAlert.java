@@ -3182,7 +3182,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                 for (ImageSpan imageSpan : (ImageSpan[]) editable.getSpans(0, editable.length(), ImageSpan.class)) {
                     editable.removeSpan(imageSpan);
                 }
-                Emoji.replaceEmoji(editable, ChatAttachAlert.this.commentTextView.getEditText().getPaint().getFontMetricsInt(), AndroidUtilities.dp(20.0f), false);
+                Emoji.replaceEmoji((CharSequence) editable, ChatAttachAlert.this.commentTextView.getEditText().getPaint().getFontMetricsInt(), AndroidUtilities.dp(20.0f), false);
                 this.processChange = false;
             }
             ChatAttachAlert.this.codepointCount = Character.codePointCount(editable, 0, editable.length());
@@ -5842,7 +5842,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(this.commentTextView.getText());
             spannableStringBuilder.replace(i, i2 + i, charSequence);
             if (z) {
-                Emoji.replaceEmoji(spannableStringBuilder, this.commentTextView.getEditText().getPaint().getFontMetricsInt(), AndroidUtilities.dp(20.0f), false);
+                Emoji.replaceEmoji((CharSequence) spannableStringBuilder, this.commentTextView.getEditText().getPaint().getFontMetricsInt(), AndroidUtilities.dp(20.0f), false);
             }
             this.commentTextView.setText(spannableStringBuilder);
             this.commentTextView.setSelection(i + charSequence.length());

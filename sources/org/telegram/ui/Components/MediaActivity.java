@@ -966,7 +966,7 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
                 builder.setPositiveButton(LocaleController.getString("Delete", R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.MediaActivity.1.1
                     @Override // android.content.DialogInterface.OnClickListener
                     public void onClick(DialogInterface dialogInterface, int i4) {
-                        MediaActivity.this.getMessagesController().getStoriesController().deleteStories(arrayList);
+                        MediaActivity.this.getMessagesController().getStoriesController().deleteStories(MediaActivity.this.dialogId, arrayList);
                         MediaActivity.this.sharedMediaLayout.closeActionMode(false);
                     }
                 });

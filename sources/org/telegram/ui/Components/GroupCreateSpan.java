@@ -273,7 +273,7 @@ public class GroupCreateSpan extends View {
                 android.graphics.Point point = AndroidUtilities.displaySize;
                 min = (Math.min(point.x, point.y) - AndroidUtilities.dp(((z ? 28 : 32) + 18) + 114)) / 2;
             }
-            staticLayout = new StaticLayout(TextUtils.ellipsize(Emoji.replaceEmoji(str.replace('\n', ' '), textPaint.getFontMetricsInt(), AndroidUtilities.dp(12.0f), false), textPaint, min, TextUtils.TruncateAt.END), textPaint, 1000, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+            staticLayout = new StaticLayout(TextUtils.ellipsize(Emoji.replaceEmoji((CharSequence) str.replace('\n', ' '), textPaint.getFontMetricsInt(), AndroidUtilities.dp(12.0f), false), textPaint, min, TextUtils.TruncateAt.END), textPaint, 1000, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
             this.nameLayout = staticLayout;
             if (staticLayout.getLineCount() > 0) {
                 this.textWidth = (int) Math.ceil(this.nameLayout.getLineWidth(0));
@@ -292,7 +292,7 @@ public class GroupCreateSpan extends View {
         this.imageReceiver.setImageCoords(!this.drawAvatarBackground ? 0.0f : AndroidUtilities.dp(4.0f), 0.0f, AndroidUtilities.dp(!z ? 28.0f : 32.0f), AndroidUtilities.dp(z ? 28.0f : 32.0f));
         if (!AndroidUtilities.isTablet()) {
         }
-        staticLayout = new StaticLayout(TextUtils.ellipsize(Emoji.replaceEmoji(str.replace('\n', ' '), textPaint.getFontMetricsInt(), AndroidUtilities.dp(12.0f), false), textPaint, min, TextUtils.TruncateAt.END), textPaint, 1000, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+        staticLayout = new StaticLayout(TextUtils.ellipsize(Emoji.replaceEmoji((CharSequence) str.replace('\n', ' '), textPaint.getFontMetricsInt(), AndroidUtilities.dp(12.0f), false), textPaint, min, TextUtils.TruncateAt.END), textPaint, 1000, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
         this.nameLayout = staticLayout;
         if (staticLayout.getLineCount() > 0) {
         }

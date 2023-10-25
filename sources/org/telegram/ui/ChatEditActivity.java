@@ -1353,7 +1353,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         sizeNotifierFrameLayout.addView(undoView, LayoutHelper.createFrame(-1, -2.0f, 83, 8.0f, 0.0f, 8.0f, 8.0f));
         EditTextEmoji editTextEmoji6 = this.nameTextView;
         TLRPC$User tLRPC$User = this.currentUser;
-        editTextEmoji6.setText(Emoji.replaceEmoji(tLRPC$User != null ? ContactsController.formatName(tLRPC$User) : this.currentChat.title, this.nameTextView.getEditText().getPaint().getFontMetricsInt(), AndroidUtilities.dp(16.0f), true));
+        editTextEmoji6.setText(Emoji.replaceEmoji((CharSequence) (tLRPC$User != null ? ContactsController.formatName(tLRPC$User) : this.currentChat.title), this.nameTextView.getEditText().getPaint().getFontMetricsInt(), AndroidUtilities.dp(16.0f), true));
         EditTextEmoji editTextEmoji7 = this.nameTextView;
         editTextEmoji7.setSelection(editTextEmoji7.length());
         TLRPC$ChatFull tLRPC$ChatFull6 = this.info;

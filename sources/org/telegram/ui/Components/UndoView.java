@@ -379,11 +379,11 @@ public class UndoView extends FrameLayout {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:621:0x1868  */
-    /* JADX WARN: Removed duplicated region for block: B:624:0x1888  */
-    /* JADX WARN: Removed duplicated region for block: B:627:0x18af  */
-    /* JADX WARN: Removed duplicated region for block: B:631:0x18f4  */
-    /* JADX WARN: Removed duplicated region for block: B:662:0x19a6  */
+    /* JADX WARN: Removed duplicated region for block: B:621:0x1875  */
+    /* JADX WARN: Removed duplicated region for block: B:624:0x1895  */
+    /* JADX WARN: Removed duplicated region for block: B:627:0x18bc  */
+    /* JADX WARN: Removed duplicated region for block: B:631:0x1901  */
+    /* JADX WARN: Removed duplicated region for block: B:662:0x19b3  */
     /* JADX WARN: Removed duplicated region for block: B:688:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r2v428, types: [java.lang.CharSequence] */
     /*
@@ -1157,10 +1157,10 @@ public class UndoView extends FrameLayout {
                         String serverString = LocaleController.getServerString("DiceEmojiInfo_" + str11);
                         if (!TextUtils.isEmpty(serverString)) {
                             TextView textView3 = this.infoTextView;
-                            textView3.setText(Emoji.replaceEmoji(serverString, textView3.getPaint().getFontMetricsInt(), AndroidUtilities.dp(14.0f), false));
+                            textView3.setText(Emoji.replaceEmoji((CharSequence) serverString, textView3.getPaint().getFontMetricsInt(), AndroidUtilities.dp(14.0f), false));
                         } else {
                             f = 14.0f;
-                            this.infoTextView.setText(Emoji.replaceEmoji(LocaleController.formatString("DiceEmojiInfo", R.string.DiceEmojiInfo, str11), this.infoTextView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(14.0f), false));
+                            this.infoTextView.setText(Emoji.replaceEmoji((CharSequence) LocaleController.formatString("DiceEmojiInfo", R.string.DiceEmojiInfo, str11), this.infoTextView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(14.0f), false));
                             this.leftImageView.setImageDrawable(Emoji.getEmojiDrawable(str11));
                             this.leftImageView.setScaleType(ImageView.ScaleType.FIT_XY);
                             layoutParams.topMargin = AndroidUtilities.dp(f);
@@ -1292,7 +1292,7 @@ public class UndoView extends FrameLayout {
                         this.infoTextView.setText(LocaleController.formatString("BoostingSelectUpToWarningCountries", R.string.BoostingSelectUpToWarningCountries, Long.valueOf(BoostRepository.giveawayCountriesMax())));
                         break;
                     case 93:
-                        this.infoTextView.setText(AndroidUtilities.replaceTags(LocaleController.getString("BoostingWaitWarning", R.string.BoostingWaitWarning)));
+                        this.infoTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("BoostingWaitWarning", R.string.BoostingWaitWarning, Integer.valueOf(BoostRepository.boostsPerSentGift()))));
                         break;
                     case 94:
                         this.infoTextView.setText(LocaleController.getString("BoostingOnlyRecipientCode", R.string.BoostingOnlyRecipientCode));
