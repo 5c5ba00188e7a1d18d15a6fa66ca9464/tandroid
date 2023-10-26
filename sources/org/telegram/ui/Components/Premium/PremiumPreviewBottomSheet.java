@@ -501,16 +501,14 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView i
                 View view2 = premiumPreviewBottomSheet.overrideTitleIcon;
                 if (view2 == null) {
                     premiumPreviewBottomSheet.iconTextureView = new GLIconTextureView(this, context, 1) { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet.Adapter.2
-                        /* JADX INFO: Access modifiers changed from: protected */
                         @Override // org.telegram.ui.Components.Premium.GLIcon.GLIconTextureView, android.view.TextureView, android.view.View
-                        public void onAttachedToWindow() {
+                        protected void onAttachedToWindow() {
                             super.onAttachedToWindow();
                             setPaused(false);
                         }
 
-                        /* JADX INFO: Access modifiers changed from: protected */
                         @Override // org.telegram.ui.Components.Premium.GLIcon.GLIconTextureView, android.view.View
-                        public void onDetachedFromWindow() {
+                        protected void onDetachedFromWindow() {
                             super.onDetachedFromWindow();
                             setPaused(true);
                         }
@@ -654,9 +652,8 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView i
                 };
             } else if (i != 4) {
                 view = new PremiumFeatureCell(context, ((BottomSheet) PremiumPreviewBottomSheet.this).resourcesProvider) { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet.Adapter.6
-                    /* JADX INFO: Access modifiers changed from: protected */
                     @Override // org.telegram.ui.PremiumFeatureCell, android.view.ViewGroup, android.view.View
-                    public void dispatchDraw(Canvas canvas2) {
+                    protected void dispatchDraw(Canvas canvas2) {
                         RectF rectF = AndroidUtilities.rectTmp;
                         rectF.set(this.imageView.getLeft(), this.imageView.getTop(), this.imageView.getRight(), this.imageView.getBottom());
                         PremiumPreviewBottomSheet.this.gradientTools.gradientMatrix(0, 0, getMeasuredWidth(), PremiumPreviewBottomSheet.this.totalGradientHeight, 0.0f, -this.data.yOffset);

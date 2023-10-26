@@ -698,6 +698,9 @@ public class LimitPreviewView extends LinearLayout {
         }
 
         void createAnimationLayoutsDiff(CharSequence charSequence) {
+            if (this.textLayout == null) {
+                return;
+            }
             this.animatedLayouts.clear();
             SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(this.text);
             int length = this.text.length() - 1;

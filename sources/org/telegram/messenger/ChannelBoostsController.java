@@ -83,7 +83,7 @@ public class ChannelBoostsController {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$userCanBoostChannel$2(CanApplyBoost canApplyBoost, TL_stories$TL_premium_boostsStatus tL_stories$TL_premium_boostsStatus, Consumer consumer, TL_stories$TL_premium_myBoosts tL_stories$TL_premium_myBoosts) {
-        canApplyBoost.isMaxLvl = tL_stories$TL_premium_boostsStatus.next_level_boosts == 0;
+        canApplyBoost.isMaxLvl = tL_stories$TL_premium_boostsStatus.next_level_boosts <= 0;
         canApplyBoost.setMyBoosts(tL_stories$TL_premium_myBoosts);
         consumer.accept(canApplyBoost);
     }
