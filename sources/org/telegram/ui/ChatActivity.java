@@ -11746,17 +11746,19 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         }
 
         @Override // org.telegram.ui.Components.MessagePreviewView
-        protected void onFullDismiss() {
+        protected void onFullDismiss(boolean z) {
             MessagePreviewParams messagePreviewParams = ChatActivity.this.messagePreviewParams;
             if (messagePreviewParams != null) {
                 messagePreviewParams.attach(null);
             }
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatActivity$52$$ExternalSyntheticLambda1
-                @Override // java.lang.Runnable
-                public final void run() {
-                    ChatActivity.52.this.lambda$onFullDismiss$0();
-                }
-            }, 15L);
+            if (z) {
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatActivity$52$$ExternalSyntheticLambda1
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        ChatActivity.52.this.lambda$onFullDismiss$0();
+                    }
+                }, 15L);
+            }
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -11833,10 +11835,15 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             }
         }
 
+        /* JADX WARN: Removed duplicated region for block: B:35:0x009f  */
         @Override // org.telegram.ui.Components.MessagePreviewView
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+        */
         protected void selectAnotherChat(boolean z) {
             int i;
             boolean z2;
+            boolean z3;
             dismiss(false);
             ChatActivity chatActivity = ChatActivity.this;
             if (chatActivity.messagePreviewParams != null) {
@@ -11867,14 +11874,31 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 bundle.putBoolean("onlySelect", true);
                 bundle.putInt("dialogsType", 3);
                 bundle.putBoolean("quote", !z);
+                if (!z) {
+                    MessagePreviewParams messagePreviewParams = ChatActivity.this.messagePreviewParams;
+                    if (messagePreviewParams.replyMessage != null && messagePreviewParams.quote == null) {
+                        z3 = true;
+                        bundle.putBoolean("reply_to", z3);
+                        bundle.putInt("hasPoll", i);
+                        bundle.putBoolean("hasInvoice", z2);
+                        MessagePreviewParams.Messages messages2 = ChatActivity.this.messagePreviewParams.forwardMessages;
+                        bundle.putInt("messagesCount", messages2 != null ? messages2.messages.size() : 0);
+                        bundle.putBoolean("canSelectTopics", true);
+                        DialogsActivity dialogsActivity = new DialogsActivity(bundle);
+                        dialogsActivity.setDelegate(ChatActivity.this);
+                        ChatActivity.this.presentFragment(dialogsActivity);
+                    }
+                }
+                z3 = false;
+                bundle.putBoolean("reply_to", z3);
                 bundle.putInt("hasPoll", i);
                 bundle.putBoolean("hasInvoice", z2);
-                MessagePreviewParams.Messages messages2 = ChatActivity.this.messagePreviewParams.forwardMessages;
-                bundle.putInt("messagesCount", messages2 != null ? messages2.messages.size() : 0);
+                MessagePreviewParams.Messages messages22 = ChatActivity.this.messagePreviewParams.forwardMessages;
+                bundle.putInt("messagesCount", messages22 != null ? messages22.messages.size() : 0);
                 bundle.putBoolean("canSelectTopics", true);
-                DialogsActivity dialogsActivity = new DialogsActivity(bundle);
-                dialogsActivity.setDelegate(ChatActivity.this);
-                ChatActivity.this.presentFragment(dialogsActivity);
+                DialogsActivity dialogsActivity2 = new DialogsActivity(bundle);
+                dialogsActivity2.setDelegate(ChatActivity.this);
+                ChatActivity.this.presentFragment(dialogsActivity2);
             }
         }
     }
@@ -24237,8 +24261,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         if (this.keyboardWasVisible) {
             ChatActivityEnterView chatActivityEnterView = this.chatActivityEnterView;
             if (chatActivityEnterView != null) {
-                chatActivityEnterView.freezeEmojiView(false);
-                this.chatActivityEnterView.openKeyboard();
+                chatActivityEnterView.openKeyboardInternal();
+                this.chatActivityEnterView.freezeEmojiView(false);
             }
             this.keyboardWasVisible = false;
         }
@@ -32073,8 +32097,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         MediaController.saveFile(str, getParentActivity(), messageObject.isVideo() ? 1 : 0, null, null);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:302:0x086c, code lost:
-        if (r0.exists() != false) goto L300;
+    /* JADX WARN: Code restructure failed: missing block: B:289:0x081c, code lost:
+        if (r0.exists() != false) goto L287;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -32084,7 +32108,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         BulletinFactory.FileType fileType;
         File file;
         TLRPC$Chat tLRPC$Chat;
-        String str;
         MessageObject.GroupedMessages group;
         TLRPC$Chat tLRPC$Chat2;
         ArrayList arrayList;
@@ -32279,16 +32302,16 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         }
                         break;
                     case 6:
-                        String str2 = this.selectedObject.messageOwner.attachPath;
-                        if (str2 != null && str2.length() > 0 && !new File(str2).exists()) {
-                            str2 = null;
+                        String str = this.selectedObject.messageOwner.attachPath;
+                        if (str != null && str.length() > 0 && !new File(str).exists()) {
+                            str = null;
                         }
-                        if (str2 == null || str2.length() == 0) {
-                            str2 = getFileLoader().getPathToMessage(this.selectedObject.messageOwner).toString();
+                        if (str == null || str.length() == 0) {
+                            str = getFileLoader().getPathToMessage(this.selectedObject.messageOwner).toString();
                         }
                         Intent intent = new Intent("android.intent.action.SEND");
                         intent.setType(this.selectedObject.getDocument().mime_type);
-                        File file2 = new File(str2);
+                        File file2 = new File(str);
                         if (Build.VERSION.SDK_INT >= 24) {
                             try {
                                 intent.putExtra("android.intent.extra.STREAM", FileProvider.getUriForFile(getParentActivity(), ApplicationLoader.getApplicationId() + ".provider", file2));
@@ -32306,12 +32329,12 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         }
                         break;
                     case 7:
-                        String str3 = this.selectedObject.messageOwner.attachPath;
-                        if (str3 != null && str3.length() > 0 && !new File(str3).exists()) {
-                            str3 = null;
+                        String str2 = this.selectedObject.messageOwner.attachPath;
+                        if (str2 != null && str2.length() > 0 && !new File(str2).exists()) {
+                            str2 = null;
                         }
-                        if (str3 == null || str3.length() == 0) {
-                            str3 = getFileLoader().getPathToMessage(this.selectedObject.messageOwner).toString();
+                        if (str2 == null || str2.length() == 0) {
+                            str2 = getFileLoader().getPathToMessage(this.selectedObject.messageOwner).toString();
                         }
                         int i6 = Build.VERSION.SDK_INT;
                         if (i6 >= 23 && ((i6 <= 28 || BuildVars.NO_SCOPED_STORAGE) && getParentActivity().checkSelfPermission("android.permission.WRITE_EXTERNAL_STORAGE") != 0)) {
@@ -32321,7 +32344,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             this.selectedObjectToEditCaption = null;
                             return;
                         }
-                        MediaController.saveFile(str3, getParentActivity(), 0, null, null);
+                        MediaController.saveFile(str2, getParentActivity(), 0, null, null);
                         BulletinFactory.createSaveToGalleryBulletin(this, this.selectedObject.isVideo(), this.themeDelegate).show();
                         break;
                         break;
@@ -32331,32 +32354,22 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             if (messageObject3.getGroupId() != 0 && (group = getGroup(messageObject3.getGroupId())) != null) {
                                 messageObject3 = group.captionMessage;
                             }
-                            TLRPC$Message tLRPC$Message = messageObject3.messageOwner;
-                            ReplyQuote from = ReplyQuote.from(messageObject3, 0, Math.min((tLRPC$Message == null || (str = tLRPC$Message.message) == null) ? 0 : str.length(), getMessagesController().quoteLengthMax + 0));
-                            if (from.getText() != null) {
-                                this.replyingQuote = from;
-                                this.replyingMessageObject = messageObject3;
-                                MessagePreviewParams messagePreviewParams = new MessagePreviewParams(this.currentEncryptedChat != null, getMessagesController().isChatNoForwards(this.currentChat));
-                                this.messagePreviewParams = messagePreviewParams;
-                                messagePreviewParams.updateReply(this.replyingMessageObject, getGroup(messageObject3.getGroupId()), getDialogId(), this.replyingQuote);
-                                Bundle bundle2 = new Bundle();
-                                bundle2.putBoolean("onlySelect", true);
-                                bundle2.putInt("dialogsType", 3);
-                                bundle2.putBoolean("quote", true);
-                                bundle2.putInt("messagesCount", 1);
-                                bundle2.putBoolean("canSelectTopics", true);
-                                DialogsActivity dialogsActivity2 = new DialogsActivity(bundle2);
-                                dialogsActivity2.setDelegate(this);
-                                presentFragment(dialogsActivity2);
-                                break;
-                            } else {
-                                return;
-                            }
+                            this.replyingMessageObject = messageObject3;
+                            Bundle bundle2 = new Bundle();
+                            bundle2.putBoolean("onlySelect", true);
+                            bundle2.putInt("dialogsType", 3);
+                            bundle2.putBoolean("quote", true);
+                            bundle2.putBoolean("reply_to", true);
+                            bundle2.putInt("messagesCount", 1);
+                            bundle2.putBoolean("canSelectTopics", true);
+                            DialogsActivity dialogsActivity2 = new DialogsActivity(bundle2);
+                            dialogsActivity2.setDelegate(this);
+                            presentFragment(dialogsActivity2);
+                            break;
                         } else {
                             showFieldPanelForReply(this.selectedObject);
                             break;
                         }
-                        break;
                     case 9:
                         StickersAlert stickersAlert = new StickersAlert(getParentActivity(), this, this.selectedObject.getInputStickerSet(), null, (this.bottomOverlayChat.getVisibility() == 0 || !((tLRPC$Chat2 = this.currentChat) == null || ChatObject.canSendStickers(tLRPC$Chat2))) ? null : this.chatActivityEnterView, this.themeDelegate);
                         stickersAlert.setCalcMandatoryInsets(isKeyboardVisible());
@@ -32403,15 +32416,15 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             if (TextUtils.isEmpty(documentFileName)) {
                                 documentFileName = this.selectedObject.getFileName();
                             }
-                            String str4 = documentFileName;
-                            String str5 = this.selectedObject.messageOwner.attachPath;
-                            if (str5 != null && str5.length() > 0 && !new File(str5).exists()) {
-                                str5 = null;
+                            String str3 = documentFileName;
+                            String str4 = this.selectedObject.messageOwner.attachPath;
+                            if (str4 != null && str4.length() > 0 && !new File(str4).exists()) {
+                                str4 = null;
                             }
-                            if (str5 == null || str5.length() == 0) {
-                                str5 = getFileLoader().getPathToMessage(this.selectedObject.messageOwner).toString();
+                            if (str4 == null || str4.length() == 0) {
+                                str4 = getFileLoader().getPathToMessage(this.selectedObject.messageOwner).toString();
                             }
-                            MediaController.saveFile(str5, getParentActivity(), 2, str4, this.selectedObject.getDocument() != null ? this.selectedObject.getDocument().mime_type : "", new Utilities.Callback() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda267
+                            MediaController.saveFile(str4, getParentActivity(), 2, str3, this.selectedObject.getDocument() != null ? this.selectedObject.getDocument().mime_type : "", new Utilities.Callback() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda267
                                 @Override // org.telegram.messenger.Utilities.Callback
                                 public final void run(Object obj) {
                                     ChatActivity.this.lambda$processSelectedOption$239(isPhoto, isVideo, isGif, (Uri) obj);
@@ -33028,10 +33041,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     @Override // org.telegram.ui.DialogsActivity.DialogsActivityDelegate
     public boolean didSelectDialogs(DialogsActivity dialogsActivity, ArrayList<MessagesStorage.TopicKey> arrayList, CharSequence charSequence, boolean z, TopicsFragment topicsFragment) {
         ChatActivityEnterView chatActivityEnterView;
-        MessageObject messageObject;
         ChatActivityEnterView chatActivityEnterView2;
-        MessagePreviewParams messagePreviewParams = this.messagePreviewParams;
-        if ((messagePreviewParams == null || (dialogsActivity.isQuote && messagePreviewParams.replyMessage == null)) && this.forwardingMessage == null && this.selectedMessagesIds[0].size() == 0 && this.selectedMessagesIds[1].size() == 0) {
+        MessageObject messageObject;
+        if (((this.messagePreviewParams == null && (!dialogsActivity.isQuote || this.replyingMessageObject == null)) || (dialogsActivity.isQuote && this.replyingMessageObject == null)) && this.forwardingMessage == null && this.selectedMessagesIds[0].size() == 0 && this.selectedMessagesIds[1].size() == 0) {
             return false;
         }
         ArrayList<MessageObject> arrayList2 = new ArrayList<>();
@@ -33179,11 +33191,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         }
                     }
                 }
-                if (this.keyboardWasVisible && (chatActivityEnterView2 = this.chatActivityEnterView) != null) {
-                    chatActivityEnterView2.freezeEmojiView(false);
-                    this.chatActivityEnterView.openKeyboard();
-                    this.keyboardWasVisible = false;
-                }
                 moveScrollToLastMessage(false);
                 if (dialogsActivity.isQuote && (messageObject = this.replyingMessageObject) != null) {
                     showFieldPanelForReplyQuote(messageObject, this.replyingQuote);
@@ -33195,6 +33202,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     updatePinnedMessageView(true);
                 }
                 updateVisibleRows();
+                if (this.keyboardWasVisible && (chatActivityEnterView2 = this.chatActivityEnterView) != null) {
+                    chatActivityEnterView2.openKeyboardInternal();
+                    this.chatActivityEnterView.freezeEmojiView(false);
+                    this.keyboardWasVisible = false;
+                }
             }
         }
         return true;
@@ -37851,47 +37863,97 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             }
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:35:0x00ba, code lost:
-            if (org.telegram.messenger.DialogObject.getPeerDialogId(r9) != r13.this$0.dialog_id) goto L36;
+        /* JADX WARN: Code restructure failed: missing block: B:37:0x00c3, code lost:
+            if (org.telegram.messenger.DialogObject.getPeerDialogId(r8) != r16.this$0.dialog_id) goto L105;
          */
-        /* JADX WARN: Removed duplicated region for block: B:51:0x00e0  */
-        /* JADX WARN: Removed duplicated region for block: B:52:0x00f0  */
+        /* JADX WARN: Removed duplicated region for block: B:107:0x01cb  */
+        /* JADX WARN: Removed duplicated region for block: B:112:0x01d8  */
+        /* JADX WARN: Removed duplicated region for block: B:113:0x01db  */
+        /* JADX WARN: Removed duplicated region for block: B:54:0x00ea  */
+        /* JADX WARN: Removed duplicated region for block: B:55:0x00fa  */
+        /* JADX WARN: Removed duplicated region for block: B:58:0x00ff  */
+        /* JADX WARN: Removed duplicated region for block: B:95:0x01a7  */
         @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public void didPressReplyMessage(ChatMessageCell chatMessageCell, int i) {
             long j;
+            boolean z;
             TLRPC$Chat chat;
+            TLRPC$Message tLRPC$Message;
             int i2;
             TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader;
             TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader2;
             TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader3;
-            TLRPC$Message tLRPC$Message;
+            TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader4;
+            TLRPC$Message tLRPC$Message2;
             TL_stories$StoryItem tL_stories$StoryItem;
             if (UserObject.isReplyUser(ChatActivity.this.currentUser)) {
                 didPressSideButton(chatMessageCell);
                 return;
             }
             final MessageObject messageObject = chatMessageCell.getMessageObject();
-            if (!messageObject.isReplyToStory() || (tL_stories$StoryItem = (tLRPC$Message = messageObject.messageOwner).replyStory) == null) {
+            if (!messageObject.isReplyToStory() || (tL_stories$StoryItem = (tLRPC$Message2 = messageObject.messageOwner).replyStory) == null) {
                 if (ChatActivity.this.chatMode == 2 || ChatActivity.this.chatMode == 1) {
                     ChatActivity.this.chatActivityDelegate.openReplyMessage(i);
                     ChatActivity.this.finishFragment();
                     return;
                 }
-                TLRPC$Message tLRPC$Message2 = messageObject.messageOwner;
-                String str = (tLRPC$Message2 == null || (tLRPC$MessageReplyHeader3 = tLRPC$Message2.reply_to) == null) ? null : tLRPC$MessageReplyHeader3.quote_text;
-                long j2 = ChatActivity.this.dialog_id;
                 TLRPC$Message tLRPC$Message3 = messageObject.messageOwner;
-                if (tLRPC$Message3 != null && (tLRPC$MessageReplyHeader2 = tLRPC$Message3.reply_to) != null) {
-                    TLRPC$Peer tLRPC$Peer = tLRPC$MessageReplyHeader2.reply_to_peer_id;
+                String str = (tLRPC$Message3 == null || (tLRPC$MessageReplyHeader4 = tLRPC$Message3.reply_to) == null || !tLRPC$MessageReplyHeader4.quote) ? null : tLRPC$MessageReplyHeader4.quote_text;
+                long j2 = ChatActivity.this.dialog_id;
+                TLRPC$Message tLRPC$Message4 = messageObject.messageOwner;
+                if (tLRPC$Message4 != null && (tLRPC$MessageReplyHeader3 = tLRPC$Message4.reply_to) != null) {
+                    TLRPC$Peer tLRPC$Peer = tLRPC$MessageReplyHeader3.reply_to_peer_id;
                     if (tLRPC$Peer != null) {
                         if (!(tLRPC$Peer instanceof TLRPC$TL_peerUser)) {
-                            j2 = DialogObject.getPeerDialogId(tLRPC$Peer);
+                            j = DialogObject.getPeerDialogId(tLRPC$Peer);
+                            z = true;
+                            chat = j < 0 ? ChatActivity.this.getMessagesController().getChat(Long.valueOf(-j)) : null;
+                            if (j == Long.MAX_VALUE && (j == ChatActivity.this.dialog_id || chat == null || ChatObject.isPublic(chat) || (!chat.left && !chat.kicked))) {
+                                if ((j != ChatActivity.this.dialog_id || (ChatObject.isForum(ChatActivity.this.currentChat) && z)) && j != Long.MAX_VALUE) {
+                                    if (LaunchActivity.instance != null) {
+                                        if (ChatActivity.this.progressDialogCurrent != null) {
+                                            ChatActivity.this.progressDialogCurrent.cancel();
+                                            ChatActivity.this.progressDialogCurrent = null;
+                                        }
+                                        LaunchActivity.instance.openMessage(j, i, str, ChatActivity.this.progressDialogCurrent = new 6(chatMessageCell), messageObject.getId());
+                                        return;
+                                    }
+                                    return;
+                                }
+                                TLRPC$Message tLRPC$Message5 = messageObject.messageOwner;
+                                if (tLRPC$Message5 != null && (tLRPC$MessageReplyHeader2 = tLRPC$Message5.reply_to) != null && tLRPC$MessageReplyHeader2.quote) {
+                                    ChatActivity chatActivity = ChatActivity.this;
+                                    chatActivity.highlightMessageQuote = tLRPC$MessageReplyHeader2.quote_text;
+                                    chatActivity.showNoQuoteAlert = true;
+                                }
+                                ChatActivity.this.scrollToMessageId(i, messageObject.getId(), true, messageObject.getDialogId() == ChatActivity.this.mergeDialogId ? 1 : 0, true, 0, new Runnable() { // from class: org.telegram.ui.ChatActivity$ChatMessageCellDelegate$$ExternalSyntheticLambda3
+                                    @Override // java.lang.Runnable
+                                    public final void run() {
+                                        ChatActivity.ChatMessageCellDelegate.this.lambda$didPressReplyMessage$7(messageObject);
+                                    }
+                                });
+                                return;
+                            }
+                            tLRPC$Message = messageObject.messageOwner;
+                            if (tLRPC$Message == null && (tLRPC$MessageReplyHeader = tLRPC$Message.reply_to) != null && !TextUtils.isEmpty(tLRPC$MessageReplyHeader.quote_text) && messageObject.replyTextEllipsized && !messageObject.replyTextRevealed && !messageObject.shouldDrawWithoutBackground()) {
+                                messageObject.replyTextRevealed = true;
+                                ChatActivity.this.updateMessageAnimated(messageObject, true);
+                                return;
+                            }
+                            if (chat == null && chat.megagroup) {
+                                i2 = R.string.QuotePrivateGroup;
+                            } else if (ChatObject.isChannel(chat)) {
+                                i2 = R.string.QuotePrivateChannel;
+                            } else {
+                                i2 = R.string.QuotePrivate;
+                            }
+                            BulletinFactory.of(ChatActivity.this).createSimpleBulletin(R.raw.error, LocaleController.getString(i2)).show(true);
                         }
                     } else {
-                        TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader = tLRPC$MessageReplyHeader2.reply_from;
+                        TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader = tLRPC$MessageReplyHeader3.reply_from;
                         if (tLRPC$MessageFwdHeader != null) {
                             TLRPC$Peer tLRPC$Peer2 = tLRPC$MessageFwdHeader.from_id;
                             if (tLRPC$Peer2 != null) {
@@ -37908,64 +37970,38 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             }
                         }
                     }
-                    chat = j >= 0 ? ChatActivity.this.getMessagesController().getChat(Long.valueOf(-j)) : null;
-                    if (j == Long.MAX_VALUE && (j == ChatActivity.this.dialog_id || chat == null || ChatObject.isPublic(chat) || (!chat.left && !chat.kicked))) {
-                        if ((j != ChatActivity.this.dialog_id || (ChatObject.isForum(ChatActivity.this.currentChat) && !TextUtils.isEmpty(str))) && j != Long.MAX_VALUE) {
-                            if (LaunchActivity.instance != null) {
-                                if (ChatActivity.this.progressDialogCurrent != null) {
-                                    ChatActivity.this.progressDialogCurrent.cancel();
-                                    ChatActivity.this.progressDialogCurrent = null;
-                                }
-                                LaunchActivity.instance.openMessage(j, i, str, ChatActivity.this.progressDialogCurrent = new 6(chatMessageCell), messageObject.getId());
-                                return;
-                            }
-                            return;
-                        }
-                        TLRPC$Message tLRPC$Message4 = messageObject.messageOwner;
-                        if (tLRPC$Message4 != null && (tLRPC$MessageReplyHeader = tLRPC$Message4.reply_to) != null) {
-                            ChatActivity chatActivity = ChatActivity.this;
-                            chatActivity.highlightMessageQuote = tLRPC$MessageReplyHeader.quote_text;
-                            chatActivity.showNoQuoteAlert = true;
-                        }
-                        ChatActivity.this.scrollToMessageId(i, messageObject.getId(), true, messageObject.getDialogId() == ChatActivity.this.mergeDialogId ? 1 : 0, true, 0, new Runnable() { // from class: org.telegram.ui.ChatActivity$ChatMessageCellDelegate$$ExternalSyntheticLambda3
-                            @Override // java.lang.Runnable
-                            public final void run() {
-                                ChatActivity.ChatMessageCellDelegate.this.lambda$didPressReplyMessage$7(messageObject);
-                            }
-                        });
-                        return;
-                    } else if (TextUtils.isEmpty(str) && messageObject.replyTextEllipsized && !messageObject.replyTextRevealed && !messageObject.shouldDrawWithoutBackground()) {
-                        messageObject.replyTextRevealed = true;
-                        ChatActivity.this.updateMessageAnimated(messageObject, true);
-                        return;
-                    } else {
-                        if (chat == null && chat.megagroup) {
-                            i2 = R.string.QuotePrivateGroup;
-                        } else if (chat == null && ChatObject.isChannel(chat)) {
-                            i2 = R.string.QuotePrivateChannel;
-                        } else {
-                            i2 = R.string.QuotePrivate;
-                        }
-                        BulletinFactory.of(ChatActivity.this).createSimpleBulletin(R.raw.error, LocaleController.getString(i2)).show(true);
+                    z = false;
+                    if (j < 0) {
                     }
+                    if (j == Long.MAX_VALUE) {
+                    }
+                    tLRPC$Message = messageObject.messageOwner;
+                    if (tLRPC$Message == null) {
+                    }
+                    if (chat == null) {
+                    }
+                    if (ChatObject.isChannel(chat)) {
+                    }
+                    BulletinFactory.of(ChatActivity.this).createSimpleBulletin(R.raw.error, LocaleController.getString(i2)).show(true);
                 }
                 j = j2;
-                if (j >= 0) {
+                z = false;
+                if (j < 0) {
                 }
                 if (j == Long.MAX_VALUE) {
                 }
-                if (TextUtils.isEmpty(str)) {
+                tLRPC$Message = messageObject.messageOwner;
+                if (tLRPC$Message == null) {
                 }
                 if (chat == null) {
                 }
-                if (chat == null) {
+                if (ChatObject.isChannel(chat)) {
                 }
-                i2 = R.string.QuotePrivate;
                 BulletinFactory.of(ChatActivity.this).createSimpleBulletin(R.raw.error, LocaleController.getString(i2)).show(true);
             } else if (tL_stories$StoryItem instanceof TL_stories$TL_storyItemDeleted) {
                 BulletinFactory.of(ChatActivity.this).createSimpleBulletin(R.raw.story_bomb1, LocaleController.getString("StoryNotFound", R.string.StoryNotFound)).show();
             } else {
-                tL_stories$StoryItem.dialogId = tLRPC$Message.reply_to.user_id;
+                tL_stories$StoryItem.dialogId = tLRPC$Message2.reply_to.user_id;
                 tL_stories$StoryItem.messageId = messageObject.getId();
                 tL_stories$StoryItem.messageType = 3;
                 StoriesUtilities.applyViewedUser(tL_stories$StoryItem, ChatActivity.this.currentUser);

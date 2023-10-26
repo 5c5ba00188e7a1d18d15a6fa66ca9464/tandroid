@@ -208,6 +208,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
     OnTopicSelectedListener onTopicSelectedListener;
     private boolean openedForForward;
     private boolean openedForQuote;
+    private boolean openedForReply;
     private boolean opnendForSelect;
     private ActionBarMenuItem other;
     ActionBarMenuItem otherItem;
@@ -327,6 +328,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         this.opnendForSelect = this.arguments.getBoolean("for_select", false);
         this.openedForForward = this.arguments.getBoolean("forward_to", false);
         this.openedForQuote = this.arguments.getBoolean("quote", false);
+        this.openedForReply = this.arguments.getBoolean("reply_to", false);
         this.topicsController = getMessagesController().getTopicsController();
         SharedPreferences preferences = getUserConfig().getPreferences();
         this.canShowProgress = !preferences.getBoolean("topics_end_reached_" + j, false);
@@ -2701,11 +2703,11 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         updateChatInfo(false);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:76:0x0201  */
-    /* JADX WARN: Removed duplicated region for block: B:94:0x0251  */
-    /* JADX WARN: Removed duplicated region for block: B:95:0x0254  */
-    /* JADX WARN: Removed duplicated region for block: B:98:0x0260  */
-    /* JADX WARN: Removed duplicated region for block: B:99:0x0262  */
+    /* JADX WARN: Removed duplicated region for block: B:101:0x0271  */
+    /* JADX WARN: Removed duplicated region for block: B:102:0x0273  */
+    /* JADX WARN: Removed duplicated region for block: B:79:0x0212  */
+    /* JADX WARN: Removed duplicated region for block: B:97:0x0262  */
+    /* JADX WARN: Removed duplicated region for block: B:98:0x0265  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2732,7 +2734,9 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
             }
             updateSubtitle();
         } else {
-            if (this.openedForQuote) {
+            if (this.openedForReply) {
+                this.avatarContainer.setTitle(LocaleController.getString(R.string.ReplyToDialog));
+            } else if (this.openedForQuote) {
                 this.avatarContainer.setTitle(LocaleController.getString("QuoteTo", R.string.QuoteTo));
             } else if (this.openedForForward) {
                 this.avatarContainer.setTitle(LocaleController.getString("ForwardTo", R.string.ForwardTo));

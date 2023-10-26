@@ -5134,11 +5134,11 @@ public class MessageObject {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:55:0x00f7, code lost:
-        if (r0 != null) goto L64;
+    /* JADX WARN: Code restructure failed: missing block: B:55:0x00fd, code lost:
+        if (r0 != null) goto L65;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:57:0x00fb, code lost:
-        if (r6.ttl_seconds == 0) goto L64;
+    /* JADX WARN: Code restructure failed: missing block: B:57:0x0101, code lost:
+        if (r6.ttl_seconds == 0) goto L65;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -5146,7 +5146,7 @@ public class MessageObject {
     public CharSequence getMediaTitle(TLRPC$MessageMedia tLRPC$MessageMedia) {
         String publicUsername;
         if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaGiveaway) {
-            return "Giveaway";
+            return LocaleController.getString("BoostingGiveaway", R.string.BoostingGiveaway);
         }
         String str = null;
         if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaStory) {
@@ -8250,16 +8250,41 @@ public class MessageObject {
         return (tLRPC$Message.from_id instanceof TLRPC$TL_peerUser) && !tLRPC$Message.post;
     }
 
+    /* JADX WARN: Removed duplicated region for block: B:15:0x002b  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public boolean isFromChannel() {
-        TLRPC$Peer tLRPC$Peer = this.messageOwner.peer_id;
-        TLRPC$Chat tLRPC$Chat = null;
-        if (tLRPC$Peer != null) {
-            long j = tLRPC$Peer.channel_id;
+        TLRPC$Chat tLRPC$Chat;
+        TLRPC$Peer tLRPC$Peer;
+        TLRPC$Peer tLRPC$Peer2 = this.messageOwner.peer_id;
+        TLRPC$Chat tLRPC$Chat2 = null;
+        if (tLRPC$Peer2 != null) {
+            long j = tLRPC$Peer2.channel_id;
             if (j != 0) {
                 tLRPC$Chat = getChat(null, null, j);
+                if ((this.messageOwner.peer_id instanceof TLRPC$TL_peerChannel) || !ChatObject.isChannelAndNotMegaGroup(tLRPC$Chat)) {
+                    tLRPC$Peer = this.messageOwner.from_id;
+                    if (tLRPC$Peer != null) {
+                        long j2 = tLRPC$Peer.channel_id;
+                        if (j2 != 0) {
+                            tLRPC$Chat2 = getChat(null, null, j2);
+                        }
+                    }
+                    return (this.messageOwner.from_id instanceof TLRPC$TL_peerChannel) && ChatObject.isChannelAndNotMegaGroup(tLRPC$Chat2);
+                }
+                return true;
             }
         }
-        return (this.messageOwner.from_id instanceof TLRPC$TL_peerChannel) && ChatObject.isChannelAndNotMegaGroup(tLRPC$Chat);
+        tLRPC$Chat = null;
+        if (this.messageOwner.peer_id instanceof TLRPC$TL_peerChannel) {
+        }
+        tLRPC$Peer = this.messageOwner.from_id;
+        if (tLRPC$Peer != null) {
+        }
+        if (this.messageOwner.from_id instanceof TLRPC$TL_peerChannel) {
+            return false;
+        }
     }
 
     public boolean isFromGroup() {

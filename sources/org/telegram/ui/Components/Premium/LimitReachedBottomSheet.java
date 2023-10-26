@@ -91,6 +91,7 @@ import org.telegram.ui.Components.Premium.LimitReachedBottomSheet;
 import org.telegram.ui.Components.Premium.boosts.BoostCounterView;
 import org.telegram.ui.Components.Premium.boosts.BoostDialogs;
 import org.telegram.ui.Components.Premium.boosts.BoostPagerBottomSheet;
+import org.telegram.ui.Components.Premium.boosts.BoostRepository;
 import org.telegram.ui.Components.Premium.boosts.ReassignBoostBottomSheet;
 import org.telegram.ui.Components.RecyclerItemsEnterAnimator;
 import org.telegram.ui.Components.RecyclerListView;
@@ -129,6 +130,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
     private int linkRow;
     private boolean loading;
     int loadingRow;
+    private boolean lockInvalidation;
     public Runnable onShowPremiumScreenRunnable;
     public Runnable onSuccessRunnable;
     BaseFragment parentFragment;
@@ -189,6 +191,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
     public LimitReachedBottomSheet(BaseFragment baseFragment, Context context, int i, int i2, Theme.ResourcesProvider resourcesProvider) {
         super(baseFragment, false, hasFixedSize(i), false, resourcesProvider);
         this.linkRow = -1;
+        this.lockInvalidation = false;
         this.chats = new ArrayList<>();
         this.headerRow = -1;
         this.dividerRow = -1;
@@ -233,7 +236,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
             this.actionBtn.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
             this.actionBtn.setText(this.premiumButtonView.getTextView().getText());
             this.actionBtn.setTextColor(Theme.getColor(Theme.key_featuredStickers_buttonText, resourcesProvider));
-            this.actionBtn.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet$$ExternalSyntheticLambda7
+            this.actionBtn.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet$$ExternalSyntheticLambda8
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     LimitReachedBottomSheet.this.lambda$new$0(view);
@@ -253,9 +256,17 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
     public void onViewCreated(FrameLayout frameLayout) {
         super.onViewCreated(frameLayout);
         final Context context = frameLayout.getContext();
-        this.premiumButtonView = new PremiumButtonView(context, true, this.resourcesProvider);
+        this.premiumButtonView = new PremiumButtonView(context, true, this.resourcesProvider) { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet.1
+            @Override // android.view.View
+            public void invalidate() {
+                if (LimitReachedBottomSheet.this.lockInvalidation) {
+                    return;
+                }
+                super.invalidate();
+            }
+        };
         if (!this.hasFixedSize) {
-            View view = new View(context) { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet.1
+            View view = new View(context) { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet.2
                 @Override // android.view.View
                 protected void onDraw(Canvas canvas) {
                     super.onDraw(canvas);
@@ -271,13 +282,13 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
         }
         frameLayout.addView(this.premiumButtonView, LayoutHelper.createFrame(-1, 48.0f, 80, 16.0f, 0.0f, 16.0f, 12.0f));
         this.recyclerListView.setPadding(0, 0, 0, AndroidUtilities.dp(72.0f));
-        this.recyclerListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet$$ExternalSyntheticLambda19
+        this.recyclerListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet$$ExternalSyntheticLambda20
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view2, int i) {
                 LimitReachedBottomSheet.this.lambda$onViewCreated$1(view2, i);
             }
         });
-        this.recyclerListView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet$$ExternalSyntheticLambda20
+        this.recyclerListView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet$$ExternalSyntheticLambda21
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListener
             public final boolean onItemClick(View view2, int i) {
                 boolean lambda$onViewCreated$2;
@@ -288,13 +299,13 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
         this.premiumButtonView.buttonLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet$$ExternalSyntheticLambda9
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {
-                LimitReachedBottomSheet.this.lambda$onViewCreated$8(context, view2);
+                LimitReachedBottomSheet.this.lambda$onViewCreated$9(context, view2);
             }
         });
-        this.premiumButtonView.overlayTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet$$ExternalSyntheticLambda8
+        this.premiumButtonView.overlayTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet$$ExternalSyntheticLambda10
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {
-                LimitReachedBottomSheet.this.lambda$onViewCreated$10(context, view2);
+                LimitReachedBottomSheet.this.lambda$onViewCreated$11(context, view2);
             }
         });
         this.enterAnimator = new RecyclerItemsEnterAnimator(this.recyclerListView, true);
@@ -330,12 +341,14 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$onViewCreated$2(View view, int i) {
         this.recyclerListView.getOnItemClickListener().onItemClick(view, i);
-        view.performHapticFeedback(0);
+        if (this.type != 19) {
+            view.performHapticFeedback(0);
+        }
         return false;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onViewCreated$8(Context context, View view) {
+    public /* synthetic */ void lambda$onViewCreated$9(Context context, View view) {
         String str;
         int i = this.type;
         if (i == 11) {
@@ -368,7 +381,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
         }
         ChannelBoostsController.CanApplyBoost canApplyBoost = this.canApplyBoost;
         if (canApplyBoost.empty) {
-            if (UserConfig.getInstance(this.currentAccount).isPremium() && MessagesController.getInstance(this.currentAccount).giveawayGiftsPurchaseAvailable) {
+            if (UserConfig.getInstance(this.currentAccount).isPremium() && BoostRepository.isMultiBoostsAvailable()) {
                 BoostDialogs.showMoreBoostsNeeded(this.dialogId);
                 return;
             }
@@ -387,10 +400,17 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
         }
         boolean z = canApplyBoost.canApply;
         if (z && canApplyBoost.replaceDialogId == 0) {
-            if (canApplyBoost.needSelector && MessagesController.getInstance(this.currentAccount).giveawayGiftsPurchaseAvailable) {
+            if (canApplyBoost.needSelector && BoostRepository.isMultiBoostsAvailable()) {
+                this.lockInvalidation = true;
+                this.limitPreviewView.invalidationEnabled = false;
                 BaseFragment baseFragment2 = getBaseFragment();
                 ChannelBoostsController.CanApplyBoost canApplyBoost2 = this.canApplyBoost;
-                ReassignBoostBottomSheet.show(baseFragment2, canApplyBoost2.myBoosts, canApplyBoost2.currentChat);
+                ReassignBoostBottomSheet.show(baseFragment2, canApplyBoost2.myBoosts, canApplyBoost2.currentChat).setOnHideListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet$$ExternalSyntheticLambda7
+                    @Override // android.content.DialogInterface.OnDismissListener
+                    public final void onDismiss(DialogInterface dialogInterface) {
+                        LimitReachedBottomSheet.this.lambda$onViewCreated$5(dialogInterface);
+                    }
+                });
                 return;
             }
             boostChannel();
@@ -403,7 +423,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
             final Paint paint = new Paint(1);
             paint.setColor(Theme.getColor(Theme.key_dialogBackground));
             final Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.filled_limit_boost);
-            frameLayout.addView(new View(this, getContext()) { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet.2
+            frameLayout.addView(new View(this, getContext()) { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet.3
                 @Override // android.view.View
                 protected void onDraw(Canvas canvas) {
                     float measuredWidth = getMeasuredWidth() / 2.0f;
@@ -447,7 +467,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
             builder2.setPositiveButton(LocaleController.getString("Replace", R.string.Replace), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet$$ExternalSyntheticLambda1
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i2) {
-                    LimitReachedBottomSheet.this.lambda$onViewCreated$5(dialogInterface, i2);
+                    LimitReachedBottomSheet.this.lambda$onViewCreated$6(dialogInterface, i2);
                 }
             });
             builder2.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), LimitReachedBottomSheet$$ExternalSyntheticLambda5.INSTANCE);
@@ -484,13 +504,21 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onViewCreated$5(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$onViewCreated$5(DialogInterface dialogInterface) {
+        this.lockInvalidation = false;
+        this.limitPreviewView.invalidationEnabled = true;
+        this.premiumButtonView.invalidate();
+        this.limitPreviewView.invalidate();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$onViewCreated$6(DialogInterface dialogInterface, int i) {
         dialogInterface.dismiss();
         boostChannel();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onViewCreated$10(final Context context, View view) {
+    public /* synthetic */ void lambda$onViewCreated$11(final Context context, View view) {
         int i = this.type;
         if (i == 19) {
             ChannelBoostsController.CanApplyBoost canApplyBoost = this.canApplyBoost;
@@ -498,14 +526,14 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
                 this.premiumButtonView.buttonLayout.callOnClick();
                 ChannelBoostsController.CanApplyBoost canApplyBoost2 = this.canApplyBoost;
                 if (canApplyBoost2.alreadyActive && canApplyBoost2.boostedNow) {
-                    MessagesController.getInstance(this.currentAccount).getBoostsController().getBoostsStats(this.dialogId, new Consumer() { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet$$ExternalSyntheticLambda10
+                    MessagesController.getInstance(this.currentAccount).getBoostsController().getBoostsStats(this.dialogId, new Consumer() { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet$$ExternalSyntheticLambda11
                         @Override // com.google.android.exoplayer2.util.Consumer
                         public final void accept(Object obj) {
-                            LimitReachedBottomSheet.this.lambda$onViewCreated$9(context, (TL_stories$TL_premium_boostsStatus) obj);
+                            LimitReachedBottomSheet.this.lambda$onViewCreated$10(context, (TL_stories$TL_premium_boostsStatus) obj);
                         }
                     });
                 }
-            } else if (canApplyBoost.alreadyActive && MessagesController.getInstance(this.currentAccount).giveawayGiftsPurchaseAvailable) {
+            } else if (canApplyBoost.alreadyActive && BoostRepository.isMultiBoostsAvailable()) {
                 BoostDialogs.showMoreBoostsNeeded(this.dialogId);
             } else {
                 dismiss();
@@ -528,7 +556,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onViewCreated$9(Context context, TL_stories$TL_premium_boostsStatus tL_stories$TL_premium_boostsStatus) {
+    public /* synthetic */ void lambda$onViewCreated$10(Context context, TL_stories$TL_premium_boostsStatus tL_stories$TL_premium_boostsStatus) {
         setBoostsStats(tL_stories$TL_premium_boostsStatus, this.isCurrentChat);
         LimitParams limitParams = this.limitParams;
         int i = limitParams.defaultLimit;
@@ -537,7 +565,15 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
         int indexOfChild = this.headerView.indexOfChild(this.limitPreviewView);
         this.headerView.removeView(this.limitPreviewView);
         this.headerView.setLayoutTransition(new LayoutTransition());
-        LimitPreviewView limitPreviewView = new LimitPreviewView(context, i3, 0, i2, i / i2, this.resourcesProvider);
+        LimitPreviewView limitPreviewView = new LimitPreviewView(context, i3, 0, i2, i / i2, this.resourcesProvider) { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet.4
+            @Override // android.view.View
+            public void invalidate() {
+                if (LimitReachedBottomSheet.this.lockInvalidation) {
+                    return;
+                }
+                super.invalidate();
+            }
+        };
         this.limitPreviewView = limitPreviewView;
         this.headerView.addView(limitPreviewView, indexOfChild, LayoutHelper.createLinear(-1, -2, 0.0f, 0, 0, 0, 0, 0));
         this.limitPreviewView.setBoosts(this.boostsStatus, false);
@@ -548,21 +584,21 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
             return;
         }
         this.premiumButtonView.setLoading(true);
-        MessagesController.getInstance(this.currentAccount).getBoostsController().applyBoost(this.dialogId, this.canApplyBoost.slot, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet$$ExternalSyntheticLambda15
+        MessagesController.getInstance(this.currentAccount).getBoostsController().applyBoost(this.dialogId, this.canApplyBoost.slot, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet$$ExternalSyntheticLambda16
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
-                LimitReachedBottomSheet.this.lambda$boostChannel$11((TL_stories$TL_premium_myBoosts) obj);
+                LimitReachedBottomSheet.this.lambda$boostChannel$12((TL_stories$TL_premium_myBoosts) obj);
             }
-        }, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet$$ExternalSyntheticLambda14
+        }, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet$$ExternalSyntheticLambda15
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
-                LimitReachedBottomSheet.this.lambda$boostChannel$12((TLRPC$TL_error) obj);
+                LimitReachedBottomSheet.this.lambda$boostChannel$13((TLRPC$TL_error) obj);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$boostChannel$11(TL_stories$TL_premium_myBoosts tL_stories$TL_premium_myBoosts) {
+    public /* synthetic */ void lambda$boostChannel$12(TL_stories$TL_premium_myBoosts tL_stories$TL_premium_myBoosts) {
         ChannelBoostsController.CanApplyBoost canApplyBoost = this.canApplyBoost;
         if (canApplyBoost != null) {
             canApplyBoost.boostedNow = true;
@@ -573,13 +609,13 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$boostChannel$12(TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$boostChannel$13(TLRPC$TL_error tLRPC$TL_error) {
         this.premiumButtonView.setLoading(false);
     }
 
     private void onBoostSuccess(int i) {
         TransitionSet transitionSet = new TransitionSet();
-        transitionSet.addTransition(new Visibility(this) { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet.3
+        transitionSet.addTransition(new Visibility(this) { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet.5
             @Override // android.transition.Visibility
             public Animator onAppear(ViewGroup viewGroup, View view, TransitionValues transitionValues, TransitionValues transitionValues2) {
                 AnimatorSet animatorSet = new AnimatorSet();
@@ -643,17 +679,17 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
             SendMessagesHelper.getInstance(this.currentAccount).sendMessage(SendMessagesHelper.SendMessageParams.of(str, ((TLRPC$User) it.next()).id, null, null, null, true, null, null, null, false, 0, null, false));
             str = str;
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet$$ExternalSyntheticLambda11
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet$$ExternalSyntheticLambda12
             @Override // java.lang.Runnable
             public final void run() {
-                LimitReachedBottomSheet.this.lambda$sendInviteMessages$13();
+                LimitReachedBottomSheet.this.lambda$sendInviteMessages$14();
             }
         });
         dismiss();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$sendInviteMessages$13() {
+    public /* synthetic */ void lambda$sendInviteMessages$14() {
         BulletinFactory global = BulletinFactory.global();
         if (global != null) {
             if (this.selectedChats.size() == 1) {
@@ -668,7 +704,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
         String string;
         int i = this.type;
         if (i == 19) {
-            if (MessagesController.getInstance(this.currentAccount).giveawayGiftsPurchaseAvailable) {
+            if (BoostRepository.isMultiBoostsAvailable()) {
                 AnimatedTextView animatedTextView = this.premiumButtonView.buttonTextView;
                 ChannelBoostsController.CanApplyBoost canApplyBoost = this.canApplyBoost;
                 if (canApplyBoost != null && canApplyBoost.alreadyActive) {
@@ -733,7 +769,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
         builder.setPositiveButton(LocaleController.getString("RevokeButton", R.string.RevokeButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet$$ExternalSyntheticLambda3
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
-                LimitReachedBottomSheet.this.lambda$leaveFromSelectedGroups$14(arrayList, user, dialogInterface, i);
+                LimitReachedBottomSheet.this.lambda$leaveFromSelectedGroups$15(arrayList, user, dialogInterface, i);
             }
         });
         AlertDialog create = builder.create();
@@ -745,7 +781,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$leaveFromSelectedGroups$14(ArrayList arrayList, TLRPC$User tLRPC$User, DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$leaveFromSelectedGroups$15(ArrayList arrayList, TLRPC$User tLRPC$User, DialogInterface dialogInterface, int i) {
         dismiss();
         for (int i2 = 0; i2 < arrayList.size(); i2++) {
             TLRPC$Chat tLRPC$Chat = (TLRPC$Chat) arrayList.get(i2);
@@ -789,14 +825,14 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
         if ((z || canApplyBoost.empty) && !canApplyBoost.boostedNow && !canApplyBoost.alreadyActive) {
             this.premiumButtonView.clearOverlayText();
         } else if (z) {
-            if (MessagesController.getInstance(this.currentAccount).giveawayGiftsPurchaseAvailable) {
+            if (BoostRepository.isMultiBoostsAvailable()) {
                 this.premiumButtonView.setOverlayText(LocaleController.getString("BoostingBoostAgain", R.string.BoostingBoostAgain), true, true);
             } else {
                 this.premiumButtonView.setOverlayText(LocaleController.getString("BoostChannel", R.string.BoostChannel), true, true);
             }
         } else if (canApplyBoost.isMaxLvl) {
             this.premiumButtonView.setOverlayText(LocaleController.getString("OK", R.string.OK), true, true);
-        } else if (MessagesController.getInstance(this.currentAccount).giveawayGiftsPurchaseAvailable) {
+        } else if (BoostRepository.isMultiBoostsAvailable()) {
             this.premiumButtonView.setOverlayText(LocaleController.getString("BoostingBoostAgain", R.string.BoostingBoostAgain), true, true);
         } else {
             this.premiumButtonView.setOverlayText(LocaleController.getString("OK", R.string.OK), true, true);
@@ -859,14 +895,14 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
                 canApplyBoost.setMyBoosts(tL_stories$TL_premium_myBoosts);
                 onBoostSuccess(intValue);
             }
-            BulletinFactory.of(this.container, this.resourcesProvider).createSimpleBulletin(R.raw.forward, LocaleController.formatString("BoostingReassignedFrom", R.string.BoostingReassignedFrom, LocaleController.formatPluralString("BoostingSubscriptionsCount", intValue, new Object[0]), LocaleController.formatPluralString("BoostingFromOtherChannel", intValue2, new Object[0]))).setDuration(4000).show(true);
+            BulletinFactory.of(this.container, this.resourcesProvider).createSimpleBulletinWithIconSize(R.raw.forward, LocaleController.formatString("BoostingReassignedFrom", R.string.BoostingReassignedFrom, LocaleController.formatPluralString("BoostingSubscriptionsCount", intValue, new Object[0]), LocaleController.formatPluralString("BoostingFromOtherChannel", intValue2, new Object[0])), 30).setDuration(4000).show(true);
         }
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes4.dex */
-    public class 4 extends RecyclerListView.SelectionAdapter {
-        4() {
+    public class 6 extends RecyclerListView.SelectionAdapter {
+        6() {
         }
 
         @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
@@ -884,7 +920,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
             Context context = viewGroup.getContext();
             switch (i) {
                 case 1:
-                    linearLayout = new AdminedChannelCell(context, new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet.4.2
+                    linearLayout = new AdminedChannelCell(context, new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet.6.2
                         @Override // android.view.View.OnClickListener
                         public void onClick(View view) {
                             ArrayList arrayList = new ArrayList();
@@ -913,7 +949,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
                     linearLayout = flickerLoadingView;
                     break;
                 case 6:
-                    linearLayout = new View(this, LimitReachedBottomSheet.this.getContext()) { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet.4.3
+                    linearLayout = new View(this, LimitReachedBottomSheet.this.getContext()) { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet.6.3
                         @Override // android.view.View
                         protected void onMeasure(int i2, int i3) {
                             super.onMeasure(i2, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(16.0f), 1073741824));
@@ -933,10 +969,10 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
                     int i2 = Theme.key_listSelector;
                     textView.setBackground(Theme.createSimpleSelectorRoundRectDrawable(dp, color, ColorUtils.setAlphaComponent(Theme.getColor(i2, ((BottomSheet) LimitReachedBottomSheet.this).resourcesProvider), 76)));
                     textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, ((BottomSheet) LimitReachedBottomSheet.this).resourcesProvider));
-                    textView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet$4$$ExternalSyntheticLambda1
+                    textView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet$6$$ExternalSyntheticLambda1
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view) {
-                            LimitReachedBottomSheet.4.this.lambda$onCreateViewHolder$0(view);
+                            LimitReachedBottomSheet.6.this.lambda$onCreateViewHolder$0(view);
                         }
                     });
                     if (LimitReachedBottomSheet.this.statisticClickRunnable != null) {
@@ -946,10 +982,10 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
                         imageView.setPadding(AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f));
                         imageView.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(20.0f), 0, ColorUtils.setAlphaComponent(Theme.getColor(i2, ((BottomSheet) LimitReachedBottomSheet.this).resourcesProvider), 76)));
                         frameLayout.addView(imageView, LayoutHelper.createFrame(40, 40.0f, 21, 15.0f, 0.0f, 15.0f, 0.0f));
-                        imageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet$4$$ExternalSyntheticLambda0
+                        imageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet$6$$ExternalSyntheticLambda0
                             @Override // android.view.View.OnClickListener
                             public final void onClick(View view) {
-                                LimitReachedBottomSheet.4.this.lambda$onCreateViewHolder$1(view);
+                                LimitReachedBottomSheet.6.this.lambda$onCreateViewHolder$1(view);
                             }
                         });
                     }
@@ -964,7 +1000,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
                     LinkSpanDrawable.LinksTextView linksTextView = new LinkSpanDrawable.LinksTextView(context);
                     SpannableStringBuilder replaceTags = AndroidUtilities.replaceTags(LocaleController.getString(R.string.BoostingStoriesByGifting));
                     SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(LocaleController.getString(R.string.BoostingStoriesByGiftingLink));
-                    spannableStringBuilder.setSpan(new ClickableSpan() { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet.4.1
+                    spannableStringBuilder.setSpan(new ClickableSpan() { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet.6.1
                         @Override // android.text.style.ClickableSpan, android.text.style.CharacterStyle
                         public void updateDrawState(TextPaint textPaint) {
                             super.updateDrawState(textPaint);
@@ -1098,7 +1134,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
 
     @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView
     public RecyclerListView.SelectionAdapter createAdapter() {
-        return new 4();
+        return new 6();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1154,18 +1190,18 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
         TextView title;
         LinearLayout titleLinearLayout;
 
-        /* JADX WARN: Removed duplicated region for block: B:106:0x0348  */
-        /* JADX WARN: Removed duplicated region for block: B:115:0x0367  */
-        /* JADX WARN: Removed duplicated region for block: B:120:0x039c  */
-        /* JADX WARN: Removed duplicated region for block: B:121:0x03a7  */
-        /* JADX WARN: Removed duplicated region for block: B:140:0x0446  */
-        /* JADX WARN: Removed duplicated region for block: B:152:0x05a0  */
-        /* JADX WARN: Removed duplicated region for block: B:159:0x05db  */
-        /* JADX WARN: Removed duplicated region for block: B:160:0x05eb  */
-        /* JADX WARN: Removed duplicated region for block: B:48:0x023c  */
-        /* JADX WARN: Removed duplicated region for block: B:49:0x024c  */
-        /* JADX WARN: Removed duplicated region for block: B:53:0x0256  */
-        /* JADX WARN: Removed duplicated region for block: B:89:0x02e8 A[ADDED_TO_REGION] */
+        /* JADX WARN: Removed duplicated region for block: B:107:0x035b  */
+        /* JADX WARN: Removed duplicated region for block: B:116:0x037a  */
+        /* JADX WARN: Removed duplicated region for block: B:121:0x03b1  */
+        /* JADX WARN: Removed duplicated region for block: B:122:0x03bc  */
+        /* JADX WARN: Removed duplicated region for block: B:140:0x045b  */
+        /* JADX WARN: Removed duplicated region for block: B:152:0x05bf  */
+        /* JADX WARN: Removed duplicated region for block: B:159:0x05f8  */
+        /* JADX WARN: Removed duplicated region for block: B:160:0x0608  */
+        /* JADX WARN: Removed duplicated region for block: B:48:0x023e  */
+        /* JADX WARN: Removed duplicated region for block: B:49:0x024e  */
+        /* JADX WARN: Removed duplicated region for block: B:53:0x0258  */
+        /* JADX WARN: Removed duplicated region for block: B:89:0x02f8 A[ADDED_TO_REGION] */
         @SuppressLint({"SetTextI18n"})
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -1261,7 +1297,15 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
                 if (i4 == 18 && i4 != 20) {
                     if (i4 != 19) {
                         i5 = i2;
-                        LimitPreviewView limitPreviewView = new LimitPreviewView(context, i9, i5, i, f4, ((BottomSheet) LimitReachedBottomSheet.this).resourcesProvider);
+                        LimitPreviewView limitPreviewView = new LimitPreviewView(context, i9, i5, i, f4, ((BottomSheet) LimitReachedBottomSheet.this).resourcesProvider, LimitReachedBottomSheet.this) { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet.HeaderView.1
+                            @Override // android.view.View
+                            public void invalidate() {
+                                if (LimitReachedBottomSheet.this.lockInvalidation) {
+                                    return;
+                                }
+                                super.invalidate();
+                            }
+                        };
                         LimitReachedBottomSheet.this.limitPreviewView = limitPreviewView;
                         i6 = LimitReachedBottomSheet.this.type;
                         if (i6 != 18 || i6 == 20 || i6 == 19) {
@@ -1384,7 +1428,15 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
                     }
                 }
                 i5 = 0;
-                LimitPreviewView limitPreviewView2 = new LimitPreviewView(context, i9, i5, i, f4, ((BottomSheet) LimitReachedBottomSheet.this).resourcesProvider);
+                LimitPreviewView limitPreviewView2 = new LimitPreviewView(context, i9, i5, i, f4, ((BottomSheet) LimitReachedBottomSheet.this).resourcesProvider, LimitReachedBottomSheet.this) { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet.HeaderView.1
+                    @Override // android.view.View
+                    public void invalidate() {
+                        if (LimitReachedBottomSheet.this.lockInvalidation) {
+                            return;
+                        }
+                        super.invalidate();
+                    }
+                };
                 LimitReachedBottomSheet.this.limitPreviewView = limitPreviewView2;
                 i6 = LimitReachedBottomSheet.this.type;
                 if (i6 != 18) {
@@ -1441,7 +1493,15 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
             if (i4 == 18) {
             }
             i5 = 0;
-            LimitPreviewView limitPreviewView22 = new LimitPreviewView(context, i9, i5, i, f42, ((BottomSheet) LimitReachedBottomSheet.this).resourcesProvider);
+            LimitPreviewView limitPreviewView22 = new LimitPreviewView(context, i9, i5, i, f42, ((BottomSheet) LimitReachedBottomSheet.this).resourcesProvider, LimitReachedBottomSheet.this) { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet.HeaderView.1
+                @Override // android.view.View
+                public void invalidate() {
+                    if (LimitReachedBottomSheet.this.lockInvalidation) {
+                        return;
+                    }
+                    super.invalidate();
+                }
+            };
             LimitReachedBottomSheet.this.limitPreviewView = limitPreviewView22;
             i6 = LimitReachedBottomSheet.this.type;
             if (i6 != 18) {
@@ -1690,23 +1750,23 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
         ConnectionsManager.getInstance(this.currentAccount).sendRequest(new TLRPC$TL_channels_getAdminedPublicChannels(), new RequestDelegate() { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet$$ExternalSyntheticLambda18
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                LimitReachedBottomSheet.this.lambda$loadAdminedChannels$16(tLObject, tLRPC$TL_error);
+                LimitReachedBottomSheet.this.lambda$loadAdminedChannels$17(tLObject, tLRPC$TL_error);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadAdminedChannels$16(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet$$ExternalSyntheticLambda13
+    public /* synthetic */ void lambda$loadAdminedChannels$17(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet$$ExternalSyntheticLambda14
             @Override // java.lang.Runnable
             public final void run() {
-                LimitReachedBottomSheet.this.lambda$loadAdminedChannels$15(tLObject);
+                LimitReachedBottomSheet.this.lambda$loadAdminedChannels$16(tLObject);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadAdminedChannels$15(TLObject tLObject) {
+    public /* synthetic */ void lambda$loadAdminedChannels$16(TLObject tLObject) {
         int i;
         if (tLObject != null) {
             this.chats.clear();
@@ -1820,7 +1880,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
         builder.setPositiveButton(LocaleController.getString("RevokeButton", R.string.RevokeButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet$$ExternalSyntheticLambda2
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i3) {
-                LimitReachedBottomSheet.this.lambda$revokeLinks$18(arrayList, dialogInterface, i3);
+                LimitReachedBottomSheet.this.lambda$revokeLinks$19(arrayList, dialogInterface, i3);
             }
         });
         AlertDialog create = builder.create();
@@ -1832,7 +1892,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$revokeLinks$18(ArrayList arrayList, DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$revokeLinks$19(ArrayList arrayList, DialogInterface dialogInterface, int i) {
         dismiss();
         for (int i2 = 0; i2 < arrayList.size(); i2++) {
             TLRPC$TL_channels_updateUsername tLRPC$TL_channels_updateUsername = new TLRPC$TL_channels_updateUsername();
@@ -1841,14 +1901,14 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
             ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_channels_updateUsername, new RequestDelegate() { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet$$ExternalSyntheticLambda17
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    LimitReachedBottomSheet.this.lambda$revokeLinks$17(tLObject, tLRPC$TL_error);
+                    LimitReachedBottomSheet.this.lambda$revokeLinks$18(tLObject, tLRPC$TL_error);
                 }
             }, 64);
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$revokeLinks$17(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$revokeLinks$18(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLObject instanceof TLRPC$TL_boolTrue) {
             AndroidUtilities.runOnUIThread(this.onSuccessRunnable);
         }
@@ -1857,16 +1917,16 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
     private void loadInactiveChannels() {
         this.loading = true;
         updateRows();
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(new TLRPC$TL_channels_getInactiveChannels(), new RequestDelegate() { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet$$ExternalSyntheticLambda16
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(new TLRPC$TL_channels_getInactiveChannels(), new RequestDelegate() { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet$$ExternalSyntheticLambda19
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                LimitReachedBottomSheet.this.lambda$loadInactiveChannels$20(tLObject, tLRPC$TL_error);
+                LimitReachedBottomSheet.this.lambda$loadInactiveChannels$21(tLObject, tLRPC$TL_error);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadInactiveChannels$20(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$loadInactiveChannels$21(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         String formatPluralString;
         if (tLRPC$TL_error == null) {
             final TLRPC$TL_messages_inactiveChats tLRPC$TL_messages_inactiveChats = (TLRPC$TL_messages_inactiveChats) tLObject;
@@ -1890,17 +1950,17 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
                     arrayList.add(LocaleController.formatString("InactiveChatSignature", R.string.InactiveChatSignature, LocaleController.formatPluralString("Members", tLRPC$Chat.participants_count, new Object[0]), formatPluralString));
                 }
             }
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet$$ExternalSyntheticLambda12
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet$$ExternalSyntheticLambda13
                 @Override // java.lang.Runnable
                 public final void run() {
-                    LimitReachedBottomSheet.this.lambda$loadInactiveChannels$19(arrayList, tLRPC$TL_messages_inactiveChats);
+                    LimitReachedBottomSheet.this.lambda$loadInactiveChannels$20(arrayList, tLRPC$TL_messages_inactiveChats);
                 }
             });
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadInactiveChannels$19(ArrayList arrayList, TLRPC$TL_messages_inactiveChats tLRPC$TL_messages_inactiveChats) {
+    public /* synthetic */ void lambda$loadInactiveChannels$20(ArrayList arrayList, TLRPC$TL_messages_inactiveChats tLRPC$TL_messages_inactiveChats) {
         int i;
         this.inactiveChatsSignatures.clear();
         this.inactiveChats.clear();

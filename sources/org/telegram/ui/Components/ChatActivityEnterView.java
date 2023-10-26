@@ -4704,9 +4704,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                         requestFocus();
                     }
                     ChatActivityEnterView.this.showPopup(AndroidUtilities.usingHardwareInput ? 0 : 2, 0);
-                    if (!ChatActivityEnterView.this.stickersExpanded) {
-                        ChatActivityEnterView.this.openKeyboardInternal();
-                    } else {
+                    if (ChatActivityEnterView.this.stickersExpanded) {
                         ChatActivityEnterView.this.setStickersExpanded(false, true, false);
                         ChatActivityEnterView.this.waitingForKeyboardOpenAfterAnimation = true;
                         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatActivityEnterView$ChatActivityEditTextCaption$$ExternalSyntheticLambda2
@@ -4715,6 +4713,8 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                                 ChatActivityEnterView.ChatActivityEditTextCaption.this.lambda$onTouchEvent$3();
                             }
                         }, 200L);
+                    } else {
+                        ChatActivityEnterView.this.openKeyboardInternal();
                     }
                     return true;
                 } else {
@@ -5605,10 +5605,10 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         if (this.topView == null || this.topViewShowed || getVisibility() != 0) {
             FrameLayout frameLayout = this.recordedAudioPanel;
             if (frameLayout == null || frameLayout.getVisibility() != 0) {
-                if ((this.forceShowSendButton || this.replyingQuote != null) && !z2) {
+                if ((!this.forceShowSendButton && this.replyingQuote == null && this.replyingMessageObject == null) || z2) {
+                    openKeyboard();
                     return;
                 }
-                openKeyboard();
                 return;
             }
             return;

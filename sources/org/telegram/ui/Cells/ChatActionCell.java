@@ -1086,7 +1086,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:112:0x00bf  */
+    /* JADX WARN: Removed duplicated region for block: B:122:0x00d8  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1106,9 +1106,11 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         }
         int i5 = 0;
         if (isButtonLayout(messageObject)) {
-            int min = Math.min((int) (AndroidUtilities.isTablet() ? AndroidUtilities.getMinTabletSide() * 0.6f : (AndroidUtilities.displaySize.x * 0.62f) - AndroidUtilities.dp(34.0f)), ((AndroidUtilities.displaySize.y - ActionBar.getCurrentActionBarHeight()) - AndroidUtilities.statusBarHeight) - AndroidUtilities.dp(64.0f));
-            this.giftRectSize = min;
-            this.stickerSize = min - AndroidUtilities.dp(106.0f);
+            this.giftRectSize = Math.min((int) (AndroidUtilities.isTablet() ? AndroidUtilities.getMinTabletSide() * 0.6f : (AndroidUtilities.displaySize.x * 0.62f) - AndroidUtilities.dp(34.0f)), ((AndroidUtilities.displaySize.y - ActionBar.getCurrentActionBarHeight()) - AndroidUtilities.statusBarHeight) - AndroidUtilities.dp(64.0f));
+            if (!AndroidUtilities.isTablet() && messageObject.type == 18) {
+                this.giftRectSize = (int) (this.giftRectSize * 1.2f);
+            }
+            this.stickerSize = this.giftRectSize - AndroidUtilities.dp(106.0f);
             if (isNewStyleButtonLayout()) {
                 this.imageReceiver.setRoundRadius(this.stickerSize / 2);
             } else {

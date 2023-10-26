@@ -374,6 +374,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     private boolean isNextButton;
     private boolean isPremiumHintUpgrade;
     public boolean isQuote;
+    public boolean isReplyTo;
     boolean isSlideBackTransition;
     private int lastMeasuredTopPadding;
     private int maximumVelocity;
@@ -2819,6 +2820,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             this.cantSendToChannels = this.arguments.getBoolean("cantSendToChannels", false);
             this.initialDialogsType = this.arguments.getInt("dialogsType", 0);
             this.isQuote = this.arguments.getBoolean("quote", false);
+            this.isReplyTo = this.arguments.getBoolean("reply_to", false);
             this.selectAlertString = this.arguments.getString("selectAlertString");
             this.selectAlertStringGroup = this.arguments.getString("selectAlertStringGroup");
             this.addToGroupAlertString = this.arguments.getString("addToGroupAlertString");
@@ -3169,17 +3171,17 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:318:0x0d09  */
-    /* JADX WARN: Removed duplicated region for block: B:331:0x0d62  */
-    /* JADX WARN: Removed duplicated region for block: B:338:0x0da2  */
-    /* JADX WARN: Removed duplicated region for block: B:342:0x0e52  */
-    /* JADX WARN: Removed duplicated region for block: B:349:0x0eaf  */
-    /* JADX WARN: Removed duplicated region for block: B:353:0x0ef8  */
-    /* JADX WARN: Removed duplicated region for block: B:354:0x0efb  */
-    /* JADX WARN: Removed duplicated region for block: B:357:0x0f08  */
-    /* JADX WARN: Removed duplicated region for block: B:365:0x0f8f  */
-    /* JADX WARN: Removed duplicated region for block: B:366:0x0f9a  */
-    /* JADX WARN: Removed duplicated region for block: B:374:0x0fc4  */
+    /* JADX WARN: Removed duplicated region for block: B:321:0x0d18  */
+    /* JADX WARN: Removed duplicated region for block: B:334:0x0d71  */
+    /* JADX WARN: Removed duplicated region for block: B:341:0x0db1  */
+    /* JADX WARN: Removed duplicated region for block: B:345:0x0e61  */
+    /* JADX WARN: Removed duplicated region for block: B:352:0x0ebe  */
+    /* JADX WARN: Removed duplicated region for block: B:356:0x0f07  */
+    /* JADX WARN: Removed duplicated region for block: B:357:0x0f0a  */
+    /* JADX WARN: Removed duplicated region for block: B:360:0x0f17  */
+    /* JADX WARN: Removed duplicated region for block: B:368:0x0f9e  */
+    /* JADX WARN: Removed duplicated region for block: B:369:0x0fa9  */
+    /* JADX WARN: Removed duplicated region for block: B:377:0x0fd3  */
     /* JADX WARN: Type inference failed for: r0v112, types: [org.telegram.ui.ActionBar.ActionBar] */
     /* JADX WARN: Type inference failed for: r0v17, types: [org.telegram.ui.ActionBar.ActionBar] */
     /* JADX WARN: Type inference failed for: r0v229, types: [org.telegram.ui.DialogsActivity$DialogsRecyclerView, org.telegram.ui.Components.RecyclerListView] */
@@ -3292,8 +3294,10 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         this.searchItem.setContentDescription(LocaleController.getString("Search", i8));
         if (this.onlySelect) {
             this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
-            if (this.isQuote) {
-                this.actionBar.setTitle(LocaleController.getString("QuoteTo", R.string.QuoteTo));
+            if (this.isReplyTo) {
+                this.actionBar.setTitle(LocaleController.getString(R.string.ReplyToDialog));
+            } else if (this.isQuote) {
+                this.actionBar.setTitle(LocaleController.getString(R.string.QuoteTo));
             } else {
                 int i9 = this.initialDialogsType;
                 if (i9 == 3 && this.selectAlertString == null) {
@@ -9241,13 +9245,13 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     /* JADX WARN: Removed duplicated region for block: B:119:0x0206  */
     /* JADX WARN: Removed duplicated region for block: B:132:0x0230 A[RETURN] */
     /* JADX WARN: Removed duplicated region for block: B:133:0x0231  */
-    /* JADX WARN: Removed duplicated region for block: B:178:0x0311  */
-    /* JADX WARN: Removed duplicated region for block: B:179:0x0317  */
-    /* JADX WARN: Removed duplicated region for block: B:186:0x0332  */
-    /* JADX WARN: Removed duplicated region for block: B:197:0x0359  */
-    /* JADX WARN: Removed duplicated region for block: B:222:0x03e6  */
-    /* JADX WARN: Removed duplicated region for block: B:225:0x03ef  */
-    /* JADX WARN: Removed duplicated region for block: B:228:0x040e  */
+    /* JADX WARN: Removed duplicated region for block: B:178:0x0318  */
+    /* JADX WARN: Removed duplicated region for block: B:179:0x031e  */
+    /* JADX WARN: Removed duplicated region for block: B:186:0x0339  */
+    /* JADX WARN: Removed duplicated region for block: B:197:0x0360  */
+    /* JADX WARN: Removed duplicated region for block: B:222:0x03ed  */
+    /* JADX WARN: Removed duplicated region for block: B:225:0x03f6  */
+    /* JADX WARN: Removed duplicated region for block: B:228:0x0415  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -9406,6 +9410,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                                 bundle2.putBoolean("for_select", true);
                                 bundle2.putBoolean("forward_to", true);
                                 bundle2.putBoolean("quote", this.isQuote);
+                                bundle2.putBoolean("reply_to", this.isReplyTo);
                                 TopicsFragment topicsFragment = new TopicsFragment(bundle2);
                                 topicsFragment.setForwardFromDialogFragment(this);
                                 presentFragment(topicsFragment);

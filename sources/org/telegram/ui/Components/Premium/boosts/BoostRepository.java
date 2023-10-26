@@ -100,6 +100,10 @@ public class BoostRepository {
         return (int) MessagesController.getInstance(UserConfig.selectedAccount).giveawayBoostsPerPremium;
     }
 
+    public static boolean isMultiBoostsAvailable() {
+        return MessagesController.getInstance(UserConfig.selectedAccount).boostsPerSentGift > 0;
+    }
+
     public static int boostsPerSentGift() {
         return (int) MessagesController.getInstance(UserConfig.selectedAccount).boostsPerSentGift;
     }
