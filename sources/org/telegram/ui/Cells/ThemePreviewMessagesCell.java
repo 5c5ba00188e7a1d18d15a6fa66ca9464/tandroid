@@ -23,6 +23,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
+import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.browser.Browser;
@@ -95,13 +96,13 @@ public class ThemePreviewMessagesCell extends LinearLayout {
         this(context, iNavigationLayout, i, 0L);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:75:0x0410  */
-    /* JADX WARN: Removed duplicated region for block: B:88:0x0457 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:75:0x0401  */
+    /* JADX WARN: Removed duplicated region for block: B:88:0x0448 A[SYNTHETIC] */
     @SuppressLint({"ClickableViewAccessibility"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public ThemePreviewMessagesCell(Context context, INavigationLayout iNavigationLayout, final int i, long j) {
+    public ThemePreviewMessagesCell(Context context, INavigationLayout iNavigationLayout, int i, long j) {
         super(context);
         MessageObject messageObject;
         MessageObject messageObject2;
@@ -320,15 +321,11 @@ public class ThemePreviewMessagesCell extends LinearLayout {
             tLRPC$TL_message5.peer_id = tLRPC$TL_peerUser9;
             tLRPC$TL_peerUser9.user_id = UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId();
             messageObject2 = new MessageObject(UserConfig.selectedAccount, tLRPC$TL_message5, true, false);
-            if (i == 0) {
-                messageObject2.customReplyName = LocaleController.getString("FontSizePreviewName", R.string.FontSizePreviewName);
-            } else {
+            if (i != 0) {
                 messageObject2.customReplyName = LocaleController.getString("NewThemePreviewName", R.string.NewThemePreviewName);
             }
             messageObject2.eventId = 1L;
             messageObject2.resetLayout();
-            messageObject2.overrideLinkColor = 5;
-            messageObject2.overrideLinkEmoji = 0L;
             messageObject2.replyMessageObject = messageObject4;
             i2 = 0;
             while (true) {
@@ -430,8 +427,28 @@ public class ThemePreviewMessagesCell extends LinearLayout {
 
                     @Override // android.view.ViewGroup, android.view.View
                     protected void dispatchDraw(Canvas canvas) {
+                        int themedColor;
+                        int themedColor2;
                         if (getMessageObject() != null && getMessageObject().overrideLinkColor >= 0) {
-                            this.avatarDrawable.setColor(this.color1.set(getThemedColor(Theme.keys_avatar_background[AvatarDrawable.getColorIndex(getMessageObject().overrideLinkColor)])), this.color2.set(getThemedColor(Theme.keys_avatar_background2[AvatarDrawable.getColorIndex(getMessageObject().overrideLinkColor)])));
+                            int i5 = getMessageObject().overrideLinkColor;
+                            if (i5 >= 14) {
+                                MessagesController messagesController = MessagesController.getInstance(UserConfig.selectedAccount);
+                                MessagesController.PeerColors peerColors = messagesController != null ? messagesController.peerColors : null;
+                                if ((peerColors != null ? peerColors.getColor(i5) : null) != null) {
+                                    int color1 = messagesController.peerColors.getColor(i5).getColor1();
+                                    themedColor = getThemedColor(Theme.keys_avatar_background[AvatarDrawable.getPeerColorIndex(color1)]);
+                                    themedColor2 = getThemedColor(Theme.keys_avatar_background2[AvatarDrawable.getPeerColorIndex(color1)]);
+                                } else {
+                                    long j3 = i5;
+                                    themedColor = getThemedColor(Theme.keys_avatar_background[AvatarDrawable.getColorIndex(j3)]);
+                                    themedColor2 = getThemedColor(Theme.keys_avatar_background2[AvatarDrawable.getColorIndex(j3)]);
+                                }
+                            } else {
+                                long j4 = i5;
+                                themedColor = getThemedColor(Theme.keys_avatar_background[AvatarDrawable.getColorIndex(j4)]);
+                                themedColor2 = getThemedColor(Theme.keys_avatar_background2[AvatarDrawable.getColorIndex(j4)]);
+                            }
+                            this.avatarDrawable.setColor(this.color1.set(themedColor), this.color2.set(themedColor2));
                         } else {
                             this.color1.set(this.avatarDrawable.getColor());
                             this.color2.set(this.avatarDrawable.getColor2());
@@ -689,12 +706,12 @@ public class ThemePreviewMessagesCell extends LinearLayout {
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                     public boolean canPerformActions() {
-                        return i == 3;
+                        return ThemePreviewMessagesCell.this.allowLoadingOnTouch();
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                     public void didPressReplyMessage(ChatMessageCell chatMessageCell, int i5) {
-                        if (i == 3) {
+                        if (ThemePreviewMessagesCell.this.allowLoadingOnTouch()) {
                             ThemePreviewMessagesCell.this.progress = 0;
                             chatMessageCell.invalidate();
                             AndroidUtilities.cancelRunOnUIThread(ThemePreviewMessagesCell.this.cancelProgress);
@@ -704,7 +721,7 @@ public class ThemePreviewMessagesCell extends LinearLayout {
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                     public void needOpenWebView(MessageObject messageObject5, String str, String str2, String str3, String str4, int i5, int i6) {
-                        if (i == 3) {
+                        if (ThemePreviewMessagesCell.this.allowLoadingOnTouch()) {
                             ThemePreviewMessagesCell.this.progress = 2;
                             AndroidUtilities.cancelRunOnUIThread(ThemePreviewMessagesCell.this.cancelProgress);
                             AndroidUtilities.runOnUIThread(ThemePreviewMessagesCell.this.cancelProgress, 5000L);
@@ -713,7 +730,7 @@ public class ThemePreviewMessagesCell extends LinearLayout {
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                     public void didPressInstantButton(ChatMessageCell chatMessageCell, int i5) {
-                        if (i5 == 3) {
+                        if (ThemePreviewMessagesCell.this.allowLoadingOnTouch()) {
                             ThemePreviewMessagesCell.this.progress = 2;
                             chatMessageCell.invalidate();
                             AndroidUtilities.cancelRunOnUIThread(ThemePreviewMessagesCell.this.cancelProgress);
@@ -838,6 +855,12 @@ public class ThemePreviewMessagesCell extends LinearLayout {
         this.shadowDrawable.draw(canvas);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
+    public boolean allowLoadingOnTouch() {
+        int i = this.type;
+        return i == 3 || i == 0;
+    }
+
     @Override // android.view.ViewGroup, android.view.View
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
@@ -855,8 +878,7 @@ public class ThemePreviewMessagesCell extends LinearLayout {
 
     @Override // android.view.ViewGroup
     public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
-        int i = this.type;
-        if (i == 2 || i == 3) {
+        if (this.type == 2 || allowLoadingOnTouch()) {
             return super.onInterceptTouchEvent(motionEvent);
         }
         return false;
@@ -864,8 +886,7 @@ public class ThemePreviewMessagesCell extends LinearLayout {
 
     @Override // android.view.ViewGroup, android.view.View
     public boolean dispatchTouchEvent(MotionEvent motionEvent) {
-        int i = this.type;
-        if (i == 2 || i == 3) {
+        if (this.type == 2 || allowLoadingOnTouch()) {
             return super.dispatchTouchEvent(motionEvent);
         }
         return false;
@@ -873,8 +894,7 @@ public class ThemePreviewMessagesCell extends LinearLayout {
 
     @Override // android.view.View
     public boolean onTouchEvent(MotionEvent motionEvent) {
-        int i = this.type;
-        if (i == 2 || i == 3) {
+        if (this.type == 2 || allowLoadingOnTouch()) {
             return super.onTouchEvent(motionEvent);
         }
         return false;

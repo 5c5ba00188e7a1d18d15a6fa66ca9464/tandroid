@@ -1046,7 +1046,7 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         }
 
         /* JADX WARN: Type inference failed for: r4v23 */
-        /* JADX WARN: Type inference failed for: r4v5, types: [int, boolean] */
+        /* JADX WARN: Type inference failed for: r4v5, types: [boolean, int] */
         /* JADX WARN: Type inference failed for: r4v8 */
         private boolean parseTheme(final Theme.ThemeInfo themeInfo) {
             int stringKeyToInt;

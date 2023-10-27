@@ -22305,7 +22305,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Type inference failed for: r4v30 */
     /* JADX WARN: Type inference failed for: r4v32 */
     /* JADX WARN: Type inference failed for: r7v14 */
-    /* JADX WARN: Type inference failed for: r7v15, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r7v15, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r7v19 */
     /* JADX WARN: Type inference failed for: r7v20 */
     /*
@@ -23435,7 +23435,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Removed duplicated region for block: B:95:0x0192  */
     /* JADX WARN: Removed duplicated region for block: B:98:0x019e  */
     /* JADX WARN: Type inference failed for: r13v4 */
-    /* JADX WARN: Type inference failed for: r13v5, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r13v5, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r13v9 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -24510,7 +24510,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             if (tLRPC$User.bot && tLRPC$User.bot_attach_menu) {
                 TLRPC$TL_messages_getAttachMenuBot tLRPC$TL_messages_getAttachMenuBot = new TLRPC$TL_messages_getAttachMenuBot();
                 tLRPC$TL_messages_getAttachMenuBot.bot = MessagesController.getInstance(this.currentAccount).getInputUser(tLRPC$User.id);
-                ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_getAttachMenuBot, new RequestDelegate() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda282
+                ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_getAttachMenuBot, new RequestDelegate() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda284
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject2, TLRPC$TL_error tLRPC$TL_error) {
                         ChatActivity.this.lambda$openAttachBotLayout$168(tLRPC$User, tLObject2, tLRPC$TL_error);
@@ -24535,7 +24535,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         if (tLObject instanceof TLRPC$TL_attachMenuBotsBot) {
             TLRPC$TL_attachMenuBotsBot tLRPC$TL_attachMenuBotsBot = (TLRPC$TL_attachMenuBotsBot) tLObject;
             MessagesController.getInstance(this.currentAccount).putUsers(tLRPC$TL_attachMenuBotsBot.users, false);
-            TLRPC$TL_attachMenuBot tLRPC$TL_attachMenuBot = tLRPC$TL_attachMenuBotsBot.bot;
+            final TLRPC$TL_attachMenuBot tLRPC$TL_attachMenuBot = tLRPC$TL_attachMenuBotsBot.bot;
             if (!MediaDataController.canShowAttachMenuBot(tLRPC$TL_attachMenuBot, getCurrentUser() != null ? getCurrentUser() : getCurrentChat())) {
                 TLRPC$User tLRPC$User2 = this.currentUser;
                 if (tLRPC$User2 != null && tLRPC$User2.bot && tLRPC$User.id == tLRPC$TL_attachMenuBot.bot_id) {
@@ -24562,7 +24562,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 WebAppDisclaimerAlert.show(getContext(), new com.google.android.exoplayer2.util.Consumer() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda130
                     @Override // com.google.android.exoplayer2.util.Consumer
                     public final void accept(Object obj) {
-                        ChatActivity.this.lambda$openAttachBotLayout$162(tLRPC$User, (Boolean) obj);
+                        ChatActivity.this.lambda$openAttachBotLayout$162(tLRPC$User, tLRPC$TL_attachMenuBot, (Boolean) obj);
                     }
                 }, null);
             } else {
@@ -24574,7 +24574,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 AlertDialog.Builder negativeButton = new AlertDialog.Builder(getParentActivity()).setTopView(attachBotIntroTopView).setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("BotRequestAttachPermission", R.string.BotRequestAttachPermission, UserObject.getUserName(tLRPC$User)))).setPositiveButton(LocaleController.getString(R.string.BotAddToMenu), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda45
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface, int i) {
-                        ChatActivity.this.lambda$openAttachBotLayout$165(tLRPC$User, atomicBoolean, dialogInterface, i);
+                        ChatActivity.this.lambda$openAttachBotLayout$165(tLRPC$User, atomicBoolean, tLRPC$TL_attachMenuBot, dialogInterface, i);
                     }
                 }).setNegativeButton(LocaleController.getString(R.string.Cancel), null);
                 if (tLRPC$TL_attachMenuBot.request_write_access) {
@@ -24600,31 +24600,33 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$openAttachBotLayout$162(final TLRPC$User tLRPC$User, Boolean bool) {
+    public /* synthetic */ void lambda$openAttachBotLayout$162(final TLRPC$User tLRPC$User, final TLRPC$TL_attachMenuBot tLRPC$TL_attachMenuBot, Boolean bool) {
         TLRPC$TL_messages_toggleBotInAttachMenu tLRPC$TL_messages_toggleBotInAttachMenu = new TLRPC$TL_messages_toggleBotInAttachMenu();
         tLRPC$TL_messages_toggleBotInAttachMenu.bot = MessagesController.getInstance(this.currentAccount).getInputUser(tLRPC$User.id);
         tLRPC$TL_messages_toggleBotInAttachMenu.enabled = true;
         tLRPC$TL_messages_toggleBotInAttachMenu.write_allowed = true;
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_toggleBotInAttachMenu, new RequestDelegate() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda284
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_toggleBotInAttachMenu, new RequestDelegate() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda281
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                ChatActivity.this.lambda$openAttachBotLayout$161(tLRPC$User, tLObject, tLRPC$TL_error);
+                ChatActivity.this.lambda$openAttachBotLayout$161(tLRPC$TL_attachMenuBot, tLRPC$User, tLObject, tLRPC$TL_error);
             }
         }, 66);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$openAttachBotLayout$161(final TLRPC$User tLRPC$User, TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda234
+    public /* synthetic */ void lambda$openAttachBotLayout$161(final TLRPC$TL_attachMenuBot tLRPC$TL_attachMenuBot, final TLRPC$User tLRPC$User, TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda232
             @Override // java.lang.Runnable
             public final void run() {
-                ChatActivity.this.lambda$openAttachBotLayout$160(tLRPC$TL_error, tLRPC$User);
+                ChatActivity.this.lambda$openAttachBotLayout$160(tLRPC$TL_attachMenuBot, tLRPC$TL_error, tLRPC$User);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$openAttachBotLayout$160(TLRPC$TL_error tLRPC$TL_error, TLRPC$User tLRPC$User) {
+    public /* synthetic */ void lambda$openAttachBotLayout$160(TLRPC$TL_attachMenuBot tLRPC$TL_attachMenuBot, TLRPC$TL_error tLRPC$TL_error, TLRPC$User tLRPC$User) {
+        tLRPC$TL_attachMenuBot.side_menu_disclaimer_needed = false;
+        tLRPC$TL_attachMenuBot.inactive = false;
         if (tLRPC$TL_error == null) {
             MediaDataController.getInstance(this.currentAccount).loadAttachMenuBots(false, true);
             openAttachBotLayout(tLRPC$User.id, this.attachMenuBotStartCommand, false);
@@ -24632,32 +24634,34 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$openAttachBotLayout$165(final TLRPC$User tLRPC$User, AtomicBoolean atomicBoolean, DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$openAttachBotLayout$165(final TLRPC$User tLRPC$User, AtomicBoolean atomicBoolean, final TLRPC$TL_attachMenuBot tLRPC$TL_attachMenuBot, DialogInterface dialogInterface, int i) {
         TLRPC$TL_messages_toggleBotInAttachMenu tLRPC$TL_messages_toggleBotInAttachMenu = new TLRPC$TL_messages_toggleBotInAttachMenu();
         tLRPC$TL_messages_toggleBotInAttachMenu.bot = MessagesController.getInstance(this.currentAccount).getInputUser(tLRPC$User.id);
         tLRPC$TL_messages_toggleBotInAttachMenu.enabled = true;
         tLRPC$TL_messages_toggleBotInAttachMenu.write_allowed = atomicBoolean.get();
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_toggleBotInAttachMenu, new RequestDelegate() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda283
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_toggleBotInAttachMenu, new RequestDelegate() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda282
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                ChatActivity.this.lambda$openAttachBotLayout$164(tLRPC$User, tLObject, tLRPC$TL_error);
+                ChatActivity.this.lambda$openAttachBotLayout$164(tLRPC$TL_attachMenuBot, tLRPC$User, tLObject, tLRPC$TL_error);
             }
         }, 66);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$openAttachBotLayout$164(final TLRPC$User tLRPC$User, TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda235
+    public /* synthetic */ void lambda$openAttachBotLayout$164(final TLRPC$TL_attachMenuBot tLRPC$TL_attachMenuBot, final TLRPC$User tLRPC$User, TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda234
             @Override // java.lang.Runnable
             public final void run() {
-                ChatActivity.this.lambda$openAttachBotLayout$163(tLRPC$TL_error, tLRPC$User);
+                ChatActivity.this.lambda$openAttachBotLayout$163(tLRPC$TL_error, tLRPC$TL_attachMenuBot, tLRPC$User);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$openAttachBotLayout$163(TLRPC$TL_error tLRPC$TL_error, TLRPC$User tLRPC$User) {
+    public /* synthetic */ void lambda$openAttachBotLayout$163(TLRPC$TL_error tLRPC$TL_error, TLRPC$TL_attachMenuBot tLRPC$TL_attachMenuBot, TLRPC$User tLRPC$User) {
         if (tLRPC$TL_error == null) {
+            tLRPC$TL_attachMenuBot.side_menu_disclaimer_needed = false;
+            tLRPC$TL_attachMenuBot.inactive = false;
             MediaDataController.getInstance(this.currentAccount).loadAttachMenuBots(false, true);
             openAttachBotLayout(tLRPC$User.id, this.attachMenuBotStartCommand, false);
         }
@@ -28605,7 +28609,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Removed duplicated region for block: B:934:0x1687  */
     /* JADX WARN: Type inference failed for: r12v37 */
     /* JADX WARN: Type inference failed for: r12v5 */
-    /* JADX WARN: Type inference failed for: r12v6, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r12v6, types: [boolean, int] */
     @SuppressLint({"ClickableViewAccessibility"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -32737,7 +32741,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 } else {
                     tLRPC$TL_messages_sendScheduledMessages.id.add(Integer.valueOf(this.selectedObject.getId()));
                 }
-                ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_sendScheduledMessages, new RequestDelegate() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda281
+                ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_sendScheduledMessages, new RequestDelegate() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda283
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                         ChatActivity.this.lambda$processSelectedOption$261(tLRPC$TL_messages_sendScheduledMessages, tLObject, tLRPC$TL_error);
@@ -32946,7 +32950,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         if (tLRPC$TL_error == null) {
             getMessagesController().processUpdates((TLRPC$Updates) tLObject, false);
         } else {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda233
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda235
                 @Override // java.lang.Runnable
                 public final void run() {
                     ChatActivity.this.lambda$processSelectedOption$254(tLRPC$TL_error, tLRPC$TL_messages_editMessage);
@@ -32999,7 +33003,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 }
             });
         } else if (tLRPC$TL_error.text != null) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda232
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda233
                 @Override // java.lang.Runnable
                 public final void run() {
                     ChatActivity.this.lambda$processSelectedOption$260(tLRPC$TL_error);
@@ -37829,7 +37833,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 return;
             }
             ChatActivity chatActivity = ChatActivity.this;
-            AlertsCreator.showOpenUrlAlert(chatActivity, str, true, true, true, false, chatActivity.progressDialogCurrent, ChatActivity.this.themeDelegate);
+            AlertsCreator.showOpenUrlAlert(chatActivity, str, true, true, true, !z, chatActivity.progressDialogCurrent, ChatActivity.this.themeDelegate);
         }
 
         /* loaded from: classes3.dex */
@@ -37864,15 +37868,16 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         }
 
         /* JADX WARN: Code restructure failed: missing block: B:37:0x00c3, code lost:
-            if (org.telegram.messenger.DialogObject.getPeerDialogId(r8) != r16.this$0.dialog_id) goto L105;
+            if (org.telegram.messenger.DialogObject.getPeerDialogId(r8) != r16.this$0.dialog_id) goto L119;
          */
-        /* JADX WARN: Removed duplicated region for block: B:107:0x01cb  */
-        /* JADX WARN: Removed duplicated region for block: B:112:0x01d8  */
-        /* JADX WARN: Removed duplicated region for block: B:113:0x01db  */
+        /* JADX WARN: Removed duplicated region for block: B:108:0x01ce  */
+        /* JADX WARN: Removed duplicated region for block: B:121:0x01ed  */
+        /* JADX WARN: Removed duplicated region for block: B:126:0x01fa  */
+        /* JADX WARN: Removed duplicated region for block: B:127:0x01fd  */
         /* JADX WARN: Removed duplicated region for block: B:54:0x00ea  */
         /* JADX WARN: Removed duplicated region for block: B:55:0x00fa  */
         /* JADX WARN: Removed duplicated region for block: B:58:0x00ff  */
-        /* JADX WARN: Removed duplicated region for block: B:95:0x01a7  */
+        /* JADX WARN: Removed duplicated region for block: B:95:0x01a8  */
         @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -37882,30 +37887,32 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             boolean z;
             TLRPC$Chat chat;
             TLRPC$Message tLRPC$Message;
+            TLRPC$Message tLRPC$Message2;
             int i2;
             TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader;
             TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader2;
             TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader3;
             TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader4;
-            TLRPC$Message tLRPC$Message2;
+            TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader5;
+            TLRPC$Message tLRPC$Message3;
             TL_stories$StoryItem tL_stories$StoryItem;
             if (UserObject.isReplyUser(ChatActivity.this.currentUser)) {
                 didPressSideButton(chatMessageCell);
                 return;
             }
             final MessageObject messageObject = chatMessageCell.getMessageObject();
-            if (!messageObject.isReplyToStory() || (tL_stories$StoryItem = (tLRPC$Message2 = messageObject.messageOwner).replyStory) == null) {
+            if (!messageObject.isReplyToStory() || (tL_stories$StoryItem = (tLRPC$Message3 = messageObject.messageOwner).replyStory) == null) {
                 if (ChatActivity.this.chatMode == 2 || ChatActivity.this.chatMode == 1) {
                     ChatActivity.this.chatActivityDelegate.openReplyMessage(i);
                     ChatActivity.this.finishFragment();
                     return;
                 }
-                TLRPC$Message tLRPC$Message3 = messageObject.messageOwner;
-                String str = (tLRPC$Message3 == null || (tLRPC$MessageReplyHeader4 = tLRPC$Message3.reply_to) == null || !tLRPC$MessageReplyHeader4.quote) ? null : tLRPC$MessageReplyHeader4.quote_text;
-                long j2 = ChatActivity.this.dialog_id;
                 TLRPC$Message tLRPC$Message4 = messageObject.messageOwner;
-                if (tLRPC$Message4 != null && (tLRPC$MessageReplyHeader3 = tLRPC$Message4.reply_to) != null) {
-                    TLRPC$Peer tLRPC$Peer = tLRPC$MessageReplyHeader3.reply_to_peer_id;
+                String str = (tLRPC$Message4 == null || (tLRPC$MessageReplyHeader5 = tLRPC$Message4.reply_to) == null || !tLRPC$MessageReplyHeader5.quote) ? null : tLRPC$MessageReplyHeader5.quote_text;
+                long j2 = ChatActivity.this.dialog_id;
+                TLRPC$Message tLRPC$Message5 = messageObject.messageOwner;
+                if (tLRPC$Message5 != null && (tLRPC$MessageReplyHeader4 = tLRPC$Message5.reply_to) != null) {
+                    TLRPC$Peer tLRPC$Peer = tLRPC$MessageReplyHeader4.reply_to_peer_id;
                     if (tLRPC$Peer != null) {
                         if (!(tLRPC$Peer instanceof TLRPC$TL_peerUser)) {
                             j = DialogObject.getPeerDialogId(tLRPC$Peer);
@@ -37923,10 +37930,10 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                     }
                                     return;
                                 }
-                                TLRPC$Message tLRPC$Message5 = messageObject.messageOwner;
-                                if (tLRPC$Message5 != null && (tLRPC$MessageReplyHeader2 = tLRPC$Message5.reply_to) != null && tLRPC$MessageReplyHeader2.quote) {
+                                TLRPC$Message tLRPC$Message6 = messageObject.messageOwner;
+                                if (tLRPC$Message6 != null && (tLRPC$MessageReplyHeader3 = tLRPC$Message6.reply_to) != null && tLRPC$MessageReplyHeader3.quote) {
                                     ChatActivity chatActivity = ChatActivity.this;
-                                    chatActivity.highlightMessageQuote = tLRPC$MessageReplyHeader2.quote_text;
+                                    chatActivity.highlightMessageQuote = tLRPC$MessageReplyHeader3.quote_text;
                                     chatActivity.showNoQuoteAlert = true;
                                 }
                                 ChatActivity.this.scrollToMessageId(i, messageObject.getId(), true, messageObject.getDialogId() == ChatActivity.this.mergeDialogId ? 1 : 0, true, 0, new Runnable() { // from class: org.telegram.ui.ChatActivity$ChatMessageCellDelegate$$ExternalSyntheticLambda3
@@ -37938,22 +37945,31 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 return;
                             }
                             tLRPC$Message = messageObject.messageOwner;
-                            if (tLRPC$Message == null && (tLRPC$MessageReplyHeader = tLRPC$Message.reply_to) != null && !TextUtils.isEmpty(tLRPC$MessageReplyHeader.quote_text) && messageObject.replyTextEllipsized && !messageObject.replyTextRevealed && !messageObject.shouldDrawWithoutBackground()) {
+                            if (tLRPC$Message == null && (tLRPC$MessageReplyHeader2 = tLRPC$Message.reply_to) != null && !TextUtils.isEmpty(tLRPC$MessageReplyHeader2.quote_text) && messageObject.replyTextEllipsized && !messageObject.replyTextRevealed && !messageObject.shouldDrawWithoutBackground()) {
                                 messageObject.replyTextRevealed = true;
                                 ChatActivity.this.updateMessageAnimated(messageObject, true);
                                 return;
                             }
-                            if (chat == null && chat.megagroup) {
-                                i2 = R.string.QuotePrivateGroup;
+                            tLRPC$Message2 = messageObject.messageOwner;
+                            if (tLRPC$Message2 == null && (tLRPC$MessageReplyHeader = tLRPC$Message2.reply_to) != null && tLRPC$MessageReplyHeader.quote) {
+                                if (chat != null && chat.megagroup) {
+                                    i2 = R.string.QuotePrivateGroup;
+                                } else if (ChatObject.isChannel(chat)) {
+                                    i2 = R.string.QuotePrivateChannel;
+                                } else {
+                                    i2 = R.string.QuotePrivate;
+                                }
+                            } else if (chat == null && chat.megagroup) {
+                                i2 = R.string.ReplyPrivateGroup;
                             } else if (ChatObject.isChannel(chat)) {
-                                i2 = R.string.QuotePrivateChannel;
+                                i2 = R.string.ReplyPrivateChannel;
                             } else {
-                                i2 = R.string.QuotePrivate;
+                                i2 = R.string.ReplyPrivate;
                             }
                             BulletinFactory.of(ChatActivity.this).createSimpleBulletin(R.raw.error, LocaleController.getString(i2)).show(true);
                         }
                     } else {
-                        TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader = tLRPC$MessageReplyHeader3.reply_from;
+                        TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader = tLRPC$MessageReplyHeader4.reply_from;
                         if (tLRPC$MessageFwdHeader != null) {
                             TLRPC$Peer tLRPC$Peer2 = tLRPC$MessageFwdHeader.from_id;
                             if (tLRPC$Peer2 != null) {
@@ -37978,6 +37994,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     tLRPC$Message = messageObject.messageOwner;
                     if (tLRPC$Message == null) {
                     }
+                    tLRPC$Message2 = messageObject.messageOwner;
+                    if (tLRPC$Message2 == null) {
+                    }
                     if (chat == null) {
                     }
                     if (ChatObject.isChannel(chat)) {
@@ -37993,6 +38012,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 tLRPC$Message = messageObject.messageOwner;
                 if (tLRPC$Message == null) {
                 }
+                tLRPC$Message2 = messageObject.messageOwner;
+                if (tLRPC$Message2 == null) {
+                }
                 if (chat == null) {
                 }
                 if (ChatObject.isChannel(chat)) {
@@ -38001,7 +38023,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             } else if (tL_stories$StoryItem instanceof TL_stories$TL_storyItemDeleted) {
                 BulletinFactory.of(ChatActivity.this).createSimpleBulletin(R.raw.story_bomb1, LocaleController.getString("StoryNotFound", R.string.StoryNotFound)).show();
             } else {
-                tL_stories$StoryItem.dialogId = tLRPC$Message2.reply_to.user_id;
+                tL_stories$StoryItem.dialogId = tLRPC$Message3.reply_to.user_id;
                 tL_stories$StoryItem.messageId = messageObject.getId();
                 tL_stories$StoryItem.messageType = 3;
                 StoriesUtilities.applyViewedUser(tL_stories$StoryItem, ChatActivity.this.currentUser);
@@ -38310,47 +38332,42 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 ChatActivity chatActivity = ChatActivity.this;
                 TLRPC$MessageMedia tLRPC$MessageMedia3 = messageObject.messageOwner.media;
                 chatActivity.openVCard(user, tLRPC$MessageMedia3.phone_number, tLRPC$MessageMedia3.vcard, tLRPC$MessageMedia3.first_name, tLRPC$MessageMedia3.last_name);
-            } else {
-                if (messageObject.isSponsored()) {
-                    ChatActivity.this.logSponsoredClicked(messageObject);
-                    Bundle bundle = new Bundle();
-                    if (messageObject.sponsoredWebPage != null) {
-                        Browser.openUrl(ChatActivity.this.getContext(), messageObject.sponsoredWebPage.url, true, false);
-                        return;
-                    } else if (messageObject.sponsoredChatInvite != null) {
-                        ChatActivity chatActivity2 = ChatActivity.this;
-                        Context context = ChatActivity.this.getContext();
-                        TLRPC$ChatInvite tLRPC$ChatInvite = messageObject.sponsoredChatInvite;
-                        String str = messageObject.sponsoredChatInviteHash;
-                        ChatActivity chatActivity3 = ChatActivity.this;
-                        chatActivity2.showDialog(new JoinGroupAlert(context, tLRPC$ChatInvite, str, chatActivity3, chatActivity3.themeDelegate));
-                        return;
-                    } else {
-                        long peerId = MessageObject.getPeerId(messageObject.messageOwner.from_id);
-                        if (peerId == ChatActivity.this.getDialogId() && (i2 = messageObject.sponsoredChannelPost) != 0) {
-                            ChatActivity.this.scrollToMessageId(i2, 0, true, 0, false, 0);
-                            return;
-                        }
-                        if (peerId < 0) {
-                            bundle.putLong("chat_id", -peerId);
-                        } else {
-                            bundle.putLong("user_id", peerId);
-                        }
-                        int i3 = messageObject.sponsoredChannelPost;
-                        if (i3 != 0) {
-                            bundle.putInt("message_id", i3);
-                        }
-                        String str2 = messageObject.botStartParam;
-                        if (str2 != null) {
-                            bundle.putString("inline_query", str2);
-                        }
-                        if (ChatActivity.this.getMessagesController().checkCanOpenChat(bundle, ChatActivity.this)) {
-                            ChatActivity.this.presentFragment(new ChatActivity(bundle));
-                            return;
-                        }
+            } else if (messageObject.isSponsored()) {
+                ChatActivity.this.logSponsoredClicked(messageObject);
+                Bundle bundle = new Bundle();
+                if (messageObject.sponsoredWebPage != null) {
+                    Browser.openUrl(ChatActivity.this.getContext(), messageObject.sponsoredWebPage.url, true, false);
+                } else if (messageObject.sponsoredChatInvite != null) {
+                    ChatActivity chatActivity2 = ChatActivity.this;
+                    Context context = ChatActivity.this.getContext();
+                    TLRPC$ChatInvite tLRPC$ChatInvite = messageObject.sponsoredChatInvite;
+                    String str = messageObject.sponsoredChatInviteHash;
+                    ChatActivity chatActivity3 = ChatActivity.this;
+                    chatActivity2.showDialog(new JoinGroupAlert(context, tLRPC$ChatInvite, str, chatActivity3, chatActivity3.themeDelegate));
+                } else {
+                    long peerId = MessageObject.getPeerId(messageObject.messageOwner.from_id);
+                    if (peerId == ChatActivity.this.getDialogId() && (i2 = messageObject.sponsoredChannelPost) != 0) {
+                        ChatActivity.this.scrollToMessageId(i2, 0, true, 0, false, 0);
                         return;
                     }
+                    if (peerId < 0) {
+                        bundle.putLong("chat_id", -peerId);
+                    } else {
+                        bundle.putLong("user_id", peerId);
+                    }
+                    int i3 = messageObject.sponsoredChannelPost;
+                    if (i3 != 0) {
+                        bundle.putInt("message_id", i3);
+                    }
+                    String str2 = messageObject.botStartParam;
+                    if (str2 != null) {
+                        bundle.putString("inline_query", str2);
+                    }
+                    if (ChatActivity.this.getMessagesController().checkCanOpenChat(bundle, ChatActivity.this)) {
+                        ChatActivity.this.presentFragment(new ChatActivity(bundle));
+                    }
                 }
+            } else {
                 TLRPC$WebPage storyMentionWebpage = messageObject.getStoryMentionWebpage();
                 if (storyMentionWebpage == null && (tLRPC$Message = messageObject.messageOwner) != null && (tLRPC$MessageMedia = tLRPC$Message.media) != null) {
                     storyMentionWebpage = tLRPC$MessageMedia.webpage;
@@ -38376,7 +38393,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     ChatActivity.this.progressDialogCurrent.cancel(true);
                 }
                 ChatActivity.this.progressDialogCurrent = chatMessageCell.getMessageObject() != null ? new 8(chatMessageCell) : null;
-                Browser.openUrl(ChatActivity.this.getParentActivity(), Uri.parse(storyMentionWebpage.url), true, true, ChatActivity.this.progressDialogCurrent);
+                Browser.openUrl(ChatActivity.this.getParentActivity(), Uri.parse(storyMentionWebpage.url), true, true, (MessageObject.getMedia(messageObject.messageOwner) == null || MessageObject.getMedia(messageObject.messageOwner).safe) ? false : true, ChatActivity.this.progressDialogCurrent);
             }
         }
 

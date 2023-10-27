@@ -79,6 +79,11 @@ public class BoostViaGiftsBottomSheet extends BottomSheetWithRecyclerListView im
         return false;
     }
 
+    @Override // org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet.SelectedObjectsListener
+    public /* synthetic */ void onShowToast(String str) {
+        SelectorBottomSheet.SelectedObjectsListener.-CC.$default$onShowToast(this, str);
+    }
+
     public BoostViaGiftsBottomSheet(final BaseFragment baseFragment, boolean z, boolean z2, long j, final TL_stories$TL_prepaidGiveaway tL_stories$TL_prepaidGiveaway) {
         super(baseFragment, z, z2);
         ArrayList<BoostAdapter.Item> arrayList = new ArrayList<>();

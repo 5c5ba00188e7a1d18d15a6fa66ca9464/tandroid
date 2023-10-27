@@ -22,6 +22,7 @@ public class ColoredImageSpan extends ReplacementSpan {
     private float scaleY;
     private int size;
     private int sizeWidth;
+    public float spaceScaleX;
     private int topOffset;
     private float translateX;
     private float translateY;
@@ -44,6 +45,7 @@ public class ColoredImageSpan extends ReplacementSpan {
         this.usePaintColor = true;
         this.topOffset = 0;
         this.alpha = 1.0f;
+        this.spaceScaleX = 1.0f;
         this.scaleX = 1.0f;
         this.scaleY = 1.0f;
         this.drawable = drawable;
@@ -79,7 +81,7 @@ public class ColoredImageSpan extends ReplacementSpan {
             abs = Math.abs(this.scaleX);
             i3 = this.sizeWidth;
         } else {
-            abs = Math.abs(this.scaleX);
+            abs = Math.abs(this.scaleX) * Math.abs(this.spaceScaleX);
             i3 = this.size;
             if (i3 == 0) {
                 i3 = this.drawable.getIntrinsicWidth();

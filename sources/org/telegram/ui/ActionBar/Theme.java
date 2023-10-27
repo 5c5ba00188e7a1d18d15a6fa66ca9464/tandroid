@@ -8787,7 +8787,6 @@ public class Theme {
         return changeColorAccent(tempHsv, tempHsv2, i2, themeInfo.isDark());
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public static float[] getTempHsv(int i) {
         ThreadLocal<float[]> threadLocal;
         if (i == 1) {

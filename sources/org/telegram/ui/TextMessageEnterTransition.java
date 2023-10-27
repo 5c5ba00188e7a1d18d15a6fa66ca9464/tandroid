@@ -575,7 +575,7 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
                     getThemedColor(Theme.key_chat_inReplyLine);
                 }
             }
-            if (this.currentMessageObject.shouldDrawWithoutBackground()) {
+            if (!this.currentMessageObject.shouldDrawWithoutBackground()) {
                 if (this.currentMessageObject.isOutOwner()) {
                     if (this.currentMessageObject.isReplyToStory()) {
                         f8 = y4;

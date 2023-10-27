@@ -3,7 +3,6 @@ package org.telegram.ui.Components.Premium.boosts;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import java.util.concurrent.atomic.AtomicBoolean;
 import org.telegram.messenger.AndroidUtilities;
@@ -22,19 +21,18 @@ import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ChatActivity;
 import org.telegram.ui.Components.BottomSheetWithRecyclerListView;
-import org.telegram.ui.Components.LayoutHelper;
+import org.telegram.ui.Components.Bulletin;
+import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet;
 import org.telegram.ui.Components.Premium.boosts.GiftInfoBottomSheet;
 import org.telegram.ui.Components.Premium.boosts.adapters.GiftInfoAdapter;
 import org.telegram.ui.Components.RecyclerListView;
-import org.telegram.ui.Components.UndoView;
 import org.telegram.ui.LaunchActivity;
 /* loaded from: classes4.dex */
 public class GiftInfoBottomSheet extends BottomSheetWithRecyclerListView {
     private GiftInfoAdapter adapter;
     private final TLRPC$TL_payments_checkedGiftCode giftCode;
     private final boolean isUnused;
-    private UndoView undoView;
 
     public static void show(final BaseFragment baseFragment, final String str, final Browser.Progress progress) {
         final AtomicBoolean atomicBoolean = new AtomicBoolean(false);
@@ -129,13 +127,42 @@ public class GiftInfoBottomSheet extends BottomSheetWithRecyclerListView {
     @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView
     public void onViewCreated(FrameLayout frameLayout) {
         super.onViewCreated(frameLayout);
-        this.undoView = new UndoView(getContext(), getBaseFragment(), true, this.resourcesProvider);
-        ((ViewGroup) getWindow().getDecorView()).addView(this.undoView, LayoutHelper.createFrame(-1, -2.0f, 51, 10.0f, 42.0f, 10.0f, 8.0f));
-    }
+        Bulletin.addDelegate(this.container, new Bulletin.Delegate(this) { // from class: org.telegram.ui.Components.Premium.boosts.GiftInfoBottomSheet.1
+            @Override // org.telegram.ui.Components.Bulletin.Delegate
+            public /* synthetic */ boolean allowLayoutChanges() {
+                return Bulletin.Delegate.-CC.$default$allowLayoutChanges(this);
+            }
 
-    @Override // org.telegram.ui.ActionBar.BottomSheet
-    public void onDismissAnimationStart() {
-        this.undoView.animate().alpha(0.0f).setDuration(150L).start();
+            @Override // org.telegram.ui.Components.Bulletin.Delegate
+            public /* synthetic */ boolean clipWithGradient(int i) {
+                return Bulletin.Delegate.-CC.$default$clipWithGradient(this, i);
+            }
+
+            @Override // org.telegram.ui.Components.Bulletin.Delegate
+            public /* synthetic */ int getBottomOffset(int i) {
+                return Bulletin.Delegate.-CC.$default$getBottomOffset(this, i);
+            }
+
+            @Override // org.telegram.ui.Components.Bulletin.Delegate
+            public /* synthetic */ void onBottomOffsetChange(float f) {
+                Bulletin.Delegate.-CC.$default$onBottomOffsetChange(this, f);
+            }
+
+            @Override // org.telegram.ui.Components.Bulletin.Delegate
+            public /* synthetic */ void onHide(Bulletin bulletin) {
+                Bulletin.Delegate.-CC.$default$onHide(this, bulletin);
+            }
+
+            @Override // org.telegram.ui.Components.Bulletin.Delegate
+            public /* synthetic */ void onShow(Bulletin bulletin) {
+                Bulletin.Delegate.-CC.$default$onShow(this, bulletin);
+            }
+
+            @Override // org.telegram.ui.Components.Bulletin.Delegate
+            public int getTopOffset(int i) {
+                return AndroidUtilities.statusBarHeight;
+            }
+        });
     }
 
     @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView
@@ -145,8 +172,8 @@ public class GiftInfoBottomSheet extends BottomSheetWithRecyclerListView {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes4.dex */
-    public class 1 extends GiftInfoAdapter {
-        1(Theme.ResourcesProvider resourcesProvider) {
+    public class 2 extends GiftInfoAdapter {
+        2(Theme.ResourcesProvider resourcesProvider) {
             super(resourcesProvider);
         }
 
@@ -157,10 +184,10 @@ public class GiftInfoBottomSheet extends BottomSheetWithRecyclerListView {
 
         @Override // org.telegram.ui.Components.Premium.boosts.adapters.GiftInfoAdapter
         protected void afterCodeApplied() {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.GiftInfoBottomSheet$1$$ExternalSyntheticLambda0
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.GiftInfoBottomSheet$2$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    GiftInfoBottomSheet.1.this.lambda$afterCodeApplied$0();
+                    GiftInfoBottomSheet.2.this.lambda$afterCodeApplied$0();
                 }
             }, 200L);
         }
@@ -187,13 +214,13 @@ public class GiftInfoBottomSheet extends BottomSheetWithRecyclerListView {
 
         @Override // org.telegram.ui.Components.Premium.boosts.adapters.GiftInfoAdapter
         protected void onHiddenLinkClicked() {
-            GiftInfoBottomSheet.this.undoView.showWithAction(0L, 94, null, null);
+            BulletinFactory.of(((BottomSheet) GiftInfoBottomSheet.this).container, ((BottomSheet) GiftInfoBottomSheet.this).resourcesProvider).createSimpleBulletin(R.raw.chats_infotip, LocaleController.getString("BoostingOnlyRecipientCode", R.string.BoostingOnlyRecipientCode)).show(true);
         }
     }
 
     @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView
     protected RecyclerListView.SelectionAdapter createAdapter() {
-        1 r0 = new 1(this.resourcesProvider);
+        2 r0 = new 2(this.resourcesProvider);
         this.adapter = r0;
         return r0;
     }

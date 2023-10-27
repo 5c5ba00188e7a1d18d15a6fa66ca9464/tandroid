@@ -11,8 +11,8 @@ public final /* synthetic */ class ChatAttachAlert$$ExternalSyntheticLambda14 im
 
     @Override // android.view.View.OnTouchListener
     public final boolean onTouch(View view, MotionEvent motionEvent) {
-        boolean lambda$new$10;
-        lambda$new$10 = ChatAttachAlert.lambda$new$10(view, motionEvent);
-        return lambda$new$10;
+        boolean lambda$new$13;
+        lambda$new$13 = ChatAttachAlert.lambda$new$13(view, motionEvent);
+        return lambda$new$13;
     }
 }

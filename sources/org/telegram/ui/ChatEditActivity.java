@@ -1559,7 +1559,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$14(View view) {
-        presentFragment(new PeerColorActivity(-this.currentChat.id));
+        presentFragment(new PeerColorActivity(-this.currentChat.id).setOnApplied(this));
     }
 
     /* JADX INFO: Access modifiers changed from: private */

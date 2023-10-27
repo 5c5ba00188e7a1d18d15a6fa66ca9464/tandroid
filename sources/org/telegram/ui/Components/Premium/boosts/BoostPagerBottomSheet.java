@@ -12,6 +12,7 @@ import androidx.core.graphics.ColorUtils;
 import java.util.List;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.MessagesController;
+import org.telegram.messenger.R;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$TL_help_country;
@@ -20,6 +21,8 @@ import org.telegram.tgnet.tl.TL_stories$TL_prepaidGiveaway;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.Components.Bulletin;
+import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.Premium.boosts.BoostViaGiftsBottomSheet;
 import org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet;
 import org.telegram.ui.Components.ViewPagerFixed;
@@ -223,6 +226,11 @@ public class BoostPagerBottomSheet extends BottomSheet {
                 BoostPagerBottomSheet.this.viewPager.scrollToPosition(0);
                 boostViaGiftsBottomSheet.onCountrySelected(list);
             }
+
+            @Override // org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet.SelectedObjectsListener
+            public void onShowToast(String str) {
+                BulletinFactory.of(((BottomSheet) BoostPagerBottomSheet.this).container, resourcesProvider).createSimpleBulletin(R.raw.chats_infotip, str).show(true);
+            }
         });
         selectorBottomSheet.setOnCloseClick(new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.BoostPagerBottomSheet$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
@@ -231,6 +239,42 @@ public class BoostPagerBottomSheet extends BottomSheet {
             }
         });
         loadData(z2);
+        Bulletin.addDelegate(this.container, new Bulletin.Delegate(this) { // from class: org.telegram.ui.Components.Premium.boosts.BoostPagerBottomSheet.5
+            @Override // org.telegram.ui.Components.Bulletin.Delegate
+            public /* synthetic */ boolean allowLayoutChanges() {
+                return Bulletin.Delegate.-CC.$default$allowLayoutChanges(this);
+            }
+
+            @Override // org.telegram.ui.Components.Bulletin.Delegate
+            public /* synthetic */ boolean clipWithGradient(int i) {
+                return Bulletin.Delegate.-CC.$default$clipWithGradient(this, i);
+            }
+
+            @Override // org.telegram.ui.Components.Bulletin.Delegate
+            public /* synthetic */ int getBottomOffset(int i) {
+                return Bulletin.Delegate.-CC.$default$getBottomOffset(this, i);
+            }
+
+            @Override // org.telegram.ui.Components.Bulletin.Delegate
+            public /* synthetic */ void onBottomOffsetChange(float f) {
+                Bulletin.Delegate.-CC.$default$onBottomOffsetChange(this, f);
+            }
+
+            @Override // org.telegram.ui.Components.Bulletin.Delegate
+            public /* synthetic */ void onHide(Bulletin bulletin) {
+                Bulletin.Delegate.-CC.$default$onHide(this, bulletin);
+            }
+
+            @Override // org.telegram.ui.Components.Bulletin.Delegate
+            public /* synthetic */ void onShow(Bulletin bulletin) {
+                Bulletin.Delegate.-CC.$default$onShow(this, bulletin);
+            }
+
+            @Override // org.telegram.ui.Components.Bulletin.Delegate
+            public int getTopOffset(int i) {
+                return AndroidUtilities.statusBarHeight;
+            }
+        });
     }
 
     @Override // org.telegram.ui.ActionBar.BottomSheet

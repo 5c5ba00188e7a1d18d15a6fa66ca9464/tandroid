@@ -10,6 +10,6 @@ public final /* synthetic */ class LaunchActivity$$ExternalSyntheticLambda19 imp
 
     @Override // android.view.View.OnClickListener
     public final void onClick(View view) {
-        LaunchActivity.lambda$setupActionBarLayout$9(view);
+        LaunchActivity.lambda$setupActionBarLayout$11(view);
     }
 }

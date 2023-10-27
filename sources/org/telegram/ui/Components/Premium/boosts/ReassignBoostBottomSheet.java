@@ -41,13 +41,14 @@ import org.telegram.ui.Cells.ShadowSectionCell;
 import org.telegram.ui.Components.AvatarDrawable;
 import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.BottomSheetWithRecyclerListView;
+import org.telegram.ui.Components.Bulletin;
+import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.Premium.PremiumGradient;
 import org.telegram.ui.Components.Premium.boosts.cells.selector.SelectorBtnCell;
 import org.telegram.ui.Components.Premium.boosts.cells.selector.SelectorUserCell;
 import org.telegram.ui.Components.RecyclerListView;
-import org.telegram.ui.Components.UndoView;
 import org.telegram.ui.Stories.recorder.ButtonWithCounterView;
 /* loaded from: classes4.dex */
 public class ReassignBoostBottomSheet extends BottomSheetWithRecyclerListView {
@@ -58,7 +59,6 @@ public class ReassignBoostBottomSheet extends BottomSheetWithRecyclerListView {
     private final List<TL_stories$TL_myBoost> selectedBoosts;
     private CountDownTimer timer;
     private TopCell topCell;
-    private UndoView undoView;
 
     public static ReassignBoostBottomSheet show(BaseFragment baseFragment, TL_stories$TL_premium_myBoosts tL_stories$TL_premium_myBoosts, TLRPC$Chat tLRPC$Chat) {
         ReassignBoostBottomSheet reassignBoostBottomSheet = new ReassignBoostBottomSheet(baseFragment, tL_stories$TL_premium_myBoosts, tLRPC$Chat);
@@ -136,12 +136,45 @@ public class ReassignBoostBottomSheet extends BottomSheetWithRecyclerListView {
                 ReassignBoostBottomSheet.this.lambda$new$3(tLRPC$Chat, view, i3);
             }
         });
-        UndoView undoView = new UndoView(getContext(), getBaseFragment(), true, this.resourcesProvider);
-        this.undoView = undoView;
-        this.container.addView(undoView, LayoutHelper.createFrame(-1, -2.0f, 51, 10.0f, 42.0f, 10.0f, 8.0f));
         fixNavigationBar();
         updateTitle();
         updateActionButton(false);
+        Bulletin.addDelegate(this.container, new Bulletin.Delegate(this) { // from class: org.telegram.ui.Components.Premium.boosts.ReassignBoostBottomSheet.2
+            @Override // org.telegram.ui.Components.Bulletin.Delegate
+            public /* synthetic */ boolean allowLayoutChanges() {
+                return Bulletin.Delegate.-CC.$default$allowLayoutChanges(this);
+            }
+
+            @Override // org.telegram.ui.Components.Bulletin.Delegate
+            public /* synthetic */ boolean clipWithGradient(int i3) {
+                return Bulletin.Delegate.-CC.$default$clipWithGradient(this, i3);
+            }
+
+            @Override // org.telegram.ui.Components.Bulletin.Delegate
+            public /* synthetic */ int getBottomOffset(int i3) {
+                return Bulletin.Delegate.-CC.$default$getBottomOffset(this, i3);
+            }
+
+            @Override // org.telegram.ui.Components.Bulletin.Delegate
+            public /* synthetic */ void onBottomOffsetChange(float f) {
+                Bulletin.Delegate.-CC.$default$onBottomOffsetChange(this, f);
+            }
+
+            @Override // org.telegram.ui.Components.Bulletin.Delegate
+            public /* synthetic */ void onHide(Bulletin bulletin) {
+                Bulletin.Delegate.-CC.$default$onHide(this, bulletin);
+            }
+
+            @Override // org.telegram.ui.Components.Bulletin.Delegate
+            public /* synthetic */ void onShow(Bulletin bulletin) {
+                Bulletin.Delegate.-CC.$default$onShow(this, bulletin);
+            }
+
+            @Override // org.telegram.ui.Components.Bulletin.Delegate
+            public int getTopOffset(int i3) {
+                return AndroidUtilities.statusBarHeight;
+            }
+        });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -186,7 +219,7 @@ public class ReassignBoostBottomSheet extends BottomSheetWithRecyclerListView {
         if (view instanceof SelectorUserCell) {
             SelectorUserCell selectorUserCell = (SelectorUserCell) view;
             if (selectorUserCell.getBoost().cooldown_until_date > 0) {
-                this.undoView.showWithAction(0L, 93, null, null);
+                BulletinFactory.of(this.container, this.resourcesProvider).createSimpleBulletin(R.raw.chats_infotip, AndroidUtilities.replaceTags(LocaleController.formatString("BoostingWaitWarning", R.string.BoostingWaitWarning, Integer.valueOf(BoostRepository.boostsPerSentGift()))), 5).show(true);
                 return;
             }
             if (this.selectedBoosts.contains(selectorUserCell.getBoost())) {
@@ -203,7 +236,7 @@ public class ReassignBoostBottomSheet extends BottomSheetWithRecyclerListView {
     @Override // android.app.Dialog, android.view.Window.Callback
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
-        this.timer = new CountDownTimer(Long.MAX_VALUE, 1000L) { // from class: org.telegram.ui.Components.Premium.boosts.ReassignBoostBottomSheet.2
+        this.timer = new CountDownTimer(Long.MAX_VALUE, 1000L) { // from class: org.telegram.ui.Components.Premium.boosts.ReassignBoostBottomSheet.3
             @Override // android.os.CountDownTimer
             public void onFinish() {
             }
@@ -248,11 +281,6 @@ public class ReassignBoostBottomSheet extends BottomSheetWithRecyclerListView {
     }
 
     @Override // org.telegram.ui.ActionBar.BottomSheet
-    public void onDismissAnimationStart() {
-        this.undoView.animate().alpha(0.0f).setDuration(150L).start();
-    }
-
-    @Override // org.telegram.ui.ActionBar.BottomSheet
     public void onOpenAnimationEnd() {
         this.timer.start();
     }
@@ -275,7 +303,7 @@ public class ReassignBoostBottomSheet extends BottomSheetWithRecyclerListView {
 
     @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView
     protected RecyclerListView.SelectionAdapter createAdapter() {
-        return new RecyclerListView.SelectionAdapter() { // from class: org.telegram.ui.Components.Premium.boosts.ReassignBoostBottomSheet.3
+        return new RecyclerListView.SelectionAdapter() { // from class: org.telegram.ui.Components.Premium.boosts.ReassignBoostBottomSheet.4
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
             public int getItemViewType(int i) {
                 if (i != 0) {
