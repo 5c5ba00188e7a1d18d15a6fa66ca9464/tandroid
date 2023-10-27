@@ -15132,8 +15132,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:48:0x009e  */
-    /* JADX WARN: Removed duplicated region for block: B:60:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:52:0x00a8  */
+    /* JADX WARN: Removed duplicated region for block: B:65:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -15143,67 +15143,70 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         char c2;
         MessagePreviewParams messagePreviewParams;
         if (this.currentEncryptedChat == null || getMessagesController().secretWebpagePreview != 0) {
-            checkEditLinkRemoved(charSequence);
-            if (z && (tLRPC$WebPage = this.foundWebPage) != null) {
-                String str = tLRPC$WebPage.url;
-                if (str != null) {
-                    int indexOf = TextUtils.indexOf(charSequence, str);
-                    char c3 = 0;
-                    if (indexOf == -1) {
-                        String str2 = this.foundWebPage.display_url;
-                        if (str2 != null) {
-                            indexOf = TextUtils.indexOf(charSequence, str2);
-                            c = (indexOf == -1 || this.foundWebPage.display_url.length() + indexOf != charSequence.length()) ? (char) 0 : (char) 1;
-                            if (indexOf != -1 && c == 0) {
-                                c3 = charSequence.charAt(this.foundWebPage.display_url.length() + indexOf);
-                            }
-                        } else {
-                            c2 = 0;
-                            if (indexOf != -1 && (c3 != 0 || c2 == ' ' || c2 == ',' || c2 == '.' || c2 == '!' || c2 == '/')) {
-                                messagePreviewParams = this.messagePreviewParams;
-                                if (messagePreviewParams == null) {
-                                    int i = this.currentAccount;
-                                    TLRPC$WebPage tLRPC$WebPage2 = this.foundWebPage;
-                                    CharSequence fieldText = this.chatActivityEnterView.getFieldText();
-                                    MessageObject messageObject = this.replyingMessageObject;
-                                    messagePreviewParams.updateLink(i, tLRPC$WebPage2, fieldText, messageObject == this.threadMessageObject ? null : messageObject, this.replyingQuote, this.editingMessageObject);
+            MessageObject messageObject = this.editingMessageObject;
+            if (messageObject == null || messageObject.isWebpage()) {
+                checkEditLinkRemoved(charSequence);
+                if (z && (tLRPC$WebPage = this.foundWebPage) != null) {
+                    String str = tLRPC$WebPage.url;
+                    if (str != null) {
+                        int indexOf = TextUtils.indexOf(charSequence, str);
+                        char c3 = 0;
+                        if (indexOf == -1) {
+                            String str2 = this.foundWebPage.display_url;
+                            if (str2 != null) {
+                                indexOf = TextUtils.indexOf(charSequence, str2);
+                                c = (indexOf == -1 || this.foundWebPage.display_url.length() + indexOf != charSequence.length()) ? (char) 0 : (char) 1;
+                                if (indexOf != -1 && c == 0) {
+                                    c3 = charSequence.charAt(this.foundWebPage.display_url.length() + indexOf);
+                                }
+                            } else {
+                                c2 = 0;
+                                if (indexOf != -1 && (c3 != 0 || c2 == ' ' || c2 == ',' || c2 == '.' || c2 == '!' || c2 == '/')) {
+                                    messagePreviewParams = this.messagePreviewParams;
+                                    if (messagePreviewParams == null) {
+                                        int i = this.currentAccount;
+                                        TLRPC$WebPage tLRPC$WebPage2 = this.foundWebPage;
+                                        CharSequence fieldText = this.chatActivityEnterView.getFieldText();
+                                        MessageObject messageObject2 = this.replyingMessageObject;
+                                        messagePreviewParams.updateLink(i, tLRPC$WebPage2, fieldText, messageObject2 == this.threadMessageObject ? null : messageObject2, this.replyingQuote, this.editingMessageObject);
+                                        return;
+                                    }
                                     return;
                                 }
-                                return;
+                            }
+                        } else {
+                            c = this.foundWebPage.url.length() + indexOf == charSequence.length() ? (char) 1 : (char) 0;
+                            if (c == 0) {
+                                c3 = charSequence.charAt(this.foundWebPage.url.length() + indexOf);
                             }
                         }
-                    } else {
-                        c = this.foundWebPage.url.length() + indexOf == charSequence.length() ? (char) 1 : (char) 0;
-                        if (c == 0) {
-                            c3 = charSequence.charAt(this.foundWebPage.url.length() + indexOf);
+                        char c4 = c;
+                        c2 = c3;
+                        c3 = c4;
+                        if (indexOf != -1) {
+                            messagePreviewParams = this.messagePreviewParams;
+                            if (messagePreviewParams == null) {
+                            }
                         }
                     }
-                    char c4 = c;
-                    c2 = c3;
-                    c3 = c4;
-                    if (indexOf != -1) {
-                        messagePreviewParams = this.messagePreviewParams;
-                        if (messagePreviewParams == null) {
-                        }
+                    this.pendingLinkSearchString = null;
+                    this.foundUrls = null;
+                    this.foundWebPage = null;
+                    ChatActivityEnterView chatActivityEnterView = this.chatActivityEnterView;
+                    if (chatActivityEnterView != null) {
+                        chatActivityEnterView.setWebPage(null, true);
                     }
+                    fallbackFieldPanel();
+                    editResetMediaManual();
                 }
-                this.pendingLinkSearchString = null;
-                this.foundUrls = null;
-                this.foundWebPage = null;
-                ChatActivityEnterView chatActivityEnterView = this.chatActivityEnterView;
-                if (chatActivityEnterView != null) {
-                    chatActivityEnterView.setWebPage(null, true);
-                }
-                fallbackFieldPanel();
-                editResetMediaManual();
+                final MessagesController messagesController = getMessagesController();
+                Utilities.searchQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda210
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        ChatActivity.this.lambda$searchLinks$106(charSequence, messagesController, z);
+                    }
+                });
             }
-            final MessagesController messagesController = getMessagesController();
-            Utilities.searchQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda210
-                @Override // java.lang.Runnable
-                public final void run() {
-                    ChatActivity.this.lambda$searchLinks$106(charSequence, messagesController, z);
-                }
-            });
         }
     }
 
@@ -15809,36 +15812,37 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:215:0x04e7  */
-    /* JADX WARN: Removed duplicated region for block: B:455:0x09f3  */
-    /* JADX WARN: Removed duplicated region for block: B:477:0x0a70  */
-    /* JADX WARN: Type inference failed for: r2v66, types: [java.lang.CharSequence] */
+    /* JADX WARN: Removed duplicated region for block: B:241:0x053b  */
+    /* JADX WARN: Removed duplicated region for block: B:481:0x0a42  */
+    /* JADX WARN: Removed duplicated region for block: B:503:0x0abf  */
     /* JADX WARN: Type inference failed for: r2v67, types: [java.lang.CharSequence] */
     /* JADX WARN: Type inference failed for: r2v68, types: [java.lang.CharSequence] */
-    /* JADX WARN: Type inference failed for: r2v70, types: [java.lang.CharSequence] */
-    /* JADX WARN: Type inference failed for: r2v79, types: [java.lang.CharSequence] */
-    /* JADX WARN: Type inference failed for: r2v81, types: [android.text.SpannableStringBuilder, java.lang.CharSequence] */
-    /* JADX WARN: Type inference failed for: r5v43, types: [java.lang.CharSequence] */
+    /* JADX WARN: Type inference failed for: r2v69, types: [java.lang.CharSequence] */
+    /* JADX WARN: Type inference failed for: r2v71, types: [java.lang.CharSequence] */
+    /* JADX WARN: Type inference failed for: r2v80, types: [java.lang.CharSequence] */
+    /* JADX WARN: Type inference failed for: r2v82, types: [android.text.SpannableStringBuilder, java.lang.CharSequence] */
+    /* JADX WARN: Type inference failed for: r5v47, types: [java.lang.CharSequence] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void showFieldPanel(boolean z, MessageObject messageObject, MessageObject messageObject2, ArrayList<MessageObject> arrayList, TLRPC$WebPage tLRPC$WebPage, boolean z2, int i, ReplyQuote replyQuote, boolean z3, boolean z4) {
-        StringBuilder sb;
         String str;
-        String formatPluralString;
         boolean z5;
-        StringBuilder sb2;
+        StringBuilder sb;
+        CharSequence formatPluralString;
+        boolean z6;
         TLRPC$Chat chat;
         TLRPC$User tLRPC$User;
+        CharSequence charSequence;
         long j;
         long j2;
         TLRPC$Chat chat2;
-        CharSequence charSequence;
         CharSequence formatString;
         String str2;
         Spannable spannable;
         ArrayList<TLRPC$MessageEntity> arrayList2;
         String str3;
+        TLRPC$Peer tLRPC$Peer;
         FrameLayout.LayoutParams layoutParams;
         FrameLayout.LayoutParams layoutParams2;
         FrameLayout.LayoutParams layoutParams3;
@@ -15846,7 +15850,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         int i2;
         TLRPC$PhotoSize tLRPC$PhotoSize2;
         TLObject tLObject;
-        TLRPC$Message tLRPC$Message;
         TLRPC$MessageMedia tLRPC$MessageMedia;
         TLRPC$WebPage tLRPC$WebPage2;
         String string;
@@ -15856,7 +15859,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         if (chatActivityEnterView == null) {
             return;
         }
-        boolean z6 = false;
+        str = "";
         if (!z) {
             this.fieldPanelShown = 0;
             if (this.replyingMessageObject == null && this.messagePreviewParams == null && this.foundWebPage == null && this.editingMessageObject == null && !chatActivityEnterView.isTopViewVisible()) {
@@ -15876,8 +15879,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     sb.append("");
                     sb.append(this.dialog_id);
                 }
-                String sb3 = sb.toString();
-                mainSettings.edit().putInt("answered_" + sb3, this.replyingMessageObject.getId()).commit();
+                String sb2 = sb.toString();
+                mainSettings.edit().putInt("answered_" + sb2, this.replyingMessageObject.getId()).commit();
             }
             if (this.foundWebPage != null) {
                 this.foundWebPage = null;
@@ -15909,6 +15912,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             this.replyImageLocation = null;
             this.replyImageLocationObject = null;
             updateBottomOverlay();
+            z5 = false;
         } else if (messageObject3 == null && arrayList == null && messageObject2 == null && tLRPC$WebPage == null) {
             this.messagePreviewParams = null;
             return;
@@ -15995,21 +15999,37 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             }
                             Spannable spannableStringBuilder = new SpannableStringBuilder(Emoji.replaceEmoji((CharSequence) charSequence4.replace('\n', ' '), this.replyObjectTextView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(14.0f), false));
                             MediaDataController.addTextStyleRuns(messageObject2, spannableStringBuilder);
-                            TLRPC$Message tLRPC$Message2 = messageObject2.messageOwner;
-                            if (tLRPC$Message2 != null) {
-                                spannableStringBuilder = MessageObject.replaceAnimatedEmoji(spannableStringBuilder, tLRPC$Message2.entities, this.replyObjectTextView.getPaint().getFontMetricsInt());
+                            TLRPC$Message tLRPC$Message = messageObject2.messageOwner;
+                            if (tLRPC$Message != null) {
+                                spannableStringBuilder = MessageObject.replaceAnimatedEmoji(spannableStringBuilder, tLRPC$Message.entities, this.replyObjectTextView.getPaint().getFontMetricsInt());
                             }
                             this.replyObjectTextView.setText(AnimatedEmojiSpan.cloneSpans(spannableStringBuilder));
                         }
                     }
                 }
-                if (z7 && (tLRPC$Message = messageObject2.messageOwner) != null && (tLRPC$MessageMedia = tLRPC$Message.media) != null && (tLRPC$WebPage2 = tLRPC$MessageMedia.webpage) != null) {
-                    this.foundWebPage = tLRPC$WebPage2;
-                    this.chatActivityEnterView.setWebPage(tLRPC$WebPage2, false);
-                    showFieldPanelForWebPage(true, this.foundWebPage, false);
-                    return;
+                if (z7) {
+                    TLRPC$Message tLRPC$Message2 = messageObject2.messageOwner;
+                    if (tLRPC$Message2 != null && (tLRPC$MessageMedia = tLRPC$Message2.media) != null && (tLRPC$WebPage2 = tLRPC$MessageMedia.webpage) != null) {
+                        this.foundWebPage = tLRPC$WebPage2;
+                        this.chatActivityEnterView.setWebPage(tLRPC$WebPage2, false);
+                        showFieldPanelForWebPage(true, this.foundWebPage, false);
+                        return;
+                    }
+                    this.foundWebPage = null;
+                    MessagePreviewParams messagePreviewParams4 = this.messagePreviewParams;
+                    if (messagePreviewParams4 != null) {
+                        int i3 = this.currentAccount;
+                        CharSequence fieldText = this.chatActivityEnterView.getFieldText();
+                        MessageObject messageObject5 = this.replyingMessageObject;
+                        messagePreviewParams4.updateLink(i3, null, fieldText, messageObject5 == this.threadMessageObject ? null : messageObject5, this.replyingQuote, this.editingMessageObject);
+                    }
+                    ChatActivityEnterView chatActivityEnterView2 = this.chatActivityEnterView;
+                    if (chatActivityEnterView2 != null) {
+                        chatActivityEnterView2.setWebPage(null, false);
+                    }
                 }
             } else {
+                long j3 = 0;
                 if (messageObject3 != null) {
                     this.editingMessageObject = null;
                     this.replyingMessageObject = messageObject3;
@@ -16020,24 +16040,25 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     this.chatActivityEnterView.setReplyingMessageObject(messageObject3, replyQuote);
                     this.chatActivityEnterView.setEditingMessageObject(null, false);
                     if (this.messagePreviewParams == null) {
-                        MessagePreviewParams messagePreviewParams4 = new MessagePreviewParams(this.currentEncryptedChat != null, getMessagesController().isChatNoForwards(this.currentChat));
-                        this.messagePreviewParams = messagePreviewParams4;
-                        messagePreviewParams4.attach(this.forwardingPreviewView);
+                        MessagePreviewParams messagePreviewParams5 = new MessagePreviewParams(this.currentEncryptedChat != null, getMessagesController().isChatNoForwards(this.currentChat));
+                        this.messagePreviewParams = messagePreviewParams5;
+                        messagePreviewParams5.attach(this.forwardingPreviewView);
                     }
-                    MessagePreviewParams messagePreviewParams5 = this.messagePreviewParams;
-                    MessageObject messageObject5 = this.replyingMessageObject;
+                    MessagePreviewParams messagePreviewParams6 = this.messagePreviewParams;
+                    MessageObject messageObject6 = this.replyingMessageObject;
                     MessageObject.GroupedMessages groupedMessages = this.replyingQuoteGroup;
                     if (groupedMessages == null) {
-                        groupedMessages = getGroup(messageObject5.getGroupId());
+                        groupedMessages = getGroup(messageObject6.getGroupId());
                     }
-                    messagePreviewParams5.updateReply(messageObject5, groupedMessages, this.dialog_id, this.replyingQuote);
+                    messagePreviewParams6.updateReply(messageObject6, groupedMessages, this.dialog_id, this.replyingQuote);
                     if (this.messagePreviewParams.isEmpty() && this.editingMessageObject == null) {
                         this.messagePreviewParams = null;
                     }
                     this.fieldPanelShown = 2;
                     String restrictionReason = MessagesController.getRestrictionReason(messageObject3.messageOwner.restriction_reason);
                     this.chatActivityEnterView.setForceShowSendButton(false, false);
-                    if (messageObject.isFromUser()) {
+                    CharSequence peerNameWithIcon = (!messageObject.isForwarded() || (tLRPC$Peer = messageObject3.messageOwner.fwd_from.from_id) == null) ? null : MessageObject.peerNameWithIcon(this.currentAccount, tLRPC$Peer);
+                    if (peerNameWithIcon == null && messageObject.isFromUser()) {
                         if (messageObject3.messageOwner.from_id.channel_id != 0) {
                             TLRPC$Chat chat3 = getMessagesController().getChat(Long.valueOf(messageObject3.messageOwner.from_id.channel_id));
                             if (chat3 == null) {
@@ -16048,18 +16069,18 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 charSequenceArr[0] = ChatObject.isChannelAndNotMegaGroup(chat3) ? MessageObject.channelSpan() : MessageObject.groupSpan();
                                 charSequenceArr[1] = " ";
                                 charSequenceArr[2] = chat3.title;
-                                charSequence = TextUtils.concat(charSequenceArr);
+                                peerNameWithIcon = TextUtils.concat(charSequenceArr);
                             } else {
-                                charSequence = chat3.title;
+                                peerNameWithIcon = chat3.title;
                             }
                         } else {
                             TLRPC$User user = getMessagesController().getUser(Long.valueOf(messageObject3.messageOwner.from_id.user_id));
                             if (user == null) {
                                 return;
                             }
-                            charSequence = UserObject.getUserName(user);
+                            peerNameWithIcon = UserObject.getUserName(user);
                         }
-                    } else {
+                    } else if (peerNameWithIcon == null) {
                         if (ChatObject.isChannel(this.currentChat) && this.currentChat.megagroup && messageObject.isForwardedChannelPost()) {
                             chat2 = getMessagesController().getChat(Long.valueOf(messageObject3.messageOwner.fwd_from.from_id.channel_id));
                         } else {
@@ -16073,23 +16094,26 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             charSequenceArr2[0] = ChatObject.isChannelAndNotMegaGroup(chat2) ? MessageObject.channelSpan() : MessageObject.groupSpan();
                             charSequenceArr2[1] = " ";
                             charSequenceArr2[2] = chat2.title;
-                            charSequence = TextUtils.concat(charSequenceArr2);
+                            peerNameWithIcon = TextUtils.concat(charSequenceArr2);
                         } else {
-                            charSequence = chat2.title;
+                            peerNameWithIcon = chat2.title;
                         }
                     }
                     if (replyQuote != null) {
                         this.replyIconImageView.setImageResource(R.drawable.filled_reply_quote);
-                        formatString = AndroidUtilities.replaceCharSequence("%s", LocaleController.getString(R.string.ReplyToQuote), charSequence);
+                        formatString = AndroidUtilities.replaceCharSequence("%s", LocaleController.getString(R.string.ReplyToQuote), peerNameWithIcon != null ? peerNameWithIcon : "");
                     } else {
                         this.replyIconImageView.setImageResource(R.drawable.filled_reply_settings);
-                        formatString = LocaleController.formatString(R.string.ReplyTo, charSequence);
+                        int i4 = R.string.ReplyTo;
+                        Object[] objArr = new Object[1];
+                        objArr[0] = peerNameWithIcon != null ? peerNameWithIcon : "";
+                        formatString = LocaleController.formatString(i4, objArr);
                     }
                     this.replyNameTextView.setText(Emoji.replaceEmoji(formatString, this.replyNameTextView.getPaint().getFontMetricsInt(), false));
                     this.replyIconImageView.setContentDescription(LocaleController.getString("AccDescrReplying", R.string.AccDescrReplying));
                     this.replyCloseImageView.setContentDescription(LocaleController.getString("AccDescrCancelReply", R.string.AccDescrCancelReply));
                     this.replyObjectHintTextView.setText(LocaleController.getString(R.string.TapForReplyOptions));
-                    z5 = !SharedConfig.replyingOptionsHintShown;
+                    z6 = !SharedConfig.replyingOptionsHintShown;
                     TLRPC$Message tLRPC$Message3 = messageObject3.messageOwner;
                     ArrayList<TLRPC$MessageEntity> arrayList4 = tLRPC$Message3 != null ? tLRPC$Message3.entities : null;
                     ReplyQuote replyQuote2 = this.replyingQuote;
@@ -16172,9 +16196,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     }
                     this.fieldPanelShown = 3;
                     if (this.messagePreviewParams == null) {
-                        MessagePreviewParams messagePreviewParams6 = new MessagePreviewParams(this.currentEncryptedChat != null, getMessagesController().isChatNoForwards(this.currentChat));
-                        this.messagePreviewParams = messagePreviewParams6;
-                        messagePreviewParams6.attach(this.forwardingPreviewView);
+                        MessagePreviewParams messagePreviewParams7 = new MessagePreviewParams(this.currentEncryptedChat != null, getMessagesController().isChatNoForwards(this.currentChat));
+                        this.messagePreviewParams = messagePreviewParams7;
+                        messagePreviewParams7.attach(this.forwardingPreviewView);
                     }
                     this.messagePreviewParams.updateForward(arrayList, this.dialog_id);
                     if (this.messagePreviewParams.isEmpty() && this.editingMessageObject == null) {
@@ -16187,173 +16211,172 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     this.replyIconImageView.setImageResource(R.drawable.filled_forward);
                     this.replyIconImageView.setContentDescription(LocaleController.getString("AccDescrForwarding", R.string.AccDescrForwarding));
                     this.replyCloseImageView.setContentDescription(LocaleController.getString("AccDescrCancelForward", R.string.AccDescrCancelForward));
-                    MessageObject messageObject6 = arrayList.get(0);
-                    if (messageObject6.isFromUser()) {
-                        arrayList5.add(Long.valueOf(messageObject6.messageOwner.from_id.user_id));
-                        str = "";
+                    MessageObject messageObject7 = arrayList.get(0);
+                    if (messageObject7.isFromUser()) {
+                        arrayList5.add(Long.valueOf(messageObject7.messageOwner.from_id.user_id));
                     } else {
-                        str = "";
-                        TLRPC$Chat chat4 = getMessagesController().getChat(Long.valueOf(messageObject6.messageOwner.peer_id.channel_id));
-                        if (ChatObject.isChannel(chat4) && chat4.megagroup && messageObject6.isForwardedChannelPost()) {
-                            arrayList5.add(Long.valueOf(-messageObject6.messageOwner.fwd_from.from_id.channel_id));
+                        TLRPC$Chat chat4 = getMessagesController().getChat(Long.valueOf(messageObject7.messageOwner.peer_id.channel_id));
+                        if (ChatObject.isChannel(chat4) && chat4.megagroup && messageObject7.isForwardedChannelPost()) {
+                            arrayList5.add(Long.valueOf(-messageObject7.messageOwner.fwd_from.from_id.channel_id));
                         } else {
-                            arrayList5.add(Long.valueOf(-messageObject6.messageOwner.peer_id.channel_id));
+                            arrayList5.add(Long.valueOf(-messageObject7.messageOwner.peer_id.channel_id));
                         }
                     }
-                    int i3 = (messageObject6.isAnimatedEmoji() || messageObject6.isDice()) ? 0 : messageObject6.type;
-                    for (int i4 = 1; i4 < arrayList.size(); i4++) {
-                        MessageObject messageObject7 = arrayList.get(i4);
-                        if (messageObject7.isFromUser()) {
-                            j2 = messageObject7.messageOwner.from_id.user_id;
+                    int i5 = (messageObject7.isAnimatedEmoji() || messageObject7.isDice()) ? 0 : messageObject7.type;
+                    int i6 = 1;
+                    while (i6 < arrayList.size()) {
+                        MessageObject messageObject8 = arrayList.get(i6);
+                        if (messageObject8.isFromUser()) {
+                            charSequence = str;
+                            j2 = messageObject8.messageOwner.from_id.user_id;
                         } else {
-                            TLRPC$Chat chat5 = getMessagesController().getChat(Long.valueOf(messageObject7.messageOwner.peer_id.channel_id));
-                            if (ChatObject.isChannel(chat5) && chat5.megagroup && messageObject7.isForwardedChannelPost()) {
-                                j = messageObject7.messageOwner.fwd_from.from_id.channel_id;
+                            charSequence = str;
+                            TLRPC$Chat chat5 = getMessagesController().getChat(Long.valueOf(messageObject8.messageOwner.peer_id.channel_id));
+                            if (ChatObject.isChannel(chat5) && chat5.megagroup && messageObject8.isForwardedChannelPost()) {
+                                j = messageObject8.messageOwner.fwd_from.from_id.channel_id;
                             } else {
-                                j = messageObject7.messageOwner.peer_id.channel_id;
+                                j = messageObject8.messageOwner.peer_id.channel_id;
                             }
                             j2 = -j;
                         }
                         if (!arrayList5.contains(Long.valueOf(j2))) {
                             arrayList5.add(Long.valueOf(j2));
                         }
-                        if (arrayList.get(i4).type != i3) {
-                            i3 = -1;
+                        if (arrayList.get(i6).type != i5) {
+                            i5 = -1;
                         }
+                        i6++;
+                        str = charSequence;
                     }
-                    StringBuilder sb4 = new StringBuilder();
-                    int i5 = 0;
-                    int i6 = 0;
+                    CharSequence charSequence8 = str;
+                    StringBuilder sb3 = new StringBuilder();
+                    int i7 = 0;
+                    int i8 = 0;
                     while (true) {
-                        if (i5 >= arrayList5.size()) {
+                        if (i7 >= arrayList5.size()) {
                             break;
                         }
-                        Long l = (Long) arrayList5.get(i5);
-                        if (l.longValue() > 0) {
+                        Long l = (Long) arrayList5.get(i7);
+                        if (l.longValue() > j3) {
                             tLRPC$User = getMessagesController().getUser(l);
-                            sb2 = sb4;
                             chat = null;
                         } else {
-                            sb2 = sb4;
                             chat = getMessagesController().getChat(Long.valueOf(-l.longValue()));
                             tLRPC$User = null;
                         }
-                        if (tLRPC$User == null && chat == null) {
-                            sb4 = sb2;
-                        } else {
+                        if (tLRPC$User != null || chat != null) {
                             if (arrayList5.size() != 1) {
-                                sb4 = sb2;
-                                if (arrayList5.size() == 2 || sb4.length() == 0) {
-                                    if (sb4.length() > 0) {
-                                        sb4.append(", ");
+                                if (arrayList5.size() == 2 || sb3.length() == 0) {
+                                    if (sb3.length() > 0) {
+                                        sb3.append(", ");
                                     }
                                     if (tLRPC$User != null) {
                                         if (!TextUtils.isEmpty(tLRPC$User.first_name)) {
-                                            sb4.append(tLRPC$User.first_name);
+                                            sb3.append(tLRPC$User.first_name);
                                         } else if (!TextUtils.isEmpty(tLRPC$User.last_name)) {
-                                            sb4.append(tLRPC$User.last_name);
+                                            sb3.append(tLRPC$User.last_name);
                                         } else {
-                                            sb4.append(" ");
+                                            sb3.append(" ");
                                         }
                                     } else {
-                                        sb4.append(chat.title);
+                                        sb3.append(chat.title);
                                     }
                                 } else {
-                                    sb4.append(" ");
-                                    sb4.append(LocaleController.formatPluralString("AndOther", arrayList5.size() - 1, new Object[0]));
-                                    i6++;
+                                    sb3.append(" ");
+                                    sb3.append(LocaleController.formatPluralString("AndOther", arrayList5.size() - 1, new Object[0]));
+                                    i8++;
                                     break;
                                 }
                             } else if (tLRPC$User != null) {
-                                sb4 = sb2;
-                                sb4.append(UserObject.getUserName(tLRPC$User));
+                                sb3.append(UserObject.getUserName(tLRPC$User));
                             } else {
-                                sb4 = sb2;
-                                sb4.append(chat.title);
+                                sb3.append(chat.title);
                             }
-                            i6++;
+                            i8++;
                         }
-                        i5++;
+                        i7++;
+                        j3 = 0;
                     }
-                    if (i3 == -1 || i3 == 0 || i3 == 10 || i3 == 11 || i3 == 19) {
+                    if (i5 == -1 || i5 == 0 || i5 == 10 || i5 == 11 || i5 == 19) {
                         formatPluralString = LocaleController.formatPluralString("PreviewForwardMessagesCount", arrayList.size(), new Object[0]);
-                    } else if (i3 == 1) {
-                        formatPluralString = LocaleController.formatPluralString("PreviewForwardPhoto", arrayList.size(), new Object[0]);
+                    } else if (i5 == 1) {
+                        CharSequence formatPluralString2 = LocaleController.formatPluralString("PreviewForwardPhoto", arrayList.size(), new Object[0]);
                         if (arrayList.size() == 1) {
                             messageObject3 = arrayList.get(0);
                         }
-                    } else if (i3 == 26) {
+                        formatPluralString = formatPluralString2;
+                    } else if (i5 == 26) {
                         formatPluralString = LocaleController.getString("BoostingGiveaway", R.string.BoostingGiveaway);
-                    } else if (i3 == 4) {
+                    } else if (i5 == 4) {
                         formatPluralString = LocaleController.formatPluralString("PreviewForwardLocation", arrayList.size(), new Object[0]);
-                    } else if (i3 == 3) {
+                    } else if (i5 == 3) {
                         formatPluralString = LocaleController.formatPluralString("PreviewForwardVideo", arrayList.size(), new Object[0]);
                         if (arrayList.size() == 1) {
                             messageObject3 = arrayList.get(0);
                         }
-                    } else if (i3 == 12) {
+                    } else if (i5 == 12) {
                         formatPluralString = LocaleController.formatPluralString("PreviewForwardContact", arrayList.size(), new Object[0]);
-                    } else if (i3 == 2) {
+                    } else if (i5 == 2) {
                         formatPluralString = LocaleController.formatPluralString("PreviewForwardAudio", arrayList.size(), new Object[0]);
-                    } else if (i3 == 5) {
+                    } else if (i5 == 5) {
                         formatPluralString = LocaleController.formatPluralString("PreviewForwardRound", arrayList.size(), new Object[0]);
-                    } else if (i3 == 14) {
+                    } else if (i5 == 14) {
                         formatPluralString = LocaleController.formatPluralString("PreviewForwardMusic", arrayList.size(), new Object[0]);
-                    } else if (i3 == 13 || i3 == 15) {
+                    } else if (i5 == 13 || i5 == 15) {
                         formatPluralString = LocaleController.formatPluralString("PreviewForwardSticker", arrayList.size(), new Object[0]);
-                    } else if (i3 == 17) {
+                    } else if (i5 == 17) {
                         formatPluralString = LocaleController.formatPluralString("PreviewForwardPoll", arrayList.size(), new Object[0]);
-                    } else if (i3 == 8 || i3 == 9) {
-                        if ((i3 == 9) & (arrayList.size() == 1)) {
+                    } else if (i5 == 8 || i5 == 9) {
+                        if ((i5 == 9) & (arrayList.size() == 1)) {
                             messageObject3 = arrayList.get(0);
                         }
-                        formatPluralString = (arrayList.size() == 1 && i3 == 8) ? LocaleController.getString("AttachGif", R.string.AttachGif) : LocaleController.formatPluralString("PreviewForwardFile", arrayList.size(), new Object[0]);
-                    } else if (i3 == 23) {
+                        formatPluralString = (arrayList.size() == 1 && i5 == 8) ? LocaleController.getString("AttachGif", R.string.AttachGif) : LocaleController.formatPluralString("PreviewForwardFile", arrayList.size(), new Object[0]);
+                    } else if (i5 == 23) {
                         formatPluralString = arrayList.size() == 1 ? LocaleController.getString(R.string.Story) : LocaleController.formatPluralString("Stories", arrayList.size(), new Object[0]);
                     } else {
-                        formatPluralString = str;
+                        formatPluralString = charSequence8;
                     }
                     this.replyNameTextView.setText(formatPluralString);
-                    MessagePreviewParams messagePreviewParams7 = this.messagePreviewParams;
-                    if (messagePreviewParams7 != null && messagePreviewParams7.hideForwardSendersName) {
+                    MessagePreviewParams messagePreviewParams8 = this.messagePreviewParams;
+                    if (messagePreviewParams8 != null && messagePreviewParams8.hideForwardSendersName) {
                         this.replyObjectTextView.setText(LocaleController.getString("HiddenSendersNameDescription", R.string.HiddenSendersNameDescription));
-                    } else if ((i3 == -1 || i3 == 0 || i3 == 10 || i3 == 11 || i3 == 19) && arrayList.size() == 1 && arrayList.get(0).messageText != null) {
-                        MessageObject messageObject8 = arrayList.get(0);
-                        CharSequence spannableStringBuilder4 = new SpannableStringBuilder(messageObject8.messageText.toString());
+                    } else if ((i5 == -1 || i5 == 0 || i5 == 10 || i5 == 11 || i5 == 19) && arrayList.size() == 1 && arrayList.get(0).messageText != null) {
+                        MessageObject messageObject9 = arrayList.get(0);
+                        CharSequence spannableStringBuilder4 = new SpannableStringBuilder(messageObject9.messageText.toString());
                         if (spannableStringBuilder4.length() > 150) {
                             spannableStringBuilder4 = spannableStringBuilder4.subSequence(0, ImageReceiver.DEFAULT_CROSSFADE_DURATION);
                         }
                         CharSequence replaceEmoji3 = Emoji.replaceEmoji(spannableStringBuilder4, this.replyObjectTextView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(14.0f), false);
                         if (replaceEmoji3 instanceof Spannable) {
-                            MediaDataController.addTextStyleRuns(messageObject8.messageOwner.entities, messageObject8.messageText, (Spannable) replaceEmoji3);
-                            TLRPC$Message tLRPC$Message5 = messageObject8.messageOwner;
+                            MediaDataController.addTextStyleRuns(messageObject9.messageOwner.entities, messageObject9.messageText, (Spannable) replaceEmoji3);
+                            TLRPC$Message tLRPC$Message5 = messageObject9.messageOwner;
                             if (tLRPC$Message5 != null) {
                                 replaceEmoji3 = MessageObject.replaceAnimatedEmoji(replaceEmoji3, tLRPC$Message5.entities, this.replyObjectTextView.getPaint().getFontMetricsInt());
                             }
                         }
-                        if (i6 == 1) {
-                            replaceEmoji3 = TextUtils.concat(sb4, ": ", replaceEmoji3);
+                        if (i8 == 1) {
+                            replaceEmoji3 = TextUtils.concat(sb3, ": ", replaceEmoji3);
                         }
                         this.replyObjectTextView.setText(replaceEmoji3);
                     } else {
-                        this.replyObjectTextView.setText(LocaleController.formatString("ForwardingFromNames", R.string.ForwardingFromNames, sb4));
+                        this.replyObjectTextView.setText(LocaleController.formatString("ForwardingFromNames", R.string.ForwardingFromNames, sb3));
                     }
                     this.replyObjectHintTextView.setText(LocaleController.getString(R.string.TapForForwardingOptions));
-                    z5 = !SharedConfig.forwardingOptionsHintShown;
+                    z6 = !SharedConfig.forwardingOptionsHintShown;
                 } else {
                     this.fieldPanelShown = 4;
                     this.replyIconImageView.setImageResource(R.drawable.filled_link);
                     if (this.messagePreviewParams == null) {
-                        MessagePreviewParams messagePreviewParams8 = new MessagePreviewParams(this.currentEncryptedChat != null, getMessagesController().isChatNoForwards(this.currentChat));
-                        this.messagePreviewParams = messagePreviewParams8;
-                        messagePreviewParams8.attach(this.forwardingPreviewView);
+                        MessagePreviewParams messagePreviewParams9 = new MessagePreviewParams(this.currentEncryptedChat != null, getMessagesController().isChatNoForwards(this.currentChat));
+                        this.messagePreviewParams = messagePreviewParams9;
+                        messagePreviewParams9.attach(this.forwardingPreviewView);
                     }
-                    MessagePreviewParams messagePreviewParams9 = this.messagePreviewParams;
-                    int i7 = this.currentAccount;
+                    MessagePreviewParams messagePreviewParams10 = this.messagePreviewParams;
+                    int i9 = this.currentAccount;
                     TLRPC$WebPage tLRPC$WebPage3 = this.foundWebPage;
-                    CharSequence fieldText = this.chatActivityEnterView.getFieldText();
-                    MessageObject messageObject9 = this.replyingMessageObject;
-                    messagePreviewParams9.updateLink(i7, tLRPC$WebPage3, fieldText, messageObject9 == this.threadMessageObject ? null : messageObject9, this.replyingQuote, this.editingMessageObject);
+                    CharSequence fieldText2 = this.chatActivityEnterView.getFieldText();
+                    MessageObject messageObject10 = this.replyingMessageObject;
+                    messagePreviewParams10.updateLink(i9, tLRPC$WebPage3, fieldText2, messageObject10 == this.threadMessageObject ? null : messageObject10, this.replyingQuote, this.editingMessageObject);
                     if (this.messagePreviewParams.isEmpty() && this.editingMessageObject == null) {
                         this.messagePreviewParams = null;
                     }
@@ -16460,9 +16483,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 this.replyObjectTextView.setLayoutParams(layoutParams2);
                 this.replyObjectTextView.setLayoutParams(layoutParams3);
                 this.chatActivityEnterView.showTopView(true, false);
-                z6 = z5;
+                z5 = z6;
             }
-            z5 = false;
+            z6 = false;
             if (messageObject3 == null) {
             }
             layoutParams = (FrameLayout.LayoutParams) this.replyNameTextView.getLayoutParams();
@@ -16490,9 +16513,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             this.replyObjectTextView.setLayoutParams(layoutParams2);
             this.replyObjectTextView.setLayoutParams(layoutParams3);
             this.chatActivityEnterView.showTopView(true, false);
-            z6 = z5;
+            z5 = z6;
         }
-        if (z6) {
+        if (z5) {
             if (this.tapForForwardingOptionsHitRunnable == null) {
                 Runnable runnable = new Runnable() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda139
                     @Override // java.lang.Runnable

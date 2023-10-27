@@ -107,6 +107,7 @@ public class EditTextEffects extends EditText {
             }
         };
         this.rect = new android.graphics.Rect();
+        this.wrapCanvasToFixClipping = Build.VERSION.SDK_INT < 29;
         if (Looper.getMainLooper().getThread() == Thread.currentThread()) {
             this.clickDetector = new SpoilersClickDetector(this, this.spoilers, new SpoilersClickDetector.OnSpoilerClickedListener() { // from class: org.telegram.ui.Components.EditTextEffects$$ExternalSyntheticLambda5
                 @Override // org.telegram.ui.Components.spoilers.SpoilersClickDetector.OnSpoilerClickedListener
@@ -340,7 +341,7 @@ public class EditTextEffects extends EditText {
     @Override // android.widget.TextView, android.view.View
     public void onDraw(Canvas canvas) {
         canvas.save();
-        if (this.clipToPadding && ((getScrollY() != 0 || this.wrapCanvasToFixClipping) && Build.VERSION.SDK_INT > 29)) {
+        if (this.clipToPadding && getScrollY() != 0) {
             canvas.clipRect(-AndroidUtilities.dp(3.0f), (getScrollY() - getExtendedPaddingTop()) - this.offsetY, getMeasuredWidth(), ((getMeasuredHeight() + getScrollY()) + getExtendedPaddingBottom()) - this.offsetY);
         }
         this.path.rewind();

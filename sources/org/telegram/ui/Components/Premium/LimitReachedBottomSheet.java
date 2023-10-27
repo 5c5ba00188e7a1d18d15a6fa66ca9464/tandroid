@@ -533,7 +533,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
                         }
                     });
                 }
-            } else if (canApplyBoost.alreadyActive && BoostRepository.isMultiBoostsAvailable()) {
+            } else if (canApplyBoost.alreadyActive && BoostRepository.isMultiBoostsAvailable() && !this.canApplyBoost.isMaxLvl) {
                 BoostDialogs.showMoreBoostsNeeded(this.dialogId);
             } else {
                 dismiss();
@@ -1195,9 +1195,9 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
         /* JADX WARN: Removed duplicated region for block: B:121:0x03b1  */
         /* JADX WARN: Removed duplicated region for block: B:122:0x03bc  */
         /* JADX WARN: Removed duplicated region for block: B:140:0x045b  */
-        /* JADX WARN: Removed duplicated region for block: B:152:0x05bf  */
-        /* JADX WARN: Removed duplicated region for block: B:159:0x05f8  */
-        /* JADX WARN: Removed duplicated region for block: B:160:0x0608  */
+        /* JADX WARN: Removed duplicated region for block: B:155:0x05c1  */
+        /* JADX WARN: Removed duplicated region for block: B:162:0x05fa  */
+        /* JADX WARN: Removed duplicated region for block: B:163:0x060a  */
         /* JADX WARN: Removed duplicated region for block: B:48:0x023e  */
         /* JADX WARN: Removed duplicated region for block: B:49:0x024e  */
         /* JADX WARN: Removed duplicated region for block: B:53:0x0258  */
@@ -1392,7 +1392,9 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
                                 backupImageView.setForUserOrChat(chat, avatarDrawable);
                                 frameLayout.addView(backupImageView, LayoutHelper.createFrame(28, 28.0f));
                                 TextView textView3 = new TextView(getContext());
-                                textView3.setText(chat.title);
+                                if (chat != null) {
+                                    textView3.setText(chat.title);
+                                }
                                 textView3.setSingleLine(true);
                                 textView3.setMaxLines(1);
                                 textView3.setEllipsize(TextUtils.TruncateAt.END);
