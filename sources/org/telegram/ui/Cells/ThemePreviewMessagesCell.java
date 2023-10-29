@@ -418,7 +418,7 @@ public class ThemePreviewMessagesCell extends LinearLayout {
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell, android.view.View
                     public boolean onTouchEvent(MotionEvent motionEvent) {
-                        if (this.val$type == 3) {
+                        if (ThemePreviewMessagesCell.this.allowLoadingOnTouch()) {
                             return super.onTouchEvent(motionEvent);
                         }
                         this.gestureDetector.onTouchEvent(motionEvent);

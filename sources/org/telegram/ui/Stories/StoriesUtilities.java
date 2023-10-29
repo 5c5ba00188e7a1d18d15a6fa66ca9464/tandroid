@@ -375,6 +375,11 @@ public class StoriesUtilities {
         }
     }
 
+    /* JADX WARN: Removed duplicated region for block: B:82:0x01af A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:88:0x01cf A[ADDED_TO_REGION, SYNTHETIC] */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     private static void drawSegmentsInternal(Canvas canvas, StoriesController storiesController, ImageReceiver imageReceiver, AvatarStoryParams avatarStoryParams, Paint paint, Paint paint2, Paint paint3) {
         int unreadState;
         int size;
@@ -430,47 +435,62 @@ public class StoriesUtilities {
                         paint7 = paint2;
                     }
                 } else {
-                    if (i3 >= tL_stories$PeerStories.stories.size()) {
-                        paint7 = paint2;
-                    }
-                    if (tL_stories$PeerStories.stories.get(i3).justUploaded || tL_stories$PeerStories.stories.get(i3).id > max) {
-                        paint5 = tL_stories$PeerStories.stories.get(i3).close_friends ? paint3 : paint2;
-                        float f6 = (i3 * f3) - 90.0f;
-                        f = f6 + f5;
-                        f2 = (f6 + f3) - f5;
-                        rectF = rectTmp;
-                        Paint paint8 = paint5;
-                        int i4 = i3;
-                        int i5 = max;
-                        drawSegment(canvas, rectF, paint5, f, f2, avatarStoryParams);
-                        if (avatarStoryParams.progressToSegments != 1.0f && paint8 != paint6) {
-                            paint6.getStrokeWidth();
-                            paint6.setAlpha((int) ((1.0f - avatarStoryParams.progressToSegments) * 255.0f));
-                            drawSegment(canvas, rectF, paint6, f, f2, avatarStoryParams);
-                            paint6.setAlpha(255);
+                    if (i3 < tL_stories$PeerStories.stories.size()) {
+                        if (tL_stories$PeerStories.stories.get(i3).justUploaded || tL_stories$PeerStories.stories.get(i3).id > max) {
+                            if (tL_stories$PeerStories.stories.get(i3).close_friends) {
+                                paint5 = paint3;
+                                float f6 = (i3 * f3) - 90.0f;
+                                f = f6 + f5;
+                                f2 = (f6 + f3) - f5;
+                                rectF = rectTmp;
+                                Paint paint8 = paint5;
+                                int i4 = i3;
+                                int i5 = max;
+                                drawSegment(canvas, rectF, paint5, f, f2, avatarStoryParams);
+                                if (avatarStoryParams.progressToSegments == 1.0f && paint8 != paint6) {
+                                    paint6.getStrokeWidth();
+                                    paint6.setAlpha((int) ((1.0f - avatarStoryParams.progressToSegments) * 255.0f));
+                                    drawSegment(canvas, rectF, paint6, f, f2, avatarStoryParams);
+                                    paint6.setAlpha(255);
+                                }
+                                i3 = i4 + 1;
+                                max = i5;
+                                i = 2;
+                            }
                         }
-                        i3 = i4 + 1;
-                        max = i5;
-                        i = 2;
                     }
+                    paint5 = paint2;
+                    float f62 = (i3 * f3) - 90.0f;
+                    f = f62 + f5;
+                    f2 = (f62 + f3) - f5;
+                    rectF = rectTmp;
+                    Paint paint82 = paint5;
+                    int i42 = i3;
+                    int i52 = max;
+                    drawSegment(canvas, rectF, paint5, f, f2, avatarStoryParams);
+                    if (avatarStoryParams.progressToSegments == 1.0f) {
+                        paint6.getStrokeWidth();
+                        paint6.setAlpha((int) ((1.0f - avatarStoryParams.progressToSegments) * 255.0f));
+                        drawSegment(canvas, rectF, paint6, f, f2, avatarStoryParams);
+                        paint6.setAlpha(255);
+                    }
+                    i3 = i42 + 1;
+                    max = i52;
+                    i = 2;
                 }
                 paint5 = paint7;
-                float f62 = (i3 * f3) - 90.0f;
-                f = f62 + f5;
-                f2 = (f62 + f3) - f5;
+                float f622 = (i3 * f3) - 90.0f;
+                f = f622 + f5;
+                f2 = (f622 + f3) - f5;
                 rectF = rectTmp;
-                Paint paint82 = paint5;
-                int i42 = i3;
-                int i52 = max;
+                Paint paint822 = paint5;
+                int i422 = i3;
+                int i522 = max;
                 drawSegment(canvas, rectF, paint5, f, f2, avatarStoryParams);
-                if (avatarStoryParams.progressToSegments != 1.0f) {
-                    paint6.getStrokeWidth();
-                    paint6.setAlpha((int) ((1.0f - avatarStoryParams.progressToSegments) * 255.0f));
-                    drawSegment(canvas, rectF, paint6, f, f2, avatarStoryParams);
-                    paint6.setAlpha(255);
+                if (avatarStoryParams.progressToSegments == 1.0f) {
                 }
-                i3 = i42 + 1;
-                max = i52;
+                i3 = i422 + 1;
+                max = i522;
                 i = 2;
             }
             return;
