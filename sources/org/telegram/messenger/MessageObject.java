@@ -4241,8 +4241,8 @@ public class MessageObject {
     /* JADX WARN: Removed duplicated region for block: B:368:0x099e  */
     /* JADX WARN: Removed duplicated region for block: B:389:0x0a45  */
     /* JADX WARN: Removed duplicated region for block: B:676:0x1273  */
-    /* JADX WARN: Removed duplicated region for block: B:799:0x15b8  */
-    /* JADX WARN: Removed duplicated region for block: B:819:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:803:0x15c1  */
+    /* JADX WARN: Removed duplicated region for block: B:823:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -5077,7 +5077,7 @@ public class MessageObject {
                     } else if (getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaInvoice) {
                         this.messageText = getMedia(this.messageOwner).description;
                     } else if (getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaUnsupported) {
-                        this.messageText = LocaleController.getString("UnsupportedMedia", R.string.UnsupportedMedia);
+                        this.messageText = LocaleController.getString(ApplicationLoader.applicationLoaderInstance.isStandalone() ? R.string.UnsupportedMediaStandalone : R.string.UnsupportedMedia);
                     } else if (getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaDocument) {
                         if (isSticker() || isAnimatedStickerDocument(getDocument(), true)) {
                             String stickerChar = getStickerChar();
@@ -5194,10 +5194,10 @@ public class MessageObject {
                     }
                     return LocaleController.getString("AttachVideo", R.string.AttachVideo);
                 }
-                if (isVoice()) {
+                if (tLRPC$MessageMedia != null && isVoiceDocument(tLRPC$MessageMedia.document)) {
                     return LocaleController.getString("AttachAudio", R.string.AttachAudio);
                 }
-                if (isRoundVideo()) {
+                if (tLRPC$MessageMedia != null && isRoundVideoDocument(tLRPC$MessageMedia.document)) {
                     return LocaleController.getString("AttachRound", R.string.AttachRound);
                 }
                 if ((tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaGeo) || (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaVenue)) {
@@ -5216,10 +5216,9 @@ public class MessageObject {
                     return tLRPC$MessageMedia.description;
                 }
                 if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaUnsupported) {
-                    return LocaleController.getString("UnsupportedMedia", R.string.UnsupportedMedia);
-                }
-                if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaDocument) {
-                    if (isSticker() || isAnimatedStickerDocument(tLRPC$MessageMedia.document, true)) {
+                    return LocaleController.getString(ApplicationLoader.applicationLoaderInstance.isStandalone() ? R.string.UnsupportedMediaStandalone : R.string.UnsupportedMedia);
+                } else if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaDocument) {
+                    if (isStickerDocument(tLRPC$MessageMedia.document) || isAnimatedStickerDocument(tLRPC$MessageMedia.document, true)) {
                         String stickerChar = getStickerChar();
                         return (stickerChar == null || stickerChar.length() <= 0) ? LocaleController.getString("AttachSticker", R.string.AttachSticker) : String.format("%s %s", stickerChar, LocaleController.getString("AttachSticker", R.string.AttachSticker));
                     } else if (isMusic()) {
@@ -5231,8 +5230,9 @@ public class MessageObject {
                         String documentFileName = FileLoader.getDocumentFileName(tLRPC$MessageMedia.document);
                         return !TextUtils.isEmpty(documentFileName) ? documentFileName : LocaleController.getString("AttachDocument", R.string.AttachDocument);
                     }
+                } else {
+                    return null;
                 }
-                return null;
             }
         }
     }
@@ -10558,7 +10558,7 @@ public class MessageObject {
     }
 
     public static CharSequence peerNameWithIcon(int i, TLRPC$Peer tLRPC$Peer) {
-        return peerNameWithIcon(i, tLRPC$Peer, false);
+        return peerNameWithIcon(i, tLRPC$Peer, !(tLRPC$Peer instanceof TLRPC$TL_peerUser));
     }
 
     public static CharSequence peerNameWithIcon(int i, TLRPC$Peer tLRPC$Peer, boolean z) {
@@ -10575,13 +10575,19 @@ public class MessageObject {
         } else if (tLRPC$Peer instanceof TLRPC$TL_peerChat) {
             TLRPC$Chat chat2 = MessagesController.getInstance(i).getChat(Long.valueOf(tLRPC$Peer.chat_id));
             if (chat2 != null) {
-                return new SpannableStringBuilder(ChatObject.isChannelAndNotMegaGroup(chat2) ? channelSpan() : groupSpan()).append((CharSequence) " ").append((CharSequence) chat2.title);
+                if (z) {
+                    return new SpannableStringBuilder(ChatObject.isChannelAndNotMegaGroup(chat2) ? channelSpan() : groupSpan()).append((CharSequence) " ").append((CharSequence) chat2.title);
+                }
+                return chat2.title;
             }
             return "";
         } else if (!(tLRPC$Peer instanceof TLRPC$TL_peerChannel) || (chat = MessagesController.getInstance(i).getChat(Long.valueOf(tLRPC$Peer.channel_id))) == null) {
             return "";
         } else {
-            return new SpannableStringBuilder(ChatObject.isChannelAndNotMegaGroup(chat) ? channelSpan() : groupSpan()).append((CharSequence) " ").append((CharSequence) chat.title);
+            if (z) {
+                return new SpannableStringBuilder(ChatObject.isChannelAndNotMegaGroup(chat) ? channelSpan() : groupSpan()).append((CharSequence) " ").append((CharSequence) chat.title);
+            }
+            return chat.title;
         }
     }
 
@@ -10603,7 +10609,7 @@ public class MessageObject {
 
     public CharSequence getReplyQuoteNameWithIcon() {
         CharSequence charSequence;
-        CharSequence append;
+        CharSequence spannableStringBuilder;
         TLRPC$Message tLRPC$Message = this.messageOwner;
         if (tLRPC$Message == null) {
             return "";
@@ -10614,8 +10620,8 @@ public class MessageObject {
             if (DialogObject.isChatDialog(getDialogId())) {
                 charSequence = peerNameWithIcon(this.currentAccount, getDialogId());
             } else {
-                append = peerNameWithIcon(this.currentAccount, getDialogId());
-                charSequence2 = append;
+                spannableStringBuilder = peerNameWithIcon(this.currentAccount, getDialogId());
+                charSequence2 = spannableStringBuilder;
                 charSequence = null;
             }
         } else {
@@ -10626,8 +10632,8 @@ public class MessageObject {
                 TLRPC$Peer tLRPC$Peer2 = tLRPC$MessageFwdHeader.from_id;
                 if (tLRPC$Peer2 != null) {
                     if (tLRPC$Peer2 instanceof TLRPC$TL_peerUser) {
-                        append = peerNameWithIcon(this.currentAccount, tLRPC$Peer2, z);
-                        charSequence2 = append;
+                        spannableStringBuilder = peerNameWithIcon(this.currentAccount, tLRPC$Peer2, z);
+                        charSequence2 = spannableStringBuilder;
                         charSequence = null;
                     } else {
                         charSequence = peerNameWithIcon(this.currentAccount, tLRPC$Peer2, z);
@@ -10636,14 +10642,18 @@ public class MessageObject {
                     TLRPC$Peer tLRPC$Peer3 = tLRPC$MessageFwdHeader.saved_from_peer;
                     if (tLRPC$Peer3 != null) {
                         if (tLRPC$Peer3 instanceof TLRPC$TL_peerUser) {
-                            append = peerNameWithIcon(this.currentAccount, tLRPC$Peer3, z);
+                            spannableStringBuilder = peerNameWithIcon(this.currentAccount, tLRPC$Peer3, z);
                         } else {
                             charSequence = peerNameWithIcon(this.currentAccount, tLRPC$Peer3, z);
                         }
                     } else if (!TextUtils.isEmpty(tLRPC$MessageFwdHeader.from_name)) {
-                        append = new SpannableStringBuilder(userSpan()).append((CharSequence) " ").append((CharSequence) this.messageOwner.reply_to.reply_from.from_name);
+                        if (z) {
+                            spannableStringBuilder = new SpannableStringBuilder(userSpan()).append((CharSequence) " ").append((CharSequence) this.messageOwner.reply_to.reply_from.from_name);
+                        } else {
+                            spannableStringBuilder = new SpannableStringBuilder(this.messageOwner.reply_to.reply_from.from_name);
+                        }
                     }
-                    charSequence2 = append;
+                    charSequence2 = spannableStringBuilder;
                     charSequence = null;
                 }
             }

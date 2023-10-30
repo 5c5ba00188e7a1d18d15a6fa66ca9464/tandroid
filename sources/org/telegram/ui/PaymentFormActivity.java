@@ -175,7 +175,7 @@ import org.telegram.ui.Components.ContextProgressView;
 import org.telegram.ui.Components.EditTextBoldCursor;
 import org.telegram.ui.Components.HintEditText;
 import org.telegram.ui.Components.LayoutHelper;
-import org.telegram.ui.Components.Premium.boosts.BoostRepository$$ExternalSyntheticLambda29;
+import org.telegram.ui.Components.Premium.boosts.BoostRepository$$ExternalSyntheticLambda31;
 import org.telegram.ui.Components.TypefaceSpan;
 import org.telegram.ui.Components.URLSpanNoUnderline;
 import org.telegram.ui.Components.UndoView;
@@ -601,7 +601,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
     /* JADX WARN: Type inference failed for: r10v220, types: [android.widget.LinearLayout] */
     /* JADX WARN: Type inference failed for: r10v82, types: [android.widget.LinearLayout] */
     /* JADX WARN: Type inference failed for: r12v1 */
-    /* JADX WARN: Type inference failed for: r12v2, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r12v2, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r12v5 */
     /* JADX WARN: Type inference failed for: r1v106, types: [org.telegram.ui.Cells.TextDetailSettingsCell[]] */
     /* JADX WARN: Type inference failed for: r1v107, types: [android.widget.FrameLayout] */
@@ -621,7 +621,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
     /* JADX WARN: Type inference failed for: r3v231, types: [android.view.ViewGroup] */
     /* JADX WARN: Type inference failed for: r3v268, types: [android.widget.LinearLayout, android.view.View, android.view.ViewGroup] */
     /* JADX WARN: Type inference failed for: r5v0 */
-    /* JADX WARN: Type inference failed for: r5v168, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r5v168, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r5v169 */
     /* JADX WARN: Type inference failed for: r6v8, types: [java.lang.CharSequence, android.text.SpannableString, java.lang.Object] */
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -793,7 +793,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                     hashMap2.put(split[1], split[2]);
                 } else {
                     bufferedReader.close();
-                    Collections.sort(this.countriesArray, BoostRepository$$ExternalSyntheticLambda29.INSTANCE);
+                    Collections.sort(this.countriesArray, BoostRepository$$ExternalSyntheticLambda31.INSTANCE);
                     this.inputFields = new EditTextBoldCursor[10];
                     int i8 = 0;
                     while (i8 < 10) {

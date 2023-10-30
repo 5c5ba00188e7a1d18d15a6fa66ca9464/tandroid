@@ -10,8 +10,8 @@ public final /* synthetic */ class BoostDialogs$$ExternalSyntheticLambda27 imple
 
     @Override // org.telegram.ui.Components.NumberPicker.Formatter
     public final String format(int i) {
-        String lambda$showDatePicker$7;
-        lambda$showDatePicker$7 = BoostDialogs.lambda$showDatePicker$7(i);
-        return lambda$showDatePicker$7;
+        String valueOf;
+        valueOf = String.valueOf(i);
+        return valueOf;
     }
 }

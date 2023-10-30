@@ -18,6 +18,7 @@ import org.telegram.ui.Components.LayoutHelper;
 public class ChatCell extends BaseCell {
     private ChatDeleteListener chatDeleteListener;
     private final ImageView deleteImageView;
+    private boolean removable;
 
     /* loaded from: classes4.dex */
     public interface ChatDeleteListener {
@@ -53,11 +54,16 @@ public class ChatCell extends BaseCell {
     }
 
     public void setChat(final TLRPC$Chat tLRPC$Chat, int i, boolean z) {
+        this.removable = z;
         this.avatarDrawable.setInfo(tLRPC$Chat);
         this.imageView.setRoundRadius(AndroidUtilities.dp(20.0f));
         this.imageView.setForUserOrChat(tLRPC$Chat, this.avatarDrawable);
         this.titleTextView.setText(Emoji.replaceEmoji(tLRPC$Chat.title, this.titleTextView.getPaint().getFontMetricsInt(), false));
-        setSubtitle(LocaleController.formatPluralString("BoostingChannelWillReceiveBoost", i, new Object[0]));
+        if (z) {
+            setSubtitle(null);
+        } else {
+            setSubtitle(LocaleController.formatPluralString("BoostingChannelWillReceiveBoost", i, new Object[0]));
+        }
         this.subtitleTextView.setTextColor(Theme.getColor(Theme.key_dialogTextGray3, this.resourcesProvider));
         setDivider(true);
         if (z) {
@@ -86,6 +92,10 @@ public class ChatCell extends BaseCell {
     }
 
     public void setCounter(int i) {
-        setSubtitle(LocaleController.formatPluralString("BoostingChannelWillReceiveBoost", i, new Object[0]));
+        if (this.removable) {
+            setSubtitle(null);
+        } else {
+            setSubtitle(LocaleController.formatPluralString("BoostingChannelWillReceiveBoost", i, new Object[0]));
+        }
     }
 }

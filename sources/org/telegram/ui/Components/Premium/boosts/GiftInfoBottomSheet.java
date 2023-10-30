@@ -82,6 +82,10 @@ public class GiftInfoBottomSheet extends BottomSheetWithRecyclerListView {
         progress.end();
     }
 
+    public static void show(BaseFragment baseFragment, String str) {
+        show(baseFragment, str, null);
+    }
+
     public static boolean handleIntent(Intent intent, Browser.Progress progress) {
         String scheme;
         String path;

@@ -366,7 +366,7 @@ public class MediaDataController extends BaseController {
     private boolean loadingRecentGifs;
     boolean loadingRecentReactions;
     private boolean[] loadingRecentStickers;
-    private final HashSet<TLRPC$InputStickerSet> loadingStickerSets;
+    private final HashMap<TLRPC$InputStickerSet, ArrayList<Utilities.Callback2<Boolean, TLRPC$TL_messages_stickerSet>>> loadingStickerSets;
     private boolean[] loadingStickers;
     private int menuBotsUpdateDate;
     private long menuBotsUpdateHash;
@@ -525,7 +525,7 @@ public class MediaDataController extends BaseController {
         this.emojiStatusesFetchDate = new Long[2];
         this.emojiStatusesFromCacheFetched = new boolean[2];
         this.emojiStatusesFetching = new boolean[2];
-        this.loadingStickerSets = new HashSet<>();
+        this.loadingStickerSets = new HashMap<>();
         this.messagesSearchCount = new int[]{0, 0};
         this.messagesSearchEndReached = new boolean[]{false, false};
         this.searchResultMessages = new ArrayList<>();
@@ -2238,39 +2238,55 @@ public class MediaDataController extends BaseController {
         }
     }
 
-    private void fetchStickerSetInternal(final TLRPC$InputStickerSet tLRPC$InputStickerSet, final Utilities.Callback2<Boolean, TLRPC$TL_messages_stickerSet> callback2) {
-        if (callback2 == null || this.loadingStickerSets.contains(tLRPC$InputStickerSet)) {
+    private void fetchStickerSetInternal(final TLRPC$InputStickerSet tLRPC$InputStickerSet, Utilities.Callback2<Boolean, TLRPC$TL_messages_stickerSet> callback2) {
+        if (callback2 == null) {
             return;
         }
-        this.loadingStickerSets.add(tLRPC$InputStickerSet);
+        ArrayList<Utilities.Callback2<Boolean, TLRPC$TL_messages_stickerSet>> arrayList = this.loadingStickerSets.get(tLRPC$InputStickerSet);
+        if (arrayList != null && arrayList.size() > 0) {
+            arrayList.add(callback2);
+            return;
+        }
+        if (arrayList == null) {
+            HashMap<TLRPC$InputStickerSet, ArrayList<Utilities.Callback2<Boolean, TLRPC$TL_messages_stickerSet>>> hashMap = this.loadingStickerSets;
+            ArrayList<Utilities.Callback2<Boolean, TLRPC$TL_messages_stickerSet>> arrayList2 = new ArrayList<>();
+            hashMap.put(tLRPC$InputStickerSet, arrayList2);
+            arrayList = arrayList2;
+        }
+        arrayList.add(callback2);
         TLRPC$TL_messages_getStickerSet tLRPC$TL_messages_getStickerSet = new TLRPC$TL_messages_getStickerSet();
         tLRPC$TL_messages_getStickerSet.stickerset = tLRPC$InputStickerSet;
         getConnectionsManager().sendRequest(tLRPC$TL_messages_getStickerSet, new RequestDelegate() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda213
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                MediaDataController.this.lambda$fetchStickerSetInternal$36(tLRPC$InputStickerSet, callback2, tLObject, tLRPC$TL_error);
+                MediaDataController.this.lambda$fetchStickerSetInternal$36(tLRPC$InputStickerSet, tLObject, tLRPC$TL_error);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$fetchStickerSetInternal$36(final TLRPC$InputStickerSet tLRPC$InputStickerSet, final Utilities.Callback2 callback2, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$fetchStickerSetInternal$36(final TLRPC$InputStickerSet tLRPC$InputStickerSet, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda101
             @Override // java.lang.Runnable
             public final void run() {
-                MediaDataController.this.lambda$fetchStickerSetInternal$35(tLRPC$InputStickerSet, tLObject, callback2);
+                MediaDataController.this.lambda$fetchStickerSetInternal$35(tLRPC$InputStickerSet, tLObject);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$fetchStickerSetInternal$35(TLRPC$InputStickerSet tLRPC$InputStickerSet, TLObject tLObject, Utilities.Callback2 callback2) {
-        this.loadingStickerSets.remove(tLRPC$InputStickerSet);
-        if (tLObject != null) {
-            callback2.run(Boolean.TRUE, (TLRPC$TL_messages_stickerSet) tLObject);
-        } else {
-            callback2.run(Boolean.FALSE, null);
+    public /* synthetic */ void lambda$fetchStickerSetInternal$35(TLRPC$InputStickerSet tLRPC$InputStickerSet, TLObject tLObject) {
+        ArrayList<Utilities.Callback2<Boolean, TLRPC$TL_messages_stickerSet>> arrayList = this.loadingStickerSets.get(tLRPC$InputStickerSet);
+        if (arrayList != null) {
+            for (int i = 0; i < arrayList.size(); i++) {
+                if (tLObject != null) {
+                    arrayList.get(i).run(Boolean.TRUE, (TLRPC$TL_messages_stickerSet) tLObject);
+                } else {
+                    arrayList.get(i).run(Boolean.FALSE, null);
+                }
+            }
         }
+        this.loadingStickerSets.remove(tLRPC$InputStickerSet);
     }
 
     private void loadGroupStickerSet(final TLRPC$StickerSet tLRPC$StickerSet, boolean z) {
@@ -7569,7 +7585,7 @@ public class MediaDataController extends BaseController {
     /* JADX WARN: Type inference failed for: r3v1, types: [java.lang.Object[]] */
     /* JADX WARN: Type inference failed for: r4v1 */
     /* JADX WARN: Type inference failed for: r4v11 */
-    /* JADX WARN: Type inference failed for: r4v2, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r4v2, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r7v1, types: [java.lang.String] */
     /* JADX WARN: Type inference failed for: r7v13, types: [java.lang.StringBuilder] */
     /* JADX WARN: Type inference failed for: r7v2 */
@@ -8173,7 +8189,7 @@ public class MediaDataController extends BaseController {
     /* JADX WARN: Removed duplicated region for block: B:46:0x014a A[Catch: Exception -> 0x0282, TryCatch #0 {Exception -> 0x0282, blocks: (B:3:0x000c, B:5:0x0026, B:8:0x0031, B:10:0x0035, B:14:0x0059, B:48:0x0161, B:47:0x0151, B:28:0x008d, B:31:0x00e3, B:33:0x00e9, B:35:0x00ef, B:37:0x0122, B:39:0x0127, B:41:0x012f, B:43:0x013e, B:46:0x014a, B:30:0x00b9, B:49:0x0172, B:51:0x0179, B:52:0x0184, B:54:0x018a, B:55:0x0195, B:57:0x01a6, B:59:0x01ac, B:61:0x01b2, B:63:0x01ee, B:72:0x026a, B:66:0x01ff, B:68:0x0232, B:69:0x023a, B:71:0x0263, B:73:0x0272, B:76:0x027e), top: B:83:0x000c }] */
     /* JADX WARN: Type inference failed for: r12v16 */
     /* JADX WARN: Type inference failed for: r12v7 */
-    /* JADX WARN: Type inference failed for: r12v8, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r12v8, types: [boolean, int] */
     /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:45:0x0146 -> B:29:0x00b7). Please submit an issue!!! */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

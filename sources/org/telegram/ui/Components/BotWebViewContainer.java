@@ -110,7 +110,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
     private String currentPaymentSlug;
     private Delegate delegate;
     private int dialogSequentialOpenTimes;
-    private CellFlickerDrawable flickerDrawable;
+    private final CellFlickerDrawable flickerDrawable;
     private BackupImageView flickerView;
     private boolean hasQRPending;
     private boolean hasUserPermissions;
@@ -193,7 +193,8 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
 
     public BotWebViewContainer(Context context, Theme.ResourcesProvider resourcesProvider, int i) {
         super(context);
-        this.flickerDrawable = new CellFlickerDrawable();
+        CellFlickerDrawable cellFlickerDrawable = new CellFlickerDrawable();
+        this.flickerDrawable = cellFlickerDrawable;
         this.lastButtonColor = getColor(Theme.key_featuredStickers_addButton);
         this.lastButtonTextColor = getColor(Theme.key_featuredStickers_buttonText);
         this.lastButtonText = "";
@@ -203,7 +204,6 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
         if (context instanceof Activity) {
             this.parentActivity = (Activity) context;
         }
-        CellFlickerDrawable cellFlickerDrawable = this.flickerDrawable;
         cellFlickerDrawable.drawFrame = false;
         cellFlickerDrawable.setColors(i, 153, 204);
         BackupImageView backupImageView = new BackupImageView(context) { // from class: org.telegram.ui.Components.BotWebViewContainer.1

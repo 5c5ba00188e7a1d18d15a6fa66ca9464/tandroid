@@ -2063,7 +2063,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     /* JADX WARN: Type inference failed for: r9v284 */
     /* JADX WARN: Type inference failed for: r9v286 */
     /* JADX WARN: Type inference failed for: r9v287 */
-    /* JADX WARN: Type inference failed for: r9v9, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r9v9, types: [boolean, int] */
     @SuppressLint({"Range"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.

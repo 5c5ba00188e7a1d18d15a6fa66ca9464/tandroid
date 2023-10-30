@@ -6,12 +6,14 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.recyclerview.widget.RecyclerView;
+import java.util.HashMap;
 import java.util.List;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
+import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$ChatFull;
 import org.telegram.tgnet.TLRPC$InputPeer;
@@ -23,6 +25,7 @@ import org.telegram.tgnet.TLRPC$TL_inputPeerUser;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.ListView.AdapterWithDiffUtils;
+import org.telegram.ui.Components.Premium.boosts.BoostRepository;
 import org.telegram.ui.Components.Premium.boosts.cells.selector.SelectorCountryCell;
 import org.telegram.ui.Components.Premium.boosts.cells.selector.SelectorLetterCell;
 import org.telegram.ui.Components.Premium.boosts.cells.selector.SelectorUserCell;
@@ -30,6 +33,7 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.StickerEmptyView;
 /* loaded from: classes4.dex */
 public class SelectorAdapter extends AdapterWithDiffUtils {
+    private HashMap<Long, Integer> chatsParticipantsCount = new HashMap<>();
     private final Context context;
     private List<Item> items;
     private RecyclerListView listView;
@@ -38,6 +42,18 @@ public class SelectorAdapter extends AdapterWithDiffUtils {
     public SelectorAdapter(Context context, Theme.ResourcesProvider resourcesProvider) {
         this.context = context;
         this.resourcesProvider = resourcesProvider;
+        BoostRepository.loadParticipantsCount(new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.adapters.SelectorAdapter$$ExternalSyntheticLambda0
+            @Override // org.telegram.messenger.Utilities.Callback
+            public final void run(Object obj) {
+                SelectorAdapter.this.lambda$new$0((HashMap) obj);
+            }
+        });
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$new$0(HashMap hashMap) {
+        this.chatsParticipantsCount.clear();
+        this.chatsParticipantsCount.putAll(hashMap);
     }
 
     public void setData(List<Item> list, RecyclerListView recyclerListView) {
@@ -74,9 +90,16 @@ public class SelectorAdapter extends AdapterWithDiffUtils {
     }
 
     public int getParticipantsCount(TLRPC$Chat tLRPC$Chat) {
+        Integer num;
         int i;
         TLRPC$ChatFull chatFull = MessagesController.getInstance(UserConfig.selectedAccount).getChatFull(tLRPC$Chat.id);
-        return (chatFull == null || (i = chatFull.participants_count) <= 0) ? tLRPC$Chat.participants_count : i;
+        if (chatFull == null || (i = chatFull.participants_count) <= 0) {
+            if (!this.chatsParticipantsCount.isEmpty() && (num = this.chatsParticipantsCount.get(Long.valueOf(tLRPC$Chat.id))) != null) {
+                return num.intValue();
+            }
+            return tLRPC$Chat.participants_count;
+        }
+        return i;
     }
 
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -131,9 +154,11 @@ public class SelectorAdapter extends AdapterWithDiffUtils {
                     } else if (tLRPC$InputPeer instanceof TLRPC$TL_inputPeerUser) {
                         selectorUserCell.setUser(MessagesController.getInstance(UserConfig.selectedAccount).getUser(Long.valueOf(tLRPC$InputPeer.user_id)));
                     } else if (tLRPC$InputPeer instanceof TLRPC$TL_inputPeerChat) {
-                        selectorUserCell.setChat(MessagesController.getInstance(UserConfig.selectedAccount).getChat(Long.valueOf(tLRPC$InputPeer.chat_id)), 0);
+                        TLRPC$Chat chat = MessagesController.getInstance(UserConfig.selectedAccount).getChat(Long.valueOf(tLRPC$InputPeer.chat_id));
+                        selectorUserCell.setChat(chat, getParticipantsCount(chat));
                     } else if (tLRPC$InputPeer instanceof TLRPC$TL_inputPeerChannel) {
-                        selectorUserCell.setChat(MessagesController.getInstance(UserConfig.selectedAccount).getChat(Long.valueOf(tLRPC$InputPeer.channel_id)), 0);
+                        TLRPC$Chat chat2 = MessagesController.getInstance(UserConfig.selectedAccount).getChat(Long.valueOf(tLRPC$InputPeer.channel_id));
+                        selectorUserCell.setChat(chat2, getParticipantsCount(chat2));
                     }
                 }
             }

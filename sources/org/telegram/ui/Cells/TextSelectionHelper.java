@@ -2182,7 +2182,6 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
             if (((TextSelectionHelper) this).callback != null) {
                 ((TextSelectionHelper) this).callback.onStateChanged(true);
             }
-            this.movingDirectionSettling = true;
             this.movingOffsetY = 0.0f;
             this.movingOffsetX = 0.0f;
             onOffsetChanged();
