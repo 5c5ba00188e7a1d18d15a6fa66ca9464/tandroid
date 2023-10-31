@@ -124,6 +124,7 @@ import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.VideoEditedInfo;
+import org.telegram.messenger.XiaomiUtilities;
 import org.telegram.messenger.browser.Browser;
 import org.telegram.messenger.camera.CameraController;
 import org.telegram.tgnet.ConnectionsManager;
@@ -173,7 +174,6 @@ import org.telegram.tgnet.TLRPC$TL_keyboardButtonUrlAuth;
 import org.telegram.tgnet.TLRPC$TL_keyboardButtonUserProfile;
 import org.telegram.tgnet.TLRPC$TL_keyboardButtonWebView;
 import org.telegram.tgnet.TLRPC$TL_message;
-import org.telegram.tgnet.TLRPC$TL_messageEntityBlockquote;
 import org.telegram.tgnet.TLRPC$TL_messageEntityBold;
 import org.telegram.tgnet.TLRPC$TL_messageEntityCode;
 import org.telegram.tgnet.TLRPC$TL_messageEntityCustomEmoji;
@@ -5004,10 +5004,9 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         if (i >= 28) {
             chatActivityEditTextCaption.setFallbackLineSpacing(false);
         }
-        EditTextCaption editTextCaption = this.messageEditText;
         boolean z = true;
-        editTextCaption.wrapCanvasToFixClipping = i > 20;
-        editTextCaption.setDelegate(new EditTextCaption.EditTextCaptionDelegate() { // from class: org.telegram.ui.Components.ChatActivityEnterView$$ExternalSyntheticLambda59
+        this.messageEditText.wrapCanvasToFixClipping = (i <= 20 || BuildVars.isHuaweiStoreApp() || XiaomiUtilities.isMIUI()) ? false : true;
+        this.messageEditText.setDelegate(new EditTextCaption.EditTextCaptionDelegate() { // from class: org.telegram.ui.Components.ChatActivityEnterView$$ExternalSyntheticLambda59
             @Override // org.telegram.ui.Components.EditTextCaption.EditTextCaptionDelegate
             public final void onSpansChanged() {
                 ChatActivityEnterView.this.lambda$createMessageEditText$30();
@@ -5028,10 +5027,10 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         }
         this.messageEditText.setIncludeFontPadding(false);
         this.messageEditText.setImeOptions(i2);
-        EditTextCaption editTextCaption2 = this.messageEditText;
-        int inputType = editTextCaption2.getInputType() | LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM | 131072;
+        EditTextCaption editTextCaption = this.messageEditText;
+        int inputType = editTextCaption.getInputType() | LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM | 131072;
         this.commonInputType = inputType;
-        editTextCaption2.setInputType(inputType);
+        editTextCaption.setInputType(inputType);
         updateFieldHint(false);
         this.messageEditText.setSingleLine(false);
         this.messageEditText.setMaxLines(6);
@@ -5042,9 +5041,9 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         this.messageEditText.setTextColor(getThemedColor(Theme.key_chat_messagePanelText));
         this.messageEditText.setLinkTextColor(getThemedColor(Theme.key_chat_messageLinkOut));
         this.messageEditText.setHighlightColor(getThemedColor(Theme.key_chat_inTextSelectionHighlight));
-        EditTextCaption editTextCaption3 = this.messageEditText;
+        EditTextCaption editTextCaption2 = this.messageEditText;
         int i3 = Theme.key_chat_messagePanelHint;
-        editTextCaption3.setHintColor(getThemedColor(i3));
+        editTextCaption2.setHintColor(getThemedColor(i3));
         this.messageEditText.setHintTextColor(getThemedColor(i3));
         this.messageEditText.setCursorColor(getThemedColor(Theme.key_chat_messagePanelCursor));
         this.messageEditText.setHandlesColor(getThemedColor(Theme.key_chat_TextSelectionCursor));
@@ -6818,7 +6817,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         if (baseFragment != null) {
             new PremiumFeatureBottomSheet(baseFragment, 11, false).show();
         } else if (baseFragment.getContext() instanceof LaunchActivity) {
-            ((LaunchActivity) baseFragment.getContext()).lambda$runLinkRequest$86(new PremiumPreviewFragment(null));
+            ((LaunchActivity) baseFragment.getContext()).lambda$runLinkRequest$87(new PremiumPreviewFragment(null));
         }
     }
 
@@ -8725,12 +8724,12 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:364:0x0344  */
-    /* JADX WARN: Removed duplicated region for block: B:365:0x0351  */
-    /* JADX WARN: Removed duplicated region for block: B:371:0x0362  */
-    /* JADX WARN: Removed duplicated region for block: B:374:0x036c  */
-    /* JADX WARN: Removed duplicated region for block: B:377:0x03a2  */
-    /* JADX WARN: Removed duplicated region for block: B:419:0x02a7 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:356:0x0338  */
+    /* JADX WARN: Removed duplicated region for block: B:357:0x0345  */
+    /* JADX WARN: Removed duplicated region for block: B:363:0x0356  */
+    /* JADX WARN: Removed duplicated region for block: B:366:0x0360  */
+    /* JADX WARN: Removed duplicated region for block: B:369:0x0396  */
+    /* JADX WARN: Removed duplicated region for block: B:409:0x029b A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -8816,6 +8815,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                                                 e = e;
                                                 fontMetricsInt2 = fontMetricsInt;
                                                 FileLog.e(e);
+                                                QuoteSpan.mergeQuotes(spannableStringBuilder, arrayList);
                                                 CharSequence replaceEmoji = Emoji.replaceEmoji((CharSequence) new SpannableStringBuilder(spannableStringBuilder), fontMetricsInt2, false, (int[]) null);
                                                 if (arrayList != null) {
                                                 }
@@ -8904,12 +8904,6 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                                                     }
                                                     int i13 = tLRPC$MessageEntity.offset;
                                                     spannableStringBuilder.setSpan(animatedEmojiSpan, i13, tLRPC$MessageEntity.length + i13, 33);
-                                                } else {
-                                                    fontMetricsInt2 = fontMetricsInt;
-                                                    if (tLRPC$MessageEntity instanceof TLRPC$TL_messageEntityBlockquote) {
-                                                        int i14 = tLRPC$MessageEntity.offset;
-                                                        QuoteSpan.putQuoteToEditable(spannableStringBuilder, i14, tLRPC$MessageEntity.length + i14);
-                                                    }
                                                 }
                                             }
                                         }
@@ -8923,6 +8917,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                             }
                         }
                     }
+                    QuoteSpan.mergeQuotes(spannableStringBuilder, arrayList);
                     CharSequence replaceEmoji2 = Emoji.replaceEmoji((CharSequence) new SpannableStringBuilder(spannableStringBuilder), fontMetricsInt2, false, (int[]) null);
                     if (arrayList != null) {
                         try {
@@ -8934,7 +8929,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                                     }
                                     ((SpannableStringBuilder) replaceEmoji2).insert(tLRPC$MessageEntity2.offset + tLRPC$MessageEntity2.length, (CharSequence) "```\n");
                                     SpannableStringBuilder spannableStringBuilder2 = (SpannableStringBuilder) replaceEmoji2;
-                                    int i15 = tLRPC$MessageEntity2.offset;
+                                    int i14 = tLRPC$MessageEntity2.offset;
                                     StringBuilder sb2 = new StringBuilder();
                                     sb2.append("```");
                                     String str = tLRPC$MessageEntity2.language;
@@ -8943,7 +8938,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                                     }
                                     sb2.append(str);
                                     sb2.append("\n");
-                                    spannableStringBuilder2.insert(i15, (CharSequence) sb2.toString());
+                                    spannableStringBuilder2.insert(i14, (CharSequence) sb2.toString());
                                 }
                             }
                         } catch (Exception e3) {

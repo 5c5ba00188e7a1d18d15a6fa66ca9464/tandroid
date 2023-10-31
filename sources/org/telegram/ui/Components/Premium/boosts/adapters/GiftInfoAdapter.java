@@ -143,6 +143,15 @@ public abstract class GiftInfoAdapter extends RecyclerListView.SelectionAdapter 
                     }
                 });
             }
+            String str = this.slug;
+            if ((str == null || str.isEmpty()) && this.giftCode.to_id == -1) {
+                linkCell.hideSlug(new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.adapters.GiftInfoAdapter$$ExternalSyntheticLambda2
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        GiftInfoAdapter.this.onHiddenLinkClicked();
+                    }
+                });
+            }
         } else if (itemViewType == 2) {
             ((TableCell) viewHolder.itemView).setData(this.giftCode, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.adapters.GiftInfoAdapter$$ExternalSyntheticLambda4
                 @Override // org.telegram.messenger.Utilities.Callback
@@ -180,8 +189,8 @@ public abstract class GiftInfoAdapter extends RecyclerListView.SelectionAdapter 
             textInfoCell.setBottomPadding(15);
             TLRPC$TL_payments_checkedGiftCode tLRPC$TL_payments_checkedGiftCode3 = this.giftCode;
             if (tLRPC$TL_payments_checkedGiftCode3.boost != null) {
-                String str = this.slug;
-                if (str == null || str.isEmpty()) {
+                String str2 = this.slug;
+                if (str2 == null || str2.isEmpty()) {
                     textInfoCell.setText(LocaleController.getString("BoostingLinkNotActivated", R.string.BoostingLinkNotActivated));
                 } else {
                     textInfoCell.setText("");
