@@ -15136,8 +15136,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:52:0x00a8  */
-    /* JADX WARN: Removed duplicated region for block: B:65:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x00b4  */
+    /* JADX WARN: Removed duplicated region for block: B:68:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -15148,7 +15148,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         MessagePreviewParams messagePreviewParams;
         if (this.currentEncryptedChat == null || getMessagesController().secretWebpagePreview != 0) {
             MessageObject messageObject = this.editingMessageObject;
-            if (messageObject == null || messageObject.isWebpage()) {
+            if (messageObject == null || (messageObject.isWebpage() && !(this.editingMessageObject.messageOwner.media.webpage instanceof TLRPC$TL_webPagePending))) {
                 checkEditLinkRemoved(charSequence);
                 if (z && (tLRPC$WebPage = this.foundWebPage) != null) {
                     String str = tLRPC$WebPage.url;
@@ -28569,7 +28569,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         if (org.telegram.messenger.Emoji.fullyConsistsOfEmojis(r3) != false) goto L1446;
      */
     /* JADX WARN: Code restructure failed: missing block: B:639:0x0cc9, code lost:
-        if (r0.edit_messages != false) goto L1136;
+        if (r0.edit_messages != false) goto L1135;
      */
     /* JADX WARN: Code restructure failed: missing block: B:975:0x1722, code lost:
         if (r2.isEmpty() == false) goto L851;
@@ -30415,7 +30415,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 } else {
                                     iArr = iArr3;
                                 }
-                                if (!z23 && (z9 || (ChatObject.isChannelAndNotMegaGroup(this.currentChat) && !this.selectedObject.isSponsored() && this.selectedObject.contentType == 0 && this.chatMode == 0))) {
+                                if (z9 || (!z23 && ChatObject.isChannelAndNotMegaGroup(this.currentChat) && !this.selectedObject.isSponsored() && this.selectedObject.contentType == 0 && this.chatMode == 0)) {
                                     arrayList2.add(LocaleController.getString("Reply", R.string.Reply));
                                     arrayList16.add(8);
                                     arrayList14.add(Integer.valueOf(R.drawable.msg_reply));
@@ -32115,8 +32115,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         MediaController.saveFile(str, getParentActivity(), messageObject.isVideo() ? 1 : 0, null, null);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:289:0x081c, code lost:
-        if (r0.exists() != false) goto L287;
+    /* JADX WARN: Code restructure failed: missing block: B:295:0x0827, code lost:
+        if (r0.exists() != false) goto L293;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -32127,6 +32127,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         File file;
         TLRPC$Chat tLRPC$Chat;
         MessageObject.GroupedMessages group;
+        TLRPC$Message tLRPC$Message;
         TLRPC$Chat tLRPC$Chat2;
         ArrayList arrayList;
         final int id;
@@ -32367,27 +32368,33 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         break;
                         break;
                     case 8:
-                        if (this.selectedObject != null && (tLRPC$Chat = this.currentChat) != null && ((ChatObject.isNotInChat(tLRPC$Chat) && !isThreadChat()) || ((ChatObject.isChannel(this.currentChat) && !ChatObject.canPost(this.currentChat) && !this.currentChat.megagroup) || !ChatObject.canSendMessages(this.currentChat)))) {
-                            MessageObject messageObject3 = this.selectedObject;
-                            if (messageObject3.getGroupId() != 0 && (group = getGroup(messageObject3.getGroupId())) != null) {
-                                messageObject3 = group.captionMessage;
+                        MessageObject messageObject3 = this.selectedObject;
+                        if (messageObject3 == null || (tLRPC$Message = messageObject3.messageOwner) == null || !tLRPC$Message.noforwards) {
+                            if (messageObject3 != null && (tLRPC$Chat = this.currentChat) != null && ((ChatObject.isNotInChat(tLRPC$Chat) && !isThreadChat()) || ((ChatObject.isChannel(this.currentChat) && !ChatObject.canPost(this.currentChat) && !this.currentChat.megagroup) || !ChatObject.canSendMessages(this.currentChat)))) {
+                                MessageObject messageObject4 = this.selectedObject;
+                                if (messageObject4.getGroupId() != 0 && (group = getGroup(messageObject4.getGroupId())) != null) {
+                                    messageObject4 = group.captionMessage;
+                                }
+                                this.replyingMessageObject = messageObject4;
+                                Bundle bundle2 = new Bundle();
+                                bundle2.putBoolean("onlySelect", true);
+                                bundle2.putInt("dialogsType", 3);
+                                bundle2.putBoolean("quote", true);
+                                bundle2.putBoolean("reply_to", true);
+                                bundle2.putInt("messagesCount", 1);
+                                bundle2.putBoolean("canSelectTopics", true);
+                                DialogsActivity dialogsActivity2 = new DialogsActivity(bundle2);
+                                dialogsActivity2.setDelegate(this);
+                                presentFragment(dialogsActivity2);
+                                break;
+                            } else {
+                                showFieldPanelForReply(this.selectedObject);
+                                break;
                             }
-                            this.replyingMessageObject = messageObject3;
-                            Bundle bundle2 = new Bundle();
-                            bundle2.putBoolean("onlySelect", true);
-                            bundle2.putInt("dialogsType", 3);
-                            bundle2.putBoolean("quote", true);
-                            bundle2.putBoolean("reply_to", true);
-                            bundle2.putInt("messagesCount", 1);
-                            bundle2.putBoolean("canSelectTopics", true);
-                            DialogsActivity dialogsActivity2 = new DialogsActivity(bundle2);
-                            dialogsActivity2.setDelegate(this);
-                            presentFragment(dialogsActivity2);
-                            break;
                         } else {
-                            showFieldPanelForReply(this.selectedObject);
-                            break;
+                            return;
                         }
+                        break;
                     case 9:
                         StickersAlert stickersAlert = new StickersAlert(getParentActivity(), this, this.selectedObject.getInputStickerSet(), null, (this.bottomOverlayChat.getVisibility() == 0 || !((tLRPC$Chat2 = this.currentChat) == null || ChatObject.canSendStickers(tLRPC$Chat2))) ? null : this.chatActivityEnterView, this.themeDelegate);
                         stickersAlert.setCalcMandatoryInsets(isKeyboardVisible());
@@ -32460,9 +32467,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         this.chatActivityEnterView.addRecentGif(document);
                         break;
                     case 12:
-                        MessageObject messageObject4 = this.selectedObjectToEditCaption;
-                        if (messageObject4 != null) {
-                            startEditingMessageObject(messageObject4);
+                        MessageObject messageObject5 = this.selectedObjectToEditCaption;
+                        if (messageObject5 != null) {
+                            startEditingMessageObject(messageObject5);
                         } else {
                             startEditingMessageObject(this.selectedObject);
                         }
@@ -32609,22 +32616,22 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         break;
                     case 20:
                         MediaDataController mediaDataController = getMediaDataController();
-                        MessageObject messageObject5 = this.selectedObject;
-                        mediaDataController.addRecentSticker(2, messageObject5, messageObject5.getDocument(), (int) (System.currentTimeMillis() / 1000), false);
+                        MessageObject messageObject6 = this.selectedObject;
+                        mediaDataController.addRecentSticker(2, messageObject6, messageObject6.getDocument(), (int) (System.currentTimeMillis() / 1000), false);
                         break;
                     case 21:
                         MediaDataController mediaDataController2 = getMediaDataController();
-                        MessageObject messageObject6 = this.selectedObject;
-                        mediaDataController2.addRecentSticker(2, messageObject6, messageObject6.getDocument(), (int) (System.currentTimeMillis() / 1000), true);
+                        MessageObject messageObject7 = this.selectedObject;
+                        mediaDataController2.addRecentSticker(2, messageObject7, messageObject7.getDocument(), (int) (System.currentTimeMillis() / 1000), true);
                         break;
                     case 22:
                         TLRPC$TL_channels_exportMessageLink tLRPC$TL_channels_exportMessageLink = new TLRPC$TL_channels_exportMessageLink();
-                        MessageObject messageObject7 = this.selectedObject;
-                        if (messageObject7 == this.replyingMessageObject && this.isComments) {
+                        MessageObject messageObject8 = this.selectedObject;
+                        if (messageObject8 == this.replyingMessageObject && this.isComments) {
                             tLRPC$TL_channels_exportMessageLink.id = this.replyOriginalMessageId;
                             tLRPC$TL_channels_exportMessageLink.channel = MessagesController.getInputChannel(this.replyOriginalChat);
                         } else {
-                            tLRPC$TL_channels_exportMessageLink.id = messageObject7.getId();
+                            tLRPC$TL_channels_exportMessageLink.id = messageObject8.getId();
                             tLRPC$TL_channels_exportMessageLink.channel = MessagesController.getInputChannel(this.currentChat);
                             tLRPC$TL_channels_exportMessageLink.thread = isReplyChatComment() || this.isTopic;
                         }
@@ -32637,10 +32644,10 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         break;
                     case 23:
                         if (UserObject.isReplyUser(this.currentUser)) {
-                            MessageObject messageObject8 = this.selectedObject;
-                            TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader = messageObject8.messageOwner.fwd_from;
+                            MessageObject messageObject9 = this.selectedObject;
+                            TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader = messageObject9.messageOwner.fwd_from;
                             if (tLRPC$MessageFwdHeader != null) {
-                                AlertsCreator.showBlockReportSpamReplyAlert(this, messageObject8, MessageObject.getPeerId(tLRPC$MessageFwdHeader.from_id), this.themeDelegate, new Runnable() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda172
+                                AlertsCreator.showBlockReportSpamReplyAlert(this, messageObject9, MessageObject.getPeerId(tLRPC$MessageFwdHeader.from_id), this.themeDelegate, new Runnable() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda172
                                     @Override // java.lang.Runnable
                                     public final void run() {
                                         ChatActivity.this.lambda$processSelectedOption$247();
@@ -32687,7 +32694,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         }
                         break;
                     case MessageObject.TYPE_GIVEAWAY /* 26 */:
-                        final MessageObject messageObject9 = this.selectedObject;
+                        final MessageObject messageObject10 = this.selectedObject;
                         AlertDialog.Builder builder4 = new AlertDialog.Builder(getParentActivity(), this.themeDelegate);
                         builder4.setDimEnabled(false);
                         builder4.setOnPreDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda57
@@ -32696,7 +32703,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 ChatActivity.this.lambda$processSelectedOption$252(dialogInterface);
                             }
                         });
-                        if (messageObject9.isQuiz()) {
+                        if (messageObject10.isQuiz()) {
                             builder4.setTitle(LocaleController.getString("StopQuizAlertTitle", R.string.StopQuizAlertTitle));
                             builder4.setMessage(LocaleController.getString("StopQuizAlertText", R.string.StopQuizAlertText));
                         } else {
@@ -32706,7 +32713,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         builder4.setPositiveButton(LocaleController.getString("Stop", R.string.Stop), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda40
                             @Override // android.content.DialogInterface.OnClickListener
                             public final void onClick(DialogInterface dialogInterface, int i11) {
-                                ChatActivity.this.lambda$processSelectedOption$258(messageObject9, dialogInterface, i11);
+                                ChatActivity.this.lambda$processSelectedOption$258(messageObject10, dialogInterface, i11);
                             }
                         });
                         builder4.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
@@ -32762,12 +32769,12 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     }
                 });
             }
-            final MessageObject messageObject10 = this.selectedObject;
+            final MessageObject messageObject11 = this.selectedObject;
             final MessageObject.GroupedMessages groupedMessages6 = this.selectedObjectGroup;
-            AlertsCreator.createScheduleDatePickerDialog(getParentActivity(), this.dialog_id, messageObject10.messageOwner.date, new AlertsCreator.ScheduleDatePickerDelegate() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda292
+            AlertsCreator.createScheduleDatePickerDialog(getParentActivity(), this.dialog_id, messageObject11.messageOwner.date, new AlertsCreator.ScheduleDatePickerDelegate() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda292
                 @Override // org.telegram.ui.Components.AlertsCreator.ScheduleDatePickerDelegate
                 public final void didSelectDate(boolean z5, int i12) {
-                    ChatActivity.this.lambda$processSelectedOption$262(groupedMessages6, messageObject10, z5, i12);
+                    ChatActivity.this.lambda$processSelectedOption$262(groupedMessages6, messageObject11, z5, i12);
                 }
             }, null, this.themeDelegate).setOnPreDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda52
                 @Override // android.content.DialogInterface.OnDismissListener
@@ -38346,42 +38353,47 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 ChatActivity chatActivity = ChatActivity.this;
                 TLRPC$MessageMedia tLRPC$MessageMedia3 = messageObject.messageOwner.media;
                 chatActivity.openVCard(user, tLRPC$MessageMedia3.phone_number, tLRPC$MessageMedia3.vcard, tLRPC$MessageMedia3.first_name, tLRPC$MessageMedia3.last_name);
-            } else if (messageObject.isSponsored()) {
-                ChatActivity.this.logSponsoredClicked(messageObject);
-                Bundle bundle = new Bundle();
-                if (messageObject.sponsoredWebPage != null) {
-                    Browser.openUrl(ChatActivity.this.getContext(), messageObject.sponsoredWebPage.url, true, false);
-                } else if (messageObject.sponsoredChatInvite != null) {
-                    ChatActivity chatActivity2 = ChatActivity.this;
-                    Context context = ChatActivity.this.getContext();
-                    TLRPC$ChatInvite tLRPC$ChatInvite = messageObject.sponsoredChatInvite;
-                    String str = messageObject.sponsoredChatInviteHash;
-                    ChatActivity chatActivity3 = ChatActivity.this;
-                    chatActivity2.showDialog(new JoinGroupAlert(context, tLRPC$ChatInvite, str, chatActivity3, chatActivity3.themeDelegate));
-                } else {
-                    long peerId = MessageObject.getPeerId(messageObject.messageOwner.from_id);
-                    if (peerId == ChatActivity.this.getDialogId() && (i2 = messageObject.sponsoredChannelPost) != 0) {
-                        ChatActivity.this.scrollToMessageId(i2, 0, true, 0, false, 0);
+            } else {
+                if (messageObject.isSponsored()) {
+                    ChatActivity.this.logSponsoredClicked(messageObject);
+                    Bundle bundle = new Bundle();
+                    if (messageObject.sponsoredWebPage != null) {
+                        Browser.openUrl(ChatActivity.this.getContext(), messageObject.sponsoredWebPage.url, true, false);
+                        return;
+                    } else if (messageObject.sponsoredChatInvite != null) {
+                        ChatActivity chatActivity2 = ChatActivity.this;
+                        Context context = ChatActivity.this.getContext();
+                        TLRPC$ChatInvite tLRPC$ChatInvite = messageObject.sponsoredChatInvite;
+                        String str = messageObject.sponsoredChatInviteHash;
+                        ChatActivity chatActivity3 = ChatActivity.this;
+                        chatActivity2.showDialog(new JoinGroupAlert(context, tLRPC$ChatInvite, str, chatActivity3, chatActivity3.themeDelegate));
+                        return;
+                    } else {
+                        long peerId = MessageObject.getPeerId(messageObject.messageOwner.from_id);
+                        if (peerId == ChatActivity.this.getDialogId() && (i2 = messageObject.sponsoredChannelPost) != 0) {
+                            ChatActivity.this.scrollToMessageId(i2, 0, true, 0, false, 0);
+                            return;
+                        }
+                        if (peerId < 0) {
+                            bundle.putLong("chat_id", -peerId);
+                        } else {
+                            bundle.putLong("user_id", peerId);
+                        }
+                        int i3 = messageObject.sponsoredChannelPost;
+                        if (i3 != 0) {
+                            bundle.putInt("message_id", i3);
+                        }
+                        String str2 = messageObject.botStartParam;
+                        if (str2 != null) {
+                            bundle.putString("inline_query", str2);
+                        }
+                        if (ChatActivity.this.getMessagesController().checkCanOpenChat(bundle, ChatActivity.this)) {
+                            ChatActivity.this.presentFragment(new ChatActivity(bundle));
+                            return;
+                        }
                         return;
                     }
-                    if (peerId < 0) {
-                        bundle.putLong("chat_id", -peerId);
-                    } else {
-                        bundle.putLong("user_id", peerId);
-                    }
-                    int i3 = messageObject.sponsoredChannelPost;
-                    if (i3 != 0) {
-                        bundle.putInt("message_id", i3);
-                    }
-                    String str2 = messageObject.botStartParam;
-                    if (str2 != null) {
-                        bundle.putString("inline_query", str2);
-                    }
-                    if (ChatActivity.this.getMessagesController().checkCanOpenChat(bundle, ChatActivity.this)) {
-                        ChatActivity.this.presentFragment(new ChatActivity(bundle));
-                    }
                 }
-            } else {
                 TLRPC$WebPage storyMentionWebpage = messageObject.getStoryMentionWebpage();
                 if (storyMentionWebpage == null && (tLRPC$Message = messageObject.messageOwner) != null && (tLRPC$MessageMedia = tLRPC$Message.media) != null) {
                     storyMentionWebpage = tLRPC$MessageMedia.webpage;
@@ -38407,7 +38419,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     ChatActivity.this.progressDialogCurrent.cancel(true);
                 }
                 ChatActivity.this.progressDialogCurrent = chatMessageCell.getMessageObject() != null ? new 8(chatMessageCell) : null;
-                Browser.openUrl(ChatActivity.this.getParentActivity(), Uri.parse(storyMentionWebpage.url), true, true, (MessageObject.getMedia(messageObject.messageOwner) == null || MessageObject.getMedia(messageObject.messageOwner).safe) ? false : true, ChatActivity.this.progressDialogCurrent);
+                Browser.openUrl(ChatActivity.this.getParentActivity(), Uri.parse(storyMentionWebpage.url), true, true, false, ChatActivity.this.progressDialogCurrent);
             }
         }
 

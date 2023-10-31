@@ -141,7 +141,6 @@ import org.telegram.tgnet.TLRPC$TL_messageActionPinMessage;
 import org.telegram.tgnet.TLRPC$TL_messageActionSetChatTheme;
 import org.telegram.tgnet.TLRPC$TL_messageActionUserJoined;
 import org.telegram.tgnet.TLRPC$TL_messages_addChatUser;
-import org.telegram.tgnet.TLRPC$TL_messages_botApp;
 import org.telegram.tgnet.TLRPC$TL_messages_checkHistoryImport;
 import org.telegram.tgnet.TLRPC$TL_messages_checkHistoryImportPeer;
 import org.telegram.tgnet.TLRPC$TL_messages_createChat;
@@ -940,7 +939,7 @@ public class AlertsCreator {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$createLanguageAlert$8(LaunchActivity launchActivity, DialogInterface dialogInterface, int i) {
-        launchActivity.lambda$runLinkRequest$83(new LanguageSelectActivity());
+        launchActivity.lambda$runLinkRequest$86(new LanguageSelectActivity());
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1989,7 +1988,7 @@ public class AlertsCreator {
         }
     }
 
-    public static void createBotLaunchAlert(final BaseFragment baseFragment, TLRPC$TL_messages_botApp tLRPC$TL_messages_botApp, final TLRPC$User tLRPC$User, final AtomicBoolean atomicBoolean, final Runnable runnable) {
+    public static void createBotLaunchAlert(final BaseFragment baseFragment, final AtomicBoolean atomicBoolean, final TLRPC$User tLRPC$User, final Runnable runnable) {
         float f;
         int dp;
         Context context = baseFragment.getContext();
@@ -2057,7 +2056,7 @@ public class AlertsCreator {
         boolean z2 = LocaleController.isRTL;
         frameLayout.addView(textView3, LayoutHelper.createFrame(-1, -2.0f, (z2 ? 5 : 3) | 48, z2 ? 21 : 76, 28.0f, z2 ? 76 : 21, 0.0f));
         frameLayout.addView(textView, LayoutHelper.createFrame(-2, -2.0f, (LocaleController.isRTL ? 5 : 3) | 48, 24.0f, 57.0f, 24.0f, 1.0f));
-        if (tLRPC$TL_messages_botApp.request_write_access) {
+        if (atomicBoolean != null) {
             atomicBoolean.set(true);
             checkBoxCellArr[0] = new CheckBoxCell(context, 1, baseFragment.getResourceProvider());
             checkBoxCellArr[0].allowMultiline();
@@ -6091,7 +6090,7 @@ public class AlertsCreator {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$createFreeSpaceDialog$120(LaunchActivity launchActivity, DialogInterface dialogInterface, int i) {
-        launchActivity.lambda$runLinkRequest$83(new CacheControlActivity());
+        launchActivity.lambda$runLinkRequest$86(new CacheControlActivity());
     }
 
     public static Dialog createPrioritySelectDialog(Activity activity, long j, int i, int i2, Runnable runnable) {

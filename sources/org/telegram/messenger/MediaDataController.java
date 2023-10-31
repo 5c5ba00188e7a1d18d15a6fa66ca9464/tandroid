@@ -10330,6 +10330,15 @@ public class MediaDataController extends BaseController {
         return false;
     }
 
+    public TLRPC$TL_attachMenuBot findBotInAttachMenu(long j) {
+        for (int i = 0; i < this.attachMenuBots.bots.size(); i++) {
+            if (this.attachMenuBots.bots.get(i).bot_id == j) {
+                return this.attachMenuBots.bots.get(i);
+            }
+        }
+        return null;
+    }
+
     /* loaded from: classes.dex */
     public static class KeywordResult {
         public String emoji;

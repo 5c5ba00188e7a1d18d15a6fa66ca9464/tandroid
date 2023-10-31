@@ -93,7 +93,7 @@ public class QuoteSpan implements LeadingMarginSpan {
         @Override // android.text.style.MetricAffectingSpan
         public void updateMeasureState(TextPaint textPaint) {
             textPaint.setTextSize(AndroidUtilities.dp(this.span.edit ? 16.0f : SharedConfig.fontSize - 2));
-            textPaint.setTextScaleX(this.span.edit ? 1.08f : 1.0f);
+            textPaint.setTextScaleX(this.span.edit ? 1.1f : 1.0f);
         }
 
         @Override // android.text.style.LineHeightSpan
