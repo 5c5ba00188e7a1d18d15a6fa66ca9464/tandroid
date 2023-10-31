@@ -2017,9 +2017,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         return false;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:128:0x0290 A[Catch: Exception -> 0x02cc, TryCatch #1 {Exception -> 0x02cc, blocks: (B:28:0x0074, B:30:0x0086, B:32:0x008c, B:34:0x00ad, B:36:0x00b8, B:38:0x00c6, B:44:0x00d7, B:47:0x00e3, B:49:0x00e6, B:51:0x00ec, B:57:0x00f6, B:59:0x00fc, B:61:0x0102, B:63:0x0108, B:65:0x010c, B:126:0x028c, B:67:0x0110, B:68:0x011d, B:70:0x0121, B:72:0x0129, B:74:0x014b, B:76:0x0150, B:78:0x015b, B:80:0x015f, B:84:0x0172, B:85:0x0179, B:125:0x0281, B:124:0x027e, B:75:0x014e, B:128:0x0290, B:130:0x0296, B:132:0x029c, B:134:0x02a5, B:136:0x02ab, B:137:0x02b1, B:139:0x02b5, B:141:0x02bd, B:46:0x00da, B:42:0x00cc, B:86:0x017d, B:88:0x01af, B:89:0x01b1, B:91:0x01bb, B:93:0x01c7, B:96:0x01de, B:98:0x01e1, B:101:0x01ec, B:104:0x020f, B:94:0x01d2, B:105:0x0212, B:107:0x0218, B:109:0x021c, B:111:0x0228, B:114:0x0247, B:116:0x024a, B:119:0x0255, B:112:0x0237), top: B:149:0x0074, inners: #0 }] */
-    /* JADX WARN: Removed duplicated region for block: B:57:0x00f6 A[Catch: Exception -> 0x02cc, TryCatch #1 {Exception -> 0x02cc, blocks: (B:28:0x0074, B:30:0x0086, B:32:0x008c, B:34:0x00ad, B:36:0x00b8, B:38:0x00c6, B:44:0x00d7, B:47:0x00e3, B:49:0x00e6, B:51:0x00ec, B:57:0x00f6, B:59:0x00fc, B:61:0x0102, B:63:0x0108, B:65:0x010c, B:126:0x028c, B:67:0x0110, B:68:0x011d, B:70:0x0121, B:72:0x0129, B:74:0x014b, B:76:0x0150, B:78:0x015b, B:80:0x015f, B:84:0x0172, B:85:0x0179, B:125:0x0281, B:124:0x027e, B:75:0x014e, B:128:0x0290, B:130:0x0296, B:132:0x029c, B:134:0x02a5, B:136:0x02ab, B:137:0x02b1, B:139:0x02b5, B:141:0x02bd, B:46:0x00da, B:42:0x00cc, B:86:0x017d, B:88:0x01af, B:89:0x01b1, B:91:0x01bb, B:93:0x01c7, B:96:0x01de, B:98:0x01e1, B:101:0x01ec, B:104:0x020f, B:94:0x01d2, B:105:0x0212, B:107:0x0218, B:109:0x021c, B:111:0x0228, B:114:0x0247, B:116:0x024a, B:119:0x0255, B:112:0x0237), top: B:149:0x0074, inners: #0 }] */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x0102 A[Catch: Exception -> 0x02cc, TryCatch #1 {Exception -> 0x02cc, blocks: (B:28:0x0074, B:30:0x0086, B:32:0x008c, B:34:0x00ad, B:36:0x00b8, B:38:0x00c6, B:44:0x00d7, B:47:0x00e3, B:49:0x00e6, B:51:0x00ec, B:57:0x00f6, B:59:0x00fc, B:61:0x0102, B:63:0x0108, B:65:0x010c, B:126:0x028c, B:67:0x0110, B:68:0x011d, B:70:0x0121, B:72:0x0129, B:74:0x014b, B:76:0x0150, B:78:0x015b, B:80:0x015f, B:84:0x0172, B:85:0x0179, B:125:0x0281, B:124:0x027e, B:75:0x014e, B:128:0x0290, B:130:0x0296, B:132:0x029c, B:134:0x02a5, B:136:0x02ab, B:137:0x02b1, B:139:0x02b5, B:141:0x02bd, B:46:0x00da, B:42:0x00cc, B:86:0x017d, B:88:0x01af, B:89:0x01b1, B:91:0x01bb, B:93:0x01c7, B:96:0x01de, B:98:0x01e1, B:101:0x01ec, B:104:0x020f, B:94:0x01d2, B:105:0x0212, B:107:0x0218, B:109:0x021c, B:111:0x0228, B:114:0x0247, B:116:0x024a, B:119:0x0255, B:112:0x0237), top: B:149:0x0074, inners: #0 }] */
+    /* JADX WARN: Removed duplicated region for block: B:128:0x0290 A[Catch: Exception -> 0x02cc, TryCatch #1 {Exception -> 0x02cc, blocks: (B:28:0x0072, B:30:0x0085, B:32:0x008b, B:34:0x00ad, B:36:0x00b8, B:38:0x00c6, B:44:0x00d7, B:47:0x00e3, B:49:0x00e6, B:51:0x00ec, B:57:0x00f6, B:59:0x00fc, B:61:0x0102, B:63:0x0108, B:65:0x010c, B:126:0x028c, B:67:0x0110, B:68:0x011d, B:70:0x0121, B:72:0x0129, B:74:0x014b, B:76:0x0150, B:78:0x015b, B:80:0x015f, B:84:0x0172, B:85:0x0179, B:125:0x0281, B:124:0x027e, B:75:0x014e, B:128:0x0290, B:130:0x0296, B:132:0x029c, B:134:0x02a5, B:136:0x02ab, B:137:0x02b1, B:139:0x02b5, B:141:0x02bd, B:46:0x00da, B:42:0x00cc, B:86:0x017d, B:88:0x01af, B:89:0x01b1, B:91:0x01bb, B:93:0x01c7, B:96:0x01de, B:98:0x01e1, B:101:0x01ec, B:104:0x020f, B:94:0x01d2, B:105:0x0212, B:107:0x0218, B:109:0x021c, B:111:0x0228, B:114:0x0247, B:116:0x024a, B:119:0x0255, B:112:0x0237), top: B:149:0x0072, inners: #0 }] */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x00f6 A[Catch: Exception -> 0x02cc, TryCatch #1 {Exception -> 0x02cc, blocks: (B:28:0x0072, B:30:0x0085, B:32:0x008b, B:34:0x00ad, B:36:0x00b8, B:38:0x00c6, B:44:0x00d7, B:47:0x00e3, B:49:0x00e6, B:51:0x00ec, B:57:0x00f6, B:59:0x00fc, B:61:0x0102, B:63:0x0108, B:65:0x010c, B:126:0x028c, B:67:0x0110, B:68:0x011d, B:70:0x0121, B:72:0x0129, B:74:0x014b, B:76:0x0150, B:78:0x015b, B:80:0x015f, B:84:0x0172, B:85:0x0179, B:125:0x0281, B:124:0x027e, B:75:0x014e, B:128:0x0290, B:130:0x0296, B:132:0x029c, B:134:0x02a5, B:136:0x02ab, B:137:0x02b1, B:139:0x02b5, B:141:0x02bd, B:46:0x00da, B:42:0x00cc, B:86:0x017d, B:88:0x01af, B:89:0x01b1, B:91:0x01bb, B:93:0x01c7, B:96:0x01de, B:98:0x01e1, B:101:0x01ec, B:104:0x020f, B:94:0x01d2, B:105:0x0212, B:107:0x0218, B:109:0x021c, B:111:0x0228, B:114:0x0247, B:116:0x024a, B:119:0x0255, B:112:0x0237), top: B:149:0x0072, inners: #0 }] */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x0102 A[Catch: Exception -> 0x02cc, TryCatch #1 {Exception -> 0x02cc, blocks: (B:28:0x0072, B:30:0x0085, B:32:0x008b, B:34:0x00ad, B:36:0x00b8, B:38:0x00c6, B:44:0x00d7, B:47:0x00e3, B:49:0x00e6, B:51:0x00ec, B:57:0x00f6, B:59:0x00fc, B:61:0x0102, B:63:0x0108, B:65:0x010c, B:126:0x028c, B:67:0x0110, B:68:0x011d, B:70:0x0121, B:72:0x0129, B:74:0x014b, B:76:0x0150, B:78:0x015b, B:80:0x015f, B:84:0x0172, B:85:0x0179, B:125:0x0281, B:124:0x027e, B:75:0x014e, B:128:0x0290, B:130:0x0296, B:132:0x029c, B:134:0x02a5, B:136:0x02ab, B:137:0x02b1, B:139:0x02b5, B:141:0x02bd, B:46:0x00da, B:42:0x00cc, B:86:0x017d, B:88:0x01af, B:89:0x01b1, B:91:0x01bb, B:93:0x01c7, B:96:0x01de, B:98:0x01e1, B:101:0x01ec, B:104:0x020f, B:94:0x01d2, B:105:0x0212, B:107:0x0218, B:109:0x021c, B:111:0x0228, B:114:0x0247, B:116:0x024a, B:119:0x0255, B:112:0x0237), top: B:149:0x0072, inners: #0 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2039,20 +2039,19 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 float f3 = this.captionY;
                 if (f2 >= f3) {
                     MessageObject.TextLayoutBlocks textLayoutBlocks = this.captionLayout;
-                    if (x <= textLayoutBlocks.textWidth + f && f2 <= textLayoutBlocks.textHeight + f3) {
-                        int i = (int) (x - f);
-                        int i2 = (int) (f2 - f3);
-                        int i3 = 0;
-                        for (int i4 = 0; i4 < this.captionLayout.textLayoutBlocks.size() && this.captionLayout.textLayoutBlocks.get(i4).textYOffset <= i2; i4++) {
-                            i3 = i4;
+                    if (x <= f + textLayoutBlocks.textWidth && f2 <= textLayoutBlocks.textHeight + f3) {
+                        int i = (int) (f2 - f3);
+                        int i2 = 0;
+                        for (int i3 = 0; i3 < this.captionLayout.textLayoutBlocks.size() && this.captionLayout.textLayoutBlocks.get(i3).textYOffset <= i; i3++) {
+                            i2 = i3;
                         }
                         try {
-                            MessageObject.TextLayoutBlock textLayoutBlock = this.captionLayout.textLayoutBlocks.get(i3);
-                            float f4 = i;
+                            MessageObject.TextLayoutBlock textLayoutBlock = this.captionLayout.textLayoutBlocks.get(i2);
+                            float f4 = this.captionX;
                             float f5 = textLayoutBlock.isRtl() ? this.captionLayout.textXOffset : 0.0f;
-                            int i5 = (int) (i2 - textLayoutBlock.textYOffset);
-                            int lineForVertical = textLayoutBlock.textLayout.getLineForVertical(i5);
-                            float f6 = (int) (f4 - f5);
+                            int i4 = (int) (i - textLayoutBlock.textYOffset);
+                            int lineForVertical = textLayoutBlock.textLayout.getLineForVertical(i4);
+                            float f6 = (int) (x - (f4 - f5));
                             int offsetForHorizontal = textLayoutBlock.charactersOffset + textLayoutBlock.textLayout.getOffsetForHorizontal(lineForVertical, f6);
                             float lineLeft = textLayoutBlock.textLayout.getLineLeft(lineForVertical);
                             if (lineLeft <= f6 && lineLeft + textLayoutBlock.textLayout.getLineWidth(lineForVertical) >= f6) {
@@ -2079,69 +2078,69 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                     LinkSpanDrawable linkSpanDrawable = this.pressedLink;
                                                     if (linkSpanDrawable == null || linkSpanDrawable.getSpan() != characterStyleArr3[0]) {
                                                         this.links.removeLink(this.pressedLink);
-                                                        LinkSpanDrawable linkSpanDrawable2 = new LinkSpanDrawable(characterStyleArr3[0], this.resourcesProvider, f6, i5, spanSupportsLongPress(characterStyleArr3[0]));
+                                                        LinkSpanDrawable linkSpanDrawable2 = new LinkSpanDrawable(characterStyleArr3[0], this.resourcesProvider, f6, i4, spanSupportsLongPress(characterStyleArr3[0]));
                                                         this.pressedLink = linkSpanDrawable2;
                                                         linkSpanDrawable2.setColor(getThemedColor(this.currentMessageObject.isOutOwner() ? Theme.key_chat_outLinkSelectBackground : Theme.key_chat_linkSelectBackground));
                                                         if (textLayoutBlock.quote && (replyMessageLine = this.quoteLine) != null) {
                                                             this.pressedLink.setColor(Theme.multAlpha(replyMessageLine.getColor(), Theme.isCurrentThemeDark() ? 0.13f : 0.1f));
                                                         }
-                                                        this.linkBlockNum = i3;
+                                                        this.linkBlockNum = i2;
                                                         this.pressedLinkType = 1;
                                                         try {
                                                             LinkPath obtainNewPath = this.pressedLink.obtainNewPath();
                                                             int[] realSpanStartAndEnd = getRealSpanStartAndEnd(spannable, this.pressedLink.getSpan());
-                                                            int i6 = realSpanStartAndEnd[0];
-                                                            int i7 = textLayoutBlock.charactersOffset;
-                                                            realSpanStartAndEnd[0] = i6 - i7;
-                                                            realSpanStartAndEnd[1] = realSpanStartAndEnd[1] - i7;
+                                                            int i5 = realSpanStartAndEnd[0];
+                                                            int i6 = textLayoutBlock.charactersOffset;
+                                                            realSpanStartAndEnd[0] = i5 - i6;
+                                                            realSpanStartAndEnd[1] = realSpanStartAndEnd[1] - i6;
                                                             obtainNewPath.setCurrentLayout(textLayoutBlock.textLayout, realSpanStartAndEnd[0], 0.0f);
                                                             textLayoutBlock.textLayout.getSelectionPath(realSpanStartAndEnd[0], realSpanStartAndEnd[1], obtainNewPath);
                                                             if (realSpanStartAndEnd[1] >= textLayoutBlock.charactersEnd) {
-                                                                for (int i8 = i3 + 1; i8 < this.captionLayout.textLayoutBlocks.size(); i8++) {
-                                                                    MessageObject.TextLayoutBlock textLayoutBlock2 = this.captionLayout.textLayoutBlocks.get(i8);
+                                                                for (int i7 = i2 + 1; i7 < this.captionLayout.textLayoutBlocks.size(); i7++) {
+                                                                    MessageObject.TextLayoutBlock textLayoutBlock2 = this.captionLayout.textLayoutBlocks.get(i7);
                                                                     if (z) {
-                                                                        int i9 = textLayoutBlock2.charactersOffset;
-                                                                        characterStyleArr2 = (CharacterStyle[]) spannable.getSpans(i9, i9, URLSpanMono.class);
+                                                                        int i8 = textLayoutBlock2.charactersOffset;
+                                                                        characterStyleArr2 = (CharacterStyle[]) spannable.getSpans(i8, i8, URLSpanMono.class);
                                                                     } else {
-                                                                        int i10 = textLayoutBlock2.charactersOffset;
-                                                                        characterStyleArr2 = (CharacterStyle[]) spannable.getSpans(i10, i10, ClickableSpan.class);
+                                                                        int i9 = textLayoutBlock2.charactersOffset;
+                                                                        characterStyleArr2 = (CharacterStyle[]) spannable.getSpans(i9, i9, ClickableSpan.class);
                                                                     }
                                                                     if (characterStyleArr2 == null || characterStyleArr2.length == 0 || characterStyleArr2[0] != this.pressedLink.getSpan()) {
                                                                         break;
                                                                     }
                                                                     LinkPath obtainNewPath2 = this.pressedLink.obtainNewPath();
                                                                     obtainNewPath2.setCurrentLayout(textLayoutBlock2.textLayout, 0, textLayoutBlock2.textYOffset - textLayoutBlock.textYOffset);
-                                                                    int i11 = (realSpanStartAndEnd[1] + textLayoutBlock.charactersOffset) - textLayoutBlock2.charactersOffset;
-                                                                    textLayoutBlock2.textLayout.getSelectionPath(0, i11, obtainNewPath2);
-                                                                    if (i11 < textLayoutBlock2.charactersEnd - 1) {
+                                                                    int i10 = (realSpanStartAndEnd[1] + textLayoutBlock.charactersOffset) - textLayoutBlock2.charactersOffset;
+                                                                    textLayoutBlock2.textLayout.getSelectionPath(0, i10, obtainNewPath2);
+                                                                    if (i10 < textLayoutBlock2.charactersEnd - 1) {
                                                                         break;
                                                                     }
                                                                 }
                                                             }
                                                             if (realSpanStartAndEnd[0] <= textLayoutBlock.charactersOffset) {
-                                                                int i12 = 0;
-                                                                for (int i13 = i3 - 1; i13 >= 0; i13--) {
-                                                                    MessageObject.TextLayoutBlock textLayoutBlock3 = this.captionLayout.textLayoutBlocks.get(i13);
+                                                                int i11 = 0;
+                                                                for (int i12 = i2 - 1; i12 >= 0; i12--) {
+                                                                    MessageObject.TextLayoutBlock textLayoutBlock3 = this.captionLayout.textLayoutBlocks.get(i12);
                                                                     if (z) {
-                                                                        int i14 = textLayoutBlock3.charactersEnd;
-                                                                        characterStyleArr = (CharacterStyle[]) spannable.getSpans(i14 - 1, i14 - 1, URLSpanMono.class);
+                                                                        int i13 = textLayoutBlock3.charactersEnd;
+                                                                        characterStyleArr = (CharacterStyle[]) spannable.getSpans(i13 - 1, i13 - 1, URLSpanMono.class);
                                                                     } else {
-                                                                        int i15 = textLayoutBlock3.charactersEnd;
-                                                                        characterStyleArr = (CharacterStyle[]) spannable.getSpans(i15 - 1, i15 - 1, ClickableSpan.class);
+                                                                        int i14 = textLayoutBlock3.charactersEnd;
+                                                                        characterStyleArr = (CharacterStyle[]) spannable.getSpans(i14 - 1, i14 - 1, ClickableSpan.class);
                                                                     }
                                                                     if (characterStyleArr == null || characterStyleArr.length == 0 || characterStyleArr[0] != this.pressedLink.getSpan()) {
                                                                         break;
                                                                     }
                                                                     LinkPath obtainNewPath3 = this.pressedLink.obtainNewPath();
-                                                                    i12 -= textLayoutBlock3.height;
-                                                                    int i16 = realSpanStartAndEnd[0];
-                                                                    int i17 = textLayoutBlock.charactersOffset;
-                                                                    int i18 = textLayoutBlock3.charactersOffset;
-                                                                    int i19 = (i16 + i17) - i18;
-                                                                    int i20 = (realSpanStartAndEnd[1] + i17) - i18;
-                                                                    obtainNewPath3.setCurrentLayout(textLayoutBlock3.textLayout, i19, i12);
-                                                                    textLayoutBlock3.textLayout.getSelectionPath(i19, i20, obtainNewPath3);
-                                                                    if (i19 > textLayoutBlock3.charactersOffset) {
+                                                                    i11 -= textLayoutBlock3.height;
+                                                                    int i15 = realSpanStartAndEnd[0];
+                                                                    int i16 = textLayoutBlock.charactersOffset;
+                                                                    int i17 = textLayoutBlock3.charactersOffset;
+                                                                    int i18 = (i15 + i16) - i17;
+                                                                    int i19 = (realSpanStartAndEnd[1] + i16) - i17;
+                                                                    obtainNewPath3.setCurrentLayout(textLayoutBlock3.textLayout, i18, i11);
+                                                                    textLayoutBlock3.textLayout.getSelectionPath(i18, i19, obtainNewPath3);
+                                                                    if (i18 > textLayoutBlock3.charactersOffset) {
                                                                         break;
                                                                     }
                                                                 }

@@ -259,15 +259,15 @@ public class SharedLinkCell extends FrameLayout {
     /* JADX WARN: Removed duplicated region for block: B:225:0x056a  */
     /* JADX WARN: Removed duplicated region for block: B:226:0x0575  */
     /* JADX WARN: Removed duplicated region for block: B:229:0x058f  */
-    /* JADX WARN: Removed duplicated region for block: B:236:0x060d  */
-    /* JADX WARN: Removed duplicated region for block: B:239:0x0612  */
-    /* JADX WARN: Removed duplicated region for block: B:262:0x06ae  */
-    /* JADX WARN: Removed duplicated region for block: B:266:0x06bc  */
-    /* JADX WARN: Removed duplicated region for block: B:272:0x06dd  */
-    /* JADX WARN: Removed duplicated region for block: B:279:0x030a A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:281:0x01fd A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:283:0x0377 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:287:0x03c3 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:238:0x060f  */
+    /* JADX WARN: Removed duplicated region for block: B:241:0x0614  */
+    /* JADX WARN: Removed duplicated region for block: B:264:0x06b0  */
+    /* JADX WARN: Removed duplicated region for block: B:268:0x06be  */
+    /* JADX WARN: Removed duplicated region for block: B:274:0x06df  */
+    /* JADX WARN: Removed duplicated region for block: B:281:0x030a A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:283:0x01fd A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:285:0x0377 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:289:0x03c3 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r4v6, types: [java.lang.CharSequence] */
     /* JADX WARN: Type inference failed for: r7v40, types: [android.text.SpannableStringBuilder, android.text.Spannable] */
     /* JADX WARN: Type inference failed for: r7v61, types: [android.text.SpannableStringBuilder, android.text.Spannable] */
@@ -621,7 +621,9 @@ public class SharedLinkCell extends FrameLayout {
                     if (closestPhotoSizeWithSize2 == closestPhotoSizeWithSize) {
                         closestPhotoSizeWithSize2 = tLRPC$PhotoSize3;
                     }
-                    closestPhotoSizeWithSize.size = -1;
+                    if (closestPhotoSizeWithSize != null) {
+                        closestPhotoSizeWithSize.size = -1;
+                    }
                     if (closestPhotoSizeWithSize2 != null) {
                         closestPhotoSizeWithSize2.size = -1;
                     }
