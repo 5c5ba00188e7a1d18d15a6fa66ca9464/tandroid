@@ -59,6 +59,7 @@ import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.Premium.boosts.BoostRepository;
 import org.telegram.ui.PaymentFormActivity;
+@Deprecated
 /* loaded from: classes4.dex */
 public class UndoView extends FrameLayout {
     public static int ACTION_RINGTONE_ADDED = 83;

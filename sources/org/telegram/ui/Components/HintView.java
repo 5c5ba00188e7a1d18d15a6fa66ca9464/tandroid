@@ -28,6 +28,7 @@ import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.ChatMessageCell;
 import org.telegram.ui.Components.HintView;
+@Deprecated
 /* loaded from: classes4.dex */
 public class HintView extends FrameLayout {
     private AnimatorSet animatorSet;

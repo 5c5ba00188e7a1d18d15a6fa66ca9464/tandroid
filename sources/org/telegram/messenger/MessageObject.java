@@ -1009,7 +1009,7 @@ public class MessageObject {
         }
 
         /* JADX WARN: Code restructure failed: missing block: B:30:0x0086, code lost:
-            if ((org.telegram.messenger.MessageObject.getMedia(r15.messageOwner) instanceof org.telegram.tgnet.TLRPC$TL_messageMediaInvoice) == false) goto L65;
+            if ((org.telegram.messenger.MessageObject.getMedia(r15.messageOwner) instanceof org.telegram.tgnet.TLRPC$TL_messageMediaInvoice) == false) goto L67;
          */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -1095,7 +1095,7 @@ public class MessageObject {
                         if (z4 && this.captionMessage == null) {
                             this.captionMessage = messageObject;
                             z4 = false;
-                        } else {
+                        } else if (!this.isDocuments) {
                             this.captionMessage = null;
                         }
                         this.hasCaption = true;

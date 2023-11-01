@@ -1,18 +1,17 @@
 package org.telegram.messenger;
 
-import java.util.Comparator;
-import org.telegram.tgnet.TLRPC$TL_topPeer;
+import org.telegram.tgnet.TLRPC$MessageEntity;
 /* loaded from: classes.dex */
-public final /* synthetic */ class MediaDataController$$ExternalSyntheticLambda163 implements Comparator {
+public final /* synthetic */ class MediaDataController$$ExternalSyntheticLambda163 implements GenericProvider {
     public static final /* synthetic */ MediaDataController$$ExternalSyntheticLambda163 INSTANCE = new MediaDataController$$ExternalSyntheticLambda163();
 
     private /* synthetic */ MediaDataController$$ExternalSyntheticLambda163() {
     }
 
-    @Override // java.util.Comparator
-    public final int compare(Object obj, Object obj2) {
-        int lambda$increaseInlineRaiting$141;
-        lambda$increaseInlineRaiting$141 = MediaDataController.lambda$increaseInlineRaiting$141((TLRPC$TL_topPeer) obj, (TLRPC$TL_topPeer) obj2);
-        return lambda$increaseInlineRaiting$141;
+    @Override // org.telegram.messenger.GenericProvider
+    public final Object provide(Object obj) {
+        TLRPC$MessageEntity lambda$getEntities$171;
+        lambda$getEntities$171 = MediaDataController.lambda$getEntities$171((Void) obj);
+        return lambda$getEntities$171;
     }
 }

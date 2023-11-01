@@ -3775,7 +3775,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 return;
             }
             int min = Math.min(i2, chatActivity.getMessagesController().quoteLengthMax + i);
-            if (messageObject.getGroupId() != 0 && (group = this.chatActivity.getGroup(messageObject.getGroupId())) != null) {
+            if (messageObject.getGroupId() != 0 && (group = this.chatActivity.getGroup(messageObject.getGroupId())) != null && !group.isDocuments) {
                 messageObject = group.captionMessage;
             }
             if (messageObject == null) {
@@ -11775,10 +11775,15 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
         @Override // org.telegram.ui.Components.MessagePreviewView
         protected void onQuoteSelectedPart() {
-            if (ChatActivity.this.replyingQuote == null) {
+            if (ChatActivity.this.replyingQuote != null && ChatActivity.this.replyingQuote.message != null) {
                 ChatActivity chatActivity = ChatActivity.this;
-                chatActivity.replyingQuote = chatActivity.messagePreviewParams.quote;
+                ReplyQuote replyQuote = chatActivity.messagePreviewParams.quote;
+                if (replyQuote == null || replyQuote.message == null || chatActivity.replyingQuote.message.getId() == ChatActivity.this.messagePreviewParams.quote.message.getId()) {
+                    return;
+                }
             }
+            ChatActivity chatActivity2 = ChatActivity.this;
+            chatActivity2.replyingQuote = chatActivity2.messagePreviewParams.quote;
         }
 
         @Override // org.telegram.ui.Components.MessagePreviewView
@@ -24787,25 +24792,24 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:90:0x021a  */
+    /* JADX WARN: Removed duplicated region for block: B:93:0x0222  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void updateBottomOverlay() {
-        int i;
         boolean z;
         boolean z2;
         TLRPC$Chat tLRPC$Chat;
         TLRPC$User tLRPC$User;
         TLRPC$TL_forumTopic tLRPC$TL_forumTopic;
-        if (this.bottomOverlayChatText == null || (i = this.chatMode) == 1) {
+        if (this.bottomOverlayChatText == null || this.chatMode == 1 || getContext() == null) {
             return;
         }
         boolean z3 = this.bottomOverlayChatWaitsReply;
         this.bottomOverlayChatWaitsReply = false;
         if (this.reportType >= 0) {
             updateActionModeTitle();
-        } else if (i == 2) {
+        } else if (this.chatMode == 2) {
             TLRPC$Chat tLRPC$Chat2 = this.currentChat;
             if (tLRPC$Chat2 != null) {
                 z2 = ChatObject.canPinMessages(tLRPC$Chat2);
