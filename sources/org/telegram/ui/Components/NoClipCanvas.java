@@ -277,7 +277,9 @@ public class NoClipCanvas extends Canvas {
 
     @Override // android.graphics.Canvas
     public void drawColor(long j, BlendMode blendMode) {
-        this.canvas.drawColor(j, blendMode);
+        if (Build.VERSION.SDK_INT >= 29) {
+            this.canvas.drawColor(j, blendMode);
+        }
     }
 
     @Override // android.graphics.Canvas
@@ -431,6 +433,161 @@ public class NoClipCanvas extends Canvas {
     @Override // android.graphics.Canvas
     public void setDensity(int i) {
         this.canvas.setDensity(i);
+    }
+
+    @Override // android.graphics.Canvas
+    public int saveLayerAlpha(RectF rectF, int i, int i2) {
+        return this.canvas.saveLayerAlpha(rectF, i, i2);
+    }
+
+    @Override // android.graphics.Canvas
+    public int saveLayerAlpha(float f, float f2, float f3, float f4, int i) {
+        if (Build.VERSION.SDK_INT >= 21) {
+            return this.canvas.saveLayerAlpha(f, f2, f3, f4, i);
+        }
+        return getSaveCount();
+    }
+
+    @Override // android.graphics.Canvas
+    public int saveLayerAlpha(RectF rectF, int i) {
+        if (Build.VERSION.SDK_INT >= 21) {
+            return this.canvas.saveLayerAlpha(rectF, i);
+        }
+        return getSaveCount();
+    }
+
+    @Override // android.graphics.Canvas
+    public int saveLayer(float f, float f2, float f3, float f4, Paint paint) {
+        if (Build.VERSION.SDK_INT >= 21) {
+            return this.canvas.saveLayer(f, f2, f3, f4, paint);
+        }
+        return getSaveCount();
+    }
+
+    @Override // android.graphics.Canvas
+    public int saveLayer(RectF rectF, Paint paint) {
+        if (Build.VERSION.SDK_INT >= 21) {
+            return this.canvas.saveLayer(rectF, paint);
+        }
+        return getSaveCount();
+    }
+
+    @Override // android.graphics.Canvas
+    public int saveLayer(float f, float f2, float f3, float f4, Paint paint, int i) {
+        return this.canvas.saveLayer(f, f2, f3, f4, paint, i);
+    }
+
+    @Override // android.graphics.Canvas
+    public int saveLayer(RectF rectF, Paint paint, int i) {
+        return this.canvas.saveLayer(rectF, paint, i);
+    }
+
+    @Override // android.graphics.Canvas
+    public int saveLayerAlpha(float f, float f2, float f3, float f4, int i, int i2) {
+        return this.canvas.saveLayerAlpha(f, f2, f3, f4, i, i2);
+    }
+
+    @Override // android.graphics.Canvas
+    public boolean clipOutRect(float f, float f2, float f3, float f4) {
+        if (Build.VERSION.SDK_INT >= 26) {
+            return this.canvas.clipOutRect(f, f2, f3, f4);
+        }
+        return false;
+    }
+
+    @Override // android.graphics.Canvas
+    public boolean clipOutRect(int i, int i2, int i3, int i4) {
+        if (Build.VERSION.SDK_INT >= 26) {
+            return this.canvas.clipOutRect(i, i2, i3, i4);
+        }
+        return false;
+    }
+
+    @Override // android.graphics.Canvas
+    public boolean clipOutRect(RectF rectF) {
+        if (Build.VERSION.SDK_INT >= 26) {
+            return this.canvas.clipOutRect(rectF);
+        }
+        return false;
+    }
+
+    @Override // android.graphics.Canvas
+    public boolean clipPath(Path path) {
+        return this.canvas.clipPath(path);
+    }
+
+    @Override // android.graphics.Canvas
+    public boolean clipOutPath(Path path) {
+        if (Build.VERSION.SDK_INT >= 26) {
+            return this.canvas.clipOutPath(path);
+        }
+        return false;
+    }
+
+    @Override // android.graphics.Canvas
+    public boolean clipOutRect(android.graphics.Rect rect) {
+        if (Build.VERSION.SDK_INT >= 26) {
+            return this.canvas.clipOutRect(rect);
+        }
+        return false;
+    }
+
+    @Override // android.graphics.Canvas
+    public boolean clipPath(Path path, Region.Op op) {
+        return this.canvas.clipPath(path, op);
+    }
+
+    @Override // android.graphics.Canvas
+    public void skew(float f, float f2) {
+        this.canvas.skew(f, f2);
+    }
+
+    @Override // android.graphics.Canvas
+    public void disableZ() {
+        if (Build.VERSION.SDK_INT >= 29) {
+            this.canvas.disableZ();
+        }
+    }
+
+    @Override // android.graphics.Canvas
+    public void enableZ() {
+        if (Build.VERSION.SDK_INT >= 29) {
+            this.canvas.enableZ();
+        }
+    }
+
+    @Override // android.graphics.Canvas
+    public boolean quickReject(float f, float f2, float f3, float f4) {
+        if (Build.VERSION.SDK_INT >= 30) {
+            return this.canvas.quickReject(f, f2, f3, f4);
+        }
+        return false;
+    }
+
+    @Override // android.graphics.Canvas
+    public boolean quickReject(RectF rectF) {
+        if (Build.VERSION.SDK_INT >= 30) {
+            return this.canvas.quickReject(rectF);
+        }
+        return false;
+    }
+
+    @Override // android.graphics.Canvas
+    public boolean quickReject(Path path) {
+        if (Build.VERSION.SDK_INT >= 30) {
+            return this.canvas.quickReject(path);
+        }
+        return false;
+    }
+
+    @Override // android.graphics.Canvas
+    public boolean quickReject(RectF rectF, Canvas.EdgeType edgeType) {
+        return this.canvas.quickReject(rectF, edgeType);
+    }
+
+    @Override // android.graphics.Canvas
+    public boolean quickReject(Path path, Canvas.EdgeType edgeType) {
+        return this.canvas.quickReject(path, edgeType);
     }
 
     @Override // android.graphics.Canvas

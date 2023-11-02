@@ -30,6 +30,7 @@ import org.telegram.ui.Stories.DarkThemeResourceProvider;
 /* loaded from: classes4.dex */
 public class BoostPagerBottomSheet extends BottomSheet {
     private static BoostPagerBottomSheet instance;
+    private boolean isLandscapeOrientation;
     private final SelectorBottomSheet rightSheet;
     private final ViewPagerFixed viewPager;
 
@@ -66,6 +67,7 @@ public class BoostPagerBottomSheet extends BottomSheet {
         setBackgroundColor(0);
         fixNavigationBar();
         AndroidUtilities.setLightStatusBar(getWindow(), isLightStatusBar());
+        checkScreenOrientation();
         ViewPagerFixed viewPagerFixed = new ViewPagerFixed(getContext()) { // from class: org.telegram.ui.Components.Premium.boosts.BoostPagerBottomSheet.1
             private boolean isKeyboardVisible;
             private boolean isScrolling;
@@ -148,7 +150,7 @@ public class BoostPagerBottomSheet extends BottomSheet {
                     canvas.restore();
                     return;
                 }
-                if (this.isTablet) {
+                if (this.isTablet || BoostPagerBottomSheet.this.isLandscapeOrientation) {
                     canvas.clipRect(0, 0, getMeasuredWidth(), getMeasuredHeight());
                 }
                 super.dispatchDraw(canvas);
@@ -281,6 +283,10 @@ public class BoostPagerBottomSheet extends BottomSheet {
         });
     }
 
+    private void checkScreenOrientation() {
+        this.isLandscapeOrientation = getContext().getResources().getConfiguration().orientation == 2;
+    }
+
     @Override // org.telegram.ui.ActionBar.BottomSheet
     public void dismissInternal() {
         super.dismissInternal();
@@ -290,6 +296,7 @@ public class BoostPagerBottomSheet extends BottomSheet {
     @Override // org.telegram.ui.ActionBar.BottomSheet
     public void onConfigurationChanged(Configuration configuration) {
         this.rightSheet.onConfigurationChanged(configuration);
+        checkScreenOrientation();
         super.onConfigurationChanged(configuration);
     }
 

@@ -83,6 +83,7 @@ import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
+import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
@@ -7750,7 +7751,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             } else if (i == 4) {
                 string = LocaleController.getString("VoipMutedTapedForSpeak", R.string.VoipMutedTapedForSpeak);
                 string2 = LocaleController.getString("VoipMutedTapedForSpeakInfo", R.string.VoipMutedTapedForSpeakInfo);
-                z3 = this.bigMicDrawable.setCustomEndFrame(136);
+                z3 = this.bigMicDrawable.setCustomEndFrame(MessagesStorage.LAST_DB_VERSION);
             } else {
                 TLRPC$TL_groupCallParticipant tLRPC$TL_groupCallParticipant = this.call.participants.get(MessageObject.getPeerId(this.selfPeer));
                 boolean z5 = (tLRPC$TL_groupCallParticipant == null || tLRPC$TL_groupCallParticipant.can_self_unmute || !tLRPC$TL_groupCallParticipant.muted || ChatObject.canManageCalls(this.currentChat)) ? false : true;
@@ -7763,7 +7764,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                     } else if (i4 == 1) {
                         customEndFrame = this.bigMicDrawable.setCustomEndFrame(173);
                     } else {
-                        customEndFrame = this.bigMicDrawable.setCustomEndFrame(136);
+                        customEndFrame = this.bigMicDrawable.setCustomEndFrame(MessagesStorage.LAST_DB_VERSION);
                     }
                 } else {
                     int i5 = this.muteButtonState;
@@ -7943,7 +7944,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                             } else if (i8 == 6) {
                                 this.bigMicDrawable.setCurrentFrame(237);
                             } else if (i8 == 1) {
-                                this.bigMicDrawable.setCurrentFrame(136);
+                                this.bigMicDrawable.setCurrentFrame(MessagesStorage.LAST_DB_VERSION);
                             } else {
                                 this.bigMicDrawable.setCurrentFrame(99);
                             }

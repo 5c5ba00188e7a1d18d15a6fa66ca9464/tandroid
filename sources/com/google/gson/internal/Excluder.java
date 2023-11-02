@@ -16,12 +16,13 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import org.telegram.messenger.MessagesStorage;
 /* loaded from: classes.dex */
 public final class Excluder implements TypeAdapterFactory, Cloneable {
     public static final Excluder DEFAULT = new Excluder();
     private boolean requireExpose;
     private double version = -1.0d;
-    private int modifiers = 136;
+    private int modifiers = MessagesStorage.LAST_DB_VERSION;
     private boolean serializeInnerClasses = true;
     private List<ExclusionStrategy> serializationStrategies = Collections.emptyList();
     private List<ExclusionStrategy> deserializationStrategies = Collections.emptyList();

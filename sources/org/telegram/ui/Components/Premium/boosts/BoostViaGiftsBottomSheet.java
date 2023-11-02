@@ -269,7 +269,7 @@ public class BoostViaGiftsBottomSheet extends BottomSheetWithRecyclerListView im
         for (int i2 = 0; i2 < filterGiftOptions2.size(); i2++) {
             TLRPC$TL_premiumGiftCodeOption tLRPC$TL_premiumGiftCodeOption2 = filterGiftOptions2.get(i2);
             if (tLRPC$TL_premiumGiftCodeOption2.months == this.selectedMonths) {
-                if (BoostRepository.isGoogleBillingAvailable() && BoostDialogs.checkReduceQuantity(getContext(), this.resourcesProvider, this.giftCodeOptions, tLRPC$TL_premiumGiftCodeOption2, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.BoostViaGiftsBottomSheet$$ExternalSyntheticLambda13
+                if (BoostRepository.isGoogleBillingAvailable() && BoostDialogs.checkReduceQuantity(this.sliderValues, getContext(), this.resourcesProvider, this.giftCodeOptions, tLRPC$TL_premiumGiftCodeOption2, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.BoostViaGiftsBottomSheet$$ExternalSyntheticLambda13
                     @Override // org.telegram.messenger.Utilities.Callback
                     public final void run(Object obj) {
                         BoostViaGiftsBottomSheet.this.lambda$new$10((TLRPC$TL_premiumGiftCodeOption) obj);

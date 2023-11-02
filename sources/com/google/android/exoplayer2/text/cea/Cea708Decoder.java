@@ -254,7 +254,7 @@ public final class Cea708Decoder extends CeaDecoder {
             case 132:
             case 133:
             case 134:
-            case MessagesStorage.LAST_DB_VERSION /* 135 */:
+            case 135:
                 int i3 = i - 128;
                 if (this.currentWindow != i3) {
                     this.currentWindow = i3;
@@ -262,7 +262,7 @@ public final class Cea708Decoder extends CeaDecoder {
                     return;
                 }
                 return;
-            case 136:
+            case MessagesStorage.LAST_DB_VERSION /* 136 */:
                 while (i2 <= 8) {
                     if (this.captionChannelPacketData.readBit()) {
                         this.cueInfoBuilders[8 - i2].clear();

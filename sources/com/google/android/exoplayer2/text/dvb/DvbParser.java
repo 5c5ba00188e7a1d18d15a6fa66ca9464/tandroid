@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.telegram.messenger.LiteMode;
+import org.telegram.messenger.MessagesStorage;
 /* loaded from: classes.dex */
 final class DvbParser {
     private static final byte[] defaultMap2To4 = {0, 7, 8, 15};
@@ -393,7 +394,7 @@ final class DvbParser {
             if (i < 8) {
                 iArr[i] = getColor(63, (i & 1) != 0 ? 255 : 0, (i & 2) != 0 ? 255 : 0, (i & 4) == 0 ? 0 : 255);
             } else {
-                int i2 = i & 136;
+                int i2 = i & MessagesStorage.LAST_DB_VERSION;
                 if (i2 == 0) {
                     iArr[i] = getColor(255, ((i & 1) != 0 ? 85 : 0) + ((i & 16) != 0 ? 170 : 0), ((i & 2) != 0 ? 85 : 0) + ((i & 32) != 0 ? 170 : 0), ((i & 4) == 0 ? 0 : 85) + ((i & 64) == 0 ? 0 : 170));
                 } else if (i2 == 8) {

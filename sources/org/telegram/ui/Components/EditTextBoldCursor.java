@@ -861,8 +861,8 @@ public class EditTextBoldCursor extends EditTextEffects {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x010e A[Catch: all -> 0x0137, TryCatch #1 {all -> 0x0137, blocks: (B:31:0x0063, B:33:0x0067, B:35:0x006b, B:37:0x007d, B:42:0x008b, B:45:0x0091, B:47:0x0098, B:49:0x00a0, B:54:0x00c6, B:56:0x010e, B:58:0x0111, B:59:0x0116, B:50:0x00b3, B:52:0x00bb, B:41:0x0087), top: B:147:0x0063 }] */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x01c5 A[Catch: all -> 0x01ef, TryCatch #4 {all -> 0x01ef, blocks: (B:69:0x0148, B:71:0x014f, B:73:0x0157, B:78:0x017d, B:80:0x01c5, B:82:0x01c8, B:83:0x01cd, B:74:0x016a, B:76:0x0172), top: B:154:0x0148 }] */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x011f A[Catch: all -> 0x0148, TryCatch #3 {all -> 0x0148, blocks: (B:36:0x0074, B:38:0x0078, B:40:0x007c, B:42:0x008e, B:47:0x009c, B:50:0x00a2, B:52:0x00a9, B:54:0x00b1, B:59:0x00d7, B:61:0x011f, B:63:0x0122, B:64:0x0127, B:55:0x00c4, B:57:0x00cc, B:46:0x0098), top: B:156:0x0074 }] */
+    /* JADX WARN: Removed duplicated region for block: B:85:0x01d6 A[Catch: all -> 0x0200, TryCatch #0 {all -> 0x0200, blocks: (B:74:0x0159, B:76:0x0160, B:78:0x0168, B:83:0x018e, B:85:0x01d6, B:87:0x01d9, B:88:0x01de, B:79:0x017b, B:81:0x0183), top: B:150:0x0159 }] */
     @Override // org.telegram.ui.Components.EditTextEffects, android.widget.TextView, android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -882,7 +882,7 @@ public class EditTextBoldCursor extends EditTextEffects {
         int i3;
         boolean z3;
         drawHint(canvas);
-        getExtendedPaddingTop();
+        int extendedPaddingTop = getExtendedPaddingTop();
         this.scrollY = ConnectionsManager.DEFAULT_DATACENTER_ID;
         try {
             Field field = mScrollYField;
@@ -897,7 +897,15 @@ public class EditTextBoldCursor extends EditTextEffects {
                 throw new RuntimeException(e);
             }
         }
+        int i4 = Build.VERSION.SDK_INT;
+        if (i4 <= 20) {
+            this.ignoreTopCount = 1;
+            this.ignoreBottomCount = 1;
+        }
         canvas.save();
+        if (i4 <= 20) {
+            canvas.translate(0.0f, extendedPaddingTop);
+        }
         try {
             this.drawInMaim = true;
             super.onDraw(canvas);
@@ -950,10 +958,10 @@ public class EditTextBoldCursor extends EditTextEffects {
                                 rect.bottom = (int) (i - f);
                             }
                             int centerY = rect.centerY();
-                            int i4 = this.cursorSize;
-                            rect.top = centerY - (i4 / 2);
+                            int i5 = this.cursorSize;
+                            rect.top = centerY - (i5 / 2);
                             android.graphics.Rect rect4 = this.rect;
-                            rect4.bottom = rect4.top + i4;
+                            rect4.bottom = rect4.top + i5;
                             this.gradientDrawable.setBounds(rect4);
                             this.gradientDrawable.draw(canvas);
                             canvas.restore();
@@ -977,10 +985,10 @@ public class EditTextBoldCursor extends EditTextEffects {
                             rect.bottom = (int) (i - f);
                         }
                         int centerY2 = rect.centerY();
-                        int i42 = this.cursorSize;
-                        rect.top = centerY2 - (i42 / 2);
+                        int i52 = this.cursorSize;
+                        rect.top = centerY2 - (i52 / 2);
                         android.graphics.Rect rect42 = this.rect;
-                        rect42.bottom = rect42.top + i42;
+                        rect42.bottom = rect42.top + i52;
                         this.gradientDrawable.setBounds(rect42);
                         this.gradientDrawable.draw(canvas);
                         canvas.restore();
@@ -1004,10 +1012,10 @@ public class EditTextBoldCursor extends EditTextEffects {
                             if (f != 0.0f) {
                             }
                             int centerY22 = rect.centerY();
-                            int i422 = this.cursorSize;
-                            rect.top = centerY22 - (i422 / 2);
+                            int i522 = this.cursorSize;
+                            rect.top = centerY22 - (i522 / 2);
                             android.graphics.Rect rect422 = this.rect;
-                            rect422.bottom = rect422.top + i422;
+                            rect422.bottom = rect422.top + i522;
                             this.gradientDrawable.setBounds(rect422);
                             this.gradientDrawable.draw(canvas);
                             canvas.restore();
@@ -1030,10 +1038,10 @@ public class EditTextBoldCursor extends EditTextEffects {
                         if (f != 0.0f) {
                         }
                         int centerY222 = rect.centerY();
-                        int i4222 = this.cursorSize;
-                        rect.top = centerY222 - (i4222 / 2);
+                        int i5222 = this.cursorSize;
+                        rect.top = centerY222 - (i5222 / 2);
                         android.graphics.Rect rect4222 = this.rect;
-                        rect4222.bottom = rect4222.top + i4222;
+                        rect4222.bottom = rect4222.top + i5222;
                         this.gradientDrawable.setBounds(rect4222);
                         this.gradientDrawable.draw(canvas);
                         canvas.restore();
@@ -1041,7 +1049,7 @@ public class EditTextBoldCursor extends EditTextEffects {
                 }
             } finally {
                 if (BuildVars.DEBUG_PRIVATE_VERSION) {
-                    RuntimeException runtimeException = new RuntimeException(th);
+                    RuntimeException runtimeException = new RuntimeException(e3);
                 }
             }
         } else if (this.cursorDrawn) {
@@ -1068,10 +1076,10 @@ public class EditTextBoldCursor extends EditTextEffects {
                             rect2.bottom = (int) (i2 - f2);
                         }
                         int centerY3 = rect2.centerY();
-                        int i5 = this.cursorSize;
-                        rect2.top = centerY3 - (i5 / 2);
+                        int i6 = this.cursorSize;
+                        rect2.top = centerY3 - (i6 / 2);
                         android.graphics.Rect rect6 = this.rect;
-                        rect6.bottom = rect6.top + i5;
+                        rect6.bottom = rect6.top + i6;
                         this.gradientDrawable.setBounds(rect6);
                         this.gradientDrawable.draw(canvas);
                         canvas.restore();
@@ -1096,10 +1104,10 @@ public class EditTextBoldCursor extends EditTextEffects {
                         rect2.bottom = (int) (i2 - f2);
                     }
                     int centerY32 = rect2.centerY();
-                    int i52 = this.cursorSize;
-                    rect2.top = centerY32 - (i52 / 2);
+                    int i62 = this.cursorSize;
+                    rect2.top = centerY32 - (i62 / 2);
                     android.graphics.Rect rect62 = this.rect;
-                    rect62.bottom = rect62.top + i52;
+                    rect62.bottom = rect62.top + i62;
                     this.gradientDrawable.setBounds(rect62);
                     this.gradientDrawable.draw(canvas);
                     canvas.restore();
@@ -1124,10 +1132,10 @@ public class EditTextBoldCursor extends EditTextEffects {
                         if (f2 != 0.0f) {
                         }
                         int centerY322 = rect2.centerY();
-                        int i522 = this.cursorSize;
-                        rect2.top = centerY322 - (i522 / 2);
+                        int i622 = this.cursorSize;
+                        rect2.top = centerY322 - (i622 / 2);
                         android.graphics.Rect rect622 = this.rect;
-                        rect622.bottom = rect622.top + i522;
+                        rect622.bottom = rect622.top + i622;
                         this.gradientDrawable.setBounds(rect622);
                         this.gradientDrawable.draw(canvas);
                         canvas.restore();
@@ -1151,10 +1159,10 @@ public class EditTextBoldCursor extends EditTextEffects {
                     if (f2 != 0.0f) {
                     }
                     int centerY3222 = rect2.centerY();
-                    int i5222 = this.cursorSize;
-                    rect2.top = centerY3222 - (i5222 / 2);
+                    int i6222 = this.cursorSize;
+                    rect2.top = centerY3222 - (i6222 / 2);
                     android.graphics.Rect rect6222 = this.rect;
-                    rect6222.bottom = rect6222.top + i5222;
+                    rect6222.bottom = rect6222.top + i6222;
                     this.gradientDrawable.setBounds(rect6222);
                     this.gradientDrawable.draw(canvas);
                     canvas.restore();
@@ -1162,7 +1170,7 @@ public class EditTextBoldCursor extends EditTextEffects {
                 }
             } finally {
                 if (BuildVars.DEBUG_PRIVATE_VERSION) {
-                    RuntimeException runtimeException2 = new RuntimeException(e3);
+                    RuntimeException runtimeException2 = new RuntimeException(th);
                 }
             }
         }
@@ -1193,11 +1201,11 @@ public class EditTextBoldCursor extends EditTextEffects {
             }
         }
         int scrollY = ((int) this.lineY) + getScrollY() + Math.min(Math.max(0, ((((getLayout() == null ? 0 : getLayout().getHeight()) - getMeasuredHeight()) + getPaddingBottom()) + getPaddingTop()) - getScrollY()), AndroidUtilities.dp(2.0f));
-        int i6 = this.lastTouchX;
-        if (i6 < 0) {
-            i6 = getMeasuredWidth() / 2;
+        int i7 = this.lastTouchX;
+        if (i7 < 0) {
+            i7 = getMeasuredWidth() / 2;
         }
-        int max = Math.max(i6, getMeasuredWidth() - i6) * 2;
+        int max = Math.max(i7, getMeasuredWidth() - i7) * 2;
         if (this.lineActiveness < 1.0f) {
             canvas.drawRect(getScrollX(), scrollY - dp, getScrollX() + getMeasuredWidth(), scrollY, this.linePaint);
         }
@@ -1208,7 +1216,7 @@ public class EditTextBoldCursor extends EditTextEffects {
             if (z5) {
                 this.activeLineWidth = max * interpolation;
             }
-            float f4 = i6;
+            float f4 = i7;
             canvas.drawRect(getScrollX() + Math.max(0.0f, f4 - (this.activeLineWidth / 2.0f)), scrollY - ((int) ((z5 ? 1.0f : interpolation) * AndroidUtilities.dp(2.0f))), getScrollX() + Math.min(f4 + (this.activeLineWidth / 2.0f), getMeasuredWidth()), scrollY, this.activeLinePaint);
         }
     }

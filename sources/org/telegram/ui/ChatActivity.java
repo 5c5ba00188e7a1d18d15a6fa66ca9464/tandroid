@@ -3764,7 +3764,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         protected boolean canShowQuote() {
             Cell cell;
             ChatActivity chatActivity = this.chatActivity;
-            return (chatActivity == null || chatActivity.getCurrentEncryptedChat() != null || this.chatActivity.textSelectionHelper.isDescription || (cell = this.selectedView) == 0 || ((ChatMessageCell) cell).getMessageObject() == null || ((ChatMessageCell) this.selectedView).getMessageObject().type == 23 || ((ChatMessageCell) this.selectedView).getMessageObject().isVoiceTranscriptionOpen() || ((ChatMessageCell) this.selectedView).getMessageObject().isInvoice() || this.chatActivity.getMessagesController().getTranslateController().isTranslatingDialog(this.chatActivity.dialog_id)) ? false : true;
+            return (chatActivity == null || chatActivity.getCurrentEncryptedChat() != null || this.chatActivity.textSelectionHelper.isDescription || (cell = this.selectedView) == 0 || ((ChatMessageCell) cell).getMessageObject() == null || ((ChatMessageCell) this.selectedView).getMessageObject().type == 23 || ((ChatMessageCell) this.selectedView).getMessageObject().isVoiceTranscriptionOpen() || ((ChatMessageCell) this.selectedView).getMessageObject().isInvoice() || this.chatActivity.getMessagesController().getTranslateController().isTranslatingDialog(this.chatActivity.dialog_id) || UserObject.isService(this.chatActivity.dialog_id)) ? false : true;
         }
 
         @Override // org.telegram.ui.Cells.TextSelectionHelper
@@ -15092,7 +15092,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public boolean dismissDialogOnPause(Dialog dialog) {
-        return (dialog == this.chatAttachAlert || dialog == this.chatThemeBottomSheet || !super.dismissDialogOnPause(dialog)) ? false : true;
+        return (dialog == this.chatAttachAlert || dialog == this.chatThemeBottomSheet || (dialog instanceof BotWebViewSheet) || !super.dismissDialogOnPause(dialog)) ? false : true;
     }
 
     private void cancelSearchLinks() {
@@ -22324,7 +22324,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Type inference failed for: r4v30 */
     /* JADX WARN: Type inference failed for: r4v32 */
     /* JADX WARN: Type inference failed for: r7v14 */
-    /* JADX WARN: Type inference failed for: r7v15, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r7v15, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r7v19 */
     /* JADX WARN: Type inference failed for: r7v20 */
     /*
@@ -23454,7 +23454,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Removed duplicated region for block: B:95:0x0192  */
     /* JADX WARN: Removed duplicated region for block: B:98:0x019e  */
     /* JADX WARN: Type inference failed for: r13v4 */
-    /* JADX WARN: Type inference failed for: r13v5, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r13v5, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r13v9 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -28627,7 +28627,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Removed duplicated region for block: B:941:0x169b  */
     /* JADX WARN: Type inference failed for: r12v37 */
     /* JADX WARN: Type inference failed for: r12v5 */
-    /* JADX WARN: Type inference failed for: r12v6, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r12v6, types: [int, boolean] */
     @SuppressLint({"ClickableViewAccessibility"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.

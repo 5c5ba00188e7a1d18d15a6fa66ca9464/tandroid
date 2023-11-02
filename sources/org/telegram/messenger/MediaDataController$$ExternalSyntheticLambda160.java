@@ -11,8 +11,8 @@ public final /* synthetic */ class MediaDataController$$ExternalSyntheticLambda1
 
     @Override // java.util.Comparator
     public final int compare(Object obj, Object obj2) {
-        int lambda$static$147;
-        lambda$static$147 = MediaDataController.lambda$static$147((TLRPC$MessageEntity) obj, (TLRPC$MessageEntity) obj2);
-        return lambda$static$147;
+        int lambda$static$148;
+        lambda$static$148 = MediaDataController.lambda$static$148((TLRPC$MessageEntity) obj, (TLRPC$MessageEntity) obj2);
+        return lambda$static$148;
     }
 }
