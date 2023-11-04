@@ -383,7 +383,7 @@ public class SelectorBottomSheet extends BottomSheetWithRecyclerListView {
             this.recyclerListView.getLayoutManager().startSmoothScroll(linearSmoothScrollerCustom);
             return;
         }
-        this.recyclerListView.scrollToPosition(1);
+        this.recyclerListView.scrollToPosition(0);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -563,6 +563,7 @@ public class SelectorBottomSheet extends BottomSheetWithRecyclerListView {
         updateList(false, true);
         this.headerView.setText(getTitle());
         updateActionButton(false);
+        scrollToTop(false);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -577,12 +578,12 @@ public class SelectorBottomSheet extends BottomSheetWithRecyclerListView {
             formatPluralStringComma = LocaleController.formatPluralStringComma("Subscribers", Math.max(0, this.selectorAdapter.getParticipantsCount(this.currentChat) - 1));
             this.sectionCell.setLayerHeight(32);
         } else if (i == 2) {
-            formatPluralStringComma = LocaleController.formatString("BoostingSelectUpTo", R.string.BoostingSelectUpTo, Long.valueOf(BoostRepository.giveawayAddPeersMax()));
+            formatPluralStringComma = LocaleController.formatPluralString("BoostingSelectUpToPlural", (int) BoostRepository.giveawayAddPeersMax(), new Object[0]);
             this.sectionCell.setLayerHeight(32);
         } else if (i != 3) {
             formatPluralStringComma = "";
         } else {
-            formatPluralStringComma = LocaleController.formatString("BoostingSelectUpTo", R.string.BoostingSelectUpToCountries, Long.valueOf(BoostRepository.giveawayCountriesMax()));
+            formatPluralStringComma = LocaleController.formatPluralString("BoostingSelectUpToCountriesPlural", (int) BoostRepository.giveawayCountriesMax(), new Object[0]);
             this.sectionCell.setLayerHeight(1);
         }
         this.sectionCell.setText(formatPluralStringComma);
@@ -594,9 +595,9 @@ public class SelectorBottomSheet extends BottomSheetWithRecyclerListView {
         if (i == 1) {
             string = LocaleController.getString("BoostingSelectUpToWarningUsers", R.string.BoostingSelectUpToWarningUsers);
         } else if (i == 2) {
-            string = LocaleController.formatString("BoostingSelectUpToWarningChannels", R.string.BoostingSelectUpToWarningChannels, Long.valueOf(BoostRepository.giveawayAddPeersMax()));
+            string = LocaleController.formatPluralString("BoostingSelectUpToWarningChannelsPlural", (int) BoostRepository.giveawayAddPeersMax(), new Object[0]);
         } else {
-            string = i != 3 ? "" : LocaleController.formatString("BoostingSelectUpToWarningCountries", R.string.BoostingSelectUpToWarningCountries, Long.valueOf(BoostRepository.giveawayCountriesMax()));
+            string = i != 3 ? "" : LocaleController.formatPluralString("BoostingSelectUpToWarningCountriesPlural", (int) BoostRepository.giveawayCountriesMax(), new Object[0]);
         }
         SelectedObjectsListener selectedObjectsListener = this.selectedObjectsListener;
         if (selectedObjectsListener != null) {

@@ -329,9 +329,9 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
      */
     /* JADX WARN: Removed duplicated region for block: B:43:0x0177  */
     /* JADX WARN: Removed duplicated region for block: B:56:0x01a7  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x01c1  */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x01e1  */
-    /* JADX WARN: Removed duplicated region for block: B:76:0x01f4  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x01c7  */
+    /* JADX WARN: Removed duplicated region for block: B:75:0x01e7  */
+    /* JADX WARN: Removed duplicated region for block: B:78:0x01fa  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -495,7 +495,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                     this.rowCount = i25 + 1;
                     this.participantsDividerRow = i25;
                 }
-                if (ChatObject.canBlockUsers(this.currentChat) && (ChatObject.isChannel(this.currentChat) || this.currentChat.creator)) {
+                if (ChatObject.canBlockUsers(this.currentChat) && getParticipantsCount() > 1 && (ChatObject.isChannel(this.currentChat) || this.currentChat.creator)) {
                     int i26 = this.rowCount;
                     this.rowCount = i26 + 1;
                     this.addNewRow = i26;

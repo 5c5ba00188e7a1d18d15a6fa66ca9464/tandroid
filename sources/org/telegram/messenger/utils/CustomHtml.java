@@ -1,6 +1,7 @@
 package org.telegram.messenger.utils;
 
 import android.text.Spanned;
+import android.text.TextUtils;
 import org.telegram.messenger.CharacterCompat;
 import org.telegram.messenger.CodeHighlighting;
 import org.telegram.ui.Components.AnimatedEmojiSpan;
@@ -142,9 +143,13 @@ public class CustomHtml {
             if (spanArr != null) {
                 for (CodeHighlighting.Span span : spanArr) {
                     if (span != null) {
-                        sb.append("<pre lang=\"");
-                        sb.append(span.lng);
-                        sb.append("\">");
+                        if (TextUtils.isEmpty(span.lng)) {
+                            sb.append("<pre>");
+                        } else {
+                            sb.append("<pre lang=\"");
+                            sb.append(span.lng);
+                            sb.append("\">");
+                        }
                     }
                 }
             }

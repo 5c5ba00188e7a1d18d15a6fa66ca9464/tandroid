@@ -156,6 +156,15 @@ public class BoostPagerBottomSheet extends BottomSheet {
                 super.dispatchDraw(canvas);
             }
 
+            /* JADX INFO: Access modifiers changed from: protected */
+            @Override // org.telegram.ui.Components.ViewPagerFixed
+            public float getAvailableTranslationX() {
+                if (this.isTablet || BoostPagerBottomSheet.this.isLandscapeOrientation) {
+                    return getMeasuredWidth();
+                }
+                return super.getAvailableTranslationX();
+            }
+
             @Override // org.telegram.ui.Components.ViewPagerFixed
             protected boolean canScroll(MotionEvent motionEvent) {
                 return BoostPagerBottomSheet.this.viewPager.getCurrentPosition() == 1;

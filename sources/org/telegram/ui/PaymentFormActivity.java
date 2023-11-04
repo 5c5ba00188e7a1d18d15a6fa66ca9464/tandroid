@@ -571,38 +571,27 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
         if (r6.email_requested == false) goto L467;
      */
     /* JADX WARN: Code restructure failed: missing block: B:75:0x0314, code lost:
-        if (r12.email_requested == false) goto L166;
+        if (r11.email_requested == false) goto L166;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:598:0x1966  */
-    /* JADX WARN: Removed duplicated region for block: B:602:0x197e  */
-    /* JADX WARN: Removed duplicated region for block: B:608:0x19ac  */
-    /* JADX WARN: Removed duplicated region for block: B:621:0x19ea  */
-    /* JADX WARN: Removed duplicated region for block: B:624:0x19f2  */
-    /* JADX WARN: Removed duplicated region for block: B:625:0x19f4  */
-    /* JADX WARN: Removed duplicated region for block: B:635:0x1a0b  */
-    /* JADX WARN: Removed duplicated region for block: B:636:0x1a0e  */
-    /* JADX WARN: Removed duplicated region for block: B:639:0x1a32  */
-    /* JADX WARN: Removed duplicated region for block: B:645:0x1a83  */
-    /* JADX WARN: Removed duplicated region for block: B:651:0x1ad4  */
-    /* JADX WARN: Removed duplicated region for block: B:657:0x1b23  */
-    /* JADX WARN: Removed duplicated region for block: B:663:0x1b58  */
-    /* JADX WARN: Removed duplicated region for block: B:667:0x1b95  */
+    /* JADX WARN: Removed duplicated region for block: B:602:0x196f  */
+    /* JADX WARN: Removed duplicated region for block: B:606:0x1987  */
+    /* JADX WARN: Removed duplicated region for block: B:612:0x19b5  */
+    /* JADX WARN: Removed duplicated region for block: B:627:0x19f8  */
+    /* JADX WARN: Removed duplicated region for block: B:628:0x19fa  */
+    /* JADX WARN: Removed duplicated region for block: B:638:0x1a11  */
+    /* JADX WARN: Removed duplicated region for block: B:639:0x1a14  */
+    /* JADX WARN: Removed duplicated region for block: B:642:0x1a38  */
+    /* JADX WARN: Removed duplicated region for block: B:648:0x1a89  */
+    /* JADX WARN: Removed duplicated region for block: B:654:0x1ada  */
+    /* JADX WARN: Removed duplicated region for block: B:660:0x1b29  */
+    /* JADX WARN: Removed duplicated region for block: B:666:0x1b5e  */
+    /* JADX WARN: Removed duplicated region for block: B:670:0x1b9b  */
     /* JADX WARN: Type inference failed for: r0v92, types: [org.telegram.ui.Cells.RecurrentPaymentsAcceptCell] */
-    /* JADX WARN: Type inference failed for: r10v11, types: [java.lang.StringBuilder] */
-    /* JADX WARN: Type inference failed for: r10v117, types: [org.telegram.ui.Components.EditTextBoldCursor[]] */
-    /* JADX WARN: Type inference failed for: r10v118, types: [android.widget.EditText] */
-    /* JADX WARN: Type inference failed for: r10v123, types: [org.telegram.ui.Components.EditTextBoldCursor[]] */
-    /* JADX WARN: Type inference failed for: r10v124, types: [android.widget.EditText] */
-    /* JADX WARN: Type inference failed for: r10v151, types: [org.telegram.ui.Components.EditTextBoldCursor[]] */
-    /* JADX WARN: Type inference failed for: r10v152, types: [android.widget.EditText] */
-    /* JADX WARN: Type inference failed for: r10v217, types: [org.telegram.ui.Components.EditTextBoldCursor[]] */
-    /* JADX WARN: Type inference failed for: r10v218, types: [android.widget.EditText] */
-    /* JADX WARN: Type inference failed for: r10v220, types: [android.widget.LinearLayout] */
-    /* JADX WARN: Type inference failed for: r10v82, types: [android.widget.LinearLayout] */
-    /* JADX WARN: Type inference failed for: r12v1 */
-    /* JADX WARN: Type inference failed for: r12v2, types: [int, boolean] */
-    /* JADX WARN: Type inference failed for: r12v5 */
+    /* JADX WARN: Type inference failed for: r10v13, types: [java.lang.StringBuilder] */
+    /* JADX WARN: Type inference failed for: r11v1 */
+    /* JADX WARN: Type inference failed for: r11v2, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r11v6 */
     /* JADX WARN: Type inference failed for: r1v106, types: [org.telegram.ui.Cells.TextDetailSettingsCell[]] */
     /* JADX WARN: Type inference failed for: r1v107, types: [android.widget.FrameLayout] */
     /* JADX WARN: Type inference failed for: r1v137, types: [org.telegram.ui.ActionBar.ActionBarMenuItem, android.widget.FrameLayout] */
@@ -615,42 +604,51 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
     /* JADX WARN: Type inference failed for: r1v89, types: [android.widget.FrameLayout] */
     /* JADX WARN: Type inference failed for: r1v97, types: [org.telegram.ui.Cells.TextDetailSettingsCell[]] */
     /* JADX WARN: Type inference failed for: r1v98, types: [android.widget.FrameLayout] */
-    /* JADX WARN: Type inference failed for: r2v53, types: [java.lang.String] */
-    /* JADX WARN: Type inference failed for: r3v226, types: [android.widget.FrameLayout, android.view.View, android.view.ViewGroup] */
-    /* JADX WARN: Type inference failed for: r3v230, types: [android.view.ViewGroup] */
-    /* JADX WARN: Type inference failed for: r3v231, types: [android.view.ViewGroup] */
-    /* JADX WARN: Type inference failed for: r3v268, types: [android.widget.LinearLayout, android.view.View, android.view.ViewGroup] */
+    /* JADX WARN: Type inference failed for: r2v106, types: [java.lang.String] */
+    /* JADX WARN: Type inference failed for: r2v367, types: [android.widget.FrameLayout, android.view.View, android.view.ViewGroup] */
+    /* JADX WARN: Type inference failed for: r2v371, types: [android.view.ViewGroup] */
+    /* JADX WARN: Type inference failed for: r2v372, types: [android.view.ViewGroup] */
+    /* JADX WARN: Type inference failed for: r2v409, types: [android.widget.LinearLayout, android.view.View, android.view.ViewGroup] */
+    /* JADX WARN: Type inference failed for: r3v158, types: [android.widget.LinearLayout] */
+    /* JADX WARN: Type inference failed for: r3v193, types: [org.telegram.ui.Components.EditTextBoldCursor[]] */
+    /* JADX WARN: Type inference failed for: r3v194, types: [android.widget.EditText] */
+    /* JADX WARN: Type inference failed for: r3v199, types: [org.telegram.ui.Components.EditTextBoldCursor[]] */
+    /* JADX WARN: Type inference failed for: r3v200, types: [android.widget.EditText] */
+    /* JADX WARN: Type inference failed for: r3v245, types: [org.telegram.ui.Components.EditTextBoldCursor[]] */
+    /* JADX WARN: Type inference failed for: r3v246, types: [android.widget.EditText] */
+    /* JADX WARN: Type inference failed for: r3v311, types: [org.telegram.ui.Components.EditTextBoldCursor[]] */
+    /* JADX WARN: Type inference failed for: r3v312, types: [android.widget.EditText] */
+    /* JADX WARN: Type inference failed for: r3v314, types: [android.widget.LinearLayout] */
     /* JADX WARN: Type inference failed for: r5v0 */
     /* JADX WARN: Type inference failed for: r5v168, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r5v169 */
-    /* JADX WARN: Type inference failed for: r6v8, types: [java.lang.CharSequence, android.text.SpannableString, java.lang.Object] */
+    /* JADX WARN: Type inference failed for: r6v9, types: [java.lang.CharSequence, android.text.SpannableString, java.lang.Object] */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     @SuppressLint({"SetJavaScriptEnabled", "AddJavascriptInterface"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public View createView(final Context context) {
-        String str;
         FrameLayout frameLayout;
-        ?? r12;
+        ?? r11;
         char c;
         int i;
         int i2;
         TLRPC$User tLRPC$User;
-        final String str2;
         TLRPC$TL_payments_validateRequestedInfo tLRPC$TL_payments_validateRequestedInfo;
         TLRPC$TL_paymentRequestedInfo tLRPC$TL_paymentRequestedInfo;
         TLRPC$TL_payments_paymentForm tLRPC$TL_payments_paymentForm;
         int i3;
+        int i4;
         TLRPC$TL_payments_paymentForm tLRPC$TL_payments_paymentForm2;
         TLRPC$TL_paymentRequestedInfo tLRPC$TL_paymentRequestedInfo2;
-        String str3;
+        String str;
         final long longValue;
         boolean z;
-        int i4;
+        int i5;
         TLRPC$TL_paymentRequestedInfo tLRPC$TL_paymentRequestedInfo3;
-        String str4;
-        String str5;
+        String str2;
+        String str3;
         TelephonyManager telephonyManager;
         ?? frameLayout2;
         HashMap hashMap;
@@ -660,8 +658,8 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
         TLRPC$TL_postAddress tLRPC$TL_postAddress4;
         TLRPC$TL_postAddress tLRPC$TL_postAddress5;
         TLRPC$TL_postAddress tLRPC$TL_postAddress6;
-        String str6;
-        String str7;
+        String str4;
+        String str5;
         BufferedReader bufferedReader;
         switch (this.currentStep) {
             case 0:
@@ -700,42 +698,42 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
         this.actionBar.setAllowOverlayTitle(true);
         this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.PaymentFormActivity.1
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
-            public void onItemClick(int i5) {
-                if (i5 == -1) {
+            public void onItemClick(int i6) {
+                if (i6 == -1) {
                     if (PaymentFormActivity.this.donePressed) {
                         return;
                     }
                     PaymentFormActivity.this.finishFragment();
-                } else if (i5 != 1 || PaymentFormActivity.this.donePressed) {
+                } else if (i6 != 1 || PaymentFormActivity.this.donePressed) {
                 } else {
                     if (PaymentFormActivity.this.currentStep != 3) {
                         AndroidUtilities.hideKeyboard(PaymentFormActivity.this.getParentActivity().getCurrentFocus());
                     }
-                    int i6 = PaymentFormActivity.this.currentStep;
-                    if (i6 == 0) {
+                    int i7 = PaymentFormActivity.this.currentStep;
+                    if (i7 == 0) {
                         PaymentFormActivity.this.setDonePressed(true);
                         PaymentFormActivity.this.sendForm();
                         return;
                     }
-                    int i7 = 0;
-                    if (i6 == 1) {
+                    int i8 = 0;
+                    if (i7 == 1) {
                         while (true) {
-                            if (i7 >= PaymentFormActivity.this.radioCells.length) {
+                            if (i8 >= PaymentFormActivity.this.radioCells.length) {
                                 break;
-                            } else if (PaymentFormActivity.this.radioCells[i7].isChecked()) {
+                            } else if (PaymentFormActivity.this.radioCells[i8].isChecked()) {
                                 PaymentFormActivity paymentFormActivity = PaymentFormActivity.this;
-                                paymentFormActivity.shippingOption = paymentFormActivity.requestedInfo.shipping_options.get(i7);
+                                paymentFormActivity.shippingOption = paymentFormActivity.requestedInfo.shipping_options.get(i8);
                                 break;
                             } else {
-                                i7++;
+                                i8++;
                             }
                         }
                         PaymentFormActivity.this.goToNextStep();
-                    } else if (i6 == 2) {
+                    } else if (i7 == 2) {
                         PaymentFormActivity.this.sendCardData();
-                    } else if (i6 == 3) {
+                    } else if (i7 == 3) {
                         PaymentFormActivity.this.checkPassword();
-                    } else if (i6 != 6) {
+                    } else if (i7 != 6) {
                     } else {
                         PaymentFormActivity.this.sendSavePassword(false);
                     }
@@ -743,9 +741,9 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
             }
         });
         ActionBarMenu createMenu = this.actionBar.createMenu();
-        int i5 = this.currentStep;
-        int i6 = 3;
-        if (i5 == 0 || i5 == 1 || i5 == 2 || i5 == 3 || i5 == 4 || i5 == 6) {
+        int i6 = this.currentStep;
+        int i7 = 3;
+        if (i6 == 0 || i6 == 1 || i6 == 2 || i6 == 3 || i6 == 4 || i6 == 6) {
             this.doneItem = createMenu.addItemWithWidth(1, R.drawable.ic_ab_done, AndroidUtilities.dp(56.0f), LocaleController.getString("Done", R.string.Done));
             ContextProgressView contextProgressView = new ContextProgressView(context, 1);
             this.progressView = contextProgressView;
@@ -770,8 +768,9 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
         ?? r5 = 0;
         this.linearLayout2.setClipChildren(false);
         this.scrollView.addView(this.linearLayout2, new FrameLayout.LayoutParams(-1, -2));
-        int i7 = this.currentStep;
-        if (i7 == 0) {
+        int i8 = this.currentStep;
+        final String str6 = "";
+        if (i8 == 0) {
             HashMap hashMap2 = new HashMap();
             HashMap hashMap3 = new HashMap();
             try {
@@ -795,14 +794,14 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                     bufferedReader.close();
                     Collections.sort(this.countriesArray, BoostRepository$$ExternalSyntheticLambda31.INSTANCE);
                     this.inputFields = new EditTextBoldCursor[10];
-                    int i8 = 0;
-                    while (i8 < 10) {
-                        if (i8 == 0) {
+                    int i9 = 0;
+                    while (i9 < 10) {
+                        if (i9 == 0) {
                             this.headerCell[r5] = new HeaderCell(context, this.resourcesProvider);
                             this.headerCell[r5].setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
                             this.headerCell[r5].setText(LocaleController.getString("PaymentShippingAddress", R.string.PaymentShippingAddress));
                             this.linearLayout2.addView(this.headerCell[r5], LayoutHelper.createLinear(-1, -2));
-                        } else if (i8 == 6) {
+                        } else if (i9 == 6) {
                             this.sectionCell[r5] = new ShadowSectionCell(context, this.resourcesProvider);
                             this.linearLayout2.addView(this.sectionCell[r5], LayoutHelper.createLinear(-1, -2));
                             this.headerCell[1] = new HeaderCell(context, this.resourcesProvider);
@@ -810,24 +809,24 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                             this.headerCell[1].setText(LocaleController.getString("PaymentShippingReceiver", R.string.PaymentShippingReceiver));
                             this.linearLayout2.addView(this.headerCell[1], LayoutHelper.createLinear(-1, -2));
                         }
-                        if (i8 == 8) {
+                        if (i9 == 8) {
                             frameLayout2 = new LinearLayout(context);
                             frameLayout2.setClipChildren(r5);
                             frameLayout2.setOrientation(r5);
                             this.linearLayout2.addView(frameLayout2, LayoutHelper.createLinear(-1, 50));
                             frameLayout2.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
-                        } else if (i8 == 9) {
+                        } else if (i9 == 9) {
                             frameLayout2 = (ViewGroup) this.inputFields[8].getParent();
                         } else {
                             frameLayout2 = new FrameLayout(context);
                             frameLayout2.setClipChildren(r5);
                             this.linearLayout2.addView(frameLayout2, LayoutHelper.createLinear(-1, 50));
-                            int i9 = Theme.key_windowBackgroundWhite;
-                            frameLayout2.setBackgroundColor(getThemedColor(i9));
-                            boolean z2 = i8 != 5;
+                            int i10 = Theme.key_windowBackgroundWhite;
+                            frameLayout2.setBackgroundColor(getThemedColor(i10));
+                            boolean z2 = i9 != 5;
                             if (z2) {
-                                if (i8 != 7 || this.paymentForm.invoice.phone_requested) {
-                                    if (i8 == 6) {
+                                if (i9 != 7 || this.paymentForm.invoice.phone_requested) {
+                                    if (i9 == 6) {
                                         TLRPC$TL_invoice tLRPC$TL_invoice = this.paymentForm.invoice;
                                         if (!tLRPC$TL_invoice.phone_requested) {
                                         }
@@ -842,28 +841,28 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                                         canvas.drawLine(LocaleController.isRTL ? 0.0f : AndroidUtilities.dp(20.0f), getMeasuredHeight() - 1, getMeasuredWidth() - (LocaleController.isRTL ? AndroidUtilities.dp(20.0f) : 0), getMeasuredHeight() - 1, Theme.dividerPaint);
                                     }
                                 };
-                                view.setBackgroundColor(getThemedColor(i9));
+                                view.setBackgroundColor(getThemedColor(i10));
                                 this.dividers.add(view);
                                 frameLayout2.addView(view, new FrameLayout.LayoutParams(-1, 1, 83));
                             }
                         }
-                        if (i8 == 9) {
-                            this.inputFields[i8] = new HintEditText(context);
+                        if (i9 == 9) {
+                            this.inputFields[i9] = new HintEditText(context);
                         } else {
-                            this.inputFields[i8] = new EditTextBoldCursor(context);
+                            this.inputFields[i9] = new EditTextBoldCursor(context);
                         }
-                        this.inputFields[i8].setTag(Integer.valueOf(i8));
-                        this.inputFields[i8].setTextSize(1, 16.0f);
-                        this.inputFields[i8].setHintTextColor(getThemedColor(Theme.key_windowBackgroundWhiteHintText));
-                        EditTextBoldCursor editTextBoldCursor = this.inputFields[i8];
-                        int i10 = Theme.key_windowBackgroundWhiteBlackText;
-                        editTextBoldCursor.setTextColor(getThemedColor(i10));
-                        this.inputFields[i8].setBackgroundDrawable(null);
-                        this.inputFields[i8].setCursorColor(getThemedColor(i10));
-                        this.inputFields[i8].setCursorSize(AndroidUtilities.dp(20.0f));
-                        this.inputFields[i8].setCursorWidth(1.5f);
-                        if (i8 == 4) {
-                            this.inputFields[i8].setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.PaymentFormActivity$$ExternalSyntheticLambda22
+                        this.inputFields[i9].setTag(Integer.valueOf(i9));
+                        this.inputFields[i9].setTextSize(1, 16.0f);
+                        this.inputFields[i9].setHintTextColor(getThemedColor(Theme.key_windowBackgroundWhiteHintText));
+                        EditTextBoldCursor editTextBoldCursor = this.inputFields[i9];
+                        int i11 = Theme.key_windowBackgroundWhiteBlackText;
+                        editTextBoldCursor.setTextColor(getThemedColor(i11));
+                        this.inputFields[i9].setBackgroundDrawable(null);
+                        this.inputFields[i9].setCursorColor(getThemedColor(i11));
+                        this.inputFields[i9].setCursorSize(AndroidUtilities.dp(20.0f));
+                        this.inputFields[i9].setCursorWidth(1.5f);
+                        if (i9 == 4) {
+                            this.inputFields[i9].setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.PaymentFormActivity$$ExternalSyntheticLambda22
                                 @Override // android.view.View.OnTouchListener
                                 public final boolean onTouch(View view2, MotionEvent motionEvent) {
                                     boolean lambda$createView$1;
@@ -871,118 +870,118 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                                     return lambda$createView$1;
                                 }
                             });
-                            this.inputFields[i8].setInputType(r5);
+                            this.inputFields[i9].setInputType(r5);
                         }
-                        if (i8 == 9 || i8 == 8) {
-                            this.inputFields[i8].setInputType(i6);
-                        } else if (i8 == 7) {
-                            this.inputFields[i8].setInputType(1);
+                        if (i9 == 9 || i9 == 8) {
+                            this.inputFields[i9].setInputType(i7);
+                        } else if (i9 == 7) {
+                            this.inputFields[i9].setInputType(1);
                         } else {
-                            this.inputFields[i8].setInputType(16385);
+                            this.inputFields[i9].setInputType(16385);
                         }
-                        this.inputFields[i8].setImeOptions(268435461);
-                        switch (i8) {
+                        this.inputFields[i9].setImeOptions(268435461);
+                        switch (i9) {
                             case 0:
-                                this.inputFields[i8].setHint(LocaleController.getString("PaymentShippingAddress1Placeholder", R.string.PaymentShippingAddress1Placeholder));
+                                this.inputFields[i9].setHint(LocaleController.getString("PaymentShippingAddress1Placeholder", R.string.PaymentShippingAddress1Placeholder));
                                 TLRPC$TL_paymentRequestedInfo tLRPC$TL_paymentRequestedInfo4 = this.paymentForm.saved_info;
                                 if (tLRPC$TL_paymentRequestedInfo4 != null && (tLRPC$TL_postAddress = tLRPC$TL_paymentRequestedInfo4.shipping_address) != null) {
-                                    this.inputFields[i8].setText(tLRPC$TL_postAddress.street_line1);
+                                    this.inputFields[i9].setText(tLRPC$TL_postAddress.street_line1);
                                     break;
                                 }
                                 break;
                             case 1:
-                                this.inputFields[i8].setHint(LocaleController.getString("PaymentShippingAddress2Placeholder", R.string.PaymentShippingAddress2Placeholder));
+                                this.inputFields[i9].setHint(LocaleController.getString("PaymentShippingAddress2Placeholder", R.string.PaymentShippingAddress2Placeholder));
                                 TLRPC$TL_paymentRequestedInfo tLRPC$TL_paymentRequestedInfo5 = this.paymentForm.saved_info;
                                 if (tLRPC$TL_paymentRequestedInfo5 != null && (tLRPC$TL_postAddress2 = tLRPC$TL_paymentRequestedInfo5.shipping_address) != null) {
-                                    this.inputFields[i8].setText(tLRPC$TL_postAddress2.street_line2);
+                                    this.inputFields[i9].setText(tLRPC$TL_postAddress2.street_line2);
                                     break;
                                 }
                                 break;
                             case 2:
-                                this.inputFields[i8].setHint(LocaleController.getString("PaymentShippingCityPlaceholder", R.string.PaymentShippingCityPlaceholder));
+                                this.inputFields[i9].setHint(LocaleController.getString("PaymentShippingCityPlaceholder", R.string.PaymentShippingCityPlaceholder));
                                 TLRPC$TL_paymentRequestedInfo tLRPC$TL_paymentRequestedInfo6 = this.paymentForm.saved_info;
                                 if (tLRPC$TL_paymentRequestedInfo6 != null && (tLRPC$TL_postAddress3 = tLRPC$TL_paymentRequestedInfo6.shipping_address) != null) {
-                                    this.inputFields[i8].setText(tLRPC$TL_postAddress3.city);
+                                    this.inputFields[i9].setText(tLRPC$TL_postAddress3.city);
                                     break;
                                 }
                                 break;
                             case 3:
-                                this.inputFields[i8].setHint(LocaleController.getString("PaymentShippingStatePlaceholder", R.string.PaymentShippingStatePlaceholder));
+                                this.inputFields[i9].setHint(LocaleController.getString("PaymentShippingStatePlaceholder", R.string.PaymentShippingStatePlaceholder));
                                 TLRPC$TL_paymentRequestedInfo tLRPC$TL_paymentRequestedInfo7 = this.paymentForm.saved_info;
                                 if (tLRPC$TL_paymentRequestedInfo7 != null && (tLRPC$TL_postAddress4 = tLRPC$TL_paymentRequestedInfo7.shipping_address) != null) {
-                                    this.inputFields[i8].setText(tLRPC$TL_postAddress4.state);
+                                    this.inputFields[i9].setText(tLRPC$TL_postAddress4.state);
                                     break;
                                 }
                                 break;
                             case 4:
-                                this.inputFields[i8].setHint(LocaleController.getString("PaymentShippingCountry", R.string.PaymentShippingCountry));
+                                this.inputFields[i9].setHint(LocaleController.getString("PaymentShippingCountry", R.string.PaymentShippingCountry));
                                 TLRPC$TL_paymentRequestedInfo tLRPC$TL_paymentRequestedInfo8 = this.paymentForm.saved_info;
                                 if (tLRPC$TL_paymentRequestedInfo8 != null && (tLRPC$TL_postAddress5 = tLRPC$TL_paymentRequestedInfo8.shipping_address) != null) {
-                                    String str8 = (String) hashMap3.get(tLRPC$TL_postAddress5.country_iso2);
-                                    String str9 = this.paymentForm.saved_info.shipping_address.country_iso2;
-                                    this.countryName = str9;
-                                    EditTextBoldCursor editTextBoldCursor2 = this.inputFields[i8];
-                                    if (str8 == null) {
-                                        str8 = str9;
+                                    String str7 = (String) hashMap3.get(tLRPC$TL_postAddress5.country_iso2);
+                                    String str8 = this.paymentForm.saved_info.shipping_address.country_iso2;
+                                    this.countryName = str8;
+                                    EditTextBoldCursor editTextBoldCursor2 = this.inputFields[i9];
+                                    if (str7 == null) {
+                                        str7 = str8;
                                     }
-                                    editTextBoldCursor2.setText(str8);
+                                    editTextBoldCursor2.setText(str7);
                                     break;
                                 }
                                 break;
                             case 5:
-                                this.inputFields[i8].setHint(LocaleController.getString("PaymentShippingZipPlaceholder", R.string.PaymentShippingZipPlaceholder));
+                                this.inputFields[i9].setHint(LocaleController.getString("PaymentShippingZipPlaceholder", R.string.PaymentShippingZipPlaceholder));
                                 TLRPC$TL_paymentRequestedInfo tLRPC$TL_paymentRequestedInfo9 = this.paymentForm.saved_info;
                                 if (tLRPC$TL_paymentRequestedInfo9 != null && (tLRPC$TL_postAddress6 = tLRPC$TL_paymentRequestedInfo9.shipping_address) != null) {
-                                    this.inputFields[i8].setText(tLRPC$TL_postAddress6.post_code);
+                                    this.inputFields[i9].setText(tLRPC$TL_postAddress6.post_code);
                                     break;
                                 }
                                 break;
                             case 6:
-                                this.inputFields[i8].setHint(LocaleController.getString("PaymentShippingName", R.string.PaymentShippingName));
+                                this.inputFields[i9].setHint(LocaleController.getString("PaymentShippingName", R.string.PaymentShippingName));
                                 TLRPC$TL_paymentRequestedInfo tLRPC$TL_paymentRequestedInfo10 = this.paymentForm.saved_info;
-                                if (tLRPC$TL_paymentRequestedInfo10 != null && (str6 = tLRPC$TL_paymentRequestedInfo10.name) != null) {
-                                    this.inputFields[i8].setText(str6);
+                                if (tLRPC$TL_paymentRequestedInfo10 != null && (str4 = tLRPC$TL_paymentRequestedInfo10.name) != null) {
+                                    this.inputFields[i9].setText(str4);
                                     break;
                                 }
                                 break;
                             case 7:
-                                this.inputFields[i8].setHint(LocaleController.getString("PaymentShippingEmailPlaceholder", R.string.PaymentShippingEmailPlaceholder));
+                                this.inputFields[i9].setHint(LocaleController.getString("PaymentShippingEmailPlaceholder", R.string.PaymentShippingEmailPlaceholder));
                                 TLRPC$TL_paymentRequestedInfo tLRPC$TL_paymentRequestedInfo11 = this.paymentForm.saved_info;
-                                if (tLRPC$TL_paymentRequestedInfo11 != null && (str7 = tLRPC$TL_paymentRequestedInfo11.email) != null) {
-                                    this.inputFields[i8].setText(str7);
+                                if (tLRPC$TL_paymentRequestedInfo11 != null && (str5 = tLRPC$TL_paymentRequestedInfo11.email) != null) {
+                                    this.inputFields[i9].setText(str5);
                                     break;
                                 }
                                 break;
                         }
                         EditTextBoldCursor[] editTextBoldCursorArr = this.inputFields;
-                        editTextBoldCursorArr[i8].setSelection(editTextBoldCursorArr[i8].length());
-                        if (i8 == 8) {
+                        editTextBoldCursorArr[i9].setSelection(editTextBoldCursorArr[i9].length());
+                        if (i9 == 8) {
                             TextView textView = new TextView(context);
                             this.textView = textView;
                             textView.setText("+");
-                            this.textView.setTextColor(getThemedColor(i10));
+                            this.textView.setTextColor(getThemedColor(i11));
                             this.textView.setTextSize(1, 16.0f);
                             frameLayout2.addView(this.textView, LayoutHelper.createLinear(-2, -2, 21.0f, 12.0f, 0.0f, 6.0f));
-                            this.inputFields[i8].setPadding(AndroidUtilities.dp(10.0f), r5, r5, r5);
-                            this.inputFields[i8].setGravity(19);
+                            this.inputFields[i9].setPadding(AndroidUtilities.dp(10.0f), r5, r5, r5);
+                            this.inputFields[i9].setGravity(19);
                             InputFilter[] inputFilterArr = new InputFilter[1];
                             inputFilterArr[r5] = new InputFilter.LengthFilter(5);
-                            this.inputFields[i8].setFilters(inputFilterArr);
-                            frameLayout2.addView(this.inputFields[i8], LayoutHelper.createLinear(55, -2, 0.0f, 12.0f, 21.0f, 6.0f));
-                            this.inputFields[i8].addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.PaymentFormActivity.3
+                            this.inputFields[i9].setFilters(inputFilterArr);
+                            frameLayout2.addView(this.inputFields[i9], LayoutHelper.createLinear(55, -2, 0.0f, 12.0f, 21.0f, 6.0f));
+                            this.inputFields[i9].addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.PaymentFormActivity.3
                                 @Override // android.text.TextWatcher
-                                public void beforeTextChanged(CharSequence charSequence, int i11, int i12, int i13) {
+                                public void beforeTextChanged(CharSequence charSequence, int i12, int i13, int i14) {
                                 }
 
                                 @Override // android.text.TextWatcher
-                                public void onTextChanged(CharSequence charSequence, int i11, int i12, int i13) {
+                                public void onTextChanged(CharSequence charSequence, int i12, int i13, int i14) {
                                 }
 
                                 @Override // android.text.TextWatcher
                                 public void afterTextChanged(Editable editable) {
-                                    String str10;
+                                    String str9;
                                     boolean z3;
-                                    String str11;
+                                    String str10;
                                     if (PaymentFormActivity.this.ignoreOnTextChange) {
                                         return;
                                     }
@@ -995,40 +994,40 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                                         hintEditText.setHintText((String) null);
                                         hintEditText.setHint(LocaleController.getString("PaymentShippingPhoneNumber", R.string.PaymentShippingPhoneNumber));
                                     } else {
-                                        int i11 = 4;
+                                        int i12 = 4;
                                         if (stripExceptNumbers.length() > 4) {
                                             while (true) {
-                                                if (i11 < 1) {
-                                                    str10 = null;
+                                                if (i12 < 1) {
+                                                    str9 = null;
                                                     z3 = false;
                                                     break;
                                                 }
-                                                String substring = stripExceptNumbers.substring(0, i11);
+                                                String substring = stripExceptNumbers.substring(0, i12);
                                                 if (((String) PaymentFormActivity.this.codesMap.get(substring)) != null) {
-                                                    String str12 = stripExceptNumbers.substring(i11) + PaymentFormActivity.this.inputFields[9].getText().toString();
+                                                    String str11 = stripExceptNumbers.substring(i12) + PaymentFormActivity.this.inputFields[9].getText().toString();
                                                     PaymentFormActivity.this.inputFields[8].setText(substring);
                                                     z3 = true;
-                                                    str10 = str12;
+                                                    str9 = str11;
                                                     stripExceptNumbers = substring;
                                                     break;
                                                 }
-                                                i11--;
+                                                i12--;
                                             }
                                             if (!z3) {
-                                                str10 = stripExceptNumbers.substring(1) + PaymentFormActivity.this.inputFields[9].getText().toString();
+                                                str9 = stripExceptNumbers.substring(1) + PaymentFormActivity.this.inputFields[9].getText().toString();
                                                 EditTextBoldCursor editTextBoldCursor3 = PaymentFormActivity.this.inputFields[8];
                                                 stripExceptNumbers = stripExceptNumbers.substring(0, 1);
                                                 editTextBoldCursor3.setText(stripExceptNumbers);
                                             }
                                         } else {
-                                            str10 = null;
+                                            str9 = null;
                                             z3 = false;
                                         }
-                                        String str13 = (String) PaymentFormActivity.this.codesMap.get(stripExceptNumbers);
-                                        if (str13 == null || PaymentFormActivity.this.countriesArray.indexOf(str13) == -1 || (str11 = (String) PaymentFormActivity.this.phoneFormatMap.get(stripExceptNumbers)) == null) {
+                                        String str12 = (String) PaymentFormActivity.this.codesMap.get(stripExceptNumbers);
+                                        if (str12 == null || PaymentFormActivity.this.countriesArray.indexOf(str12) == -1 || (str10 = (String) PaymentFormActivity.this.phoneFormatMap.get(stripExceptNumbers)) == null) {
                                             z4 = false;
                                         } else {
-                                            hintEditText.setHintText(str11.replace('X', (char) 8211));
+                                            hintEditText.setHintText(str10.replace('X', (char) 8211));
                                             hintEditText.setHint((CharSequence) null);
                                         }
                                         if (!z4) {
@@ -1038,35 +1037,35 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                                         if (!z3) {
                                             PaymentFormActivity.this.inputFields[8].setSelection(PaymentFormActivity.this.inputFields[8].getText().length());
                                         }
-                                        if (str10 != null) {
+                                        if (str9 != null) {
                                             hintEditText.requestFocus();
-                                            hintEditText.setText(str10);
+                                            hintEditText.setText(str9);
                                             hintEditText.setSelection(hintEditText.length());
                                         }
                                     }
                                     PaymentFormActivity.this.ignoreOnTextChange = false;
                                 }
                             });
-                        } else if (i8 == 9) {
-                            this.inputFields[i8].setPadding(r5, r5, r5, r5);
-                            this.inputFields[i8].setGravity(19);
-                            frameLayout2.addView(this.inputFields[i8], LayoutHelper.createLinear(-1, -2, 0.0f, 12.0f, 21.0f, 6.0f));
-                            this.inputFields[i8].addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.PaymentFormActivity.4
+                        } else if (i9 == 9) {
+                            this.inputFields[i9].setPadding(r5, r5, r5, r5);
+                            this.inputFields[i9].setGravity(19);
+                            frameLayout2.addView(this.inputFields[i9], LayoutHelper.createLinear(-1, -2, 0.0f, 12.0f, 21.0f, 6.0f));
+                            this.inputFields[i9].addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.PaymentFormActivity.4
                                 private int actionPosition;
                                 private int characterAction = -1;
 
                                 @Override // android.text.TextWatcher
-                                public void onTextChanged(CharSequence charSequence, int i11, int i12, int i13) {
+                                public void onTextChanged(CharSequence charSequence, int i12, int i13, int i14) {
                                 }
 
                                 @Override // android.text.TextWatcher
-                                public void beforeTextChanged(CharSequence charSequence, int i11, int i12, int i13) {
-                                    if (i12 == 0 && i13 == 1) {
+                                public void beforeTextChanged(CharSequence charSequence, int i12, int i13, int i14) {
+                                    if (i13 == 0 && i14 == 1) {
                                         this.characterAction = 1;
-                                    } else if (i12 == 1 && i13 == 0) {
-                                        if (charSequence.charAt(i11) == ' ' && i11 > 0) {
+                                    } else if (i13 == 1 && i14 == 0) {
+                                        if (charSequence.charAt(i12) == ' ' && i12 > 0) {
                                             this.characterAction = 3;
-                                            this.actionPosition = i11 - 1;
+                                            this.actionPosition = i12 - 1;
                                             return;
                                         }
                                         this.characterAction = 2;
@@ -1077,8 +1076,8 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
 
                                 @Override // android.text.TextWatcher
                                 public void afterTextChanged(Editable editable) {
-                                    int i11;
                                     int i12;
+                                    int i13;
                                     if (PaymentFormActivity.this.ignoreOnPhoneChange) {
                                         return;
                                     }
@@ -1090,34 +1089,34 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                                         selectionStart--;
                                     }
                                     StringBuilder sb = new StringBuilder(obj.length());
-                                    int i13 = 0;
-                                    while (i13 < obj.length()) {
-                                        int i14 = i13 + 1;
-                                        String substring = obj.substring(i13, i14);
+                                    int i14 = 0;
+                                    while (i14 < obj.length()) {
+                                        int i15 = i14 + 1;
+                                        String substring = obj.substring(i14, i15);
                                         if ("0123456789".contains(substring)) {
                                             sb.append(substring);
                                         }
-                                        i13 = i14;
+                                        i14 = i15;
                                     }
                                     PaymentFormActivity.this.ignoreOnPhoneChange = true;
                                     String hintText = hintEditText.getHintText();
                                     if (hintText != null) {
-                                        int i15 = 0;
+                                        int i16 = 0;
                                         while (true) {
-                                            if (i15 >= sb.length()) {
+                                            if (i16 >= sb.length()) {
                                                 break;
-                                            } else if (i15 < hintText.length()) {
-                                                if (hintText.charAt(i15) == ' ') {
-                                                    sb.insert(i15, ' ');
-                                                    i15++;
-                                                    if (selectionStart == i15 && (i12 = this.characterAction) != 2 && i12 != 3) {
+                                            } else if (i16 < hintText.length()) {
+                                                if (hintText.charAt(i16) == ' ') {
+                                                    sb.insert(i16, ' ');
+                                                    i16++;
+                                                    if (selectionStart == i16 && (i13 = this.characterAction) != 2 && i13 != 3) {
                                                         selectionStart++;
                                                     }
                                                 }
-                                                i15++;
+                                                i16++;
                                             } else {
-                                                sb.insert(i15, ' ');
-                                                if (selectionStart == i15 + 1 && (i11 = this.characterAction) != 2 && i11 != 3) {
+                                                sb.insert(i16, ' ');
+                                                if (selectionStart == i16 + 1 && (i12 = this.characterAction) != 2 && i12 != 3) {
                                                     selectionStart++;
                                                 }
                                             }
@@ -1132,30 +1131,30 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                                 }
                             });
                         } else {
-                            this.inputFields[i8].setPadding(r5, r5, r5, AndroidUtilities.dp(6.0f));
-                            this.inputFields[i8].setGravity(LocaleController.isRTL ? 5 : 3);
-                            frameLayout2.addView(this.inputFields[i8], LayoutHelper.createFrame(-1, -2.0f, 51, 21.0f, 12.0f, 21.0f, 6.0f));
+                            this.inputFields[i9].setPadding(r5, r5, r5, AndroidUtilities.dp(6.0f));
+                            this.inputFields[i9].setGravity(LocaleController.isRTL ? 5 : 3);
+                            frameLayout2.addView(this.inputFields[i9], LayoutHelper.createFrame(-1, -2.0f, 51, 21.0f, 12.0f, 21.0f, 6.0f));
                         }
-                        this.inputFields[i8].setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.PaymentFormActivity$$ExternalSyntheticLambda25
+                        this.inputFields[i9].setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.PaymentFormActivity$$ExternalSyntheticLambda25
                             @Override // android.widget.TextView.OnEditorActionListener
-                            public final boolean onEditorAction(TextView textView2, int i11, KeyEvent keyEvent) {
+                            public final boolean onEditorAction(TextView textView2, int i12, KeyEvent keyEvent) {
                                 boolean lambda$createView$2;
-                                lambda$createView$2 = PaymentFormActivity.this.lambda$createView$2(textView2, i11, keyEvent);
+                                lambda$createView$2 = PaymentFormActivity.this.lambda$createView$2(textView2, i12, keyEvent);
                                 return lambda$createView$2;
                             }
                         });
-                        if (i8 == 9) {
+                        if (i9 == 9) {
                             TLRPC$TL_invoice tLRPC$TL_invoice2 = this.paymentForm.invoice;
                             if (tLRPC$TL_invoice2.email_to_provider || tLRPC$TL_invoice2.phone_to_provider) {
                                 TLRPC$User tLRPC$User2 = null;
-                                int i11 = 0;
-                                while (i11 < this.paymentForm.users.size()) {
-                                    TLRPC$User tLRPC$User3 = this.paymentForm.users.get(i11);
+                                int i12 = 0;
+                                while (i12 < this.paymentForm.users.size()) {
+                                    TLRPC$User tLRPC$User3 = this.paymentForm.users.get(i12);
                                     HashMap hashMap4 = hashMap2;
                                     if (tLRPC$User3.id == this.paymentForm.provider_id) {
                                         tLRPC$User2 = tLRPC$User3;
                                     }
-                                    i11++;
+                                    i12++;
                                     hashMap2 = hashMap4;
                                 }
                                 hashMap = hashMap2;
@@ -1195,23 +1194,23 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                         } else {
                             hashMap = hashMap2;
                         }
-                        i8++;
+                        i9++;
                         hashMap2 = hashMap;
                         r5 = 0;
-                        i6 = 3;
+                        i7 = 3;
                     }
                     HashMap hashMap5 = hashMap2;
                     if (this.paymentForm.invoice.name_requested) {
-                        i4 = 8;
+                        i5 = 8;
                     } else {
-                        i4 = 8;
+                        i5 = 8;
                         ((ViewGroup) this.inputFields[6].getParent()).setVisibility(8);
                     }
                     if (!this.paymentForm.invoice.phone_requested) {
-                        ((ViewGroup) this.inputFields[i4].getParent()).setVisibility(i4);
+                        ((ViewGroup) this.inputFields[i5].getParent()).setVisibility(i5);
                     }
                     if (!this.paymentForm.invoice.email_requested) {
-                        ((ViewGroup) this.inputFields[7].getParent()).setVisibility(i4);
+                        ((ViewGroup) this.inputFields[7].getParent()).setVisibility(i5);
                     }
                     TLRPC$TL_invoice tLRPC$TL_invoice4 = this.paymentForm.invoice;
                     if (tLRPC$TL_invoice4.phone_requested) {
@@ -1264,20 +1263,20 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                                 FileLog.e(e2);
                             }
                             if (telephonyManager != null) {
-                                str4 = telephonyManager.getSimCountryIso().toUpperCase();
-                                if (str4 != null && (str5 = (String) hashMap5.get(str4)) != null && this.countriesArray.indexOf(str5) != -1) {
-                                    this.inputFields[8].setText(this.countriesMap.get(str5));
+                                str2 = telephonyManager.getSimCountryIso().toUpperCase();
+                                if (str2 != null && (str3 = (String) hashMap5.get(str2)) != null && this.countriesArray.indexOf(str3) != -1) {
+                                    this.inputFields[8].setText(this.countriesMap.get(str3));
                                 }
                             }
-                            str4 = null;
-                            if (str4 != null) {
-                                this.inputFields[8].setText(this.countriesMap.get(str5));
+                            str2 = null;
+                            if (str2 != null) {
+                                this.inputFields[8].setText(this.countriesMap.get(str3));
                             }
                         }
                     }
                 }
             }
-        } else if (i7 == 2) {
+        } else if (i8 == 2) {
             if (this.paymentForm.native_params != null) {
                 try {
                     JSONObject jSONObject = new JSONObject(this.paymentForm.native_params.data);
@@ -1311,37 +1310,37 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                     }
 
                     @Override // android.webkit.WebView, android.widget.AbsoluteLayout, android.view.View
-                    protected void onMeasure(int i12, int i13) {
-                        super.onMeasure(i12, i13);
+                    protected void onMeasure(int i13, int i14) {
+                        super.onMeasure(i13, i14);
                     }
                 };
                 this.webView = webView;
                 webView.getSettings().setJavaScriptEnabled(true);
                 this.webView.getSettings().setDomStorageEnabled(true);
-                int i12 = Build.VERSION.SDK_INT;
-                if (i12 >= 21) {
+                int i13 = Build.VERSION.SDK_INT;
+                if (i13 >= 21) {
                     this.webView.getSettings().setMixedContentMode(0);
                     CookieManager.getInstance().setAcceptThirdPartyCookies(this.webView, true);
                 }
-                if (i12 >= 17) {
+                if (i13 >= 17) {
                     this.webView.addJavascriptInterface(new TelegramWebviewProxy(), "TelegramWebviewProxy");
                 }
                 this.webView.setWebViewClient(new WebViewClient() { // from class: org.telegram.ui.PaymentFormActivity.6
                     @Override // android.webkit.WebViewClient
-                    public void onLoadResource(WebView webView2, String str10) {
-                        super.onLoadResource(webView2, str10);
+                    public void onLoadResource(WebView webView2, String str9) {
+                        super.onLoadResource(webView2, str9);
                     }
 
                     @Override // android.webkit.WebViewClient
-                    public boolean shouldOverrideUrlLoading(WebView webView2, String str10) {
+                    public boolean shouldOverrideUrlLoading(WebView webView2, String str9) {
                         PaymentFormActivity paymentFormActivity = PaymentFormActivity.this;
-                        paymentFormActivity.shouldNavigateBack = !str10.equals(paymentFormActivity.webViewUrl);
-                        return super.shouldOverrideUrlLoading(webView2, str10);
+                        paymentFormActivity.shouldNavigateBack = !str9.equals(paymentFormActivity.webViewUrl);
+                        return super.shouldOverrideUrlLoading(webView2, str9);
                     }
 
                     @Override // android.webkit.WebViewClient
-                    public void onPageFinished(WebView webView2, String str10) {
-                        super.onPageFinished(webView2, str10);
+                    public void onPageFinished(WebView webView2, String str9) {
+                        super.onPageFinished(webView2, str9);
                         PaymentFormActivity.this.webviewLoading = false;
                         PaymentFormActivity.this.showEditDoneProgress(true, false);
                         PaymentFormActivity.this.updateSavePaymentField();
@@ -1402,45 +1401,45 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                     initGooglePay(context);
                 }
                 this.inputFields = new EditTextBoldCursor[6];
-                int i13 = 0;
-                for (int i14 = 6; i13 < i14; i14 = 6) {
-                    if (i13 == 0) {
+                int i14 = 0;
+                for (int i15 = 6; i14 < i15; i15 = 6) {
+                    if (i14 == 0) {
                         this.headerCell[0] = new HeaderCell(context, this.resourcesProvider);
                         this.headerCell[0].setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
                         this.headerCell[0].setText(LocaleController.getString("PaymentCardTitle", R.string.PaymentCardTitle));
                         this.linearLayout2.addView(this.headerCell[0], LayoutHelper.createLinear(-1, -2));
-                    } else if (i13 == 4) {
+                    } else if (i14 == 4) {
                         this.headerCell[1] = new HeaderCell(context, this.resourcesProvider);
                         this.headerCell[1].setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
                         this.headerCell[1].setText(LocaleController.getString("PaymentBillingAddress", R.string.PaymentBillingAddress));
                         this.linearLayout2.addView(this.headerCell[1], LayoutHelper.createLinear(-1, -2));
                     }
-                    boolean z4 = (i13 == 3 || i13 == 5 || (i13 == 4 && !this.need_card_postcode)) ? false : true;
+                    boolean z4 = (i14 == 3 || i14 == 5 || (i14 == 4 && !this.need_card_postcode)) ? false : true;
                     FrameLayout frameLayout5 = new FrameLayout(context);
                     frameLayout5.setClipChildren(false);
-                    int i15 = Theme.key_windowBackgroundWhite;
-                    frameLayout5.setBackgroundColor(getThemedColor(i15));
+                    int i16 = Theme.key_windowBackgroundWhite;
+                    frameLayout5.setBackgroundColor(getThemedColor(i16));
                     this.linearLayout2.addView(frameLayout5, LayoutHelper.createLinear(-1, 50));
-                    this.inputFields[i13] = new EditTextBoldCursor(context);
-                    this.inputFields[i13].setTag(Integer.valueOf(i13));
-                    this.inputFields[i13].setTextSize(1, 16.0f);
-                    this.inputFields[i13].setHintTextColor(getThemedColor(Theme.key_windowBackgroundWhiteHintText));
-                    EditTextBoldCursor editTextBoldCursor3 = this.inputFields[i13];
-                    int i16 = Theme.key_windowBackgroundWhiteBlackText;
-                    editTextBoldCursor3.setTextColor(getThemedColor(i16));
-                    this.inputFields[i13].setBackgroundDrawable(null);
-                    this.inputFields[i13].setCursorColor(getThemedColor(i16));
-                    this.inputFields[i13].setCursorSize(AndroidUtilities.dp(20.0f));
-                    this.inputFields[i13].setCursorWidth(1.5f);
-                    if (i13 == 3) {
-                        this.inputFields[i13].setFilters(new InputFilter[]{new InputFilter.LengthFilter(3)});
-                        this.inputFields[i13].setInputType(130);
-                        this.inputFields[i13].setTypeface(Typeface.DEFAULT);
-                        this.inputFields[i13].setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    } else if (i13 == 0) {
-                        this.inputFields[i13].setInputType(3);
-                    } else if (i13 == 4) {
-                        this.inputFields[i13].setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.PaymentFormActivity$$ExternalSyntheticLambda23
+                    this.inputFields[i14] = new EditTextBoldCursor(context);
+                    this.inputFields[i14].setTag(Integer.valueOf(i14));
+                    this.inputFields[i14].setTextSize(1, 16.0f);
+                    this.inputFields[i14].setHintTextColor(getThemedColor(Theme.key_windowBackgroundWhiteHintText));
+                    EditTextBoldCursor editTextBoldCursor3 = this.inputFields[i14];
+                    int i17 = Theme.key_windowBackgroundWhiteBlackText;
+                    editTextBoldCursor3.setTextColor(getThemedColor(i17));
+                    this.inputFields[i14].setBackgroundDrawable(null);
+                    this.inputFields[i14].setCursorColor(getThemedColor(i17));
+                    this.inputFields[i14].setCursorSize(AndroidUtilities.dp(20.0f));
+                    this.inputFields[i14].setCursorWidth(1.5f);
+                    if (i14 == 3) {
+                        this.inputFields[i14].setFilters(new InputFilter[]{new InputFilter.LengthFilter(3)});
+                        this.inputFields[i14].setInputType(130);
+                        this.inputFields[i14].setTypeface(Typeface.DEFAULT);
+                        this.inputFields[i14].setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    } else if (i14 == 0) {
+                        this.inputFields[i14].setInputType(3);
+                    } else if (i14 == 4) {
+                        this.inputFields[i14].setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.PaymentFormActivity$$ExternalSyntheticLambda23
                             @Override // android.view.View.OnTouchListener
                             public final boolean onTouch(View view2, MotionEvent motionEvent) {
                                 boolean lambda$createView$6;
@@ -1448,30 +1447,30 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                                 return lambda$createView$6;
                             }
                         });
-                        this.inputFields[i13].setInputType(0);
-                    } else if (i13 == 1) {
-                        this.inputFields[i13].setInputType(16386);
-                    } else if (i13 == 2) {
-                        this.inputFields[i13].setInputType(4097);
+                        this.inputFields[i14].setInputType(0);
+                    } else if (i14 == 1) {
+                        this.inputFields[i14].setInputType(16386);
+                    } else if (i14 == 2) {
+                        this.inputFields[i14].setInputType(4097);
                     } else {
-                        this.inputFields[i13].setInputType(16385);
+                        this.inputFields[i14].setInputType(16385);
                     }
-                    this.inputFields[i13].setImeOptions(268435461);
-                    if (i13 == 0) {
-                        this.inputFields[i13].setHint(LocaleController.getString("PaymentCardNumber", R.string.PaymentCardNumber));
-                    } else if (i13 == 1) {
-                        this.inputFields[i13].setHint(LocaleController.getString("PaymentCardExpireDate", R.string.PaymentCardExpireDate));
-                    } else if (i13 == 2) {
-                        this.inputFields[i13].setHint(LocaleController.getString("PaymentCardName", R.string.PaymentCardName));
-                    } else if (i13 == 3) {
-                        this.inputFields[i13].setHint(LocaleController.getString("PaymentCardCvv", R.string.PaymentCardCvv));
-                    } else if (i13 == 4) {
-                        this.inputFields[i13].setHint(LocaleController.getString("PaymentShippingCountry", R.string.PaymentShippingCountry));
-                    } else if (i13 == 5) {
-                        this.inputFields[i13].setHint(LocaleController.getString("PaymentShippingZipPlaceholder", R.string.PaymentShippingZipPlaceholder));
+                    this.inputFields[i14].setImeOptions(268435461);
+                    if (i14 == 0) {
+                        this.inputFields[i14].setHint(LocaleController.getString("PaymentCardNumber", R.string.PaymentCardNumber));
+                    } else if (i14 == 1) {
+                        this.inputFields[i14].setHint(LocaleController.getString("PaymentCardExpireDate", R.string.PaymentCardExpireDate));
+                    } else if (i14 == 2) {
+                        this.inputFields[i14].setHint(LocaleController.getString("PaymentCardName", R.string.PaymentCardName));
+                    } else if (i14 == 3) {
+                        this.inputFields[i14].setHint(LocaleController.getString("PaymentCardCvv", R.string.PaymentCardCvv));
+                    } else if (i14 == 4) {
+                        this.inputFields[i14].setHint(LocaleController.getString("PaymentShippingCountry", R.string.PaymentShippingCountry));
+                    } else if (i14 == 5) {
+                        this.inputFields[i14].setHint(LocaleController.getString("PaymentShippingZipPlaceholder", R.string.PaymentShippingZipPlaceholder));
                     }
-                    if (i13 == 0) {
-                        this.inputFields[i13].addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.PaymentFormActivity.7
+                    if (i14 == 0) {
+                        this.inputFields[i14].addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.PaymentFormActivity.7
                             private int actionPosition;
                             public final String[] PREFIXES_15 = {"34", "37"};
                             public final String[] PREFIXES_14 = {"300", "301", "302", "303", "304", "305", "309", "36", "38", "39"};
@@ -1479,17 +1478,17 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                             private int characterAction = -1;
 
                             @Override // android.text.TextWatcher
-                            public void onTextChanged(CharSequence charSequence, int i17, int i18, int i19) {
+                            public void onTextChanged(CharSequence charSequence, int i18, int i19, int i20) {
                             }
 
                             @Override // android.text.TextWatcher
-                            public void beforeTextChanged(CharSequence charSequence, int i17, int i18, int i19) {
-                                if (i18 == 0 && i19 == 1) {
+                            public void beforeTextChanged(CharSequence charSequence, int i18, int i19, int i20) {
+                                if (i19 == 0 && i20 == 1) {
                                     this.characterAction = 1;
-                                } else if (i18 == 1 && i19 == 0) {
-                                    if (charSequence.charAt(i17) == ' ' && i17 > 0) {
+                                } else if (i19 == 1 && i20 == 0) {
+                                    if (charSequence.charAt(i18) == ' ' && i18 > 0) {
                                         this.characterAction = 3;
-                                        this.actionPosition = i17 - 1;
+                                        this.actionPosition = i18 - 1;
                                         return;
                                     }
                                     this.characterAction = 2;
@@ -1501,11 +1500,11 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                             @Override // android.text.TextWatcher
                             public void afterTextChanged(Editable editable) {
                                 boolean z5;
-                                int i17;
                                 int i18;
-                                String[] strArr;
                                 int i19;
-                                String str10;
+                                String[] strArr;
+                                int i20;
+                                String str9;
                                 if (PaymentFormActivity.this.ignoreOnCardChange) {
                                     return;
                                 }
@@ -1517,78 +1516,78 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                                     selectionStart--;
                                 }
                                 StringBuilder sb = new StringBuilder(obj.length());
-                                int i20 = 0;
-                                while (i20 < obj.length()) {
-                                    int i21 = i20 + 1;
-                                    String substring = obj.substring(i20, i21);
+                                int i21 = 0;
+                                while (i21 < obj.length()) {
+                                    int i22 = i21 + 1;
+                                    String substring = obj.substring(i21, i22);
                                     if ("0123456789".contains(substring)) {
                                         sb.append(substring);
                                     }
-                                    i20 = i21;
+                                    i21 = i22;
                                 }
                                 PaymentFormActivity.this.ignoreOnCardChange = true;
-                                String str11 = null;
-                                int i22 = 100;
+                                String str10 = null;
+                                int i23 = 100;
                                 if (sb.length() > 0) {
                                     String sb2 = sb.toString();
-                                    int i23 = 0;
-                                    for (int i24 = 3; i23 < i24; i24 = 3) {
-                                        if (i23 == 0) {
+                                    int i24 = 0;
+                                    for (int i25 = 3; i24 < i25; i25 = 3) {
+                                        if (i24 == 0) {
                                             strArr = this.PREFIXES_16;
-                                            i19 = 16;
-                                            str10 = "xxxx xxxx xxxx xxxx";
-                                        } else if (i23 == 1) {
+                                            i20 = 16;
+                                            str9 = "xxxx xxxx xxxx xxxx";
+                                        } else if (i24 == 1) {
                                             strArr = this.PREFIXES_15;
-                                            i19 = 15;
-                                            str10 = "xxxx xxxx xxxx xxx";
+                                            i20 = 15;
+                                            str9 = "xxxx xxxx xxxx xxx";
                                         } else {
                                             strArr = this.PREFIXES_14;
-                                            i19 = 14;
-                                            str10 = "xxxx xxxx xxxx xx";
+                                            i20 = 14;
+                                            str9 = "xxxx xxxx xxxx xx";
                                         }
-                                        for (String str12 : strArr) {
-                                            if (sb2.length() <= str12.length()) {
-                                                if (str12.startsWith(sb2)) {
-                                                    i22 = i19;
-                                                    str11 = str10;
+                                        for (String str11 : strArr) {
+                                            if (sb2.length() <= str11.length()) {
+                                                if (str11.startsWith(sb2)) {
+                                                    i23 = i20;
+                                                    str10 = str9;
                                                     break;
                                                 }
-                                            } else if (sb2.startsWith(str12)) {
-                                                i22 = i19;
-                                                str11 = str10;
+                                            } else if (sb2.startsWith(str11)) {
+                                                i23 = i20;
+                                                str10 = str9;
                                                 break;
                                             }
                                         }
-                                        if (str11 != null) {
+                                        if (str10 != null) {
                                             break;
                                         }
-                                        i23++;
+                                        i24++;
                                     }
-                                    if (sb.length() > i22) {
-                                        sb.setLength(i22);
+                                    if (sb.length() > i23) {
+                                        sb.setLength(i23);
                                     }
                                 }
-                                if (str11 != null) {
-                                    if (sb.length() == i22) {
+                                if (str10 != null) {
+                                    if (sb.length() == i23) {
                                         PaymentFormActivity.this.inputFields[1].requestFocus();
                                     }
                                     editTextBoldCursor4.setTextColor(PaymentFormActivity.this.getThemedColor(Theme.key_windowBackgroundWhiteBlackText));
-                                    int i25 = 0;
+                                    int i26 = 0;
                                     while (true) {
-                                        if (i25 >= sb.length()) {
+                                        if (i26 >= sb.length()) {
                                             break;
-                                        } else if (i25 < str11.length()) {
-                                            if (str11.charAt(i25) == ' ') {
-                                                sb.insert(i25, ' ');
-                                                i25++;
-                                                if (selectionStart == i25 && (i18 = this.characterAction) != 2 && i18 != 3) {
+                                        } else if (i26 < str10.length()) {
+                                            if (str10.charAt(i26) == ' ') {
+                                                sb.insert(i26, ' ');
+                                                i26++;
+                                                if (selectionStart == i26 && (i19 = this.characterAction) != 2 && i19 != 3) {
                                                     selectionStart++;
                                                 }
                                             }
-                                            i25++;
+                                            i26++;
                                         } else {
-                                            sb.insert(i25, ' ');
-                                            if (selectionStart == i25 + 1 && (i17 = this.characterAction) != 2 && i17 != 3) {
+                                            sb.insert(i26, ' ');
+                                            if (selectionStart == i26 + 1 && (i18 = this.characterAction) != 2 && i18 != 3) {
                                                 selectionStart++;
                                             }
                                         }
@@ -1606,26 +1605,26 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                                 PaymentFormActivity.this.ignoreOnCardChange = z5;
                             }
                         });
-                    } else if (i13 == 1) {
-                        this.inputFields[i13].addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.PaymentFormActivity.8
+                    } else if (i14 == 1) {
+                        this.inputFields[i14].addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.PaymentFormActivity.8
                             private int actionPosition;
                             private int characterAction = -1;
                             private boolean isYear;
 
                             @Override // android.text.TextWatcher
-                            public void onTextChanged(CharSequence charSequence, int i17, int i18, int i19) {
+                            public void onTextChanged(CharSequence charSequence, int i18, int i19, int i20) {
                             }
 
                             @Override // android.text.TextWatcher
-                            public void beforeTextChanged(CharSequence charSequence, int i17, int i18, int i19) {
-                                if (i18 == 0 && i19 == 1) {
+                            public void beforeTextChanged(CharSequence charSequence, int i18, int i19, int i20) {
+                                if (i19 == 0 && i20 == 1) {
                                     this.isYear = TextUtils.indexOf((CharSequence) PaymentFormActivity.this.inputFields[1].getText(), '/') != -1;
                                     this.characterAction = 1;
-                                } else if (i18 == 1 && i19 == 0) {
-                                    if (charSequence.charAt(i17) == '/' && i17 > 0) {
+                                } else if (i19 == 1 && i20 == 0) {
+                                    if (charSequence.charAt(i18) == '/' && i18 > 0) {
                                         this.isYear = false;
                                         this.characterAction = 3;
-                                        this.actionPosition = i17 - 1;
+                                        this.actionPosition = i18 - 1;
                                         return;
                                     }
                                     this.characterAction = 2;
@@ -1656,14 +1655,14 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                                     selectionStart--;
                                 }
                                 StringBuilder sb = new StringBuilder(obj.length());
-                                int i17 = 0;
-                                while (i17 < obj.length()) {
-                                    int i18 = i17 + 1;
-                                    String substring = obj.substring(i17, i18);
+                                int i18 = 0;
+                                while (i18 < obj.length()) {
+                                    int i19 = i18 + 1;
+                                    String substring = obj.substring(i18, i19);
                                     if ("0123456789".contains(substring)) {
                                         sb.append(substring);
                                     }
-                                    i17 = i18;
+                                    i18 = i19;
                                 }
                                 PaymentFormActivity.this.ignoreOnCardChange = true;
                                 PaymentFormActivity.this.inputFields[1].setTextColor(PaymentFormActivity.this.getThemedColor(Theme.key_windowBackgroundWhiteBlackText));
@@ -1674,20 +1673,20 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                                     this.isYear = false;
                                 }
                                 if (this.isYear) {
-                                    int i19 = sb.length() > 2 ? 2 : 1;
-                                    String[] strArr = new String[i19];
+                                    int i20 = sb.length() > 2 ? 2 : 1;
+                                    String[] strArr = new String[i20];
                                     strArr[0] = sb.substring(0, 2);
-                                    if (i19 == 2) {
+                                    if (i20 == 2) {
                                         strArr[1] = sb.substring(2);
                                     }
-                                    if (sb.length() == 4 && i19 == 2) {
+                                    if (sb.length() == 4 && i20 == 2) {
                                         int intValue = Utilities.parseInt((CharSequence) strArr[0]).intValue();
                                         int intValue2 = Utilities.parseInt((CharSequence) strArr[1]).intValue() + 2000;
                                         Calendar calendar = Calendar.getInstance();
                                         boolean z6 = UserConfig.getInstance(((BaseFragment) PaymentFormActivity.this).currentAccount).getClientPhone().startsWith("7") || (PaymentFormActivity.this.country != null && PaymentFormActivity.this.country.code.equals("7"));
-                                        int i20 = z6 ? 2022 : calendar.get(1);
-                                        int i21 = z6 ? 1 : calendar.get(2) + 1;
-                                        if (intValue2 < i20 || (intValue2 == i20 && intValue < i21)) {
+                                        int i21 = z6 ? 2022 : calendar.get(1);
+                                        int i22 = z6 ? 1 : calendar.get(2) + 1;
+                                        if (intValue2 < i21 || (intValue2 == i21 && intValue < i22)) {
                                             PaymentFormActivity.this.inputFields[1].setTextColor(PaymentFormActivity.this.getThemedColor(Theme.key_text_RedRegular));
                                             if (!z5) {
                                             }
@@ -1783,21 +1782,21 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                             }
                         });
                     }
-                    this.inputFields[i13].setPadding(0, 0, 0, AndroidUtilities.dp(6.0f));
-                    this.inputFields[i13].setGravity(LocaleController.isRTL ? 5 : 3);
-                    frameLayout5.addView(this.inputFields[i13], LayoutHelper.createFrame(-1, -2.0f, 51, 21.0f, 12.0f, 21.0f, 6.0f));
-                    this.inputFields[i13].setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.PaymentFormActivity$$ExternalSyntheticLambda28
+                    this.inputFields[i14].setPadding(0, 0, 0, AndroidUtilities.dp(6.0f));
+                    this.inputFields[i14].setGravity(LocaleController.isRTL ? 5 : 3);
+                    frameLayout5.addView(this.inputFields[i14], LayoutHelper.createFrame(-1, -2.0f, 51, 21.0f, 12.0f, 21.0f, 6.0f));
+                    this.inputFields[i14].setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.PaymentFormActivity$$ExternalSyntheticLambda28
                         @Override // android.widget.TextView.OnEditorActionListener
-                        public final boolean onEditorAction(TextView textView2, int i17, KeyEvent keyEvent) {
+                        public final boolean onEditorAction(TextView textView2, int i18, KeyEvent keyEvent) {
                             boolean lambda$createView$7;
-                            lambda$createView$7 = PaymentFormActivity.this.lambda$createView$7(textView2, i17, keyEvent);
+                            lambda$createView$7 = PaymentFormActivity.this.lambda$createView$7(textView2, i18, keyEvent);
                             return lambda$createView$7;
                         }
                     });
-                    if (i13 == 3) {
+                    if (i14 == 3) {
                         this.sectionCell[0] = new ShadowSectionCell(context, this.resourcesProvider);
                         this.linearLayout2.addView(this.sectionCell[0], LayoutHelper.createLinear(-1, -2));
-                    } else if (i13 == 5) {
+                    } else if (i14 == 5) {
                         this.sectionCell[2] = new ShadowSectionCell(context, this.resourcesProvider);
                         this.linearLayout2.addView(this.sectionCell[2], LayoutHelper.createLinear(-1, -2));
                         TextCheckCell textCheckCell3 = new TextCheckCell(context, this.resourcesProvider);
@@ -1815,7 +1814,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                         this.bottomCell[0].setBackgroundDrawable(Theme.getThemedDrawableByKey(context, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
                         updateSavePaymentField();
                         this.linearLayout2.addView(this.bottomCell[0], LayoutHelper.createLinear(-1, -2));
-                    } else if (i13 == 0) {
+                    } else if (i14 == 0) {
                         createGooglePayButton(context);
                         frameLayout5.addView(this.googlePayContainer, LayoutHelper.createFrame(-2, -2.0f, (LocaleController.isRTL ? 3 : 5) | 16, 0.0f, 0.0f, 4.0f, 0.0f));
                     }
@@ -1826,14 +1825,14 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                                 canvas.drawLine(LocaleController.isRTL ? 0.0f : AndroidUtilities.dp(20.0f), getMeasuredHeight() - 1, getMeasuredWidth() - (LocaleController.isRTL ? AndroidUtilities.dp(20.0f) : 0), getMeasuredHeight() - 1, Theme.dividerPaint);
                             }
                         };
-                        view2.setBackgroundColor(getThemedColor(i15));
+                        view2.setBackgroundColor(getThemedColor(i16));
                         this.dividers.add(view2);
                         frameLayout5.addView(view2, new FrameLayout.LayoutParams(-1, 1, 83));
                     }
-                    if ((i13 == 4 && !this.need_card_country) || ((i13 == 5 && !this.need_card_postcode) || (i13 == 2 && !this.need_card_name))) {
+                    if ((i14 == 4 && !this.need_card_country) || ((i14 == 5 && !this.need_card_postcode) || (i14 == 2 && !this.need_card_name))) {
                         frameLayout5.setVisibility(8);
                     }
-                    i13++;
+                    i14++;
                 }
                 if (!this.need_card_country && !this.need_card_postcode) {
                     this.headerCell[1].setVisibility(8);
@@ -1845,33 +1844,33 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                     this.inputFields[3].setImeOptions(268435462);
                 }
             }
-        } else if (i7 == 1) {
+        } else if (i8 == 1) {
             int size = this.requestedInfo.shipping_options.size();
             this.radioCells = new RadioCell[size];
-            int i17 = 0;
-            while (i17 < size) {
-                TLRPC$TL_shippingOption tLRPC$TL_shippingOption = this.requestedInfo.shipping_options.get(i17);
-                this.radioCells[i17] = new RadioCell(context);
-                this.radioCells[i17].setTag(Integer.valueOf(i17));
-                this.radioCells[i17].setBackgroundDrawable(Theme.getSelectorDrawable(true));
-                this.radioCells[i17].setText(String.format("%s - %s", getTotalPriceString(tLRPC$TL_shippingOption.prices), tLRPC$TL_shippingOption.title), i17 == 0, i17 != size + (-1));
-                this.radioCells[i17].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.PaymentFormActivity$$ExternalSyntheticLambda12
+            int i18 = 0;
+            while (i18 < size) {
+                TLRPC$TL_shippingOption tLRPC$TL_shippingOption = this.requestedInfo.shipping_options.get(i18);
+                this.radioCells[i18] = new RadioCell(context);
+                this.radioCells[i18].setTag(Integer.valueOf(i18));
+                this.radioCells[i18].setBackgroundDrawable(Theme.getSelectorDrawable(true));
+                this.radioCells[i18].setText(String.format("%s - %s", getTotalPriceString(tLRPC$TL_shippingOption.prices), tLRPC$TL_shippingOption.title), i18 == 0, i18 != size + (-1));
+                this.radioCells[i18].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.PaymentFormActivity$$ExternalSyntheticLambda12
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view3) {
                         PaymentFormActivity.this.lambda$createView$9(view3);
                     }
                 });
-                this.linearLayout2.addView(this.radioCells[i17]);
-                i17++;
+                this.linearLayout2.addView(this.radioCells[i18]);
+                i18++;
             }
             this.bottomCell[0] = new TextInfoPrivacyCell(context, this.resourcesProvider);
             this.bottomCell[0].setBackgroundDrawable(Theme.getThemedDrawableByKey(context, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
             this.linearLayout2.addView(this.bottomCell[0], LayoutHelper.createLinear(-1, -2));
-        } else if (i7 == 3) {
+        } else if (i8 == 3) {
             this.inputFields = new EditTextBoldCursor[2];
-            int i18 = 0;
-            for (int i19 = 2; i18 < i19; i19 = 2) {
-                if (i18 == 0) {
+            int i19 = 0;
+            for (int i20 = 2; i19 < i20; i20 = 2) {
+                if (i19 == 0) {
                     z = false;
                     this.headerCell[0] = new HeaderCell(context, this.resourcesProvider);
                     this.headerCell[0].setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
@@ -1883,12 +1882,12 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                 FrameLayout frameLayout6 = new FrameLayout(context);
                 frameLayout6.setClipChildren(z);
                 this.linearLayout2.addView(frameLayout6, LayoutHelper.createLinear(-1, 50));
-                int i20 = Theme.key_windowBackgroundWhite;
-                frameLayout6.setBackgroundColor(getThemedColor(i20));
-                boolean z5 = i18 != 1;
+                int i21 = Theme.key_windowBackgroundWhite;
+                frameLayout6.setBackgroundColor(getThemedColor(i21));
+                boolean z5 = i19 != 1;
                 if (z5) {
-                    if (i18 != 7 || this.paymentForm.invoice.phone_requested) {
-                        if (i18 == 6) {
+                    if (i19 != 7 || this.paymentForm.invoice.phone_requested) {
+                        if (i19 == 6) {
                             TLRPC$TL_invoice tLRPC$TL_invoice8 = this.paymentForm.invoice;
                             if (!tLRPC$TL_invoice8.phone_requested) {
                             }
@@ -1903,53 +1902,55 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                             canvas.drawLine(LocaleController.isRTL ? 0.0f : AndroidUtilities.dp(20.0f), getMeasuredHeight() - 1, getMeasuredWidth() - (LocaleController.isRTL ? AndroidUtilities.dp(20.0f) : 0), getMeasuredHeight() - 1, Theme.dividerPaint);
                         }
                     };
-                    view3.setBackgroundColor(getThemedColor(i20));
+                    view3.setBackgroundColor(getThemedColor(i21));
                     this.dividers.add(view3);
                     frameLayout6.addView(view3, new FrameLayout.LayoutParams(-1, 1, 83));
                 }
-                this.inputFields[i18] = new EditTextBoldCursor(context);
-                this.inputFields[i18].setTag(Integer.valueOf(i18));
-                this.inputFields[i18].setTextSize(1, 16.0f);
-                this.inputFields[i18].setHintTextColor(getThemedColor(Theme.key_windowBackgroundWhiteHintText));
-                EditTextBoldCursor editTextBoldCursor4 = this.inputFields[i18];
-                int i21 = Theme.key_windowBackgroundWhiteBlackText;
-                editTextBoldCursor4.setTextColor(getThemedColor(i21));
-                this.inputFields[i18].setBackgroundDrawable(null);
-                this.inputFields[i18].setCursorColor(getThemedColor(i21));
-                this.inputFields[i18].setCursorSize(AndroidUtilities.dp(20.0f));
-                this.inputFields[i18].setCursorWidth(1.5f);
-                if (i18 == 0) {
-                    this.inputFields[i18].setOnTouchListener(PaymentFormActivity$$ExternalSyntheticLambda24.INSTANCE);
-                    this.inputFields[i18].setInputType(0);
+                this.inputFields[i19] = new EditTextBoldCursor(context);
+                this.inputFields[i19].setTag(Integer.valueOf(i19));
+                this.inputFields[i19].setTextSize(1, 16.0f);
+                this.inputFields[i19].setHintTextColor(getThemedColor(Theme.key_windowBackgroundWhiteHintText));
+                EditTextBoldCursor editTextBoldCursor4 = this.inputFields[i19];
+                int i22 = Theme.key_windowBackgroundWhiteBlackText;
+                editTextBoldCursor4.setTextColor(getThemedColor(i22));
+                this.inputFields[i19].setBackgroundDrawable(null);
+                this.inputFields[i19].setCursorColor(getThemedColor(i22));
+                this.inputFields[i19].setCursorSize(AndroidUtilities.dp(20.0f));
+                this.inputFields[i19].setCursorWidth(1.5f);
+                if (i19 == 0) {
+                    this.inputFields[i19].setOnTouchListener(PaymentFormActivity$$ExternalSyntheticLambda24.INSTANCE);
+                    this.inputFields[i19].setInputType(0);
                 } else {
-                    this.inputFields[i18].setInputType(129);
-                    this.inputFields[i18].setTypeface(Typeface.DEFAULT);
+                    this.inputFields[i19].setInputType(129);
+                    this.inputFields[i19].setTypeface(Typeface.DEFAULT);
                 }
-                this.inputFields[i18].setImeOptions(268435462);
-                if (i18 == 0) {
-                    this.inputFields[i18].setText(this.savedCredentialsCard.title);
-                } else if (i18 == 1) {
-                    this.inputFields[i18].setHint(LocaleController.getString("LoginPassword", R.string.LoginPassword));
-                    this.inputFields[i18].requestFocus();
+                this.inputFields[i19].setImeOptions(268435462);
+                if (i19 == 0) {
+                    EditTextBoldCursor editTextBoldCursor5 = this.inputFields[i19];
+                    TLRPC$TL_paymentSavedCredentialsCard tLRPC$TL_paymentSavedCredentialsCard = this.savedCredentialsCard;
+                    editTextBoldCursor5.setText(tLRPC$TL_paymentSavedCredentialsCard == null ? "" : tLRPC$TL_paymentSavedCredentialsCard.title);
+                } else if (i19 == 1) {
+                    this.inputFields[i19].setHint(LocaleController.getString("LoginPassword", R.string.LoginPassword));
+                    this.inputFields[i19].requestFocus();
                 }
-                this.inputFields[i18].setPadding(0, 0, 0, AndroidUtilities.dp(6.0f));
-                this.inputFields[i18].setGravity(LocaleController.isRTL ? 5 : 3);
-                frameLayout6.addView(this.inputFields[i18], LayoutHelper.createFrame(-1, -2.0f, 51, 21.0f, 12.0f, 21.0f, 6.0f));
-                this.inputFields[i18].setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.PaymentFormActivity$$ExternalSyntheticLambda27
+                this.inputFields[i19].setPadding(0, 0, 0, AndroidUtilities.dp(6.0f));
+                this.inputFields[i19].setGravity(LocaleController.isRTL ? 5 : 3);
+                frameLayout6.addView(this.inputFields[i19], LayoutHelper.createFrame(-1, -2.0f, 51, 21.0f, 12.0f, 21.0f, 6.0f));
+                this.inputFields[i19].setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.PaymentFormActivity$$ExternalSyntheticLambda27
                     @Override // android.widget.TextView.OnEditorActionListener
-                    public final boolean onEditorAction(TextView textView2, int i22, KeyEvent keyEvent) {
+                    public final boolean onEditorAction(TextView textView2, int i23, KeyEvent keyEvent) {
                         boolean lambda$createView$11;
-                        lambda$createView$11 = PaymentFormActivity.this.lambda$createView$11(textView2, i22, keyEvent);
+                        lambda$createView$11 = PaymentFormActivity.this.lambda$createView$11(textView2, i23, keyEvent);
                         return lambda$createView$11;
                     }
                 });
-                if (i18 == 1) {
+                if (i19 == 1) {
                     this.bottomCell[0] = new TextInfoPrivacyCell(context, this.resourcesProvider);
                     this.bottomCell[0].setText(LocaleController.formatString("PaymentConfirmationMessage", R.string.PaymentConfirmationMessage, this.savedCredentialsCard.title));
                     TextInfoPrivacyCell textInfoPrivacyCell2 = this.bottomCell[0];
-                    int i22 = R.drawable.greydivider;
-                    int i23 = Theme.key_windowBackgroundGrayShadow;
-                    textInfoPrivacyCell2.setBackgroundDrawable(Theme.getThemedDrawableByKey(context, i22, i23));
+                    int i23 = R.drawable.greydivider;
+                    int i24 = Theme.key_windowBackgroundGrayShadow;
+                    textInfoPrivacyCell2.setBackgroundDrawable(Theme.getThemedDrawableByKey(context, i23, i24));
                     this.linearLayout2.addView(this.bottomCell[0], LayoutHelper.createLinear(-1, -2));
                     this.settingsCell[0] = new TextSettingsCell(context, this.resourcesProvider);
                     this.settingsCell[0].setBackgroundDrawable(Theme.getSelectorDrawable(true));
@@ -1962,12 +1963,12 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                         }
                     });
                     this.bottomCell[1] = new TextInfoPrivacyCell(context, this.resourcesProvider);
-                    this.bottomCell[1].setBackgroundDrawable(Theme.getThemedDrawableByKey(context, R.drawable.greydivider_bottom, i23));
+                    this.bottomCell[1].setBackgroundDrawable(Theme.getThemedDrawableByKey(context, R.drawable.greydivider_bottom, i24));
                     this.linearLayout2.addView(this.bottomCell[1], LayoutHelper.createLinear(-1, -2));
                 }
-                i18++;
+                i19++;
             }
-        } else if (i7 == 4 || i7 == 5) {
+        } else if (i8 == 4 || i8 == 5) {
             PaymentInfoCell paymentInfoCell = new PaymentInfoCell(context);
             this.paymentInfoCell = paymentInfoCell;
             paymentInfoCell.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
@@ -1998,8 +1999,8 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                 arrayList.addAll(tLRPC$TL_shippingOption2.prices);
             }
             this.totalPrice = new String[1];
-            for (int i24 = 0; i24 < this.prices.size(); i24++) {
-                TLRPC$TL_labeledPrice tLRPC$TL_labeledPrice = this.prices.get(i24);
+            for (int i25 = 0; i25 < this.prices.size(); i25++) {
+                TLRPC$TL_labeledPrice tLRPC$TL_labeledPrice = this.prices.get(i25);
                 TextPriceCell textPriceCell = new TextPriceCell(context);
                 textPriceCell.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
                 textPriceCell.setTextAndValue(tLRPC$TL_labeledPrice.label, LocaleController.getInstance().formatCurrencyString(tLRPC$TL_labeledPrice.amount, this.paymentForm.invoice.currency), false);
@@ -2013,14 +2014,14 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
             }
             TextPriceCell textPriceCell3 = new TextPriceCell(context);
             this.totalCell = textPriceCell3;
-            int i25 = Theme.key_windowBackgroundWhite;
-            textPriceCell3.setBackgroundColor(getThemedColor(i25));
+            int i26 = Theme.key_windowBackgroundWhite;
+            textPriceCell3.setBackgroundColor(getThemedColor(i26));
             this.totalPrice[0] = getTotalPriceString(this.prices);
             this.totalCell.setTextAndValue(LocaleController.getString("PaymentTransactionTotal", R.string.PaymentTransactionTotal), this.totalPrice[0], true);
             if (this.currentStep == 4 && (this.paymentForm.invoice.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
                 FrameLayout frameLayout7 = new FrameLayout(context);
                 frameLayout7.setClipChildren(false);
-                frameLayout7.setBackgroundColor(getThemedColor(i25));
+                frameLayout7.setBackgroundColor(getThemedColor(i26));
                 this.linearLayout2.addView(frameLayout7, LayoutHelper.createLinear(-1, this.paymentForm.invoice.suggested_tip_amounts.isEmpty() ? 40 : 78));
                 frameLayout7.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.PaymentFormActivity$$ExternalSyntheticLambda11
                     @Override // android.view.View.OnClickListener
@@ -2029,17 +2030,17 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                     }
                 });
                 TextPriceCell textPriceCell4 = new TextPriceCell(context);
-                textPriceCell4.setBackgroundColor(getThemedColor(i25));
+                textPriceCell4.setBackgroundColor(getThemedColor(i26));
                 textPriceCell4.setTextAndValue(LocaleController.getString("PaymentTipOptional", R.string.PaymentTipOptional), "", false);
                 frameLayout7.addView(textPriceCell4);
                 this.inputFields = r1;
                 EditTextBoldCursor[] editTextBoldCursorArr2 = {new EditTextBoldCursor(context)};
                 this.inputFields[0].setTag(0);
                 this.inputFields[0].setTextSize(1, 16.0f);
-                EditTextBoldCursor editTextBoldCursor5 = this.inputFields[0];
-                int i26 = Theme.key_windowBackgroundWhiteGrayText2;
-                editTextBoldCursor5.setHintTextColor(getThemedColor(i26));
-                this.inputFields[0].setTextColor(getThemedColor(i26));
+                EditTextBoldCursor editTextBoldCursor6 = this.inputFields[0];
+                int i27 = Theme.key_windowBackgroundWhiteGrayText2;
+                editTextBoldCursor6.setHintTextColor(getThemedColor(i27));
+                this.inputFields[0].setTextColor(getThemedColor(i27));
                 this.inputFields[0].setBackgroundDrawable(null);
                 this.inputFields[0].setCursorColor(getThemedColor(Theme.key_windowBackgroundWhiteBlackText));
                 this.inputFields[0].setCursorSize(AndroidUtilities.dp(20.0f));
@@ -2060,58 +2061,58 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                     private String overrideText;
 
                     @Override // android.text.TextWatcher
-                    public void onTextChanged(CharSequence charSequence, int i27, int i28, int i29) {
+                    public void onTextChanged(CharSequence charSequence, int i28, int i29, int i30) {
                     }
 
-                    private int indexOfComma(String str10) {
-                        int i27 = 0;
+                    private int indexOfComma(String str9) {
+                        int i28 = 0;
                         while (true) {
                             char[] cArr = this.commas;
-                            if (i27 >= cArr.length) {
+                            if (i28 >= cArr.length) {
                                 return -1;
                             }
-                            int indexOf = str10.indexOf(cArr[i27]);
+                            int indexOf = str9.indexOf(cArr[i28]);
                             if (indexOf >= 0) {
                                 return indexOf;
                             }
-                            i27++;
+                            i28++;
                         }
                     }
 
                     @Override // android.text.TextWatcher
-                    public void beforeTextChanged(CharSequence charSequence, int i27, int i28, int i29) {
+                    public void beforeTextChanged(CharSequence charSequence, int i28, int i29, int i30) {
                         if (PaymentFormActivity.this.ignoreOnTextChange) {
                             return;
                         }
                         this.anyBefore = !TextUtils.isEmpty(charSequence);
                         this.overrideText = null;
                         this.beforeTextLength = charSequence == null ? 0 : charSequence.length();
-                        this.enteredCharacterStart = i27;
-                        boolean z6 = i28 == 1 && i29 == 0;
+                        this.enteredCharacterStart = i28;
+                        boolean z6 = i29 == 1 && i30 == 0;
                         this.isDeletedChar = z6;
                         if (!z6) {
                             return;
                         }
                         String fixNumbers = LocaleController.fixNumbers(charSequence);
-                        char charAt = fixNumbers.charAt(i27);
+                        char charAt = fixNumbers.charAt(i28);
                         int indexOfComma = indexOfComma(fixNumbers);
                         String substring = indexOfComma >= 0 ? fixNumbers.substring(indexOfComma + 1) : "";
                         long longValue2 = Utilities.parseLong(PhoneFormat.stripExceptNumbers(substring)).longValue();
                         if ((charAt >= '0' && charAt <= '9') || (substring.length() != 0 && longValue2 == 0)) {
-                            if (indexOfComma <= 0 || i27 <= indexOfComma || longValue2 != 0) {
+                            if (indexOfComma <= 0 || i28 <= indexOfComma || longValue2 != 0) {
                                 return;
                             }
                             this.overrideText = fixNumbers.substring(0, indexOfComma - 1);
                             return;
                         }
                         while (true) {
-                            i27--;
-                            if (i27 < 0) {
+                            i28--;
+                            if (i28 < 0) {
                                 return;
                             }
-                            char charAt2 = fixNumbers.charAt(i27);
+                            char charAt2 = fixNumbers.charAt(i28);
                             if (charAt2 >= '0' && charAt2 <= '9') {
-                                this.overrideText = fixNumbers.substring(0, i27) + fixNumbers.substring(i27 + 1);
+                                this.overrideText = fixNumbers.substring(0, i28) + fixNumbers.substring(i28 + 1);
                                 return;
                             }
                         }
@@ -2125,25 +2126,25 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                             return;
                         }
                         long longValue2 = PaymentFormActivity.this.tipAmount != null ? PaymentFormActivity.this.tipAmount.longValue() : 0L;
-                        String str10 = this.overrideText;
-                        if (str10 == null) {
-                            str10 = LocaleController.fixNumbers(editable.toString());
+                        String str9 = this.overrideText;
+                        if (str9 == null) {
+                            str9 = LocaleController.fixNumbers(editable.toString());
                         }
-                        int indexOfComma = indexOfComma(str10);
+                        int indexOfComma = indexOfComma(str9);
                         boolean z7 = indexOfComma >= 0;
                         int currencyExpDivider = LocaleController.getCurrencyExpDivider(PaymentFormActivity.this.paymentForm.invoice.currency);
-                        String substring2 = indexOfComma >= 0 ? str10.substring(0, indexOfComma) : str10;
-                        String str11 = "";
-                        String substring3 = indexOfComma >= 0 ? str10.substring(indexOfComma + 1) : "";
+                        String substring2 = indexOfComma >= 0 ? str9.substring(0, indexOfComma) : str9;
+                        String str10 = "";
+                        String substring3 = indexOfComma >= 0 ? str9.substring(indexOfComma + 1) : "";
                         long longValue3 = Utilities.parseLong(PhoneFormat.stripExceptNumbers(substring2)).longValue() * currencyExpDivider;
                         long longValue4 = Utilities.parseLong(PhoneFormat.stripExceptNumbers(substring3)).longValue();
-                        String str12 = "" + longValue4;
-                        String str13 = "" + (currencyExpDivider - 1);
-                        if (indexOfComma > 0 && str12.length() > str13.length()) {
-                            if (this.enteredCharacterStart - indexOfComma < str12.length()) {
-                                substring = str12.substring(0, str13.length());
+                        String str11 = "" + longValue4;
+                        String str12 = "" + (currencyExpDivider - 1);
+                        if (indexOfComma > 0 && str11.length() > str12.length()) {
+                            if (this.enteredCharacterStart - indexOfComma < str11.length()) {
+                                substring = str11.substring(0, str12.length());
                             } else {
-                                substring = str12.substring(str12.length() - str13.length());
+                                substring = str11.substring(str11.length() - str12.length());
                             }
                             longValue4 = Utilities.parseLong(substring).longValue();
                         }
@@ -2158,10 +2159,10 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                             PaymentFormActivity.this.inputFields[0].setText("");
                             z6 = z7;
                         } else {
-                            EditTextBoldCursor editTextBoldCursor6 = PaymentFormActivity.this.inputFields[0];
+                            EditTextBoldCursor editTextBoldCursor7 = PaymentFormActivity.this.inputFields[0];
                             z6 = z7;
-                            str11 = LocaleController.getInstance().formatCurrencyString(PaymentFormActivity.this.tipAmount.longValue(), false, z7, true, PaymentFormActivity.this.paymentForm.invoice.currency);
-                            editTextBoldCursor6.setText(str11);
+                            str10 = LocaleController.getInstance().formatCurrencyString(PaymentFormActivity.this.tipAmount.longValue(), false, z7, true, PaymentFormActivity.this.paymentForm.invoice.currency);
+                            editTextBoldCursor7.setText(str10);
                         }
                         if (longValue2 < PaymentFormActivity.this.tipAmount.longValue() && longValue2 != 0 && this.anyBefore && selectionStart >= 0) {
                             PaymentFormActivity.this.inputFields[0].setSelection(Math.min(selectionStart, PaymentFormActivity.this.inputFields[0].length()));
@@ -2170,7 +2171,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                         } else if (this.lastDotEntered || !z6 || indexOfComma < 0) {
                             PaymentFormActivity.this.inputFields[0].setSelection(PaymentFormActivity.this.inputFields[0].length());
                         } else {
-                            int indexOfComma2 = indexOfComma(str11);
+                            int indexOfComma2 = indexOfComma(str10);
                             if (indexOfComma2 > 0) {
                                 PaymentFormActivity.this.inputFields[0].setSelection(indexOfComma2 + 1);
                             } else {
@@ -2197,45 +2198,44 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                     final int[] iArr2 = new int[1];
                     final int size2 = this.paymentForm.invoice.suggested_tip_amounts.size();
                     c = 5;
-                    str = "";
-                    r12 = 0;
+                    r11 = 0;
                     frameLayout = frameLayout4;
                     LinearLayout linearLayout2 = new LinearLayout(this, context) { // from class: org.telegram.ui.PaymentFormActivity.12
                         boolean ignoreLayout;
 
                         @Override // android.widget.LinearLayout, android.view.View
-                        protected void onMeasure(int i27, int i28) {
+                        protected void onMeasure(int i28, int i29) {
                             View childAt;
-                            int size3 = View.MeasureSpec.getSize(i27);
+                            int size3 = View.MeasureSpec.getSize(i28);
                             this.ignoreLayout = true;
                             int dp = AndroidUtilities.dp(9.0f);
-                            int i29 = size2;
-                            int i30 = dp * (i29 - 1);
-                            int i31 = (iArr[0] * i29) + i30;
+                            int i30 = size2;
+                            int i31 = dp * (i30 - 1);
+                            int i32 = (iArr[0] * i30) + i31;
                             float f = 1.0f;
-                            if (i31 <= size3) {
+                            if (i32 <= size3) {
                                 setWeightSum(1.0f);
                                 int childCount = getChildCount();
-                                for (int i32 = 0; i32 < childCount; i32++) {
-                                    getChildAt(i32).getLayoutParams().width = 0;
-                                    ((LinearLayout.LayoutParams) getChildAt(i32).getLayoutParams()).weight = 1.0f / childCount;
+                                for (int i33 = 0; i33 < childCount; i33++) {
+                                    getChildAt(i33).getLayoutParams().width = 0;
+                                    ((LinearLayout.LayoutParams) getChildAt(i33).getLayoutParams()).weight = 1.0f / childCount;
                                 }
-                            } else if (iArr2[0] + i30 <= size3) {
+                            } else if (iArr2[0] + i31 <= size3) {
                                 setWeightSum(1.0f);
-                                int i33 = size3 - i30;
+                                int i34 = size3 - i31;
                                 int childCount2 = getChildCount();
-                                for (int i34 = 0; i34 < childCount2; i34++) {
-                                    LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) getChildAt(i34).getLayoutParams();
+                                for (int i35 = 0; i35 < childCount2; i35++) {
+                                    LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) getChildAt(i35).getLayoutParams();
                                     layoutParams.width = 0;
-                                    float intValue = ((Integer) childAt.getTag(R.id.width_tag)).intValue() / i33;
+                                    float intValue = ((Integer) childAt.getTag(R.id.width_tag)).intValue() / i34;
                                     layoutParams.weight = intValue;
                                     f -= intValue;
                                 }
                                 float f2 = f / (size2 - 1);
                                 if (f2 > 0.0f) {
                                     int childCount3 = getChildCount();
-                                    for (int i35 = 0; i35 < childCount3; i35++) {
-                                        View childAt2 = getChildAt(i35);
+                                    for (int i36 = 0; i36 < childCount3; i36++) {
+                                        View childAt2 = getChildAt(i36);
                                         LinearLayout.LayoutParams layoutParams2 = (LinearLayout.LayoutParams) childAt2.getLayoutParams();
                                         if (((Integer) childAt2.getTag(R.id.width_tag)).intValue() != iArr[0]) {
                                             layoutParams2.weight += f2;
@@ -2245,13 +2245,13 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                             } else {
                                 setWeightSum(0.0f);
                                 int childCount4 = getChildCount();
-                                for (int i36 = 0; i36 < childCount4; i36++) {
-                                    getChildAt(i36).getLayoutParams().width = -2;
-                                    ((LinearLayout.LayoutParams) getChildAt(i36).getLayoutParams()).weight = 0.0f;
+                                for (int i37 = 0; i37 < childCount4; i37++) {
+                                    getChildAt(i37).getLayoutParams().width = -2;
+                                    ((LinearLayout.LayoutParams) getChildAt(i37).getLayoutParams()).weight = 0.0f;
                                 }
                             }
                             this.ignoreLayout = false;
-                            super.onMeasure(i27, i28);
+                            super.onMeasure(i28, i29);
                         }
 
                         @Override // android.view.View, android.view.ViewParent
@@ -2266,12 +2266,12 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                     linearLayout2.setOrientation(0);
                     horizontalScrollView.addView(this.tipLayout, LayoutHelper.createScroll(-1, 30, 51));
                     int themedColor = getThemedColor(Theme.key_contacts_inviteBackground);
-                    int i27 = 0;
-                    while (i27 < size2) {
+                    int i28 = 0;
+                    while (i28 < size2) {
                         if (LocaleController.isRTL) {
-                            longValue = this.paymentForm.invoice.suggested_tip_amounts.get((size2 - i27) - 1).longValue();
+                            longValue = this.paymentForm.invoice.suggested_tip_amounts.get((size2 - i28) - 1).longValue();
                         } else {
-                            longValue = this.paymentForm.invoice.suggested_tip_amounts.get(i27).longValue();
+                            longValue = this.paymentForm.invoice.suggested_tip_amounts.get(i28).longValue();
                         }
                         String formatCurrencyString = LocaleController.getInstance().formatCurrencyString(longValue, this.paymentForm.invoice.currency);
                         final TextView textView2 = new TextView(context);
@@ -2286,7 +2286,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                         textView2.setBackground(Theme.createRoundRectDrawable(AndroidUtilities.dp(15.0f), 536870911 & themedColor));
                         textView2.setSingleLine(true);
                         textView2.setGravity(17);
-                        this.tipLayout.addView(textView2, LayoutHelper.createLinear(-2, -1, 19, 0, 0, i27 != size2 + (-1) ? 9 : 0, 0));
+                        this.tipLayout.addView(textView2, LayoutHelper.createLinear(-2, -1, 19, 0, 0, i28 != size2 + (-1) ? 9 : 0, 0));
                         textView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.PaymentFormActivity$$ExternalSyntheticLambda20
                             @Override // android.view.View.OnClickListener
                             public final void onClick(View view4) {
@@ -2297,22 +2297,22 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                         textView2.setTag(R.id.width_tag, Integer.valueOf(ceil));
                         iArr[0] = Math.max(iArr[0], ceil);
                         iArr2[0] = iArr2[0] + ceil;
-                        i27++;
+                        i28++;
                     }
                     this.linearLayout2.addView(this.totalCell);
                     this.sectionCell[2] = new ShadowSectionCell(context, this.resourcesProvider);
                     this.sectionCell[2].setBackgroundDrawable(Theme.getThemedDrawableByKey(context, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
                     this.linearLayout2.addView(this.sectionCell[2], LayoutHelper.createLinear(-1, -2));
-                    this.detailSettingsCell[r12] = new TextDetailSettingsCell(context);
-                    this.detailSettingsCell[r12].setBackgroundDrawable(Theme.getSelectorDrawable(true));
-                    TextDetailSettingsCell textDetailSettingsCell = this.detailSettingsCell[r12];
-                    String str10 = this.cardName;
-                    textDetailSettingsCell.setTextAndValueAndIcon((str10 != null || str10.length() <= 1) ? this.cardName : this.cardName.substring(r12, 1).toUpperCase() + this.cardName.substring(1), LocaleController.getString("PaymentCheckoutMethod", R.string.PaymentCheckoutMethod), R.drawable.msg_payment_card, true);
-                    i = (this.isCheckoutPreview || ((str3 = this.cardName) != null && str3.length() > 1)) ? 0 : 8;
-                    this.detailSettingsCell[r12].setVisibility(i);
-                    this.linearLayout2.addView(this.detailSettingsCell[r12]);
+                    this.detailSettingsCell[r11] = new TextDetailSettingsCell(context);
+                    this.detailSettingsCell[r11].setBackgroundDrawable(Theme.getSelectorDrawable(true));
+                    TextDetailSettingsCell textDetailSettingsCell = this.detailSettingsCell[r11];
+                    String str9 = this.cardName;
+                    textDetailSettingsCell.setTextAndValueAndIcon((str9 != null || str9.length() <= 1) ? this.cardName : this.cardName.substring(r11, 1).toUpperCase() + this.cardName.substring(1), LocaleController.getString("PaymentCheckoutMethod", R.string.PaymentCheckoutMethod), R.drawable.msg_payment_card, true);
+                    i = (this.isCheckoutPreview || ((str = this.cardName) != null && str.length() > 1)) ? 0 : 8;
+                    this.detailSettingsCell[r11].setVisibility(i);
+                    this.linearLayout2.addView(this.detailSettingsCell[r11]);
                     if (this.currentStep == 4) {
-                        this.detailSettingsCell[r12].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.PaymentFormActivity$$ExternalSyntheticLambda13
+                        this.detailSettingsCell[r11].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.PaymentFormActivity$$ExternalSyntheticLambda13
                             @Override // android.view.View.OnClickListener
                             public final void onClick(View view4) {
                                 PaymentFormActivity.this.lambda$createView$16(view4);
@@ -2328,16 +2328,14 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                     }
                     this.detailSettingsCell[1] = new TextDetailSettingsCell(context);
                     this.detailSettingsCell[1].setBackground(Theme.getSelectorDrawable(true));
-                    if (tLRPC$User == null) {
+                    if (tLRPC$User != null) {
                         TextDetailSettingsCell textDetailSettingsCell2 = this.detailSettingsCell[1];
-                        str2 = ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name);
+                        str6 = ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name);
                         String string = LocaleController.getString("PaymentCheckoutProvider", R.string.PaymentCheckoutProvider);
-                        int i28 = R.drawable.msg_payment_provider;
+                        int i29 = R.drawable.msg_payment_provider;
                         TLRPC$TL_payments_validateRequestedInfo tLRPC$TL_payments_validateRequestedInfo2 = this.validateRequest;
-                        textDetailSettingsCell2.setTextAndValueAndIcon(str2, string, i28, ((tLRPC$TL_payments_validateRequestedInfo2 == null || (tLRPC$TL_payments_validateRequestedInfo2.info.shipping_address == null && this.shippingOption == null)) && ((tLRPC$TL_paymentRequestedInfo2 = this.paymentForm.saved_info) == null || tLRPC$TL_paymentRequestedInfo2.shipping_address == null)) ? false : true);
+                        textDetailSettingsCell2.setTextAndValueAndIcon(str6, string, i29, ((tLRPC$TL_payments_validateRequestedInfo2 == null || (tLRPC$TL_payments_validateRequestedInfo2.info.shipping_address == null && this.shippingOption == null)) && ((tLRPC$TL_paymentRequestedInfo2 = this.paymentForm.saved_info) == null || tLRPC$TL_paymentRequestedInfo2.shipping_address == null)) ? false : true);
                         this.linearLayout2.addView(this.detailSettingsCell[1]);
-                    } else {
-                        str2 = str;
                     }
                     this.detailSettingsCell[1].setVisibility(tLRPC$User == null ? i : 8);
                     tLRPC$TL_payments_validateRequestedInfo = this.validateRequest;
@@ -2347,7 +2345,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                         this.detailSettingsCell[2].setVisibility(8);
                         this.linearLayout2.addView(this.detailSettingsCell[2]);
                         if (tLRPC$TL_paymentRequestedInfo.shipping_address != null) {
-                            this.detailSettingsCell[2].setVisibility(r12);
+                            this.detailSettingsCell[2].setVisibility(r11);
                             if (this.currentStep == 4) {
                                 this.detailSettingsCell[2].setBackgroundDrawable(Theme.getSelectorDrawable(true));
                                 this.detailSettingsCell[2].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.PaymentFormActivity$$ExternalSyntheticLambda19
@@ -2364,7 +2362,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                         this.detailSettingsCell[3].setVisibility(8);
                         this.linearLayout2.addView(this.detailSettingsCell[3]);
                         if (tLRPC$TL_paymentRequestedInfo.name != null) {
-                            this.detailSettingsCell[3].setVisibility(r12);
+                            this.detailSettingsCell[3].setVisibility(r11);
                             if (this.currentStep == 4) {
                                 this.detailSettingsCell[3].setBackgroundDrawable(Theme.getSelectorDrawable(true));
                                 this.detailSettingsCell[3].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.PaymentFormActivity$$ExternalSyntheticLambda14
@@ -2381,7 +2379,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                         this.detailSettingsCell[4].setVisibility(8);
                         this.linearLayout2.addView(this.detailSettingsCell[4]);
                         if (tLRPC$TL_paymentRequestedInfo.phone != null) {
-                            this.detailSettingsCell[4].setVisibility(r12);
+                            this.detailSettingsCell[4].setVisibility(r11);
                             if (this.currentStep == 4) {
                                 this.detailSettingsCell[4].setBackgroundDrawable(Theme.getSelectorDrawable(true));
                                 this.detailSettingsCell[4].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.PaymentFormActivity$$ExternalSyntheticLambda10
@@ -2398,7 +2396,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                         this.detailSettingsCell[c].setVisibility(8);
                         this.linearLayout2.addView(this.detailSettingsCell[c]);
                         if (tLRPC$TL_paymentRequestedInfo.email != null) {
-                            this.detailSettingsCell[c].setVisibility(r12);
+                            this.detailSettingsCell[c].setVisibility(r11);
                             if (this.currentStep == 4) {
                                 this.detailSettingsCell[c].setBackgroundDrawable(Theme.getSelectorDrawable(true));
                                 this.detailSettingsCell[c].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.PaymentFormActivity$$ExternalSyntheticLambda15
@@ -2414,7 +2412,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                         if (this.shippingOption != null) {
                             this.detailSettingsCell[6] = new TextDetailSettingsCell(context);
                             this.detailSettingsCell[6].setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
-                            this.detailSettingsCell[6].setTextAndValueAndIcon(this.shippingOption.title, LocaleController.getString("PaymentCheckoutShippingMethod", R.string.PaymentCheckoutShippingMethod), R.drawable.msg_payment_delivery, r12);
+                            this.detailSettingsCell[6].setTextAndValueAndIcon(this.shippingOption.title, LocaleController.getString("PaymentCheckoutShippingMethod", R.string.PaymentCheckoutShippingMethod), R.drawable.msg_payment_delivery, r11);
                             this.linearLayout2.addView(this.detailSettingsCell[6]);
                         }
                         setAddressFields(tLRPC$TL_paymentRequestedInfo);
@@ -2424,42 +2422,45 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                         this.isAcceptTermsChecked = z6;
                         this.recurrentAccepted = z6;
                         this.bottomLayout = new BottomFrameLayout(context, this.paymentForm);
-                        int i29 = Build.VERSION.SDK_INT;
-                        if (i29 >= 21) {
+                        int i30 = Build.VERSION.SDK_INT;
+                        if (i30 >= 21) {
                             View view4 = new View(context);
-                            view4.setBackground(Theme.getSelectorDrawable(getThemedColor(Theme.key_listSelector), (boolean) r12));
+                            view4.setBackground(Theme.getSelectorDrawable(getThemedColor(Theme.key_listSelector), (boolean) r11));
+                            i3 = -1;
                             this.bottomLayout.addView(view4, LayoutHelper.createFrame(-1, -1.0f));
+                        } else {
+                            i3 = -1;
                         }
                         FrameLayout frameLayout8 = frameLayout;
-                        frameLayout8.addView(this.bottomLayout, LayoutHelper.createFrame(-1, 48, 80));
+                        frameLayout8.addView(this.bottomLayout, LayoutHelper.createFrame(i3, 48, 80));
                         this.bottomLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.PaymentFormActivity$$ExternalSyntheticLambda21
                             @Override // android.view.View.OnClickListener
                             public final void onClick(View view5) {
-                                PaymentFormActivity.this.lambda$createView$23(str2, view5);
+                                PaymentFormActivity.this.lambda$createView$23(str6, view5);
                             }
                         });
                         TextView textView3 = new TextView(context);
                         this.payTextView = textView3;
-                        int i30 = Theme.key_contacts_inviteText;
-                        textView3.setTextColor(getThemedColor(i30));
+                        int i31 = Theme.key_contacts_inviteText;
+                        textView3.setTextColor(getThemedColor(i31));
                         TextView textView4 = this.payTextView;
-                        int i31 = R.string.PaymentCheckoutPay;
+                        int i32 = R.string.PaymentCheckoutPay;
                         Object[] objArr = new Object[1];
-                        objArr[r12] = this.totalPrice[r12];
-                        textView4.setText(LocaleController.formatString("PaymentCheckoutPay", i31, objArr));
+                        objArr[r11] = this.totalPrice[r11];
+                        textView4.setText(LocaleController.formatString("PaymentCheckoutPay", i32, objArr));
                         this.payTextView.setTextSize(1, 14.0f);
                         this.payTextView.setGravity(17);
                         this.payTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
                         this.bottomLayout.addView(this.payTextView, LayoutHelper.createFrame(-1, -1.0f));
-                        ContextProgressView contextProgressView2 = new ContextProgressView(context, r12);
+                        ContextProgressView contextProgressView2 = new ContextProgressView(context, r11);
                         this.progressViewButton = contextProgressView2;
                         contextProgressView2.setVisibility(4);
-                        int themedColor2 = getThemedColor(i30);
+                        int themedColor2 = getThemedColor(i31);
                         this.progressViewButton.setColors(805306367 & themedColor2, themedColor2);
                         this.bottomLayout.addView(this.progressViewButton, LayoutHelper.createFrame(-1, -1.0f));
                         this.bottomLayout.setChecked(!this.paymentForm.invoice.recurring || this.isAcceptTermsChecked);
                         this.payTextView.setAlpha((!this.paymentForm.invoice.recurring || this.isAcceptTermsChecked) ? 1.0f : 0.8f);
-                        this.doneItem.setEnabled(r12);
+                        this.doneItem.setEnabled(r11);
                         this.doneItem.getContentView().setVisibility(4);
                         AndroidUtilities.checkAndroidTheme(context, true);
                         WebView webView2 = new WebView(this, context) { // from class: org.telegram.ui.PaymentFormActivity.17
@@ -2473,23 +2474,23 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                         webView2.setBackgroundColor(-1);
                         this.webView.getSettings().setJavaScriptEnabled(true);
                         this.webView.getSettings().setDomStorageEnabled(true);
-                        if (i29 >= 21) {
-                            this.webView.getSettings().setMixedContentMode(r12);
+                        if (i30 >= 21) {
+                            this.webView.getSettings().setMixedContentMode(r11);
                             CookieManager.getInstance().setAcceptThirdPartyCookies(this.webView, true);
                         }
                         this.webView.setWebViewClient(new WebViewClient() { // from class: org.telegram.ui.PaymentFormActivity.18
                             @Override // android.webkit.WebViewClient
-                            public void onPageFinished(WebView webView3, String str11) {
-                                super.onPageFinished(webView3, str11);
+                            public void onPageFinished(WebView webView3, String str10) {
+                                super.onPageFinished(webView3, str10);
                                 PaymentFormActivity.this.webviewLoading = false;
                                 PaymentFormActivity.this.showEditDoneProgress(true, false);
                                 PaymentFormActivity.this.updateSavePaymentField();
                             }
 
                             @Override // android.webkit.WebViewClient
-                            public boolean shouldOverrideUrlLoading(WebView webView3, String str11) {
+                            public boolean shouldOverrideUrlLoading(WebView webView3, String str10) {
                                 try {
-                                    Uri parse = Uri.parse(str11);
+                                    Uri parse = Uri.parse(str10);
                                     if ("t.me".equals(parse.getHost())) {
                                         PaymentFormActivity.this.goToNextStep();
                                         return true;
@@ -2521,15 +2522,15 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                             ?? spannableStringBuilder = new SpannableStringBuilder(string2);
                             int indexOf = string2.indexOf(42);
                             int lastIndexOf = string2.lastIndexOf(42);
-                            String str11 = string2;
-                            str11 = string2;
+                            String str10 = string2;
+                            str10 = string2;
                             if (indexOf != -1 && lastIndexOf != -1) {
                                 ?? spannableString = new SpannableString(string2.substring(indexOf + 1, lastIndexOf));
-                                spannableString.setSpan(new URLSpanNoUnderline(this.paymentForm.invoice.terms_url), r12, spannableString.length(), 33);
+                                spannableString.setSpan(new URLSpanNoUnderline(this.paymentForm.invoice.terms_url), r11, spannableString.length(), 33);
                                 spannableStringBuilder.replace(indexOf, lastIndexOf + 1, spannableString);
-                                str11 = string2.substring(r12, indexOf) + spannableString + string2.substring(i3);
+                                str10 = string2.substring(r11, indexOf) + spannableString + string2.substring(i4);
                             }
-                            int indexOf2 = str11.indexOf("%1$s");
+                            int indexOf2 = str10.indexOf("%1$s");
                             if (indexOf2 != -1) {
                                 spannableStringBuilder.replace(indexOf2, indexOf2 + 4, this.currentBotName);
                                 spannableStringBuilder.setSpan(new TypefaceSpan(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM)), indexOf2, this.currentBotName.length() + indexOf2, 33);
@@ -2555,25 +2556,24 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                     this.linearLayout2.addView(this.sectionCell[1], LayoutHelper.createLinear(-1, -2));
                 }
             }
-            str = "";
             frameLayout = frameLayout4;
-            r12 = 0;
+            r11 = 0;
             c = 5;
             this.linearLayout2.addView(this.totalCell);
             this.sectionCell[2] = new ShadowSectionCell(context, this.resourcesProvider);
             this.sectionCell[2].setBackgroundDrawable(Theme.getThemedDrawableByKey(context, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
             this.linearLayout2.addView(this.sectionCell[2], LayoutHelper.createLinear(-1, -2));
-            this.detailSettingsCell[r12] = new TextDetailSettingsCell(context);
-            this.detailSettingsCell[r12].setBackgroundDrawable(Theme.getSelectorDrawable(true));
-            TextDetailSettingsCell textDetailSettingsCell3 = this.detailSettingsCell[r12];
-            String str102 = this.cardName;
-            if (str102 != null) {
+            this.detailSettingsCell[r11] = new TextDetailSettingsCell(context);
+            this.detailSettingsCell[r11].setBackgroundDrawable(Theme.getSelectorDrawable(true));
+            TextDetailSettingsCell textDetailSettingsCell3 = this.detailSettingsCell[r11];
+            String str92 = this.cardName;
+            if (str92 != null) {
             }
-            textDetailSettingsCell3.setTextAndValueAndIcon((str102 != null || str102.length() <= 1) ? this.cardName : this.cardName.substring(r12, 1).toUpperCase() + this.cardName.substring(1), LocaleController.getString("PaymentCheckoutMethod", R.string.PaymentCheckoutMethod), R.drawable.msg_payment_card, true);
+            textDetailSettingsCell3.setTextAndValueAndIcon((str92 != null || str92.length() <= 1) ? this.cardName : this.cardName.substring(r11, 1).toUpperCase() + this.cardName.substring(1), LocaleController.getString("PaymentCheckoutMethod", R.string.PaymentCheckoutMethod), R.drawable.msg_payment_card, true);
             if (this.isCheckoutPreview) {
             }
-            this.detailSettingsCell[r12].setVisibility(i);
-            this.linearLayout2.addView(this.detailSettingsCell[r12]);
+            this.detailSettingsCell[r11].setVisibility(i);
+            this.linearLayout2.addView(this.detailSettingsCell[r11]);
             if (this.currentStep == 4) {
             }
             tLRPC$User = null;
@@ -2581,7 +2581,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
             }
             this.detailSettingsCell[1] = new TextDetailSettingsCell(context);
             this.detailSettingsCell[1].setBackground(Theme.getSelectorDrawable(true));
-            if (tLRPC$User == null) {
+            if (tLRPC$User != null) {
             }
             this.detailSettingsCell[1].setVisibility(tLRPC$User == null ? i : 8);
             tLRPC$TL_payments_validateRequestedInfo = this.validateRequest;
@@ -2620,7 +2620,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                 this.sectionCell[1].setVisibility(i);
             }
             this.linearLayout2.addView(this.sectionCell[1], LayoutHelper.createLinear(-1, -2));
-        } else if (i7 == 6) {
+        } else if (i8 == 6) {
             EditTextSettingsCell editTextSettingsCell = new EditTextSettingsCell(context);
             this.codeFieldCell = editTextSettingsCell;
             editTextSettingsCell.setTextAndHint("", LocaleController.getString("PasswordCode", R.string.PasswordCode), false);
@@ -2630,19 +2630,19 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
             textView5.setImeOptions(6);
             textView5.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.PaymentFormActivity$$ExternalSyntheticLambda26
                 @Override // android.widget.TextView.OnEditorActionListener
-                public final boolean onEditorAction(TextView textView6, int i32, KeyEvent keyEvent) {
+                public final boolean onEditorAction(TextView textView6, int i33, KeyEvent keyEvent) {
                     boolean lambda$createView$25;
-                    lambda$createView$25 = PaymentFormActivity.this.lambda$createView$25(textView6, i32, keyEvent);
+                    lambda$createView$25 = PaymentFormActivity.this.lambda$createView$25(textView6, i33, keyEvent);
                     return lambda$createView$25;
                 }
             });
             textView5.addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.PaymentFormActivity.19
                 @Override // android.text.TextWatcher
-                public void beforeTextChanged(CharSequence charSequence, int i32, int i33, int i34) {
+                public void beforeTextChanged(CharSequence charSequence, int i33, int i34, int i35) {
                 }
 
                 @Override // android.text.TextWatcher
-                public void onTextChanged(CharSequence charSequence, int i32, int i33, int i34) {
+                public void onTextChanged(CharSequence charSequence, int i33, int i34, int i35) {
                 }
 
                 @Override // android.text.TextWatcher
@@ -2660,9 +2660,9 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
             this.settingsCell[1] = new TextSettingsCell(context, this.resourcesProvider);
             this.settingsCell[1].setBackgroundDrawable(Theme.getSelectorDrawable(true));
             TextSettingsCell textSettingsCell = this.settingsCell[1];
-            int i32 = Theme.key_windowBackgroundWhiteBlackText;
-            textSettingsCell.setTag(Integer.valueOf(i32));
-            this.settingsCell[1].setTextColor(getThemedColor(i32));
+            int i33 = Theme.key_windowBackgroundWhiteBlackText;
+            textSettingsCell.setTag(Integer.valueOf(i33));
+            this.settingsCell[1].setTextColor(getThemedColor(i33));
             this.settingsCell[1].setText(LocaleController.getString("ResendCode", R.string.ResendCode), true);
             this.linearLayout2.addView(this.settingsCell[1], LayoutHelper.createLinear(-1, -2));
             this.settingsCell[1].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.PaymentFormActivity$$ExternalSyntheticLambda8
@@ -2674,9 +2674,9 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
             this.settingsCell[0] = new TextSettingsCell(context, this.resourcesProvider);
             this.settingsCell[0].setBackgroundDrawable(Theme.getSelectorDrawable(true));
             TextSettingsCell textSettingsCell2 = this.settingsCell[0];
-            int i33 = Theme.key_text_RedRegular;
-            textSettingsCell2.setTag(Integer.valueOf(i33));
-            this.settingsCell[0].setTextColor(getThemedColor(i33));
+            int i34 = Theme.key_text_RedRegular;
+            textSettingsCell2.setTag(Integer.valueOf(i34));
+            this.settingsCell[0].setTextColor(getThemedColor(i34));
             this.settingsCell[0].setText(LocaleController.getString("AbortPassword", R.string.AbortPassword), false);
             this.linearLayout2.addView(this.settingsCell[0], LayoutHelper.createLinear(-1, -2));
             this.settingsCell[0].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.PaymentFormActivity$$ExternalSyntheticLambda17
@@ -2686,14 +2686,14 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                 }
             });
             this.inputFields = new EditTextBoldCursor[3];
-            int i34 = 0;
-            for (int i35 = 3; i34 < i35; i35 = 3) {
-                if (i34 == 0) {
+            int i35 = 0;
+            for (int i36 = 3; i35 < i36; i36 = 3) {
+                if (i35 == 0) {
                     this.headerCell[0] = new HeaderCell(context, this.resourcesProvider);
                     this.headerCell[0].setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
                     this.headerCell[0].setText(LocaleController.getString("PaymentPasswordTitle", R.string.PaymentPasswordTitle));
                     this.linearLayout2.addView(this.headerCell[0], LayoutHelper.createLinear(-1, -2));
-                } else if (i34 == 2) {
+                } else if (i35 == 2) {
                     this.headerCell[1] = new HeaderCell(context, this.resourcesProvider);
                     this.headerCell[1].setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
                     this.headerCell[1].setText(LocaleController.getString("PaymentPasswordEmailTitle", R.string.PaymentPasswordEmailTitle));
@@ -2702,69 +2702,69 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                 FrameLayout frameLayout9 = new FrameLayout(context);
                 frameLayout9.setClipChildren(false);
                 this.linearLayout2.addView(frameLayout9, LayoutHelper.createLinear(-1, 50));
-                int i36 = Theme.key_windowBackgroundWhite;
-                frameLayout9.setBackgroundColor(getThemedColor(i36));
-                if (i34 == 0) {
+                int i37 = Theme.key_windowBackgroundWhite;
+                frameLayout9.setBackgroundColor(getThemedColor(i37));
+                if (i35 == 0) {
                     View view5 = new View(this, context) { // from class: org.telegram.ui.PaymentFormActivity.20
                         @Override // android.view.View
                         protected void onDraw(Canvas canvas) {
                             canvas.drawLine(LocaleController.isRTL ? 0.0f : AndroidUtilities.dp(20.0f), getMeasuredHeight() - 1, getMeasuredWidth() - (LocaleController.isRTL ? AndroidUtilities.dp(20.0f) : 0), getMeasuredHeight() - 1, Theme.dividerPaint);
                         }
                     };
-                    view5.setBackgroundColor(getThemedColor(i36));
+                    view5.setBackgroundColor(getThemedColor(i37));
                     this.dividers.add(view5);
                     frameLayout9.addView(view5, new FrameLayout.LayoutParams(-1, 1, 83));
                 }
-                this.inputFields[i34] = new EditTextBoldCursor(context);
-                this.inputFields[i34].setTag(Integer.valueOf(i34));
-                this.inputFields[i34].setTextSize(1, 16.0f);
-                this.inputFields[i34].setHintTextColor(getThemedColor(Theme.key_windowBackgroundWhiteHintText));
-                EditTextBoldCursor editTextBoldCursor6 = this.inputFields[i34];
-                int i37 = Theme.key_windowBackgroundWhiteBlackText;
-                editTextBoldCursor6.setTextColor(getThemedColor(i37));
-                this.inputFields[i34].setBackgroundDrawable(null);
-                this.inputFields[i34].setCursorColor(getThemedColor(i37));
-                this.inputFields[i34].setCursorSize(AndroidUtilities.dp(20.0f));
-                this.inputFields[i34].setCursorWidth(1.5f);
-                if (i34 == 0 || i34 == 1) {
-                    this.inputFields[i34].setInputType(129);
-                    this.inputFields[i34].setTypeface(Typeface.DEFAULT);
-                    this.inputFields[i34].setImeOptions(268435461);
+                this.inputFields[i35] = new EditTextBoldCursor(context);
+                this.inputFields[i35].setTag(Integer.valueOf(i35));
+                this.inputFields[i35].setTextSize(1, 16.0f);
+                this.inputFields[i35].setHintTextColor(getThemedColor(Theme.key_windowBackgroundWhiteHintText));
+                EditTextBoldCursor editTextBoldCursor7 = this.inputFields[i35];
+                int i38 = Theme.key_windowBackgroundWhiteBlackText;
+                editTextBoldCursor7.setTextColor(getThemedColor(i38));
+                this.inputFields[i35].setBackgroundDrawable(null);
+                this.inputFields[i35].setCursorColor(getThemedColor(i38));
+                this.inputFields[i35].setCursorSize(AndroidUtilities.dp(20.0f));
+                this.inputFields[i35].setCursorWidth(1.5f);
+                if (i35 == 0 || i35 == 1) {
+                    this.inputFields[i35].setInputType(129);
+                    this.inputFields[i35].setTypeface(Typeface.DEFAULT);
+                    this.inputFields[i35].setImeOptions(268435461);
                 } else {
-                    this.inputFields[i34].setInputType(33);
-                    this.inputFields[i34].setImeOptions(268435462);
+                    this.inputFields[i35].setInputType(33);
+                    this.inputFields[i35].setImeOptions(268435462);
                 }
-                if (i34 == 0) {
-                    this.inputFields[i34].setHint(LocaleController.getString("PaymentPasswordEnter", R.string.PaymentPasswordEnter));
-                    this.inputFields[i34].requestFocus();
-                } else if (i34 == 1) {
-                    this.inputFields[i34].setHint(LocaleController.getString("PaymentPasswordReEnter", R.string.PaymentPasswordReEnter));
-                } else if (i34 == 2) {
-                    this.inputFields[i34].setHint(LocaleController.getString("PaymentPasswordEmail", R.string.PaymentPasswordEmail));
+                if (i35 == 0) {
+                    this.inputFields[i35].setHint(LocaleController.getString("PaymentPasswordEnter", R.string.PaymentPasswordEnter));
+                    this.inputFields[i35].requestFocus();
+                } else if (i35 == 1) {
+                    this.inputFields[i35].setHint(LocaleController.getString("PaymentPasswordReEnter", R.string.PaymentPasswordReEnter));
+                } else if (i35 == 2) {
+                    this.inputFields[i35].setHint(LocaleController.getString("PaymentPasswordEmail", R.string.PaymentPasswordEmail));
                 }
-                this.inputFields[i34].setPadding(0, 0, 0, AndroidUtilities.dp(6.0f));
-                this.inputFields[i34].setGravity(LocaleController.isRTL ? 5 : 3);
-                frameLayout9.addView(this.inputFields[i34], LayoutHelper.createFrame(-1, -2.0f, 51, 21.0f, 12.0f, 21.0f, 6.0f));
-                this.inputFields[i34].setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.PaymentFormActivity$$ExternalSyntheticLambda29
+                this.inputFields[i35].setPadding(0, 0, 0, AndroidUtilities.dp(6.0f));
+                this.inputFields[i35].setGravity(LocaleController.isRTL ? 5 : 3);
+                frameLayout9.addView(this.inputFields[i35], LayoutHelper.createFrame(-1, -2.0f, 51, 21.0f, 12.0f, 21.0f, 6.0f));
+                this.inputFields[i35].setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.PaymentFormActivity$$ExternalSyntheticLambda29
                     @Override // android.widget.TextView.OnEditorActionListener
-                    public final boolean onEditorAction(TextView textView6, int i38, KeyEvent keyEvent) {
+                    public final boolean onEditorAction(TextView textView6, int i39, KeyEvent keyEvent) {
                         boolean lambda$createView$30;
-                        lambda$createView$30 = PaymentFormActivity.this.lambda$createView$30(textView6, i38, keyEvent);
+                        lambda$createView$30 = PaymentFormActivity.this.lambda$createView$30(textView6, i39, keyEvent);
                         return lambda$createView$30;
                     }
                 });
-                if (i34 == 1) {
+                if (i35 == 1) {
                     this.bottomCell[0] = new TextInfoPrivacyCell(context, this.resourcesProvider);
                     this.bottomCell[0].setText(LocaleController.getString("PaymentPasswordInfo", R.string.PaymentPasswordInfo));
                     this.bottomCell[0].setBackgroundDrawable(Theme.getThemedDrawableByKey(context, R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
                     this.linearLayout2.addView(this.bottomCell[0], LayoutHelper.createLinear(-1, -2));
-                } else if (i34 == 2) {
+                } else if (i35 == 2) {
                     this.bottomCell[1] = new TextInfoPrivacyCell(context, this.resourcesProvider);
                     this.bottomCell[1].setText(LocaleController.getString("PaymentPasswordEmailInfo", R.string.PaymentPasswordEmailInfo));
                     this.bottomCell[1].setBackgroundDrawable(Theme.getThemedDrawableByKey(context, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
                     this.linearLayout2.addView(this.bottomCell[1], LayoutHelper.createLinear(-1, -2));
                 }
-                i34++;
+                i35++;
             }
             updatePasswordFields();
         }

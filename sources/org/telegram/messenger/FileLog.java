@@ -160,7 +160,7 @@ public class FileLog {
             HashSet<String> hashSet2 = new HashSet<>();
             excludeRequests = hashSet2;
             hashSet2.add("TL_upload_getFile");
-            excludeRequests.add("TL_upload_a");
+            excludeRequests.add("TL_upload_getWebFile");
             ExclusionStrategy exclusionStrategy = new ExclusionStrategy() { // from class: org.telegram.messenger.FileLog.1
                 @Override // com.google.gson.ExclusionStrategy
                 public boolean shouldSkipField(FieldAttributes fieldAttributes) {

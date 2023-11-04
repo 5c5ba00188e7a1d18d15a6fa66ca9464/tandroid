@@ -1,10 +1,10 @@
 Signature-Version: 1.0
 Created-By: Android Gradle 7.0.3
-SHA-256-Digest-Manifest: 29Mlx7MmsAO/WGYPEZfA31/Rcthf9DxCAJq4+YtBfm0=
+SHA-256-Digest-Manifest: c1sU6QvZAOGLCUckiwqn5+k7jG4zSh63eFG3XYYDc8w=
 X-Android-APK-Signed: 2
 
 Name: AndroidManifest.xml
-SHA-256-Digest: zOIJCPT7y3ouQQN3DvWfttRlFmqAYm0GpXc6RvqlJmA=
+SHA-256-Digest: IEeug2yacgl9BHHv2Uts95iKCzgJaeBvLdFCFMHpuzc=
 
 Name: META-INF/androidx.activity_activity.version
 SHA-256-Digest: VB2/BAS6tzVHQlkRvGm43wcSdht5Ldk99tdvbvkq4zE=
@@ -106,7 +106,7 @@ Name: assets/currencies.json
 SHA-256-Digest: Xn3IhBa36xqtFLAMWVl9K6vD6Pqr3+Lg4Dss9hWhGGQ=
 
 Name: assets/darkblue.attheme
-SHA-256-Digest: MprrproxqKTISrhrbctBDe9iW8sQOEjHkmZNYEFpf70=
+SHA-256-Digest: cgbj5nn2ANPyzO+vpxKamp3PsMfsTKPLZpor38PWxCI=
 
 Name: assets/day.attheme
 SHA-256-Digest: eTjM15/XxEiIUHkhKIZEoiljH8Nk+AHg0la73sMTeEs=
@@ -10909,7 +10909,7 @@ Name: assets/fonts/rmediumitalic.ttf
 SHA-256-Digest: 6emphx+GKWVfDzljpT+BuewDUOFEJJcdLZbiVjxfk0c=
 
 Name: assets/fonts/rmono.ttf
-SHA-256-Digest: fZDANOMLw62+8Lvqm6Bjx4ZUTlxuj7Frdqg+m/rWvQY=
+SHA-256-Digest: zSdzYqU1B0VEuoSswTuQrIXE6Tu3o4mH/6zOpEj/iE0=
 
 Name: assets/langid_model.smfb.jpg
 SHA-256-Digest: LbrCUUDhbHYoU6TTHz2+UgElUGsbPS5VFr4CwPs4ToY=
@@ -10918,7 +10918,7 @@ Name: assets/models/star.binobj
 SHA-256-Digest: 8S7xh0rmyepUVl0iqEkpehWCz9mXNeU8NThoO+vggnU=
 
 Name: assets/night.attheme
-SHA-256-Digest: 7wPBc1K76u1h5P+2jUHroZZ+e/9FbuH7nRGSynNc0Ys=
+SHA-256-Digest: OdnfpATbqq045BKpqhUGztqHN/pv6mNQlRpBpBLVhU8=
 
 Name: assets/secureid_ocr_nn.dat
 SHA-256-Digest: DQy9VQak5xTNoGhWn6vO22t84Qy7vp9EeO0LFLFqxrk=
@@ -10942,16 +10942,16 @@ Name: builddef.lst
 SHA-256-Digest: nV5pCcT+/FvcW5d37qA0E7yBBIkqNsX7vFJzDLqlDuY=
 
 Name: classes.dex
-SHA-256-Digest: xSyRwT6LRxY9zj2+0ygXBq1Zezv0iKuVc3EuBIZzUYE=
+SHA-256-Digest: H0kQ44WJfbGW8gravTKG8GD4KXZRaKla7lfgiwE+aRc=
 
 Name: classes2.dex
 SHA-256-Digest: ddw2qPkuWen5fvm9BMlXgc2r/TQUhFp0dddk7msM8kE=
 
 Name: classes3.dex
-SHA-256-Digest: //KTThfgsZEqQcVt6cZ0TGbSGN7UJxsBmnI9iLPT100=
+SHA-256-Digest: YQezcliE9vzVZbPIgBqIpcNU5XfXLcoN23OVoGQl/+E=
 
 Name: classes4.dex
-SHA-256-Digest: nHegkXrqF60IEmTeJ6vKuH5At+a+wseB74YCIAkjPdg=
+SHA-256-Digest: 9mvsNHituJDTJX5HCdNzvtW9Np0yoZ8tcXf7KTHe6DI=
 
 Name: com/google/android/search/verification/client/R.java
 SHA-256-Digest: EsMVPn34QVRran564KJSlepygKDiuNN7iY8qEXPZd6k=
@@ -17824,7 +17824,7 @@ Name: res/Tiz.png
 SHA-256-Digest: o14+zJ6ZK5rm8rcIWv4NoT/xp4t6ontgFXZu8958gr4=
 
 Name: res/TjO.xml
-SHA-256-Digest: JNlbYxrfUaGzk1Xgrbq29coSnn2C5GpexCUfY1IJW2U=
+SHA-256-Digest: FHAvVRougGwRuAb+lsJAJxtZrS3kt3Ggv/0gBIk0S80=
 
 Name: res/Tkm.png
 SHA-256-Digest: Q2rWOnjKg0ZmaQ97zFqb1OIdnMthxkGWhGYw0sAC0as=
@@ -19015,7 +19015,7 @@ Name: res/Yya.xml
 SHA-256-Digest: PgowvVxDJSp8mHbEzwKzZh8hW7RT3U0Nq0jqZ/OsSRY=
 
 Name: res/Yzm.xml
-SHA-256-Digest: SxKM8A0rh3QND6yTsuppldjr33H4jDKFvgE/cIk7Ewg=
+SHA-256-Digest: BlZ4OWeyrbWDlzizuhA+LtE6DsxaG5Qmum7p2vDPEeM=
 
 Name: res/Z-L.png
 SHA-256-Digest: 2oGE+aETSzpzDTivqXlFFI424v0hN3AwB8fovYoIdnQ=
@@ -21904,7 +21904,7 @@ Name: res/lNX.json
 SHA-256-Digest: hFGJqvTzMNQdRNYxGk3y7DnNHmKgSO5XDuAiIhfEBHY=
 
 Name: res/lOA.xml
-SHA-256-Digest: ev2Xu3BaOq3B1zXLEqIYKdvrgKkZuQ+9fWDw36bmEb8=
+SHA-256-Digest: 9LPSzqZP+98BQcZOSdXP8ZKgqra+vdQFqZYebPI/juA=
 
 Name: res/lOJ.png
 SHA-256-Digest: P1CH8b54EtqOAWclLe7qGwPX3kTqTbqYsPqrN6aIUr8=
@@ -22264,7 +22264,7 @@ Name: res/n36.xml
 SHA-256-Digest: AZY2UmoihhZDuXdKAp76S38+1dI5sm/CoCfhdQ9+yfw=
 
 Name: res/n4J.xml
-SHA-256-Digest: oW0y3KI0TyTdXLgCsvhnjAcTuXI5HGq0JirfUl9WjCs=
+SHA-256-Digest: zMa1nUmm9Ye4LEajLbfRIJjv6jPnLWktQ/HFAce8WCw=
 
 Name: res/n4R.tgs
 SHA-256-Digest: ZfQLCdGbE9UAWNxNEdlkhcBhjhfMqogx+Lmo6P4xCdw=
@@ -24586,7 +24586,7 @@ Name: res/yMh.png
 SHA-256-Digest: CkdK0l6YGOOYiZ2iozcGtVYqpWy/6eCdOPPmz1Qc/XY=
 
 Name: res/yNi.xml
-SHA-256-Digest: XCJAth0b4DpDSTlOqI1OXqI9ND6dsuohGJKlmswJRzM=
+SHA-256-Digest: 6Gl/dg5s05BEdv79OsZnCro1NvFMYYb1YU9AzFmuyXY=
 
 Name: res/yPX.png
 SHA-256-Digest: o0ITajivgG/S+CRd/36GJIUqn0mlHLR7ZefeIaLPp6s=
@@ -24952,7 +24952,7 @@ Name: res/zyk.png
 SHA-256-Digest: vMLi+FKhhG7qGCJgIq3Wm4YOCaWN754M6vZAvlhXfes=
 
 Name: resources.arsc
-SHA-256-Digest: JpPwFrQ2oNxMVfkIQD8u7jpNwg4+t7gooyTTe4S3xmw=
+SHA-256-Digest: DO2sElKv2llcuCKCwO8PbUMfCgcLbaTZM4VlS8Qqw30=
 
 Name: transport-api.properties
 SHA-256-Digest: rg9AddD1sd6fAR+GAu81u8Hzm/wJMfHnm9vKhV/4Fn4=

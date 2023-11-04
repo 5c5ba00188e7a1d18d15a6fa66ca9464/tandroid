@@ -22930,129 +22930,129 @@ public class MessagesController extends BaseController implements NotificationCe
         return 0L;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:649:0x03ff, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:652:0x03ff, code lost:
         r2 = r10.pts_count + r1;
         r3 = r10.pts;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:650:0x0404, code lost:
-        if (r2 != r3) goto L220;
+    /* JADX WARN: Code restructure failed: missing block: B:653:0x0404, code lost:
+        if (r2 != r3) goto L263;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:652:0x0418, code lost:
-        if (processUpdateArray(r10.updates, r27.users, r27.chats, false, r27.date) != false) goto L219;
+    /* JADX WARN: Code restructure failed: missing block: B:655:0x0418, code lost:
+        if (processUpdateArray(r10.updates, r27.users, r27.chats, false, r27.date) != false) goto L262;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:654:0x041c, code lost:
-        if (org.telegram.messenger.BuildVars.LOGS_ENABLED == false) goto L211;
+    /* JADX WARN: Code restructure failed: missing block: B:657:0x041c, code lost:
+        if (org.telegram.messenger.BuildVars.LOGS_ENABLED == false) goto L255;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:655:0x041e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:658:0x041e, code lost:
         org.telegram.messenger.FileLog.d("need get channel diff inner TL_updates, channel_id = " + r4);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:656:0x0432, code lost:
-        if (r9 != null) goto L215;
+    /* JADX WARN: Code restructure failed: missing block: B:659:0x0432, code lost:
+        if (r9 != null) goto L258;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:657:0x0434, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:660:0x0434, code lost:
         r5 = new java.util.ArrayList();
      */
-    /* JADX WARN: Code restructure failed: missing block: B:659:0x0444, code lost:
-        if (r9.contains(java.lang.Long.valueOf(r4)) != false) goto L218;
+    /* JADX WARN: Code restructure failed: missing block: B:662:0x0444, code lost:
+        if (r9.contains(java.lang.Long.valueOf(r4)) != false) goto L261;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:660:0x0446, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:663:0x0446, code lost:
         r9.add(java.lang.Long.valueOf(r4));
      */
-    /* JADX WARN: Code restructure failed: missing block: B:661:0x044f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:664:0x044f, code lost:
         r26.channelsPts.put(r4, r10.pts);
         getMessagesStorage().saveChannelPts(r4, r10.pts);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:663:0x0462, code lost:
-        if (r1 == r3) goto L218;
+    /* JADX WARN: Code restructure failed: missing block: B:666:0x0462, code lost:
+        if (r1 == r3) goto L261;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:665:0x0466, code lost:
-        if (org.telegram.messenger.BuildVars.LOGS_ENABLED == false) goto L225;
+    /* JADX WARN: Code restructure failed: missing block: B:668:0x0466, code lost:
+        if (org.telegram.messenger.BuildVars.LOGS_ENABLED == false) goto L268;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:666:0x0468, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:669:0x0468, code lost:
         org.telegram.messenger.FileLog.d(r0 + " need get channel diff, pts: " + r1 + " " + r10.pts + " count = " + r10.pts_count + " channelId = " + r4);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:667:0x0497, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:670:0x0497, code lost:
         r0 = r26.updatesStartWaitTimeChannels.get(r4);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:668:0x04ab, code lost:
-        if (r26.gettingDifferenceChannels.get(r4, java.lang.Boolean.FALSE).booleanValue() != false) goto L236;
+    /* JADX WARN: Code restructure failed: missing block: B:671:0x04ab, code lost:
+        if (r26.gettingDifferenceChannels.get(r4, java.lang.Boolean.FALSE).booleanValue() != false) goto L279;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:670:0x04b1, code lost:
-        if (r0 == 0) goto L236;
+    /* JADX WARN: Code restructure failed: missing block: B:673:0x04b1, code lost:
+        if (r0 == 0) goto L279;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:672:0x04c0, code lost:
-        if (java.lang.Math.abs(java.lang.System.currentTimeMillis() - r0) > 1500) goto L231;
+    /* JADX WARN: Code restructure failed: missing block: B:675:0x04c0, code lost:
+        if (java.lang.Math.abs(java.lang.System.currentTimeMillis() - r0) > 1500) goto L274;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:674:0x04c3, code lost:
-        if (r9 != null) goto L233;
+    /* JADX WARN: Code restructure failed: missing block: B:677:0x04c3, code lost:
+        if (r9 != null) goto L276;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:675:0x04c5, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:678:0x04c5, code lost:
         r5 = new java.util.ArrayList();
      */
-    /* JADX WARN: Code restructure failed: missing block: B:677:0x04d3, code lost:
-        if (r9.contains(java.lang.Long.valueOf(r4)) != false) goto L218;
+    /* JADX WARN: Code restructure failed: missing block: B:680:0x04d3, code lost:
+        if (r9.contains(java.lang.Long.valueOf(r4)) != false) goto L261;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:678:0x04d5, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:681:0x04d5, code lost:
         r9.add(java.lang.Long.valueOf(r4));
      */
-    /* JADX WARN: Code restructure failed: missing block: B:680:0x04e1, code lost:
-        if (r0 != 0) goto L239;
+    /* JADX WARN: Code restructure failed: missing block: B:683:0x04e1, code lost:
+        if (r0 != 0) goto L282;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:681:0x04e3, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:684:0x04e3, code lost:
         r26.updatesStartWaitTimeChannels.put(r4, java.lang.System.currentTimeMillis());
      */
-    /* JADX WARN: Code restructure failed: missing block: B:683:0x04ee, code lost:
-        if (org.telegram.messenger.BuildVars.LOGS_ENABLED == false) goto L242;
+    /* JADX WARN: Code restructure failed: missing block: B:686:0x04ee, code lost:
+        if (org.telegram.messenger.BuildVars.LOGS_ENABLED == false) goto L285;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:684:0x04f0, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:687:0x04f0, code lost:
         org.telegram.messenger.FileLog.d(r23);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:685:0x04f3, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:688:0x04f3, code lost:
         r0 = r26.updatesQueueChannels.get(r4);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:686:0x04fb, code lost:
-        if (r0 != null) goto L245;
+    /* JADX WARN: Code restructure failed: missing block: B:689:0x04fb, code lost:
+        if (r0 != null) goto L288;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:687:0x04fd, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:690:0x04fd, code lost:
         r0 = new java.util.ArrayList<>();
         r26.updatesQueueChannels.put(r4, r0);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:688:0x0507, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:691:0x0507, code lost:
         r0.add(r10);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:701:0x0552, code lost:
-        if (getMessagesStorage().getLastSeqValue() != r27.seq_start) goto L263;
+    /* JADX WARN: Code restructure failed: missing block: B:708:0x055e, code lost:
+        if (getMessagesStorage().getLastSeqValue() != r27.seq_start) goto L130;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:703:0x0555, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:710:0x0561, code lost:
         r1 = false;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:709:0x0571, code lost:
-        if (r2 != getMessagesStorage().getLastSeqValue()) goto L263;
+    /* JADX WARN: Code restructure failed: missing block: B:716:0x057d, code lost:
+        if (r2 != getMessagesStorage().getLastSeqValue()) goto L130;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:788:0x071d, code lost:
-        if (r2 != null) goto L334;
+    /* JADX WARN: Code restructure failed: missing block: B:795:0x0728, code lost:
+        if (r2 != null) goto L337;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:790:0x0721, code lost:
-        if (r9 != null) goto L336;
+    /* JADX WARN: Code restructure failed: missing block: B:797:0x072c, code lost:
+        if (r9 != null) goto L339;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:803:0x0750, code lost:
-        if (r2 != null) goto L450;
+    /* JADX WARN: Code restructure failed: missing block: B:810:0x075b, code lost:
+        if (r2 != null) goto L453;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:805:0x0754, code lost:
-        if (r16 != null) goto L336;
+    /* JADX WARN: Code restructure failed: missing block: B:812:0x075f, code lost:
+        if (r16 != null) goto L339;
      */
-    /* JADX WARN: Removed duplicated region for block: B:547:0x0117  */
-    /* JADX WARN: Removed duplicated region for block: B:739:0x0630  */
-    /* JADX WARN: Removed duplicated region for block: B:778:0x06f7  */
-    /* JADX WARN: Removed duplicated region for block: B:782:0x0711  */
-    /* JADX WARN: Removed duplicated region for block: B:785:0x0717  */
-    /* JADX WARN: Removed duplicated region for block: B:795:0x0729  */
-    /* JADX WARN: Removed duplicated region for block: B:813:0x076a  */
-    /* JADX WARN: Removed duplicated region for block: B:841:0x07dc  */
-    /* JADX WARN: Removed duplicated region for block: B:907:0x09c7  */
-    /* JADX WARN: Removed duplicated region for block: B:925:0x0a01  */
-    /* JADX WARN: Removed duplicated region for block: B:927:0x0a1b  */
-    /* JADX WARN: Removed duplicated region for block: B:959:0x07a2 A[EDGE_INSN: B:959:0x07a2->B:828:0x07a2 ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:550:0x0117  */
+    /* JADX WARN: Removed duplicated region for block: B:746:0x063b  */
+    /* JADX WARN: Removed duplicated region for block: B:785:0x0702  */
+    /* JADX WARN: Removed duplicated region for block: B:789:0x071c  */
+    /* JADX WARN: Removed duplicated region for block: B:792:0x0722  */
+    /* JADX WARN: Removed duplicated region for block: B:802:0x0734  */
+    /* JADX WARN: Removed duplicated region for block: B:820:0x0775  */
+    /* JADX WARN: Removed duplicated region for block: B:848:0x07e7  */
+    /* JADX WARN: Removed duplicated region for block: B:914:0x09d2  */
+    /* JADX WARN: Removed duplicated region for block: B:932:0x0a0c  */
+    /* JADX WARN: Removed duplicated region for block: B:934:0x0a26  */
+    /* JADX WARN: Removed duplicated region for block: B:966:0x07ad A[EDGE_INSN: B:966:0x07ad->B:835:0x07ad ?: BREAK  , SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -23526,12 +23526,16 @@ public class MessagesController extends BaseController implements NotificationCe
                                                 i9 = i4;
                                             }
                                         }
+                                        if (tLRPC$Updates.updates.size() <= 0) {
+                                            arrayList2 = arrayList6;
+                                            break;
+                                        }
                                         tLRPC$Updates.updates.remove(0);
                                         str2 = str;
                                         i5 = 0;
                                         i6 = 1;
                                     }
-                                    int i13 = i9;
+                                    i9 = i9;
                                     boolean z13 = tLRPC$Updates instanceof TLRPC$TL_updatesCombined;
                                     if (z13) {
                                         if (getMessagesStorage().getLastSeqValue() + 1 != tLRPC$Updates.seq_start) {
@@ -23539,9 +23543,9 @@ public class MessagesController extends BaseController implements NotificationCe
                                         z9 = true;
                                     } else {
                                         int lastSeqValue = getMessagesStorage().getLastSeqValue() + 1;
-                                        int i14 = tLRPC$Updates.seq;
-                                        if (lastSeqValue != i14) {
-                                            if (i14 != 0) {
+                                        int i13 = tLRPC$Updates.seq;
+                                        if (lastSeqValue != i13) {
+                                            if (i13 != 0) {
                                             }
                                         }
                                         z9 = true;
@@ -23575,8 +23579,8 @@ public class MessagesController extends BaseController implements NotificationCe
                                             i6 = 1;
                                         }
                                     }
+                                    i6 = i9;
                                     arrayList = arrayList2;
-                                    i6 = i13;
                                 } else {
                                     i6 = i3;
                                     arrayList = null;
@@ -23586,8 +23590,8 @@ public class MessagesController extends BaseController implements NotificationCe
                                 i5 = 0;
                                 getSecretChatHelper().processPendingEncMessages();
                                 if (!z) {
-                                    for (int i15 = 0; i15 < this.updatesQueueChannels.size(); i15++) {
-                                        long keyAt = this.updatesQueueChannels.keyAt(i15);
+                                    for (int i14 = 0; i14 < this.updatesQueueChannels.size(); i14++) {
+                                        long keyAt = this.updatesQueueChannels.keyAt(i14);
                                         if (arrayList != null && arrayList.contains(Long.valueOf(keyAt))) {
                                             getChannelDifference(keyAt);
                                         } else {
@@ -23597,8 +23601,8 @@ public class MessagesController extends BaseController implements NotificationCe
                                     if (i6 != 0) {
                                         getDifference();
                                     } else {
-                                        for (int i16 = 0; i16 < 3; i16++) {
-                                            processUpdatesQueue(i16, 0);
+                                        for (int i15 = 0; i15 < 3; i15++) {
+                                            processUpdatesQueue(i15, 0);
                                         }
                                     }
                                 }

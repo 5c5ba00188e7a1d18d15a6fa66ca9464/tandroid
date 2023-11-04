@@ -551,6 +551,10 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
             return null;
         }
 
+        public int overrideColor() {
+            return Theme.getColor(Theme.key_chat_linkSelectBackground, this.resourcesProvider);
+        }
+
         @Override // android.widget.TextView, android.view.View
         public boolean onTouchEvent(MotionEvent motionEvent) {
             if (this.links != null) {
@@ -558,6 +562,7 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
                 final ClickableSpan hit = hit((int) motionEvent.getX(), (int) motionEvent.getY());
                 if (hit != null && motionEvent.getAction() == 0) {
                     final LinkSpanDrawable<ClickableSpan> linkSpanDrawable = new LinkSpanDrawable<>(hit, this.resourcesProvider, motionEvent.getX(), motionEvent.getY());
+                    linkSpanDrawable.setColor(overrideColor());
                     this.pressedLink = linkSpanDrawable;
                     this.links.addLink(linkSpanDrawable);
                     SpannableString spannableString = new SpannableString(layout.getText());

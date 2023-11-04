@@ -137,14 +137,17 @@ import org.telegram.messenger.ChatMessageSharedResources;
 import org.telegram.messenger.ChatMessagesMetadataController;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.ChatThemeController;
+import org.telegram.messenger.CodeHighlighting;
 import org.telegram.messenger.ContactsController;
 import org.telegram.messenger.DialogObject;
+import org.telegram.messenger.DocumentObject;
 import org.telegram.messenger.DownloadController;
 import org.telegram.messenger.Emoji;
 import org.telegram.messenger.EmojiData;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.FlagSecureReason;
+import org.telegram.messenger.ImageLoader;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LanguageDetector;
@@ -162,6 +165,7 @@ import org.telegram.messenger.R;
 import org.telegram.messenger.SecretChatHelper;
 import org.telegram.messenger.SendMessagesHelper;
 import org.telegram.messenger.SharedConfig;
+import org.telegram.messenger.SvgHelper;
 import org.telegram.messenger.TopicsController;
 import org.telegram.messenger.TranslateController;
 import org.telegram.messenger.UserConfig;
@@ -34876,8 +34880,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:130:0x0279  */
-    /* JADX WARN: Removed duplicated region for block: B:131:0x0284  */
+    /* JADX WARN: Removed duplicated region for block: B:132:0x027c  */
+    /* JADX WARN: Removed duplicated region for block: B:133:0x0287  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -34966,6 +34970,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     messageObject2 = messageObject5;
                 } else {
                     messageObject2 = this.messagesDict[messageObject3.getDialogId() == this.dialog_id ? (char) 0 : (char) 1].get(messageObject5.replyMessageObject.getId());
+                }
+                if (messageObject2 == null) {
+                    return;
                 }
                 float f = intValue2;
                 float duration = f / ((float) messageObject2.getDuration());
@@ -37257,6 +37264,70 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         }
 
         @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+        public void didPressUserStatus(ChatMessageCell chatMessageCell, TLRPC$User tLRPC$User, TLRPC$Document tLRPC$Document) {
+            ImageLocation forDocument;
+            if (chatMessageCell == null) {
+                return;
+            }
+            ChatActivity chatActivity = ChatActivity.this;
+            PremiumPreviewBottomSheet premiumPreviewBottomSheet = new PremiumPreviewBottomSheet(chatActivity, ((BaseFragment) chatActivity).currentAccount, tLRPC$User, ChatActivity.this.themeDelegate);
+            chatMessageCell.getLocationOnScreen(new int[2]);
+            premiumPreviewBottomSheet.startEnterFromX = chatMessageCell.getNameStatusX();
+            premiumPreviewBottomSheet.startEnterFromY = chatMessageCell.getNameStatusY();
+            premiumPreviewBottomSheet.startEnterFromScale = chatMessageCell.getScaleX();
+            premiumPreviewBottomSheet.startEnterFromX1 = chatMessageCell.getLeft();
+            premiumPreviewBottomSheet.startEnterFromY1 = chatMessageCell.getTop();
+            premiumPreviewBottomSheet.startEnterFromView = chatMessageCell;
+            int i = tLRPC$User != null ? (int) (tLRPC$User.id % 7) : 0;
+            if (tLRPC$User != null && (tLRPC$User.flags2 & 128) != 0) {
+                i = tLRPC$User.color;
+            }
+            if (i >= 7) {
+                MessagesController.PeerColors peerColors = MessagesController.getInstance(((BaseFragment) ChatActivity.this).currentAccount).peerColors;
+                MessagesController.PeerColor color = peerColors != null ? peerColors.getColor(i) : null;
+                premiumPreviewBottomSheet.accentColor = color != null ? Integer.valueOf(color.getColor1()) : null;
+            } else {
+                premiumPreviewBottomSheet.accentColor = Integer.valueOf(ChatActivity.this.getThemedColor(Theme.keys_avatar_nameInMessage[i]));
+            }
+            AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable = chatMessageCell.currentNameStatusDrawable;
+            if (swapAnimatedEmojiDrawable != null && (swapAnimatedEmojiDrawable.getDrawable() instanceof AnimatedEmojiDrawable)) {
+                premiumPreviewBottomSheet.startEnterFromScale *= 0.95f;
+                if (tLRPC$Document != null) {
+                    BackupImageView backupImageView = new BackupImageView(ChatActivity.this.getContext());
+                    String str = "160_160";
+                    SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(tLRPC$Document.thumbs, Theme.key_windowBackgroundWhiteGrayIcon, 0.2f);
+                    TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 90);
+                    if ("video/webm".equals(tLRPC$Document.mime_type)) {
+                        forDocument = ImageLocation.getForDocument(tLRPC$Document);
+                        str = "160_160_" + ImageLoader.AUTOPLAY_FILTER;
+                        if (svgThumb != null) {
+                            svgThumb.overrideWidthAndHeight(LiteMode.FLAG_CALLS_ANIMATIONS, LiteMode.FLAG_CALLS_ANIMATIONS);
+                        }
+                    } else {
+                        if (svgThumb != null && MessageObject.isAnimatedStickerDocument(tLRPC$Document, false)) {
+                            svgThumb.overrideWidthAndHeight(LiteMode.FLAG_CALLS_ANIMATIONS, LiteMode.FLAG_CALLS_ANIMATIONS);
+                        }
+                        forDocument = ImageLocation.getForDocument(tLRPC$Document);
+                    }
+                    String str2 = str;
+                    backupImageView.setLayerNum(7);
+                    backupImageView.setRoundRadius(AndroidUtilities.dp(4.0f));
+                    backupImageView.setImage(forDocument, str2, ImageLocation.getForDocument(closestPhotoSizeWithSize, tLRPC$Document), "140_140", svgThumb, tLRPC$Document);
+                    if (MessageObject.isTextColorEmoji(tLRPC$Document)) {
+                        Integer num = premiumPreviewBottomSheet.accentColor;
+                        backupImageView.setColorFilter(new PorterDuffColorFilter(num != null ? num.intValue() : ChatActivity.this.getThemedColor(Theme.key_windowBackgroundWhiteBlueIcon), PorterDuff.Mode.SRC_IN));
+                        premiumPreviewBottomSheet.statusStickerSet = MessageObject.getInputStickerSet(tLRPC$Document);
+                    } else {
+                        premiumPreviewBottomSheet.statusStickerSet = MessageObject.getInputStickerSet(tLRPC$Document);
+                    }
+                    premiumPreviewBottomSheet.overrideTitleIcon = backupImageView;
+                    premiumPreviewBottomSheet.isEmojiStatus = true;
+                }
+            }
+            ChatActivity.this.showDialog(premiumPreviewBottomSheet);
+        }
+
+        @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
         public void didPressUserAvatar(ChatMessageCell chatMessageCell, TLRPC$User tLRPC$User, float f, float f2) {
             boolean z = true;
             if (((BaseFragment) ChatActivity.this).actionBar.isActionModeShowed() || ChatActivity.this.reportType >= 0) {
@@ -37446,7 +37517,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             ChatActivity chatActivity = ChatActivity.this;
             TLRPC$Chat tLRPC$Chat2 = chatActivity.currentChat;
             if (tLRPC$Chat2 != null && tLRPC$Chat.id == tLRPC$Chat2.id) {
-                chatActivity.scrollToMessageId(i, chatMessageCell.getMessageObject().getId(), true, 0, true, 0);
+                if (chatActivity.avatarContainer != null && i == 0) {
+                    ChatActivity.this.avatarContainer.openProfile(false);
+                } else {
+                    ChatActivity.this.scrollToMessageId(i, chatMessageCell.getMessageObject().getId(), true, 0, true, 0);
+                }
             } else if (tLRPC$Chat2 == null || tLRPC$Chat.id != tLRPC$Chat2.id || chatActivity.isThreadChat()) {
                 Bundle bundle = new Bundle();
                 bundle.putLong("chat_id", tLRPC$Chat.id);
@@ -37777,6 +37852,19 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
         public void didPressUrl(ChatMessageCell chatMessageCell, CharacterStyle characterStyle, boolean z) {
             ChatActivity.this.didPressMessageUrl(characterStyle, z, chatMessageCell.getMessageObject(), chatMessageCell);
+        }
+
+        @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+        public void didPressCodeCopy(ChatMessageCell chatMessageCell, MessageObject.TextLayoutBlock textLayoutBlock) {
+            StaticLayout staticLayout;
+            if (textLayoutBlock == null || (staticLayout = textLayoutBlock.textLayout) == null || staticLayout.getText() == null) {
+                return;
+            }
+            String charSequence = textLayoutBlock.textLayout.getText().toString();
+            SpannableString spannableString = new SpannableString(charSequence);
+            spannableString.setSpan(new CodeHighlighting.Span(false, 0, null, textLayoutBlock.language, charSequence), 0, spannableString.length(), 33);
+            AndroidUtilities.addToClipboard(spannableString);
+            BulletinFactory.of(ChatActivity.this).createCopyBulletin(LocaleController.getString(R.string.CodeCopied)).show();
         }
 
         @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate

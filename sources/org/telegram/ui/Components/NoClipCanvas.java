@@ -594,4 +594,14 @@ public class NoClipCanvas extends Canvas {
     public boolean quickReject(float f, float f2, float f3, float f4, Canvas.EdgeType edgeType) {
         return this.canvas.quickReject(f, f2, f3, f4, edgeType);
     }
+
+    @Override // android.graphics.Canvas
+    public void concat(Matrix matrix) {
+        this.canvas.concat(matrix);
+    }
+
+    @Override // android.graphics.Canvas
+    public boolean isOpaque() {
+        return this.canvas.isOpaque();
+    }
 }

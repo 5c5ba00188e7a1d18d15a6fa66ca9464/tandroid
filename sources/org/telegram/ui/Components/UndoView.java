@@ -380,13 +380,13 @@ public class UndoView extends FrameLayout {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:621:0x1875  */
-    /* JADX WARN: Removed duplicated region for block: B:624:0x1895  */
-    /* JADX WARN: Removed duplicated region for block: B:627:0x18bc  */
-    /* JADX WARN: Removed duplicated region for block: B:631:0x1901  */
-    /* JADX WARN: Removed duplicated region for block: B:662:0x19b3  */
+    /* JADX WARN: Removed duplicated region for block: B:621:0x185c  */
+    /* JADX WARN: Removed duplicated region for block: B:624:0x187c  */
+    /* JADX WARN: Removed duplicated region for block: B:627:0x18a3  */
+    /* JADX WARN: Removed duplicated region for block: B:631:0x18e8  */
+    /* JADX WARN: Removed duplicated region for block: B:662:0x199a  */
     /* JADX WARN: Removed duplicated region for block: B:688:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Type inference failed for: r2v428, types: [java.lang.CharSequence] */
+    /* JADX WARN: Type inference failed for: r2v430, types: [java.lang.CharSequence] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1284,16 +1284,16 @@ public class UndoView extends FrameLayout {
             } else if (i11 == 90 || i11 == 91 || i11 == 92 || i11 == 93 || i11 == 94) {
                 switch (i11) {
                     case 90:
-                        this.infoTextView.setText(LocaleController.formatString("BoostingSelectUpToWarningChannels", R.string.BoostingSelectUpToWarningChannels, Long.valueOf(BoostRepository.giveawayAddPeersMax())));
+                        this.infoTextView.setText(LocaleController.formatPluralString("BoostingSelectUpToWarningChannelsPlural", (int) BoostRepository.giveawayAddPeersMax(), new Object[0]));
                         break;
                     case 91:
                         this.infoTextView.setText(LocaleController.getString("BoostingSelectUpToWarningUsers", R.string.BoostingSelectUpToWarningUsers));
                         break;
                     case 92:
-                        this.infoTextView.setText(LocaleController.formatString("BoostingSelectUpToWarningCountries", R.string.BoostingSelectUpToWarningCountries, Long.valueOf(BoostRepository.giveawayCountriesMax())));
+                        this.infoTextView.setText(LocaleController.formatPluralString("BoostingSelectUpToWarningCountriesPlural", (int) BoostRepository.giveawayCountriesMax(), new Object[0]));
                         break;
                     case 93:
-                        this.infoTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("BoostingWaitWarning", R.string.BoostingWaitWarning, Integer.valueOf(BoostRepository.boostsPerSentGift()))));
+                        this.infoTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatPluralString("BoostingWaitWarningPlural", BoostRepository.boostsPerSentGift(), new Object[0])));
                         break;
                     case 94:
                         this.infoTextView.setText(LocaleController.getString("BoostingOnlyRecipientCode", R.string.BoostingOnlyRecipientCode));
