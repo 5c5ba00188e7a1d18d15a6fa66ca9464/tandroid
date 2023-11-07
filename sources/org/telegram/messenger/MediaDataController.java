@@ -9380,10 +9380,14 @@ public class MediaDataController extends BaseController {
                     TLRPC$Peer tLRPC$Peer = replyQuote.message.messageOwner.peer_id;
                     if (peer != null && !MessageObject.peersEqual(peer, tLRPC$Peer)) {
                         TLRPC$InputReplyTo tLRPC$InputReplyTo3 = tLRPC$DraftMessage.reply_to;
-                        tLRPC$InputReplyTo3.flags |= 1;
-                        tLRPC$InputReplyTo3.reply_to_peer_id = getMessagesController().getInputPeer(peer);
+                        tLRPC$InputReplyTo3.flags |= 2;
+                        tLRPC$InputReplyTo3.reply_to_peer_id = getMessagesController().getInputPeer(tLRPC$Peer);
                     }
                 }
+            } else if (j != MessageObject.getDialogId(tLRPC$Message2)) {
+                TLRPC$InputReplyTo tLRPC$InputReplyTo4 = tLRPC$DraftMessage.reply_to;
+                tLRPC$InputReplyTo4.flags |= 2;
+                tLRPC$InputReplyTo4.reply_to_peer_id = getMessagesController().getInputPeer(getMessagesController().getPeer(MessageObject.getDialogId(tLRPC$Message2)));
             }
         }
         if (arrayList != null && !arrayList.isEmpty()) {
@@ -9393,10 +9397,11 @@ public class MediaDataController extends BaseController {
         SparseArray<TLRPC$DraftMessage> sparseArray = this.drafts.get(j);
         TLRPC$DraftMessage tLRPC$DraftMessage2 = sparseArray == null ? null : sparseArray.get(i);
         if (!z2) {
-            if (tLRPC$DraftMessage2 != null && tLRPC$DraftMessage2.message.equals(tLRPC$DraftMessage.message) && replyToEquals(tLRPC$DraftMessage2.reply_to, tLRPC$DraftMessage.reply_to) && tLRPC$DraftMessage2.no_webpage == tLRPC$DraftMessage.no_webpage) {
-                return;
+            boolean z3 = true;
+            if (tLRPC$DraftMessage2 == null ? !TextUtils.isEmpty(tLRPC$DraftMessage.message) || ((tLRPC$InputReplyTo = tLRPC$DraftMessage.reply_to) != null && tLRPC$InputReplyTo.reply_to_msg_id != 0) : !tLRPC$DraftMessage2.message.equals(tLRPC$DraftMessage.message) || !replyToEquals(tLRPC$DraftMessage2.reply_to, tLRPC$DraftMessage.reply_to) || tLRPC$DraftMessage2.no_webpage != tLRPC$DraftMessage.no_webpage) {
+                z3 = false;
             }
-            if (tLRPC$DraftMessage2 == null && TextUtils.isEmpty(tLRPC$DraftMessage.message) && ((tLRPC$InputReplyTo = tLRPC$DraftMessage.reply_to) == null || tLRPC$InputReplyTo.reply_to_msg_id == 0)) {
+            if (z3) {
                 return;
             }
         }
@@ -9411,9 +9416,9 @@ public class MediaDataController extends BaseController {
                 }
                 tLRPC$TL_messages_saveDraft.message = tLRPC$DraftMessage.message;
                 tLRPC$TL_messages_saveDraft.no_webpage = tLRPC$DraftMessage.no_webpage;
-                TLRPC$InputReplyTo tLRPC$InputReplyTo4 = tLRPC$DraftMessage.reply_to;
-                tLRPC$TL_messages_saveDraft.reply_to = tLRPC$InputReplyTo4;
-                if (tLRPC$InputReplyTo4 != null) {
+                TLRPC$InputReplyTo tLRPC$InputReplyTo5 = tLRPC$DraftMessage.reply_to;
+                tLRPC$TL_messages_saveDraft.reply_to = tLRPC$InputReplyTo5;
+                if (tLRPC$InputReplyTo5 != null) {
                     tLRPC$TL_messages_saveDraft.flags |= 16;
                 }
                 if ((tLRPC$DraftMessage.flags & 8) != 0) {
@@ -9479,22 +9484,18 @@ public class MediaDataController extends BaseController {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:55:0x0184, code lost:
-        if (org.telegram.messenger.MessageObject.peersEqual(r4.peer_id, getMessagesController().getPeer(r20.reply_to.reply_to_msg_id)) == false) goto L79;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:59:0x018b, code lost:
-        if (r20.reply_to == null) goto L79;
+    /* JADX WARN: Code restructure failed: missing block: B:55:0x0178, code lost:
+        if (org.telegram.messenger.MessageObject.peersEqual(r9.reply_to_peer_id, r4.peer_id) != false) goto L36;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void saveDraft(final long j, final int i, TLRPC$DraftMessage tLRPC$DraftMessage, TLRPC$Message tLRPC$Message, boolean z) {
         TLRPC$Message tLRPC$Message2;
-        StringBuilder sb;
+        String str;
         TLRPC$InputReplyTo tLRPC$InputReplyTo;
         TLRPC$Chat chat;
-        TLRPC$User tLRPC$User;
-        String str;
+        String str2;
         if (getMessagesController().isForum(j) && i == 0 && TextUtils.isEmpty(tLRPC$DraftMessage.message)) {
             TLRPC$InputReplyTo tLRPC$InputReplyTo2 = tLRPC$DraftMessage.reply_to;
             if (tLRPC$InputReplyTo2 instanceof TLRPC$TL_inputReplyToMessage) {
@@ -9538,25 +9539,30 @@ public class MediaDataController extends BaseController {
                 SerializedData serializedData = new SerializedData(tLRPC$DraftMessage.getObjectSize());
                 tLRPC$DraftMessage.serializeToStream(serializedData);
                 if (i == 0) {
-                    str = "" + j;
+                    str2 = "" + j;
                 } else {
-                    str = "t_" + j + "_" + i;
+                    str2 = "t_" + j + "_" + i;
                 }
-                edit.putString(str, Utilities.bytesToHex(serializedData.toByteArray()));
+                edit.putString(str2, Utilities.bytesToHex(serializedData.toByteArray()));
                 serializedData.cleanup();
             } catch (Exception e) {
                 FileLog.e(e);
             }
         }
         SparseArray<TLRPC$Message> sparseArray4 = this.draftMessages.get(j);
-        if (tLRPC$Message != null || tLRPC$DraftMessage == null || tLRPC$DraftMessage.reply_to == null) {
-            if (tLRPC$DraftMessage != null) {
+        TLRPC$User tLRPC$User = null;
+        if (tLRPC$Message == null && tLRPC$DraftMessage != null && tLRPC$DraftMessage.reply_to != null) {
+            tLRPC$Message2 = sparseArray4 != null ? sparseArray4.get(i) : tLRPC$Message;
+            if (tLRPC$Message2 != null) {
+                int i2 = tLRPC$Message2.id;
+                TLRPC$InputReplyTo tLRPC$InputReplyTo3 = tLRPC$DraftMessage.reply_to;
+                if (i2 == tLRPC$InputReplyTo3.reply_to_msg_id) {
+                }
             }
-            tLRPC$Message2 = tLRPC$Message;
+            tLRPC$Message2 = null;
         } else {
-            TLRPC$Message tLRPC$Message3 = sparseArray4 != null ? sparseArray4.get(i) : tLRPC$Message;
-            if (tLRPC$Message3 != null && tLRPC$Message3.id == tLRPC$DraftMessage.reply_to.reply_to_msg_id) {
-                tLRPC$Message = tLRPC$Message3;
+            if (tLRPC$DraftMessage == null || tLRPC$DraftMessage.reply_to != null) {
+                tLRPC$Message2 = tLRPC$Message;
             }
             tLRPC$Message2 = null;
         }
@@ -9581,37 +9587,31 @@ public class MediaDataController extends BaseController {
             SerializedData serializedData2 = new SerializedData(tLRPC$Message2.getObjectSize());
             tLRPC$Message2.serializeToStream(serializedData2);
             if (i == 0) {
-                sb = new StringBuilder();
-                sb.append("r_");
-                sb.append(j);
+                str = "r_" + j;
             } else {
-                sb = new StringBuilder();
-                sb.append("rt_");
-                sb.append(j);
-                sb.append("_");
-                sb.append(i);
+                str = "rt_" + j + "_" + i;
             }
-            edit.putString(sb.toString(), Utilities.bytesToHex(serializedData2.toByteArray()));
+            edit.putString(str, Utilities.bytesToHex(serializedData2.toByteArray()));
             serializedData2.cleanup();
         }
         edit.commit();
         if (z) {
             if (i == 0 || getMessagesController().isForum(j)) {
-                if (tLRPC$DraftMessage != null && (tLRPC$InputReplyTo = tLRPC$DraftMessage.reply_to) != null && tLRPC$InputReplyTo.reply_to_msg_id != 0 && tLRPC$Message2 == 0) {
-                    if (DialogObject.isUserDialog(j)) {
-                        tLRPC$User = getMessagesController().getUser(Long.valueOf(j));
+                if (tLRPC$DraftMessage != null && (tLRPC$InputReplyTo = tLRPC$DraftMessage.reply_to) != null && tLRPC$InputReplyTo.reply_to_msg_id != 0 && (tLRPC$Message2 == 0 || ((tLRPC$Message2.reply_to instanceof TLRPC$TL_messageReplyHeader) && tLRPC$Message2.replyMessage == null))) {
+                    final long peerDialogId = (tLRPC$InputReplyTo.flags & 2) != 0 ? DialogObject.getPeerDialogId(tLRPC$InputReplyTo.reply_to_peer_id) : j;
+                    if (DialogObject.isUserDialog(peerDialogId)) {
+                        tLRPC$User = getMessagesController().getUser(Long.valueOf(peerDialogId));
                         chat = null;
                     } else {
-                        chat = getMessagesController().getChat(Long.valueOf(-j));
-                        tLRPC$User = null;
+                        chat = getMessagesController().getChat(Long.valueOf(-peerDialogId));
                     }
                     if (tLRPC$User != null || chat != null) {
                         final long j2 = ChatObject.isChannel(chat) ? chat.id : 0L;
-                        final int i2 = tLRPC$DraftMessage.reply_to.reply_to_msg_id;
+                        final int i3 = tLRPC$DraftMessage.reply_to.reply_to_msg_id;
                         getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda30
                             @Override // java.lang.Runnable
                             public final void run() {
-                                MediaDataController.this.lambda$saveDraft$179(i2, j, j2, i);
+                                MediaDataController.this.lambda$saveDraft$179(i3, peerDialogId, j2, j, i);
                             }
                         });
                     }
@@ -9622,41 +9622,114 @@ public class MediaDataController extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$saveDraft$179(int i, final long j, long j2, final int i2) {
+    /* JADX WARN: Removed duplicated region for block: B:44:0x00d1  */
+    /* JADX WARN: Removed duplicated region for block: B:48:0x0117 A[Catch: Exception -> 0x011b, TRY_LEAVE, TryCatch #3 {Exception -> 0x011b, blocks: (B:3:0x0008, B:5:0x0035, B:7:0x003b, B:10:0x0053, B:39:0x00b8, B:42:0x00cc, B:46:0x00d7, B:47:0x00fc, B:48:0x0117, B:38:0x00b1), top: B:59:0x0008 }] */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public /* synthetic */ void lambda$saveDraft$179(int i, long j, long j2, final long j3, final int i2) {
+        TLRPC$Message tLRPC$Message;
+        TLRPC$Message tLRPC$Message2;
         NativeByteBuffer byteBufferValue;
-        TLRPC$Message tLRPC$Message = null;
         try {
-            SQLiteCursor queryFinalized = getMessagesStorage().getDatabase().queryFinalized(String.format(Locale.US, "SELECT data FROM messages_v2 WHERE mid = %d and uid = %d", Integer.valueOf(i), Long.valueOf(j)), new Object[0]);
-            if (queryFinalized.next() && (byteBufferValue = queryFinalized.byteBufferValue(0)) != null) {
-                tLRPC$Message = TLRPC$Message.TLdeserialize(byteBufferValue, byteBufferValue.readInt32(false), false);
-                tLRPC$Message.readAttachPath(byteBufferValue, getUserConfig().clientUserId);
-                byteBufferValue.reuse();
-            }
-            queryFinalized.dispose();
-            if (tLRPC$Message != null) {
-                saveDraftReplyMessage(j, i2, tLRPC$Message);
-            } else if (j2 != 0) {
-                TLRPC$TL_channels_getMessages tLRPC$TL_channels_getMessages = new TLRPC$TL_channels_getMessages();
-                tLRPC$TL_channels_getMessages.channel = getMessagesController().getInputChannel(j2);
-                tLRPC$TL_channels_getMessages.id.add(Integer.valueOf(i));
-                getConnectionsManager().sendRequest(tLRPC$TL_channels_getMessages, new RequestDelegate() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda192
-                    @Override // org.telegram.tgnet.RequestDelegate
-                    public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                        MediaDataController.this.lambda$saveDraft$177(j, i2, tLObject, tLRPC$TL_error);
+            SQLiteCursor queryFinalized = getMessagesStorage().getDatabase().queryFinalized(String.format(Locale.US, "SELECT data, replydata FROM messages_v2 WHERE mid = %d and uid = %d", Integer.valueOf(i), Long.valueOf(j)), new Object[0]);
+            if (queryFinalized.next()) {
+                NativeByteBuffer byteBufferValue2 = queryFinalized.byteBufferValue(0);
+                if (byteBufferValue2 != null) {
+                    tLRPC$Message = TLRPC$Message.TLdeserialize(byteBufferValue2, byteBufferValue2.readInt32(false), false);
+                    tLRPC$Message.readAttachPath(byteBufferValue2, getUserConfig().clientUserId);
+                    byteBufferValue2.reuse();
+                } else {
+                    tLRPC$Message = null;
+                }
+                if (tLRPC$Message != null) {
+                    ArrayList<Long> arrayList = new ArrayList<>();
+                    ArrayList<Long> arrayList2 = new ArrayList<>();
+                    LongSparseArray<SparseArray<ArrayList<TLRPC$Message>>> longSparseArray = new LongSparseArray<>();
+                    LongSparseArray<ArrayList<Integer>> longSparseArray2 = new LongSparseArray<>();
+                    try {
+                        TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader = tLRPC$Message.reply_to;
+                        if (tLRPC$MessageReplyHeader == null || tLRPC$MessageReplyHeader.reply_to_msg_id == 0) {
+                            tLRPC$Message2 = tLRPC$Message;
+                        } else {
+                            if (queryFinalized.isNull(1) || (byteBufferValue = queryFinalized.byteBufferValue(1)) == null) {
+                                tLRPC$Message2 = tLRPC$Message;
+                            } else {
+                                TLRPC$Message TLdeserialize = TLRPC$Message.TLdeserialize(byteBufferValue, byteBufferValue.readInt32(false), false);
+                                tLRPC$Message.replyMessage = TLdeserialize;
+                                TLRPC$Message tLRPC$Message3 = tLRPC$Message;
+                                try {
+                                    TLdeserialize.readAttachPath(byteBufferValue, getUserConfig().clientUserId);
+                                    byteBufferValue.reuse();
+                                    tLRPC$Message2 = tLRPC$Message3;
+                                } catch (Exception e) {
+                                    e = e;
+                                    tLRPC$Message2 = tLRPC$Message3;
+                                    getMessagesStorage().checkSQLException(e);
+                                    getMessagesStorage().loadReplyMessages(longSparseArray, longSparseArray2, arrayList, arrayList2, false);
+                                    queryFinalized.dispose();
+                                    if (tLRPC$Message2 == null) {
+                                    }
+                                }
+                                try {
+                                    TLRPC$Message tLRPC$Message4 = tLRPC$Message2.replyMessage;
+                                    if (tLRPC$Message4 != null) {
+                                        MessagesStorage.addUsersAndChatsFromMessage(tLRPC$Message4, arrayList, arrayList2, null);
+                                    }
+                                } catch (Exception e2) {
+                                    e = e2;
+                                    getMessagesStorage().checkSQLException(e);
+                                    getMessagesStorage().loadReplyMessages(longSparseArray, longSparseArray2, arrayList, arrayList2, false);
+                                    queryFinalized.dispose();
+                                    if (tLRPC$Message2 == null) {
+                                    }
+                                }
+                            }
+                            if (tLRPC$Message2.replyMessage == null) {
+                                MessagesStorage.addReplyMessages(tLRPC$Message2, longSparseArray, longSparseArray2);
+                            }
+                        }
+                    } catch (Exception e3) {
+                        e = e3;
+                        tLRPC$Message2 = tLRPC$Message;
                     }
-                });
+                    getMessagesStorage().loadReplyMessages(longSparseArray, longSparseArray2, arrayList, arrayList2, false);
+                    queryFinalized.dispose();
+                    if (tLRPC$Message2 == null) {
+                        saveDraftReplyMessage(j3, i2, tLRPC$Message2);
+                        return;
+                    } else if (j2 != 0) {
+                        TLRPC$TL_channels_getMessages tLRPC$TL_channels_getMessages = new TLRPC$TL_channels_getMessages();
+                        tLRPC$TL_channels_getMessages.channel = getMessagesController().getInputChannel(j2);
+                        tLRPC$TL_channels_getMessages.id.add(Integer.valueOf(i));
+                        getConnectionsManager().sendRequest(tLRPC$TL_channels_getMessages, new RequestDelegate() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda192
+                            @Override // org.telegram.tgnet.RequestDelegate
+                            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                                MediaDataController.this.lambda$saveDraft$177(j3, i2, tLObject, tLRPC$TL_error);
+                            }
+                        });
+                        return;
+                    } else {
+                        TLRPC$TL_messages_getMessages tLRPC$TL_messages_getMessages = new TLRPC$TL_messages_getMessages();
+                        tLRPC$TL_messages_getMessages.id.add(Integer.valueOf(i));
+                        getConnectionsManager().sendRequest(tLRPC$TL_messages_getMessages, new RequestDelegate() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda193
+                            @Override // org.telegram.tgnet.RequestDelegate
+                            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                                MediaDataController.this.lambda$saveDraft$178(j3, i2, tLObject, tLRPC$TL_error);
+                            }
+                        });
+                        return;
+                    }
+                }
             } else {
-                TLRPC$TL_messages_getMessages tLRPC$TL_messages_getMessages = new TLRPC$TL_messages_getMessages();
-                tLRPC$TL_messages_getMessages.id.add(Integer.valueOf(i));
-                getConnectionsManager().sendRequest(tLRPC$TL_messages_getMessages, new RequestDelegate() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda193
-                    @Override // org.telegram.tgnet.RequestDelegate
-                    public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                        MediaDataController.this.lambda$saveDraft$178(j, i2, tLObject, tLRPC$TL_error);
-                    }
-                });
+                tLRPC$Message = null;
             }
-        } catch (Exception e) {
-            FileLog.e(e);
+            tLRPC$Message2 = tLRPC$Message;
+            queryFinalized.dispose();
+            if (tLRPC$Message2 == null) {
+            }
+        } catch (Exception e4) {
+            FileLog.e(e4);
         }
     }
 

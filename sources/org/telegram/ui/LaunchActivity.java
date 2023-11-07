@@ -13043,8 +13043,15 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 }
                 iNavigationLayout.animateThemedValues(themeInfo, intValue, booleanValue5, z, runnable);
                 if (AndroidUtilities.isTablet()) {
-                    this.layersActionBarLayout.animateThemedValues(themeInfo, intValue, booleanValue5, z);
-                    this.rightActionBarLayout.animateThemedValues(themeInfo, intValue, booleanValue5, z);
+                    INavigationLayout iNavigationLayout3 = this.layersActionBarLayout;
+                    if (iNavigationLayout3 != null) {
+                        iNavigationLayout3.animateThemedValues(themeInfo, intValue, booleanValue5, z);
+                    }
+                    INavigationLayout iNavigationLayout4 = this.rightActionBarLayout;
+                    if (iNavigationLayout4 != null) {
+                        iNavigationLayout4.animateThemedValues(themeInfo, intValue, booleanValue5, z);
+                        return;
+                    }
                     return;
                 }
                 return;

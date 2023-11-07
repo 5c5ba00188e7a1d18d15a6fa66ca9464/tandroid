@@ -3,10 +3,10 @@ package org.telegram.ui;
 import android.view.MotionEvent;
 import android.view.View;
 /* loaded from: classes3.dex */
-public final /* synthetic */ class ChatEditActivity$$ExternalSyntheticLambda32 implements View.OnTouchListener {
-    public static final /* synthetic */ ChatEditActivity$$ExternalSyntheticLambda32 INSTANCE = new ChatEditActivity$$ExternalSyntheticLambda32();
+public final /* synthetic */ class ChatEditActivity$$ExternalSyntheticLambda33 implements View.OnTouchListener {
+    public static final /* synthetic */ ChatEditActivity$$ExternalSyntheticLambda33 INSTANCE = new ChatEditActivity$$ExternalSyntheticLambda33();
 
-    private /* synthetic */ ChatEditActivity$$ExternalSyntheticLambda32() {
+    private /* synthetic */ ChatEditActivity$$ExternalSyntheticLambda33() {
     }
 
     @Override // android.view.View.OnTouchListener

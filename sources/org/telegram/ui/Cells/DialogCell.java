@@ -2059,7 +2059,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                                                                                         TLRPC$MessageMedia tLRPC$MessageMedia2 = messageObject11.messageOwner.media;
                                                                                         if (tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaGiveaway) {
                                                                                             TLRPC$TL_messageMediaGiveaway tLRPC$TL_messageMediaGiveaway = (TLRPC$TL_messageMediaGiveaway) tLRPC$MessageMedia2;
-                                                                                            str3 = LocaleController.getString("BoostingGiveaway", R.string.BoostingGiveaway);
+                                                                                            str3 = LocaleController.getString("BoostingGiveawayChannelStarted", R.string.BoostingGiveawayChannelStarted);
                                                                                         } else if (tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaPoll) {
                                                                                             str3 = "📊 " + ((TLRPC$TL_messageMediaPoll) tLRPC$MessageMedia2).poll.question;
                                                                                         } else if (tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaGame) {
