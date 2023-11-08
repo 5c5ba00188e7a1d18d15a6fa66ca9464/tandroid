@@ -225,9 +225,9 @@ public class BoostPagerBottomSheet extends BottomSheet {
         });
         selectorBottomSheet.setSelectedObjectsListener(new SelectorBottomSheet.SelectedObjectsListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostPagerBottomSheet.4
             @Override // org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet.SelectedObjectsListener
-            public void onChatsSelected(List<TLRPC$Chat> list) {
+            public void onChatsSelected(List<TLRPC$Chat> list, boolean z3) {
                 BoostPagerBottomSheet.this.viewPager.scrollToPosition(0);
-                boostViaGiftsBottomSheet.onChatsSelected(list);
+                boostViaGiftsBottomSheet.onChatsSelected(list, !BoostPagerBottomSheet.this.isKeyboardVisible());
             }
 
             @Override // org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet.SelectedObjectsListener

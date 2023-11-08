@@ -522,6 +522,11 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
             ChatAttachAlertPhotoLayout.selectedPhotosOrder.clear();
             ChatAttachAlertPhotoLayout.selectedPhotos.clear();
         }
+
+        @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
+        public boolean allowCaption() {
+            return !ChatAttachAlertPhotoLayout.this.parentAlert.isPhotoPicker;
+        }
     }
 
     protected void updateCheckedPhotoIndices() {
@@ -2160,6 +2165,11 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
         public boolean canCaptureMorePhotos() {
             return ChatAttachAlertPhotoLayout.this.parentAlert.maxSelectedPhotos != 1;
+        }
+
+        @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
+        public boolean allowCaption() {
+            return !ChatAttachAlertPhotoLayout.this.parentAlert.isPhotoPicker;
         }
     }
 

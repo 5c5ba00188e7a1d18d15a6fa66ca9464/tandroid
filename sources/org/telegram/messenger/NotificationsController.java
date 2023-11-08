@@ -3085,7 +3085,7 @@ public class NotificationsController extends BaseController {
         if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGiveaway) == false) goto L743;
      */
     /* JADX WARN: Code restructure failed: missing block: B:776:0x1057, code lost:
-        return org.telegram.messenger.LocaleController.getString("BoostingGiveawayChannelStarted", org.telegram.messenger.R.string.BoostingGiveawayChannelStarted);
+        return org.telegram.messenger.LocaleController.getString("BoostingGiveaway", org.telegram.messenger.R.string.BoostingGiveaway);
      */
     /* JADX WARN: Code restructure failed: missing block: B:778:0x105a, code lost:
         if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaGeo) != false) goto L799;

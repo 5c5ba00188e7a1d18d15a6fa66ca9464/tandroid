@@ -67,7 +67,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -160,6 +160,7 @@ import org.telegram.ui.Components.ScrollSlidingTabStrip;
 import org.telegram.ui.Components.StickerCategoriesListView;
 import org.telegram.ui.Components.TrendingStickersLayout;
 import org.telegram.ui.ContentPreviewViewer;
+import org.telegram.ui.SelectAnimatedEmojiDialog;
 import org.telegram.ui.StickersActivity;
 /* loaded from: classes4.dex */
 public class EmojiView extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
@@ -1920,11 +1921,12 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
         this.emojiLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() { // from class: org.telegram.ui.Components.EmojiView.8
             @Override // androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
             public int getSpanSize(int i15) {
-                if (EmojiView.this.emojiGridView.getAdapter() != EmojiView.this.emojiSearchAdapter) {
-                    if ((EmojiView.this.needEmojiSearch && i15 == 0) || i15 == EmojiView.this.emojiAdapter.trendingRow || i15 == EmojiView.this.emojiAdapter.trendingHeaderRow || i15 == EmojiView.this.emojiAdapter.recentlyUsedHeaderRow || EmojiView.this.emojiAdapter.positionToSection.indexOfKey(i15) >= 0 || EmojiView.this.emojiAdapter.positionToUnlock.indexOfKey(i15) >= 0) {
+                if (EmojiView.this.emojiGridView.getAdapter() == EmojiView.this.emojiSearchAdapter) {
+                    int itemViewType = EmojiView.this.emojiSearchAdapter.getItemViewType(i15);
+                    if (itemViewType == 1 || itemViewType == 3 || itemViewType == 2) {
                         return EmojiView.this.emojiLayoutManager.getSpanCount();
                     }
-                } else if (i15 == 0 || (i15 == 1 && EmojiView.this.emojiSearchAdapter.searchWas && EmojiView.this.emojiSearchAdapter.result.isEmpty())) {
+                } else if ((EmojiView.this.needEmojiSearch && i15 == 0) || i15 == EmojiView.this.emojiAdapter.trendingRow || i15 == EmojiView.this.emojiAdapter.trendingHeaderRow || i15 == EmojiView.this.emojiAdapter.recentlyUsedHeaderRow || EmojiView.this.emojiAdapter.positionToSection.indexOfKey(i15) >= 0 || EmojiView.this.emojiAdapter.positionToUnlock.indexOfKey(i15) >= 0) {
                     return EmojiView.this.emojiLayoutManager.getSpanCount();
                 }
                 return 1;
@@ -7967,27 +7969,27 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes4.dex */
     public class EmojiSearchAdapter extends RecyclerListView.SelectionAdapter {
-        private ArrayList<Long> addedSets;
         private String lastSearchAlias;
         private String lastSearchEmojiString;
-        private ArrayList<MediaDataController.KeywordResult> result;
+        private final ArrayList<TLRPC$Document> packs;
+        private final ArrayList<MediaDataController.KeywordResult> result;
         private Runnable searchRunnable;
         private boolean searchWas;
 
         private EmojiSearchAdapter() {
             this.result = new ArrayList<>();
-            this.addedSets = new ArrayList<>();
+            this.packs = new ArrayList<>();
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public int getItemCount() {
             int size;
-            if (this.result.isEmpty() && !this.searchWas) {
+            if (this.result.isEmpty() && this.packs.isEmpty() && !this.searchWas) {
                 size = EmojiView.this.getRecentEmoji().size();
-            } else if (this.result.isEmpty()) {
+            } else if (this.result.isEmpty() && this.packs.isEmpty()) {
                 return 2;
             } else {
-                size = this.result.size();
+                size = this.result.size() + this.packs.size();
             }
             return size + 1;
         }
@@ -8006,6 +8008,8 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                 View view = new View(EmojiView.this.getContext());
                 view.setLayoutParams(new RecyclerView.LayoutParams(-1, EmojiView.this.searchFieldHeight));
                 frameLayout = view;
+            } else if (i == 3) {
+                frameLayout = new StickerSetNameCell(EmojiView.this.getContext(), true, EmojiView.this.resourcesProvider);
             } else {
                 FrameLayout frameLayout2 = new FrameLayout(EmojiView.this.getContext()) { // from class: org.telegram.ui.Components.EmojiView.EmojiSearchAdapter.1
                     @Override // android.widget.FrameLayout, android.view.View
@@ -8168,73 +8172,121 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
             return new RecyclerListView.Holder(frameLayout);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:19:0x005a  */
-        /* JADX WARN: Removed duplicated region for block: B:20:0x0070  */
-        /* JADX WARN: Removed duplicated region for block: B:22:0x0075  */
-        /* JADX WARN: Removed duplicated region for block: B:27:0x009b  */
+        /* JADX WARN: Removed duplicated region for block: B:50:0x00f9  */
+        /* JADX WARN: Removed duplicated region for block: B:55:0x0113  */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
             String str;
-            boolean z;
             String str2;
+            TLRPC$Document tLRPC$Document;
+            TLRPC$Document tLRPC$Document2;
+            boolean z;
             String str3;
+            String str4;
             Long l;
-            if (viewHolder.getItemViewType() != 0) {
-                return;
-            }
-            ImageViewEmoji imageViewEmoji = (ImageViewEmoji) viewHolder.itemView;
-            imageViewEmoji.position = i;
-            imageViewEmoji.pack = null;
-            int i2 = i - 1;
-            if (this.result.isEmpty() && !this.searchWas) {
-                str = EmojiView.this.getRecentEmoji().get(i2);
-                z = true;
-            } else {
-                str = this.result.get(i2).emoji;
-                z = false;
-            }
-            if (str != null && str.startsWith("animated_")) {
-                try {
-                    l = Long.valueOf(Long.parseLong(str.substring(9)));
-                    str2 = null;
-                    str3 = null;
-                } catch (Exception unused) {
-                }
-                if (l == null) {
-                    imageViewEmoji.setPadding(AndroidUtilities.dp(3.0f), AndroidUtilities.dp(3.0f), AndroidUtilities.dp(3.0f), AndroidUtilities.dp(3.0f));
+            int size;
+            int itemViewType = viewHolder.getItemViewType();
+            int i2 = -1;
+            if (itemViewType == 0) {
+                ImageViewEmoji imageViewEmoji = (ImageViewEmoji) viewHolder.itemView;
+                imageViewEmoji.position = i;
+                imageViewEmoji.pack = null;
+                int i3 = i - 1;
+                if (this.result.isEmpty() && !this.searchWas) {
+                    str = EmojiView.this.getRecentEmoji().get(i3);
+                    str2 = str;
+                    tLRPC$Document2 = null;
+                    z = true;
                 } else {
-                    imageViewEmoji.setPadding(0, 0, 0, 0);
-                }
-                if (l == null) {
-                    imageViewEmoji.setImageDrawable(null, z);
-                    if (imageViewEmoji.getSpan() == null || imageViewEmoji.getSpan().getDocumentId() != l.longValue()) {
-                        imageViewEmoji.setSpan(new AnimatedEmojiSpan(l.longValue(), (Paint.FontMetricsInt) null));
+                    if (i3 >= 0 && i3 < this.result.size()) {
+                        str = this.result.get(i3).emoji;
+                        str2 = str;
+                        tLRPC$Document = null;
+                    } else {
+                        int size2 = i3 - this.result.size();
+                        if (size2 < 0 || size2 >= this.packs.size()) {
+                            str = null;
+                            str2 = null;
+                            tLRPC$Document = null;
+                        } else {
+                            tLRPC$Document = this.packs.get(size2);
+                            str = null;
+                            str2 = null;
+                        }
                     }
-                } else {
-                    imageViewEmoji.setImageDrawable(Emoji.getEmojiBigDrawable(str2), z);
-                    imageViewEmoji.setSpan(null);
+                    tLRPC$Document2 = tLRPC$Document;
+                    z = false;
                 }
-                imageViewEmoji.setTag(str3);
+                if (str != null && str.startsWith("animated_")) {
+                    try {
+                        l = Long.valueOf(Long.parseLong(str.substring(9)));
+                        str4 = null;
+                        str3 = null;
+                    } catch (Exception unused) {
+                    }
+                    if (tLRPC$Document2 == null || l != null) {
+                        imageViewEmoji.setPadding(AndroidUtilities.dp(3.0f), AndroidUtilities.dp(3.0f), AndroidUtilities.dp(3.0f), AndroidUtilities.dp(3.0f));
+                    } else {
+                        imageViewEmoji.setPadding(0, 0, 0, 0);
+                    }
+                    if (tLRPC$Document2 == null) {
+                        imageViewEmoji.setImageDrawable(null, z);
+                        if (imageViewEmoji.getSpan() == null || imageViewEmoji.getSpan().document != tLRPC$Document2) {
+                            imageViewEmoji.setSpan(new AnimatedEmojiSpan(tLRPC$Document2, (Paint.FontMetricsInt) null));
+                        }
+                    } else if (l != null) {
+                        imageViewEmoji.setImageDrawable(null, z);
+                        if (imageViewEmoji.getSpan() == null || imageViewEmoji.getSpan().getDocumentId() != l.longValue()) {
+                            imageViewEmoji.setSpan(new AnimatedEmojiSpan(l.longValue(), (Paint.FontMetricsInt) null));
+                        }
+                    } else if (str3 != null) {
+                        imageViewEmoji.setImageDrawable(Emoji.getEmojiBigDrawable(str3), z);
+                        imageViewEmoji.setSpan(null);
+                    } else {
+                        imageViewEmoji.setImageDrawable(null, z);
+                        imageViewEmoji.setSpan(null);
+                    }
+                    imageViewEmoji.setTag(str4);
+                }
+                str3 = str2;
+                str4 = str;
+                l = null;
+                if (tLRPC$Document2 == null) {
+                }
+                imageViewEmoji.setPadding(AndroidUtilities.dp(3.0f), AndroidUtilities.dp(3.0f), AndroidUtilities.dp(3.0f), AndroidUtilities.dp(3.0f));
+                if (tLRPC$Document2 == null) {
+                }
+                imageViewEmoji.setTag(str4);
+            } else if (itemViewType == 3 && (size = (i - 1) - this.result.size()) >= 0 && size < this.packs.size()) {
+                TLRPC$Document tLRPC$Document3 = this.packs.get(size);
+                if (tLRPC$Document3 instanceof SelectAnimatedEmojiDialog.SetTitleDocument) {
+                    StickerSetNameCell stickerSetNameCell = (StickerSetNameCell) viewHolder.itemView;
+                    String str5 = ((SelectAnimatedEmojiDialog.SetTitleDocument) tLRPC$Document3).title;
+                    if (this.lastSearchEmojiString != null && str5 != null) {
+                        i2 = str5.toLowerCase().indexOf(this.lastSearchEmojiString.toLowerCase());
+                    }
+                    if (i2 >= 0) {
+                        stickerSetNameCell.setText(str5, 0, i2, this.lastSearchEmojiString.length());
+                    } else {
+                        stickerSetNameCell.setText(str5, 0);
+                    }
+                }
             }
-            str2 = str;
-            str3 = str2;
-            l = null;
-            if (l == null) {
-            }
-            if (l == null) {
-            }
-            imageViewEmoji.setTag(str3);
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public int getItemViewType(int i) {
+            int size;
             if (i == 0) {
                 return 1;
             }
-            return (i == 1 && this.searchWas && this.result.isEmpty()) ? 2 : 0;
+            if (i == 1 && this.searchWas && this.result.isEmpty()) {
+                return 2;
+            }
+            return (this.packs.isEmpty() || (size = i - (this.result.size() + 1)) < 0 || size >= this.packs.size() || !(this.packs.get(size) instanceof SelectAnimatedEmojiDialog.SetTitleDocument)) ? 0 : 3;
         }
 
         public void search(String str) {
@@ -8263,7 +8315,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
             Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Components.EmojiView$EmojiSearchAdapter$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    EmojiView.EmojiSearchAdapter.this.lambda$search$2();
+                    EmojiView.EmojiSearchAdapter.this.lambda$search$6();
                 }
             };
             this.searchRunnable = runnable2;
@@ -8271,20 +8323,20 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$search$2() {
+        public /* synthetic */ void lambda$search$6() {
             final LinkedHashSet linkedHashSet = new LinkedHashSet();
             final String str = this.lastSearchEmojiString;
             final Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.EmojiView$EmojiSearchAdapter$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
-                    EmojiView.EmojiSearchAdapter.this.lambda$search$0(str, linkedHashSet);
+                    EmojiView.EmojiSearchAdapter.this.lambda$search$4(str);
                 }
             };
             if (Emoji.fullyConsistsOfEmojis(str)) {
-                StickerCategoriesListView.search.fetch(UserConfig.selectedAccount, str, new Utilities.Callback() { // from class: org.telegram.ui.Components.EmojiView$EmojiSearchAdapter$$ExternalSyntheticLambda2
+                StickerCategoriesListView.search.fetch(UserConfig.selectedAccount, str, new Utilities.Callback() { // from class: org.telegram.ui.Components.EmojiView$EmojiSearchAdapter$$ExternalSyntheticLambda3
                     @Override // org.telegram.messenger.Utilities.Callback
                     public final void run(Object obj) {
-                        EmojiView.EmojiSearchAdapter.lambda$search$1(linkedHashSet, runnable, (TLRPC$TL_emojiList) obj);
+                        EmojiView.EmojiSearchAdapter.lambda$search$5(linkedHashSet, runnable, (TLRPC$TL_emojiList) obj);
                     }
                 });
             } else {
@@ -8293,101 +8345,130 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$search$0(final String str, final LinkedHashSet linkedHashSet) {
+        public /* synthetic */ void lambda$search$4(final String str) {
             String[] currentKeyboardLanguage = AndroidUtilities.getCurrentKeyboardLanguage();
             if (!Arrays.equals(EmojiView.this.lastSearchKeyboardLanguage, currentKeyboardLanguage)) {
                 MediaDataController.getInstance(EmojiView.this.currentAccount).fetchNewEmojiKeywords(currentKeyboardLanguage);
             }
             EmojiView.this.lastSearchKeyboardLanguage = currentKeyboardLanguage;
-            MediaDataController.getInstance(EmojiView.this.currentAccount).getEmojiSuggestions(EmojiView.this.lastSearchKeyboardLanguage, this.lastSearchEmojiString, false, new MediaDataController.KeywordResultCallback() { // from class: org.telegram.ui.Components.EmojiView.EmojiSearchAdapter.3
-                @Override // org.telegram.messenger.MediaDataController.KeywordResultCallback
-                public void run(ArrayList<MediaDataController.KeywordResult> arrayList, String str2) {
-                    String str3;
-                    if (str.equals(EmojiSearchAdapter.this.lastSearchEmojiString)) {
-                        EmojiSearchAdapter.this.lastSearchAlias = str2;
-                        EmojiView.this.emojiSearchField.showProgress(false);
-                        EmojiSearchAdapter.this.searchWas = true;
-                        if (EmojiView.this.emojiGridView.getAdapter() != EmojiView.this.emojiSearchAdapter) {
-                            EmojiView.this.emojiGridView.setAdapter(EmojiView.this.emojiSearchAdapter);
-                        }
-                        EmojiSearchAdapter.this.result.clear();
-                        EmojiSearchAdapter.this.searchByPackname(str, linkedHashSet);
-                        Iterator it = linkedHashSet.iterator();
-                        while (it.hasNext()) {
-                            long longValue = ((Long) it.next()).longValue();
-                            MediaDataController.KeywordResult keywordResult = new MediaDataController.KeywordResult();
-                            keywordResult.keyword = "";
-                            keywordResult.emoji = "animated_" + longValue;
-                            EmojiSearchAdapter.this.result.add(keywordResult);
-                        }
-                        for (int i = 0; i < arrayList.size(); i++) {
-                            MediaDataController.KeywordResult keywordResult2 = arrayList.get(i);
-                            if (keywordResult2 != null && (str3 = keywordResult2.emoji) != null && (!str3.startsWith("animated_") || !linkedHashSet.contains(Long.valueOf(Long.parseLong(keywordResult2.emoji.substring(9)))))) {
-                                EmojiSearchAdapter.this.result.add(keywordResult2);
-                            }
-                        }
-                        EmojiSearchAdapter.this.notifyDataSetChanged();
-                    }
+            final ArrayList arrayList = new ArrayList();
+            final ArrayList arrayList2 = new ArrayList();
+            Utilities.doCallbacks(new Utilities.Callback() { // from class: org.telegram.ui.Components.EmojiView$EmojiSearchAdapter$$ExternalSyntheticLambda5
+                @Override // org.telegram.messenger.Utilities.Callback
+                public final void run(Object obj) {
+                    EmojiView.EmojiSearchAdapter.this.lambda$search$1(str, arrayList, (Runnable) obj);
                 }
-            }, null, SharedConfig.suggestAnimatedEmoji, false, true, 25);
+            }, new Utilities.Callback() { // from class: org.telegram.ui.Components.EmojiView$EmojiSearchAdapter$$ExternalSyntheticLambda4
+                @Override // org.telegram.messenger.Utilities.Callback
+                public final void run(Object obj) {
+                    EmojiView.EmojiSearchAdapter.this.lambda$search$2(str, arrayList2, (Runnable) obj);
+                }
+            }, new Utilities.Callback() { // from class: org.telegram.ui.Components.EmojiView$EmojiSearchAdapter$$ExternalSyntheticLambda6
+                @Override // org.telegram.messenger.Utilities.Callback
+                public final void run(Object obj) {
+                    EmojiView.EmojiSearchAdapter.this.lambda$search$3(str, arrayList, arrayList2, (Runnable) obj);
+                }
+            });
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public static /* synthetic */ void lambda$search$1(LinkedHashSet linkedHashSet, Runnable runnable, TLRPC$TL_emojiList tLRPC$TL_emojiList) {
-            if (tLRPC$TL_emojiList != null) {
-                linkedHashSet.addAll(tLRPC$TL_emojiList.document_id);
+        public /* synthetic */ void lambda$search$1(final String str, final ArrayList arrayList, final Runnable runnable) {
+            MediaDataController.getInstance(EmojiView.this.currentAccount).getEmojiSuggestions(EmojiView.this.lastSearchKeyboardLanguage, this.lastSearchEmojiString, false, new MediaDataController.KeywordResultCallback() { // from class: org.telegram.ui.Components.EmojiView$EmojiSearchAdapter$$ExternalSyntheticLambda2
+                @Override // org.telegram.messenger.MediaDataController.KeywordResultCallback
+                public final void run(ArrayList arrayList2, String str2) {
+                    EmojiView.EmojiSearchAdapter.this.lambda$search$0(str, arrayList, runnable, arrayList2, str2);
+                }
+            }, null, SharedConfig.suggestAnimatedEmoji || UserConfig.getInstance(EmojiView.this.currentAccount).isPremium(), false, true, 25);
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$search$0(String str, ArrayList arrayList, Runnable runnable, ArrayList arrayList2, String str2) {
+            if (str.equals(this.lastSearchEmojiString)) {
+                this.lastSearchAlias = str2;
+                arrayList.addAll(arrayList2);
+                runnable.run();
+            }
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$search$2(String str, ArrayList arrayList, Runnable runnable) {
+            TLRPC$StickerSet tLRPC$StickerSet;
+            TLRPC$StickerSet tLRPC$StickerSet2;
+            ArrayList<TLRPC$Document> arrayList2;
+            if (SharedConfig.suggestAnimatedEmoji || UserConfig.getInstance(EmojiView.this.currentAccount).isPremium()) {
+                String translitSafe = AndroidUtilities.translitSafe((str + "").toLowerCase());
+                ArrayList<TLRPC$TL_messages_stickerSet> stickerSets = MediaDataController.getInstance(EmojiView.this.currentAccount).getStickerSets(5);
+                HashSet hashSet = new HashSet();
+                if (stickerSets != null) {
+                    for (int i = 0; i < stickerSets.size(); i++) {
+                        TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet = stickerSets.get(i);
+                        if (tLRPC$TL_messages_stickerSet != null && (tLRPC$StickerSet2 = tLRPC$TL_messages_stickerSet.set) != null && tLRPC$StickerSet2.title != null && (arrayList2 = tLRPC$TL_messages_stickerSet.documents) != null && !arrayList2.isEmpty() && !hashSet.contains(Long.valueOf(tLRPC$TL_messages_stickerSet.set.id))) {
+                            String translitSafe2 = AndroidUtilities.translitSafe(tLRPC$TL_messages_stickerSet.set.title.toLowerCase());
+                            if (!translitSafe2.startsWith(translitSafe)) {
+                                if (!translitSafe2.contains(" " + translitSafe)) {
+                                }
+                            }
+                            arrayList.add(new SelectAnimatedEmojiDialog.SetTitleDocument(tLRPC$TL_messages_stickerSet.set.title));
+                            arrayList.addAll(tLRPC$TL_messages_stickerSet.documents);
+                            hashSet.add(Long.valueOf(tLRPC$TL_messages_stickerSet.set.id));
+                        }
+                    }
+                }
+                ArrayList<TLRPC$StickerSetCovered> featuredEmojiSets = MediaDataController.getInstance(EmojiView.this.currentAccount).getFeaturedEmojiSets();
+                if (featuredEmojiSets != null) {
+                    for (int i2 = 0; i2 < featuredEmojiSets.size(); i2++) {
+                        TLRPC$StickerSetCovered tLRPC$StickerSetCovered = featuredEmojiSets.get(i2);
+                        if (tLRPC$StickerSetCovered != null && (tLRPC$StickerSet = tLRPC$StickerSetCovered.set) != null && tLRPC$StickerSet.title != null && !hashSet.contains(Long.valueOf(tLRPC$StickerSet.id))) {
+                            String translitSafe3 = AndroidUtilities.translitSafe(tLRPC$StickerSetCovered.set.title.toLowerCase());
+                            if (!translitSafe3.startsWith(translitSafe)) {
+                                if (!translitSafe3.contains(" " + translitSafe)) {
+                                }
+                            }
+                            ArrayList<TLRPC$Document> arrayList3 = null;
+                            if (tLRPC$StickerSetCovered instanceof TLRPC$TL_stickerSetFullCovered) {
+                                arrayList3 = ((TLRPC$TL_stickerSetFullCovered) tLRPC$StickerSetCovered).documents;
+                            } else if (tLRPC$StickerSetCovered instanceof TLRPC$TL_stickerSetNoCovered) {
+                                TLRPC$TL_messages_stickerSet stickerSet = MediaDataController.getInstance(EmojiView.this.currentAccount).getStickerSet(MediaDataController.getInputStickerSet(tLRPC$StickerSetCovered.set), Integer.valueOf(tLRPC$StickerSetCovered.set.hash), true);
+                                if (stickerSet != null) {
+                                    arrayList3 = stickerSet.documents;
+                                }
+                            } else {
+                                arrayList3 = tLRPC$StickerSetCovered.covers;
+                            }
+                            if (arrayList3 != null && !arrayList3.isEmpty()) {
+                                arrayList.add(new SelectAnimatedEmojiDialog.SetTitleDocument(tLRPC$StickerSetCovered.set.title));
+                                arrayList.addAll(arrayList3);
+                                hashSet.add(Long.valueOf(tLRPC$StickerSetCovered.set.id));
+                            }
+                        }
+                    }
+                }
             }
             runnable.run();
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public void searchByPackname(String str, LinkedHashSet<Long> linkedHashSet) {
-            TLRPC$StickerSet tLRPC$StickerSet;
-            TLRPC$StickerSet tLRPC$StickerSet2;
-            if (str == null || str.length() <= 3 || !UserConfig.getInstance(EmojiView.this.currentAccount).isPremium()) {
-                return;
-            }
-            String lowerCase = LocaleController.getInstance().getTranslitString(str).toLowerCase();
-            ArrayList<TLRPC$TL_messages_stickerSet> stickerSets = MediaDataController.getInstance(EmojiView.this.currentAccount).getStickerSets(5);
-            ArrayList<TLRPC$StickerSetCovered> featuredEmojiSets = MediaDataController.getInstance(EmojiView.this.currentAccount).getFeaturedEmojiSets();
-            this.addedSets.clear();
-            for (int i = 0; i < stickerSets.size(); i++) {
-                TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet = stickerSets.get(i);
-                if (tLRPC$TL_messages_stickerSet != null && (tLRPC$StickerSet2 = tLRPC$TL_messages_stickerSet.set) != null) {
-                    checkAddPackToResults(tLRPC$StickerSet2, tLRPC$TL_messages_stickerSet.documents, lowerCase, linkedHashSet);
+        public /* synthetic */ void lambda$search$3(String str, ArrayList arrayList, ArrayList arrayList2, Runnable runnable) {
+            if (str.equals(this.lastSearchEmojiString)) {
+                EmojiView.this.emojiSearchField.showProgress(false);
+                this.searchWas = true;
+                if (EmojiView.this.emojiGridView.getAdapter() != EmojiView.this.emojiSearchAdapter) {
+                    EmojiView.this.emojiGridView.setAdapter(EmojiView.this.emojiSearchAdapter);
                 }
-            }
-            for (int i2 = 0; i2 < featuredEmojiSets.size(); i2++) {
-                TLRPC$StickerSetCovered tLRPC$StickerSetCovered = featuredEmojiSets.get(i2);
-                if (tLRPC$StickerSetCovered != null && (tLRPC$StickerSet = tLRPC$StickerSetCovered.set) != null) {
-                    if (tLRPC$StickerSetCovered instanceof TLRPC$TL_stickerSetFullCovered) {
-                        checkAddPackToResults(tLRPC$StickerSet, ((TLRPC$TL_stickerSetFullCovered) tLRPC$StickerSetCovered).documents, lowerCase, linkedHashSet);
-                    } else if (tLRPC$StickerSetCovered instanceof TLRPC$TL_stickerSetNoCovered) {
-                        TLRPC$TL_inputStickerSetID tLRPC$TL_inputStickerSetID = new TLRPC$TL_inputStickerSetID();
-                        tLRPC$TL_inputStickerSetID.id = tLRPC$StickerSetCovered.set.id;
-                        TLRPC$TL_messages_stickerSet stickerSet = MediaDataController.getInstance(EmojiView.this.currentAccount).getStickerSet(tLRPC$TL_inputStickerSetID, true);
-                        if (stickerSet != null) {
-                            checkAddPackToResults(stickerSet.set, stickerSet.documents, lowerCase, linkedHashSet);
-                        }
-                    } else {
-                        checkAddPackToResults(tLRPC$StickerSet, tLRPC$StickerSetCovered.covers, lowerCase, linkedHashSet);
-                    }
-                }
+                this.result.clear();
+                this.result.addAll(arrayList);
+                this.packs.clear();
+                this.packs.addAll(arrayList2);
+                notifyDataSetChanged();
             }
         }
 
-        private void checkAddPackToResults(TLRPC$StickerSet tLRPC$StickerSet, ArrayList<TLRPC$Document> arrayList, String str, LinkedHashSet<Long> linkedHashSet) {
-            if (tLRPC$StickerSet.title == null || this.addedSets.contains(Long.valueOf(tLRPC$StickerSet.id)) || !LocaleController.getInstance().getTranslitString(tLRPC$StickerSet.title.toLowerCase()).contains(str)) {
-                return;
+        /* JADX INFO: Access modifiers changed from: private */
+        public static /* synthetic */ void lambda$search$5(LinkedHashSet linkedHashSet, Runnable runnable, TLRPC$TL_emojiList tLRPC$TL_emojiList) {
+            if (tLRPC$TL_emojiList != null) {
+                linkedHashSet.addAll(tLRPC$TL_emojiList.document_id);
             }
-            Iterator<TLRPC$Document> it = arrayList.iterator();
-            while (it.hasNext()) {
-                TLRPC$Document next = it.next();
-                if (next != null) {
-                    linkedHashSet.add(Long.valueOf(next.id));
-                }
-            }
-            this.addedSets.add(Long.valueOf(tLRPC$StickerSet.id));
+            runnable.run();
         }
     }
 
@@ -9199,7 +9280,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
             return false;
         }
 
-        static /* synthetic */ int access$19404(StickersSearchGridAdapter stickersSearchGridAdapter) {
+        static /* synthetic */ int access$19104(StickersSearchGridAdapter stickersSearchGridAdapter) {
             int i = stickersSearchGridAdapter.emojiSearchId + 1;
             stickersSearchGridAdapter.emojiSearchId = i;
             return i;
@@ -9481,7 +9562,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                     StickersSearchGridAdapter.this.notifyDataSetChanged();
                     return;
                 }
-                this.lastId = StickersSearchGridAdapter.access$19404(StickersSearchGridAdapter.this);
+                this.lastId = StickersSearchGridAdapter.access$19104(StickersSearchGridAdapter.this);
                 this.query = StickersSearchGridAdapter.this.searchQuery;
                 this.serverPacks.clear();
                 this.localPacks.clear();

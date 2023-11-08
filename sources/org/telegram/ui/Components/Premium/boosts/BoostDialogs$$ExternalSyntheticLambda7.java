@@ -10,6 +10,6 @@ public final /* synthetic */ class BoostDialogs$$ExternalSyntheticLambda7 implem
 
     @Override // android.content.DialogInterface.OnClickListener
     public final void onClick(DialogInterface dialogInterface, int i) {
-        BoostDialogs.lambda$showAboutEnd$18(dialogInterface, i);
+        BoostDialogs.lambda$showAboutEnd$15(dialogInterface, i);
     }
 }

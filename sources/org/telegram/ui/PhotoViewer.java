@@ -5259,7 +5259,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         this.qualityPicker.setTranslationY(AndroidUtilities.dp(120.0f));
         this.qualityPicker.doneButton.setText(LocaleController.getString("Done", R.string.Done).toUpperCase());
         TextView textView = this.qualityPicker.doneButton;
-        int i8 = Theme.key_dialogFloatingButton;
+        int i8 = Theme.key_chat_editMediaButton;
         textView.setTextColor(getThemedColor(i8));
         this.containerView.addView(this.qualityPicker, LayoutHelper.createFrame(-1, 48, 83));
         this.qualityPicker.cancelButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.PhotoViewer$$ExternalSyntheticLambda42
@@ -8782,7 +8782,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     return;
                 }
                 if (PhotoViewer.this.photoCropView.mirror()) {
-                    PhotoViewer.this.mirrorItem.setColorFilter(new PorterDuffColorFilter(PhotoViewer.this.getThemedColor(Theme.key_dialogFloatingButton), PorterDuff.Mode.MULTIPLY));
+                    PhotoViewer.this.mirrorItem.setColorFilter(new PorterDuffColorFilter(PhotoViewer.this.getThemedColor(Theme.key_chat_editMediaButton), PorterDuff.Mode.MULTIPLY));
                 } else {
                     PhotoViewer.this.mirrorItem.setColorFilter((ColorFilter) null);
                 }
@@ -8863,7 +8863,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     PhotoViewer.this.photoCropView.wheelView.setRotated(false);
                     if (Math.abs(f) > 0.0f) {
                         if (PhotoViewer.this.photoCropView.rotate(f)) {
-                            PhotoViewer.this.rotateItem.setColorFilter(new PorterDuffColorFilter(PhotoViewer.this.getThemedColor(Theme.key_dialogFloatingButton), PorterDuff.Mode.MULTIPLY));
+                            PhotoViewer.this.rotateItem.setColorFilter(new PorterDuffColorFilter(PhotoViewer.this.getThemedColor(Theme.key_chat_editMediaButton), PorterDuff.Mode.MULTIPLY));
                         } else {
                             PhotoViewer.this.rotateItem.setColorFilter((ColorFilter) null);
                         }
@@ -9670,7 +9670,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     }
 
     public void updateColors() {
-        int i = Theme.key_dialogFloatingButton;
+        int i = Theme.key_chat_editMediaButton;
         int themedColor = getThemedColor(i);
         ImageView imageView = this.pickerViewSendButton;
         if (imageView != null) {
@@ -11184,13 +11184,13 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         i = this.currentEditMode;
                         if (i == 1) {
                             mediaEditState.isCropped = true;
-                            this.cropItem.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_dialogFloatingButton), PorterDuff.Mode.MULTIPLY));
+                            this.cropItem.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_chat_editMediaButton), PorterDuff.Mode.MULTIPLY));
                         } else if (i == 2) {
                             mediaEditState.isFiltered = true;
-                            this.tuneItem.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_dialogFloatingButton), PorterDuff.Mode.MULTIPLY));
+                            this.tuneItem.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_chat_editMediaButton), PorterDuff.Mode.MULTIPLY));
                         } else if (i == 3 && z) {
                             mediaEditState.isPainted = true;
-                            this.paintItem.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_dialogFloatingButton), PorterDuff.Mode.MULTIPLY));
+                            this.paintItem.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_chat_editMediaButton), PorterDuff.Mode.MULTIPLY));
                         }
                         i2 = this.sendPhotoType;
                         if ((i2 != 0 || i2 == 4) && (photoViewerProvider = this.placeProvider) != null) {
@@ -12148,7 +12148,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         this.previousCropMirrored = this.cropTransform.isMirrored();
                         this.photoCropView.onAppear();
                         this.editorDoneLayout.doneButton.setText(LocaleController.getString("Crop", R.string.Crop));
-                        this.editorDoneLayout.doneButton.setTextColor(getThemedColor(Theme.key_dialogFloatingButton));
+                        this.editorDoneLayout.doneButton.setTextColor(getThemedColor(Theme.key_chat_editMediaButton));
                         this.changeModeAnimation = new AnimatorSet();
                         ArrayList arrayList2 = new ArrayList();
                         FrameLayout frameLayout = this.pickerView;
@@ -15089,7 +15089,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                             this.checkImageView.setChecked(this.placeProvider.isPhotoChecked(this.switchingToIndex), false);
                         }
                         updateCaptionTextForCurrentPhoto(obj);
-                        PorterDuffColorFilter porterDuffColorFilter = new PorterDuffColorFilter(getThemedColor(Theme.key_dialogFloatingButton), PorterDuff.Mode.MULTIPLY);
+                        PorterDuffColorFilter porterDuffColorFilter = new PorterDuffColorFilter(getThemedColor(Theme.key_chat_editMediaButton), PorterDuff.Mode.MULTIPLY);
                         this.captionEdit.setIsVideo(z8);
                         this.captionEdit.setTimer(i4);
                         this.paintItem.setColorFilter(!z10 ? porterDuffColorFilter : null);
@@ -15122,7 +15122,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     }
                     this.checkImageView.setChecked(this.placeProvider.isPhotoChecked(this.switchingToIndex), false);
                     updateCaptionTextForCurrentPhoto(obj);
-                    PorterDuffColorFilter porterDuffColorFilter2 = new PorterDuffColorFilter(getThemedColor(Theme.key_dialogFloatingButton), PorterDuff.Mode.MULTIPLY);
+                    PorterDuffColorFilter porterDuffColorFilter2 = new PorterDuffColorFilter(getThemedColor(Theme.key_chat_editMediaButton), PorterDuff.Mode.MULTIPLY);
                     this.captionEdit.setIsVideo(z8);
                     this.captionEdit.setTimer(i4);
                     this.paintItem.setColorFilter(!z10 ? porterDuffColorFilter2 : null);

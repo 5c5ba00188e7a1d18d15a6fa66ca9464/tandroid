@@ -13624,7 +13624,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         int i = this.currentAccount;
         TLRPC$User tLRPC$User = this.currentUser;
         botWebViewSheet.requestWebView(i, tLRPC$User != null ? tLRPC$User.id : this.currentChat.id, this.mentionContainer.getAdapter().getFoundContextBot().id, tLRPC$TL_inlineBotWebView.text, tLRPC$TL_inlineBotWebView.url, 1, 0, false, 1);
-        showDialog(botWebViewSheet);
+        botWebViewSheet.show();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -15145,8 +15145,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:54:0x00b4  */
-    /* JADX WARN: Removed duplicated region for block: B:68:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x00d2  */
+    /* JADX WARN: Removed duplicated region for block: B:80:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -15158,6 +15158,20 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         if (this.currentEncryptedChat == null || getMessagesController().secretWebpagePreview != 0) {
             MessageObject messageObject = this.editingMessageObject;
             if (messageObject == null || (messageObject.isWebpage() && !(this.editingMessageObject.messageOwner.media.webpage instanceof TLRPC$TL_webPagePending))) {
+                TLRPC$Chat tLRPC$Chat = this.currentChat;
+                if (tLRPC$Chat != null && !ChatObject.canSendEmbed(tLRPC$Chat)) {
+                    if (this.foundWebPage != null) {
+                        this.foundWebPage = null;
+                        ChatActivityEnterView chatActivityEnterView = this.chatActivityEnterView;
+                        if (chatActivityEnterView != null) {
+                            chatActivityEnterView.setWebPage(null, true);
+                        }
+                        fallbackFieldPanel();
+                        editResetMediaManual();
+                        return;
+                    }
+                    return;
+                }
                 checkEditLinkRemoved(charSequence);
                 if (z && (tLRPC$WebPage = this.foundWebPage) != null) {
                     String str = tLRPC$WebPage.url;
@@ -15205,9 +15219,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     this.pendingLinkSearchString = null;
                     this.foundUrls = null;
                     this.foundWebPage = null;
-                    ChatActivityEnterView chatActivityEnterView = this.chatActivityEnterView;
-                    if (chatActivityEnterView != null) {
-                        chatActivityEnterView.setWebPage(null, true);
+                    ChatActivityEnterView chatActivityEnterView2 = this.chatActivityEnterView;
+                    if (chatActivityEnterView2 != null) {
+                        chatActivityEnterView2.setWebPage(null, true);
                     }
                     fallbackFieldPanel();
                     editResetMediaManual();
@@ -24796,7 +24810,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:93:0x0222  */
+    /* JADX WARN: Removed duplicated region for block: B:105:0x023b  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -24839,17 +24853,18 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         if (getMessagesController().isJoiningChannel(this.currentChat.id)) {
                             showBottomOverlayProgress(true, false);
                         } else {
-                            if (this.currentChat.join_request) {
+                            TLRPC$Chat tLRPC$Chat4 = this.currentChat;
+                            if (tLRPC$Chat4.join_request) {
                                 if (j > 0 && System.currentTimeMillis() - j < 120000) {
-                                    this.bottomOverlayChatText.setText(LocaleController.getString("ChannelJoinRequestSent", R.string.ChannelJoinRequestSent), true);
+                                    this.bottomOverlayChatText.setText(LocaleController.getString(ChatObject.isChannelAndNotMegaGroup(this.currentChat) ? R.string.ChannelJoinRequestSent : R.string.GroupJoinRequestSent), true);
                                     this.bottomOverlayChatText.setEnabled(false);
                                 } else {
-                                    this.bottomOverlayChatText.setText(LocaleController.getString("ChannelJoinRequest", R.string.ChannelJoinRequest));
+                                    this.bottomOverlayChatText.setText(LocaleController.getString(ChatObject.isChannelAndNotMegaGroup(this.currentChat) ? R.string.ChannelJoinRequest : R.string.GroupJoinRequest));
                                     this.bottomOverlayChatText.setEnabled(true);
                                 }
                                 z = true;
                             } else {
-                                this.bottomOverlayChatText.setText(LocaleController.getString("ChannelJoin", R.string.ChannelJoin));
+                                this.bottomOverlayChatText.setText(LocaleController.getString(ChatObject.isChannelAndNotMegaGroup(tLRPC$Chat4) ? R.string.ChannelJoin : R.string.GroupJoin));
                                 this.bottomOverlayChatText.setEnabled(true);
                                 z = false;
                             }
@@ -24951,8 +24966,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 this.bottomOverlayChatText.setText(LocaleController.getString("DeleteThisChat", R.string.DeleteThisChat));
             }
         }
-        TLRPC$Chat tLRPC$Chat4 = this.currentChat;
-        if (tLRPC$Chat4 != null && tLRPC$Chat4.gigagroup && this.reportType < 0 && this.chatMode == 0) {
+        TLRPC$Chat tLRPC$Chat5 = this.currentChat;
+        if (tLRPC$Chat5 != null && tLRPC$Chat5.gigagroup && this.reportType < 0 && this.chatMode == 0) {
             this.bottomOverlayImage.setVisibility(0);
         } else {
             this.bottomOverlayImage.setVisibility(4);
@@ -25063,8 +25078,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 this.searchExpandAnimator.start();
             }
             if (this.muteItem != null) {
-                TLRPC$Chat tLRPC$Chat5 = this.currentChat;
-                if (tLRPC$Chat5 != null && ChatObject.isNotInChat(tLRPC$Chat5)) {
+                TLRPC$Chat tLRPC$Chat6 = this.currentChat;
+                if (tLRPC$Chat6 != null && ChatObject.isNotInChat(tLRPC$Chat6)) {
                     this.muteItem.setVisibility(8);
                     this.muteItemGap.setVisibility(8);
                 } else {
@@ -28184,7 +28199,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             MessageObject messageObject3 = new MessageObject(this.currentAccount, tLRPC$Message, (AbstractMap<Long, TLRPC$User>) getMessagesController().getUsers(), false, false);
             this.replyingMessageObject = messageObject3;
             TLRPC$InputReplyTo tLRPC$InputReplyTo2 = tLRPC$DraftMessage.reply_to;
-            if (tLRPC$InputReplyTo2 != null && (tLRPC$InputReplyTo2.flags & 64) != 0) {
+            if (tLRPC$InputReplyTo2 != null && (tLRPC$InputReplyTo2.flags & 4) != 0) {
                 this.replyingQuote = ReplyQuote.from(messageObject3, tLRPC$InputReplyTo2.quote_text);
             }
             checkNewMessagesOnQuoteEdit(false);

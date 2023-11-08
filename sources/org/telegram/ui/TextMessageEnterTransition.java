@@ -561,7 +561,7 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
                 chatMessageCell2.replyLine = new ReplyMessageLine(chatMessageCell2);
             }
             ChatMessageCell chatMessageCell3 = this.messageView;
-            chatMessageCell3.replyLine.check(chatMessageCell3.getMessageObject(), this.messageView.getCurrentUser(), this.messageView.getCurrentChat(), this.resourcesProvider, true);
+            chatMessageCell3.replyLine.check(chatMessageCell3.getMessageObject(), this.messageView.getCurrentUser(), this.messageView.getCurrentChat(), this.resourcesProvider, 0);
             if (this.currentMessageObject.shouldDrawWithoutBackground()) {
                 themedColor = getThemedColor(Theme.key_chat_stickerReplyNameText);
                 getThemedColor(Theme.key_chat_stickerReplyLine);

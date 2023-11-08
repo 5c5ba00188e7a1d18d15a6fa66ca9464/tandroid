@@ -116,14 +116,14 @@ public class BoostViaGiftsBottomSheet extends BottomSheetWithRecyclerListView im
         int i = this.backgroundPaddingLeft;
         recyclerListView.setPadding(i, 0, i, AndroidUtilities.dp(68.0f));
         this.recyclerListView.setItemAnimator(defaultItemAnimator);
-        this.recyclerListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostViaGiftsBottomSheet$$ExternalSyntheticLambda17
+        this.recyclerListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostViaGiftsBottomSheet$$ExternalSyntheticLambda18
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i2) {
                 BoostViaGiftsBottomSheet.this.lambda$new$1(baseFragment, view, i2);
             }
         });
         this.currentChat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-j));
-        this.adapter.setItems(arrayList, this.recyclerListView, new SlideChooseView.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.BoostViaGiftsBottomSheet$$ExternalSyntheticLambda18
+        this.adapter.setItems(arrayList, this.recyclerListView, new SlideChooseView.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.BoostViaGiftsBottomSheet$$ExternalSyntheticLambda19
             @Override // org.telegram.ui.Components.SlideChooseView.Callback
             public final void onOptionSelected(int i2) {
                 BoostViaGiftsBottomSheet.this.lambda$new$2(i2);
@@ -133,7 +133,7 @@ public class BoostViaGiftsBottomSheet extends BottomSheetWithRecyclerListView im
             public /* synthetic */ void onTouchEnd() {
                 SlideChooseView.Callback.-CC.$default$onTouchEnd(this);
             }
-        }, new ChatCell.ChatDeleteListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostViaGiftsBottomSheet$$ExternalSyntheticLambda16
+        }, new ChatCell.ChatDeleteListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostViaGiftsBottomSheet$$ExternalSyntheticLambda17
             @Override // org.telegram.ui.Components.Premium.boosts.cells.ChatCell.ChatDeleteListener
             public final void onChatDeleted(TLRPC$Chat tLRPC$Chat) {
                 BoostViaGiftsBottomSheet.this.lambda$new$3(tLRPC$Chat);
@@ -145,7 +145,7 @@ public class BoostViaGiftsBottomSheet extends BottomSheetWithRecyclerListView im
         actionBtnCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostViaGiftsBottomSheet$$ExternalSyntheticLambda2
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
-                BoostViaGiftsBottomSheet.this.lambda$new$14(baseFragment, tL_stories$TL_prepaidGiveaway, view);
+                BoostViaGiftsBottomSheet.this.lambda$new$15(baseFragment, tL_stories$TL_prepaidGiveaway, view);
             }
         });
         updateActionButton(false);
@@ -187,7 +187,7 @@ public class BoostViaGiftsBottomSheet extends BottomSheetWithRecyclerListView im
             this.selectedMonths = ((TLRPC$TL_premiumGiftCodeOption) ((DurationCell) view).getGifCode()).months;
             updateRows(false, false);
         } else if (view instanceof DateEndCell) {
-            BoostDialogs.showDatePicker(baseFragment.getContext(), this.selectedEndDate, new AlertsCreator.ScheduleDatePickerDelegate() { // from class: org.telegram.ui.Components.Premium.boosts.BoostViaGiftsBottomSheet$$ExternalSyntheticLambda15
+            BoostDialogs.showDatePicker(baseFragment.getContext(), this.selectedEndDate, new AlertsCreator.ScheduleDatePickerDelegate() { // from class: org.telegram.ui.Components.Premium.boosts.BoostViaGiftsBottomSheet$$ExternalSyntheticLambda16
                 @Override // org.telegram.ui.Components.AlertsCreator.ScheduleDatePickerDelegate
                 public final void didSelectDate(boolean z, int i2) {
                     BoostViaGiftsBottomSheet.this.lambda$new$0(z, i2);
@@ -220,7 +220,7 @@ public class BoostViaGiftsBottomSheet extends BottomSheetWithRecyclerListView im
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$14(BaseFragment baseFragment, final TL_stories$TL_prepaidGiveaway tL_stories$TL_prepaidGiveaway, View view) {
+    public /* synthetic */ void lambda$new$15(BaseFragment baseFragment, final TL_stories$TL_prepaidGiveaway tL_stories$TL_prepaidGiveaway, View view) {
         if (this.actionBtn.isLoading()) {
             return;
         }
@@ -233,7 +233,7 @@ public class BoostViaGiftsBottomSheet extends BottomSheetWithRecyclerListView im
                         return;
                     }
                     this.actionBtn.updateLoading(true);
-                    BoostRepository.payGiftCode(this.selectedUsers, tLRPC$TL_premiumGiftCodeOption, this.currentChat, baseFragment, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.BoostViaGiftsBottomSheet$$ExternalSyntheticLambda7
+                    BoostRepository.payGiftCode(this.selectedUsers, tLRPC$TL_premiumGiftCodeOption, this.currentChat, baseFragment, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.BoostViaGiftsBottomSheet$$ExternalSyntheticLambda8
                         @Override // org.telegram.messenger.Utilities.Callback
                         public final void run(Object obj) {
                             BoostViaGiftsBottomSheet.this.lambda$new$5((Void) obj);
@@ -251,18 +251,10 @@ public class BoostViaGiftsBottomSheet extends BottomSheetWithRecyclerListView im
         }
         List<TLRPC$TL_premiumGiftCodeOption> filterGiftOptions2 = BoostRepository.filterGiftOptions(this.giftCodeOptions, getSelectedSliderValue());
         if (isPreparedGiveaway()) {
-            int prepareServerDate = BoostRepository.prepareServerDate(this.selectedEndDate);
-            boolean z = this.selectedParticipantsType == ParticipantsTypeCell.TYPE_NEW;
-            this.actionBtn.updateLoading(true);
-            BoostRepository.launchPreparedGiveaway(tL_stories$TL_prepaidGiveaway, this.selectedChats, this.selectedCountries, this.currentChat, prepareServerDate, z, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.BoostViaGiftsBottomSheet$$ExternalSyntheticLambda14
-                @Override // org.telegram.messenger.Utilities.Callback
-                public final void run(Object obj) {
-                    BoostViaGiftsBottomSheet.this.lambda$new$8(tL_stories$TL_prepaidGiveaway, (Void) obj);
-                }
-            }, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.BoostViaGiftsBottomSheet$$ExternalSyntheticLambda12
-                @Override // org.telegram.messenger.Utilities.Callback
-                public final void run(Object obj) {
-                    BoostViaGiftsBottomSheet.this.lambda$new$9((TLRPC$TL_error) obj);
+            BoostDialogs.showStartGiveawayDialog(new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.BoostViaGiftsBottomSheet$$ExternalSyntheticLambda6
+                @Override // java.lang.Runnable
+                public final void run() {
+                    BoostViaGiftsBottomSheet.this.lambda$new$10(tL_stories$TL_prepaidGiveaway);
                 }
             });
             return;
@@ -270,26 +262,26 @@ public class BoostViaGiftsBottomSheet extends BottomSheetWithRecyclerListView im
         for (int i2 = 0; i2 < filterGiftOptions2.size(); i2++) {
             TLRPC$TL_premiumGiftCodeOption tLRPC$TL_premiumGiftCodeOption2 = filterGiftOptions2.get(i2);
             if (tLRPC$TL_premiumGiftCodeOption2.months == this.selectedMonths) {
-                if (BoostRepository.isGoogleBillingAvailable() && BoostDialogs.checkReduceQuantity(this.sliderValues, getContext(), this.resourcesProvider, this.giftCodeOptions, tLRPC$TL_premiumGiftCodeOption2, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.BoostViaGiftsBottomSheet$$ExternalSyntheticLambda13
+                if (BoostRepository.isGoogleBillingAvailable() && BoostDialogs.checkReduceQuantity(this.sliderValues, getContext(), this.resourcesProvider, this.giftCodeOptions, tLRPC$TL_premiumGiftCodeOption2, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.BoostViaGiftsBottomSheet$$ExternalSyntheticLambda14
                     @Override // org.telegram.messenger.Utilities.Callback
                     public final void run(Object obj) {
-                        BoostViaGiftsBottomSheet.this.lambda$new$10((TLRPC$TL_premiumGiftCodeOption) obj);
+                        BoostViaGiftsBottomSheet.this.lambda$new$11((TLRPC$TL_premiumGiftCodeOption) obj);
                     }
                 })) {
                     return;
                 }
-                boolean z2 = this.selectedParticipantsType == ParticipantsTypeCell.TYPE_NEW;
-                int prepareServerDate2 = BoostRepository.prepareServerDate(this.selectedEndDate);
+                boolean z = this.selectedParticipantsType == ParticipantsTypeCell.TYPE_NEW;
+                int prepareServerDate = BoostRepository.prepareServerDate(this.selectedEndDate);
                 this.actionBtn.updateLoading(true);
-                BoostRepository.payGiveAway(this.selectedChats, this.selectedCountries, tLRPC$TL_premiumGiftCodeOption2, this.currentChat, prepareServerDate2, z2, baseFragment, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.BoostViaGiftsBottomSheet$$ExternalSyntheticLambda8
+                BoostRepository.payGiveAway(this.selectedChats, this.selectedCountries, tLRPC$TL_premiumGiftCodeOption2, this.currentChat, prepareServerDate, z, baseFragment, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.BoostViaGiftsBottomSheet$$ExternalSyntheticLambda9
                     @Override // org.telegram.messenger.Utilities.Callback
                     public final void run(Object obj) {
-                        BoostViaGiftsBottomSheet.this.lambda$new$12((Void) obj);
+                        BoostViaGiftsBottomSheet.this.lambda$new$13((Void) obj);
                     }
-                }, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.BoostViaGiftsBottomSheet$$ExternalSyntheticLambda10
+                }, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.BoostViaGiftsBottomSheet$$ExternalSyntheticLambda12
                     @Override // org.telegram.messenger.Utilities.Callback
                     public final void run(Object obj) {
-                        BoostViaGiftsBottomSheet.this.lambda$new$13((TLRPC$TL_error) obj);
+                        BoostViaGiftsBottomSheet.this.lambda$new$14((TLRPC$TL_error) obj);
                     }
                 });
                 return;
@@ -300,7 +292,7 @@ public class BoostViaGiftsBottomSheet extends BottomSheetWithRecyclerListView im
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$5(Void r3) {
         dismiss();
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.BoostViaGiftsBottomSheet$$ExternalSyntheticLambda3
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.BoostViaGiftsBottomSheet$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
                 BoostViaGiftsBottomSheet.this.lambda$new$4();
@@ -320,9 +312,27 @@ public class BoostViaGiftsBottomSheet extends BottomSheetWithRecyclerListView im
     }
 
     /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$new$10(final TL_stories$TL_prepaidGiveaway tL_stories$TL_prepaidGiveaway) {
+        int prepareServerDate = BoostRepository.prepareServerDate(this.selectedEndDate);
+        boolean z = this.selectedParticipantsType == ParticipantsTypeCell.TYPE_NEW;
+        this.actionBtn.updateLoading(true);
+        BoostRepository.launchPreparedGiveaway(tL_stories$TL_prepaidGiveaway, this.selectedChats, this.selectedCountries, this.currentChat, prepareServerDate, z, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.BoostViaGiftsBottomSheet$$ExternalSyntheticLambda15
+            @Override // org.telegram.messenger.Utilities.Callback
+            public final void run(Object obj) {
+                BoostViaGiftsBottomSheet.this.lambda$new$8(tL_stories$TL_prepaidGiveaway, (Void) obj);
+            }
+        }, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.BoostViaGiftsBottomSheet$$ExternalSyntheticLambda13
+            @Override // org.telegram.messenger.Utilities.Callback
+            public final void run(Object obj) {
+                BoostViaGiftsBottomSheet.this.lambda$new$9((TLRPC$TL_error) obj);
+            }
+        });
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$8(final TL_stories$TL_prepaidGiveaway tL_stories$TL_prepaidGiveaway, Void r4) {
         dismiss();
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.BoostViaGiftsBottomSheet$$ExternalSyntheticLambda6
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.BoostViaGiftsBottomSheet$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
             public final void run() {
                 BoostViaGiftsBottomSheet.this.lambda$new$7(tL_stories$TL_prepaidGiveaway);
@@ -342,30 +352,30 @@ public class BoostViaGiftsBottomSheet extends BottomSheetWithRecyclerListView im
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$10(TLRPC$TL_premiumGiftCodeOption tLRPC$TL_premiumGiftCodeOption) {
+    public /* synthetic */ void lambda$new$11(TLRPC$TL_premiumGiftCodeOption tLRPC$TL_premiumGiftCodeOption) {
         this.selectedSliderIndex = this.sliderValues.indexOf(Integer.valueOf(tLRPC$TL_premiumGiftCodeOption.users));
         updateRows(true, true);
         updateActionButton(true);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$12(Void r3) {
+    public /* synthetic */ void lambda$new$13(Void r3) {
         dismiss();
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.BoostViaGiftsBottomSheet$$ExternalSyntheticLambda5
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.BoostViaGiftsBottomSheet$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
-                BoostViaGiftsBottomSheet.this.lambda$new$11();
+                BoostViaGiftsBottomSheet.this.lambda$new$12();
             }
         }, 220L);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$11() {
+    public /* synthetic */ void lambda$new$12() {
         NotificationCenter.getInstance(UserConfig.selectedAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.boostByChannelCreated, this.currentChat, Boolean.TRUE);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$13(TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$new$14(TLRPC$TL_error tLRPC$TL_error) {
         this.actionBtn.updateLoading(false);
         BoostDialogs.showToastError(getContext(), tLRPC$TL_error);
     }
@@ -383,16 +393,16 @@ public class BoostViaGiftsBottomSheet extends BottomSheetWithRecyclerListView im
     }
 
     private void loadOptions() {
-        BoostRepository.loadGiftOptions(this.currentChat, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.BoostViaGiftsBottomSheet$$ExternalSyntheticLambda9
+        BoostRepository.loadGiftOptions(this.currentChat, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.BoostViaGiftsBottomSheet$$ExternalSyntheticLambda10
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
-                BoostViaGiftsBottomSheet.this.lambda$loadOptions$15((List) obj);
+                BoostViaGiftsBottomSheet.this.lambda$loadOptions$16((List) obj);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadOptions$15(List list) {
+    public /* synthetic */ void lambda$loadOptions$16(List list) {
         this.giftCodeOptions.clear();
         this.giftCodeOptions.addAll(list);
         updateRows(true, true);
@@ -496,7 +506,7 @@ public class BoostViaGiftsBottomSheet extends BottomSheetWithRecyclerListView im
         this.items.add(BoostAdapter.Item.asDivider(AndroidUtilities.replaceSingleTag(isPreparedGiveaway() ? LocaleController.formatPluralString("BoostingChooseRandom", this.prepaidGiveaway.quantity, new Object[0]) + "\n\n" + LocaleController.getString("BoostingStoriesFeaturesAndTerms", R.string.BoostingStoriesFeaturesAndTerms) : LocaleController.getString("BoostingStoriesFeaturesAndTerms", R.string.BoostingStoriesFeaturesAndTerms), Theme.key_chat_messageLinkIn, 0, new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.BoostViaGiftsBottomSheet$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
-                BoostViaGiftsBottomSheet.this.lambda$updateRows$18();
+                BoostViaGiftsBottomSheet.this.lambda$updateRows$19();
             }
         }, this.resourcesProvider), true));
         BoostAdapter boostAdapter = this.adapter;
@@ -510,30 +520,30 @@ public class BoostViaGiftsBottomSheet extends BottomSheetWithRecyclerListView im
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$updateRows$18() {
+    public /* synthetic */ void lambda$updateRows$19() {
         PremiumPreviewBottomSheet premiumPreviewBottomSheet = new PremiumPreviewBottomSheet(getBaseFragment(), this.currentAccount, null, this.resourcesProvider);
         premiumPreviewBottomSheet.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostViaGiftsBottomSheet$$ExternalSyntheticLambda0
             @Override // android.content.DialogInterface.OnDismissListener
             public final void onDismiss(DialogInterface dialogInterface) {
-                BoostViaGiftsBottomSheet.this.lambda$updateRows$16(dialogInterface);
+                BoostViaGiftsBottomSheet.this.lambda$updateRows$17(dialogInterface);
             }
         });
         premiumPreviewBottomSheet.setOnShowListener(new DialogInterface.OnShowListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostViaGiftsBottomSheet$$ExternalSyntheticLambda1
             @Override // android.content.DialogInterface.OnShowListener
             public final void onShow(DialogInterface dialogInterface) {
-                BoostViaGiftsBottomSheet.this.lambda$updateRows$17(dialogInterface);
+                BoostViaGiftsBottomSheet.this.lambda$updateRows$18(dialogInterface);
             }
         });
         premiumPreviewBottomSheet.show();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$updateRows$16(DialogInterface dialogInterface) {
+    public /* synthetic */ void lambda$updateRows$17(DialogInterface dialogInterface) {
         this.adapter.setPausedStars(false);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$updateRows$17(DialogInterface dialogInterface) {
+    public /* synthetic */ void lambda$updateRows$18(DialogInterface dialogInterface) {
         this.adapter.setPausedStars(true);
     }
 
@@ -553,10 +563,10 @@ public class BoostViaGiftsBottomSheet extends BottomSheetWithRecyclerListView im
     }
 
     @Override // org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet.SelectedObjectsListener
-    public void onChatsSelected(List<TLRPC$Chat> list) {
+    public void onChatsSelected(List<TLRPC$Chat> list, boolean z) {
         this.selectedChats.clear();
         this.selectedChats.addAll(list);
-        updateRows(true, true);
+        updateRows(z, true);
     }
 
     @Override // org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet.SelectedObjectsListener
