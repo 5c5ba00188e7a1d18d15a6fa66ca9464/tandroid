@@ -1732,6 +1732,10 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         Bundle bundle = new Bundle();
         bundle.putLong("chat_id", this.chatId);
         bundle.putBoolean("is_megagroup", this.currentChat.megagroup);
+        TLRPC$ChatFull chatFull = getMessagesController().getChatFull(this.chatId);
+        if (chatFull == null || !chatFull.can_view_stats) {
+            bundle.putBoolean("only_boosts", true);
+        }
         presentFragment(new StatisticActivity(bundle));
     }
 

@@ -396,10 +396,13 @@ public class ReassignBoostBottomSheet extends BottomSheetWithRecyclerListView {
             super(context);
             this.addedChats = new ArrayList();
             setOrientation(1);
+            setClipChildren(false);
             FrameLayout frameLayout = new FrameLayout(getContext());
             this.avatarsContainer = frameLayout;
+            frameLayout.setClipChildren(false);
             FrameLayout frameLayout2 = new FrameLayout(getContext());
             this.avatarsWrapper = frameLayout2;
+            frameLayout2.setClipChildren(false);
             frameLayout.addView(frameLayout2, LayoutHelper.createFrame(-1, 70.0f, 0, 0.0f, 0.0f, 0.0f, 0.0f));
             ArrowView arrowView = new ArrowView(context);
             this.arrowView = arrowView;
@@ -538,7 +541,7 @@ public class ReassignBoostBottomSheet extends BottomSheetWithRecyclerListView {
             if (this.addedChats.isEmpty() || this.addedChats.size() == 1) {
                 this.avatarsContainer.animate().setInterpolator(cubicBezierInterpolator).translationX(0.0f).setDuration(200).start();
             } else {
-                this.avatarsContainer.animate().setInterpolator(cubicBezierInterpolator).translationX(AndroidUtilities.dp(11.0f) * (this.addedChats.size() - 1)).setDuration(200).start();
+                this.avatarsContainer.animate().setInterpolator(cubicBezierInterpolator).translationX(AndroidUtilities.dp(13.0f) * (this.addedChats.size() - 1)).setDuration(200).start();
             }
             this.toAvatar.animate().cancel();
             this.avatarsWrapper.animate().cancel();

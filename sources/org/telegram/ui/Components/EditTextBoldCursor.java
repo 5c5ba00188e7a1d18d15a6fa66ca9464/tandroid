@@ -861,8 +861,8 @@ public class EditTextBoldCursor extends EditTextEffects {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x0123 A[Catch: all -> 0x014c, TryCatch #3 {all -> 0x014c, blocks: (B:36:0x0078, B:38:0x007c, B:40:0x0080, B:42:0x0092, B:47:0x00a0, B:50:0x00a6, B:52:0x00ad, B:54:0x00b5, B:59:0x00db, B:61:0x0123, B:63:0x0126, B:64:0x012b, B:55:0x00c8, B:57:0x00d0, B:46:0x009c), top: B:157:0x0078 }] */
-    /* JADX WARN: Removed duplicated region for block: B:85:0x01da A[Catch: all -> 0x0204, TryCatch #1 {all -> 0x0204, blocks: (B:74:0x015d, B:76:0x0164, B:78:0x016c, B:83:0x0192, B:85:0x01da, B:87:0x01dd, B:88:0x01e2, B:79:0x017f, B:81:0x0187), top: B:152:0x015d }] */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x0117 A[Catch: all -> 0x0140, TryCatch #0 {all -> 0x0140, blocks: (B:31:0x006c, B:33:0x0070, B:35:0x0074, B:37:0x0086, B:42:0x0094, B:45:0x009a, B:47:0x00a1, B:49:0x00a9, B:54:0x00cf, B:56:0x0117, B:58:0x011a, B:59:0x011f, B:50:0x00bc, B:52:0x00c4, B:41:0x0090), top: B:145:0x006c }] */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x01ce A[Catch: all -> 0x01f8, TryCatch #1 {all -> 0x01f8, blocks: (B:69:0x0151, B:71:0x0158, B:73:0x0160, B:78:0x0186, B:80:0x01ce, B:82:0x01d1, B:83:0x01d6, B:74:0x0173, B:76:0x017b), top: B:147:0x0151 }] */
     @Override // org.telegram.ui.Components.EditTextEffects, android.widget.TextView, android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -897,14 +897,10 @@ public class EditTextBoldCursor extends EditTextEffects {
                 throw new RuntimeException(e);
             }
         }
-        if (!EditTextEffects.allowHackingTextCanvas()) {
-            this.ignoreTopCount = 1;
-            this.ignoreBottomCount = 1;
-        }
+        this.ignoreTopCount = 1;
+        this.ignoreBottomCount = 1;
         canvas.save();
-        if (!EditTextEffects.allowHackingTextCanvas()) {
-            canvas.translate(0.0f, extendedPaddingTop);
-        }
+        canvas.translate(0.0f, extendedPaddingTop);
         try {
             this.drawInMaim = true;
             super.onDraw(canvas);
@@ -1048,7 +1044,7 @@ public class EditTextBoldCursor extends EditTextEffects {
                 }
             } finally {
                 if (BuildVars.DEBUG_PRIVATE_VERSION) {
-                    RuntimeException runtimeException = new RuntimeException(e3);
+                    RuntimeException runtimeException = new RuntimeException(th);
                 }
             }
         } else if (this.cursorDrawn) {
@@ -1169,7 +1165,7 @@ public class EditTextBoldCursor extends EditTextEffects {
                 }
             } finally {
                 if (BuildVars.DEBUG_PRIVATE_VERSION) {
-                    RuntimeException runtimeException2 = new RuntimeException(th);
+                    RuntimeException runtimeException2 = new RuntimeException(e3);
                 }
             }
         }

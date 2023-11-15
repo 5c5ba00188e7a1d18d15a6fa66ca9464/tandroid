@@ -187,24 +187,25 @@ public class GiveawayMessageCell {
     }
 
     public void setButtonPressed(boolean z) {
+        Drawable drawable;
         MessageObject messageObject = this.messageObject;
-        if (messageObject == null || !messageObject.isGiveaway()) {
+        if (messageObject == null || !messageObject.isGiveaway() || (drawable = this.selectorDrawable) == null) {
             return;
         }
         if (z) {
-            this.selectorDrawable.setCallback(new Drawable.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.cells.msg.GiveawayMessageCell.1
+            drawable.setCallback(new Drawable.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.cells.msg.GiveawayMessageCell.1
                 @Override // android.graphics.drawable.Drawable.Callback
-                public void invalidateDrawable(Drawable drawable) {
+                public void invalidateDrawable(Drawable drawable2) {
                     GiveawayMessageCell.this.parentView.invalidate();
                 }
 
                 @Override // android.graphics.drawable.Drawable.Callback
-                public void scheduleDrawable(Drawable drawable, Runnable runnable, long j) {
+                public void scheduleDrawable(Drawable drawable2, Runnable runnable, long j) {
                     GiveawayMessageCell.this.parentView.invalidate();
                 }
 
                 @Override // android.graphics.drawable.Drawable.Callback
-                public void unscheduleDrawable(Drawable drawable, Runnable runnable) {
+                public void unscheduleDrawable(Drawable drawable2, Runnable runnable) {
                     GiveawayMessageCell.this.parentView.invalidate();
                 }
             });
@@ -212,7 +213,7 @@ public class GiveawayMessageCell {
             this.parentView.invalidate();
             return;
         }
-        this.selectorDrawable.setState(StateSet.NOTHING);
+        drawable.setState(StateSet.NOTHING);
         this.parentView.invalidate();
     }
 

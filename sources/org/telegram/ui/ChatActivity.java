@@ -20273,7 +20273,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         int i8 = this.cantForwardMessagesCount;
         if (messageObject != null) {
             ArrayList<MessageObject> arrayList = this.threadMessageObjects;
-            if (arrayList != null && arrayList.contains(messageObject)) {
+            if (arrayList != null && arrayList.contains(messageObject) && !isThreadChat()) {
                 return;
             }
             char c = messageObject.getDialogId() == this.dialog_id ? (char) 0 : (char) 1;
@@ -28588,62 +28588,62 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:382:0x0728, code lost:
-        if (org.telegram.messenger.Emoji.fullyConsistsOfEmojis(r3) != false) goto L1446;
+    /* JADX WARN: Code restructure failed: missing block: B:384:0x072e, code lost:
+        if (org.telegram.messenger.Emoji.fullyConsistsOfEmojis(r3) != false) goto L1448;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:639:0x0cc9, code lost:
-        if (r0.edit_messages != false) goto L1135;
+    /* JADX WARN: Code restructure failed: missing block: B:641:0x0ccf, code lost:
+        if (r0.edit_messages != false) goto L1137;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:975:0x1722, code lost:
-        if (r2.isEmpty() == false) goto L851;
+    /* JADX WARN: Code restructure failed: missing block: B:977:0x1728, code lost:
+        if (r2.isEmpty() == false) goto L853;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:988:0x1747, code lost:
-        if ((r7.available_reactions instanceof org.telegram.tgnet.TLRPC$TL_chatReactionsNone) == false) goto L864;
+    /* JADX WARN: Code restructure failed: missing block: B:990:0x174d, code lost:
+        if ((r7.available_reactions instanceof org.telegram.tgnet.TLRPC$TL_chatReactionsNone) == false) goto L866;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:991:0x1751, code lost:
-        if (org.telegram.messenger.ChatObject.isChannel(r56.currentChat) == false) goto L864;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:993:0x1755, code lost:
-        if (r56.currentUser != null) goto L864;
+    /* JADX WARN: Code restructure failed: missing block: B:993:0x1757, code lost:
+        if (org.telegram.messenger.ChatObject.isChannel(r56.currentChat) == false) goto L866;
      */
     /* JADX WARN: Code restructure failed: missing block: B:995:0x175b, code lost:
-        if (r2.isEmpty() != false) goto L371;
+        if (r56.currentUser != null) goto L866;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:997:0x1761, code lost:
+        if (r2.isEmpty() != false) goto L373;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:1054:0x183c  */
-    /* JADX WARN: Removed duplicated region for block: B:1072:0x18b4  */
-    /* JADX WARN: Removed duplicated region for block: B:1073:0x18b7  */
-    /* JADX WARN: Removed duplicated region for block: B:1076:0x18f3  */
-    /* JADX WARN: Removed duplicated region for block: B:1077:0x18f5  */
-    /* JADX WARN: Removed duplicated region for block: B:1080:0x18fd  */
-    /* JADX WARN: Removed duplicated region for block: B:1081:0x1902  */
-    /* JADX WARN: Removed duplicated region for block: B:1084:0x191d  */
-    /* JADX WARN: Removed duplicated region for block: B:1107:0x1aa7  */
-    /* JADX WARN: Removed duplicated region for block: B:1297:0x23e3  */
-    /* JADX WARN: Removed duplicated region for block: B:1300:0x2411  */
-    /* JADX WARN: Removed duplicated region for block: B:1301:0x241a  */
-    /* JADX WARN: Removed duplicated region for block: B:1421:0x2762  */
-    /* JADX WARN: Removed duplicated region for block: B:1422:0x2769  */
-    /* JADX WARN: Removed duplicated region for block: B:1427:0x2795  */
-    /* JADX WARN: Removed duplicated region for block: B:1430:0x27c0  */
-    /* JADX WARN: Removed duplicated region for block: B:1432:0x27c3  */
-    /* JADX WARN: Removed duplicated region for block: B:1443:0x2823  */
-    /* JADX WARN: Removed duplicated region for block: B:1449:0x2842  */
-    /* JADX WARN: Removed duplicated region for block: B:1450:0x2846  */
-    /* JADX WARN: Removed duplicated region for block: B:1453:0x2861  */
-    /* JADX WARN: Removed duplicated region for block: B:1456:0x2868  */
-    /* JADX WARN: Removed duplicated region for block: B:177:0x030c  */
-    /* JADX WARN: Removed duplicated region for block: B:187:0x0330  */
-    /* JADX WARN: Removed duplicated region for block: B:188:0x0332  */
-    /* JADX WARN: Removed duplicated region for block: B:296:0x0539 A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:297:0x053a  */
-    /* JADX WARN: Removed duplicated region for block: B:397:0x076b  */
-    /* JADX WARN: Removed duplicated region for block: B:411:0x07d4  */
-    /* JADX WARN: Removed duplicated region for block: B:928:0x1674  */
-    /* JADX WARN: Removed duplicated region for block: B:929:0x1677  */
-    /* JADX WARN: Removed duplicated region for block: B:934:0x1689 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:939:0x1692  */
-    /* JADX WARN: Removed duplicated region for block: B:941:0x169b  */
+    /* JADX WARN: Removed duplicated region for block: B:1056:0x1842  */
+    /* JADX WARN: Removed duplicated region for block: B:1074:0x18ba  */
+    /* JADX WARN: Removed duplicated region for block: B:1075:0x18bd  */
+    /* JADX WARN: Removed duplicated region for block: B:1078:0x18f9  */
+    /* JADX WARN: Removed duplicated region for block: B:1079:0x18fb  */
+    /* JADX WARN: Removed duplicated region for block: B:1082:0x1903  */
+    /* JADX WARN: Removed duplicated region for block: B:1083:0x1908  */
+    /* JADX WARN: Removed duplicated region for block: B:1086:0x1923  */
+    /* JADX WARN: Removed duplicated region for block: B:1109:0x1aad  */
+    /* JADX WARN: Removed duplicated region for block: B:1299:0x23e9  */
+    /* JADX WARN: Removed duplicated region for block: B:1302:0x2417  */
+    /* JADX WARN: Removed duplicated region for block: B:1303:0x2420  */
+    /* JADX WARN: Removed duplicated region for block: B:1423:0x2768  */
+    /* JADX WARN: Removed duplicated region for block: B:1424:0x276f  */
+    /* JADX WARN: Removed duplicated region for block: B:1429:0x279b  */
+    /* JADX WARN: Removed duplicated region for block: B:1432:0x27c6  */
+    /* JADX WARN: Removed duplicated region for block: B:1434:0x27c9  */
+    /* JADX WARN: Removed duplicated region for block: B:1445:0x2829  */
+    /* JADX WARN: Removed duplicated region for block: B:1451:0x2848  */
+    /* JADX WARN: Removed duplicated region for block: B:1452:0x284c  */
+    /* JADX WARN: Removed duplicated region for block: B:1455:0x2867  */
+    /* JADX WARN: Removed duplicated region for block: B:1458:0x286e  */
+    /* JADX WARN: Removed duplicated region for block: B:179:0x0312  */
+    /* JADX WARN: Removed duplicated region for block: B:189:0x0336  */
+    /* JADX WARN: Removed duplicated region for block: B:190:0x0338  */
+    /* JADX WARN: Removed duplicated region for block: B:298:0x053f A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:299:0x0540  */
+    /* JADX WARN: Removed duplicated region for block: B:399:0x0771  */
+    /* JADX WARN: Removed duplicated region for block: B:413:0x07da  */
+    /* JADX WARN: Removed duplicated region for block: B:930:0x167a  */
+    /* JADX WARN: Removed duplicated region for block: B:931:0x167d  */
+    /* JADX WARN: Removed duplicated region for block: B:936:0x168f A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:941:0x1698  */
+    /* JADX WARN: Removed duplicated region for block: B:943:0x16a1  */
     /* JADX WARN: Type inference failed for: r12v37 */
     /* JADX WARN: Type inference failed for: r12v5 */
     /* JADX WARN: Type inference failed for: r12v6, types: [int, boolean] */
@@ -28864,7 +28864,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 }
             }
         }
-        boolean z21 = (messageObject.isSponsored() || ((arrayList13 = this.threadMessageObjects) != null && arrayList13.contains(messageObject))) ? true : z;
+        boolean z21 = (messageObject.isSponsored() || !((arrayList13 = this.threadMessageObjects) == null || !arrayList13.contains(messageObject) || isThreadChat())) ? true : z;
         this.selectedObject = null;
         this.selectedObjectGroup = null;
         this.forwardingMessage = null;
@@ -32208,8 +32208,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         Bundle bundle = new Bundle();
                         bundle.putBoolean("onlySelect", true);
                         bundle.putInt("dialogsType", 3);
-                        MessageObject.GroupedMessages groupedMessages = this.forwardingMessageGroup;
-                        bundle.putInt("messagesCount", groupedMessages == null ? 1 : groupedMessages.messages.size());
+                        bundle.putInt("messagesCount", 1);
                         if (!this.forwardingMessage.isPoll()) {
                             i2 = 0;
                         } else if (!this.forwardingMessage.isPublicPoll()) {
@@ -32250,9 +32249,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             this.selectedObjectToEditCaption = null;
                             return;
                         }
-                        MessageObject.GroupedMessages groupedMessages2 = this.selectedObjectGroup;
-                        if (groupedMessages2 != null) {
-                            int size = groupedMessages2.messages.size();
+                        MessageObject.GroupedMessages groupedMessages = this.selectedObjectGroup;
+                        if (groupedMessages != null) {
+                            int size = groupedMessages.messages.size();
                             boolean z3 = true;
                             boolean z4 = true;
                             for (int i5 = 0; i5 < size; i5++) {
@@ -32501,8 +32500,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         this.selectedObjectToEditCaption = null;
                         break;
                     case 13:
-                        MessageObject.GroupedMessages groupedMessages3 = this.selectedObjectGroup;
-                        if (groupedMessages3 != null && !groupedMessages3.messages.isEmpty()) {
+                        MessageObject.GroupedMessages groupedMessages2 = this.selectedObjectGroup;
+                        if (groupedMessages2 != null && !groupedMessages2.messages.isEmpty()) {
                             id = this.selectedObjectGroup.messages.get(0).getId();
                         } else {
                             id = this.selectedObject.getId();
@@ -32589,8 +32588,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         if (this.pinnedMessageObjects.containsKey(Integer.valueOf(this.selectedObject.getId()))) {
                             messageObject = this.selectedObject;
                         } else {
-                            MessageObject.GroupedMessages groupedMessages4 = this.selectedObjectGroup;
-                            if (groupedMessages4 != null && !groupedMessages4.messages.isEmpty()) {
+                            MessageObject.GroupedMessages groupedMessages3 = this.selectedObjectGroup;
+                            if (groupedMessages3 != null && !groupedMessages3.messages.isEmpty()) {
                                 messageObject = this.selectedObjectGroup.messages.get(0);
                             } else {
                                 messageObject = this.selectedObject;
@@ -32744,8 +32743,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         z = true;
                         break;
                     case 27:
-                        MessageObject.GroupedMessages groupedMessages5 = this.selectedObjectGroup;
-                        MessageObject findPrimaryMessageObject = groupedMessages5 != null ? groupedMessages5.findPrimaryMessageObject() : this.selectedObject;
+                        MessageObject.GroupedMessages groupedMessages4 = this.selectedObjectGroup;
+                        MessageObject findPrimaryMessageObject = groupedMessages4 != null ? groupedMessages4.findPrimaryMessageObject() : this.selectedObject;
                         if (findPrimaryMessageObject != null) {
                             openDiscussionMessageChat(this.currentChat.id, null, findPrimaryMessageObject.getId(), 0L, -1, 0, null);
                             break;
@@ -32793,11 +32792,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 });
             }
             final MessageObject messageObject11 = this.selectedObject;
-            final MessageObject.GroupedMessages groupedMessages6 = this.selectedObjectGroup;
+            final MessageObject.GroupedMessages groupedMessages5 = this.selectedObjectGroup;
             AlertsCreator.createScheduleDatePickerDialog(getParentActivity(), this.dialog_id, messageObject11.messageOwner.date, new AlertsCreator.ScheduleDatePickerDelegate() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda292
                 @Override // org.telegram.ui.Components.AlertsCreator.ScheduleDatePickerDelegate
                 public final void didSelectDate(boolean z5, int i12) {
-                    ChatActivity.this.lambda$processSelectedOption$262(groupedMessages6, messageObject11, z5, i12);
+                    ChatActivity.this.lambda$processSelectedOption$262(groupedMessages5, messageObject11, z5, i12);
                 }
             }, null, this.themeDelegate).setOnPreDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda52
                 @Override // android.content.DialogInterface.OnDismissListener
