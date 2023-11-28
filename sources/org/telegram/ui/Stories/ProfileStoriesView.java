@@ -41,6 +41,7 @@ import org.telegram.ui.Components.RadialProgress;
 import org.telegram.ui.ProfileActivity;
 import org.telegram.ui.Stories.ProfileStoriesView;
 import org.telegram.ui.Stories.StoriesController;
+import org.telegram.ui.Stories.StoriesUtilities;
 import org.telegram.ui.Stories.StoryViewer;
 /* loaded from: classes4.dex */
 public class ProfileStoriesView extends View implements NotificationCenter.NotificationCenterDelegate {
@@ -62,6 +63,7 @@ public class ProfileStoriesView extends View implements NotificationCenter.Notif
     private final AnimatedFloat expandRightPadAnimated;
     private float expandY;
     private float fragmentTransitionProgress;
+    private final StoriesUtilities.StoryGradientTools gradientTools;
     private StoriesController.UploadingStory lastUploadingStory;
     private float left;
     private StoryCircle mainCircle;
@@ -168,6 +170,7 @@ public class ProfileStoriesView extends View implements NotificationCenter.Notif
         this.paint = new Paint(1);
         this.bounceScale = 1.0f;
         this.progressToInsets = 1.0f;
+        this.gradientTools = new StoriesUtilities.StoryGradientTools((View) this, false);
         this.rect1 = new RectF();
         this.rect2 = new RectF();
         this.rect3 = new RectF();
@@ -219,9 +222,19 @@ public class ProfileStoriesView extends View implements NotificationCenter.Notif
     }
 
     /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Code restructure failed: missing block: B:59:0x00f0, code lost:
+        if (r7 != false) goto L34;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:96:0x016f, code lost:
+        if (r9 != false) goto L99;
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public void updateStories(boolean z, boolean z2) {
         ArrayList<TL_stories$StoryItem> arrayList;
         int i;
+        int i2;
         TL_stories$StoryItem tL_stories$StoryItem;
         boolean z3 = this.dialogId == UserConfig.getInstance(this.currentAccount).getClientUserId();
         TL_stories$PeerStories storiesFromFullPeer = MessagesController.getInstance(this.currentAccount).getStoriesController().getStoriesFromFullPeer(this.dialogId);
@@ -235,102 +248,107 @@ public class ProfileStoriesView extends View implements NotificationCenter.Notif
             arrayList = new ArrayList<>();
         }
         ArrayList arrayList2 = new ArrayList();
-        int i2 = this.unreadCount;
+        int i3 = this.unreadCount;
         this.unreadCount = 0;
         if (arrayList != null) {
-            i = 0;
-            for (int i3 = 0; i3 < arrayList.size(); i3++) {
-                TL_stories$StoryItem tL_stories$StoryItem2 = arrayList.get(i3);
+            i2 = 0;
+            for (int i4 = 0; i4 < arrayList.size(); i4++) {
+                TL_stories$StoryItem tL_stories$StoryItem2 = arrayList.get(i4);
                 if (!(tL_stories$StoryItem2 instanceof TL_stories$TL_storyItemDeleted)) {
                     if (tL_stories$StoryItem2.id > max) {
                         this.unreadCount++;
                     }
-                    i++;
+                    i2++;
                 }
             }
-            for (int i4 = 0; i4 < arrayList.size(); i4++) {
-                TL_stories$StoryItem tL_stories$StoryItem3 = arrayList.get(i4);
+            int i5 = 0;
+            while (true) {
+                if (i5 >= arrayList.size()) {
+                    i = 3;
+                    break;
+                }
+                TL_stories$StoryItem tL_stories$StoryItem3 = arrayList.get(i5);
                 if (!(tL_stories$StoryItem3 instanceof TL_stories$TL_storyItemDeleted)) {
                     if (tL_stories$StoryItem3 instanceof TL_stories$TL_storyItemSkipped) {
-                        int i5 = tL_stories$StoryItem3.id;
+                        int i6 = tL_stories$StoryItem3.id;
                         if (stories != null) {
-                            int i6 = 0;
+                            int i7 = 0;
                             while (true) {
-                                if (i6 >= stories.stories.size()) {
+                                if (i7 >= stories.stories.size()) {
                                     break;
-                                } else if (stories.stories.get(i6).id == i5) {
-                                    tL_stories$StoryItem3 = stories.stories.get(i6);
+                                } else if (stories.stories.get(i7).id == i6) {
+                                    tL_stories$StoryItem3 = stories.stories.get(i7);
                                     break;
                                 } else {
-                                    i6++;
+                                    i7++;
                                 }
                             }
                         }
                         boolean z4 = tL_stories$StoryItem3 instanceof TL_stories$TL_storyItemSkipped;
                         if (z4) {
                             if (storiesFromFullPeer != null) {
-                                int i7 = 0;
+                                int i8 = 0;
                                 while (true) {
-                                    if (i7 >= storiesFromFullPeer.stories.size()) {
+                                    if (i8 >= storiesFromFullPeer.stories.size()) {
                                         break;
-                                    } else if (storiesFromFullPeer.stories.get(i7).id == i5) {
-                                        storiesFromFullPeer.stories.get(i7);
+                                    } else if (storiesFromFullPeer.stories.get(i8).id == i6) {
+                                        storiesFromFullPeer.stories.get(i8);
                                         break;
                                     } else {
-                                        i7++;
+                                        i8++;
                                     }
                                 }
                             }
-                        } else if (z4) {
-                            continue;
                         }
                     }
                     if (z3 || tL_stories$StoryItem3.id > max) {
                         arrayList2.add(tL_stories$StoryItem3);
+                        i = 3;
                         if (arrayList2.size() >= 3) {
                             break;
                         }
+                        i5++;
                     }
                 }
+                i5++;
             }
         } else {
-            i = 0;
+            i = 3;
+            i2 = 0;
         }
-        if (arrayList2.size() < 3) {
-            for (int i8 = 0; i8 < arrayList.size(); i8++) {
-                TL_stories$StoryItem tL_stories$StoryItem4 = arrayList.get(i8);
+        if (arrayList2.size() < i) {
+            for (int i9 = 0; i9 < arrayList.size(); i9++) {
+                TL_stories$StoryItem tL_stories$StoryItem4 = arrayList.get(i9);
                 if (tL_stories$StoryItem4 instanceof TL_stories$TL_storyItemSkipped) {
-                    int i9 = tL_stories$StoryItem4.id;
+                    int i10 = tL_stories$StoryItem4.id;
                     if (stories != null) {
-                        int i10 = 0;
+                        int i11 = 0;
                         while (true) {
-                            if (i10 >= stories.stories.size()) {
+                            if (i11 >= stories.stories.size()) {
                                 break;
-                            } else if (stories.stories.get(i10).id == i9) {
-                                tL_stories$StoryItem4 = stories.stories.get(i10);
+                            } else if (stories.stories.get(i11).id == i10) {
+                                tL_stories$StoryItem4 = stories.stories.get(i11);
                                 break;
                             } else {
-                                i10++;
+                                i11++;
                             }
                         }
                     }
                     boolean z5 = tL_stories$StoryItem4 instanceof TL_stories$TL_storyItemSkipped;
                     if (z5) {
                         if (storiesFromFullPeer != null) {
-                            int i11 = 0;
+                            int i12 = 0;
                             while (true) {
-                                if (i11 >= storiesFromFullPeer.stories.size()) {
+                                if (i12 >= storiesFromFullPeer.stories.size()) {
                                     break;
-                                } else if (storiesFromFullPeer.stories.get(i11).id == i9) {
-                                    storiesFromFullPeer.stories.get(i11);
+                                } else if (storiesFromFullPeer.stories.get(i12).id == i10) {
+                                    storiesFromFullPeer.stories.get(i12);
                                     break;
                                 } else {
-                                    i11++;
+                                    i12++;
                                 }
                             }
                         }
-                    } else if (z5) {
-                        continue;
                     }
                 }
                 if (!(tL_stories$StoryItem4 instanceof TL_stories$TL_storyItemDeleted) && !arrayList2.contains(tL_stories$StoryItem4)) {
@@ -341,48 +359,48 @@ public class ProfileStoriesView extends View implements NotificationCenter.Notif
                 }
             }
         }
-        for (int i12 = 0; i12 < this.circles.size(); i12++) {
-            StoryCircle storyCircle = this.circles.get(i12);
-            int i13 = 0;
+        for (int i13 = 0; i13 < this.circles.size(); i13++) {
+            StoryCircle storyCircle = this.circles.get(i13);
+            int i14 = 0;
             while (true) {
-                if (i13 >= arrayList2.size()) {
-                    i13 = -1;
+                if (i14 >= arrayList2.size()) {
+                    i14 = -1;
                     tL_stories$StoryItem = null;
                     break;
                 }
-                tL_stories$StoryItem = (TL_stories$StoryItem) arrayList2.get(i13);
+                tL_stories$StoryItem = (TL_stories$StoryItem) arrayList2.get(i14);
                 if (tL_stories$StoryItem.id == storyCircle.storyId) {
                     break;
                 }
-                i13++;
+                i14++;
             }
-            if (i13 == -1) {
+            if (i14 == -1) {
                 storyCircle.scale = 0.0f;
             } else {
-                storyCircle.index = i13;
+                storyCircle.index = i14;
                 storyCircle.read = z3 || !(tL_stories$PeerStories == null || tL_stories$StoryItem == null || tL_stories$StoryItem.id > this.storiesController.getMaxStoriesReadId(this.dialogId));
             }
             if (!z) {
                 storyCircle.apply();
             }
         }
-        for (int i14 = 0; i14 < arrayList2.size(); i14++) {
-            TL_stories$StoryItem tL_stories$StoryItem5 = (TL_stories$StoryItem) arrayList2.get(i14);
-            int i15 = 0;
+        for (int i15 = 0; i15 < arrayList2.size(); i15++) {
+            TL_stories$StoryItem tL_stories$StoryItem5 = (TL_stories$StoryItem) arrayList2.get(i15);
+            int i16 = 0;
             while (true) {
-                if (i15 >= this.circles.size()) {
-                    i15 = -1;
+                if (i16 >= this.circles.size()) {
+                    i16 = -1;
                     break;
-                } else if (this.circles.get(i15).storyId == tL_stories$StoryItem5.id) {
+                } else if (this.circles.get(i16).storyId == tL_stories$StoryItem5.id) {
                     break;
                 } else {
-                    i15++;
+                    i16++;
                 }
             }
-            if (i15 == -1) {
+            if (i16 == -1) {
                 tL_stories$StoryItem5.dialogId = this.dialogId;
                 StoryCircle storyCircle2 = new StoryCircle(tL_stories$StoryItem5);
-                storyCircle2.index = i14;
+                storyCircle2.index = i15;
                 storyCircle2.scale = 1.0f;
                 storyCircle2.scaleAnimated.set(0.0f, true);
                 storyCircle2.read = z3 || (tL_stories$PeerStories != null && tL_stories$StoryItem5.id <= tL_stories$PeerStories.max_read_id);
@@ -393,31 +411,36 @@ public class ProfileStoriesView extends View implements NotificationCenter.Notif
             }
         }
         this.mainCircle = null;
-        int i16 = 0;
+        int i17 = 0;
         while (true) {
-            if (i16 >= this.circles.size()) {
+            if (i17 >= this.circles.size()) {
                 break;
             }
-            StoryCircle storyCircle3 = this.circles.get(i16);
+            StoryCircle storyCircle3 = this.circles.get(i17);
             if (storyCircle3.scale > 0.0f) {
                 this.mainCircle = storyCircle3;
                 break;
             }
-            i16++;
+            i17++;
         }
         ArrayList<StoriesController.UploadingStory> uploadingStories = this.storiesController.getUploadingStories(this.dialogId);
         this.uploadingStoriesCount = uploadingStories == null ? 0 : uploadingStories.size();
-        int max2 = Math.max(arrayList2.size(), i);
+        int max2 = Math.max(arrayList2.size(), i2);
         if (max2 == 0 && this.uploadingStoriesCount != 0) {
             max2 = 1;
         }
         if (z2 && z) {
-            if (max2 == this.count + 1 && this.unreadCount == i2 + 1) {
+            if (max2 == this.count + 1 && this.unreadCount == i3 + 1) {
                 animateNewStory();
             }
         }
         this.count = max2;
         this.titleDrawable.setText(max2 > 0 ? LocaleController.formatPluralString("Stories", max2, new Object[0]) : "", z && !LocaleController.isRTL);
+        if (this.dialogId >= 0) {
+            this.gradientTools.setUser(MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(this.dialogId)), z);
+        } else {
+            this.gradientTools.setChat(MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-this.dialogId)), z);
+        }
         invalidate();
     }
 
@@ -504,19 +527,18 @@ public class ProfileStoriesView extends View implements NotificationCenter.Notif
         invalidate();
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:160:0x06d6, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:160:0x06db, code lost:
         if (java.lang.Math.abs(r1.borderRect.centerX() - r7.borderRect.centerX()) > ((r1.borderRect.width() / 2.0f) + (r7.borderRect.width() / 2.0f))) goto L123;
      */
-    /* JADX WARN: Removed duplicated region for block: B:168:0x06e8  */
-    /* JADX WARN: Removed duplicated region for block: B:171:0x070a  */
-    /* JADX WARN: Removed duplicated region for block: B:204:0x072b A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:168:0x06ed  */
+    /* JADX WARN: Removed duplicated region for block: B:171:0x070f  */
+    /* JADX WARN: Removed duplicated region for block: B:204:0x0730 A[SYNTHETIC] */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     protected void dispatchDraw(Canvas canvas) {
         boolean z;
-        boolean z2;
         Paint paint;
         float f;
         float f2;
@@ -540,9 +562,8 @@ public class ProfileStoriesView extends View implements NotificationCenter.Notif
         float f9 = this.left;
         int i2 = 0;
         while (true) {
-            z = true;
             if (i2 >= this.circles.size()) {
-                z2 = false;
+                z = false;
                 break;
             }
             StoryCircle storyCircle2 = this.circles.get(i2);
@@ -556,13 +577,13 @@ public class ProfileStoriesView extends View implements NotificationCenter.Notif
                 storyCircle2.cachedIndex = storyCircle2.indexAnimated.set(storyCircle2.index);
                 storyCircle2.cachedRead = storyCircle2.readAnimated.set(storyCircle2.read);
                 if (i2 > 0 && this.circles.get(i2 - 1).cachedIndex > storyCircle2.cachedIndex) {
-                    z2 = true;
+                    z = true;
                     break;
                 }
             }
             i2++;
         }
-        if (z2) {
+        if (z) {
             Collections.sort(this.circles, ProfileStoriesView$$ExternalSyntheticLambda4.INSTANCE);
         }
         float clamp2 = Utilities.clamp(1.0f - (this.expandProgress / 0.2f), 1.0f, 0.0f);
@@ -582,7 +603,7 @@ public class ProfileStoriesView extends View implements NotificationCenter.Notif
         if (lerp2 > 0.0f) {
             this.rect2.set(this.rect1);
             this.rect2.inset(-AndroidUtilities.dpf2(3.775f), -AndroidUtilities.dpf2(3.775f));
-            paint = StoriesUtilities.getUnreadCirclePaint(this.rect2, true);
+            paint = this.gradientTools.getPaint(this.rect2);
             if (this.radialProgress == null) {
                 RadialProgress radialProgress = new RadialProgress(this);
                 this.radialProgress = radialProgress;
@@ -620,10 +641,10 @@ public class ProfileStoriesView extends View implements NotificationCenter.Notif
                 canvas2 = canvas;
             }
             this.progressWasDrawn = true;
-            boolean z3 = this.progressIsDone;
-            boolean z4 = this.radialProgress.getAnimatedProgress() >= 0.98f;
-            this.progressIsDone = z4;
-            if (z3 != z4) {
+            boolean z2 = this.progressIsDone;
+            boolean z3 = this.radialProgress.getAnimatedProgress() >= 0.98f;
+            this.progressIsDone = z3;
+            if (z2 != z3) {
                 this.segmentsCountAnimated.set(this.count, true);
                 this.segmentsUnreadCountAnimated.set(this.unreadCount, true);
                 animateBounce();
@@ -683,7 +704,7 @@ public class ProfileStoriesView extends View implements NotificationCenter.Notif
                             canvas2.scale(f17, f17, this.rect2.centerX(), this.rect2.centerY());
                         }
                         if (clamp3 < 1.0f) {
-                            paint2 = StoriesUtilities.getUnreadCirclePaint(this.rect2, z);
+                            paint2 = this.gradientTools.getPaint(this.rect2);
                             paint2.setAlpha((int) ((1.0f - clamp3) * 255.0f * f2));
                             paint2.setStrokeWidth(AndroidUtilities.dpf2(2.33f));
                             f5 = f17;
@@ -709,7 +730,6 @@ public class ProfileStoriesView extends View implements NotificationCenter.Notif
                     }
                     i5 = i + 1;
                     max = f6;
-                    z = true;
                 }
             }
             f = lerp3;
@@ -742,15 +762,15 @@ public class ProfileStoriesView extends View implements NotificationCenter.Notif
             }
             this.readPaint.setColor(ColorUtils.blendARGB(1526726655, -2135178036, this.expandProgress));
             this.readPaintAlpha = this.readPaint.getAlpha();
-            Paint unreadCirclePaint = StoriesUtilities.getUnreadCirclePaint(this.rect2, true);
-            unreadCirclePaint.setStrokeWidth(AndroidUtilities.lerp(AndroidUtilities.dpf2(2.33f), AndroidUtilities.dpf2(1.5f), this.expandProgress));
+            Paint paint3 = this.gradientTools.getPaint(this.rect2);
+            paint3.setStrokeWidth(AndroidUtilities.lerp(AndroidUtilities.dpf2(2.33f), AndroidUtilities.dpf2(1.5f), this.expandProgress));
             this.readPaint.setStrokeWidth(AndroidUtilities.lerp(AndroidUtilities.dpf2(1.125f), AndroidUtilities.dpf2(1.5f), this.expandProgress));
             if (this.expandProgress > 0.0f) {
                 for (int i8 = 0; i8 < this.circles.size(); i8++) {
                     StoryCircle storyCircle4 = this.circles.get(i8);
                     int alpha = this.whitePaint.getAlpha();
                     this.whitePaint.setAlpha((int) (alpha * this.expandProgress));
-                    canvas2.drawCircle(storyCircle4.cachedRect.centerX(), storyCircle4.cachedRect.centerY(), (Math.min(storyCircle4.cachedRect.width(), storyCircle4.cachedRect.height()) / 2.0f) + (AndroidUtilities.lerp(AndroidUtilities.dpf2(2.66f) + (unreadCirclePaint.getStrokeWidth() / 2.0f), AndroidUtilities.dpf2(2.33f) - (this.readPaint.getStrokeWidth() / 2.0f), storyCircle4.cachedRead) * this.expandProgress), this.whitePaint);
+                    canvas2.drawCircle(storyCircle4.cachedRect.centerX(), storyCircle4.cachedRect.centerY(), (Math.min(storyCircle4.cachedRect.width(), storyCircle4.cachedRect.height()) / 2.0f) + (AndroidUtilities.lerp(AndroidUtilities.dpf2(2.66f) + (paint3.getStrokeWidth() / 2.0f), AndroidUtilities.dpf2(2.33f) - (this.readPaint.getStrokeWidth() / 2.0f), storyCircle4.cachedRead) * this.expandProgress), this.whitePaint);
                     this.whitePaint.setAlpha(alpha);
                 }
             }
@@ -770,8 +790,8 @@ public class ProfileStoriesView extends View implements NotificationCenter.Notif
                     storyCircle = null;
                     f3 = storyCircle5.cachedRead;
                     if (f3 < 1.0f) {
-                        unreadCirclePaint.setAlpha((int) (storyCircle5.cachedScale * 255.0f * (1.0f - f3) * (1.0f - f2)));
-                        drawArcs(canvas, storyCircle6, storyCircle5, storyCircle, unreadCirclePaint);
+                        paint3.setAlpha((int) (storyCircle5.cachedScale * 255.0f * (1.0f - f3) * (1.0f - f2)));
+                        drawArcs(canvas, storyCircle6, storyCircle5, storyCircle, paint3);
                     }
                     f4 = storyCircle5.cachedRead;
                     if (f4 <= 0.0f) {
@@ -804,7 +824,7 @@ public class ProfileStoriesView extends View implements NotificationCenter.Notif
                 }
             }
             canvas.restore();
-            paint = unreadCirclePaint;
+            paint = paint3;
         }
         if (paint != null) {
             paint.setStrokeWidth(AndroidUtilities.dpf2(2.3f));

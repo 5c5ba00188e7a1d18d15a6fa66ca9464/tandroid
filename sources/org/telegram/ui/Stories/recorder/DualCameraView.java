@@ -60,8 +60,8 @@ public class DualCameraView extends CameraView implements CameraController.Error
     private long tapTime;
     private float tapX;
     private float tapY;
-    private Matrix toGL;
-    private Matrix toScreen;
+    private final Matrix toGL;
+    private final Matrix toScreen;
     private final PointF touch;
     private final Matrix touchMatrix;
     private float[] vertex;

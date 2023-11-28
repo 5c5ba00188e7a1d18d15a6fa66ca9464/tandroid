@@ -151,6 +151,7 @@ import org.telegram.tgnet.TLRPC$TL_channels_sendAsPeers;
 import org.telegram.tgnet.TLRPC$TL_chatAdminRights;
 import org.telegram.tgnet.TLRPC$TL_document;
 import org.telegram.tgnet.TLRPC$TL_documentAttributeAudio;
+import org.telegram.tgnet.TLRPC$TL_forumTopic;
 import org.telegram.tgnet.TLRPC$TL_inlineQueryPeerTypeBotPM;
 import org.telegram.tgnet.TLRPC$TL_inlineQueryPeerTypeBroadcast;
 import org.telegram.tgnet.TLRPC$TL_inlineQueryPeerTypeChat;
@@ -417,6 +418,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
     private boolean removeEmojiViewAfterAnimation;
     private MessageObject replyingMessageObject;
     private ChatActivity.ReplyQuote replyingQuote;
+    private MessageObject replyingTopMessage;
     private final Theme.ResourcesProvider resourcesProvider;
     private Property<View, Integer> roundedTranslationYProperty;
     private Runnable runEmojiPanelAnimation;
@@ -785,7 +787,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         public RecordDot(Context context) {
             super(context);
             ChatActivityEnterView.this = r8;
-            int i = R.raw.chat_audio_record_delete;
+            int i = R.raw.chat_audio_record_delete_3;
             RLottieDrawable rLottieDrawable = new RLottieDrawable(i, "" + i, AndroidUtilities.dp(28.0f), AndroidUtilities.dp(28.0f), false, null);
             this.drawable = rLottieDrawable;
             rLottieDrawable.setCurrentParentView(this);
@@ -795,14 +797,11 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
 
         public void updateColors() {
             int themedColor = ChatActivityEnterView.this.getThemedColor(Theme.key_chat_recordedVoiceDot);
-            int blendARGB = ColorUtils.blendARGB(themedColor, ChatActivityEnterView.this.getThemedColor(Theme.key_chat_messagePanelBackground), 0.5f);
+            ColorUtils.blendARGB(themedColor, ChatActivityEnterView.this.getThemedColor(Theme.key_chat_messagePanelBackground), 0.5f);
             ChatActivityEnterView.this.redDotPaint.setColor(themedColor);
             this.drawable.beginApplyLayerColors();
             this.drawable.setLayerColor("Cup Red.**", themedColor);
             this.drawable.setLayerColor("Box.**", themedColor);
-            this.drawable.setLayerColor("Line 1.**", blendARGB);
-            this.drawable.setLayerColor("Line 2.**", blendARGB);
-            this.drawable.setLayerColor("Line 3.**", blendARGB);
             this.drawable.commitApplyLayerColors();
             if (ChatActivityEnterView.this.playPauseDrawable != null) {
                 ChatActivityEnterView.this.playPauseDrawable.setColor(ChatActivityEnterView.this.getThemedColor(Theme.key_chat_recordedVoicePlayPause));
@@ -3484,7 +3483,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         RLottieImageView rLottieImageView = new RLottieImageView(getContext());
         this.recordDeleteImageView = rLottieImageView;
         rLottieImageView.setScaleType(ImageView.ScaleType.CENTER);
-        this.recordDeleteImageView.setAnimation(R.raw.chat_audio_record_delete_2, 28, 28);
+        this.recordDeleteImageView.setAnimation(R.raw.chat_audio_record_delete_3, 28, 28);
         this.recordDeleteImageView.getAnimatedDrawable().setInvalidateOnProgressSet(true);
         updateRecordedDeleteIconColors();
         this.recordDeleteImageView.setContentDescription(LocaleController.getString("Delete", R.string.Delete));
@@ -6268,6 +6267,9 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
 
     public void updateFieldHint(boolean z) {
         boolean z2;
+        String str;
+        TLRPC$TL_forumTopic tLRPC$TL_forumTopic;
+        String str2;
         MessageObject messageObject;
         TLRPC$ReplyMarkup tLRPC$ReplyMarkup;
         TLRPC$ReplyMarkup tLRPC$ReplyMarkup2;
@@ -6305,11 +6307,29 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         } else if (this.botKeyboardViewVisible && (messageObject = this.botButtonsMessageObject) != null && (tLRPC$ReplyMarkup = messageObject.messageOwner.reply_markup) != null && !TextUtils.isEmpty(tLRPC$ReplyMarkup.placeholder)) {
             this.messageEditText.setHintText(this.botButtonsMessageObject.messageOwner.reply_markup.placeholder, z);
         } else {
+            ChatActivity chatActivity = this.parentFragment;
+            if (chatActivity != null && chatActivity.isForumInViewAsMessagesMode()) {
+                MessageObject messageObject3 = this.replyingTopMessage;
+                if (messageObject3 != null && (tLRPC$TL_forumTopic = messageObject3.replyToForumTopic) != null && (str2 = tLRPC$TL_forumTopic.title) != null) {
+                    this.messageEditText.setHintText(LocaleController.formatString("TypeMessageIn", R.string.TypeMessageIn, str2), z);
+                    return;
+                }
+                TLRPC$TL_forumTopic findTopic = MessagesController.getInstance(this.currentAccount).getTopicsController().findTopic(this.parentFragment.getCurrentChat().id, 1);
+                if (findTopic != null && (str = findTopic.title) != null) {
+                    this.messageEditText.setHintText(LocaleController.formatString("TypeMessageIn", R.string.TypeMessageIn, str), z);
+                    return;
+                } else {
+                    this.messageEditText.setHintText(LocaleController.getString("TypeMessage", R.string.TypeMessage), z);
+                    return;
+                }
+            }
             if (DialogObject.isChatDialog(this.dialog_id)) {
                 TLRPC$Chat chat = this.accountInstance.getMessagesController().getChat(Long.valueOf(-this.dialog_id));
                 TLRPC$ChatFull chatFull = this.accountInstance.getMessagesController().getChatFull(-this.dialog_id);
                 z2 = ChatObject.isChannel(chat) && !chat.megagroup;
-                z3 = ChatObject.getSendAsPeerId(chat, chatFull) == chat.id;
+                if (ChatObject.getSendAsPeerId(chat, chatFull) == chat.id) {
+                    z3 = true;
+                }
             } else {
                 z2 = false;
             }
@@ -6317,11 +6337,11 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                 this.messageEditText.setHintText(LocaleController.getString("SendAnonymously", R.string.SendAnonymously));
                 return;
             }
-            ChatActivity chatActivity = this.parentFragment;
-            if (chatActivity != null && chatActivity.isThreadChat()) {
-                ChatActivity chatActivity2 = this.parentFragment;
-                if (!chatActivity2.isTopic) {
-                    if (chatActivity2.isReplyChatComment()) {
+            ChatActivity chatActivity2 = this.parentFragment;
+            if (chatActivity2 != null && chatActivity2.isThreadChat()) {
+                ChatActivity chatActivity3 = this.parentFragment;
+                if (!chatActivity3.isTopic) {
+                    if (chatActivity3.isReplyChatComment()) {
                         this.messageEditText.setHintText(LocaleController.getString("Comment", R.string.Comment));
                         return;
                     } else {
@@ -6344,29 +6364,38 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
     }
 
     public void setReplyingMessageObject(MessageObject messageObject, ChatActivity.ReplyQuote replyQuote) {
-        MessageObject messageObject2;
+        setReplyingMessageObject(messageObject, replyQuote, null);
+    }
+
+    public void setReplyingMessageObject(MessageObject messageObject, ChatActivity.ReplyQuote replyQuote, MessageObject messageObject2) {
+        MessageObject messageObject3;
+        ChatActivity chatActivity = this.parentFragment;
+        boolean z = (chatActivity == null || !chatActivity.isForumInViewAsMessagesMode() || this.replyingTopMessage == messageObject2) ? false : true;
         if (messageObject != null) {
-            if (this.botMessageObject == null && (messageObject2 = this.botButtonsMessageObject) != this.replyingMessageObject) {
-                this.botMessageObject = messageObject2;
+            if (this.botMessageObject == null && (messageObject3 = this.botButtonsMessageObject) != this.replyingMessageObject) {
+                this.botMessageObject = messageObject3;
             }
             this.replyingMessageObject = messageObject;
             this.replyingQuote = replyQuote;
-            ChatActivity chatActivity = this.parentFragment;
-            if (chatActivity == null || !chatActivity.isTopic || chatActivity.getThreadMessage() != this.replyingMessageObject) {
+            this.replyingTopMessage = messageObject2;
+            ChatActivity chatActivity2 = this.parentFragment;
+            if (chatActivity2 == null || !chatActivity2.isTopic || chatActivity2.getThreadMessage() != this.replyingMessageObject) {
                 setButtons(this.replyingMessageObject, true);
             }
         } else if (this.replyingMessageObject == this.botButtonsMessageObject) {
             this.replyingMessageObject = null;
+            this.replyingTopMessage = null;
             this.replyingQuote = null;
             setButtons(this.botMessageObject, false);
             this.botMessageObject = null;
         } else {
             this.replyingMessageObject = null;
             this.replyingQuote = null;
+            this.replyingTopMessage = null;
         }
         ChatActivityEnterViewDelegate chatActivityEnterViewDelegate = this.delegate;
         MediaController.getInstance().setReplyingMessage(messageObject, getThreadMessage(), chatActivityEnterViewDelegate != null ? chatActivityEnterViewDelegate.getReplyToStory() : null);
-        updateFieldHint(false);
+        updateFieldHint(z);
     }
 
     public void setWebPage(TLRPC$WebPage tLRPC$WebPage, boolean z) {
@@ -6989,6 +7018,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         MessagePreviewParams messagePreviewParams;
         MessagePreviewParams messagePreviewParams2;
         MessagePreviewParams messagePreviewParams3;
+        MessageObject messageObject;
         ChatActivity chatActivity;
         ChatActivity chatActivity2;
         ChatActivity.ReplyQuote replyQuote = this.replyingQuote;
@@ -7080,7 +7110,9 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                 }
                 sendAnimationData = sendAnimationData2;
             }
-            SendMessagesHelper.SendMessageParams of = SendMessagesHelper.SendMessageParams.of(charSequenceArr[0].toString(), this.dialog_id, this.replyingMessageObject, getThreadMessage(), this.messageWebPage, this.messageWebPageSearch, entities, null, null, z, i, sendAnimationData, SendMessagesHelper.checkUpdateStickersOrder(charSequence2));
+            boolean checkUpdateStickersOrder = SendMessagesHelper.checkUpdateStickersOrder(charSequence2);
+            MessageObject threadMessage = getThreadMessage();
+            SendMessagesHelper.SendMessageParams of = SendMessagesHelper.SendMessageParams.of(charSequenceArr[0].toString(), this.dialog_id, this.replyingMessageObject, (threadMessage != null || (messageObject = this.replyingTopMessage) == null) ? threadMessage : messageObject, this.messageWebPage, this.messageWebPageSearch, entities, null, null, z, i, sendAnimationData, checkUpdateStickersOrder);
             applyStoryToSendMessageParams(of);
             ChatActivity chatActivity3 = this.parentFragment;
             of.invert_media = (chatActivity3 == null || (messagePreviewParams3 = chatActivity3.messagePreviewParams) == null || !messagePreviewParams3.webpageTop) ? false : true;
@@ -9224,7 +9256,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
 
     private void updateRecordedDeleteIconColors() {
         int themedColor = getThemedColor(Theme.key_chat_recordedVoiceDot);
-        int blendARGB = ColorUtils.blendARGB(themedColor, getThemedColor(Theme.key_chat_messagePanelBackground), 0.5f);
+        ColorUtils.blendARGB(themedColor, getThemedColor(Theme.key_chat_messagePanelBackground), 0.5f);
         int themedColor2 = getThemedColor(Theme.key_chat_messagePanelVoiceDelete);
         RLottieImageView rLottieImageView = this.recordDeleteImageView;
         if (rLottieImageView != null) {
@@ -9232,9 +9264,6 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             this.recordDeleteImageView.setLayerColor("Box Red.**", themedColor);
             this.recordDeleteImageView.setLayerColor("Cup Grey.**", themedColor2);
             this.recordDeleteImageView.setLayerColor("Box Grey.**", themedColor2);
-            this.recordDeleteImageView.setLayerColor("Line 1.**", blendARGB);
-            this.recordDeleteImageView.setLayerColor("Line 2.**", blendARGB);
-            this.recordDeleteImageView.setLayerColor("Line 3.**", blendARGB);
         }
     }
 
@@ -12279,7 +12308,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public SlideTextView(Context context) {
             super(context);
-            ChatActivityEnterView.this = r5;
+            ChatActivityEnterView.this = r4;
             this.arrowPaint = new Paint(1);
             this.xOffset = 0.0f;
             this.arrowPath = new Path();
@@ -12292,13 +12321,12 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             this.bluePaint = textPaint2;
             textPaint2.setTextSize(AndroidUtilities.dp(15.0f));
             this.bluePaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-            this.arrowPaint.setColor(r5.getThemedColor(Theme.key_chat_messagePanelIcons));
+            this.arrowPaint.setColor(r4.getThemedColor(Theme.key_chat_messagePanelIcons));
             this.arrowPaint.setStyle(Paint.Style.STROKE);
             this.arrowPaint.setStrokeWidth(AndroidUtilities.dpf2(this.smallSize ? 1.0f : 1.6f));
             this.arrowPaint.setStrokeCap(Paint.Cap.ROUND);
             this.arrowPaint.setStrokeJoin(Paint.Join.ROUND);
-            this.slideToCancelString = LocaleController.getString("SlideToCancel", R.string.SlideToCancel);
-            this.slideToCancelString = this.slideToCancelString.charAt(0) + this.slideToCancelString.substring(1).toLowerCase();
+            this.slideToCancelString = LocaleController.getString(R.string.SlideToCancel2);
             String upperCase = LocaleController.getString("Cancel", R.string.Cancel).toUpperCase();
             this.cancelString = upperCase;
             this.cancelCharOffset = this.slideToCancelString.indexOf(upperCase);

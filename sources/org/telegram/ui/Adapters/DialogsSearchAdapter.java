@@ -96,6 +96,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
     private boolean messagesSearchEndReached;
     private int needMessagesSearch;
     private int nextSearchRate;
+    private final Theme.ResourcesProvider resourcesProvider;
     private SearchAdapterHelper searchAdapterHelper;
     private Runnable searchRunnable;
     private Runnable searchRunnable2;
@@ -178,16 +179,18 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         private final int currentAccount;
         private boolean drawChecked;
         private final Context mContext;
+        private Theme.ResourcesProvider resourcesProvider;
 
         @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
         public boolean isEnabled(RecyclerView.ViewHolder viewHolder) {
             return true;
         }
 
-        public CategoryAdapterRecycler(Context context, int i, boolean z) {
+        public CategoryAdapterRecycler(Context context, int i, boolean z, Theme.ResourcesProvider resourcesProvider) {
             this.drawChecked = z;
             this.mContext = context;
             this.currentAccount = i;
+            this.resourcesProvider = resourcesProvider;
         }
 
         public void setIndex(int i) {
@@ -196,7 +199,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            HintDialogCell hintDialogCell = new HintDialogCell(this.mContext, this.drawChecked);
+            HintDialogCell hintDialogCell = new HintDialogCell(this.mContext, this.drawChecked, this.resourcesProvider);
             hintDialogCell.setLayoutParams(new RecyclerView.LayoutParams(AndroidUtilities.dp(80.0f), AndroidUtilities.dp(86.0f)));
             return new RecyclerListView.Holder(hintDialogCell);
         }
@@ -271,9 +274,10 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         }
     }
 
-    public DialogsSearchAdapter(Context context, DialogsActivity dialogsActivity, int i, int i2, DefaultItemAnimator defaultItemAnimator, boolean z) {
+    public DialogsSearchAdapter(Context context, DialogsActivity dialogsActivity, int i, int i2, DefaultItemAnimator defaultItemAnimator, boolean z, Theme.ResourcesProvider resourcesProvider) {
         this.itemAnimator = defaultItemAnimator;
         this.dialogsActivity = dialogsActivity;
+        this.resourcesProvider = resourcesProvider;
         SearchAdapterHelper searchAdapterHelper = new SearchAdapterHelper(false) { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter.1
             @Override // org.telegram.ui.Adapters.SearchAdapterHelper
             protected boolean filter(TLObject tLObject) {
@@ -1567,7 +1571,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                 };
                 linearLayoutManager.setOrientation(0);
                 recyclerListView2.setLayoutManager(linearLayoutManager);
-                recyclerListView2.setAdapter(new CategoryAdapterRecycler(this.mContext, this.currentAccount, false));
+                recyclerListView2.setAdapter(new CategoryAdapterRecycler(this.mContext, this.currentAccount, false, this.resourcesProvider));
                 recyclerListView2.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda25
                     @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
                     public final void onItemClick(View view, int i2) {

@@ -88,7 +88,7 @@ public final class RtspMediaTrack {
                 c = 65535;
                 break;
             case -53558318:
-                if (mimeTypeFromRtpMediaType.equals(MediaController.AUIDO_MIME_TYPE)) {
+                if (mimeTypeFromRtpMediaType.equals(MediaController.AUDIO_MIME_TYPE)) {
                     c = 0;
                     break;
                 }

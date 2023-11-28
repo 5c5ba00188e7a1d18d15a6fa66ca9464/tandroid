@@ -11,8 +11,8 @@ public final /* synthetic */ class SharedMediaLayout$$ExternalSyntheticLambda13 
 
     @Override // java.util.Comparator
     public final int compare(Object obj, Object obj2) {
-        int lambda$loadFastScrollData$11;
-        lambda$loadFastScrollData$11 = SharedMediaLayout.lambda$loadFastScrollData$11((SharedMediaLayout.Period) obj, (SharedMediaLayout.Period) obj2);
-        return lambda$loadFastScrollData$11;
+        int lambda$loadFastScrollData$10;
+        lambda$loadFastScrollData$10 = SharedMediaLayout.lambda$loadFastScrollData$10((SharedMediaLayout.Period) obj, (SharedMediaLayout.Period) obj2);
+        return lambda$loadFastScrollData$10;
     }
 }

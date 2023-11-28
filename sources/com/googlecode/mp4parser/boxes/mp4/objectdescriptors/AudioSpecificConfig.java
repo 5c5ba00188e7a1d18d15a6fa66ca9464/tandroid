@@ -186,7 +186,7 @@ public class AudioSpecificConfig extends BaseDescriptor {
             case 25:
                 throw new UnsupportedOperationException("can't parse ErrorResilientHvxcSpecificConfig yet");
             case MessageObject.TYPE_GIVEAWAY /* 26 */:
-            case 27:
+            case MessageObject.TYPE_JOINED_CHANNEL /* 27 */:
                 parseParametricSpecificConfig(this.samplingFrequencyIndex, this.channelConfiguration, i2, bitReaderBuffer);
                 break;
             case 28:
@@ -224,7 +224,7 @@ public class AudioSpecificConfig extends BaseDescriptor {
                 case 24:
                 case 25:
                 case MessageObject.TYPE_GIVEAWAY /* 26 */:
-                case 27:
+                case MessageObject.TYPE_JOINED_CHANNEL /* 27 */:
                     break;
                 default:
                     if (this.extensionAudioObjectType != 5 || bitReaderBuffer.remainingBits() < 16) {

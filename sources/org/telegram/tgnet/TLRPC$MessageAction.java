@@ -312,7 +312,18 @@ public abstract class TLRPC$MessageAction extends TLObject {
                 tLRPC$MessageAction = new TLRPC$TL_messageActionEmpty();
                 break;
             case -1136350937:
-                tLRPC$MessageAction = new TLRPC$TL_messageActionSetChatWallPaper();
+                tLRPC$MessageAction = new TLRPC$TL_messageActionSetChatWallPaper() { // from class: org.telegram.tgnet.TLRPC$TL_messageActionSetChatWallPaper_layer166
+                    @Override // org.telegram.tgnet.TLRPC$TL_messageActionSetChatWallPaper, org.telegram.tgnet.TLObject
+                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
+                        this.wallpaper = TLRPC$WallPaper.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
+                    }
+
+                    @Override // org.telegram.tgnet.TLRPC$TL_messageActionSetChatWallPaper, org.telegram.tgnet.TLObject
+                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
+                        abstractSerializedData2.writeInt32(-1136350937);
+                        this.wallpaper.serializeToStream(abstractSerializedData2);
+                    }
+                };
                 break;
             case -1119368275:
                 tLRPC$MessageAction = new TLRPC$TL_messageActionChatCreate();
@@ -448,6 +459,9 @@ public abstract class TLRPC$MessageAction extends TLObject {
             case 365886720:
                 tLRPC$MessageAction = new TLRPC$TL_messageActionChatAddUser();
                 break;
+            case 715107781:
+                tLRPC$MessageAction = new TLRPC$TL_messageActionGiveawayResults();
+                break;
             case 858499565:
                 tLRPC$MessageAction = new TLRPC$MessageAction() { // from class: org.telegram.tgnet.TLRPC$TL_messageActionGiveawayLaunch
                     public static int constructor = 858499565;
@@ -530,6 +544,9 @@ public abstract class TLRPC$MessageAction extends TLObject {
                 break;
             case 1345295095:
                 tLRPC$MessageAction = new TLRPC$TL_messageActionInviteToGroupCall();
+                break;
+            case 1348510708:
+                tLRPC$MessageAction = new TLRPC$TL_messageActionSetChatWallPaper();
                 break;
             case 1371385889:
                 tLRPC$MessageAction = new TLRPC$TL_messageActionChatMigrateTo() { // from class: org.telegram.tgnet.TLRPC$TL_messageActionChatMigrateTo_layer131

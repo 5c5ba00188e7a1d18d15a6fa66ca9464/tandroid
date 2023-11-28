@@ -181,6 +181,13 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
     protected void onDualCameraSuccess() {
     }
 
+    protected void receivedAmplitude(double d) {
+    }
+
+    protected boolean square() {
+        return false;
+    }
+
     public void setRecordFile(File file) {
         this.recordFile = file;
     }
@@ -771,23 +778,18 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
         checkPreviewMatrix();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:93:0x00d4  */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
     private void updateCameraInfoSize(int i) {
         Size size;
-        int i2;
         ArrayList<CameraInfo> cameras = CameraController.getInstance().getCameras();
         if (cameras == null) {
             return;
         }
-        int i3 = 0;
+        int i2 = 0;
         while (true) {
-            if (i3 >= cameras.size()) {
+            if (i2 >= cameras.size()) {
                 break;
             }
-            CameraInfo cameraInfo = cameras.get(i3);
+            CameraInfo cameraInfo = cameras.get(i2);
             boolean z = cameraInfo.frontCamera != 0;
             boolean z2 = this.isFrontface;
             if (i == 1) {
@@ -797,7 +799,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
                 this.info[i] = cameraInfo;
                 break;
             }
-            i3++;
+            i2++;
         }
         if (this.info[i] == null) {
             return;
@@ -805,44 +807,45 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
         Point point = AndroidUtilities.displaySize;
         Point point2 = AndroidUtilities.displaySize;
         float max = Math.max(point.x, point.y) / Math.min(point2.x, point2.y);
-        int i4 = 960;
-        if (this.initialFrontface) {
-            size = new Size(16, 9);
-            i2 = 720;
-        } else if (Math.abs(max - 1.3333334f) < 0.1f) {
-            size = new Size(4, 3);
-            if (SharedConfig.getDevicePerformanceClass() == 0) {
-                i2 = 960;
-                r4 = 1280;
-            } else {
-                i2 = 1440;
-            }
-            this.previewSize[i] = CameraController.chooseOptimalSize(this.info[i].getPreviewSizes(), 1280, i4, size, this.isStory);
-            this.pictureSize[i] = CameraController.chooseOptimalSize(this.info[i].getPictureSizes(), r4, i2, size, false);
-            if (BuildVars.LOGS_ENABLED) {
-                FileLog.d("camera preview " + this.previewSize[0]);
-            }
-            requestLayout();
+        int i3 = 960;
+        int i4 = 720;
+        int i5 = 1280;
+        if (square()) {
+            size = new Size(1, 1);
+            r5 = 720;
+            i3 = 720;
+            i5 = 720;
         } else {
-            size = new Size(16, 9);
-            if (SharedConfig.getDevicePerformanceClass() != 0) {
-                boolean z3 = this.isStory;
-                r4 = z3 ? 1280 : 1920;
-                i2 = z3 ? 720 : 1080;
-                i4 = 720;
-                this.previewSize[i] = CameraController.chooseOptimalSize(this.info[i].getPreviewSizes(), 1280, i4, size, this.isStory);
-                this.pictureSize[i] = CameraController.chooseOptimalSize(this.info[i].getPictureSizes(), r4, i2, size, false);
-                if (BuildVars.LOGS_ENABLED) {
+            if (this.initialFrontface) {
+                size = new Size(16, 9);
+                r5 = 1280;
+            } else {
+                if (Math.abs(max - 1.3333334f) < 0.1f) {
+                    size = new Size(4, 3);
+                    if (SharedConfig.getDevicePerformanceClass() == 0) {
+                        r5 = 1280;
+                    } else {
+                        i4 = 1440;
+                    }
+                } else {
+                    size = new Size(16, 9);
+                    if (SharedConfig.getDevicePerformanceClass() == 0) {
+                        r5 = 1280;
+                        i3 = 720;
+                    } else {
+                        boolean z3 = this.isStory;
+                        r5 = z3 ? 1280 : 1920;
+                        i4 = z3 ? 720 : 1080;
+                    }
                 }
-                requestLayout();
+                i4 = 960;
             }
-            i2 = 960;
+            i3 = 720;
         }
-        r4 = 1280;
-        i4 = 720;
-        this.previewSize[i] = CameraController.chooseOptimalSize(this.info[i].getPreviewSizes(), 1280, i4, size, this.isStory);
-        this.pictureSize[i] = CameraController.chooseOptimalSize(this.info[i].getPictureSizes(), r4, i2, size, false);
+        this.previewSize[i] = CameraController.chooseOptimalSize(this.info[i].getPreviewSizes(), i5, i3, size, this.isStory);
+        this.pictureSize[i] = CameraController.chooseOptimalSize(this.info[i].getPictureSizes(), r5, i4, size, false);
         if (BuildVars.LOGS_ENABLED) {
+            FileLog.d("camera preview " + this.previewSize[0]);
         }
         requestLayout();
     }
@@ -2232,87 +2235,117 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
             this.lastCameraId = 0;
             this.buffers = new ArrayBlockingQueue<>(10);
             this.keyframeThumbs = new ArrayList<>();
-            this.recorderRunnable = new Runnable() { // from class: org.telegram.messenger.camera.CameraView.VideoRecorder.1
-                {
-                    VideoRecorder.this = this;
-                }
+            this.recorderRunnable = new 1();
+        }
 
-                /* JADX WARN: Code restructure failed: missing block: B:84:0x002d, code lost:
-                    if (org.telegram.messenger.camera.CameraView.VideoRecorder.this.sendWhenDone == 0) goto L57;
-                 */
-                @Override // java.lang.Runnable
-                /*
-                    Code decompiled incorrectly, please refer to instructions dump.
-                */
-                public void run() {
-                    InstantCameraView.AudioBufferInfo audioBufferInfo;
-                    long j = -1;
-                    boolean z = false;
-                    while (true) {
-                        boolean z2 = true;
-                        if (!z) {
-                            if (!VideoRecorder.this.running && VideoRecorder.this.audioRecorder.getRecordingState() != 1) {
-                                try {
-                                    VideoRecorder.this.audioRecorder.stop();
-                                } catch (Exception unused) {
-                                    z = true;
-                                }
-                            }
-                            if (!VideoRecorder.this.buffers.isEmpty()) {
-                                audioBufferInfo = (InstantCameraView.AudioBufferInfo) VideoRecorder.this.buffers.poll();
-                            } else {
-                                audioBufferInfo = new InstantCameraView.AudioBufferInfo();
-                            }
-                            audioBufferInfo.lastWroteBuffer = 0;
-                            audioBufferInfo.results = 10;
-                            int i = 0;
-                            while (true) {
-                                if (i >= 10) {
-                                    break;
-                                }
-                                if (j == -1) {
-                                    j = System.nanoTime() / 1000;
-                                }
-                                ByteBuffer byteBuffer = audioBufferInfo.buffer[i];
-                                byteBuffer.rewind();
-                                int read = VideoRecorder.this.audioRecorder.read(byteBuffer, LiteMode.FLAG_AUTOPLAY_GIFS);
-                                if (read <= 0) {
-                                    audioBufferInfo.results = i;
-                                    if (!VideoRecorder.this.running) {
-                                        audioBufferInfo.last = true;
-                                    }
-                                } else {
-                                    audioBufferInfo.offset[i] = j;
-                                    audioBufferInfo.read[i] = read;
-                                    j += ((read * MediaController.VIDEO_BITRATE_480) / CameraView.audioSampleRate) / 2;
-                                    i++;
-                                }
-                            }
-                            if (audioBufferInfo.results >= 0 || audioBufferInfo.last) {
-                                if (VideoRecorder.this.running || audioBufferInfo.results >= 10) {
-                                    z2 = z;
-                                }
-                                VideoRecorder.this.handler.sendMessage(VideoRecorder.this.handler.obtainMessage(3, audioBufferInfo));
-                                z = z2;
-                            } else if (VideoRecorder.this.running) {
-                                try {
-                                    VideoRecorder.this.buffers.put(audioBufferInfo);
-                                } catch (Exception unused2) {
-                                }
-                            } else {
+        /* loaded from: classes.dex */
+        public class 1 implements Runnable {
+            1() {
+                VideoRecorder.this = r1;
+            }
+
+            /* JADX WARN: Code restructure failed: missing block: B:88:0x002f, code lost:
+                if (org.telegram.messenger.camera.CameraView.VideoRecorder.this.sendWhenDone == 0) goto L61;
+             */
+            @Override // java.lang.Runnable
+            /*
+                Code decompiled incorrectly, please refer to instructions dump.
+            */
+            public void run() {
+                InstantCameraView.AudioBufferInfo audioBufferInfo;
+                long j = -1;
+                long j2 = -1;
+                boolean z = false;
+                while (true) {
+                    boolean z2 = true;
+                    if (!z) {
+                        if (!VideoRecorder.this.running && VideoRecorder.this.audioRecorder.getRecordingState() != 1) {
+                            try {
+                                VideoRecorder.this.audioRecorder.stop();
+                            } catch (Exception unused) {
                                 z = true;
                             }
                         }
-                        try {
-                            VideoRecorder.this.audioRecorder.release();
-                        } catch (Exception e) {
-                            FileLog.e(e);
+                        if (!VideoRecorder.this.buffers.isEmpty()) {
+                            audioBufferInfo = (InstantCameraView.AudioBufferInfo) VideoRecorder.this.buffers.poll();
+                        } else {
+                            audioBufferInfo = new InstantCameraView.AudioBufferInfo();
                         }
-                        VideoRecorder.this.handler.sendMessage(VideoRecorder.this.handler.obtainMessage(1, VideoRecorder.this.sendWhenDone, 0));
-                        return;
+                        audioBufferInfo.lastWroteBuffer = 0;
+                        audioBufferInfo.results = 10;
+                        int i = 0;
+                        while (true) {
+                            if (i >= 10) {
+                                break;
+                            }
+                            if (j2 == j) {
+                                j2 = System.nanoTime() / 1000;
+                            }
+                            ByteBuffer byteBuffer = audioBufferInfo.buffer[i];
+                            byteBuffer.rewind();
+                            int read = VideoRecorder.this.audioRecorder.read(byteBuffer, LiteMode.FLAG_AUTOPLAY_GIFS);
+                            if (read > 0 && i % 2 == 0) {
+                                byteBuffer.limit(read);
+                                double d = 0.0d;
+                                for (int i2 = 0; i2 < read / 2; i2++) {
+                                    short s = byteBuffer.getShort();
+                                    double d2 = s * s;
+                                    Double.isNaN(d2);
+                                    d += d2;
+                                }
+                                double d3 = read;
+                                Double.isNaN(d3);
+                                final double sqrt = Math.sqrt((d / d3) / 2.0d);
+                                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.camera.CameraView$VideoRecorder$1$$ExternalSyntheticLambda0
+                                    @Override // java.lang.Runnable
+                                    public final void run() {
+                                        CameraView.VideoRecorder.1.this.lambda$run$0(sqrt);
+                                    }
+                                });
+                                byteBuffer.position(0);
+                            }
+                            if (read <= 0) {
+                                audioBufferInfo.results = i;
+                                if (!VideoRecorder.this.running) {
+                                    audioBufferInfo.last = true;
+                                }
+                            } else {
+                                audioBufferInfo.offset[i] = j2;
+                                audioBufferInfo.read[i] = read;
+                                j2 += ((read * MediaController.VIDEO_BITRATE_480) / CameraView.audioSampleRate) / 2;
+                                i++;
+                                j = -1;
+                            }
+                        }
+                        if (audioBufferInfo.results >= 0 || audioBufferInfo.last) {
+                            if (VideoRecorder.this.running || audioBufferInfo.results >= 10) {
+                                z2 = z;
+                            }
+                            VideoRecorder.this.handler.sendMessage(VideoRecorder.this.handler.obtainMessage(3, audioBufferInfo));
+                            z = z2;
+                        } else if (VideoRecorder.this.running) {
+                            try {
+                                VideoRecorder.this.buffers.put(audioBufferInfo);
+                            } catch (Exception unused2) {
+                            }
+                        } else {
+                            z = true;
+                        }
+                        j = -1;
                     }
+                    try {
+                        VideoRecorder.this.audioRecorder.release();
+                    } catch (Exception e) {
+                        FileLog.e(e);
+                    }
+                    VideoRecorder.this.handler.sendMessage(VideoRecorder.this.handler.obtainMessage(1, VideoRecorder.this.sendWhenDone, 0));
+                    return;
                 }
-            };
+            }
+
+            public /* synthetic */ void lambda$run$0(double d) {
+                CameraView.this.receivedAmplitude(d);
+            }
         }
 
         public void startRecording(File file, android.opengl.EGLContext eGLContext) {

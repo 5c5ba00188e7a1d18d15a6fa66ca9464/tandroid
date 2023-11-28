@@ -40,6 +40,7 @@ public class BottomPagerTabs extends View {
         final RectF clickRect;
         public int customEndFrameEnd;
         public int customEndFrameMid;
+        public boolean customFrameInvert;
         final RLottieDrawable drawable;
         private int drawableColor;
         final int i;
@@ -75,6 +76,9 @@ public class BottomPagerTabs extends View {
         }
 
         public void setActive(boolean z, boolean z2) {
+            if (this.customFrameInvert) {
+                z = !z;
+            }
             if (this.active == z) {
                 return;
             }

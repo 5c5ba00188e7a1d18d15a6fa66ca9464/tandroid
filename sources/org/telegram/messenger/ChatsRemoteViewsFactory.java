@@ -103,7 +103,7 @@ class ChatsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         return this.dids.size() + 1;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:89:0x024c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:89:0x0255, code lost:
         if ((r0 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChannelMigrateFrom) != false) goto L54;
      */
     @Override // android.widget.RemoteViewsService.RemoteViewsFactory
@@ -215,7 +215,8 @@ class ChatsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
                         avatarDrawable.setAvatarType(1);
                     }
                 } else {
-                    avatarDrawable = new AvatarDrawable(tLRPC$Chat);
+                    avatarDrawable = new AvatarDrawable();
+                    avatarDrawable.setInfo(this.accountInstance.getCurrentAccount(), tLRPC$Chat);
                 }
                 avatarDrawable.setBounds(0, 0, dp, dp);
                 avatarDrawable.draw(canvas);

@@ -2502,7 +2502,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                     defaultThemesPreviewCell = new AppIconsSelectorCell(context3, themeActivity4, ((BaseFragment) themeActivity4).currentAccount);
                     break;
                 case 21:
-                    defaultThemesPreviewCell = new PeerColorActivity.ChangeNameColorCell(false, this.mContext, ThemeActivity.this.getResourceProvider());
+                    defaultThemesPreviewCell = new PeerColorActivity.ChangeNameColorCell(((BaseFragment) ThemeActivity.this).currentAccount, false, this.mContext, ThemeActivity.this.getResourceProvider());
                     break;
             }
             return new RecyclerListView.Holder(defaultThemesPreviewCell);

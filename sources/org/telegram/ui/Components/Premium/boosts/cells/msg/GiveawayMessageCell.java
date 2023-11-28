@@ -25,6 +25,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.DocumentObject;
 import org.telegram.messenger.Emoji;
 import org.telegram.messenger.ImageLocation;
@@ -371,12 +372,12 @@ public class GiveawayMessageCell {
     }
 
     private int getChatColor(TLRPC$Chat tLRPC$Chat, Theme.ResourcesProvider resourcesProvider) {
-        int i = (tLRPC$Chat.flags2 & 64) != 0 ? tLRPC$Chat.color : (int) (tLRPC$Chat.id % 7);
-        if (i < 7) {
-            return Theme.getColor(Theme.keys_avatar_nameInMessage[i], resourcesProvider);
+        int colorId = ChatObject.getColorId(tLRPC$Chat);
+        if (colorId < 7) {
+            return Theme.getColor(Theme.keys_avatar_nameInMessage[colorId], resourcesProvider);
         }
         MessagesController.PeerColors peerColors = MessagesController.getInstance(UserConfig.selectedAccount).peerColors;
-        MessagesController.PeerColor color = peerColors == null ? null : peerColors.getColor(i);
+        MessagesController.PeerColor color = peerColors == null ? null : peerColors.getColor(colorId);
         if (color != null) {
             return color.getColor1();
         }

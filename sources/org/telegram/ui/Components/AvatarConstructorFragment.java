@@ -411,8 +411,9 @@ public class AvatarConstructorFragment extends BaseFragment {
         SelectAnimatedEmojiDialog selectAnimatedEmojiDialog = new SelectAnimatedEmojiDialog(this, getContext(), false, null, 4, true, null, 16, Theme.isCurrentThemeDark() ? -1 : getThemedColor(Theme.key_windowBackgroundWhiteBlueIcon)) { // from class: org.telegram.ui.Components.AvatarConstructorFragment.7
             private boolean firstLayout = true;
 
-            @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-            protected void onLayout(boolean z, int i3, int i4, int i5, int i6) {
+            /* JADX INFO: Access modifiers changed from: protected */
+            @Override // org.telegram.ui.SelectAnimatedEmojiDialog, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
+            public void onLayout(boolean z, int i3, int i4, int i5, int i6) {
                 super.onLayout(z, i3, i4, i5, i6);
                 if (this.firstLayout) {
                     this.firstLayout = false;

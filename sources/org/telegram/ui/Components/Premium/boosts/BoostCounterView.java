@@ -31,7 +31,7 @@ public class BoostCounterView extends View {
         this.countText = animatedTextDrawable;
         animatedTextDrawable.setAnimationProperties(0.3f, 0L, 250L, CubicBezierInterpolator.EASE_OUT_QUINT);
         animatedTextDrawable.setCallback(this);
-        animatedTextDrawable.setTextSize(AndroidUtilities.dp(11.0f));
+        animatedTextDrawable.setTextSize(AndroidUtilities.dp(11.5f));
         animatedTextDrawable.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         animatedTextDrawable.setTextColor(-1);
         animatedTextDrawable.setText("");
@@ -113,6 +113,7 @@ public class BoostCounterView extends View {
             canvas.scale(f, f, rect.centerX(), rect.centerY());
         }
         canvas.drawRoundRect(rectF, AndroidUtilities.dp(10.0f), AndroidUtilities.dp(10.0f), this.bgPaint);
+        rect.set(0, 0, AndroidUtilities.dp(20.0f), AndroidUtilities.dp(19.0f));
         this.countText.setBounds(rect);
         this.countText.draw(canvas);
         if (this.countScale != 1.0f) {

@@ -126,6 +126,7 @@ public class AnimatedFloat {
         this.firstSet = false;
     }
 
+    @Deprecated
     public float get() {
         return this.value;
     }

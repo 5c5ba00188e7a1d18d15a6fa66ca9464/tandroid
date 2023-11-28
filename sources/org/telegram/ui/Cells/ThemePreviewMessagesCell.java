@@ -68,6 +68,7 @@ public class ThemePreviewMessagesCell extends LinearLayout {
     public BaseFragment fragment;
     private Drawable oldBackgroundDrawable;
     private BackgroundGradientDrawable.Disposable oldBackgroundGradientDisposable;
+    private Drawable overrideDrawable;
     private INavigationLayout parentLayout;
     private int progress;
     private Drawable shadowDrawable;
@@ -97,13 +98,17 @@ public class ThemePreviewMessagesCell extends LinearLayout {
         this(context, iNavigationLayout, i, 0L);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:75:0x0401  */
-    /* JADX WARN: Removed duplicated region for block: B:88:0x0448 A[SYNTHETIC] */
+    public ThemePreviewMessagesCell(Context context, INavigationLayout iNavigationLayout, int i, long j) {
+        this(context, iNavigationLayout, i, j, null);
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:75:0x03df  */
+    /* JADX WARN: Removed duplicated region for block: B:88:0x0435 A[SYNTHETIC] */
     @SuppressLint({"ClickableViewAccessibility"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public ThemePreviewMessagesCell(Context context, INavigationLayout iNavigationLayout, int i, long j) {
+    public ThemePreviewMessagesCell(Context context, INavigationLayout iNavigationLayout, int i, long j, Theme.ResourcesProvider resourcesProvider) {
         super(context);
         MessageObject messageObject;
         MessageObject messageObject2;
@@ -129,13 +134,10 @@ public class ThemePreviewMessagesCell extends LinearLayout {
         setWillNotDraw(false);
         setOrientation(1);
         setPadding(0, AndroidUtilities.dp(11.0f), 0, AndroidUtilities.dp(11.0f));
-        this.shadowDrawable = Theme.getThemedDrawableByKey(context, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow);
+        this.shadowDrawable = Theme.getThemedDrawableByKey(context, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow, resourcesProvider);
         int currentTimeMillis = ((int) (System.currentTimeMillis() / 1000)) - 3600;
         if (i == 3) {
             boolean z = j < 0;
-            ChatActionCell chatActionCell = new ChatActionCell(context);
-            chatActionCell.setCustomText(LocaleController.getString(R.string.UserColorPreviewTitle));
-            addView(chatActionCell, LayoutHelper.createLinear(-1, -2, 0.0f, 2.0f, 0.0f, 5.0f));
             TLRPC$TL_message tLRPC$TL_message = new TLRPC$TL_message();
             tLRPC$TL_message.message = LocaleController.getString(z ? R.string.ChannelColorPreview : R.string.UserColorPreview);
             TLRPC$TL_messageReplyHeader tLRPC$TL_messageReplyHeader = new TLRPC$TL_messageReplyHeader();
@@ -201,10 +203,11 @@ public class ThemePreviewMessagesCell extends LinearLayout {
                 tLRPC$TL_message.peer_id = tLRPC$TL_peerChannel2;
                 tLRPC$TL_peerChannel2.channel_id = -j;
             }
-            messageObject = new MessageObject(UserConfig.selectedAccount, tLRPC$TL_message, true, false);
-            messageObject.forceAvatar = true;
-            messageObject.resetLayout();
-            messageObject.eventId = 1L;
+            MessageObject messageObject3 = new MessageObject(UserConfig.selectedAccount, tLRPC$TL_message, true, false);
+            messageObject3.forceAvatar = true;
+            messageObject3.resetLayout();
+            messageObject3.eventId = 1L;
+            messageObject2 = messageObject3;
         } else if (i == 2) {
             TLRPC$TL_message tLRPC$TL_message2 = new TLRPC$TL_message();
             tLRPC$TL_message2.message = LocaleController.getString("DoubleTapPreviewMessage", R.string.DoubleTapPreviewMessage);
@@ -220,14 +223,14 @@ public class ThemePreviewMessagesCell extends LinearLayout {
             TLRPC$TL_peerUser tLRPC$TL_peerUser4 = new TLRPC$TL_peerUser();
             tLRPC$TL_message2.peer_id = tLRPC$TL_peerUser4;
             tLRPC$TL_peerUser4.user_id = 0L;
-            MessageObject messageObject3 = new MessageObject(UserConfig.selectedAccount, tLRPC$TL_message2, true, false);
-            messageObject3.resetLayout();
-            messageObject3.eventId = 1L;
-            messageObject3.customName = LocaleController.getString("DoubleTapPreviewSenderName", R.string.DoubleTapPreviewSenderName);
-            messageObject3.customAvatarDrawable = ContextCompat.getDrawable(context, R.drawable.dino_pic);
-            messageObject3.overrideLinkColor = 5;
-            messageObject3.overrideLinkEmoji = 0L;
-            messageObject = messageObject3;
+            MessageObject messageObject4 = new MessageObject(UserConfig.selectedAccount, tLRPC$TL_message2, true, false);
+            messageObject4.resetLayout();
+            messageObject4.eventId = 1L;
+            messageObject4.customName = LocaleController.getString("DoubleTapPreviewSenderName", R.string.DoubleTapPreviewSenderName);
+            messageObject4.customAvatarDrawable = ContextCompat.getDrawable(context, R.drawable.dino_pic);
+            messageObject4.overrideLinkColor = 5;
+            messageObject4.overrideLinkEmoji = 0L;
+            messageObject2 = messageObject4;
         } else {
             TLRPC$TL_message tLRPC$TL_message3 = new TLRPC$TL_message();
             if (i == 0) {
@@ -256,7 +259,7 @@ public class ThemePreviewMessagesCell extends LinearLayout {
             TLRPC$TL_peerUser tLRPC$TL_peerUser6 = new TLRPC$TL_peerUser();
             tLRPC$TL_message3.peer_id = tLRPC$TL_peerUser6;
             tLRPC$TL_peerUser6.user_id = 0L;
-            MessageObject messageObject4 = new MessageObject(UserConfig.selectedAccount, tLRPC$TL_message3, true, false);
+            MessageObject messageObject5 = new MessageObject(UserConfig.selectedAccount, tLRPC$TL_message3, true, false);
             TLRPC$TL_message tLRPC$TL_message4 = new TLRPC$TL_message();
             if (i == 0) {
                 tLRPC$TL_message4.message = LocaleController.getString("FontSizePreviewLine2", R.string.FontSizePreviewLine2);
@@ -296,11 +299,11 @@ public class ThemePreviewMessagesCell extends LinearLayout {
             TLRPC$TL_peerUser tLRPC$TL_peerUser8 = new TLRPC$TL_peerUser();
             tLRPC$TL_message4.peer_id = tLRPC$TL_peerUser8;
             tLRPC$TL_peerUser8.user_id = 0L;
-            messageObject = new MessageObject(UserConfig.selectedAccount, tLRPC$TL_message4, true, false);
-            messageObject.resetLayout();
-            messageObject.overrideLinkColor = 5;
-            messageObject.overrideLinkEmoji = 0L;
-            messageObject.eventId = 1L;
+            MessageObject messageObject6 = new MessageObject(UserConfig.selectedAccount, tLRPC$TL_message4, true, false);
+            messageObject6.resetLayout();
+            messageObject6.overrideLinkColor = 5;
+            messageObject6.overrideLinkEmoji = 0L;
+            messageObject6.eventId = 1L;
             TLRPC$TL_message tLRPC$TL_message5 = new TLRPC$TL_message();
             if (i == 0) {
                 tLRPC$TL_message5.message = LocaleController.getString("FontSizePreviewLine1", R.string.FontSizePreviewLine1);
@@ -321,20 +324,22 @@ public class ThemePreviewMessagesCell extends LinearLayout {
             TLRPC$TL_peerUser tLRPC$TL_peerUser9 = new TLRPC$TL_peerUser();
             tLRPC$TL_message5.peer_id = tLRPC$TL_peerUser9;
             tLRPC$TL_peerUser9.user_id = UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId();
-            messageObject2 = new MessageObject(UserConfig.selectedAccount, tLRPC$TL_message5, true, false);
+            MessageObject messageObject7 = new MessageObject(UserConfig.selectedAccount, tLRPC$TL_message5, true, false);
             if (i != 0) {
-                messageObject2.customReplyName = LocaleController.getString("NewThemePreviewName", R.string.NewThemePreviewName);
+                messageObject7.customReplyName = LocaleController.getString("NewThemePreviewName", R.string.NewThemePreviewName);
             }
-            messageObject2.eventId = 1L;
-            messageObject2.resetLayout();
-            messageObject2.replyMessageObject = messageObject4;
+            messageObject7.eventId = 1L;
+            messageObject7.resetLayout();
+            messageObject7.replyMessageObject = messageObject5;
+            messageObject = messageObject7;
+            messageObject2 = messageObject6;
             i2 = 0;
             while (true) {
                 chatMessageCellArr = this.cells;
                 if (i2 < chatMessageCellArr.length) {
                     return;
                 }
-                chatMessageCellArr[i2] = new ChatMessageCell(context, context, i) { // from class: org.telegram.ui.Cells.ThemePreviewMessagesCell.1
+                chatMessageCellArr[i2] = new ChatMessageCell(context, false, null, resourcesProvider, context, i) { // from class: org.telegram.ui.Cells.ThemePreviewMessagesCell.1
                     private final AnimatedColor color1;
                     private final AnimatedColor color2;
                     private GestureDetector gestureDetector;
@@ -432,13 +437,18 @@ public class ThemePreviewMessagesCell extends LinearLayout {
                         int themedColor2;
                         if (getMessageObject() != null && getMessageObject().overrideLinkColor >= 0) {
                             int i5 = getMessageObject().overrideLinkColor;
-                            if (i5 >= 14) {
+                            if (getMessageObject().overrideProfilePeerColor != null) {
+                                themedColor = getMessageObject().overrideProfilePeerColor.getAvatarColor1();
+                                themedColor2 = getMessageObject().overrideProfilePeerColor.getAvatarColor2();
+                            } else if (i5 >= 14) {
                                 MessagesController messagesController = MessagesController.getInstance(UserConfig.selectedAccount);
                                 MessagesController.PeerColors peerColors = messagesController != null ? messagesController.peerColors : null;
-                                if ((peerColors != null ? peerColors.getColor(i5) : null) != null) {
-                                    int color1 = messagesController.peerColors.getColor(i5).getColor1();
-                                    themedColor = getThemedColor(Theme.keys_avatar_background[AvatarDrawable.getPeerColorIndex(color1)]);
+                                MessagesController.PeerColor color = peerColors != null ? peerColors.getColor(i5) : null;
+                                if (color != null) {
+                                    int color1 = color.getColor1();
+                                    int themedColor3 = getThemedColor(Theme.keys_avatar_background[AvatarDrawable.getPeerColorIndex(color1)]);
                                     themedColor2 = getThemedColor(Theme.keys_avatar_background2[AvatarDrawable.getPeerColorIndex(color1)]);
+                                    themedColor = themedColor3;
                                 } else {
                                     long j3 = i5;
                                     themedColor = getThemedColor(Theme.keys_avatar_background[AvatarDrawable.getColorIndex(j3)]);
@@ -511,6 +521,16 @@ public class ThemePreviewMessagesCell extends LinearLayout {
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+                    public /* synthetic */ void didPressChannelRecommendation(ChatMessageCell chatMessageCell, TLRPC$Chat tLRPC$Chat, boolean z2) {
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressChannelRecommendation(this, chatMessageCell, tLRPC$Chat, z2);
+                    }
+
+                    @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+                    public /* synthetic */ void didPressChannelRecommendationsClose(ChatMessageCell chatMessageCell) {
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressChannelRecommendationsClose(this, chatMessageCell);
+                    }
+
+                    @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                     public /* synthetic */ void didPressCodeCopy(ChatMessageCell chatMessageCell, MessageObject.TextLayoutBlock textLayoutBlock) {
                         ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressCodeCopy(this, chatMessageCell, textLayoutBlock);
                     }
@@ -543,6 +563,11 @@ public class ThemePreviewMessagesCell extends LinearLayout {
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                     public /* synthetic */ void didPressImage(ChatMessageCell chatMessageCell, float f, float f2) {
                         ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressImage(this, chatMessageCell, f, f2);
+                    }
+
+                    @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+                    public /* synthetic */ void didPressMoreChannelRecommendations(ChatMessageCell chatMessageCell) {
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressMoreChannelRecommendations(this, chatMessageCell);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
@@ -611,8 +636,8 @@ public class ThemePreviewMessagesCell extends LinearLayout {
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                    public /* synthetic */ void didStartVideoStream(MessageObject messageObject5) {
-                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didStartVideoStream(this, messageObject5);
+                    public /* synthetic */ void didStartVideoStream(MessageObject messageObject8) {
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didStartVideoStream(this, messageObject8);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
@@ -666,8 +691,8 @@ public class ThemePreviewMessagesCell extends LinearLayout {
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                    public /* synthetic */ boolean needPlayMessage(MessageObject messageObject5, boolean z2) {
-                        return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$needPlayMessage(this, messageObject5, z2);
+                    public /* synthetic */ boolean needPlayMessage(MessageObject messageObject8, boolean z2) {
+                        return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$needPlayMessage(this, messageObject8, z2);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
@@ -691,8 +716,8 @@ public class ThemePreviewMessagesCell extends LinearLayout {
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                    public /* synthetic */ void setShouldNotRepeatSticker(MessageObject messageObject5) {
-                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$setShouldNotRepeatSticker(this, messageObject5);
+                    public /* synthetic */ void setShouldNotRepeatSticker(MessageObject messageObject8) {
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$setShouldNotRepeatSticker(this, messageObject8);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
@@ -701,8 +726,8 @@ public class ThemePreviewMessagesCell extends LinearLayout {
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                    public /* synthetic */ boolean shouldRepeatSticker(MessageObject messageObject5) {
-                        return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$shouldRepeatSticker(this, messageObject5);
+                    public /* synthetic */ boolean shouldRepeatSticker(MessageObject messageObject8) {
+                        return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$shouldRepeatSticker(this, messageObject8);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
@@ -731,7 +756,7 @@ public class ThemePreviewMessagesCell extends LinearLayout {
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                    public void needOpenWebView(MessageObject messageObject5, String str, String str2, String str3, String str4, int i5, int i6) {
+                    public void needOpenWebView(MessageObject messageObject8, String str, String str2, String str3, String str4, int i5, int i6) {
                         if (ThemePreviewMessagesCell.this.allowLoadingOnTouch()) {
                             ThemePreviewMessagesCell.this.progress = 2;
                             AndroidUtilities.cancelRunOnUIThread(ThemePreviewMessagesCell.this.cancelProgress);
@@ -757,15 +782,15 @@ public class ThemePreviewMessagesCell extends LinearLayout {
                 ChatMessageCell[] chatMessageCellArr2 = this.cells;
                 chatMessageCellArr2[i2].isChat = i == 2;
                 chatMessageCellArr2[i2].setFullyDraw(true);
-                MessageObject messageObject5 = i2 == 0 ? messageObject2 : messageObject;
-                if (messageObject5 != null) {
-                    this.cells[i2].setMessageObject(messageObject5, null, false, false);
+                MessageObject messageObject8 = i2 == 0 ? messageObject : messageObject2;
+                if (messageObject8 != null) {
+                    this.cells[i2].setMessageObject(messageObject8, null, false, false);
                     addView(this.cells[i2], LayoutHelper.createLinear(-1, -2));
                 }
                 i2++;
             }
         }
-        messageObject2 = null;
+        messageObject = null;
         i2 = 0;
         while (true) {
             chatMessageCellArr = this.cells;
@@ -793,13 +818,21 @@ public class ThemePreviewMessagesCell extends LinearLayout {
         }
     }
 
+    public void setOverrideBackground(Drawable drawable) {
+        this.overrideDrawable = drawable;
+        invalidate();
+    }
+
     @Override // android.widget.LinearLayout, android.view.View
     protected void onDraw(Canvas canvas) {
-        Drawable cachedWallpaperNonBlocking = Theme.getCachedWallpaperNonBlocking();
+        Drawable drawable = this.overrideDrawable;
+        if (drawable == null) {
+            drawable = Theme.getCachedWallpaperNonBlocking();
+        }
         if (Theme.wallpaperLoadTask != null) {
             invalidate();
         }
-        if (cachedWallpaperNonBlocking != this.backgroundDrawable && cachedWallpaperNonBlocking != null) {
+        if (drawable != this.backgroundDrawable && drawable != null) {
             if (Theme.isAnimatingColor()) {
                 this.oldBackgroundDrawable = this.backgroundDrawable;
                 this.oldBackgroundGradientDisposable = this.backgroundGradientDisposable;
@@ -810,43 +843,43 @@ public class ThemePreviewMessagesCell extends LinearLayout {
                     this.backgroundGradientDisposable = null;
                 }
             }
-            this.backgroundDrawable = cachedWallpaperNonBlocking;
+            this.backgroundDrawable = drawable;
         }
         float themeAnimationValue = this.parentLayout.getThemeAnimationValue();
         int i = 0;
         while (i < 2) {
-            Drawable drawable = i == 0 ? this.oldBackgroundDrawable : this.backgroundDrawable;
-            if (drawable != null) {
+            Drawable drawable2 = i == 0 ? this.oldBackgroundDrawable : this.backgroundDrawable;
+            if (drawable2 != null) {
                 int i2 = (i != 1 || this.oldBackgroundDrawable == null || this.parentLayout == null) ? 255 : (int) (255.0f * themeAnimationValue);
                 if (i2 > 0) {
-                    drawable.setAlpha(i2);
-                    if ((drawable instanceof ColorDrawable) || (drawable instanceof GradientDrawable) || (drawable instanceof MotionBackgroundDrawable)) {
-                        drawable.setBounds(0, 0, getMeasuredWidth(), getMeasuredHeight());
-                        if (drawable instanceof BackgroundGradientDrawable) {
-                            this.backgroundGradientDisposable = ((BackgroundGradientDrawable) drawable).drawExactBoundsSize(canvas, this);
+                    drawable2.setAlpha(i2);
+                    if ((drawable2 instanceof ColorDrawable) || (drawable2 instanceof GradientDrawable) || (drawable2 instanceof MotionBackgroundDrawable)) {
+                        drawable2.setBounds(0, 0, getMeasuredWidth(), getMeasuredHeight());
+                        if (drawable2 instanceof BackgroundGradientDrawable) {
+                            this.backgroundGradientDisposable = ((BackgroundGradientDrawable) drawable2).drawExactBoundsSize(canvas, this);
                         } else {
-                            drawable.draw(canvas);
+                            drawable2.draw(canvas);
                         }
-                    } else if (drawable instanceof BitmapDrawable) {
-                        BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
+                    } else if (drawable2 instanceof BitmapDrawable) {
+                        BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable2;
                         bitmapDrawable.setFilterBitmap(true);
                         if (bitmapDrawable.getTileModeX() == Shader.TileMode.REPEAT) {
                             canvas.save();
                             float f = 2.0f / AndroidUtilities.density;
                             canvas.scale(f, f);
-                            drawable.setBounds(0, 0, (int) Math.ceil(getMeasuredWidth() / f), (int) Math.ceil(getMeasuredHeight() / f));
+                            drawable2.setBounds(0, 0, (int) Math.ceil(getMeasuredWidth() / f), (int) Math.ceil(getMeasuredHeight() / f));
                         } else {
                             int measuredHeight = getMeasuredHeight();
-                            float max = Math.max(getMeasuredWidth() / drawable.getIntrinsicWidth(), measuredHeight / drawable.getIntrinsicHeight());
-                            int ceil = (int) Math.ceil(drawable.getIntrinsicWidth() * max);
-                            int ceil2 = (int) Math.ceil(drawable.getIntrinsicHeight() * max);
+                            float max = Math.max(getMeasuredWidth() / drawable2.getIntrinsicWidth(), measuredHeight / drawable2.getIntrinsicHeight());
+                            int ceil = (int) Math.ceil(drawable2.getIntrinsicWidth() * max);
+                            int ceil2 = (int) Math.ceil(drawable2.getIntrinsicHeight() * max);
                             int measuredWidth = (getMeasuredWidth() - ceil) / 2;
                             int i3 = (measuredHeight - ceil2) / 2;
                             canvas.save();
                             canvas.clipRect(0, 0, ceil, getMeasuredHeight());
-                            drawable.setBounds(measuredWidth, i3, ceil + measuredWidth, ceil2 + i3);
+                            drawable2.setBounds(measuredWidth, i3, ceil + measuredWidth, ceil2 + i3);
                         }
-                        drawable.draw(canvas);
+                        drawable2.draw(canvas);
                         canvas.restore();
                     }
                     if (i == 0 && this.oldBackgroundDrawable != null && themeAnimationValue >= 1.0f) {

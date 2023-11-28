@@ -1443,7 +1443,10 @@ public class LocaleController {
                     if (str3 == null) {
                         str3 = ApplicationLoader.applicationContext.getString(ApplicationLoader.applicationContext.getResources().getIdentifier(str2, "string", ApplicationLoader.applicationContext.getPackageName()));
                     }
-                    String replace = str3.replace("%1$d", "%1$s");
+                    if (str3 == null) {
+                        str3 = ApplicationLoader.applicationContext.getString(ApplicationLoader.applicationContext.getResources().getIdentifier(str + "_other", "string", ApplicationLoader.applicationContext.getPackageName()));
+                    }
+                    String replace = str3.replace("%d", "%1$s").replace("%1$d", "%1$s");
                     return getInstance().currentLocale != null ? String.format(getInstance().currentLocale, replace, sb) : String.format(replace, sb);
                 }
             } catch (Exception e) {
@@ -1774,7 +1777,7 @@ public class LocaleController {
             case 24:
             case 25:
             case MessageObject.TYPE_GIVEAWAY /* 26 */:
-            case 27:
+            case MessageObject.TYPE_JOINED_CHANNEL /* 27 */:
             case 28:
             case 29:
                 d = abs;
@@ -2041,7 +2044,7 @@ public class LocaleController {
             case 24:
             case 25:
             case MessageObject.TYPE_GIVEAWAY /* 26 */:
-            case 27:
+            case MessageObject.TYPE_JOINED_CHANNEL /* 27 */:
             case 28:
                 return 1;
             case 3:
@@ -2273,7 +2276,7 @@ public class LocaleController {
             case 24:
             case 25:
             case MessageObject.TYPE_GIVEAWAY /* 26 */:
-            case 27:
+            case MessageObject.TYPE_JOINED_CHANNEL /* 27 */:
             case 28:
             case 29:
                 d = abs;
@@ -2473,6 +2476,39 @@ public class LocaleController {
             int i3 = calendar.get(6);
             int i4 = calendar.get(1);
             return (i3 == i && i2 == i4) ? formatString("TodayAtFormattedWithToday", R.string.TodayAtFormattedWithToday, getInstance().formatterDay.format(new Date(j2))) : (i3 + 1 == i && i2 == i4) ? formatString("YesterdayAtFormatted", R.string.YesterdayAtFormatted, getInstance().formatterDay.format(new Date(j2))) : Math.abs(System.currentTimeMillis() - j2) < 31536000000L ? formatString("formatDateAtTime", R.string.formatDateAtTime, getInstance().formatterDayMonth.format(new Date(j2)), getInstance().formatterDay.format(new Date(j2))) : formatString("formatDateAtTime", R.string.formatDateAtTime, getInstance().formatterYear.format(new Date(j2)), getInstance().formatterDay.format(new Date(j2)));
+        } catch (Exception e) {
+            FileLog.e(e);
+            return "LOC_ERR";
+        }
+    }
+
+    public static String formatShortDate(long j) {
+        long j2 = j * 1000;
+        try {
+            Calendar calendar = Calendar.getInstance();
+            int i = calendar.get(6);
+            int i2 = calendar.get(1);
+            long timeInMillis = calendar.getTimeInMillis();
+            calendar.setTimeInMillis(j2);
+            int i3 = calendar.get(6);
+            int i4 = calendar.get(1);
+            long j3 = timeInMillis - j2;
+            if (j3 < 60000) {
+                return getString(R.string.ShortNow);
+            }
+            if (j3 < 3600000) {
+                return formatPluralString("ShortMinutesAgo", (int) (j3 / 60000), new Object[0]);
+            }
+            if (i3 == i && i2 == i4) {
+                if (j3 < 43200000) {
+                    return formatPluralString("ShortHoursAgo", (int) (j3 / 3600000), new Object[0]);
+                }
+                return getString(R.string.ShortToday);
+            } else if (i3 + 1 == i && i2 == i4) {
+                return getString(R.string.ShortYesterday);
+            } else {
+                return Math.abs(System.currentTimeMillis() - j2) < 31536000000L ? getInstance().formatterDayMonth.format(new Date(j2)) : formatString("formatDateAtTime", R.string.formatDateAtTime, getInstance().formatterYear.format(new Date(j2)), getInstance().formatterDay.format(new Date(j2)));
+            }
         } catch (Exception e) {
             FileLog.e(e);
             return "LOC_ERR";

@@ -301,6 +301,9 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
         if (i == 3) {
             this.recentDrawableId = R.drawable.msg_emoji_smiles;
         }
+        if (i == 6) {
+            this.recentDrawableId = R.drawable.emoji_love;
+        }
         if (z) {
             LinearLayout linearLayout3 = this.contentView;
             EmojiTabButton emojiTabButton2 = new EmojiTabButton(context, this.recentDrawableId, false, false);
@@ -480,9 +483,9 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
                         }
                         emojiTabButton.updateSelect(this.selected == i, false);
                         int i3 = this.currentType;
-                        if (i3 == 4) {
+                        if (i3 == 4 || i3 == 6) {
                             bool = null;
-                        } else if (i3 == 5) {
+                        } else if (i3 == 5 || i3 == 7) {
                             bool = null;
                         } else {
                             if (!z2 && !z3) {
@@ -711,7 +714,8 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
 
     /* JADX INFO: Access modifiers changed from: private */
     public int selectorColor() {
-        if (this.currentType == 5) {
+        int i = this.currentType;
+        if (i == 5 || i == 7) {
             return Theme.multAlpha(this.accentColor, 0.09f);
         }
         return Theme.multAlpha(Theme.getColor(Theme.key_chat_emojiPanelIcon, this.resourcesProvider), 0.18f);
@@ -1221,7 +1225,7 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
         }
 
         private void setColor(int i) {
-            if (EmojiTabsStrip.this.currentType == 5) {
+            if (EmojiTabsStrip.this.currentType == 5 || EmojiTabsStrip.this.currentType == 7) {
                 i = EmojiTabsStrip.this.accentColor;
             }
             PorterDuffColorFilter porterDuffColorFilter = new PorterDuffColorFilter(i, PorterDuff.Mode.MULTIPLY);

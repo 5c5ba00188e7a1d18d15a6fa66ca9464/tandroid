@@ -8283,7 +8283,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
             if (i == 0) {
                 return 1;
             }
-            if (i == 1 && this.searchWas && this.result.isEmpty()) {
+            if (i == 1 && this.searchWas && this.result.isEmpty() && this.packs.isEmpty()) {
                 return 2;
             }
             return (this.packs.isEmpty() || (size = i - (this.result.size() + 1)) < 0 || size >= this.packs.size() || !(this.packs.get(size) instanceof SelectAnimatedEmojiDialog.SetTitleDocument)) ? 0 : 3;

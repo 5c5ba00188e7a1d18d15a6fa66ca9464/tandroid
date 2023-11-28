@@ -211,7 +211,7 @@ public class EditTextEffects extends EditText {
     @Override // android.widget.TextView, android.view.View
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
-        updateAnimatedEmoji(false);
+        updateAnimatedEmoji(true);
         invalidateQuotes(false);
     }
 

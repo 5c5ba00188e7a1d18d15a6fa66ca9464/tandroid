@@ -167,7 +167,7 @@ public final class MediaCodecInfo {
             if (format.pcmEncoding != format2.pcmEncoding) {
                 i |= LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM;
             }
-            if (i == 0 && MediaController.AUIDO_MIME_TYPE.equals(this.mimeType)) {
+            if (i == 0 && MediaController.AUDIO_MIME_TYPE.equals(this.mimeType)) {
                 Pair<Integer, Integer> codecProfileAndLevel = MediaCodecUtil.getCodecProfileAndLevel(format);
                 Pair<Integer, Integer> codecProfileAndLevel2 = MediaCodecUtil.getCodecProfileAndLevel(format2);
                 if (codecProfileAndLevel != null && codecProfileAndLevel2 != null) {
@@ -277,7 +277,7 @@ public final class MediaCodecInfo {
 
     private static int adjustMaxInputChannelCount(String str, String str2, int i) {
         int i2;
-        if (i > 1 || ((Util.SDK_INT >= 26 && i > 0) || "audio/mpeg".equals(str2) || "audio/3gpp".equals(str2) || "audio/amr-wb".equals(str2) || MediaController.AUIDO_MIME_TYPE.equals(str2) || "audio/vorbis".equals(str2) || "audio/opus".equals(str2) || "audio/raw".equals(str2) || "audio/flac".equals(str2) || "audio/g711-alaw".equals(str2) || "audio/g711-mlaw".equals(str2) || "audio/gsm".equals(str2))) {
+        if (i > 1 || ((Util.SDK_INT >= 26 && i > 0) || "audio/mpeg".equals(str2) || "audio/3gpp".equals(str2) || "audio/amr-wb".equals(str2) || MediaController.AUDIO_MIME_TYPE.equals(str2) || "audio/vorbis".equals(str2) || "audio/opus".equals(str2) || "audio/raw".equals(str2) || "audio/flac".equals(str2) || "audio/g711-alaw".equals(str2) || "audio/g711-mlaw".equals(str2) || "audio/gsm".equals(str2))) {
             return i;
         }
         if ("audio/ac3".equals(str2)) {

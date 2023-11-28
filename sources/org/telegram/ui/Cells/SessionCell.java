@@ -272,7 +272,7 @@ public class SessionCell extends FrameLayout {
             TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(tLRPC$TL_webAuthorization.bot_id));
             this.nameTextView.setText(tLRPC$TL_webAuthorization.domain);
             if (user != null) {
-                this.avatarDrawable.setInfo(user);
+                this.avatarDrawable.setInfo(this.currentAccount, user);
                 str = UserObject.getFirstName(user);
                 this.imageView.setForUserOrChat(user, this.avatarDrawable);
             } else {

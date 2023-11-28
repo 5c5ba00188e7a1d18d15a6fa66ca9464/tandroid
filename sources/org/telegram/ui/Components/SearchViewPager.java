@@ -131,7 +131,7 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
         this.itemAnimator.setRemoveDuration(0L);
         this.itemAnimator.setMoveInterpolator(new OvershootInterpolator(1.1f));
         this.itemAnimator.setTranslationInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
-        this.dialogsSearchAdapter = new DialogsSearchAdapter(context, dialogsActivity, i, i2, this.itemAnimator, dialogsActivity.getAllowGlobalSearch()) { // from class: org.telegram.ui.Components.SearchViewPager.1
+        this.dialogsSearchAdapter = new DialogsSearchAdapter(context, dialogsActivity, i, i2, this.itemAnimator, dialogsActivity.getAllowGlobalSearch(), null) { // from class: org.telegram.ui.Components.SearchViewPager.1
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
             public void notifyDataSetChanged() {
                 RecyclerListView recyclerListView;

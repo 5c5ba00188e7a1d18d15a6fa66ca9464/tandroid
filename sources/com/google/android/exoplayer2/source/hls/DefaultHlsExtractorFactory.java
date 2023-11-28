@@ -119,7 +119,7 @@ public final class DefaultHlsExtractorFactory implements HlsExtractorFactory {
         }
         String str = format.codecs;
         if (!TextUtils.isEmpty(str)) {
-            if (!MimeTypes.containsCodecsCorrespondingToMimeType(str, MediaController.AUIDO_MIME_TYPE)) {
+            if (!MimeTypes.containsCodecsCorrespondingToMimeType(str, MediaController.AUDIO_MIME_TYPE)) {
                 i2 |= 2;
             }
             if (!MimeTypes.containsCodecsCorrespondingToMimeType(str, MediaController.VIDEO_MIME_TYPE)) {

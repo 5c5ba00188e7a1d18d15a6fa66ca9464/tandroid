@@ -607,7 +607,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
                     ((FrameLayout.LayoutParams) this.nameTextView.getLayoutParams()).topMargin = AndroidUtilities.dp(19.0f);
                     return;
                 }
-                this.avatarDrawable.setInfo(tLRPC$User);
+                this.avatarDrawable.setInfo(this.currentAccount, tLRPC$User);
                 TLRPC$UserStatus tLRPC$UserStatus3 = tLRPC$User.status;
                 if (tLRPC$UserStatus3 != null) {
                     this.lastStatus = tLRPC$UserStatus3.expires;
@@ -615,7 +615,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
                     this.lastStatus = 0;
                 }
             } else if (tLRPC$Chat != null) {
-                this.avatarDrawable.setInfo(tLRPC$Chat);
+                this.avatarDrawable.setInfo(this.currentAccount, tLRPC$Chat);
             } else {
                 CharSequence charSequence = this.currentName;
                 if (charSequence != null) {

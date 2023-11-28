@@ -6,6 +6,7 @@ import java.util.Map;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
+import org.telegram.ui.Cells.ShareDialogCell$RepostStoryDrawable$$ExternalSyntheticLambda0;
 /* loaded from: classes4.dex */
 public class ChatActivityEnterViewAnimatedIconView extends RLottieImageView {
     private TransitState animatingState;
@@ -54,7 +55,7 @@ public class ChatActivityEnterViewAnimatedIconView extends RLottieImageView {
                 return;
             }
             this.animatingState = state3;
-            final RLottieDrawable rLottieDrawable2 = this.stateMap.get(state3);
+            RLottieDrawable rLottieDrawable2 = this.stateMap.get(state3);
             rLottieDrawable2.stop();
             rLottieDrawable2.setProgress(0.0f, false);
             rLottieDrawable2.setAutoRepeat(0);
@@ -65,12 +66,7 @@ public class ChatActivityEnterViewAnimatedIconView extends RLottieImageView {
                 }
             });
             setAnimation(rLottieDrawable2);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatActivityEnterViewAnimatedIconView$$ExternalSyntheticLambda1
-                @Override // java.lang.Runnable
-                public final void run() {
-                    RLottieDrawable.this.start();
-                }
-            });
+            AndroidUtilities.runOnUIThread(new ShareDialogCell$RepostStoryDrawable$$ExternalSyntheticLambda0(rLottieDrawable2));
         }
         int i = 2.$SwitchMap$org$telegram$ui$Components$ChatActivityEnterViewAnimatedIconView$State[state.ordinal()];
         if (i == 1) {

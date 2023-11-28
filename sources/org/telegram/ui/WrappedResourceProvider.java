@@ -13,6 +13,13 @@ public class WrappedResourceProvider implements Theme.ResourcesProvider {
     public void appendColors() {
     }
 
+    @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
+    public /* synthetic */ boolean isDark() {
+        boolean isCurrentThemeDark;
+        isCurrentThemeDark = Theme.isCurrentThemeDark();
+        return isCurrentThemeDark;
+    }
+
     public WrappedResourceProvider(Theme.ResourcesProvider resourcesProvider) {
         this.resourcesProvider = resourcesProvider;
         appendColors();

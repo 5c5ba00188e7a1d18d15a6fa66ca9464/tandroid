@@ -1572,7 +1572,7 @@ public class MatroskaExtractor implements Extractor {
             case 24:
             case 25:
             case MessageObject.TYPE_GIVEAWAY /* 26 */:
-            case 27:
+            case MessageObject.TYPE_JOINED_CHANNEL /* 27 */:
             case 28:
             case 29:
             case 30:
@@ -2061,7 +2061,7 @@ public class MatroskaExtractor implements Extractor {
                     this.sampleRate = parseAudioSpecificConfig.sampleRateHz;
                     this.channelCount = parseAudioSpecificConfig.channelCount;
                     str = parseAudioSpecificConfig.codecs;
-                    str4 = MediaController.AUIDO_MIME_TYPE;
+                    str4 = MediaController.AUDIO_MIME_TYPE;
                     i2 = -1;
                     i3 = -1;
                     break;
@@ -2183,7 +2183,7 @@ public class MatroskaExtractor implements Extractor {
                     str = str2;
                     singletonList = list22;
                     break;
-                case 27:
+                case MessageObject.TYPE_JOINED_CHANNEL /* 27 */:
                     singletonList = null;
                     str = null;
                     str4 = "text/vtt";

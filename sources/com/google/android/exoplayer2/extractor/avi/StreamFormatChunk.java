@@ -49,7 +49,7 @@ public final class StreamFormatChunk implements AviChunk {
                     }
                     return "audio/ac3";
                 }
-                return MediaController.AUIDO_MIME_TYPE;
+                return MediaController.AUDIO_MIME_TYPE;
             }
             return "audio/mpeg";
         }
@@ -111,7 +111,7 @@ public final class StreamFormatChunk implements AviChunk {
         if ("audio/raw".equals(mimeTypeFromTag) && pcmEncoding != 0) {
             builder.setPcmEncoding(pcmEncoding);
         }
-        if (MediaController.AUIDO_MIME_TYPE.equals(mimeTypeFromTag) && readLittleEndianUnsignedShort3 > 0) {
+        if (MediaController.AUDIO_MIME_TYPE.equals(mimeTypeFromTag) && readLittleEndianUnsignedShort3 > 0) {
             builder.setInitializationData(ImmutableList.of(bArr));
         }
         return new StreamFormatChunk(builder.build());

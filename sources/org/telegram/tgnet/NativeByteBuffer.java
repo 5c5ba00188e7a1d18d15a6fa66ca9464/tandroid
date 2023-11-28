@@ -31,7 +31,7 @@ public class NativeByteBuffer extends AbstractSerializedData {
     public static native void native_reuse(long j);
 
     public int getIntFromByte(byte b) {
-        return b >= 0 ? b : b + ConnectionsManager.USE_IPV4_ONLY;
+        return b >= 0 ? b : b + 256;
     }
 
     public static NativeByteBuffer wrap(long j) {

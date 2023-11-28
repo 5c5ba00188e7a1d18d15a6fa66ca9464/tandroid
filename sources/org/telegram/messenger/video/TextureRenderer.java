@@ -9,6 +9,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.SurfaceTexture;
 import android.graphics.Typeface;
@@ -20,6 +21,7 @@ import android.os.Build;
 import android.text.Editable;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import java.io.File;
@@ -48,6 +50,7 @@ import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.AnimatedEmojiSpan;
 import org.telegram.ui.Components.AnimatedFileDrawable;
 import org.telegram.ui.Components.BlurringShader;
+import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.EditTextEffects;
 import org.telegram.ui.Components.FilterShaders;
 import org.telegram.ui.Components.Paint.PaintTypeface;
@@ -107,6 +110,9 @@ public class TextureRenderer {
     private FloatBuffer[] partsVerticesBuffer;
     Path path;
     private FloatBuffer renderTextureBuffer;
+    private Bitmap roundBitmap;
+    private Canvas roundCanvas;
+    private Path roundClipPath;
     private int simpleInputTexCoordHandle;
     private int simplePositionHandle;
     private int simpleShaderProgram;
@@ -127,11 +133,13 @@ public class TextureRenderer {
     private float[] mMVPMatrix = new float[16];
     private float[] mSTMatrix = new float[16];
     private float[] mSTMatrixIdentity = new float[16];
+    private final Rect roundSrc = new Rect();
+    private final RectF roundDst = new RectF();
     private boolean firstFrame = true;
 
-    /* JADX WARN: Removed duplicated region for block: B:56:0x036c  */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x038e  */
-    /* JADX WARN: Removed duplicated region for block: B:82:0x03da  */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x037a  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x039c  */
+    /* JADX WARN: Removed duplicated region for block: B:82:0x03e8  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -361,7 +369,7 @@ public class TextureRenderer {
 
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r7v9 */
-    public void drawFrame(SurfaceTexture surfaceTexture) {
+    public void drawFrame(SurfaceTexture surfaceTexture, long j) {
         int i;
         float[] fArr;
         int i2;
@@ -521,70 +529,139 @@ public class TextureRenderer {
         if (this.stickerTexture != null) {
             int size = this.mediaEntities.size();
             for (int i17 = 0; i17 < size; i17++) {
-                drawEntity(this.mediaEntities.get(i17), this.mediaEntities.get(i17).color);
+                drawEntity(this.mediaEntities.get(i17), this.mediaEntities.get(i17).color, j);
             }
         }
         GLES20.glFinish();
     }
 
-    private void drawEntity(VideoEditedInfo.MediaEntity mediaEntity, int i) {
+    private void drawEntity(VideoEditedInfo.MediaEntity mediaEntity, int i, long j) {
         VideoEditedInfo.MediaEntity mediaEntity2;
+        Bitmap bitmap;
+        long j2;
+        long j3;
+        long clamp;
         int i2;
         int i3;
-        long j = mediaEntity.ptr;
-        boolean z = true;
-        if (j != 0) {
-            Bitmap bitmap = mediaEntity.bitmap;
-            if (bitmap == null || (i2 = mediaEntity.W) <= 0 || (i3 = mediaEntity.H) <= 0) {
+        TextureRenderer textureRenderer = this;
+        long j4 = mediaEntity.ptr;
+        if (j4 != 0) {
+            Bitmap bitmap2 = mediaEntity.bitmap;
+            if (bitmap2 == null || (i2 = mediaEntity.W) <= 0 || (i3 = mediaEntity.H) <= 0) {
                 return;
             }
-            RLottieDrawable.getFrame(j, (int) mediaEntity.currentFrame, bitmap, i2, i3, bitmap.getRowBytes(), true);
-            applyRoundRadius(mediaEntity, mediaEntity.bitmap, (mediaEntity.subType & 8) != 0 ? i : 0);
-            GLES20.glBindTexture(3553, this.stickerTexture[0]);
+            RLottieDrawable.getFrame(j4, (int) mediaEntity.currentFrame, bitmap2, i2, i3, bitmap2.getRowBytes(), true);
+            textureRenderer.applyRoundRadius(mediaEntity, mediaEntity.bitmap, (mediaEntity.subType & 8) != 0 ? i : 0);
+            GLES20.glBindTexture(3553, textureRenderer.stickerTexture[0]);
             GLUtils.texImage2D(3553, 0, mediaEntity.bitmap, 0);
             float f = mediaEntity.currentFrame + mediaEntity.framesPerDraw;
             mediaEntity.currentFrame = f;
             if (f >= mediaEntity.metadata[0]) {
                 mediaEntity.currentFrame = 0.0f;
             }
-            drawTexture(false, this.stickerTexture[0], mediaEntity.x, mediaEntity.y, mediaEntity.width, mediaEntity.height, mediaEntity.rotation, (mediaEntity.subType & 2) != 0);
+            drawTexture(false, textureRenderer.stickerTexture[0], mediaEntity.x, mediaEntity.y, mediaEntity.width, mediaEntity.height, mediaEntity.rotation, (mediaEntity.subType & 2) != 0);
         } else if (mediaEntity.animatedFileDrawable != null) {
             float f2 = mediaEntity.currentFrame;
             int i4 = (int) f2;
-            float f3 = f2 + mediaEntity.framesPerDraw;
-            mediaEntity.currentFrame = f3;
-            for (int i5 = (int) f3; i4 != i5; i5--) {
-                mediaEntity.animatedFileDrawable.getNextFrame();
+            float f3 = 1.0f;
+            if (mediaEntity.type == 5) {
+                if (textureRenderer.isPhoto) {
+                    j3 = mediaEntity.roundDuration;
+                    j2 = 0;
+                } else {
+                    j2 = mediaEntity.roundOffset;
+                    j3 = (mediaEntity.roundRight - mediaEntity.roundLeft) + j2;
+                }
+                long j5 = j / 1000000;
+                if (j5 < j2) {
+                    f3 = CubicBezierInterpolator.EASE_OUT_QUINT.getInterpolation(Utilities.clamp(1.0f - (((float) (j2 - j5)) / 400.0f), 1.0f, 0.0f));
+                } else if (j5 > j3) {
+                    f3 = CubicBezierInterpolator.EASE_OUT_QUINT.getInterpolation(Utilities.clamp(1.0f - (((float) (j5 - j3)) / 400.0f), 1.0f, 0.0f));
+                }
+                textureRenderer = this;
+                if (f3 > 0.0f) {
+                    if (textureRenderer.isPhoto) {
+                        clamp = Utilities.clamp(j5, mediaEntity.roundDuration, 0L);
+                    } else {
+                        clamp = Utilities.clamp((j5 - mediaEntity.roundOffset) + mediaEntity.roundLeft, mediaEntity.roundDuration, 0L);
+                    }
+                    while (!mediaEntity.looped && mediaEntity.animatedFileDrawable.getProgressMs() < Math.min(clamp, mediaEntity.animatedFileDrawable.getDurationMs())) {
+                        int progressMs = mediaEntity.animatedFileDrawable.getProgressMs();
+                        mediaEntity.animatedFileDrawable.getNextFrame(false);
+                        Log.i("lolkek", "next frame " + progressMs + " -> " + mediaEntity.animatedFileDrawable.getProgressMs() + " (duration = " + mediaEntity.animatedFileDrawable.getDurationMs() + ", mspf = " + (1000.0f / mediaEntity.animatedFileDrawable.getFps()) + "ms)");
+                        if (mediaEntity.animatedFileDrawable.getProgressMs() <= progressMs && (mediaEntity.animatedFileDrawable.getProgressMs() != 0 || progressMs != 0)) {
+                            mediaEntity.looped = true;
+                            break;
+                        }
+                    }
+                }
+            } else {
+                float f4 = f2 + mediaEntity.framesPerDraw;
+                mediaEntity.currentFrame = f4;
+                for (int i5 = (int) f4; i4 != i5; i5--) {
+                    mediaEntity.animatedFileDrawable.getNextFrame(true);
+                }
             }
             Bitmap backgroundBitmap = mediaEntity.animatedFileDrawable.getBackgroundBitmap();
             if (backgroundBitmap != null) {
-                if (this.stickerCanvas == null && this.stickerBitmap != null) {
-                    this.stickerCanvas = new Canvas(this.stickerBitmap);
-                    if (this.stickerBitmap.getHeight() != backgroundBitmap.getHeight() || this.stickerBitmap.getWidth() != backgroundBitmap.getWidth()) {
-                        this.stickerCanvas.scale(this.stickerBitmap.getWidth() / backgroundBitmap.getWidth(), this.stickerBitmap.getHeight() / backgroundBitmap.getHeight());
+                if (mediaEntity.type == 5) {
+                    if (textureRenderer.roundBitmap == null) {
+                        int min = Math.min(backgroundBitmap.getWidth(), backgroundBitmap.getHeight());
+                        textureRenderer.roundBitmap = Bitmap.createBitmap(min, min, Bitmap.Config.ARGB_8888);
+                        textureRenderer.roundCanvas = new Canvas(textureRenderer.roundBitmap);
                     }
+                    Bitmap bitmap3 = textureRenderer.roundBitmap;
+                    if (bitmap3 != null) {
+                        bitmap3.eraseColor(0);
+                        textureRenderer.roundCanvas.save();
+                        if (textureRenderer.roundClipPath == null) {
+                            textureRenderer.roundClipPath = new Path();
+                        }
+                        textureRenderer.roundClipPath.rewind();
+                        textureRenderer.roundClipPath.addCircle(textureRenderer.roundBitmap.getWidth() / 2.0f, textureRenderer.roundBitmap.getHeight() / 2.0f, (textureRenderer.roundBitmap.getWidth() / 2.0f) * f3, Path.Direction.CW);
+                        textureRenderer.roundCanvas.clipPath(textureRenderer.roundClipPath);
+                        if (backgroundBitmap.getWidth() >= backgroundBitmap.getHeight()) {
+                            textureRenderer.roundSrc.set((backgroundBitmap.getWidth() - backgroundBitmap.getHeight()) / 2, 0, backgroundBitmap.getWidth() - ((backgroundBitmap.getWidth() - backgroundBitmap.getHeight()) / 2), backgroundBitmap.getHeight());
+                        } else {
+                            textureRenderer.roundSrc.set(0, (backgroundBitmap.getHeight() - backgroundBitmap.getWidth()) / 2, backgroundBitmap.getWidth(), backgroundBitmap.getHeight() - ((backgroundBitmap.getHeight() - backgroundBitmap.getWidth()) / 2));
+                        }
+                        textureRenderer.roundDst.set(0.0f, 0.0f, textureRenderer.roundBitmap.getWidth(), textureRenderer.roundBitmap.getHeight());
+                        textureRenderer.roundCanvas.drawBitmap(backgroundBitmap, textureRenderer.roundSrc, textureRenderer.roundDst, (Paint) null);
+                        textureRenderer.roundCanvas.restore();
+                    }
+                    bitmap = textureRenderer.roundBitmap;
+                } else {
+                    if (textureRenderer.stickerCanvas == null && textureRenderer.stickerBitmap != null) {
+                        textureRenderer.stickerCanvas = new Canvas(textureRenderer.stickerBitmap);
+                        if (textureRenderer.stickerBitmap.getHeight() != backgroundBitmap.getHeight() || textureRenderer.stickerBitmap.getWidth() != backgroundBitmap.getWidth()) {
+                            textureRenderer.stickerCanvas.scale(textureRenderer.stickerBitmap.getWidth() / backgroundBitmap.getWidth(), textureRenderer.stickerBitmap.getHeight() / backgroundBitmap.getHeight());
+                        }
+                    }
+                    Bitmap bitmap4 = textureRenderer.stickerBitmap;
+                    if (bitmap4 != null) {
+                        bitmap4.eraseColor(0);
+                        textureRenderer.stickerCanvas.drawBitmap(backgroundBitmap, 0.0f, 0.0f, (Paint) null);
+                        textureRenderer.applyRoundRadius(mediaEntity, textureRenderer.stickerBitmap, (mediaEntity.subType & 8) != 0 ? i : 0);
+                    }
+                    bitmap = textureRenderer.stickerBitmap;
                 }
-                Bitmap bitmap2 = this.stickerBitmap;
-                if (bitmap2 != null) {
-                    bitmap2.eraseColor(0);
-                    this.stickerCanvas.drawBitmap(backgroundBitmap, 0.0f, 0.0f, (Paint) null);
-                    applyRoundRadius(mediaEntity, this.stickerBitmap, (mediaEntity.subType & 8) != 0 ? i : 0);
-                    GLES20.glBindTexture(3553, this.stickerTexture[0]);
-                    GLUtils.texImage2D(3553, 0, this.stickerBitmap, 0);
-                    drawTexture(false, this.stickerTexture[0], mediaEntity.x, mediaEntity.y, mediaEntity.width, mediaEntity.height, mediaEntity.rotation, (mediaEntity.subType & 2) != 0);
+                if (bitmap != null) {
+                    GLES20.glBindTexture(3553, textureRenderer.stickerTexture[0]);
+                    GLUtils.texImage2D(3553, 0, bitmap, 0);
+                    drawTexture(false, textureRenderer.stickerTexture[0], mediaEntity.x, mediaEntity.y, mediaEntity.width, mediaEntity.height, mediaEntity.rotation, (mediaEntity.subType & 2) != 0);
                 }
             }
         } else {
             if (mediaEntity.bitmap != null) {
-                GLES20.glBindTexture(3553, this.stickerTexture[0]);
+                GLES20.glBindTexture(3553, textureRenderer.stickerTexture[0]);
                 GLUtils.texImage2D(3553, 0, mediaEntity.bitmap, 0);
-                int i6 = this.stickerTexture[0];
-                float f4 = mediaEntity.x;
-                float f5 = mediaEntity.additionalWidth;
-                float f6 = f4 - (f5 / 2.0f);
-                float f7 = mediaEntity.y;
-                float f8 = mediaEntity.additionalHeight;
-                drawTexture(false, i6, f6, f7 - (f8 / 2.0f), mediaEntity.width + f5, f8 + mediaEntity.height, mediaEntity.rotation, (mediaEntity.type != 2 || (mediaEntity.subType & 2) == 0) ? false : false);
+                int i6 = textureRenderer.stickerTexture[0];
+                float f5 = mediaEntity.x;
+                float f6 = mediaEntity.additionalWidth;
+                float f7 = f5 - (f6 / 2.0f);
+                float f8 = mediaEntity.y;
+                float f9 = mediaEntity.additionalHeight;
+                drawTexture(false, i6, f7, f8 - (f9 / 2.0f), mediaEntity.width + f6, f9 + mediaEntity.height, mediaEntity.rotation, mediaEntity.type == 2 && (mediaEntity.subType & 2) != 0);
             }
             ArrayList<VideoEditedInfo.EmojiEntity> arrayList = mediaEntity.entities;
             if (arrayList == null || arrayList.isEmpty()) {
@@ -593,7 +670,7 @@ public class TextureRenderer {
             for (int i7 = 0; i7 < mediaEntity.entities.size(); i7++) {
                 VideoEditedInfo.EmojiEntity emojiEntity = mediaEntity.entities.get(i7);
                 if (emojiEntity != null && (mediaEntity2 = emojiEntity.entity) != null) {
-                    drawEntity(mediaEntity2, mediaEntity.color);
+                    textureRenderer.drawEntity(mediaEntity2, mediaEntity.color, j);
                 }
             }
         }
@@ -724,8 +801,8 @@ public class TextureRenderer {
         editTextOutline.setBreakStrategy(0);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:171:0x060c, code lost:
-        if (org.telegram.messenger.LocaleController.isRTL != false) goto L131;
+    /* JADX WARN: Code restructure failed: missing block: B:173:0x060f, code lost:
+        if (org.telegram.messenger.LocaleController.isRTL != false) goto L133;
      */
     /* JADX WARN: Removed duplicated region for block: B:100:0x0325  */
     /* JADX WARN: Removed duplicated region for block: B:103:0x032a  */
@@ -742,7 +819,6 @@ public class TextureRenderer {
         float max;
         int i3;
         float f;
-        VideoEditedInfo.MediaEntity mediaEntity;
         int i4;
         Typeface typeface;
         MediaController.CropState cropState;
@@ -993,100 +1069,100 @@ public class TextureRenderer {
                 int size = this.mediaEntities.size();
                 int i14 = 0;
                 while (i14 < size) {
-                    VideoEditedInfo.MediaEntity mediaEntity2 = this.mediaEntities.get(i14);
-                    byte b2 = mediaEntity2.type;
-                    if (b2 != 0 && b2 != b) {
+                    VideoEditedInfo.MediaEntity mediaEntity = this.mediaEntities.get(i14);
+                    byte b2 = mediaEntity.type;
+                    if (b2 != 0 && b2 != b && b2 != 5) {
                         if (b2 == z) {
                             EditTextOutline editTextOutline = new EditTextOutline(ApplicationLoader.applicationContext);
                             editTextOutline.getPaint().setAntiAlias(z);
                             editTextOutline.drawAnimatedEmojiDrawables = false;
                             editTextOutline.setBackgroundColor(0);
                             editTextOutline.setPadding(AndroidUtilities.dp(7.0f), AndroidUtilities.dp(7.0f), AndroidUtilities.dp(7.0f), AndroidUtilities.dp(7.0f));
-                            PaintTypeface paintTypeface = mediaEntity2.textTypeface;
+                            PaintTypeface paintTypeface = mediaEntity.textTypeface;
                             if (paintTypeface != null && (typeface = paintTypeface.getTypeface()) != null) {
                                 editTextOutline.setTypeface(typeface);
                             }
-                            editTextOutline.setTextSize(0, mediaEntity2.fontSize);
-                            SpannableString spannableString = new SpannableString(mediaEntity2.text);
-                            Iterator<VideoEditedInfo.EmojiEntity> it = mediaEntity2.entities.iterator();
+                            editTextOutline.setTextSize(0, mediaEntity.fontSize);
+                            SpannableString spannableString = new SpannableString(mediaEntity.text);
+                            Iterator<VideoEditedInfo.EmojiEntity> it = mediaEntity.entities.iterator();
                             while (it.hasNext()) {
                                 final VideoEditedInfo.EmojiEntity next = it.next();
                                 if (next.documentAbsolutePath != null) {
-                                    VideoEditedInfo.MediaEntity mediaEntity3 = new VideoEditedInfo.MediaEntity();
-                                    next.entity = mediaEntity3;
-                                    mediaEntity3.text = next.documentAbsolutePath;
-                                    mediaEntity3.subType = next.subType;
+                                    VideoEditedInfo.MediaEntity mediaEntity2 = new VideoEditedInfo.MediaEntity();
+                                    next.entity = mediaEntity2;
+                                    mediaEntity2.text = next.documentAbsolutePath;
+                                    mediaEntity2.subType = next.subType;
                                     SpannableString spannableString2 = spannableString;
                                     final EditTextOutline editTextOutline2 = editTextOutline;
-                                    final VideoEditedInfo.MediaEntity mediaEntity4 = mediaEntity2;
+                                    final VideoEditedInfo.MediaEntity mediaEntity3 = mediaEntity;
                                     AnimatedEmojiSpan animatedEmojiSpan = new AnimatedEmojiSpan(0L, 1.0f, editTextOutline.getPaint().getFontMetricsInt()) { // from class: org.telegram.messenger.video.TextureRenderer.1
                                         @Override // org.telegram.ui.Components.AnimatedEmojiSpan, android.text.style.ReplacementSpan
                                         public void draw(Canvas canvas2, CharSequence charSequence, int i15, int i16, float f2, int i17, int i18, int i19, Paint paint) {
                                             super.draw(canvas2, charSequence, i15, i16, f2, i17, i18, i19, paint);
-                                            VideoEditedInfo.MediaEntity mediaEntity5 = mediaEntity4;
-                                            float paddingLeft = mediaEntity4.x + ((((editTextOutline2.getPaddingLeft() + f2) + (this.measuredSize / 2.0f)) / mediaEntity5.viewWidth) * mediaEntity5.width);
-                                            float f3 = mediaEntity5.y;
-                                            VideoEditedInfo.MediaEntity mediaEntity6 = mediaEntity4;
-                                            float f4 = mediaEntity6.height;
-                                            float paddingTop = f3 + ((((editTextOutline2.getPaddingTop() + i17) + ((i19 - i17) / 2.0f)) / mediaEntity6.viewHeight) * f4);
-                                            if (mediaEntity6.rotation != 0.0f) {
-                                                float f5 = mediaEntity6.x + (mediaEntity6.width / 2.0f);
-                                                float f6 = mediaEntity6.y + (f4 / 2.0f);
+                                            VideoEditedInfo.MediaEntity mediaEntity4 = mediaEntity3;
+                                            float paddingLeft = mediaEntity3.x + ((((editTextOutline2.getPaddingLeft() + f2) + (this.measuredSize / 2.0f)) / mediaEntity4.viewWidth) * mediaEntity4.width);
+                                            float f3 = mediaEntity4.y;
+                                            VideoEditedInfo.MediaEntity mediaEntity5 = mediaEntity3;
+                                            float f4 = mediaEntity5.height;
+                                            float paddingTop = f3 + ((((editTextOutline2.getPaddingTop() + i17) + ((i19 - i17) / 2.0f)) / mediaEntity5.viewHeight) * f4);
+                                            if (mediaEntity5.rotation != 0.0f) {
+                                                float f5 = mediaEntity5.x + (mediaEntity5.width / 2.0f);
+                                                float f6 = mediaEntity5.y + (f4 / 2.0f);
                                                 float f7 = TextureRenderer.this.transformedWidth / TextureRenderer.this.transformedHeight;
                                                 double d = paddingLeft - f5;
-                                                double cos = Math.cos(-mediaEntity4.rotation);
+                                                double cos = Math.cos(-mediaEntity3.rotation);
                                                 Double.isNaN(d);
                                                 double d2 = (paddingTop - f6) / f7;
-                                                double sin = Math.sin(-mediaEntity4.rotation);
+                                                double sin = Math.sin(-mediaEntity3.rotation);
                                                 Double.isNaN(d2);
                                                 float f8 = f5 + ((float) ((cos * d) - (sin * d2)));
-                                                double sin2 = Math.sin(-mediaEntity4.rotation);
+                                                double sin2 = Math.sin(-mediaEntity3.rotation);
                                                 Double.isNaN(d);
                                                 double d3 = d * sin2;
-                                                double cos2 = Math.cos(-mediaEntity4.rotation);
+                                                double cos2 = Math.cos(-mediaEntity3.rotation);
                                                 Double.isNaN(d2);
                                                 paddingTop = (((float) (d3 + (d2 * cos2))) * f7) + f6;
                                                 paddingLeft = f8;
                                             }
-                                            VideoEditedInfo.MediaEntity mediaEntity7 = next.entity;
+                                            VideoEditedInfo.MediaEntity mediaEntity6 = next.entity;
                                             int i20 = this.measuredSize;
-                                            VideoEditedInfo.MediaEntity mediaEntity8 = mediaEntity4;
-                                            float f9 = (i20 / mediaEntity8.viewWidth) * mediaEntity8.width;
-                                            mediaEntity7.width = f9;
-                                            float f10 = (i20 / mediaEntity8.viewHeight) * mediaEntity8.height;
-                                            mediaEntity7.height = f10;
-                                            mediaEntity7.x = paddingLeft - (f9 / 2.0f);
-                                            mediaEntity7.y = paddingTop - (f10 / 2.0f);
-                                            mediaEntity7.rotation = mediaEntity8.rotation;
-                                            if (mediaEntity7.bitmap == null) {
-                                                TextureRenderer.this.initStickerEntity(mediaEntity7);
+                                            VideoEditedInfo.MediaEntity mediaEntity7 = mediaEntity3;
+                                            float f9 = (i20 / mediaEntity7.viewWidth) * mediaEntity7.width;
+                                            mediaEntity6.width = f9;
+                                            float f10 = (i20 / mediaEntity7.viewHeight) * mediaEntity7.height;
+                                            mediaEntity6.height = f10;
+                                            mediaEntity6.x = paddingLeft - (f9 / 2.0f);
+                                            mediaEntity6.y = paddingTop - (f10 / 2.0f);
+                                            mediaEntity6.rotation = mediaEntity7.rotation;
+                                            if (mediaEntity6.bitmap == null) {
+                                                TextureRenderer.this.initStickerEntity(mediaEntity6);
                                             }
                                         }
                                     };
                                     int i15 = next.offset;
                                     spannableString2.setSpan(animatedEmojiSpan, i15, next.length + i15, 33);
+                                    mediaEntity = mediaEntity;
                                     spannableString = spannableString2;
-                                    mediaEntity2 = mediaEntity2;
                                     editTextOutline = editTextOutline2;
                                     i14 = i14;
                                 }
                             }
                             EditTextOutline editTextOutline3 = editTextOutline;
-                            VideoEditedInfo.MediaEntity mediaEntity5 = mediaEntity2;
+                            VideoEditedInfo.MediaEntity mediaEntity4 = mediaEntity;
                             i3 = i14;
                             editTextOutline3.setText(Emoji.replaceEmoji((CharSequence) spannableString, editTextOutline3.getPaint().getFontMetricsInt(), (int) (editTextOutline3.getTextSize() * 0.8f), false));
-                            editTextOutline3.setTextColor(mediaEntity5.color);
+                            editTextOutline3.setTextColor(mediaEntity4.color);
                             Editable text = editTextOutline3.getText();
                             if (text instanceof Spanned) {
                                 for (Emoji.EmojiSpan emojiSpan : (Emoji.EmojiSpan[]) text.getSpans(0, text.length(), Emoji.EmojiSpan.class)) {
                                     emojiSpan.scale = 0.85f;
                                 }
                             }
-                            int i16 = mediaEntity5.textAlign;
+                            int i16 = mediaEntity4.textAlign;
                             editTextOutline3.setGravity(i16 != z ? i16 != b ? 19 : 21 : 17);
                             int i17 = Build.VERSION.SDK_INT;
                             if (i17 >= 17) {
-                                int i18 = mediaEntity5.textAlign;
+                                int i18 = mediaEntity4.textAlign;
                                 if (i18 == z) {
                                     i4 = 4;
                                 } else if (i18 == b) {
@@ -1104,64 +1180,64 @@ public class TextureRenderer {
                             if (i17 >= 23) {
                                 setBreakStrategy(editTextOutline3);
                             }
-                            byte b3 = mediaEntity5.subType;
+                            byte b3 = mediaEntity4.subType;
                             if (b3 == 0) {
-                                editTextOutline3.setFrameColor(mediaEntity5.color);
-                                editTextOutline3.setTextColor(AndroidUtilities.computePerceivedBrightness(mediaEntity5.color) >= 0.721f ? -16777216 : -1);
+                                editTextOutline3.setFrameColor(mediaEntity4.color);
+                                editTextOutline3.setTextColor(AndroidUtilities.computePerceivedBrightness(mediaEntity4.color) >= 0.721f ? -16777216 : -1);
                             } else if (b3 == z) {
-                                editTextOutline3.setFrameColor(AndroidUtilities.computePerceivedBrightness(mediaEntity5.color) >= 0.25f ? -1728053248 : -1711276033);
-                                editTextOutline3.setTextColor(mediaEntity5.color);
+                                editTextOutline3.setFrameColor(AndroidUtilities.computePerceivedBrightness(mediaEntity4.color) >= 0.25f ? -1728053248 : -1711276033);
+                                editTextOutline3.setTextColor(mediaEntity4.color);
                             } else if (b3 == b) {
-                                editTextOutline3.setFrameColor(AndroidUtilities.computePerceivedBrightness(mediaEntity5.color) >= 0.25f ? -16777216 : -1);
-                                editTextOutline3.setTextColor(mediaEntity5.color);
+                                editTextOutline3.setFrameColor(AndroidUtilities.computePerceivedBrightness(mediaEntity4.color) >= 0.25f ? -16777216 : -1);
+                                editTextOutline3.setTextColor(mediaEntity4.color);
                             } else if (b3 == 3) {
                                 editTextOutline3.setFrameColor(0);
-                                editTextOutline3.setTextColor(mediaEntity5.color);
+                                editTextOutline3.setTextColor(mediaEntity4.color);
                             }
-                            editTextOutline3.measure(View.MeasureSpec.makeMeasureSpec(mediaEntity5.viewWidth, 1073741824), View.MeasureSpec.makeMeasureSpec(mediaEntity5.viewHeight, 1073741824));
-                            editTextOutline3.layout(0, 0, mediaEntity5.viewWidth, mediaEntity5.viewHeight);
-                            mediaEntity5.bitmap = Bitmap.createBitmap(mediaEntity5.viewWidth, mediaEntity5.viewHeight, Bitmap.Config.ARGB_8888);
-                            editTextOutline3.draw(new Canvas(mediaEntity5.bitmap));
+                            editTextOutline3.measure(View.MeasureSpec.makeMeasureSpec(mediaEntity4.viewWidth, 1073741824), View.MeasureSpec.makeMeasureSpec(mediaEntity4.viewHeight, 1073741824));
+                            editTextOutline3.layout(0, 0, mediaEntity4.viewWidth, mediaEntity4.viewHeight);
+                            mediaEntity4.bitmap = Bitmap.createBitmap(mediaEntity4.viewWidth, mediaEntity4.viewHeight, Bitmap.Config.ARGB_8888);
+                            editTextOutline3.draw(new Canvas(mediaEntity4.bitmap));
                         } else {
                             i3 = i14;
                             if (b2 == 3) {
-                                LocationMarker locationMarker = new LocationMarker(ApplicationLoader.applicationContext, mediaEntity2.density);
-                                locationMarker.setText(mediaEntity2.text);
-                                locationMarker.setType(mediaEntity2.subType, mediaEntity2.color);
-                                locationMarker.setMaxWidth(mediaEntity2.viewWidth);
-                                if (mediaEntity2.entities.size() == z) {
+                                LocationMarker locationMarker = new LocationMarker(ApplicationLoader.applicationContext, mediaEntity.density);
+                                locationMarker.setText(mediaEntity.text);
+                                locationMarker.setType(mediaEntity.subType, mediaEntity.color);
+                                locationMarker.setMaxWidth(mediaEntity.viewWidth);
+                                if (mediaEntity.entities.size() == z) {
                                     locationMarker.forceEmoji();
                                 }
-                                locationMarker.measure(View.MeasureSpec.makeMeasureSpec(mediaEntity2.viewWidth, 1073741824), View.MeasureSpec.makeMeasureSpec(mediaEntity2.viewHeight, 1073741824));
-                                locationMarker.layout(0, 0, mediaEntity2.viewWidth, mediaEntity2.viewHeight);
-                                float f2 = mediaEntity2.width * this.transformedWidth;
-                                int i19 = mediaEntity2.viewWidth;
+                                locationMarker.measure(View.MeasureSpec.makeMeasureSpec(mediaEntity.viewWidth, 1073741824), View.MeasureSpec.makeMeasureSpec(mediaEntity.viewHeight, 1073741824));
+                                locationMarker.layout(0, 0, mediaEntity.viewWidth, mediaEntity.viewHeight);
+                                float f2 = mediaEntity.width * this.transformedWidth;
+                                int i19 = mediaEntity.viewWidth;
                                 float f3 = f2 / i19;
-                                mediaEntity2.bitmap = Bitmap.createBitmap(((int) (i19 * f3)) + 8 + 8, ((int) (mediaEntity2.viewHeight * f3)) + 8 + 8, Bitmap.Config.ARGB_8888);
-                                Canvas canvas2 = new Canvas(mediaEntity2.bitmap);
+                                mediaEntity.bitmap = Bitmap.createBitmap(((int) (i19 * f3)) + 8 + 8, ((int) (mediaEntity.viewHeight * f3)) + 8 + 8, Bitmap.Config.ARGB_8888);
+                                Canvas canvas2 = new Canvas(mediaEntity.bitmap);
                                 float f4 = 8;
                                 canvas2.translate(f4, f4);
                                 canvas2.scale(f3, f3);
                                 locationMarker.draw(canvas2);
                                 float f5 = 16 * f3;
-                                mediaEntity2.additionalWidth = f5 / this.transformedWidth;
-                                mediaEntity2.additionalHeight = f5 / this.transformedHeight;
-                                if (mediaEntity2.entities.size() == z) {
-                                    VideoEditedInfo.EmojiEntity emojiEntity = mediaEntity2.entities.get(0);
-                                    VideoEditedInfo.MediaEntity mediaEntity6 = new VideoEditedInfo.MediaEntity();
-                                    emojiEntity.entity = mediaEntity6;
-                                    mediaEntity6.text = emojiEntity.documentAbsolutePath;
-                                    mediaEntity6.subType = emojiEntity.subType;
+                                mediaEntity.additionalWidth = f5 / this.transformedWidth;
+                                mediaEntity.additionalHeight = f5 / this.transformedHeight;
+                                if (mediaEntity.entities.size() == z) {
+                                    VideoEditedInfo.EmojiEntity emojiEntity = mediaEntity.entities.get(0);
+                                    VideoEditedInfo.MediaEntity mediaEntity5 = new VideoEditedInfo.MediaEntity();
+                                    emojiEntity.entity = mediaEntity5;
+                                    mediaEntity5.text = emojiEntity.documentAbsolutePath;
+                                    mediaEntity5.subType = emojiEntity.subType;
                                     RectF rectF = new RectF();
                                     locationMarker.getEmojiBounds(rectF);
-                                    float centerX = mediaEntity2.x + ((rectF.centerX() / mediaEntity2.viewWidth) * mediaEntity2.width);
-                                    float f6 = mediaEntity2.y;
-                                    float centerY = rectF.centerY() / mediaEntity2.viewHeight;
-                                    float f7 = mediaEntity2.height;
+                                    float centerX = mediaEntity.x + ((rectF.centerX() / mediaEntity.viewWidth) * mediaEntity.width);
+                                    float f6 = mediaEntity.y;
+                                    float centerY = rectF.centerY() / mediaEntity.viewHeight;
+                                    float f7 = mediaEntity.height;
                                     float f8 = f6 + (centerY * f7);
-                                    if (mediaEntity2.rotation != 0.0f) {
-                                        float f9 = mediaEntity2.x + (mediaEntity2.width / 2.0f);
-                                        float f10 = mediaEntity2.y + (f7 / 2.0f);
+                                    if (mediaEntity.rotation != 0.0f) {
+                                        float f9 = mediaEntity.x + (mediaEntity.width / 2.0f);
+                                        float f10 = mediaEntity.y + (f7 / 2.0f);
                                         float f11 = this.transformedWidth / this.transformedHeight;
                                         float f12 = (f8 - f10) / f11;
                                         double d = centerX - f9;
@@ -1169,30 +1245,27 @@ public class TextureRenderer {
                                         Double.isNaN(d);
                                         double d2 = cos * d;
                                         double d3 = f12;
-                                        double sin = Math.sin(-mediaEntity2.rotation);
+                                        double sin = Math.sin(-mediaEntity.rotation);
                                         Double.isNaN(d3);
                                         centerX = ((float) (d2 - (sin * d3))) + f9;
-                                        mediaEntity = mediaEntity2;
                                         double sin2 = Math.sin(-mediaEntity.rotation);
                                         Double.isNaN(d);
                                         double d4 = d * sin2;
                                         double cos2 = Math.cos(-mediaEntity.rotation);
                                         Double.isNaN(d3);
                                         f8 = (((float) (d4 + (d3 * cos2))) * f11) + f10;
-                                    } else {
-                                        mediaEntity = mediaEntity2;
                                     }
                                     emojiEntity.entity.width = (rectF.width() / mediaEntity.viewWidth) * mediaEntity.width;
                                     emojiEntity.entity.height = (rectF.height() / mediaEntity.viewHeight) * mediaEntity.height;
-                                    VideoEditedInfo.MediaEntity mediaEntity7 = emojiEntity.entity;
-                                    float f13 = mediaEntity7.width * 1.2f;
-                                    mediaEntity7.width = f13;
-                                    float f14 = mediaEntity7.height * 1.2f;
-                                    mediaEntity7.height = f14;
-                                    mediaEntity7.x = centerX - (f13 / 2.0f);
-                                    mediaEntity7.y = f8 - (f14 / 2.0f);
-                                    mediaEntity7.rotation = mediaEntity.rotation;
-                                    initStickerEntity(mediaEntity7);
+                                    VideoEditedInfo.MediaEntity mediaEntity6 = emojiEntity.entity;
+                                    float f13 = mediaEntity6.width * 1.2f;
+                                    mediaEntity6.width = f13;
+                                    float f14 = mediaEntity6.height * 1.2f;
+                                    mediaEntity6.height = f14;
+                                    mediaEntity6.x = centerX - (f13 / 2.0f);
+                                    mediaEntity6.y = f8 - (f14 / 2.0f);
+                                    mediaEntity6.rotation = mediaEntity.rotation;
+                                    initStickerEntity(mediaEntity6);
                                     i14 = i3 + 1;
                                     z = true;
                                     b = 2;
@@ -1204,7 +1277,7 @@ public class TextureRenderer {
                         b = 2;
                     }
                     i3 = i14;
-                    initStickerEntity(mediaEntity2);
+                    initStickerEntity(mediaEntity);
                     i14 = i3 + 1;
                     z = true;
                     b = 2;
@@ -1245,10 +1318,14 @@ public class TextureRenderer {
             mediaEntity.ptr = RLottieDrawable.create(mediaEntity.text, null, mediaEntity.W, mediaEntity.H, iArr, false, null, false, 0);
             mediaEntity.framesPerDraw = mediaEntity.metadata[1] / this.videoFps;
         } else if ((b & 4) != 0) {
+            mediaEntity.looped = false;
             mediaEntity.animatedFileDrawable = new AnimatedFileDrawable(new File(mediaEntity.text), true, 0L, 0, null, null, null, 0L, UserConfig.selectedAccount, true, LiteMode.FLAG_CALLS_ANIMATIONS, LiteMode.FLAG_CALLS_ANIMATIONS, null);
             mediaEntity.framesPerDraw = animatedFileDrawable.getFps() / this.videoFps;
-            mediaEntity.currentFrame = 0.0f;
-            mediaEntity.animatedFileDrawable.getNextFrame();
+            mediaEntity.currentFrame = 1.0f;
+            mediaEntity.animatedFileDrawable.getNextFrame(true);
+            if (mediaEntity.type == 5) {
+                mediaEntity.firstSeek = true;
+            }
         } else {
             if (Build.VERSION.SDK_INT >= 19) {
                 BitmapFactory.Options options = new BitmapFactory.Options();

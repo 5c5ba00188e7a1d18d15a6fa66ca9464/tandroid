@@ -1303,7 +1303,7 @@ public final class AtomParsers {
                         str3 = esdsData.mimeType;
                         byte[] bArr2 = esdsData.initializationData;
                         if (bArr2 != null) {
-                            if (MediaController.AUIDO_MIME_TYPE.equals(str3)) {
+                            if (MediaController.AUDIO_MIME_TYPE.equals(str3)) {
                                 AacUtil.Config parseAudioSpecificConfig = AacUtil.parseAudioSpecificConfig(bArr2);
                                 i7 = parseAudioSpecificConfig.sampleRateHz;
                                 i8 = parseAudioSpecificConfig.channelCount;

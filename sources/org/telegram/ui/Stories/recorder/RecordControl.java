@@ -36,6 +36,8 @@ import org.telegram.ui.Components.Point;
 import org.telegram.ui.Stories.recorder.FlashViews;
 /* loaded from: classes4.dex */
 public class RecordControl extends View implements FlashViews.Invertable {
+    public float amplitude;
+    public final AnimatedFloat animatedAmplitude;
     private final Paint buttonPaint;
     private final Paint buttonPaintWhite;
     private Path circlePath;
@@ -167,6 +169,7 @@ public class RecordControl extends View implements FlashViews.Invertable {
         CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.EASE_OUT_QUINT;
         this.flipDrawableRotateT = new AnimatedFloat(this, 0L, 310L, cubicBezierInterpolator);
         this.dualT = new AnimatedFloat(this, 0L, 330L, cubicBezierInterpolator);
+        this.animatedAmplitude = new AnimatedFloat(this, 0L, 200L, CubicBezierInterpolator.DEFAULT);
         this.startModeIsVideoT = new AnimatedFloat(this, 0L, 350L, cubicBezierInterpolator);
         this.overrideStartModeIsVideoT = -1.0f;
         this.startModeIsVideo = true;
@@ -301,6 +304,14 @@ public class RecordControl extends View implements FlashViews.Invertable {
         this.unlockDrawable.setColorFilter(new PorterDuffColorFilter(ColorUtils.blendARGB(-1, -16777216, f), PorterDuff.Mode.MULTIPLY));
     }
 
+    public void setAmplitude(float f, boolean z) {
+        this.amplitude = f;
+        if (z) {
+            return;
+        }
+        this.animatedAmplitude.set(f, true);
+    }
+
     @Override // android.view.View
     protected void onMeasure(int i, int i2) {
         int size = View.MeasureSpec.getSize(i);
@@ -377,8 +388,8 @@ public class RecordControl extends View implements FlashViews.Invertable {
         this.lockButton.setPressed(false);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:122:0x06af  */
-    /* JADX WARN: Removed duplicated region for block: B:130:0x06e3  */
+    /* JADX WARN: Removed duplicated region for block: B:122:0x06bd  */
+    /* JADX WARN: Removed duplicated region for block: B:130:0x06f1  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -432,7 +443,7 @@ public class RecordControl extends View implements FlashViews.Invertable {
             f3 = f16;
         }
         canvas.save();
-        float lerp = AndroidUtilities.lerp(this.recordButton.getScale(this.startModeIsVideo ? 0.0f : 0.2f), 1.0f, f11);
+        float lerp = AndroidUtilities.lerp(this.recordButton.getScale(this.startModeIsVideo ? 0.0f : 0.2f), (this.animatedAmplitude.set(this.amplitude) * 0.2f) + 1.0f, f11);
         canvas.scale(lerp, lerp, this.cx, this.cy);
         this.mainPaint.setColor(ColorUtils.blendARGB(-1, -577231, max));
         float f20 = this.cx;

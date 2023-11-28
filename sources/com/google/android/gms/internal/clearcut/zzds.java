@@ -625,7 +625,7 @@ final class zzds<T> implements zzef<T> {
                     }
                 }
                 return i8;
-            case 27:
+            case MessageObject.TYPE_JOINED_CHANNEL /* 27 */:
                 if (i5 == 2) {
                     return zza(zzad(i6), i3, bArr, i, i2, zzcnVar, zzayVar);
                 }
@@ -2062,7 +2062,7 @@ final class zzds<T> implements zzef<T> {
                         case MessageObject.TYPE_GIVEAWAY /* 26 */:
                             zzeh.zza(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar);
                             break;
-                        case 27:
+                        case MessageObject.TYPE_JOINED_CHANNEL /* 27 */:
                             zzeh.zza(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, zzad(i10));
                             break;
                         case 28:
@@ -2523,7 +2523,7 @@ final class zzds<T> implements zzef<T> {
                 case 24:
                 case 25:
                 case MessageObject.TYPE_GIVEAWAY /* 26 */:
-                case 27:
+                case MessageObject.TYPE_JOINED_CHANNEL /* 27 */:
                 case 28:
                 case 29:
                 case 30:
@@ -2672,7 +2672,7 @@ final class zzds<T> implements zzef<T> {
                 case 24:
                 case 25:
                 case MessageObject.TYPE_GIVEAWAY /* 26 */:
-                case 27:
+                case MessageObject.TYPE_JOINED_CHANNEL /* 27 */:
                 case 28:
                 case 29:
                 case 30:
@@ -3096,7 +3096,7 @@ final class zzds<T> implements zzef<T> {
                             case MessageObject.TYPE_GIVEAWAY /* 26 */:
                                 zzeh.zza(this.zzmi[length2], (List) zzfd.zzo(t, zzag & 1048575), zzfrVar);
                                 break;
-                            case 27:
+                            case MessageObject.TYPE_JOINED_CHANNEL /* 27 */:
                                 zzeh.zza(this.zzmi[length2], (List) zzfd.zzo(t, zzag & 1048575), zzfrVar, zzad(length2));
                                 break;
                             case 28:
@@ -3498,7 +3498,7 @@ final class zzds<T> implements zzef<T> {
                             case MessageObject.TYPE_GIVEAWAY /* 26 */:
                                 zzeh.zza(this.zzmi[i], (List) zzfd.zzo(t, zzag2 & 1048575), zzfrVar);
                                 break;
-                            case 27:
+                            case MessageObject.TYPE_JOINED_CHANNEL /* 27 */:
                                 zzeh.zza(this.zzmi[i], (List) zzfd.zzo(t, zzag2 & 1048575), zzfrVar, zzad(i));
                                 break;
                             case 28:
@@ -4121,7 +4121,7 @@ final class zzds<T> implements zzef<T> {
                 case 24:
                 case 25:
                 case MessageObject.TYPE_GIVEAWAY /* 26 */:
-                case 27:
+                case MessageObject.TYPE_JOINED_CHANNEL /* 27 */:
                 case 28:
                 case 29:
                 case 30:
@@ -4556,7 +4556,7 @@ final class zzds<T> implements zzef<T> {
                         i9 += zzw;
                         j = 0;
                         break;
-                    case 27:
+                    case MessageObject.TYPE_JOINED_CHANNEL /* 27 */:
                         zzw = zzeh.zzc(i11, (List<?>) unsafe.getObject(t, j3), zzad(i8));
                         i9 += zzw;
                         j = 0;
@@ -4998,7 +4998,7 @@ final class zzds<T> implements zzef<T> {
                 case MessageObject.TYPE_GIVEAWAY /* 26 */:
                     zzw2 = zzeh.zzc(i18, zzd(t, j4));
                     break;
-                case 27:
+                case MessageObject.TYPE_JOINED_CHANNEL /* 27 */:
                     zzw2 = zzeh.zzc(i18, (List<?>) zzd(t, j4), zzad(i15));
                     break;
                 case 28:

@@ -542,10 +542,9 @@ public class GroupCallUserCell extends FrameLayout {
         this.participant = tLRPC$TL_groupCallParticipant;
         long peerId = MessageObject.getPeerId(tLRPC$TL_groupCallParticipant.peer);
         if (peerId > 0) {
-            TLRPC$User user = this.accountInstance.getMessagesController().getUser(Long.valueOf(peerId));
-            this.currentUser = user;
+            this.currentUser = this.accountInstance.getMessagesController().getUser(Long.valueOf(peerId));
             this.currentChat = null;
-            this.avatarDrawable.setInfo(user);
+            this.avatarDrawable.setInfo(this.accountInstance.getCurrentAccount(), this.currentUser);
             this.nameTextView.setText(UserObject.getUserName(this.currentUser));
             TLRPC$User tLRPC$User = this.currentUser;
             if (tLRPC$User != null && tLRPC$User.verified) {
@@ -600,10 +599,9 @@ public class GroupCallUserCell extends FrameLayout {
                 this.avatarImageView.setImage(forUser, "50_50", this.avatarDrawable, this.currentUser);
             }
         } else {
-            TLRPC$Chat chat = this.accountInstance.getMessagesController().getChat(Long.valueOf(-peerId));
-            this.currentChat = chat;
+            this.currentChat = this.accountInstance.getMessagesController().getChat(Long.valueOf(-peerId));
             this.currentUser = null;
-            this.avatarDrawable.setInfo(chat);
+            this.avatarDrawable.setInfo(this.accountInstance.getCurrentAccount(), this.currentChat);
             TLRPC$Chat tLRPC$Chat = this.currentChat;
             if (tLRPC$Chat != null) {
                 this.nameTextView.setText(tLRPC$Chat.title);

@@ -596,8 +596,16 @@ public class DraftsController {
         public int resultHeight;
         public int resultWidth;
         public long right;
+        public long roundDuration;
+        public float roundLeft;
+        public long roundOffset;
+        public String roundPath;
+        public float roundRight;
+        public String roundThumb;
+        public float roundVolume;
         public List<TLRPC$InputDocument> stickers;
         public String thumb;
+        public float videoVolume;
         public int width;
 
         public StoryDraft(StoryEntry storyEntry) {
@@ -609,6 +617,8 @@ public class DraftsController {
             this.parts = arrayList2;
             this.audioRight = 1.0f;
             this.audioVolume = 1.0f;
+            this.roundVolume = 1.0f;
+            this.videoVolume = 1.0f;
             this.id = storyEntry.draftId;
             this.date = storyEntry.draftDate;
             File file = storyEntry.draftThumbFile;
@@ -646,7 +656,7 @@ public class DraftsController {
             this.mediaEntities = storyEntry.mediaEntities;
             this.stickers = storyEntry.stickers;
             File file6 = storyEntry.filterFile;
-            this.filterFilePath = file6 != null ? file6.toString() : "";
+            this.filterFilePath = file6 == null ? "" : file6.toString();
             this.filterState = storyEntry.filterState;
             this.period = storyEntry.period;
             arrayList2.clear();
@@ -661,6 +671,15 @@ public class DraftsController {
             this.audioLeft = storyEntry.audioLeft;
             this.audioRight = storyEntry.audioRight;
             this.audioVolume = storyEntry.audioVolume;
+            File file7 = storyEntry.round;
+            this.roundPath = file7 != null ? file7.getAbsolutePath() : "";
+            this.roundThumb = storyEntry.roundThumb;
+            this.roundDuration = storyEntry.roundDuration;
+            this.roundOffset = storyEntry.roundOffset;
+            this.roundLeft = storyEntry.roundLeft;
+            this.roundRight = storyEntry.roundRight;
+            this.roundVolume = storyEntry.roundVolume;
+            this.videoVolume = storyEntry.videoVolume;
             this.peer = storyEntry.peer;
         }
 
@@ -748,6 +767,16 @@ public class DraftsController {
             storyEntry.audioLeft = this.audioLeft;
             storyEntry.audioRight = this.audioRight;
             storyEntry.audioVolume = this.audioVolume;
+            if (this.roundPath != null) {
+                storyEntry.round = new File(this.roundPath);
+            }
+            storyEntry.roundThumb = this.roundThumb;
+            storyEntry.roundDuration = this.roundDuration;
+            storyEntry.roundOffset = this.roundOffset;
+            storyEntry.roundLeft = this.roundLeft;
+            storyEntry.roundRight = this.roundRight;
+            storyEntry.roundVolume = this.roundVolume;
+            storyEntry.videoVolume = this.videoVolume;
             storyEntry.peer = this.peer;
             return storyEntry;
         }
@@ -877,6 +906,18 @@ public class DraftsController {
             } else {
                 new TLRPC$TL_inputPeerSelf().serializeToStream(abstractSerializedData);
             }
+            if (this.roundPath == null) {
+                abstractSerializedData.writeInt32(1450380236);
+            } else {
+                abstractSerializedData.writeInt32(-745541182);
+                abstractSerializedData.writeString(this.roundPath);
+                abstractSerializedData.writeInt64(this.roundDuration);
+                abstractSerializedData.writeInt64(this.roundOffset);
+                abstractSerializedData.writeFloat(this.roundLeft);
+                abstractSerializedData.writeFloat(this.roundRight);
+                abstractSerializedData.writeFloat(this.roundVolume);
+            }
+            abstractSerializedData.writeFloat(this.videoVolume);
         }
 
         public int getObjectSize() {
@@ -891,6 +932,8 @@ public class DraftsController {
             this.parts = new ArrayList<>();
             this.audioRight = 1.0f;
             this.audioVolume = 1.0f;
+            this.roundVolume = 1.0f;
+            this.videoVolume = 1.0f;
             if (abstractSerializedData.readInt32(z) != -1318387531) {
                 if (z) {
                     throw new RuntimeException("StoryDraft parse error");
@@ -1065,6 +1108,17 @@ public class DraftsController {
             }
             if (abstractSerializedData.remaining() > 0) {
                 this.peer = TLRPC$InputPeer.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+            }
+            if (abstractSerializedData.remaining() > 0 && abstractSerializedData.readInt32(z) == -745541182) {
+                this.roundPath = abstractSerializedData.readString(z);
+                this.roundDuration = abstractSerializedData.readInt64(z);
+                this.roundOffset = abstractSerializedData.readInt64(z);
+                this.roundLeft = abstractSerializedData.readFloat(z);
+                this.roundRight = abstractSerializedData.readFloat(z);
+                this.roundVolume = abstractSerializedData.readFloat(z);
+            }
+            if (abstractSerializedData.remaining() > 0) {
+                this.videoVolume = abstractSerializedData.readFloat(z);
             }
         }
     }

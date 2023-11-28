@@ -2008,6 +2008,14 @@ public class ActionBarMenuItem extends FrameLayout {
         findViewWithTag.setVisibility(8);
     }
 
+    public boolean hasSubItem(int i) {
+        if (findLazyItem(i) != null) {
+            return true;
+        }
+        ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = this.popupLayout;
+        return (actionBarPopupWindowLayout == null || actionBarPopupWindowLayout.findViewWithTag(Integer.valueOf(i)) == null) ? false : true;
+    }
+
     public void checkHideMenuItem() {
         boolean z;
         int i = 0;

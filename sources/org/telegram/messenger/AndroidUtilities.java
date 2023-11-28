@@ -492,11 +492,11 @@ public class AndroidUtilities {
         return null;
     }
 
-    public static CharSequence premiumText(String str, Runnable runnable) {
+    public static SpannableStringBuilder premiumText(String str, Runnable runnable) {
         return replaceSingleTag(str, -1, 2, runnable);
     }
 
-    public static CharSequence replaceSingleTag(String str, Runnable runnable) {
+    public static SpannableStringBuilder replaceSingleTag(String str, Runnable runnable) {
         return replaceSingleTag(str, -1, 0, runnable);
     }
 
@@ -556,7 +556,11 @@ public class AndroidUtilities {
         return spannableStringBuilder;
     }
 
-    public static SpannableStringBuilder replaceSingleLink(String str, final int i) {
+    public static SpannableStringBuilder replaceSingleLink(String str, int i) {
+        return replaceSingleLink(str, i, null);
+    }
+
+    public static SpannableStringBuilder replaceSingleLink(String str, final int i, final Runnable runnable) {
         int i2;
         int i3;
         int indexOf = str.indexOf("**");
@@ -571,15 +575,19 @@ public class AndroidUtilities {
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(replace);
         if (indexOf >= 0) {
             spannableStringBuilder.setSpan(new ClickableSpan() { // from class: org.telegram.messenger.AndroidUtilities.3
-                @Override // android.text.style.ClickableSpan
-                public void onClick(View view) {
-                }
-
                 @Override // android.text.style.ClickableSpan, android.text.style.CharacterStyle
                 public void updateDrawState(TextPaint textPaint) {
                     super.updateDrawState(textPaint);
                     textPaint.setUnderlineText(false);
                     textPaint.setColor(i);
+                }
+
+                @Override // android.text.style.ClickableSpan
+                public void onClick(View view) {
+                    Runnable runnable2 = runnable;
+                    if (runnable2 != null) {
+                        runnable2.run();
+                    }
                 }
             }, indexOf, i2 + indexOf, 0);
         }
@@ -1109,7 +1117,7 @@ public class AndroidUtilities {
     public static int[] calcDrawableColor(Drawable drawable) {
         int i;
         if (drawable instanceof ChatBackgroundDrawable) {
-            return calcDrawableColor(((ChatBackgroundDrawable) drawable).getDrawable());
+            return calcDrawableColor(((ChatBackgroundDrawable) drawable).getDrawable(true));
         }
         int i2 = -16777216;
         int[] iArr = new int[4];
@@ -3917,13 +3925,13 @@ public class AndroidUtilities {
         return accessibilityManager.isEnabled() && accessibilityManager.isTouchExplorationEnabled();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:54:0x0115 A[Catch: Exception -> 0x0132, TRY_LEAVE, TryCatch #0 {Exception -> 0x0132, blocks: (B:5:0x000a, B:8:0x0014, B:10:0x001a, B:12:0x0022, B:15:0x0038, B:18:0x0041, B:20:0x004a, B:23:0x005d, B:25:0x0063, B:27:0x0069, B:29:0x006f, B:31:0x008d, B:32:0x0091, B:52:0x010f, B:54:0x0115, B:67:0x012e, B:33:0x00a7, B:35:0x00b8, B:37:0x00c1, B:39:0x00ca, B:41:0x00d0, B:43:0x00d8, B:45:0x00e0, B:47:0x00ea, B:48:0x00ee), top: B:71:0x000a }] */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x011f  */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x0121  */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x0124  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x0126  */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x0129  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x012b  */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x0116 A[Catch: Exception -> 0x0133, TRY_LEAVE, TryCatch #0 {Exception -> 0x0133, blocks: (B:5:0x000a, B:8:0x0014, B:10:0x001a, B:12:0x0022, B:15:0x0039, B:18:0x0042, B:20:0x004b, B:23:0x005e, B:25:0x0064, B:27:0x006a, B:29:0x0070, B:31:0x008e, B:32:0x0092, B:52:0x0110, B:54:0x0116, B:67:0x012f, B:33:0x00a8, B:35:0x00b9, B:37:0x00c2, B:39:0x00cb, B:41:0x00d1, B:43:0x00d9, B:45:0x00e1, B:47:0x00eb, B:48:0x00ef), top: B:71:0x000a }] */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x0120  */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x0122  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x0125  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x0127  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x012a  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x012c  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -5422,6 +5430,9 @@ public class AndroidUtilities {
     }
 
     public static void forEachViews(RecyclerView recyclerView, Consumer<View> consumer) {
+        if (recyclerView == null) {
+            return;
+        }
         for (int i = 0; i < recyclerView.getChildCount(); i++) {
             consumer.accept(recyclerView.getChildAt(i));
         }

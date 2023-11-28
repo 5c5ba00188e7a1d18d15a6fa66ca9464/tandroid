@@ -1040,7 +1040,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
         if (this.avatarImage == null || (user = getMessagesController().getUser(Long.valueOf(this.user_id))) == null) {
             return;
         }
-        this.avatarDrawable.setInfo(user);
+        this.avatarDrawable.setInfo(this.currentAccount, user);
         this.avatarImage.invalidate();
     }
 }

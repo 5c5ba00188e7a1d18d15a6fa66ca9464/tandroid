@@ -95,7 +95,7 @@ public class AdminedChannelCell extends FrameLayout {
     public void setChannel(TLRPC$Chat tLRPC$Chat, boolean z) {
         String str = MessagesController.getInstance(this.currentAccount).linkPrefix + "/";
         this.currentChannel = tLRPC$Chat;
-        this.avatarDrawable.setInfo(tLRPC$Chat);
+        this.avatarDrawable.setInfo(this.currentAccount, tLRPC$Chat);
         this.nameTextView.setText(tLRPC$Chat.title);
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(str + ChatObject.getPublicUsername(tLRPC$Chat));
         spannableStringBuilder.setSpan(new URLSpanNoUnderline(""), str.length(), spannableStringBuilder.length(), 33);
@@ -105,7 +105,7 @@ public class AdminedChannelCell extends FrameLayout {
     }
 
     public void update() {
-        this.avatarDrawable.setInfo(this.currentChannel);
+        this.avatarDrawable.setInfo(this.currentAccount, this.currentChannel);
         this.avatarImageView.invalidate();
     }
 

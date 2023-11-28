@@ -80,6 +80,7 @@ import org.telegram.tgnet.TLRPC$TL_messages_getExportedChatInvites;
 import org.telegram.tgnet.TLRPC$TL_photo;
 import org.telegram.tgnet.TLRPC$TL_photos_updateProfilePhoto;
 import org.telegram.tgnet.TLRPC$TL_photos_uploadProfilePhoto;
+import org.telegram.tgnet.TLRPC$TL_reactionCustomEmoji;
 import org.telegram.tgnet.TLRPC$TL_reactionEmoji;
 import org.telegram.tgnet.TLRPC$TL_userProfilePhoto;
 import org.telegram.tgnet.TLRPC$TL_username;
@@ -105,6 +106,7 @@ import org.telegram.ui.Cells.TextInfoPrivacyCell;
 import org.telegram.ui.Cells.TextSettingsCell;
 import org.telegram.ui.ChatEditActivity;
 import org.telegram.ui.Components.AlertsCreator;
+import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.AvatarDrawable;
 import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.BulletinFactory;
@@ -116,6 +118,8 @@ import org.telegram.ui.Components.ImageUpdater;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.Components.RadialProgressView;
+import org.telegram.ui.Components.Reactions.ChatCustomReactionsEditActivity;
+import org.telegram.ui.Components.Reactions.ReactionsUtils;
 import org.telegram.ui.Components.SizeNotifierFrameLayout;
 import org.telegram.ui.Components.UndoView;
 import org.telegram.ui.LocationActivity;
@@ -168,6 +172,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
     private TextCell memberRequestsCell;
     private TextCell membersCell;
     private EditTextEmoji nameTextView;
+    private final List<AnimatedEmojiDrawable> preloadedReactions;
     private AlertDialog progressDialog;
     private PhotoViewer.PhotoViewerProvider provider;
     private TextCell publicLinkCell;
@@ -332,6 +337,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
 
     public ChatEditActivity(Bundle bundle) {
         super(bundle);
+        this.preloadedReactions = new ArrayList();
         this.provider = new 1();
         this.avatarDrawable = new AvatarDrawable();
         this.chatId = bundle.getLong("chat_id", 0L);
@@ -504,6 +510,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public void onPause() {
         super.onPause();
+        ReactionsUtils.stopPreloadReactions(this.preloadedReactions);
         EditTextEmoji editTextEmoji = this.nameTextView;
         if (editTextEmoji != null) {
             editTextEmoji.onPause();
@@ -551,13 +558,13 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         return checkDiscard();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:198:0x06e2  */
-    /* JADX WARN: Removed duplicated region for block: B:206:0x0737  */
-    /* JADX WARN: Removed duplicated region for block: B:214:0x0784  */
-    /* JADX WARN: Removed duplicated region for block: B:224:0x07be  */
-    /* JADX WARN: Removed duplicated region for block: B:239:0x083f  */
-    /* JADX WARN: Removed duplicated region for block: B:240:0x084b  */
-    /* JADX WARN: Removed duplicated region for block: B:243:0x0851  */
+    /* JADX WARN: Removed duplicated region for block: B:198:0x06e4  */
+    /* JADX WARN: Removed duplicated region for block: B:206:0x0739  */
+    /* JADX WARN: Removed duplicated region for block: B:214:0x0786  */
+    /* JADX WARN: Removed duplicated region for block: B:224:0x07c0  */
+    /* JADX WARN: Removed duplicated region for block: B:239:0x0841  */
+    /* JADX WARN: Removed duplicated region for block: B:240:0x084d  */
+    /* JADX WARN: Removed duplicated region for block: B:243:0x0853  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -953,7 +960,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                 });
             }
             if (ChatObject.isChannelAndNotMegaGroup(this.currentChat) && ChatObject.canChangeChatInfo(this.currentChat)) {
-                PeerColorActivity.ChangeNameColorCell changeNameColorCell = new PeerColorActivity.ChangeNameColorCell(true, context, getResourceProvider());
+                PeerColorActivity.ChangeNameColorCell changeNameColorCell = new PeerColorActivity.ChangeNameColorCell(this.currentAccount, true, context, getResourceProvider());
                 this.colorCell = changeNameColorCell;
                 changeNameColorCell.setBackgroundDrawable(Theme.getSelectorDrawable(true));
                 this.typeEditContainer.addView(this.colorCell, LayoutHelper.createLinear(-1, -2));
@@ -1690,6 +1697,10 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$21(View view) {
+        if (ChatObject.isChannelAndNotMegaGroup(this.currentChat)) {
+            presentFragment(new ChatCustomReactionsEditActivity(this.chatId, this.info));
+            return;
+        }
         Bundle bundle = new Bundle();
         bundle.putLong("chat_id", this.chatId);
         ChatReactionsEditActivity chatReactionsEditActivity = new ChatReactionsEditActivity(bundle);
@@ -2292,7 +2303,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                         getParentLayout().removeFragmentFromStack(i);
                         Bundle bundle = new Bundle();
                         bundle.putLong("chat_id", this.chatId);
-                        getParentLayout().addFragmentToStack(new TopicsFragment(bundle), i);
+                        getParentLayout().addFragmentToStack(TopicsFragment.getTopicsOrChat(this, bundle), i);
                     }
                 }
             }
@@ -2440,6 +2451,8 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
             }
             this.historyHidden = !ChatObject.isChannel(this.currentChat) || this.info.hidden_prehistory;
             this.availableReactions = this.info.available_reactions;
+            this.preloadedReactions.clear();
+            this.preloadedReactions.addAll(ReactionsUtils.startPreloadReactions(this.currentChat, this.info));
         }
     }
 
@@ -2822,29 +2835,47 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
 
     private void updateReactionsCell(boolean z) {
         String string;
-        TLRPC$TL_availableReaction tLRPC$TL_availableReaction;
+        int i;
+        boolean isChannelAndNotMegaGroup = ChatObject.isChannelAndNotMegaGroup(this.currentChat);
         TLRPC$ChatReactions tLRPC$ChatReactions = this.availableReactions;
         if (tLRPC$ChatReactions == null || (tLRPC$ChatReactions instanceof TLRPC$TL_chatReactionsNone)) {
             string = LocaleController.getString("ReactionsOff", R.string.ReactionsOff);
         } else if (tLRPC$ChatReactions instanceof TLRPC$TL_chatReactionsSome) {
             TLRPC$TL_chatReactionsSome tLRPC$TL_chatReactionsSome = (TLRPC$TL_chatReactionsSome) tLRPC$ChatReactions;
-            int i = 0;
-            for (int i2 = 0; i2 < tLRPC$TL_chatReactionsSome.reactions.size(); i2++) {
-                TLRPC$Reaction tLRPC$Reaction = tLRPC$TL_chatReactionsSome.reactions.get(i2);
-                if ((tLRPC$Reaction instanceof TLRPC$TL_reactionEmoji) && (tLRPC$TL_availableReaction = getMediaDataController().getReactionsMap().get(((TLRPC$TL_reactionEmoji) tLRPC$Reaction).emoticon)) != null && !tLRPC$TL_availableReaction.inactive) {
-                    i++;
+            int i2 = 0;
+            while (i < tLRPC$TL_chatReactionsSome.reactions.size()) {
+                TLRPC$Reaction tLRPC$Reaction = tLRPC$TL_chatReactionsSome.reactions.get(i);
+                if (tLRPC$Reaction instanceof TLRPC$TL_reactionEmoji) {
+                    TLRPC$TL_availableReaction tLRPC$TL_availableReaction = getMediaDataController().getReactionsMap().get(((TLRPC$TL_reactionEmoji) tLRPC$Reaction).emoticon);
+                    if (tLRPC$TL_availableReaction != null) {
+                        if (tLRPC$TL_availableReaction.inactive) {
+                        }
+                        i2++;
+                    }
+                } else {
+                    i = tLRPC$Reaction instanceof TLRPC$TL_reactionCustomEmoji ? 0 : i + 1;
+                    i2++;
                 }
             }
-            int min = Math.min(getMediaDataController().getEnabledReactionsList().size(), i);
-            if (min == 0) {
-                string = LocaleController.getString("ReactionsOff", R.string.ReactionsOff);
+            if (isChannelAndNotMegaGroup) {
+                string = i2 == 0 ? LocaleController.getString("ReactionsOff", R.string.ReactionsOff) : String.valueOf(i2);
             } else {
-                string = LocaleController.formatString("ReactionsCount", R.string.ReactionsCount, Integer.valueOf(min), Integer.valueOf(getMediaDataController().getEnabledReactionsList().size()));
+                int min = Math.min(getMediaDataController().getEnabledReactionsList().size(), i2);
+                if (min == 0) {
+                    string = LocaleController.getString("ReactionsOff", R.string.ReactionsOff);
+                } else {
+                    string = LocaleController.formatString("ReactionsCount", R.string.ReactionsCount, Integer.valueOf(min), Integer.valueOf(getMediaDataController().getEnabledReactionsList().size()));
+                }
             }
         } else {
             string = LocaleController.getString("ReactionsAll", R.string.ReactionsAll);
         }
-        this.reactionsCell.setTextAndValueAndIcon(LocaleController.getString("Reactions", R.string.Reactions), string, z, R.drawable.msg_reactions2, true);
+        String str = string;
+        if (isChannelAndNotMegaGroup) {
+            this.reactionsCell.setTextAndValueAndIcon(TextCell.applyNewSpan(LocaleController.getString("Reactions", R.string.Reactions)), str, z, R.drawable.msg_reactions2, true);
+        } else {
+            this.reactionsCell.setTextAndValueAndIcon(LocaleController.getString("Reactions", R.string.Reactions), str, z, R.drawable.msg_reactions2, true);
+        }
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment

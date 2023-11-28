@@ -1745,7 +1745,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 return new int[]{1, 2, 2, 2, 2, 2};
             case MessageObject.TYPE_GIVEAWAY /* 26 */:
                 return new int[]{3, 2, 0, 1, 2, 2};
-            case 27:
+            case MessageObject.TYPE_JOINED_CHANNEL /* 27 */:
                 return new int[]{1, 2, 3, 2, 2, 2};
             case 29:
                 return new int[]{1, 1, 2, 1, 1, 0};

@@ -954,7 +954,7 @@ public final class MediaCodecUtil {
             return null;
         }
         try {
-            if (MediaController.AUIDO_MIME_TYPE.equals(MimeTypes.getMimeTypeFromMp4ObjectType(Integer.parseInt(strArr[1], 16))) && (mp4aAudioObjectTypeToProfile = mp4aAudioObjectTypeToProfile(Integer.parseInt(strArr[2]))) != -1) {
+            if (MediaController.AUDIO_MIME_TYPE.equals(MimeTypes.getMimeTypeFromMp4ObjectType(Integer.parseInt(strArr[1], 16))) && (mp4aAudioObjectTypeToProfile = mp4aAudioObjectTypeToProfile(Integer.parseInt(strArr[2]))) != -1) {
                 return new Pair<>(Integer.valueOf(mp4aAudioObjectTypeToProfile), 0);
             }
         } catch (NumberFormatException unused) {

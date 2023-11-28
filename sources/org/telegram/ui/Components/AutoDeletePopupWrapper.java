@@ -22,7 +22,7 @@ public class AutoDeletePopupWrapper {
     Callback callback;
     private final ActionBarMenuSubItem disableItem;
     long lastDismissTime;
-    TextView textView;
+    public TextView textView;
     public ActionBarPopupWindow.ActionBarPopupWindowLayout windowLayout;
 
     /* loaded from: classes4.dex */
@@ -169,23 +169,23 @@ public class AutoDeletePopupWrapper {
         }
     }
 
-    public void allowExtenededHint() {
+    public void allowExtendedHint(int i) {
         if (this.textView == null) {
             return;
         }
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
         spannableStringBuilder.append((CharSequence) LocaleController.getString("AutoDeletePopupDescription", R.string.AutoDeletePopupDescription));
         spannableStringBuilder.append((CharSequence) "\n\n");
-        spannableStringBuilder.append(AndroidUtilities.replaceSingleTag(LocaleController.getString("AutoDeletePopupDescription2", R.string.AutoDeletePopupDescription2), new Runnable() { // from class: org.telegram.ui.Components.AutoDeletePopupWrapper$$ExternalSyntheticLambda6
+        spannableStringBuilder.append((CharSequence) AndroidUtilities.replaceSingleLink(LocaleController.getString(R.string.AutoDeletePopupDescription2), i, new Runnable() { // from class: org.telegram.ui.Components.AutoDeletePopupWrapper$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
-                AutoDeletePopupWrapper.this.lambda$allowExtenededHint$8();
+                AutoDeletePopupWrapper.this.lambda$allowExtendedHint$8();
             }
         }));
         this.textView.setText(spannableStringBuilder);
     }
 
-    public /* synthetic */ void lambda$allowExtenededHint$8() {
+    public /* synthetic */ void lambda$allowExtendedHint$8() {
         this.callback.showGlobalAutoDeleteScreen();
     }
 }

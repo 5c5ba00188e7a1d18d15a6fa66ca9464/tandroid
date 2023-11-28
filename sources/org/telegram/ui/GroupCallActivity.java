@@ -8352,7 +8352,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             BackupImageView backupImageView = new BackupImageView(getContext());
             backupImageView.setRoundRadius(AndroidUtilities.dp(20.0f));
             frameLayout.addView(backupImageView, LayoutHelper.createFrame(40, 40.0f, (LocaleController.isRTL ? 5 : 3) | 48, 22.0f, 5.0f, 22.0f, 0.0f));
-            avatarDrawable.setInfo(tLObject);
+            avatarDrawable.setInfo(this.currentAccount, tLObject);
             boolean z2 = tLObject instanceof TLRPC$User;
             if (z2) {
                 TLRPC$User tLRPC$User = (TLRPC$User) tLObject;

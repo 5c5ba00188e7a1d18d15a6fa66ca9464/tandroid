@@ -378,7 +378,7 @@ public class QrActivity extends BaseFragment {
             backupImageView.setRoundRadius(AndroidUtilities.dp(42.0f));
             this.avatarImageView.setSize(AndroidUtilities.dp(84.0f), AndroidUtilities.dp(84.0f));
             frameLayout.addView(this.avatarImageView, LayoutHelper.createFrame(84, 84, 51));
-            this.avatarImageView.setImage(imageLocation, "84_84", imageLocation2, "50_50", avatarDrawable, null, null, 0, null);
+            this.avatarImageView.setImage(imageLocation, "84_84", imageLocation2, "50_50", avatarDrawable, (Bitmap) null, (String) null, 0, (Object) null);
             ImageView imageView = new ImageView(context);
             this.closeImageView = imageView;
             imageView.setBackground(Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(34.0f), 671088640, 687865855));
@@ -474,7 +474,7 @@ public class QrActivity extends BaseFragment {
         backupImageView2.setRoundRadius(AndroidUtilities.dp(42.0f));
         this.avatarImageView.setSize(AndroidUtilities.dp(84.0f), AndroidUtilities.dp(84.0f));
         frameLayout.addView(this.avatarImageView, LayoutHelper.createFrame(84, 84, 51));
-        this.avatarImageView.setImage(imageLocation, "84_84", imageLocation2, "50_50", avatarDrawable, null, null, 0, null);
+        this.avatarImageView.setImage(imageLocation, "84_84", imageLocation2, "50_50", avatarDrawable, (Bitmap) null, (String) null, 0, (Object) null);
         ImageView imageView2 = new ImageView(context);
         this.closeImageView = imageView2;
         imageView2.setBackground(Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(34.0f), 671088640, 687865855));
@@ -1104,6 +1104,13 @@ public class QrActivity extends BaseFragment {
         @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
         public /* synthetic */ boolean hasGradientService() {
             return Theme.ResourcesProvider.-CC.$default$hasGradientService(this);
+        }
+
+        @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
+        public /* synthetic */ boolean isDark() {
+            boolean isCurrentThemeDark;
+            isCurrentThemeDark = Theme.isCurrentThemeDark();
+            return isCurrentThemeDark;
         }
 
         @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider

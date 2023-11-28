@@ -49,10 +49,10 @@ public class BackButtonMenu {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x01f0  */
-    /* JADX WARN: Removed duplicated region for block: B:74:0x0211 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x01ff  */
+    /* JADX WARN: Removed duplicated region for block: B:74:0x0220 A[SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r13v0, types: [android.widget.FrameLayout, android.view.View] */
-    /* JADX WARN: Type inference failed for: r15v3, types: [android.graphics.drawable.BitmapDrawable] */
+    /* JADX WARN: Type inference failed for: r15v4, types: [android.graphics.drawable.BitmapDrawable] */
     /* JADX WARN: Type inference failed for: r2v1, types: [org.telegram.ui.ActionBar.ActionBarPopupWindow$ActionBarPopupWindowLayout, android.widget.FrameLayout, android.view.View] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -114,7 +114,7 @@ public class BackButtonMenu {
             AvatarDrawable avatarDrawable = new AvatarDrawable();
             avatarDrawable.setScaleSize(0.8f);
             if (tLRPC$Chat != null) {
-                avatarDrawable.setInfo(tLRPC$Chat);
+                avatarDrawable.setInfo(baseFragment.getCurrentAccount(), tLRPC$Chat);
                 TLRPC$ChatPhoto tLRPC$ChatPhoto = tLRPC$Chat.photo;
                 if (tLRPC$ChatPhoto == null || (r15 = tLRPC$ChatPhoto.strippedBitmap) == 0) {
                     rect = rect2;
@@ -143,11 +143,11 @@ public class BackButtonMenu {
                         backupImageView.setImageDrawable(avatarDrawable);
                     } else if (UserObject.isDeleted(tLRPC$User)) {
                         str = LocaleController.getString("HiddenName", R.string.HiddenName);
-                        avatarDrawable.setInfo(tLRPC$User);
+                        avatarDrawable.setInfo(baseFragment.getCurrentAccount(), tLRPC$User);
                         backupImageView.setImage(ImageLocation.getForUser(tLRPC$User, 1), "50_50", avatarDrawable, tLRPC$User);
                     } else {
                         String userName = UserObject.getUserName(tLRPC$User);
-                        avatarDrawable.setInfo(tLRPC$User);
+                        avatarDrawable.setInfo(baseFragment.getCurrentAccount(), tLRPC$User);
                         backupImageView.setImage(ImageLocation.getForUser(tLRPC$User, 1), "50_50", drawable, tLRPC$User);
                         str = userName;
                     }

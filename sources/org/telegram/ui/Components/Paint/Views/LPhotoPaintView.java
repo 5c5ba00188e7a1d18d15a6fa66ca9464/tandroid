@@ -376,6 +376,13 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
             }
 
             @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
+            public /* synthetic */ boolean isDark() {
+                boolean isCurrentThemeDark;
+                isCurrentThemeDark = Theme.isCurrentThemeDark();
+                return isCurrentThemeDark;
+            }
+
+            @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
             public /* synthetic */ void setAnimatedColor(int i4, int i5) {
                 Theme.ResourcesProvider.-CC.$default$setAnimatedColor(this, i4, i5);
             }

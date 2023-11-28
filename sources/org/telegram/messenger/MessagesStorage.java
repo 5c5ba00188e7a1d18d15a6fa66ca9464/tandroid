@@ -357,7 +357,7 @@ public class MessagesStorage extends BaseController {
         DispatchQueue dispatchQueue = new DispatchQueue("storageQueue_" + i);
         this.storageQueue = dispatchQueue;
         dispatchQueue.setPriority(8);
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda14
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda13
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$new$0();
@@ -521,7 +521,7 @@ public class MessagesStorage extends BaseController {
                 return;
             }
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda15
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda14
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$openDatabase$1();
@@ -534,7 +534,7 @@ public class MessagesStorage extends BaseController {
             this.openSync.countDown();
         } catch (Throwable unused) {
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda21
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda20
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$openDatabase$2();
@@ -743,7 +743,7 @@ public class MessagesStorage extends BaseController {
     }
 
     private void updateDbToLastVersion(int i) throws Exception {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda17
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda16
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$updateDbToLastVersion$3();
@@ -755,7 +755,7 @@ public class MessagesStorage extends BaseController {
         sb.append("MessagesStorage db migration finished to varsion ");
         sb.append(migrate);
         FileLog.d(sb.toString());
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda8
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$updateDbToLastVersion$4();
@@ -836,7 +836,7 @@ public class MessagesStorage extends BaseController {
     }
 
     public void cleanup(final boolean z) {
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda204
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda205
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$cleanup$6(z);
@@ -849,7 +849,7 @@ public class MessagesStorage extends BaseController {
         cleanupInternal(true);
         openDatabase(1);
         if (z) {
-            Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda16
+            Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda15
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesStorage.this.lambda$cleanup$5();
@@ -902,7 +902,7 @@ public class MessagesStorage extends BaseController {
             if (recoverDatabase()) {
                 this.tryRecover = false;
                 clearLoadingDialogsOffsets();
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda13
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda12
                     @Override // java.lang.Runnable
                     public final void run() {
                         MessagesStorage.this.lambda$checkSQLException$8();
@@ -1027,7 +1027,7 @@ public class MessagesStorage extends BaseController {
     }
 
     private void loadPendingTasks() {
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda11
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda10
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$loadPendingTasks$32();
@@ -1053,7 +1053,7 @@ public class MessagesStorage extends BaseController {
                         case 0:
                             final TLRPC$Chat TLdeserialize = TLRPC$Chat.TLdeserialize(byteBufferValue, byteBufferValue.readInt32(false), false);
                             if (TLdeserialize != null) {
-                                Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda176
+                                Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda177
                                     @Override // java.lang.Runnable
                                     public final void run() {
                                         MessagesStorage.this.lambda$loadPendingTasks$12(TLdeserialize, longValue);
@@ -1100,7 +1100,7 @@ public class MessagesStorage extends BaseController {
                                 tLRPC$TL_dialog.folder_id = byteBufferValue.readInt32(false);
                             }
                             final TLRPC$InputPeer TLdeserialize2 = TLRPC$InputPeer.TLdeserialize(byteBufferValue, byteBufferValue.readInt32(false), false);
-                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda182
+                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda183
                                 @Override // java.lang.Runnable
                                 public final void run() {
                                     MessagesStorage.this.lambda$loadPendingTasks$14(tLRPC$TL_dialog, TLdeserialize2, longValue);
@@ -1114,7 +1114,7 @@ public class MessagesStorage extends BaseController {
                             final long readInt64 = byteBufferValue.readInt64(false);
                             final boolean readBool = byteBufferValue.readBool(false);
                             final TLRPC$InputPeer TLdeserialize3 = TLRPC$InputPeer.TLdeserialize(byteBufferValue, byteBufferValue.readInt32(false), false);
-                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda125
+                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda126
                                 @Override // java.lang.Runnable
                                 public final void run() {
                                     MessagesStorage.this.lambda$loadPendingTasks$15(readInt64, readBool, TLdeserialize3, longValue);
@@ -1183,7 +1183,7 @@ public class MessagesStorage extends BaseController {
                             final int readInt3212 = byteBufferValue.readInt32(false);
                             final boolean readBool3 = byteBufferValue.readBool(false);
                             final TLRPC$InputPeer TLdeserialize9 = TLRPC$InputPeer.TLdeserialize(byteBufferValue, byteBufferValue.readInt32(false), false);
-                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda124
+                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda125
                                 @Override // java.lang.Runnable
                                 public final void run() {
                                     MessagesStorage.this.lambda$loadPendingTasks$24(readInt643, readBool2, readInt3211, readInt3212, readBool3, TLdeserialize9, longValue);
@@ -1192,7 +1192,7 @@ public class MessagesStorage extends BaseController {
                             break;
                         case 15:
                             final TLRPC$InputPeer TLdeserialize10 = TLRPC$InputPeer.TLdeserialize(byteBufferValue, byteBufferValue.readInt32(false), false);
-                            Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda189
+                            Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda190
                                 @Override // java.lang.Runnable
                                 public final void run() {
                                     MessagesStorage.this.lambda$loadPendingTasks$25(TLdeserialize10, longValue);
@@ -1255,7 +1255,7 @@ public class MessagesStorage extends BaseController {
                             final boolean readBool4 = byteBufferValue.readBool(false);
                             overrideWallpaperInfo.slug = byteBufferValue.readString(false);
                             overrideWallpaperInfo.originalFileName = byteBufferValue.readString(false);
-                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda202
+                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda203
                                 @Override // java.lang.Runnable
                                 public final void run() {
                                     MessagesStorage.this.lambda$loadPendingTasks$23(overrideWallpaperInfo, readBool4, longValue);
@@ -1264,7 +1264,7 @@ public class MessagesStorage extends BaseController {
                             break;
                         case 22:
                             final TLRPC$InputPeer TLdeserialize12 = TLRPC$InputPeer.TLdeserialize(byteBufferValue, byteBufferValue.readInt32(false), false);
-                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda190
+                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda191
                                 @Override // java.lang.Runnable
                                 public final void run() {
                                     MessagesStorage.this.lambda$loadPendingTasks$29(TLdeserialize12, longValue);
@@ -1444,11 +1444,11 @@ public class MessagesStorage extends BaseController {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadPendingTasks$31(long j, long j2, int i) {
-        getMessagesController().lambda$checkDeletingTask$72(j, j2, i);
+        getMessagesController().lambda$checkDeletingTask$75(j, j2, i);
     }
 
     public void saveChannelPts(final long j, final int i) {
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda47
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda46
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$saveChannelPts$33(i, j);
@@ -1507,7 +1507,7 @@ public class MessagesStorage extends BaseController {
     }
 
     public void updateMutedDialogsFiltersCounters() {
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda20
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda19
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$updateMutedDialogsFiltersCounters$35();
@@ -1542,7 +1542,7 @@ public class MessagesStorage extends BaseController {
     }
 
     public void putStoryPushMessage(final NotificationsController.StoryNotification storyNotification) {
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda172
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda173
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$putStoryPushMessage$37(storyNotification);
@@ -1602,7 +1602,7 @@ public class MessagesStorage extends BaseController {
     }
 
     public void deleteAllStoryPushMessages() {
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda9
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda8
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$deleteAllStoryPushMessages$39();
@@ -1620,7 +1620,7 @@ public class MessagesStorage extends BaseController {
     }
 
     public void putPushMessage(final MessageObject messageObject) {
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda168
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda169
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$putPushMessage$40(messageObject);
@@ -2862,7 +2862,7 @@ public class MessagesStorage extends BaseController {
     }
 
     public void removeTopics(final long j, final ArrayList<Integer> arrayList) {
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda155
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda156
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$removeTopics$47(arrayList, j);
@@ -2884,7 +2884,7 @@ public class MessagesStorage extends BaseController {
     }
 
     public void updateTopicsWithReadMessages(final HashMap<TopicKey, Integer> hashMap) {
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda164
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda165
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$updateTopicsWithReadMessages$48(hashMap);
@@ -2931,7 +2931,7 @@ public class MessagesStorage extends BaseController {
 
     public void reset() {
         clearDatabaseValues();
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda10
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda9
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$reset$50();
@@ -3072,7 +3072,7 @@ public class MessagesStorage extends BaseController {
                 if (!arrayList2.isEmpty()) {
                     getChatsInternal(TextUtils.join(",", arrayList2), arrayList5);
                 }
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda161
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda162
                     @Override // java.lang.Runnable
                     public final void run() {
                         MessagesStorage.this.lambda$readAllDialogs$53(arrayList4, arrayList5, arrayList6, longSparseArray);
@@ -3102,17 +3102,19 @@ public class MessagesStorage extends BaseController {
 
     /* JADX WARN: Removed duplicated region for block: B:16:0x0089  */
     /* JADX WARN: Removed duplicated region for block: B:17:0x008b  */
-    /* JADX WARN: Removed duplicated region for block: B:186:0x03f4  */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x009f  */
-    /* JADX WARN: Removed duplicated region for block: B:21:0x00a1  */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x00b5 A[Catch: all -> 0x03e3, Exception -> 0x03e6, TryCatch #4 {all -> 0x03e3, blocks: (B:4:0x002d, B:6:0x0035, B:8:0x005d, B:14:0x006d, B:18:0x008c, B:22:0x00a2, B:24:0x00b5, B:26:0x00bd, B:27:0x00c2, B:29:0x00de, B:31:0x00ea, B:33:0x00fd, B:35:0x0108, B:37:0x012d, B:39:0x0134, B:40:0x0148, B:42:0x014c, B:44:0x0150, B:46:0x0156, B:48:0x015a, B:50:0x015e, B:52:0x0166, B:54:0x016c, B:56:0x017d, B:58:0x0189, B:60:0x0190, B:62:0x0194, B:72:0x01b0, B:74:0x01b6, B:76:0x01bc, B:77:0x01bf, B:79:0x01c5, B:81:0x01d5, B:82:0x01dd, B:84:0x01e5, B:86:0x01ef, B:87:0x01f7, B:89:0x0202, B:69:0x01a2, B:70:0x01a6, B:91:0x0210), top: B:196:0x002d }] */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x00de A[Catch: all -> 0x03e3, Exception -> 0x03e6, TryCatch #4 {all -> 0x03e3, blocks: (B:4:0x002d, B:6:0x0035, B:8:0x005d, B:14:0x006d, B:18:0x008c, B:22:0x00a2, B:24:0x00b5, B:26:0x00bd, B:27:0x00c2, B:29:0x00de, B:31:0x00ea, B:33:0x00fd, B:35:0x0108, B:37:0x012d, B:39:0x0134, B:40:0x0148, B:42:0x014c, B:44:0x0150, B:46:0x0156, B:48:0x015a, B:50:0x015e, B:52:0x0166, B:54:0x016c, B:56:0x017d, B:58:0x0189, B:60:0x0190, B:62:0x0194, B:72:0x01b0, B:74:0x01b6, B:76:0x01bc, B:77:0x01bf, B:79:0x01c5, B:81:0x01d5, B:82:0x01dd, B:84:0x01e5, B:86:0x01ef, B:87:0x01f7, B:89:0x0202, B:69:0x01a2, B:70:0x01a6, B:91:0x0210), top: B:196:0x002d }] */
-    /* JADX WARN: Removed duplicated region for block: B:30:0x00e8  */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x00fd A[Catch: all -> 0x03e3, Exception -> 0x03e6, TryCatch #4 {all -> 0x03e3, blocks: (B:4:0x002d, B:6:0x0035, B:8:0x005d, B:14:0x006d, B:18:0x008c, B:22:0x00a2, B:24:0x00b5, B:26:0x00bd, B:27:0x00c2, B:29:0x00de, B:31:0x00ea, B:33:0x00fd, B:35:0x0108, B:37:0x012d, B:39:0x0134, B:40:0x0148, B:42:0x014c, B:44:0x0150, B:46:0x0156, B:48:0x015a, B:50:0x015e, B:52:0x0166, B:54:0x016c, B:56:0x017d, B:58:0x0189, B:60:0x0190, B:62:0x0194, B:72:0x01b0, B:74:0x01b6, B:76:0x01bc, B:77:0x01bf, B:79:0x01c5, B:81:0x01d5, B:82:0x01dd, B:84:0x01e5, B:86:0x01ef, B:87:0x01f7, B:89:0x0202, B:69:0x01a2, B:70:0x01a6, B:91:0x0210), top: B:196:0x002d }] */
-    /* JADX WARN: Removed duplicated region for block: B:71:0x01ad  */
-    /* JADX WARN: Removed duplicated region for block: B:74:0x01b6 A[Catch: all -> 0x03e3, Exception -> 0x03e6, TryCatch #4 {all -> 0x03e3, blocks: (B:4:0x002d, B:6:0x0035, B:8:0x005d, B:14:0x006d, B:18:0x008c, B:22:0x00a2, B:24:0x00b5, B:26:0x00bd, B:27:0x00c2, B:29:0x00de, B:31:0x00ea, B:33:0x00fd, B:35:0x0108, B:37:0x012d, B:39:0x0134, B:40:0x0148, B:42:0x014c, B:44:0x0150, B:46:0x0156, B:48:0x015a, B:50:0x015e, B:52:0x0166, B:54:0x016c, B:56:0x017d, B:58:0x0189, B:60:0x0190, B:62:0x0194, B:72:0x01b0, B:74:0x01b6, B:76:0x01bc, B:77:0x01bf, B:79:0x01c5, B:81:0x01d5, B:82:0x01dd, B:84:0x01e5, B:86:0x01ef, B:87:0x01f7, B:89:0x0202, B:69:0x01a2, B:70:0x01a6, B:91:0x0210), top: B:196:0x002d }] */
-    /* JADX WARN: Removed duplicated region for block: B:79:0x01c5 A[Catch: all -> 0x03e3, Exception -> 0x03e6, TryCatch #4 {all -> 0x03e3, blocks: (B:4:0x002d, B:6:0x0035, B:8:0x005d, B:14:0x006d, B:18:0x008c, B:22:0x00a2, B:24:0x00b5, B:26:0x00bd, B:27:0x00c2, B:29:0x00de, B:31:0x00ea, B:33:0x00fd, B:35:0x0108, B:37:0x012d, B:39:0x0134, B:40:0x0148, B:42:0x014c, B:44:0x0150, B:46:0x0156, B:48:0x015a, B:50:0x015e, B:52:0x0166, B:54:0x016c, B:56:0x017d, B:58:0x0189, B:60:0x0190, B:62:0x0194, B:72:0x01b0, B:74:0x01b6, B:76:0x01bc, B:77:0x01bf, B:79:0x01c5, B:81:0x01d5, B:82:0x01dd, B:84:0x01e5, B:86:0x01ef, B:87:0x01f7, B:89:0x0202, B:69:0x01a2, B:70:0x01a6, B:91:0x0210), top: B:196:0x002d }] */
-    /* JADX WARN: Removed duplicated region for block: B:82:0x01dd A[Catch: all -> 0x03e3, Exception -> 0x03e6, TryCatch #4 {all -> 0x03e3, blocks: (B:4:0x002d, B:6:0x0035, B:8:0x005d, B:14:0x006d, B:18:0x008c, B:22:0x00a2, B:24:0x00b5, B:26:0x00bd, B:27:0x00c2, B:29:0x00de, B:31:0x00ea, B:33:0x00fd, B:35:0x0108, B:37:0x012d, B:39:0x0134, B:40:0x0148, B:42:0x014c, B:44:0x0150, B:46:0x0156, B:48:0x015a, B:50:0x015e, B:52:0x0166, B:54:0x016c, B:56:0x017d, B:58:0x0189, B:60:0x0190, B:62:0x0194, B:72:0x01b0, B:74:0x01b6, B:76:0x01bc, B:77:0x01bf, B:79:0x01c5, B:81:0x01d5, B:82:0x01dd, B:84:0x01e5, B:86:0x01ef, B:87:0x01f7, B:89:0x0202, B:69:0x01a2, B:70:0x01a6, B:91:0x0210), top: B:196:0x002d }] */
+    /* JADX WARN: Removed duplicated region for block: B:190:0x03fe  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x00a0  */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x00a2  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x00a9  */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x00ab  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x00bf A[Catch: all -> 0x03ed, Exception -> 0x03f0, TryCatch #0 {Exception -> 0x03f0, blocks: (B:4:0x002d, B:6:0x0035, B:8:0x005d, B:14:0x006d, B:18:0x008c, B:22:0x00a3, B:26:0x00ac, B:28:0x00bf, B:30:0x00c7, B:31:0x00cc, B:33:0x00e8, B:35:0x00f4, B:37:0x0107, B:39:0x0112, B:41:0x0137, B:43:0x013e, B:76:0x01ba, B:78:0x01c0, B:80:0x01c6, B:81:0x01c9, B:83:0x01cf, B:85:0x01df, B:86:0x01e7, B:88:0x01ef, B:90:0x01f9, B:91:0x0201, B:93:0x020c, B:73:0x01ac, B:74:0x01b0, B:95:0x021a), top: B:194:0x002d }] */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x00e8 A[Catch: all -> 0x03ed, Exception -> 0x03f0, TryCatch #0 {Exception -> 0x03f0, blocks: (B:4:0x002d, B:6:0x0035, B:8:0x005d, B:14:0x006d, B:18:0x008c, B:22:0x00a3, B:26:0x00ac, B:28:0x00bf, B:30:0x00c7, B:31:0x00cc, B:33:0x00e8, B:35:0x00f4, B:37:0x0107, B:39:0x0112, B:41:0x0137, B:43:0x013e, B:76:0x01ba, B:78:0x01c0, B:80:0x01c6, B:81:0x01c9, B:83:0x01cf, B:85:0x01df, B:86:0x01e7, B:88:0x01ef, B:90:0x01f9, B:91:0x0201, B:93:0x020c, B:73:0x01ac, B:74:0x01b0, B:95:0x021a), top: B:194:0x002d }] */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x00f2  */
+    /* JADX WARN: Removed duplicated region for block: B:37:0x0107 A[Catch: all -> 0x03ed, Exception -> 0x03f0, TryCatch #0 {Exception -> 0x03f0, blocks: (B:4:0x002d, B:6:0x0035, B:8:0x005d, B:14:0x006d, B:18:0x008c, B:22:0x00a3, B:26:0x00ac, B:28:0x00bf, B:30:0x00c7, B:31:0x00cc, B:33:0x00e8, B:35:0x00f4, B:37:0x0107, B:39:0x0112, B:41:0x0137, B:43:0x013e, B:76:0x01ba, B:78:0x01c0, B:80:0x01c6, B:81:0x01c9, B:83:0x01cf, B:85:0x01df, B:86:0x01e7, B:88:0x01ef, B:90:0x01f9, B:91:0x0201, B:93:0x020c, B:73:0x01ac, B:74:0x01b0, B:95:0x021a), top: B:194:0x002d }] */
+    /* JADX WARN: Removed duplicated region for block: B:75:0x01b7  */
+    /* JADX WARN: Removed duplicated region for block: B:78:0x01c0 A[Catch: all -> 0x03ed, Exception -> 0x03f0, TryCatch #0 {Exception -> 0x03f0, blocks: (B:4:0x002d, B:6:0x0035, B:8:0x005d, B:14:0x006d, B:18:0x008c, B:22:0x00a3, B:26:0x00ac, B:28:0x00bf, B:30:0x00c7, B:31:0x00cc, B:33:0x00e8, B:35:0x00f4, B:37:0x0107, B:39:0x0112, B:41:0x0137, B:43:0x013e, B:76:0x01ba, B:78:0x01c0, B:80:0x01c6, B:81:0x01c9, B:83:0x01cf, B:85:0x01df, B:86:0x01e7, B:88:0x01ef, B:90:0x01f9, B:91:0x0201, B:93:0x020c, B:73:0x01ac, B:74:0x01b0, B:95:0x021a), top: B:194:0x002d }] */
+    /* JADX WARN: Removed duplicated region for block: B:83:0x01cf A[Catch: all -> 0x03ed, Exception -> 0x03f0, TryCatch #0 {Exception -> 0x03f0, blocks: (B:4:0x002d, B:6:0x0035, B:8:0x005d, B:14:0x006d, B:18:0x008c, B:22:0x00a3, B:26:0x00ac, B:28:0x00bf, B:30:0x00c7, B:31:0x00cc, B:33:0x00e8, B:35:0x00f4, B:37:0x0107, B:39:0x0112, B:41:0x0137, B:43:0x013e, B:76:0x01ba, B:78:0x01c0, B:80:0x01c6, B:81:0x01c9, B:83:0x01cf, B:85:0x01df, B:86:0x01e7, B:88:0x01ef, B:90:0x01f9, B:91:0x0201, B:93:0x020c, B:73:0x01ac, B:74:0x01b0, B:95:0x021a), top: B:194:0x002d }] */
+    /* JADX WARN: Removed duplicated region for block: B:86:0x01e7 A[Catch: all -> 0x03ed, Exception -> 0x03f0, TryCatch #0 {Exception -> 0x03f0, blocks: (B:4:0x002d, B:6:0x0035, B:8:0x005d, B:14:0x006d, B:18:0x008c, B:22:0x00a3, B:26:0x00ac, B:28:0x00bf, B:30:0x00c7, B:31:0x00cc, B:33:0x00e8, B:35:0x00f4, B:37:0x0107, B:39:0x0112, B:41:0x0137, B:43:0x013e, B:76:0x01ba, B:78:0x01c0, B:80:0x01c6, B:81:0x01c9, B:83:0x01cf, B:85:0x01df, B:86:0x01e7, B:88:0x01ef, B:90:0x01f9, B:91:0x0201, B:93:0x020c, B:73:0x01ac, B:74:0x01b0, B:95:0x021a), top: B:194:0x002d }] */
     /* JADX WARN: Type inference failed for: r1v2 */
     /* JADX WARN: Type inference failed for: r1v3, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r1v5 */
@@ -3172,7 +3174,9 @@ public class MessagesStorage extends BaseController {
                                 tLRPC$TL_dialog2.pinnedNum = intValue2;
                                 tLRPC$TL_dialog2.pinned = intValue2 == 0;
                                 tLRPC$TL_dialog2.unread_mentions_count = queryFinalized2.intValue(15);
-                                tLRPC$TL_dialog2.unread_mark = (queryFinalized2.intValue(16) & i3) == 0;
+                                int intValue3 = queryFinalized2.intValue(16);
+                                tLRPC$TL_dialog2.unread_mark = (intValue3 & 1) == 0;
+                                tLRPC$TL_dialog2.view_forum_as_messages = (intValue3 & 64) == 0;
                                 longValue = queryFinalized2.longValue(8);
                                 TLRPC$TL_peerNotifySettings tLRPC$TL_peerNotifySettings = new TLRPC$TL_peerNotifySettings();
                                 tLRPC$TL_dialog2.notify_settings = tLRPC$TL_peerNotifySettings;
@@ -3203,10 +3207,10 @@ public class MessagesStorage extends BaseController {
                                         byteBufferValue3.reuse();
                                         MessageObject.setUnreadFlags(TLdeserialize, queryFinalized2.intValue(5));
                                         TLdeserialize.id = queryFinalized2.intValue(6);
-                                        int intValue3 = queryFinalized2.intValue(9);
-                                        if (intValue3 != 0) {
+                                        int intValue4 = queryFinalized2.intValue(9);
+                                        if (intValue4 != 0) {
                                             tLRPC$TL_dialog = tLRPC$TL_dialog2;
-                                            tLRPC$TL_dialog.last_message_date = intValue3;
+                                            tLRPC$TL_dialog.last_message_date = intValue4;
                                         } else {
                                             tLRPC$TL_dialog = tLRPC$TL_dialog2;
                                         }
@@ -3300,7 +3304,9 @@ public class MessagesStorage extends BaseController {
                         tLRPC$TL_dialog2.pinnedNum = intValue22;
                         tLRPC$TL_dialog2.pinned = intValue22 == 0;
                         tLRPC$TL_dialog2.unread_mentions_count = queryFinalized2.intValue(15);
-                        tLRPC$TL_dialog2.unread_mark = (queryFinalized2.intValue(16) & i3) == 0;
+                        int intValue32 = queryFinalized2.intValue(16);
+                        tLRPC$TL_dialog2.unread_mark = (intValue32 & 1) == 0;
+                        tLRPC$TL_dialog2.view_forum_as_messages = (intValue32 & 64) == 0;
                         longValue = queryFinalized2.longValue(8);
                         TLRPC$TL_peerNotifySettings tLRPC$TL_peerNotifySettings2 = new TLRPC$TL_peerNotifySettings();
                         tLRPC$TL_dialog2.notify_settings = tLRPC$TL_peerNotifySettings2;
@@ -3324,12 +3330,12 @@ public class MessagesStorage extends BaseController {
                         tLRPC$TL_messages_dialogs3 = tLRPC$TL_messages_dialogs2;
                         i3 = 1;
                         i4 = 0;
-                    } catch (Throwable th) {
-                        th = th;
+                    } catch (Exception e3) {
+                        e = e3;
                         sQLiteCursor = queryFinalized2;
                     }
-                } catch (Exception e3) {
-                    e = e3;
+                } catch (Throwable th) {
+                    th = th;
                     sQLiteCursor = queryFinalized2;
                 }
             }
@@ -3378,9 +3384,9 @@ public class MessagesStorage extends BaseController {
                                         byteBufferValue.reuse();
                                         MessageObject.setUnreadFlags(TLdeserialize3, queryFinalized.intValue(2));
                                         TLdeserialize3.id = queryFinalized.intValue(3);
-                                        int intValue4 = queryFinalized.intValue(5);
-                                        if (intValue4 != 0) {
-                                            tLRPC$Dialog.last_message_date = intValue4;
+                                        int intValue5 = queryFinalized.intValue(5);
+                                        if (intValue5 != 0) {
+                                            tLRPC$Dialog.last_message_date = intValue5;
                                         }
                                         TLdeserialize3.send_state = queryFinalized.intValue(4);
                                         TLdeserialize3.dialog_id = tLRPC$Dialog.id;
@@ -3423,7 +3429,6 @@ public class MessagesStorage extends BaseController {
                                 } catch (Throwable th2) {
                                     th = th2;
                                     if (sQLiteCursor != null) {
-                                        sQLiteCursor.dispose();
                                     }
                                     throw th;
                                 }
@@ -3432,6 +3437,7 @@ public class MessagesStorage extends BaseController {
                             th = th3;
                             sQLiteCursor = queryFinalized;
                             if (sQLiteCursor != null) {
+                                sQLiteCursor.dispose();
                             }
                             throw th;
                         }
@@ -3674,7 +3680,7 @@ public class MessagesStorage extends BaseController {
                     throw th;
                 }
             }
-            Collections.sort(this.dialogFilters, MessagesStorage$$ExternalSyntheticLambda217.INSTANCE);
+            Collections.sort(this.dialogFilters, MessagesStorage$$ExternalSyntheticLambda218.INSTANCE);
             if (z2) {
                 calcUnreadCounters(true);
             }
@@ -4488,7 +4494,7 @@ public class MessagesStorage extends BaseController {
     }
 
     public void checkLoadedRemoteFilters(final TLRPC$Vector tLRPC$Vector, final Runnable runnable) {
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda198
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda199
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$checkLoadedRemoteFilters$58(tLRPC$Vector, runnable);
@@ -4644,7 +4650,7 @@ public class MessagesStorage extends BaseController {
                             linkedHashMap = new LinkedHashMap();
                             final LongSparseIntArray longSparseIntArray = dialogFilter2.pinnedDialogs;
                             hashMap5 = hashMap8;
-                            Collections.sort(arrayList12, new Comparator() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda215
+                            Collections.sort(arrayList12, new Comparator() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda216
                                 @Override // java.util.Comparator
                                 public final int compare(Object obj, Object obj2) {
                                     int lambda$checkLoadedRemoteFilters$57;
@@ -5081,7 +5087,7 @@ public class MessagesStorage extends BaseController {
             }
         }
         if (z2) {
-            Collections.sort(this.dialogFilters, MessagesStorage$$ExternalSyntheticLambda218.INSTANCE);
+            Collections.sort(this.dialogFilters, MessagesStorage$$ExternalSyntheticLambda219.INSTANCE);
             saveDialogFiltersOrderInternal();
         }
         int i4 = z ? 1 : 2;
@@ -5101,7 +5107,7 @@ public class MessagesStorage extends BaseController {
 
     /* JADX INFO: Access modifiers changed from: protected */
     public void processLoadedFilterPeers(final TLRPC$messages_Dialogs tLRPC$messages_Dialogs, final TLRPC$messages_Dialogs tLRPC$messages_Dialogs2, final ArrayList<TLRPC$User> arrayList, final ArrayList<TLRPC$Chat> arrayList2, final ArrayList<MessagesController.DialogFilter> arrayList3, final SparseArray<MessagesController.DialogFilter> sparseArray, final ArrayList<Integer> arrayList4, final HashMap<Integer, HashSet<Long>> hashMap, final HashSet<Integer> hashSet, final Runnable runnable) {
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda201
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda202
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$processLoadedFilterPeers$60(tLRPC$messages_Dialogs, tLRPC$messages_Dialogs2, arrayList, arrayList2, arrayList3, sparseArray, arrayList4, hashMap, hashSet, runnable);
@@ -5127,7 +5133,7 @@ public class MessagesStorage extends BaseController {
     }
 
     public void deleteDialogFilter(final MessagesController.DialogFilter dialogFilter) {
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda170
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda171
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$deleteDialogFilter$61(dialogFilter);
@@ -5136,7 +5142,7 @@ public class MessagesStorage extends BaseController {
     }
 
     public void saveDialogFilter(final MessagesController.DialogFilter dialogFilter, final boolean z, final boolean z2) {
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda171
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda172
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$saveDialogFilter$63(dialogFilter, z, z2);
@@ -5148,7 +5154,7 @@ public class MessagesStorage extends BaseController {
     public /* synthetic */ void lambda$saveDialogFilter$63(MessagesController.DialogFilter dialogFilter, boolean z, boolean z2) {
         saveDialogFilterInternal(dialogFilter, z, z2);
         calcUnreadCounters(false);
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda12
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda11
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$saveDialogFilter$62();
@@ -5199,7 +5205,7 @@ public class MessagesStorage extends BaseController {
 
     public void saveDialogFiltersOrder() {
         final ArrayList arrayList = new ArrayList(getMessagesController().dialogFilters);
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda151
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda152
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$saveDialogFiltersOrder$64(arrayList);
@@ -5701,7 +5707,7 @@ public class MessagesStorage extends BaseController {
                 final ArrayList arrayList26 = arrayList3;
                 final ArrayList<TLRPC$Chat> arrayList27 = arrayList5;
                 final ArrayList<TLRPC$EncryptedChat> arrayList28 = arrayList2;
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda135
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda136
                     @Override // java.lang.Runnable
                     public final void run() {
                         MessagesStorage.this.lambda$loadUnreadMessages$65(longSparseArray9, arrayList25, arrayList26, arrayList4, arrayList27, arrayList28, hashMap);
@@ -5919,7 +5925,7 @@ public class MessagesStorage extends BaseController {
         if ((str2 == null || str2.length() == 0) && tLRPC$Document == null) {
             return;
         }
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda183
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda184
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$addRecentLocalFile$71(tLRPC$Document, str, str2);
@@ -6019,7 +6025,7 @@ public class MessagesStorage extends BaseController {
                                             checkSQLException(e);
                                             queryFinalized.dispose();
                                             deleteFromDownloadQueue(arrayList, z);
-                                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda157
+                                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda158
                                                 @Override // java.lang.Runnable
                                                 public final void run() {
                                                     MessagesStorage.this.lambda$deleteUserChatHistory$72(arrayList4, j, arrayList2);
@@ -6051,7 +6057,7 @@ public class MessagesStorage extends BaseController {
                     z = true;
                     queryFinalized.dispose();
                     deleteFromDownloadQueue(arrayList, z);
-                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda157
+                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda158
                         @Override // java.lang.Runnable
                         public final void run() {
                             MessagesStorage.this.lambda$deleteUserChatHistory$72(arrayList4, j, arrayList2);
@@ -6061,7 +6067,7 @@ public class MessagesStorage extends BaseController {
                     lambda$updateDialogsWithDeletedMessages$189(j, !DialogObject.isChatDialog(j) ? -j : 0L, arrayList2, null);
                     getFileLoader().deleteFiles(arrayList3, 0);
                     if (arrayList2.isEmpty()) {
-                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda154
+                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda155
                             @Override // java.lang.Runnable
                             public final void run() {
                                 MessagesStorage.this.lambda$deleteUserChatHistory$73(arrayList2, j);
@@ -6375,7 +6381,7 @@ public class MessagesStorage extends BaseController {
                                             checkSQLException(e);
                                             sQLiteCursor3.dispose();
                                             deleteFromDownloadQueue(arrayList5, z);
-                                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda148
+                                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda149
                                                 @Override // java.lang.Runnable
                                                 public final void run() {
                                                     MessagesStorage.this.lambda$deleteDialog$75(arrayList);
@@ -6407,7 +6413,7 @@ public class MessagesStorage extends BaseController {
                                             this.database.executeFast("DELETE FROM messages_holes WHERE uid = " + j).stepThis().dispose();
                                             this.database.executeFast(str3 + j).stepThis().dispose();
                                             getMediaDataController().clearBotKeyboard(j);
-                                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda18
+                                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda17
                                                 @Override // java.lang.Runnable
                                                 public final void run() {
                                                     MessagesStorage.this.lambda$deleteDialog$76();
@@ -6487,7 +6493,7 @@ public class MessagesStorage extends BaseController {
                     z = true;
                     sQLiteCursor3.dispose();
                     deleteFromDownloadQueue(arrayList5, z);
-                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda148
+                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda149
                         @Override // java.lang.Runnable
                         public final void run() {
                             MessagesStorage.this.lambda$deleteDialog$75(arrayList);
@@ -6832,7 +6838,7 @@ public class MessagesStorage extends BaseController {
         this.database.executeFast("DELETE FROM messages_holes WHERE uid = " + j).stepThis().dispose();
         this.database.executeFast(str3 + j).stepThis().dispose();
         getMediaDataController().clearBotKeyboard(j);
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda18
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda17
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$deleteDialog$76();
@@ -6914,7 +6920,7 @@ public class MessagesStorage extends BaseController {
     }
 
     public void resetDialogs(final TLRPC$messages_Dialogs tLRPC$messages_Dialogs, final int i, final int i2, final int i3, final int i4, final int i5, final LongSparseArray<TLRPC$Dialog> longSparseArray, final LongSparseArray<ArrayList<MessageObject>> longSparseArray2, final TLRPC$Message tLRPC$Message, final int i6) {
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda200
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda201
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$resetDialogs$82(tLRPC$messages_Dialogs, i6, i2, i3, i4, i5, tLRPC$Message, i, longSparseArray, longSparseArray2);
@@ -7001,7 +7007,7 @@ public class MessagesStorage extends BaseController {
                     throw th;
                 }
             }
-            Collections.sort(arrayList2, new Comparator() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda216
+            Collections.sort(arrayList2, new Comparator() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda217
                 @Override // java.util.Comparator
                 public final int compare(Object obj, Object obj2) {
                     int lambda$resetDialogs$81;
@@ -7152,7 +7158,7 @@ public class MessagesStorage extends BaseController {
     }
 
     public void emptyMessagesMedia(final long j, final ArrayList<Integer> arrayList) {
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda156
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda157
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$emptyMessagesMedia$85(arrayList, j);
@@ -7422,14 +7428,14 @@ public class MessagesStorage extends BaseController {
                     }
                 }
                 sQLitePreparedStatement.dispose();
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda142
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda143
                     @Override // java.lang.Runnable
                     public final void run() {
                         MessagesStorage.this.lambda$emptyMessagesMedia$83(arrayList5);
                     }
                 });
             }
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda152
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda153
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesStorage.this.lambda$emptyMessagesMedia$84(arrayList3);
@@ -7961,7 +7967,7 @@ public class MessagesStorage extends BaseController {
     }
 
     public void updateMessageCustomParams(final long j, final TLRPC$Message tLRPC$Message) {
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda191
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda192
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$updateMessageCustomParams$91(tLRPC$Message, j);
@@ -8089,7 +8095,7 @@ public class MessagesStorage extends BaseController {
     }
 
     public void getNewTask(final LongSparseArray<ArrayList<Integer>> longSparseArray, final LongSparseArray<ArrayList<Integer>> longSparseArray2) {
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda133
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda134
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$getNewTask$92(longSparseArray, longSparseArray2);
@@ -8385,7 +8391,7 @@ public class MessagesStorage extends BaseController {
                 final ArrayList<Integer> arrayList = new ArrayList<>();
                 arrayList.add(Integer.valueOf(i4));
                 sparseArray.put(max, arrayList);
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda207
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda208
                     @Override // java.lang.Runnable
                     public final void run() {
                         MessagesStorage.this.lambda$createTaskForMid$96(z, j, arrayList);
@@ -9966,7 +9972,7 @@ public class MessagesStorage extends BaseController {
             return;
         }
         if (z) {
-            this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda174
+            this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda175
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesStorage.this.lambda$updateDialogsWithReadMessages$101(longSparseIntArray, longSparseIntArray2, longSparseArray, longSparseIntArray3);
@@ -9986,7 +9992,7 @@ public class MessagesStorage extends BaseController {
         if (tLRPC$ChatParticipants == null) {
             return;
         }
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda180
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda181
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$updateChatParticipants$103(tLRPC$ChatParticipants);
@@ -10023,7 +10029,7 @@ public class MessagesStorage extends BaseController {
             queryFinalized.dispose();
             if (tLRPC$ChatFull instanceof TLRPC$TL_chatFull) {
                 tLRPC$ChatFull.participants = tLRPC$ChatParticipants;
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda177
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda178
                     @Override // java.lang.Runnable
                     public final void run() {
                         MessagesStorage.this.lambda$updateChatParticipants$102(tLRPC$ChatFull);
@@ -10267,7 +10273,7 @@ public class MessagesStorage extends BaseController {
         if (tLObject == null || TextUtils.isEmpty(str)) {
             return;
         }
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda175
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda176
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$saveBotCache$107(tLObject, str);
@@ -10463,7 +10469,7 @@ public class MessagesStorage extends BaseController {
         if (tLRPC$User == null) {
             return;
         }
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda196
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda197
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$loadUserInfo$109(tLRPC$User, z, i);
@@ -10662,7 +10668,7 @@ public class MessagesStorage extends BaseController {
     }
 
     public void updateUserInfo(final TLRPC$UserFull tLRPC$UserFull, final boolean z) {
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda197
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda198
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$updateUserInfo$110(tLRPC$UserFull, z);
@@ -10847,7 +10853,7 @@ public class MessagesStorage extends BaseController {
     }
 
     public void updateChatInfo(final TLRPC$ChatFull tLRPC$ChatFull, final boolean z) {
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda179
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda180
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$updateChatInfo$113(tLRPC$ChatFull, z);
@@ -11029,7 +11035,7 @@ public class MessagesStorage extends BaseController {
     }
 
     public void updateChatOnlineCount(final long j, final int i) {
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda48
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda47
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$updateChatOnlineCount$114(i, j);
@@ -11063,7 +11069,7 @@ public class MessagesStorage extends BaseController {
     }
 
     public void updatePinnedMessages(final long j, final ArrayList<Integer> arrayList, final boolean z, final int i, final int i2, final boolean z2, final HashMap<Integer, MessageObject> hashMap) {
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda211
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda212
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$updatePinnedMessages$117(z, hashMap, i2, j, arrayList, i, z2);
@@ -11450,7 +11456,7 @@ public class MessagesStorage extends BaseController {
                     }
                 }
                 tLRPC$ChatFull.participants.version = i2;
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda178
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda179
                     @Override // java.lang.Runnable
                     public final void run() {
                         MessagesStorage.this.lambda$updateChatInfo$118(tLRPC$ChatFull);
@@ -11498,7 +11504,7 @@ public class MessagesStorage extends BaseController {
     public boolean isMigratedChat(final long j) {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         final boolean[] zArr = new boolean[1];
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda129
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda130
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$isMigratedChat$120(j, zArr, countDownLatch);
@@ -11610,7 +11616,7 @@ public class MessagesStorage extends BaseController {
     public boolean hasInviteMeMessage(final long j) {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         final boolean[] zArr = new boolean[1];
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda128
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda129
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$hasInviteMeMessage$122(j, zArr, countDownLatch);
@@ -12433,7 +12439,7 @@ public class MessagesStorage extends BaseController {
 
     public TLRPC$ChatFull loadChatInfo(final long j, final boolean z, final CountDownLatch countDownLatch, final boolean z2, final boolean z3, final int i) {
         final TLRPC$ChatFull[] tLRPC$ChatFullArr = new TLRPC$ChatFull[1];
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda213
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda214
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$loadChatInfo$123(tLRPC$ChatFullArr, j, z, z2, z3, i, countDownLatch);
@@ -12841,7 +12847,7 @@ public class MessagesStorage extends BaseController {
     public void putContacts(ArrayList<TLRPC$TL_contact> arrayList, final boolean z) {
         if (!arrayList.isEmpty() || z) {
             final ArrayList arrayList2 = new ArrayList(arrayList);
-            this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda210
+            this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda211
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesStorage.this.lambda$putContacts$125(z, arrayList2);
@@ -12939,7 +12945,7 @@ public class MessagesStorage extends BaseController {
         if (arrayList == null || arrayList.isEmpty()) {
             return;
         }
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda147
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda148
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$deleteContacts$126(arrayList);
@@ -12962,7 +12968,7 @@ public class MessagesStorage extends BaseController {
         if (TextUtils.isEmpty(str)) {
             return;
         }
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda138
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda139
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$applyPhoneBookUpdates$127(str, str2);
@@ -12987,7 +12993,7 @@ public class MessagesStorage extends BaseController {
     public void putCachedPhoneBook(final HashMap<String, ContactsController.Contact> hashMap, final boolean z, boolean z2) {
         if (hashMap != null) {
             if (!hashMap.isEmpty() || z || z2) {
-                this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda165
+                this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda166
                     @Override // java.lang.Runnable
                     public final void run() {
                         MessagesStorage.this.lambda$putCachedPhoneBook$128(hashMap, z);
@@ -13121,7 +13127,7 @@ public class MessagesStorage extends BaseController {
     }
 
     public void getCachedPhoneBook(final boolean z) {
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda203
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda204
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$getCachedPhoneBook$129(z);
@@ -13333,7 +13339,7 @@ public class MessagesStorage extends BaseController {
     }
 
     public void getContacts() {
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda22
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda21
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$getContacts$130();
@@ -13603,7 +13609,7 @@ public class MessagesStorage extends BaseController {
     public boolean checkMessageByRandomId(final long j) {
         final boolean[] zArr = new boolean[1];
         final CountDownLatch countDownLatch = new CountDownLatch(1);
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda130
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda131
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$checkMessageByRandomId$132(j, zArr, countDownLatch);
@@ -13735,7 +13741,7 @@ public class MessagesStorage extends BaseController {
     }
 
     public void getMessagesCount(final long j, final IntCallback intCallback) {
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda115
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda114
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$getMessagesCount$137(j, intCallback);
@@ -13844,7 +13850,7 @@ public class MessagesStorage extends BaseController {
     }
 
     public void getMessages(final long j, final long j2, boolean z, final int i, final int i2, final int i3, final int i4, final int i5, final int i6, final boolean z2, final int i7, final int i8, final boolean z3, final boolean z4, final MessageLoaderLogger messageLoaderLogger) {
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda167
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda168
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$getMessages$141(messageLoaderLogger, j, j2, i, i2, i3, i4, i5, i6, z2, i7, i8, z3, z4);
@@ -13878,7 +13884,7 @@ public class MessagesStorage extends BaseController {
     }
 
     public void clearSentMedia() {
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda19
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda18
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$clearSentMedia$142();
@@ -13901,7 +13907,7 @@ public class MessagesStorage extends BaseController {
         }
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         final Object[] objArr = new Object[2];
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda137
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda138
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$getSentFile$143(str, i, objArr, countDownLatch);
@@ -14283,7 +14289,7 @@ public class MessagesStorage extends BaseController {
         if (str == null || tLObject == null || str2 == null) {
             return;
         }
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda139
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda140
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$putSentFile$148(str, tLObject, i, str2);
@@ -14346,7 +14352,7 @@ public class MessagesStorage extends BaseController {
         if (tLRPC$EncryptedChat == null) {
             return;
         }
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda188
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda189
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$updateEncryptedChatSeq$149(tLRPC$EncryptedChat, z);
@@ -14390,7 +14396,7 @@ public class MessagesStorage extends BaseController {
         if (tLRPC$EncryptedChat == null) {
             return;
         }
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda186
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda187
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$updateEncryptedChatTTL$150(tLRPC$EncryptedChat);
@@ -14426,7 +14432,7 @@ public class MessagesStorage extends BaseController {
         if (tLRPC$EncryptedChat == null) {
             return;
         }
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda184
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda185
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$updateEncryptedChatLayer$151(tLRPC$EncryptedChat);
@@ -14462,7 +14468,7 @@ public class MessagesStorage extends BaseController {
         if (tLRPC$EncryptedChat == null) {
             return;
         }
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda185
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda186
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$updateEncryptedChat$152(tLRPC$EncryptedChat);
@@ -14671,7 +14677,7 @@ public class MessagesStorage extends BaseController {
         if (tLRPC$EncryptedChat == null) {
             return;
         }
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda187
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda188
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$putEncryptedChat$156(tLRPC$EncryptedChat, tLRPC$User, tLRPC$Dialog);
@@ -14836,7 +14842,7 @@ public class MessagesStorage extends BaseController {
     public boolean containsLocalDialog(final long j) {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         final Boolean[] boolArr = {Boolean.FALSE};
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda126
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda127
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$containsLocalDialog$157(j, boolArr, countDownLatch);
@@ -15244,7 +15250,7 @@ public class MessagesStorage extends BaseController {
     public void putUsersAndChats(final List<TLRPC$User> list, final List<TLRPC$Chat> list2, final boolean z, boolean z2) {
         if (list == null || !list.isEmpty() || list2 == null || !list2.isEmpty()) {
             if (z2) {
-                this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda166
+                this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda167
                     @Override // java.lang.Runnable
                     public final void run() {
                         MessagesStorage.this.lambda$putUsersAndChats$159(list, list2, z);
@@ -15257,7 +15263,7 @@ public class MessagesStorage extends BaseController {
     }
 
     public void removeFromDownloadQueue(final long j, final int i, final boolean z) {
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda205
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda206
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$removeFromDownloadQueue$160(z, i, j);
@@ -15360,7 +15366,7 @@ public class MessagesStorage extends BaseController {
             if (z) {
                 this.database.commitTransaction();
             }
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda143
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda144
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesStorage.this.lambda$deleteFromDownloadQueue$161(arrayList);
@@ -15520,7 +15526,7 @@ public class MessagesStorage extends BaseController {
         if (isEmpty(longSparseArray)) {
             return;
         }
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda131
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda132
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$putWebPages$166(longSparseArray);
@@ -15747,7 +15753,7 @@ public class MessagesStorage extends BaseController {
         try {
             sQLitePreparedStatement.dispose();
             this.database.commitTransaction();
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda140
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda141
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesStorage.this.lambda$putWebPages$165(arrayList);
@@ -15999,7 +16005,7 @@ public class MessagesStorage extends BaseController {
         if (isEmpty(longSparseArray) && isEmpty(longSparseArray2) && isEmpty(longSparseArray3)) {
             return;
         }
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda134
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda135
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$putChannelViews$169(longSparseArray, longSparseArray2, longSparseArray3, z);
@@ -16646,7 +16652,7 @@ public class MessagesStorage extends BaseController {
     }
 
     public void updateMessageVerifyFlags(final ArrayList<TLRPC$Message> arrayList) {
-        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda149
+        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda150
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$updateMessageVerifyFlags$173(arrayList);
@@ -16725,80 +16731,77 @@ public class MessagesStorage extends BaseController {
     /* JADX WARN: Code restructure failed: missing block: B:654:0x0ee4, code lost:
         if (r5.post != false) goto L726;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:840:0x12e5, code lost:
-        if (r5 != 0) goto L979;
-     */
-    /* JADX WARN: Removed duplicated region for block: B:1019:0x169a A[Catch: all -> 0x16b5, Exception -> 0x16b8, TRY_LEAVE, TryCatch #106 {Exception -> 0x16b8, all -> 0x16b5, blocks: (B:1017:0x1678, B:1019:0x169a), top: B:1378:0x1678 }] */
-    /* JADX WARN: Removed duplicated region for block: B:1101:0x192a  */
-    /* JADX WARN: Removed duplicated region for block: B:1103:0x192f  */
-    /* JADX WARN: Removed duplicated region for block: B:1105:0x1934  */
-    /* JADX WARN: Removed duplicated region for block: B:1245:0x1bbc  */
-    /* JADX WARN: Removed duplicated region for block: B:1249:0x1bc5  */
-    /* JADX WARN: Removed duplicated region for block: B:1251:0x1bca  */
-    /* JADX WARN: Removed duplicated region for block: B:1253:0x1bcf  */
-    /* JADX WARN: Removed duplicated region for block: B:1255:0x1bd4  */
-    /* JADX WARN: Removed duplicated region for block: B:1257:0x1bd9  */
-    /* JADX WARN: Removed duplicated region for block: B:1259:0x1bde  */
-    /* JADX WARN: Removed duplicated region for block: B:1261:0x1be3  */
-    /* JADX WARN: Removed duplicated region for block: B:1263:0x1be8  */
-    /* JADX WARN: Removed duplicated region for block: B:1265:0x1bed  */
-    /* JADX WARN: Removed duplicated region for block: B:1267:0x1bf2  */
-    /* JADX WARN: Removed duplicated region for block: B:1269:0x1bf7  */
-    /* JADX WARN: Removed duplicated region for block: B:1274:0x1bff  */
-    /* JADX WARN: Removed duplicated region for block: B:1278:0x1c08  */
-    /* JADX WARN: Removed duplicated region for block: B:1280:0x1c0d  */
-    /* JADX WARN: Removed duplicated region for block: B:1282:0x1c12  */
-    /* JADX WARN: Removed duplicated region for block: B:1284:0x1c17  */
-    /* JADX WARN: Removed duplicated region for block: B:1286:0x1c1c  */
-    /* JADX WARN: Removed duplicated region for block: B:1288:0x1c21  */
-    /* JADX WARN: Removed duplicated region for block: B:1290:0x1c26  */
-    /* JADX WARN: Removed duplicated region for block: B:1292:0x1c2b  */
-    /* JADX WARN: Removed duplicated region for block: B:1294:0x1c30  */
-    /* JADX WARN: Removed duplicated region for block: B:1296:0x1c35  */
-    /* JADX WARN: Removed duplicated region for block: B:1298:0x1c3a  */
-    /* JADX WARN: Removed duplicated region for block: B:1417:0x0d66 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:147:0x03bf A[Catch: all -> 0x0588, Exception -> 0x0597, TryCatch #82 {Exception -> 0x0597, all -> 0x0588, blocks: (B:95:0x026e, B:97:0x028b, B:99:0x028f, B:101:0x029c, B:103:0x02ad, B:105:0x02b6, B:107:0x02e0, B:108:0x02e8, B:110:0x02f6, B:112:0x02fc, B:114:0x0302, B:117:0x0308, B:119:0x030c, B:121:0x0312, B:124:0x031c, B:126:0x0325, B:128:0x0347, B:130:0x034d, B:131:0x0355, B:147:0x03bf, B:153:0x03d6, B:155:0x0402, B:157:0x0408, B:159:0x0418, B:161:0x041c, B:163:0x0420, B:165:0x0424, B:167:0x042e, B:168:0x0433, B:170:0x0443, B:172:0x0447, B:174:0x0451, B:175:0x0456, B:179:0x0477, B:182:0x047f, B:184:0x049b, B:186:0x04a5, B:188:0x04b6, B:190:0x04bc, B:191:0x04bf, B:193:0x04cc, B:195:0x04d9, B:197:0x04ea, B:198:0x04f4, B:200:0x04fd, B:202:0x050d, B:203:0x0515, B:205:0x051b, B:206:0x051e, B:208:0x052b, B:209:0x0533, B:213:0x054f, B:215:0x0555, B:217:0x0566, B:219:0x056c, B:150:0x03cf, B:136:0x037f, B:138:0x0389, B:139:0x0393, B:141:0x039b, B:142:0x039e, B:144:0x03ac, B:145:0x03b6, B:232:0x05b8, B:233:0x05c0, B:235:0x05c6, B:237:0x05dc, B:239:0x05e5, B:240:0x0640, B:242:0x0646, B:244:0x0655, B:247:0x0661, B:249:0x0669, B:251:0x0671, B:253:0x067c, B:255:0x0681, B:257:0x0686, B:258:0x068b, B:260:0x0692, B:262:0x06aa, B:266:0x06c5, B:268:0x06cc, B:270:0x06d3, B:272:0x06db, B:277:0x06f3, B:273:0x06e7, B:263:0x06b8, B:285:0x074b, B:286:0x078d, B:288:0x0793, B:290:0x07ad, B:293:0x07ba, B:294:0x07bf, B:296:0x07ca, B:299:0x07d7, B:301:0x07de, B:303:0x07ef, B:305:0x080b, B:311:0x0825, B:313:0x0830, B:315:0x0837, B:317:0x083f, B:325:0x085e, B:318:0x0849, B:322:0x0856, B:306:0x0814, B:310:0x0820, B:331:0x087f, B:333:0x0886, B:334:0x08cc, B:336:0x08d2, B:338:0x08dc, B:340:0x08e1, B:342:0x08e6, B:345:0x08f3, B:347:0x08fd, B:350:0x0907, B:357:0x092a, B:358:0x0932, B:360:0x0938, B:361:0x097d, B:363:0x0983, B:364:0x0990, B:368:0x09df, B:370:0x09e5, B:371:0x09f5, B:373:0x09fb, B:375:0x0a05, B:376:0x0a0a, B:377:0x0a10), top: B:1425:0x026e }] */
-    /* JADX WARN: Removed duplicated region for block: B:1490:0x0d16 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1017:0x1694 A[Catch: all -> 0x16af, Exception -> 0x16b2, TRY_LEAVE, TryCatch #101 {Exception -> 0x16b2, all -> 0x16af, blocks: (B:1015:0x1672, B:1017:0x1694), top: B:1386:0x1672 }] */
+    /* JADX WARN: Removed duplicated region for block: B:1099:0x1924  */
+    /* JADX WARN: Removed duplicated region for block: B:1101:0x1929  */
+    /* JADX WARN: Removed duplicated region for block: B:1103:0x192e  */
+    /* JADX WARN: Removed duplicated region for block: B:1243:0x1bb6  */
+    /* JADX WARN: Removed duplicated region for block: B:1247:0x1bbf  */
+    /* JADX WARN: Removed duplicated region for block: B:1249:0x1bc4  */
+    /* JADX WARN: Removed duplicated region for block: B:1251:0x1bc9  */
+    /* JADX WARN: Removed duplicated region for block: B:1253:0x1bce  */
+    /* JADX WARN: Removed duplicated region for block: B:1255:0x1bd3  */
+    /* JADX WARN: Removed duplicated region for block: B:1257:0x1bd8  */
+    /* JADX WARN: Removed duplicated region for block: B:1259:0x1bdd  */
+    /* JADX WARN: Removed duplicated region for block: B:1261:0x1be2  */
+    /* JADX WARN: Removed duplicated region for block: B:1263:0x1be7  */
+    /* JADX WARN: Removed duplicated region for block: B:1265:0x1bec  */
+    /* JADX WARN: Removed duplicated region for block: B:1267:0x1bf1  */
+    /* JADX WARN: Removed duplicated region for block: B:1272:0x1bf9  */
+    /* JADX WARN: Removed duplicated region for block: B:1276:0x1c02  */
+    /* JADX WARN: Removed duplicated region for block: B:1278:0x1c07  */
+    /* JADX WARN: Removed duplicated region for block: B:1280:0x1c0c  */
+    /* JADX WARN: Removed duplicated region for block: B:1282:0x1c11  */
+    /* JADX WARN: Removed duplicated region for block: B:1284:0x1c16  */
+    /* JADX WARN: Removed duplicated region for block: B:1286:0x1c1b  */
+    /* JADX WARN: Removed duplicated region for block: B:1288:0x1c20  */
+    /* JADX WARN: Removed duplicated region for block: B:1290:0x1c25  */
+    /* JADX WARN: Removed duplicated region for block: B:1292:0x1c2a  */
+    /* JADX WARN: Removed duplicated region for block: B:1294:0x1c2f  */
+    /* JADX WARN: Removed duplicated region for block: B:1296:0x1c34  */
+    /* JADX WARN: Removed duplicated region for block: B:1409:0x0d66 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:147:0x03bf A[Catch: all -> 0x0588, Exception -> 0x0597, TryCatch #84 {Exception -> 0x0597, all -> 0x0588, blocks: (B:95:0x026e, B:97:0x028b, B:99:0x028f, B:101:0x029c, B:103:0x02ad, B:105:0x02b6, B:107:0x02e0, B:108:0x02e8, B:110:0x02f6, B:112:0x02fc, B:114:0x0302, B:117:0x0308, B:119:0x030c, B:121:0x0312, B:124:0x031c, B:126:0x0325, B:128:0x0347, B:130:0x034d, B:131:0x0355, B:147:0x03bf, B:153:0x03d6, B:155:0x0402, B:157:0x0408, B:159:0x0418, B:161:0x041c, B:163:0x0420, B:165:0x0424, B:167:0x042e, B:168:0x0433, B:170:0x0443, B:172:0x0447, B:174:0x0451, B:175:0x0456, B:179:0x0477, B:182:0x047f, B:184:0x049b, B:186:0x04a5, B:188:0x04b6, B:190:0x04bc, B:191:0x04bf, B:193:0x04cc, B:195:0x04d9, B:197:0x04ea, B:198:0x04f4, B:200:0x04fd, B:202:0x050d, B:203:0x0515, B:205:0x051b, B:206:0x051e, B:208:0x052b, B:209:0x0533, B:213:0x054f, B:215:0x0555, B:217:0x0566, B:219:0x056c, B:150:0x03cf, B:136:0x037f, B:138:0x0389, B:139:0x0393, B:141:0x039b, B:142:0x039e, B:144:0x03ac, B:145:0x03b6, B:232:0x05b8, B:233:0x05c0, B:235:0x05c6, B:237:0x05dc, B:239:0x05e5, B:240:0x0640, B:242:0x0646, B:244:0x0655, B:247:0x0661, B:249:0x0669, B:251:0x0671, B:253:0x067c, B:255:0x0681, B:257:0x0686, B:258:0x068b, B:260:0x0692, B:262:0x06aa, B:266:0x06c5, B:268:0x06cc, B:270:0x06d3, B:272:0x06db, B:277:0x06f3, B:273:0x06e7, B:263:0x06b8, B:285:0x074b, B:286:0x078d, B:288:0x0793, B:290:0x07ad, B:293:0x07ba, B:294:0x07bf, B:296:0x07ca, B:299:0x07d7, B:301:0x07de, B:303:0x07ef, B:305:0x080b, B:311:0x0825, B:313:0x0830, B:315:0x0837, B:317:0x083f, B:325:0x085e, B:318:0x0849, B:322:0x0856, B:306:0x0814, B:310:0x0820, B:331:0x087f, B:333:0x0886, B:334:0x08cc, B:336:0x08d2, B:338:0x08dc, B:340:0x08e1, B:342:0x08e6, B:345:0x08f3, B:347:0x08fd, B:350:0x0907, B:357:0x092a, B:358:0x0932, B:360:0x0938, B:361:0x097d, B:363:0x0983, B:364:0x0990, B:368:0x09df, B:370:0x09e5, B:371:0x09f5, B:373:0x09fb, B:375:0x0a05, B:376:0x0a0a, B:377:0x0a10), top: B:1419:0x026e }] */
+    /* JADX WARN: Removed duplicated region for block: B:1488:0x0d16 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1508:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:1510:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1512:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:176:0x0464  */
-    /* JADX WARN: Removed duplicated region for block: B:317:0x083f A[Catch: all -> 0x0588, Exception -> 0x0597, TryCatch #82 {Exception -> 0x0597, all -> 0x0588, blocks: (B:95:0x026e, B:97:0x028b, B:99:0x028f, B:101:0x029c, B:103:0x02ad, B:105:0x02b6, B:107:0x02e0, B:108:0x02e8, B:110:0x02f6, B:112:0x02fc, B:114:0x0302, B:117:0x0308, B:119:0x030c, B:121:0x0312, B:124:0x031c, B:126:0x0325, B:128:0x0347, B:130:0x034d, B:131:0x0355, B:147:0x03bf, B:153:0x03d6, B:155:0x0402, B:157:0x0408, B:159:0x0418, B:161:0x041c, B:163:0x0420, B:165:0x0424, B:167:0x042e, B:168:0x0433, B:170:0x0443, B:172:0x0447, B:174:0x0451, B:175:0x0456, B:179:0x0477, B:182:0x047f, B:184:0x049b, B:186:0x04a5, B:188:0x04b6, B:190:0x04bc, B:191:0x04bf, B:193:0x04cc, B:195:0x04d9, B:197:0x04ea, B:198:0x04f4, B:200:0x04fd, B:202:0x050d, B:203:0x0515, B:205:0x051b, B:206:0x051e, B:208:0x052b, B:209:0x0533, B:213:0x054f, B:215:0x0555, B:217:0x0566, B:219:0x056c, B:150:0x03cf, B:136:0x037f, B:138:0x0389, B:139:0x0393, B:141:0x039b, B:142:0x039e, B:144:0x03ac, B:145:0x03b6, B:232:0x05b8, B:233:0x05c0, B:235:0x05c6, B:237:0x05dc, B:239:0x05e5, B:240:0x0640, B:242:0x0646, B:244:0x0655, B:247:0x0661, B:249:0x0669, B:251:0x0671, B:253:0x067c, B:255:0x0681, B:257:0x0686, B:258:0x068b, B:260:0x0692, B:262:0x06aa, B:266:0x06c5, B:268:0x06cc, B:270:0x06d3, B:272:0x06db, B:277:0x06f3, B:273:0x06e7, B:263:0x06b8, B:285:0x074b, B:286:0x078d, B:288:0x0793, B:290:0x07ad, B:293:0x07ba, B:294:0x07bf, B:296:0x07ca, B:299:0x07d7, B:301:0x07de, B:303:0x07ef, B:305:0x080b, B:311:0x0825, B:313:0x0830, B:315:0x0837, B:317:0x083f, B:325:0x085e, B:318:0x0849, B:322:0x0856, B:306:0x0814, B:310:0x0820, B:331:0x087f, B:333:0x0886, B:334:0x08cc, B:336:0x08d2, B:338:0x08dc, B:340:0x08e1, B:342:0x08e6, B:345:0x08f3, B:347:0x08fd, B:350:0x0907, B:357:0x092a, B:358:0x0932, B:360:0x0938, B:361:0x097d, B:363:0x0983, B:364:0x0990, B:368:0x09df, B:370:0x09e5, B:371:0x09f5, B:373:0x09fb, B:375:0x0a05, B:376:0x0a0a, B:377:0x0a10), top: B:1425:0x026e }] */
-    /* JADX WARN: Removed duplicated region for block: B:318:0x0849 A[Catch: all -> 0x0588, Exception -> 0x0597, TryCatch #82 {Exception -> 0x0597, all -> 0x0588, blocks: (B:95:0x026e, B:97:0x028b, B:99:0x028f, B:101:0x029c, B:103:0x02ad, B:105:0x02b6, B:107:0x02e0, B:108:0x02e8, B:110:0x02f6, B:112:0x02fc, B:114:0x0302, B:117:0x0308, B:119:0x030c, B:121:0x0312, B:124:0x031c, B:126:0x0325, B:128:0x0347, B:130:0x034d, B:131:0x0355, B:147:0x03bf, B:153:0x03d6, B:155:0x0402, B:157:0x0408, B:159:0x0418, B:161:0x041c, B:163:0x0420, B:165:0x0424, B:167:0x042e, B:168:0x0433, B:170:0x0443, B:172:0x0447, B:174:0x0451, B:175:0x0456, B:179:0x0477, B:182:0x047f, B:184:0x049b, B:186:0x04a5, B:188:0x04b6, B:190:0x04bc, B:191:0x04bf, B:193:0x04cc, B:195:0x04d9, B:197:0x04ea, B:198:0x04f4, B:200:0x04fd, B:202:0x050d, B:203:0x0515, B:205:0x051b, B:206:0x051e, B:208:0x052b, B:209:0x0533, B:213:0x054f, B:215:0x0555, B:217:0x0566, B:219:0x056c, B:150:0x03cf, B:136:0x037f, B:138:0x0389, B:139:0x0393, B:141:0x039b, B:142:0x039e, B:144:0x03ac, B:145:0x03b6, B:232:0x05b8, B:233:0x05c0, B:235:0x05c6, B:237:0x05dc, B:239:0x05e5, B:240:0x0640, B:242:0x0646, B:244:0x0655, B:247:0x0661, B:249:0x0669, B:251:0x0671, B:253:0x067c, B:255:0x0681, B:257:0x0686, B:258:0x068b, B:260:0x0692, B:262:0x06aa, B:266:0x06c5, B:268:0x06cc, B:270:0x06d3, B:272:0x06db, B:277:0x06f3, B:273:0x06e7, B:263:0x06b8, B:285:0x074b, B:286:0x078d, B:288:0x0793, B:290:0x07ad, B:293:0x07ba, B:294:0x07bf, B:296:0x07ca, B:299:0x07d7, B:301:0x07de, B:303:0x07ef, B:305:0x080b, B:311:0x0825, B:313:0x0830, B:315:0x0837, B:317:0x083f, B:325:0x085e, B:318:0x0849, B:322:0x0856, B:306:0x0814, B:310:0x0820, B:331:0x087f, B:333:0x0886, B:334:0x08cc, B:336:0x08d2, B:338:0x08dc, B:340:0x08e1, B:342:0x08e6, B:345:0x08f3, B:347:0x08fd, B:350:0x0907, B:357:0x092a, B:358:0x0932, B:360:0x0938, B:361:0x097d, B:363:0x0983, B:364:0x0990, B:368:0x09df, B:370:0x09e5, B:371:0x09f5, B:373:0x09fb, B:375:0x0a05, B:376:0x0a0a, B:377:0x0a10), top: B:1425:0x026e }] */
+    /* JADX WARN: Removed duplicated region for block: B:317:0x083f A[Catch: all -> 0x0588, Exception -> 0x0597, TryCatch #84 {Exception -> 0x0597, all -> 0x0588, blocks: (B:95:0x026e, B:97:0x028b, B:99:0x028f, B:101:0x029c, B:103:0x02ad, B:105:0x02b6, B:107:0x02e0, B:108:0x02e8, B:110:0x02f6, B:112:0x02fc, B:114:0x0302, B:117:0x0308, B:119:0x030c, B:121:0x0312, B:124:0x031c, B:126:0x0325, B:128:0x0347, B:130:0x034d, B:131:0x0355, B:147:0x03bf, B:153:0x03d6, B:155:0x0402, B:157:0x0408, B:159:0x0418, B:161:0x041c, B:163:0x0420, B:165:0x0424, B:167:0x042e, B:168:0x0433, B:170:0x0443, B:172:0x0447, B:174:0x0451, B:175:0x0456, B:179:0x0477, B:182:0x047f, B:184:0x049b, B:186:0x04a5, B:188:0x04b6, B:190:0x04bc, B:191:0x04bf, B:193:0x04cc, B:195:0x04d9, B:197:0x04ea, B:198:0x04f4, B:200:0x04fd, B:202:0x050d, B:203:0x0515, B:205:0x051b, B:206:0x051e, B:208:0x052b, B:209:0x0533, B:213:0x054f, B:215:0x0555, B:217:0x0566, B:219:0x056c, B:150:0x03cf, B:136:0x037f, B:138:0x0389, B:139:0x0393, B:141:0x039b, B:142:0x039e, B:144:0x03ac, B:145:0x03b6, B:232:0x05b8, B:233:0x05c0, B:235:0x05c6, B:237:0x05dc, B:239:0x05e5, B:240:0x0640, B:242:0x0646, B:244:0x0655, B:247:0x0661, B:249:0x0669, B:251:0x0671, B:253:0x067c, B:255:0x0681, B:257:0x0686, B:258:0x068b, B:260:0x0692, B:262:0x06aa, B:266:0x06c5, B:268:0x06cc, B:270:0x06d3, B:272:0x06db, B:277:0x06f3, B:273:0x06e7, B:263:0x06b8, B:285:0x074b, B:286:0x078d, B:288:0x0793, B:290:0x07ad, B:293:0x07ba, B:294:0x07bf, B:296:0x07ca, B:299:0x07d7, B:301:0x07de, B:303:0x07ef, B:305:0x080b, B:311:0x0825, B:313:0x0830, B:315:0x0837, B:317:0x083f, B:325:0x085e, B:318:0x0849, B:322:0x0856, B:306:0x0814, B:310:0x0820, B:331:0x087f, B:333:0x0886, B:334:0x08cc, B:336:0x08d2, B:338:0x08dc, B:340:0x08e1, B:342:0x08e6, B:345:0x08f3, B:347:0x08fd, B:350:0x0907, B:357:0x092a, B:358:0x0932, B:360:0x0938, B:361:0x097d, B:363:0x0983, B:364:0x0990, B:368:0x09df, B:370:0x09e5, B:371:0x09f5, B:373:0x09fb, B:375:0x0a05, B:376:0x0a0a, B:377:0x0a10), top: B:1419:0x026e }] */
+    /* JADX WARN: Removed duplicated region for block: B:318:0x0849 A[Catch: all -> 0x0588, Exception -> 0x0597, TryCatch #84 {Exception -> 0x0597, all -> 0x0588, blocks: (B:95:0x026e, B:97:0x028b, B:99:0x028f, B:101:0x029c, B:103:0x02ad, B:105:0x02b6, B:107:0x02e0, B:108:0x02e8, B:110:0x02f6, B:112:0x02fc, B:114:0x0302, B:117:0x0308, B:119:0x030c, B:121:0x0312, B:124:0x031c, B:126:0x0325, B:128:0x0347, B:130:0x034d, B:131:0x0355, B:147:0x03bf, B:153:0x03d6, B:155:0x0402, B:157:0x0408, B:159:0x0418, B:161:0x041c, B:163:0x0420, B:165:0x0424, B:167:0x042e, B:168:0x0433, B:170:0x0443, B:172:0x0447, B:174:0x0451, B:175:0x0456, B:179:0x0477, B:182:0x047f, B:184:0x049b, B:186:0x04a5, B:188:0x04b6, B:190:0x04bc, B:191:0x04bf, B:193:0x04cc, B:195:0x04d9, B:197:0x04ea, B:198:0x04f4, B:200:0x04fd, B:202:0x050d, B:203:0x0515, B:205:0x051b, B:206:0x051e, B:208:0x052b, B:209:0x0533, B:213:0x054f, B:215:0x0555, B:217:0x0566, B:219:0x056c, B:150:0x03cf, B:136:0x037f, B:138:0x0389, B:139:0x0393, B:141:0x039b, B:142:0x039e, B:144:0x03ac, B:145:0x03b6, B:232:0x05b8, B:233:0x05c0, B:235:0x05c6, B:237:0x05dc, B:239:0x05e5, B:240:0x0640, B:242:0x0646, B:244:0x0655, B:247:0x0661, B:249:0x0669, B:251:0x0671, B:253:0x067c, B:255:0x0681, B:257:0x0686, B:258:0x068b, B:260:0x0692, B:262:0x06aa, B:266:0x06c5, B:268:0x06cc, B:270:0x06d3, B:272:0x06db, B:277:0x06f3, B:273:0x06e7, B:263:0x06b8, B:285:0x074b, B:286:0x078d, B:288:0x0793, B:290:0x07ad, B:293:0x07ba, B:294:0x07bf, B:296:0x07ca, B:299:0x07d7, B:301:0x07de, B:303:0x07ef, B:305:0x080b, B:311:0x0825, B:313:0x0830, B:315:0x0837, B:317:0x083f, B:325:0x085e, B:318:0x0849, B:322:0x0856, B:306:0x0814, B:310:0x0820, B:331:0x087f, B:333:0x0886, B:334:0x08cc, B:336:0x08d2, B:338:0x08dc, B:340:0x08e1, B:342:0x08e6, B:345:0x08f3, B:347:0x08fd, B:350:0x0907, B:357:0x092a, B:358:0x0932, B:360:0x0938, B:361:0x097d, B:363:0x0983, B:364:0x0990, B:368:0x09df, B:370:0x09e5, B:371:0x09f5, B:373:0x09fb, B:375:0x0a05, B:376:0x0a0a, B:377:0x0a10), top: B:1419:0x026e }] */
     /* JADX WARN: Removed duplicated region for block: B:324:0x085d  */
-    /* JADX WARN: Removed duplicated region for block: B:411:0x0b00 A[Catch: all -> 0x0add, Exception -> 0x0ae7, TryCatch #131 {Exception -> 0x0ae7, all -> 0x0add, blocks: (B:393:0x0acf, B:395:0x0ad7, B:408:0x0af8, B:411:0x0b00, B:412:0x0b06, B:416:0x0b11, B:417:0x0b16, B:419:0x0b1b, B:421:0x0b28, B:423:0x0b30, B:425:0x0b34, B:428:0x0b3a, B:434:0x0b48, B:436:0x0b58, B:438:0x0b62, B:440:0x0b66, B:443:0x0b6c, B:470:0x0bd8, B:477:0x0c06, B:487:0x0c22, B:493:0x0c35, B:510:0x0c7d, B:517:0x0ca1, B:521:0x0ca8, B:520:0x0ca6, B:447:0x0b75, B:432:0x0b41), top: B:1328:0x0acf }] */
+    /* JADX WARN: Removed duplicated region for block: B:411:0x0b00 A[Catch: all -> 0x0add, Exception -> 0x0ae7, TryCatch #129 {Exception -> 0x0ae7, all -> 0x0add, blocks: (B:393:0x0acf, B:395:0x0ad7, B:408:0x0af8, B:411:0x0b00, B:412:0x0b06, B:416:0x0b11, B:417:0x0b16, B:419:0x0b1b, B:421:0x0b28, B:423:0x0b30, B:425:0x0b34, B:428:0x0b3a, B:434:0x0b48, B:436:0x0b58, B:438:0x0b62, B:440:0x0b66, B:443:0x0b6c, B:470:0x0bd8, B:477:0x0c06, B:487:0x0c22, B:493:0x0c35, B:510:0x0c7d, B:517:0x0ca1, B:521:0x0ca8, B:520:0x0ca6, B:447:0x0b75, B:432:0x0b41), top: B:1330:0x0acf }] */
     /* JADX WARN: Removed duplicated region for block: B:415:0x0b0f  */
-    /* JADX WARN: Removed duplicated region for block: B:419:0x0b1b A[Catch: all -> 0x0add, Exception -> 0x0ae7, TryCatch #131 {Exception -> 0x0ae7, all -> 0x0add, blocks: (B:393:0x0acf, B:395:0x0ad7, B:408:0x0af8, B:411:0x0b00, B:412:0x0b06, B:416:0x0b11, B:417:0x0b16, B:419:0x0b1b, B:421:0x0b28, B:423:0x0b30, B:425:0x0b34, B:428:0x0b3a, B:434:0x0b48, B:436:0x0b58, B:438:0x0b62, B:440:0x0b66, B:443:0x0b6c, B:470:0x0bd8, B:477:0x0c06, B:487:0x0c22, B:493:0x0c35, B:510:0x0c7d, B:517:0x0ca1, B:521:0x0ca8, B:520:0x0ca6, B:447:0x0b75, B:432:0x0b41), top: B:1328:0x0acf }] */
-    /* JADX WARN: Removed duplicated region for block: B:434:0x0b48 A[Catch: all -> 0x0add, Exception -> 0x0ae7, TryCatch #131 {Exception -> 0x0ae7, all -> 0x0add, blocks: (B:393:0x0acf, B:395:0x0ad7, B:408:0x0af8, B:411:0x0b00, B:412:0x0b06, B:416:0x0b11, B:417:0x0b16, B:419:0x0b1b, B:421:0x0b28, B:423:0x0b30, B:425:0x0b34, B:428:0x0b3a, B:434:0x0b48, B:436:0x0b58, B:438:0x0b62, B:440:0x0b66, B:443:0x0b6c, B:470:0x0bd8, B:477:0x0c06, B:487:0x0c22, B:493:0x0c35, B:510:0x0c7d, B:517:0x0ca1, B:521:0x0ca8, B:520:0x0ca6, B:447:0x0b75, B:432:0x0b41), top: B:1328:0x0acf }] */
+    /* JADX WARN: Removed duplicated region for block: B:419:0x0b1b A[Catch: all -> 0x0add, Exception -> 0x0ae7, TryCatch #129 {Exception -> 0x0ae7, all -> 0x0add, blocks: (B:393:0x0acf, B:395:0x0ad7, B:408:0x0af8, B:411:0x0b00, B:412:0x0b06, B:416:0x0b11, B:417:0x0b16, B:419:0x0b1b, B:421:0x0b28, B:423:0x0b30, B:425:0x0b34, B:428:0x0b3a, B:434:0x0b48, B:436:0x0b58, B:438:0x0b62, B:440:0x0b66, B:443:0x0b6c, B:470:0x0bd8, B:477:0x0c06, B:487:0x0c22, B:493:0x0c35, B:510:0x0c7d, B:517:0x0ca1, B:521:0x0ca8, B:520:0x0ca6, B:447:0x0b75, B:432:0x0b41), top: B:1330:0x0acf }] */
+    /* JADX WARN: Removed duplicated region for block: B:434:0x0b48 A[Catch: all -> 0x0add, Exception -> 0x0ae7, TryCatch #129 {Exception -> 0x0ae7, all -> 0x0add, blocks: (B:393:0x0acf, B:395:0x0ad7, B:408:0x0af8, B:411:0x0b00, B:412:0x0b06, B:416:0x0b11, B:417:0x0b16, B:419:0x0b1b, B:421:0x0b28, B:423:0x0b30, B:425:0x0b34, B:428:0x0b3a, B:434:0x0b48, B:436:0x0b58, B:438:0x0b62, B:440:0x0b66, B:443:0x0b6c, B:470:0x0bd8, B:477:0x0c06, B:487:0x0c22, B:493:0x0c35, B:510:0x0c7d, B:517:0x0ca1, B:521:0x0ca8, B:520:0x0ca6, B:447:0x0b75, B:432:0x0b41), top: B:1330:0x0acf }] */
     /* JADX WARN: Removed duplicated region for block: B:449:0x0b79  */
     /* JADX WARN: Removed duplicated region for block: B:450:0x0b80  */
     /* JADX WARN: Removed duplicated region for block: B:454:0x0b8c  */
     /* JADX WARN: Removed duplicated region for block: B:486:0x0c20  */
     /* JADX WARN: Removed duplicated region for block: B:489:0x0c28  */
-    /* JADX WARN: Removed duplicated region for block: B:493:0x0c35 A[Catch: all -> 0x0add, Exception -> 0x0ae7, TRY_ENTER, TRY_LEAVE, TryCatch #131 {Exception -> 0x0ae7, all -> 0x0add, blocks: (B:393:0x0acf, B:395:0x0ad7, B:408:0x0af8, B:411:0x0b00, B:412:0x0b06, B:416:0x0b11, B:417:0x0b16, B:419:0x0b1b, B:421:0x0b28, B:423:0x0b30, B:425:0x0b34, B:428:0x0b3a, B:434:0x0b48, B:436:0x0b58, B:438:0x0b62, B:440:0x0b66, B:443:0x0b6c, B:470:0x0bd8, B:477:0x0c06, B:487:0x0c22, B:493:0x0c35, B:510:0x0c7d, B:517:0x0ca1, B:521:0x0ca8, B:520:0x0ca6, B:447:0x0b75, B:432:0x0b41), top: B:1328:0x0acf }] */
+    /* JADX WARN: Removed duplicated region for block: B:493:0x0c35 A[Catch: all -> 0x0add, Exception -> 0x0ae7, TRY_ENTER, TRY_LEAVE, TryCatch #129 {Exception -> 0x0ae7, all -> 0x0add, blocks: (B:393:0x0acf, B:395:0x0ad7, B:408:0x0af8, B:411:0x0b00, B:412:0x0b06, B:416:0x0b11, B:417:0x0b16, B:419:0x0b1b, B:421:0x0b28, B:423:0x0b30, B:425:0x0b34, B:428:0x0b3a, B:434:0x0b48, B:436:0x0b58, B:438:0x0b62, B:440:0x0b66, B:443:0x0b6c, B:470:0x0bd8, B:477:0x0c06, B:487:0x0c22, B:493:0x0c35, B:510:0x0c7d, B:517:0x0ca1, B:521:0x0ca8, B:520:0x0ca6, B:447:0x0b75, B:432:0x0b41), top: B:1330:0x0acf }] */
     /* JADX WARN: Removed duplicated region for block: B:495:0x0c4b  */
     /* JADX WARN: Removed duplicated region for block: B:499:0x0c55  */
     /* JADX WARN: Removed duplicated region for block: B:500:0x0c59  */
     /* JADX WARN: Removed duplicated region for block: B:506:0x0c6c  */
     /* JADX WARN: Removed duplicated region for block: B:507:0x0c6e  */
-    /* JADX WARN: Removed duplicated region for block: B:510:0x0c7d A[Catch: all -> 0x0add, Exception -> 0x0ae7, TRY_ENTER, TRY_LEAVE, TryCatch #131 {Exception -> 0x0ae7, all -> 0x0add, blocks: (B:393:0x0acf, B:395:0x0ad7, B:408:0x0af8, B:411:0x0b00, B:412:0x0b06, B:416:0x0b11, B:417:0x0b16, B:419:0x0b1b, B:421:0x0b28, B:423:0x0b30, B:425:0x0b34, B:428:0x0b3a, B:434:0x0b48, B:436:0x0b58, B:438:0x0b62, B:440:0x0b66, B:443:0x0b6c, B:470:0x0bd8, B:477:0x0c06, B:487:0x0c22, B:493:0x0c35, B:510:0x0c7d, B:517:0x0ca1, B:521:0x0ca8, B:520:0x0ca6, B:447:0x0b75, B:432:0x0b41), top: B:1328:0x0acf }] */
+    /* JADX WARN: Removed duplicated region for block: B:510:0x0c7d A[Catch: all -> 0x0add, Exception -> 0x0ae7, TRY_ENTER, TRY_LEAVE, TryCatch #129 {Exception -> 0x0ae7, all -> 0x0add, blocks: (B:393:0x0acf, B:395:0x0ad7, B:408:0x0af8, B:411:0x0b00, B:412:0x0b06, B:416:0x0b11, B:417:0x0b16, B:419:0x0b1b, B:421:0x0b28, B:423:0x0b30, B:425:0x0b34, B:428:0x0b3a, B:434:0x0b48, B:436:0x0b58, B:438:0x0b62, B:440:0x0b66, B:443:0x0b6c, B:470:0x0bd8, B:477:0x0c06, B:487:0x0c22, B:493:0x0c35, B:510:0x0c7d, B:517:0x0ca1, B:521:0x0ca8, B:520:0x0ca6, B:447:0x0b75, B:432:0x0b41), top: B:1330:0x0acf }] */
     /* JADX WARN: Removed duplicated region for block: B:512:0x0c93  */
     /* JADX WARN: Removed duplicated region for block: B:516:0x0c9d  */
     /* JADX WARN: Removed duplicated region for block: B:523:0x0cac  */
     /* JADX WARN: Removed duplicated region for block: B:528:0x0cc7  */
     /* JADX WARN: Removed duplicated region for block: B:535:0x0cd3  */
-    /* JADX WARN: Removed duplicated region for block: B:538:0x0cda A[Catch: all -> 0x0d31, Exception -> 0x0d3a, TRY_LEAVE, TryCatch #134 {Exception -> 0x0d3a, all -> 0x0d31, blocks: (B:526:0x0cba, B:538:0x0cda, B:536:0x0cd5), top: B:1322:0x0cba }] */
+    /* JADX WARN: Removed duplicated region for block: B:538:0x0cda A[Catch: all -> 0x0d31, Exception -> 0x0d3a, TRY_LEAVE, TryCatch #135 {Exception -> 0x0d3a, all -> 0x0d31, blocks: (B:526:0x0cba, B:538:0x0cda, B:536:0x0cd5), top: B:1318:0x0cba }] */
     /* JADX WARN: Removed duplicated region for block: B:544:0x0cf5  */
-    /* JADX WARN: Removed duplicated region for block: B:547:0x0cfa A[Catch: all -> 0x0d29, Exception -> 0x0d2d, TryCatch #140 {Exception -> 0x0d2d, all -> 0x0d29, blocks: (B:542:0x0ce5, B:545:0x0cf6, B:547:0x0cfa, B:549:0x0d04, B:551:0x0d09, B:553:0x0d0e, B:555:0x0d13, B:548:0x0d00, B:543:0x0ced), top: B:1310:0x0ce5 }] */
-    /* JADX WARN: Removed duplicated region for block: B:548:0x0d00 A[Catch: all -> 0x0d29, Exception -> 0x0d2d, TryCatch #140 {Exception -> 0x0d2d, all -> 0x0d29, blocks: (B:542:0x0ce5, B:545:0x0cf6, B:547:0x0cfa, B:549:0x0d04, B:551:0x0d09, B:553:0x0d0e, B:555:0x0d13, B:548:0x0d00, B:543:0x0ced), top: B:1310:0x0ce5 }] */
-    /* JADX WARN: Removed duplicated region for block: B:551:0x0d09 A[Catch: all -> 0x0d29, Exception -> 0x0d2d, TryCatch #140 {Exception -> 0x0d2d, all -> 0x0d29, blocks: (B:542:0x0ce5, B:545:0x0cf6, B:547:0x0cfa, B:549:0x0d04, B:551:0x0d09, B:553:0x0d0e, B:555:0x0d13, B:548:0x0d00, B:543:0x0ced), top: B:1310:0x0ce5 }] */
-    /* JADX WARN: Removed duplicated region for block: B:553:0x0d0e A[Catch: all -> 0x0d29, Exception -> 0x0d2d, TryCatch #140 {Exception -> 0x0d2d, all -> 0x0d29, blocks: (B:542:0x0ce5, B:545:0x0cf6, B:547:0x0cfa, B:549:0x0d04, B:551:0x0d09, B:553:0x0d0e, B:555:0x0d13, B:548:0x0d00, B:543:0x0ced), top: B:1310:0x0ce5 }] */
-    /* JADX WARN: Removed duplicated region for block: B:555:0x0d13 A[Catch: all -> 0x0d29, Exception -> 0x0d2d, TRY_LEAVE, TryCatch #140 {Exception -> 0x0d2d, all -> 0x0d29, blocks: (B:542:0x0ce5, B:545:0x0cf6, B:547:0x0cfa, B:549:0x0d04, B:551:0x0d09, B:553:0x0d0e, B:555:0x0d13, B:548:0x0d00, B:543:0x0ced), top: B:1310:0x0ce5 }] */
+    /* JADX WARN: Removed duplicated region for block: B:547:0x0cfa A[Catch: all -> 0x0d29, Exception -> 0x0d2d, TryCatch #138 {Exception -> 0x0d2d, all -> 0x0d29, blocks: (B:542:0x0ce5, B:545:0x0cf6, B:547:0x0cfa, B:549:0x0d04, B:551:0x0d09, B:553:0x0d0e, B:555:0x0d13, B:548:0x0d00, B:543:0x0ced), top: B:1312:0x0ce5 }] */
+    /* JADX WARN: Removed duplicated region for block: B:548:0x0d00 A[Catch: all -> 0x0d29, Exception -> 0x0d2d, TryCatch #138 {Exception -> 0x0d2d, all -> 0x0d29, blocks: (B:542:0x0ce5, B:545:0x0cf6, B:547:0x0cfa, B:549:0x0d04, B:551:0x0d09, B:553:0x0d0e, B:555:0x0d13, B:548:0x0d00, B:543:0x0ced), top: B:1312:0x0ce5 }] */
+    /* JADX WARN: Removed duplicated region for block: B:551:0x0d09 A[Catch: all -> 0x0d29, Exception -> 0x0d2d, TryCatch #138 {Exception -> 0x0d2d, all -> 0x0d29, blocks: (B:542:0x0ce5, B:545:0x0cf6, B:547:0x0cfa, B:549:0x0d04, B:551:0x0d09, B:553:0x0d0e, B:555:0x0d13, B:548:0x0d00, B:543:0x0ced), top: B:1312:0x0ce5 }] */
+    /* JADX WARN: Removed duplicated region for block: B:553:0x0d0e A[Catch: all -> 0x0d29, Exception -> 0x0d2d, TryCatch #138 {Exception -> 0x0d2d, all -> 0x0d29, blocks: (B:542:0x0ce5, B:545:0x0cf6, B:547:0x0cfa, B:549:0x0d04, B:551:0x0d09, B:553:0x0d0e, B:555:0x0d13, B:548:0x0d00, B:543:0x0ced), top: B:1312:0x0ce5 }] */
+    /* JADX WARN: Removed duplicated region for block: B:555:0x0d13 A[Catch: all -> 0x0d29, Exception -> 0x0d2d, TRY_LEAVE, TryCatch #138 {Exception -> 0x0d2d, all -> 0x0d29, blocks: (B:542:0x0ce5, B:545:0x0cf6, B:547:0x0cfa, B:549:0x0d04, B:551:0x0d09, B:553:0x0d0e, B:555:0x0d13, B:548:0x0d00, B:543:0x0ced), top: B:1312:0x0ce5 }] */
     /* JADX WARN: Removed duplicated region for block: B:589:0x0d8b  */
-    /* JADX WARN: Removed duplicated region for block: B:592:0x0d93 A[Catch: all -> 0x0d7f, Exception -> 0x0d82, TRY_ENTER, TRY_LEAVE, TryCatch #95 {Exception -> 0x0d82, all -> 0x0d7f, blocks: (B:579:0x0d6e, B:592:0x0d93, B:596:0x0dc2, B:598:0x0dcd, B:607:0x0e1d, B:610:0x0e23), top: B:1400:0x0d6e }] */
+    /* JADX WARN: Removed duplicated region for block: B:592:0x0d93 A[Catch: all -> 0x0d7f, Exception -> 0x0d82, TRY_ENTER, TRY_LEAVE, TryCatch #94 {Exception -> 0x0d82, all -> 0x0d7f, blocks: (B:579:0x0d6e, B:592:0x0d93, B:596:0x0dc2, B:598:0x0dcd, B:607:0x0e1d, B:610:0x0e23), top: B:1400:0x0d6e }] */
     /* JADX WARN: Removed duplicated region for block: B:604:0x0e18  */
     /* JADX WARN: Removed duplicated region for block: B:622:0x0e63  */
-    /* JADX WARN: Removed duplicated region for block: B:632:0x0e9a A[Catch: all -> 0x1096, Exception -> 0x109f, TRY_ENTER, TRY_LEAVE, TryCatch #99 {Exception -> 0x109f, all -> 0x1096, blocks: (B:620:0x0e5d, B:632:0x0e9a), top: B:1392:0x0e5d }] */
-    /* JADX WARN: Removed duplicated region for block: B:650:0x0ed8 A[Catch: all -> 0x1084, Exception -> 0x108d, TRY_LEAVE, TryCatch #89 {Exception -> 0x108d, all -> 0x1084, blocks: (B:648:0x0ed3, B:650:0x0ed8, B:660:0x0eed, B:662:0x0efb, B:664:0x0f06, B:670:0x0f14, B:703:0x0fca, B:706:0x0fd8, B:674:0x0f37, B:700:0x0fb8), top: B:1412:0x0ed3 }] */
+    /* JADX WARN: Removed duplicated region for block: B:632:0x0e9a A[Catch: all -> 0x1096, Exception -> 0x109f, TRY_ENTER, TRY_LEAVE, TryCatch #99 {Exception -> 0x109f, all -> 0x1096, blocks: (B:620:0x0e5d, B:632:0x0e9a), top: B:1390:0x0e5d }] */
+    /* JADX WARN: Removed duplicated region for block: B:650:0x0ed8 A[Catch: all -> 0x1084, Exception -> 0x108d, TRY_LEAVE, TryCatch #91 {Exception -> 0x108d, all -> 0x1084, blocks: (B:648:0x0ed3, B:650:0x0ed8, B:660:0x0eed, B:662:0x0efb, B:664:0x0f06, B:670:0x0f14, B:703:0x0fca, B:706:0x0fd8, B:674:0x0f37, B:700:0x0fb8), top: B:1406:0x0ed3 }] */
     /* renamed from: putMessagesInternal */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -16913,13 +16916,10 @@ public class MessagesStorage extends BaseController {
         int max;
         int i13;
         int i14;
-        int i15;
-        int i16;
         LongSparseIntArray longSparseIntArray12;
         LongSparseIntArray longSparseIntArray13;
         LongSparseIntArray longSparseIntArray14;
         ArrayList<Long> arrayList4;
-        int i17;
         String str11;
         SparseArray sparseArray5;
         HashMap hashMap18;
@@ -16928,56 +16928,56 @@ public class MessagesStorage extends BaseController {
         HashMap hashMap19;
         LongSparseArray longSparseArray11;
         ArrayList arrayList5;
-        int i18;
+        int i15;
         LongSparseIntArray longSparseIntArray16;
-        int i19;
+        int i16;
         HashMap hashMap20;
         LongSparseArray longSparseArray12;
-        int i20;
+        int i17;
         TLRPC$MessageMedia tLRPC$MessageMedia;
         String str12;
         long j;
         TLRPC$MessageMedia tLRPC$TL_messageMediaDocument;
-        int i21;
+        int i18;
         LongSparseArray longSparseArray13;
         NativeByteBuffer nativeByteBuffer;
         boolean z9;
         HashMap hashMap21;
         LongSparseIntArray longSparseIntArray17;
-        int i22;
+        int i19;
         LongSparseArray longSparseArray14;
+        int i20;
+        int i21;
+        int i22;
+        NativeByteBuffer nativeByteBuffer2;
         int i23;
         int i24;
         int i25;
-        NativeByteBuffer nativeByteBuffer2;
         int i26;
-        int i27;
-        int i28;
-        int i29;
         NativeByteBuffer nativeByteBuffer3;
         TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader;
-        int i30;
-        int i31;
+        int i27;
+        int i28;
         SQLitePreparedStatement sQLitePreparedStatement27;
         NativeByteBuffer writeLocalParams;
-        int i32;
+        int i29;
         SQLitePreparedStatement sQLitePreparedStatement28;
         TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader2;
         LongSparseIntArray longSparseIntArray18;
         int intValue4;
-        int i33;
+        int i30;
         HashMap hashMap22;
         int intValue5;
         SQLiteCursor sQLiteCursor;
+        int i31;
+        int i32;
+        int i33;
         int i34;
         int i35;
         int i36;
         int i37;
-        int i38;
-        int i39;
-        int i40;
         HashMap hashMap23;
-        int i41;
+        int i38;
         String str13;
         LongSparseArray longSparseArray15;
         LongSparseArray longSparseArray16;
@@ -16999,10 +16999,10 @@ public class MessagesStorage extends BaseController {
         LongSparseIntArray longSparseIntArray20;
         SQLiteDatabase sQLiteDatabase3;
         boolean z10;
-        int i42;
+        int i39;
         ArrayList<TLRPC$Message> arrayList6 = arrayList;
-        int i43 = 2;
-        int i44 = 1;
+        int i40 = 2;
+        int i41 = 1;
         try {
             if (z4) {
                 if (z) {
@@ -17036,35 +17036,35 @@ public class MessagesStorage extends BaseController {
                     SQLitePreparedStatement executeFast3 = this.database.executeFast("REPLACE INTO randoms_v2 VALUES(?, ?, ?)");
                     try {
                         ArrayList arrayList7 = new ArrayList();
-                        int i45 = 0;
-                        while (i45 < arrayList.size()) {
-                            TLRPC$Message tLRPC$Message = arrayList6.get(i45);
+                        int i42 = 0;
+                        while (i42 < arrayList.size()) {
+                            TLRPC$Message tLRPC$Message = arrayList6.get(i42);
                             if (tLRPC$Message instanceof TLRPC$TL_messageEmpty) {
-                                i42 = i45;
+                                i39 = i42;
                             } else {
                                 fixUnsupportedMedia(tLRPC$Message);
                                 sQLitePreparedStatement6.requery();
-                                int i46 = tLRPC$Message.id;
-                                int i47 = tLRPC$Message.local_id;
-                                if (i47 != 0) {
-                                    i46 = i47;
+                                int i43 = tLRPC$Message.id;
+                                int i44 = tLRPC$Message.local_id;
+                                if (i44 != 0) {
+                                    i43 = i44;
                                 }
                                 MessageObject.normalizeFlags(tLRPC$Message);
                                 NativeByteBuffer nativeByteBuffer4 = new NativeByteBuffer(tLRPC$Message.getObjectSize());
                                 tLRPC$Message.serializeToStream(nativeByteBuffer4);
                                 long dialogId = MessageObject.getDialogId(tLRPC$Message);
-                                sQLitePreparedStatement6.bindInteger(i44, i46);
-                                sQLitePreparedStatement6.bindLong(i43, dialogId);
+                                sQLitePreparedStatement6.bindInteger(i41, i43);
+                                sQLitePreparedStatement6.bindLong(i40, dialogId);
                                 sQLitePreparedStatement6.bindInteger(3, tLRPC$Message.send_state);
                                 sQLitePreparedStatement6.bindInteger(4, tLRPC$Message.date);
                                 sQLitePreparedStatement6.bindByteBuffer(5, nativeByteBuffer4);
                                 sQLitePreparedStatement6.bindInteger(6, tLRPC$Message.ttl);
                                 sQLitePreparedStatement6.step();
-                                i42 = i45;
+                                i39 = i42;
                                 if (tLRPC$Message.random_id != 0) {
                                     executeFast3.requery();
                                     executeFast3.bindLong(1, tLRPC$Message.random_id);
-                                    executeFast3.bindInteger(2, i46);
+                                    executeFast3.bindInteger(2, i43);
                                     executeFast3.bindLong(3, tLRPC$Message.dialog_id);
                                     executeFast3.step();
                                 }
@@ -17073,9 +17073,9 @@ public class MessagesStorage extends BaseController {
                                     arrayList7.add(Long.valueOf(dialogId));
                                 }
                             }
-                            i45 = i42 + 1;
-                            i43 = 2;
-                            i44 = 1;
+                            i42 = i39 + 1;
+                            i40 = 2;
+                            i41 = 1;
                         }
                         sQLitePreparedStatement6.dispose();
                         try {
@@ -17085,8 +17085,8 @@ public class MessagesStorage extends BaseController {
                                 z10 = false;
                             }
                             int size = arrayList7.size();
-                            for (int i48 = 0; i48 < size; i48++) {
-                                broadcastScheduledMessagesChange((Long) arrayList7.get(i48));
+                            for (int i45 = 0; i45 < size; i45++) {
+                                broadcastScheduledMessagesChange((Long) arrayList7.get(i45));
                             }
                             z6 = z10;
                             sQLitePreparedStatement21 = null;
@@ -17466,7 +17466,7 @@ public class MessagesStorage extends BaseController {
                             try {
                                 sQLitePreparedStatement11 = executeFast6;
                                 sQLitePreparedStatement8 = this.database.executeFast("REPLACE INTO webpage_pending_v2 VALUES(?, ?, ?)");
-                                int i49 = 0;
+                                int i46 = 0;
                                 LongSparseArray longSparseArray25 = null;
                                 LongSparseArray longSparseArray26 = null;
                                 LongSparseArray longSparseArray27 = null;
@@ -17478,19 +17478,19 @@ public class MessagesStorage extends BaseController {
                                         str3 = ",";
                                         longSparseArray5 = longSparseArray25;
                                         str4 = " ";
-                                        if (i49 >= arrayList.size()) {
+                                        if (i46 >= arrayList.size()) {
                                             break;
                                         }
                                         try {
-                                            TLRPC$Message tLRPC$Message3 = arrayList6.get(i49);
-                                            int i50 = tLRPC$Message3.id;
+                                            TLRPC$Message tLRPC$Message3 = arrayList6.get(i46);
+                                            int i47 = tLRPC$Message3.id;
                                             MessageObject.getDialogId(tLRPC$Message3);
                                             HashMap hashMap31 = hashMap3;
                                             HashMap hashMap32 = hashMap2;
                                             int topicId = MessageObject.getTopicId(tLRPC$Message3, isForum(tLRPC$Message3.dialog_id));
                                             if (tLRPC$Message3.mentioned && tLRPC$Message3.media_unread) {
                                                 hashMap23 = hashMap;
-                                                i41 = i49;
+                                                i38 = i46;
                                                 ArrayList arrayList8 = (ArrayList) longSparseArray3.get(tLRPC$Message3.dialog_id);
                                                 if (arrayList8 == null) {
                                                     arrayList8 = new ArrayList();
@@ -17501,7 +17501,7 @@ public class MessagesStorage extends BaseController {
                                                     str13 = ",";
                                                     longSparseArray15 = longSparseArray;
                                                 }
-                                                arrayList8.add(Integer.valueOf(i50));
+                                                arrayList8.add(Integer.valueOf(i47));
                                                 if (topicId != 0) {
                                                     FileLog.d("add message with message to " + tLRPC$Message3.dialog_id + " " + topicId);
                                                     TopicKey of = TopicKey.of(tLRPC$Message3.dialog_id, topicId);
@@ -17510,11 +17510,11 @@ public class MessagesStorage extends BaseController {
                                                         arrayList9 = new ArrayList();
                                                         hashMap5.put(of, arrayList9);
                                                     }
-                                                    arrayList9.add(Integer.valueOf(i50));
+                                                    arrayList9.add(Integer.valueOf(i47));
                                                 }
                                             } else {
                                                 hashMap23 = hashMap;
-                                                i41 = i49;
+                                                i38 = i46;
                                                 str13 = ",";
                                                 longSparseArray15 = longSparseArray;
                                             }
@@ -17525,16 +17525,16 @@ public class MessagesStorage extends BaseController {
                                                 str14 = str13;
                                                 longSparseIntArray19 = longSparseIntArray;
                                             } else {
-                                                int i51 = longSparseIntArray.get(tLRPC$Message3.dialog_id, -1);
-                                                if (i51 == -1) {
+                                                int i48 = longSparseIntArray.get(tLRPC$Message3.dialog_id, -1);
+                                                if (i48 == -1) {
                                                     SQLiteCursor queryFinalized2 = this.database.queryFinalized("SELECT inbox_max FROM dialogs WHERE did = " + tLRPC$Message3.dialog_id, new Object[0]);
-                                                    i51 = queryFinalized2.next() ? queryFinalized2.intValue(0) : 0;
+                                                    i48 = queryFinalized2.next() ? queryFinalized2.intValue(0) : 0;
                                                     queryFinalized2.dispose();
-                                                    longSparseIntArray.put(tLRPC$Message3.dialog_id, i51);
+                                                    longSparseIntArray.put(tLRPC$Message3.dialog_id, i48);
                                                 }
-                                                FileLog.d("update messageRead currentMaxId = " + i51 + " dialogId = " + tLRPC$Message3.dialog_id);
-                                                int i52 = tLRPC$Message3.id;
-                                                if (i52 >= 0 && i51 >= i52) {
+                                                FileLog.d("update messageRead currentMaxId = " + i48 + " dialogId = " + tLRPC$Message3.dialog_id);
+                                                int i49 = tLRPC$Message3.id;
+                                                if (i49 >= 0 && i48 >= i49) {
                                                     longSparseIntArray20 = longSparseIntArray;
                                                     str14 = str13;
                                                     if (topicId == 0) {
@@ -17593,14 +17593,14 @@ public class MessagesStorage extends BaseController {
                                                 if (sb2.length() > 0) {
                                                     sb2.append(str14);
                                                 }
-                                                sb2.append(i50);
+                                                sb2.append(i47);
                                                 longSparseIntArray20 = longSparseIntArray;
                                                 ArrayList arrayList10 = (ArrayList) longSparseArray2.get(tLRPC$Message3.dialog_id);
                                                 if (arrayList10 == null) {
                                                     arrayList10 = new ArrayList();
                                                     longSparseArray2.put(tLRPC$Message3.dialog_id, arrayList10);
                                                 }
-                                                arrayList10.add(Integer.valueOf(i50));
+                                                arrayList10.add(Integer.valueOf(i47));
                                                 if (topicId == 0) {
                                                 }
                                                 hashMap25 = hashMap31;
@@ -17631,7 +17631,7 @@ public class MessagesStorage extends BaseController {
                                                 if (sb3.length() > 0) {
                                                     sb3.append(str14);
                                                 }
-                                                sb3.append(i50);
+                                                sb3.append(i47);
                                                 ArrayList arrayList11 = (ArrayList) longSparseArray20.get(tLRPC$Message3.dialog_id);
                                                 if (arrayList11 == null) {
                                                     arrayList11 = new ArrayList();
@@ -17640,13 +17640,13 @@ public class MessagesStorage extends BaseController {
                                                 } else {
                                                     longSparseArray3 = longSparseArray23;
                                                 }
-                                                arrayList11.add(Integer.valueOf(i50));
+                                                arrayList11.add(Integer.valueOf(i47));
                                                 SparseIntArray sparseIntArray = (SparseIntArray) longSparseArray21.get(tLRPC$Message3.dialog_id);
                                                 if (sparseIntArray == null) {
                                                     sparseIntArray = new SparseIntArray();
                                                     longSparseArray21.put(tLRPC$Message3.dialog_id, sparseIntArray);
                                                 }
-                                                sparseIntArray.put(i50, MediaDataController.getMediaType(tLRPC$Message3));
+                                                sparseIntArray.put(i47, MediaDataController.getMediaType(tLRPC$Message3));
                                                 if (topicId != 0) {
                                                     TopicKey of3 = TopicKey.of(tLRPC$Message3.dialog_id, topicId);
                                                     hashMap28 = hashMap11;
@@ -17658,14 +17658,14 @@ public class MessagesStorage extends BaseController {
                                                     if (sb4.length() > 0) {
                                                         sb4.append(str14);
                                                     }
-                                                    sb4.append(i50);
+                                                    sb4.append(i47);
                                                     hashMap27 = hashMap10;
                                                     ArrayList arrayList12 = (ArrayList) hashMap27.get(of3);
                                                     if (arrayList12 == null) {
                                                         arrayList12 = new ArrayList();
                                                         hashMap27.put(of3, arrayList12);
                                                     }
-                                                    arrayList12.add(Integer.valueOf(i50));
+                                                    arrayList12.add(Integer.valueOf(i47));
                                                 } else {
                                                     hashMap27 = hashMap10;
                                                     hashMap28 = hashMap11;
@@ -17692,7 +17692,7 @@ public class MessagesStorage extends BaseController {
                                                 longSparseArray19 = longSparseArray18;
                                                 hashMap29 = hashMap9;
                                             }
-                                            i49 = i41 + 1;
+                                            i46 = i38 + 1;
                                             longSparseArray25 = longSparseArray19;
                                             hashMap2 = hashMap24;
                                             hashMap9 = hashMap29;
@@ -17810,14 +17810,14 @@ public class MessagesStorage extends BaseController {
                                 }
                                 if (longSparseArray5 != null) {
                                     int size2 = longSparseArray5.size();
-                                    int i53 = 0;
+                                    int i50 = 0;
                                     longSparseArray8 = null;
                                     sparseArray2 = null;
-                                    while (i53 < size2) {
-                                        int i54 = size2;
+                                    while (i50 < size2) {
+                                        int i51 = size2;
                                         HashMap hashMap37 = hashMap33;
                                         LongSparseArray longSparseArray31 = longSparseArray5;
-                                        long keyAt = longSparseArray31.keyAt(i53);
+                                        long keyAt = longSparseArray31.keyAt(i50);
                                         LongSparseArray longSparseArray32 = longSparseArray27;
                                         LongSparseArray longSparseArray33 = longSparseArray8;
                                         SparseIntArray sparseIntArray2 = (SparseIntArray) longSparseArray32.get(keyAt);
@@ -17829,11 +17829,11 @@ public class MessagesStorage extends BaseController {
                                         String str16 = str4;
                                         HashMap hashMap39 = hashMap5;
                                         String str17 = str3;
-                                        int i55 = 0;
-                                        SQLiteCursor queryFinalized4 = this.database.queryFinalized(String.format(Locale.US, "SELECT mid, type FROM media_v4 WHERE mid IN(%s) AND uid = %d", ((StringBuilder) longSparseArray31.valueAt(i53)).toString(), Long.valueOf(keyAt)), new Object[0]);
+                                        int i52 = 0;
+                                        SQLiteCursor queryFinalized4 = this.database.queryFinalized(String.format(Locale.US, "SELECT mid, type FROM media_v4 WHERE mid IN(%s) AND uid = %d", ((StringBuilder) longSparseArray31.valueAt(i50)).toString(), Long.valueOf(keyAt)), new Object[0]);
                                         SparseIntArray sparseIntArray3 = null;
                                         while (queryFinalized4.next()) {
-                                            int intValue9 = queryFinalized4.intValue(i55);
+                                            int intValue9 = queryFinalized4.intValue(i52);
                                             int intValue10 = queryFinalized4.intValue(1);
                                             if (intValue10 == sparseIntArray2.get(intValue9)) {
                                                 arrayList13.remove(Integer.valueOf(intValue9));
@@ -17850,60 +17850,60 @@ public class MessagesStorage extends BaseController {
                                                 }
                                                 sparseIntArray3.put(intValue9, intValue10);
                                             }
-                                            i55 = 0;
+                                            i52 = 0;
                                         }
                                         queryFinalized4.dispose();
                                         if (sparseArray2 == null) {
                                             sparseArray2 = new SparseArray();
                                         }
                                         int size3 = arrayList13.size();
-                                        int i56 = 0;
-                                        while (i56 < size3) {
-                                            int intValue11 = ((Integer) arrayList13.get(i56)).intValue();
-                                            int i57 = sparseIntArray2.get(intValue11);
-                                            LongSparseIntArray longSparseIntArray25 = (LongSparseIntArray) sparseArray2.get(i57);
+                                        int i53 = 0;
+                                        while (i53 < size3) {
+                                            int intValue11 = ((Integer) arrayList13.get(i53)).intValue();
+                                            int i54 = sparseIntArray2.get(intValue11);
+                                            LongSparseIntArray longSparseIntArray25 = (LongSparseIntArray) sparseArray2.get(i54);
                                             if (longSparseIntArray25 == null) {
                                                 longSparseIntArray25 = new LongSparseIntArray();
-                                                sparseArray2.put(i57, longSparseIntArray25);
-                                                i35 = size3;
-                                                i36 = 0;
-                                                i34 = Integer.MIN_VALUE;
+                                                sparseArray2.put(i54, longSparseIntArray25);
+                                                i32 = size3;
+                                                i33 = 0;
+                                                i31 = Integer.MIN_VALUE;
                                             } else {
-                                                i34 = Integer.MIN_VALUE;
-                                                i35 = size3;
-                                                i36 = longSparseIntArray25.get(keyAt, Integer.MIN_VALUE);
+                                                i31 = Integer.MIN_VALUE;
+                                                i32 = size3;
+                                                i33 = longSparseIntArray25.get(keyAt, Integer.MIN_VALUE);
                                             }
-                                            if (i36 == i34) {
-                                                i36 = 0;
+                                            if (i33 == i31) {
+                                                i33 = 0;
                                             }
-                                            longSparseIntArray25.put(keyAt, i36 + 1);
-                                            if (sparseIntArray3 != null && (i37 = sparseIntArray3.get(intValue11, -1)) >= 0) {
-                                                LongSparseIntArray longSparseIntArray26 = (LongSparseIntArray) sparseArray2.get(i37);
+                                            longSparseIntArray25.put(keyAt, i33 + 1);
+                                            if (sparseIntArray3 != null && (i34 = sparseIntArray3.get(intValue11, -1)) >= 0) {
+                                                LongSparseIntArray longSparseIntArray26 = (LongSparseIntArray) sparseArray2.get(i34);
                                                 if (longSparseIntArray26 == null) {
                                                     longSparseIntArray26 = new LongSparseIntArray();
-                                                    sparseArray2.put(i37, longSparseIntArray26);
-                                                    i38 = Integer.MIN_VALUE;
-                                                    i39 = 0;
+                                                    sparseArray2.put(i34, longSparseIntArray26);
+                                                    i35 = Integer.MIN_VALUE;
+                                                    i36 = 0;
                                                 } else {
-                                                    i38 = Integer.MIN_VALUE;
-                                                    i39 = longSparseIntArray26.get(keyAt, Integer.MIN_VALUE);
+                                                    i35 = Integer.MIN_VALUE;
+                                                    i36 = longSparseIntArray26.get(keyAt, Integer.MIN_VALUE);
                                                 }
-                                                if (i39 == i38) {
-                                                    i40 = -1;
-                                                    i39 = 0;
+                                                if (i36 == i35) {
+                                                    i37 = -1;
+                                                    i36 = 0;
                                                 } else {
-                                                    i40 = -1;
+                                                    i37 = -1;
                                                 }
-                                                longSparseIntArray26.put(keyAt, i39 + i40);
+                                                longSparseIntArray26.put(keyAt, i36 + i37);
                                             }
-                                            i56++;
-                                            size3 = i35;
+                                            i53++;
+                                            size3 = i32;
                                         }
-                                        i53++;
+                                        i50++;
                                         hashMap35 = hashMap38;
                                         longSparseArray3 = longSparseArray34;
                                         hashMap33 = hashMap37;
-                                        size2 = i54;
+                                        size2 = i51;
                                         longSparseArray27 = longSparseArray32;
                                         longSparseArray5 = longSparseArray31;
                                         longSparseArray8 = longSparseArray33;
@@ -17970,26 +17970,26 @@ public class MessagesStorage extends BaseController {
                                     LongSparseArray longSparseArray38 = longSparseArray6;
                                     SparseIntArray sparseIntArray7 = (SparseIntArray) longSparseArray38.get(topicKey2.dialogId);
                                     int size4 = arrayList14.size();
-                                    int i58 = 0;
-                                    while (i58 < size4) {
-                                        int intValue14 = ((Integer) arrayList14.get(i58)).intValue();
-                                        int i59 = sparseIntArray7.get(intValue14);
+                                    int i55 = 0;
+                                    while (i55 < size4) {
+                                        int intValue14 = ((Integer) arrayList14.get(i55)).intValue();
+                                        int i56 = sparseIntArray7.get(intValue14);
                                         SparseArray sparseArray7 = sparseArray;
                                         Iterator it3 = it2;
-                                        HashMap hashMap41 = (HashMap) sparseArray7.get(i59);
+                                        HashMap hashMap41 = (HashMap) sparseArray7.get(i56);
                                         if (hashMap41 == null) {
                                             hashMap41 = new HashMap();
-                                            sparseArray7.put(i59, hashMap41);
+                                            sparseArray7.put(i56, hashMap41);
                                         } else {
                                             Integer num4 = (Integer) hashMap41.get(topicKey2);
                                             if (num4 != null) {
                                                 intValue4 = num4.intValue();
                                                 hashMap41.put(topicKey2, Integer.valueOf(intValue4 + 1));
-                                                if (sparseIntArray5 != null && (i33 = sparseIntArray5.get(intValue14, -1)) >= 0) {
-                                                    hashMap22 = (HashMap) sparseArray7.get(i33);
+                                                if (sparseIntArray5 != null && (i30 = sparseIntArray5.get(intValue14, -1)) >= 0) {
+                                                    hashMap22 = (HashMap) sparseArray7.get(i30);
                                                     if (hashMap22 != null) {
                                                         hashMap22 = new HashMap();
-                                                        sparseArray7.put(i33, hashMap22);
+                                                        sparseArray7.put(i30, hashMap22);
                                                         intValue5 = 0;
                                                     } else {
                                                         Integer num5 = (Integer) hashMap22.get(topicKey2);
@@ -18000,7 +18000,7 @@ public class MessagesStorage extends BaseController {
                                                     }
                                                     hashMap22.put(topicKey2, Integer.valueOf(intValue5 - 1));
                                                 }
-                                                i58++;
+                                                i55++;
                                                 sparseArray = sparseArray7;
                                                 it2 = it3;
                                             }
@@ -18008,14 +18008,14 @@ public class MessagesStorage extends BaseController {
                                         intValue4 = 0;
                                         hashMap41.put(topicKey2, Integer.valueOf(intValue4 + 1));
                                         if (sparseIntArray5 != null) {
-                                            hashMap22 = (HashMap) sparseArray7.get(i33);
+                                            hashMap22 = (HashMap) sparseArray7.get(i30);
                                             if (hashMap22 != null) {
                                             }
                                             if (intValue5 == Integer.MIN_VALUE) {
                                             }
                                             hashMap22.put(topicKey2, Integer.valueOf(intValue5 - 1));
                                         }
-                                        i58++;
+                                        i55++;
                                         sparseArray = sparseArray7;
                                         it2 = it3;
                                     }
@@ -18025,49 +18025,49 @@ public class MessagesStorage extends BaseController {
                                 SparseArray sparseArray8 = sparseArray;
                                 if (!longSparseArray29.isEmpty()) {
                                     int size5 = longSparseArray29.size();
-                                    int i60 = 0;
-                                    while (i60 < size5) {
+                                    int i57 = 0;
+                                    while (i57 < size5) {
                                         LongSparseArray longSparseArray39 = longSparseArray29;
-                                        long keyAt2 = longSparseArray39.keyAt(i60);
+                                        long keyAt2 = longSparseArray39.keyAt(i57);
                                         LongSparseArray longSparseArray40 = longSparseArray30;
                                         ArrayList arrayList15 = (ArrayList) longSparseArray40.get(keyAt2);
                                         LongSparseArray longSparseArray41 = longSparseArray7;
                                         ArrayList arrayList16 = (ArrayList) longSparseArray41.get(keyAt2);
-                                        int i61 = size5;
+                                        int i58 = size5;
                                         longSparseArray29 = longSparseArray39;
-                                        int i62 = 0;
-                                        SQLiteCursor queryFinalized6 = this.database.queryFinalized(String.format(Locale.US, "SELECT mid FROM messages_v2 WHERE mid IN(%s) AND uid = %d", ((StringBuilder) longSparseArray39.valueAt(i60)).toString(), Long.valueOf(keyAt2)), new Object[0]);
+                                        int i59 = 0;
+                                        SQLiteCursor queryFinalized6 = this.database.queryFinalized(String.format(Locale.US, "SELECT mid FROM messages_v2 WHERE mid IN(%s) AND uid = %d", ((StringBuilder) longSparseArray39.valueAt(i57)).toString(), Long.valueOf(keyAt2)), new Object[0]);
                                         while (queryFinalized6.next()) {
-                                            Integer valueOf = Integer.valueOf(queryFinalized6.intValue(i62));
+                                            Integer valueOf = Integer.valueOf(queryFinalized6.intValue(i59));
                                             if (arrayList15 != null) {
                                                 arrayList15.remove(valueOf);
                                             }
                                             if (arrayList16 != null) {
                                                 arrayList16.remove(valueOf);
                                             }
-                                            i62 = 0;
+                                            i59 = 0;
                                         }
                                         queryFinalized6.dispose();
                                         LongSparseIntArray longSparseIntArray27 = longSparseIntArray5;
-                                        int i63 = longSparseIntArray27.get(keyAt2, -1);
-                                        if (i63 < 0) {
-                                            i63 = 0;
+                                        int i60 = longSparseIntArray27.get(keyAt2, -1);
+                                        if (i60 < 0) {
+                                            i60 = 0;
                                         }
-                                        longSparseIntArray27.put(keyAt2, i63 + arrayList15.size());
+                                        longSparseIntArray27.put(keyAt2, i60 + arrayList15.size());
                                         if (arrayList16 != null) {
                                             longSparseIntArray18 = longSparseIntArray4;
-                                            int i64 = longSparseIntArray18.get(keyAt2, -1);
-                                            if (i64 < 0) {
-                                                i64 = 0;
+                                            int i61 = longSparseIntArray18.get(keyAt2, -1);
+                                            if (i61 < 0) {
+                                                i61 = 0;
                                             }
-                                            longSparseIntArray18.put(keyAt2, i64 + arrayList16.size());
+                                            longSparseIntArray18.put(keyAt2, i61 + arrayList16.size());
                                         } else {
                                             longSparseIntArray18 = longSparseIntArray4;
                                         }
-                                        i60++;
+                                        i57++;
                                         longSparseIntArray5 = longSparseIntArray27;
                                         longSparseIntArray4 = longSparseIntArray18;
-                                        size5 = i61;
+                                        size5 = i58;
                                         longSparseArray30 = longSparseArray40;
                                         longSparseArray7 = longSparseArray41;
                                     }
@@ -18083,11 +18083,11 @@ public class MessagesStorage extends BaseController {
                                         String str18 = str7;
                                         SparseArray sparseArray9 = sparseArray2;
                                         Object[] objArr = {TextUtils.join(str18, arrayList17), Long.valueOf(topicKey3.dialogId), Integer.valueOf(topicKey3.topicId)};
-                                        int i65 = 0;
+                                        int i62 = 0;
                                         SQLiteCursor queryFinalized7 = sQLiteDatabase5.queryFinalized(String.format(locale, "SELECT mid FROM messages_topics WHERE mid IN(%s) AND uid = %d AND topic_id = %d", objArr), new Object[0]);
                                         while (queryFinalized7.next()) {
-                                            arrayList17.remove(Integer.valueOf(queryFinalized7.intValue(i65)));
-                                            i65 = 0;
+                                            arrayList17.remove(Integer.valueOf(queryFinalized7.intValue(i62)));
+                                            i62 = 0;
                                         }
                                         queryFinalized7.dispose();
                                         StringBuilder sb5 = new StringBuilder();
@@ -18112,13 +18112,13 @@ public class MessagesStorage extends BaseController {
                                 HashMap hashMap44 = hashMap6;
                                 String str20 = str5;
                                 if (longSparseArray8 != null) {
-                                    int i66 = 0;
-                                    while (i66 < longSparseArray8.size()) {
-                                        long keyAt3 = longSparseArray8.keyAt(i66);
-                                        SparseIntArray sparseIntArray8 = (SparseIntArray) longSparseArray8.valueAt(i66);
+                                    int i63 = 0;
+                                    while (i63 < longSparseArray8.size()) {
+                                        long keyAt3 = longSparseArray8.keyAt(i63);
+                                        SparseIntArray sparseIntArray8 = (SparseIntArray) longSparseArray8.valueAt(i63);
                                         StringBuilder sb6 = new StringBuilder();
-                                        for (int i67 = 0; i67 < longSparseArray8.size(); i67++) {
-                                            int keyAt4 = sparseIntArray8.keyAt(i67);
+                                        for (int i64 = 0; i64 < longSparseArray8.size(); i64++) {
+                                            int keyAt4 = sparseIntArray8.keyAt(i64);
                                             if (sb6.length() != 0) {
                                                 sb6.append(", ");
                                             }
@@ -18129,26 +18129,26 @@ public class MessagesStorage extends BaseController {
                                         LongSparseArray longSparseArray42 = longSparseArray8;
                                         sQLiteDatabase6.executeFast(String.format(locale2, "DELETE FROM media_v4 WHERE mid IN(%s) AND uid = %d", sb6.toString(), Long.valueOf(keyAt3))).stepThis().dispose();
                                         this.database.executeFast(String.format(locale2, "DELETE FROM media_topics WHERE mid IN(%s) AND uid = %d", sb6.toString(), Long.valueOf(keyAt3))).stepThis().dispose();
-                                        i66++;
+                                        i63++;
                                         longSparseArray8 = longSparseArray42;
                                     }
                                 }
                                 i3 = ConnectionsManager.DEFAULT_DATACENTER_ID;
-                                int i68 = 0;
-                                int i69 = 0;
+                                int i65 = 0;
+                                int i66 = 0;
                                 sQLitePreparedStatement5 = null;
                                 sQLitePreparedStatement7 = null;
                                 arrayList2 = null;
                                 SQLitePreparedStatement sQLitePreparedStatement29 = null;
-                                while (i69 < arrayList.size()) {
+                                while (i66 < arrayList.size()) {
                                     try {
                                         try {
-                                            TLRPC$Message tLRPC$Message5 = arrayList.get(i69);
+                                            TLRPC$Message tLRPC$Message5 = arrayList.get(i66);
                                             if (tLRPC$Message5 == null) {
                                                 longSparseIntArray15 = longSparseIntArray29;
                                                 longSparseIntArray16 = longSparseIntArray28;
                                                 hashMap18 = hashMap44;
-                                                i19 = i69;
+                                                i16 = i66;
                                                 str11 = str20;
                                                 sparseArray5 = sparseArray8;
                                                 str12 = str;
@@ -18162,10 +18162,10 @@ public class MessagesStorage extends BaseController {
                                                 str11 = str20;
                                                 int topicId2 = MessageObject.getTopicId(tLRPC$Message5, isForum(tLRPC$Message5.dialog_id));
                                                 sQLitePreparedStatement12.requery();
-                                                int i70 = tLRPC$Message5.id;
-                                                int i71 = tLRPC$Message5.local_id;
-                                                if (i71 == 0) {
-                                                    i71 = i70;
+                                                int i67 = tLRPC$Message5.id;
+                                                int i68 = tLRPC$Message5.local_id;
+                                                if (i68 == 0) {
+                                                    i68 = i67;
                                                 }
                                                 MessageObject.normalizeFlags(tLRPC$Message5);
                                                 sparseArray5 = sparseArray8;
@@ -18207,10 +18207,10 @@ public class MessagesStorage extends BaseController {
                                                                                 if (tLRPC$Message6 != null) {
                                                                                     arrayList5 = arrayList18;
                                                                                     if (tLRPC$Message5.date <= tLRPC$Message6.date) {
-                                                                                        int i72 = tLRPC$Message6.id;
-                                                                                        if (i72 > 0) {
+                                                                                        int i69 = tLRPC$Message6.id;
+                                                                                        if (i69 > 0) {
                                                                                         }
-                                                                                        if (i72 < 0 && tLRPC$Message5.id < i72) {
+                                                                                        if (i69 < 0 && tLRPC$Message5.id < i69) {
                                                                                         }
                                                                                         if (topicId2 == 0) {
                                                                                             TopicKey of5 = TopicKey.of(tLRPC$Message5.dialog_id, topicId2);
@@ -18220,10 +18220,10 @@ public class MessagesStorage extends BaseController {
                                                                                                 longSparseArray11 = longSparseArray43;
                                                                                                 longSparseIntArray15 = longSparseIntArray29;
                                                                                                 if (tLRPC$Message5.date <= tLRPC$Message7.date) {
-                                                                                                    int i73 = tLRPC$Message7.id;
-                                                                                                    if (i73 > 0) {
+                                                                                                    int i70 = tLRPC$Message7.id;
+                                                                                                    if (i70 > 0) {
                                                                                                     }
-                                                                                                    if (i73 < 0 && tLRPC$Message5.id < i73) {
+                                                                                                    if (i70 < 0 && tLRPC$Message5.id < i70) {
                                                                                                     }
                                                                                                 }
                                                                                             } else {
@@ -18244,9 +18244,9 @@ public class MessagesStorage extends BaseController {
                                                                                 if (topicId2 == 0) {
                                                                                 }
                                                                             }
-                                                                            i18 = 0;
-                                                                            while (i18 < 2) {
-                                                                                if (i18 == 1) {
+                                                                            i15 = 0;
+                                                                            while (i15 < 2) {
+                                                                                if (i15 == 1) {
                                                                                     longSparseArray13 = longSparseArray11;
                                                                                     nativeByteBuffer = abstractSerializedData;
                                                                                     z9 = true;
@@ -18261,100 +18261,100 @@ public class MessagesStorage extends BaseController {
                                                                                         sQLitePreparedStatement30.requery();
                                                                                         SQLitePreparedStatement sQLitePreparedStatement31 = sQLitePreparedStatement30;
                                                                                         hashMap21 = hashMap19;
-                                                                                        sQLitePreparedStatement31.bindInteger(1, i71);
+                                                                                        sQLitePreparedStatement31.bindInteger(1, i68);
                                                                                         NativeByteBuffer nativeByteBuffer6 = nativeByteBuffer;
                                                                                         longSparseIntArray17 = longSparseIntArray28;
                                                                                         sQLitePreparedStatement31.bindLong(2, tLRPC$Message5.dialog_id);
                                                                                         if (z9) {
                                                                                             sQLitePreparedStatement31.bindLong(3, topicId2);
-                                                                                            i22 = 4;
+                                                                                            i19 = 4;
                                                                                         } else {
-                                                                                            i22 = 3;
+                                                                                            i19 = 3;
                                                                                         }
-                                                                                        int i74 = i22 + 1;
-                                                                                        sQLitePreparedStatement31.bindInteger(i22, MessageObject.getUnreadFlags(tLRPC$Message5));
-                                                                                        int i75 = i74 + 1;
-                                                                                        sQLitePreparedStatement31.bindInteger(i74, tLRPC$Message5.send_state);
-                                                                                        int i76 = i75 + 1;
-                                                                                        sQLitePreparedStatement31.bindInteger(i75, tLRPC$Message5.date);
-                                                                                        int i77 = i76 + 1;
+                                                                                        int i71 = i19 + 1;
+                                                                                        sQLitePreparedStatement31.bindInteger(i19, MessageObject.getUnreadFlags(tLRPC$Message5));
+                                                                                        int i72 = i71 + 1;
+                                                                                        sQLitePreparedStatement31.bindInteger(i71, tLRPC$Message5.send_state);
+                                                                                        int i73 = i72 + 1;
+                                                                                        sQLitePreparedStatement31.bindInteger(i72, tLRPC$Message5.date);
+                                                                                        int i74 = i73 + 1;
                                                                                         nativeByteBuffer = nativeByteBuffer6;
-                                                                                        sQLitePreparedStatement31.bindByteBuffer(i76, nativeByteBuffer);
-                                                                                        int i78 = i77 + 1;
+                                                                                        sQLitePreparedStatement31.bindByteBuffer(i73, nativeByteBuffer);
+                                                                                        int i75 = i74 + 1;
                                                                                         try {
                                                                                             if (MessageObject.isOut(tLRPC$Message5)) {
                                                                                                 longSparseArray14 = longSparseArray13;
                                                                                             } else {
                                                                                                 longSparseArray14 = longSparseArray13;
                                                                                                 if (!tLRPC$Message5.from_scheduled) {
-                                                                                                    i23 = 0;
-                                                                                                    sQLitePreparedStatement31.bindInteger(i77, i23);
-                                                                                                    int i79 = i78 + 1;
-                                                                                                    sQLitePreparedStatement31.bindInteger(i78, tLRPC$Message5.ttl);
+                                                                                                    i20 = 0;
+                                                                                                    sQLitePreparedStatement31.bindInteger(i74, i20);
+                                                                                                    int i76 = i75 + 1;
+                                                                                                    sQLitePreparedStatement31.bindInteger(i75, tLRPC$Message5.ttl);
                                                                                                     if ((tLRPC$Message5.flags & 1024) == 0) {
-                                                                                                        i24 = i79 + 1;
-                                                                                                        sQLitePreparedStatement31.bindInteger(i79, tLRPC$Message5.views);
+                                                                                                        i21 = i76 + 1;
+                                                                                                        sQLitePreparedStatement31.bindInteger(i76, tLRPC$Message5.views);
                                                                                                     } else {
-                                                                                                        i24 = i79 + 1;
-                                                                                                        sQLitePreparedStatement31.bindInteger(i79, getMessageMediaType(tLRPC$Message5));
+                                                                                                        i21 = i76 + 1;
+                                                                                                        sQLitePreparedStatement31.bindInteger(i76, getMessageMediaType(tLRPC$Message5));
                                                                                                     }
                                                                                                     if (tLRPC$Message5.replyStory == null) {
                                                                                                         nativeByteBuffer2 = new NativeByteBuffer(tLRPC$Message5.replyStory.getObjectSize());
                                                                                                         tLRPC$Message5.replyStory.serializeToStream(nativeByteBuffer2);
-                                                                                                        i25 = i24 + 1;
-                                                                                                        sQLitePreparedStatement31.bindByteBuffer(i24, nativeByteBuffer2);
+                                                                                                        i22 = i21 + 1;
+                                                                                                        sQLitePreparedStatement31.bindByteBuffer(i21, nativeByteBuffer2);
                                                                                                     } else {
-                                                                                                        i25 = i24 + 1;
-                                                                                                        sQLitePreparedStatement31.bindNull(i24);
+                                                                                                        i22 = i21 + 1;
+                                                                                                        sQLitePreparedStatement31.bindNull(i21);
                                                                                                         nativeByteBuffer2 = null;
                                                                                                     }
-                                                                                                    i26 = tLRPC$Message5.stickerVerified;
-                                                                                                    if (i26 != 0) {
-                                                                                                        i27 = i69;
-                                                                                                        i28 = 1;
+                                                                                                    i23 = tLRPC$Message5.stickerVerified;
+                                                                                                    if (i23 != 0) {
+                                                                                                        i24 = i66;
+                                                                                                        i25 = 1;
                                                                                                     } else {
-                                                                                                        i27 = i69;
-                                                                                                        i28 = i26 == 2 ? 2 : 0;
+                                                                                                        i24 = i66;
+                                                                                                        i25 = i23 == 2 ? 2 : 0;
                                                                                                     }
-                                                                                                    int i80 = i25 + 1;
-                                                                                                    sQLitePreparedStatement31.bindInteger(i25, i28);
-                                                                                                    int i81 = i80 + 1;
-                                                                                                    sQLitePreparedStatement31.bindInteger(i80, !tLRPC$Message5.mentioned ? 1 : 0);
-                                                                                                    int i82 = i81 + 1;
-                                                                                                    sQLitePreparedStatement31.bindInteger(i81, tLRPC$Message5.forwards);
+                                                                                                    int i77 = i22 + 1;
+                                                                                                    sQLitePreparedStatement31.bindInteger(i22, i25);
+                                                                                                    int i78 = i77 + 1;
+                                                                                                    sQLitePreparedStatement31.bindInteger(i77, !tLRPC$Message5.mentioned ? 1 : 0);
+                                                                                                    int i79 = i78 + 1;
+                                                                                                    sQLitePreparedStatement31.bindInteger(i78, tLRPC$Message5.forwards);
                                                                                                     if (tLRPC$Message5.replies == null) {
                                                                                                         nativeByteBuffer3 = new NativeByteBuffer(tLRPC$Message5.replies.getObjectSize());
                                                                                                         tLRPC$Message5.replies.serializeToStream(nativeByteBuffer3);
-                                                                                                        i29 = i82 + 1;
-                                                                                                        sQLitePreparedStatement31.bindByteBuffer(i82, nativeByteBuffer3);
+                                                                                                        i26 = i79 + 1;
+                                                                                                        sQLitePreparedStatement31.bindByteBuffer(i79, nativeByteBuffer3);
                                                                                                     } else {
-                                                                                                        i29 = i82 + 1;
-                                                                                                        sQLitePreparedStatement31.bindNull(i82);
+                                                                                                        i26 = i79 + 1;
+                                                                                                        sQLitePreparedStatement31.bindNull(i79);
                                                                                                         nativeByteBuffer3 = null;
                                                                                                     }
                                                                                                     tLRPC$MessageReplyHeader = tLRPC$Message5.reply_to;
                                                                                                     if (tLRPC$MessageReplyHeader == null) {
-                                                                                                        i31 = i29 + 1;
-                                                                                                        i30 = i68;
-                                                                                                        int i83 = tLRPC$MessageReplyHeader.reply_to_top_id;
-                                                                                                        if (i83 == 0) {
-                                                                                                            i83 = tLRPC$MessageReplyHeader.reply_to_msg_id;
+                                                                                                        i28 = i26 + 1;
+                                                                                                        i27 = i65;
+                                                                                                        int i80 = tLRPC$MessageReplyHeader.reply_to_top_id;
+                                                                                                        if (i80 == 0) {
+                                                                                                            i80 = tLRPC$MessageReplyHeader.reply_to_msg_id;
                                                                                                         }
-                                                                                                        sQLitePreparedStatement31.bindInteger(i29, i83);
+                                                                                                        sQLitePreparedStatement31.bindInteger(i26, i80);
                                                                                                     } else {
-                                                                                                        i30 = i68;
-                                                                                                        i31 = i29 + 1;
-                                                                                                        sQLitePreparedStatement31.bindInteger(i29, 0);
+                                                                                                        i27 = i65;
+                                                                                                        i28 = i26 + 1;
+                                                                                                        sQLitePreparedStatement31.bindInteger(i26, 0);
                                                                                                     }
-                                                                                                    int i84 = i31;
-                                                                                                    int i85 = i84 + 1;
+                                                                                                    int i81 = i28;
+                                                                                                    int i82 = i81 + 1;
                                                                                                     sQLitePreparedStatement27 = sQLitePreparedStatement7;
-                                                                                                    sQLitePreparedStatement31.bindLong(i84, MessageObject.getChannelId(tLRPC$Message5));
+                                                                                                    sQLitePreparedStatement31.bindLong(i81, MessageObject.getChannelId(tLRPC$Message5));
                                                                                                     writeLocalParams = MessageCustomParamsHelper.writeLocalParams(tLRPC$Message5);
                                                                                                     if (writeLocalParams == null) {
-                                                                                                        i32 = i85 + 1;
+                                                                                                        i29 = i82 + 1;
                                                                                                         try {
-                                                                                                            sQLitePreparedStatement31.bindByteBuffer(i85, writeLocalParams);
+                                                                                                            sQLitePreparedStatement31.bindByteBuffer(i82, writeLocalParams);
                                                                                                         } catch (Exception e10) {
                                                                                                             e = e10;
                                                                                                             th2 = e;
@@ -18429,17 +18429,17 @@ public class MessagesStorage extends BaseController {
                                                                                                             throw th;
                                                                                                         }
                                                                                                     } else {
-                                                                                                        i32 = i85 + 1;
-                                                                                                        sQLitePreparedStatement31.bindNull(i85);
+                                                                                                        i29 = i82 + 1;
+                                                                                                        sQLitePreparedStatement31.bindNull(i82);
                                                                                                     }
                                                                                                     if (!z9) {
                                                                                                         sQLitePreparedStatement28 = sQLitePreparedStatement5;
                                                                                                     } else if ((tLRPC$Message5.flags & 131072) != 0) {
-                                                                                                        int i86 = i32 + 1;
+                                                                                                        int i83 = i29 + 1;
                                                                                                         sQLitePreparedStatement28 = sQLitePreparedStatement5;
                                                                                                         try {
-                                                                                                            sQLitePreparedStatement31.bindLong(i32, tLRPC$Message5.grouped_id);
-                                                                                                            i32 = i86;
+                                                                                                            sQLitePreparedStatement31.bindLong(i29, tLRPC$Message5.grouped_id);
+                                                                                                            i29 = i83;
                                                                                                         } catch (Exception e11) {
                                                                                                             th2 = e11;
                                                                                                             sQLitePreparedStatement5 = sQLitePreparedStatement28;
@@ -18515,14 +18515,14 @@ public class MessagesStorage extends BaseController {
                                                                                                         }
                                                                                                     } else {
                                                                                                         sQLitePreparedStatement28 = sQLitePreparedStatement5;
-                                                                                                        sQLitePreparedStatement31.bindNull(i32);
-                                                                                                        i32++;
+                                                                                                        sQLitePreparedStatement31.bindNull(i29);
+                                                                                                        i29++;
                                                                                                     }
                                                                                                     tLRPC$MessageReplyHeader2 = tLRPC$Message5.reply_to;
                                                                                                     if (tLRPC$MessageReplyHeader2 == null) {
-                                                                                                        sQLitePreparedStatement31.bindInteger(i32, tLRPC$MessageReplyHeader2.story_id);
+                                                                                                        sQLitePreparedStatement31.bindInteger(i29, tLRPC$MessageReplyHeader2.story_id);
                                                                                                     } else {
-                                                                                                        sQLitePreparedStatement31.bindInteger(i32, 0);
+                                                                                                        sQLitePreparedStatement31.bindInteger(i29, 0);
                                                                                                     }
                                                                                                     sQLitePreparedStatement31.step();
                                                                                                     if (nativeByteBuffer3 != null) {
@@ -18536,7 +18536,7 @@ public class MessagesStorage extends BaseController {
                                                                                                     }
                                                                                                 }
                                                                                             }
-                                                                                            sQLitePreparedStatement31.bindLong(i84, MessageObject.getChannelId(tLRPC$Message5));
+                                                                                            sQLitePreparedStatement31.bindLong(i81, MessageObject.getChannelId(tLRPC$Message5));
                                                                                             writeLocalParams = MessageCustomParamsHelper.writeLocalParams(tLRPC$Message5);
                                                                                             if (writeLocalParams == null) {
                                                                                             }
@@ -18557,30 +18557,30 @@ public class MessagesStorage extends BaseController {
                                                                                         } catch (Throwable th16) {
                                                                                             th = th16;
                                                                                         }
-                                                                                        i23 = 1;
-                                                                                        sQLitePreparedStatement31.bindInteger(i77, i23);
-                                                                                        int i792 = i78 + 1;
-                                                                                        sQLitePreparedStatement31.bindInteger(i78, tLRPC$Message5.ttl);
+                                                                                        i20 = 1;
+                                                                                        sQLitePreparedStatement31.bindInteger(i74, i20);
+                                                                                        int i762 = i75 + 1;
+                                                                                        sQLitePreparedStatement31.bindInteger(i75, tLRPC$Message5.ttl);
                                                                                         if ((tLRPC$Message5.flags & 1024) == 0) {
                                                                                         }
                                                                                         if (tLRPC$Message5.replyStory == null) {
                                                                                         }
-                                                                                        i26 = tLRPC$Message5.stickerVerified;
-                                                                                        if (i26 != 0) {
+                                                                                        i23 = tLRPC$Message5.stickerVerified;
+                                                                                        if (i23 != 0) {
                                                                                         }
-                                                                                        int i802 = i25 + 1;
-                                                                                        sQLitePreparedStatement31.bindInteger(i25, i28);
-                                                                                        int i812 = i802 + 1;
-                                                                                        sQLitePreparedStatement31.bindInteger(i802, !tLRPC$Message5.mentioned ? 1 : 0);
-                                                                                        int i822 = i812 + 1;
-                                                                                        sQLitePreparedStatement31.bindInteger(i812, tLRPC$Message5.forwards);
+                                                                                        int i772 = i22 + 1;
+                                                                                        sQLitePreparedStatement31.bindInteger(i22, i25);
+                                                                                        int i782 = i772 + 1;
+                                                                                        sQLitePreparedStatement31.bindInteger(i772, !tLRPC$Message5.mentioned ? 1 : 0);
+                                                                                        int i792 = i782 + 1;
+                                                                                        sQLitePreparedStatement31.bindInteger(i782, tLRPC$Message5.forwards);
                                                                                         if (tLRPC$Message5.replies == null) {
                                                                                         }
                                                                                         tLRPC$MessageReplyHeader = tLRPC$Message5.reply_to;
                                                                                         if (tLRPC$MessageReplyHeader == null) {
                                                                                         }
-                                                                                        int i842 = i31;
-                                                                                        int i852 = i842 + 1;
+                                                                                        int i812 = i28;
+                                                                                        int i822 = i812 + 1;
                                                                                         sQLitePreparedStatement27 = sQLitePreparedStatement7;
                                                                                     } catch (Exception e13) {
                                                                                         e = e13;
@@ -18655,26 +18655,26 @@ public class MessagesStorage extends BaseController {
                                                                                     }
                                                                                 } else {
                                                                                     longSparseIntArray17 = longSparseIntArray28;
-                                                                                    i30 = i68;
+                                                                                    i27 = i65;
                                                                                     longSparseArray14 = longSparseArray13;
-                                                                                    i27 = i69;
+                                                                                    i24 = i66;
                                                                                     sQLitePreparedStatement27 = sQLitePreparedStatement7;
                                                                                     hashMap21 = hashMap19;
                                                                                     sQLitePreparedStatement28 = sQLitePreparedStatement5;
                                                                                 }
-                                                                                i18++;
+                                                                                i15++;
                                                                                 sQLitePreparedStatement5 = sQLitePreparedStatement28;
                                                                                 abstractSerializedData = nativeByteBuffer;
                                                                                 hashMap19 = hashMap21;
                                                                                 longSparseArray11 = longSparseArray14;
                                                                                 longSparseIntArray28 = longSparseIntArray17;
-                                                                                i69 = i27;
+                                                                                i66 = i24;
                                                                                 sQLitePreparedStatement7 = sQLitePreparedStatement27;
-                                                                                i68 = i30;
+                                                                                i65 = i27;
                                                                             }
                                                                             longSparseIntArray16 = longSparseIntArray28;
-                                                                            int i87 = i68;
-                                                                            i19 = i69;
+                                                                            int i84 = i65;
+                                                                            i16 = i66;
                                                                             sQLitePreparedStatement13 = sQLitePreparedStatement7;
                                                                             hashMap20 = hashMap19;
                                                                             longSparseArray12 = longSparseArray11;
@@ -18686,7 +18686,7 @@ public class MessagesStorage extends BaseController {
                                                                                     sQLitePreparedStatement16 = sQLitePreparedStatement11;
                                                                                     try {
                                                                                         sQLitePreparedStatement16.bindLong(1, tLRPC$Message5.random_id);
-                                                                                        sQLitePreparedStatement16.bindInteger(2, i71);
+                                                                                        sQLitePreparedStatement16.bindInteger(2, i68);
                                                                                         sQLitePreparedStatement16.bindLong(3, tLRPC$Message5.dialog_id);
                                                                                         sQLitePreparedStatement16.step();
                                                                                     } catch (Exception e14) {
@@ -18845,22 +18845,22 @@ public class MessagesStorage extends BaseController {
                                                                                 sQLitePreparedStatement16 = sQLitePreparedStatement11;
                                                                             }
                                                                             if (MediaDataController.canAddMessageToMedia(tLRPC$Message5)) {
-                                                                                i20 = i71;
+                                                                                i17 = i68;
                                                                             } else {
                                                                                 SQLitePreparedStatement executeFast8 = this.database.executeFast("REPLACE INTO media_v4 VALUES(?, ?, ?, ?, ?)");
                                                                                 try {
                                                                                     executeFast8.requery();
-                                                                                    executeFast8.bindInteger(1, i71);
+                                                                                    executeFast8.bindInteger(1, i68);
                                                                                     executeFast8.bindLong(2, tLRPC$Message5.dialog_id);
                                                                                     executeFast8.bindInteger(3, tLRPC$Message5.date);
                                                                                     executeFast8.bindInteger(4, MediaDataController.getMediaType(tLRPC$Message5));
-                                                                                    i20 = i71;
+                                                                                    i17 = i68;
                                                                                     executeFast8.bindByteBuffer(5, nativeByteBuffer7);
                                                                                     executeFast8.step();
                                                                                     if (topicId2 != 0) {
                                                                                         SQLitePreparedStatement executeFast9 = sQLitePreparedStatement29 == null ? this.database.executeFast("REPLACE INTO media_topics VALUES(?, ?, ?, ?, ?, ?)") : sQLitePreparedStatement29;
                                                                                         executeFast9.requery();
-                                                                                        executeFast9.bindInteger(1, i20);
+                                                                                        executeFast9.bindInteger(1, i17);
                                                                                         executeFast9.bindLong(2, tLRPC$Message5.dialog_id);
                                                                                         executeFast9.bindInteger(3, topicId2);
                                                                                         executeFast9.bindInteger(4, tLRPC$Message5.date);
@@ -18953,7 +18953,7 @@ public class MessagesStorage extends BaseController {
                                                                                 sQLitePreparedStatement5 = sQLitePreparedStatement17 == null ? this.database.executeFast("REPLACE INTO enc_tasks_v4 VALUES(?, ?, ?, ?)") : sQLitePreparedStatement17;
                                                                                 try {
                                                                                     sQLitePreparedStatement5.requery();
-                                                                                    sQLitePreparedStatement5.bindInteger(1, i20);
+                                                                                    sQLitePreparedStatement5.bindInteger(1, i17);
                                                                                     sQLitePreparedStatement5.bindLong(2, tLRPC$Message5.dialog_id);
                                                                                     sQLitePreparedStatement5.bindInteger(3, tLRPC$Message5.date + tLRPC$Message5.ttl_period);
                                                                                     sQLitePreparedStatement5.bindInteger(4, 0);
@@ -19040,7 +19040,7 @@ public class MessagesStorage extends BaseController {
                                                                                 sQLitePreparedStatement7 = sQLitePreparedStatement13 == null ? this.database.executeFast("REPLACE INTO polls_v2 VALUES(?, ?, ?)") : sQLitePreparedStatement13;
                                                                                 try {
                                                                                     sQLitePreparedStatement7.requery();
-                                                                                    sQLitePreparedStatement7.bindInteger(1, i20);
+                                                                                    sQLitePreparedStatement7.bindInteger(1, i17);
                                                                                     sQLitePreparedStatement7.bindLong(2, tLRPC$Message5.dialog_id);
                                                                                     sQLitePreparedStatement7.bindLong(3, ((TLRPC$TL_messageMediaPoll) tLRPC$Message5.media).poll.id);
                                                                                     sQLitePreparedStatement7.step();
@@ -19200,7 +19200,7 @@ public class MessagesStorage extends BaseController {
                                                                                     }
                                                                                     try {
                                                                                         sQLitePreparedStatement15.bindLong(1, tLRPC$Message5.media.webpage.id);
-                                                                                        sQLitePreparedStatement15.bindInteger(2, i20);
+                                                                                        sQLitePreparedStatement15.bindInteger(2, i17);
                                                                                         sQLitePreparedStatement15.bindLong(3, tLRPC$Message5.dialog_id);
                                                                                         sQLitePreparedStatement15.step();
                                                                                     } catch (Exception e20) {
@@ -19303,7 +19303,6 @@ public class MessagesStorage extends BaseController {
                                                                                         th2 = e;
                                                                                         checkSQLException(th2);
                                                                                         if (z5) {
-                                                                                            sQLiteDatabase2.commitTransaction();
                                                                                         }
                                                                                         if (sQLitePreparedStatement6 != null) {
                                                                                         }
@@ -19377,7 +19376,7 @@ public class MessagesStorage extends BaseController {
                                                                                             tLRPC$TL_messageMediaDocument.document = document;
                                                                                             tLRPC$TL_messageMediaDocument.flags |= 1;
                                                                                             j = j2;
-                                                                                            i21 = 2;
+                                                                                            i18 = 2;
                                                                                         } else {
                                                                                             if (!MessageObject.isStickerMessage(tLRPC$Message5) && !MessageObject.isAnimatedStickerMessage(tLRPC$Message5)) {
                                                                                                 if (!MessageObject.isVideoMessage(tLRPC$Message5) && !MessageObject.isRoundVideoMessage(tLRPC$Message5) && !MessageObject.isGifMessage(tLRPC$Message5)) {
@@ -19387,51 +19386,51 @@ public class MessagesStorage extends BaseController {
                                                                                                         tLRPC$TL_messageMediaDocument.document = document;
                                                                                                         tLRPC$TL_messageMediaDocument.flags |= 1;
                                                                                                         j = j3;
-                                                                                                        i21 = 8;
+                                                                                                        i18 = 8;
                                                                                                     } else if (photo == null || FileLoader.getClosestPhotoSizeWithSize(photo.sizes, AndroidUtilities.getPhotoSize()) == null) {
-                                                                                                        i21 = 0;
+                                                                                                        i18 = 0;
                                                                                                         tLRPC$TL_messageMediaDocument = null;
                                                                                                         j = 0;
                                                                                                     } else {
                                                                                                         j = photo.id;
                                                                                                         TLRPC$MessageMedia tLRPC$TL_messageMediaPhoto = new TLRPC$TL_messageMediaPhoto();
                                                                                                         tLRPC$TL_messageMediaPhoto.photo = photo;
-                                                                                                        int i88 = tLRPC$TL_messageMediaPhoto.flags | 1;
-                                                                                                        tLRPC$TL_messageMediaPhoto.flags = i88;
+                                                                                                        int i85 = tLRPC$TL_messageMediaPhoto.flags | 1;
+                                                                                                        tLRPC$TL_messageMediaPhoto.flags = i85;
                                                                                                         if (tLRPC$Message5.media instanceof TLRPC$TL_messageMediaWebPage) {
-                                                                                                            tLRPC$TL_messageMediaPhoto.flags = i88 | Integer.MIN_VALUE;
+                                                                                                            tLRPC$TL_messageMediaPhoto.flags = i85 | Integer.MIN_VALUE;
                                                                                                         }
                                                                                                         tLRPC$TL_messageMediaDocument = tLRPC$TL_messageMediaPhoto;
-                                                                                                        i21 = 1;
+                                                                                                        i18 = 1;
                                                                                                     }
                                                                                                 }
                                                                                                 j = document.id;
                                                                                                 tLRPC$TL_messageMediaDocument = new TLRPC$TL_messageMediaDocument();
                                                                                                 tLRPC$TL_messageMediaDocument.document = document;
                                                                                                 tLRPC$TL_messageMediaDocument.flags |= 1;
-                                                                                                i21 = 4;
+                                                                                                i18 = 4;
                                                                                             }
                                                                                             j = document.id;
                                                                                             tLRPC$TL_messageMediaDocument = new TLRPC$TL_messageMediaDocument();
                                                                                             tLRPC$TL_messageMediaDocument.document = document;
                                                                                             tLRPC$TL_messageMediaDocument.flags |= 1;
-                                                                                            i21 = 1;
+                                                                                            i18 = 1;
                                                                                         }
                                                                                         if (tLRPC$TL_messageMediaDocument != null) {
-                                                                                            int i89 = tLRPC$Message5.media.ttl_seconds;
-                                                                                            if (i89 != 0) {
-                                                                                                tLRPC$TL_messageMediaDocument.ttl_seconds = i89;
+                                                                                            int i86 = tLRPC$Message5.media.ttl_seconds;
+                                                                                            if (i86 != 0) {
+                                                                                                tLRPC$TL_messageMediaDocument.ttl_seconds = i86;
                                                                                                 tLRPC$TL_messageMediaDocument.flags |= 4;
                                                                                             }
                                                                                             MessageObject messageObject = new MessageObject(this.currentAccount, tLRPC$Message5, false, false);
-                                                                                            int i90 = i87 | i21;
+                                                                                            int i87 = i84 | i18;
                                                                                             sQLitePreparedStatement9.requery();
                                                                                             NativeByteBuffer nativeByteBuffer8 = new NativeByteBuffer(tLRPC$TL_messageMediaDocument.getObjectSize());
                                                                                             tLRPC$TL_messageMediaDocument.serializeToStream(nativeByteBuffer8);
                                                                                             sQLitePreparedStatement14 = sQLitePreparedStatement9;
                                                                                             try {
                                                                                                 sQLitePreparedStatement14.bindLong(1, j);
-                                                                                                sQLitePreparedStatement14.bindInteger(2, i21);
+                                                                                                sQLitePreparedStatement14.bindInteger(2, i18);
                                                                                                 sQLitePreparedStatement14.bindInteger(3, tLRPC$Message5.date);
                                                                                                 sQLitePreparedStatement14.bindByteBuffer(4, nativeByteBuffer8);
                                                                                                 StringBuilder sb7 = new StringBuilder();
@@ -19450,7 +19449,7 @@ public class MessagesStorage extends BaseController {
                                                                                                 sQLitePreparedStatement14.bindString(5, sb7.toString());
                                                                                                 sQLitePreparedStatement14.step();
                                                                                                 nativeByteBuffer8.reuse();
-                                                                                                i68 = i90;
+                                                                                                i65 = i87;
                                                                                                 arrayList2 = arrayList5;
                                                                                             } catch (Exception e22) {
                                                                                                 e = e22;
@@ -19536,7 +19535,7 @@ public class MessagesStorage extends BaseController {
                                                                             str12 = str;
                                                                             sQLitePreparedStatement14 = sQLitePreparedStatement9;
                                                                             arrayList2 = arrayList5;
-                                                                            i68 = i87;
+                                                                            i65 = i84;
                                                                         }
                                                                     } catch (Exception e23) {
                                                                         e = e23;
@@ -19618,7 +19617,7 @@ public class MessagesStorage extends BaseController {
                                                                 str12 = str;
                                                                 sQLitePreparedStatement14 = sQLitePreparedStatement9;
                                                                 arrayList2 = arrayList5;
-                                                                i68 = i87;
+                                                                i65 = i84;
                                                             } catch (Exception e24) {
                                                                 e = e24;
                                                             } catch (Throwable th28) {
@@ -19731,12 +19730,12 @@ public class MessagesStorage extends BaseController {
                                                 }
                                                 if (z8) {
                                                 }
-                                                i18 = 0;
-                                                while (i18 < 2) {
+                                                i15 = 0;
+                                                while (i15 < 2) {
                                                 }
                                                 longSparseIntArray16 = longSparseIntArray28;
-                                                int i872 = i68;
-                                                i19 = i69;
+                                                int i842 = i65;
+                                                i16 = i66;
                                                 sQLitePreparedStatement13 = sQLitePreparedStatement7;
                                                 hashMap20 = hashMap19;
                                                 longSparseArray12 = longSparseArray11;
@@ -19754,7 +19753,7 @@ public class MessagesStorage extends BaseController {
                                             longSparseIntArray29 = longSparseIntArray15;
                                             longSparseIntArray28 = longSparseIntArray16;
                                             str20 = str11;
-                                            i69 = i19 + 1;
+                                            i66 = i16 + 1;
                                         } catch (Exception e28) {
                                             e = e28;
                                         } catch (Throwable th32) {
@@ -19768,7 +19767,7 @@ public class MessagesStorage extends BaseController {
                                 }
                                 longSparseIntArray6 = longSparseIntArray29;
                                 longSparseIntArray7 = longSparseIntArray28;
-                                i4 = i68;
+                                i4 = i65;
                                 hashMap15 = hashMap44;
                                 str8 = str20;
                                 sQLitePreparedStatement13 = sQLitePreparedStatement7;
@@ -19794,30 +19793,44 @@ public class MessagesStorage extends BaseController {
                                 sQLitePreparedStatement8 = null;
                                 th2 = e;
                                 checkSQLException(th2);
-                                if (z5) {
+                                if (z5 && (sQLiteDatabase2 = this.database) != null) {
+                                    sQLiteDatabase2.commitTransaction();
                                 }
                                 if (sQLitePreparedStatement6 != null) {
+                                    sQLitePreparedStatement6.dispose();
                                 }
                                 if (sQLitePreparedStatement11 != null) {
+                                    sQLitePreparedStatement11.dispose();
                                 }
                                 if (sQLitePreparedStatement9 != null) {
+                                    sQLitePreparedStatement9.dispose();
                                 }
                                 if (sQLitePreparedStatement8 != null) {
+                                    sQLitePreparedStatement8.dispose();
                                 }
                                 if (sQLitePreparedStatement10 != null) {
+                                    sQLitePreparedStatement10.dispose();
                                 }
                                 if (sQLitePreparedStatement7 != null) {
+                                    sQLitePreparedStatement7.dispose();
                                 }
                                 if (sQLitePreparedStatement5 != null) {
+                                    sQLitePreparedStatement5.dispose();
                                 }
                                 if (sQLitePreparedStatement4 != null) {
+                                    sQLitePreparedStatement4.dispose();
                                 }
                                 if (sQLitePreparedStatement2 != null) {
+                                    sQLitePreparedStatement2.dispose();
                                 }
                                 if (sQLitePreparedStatement != null) {
+                                    sQLitePreparedStatement.dispose();
                                 }
                                 if (sQLitePreparedStatement3 == null) {
+                                    sQLitePreparedStatement3.dispose();
+                                    return;
                                 }
+                                return;
                             } catch (Throwable th34) {
                                 th3 = th34;
                                 sQLitePreparedStatement11 = executeFast6;
@@ -19833,6 +19846,7 @@ public class MessagesStorage extends BaseController {
                                 sQLitePreparedStatement8 = null;
                                 th = th3;
                                 if (z5) {
+                                    sQLiteDatabase.commitTransaction();
                                 }
                                 if (sQLitePreparedStatement6 != null) {
                                 }
@@ -20085,9 +20099,9 @@ public class MessagesStorage extends BaseController {
                                 try {
                                     sQLitePreparedStatement15.dispose();
                                     if (arrayList2 != null) {
-                                        for (int i91 = 0; i91 < arrayList2.size(); i91++) {
+                                        for (int i88 = 0; i88 < arrayList2.size(); i88++) {
                                             try {
-                                                TLRPC$Message tLRPC$Message8 = (TLRPC$Message) arrayList2.get(i91);
+                                                TLRPC$Message tLRPC$Message8 = (TLRPC$Message) arrayList2.get(i88);
                                                 createOrEditTopic(tLRPC$Message8.dialog_id, tLRPC$Message8);
                                             } catch (Exception e36) {
                                                 th2 = e36;
@@ -20174,15 +20188,15 @@ public class MessagesStorage extends BaseController {
                                                     SQLitePreparedStatement executeFast12 = this.database.executeFast("UPDATE topics SET unread_count = ?, top_message = ?, unread_mentions = ?, total_messages_count = ? WHERE did = ? AND topic_id = ?");
                                                     try {
                                                         ArrayList<Long> arrayList19 = new ArrayList<>();
-                                                        int i92 = 0;
-                                                        while (i92 < longSparseArray9.size()) {
+                                                        int i89 = 0;
+                                                        while (i89 < longSparseArray9.size()) {
                                                             LongSparseArray longSparseArray44 = longSparseArray9;
                                                             try {
-                                                                long keyAt5 = longSparseArray44.keyAt(i92);
+                                                                long keyAt5 = longSparseArray44.keyAt(i89);
                                                                 if (keyAt5 == 0) {
                                                                     sQLitePreparedStatement24 = executeFast12;
                                                                     arrayList4 = arrayList19;
-                                                                    i11 = i92;
+                                                                    i11 = i89;
                                                                     sQLitePreparedStatement25 = sQLitePreparedStatement5;
                                                                     longSparseArray10 = longSparseArray44;
                                                                     sQLitePreparedStatement26 = sQLitePreparedStatement7;
@@ -20190,8 +20204,8 @@ public class MessagesStorage extends BaseController {
                                                                     longSparseIntArray14 = longSparseIntArray7;
                                                                     sQLitePreparedStatement4 = executeFast10;
                                                                 } else {
-                                                                    TLRPC$Message tLRPC$Message9 = (TLRPC$Message) longSparseArray44.valueAt(i92);
-                                                                    i11 = i92;
+                                                                    TLRPC$Message tLRPC$Message9 = (TLRPC$Message) longSparseArray44.valueAt(i89);
+                                                                    i11 = i89;
                                                                     long channelId = MessageObject.getChannelId(tLRPC$Message9);
                                                                     SQLiteDatabase sQLiteDatabase7 = this.database;
                                                                     sQLitePreparedStatement25 = sQLitePreparedStatement5;
@@ -20295,35 +20309,35 @@ public class MessagesStorage extends BaseController {
                                                                                 if (channelId != 0) {
                                                                                     getMessagesController().checkChatInviter(channelId, true);
                                                                                 }
-                                                                                intValue3 = 0;
+                                                                                i12 = 0;
                                                                                 i13 = 0;
                                                                                 max = 0;
-                                                                                i12 = 0;
+                                                                                intValue3 = 0;
                                                                             }
                                                                             queryFinalized8.dispose();
                                                                             sQLitePreparedStatement24 = executeFast12;
                                                                             LongSparseIntArray longSparseIntArray30 = longSparseIntArray7;
-                                                                            int i93 = -1;
+                                                                            int i90 = -1;
                                                                             try {
-                                                                                int i94 = longSparseIntArray30.get(keyAt5, -1);
+                                                                                int i91 = longSparseIntArray30.get(keyAt5, -1);
                                                                                 SQLitePreparedStatement sQLitePreparedStatement32 = executeFast10;
                                                                                 LongSparseIntArray longSparseIntArray31 = longSparseIntArray6;
                                                                                 try {
-                                                                                    int i95 = longSparseIntArray31.get(keyAt5, -1);
-                                                                                    if (i95 == -1) {
-                                                                                        i95 = 0;
+                                                                                    int i92 = longSparseIntArray31.get(keyAt5, -1);
+                                                                                    if (i92 == -1) {
+                                                                                        i92 = 0;
                                                                                     } else {
-                                                                                        longSparseIntArray31.put(keyAt5, i95 + i13);
-                                                                                        i93 = -1;
+                                                                                        longSparseIntArray31.put(keyAt5, i92 + i13);
+                                                                                        i90 = -1;
                                                                                     }
-                                                                                    if (i94 == i93) {
-                                                                                        i94 = 0;
+                                                                                    if (i91 == i90) {
+                                                                                        i91 = 0;
                                                                                     } else {
-                                                                                        longSparseIntArray30.put(keyAt5, i94 + max);
+                                                                                        longSparseIntArray30.put(keyAt5, i91 + max);
                                                                                     }
                                                                                     if (tLRPC$Message9 != null) {
                                                                                         try {
-                                                                                            i14 = tLRPC$Message9.id;
+                                                                                            intValue3 = tLRPC$Message9.id;
                                                                                         } catch (Exception e38) {
                                                                                             e = e38;
                                                                                             sQLitePreparedStatement5 = sQLitePreparedStatement25;
@@ -20403,44 +20417,38 @@ public class MessagesStorage extends BaseController {
                                                                                             }
                                                                                             throw th;
                                                                                         }
-                                                                                    } else {
+                                                                                    }
+                                                                                    if (tLRPC$Message9 == null || (i14 = tLRPC$Message9.local_id) == 0) {
                                                                                         i14 = intValue3;
                                                                                     }
-                                                                                    if (tLRPC$Message9 != null) {
-                                                                                        i15 = i14;
-                                                                                        i16 = tLRPC$Message9.local_id;
-                                                                                    } else {
-                                                                                        i15 = i14;
-                                                                                    }
-                                                                                    i16 = i15;
                                                                                     if (isForum(keyAt5)) {
                                                                                         longSparseIntArray12 = longSparseIntArray30;
                                                                                         longSparseIntArray6 = longSparseIntArray31;
                                                                                         longSparseIntArray13 = longSparseIntArray3;
                                                                                     } else {
-                                                                                        if (i13 != 0 || i95 == 0) {
+                                                                                        if (i13 != 0 || i92 == 0) {
                                                                                             longSparseIntArray12 = longSparseIntArray30;
                                                                                             longSparseIntArray13 = longSparseIntArray3;
                                                                                         } else {
                                                                                             longSparseIntArray12 = longSparseIntArray30;
                                                                                             longSparseIntArray13 = longSparseIntArray3;
-                                                                                            longSparseIntArray13.put(keyAt5, i95);
+                                                                                            longSparseIntArray13.put(keyAt5, i92);
                                                                                         }
-                                                                                        if (max != 0 || i94 == 0) {
+                                                                                        if (max != 0 || i91 == 0) {
                                                                                             longSparseIntArray6 = longSparseIntArray31;
                                                                                         } else {
                                                                                             longSparseIntArray6 = longSparseIntArray31;
                                                                                             LongSparseIntArray longSparseIntArray32 = longSparseIntArray2;
-                                                                                            longSparseIntArray32.put(keyAt5, i94);
+                                                                                            longSparseIntArray32.put(keyAt5, i91);
                                                                                             longSparseIntArray2 = longSparseIntArray32;
                                                                                         }
                                                                                     }
                                                                                     arrayList19.add(Long.valueOf(keyAt5));
                                                                                     if (next) {
-                                                                                        if (i16 < intValue3 && !DialogObject.isEncryptedDialog(keyAt5)) {
+                                                                                        if (tLRPC$Message9 != null && tLRPC$Message9.date <= i12 && !DialogObject.isEncryptedDialog(keyAt5)) {
                                                                                             sQLitePreparedStatement.requery();
-                                                                                            sQLitePreparedStatement.bindInteger(1, i13 + i95);
-                                                                                            sQLitePreparedStatement.bindInteger(2, max + i94);
+                                                                                            sQLitePreparedStatement.bindInteger(1, i13 + i92);
+                                                                                            sQLitePreparedStatement.bindInteger(2, max + i91);
                                                                                             sQLitePreparedStatement.bindLong(3, keyAt5);
                                                                                             sQLitePreparedStatement.step();
                                                                                             sQLitePreparedStatement4 = sQLitePreparedStatement32;
@@ -20448,9 +20456,12 @@ public class MessagesStorage extends BaseController {
                                                                                             longSparseIntArray14 = longSparseIntArray12;
                                                                                         }
                                                                                         executeFast11.requery();
-                                                                                        executeFast11.bindInteger(1, (tLRPC$Message9 == null || (z2 && i12 != 0)) ? i12 : tLRPC$Message9.date);
-                                                                                        executeFast11.bindInteger(2, i13 + i95);
-                                                                                        executeFast11.bindInteger(3, i16);
+                                                                                        if (tLRPC$Message9 != null && (!z2 || i12 == 0)) {
+                                                                                            i12 = tLRPC$Message9.date;
+                                                                                        }
+                                                                                        executeFast11.bindInteger(1, i12);
+                                                                                        executeFast11.bindInteger(2, i13 + i92);
+                                                                                        executeFast11.bindInteger(3, i14);
                                                                                         if (tLRPC$Message9 != null && (tLRPC$Message9.flags & 131072) != 0) {
                                                                                             executeFast11.bindLong(4, tLRPC$Message9.grouped_id);
                                                                                             longSparseIntArray14 = longSparseIntArray12;
@@ -20458,7 +20469,7 @@ public class MessagesStorage extends BaseController {
                                                                                             longSparseIntArray14 = longSparseIntArray12;
                                                                                             executeFast11.bindNull(4);
                                                                                         }
-                                                                                        executeFast11.bindInteger(5, max + i94);
+                                                                                        executeFast11.bindInteger(5, max + i91);
                                                                                         executeFast11.bindLong(6, keyAt5);
                                                                                         executeFast11.step();
                                                                                         sQLitePreparedStatement4 = sQLitePreparedStatement32;
@@ -20467,15 +20478,12 @@ public class MessagesStorage extends BaseController {
                                                                                         longSparseIntArray14 = longSparseIntArray12;
                                                                                         sQLitePreparedStatement32.requery();
                                                                                         sQLitePreparedStatement4 = sQLitePreparedStatement32;
+                                                                                        arrayList4 = arrayList19;
                                                                                         try {
                                                                                             sQLitePreparedStatement4.bindLong(1, keyAt5);
-                                                                                            if (tLRPC$Message9 == null || (z2 && i12 != 0)) {
-                                                                                                arrayList4 = arrayList19;
-                                                                                                i17 = i12;
-                                                                                            } else {
+                                                                                            if (tLRPC$Message9 != null && (!z2 || i12 == 0)) {
                                                                                                 try {
-                                                                                                    i17 = tLRPC$Message9.date;
-                                                                                                    arrayList4 = arrayList19;
+                                                                                                    i12 = tLRPC$Message9.date;
                                                                                                 } catch (Exception e39) {
                                                                                                     e = e39;
                                                                                                     sQLitePreparedStatement5 = sQLitePreparedStatement25;
@@ -20554,15 +20562,15 @@ public class MessagesStorage extends BaseController {
                                                                                                     throw th;
                                                                                                 }
                                                                                             }
-                                                                                            sQLitePreparedStatement4.bindInteger(2, i17);
-                                                                                            sQLitePreparedStatement4.bindInteger(3, i13 + i95);
-                                                                                            sQLitePreparedStatement4.bindInteger(4, i16);
+                                                                                            sQLitePreparedStatement4.bindInteger(2, i12);
+                                                                                            sQLitePreparedStatement4.bindInteger(3, i13 + i92);
+                                                                                            sQLitePreparedStatement4.bindInteger(4, i14);
                                                                                             sQLitePreparedStatement4.bindInteger(5, 0);
                                                                                             sQLitePreparedStatement4.bindInteger(6, 0);
                                                                                             sQLitePreparedStatement2 = executeFast11;
                                                                                             try {
                                                                                                 sQLitePreparedStatement4.bindLong(7, 0L);
-                                                                                                sQLitePreparedStatement4.bindInteger(8, max + i94);
+                                                                                                sQLitePreparedStatement4.bindInteger(8, max + i91);
                                                                                                 sQLitePreparedStatement4.bindInteger(9, channelId != 0 ? 1 : 0);
                                                                                                 sQLitePreparedStatement4.bindInteger(10, 0);
                                                                                                 sQLitePreparedStatement4.bindInteger(11, 0);
@@ -20587,7 +20595,7 @@ public class MessagesStorage extends BaseController {
                                                                                                 sQLitePreparedStatement5 = sQLitePreparedStatement25;
                                                                                                 arrayList19 = arrayList4;
                                                                                                 SQLitePreparedStatement sQLitePreparedStatement33 = sQLitePreparedStatement4;
-                                                                                                i92 = i11 + 1;
+                                                                                                i89 = i11 + 1;
                                                                                                 executeFast10 = sQLitePreparedStatement33;
                                                                                             } catch (Exception e40) {
                                                                                                 e = e40;
@@ -20791,7 +20799,7 @@ public class MessagesStorage extends BaseController {
                                                                 sQLitePreparedStatement5 = sQLitePreparedStatement25;
                                                                 arrayList19 = arrayList4;
                                                                 SQLitePreparedStatement sQLitePreparedStatement332 = sQLitePreparedStatement4;
-                                                                i92 = i11 + 1;
+                                                                i89 = i11 + 1;
                                                                 executeFast10 = sQLitePreparedStatement332;
                                                             } catch (Exception e46) {
                                                                 e = e46;
@@ -20862,6 +20870,7 @@ public class MessagesStorage extends BaseController {
                                                                                             sQLitePreparedStatement11 = null;
                                                                                             checkSQLException(th2);
                                                                                             if (z5) {
+                                                                                                sQLiteDatabase2.commitTransaction();
                                                                                             }
                                                                                             if (sQLitePreparedStatement6 != null) {
                                                                                             }
@@ -20963,9 +20972,9 @@ public class MessagesStorage extends BaseController {
                                                                                         }
                                                                                         if (tLRPC$Message10 != null) {
                                                                                             it = it4;
-                                                                                            int i96 = tLRPC$Message10.local_id;
-                                                                                            if (i96 != 0) {
-                                                                                                intValue = i96;
+                                                                                            int i93 = tLRPC$Message10.local_id;
+                                                                                            if (i93 != 0) {
+                                                                                                intValue = i93;
                                                                                             }
                                                                                         } else {
                                                                                             it = it4;
@@ -21354,17 +21363,17 @@ public class MessagesStorage extends BaseController {
                                                                                 }
                                                                                 try {
                                                                                     int size6 = sparseArray3.size();
-                                                                                    for (int i97 = 0; i97 < size6; i97++) {
+                                                                                    for (int i94 = 0; i94 < size6; i94++) {
                                                                                         SparseArray sparseArray10 = sparseArray3;
-                                                                                        int keyAt6 = sparseArray10.keyAt(i97);
-                                                                                        LongSparseIntArray longSparseIntArray37 = (LongSparseIntArray) sparseArray10.valueAt(i97);
+                                                                                        int keyAt6 = sparseArray10.keyAt(i94);
+                                                                                        LongSparseIntArray longSparseIntArray37 = (LongSparseIntArray) sparseArray10.valueAt(i94);
                                                                                         int size7 = longSparseIntArray37.size();
-                                                                                        int i98 = 0;
-                                                                                        while (i98 < size7) {
+                                                                                        int i95 = 0;
+                                                                                        while (i95 < size7) {
                                                                                             SparseArray sparseArray11 = sparseArray10;
-                                                                                            long keyAt7 = longSparseIntArray37.keyAt(i98);
-                                                                                            int i99 = size6;
-                                                                                            int i100 = size7;
+                                                                                            long keyAt7 = longSparseIntArray37.keyAt(i95);
+                                                                                            int i96 = size6;
+                                                                                            int i97 = size7;
                                                                                             ArrayList<TopicsController.TopicUpdate> arrayList22 = arrayList21;
                                                                                             LongSparseIntArray longSparseIntArray38 = longSparseIntArray33;
                                                                                             LongSparseIntArray longSparseIntArray39 = longSparseIntArray35;
@@ -21381,13 +21390,13 @@ public class MessagesStorage extends BaseController {
                                                                                                 executeFast.requery();
                                                                                                 executeFast.bindLong(1, keyAt7);
                                                                                                 executeFast.bindInteger(2, keyAt6);
-                                                                                                executeFast.bindInteger(3, Math.max(0, i5 + longSparseIntArray37.valueAt(i98)));
+                                                                                                executeFast.bindInteger(3, Math.max(0, i5 + longSparseIntArray37.valueAt(i95)));
                                                                                                 executeFast.bindInteger(4, i6);
                                                                                                 executeFast.step();
                                                                                             }
-                                                                                            i98++;
-                                                                                            size6 = i99;
-                                                                                            size7 = i100;
+                                                                                            i95++;
+                                                                                            size6 = i96;
+                                                                                            size7 = i97;
                                                                                             arrayList21 = arrayList22;
                                                                                             longSparseIntArray33 = longSparseIntArray38;
                                                                                             longSparseIntArray35 = longSparseIntArray39;
@@ -21489,13 +21498,13 @@ public class MessagesStorage extends BaseController {
                                                                                 executeFast2 = this.database.executeFast("REPLACE INTO media_counts_topics VALUES(?, ?, ?, ?, ?)");
                                                                                 try {
                                                                                     int size8 = sparseArray4.size();
-                                                                                    int i101 = 0;
-                                                                                    while (i101 < size8) {
+                                                                                    int i98 = 0;
+                                                                                    while (i98 < size8) {
                                                                                         SparseArray sparseArray12 = sparseArray4;
-                                                                                        int keyAt8 = sparseArray12.keyAt(i101);
-                                                                                        HashMap hashMap49 = (HashMap) sparseArray12.valueAt(i101);
+                                                                                        int keyAt8 = sparseArray12.keyAt(i98);
+                                                                                        HashMap hashMap49 = (HashMap) sparseArray12.valueAt(i98);
                                                                                         for (TopicKey topicKey5 : hashMap49.keySet()) {
-                                                                                            int i102 = size8;
+                                                                                            int i99 = size8;
                                                                                             SparseArray sparseArray13 = sparseArray12;
                                                                                             SQLiteCursor queryFinalized11 = this.database.queryFinalized(String.format(Locale.US, "SELECT count, old FROM media_counts_topics WHERE uid = %d AND topic_id = %d AND type = %d LIMIT 1", Long.valueOf(topicKey5.dialogId), Integer.valueOf(topicKey5.topicId), Integer.valueOf(keyAt8)), new Object[0]);
                                                                                             if (queryFinalized11.next()) {
@@ -21520,10 +21529,10 @@ public class MessagesStorage extends BaseController {
                                                                                             if (BuildVars.DEBUG_PRIVATE_VERSION) {
                                                                                                 FileLog.d("update" + topicKey5.dialogId + topicKey5.topicId + str22 + keyAt8 + str22 + i8);
                                                                                             }
-                                                                                            size8 = i102;
+                                                                                            size8 = i99;
                                                                                             sparseArray12 = sparseArray13;
                                                                                         }
-                                                                                        i101++;
+                                                                                        i98++;
                                                                                         sparseArray4 = sparseArray12;
                                                                                     }
                                                                                     executeFast2.dispose();
@@ -21997,41 +22006,29 @@ public class MessagesStorage extends BaseController {
                                                     sQLitePreparedStatement8 = null;
                                                     sQLitePreparedStatement11 = null;
                                                     checkSQLException(th2);
-                                                    if (z5 && (sQLiteDatabase2 = this.database) != null) {
-                                                        sQLiteDatabase2.commitTransaction();
+                                                    if (z5) {
                                                     }
                                                     if (sQLitePreparedStatement6 != null) {
-                                                        sQLitePreparedStatement6.dispose();
                                                     }
                                                     if (sQLitePreparedStatement11 != null) {
-                                                        sQLitePreparedStatement11.dispose();
                                                     }
                                                     if (sQLitePreparedStatement9 != null) {
-                                                        sQLitePreparedStatement9.dispose();
                                                     }
                                                     if (sQLitePreparedStatement8 != null) {
-                                                        sQLitePreparedStatement8.dispose();
                                                     }
                                                     if (sQLitePreparedStatement10 != null) {
-                                                        sQLitePreparedStatement10.dispose();
                                                     }
                                                     if (sQLitePreparedStatement7 != null) {
-                                                        sQLitePreparedStatement7.dispose();
                                                     }
                                                     if (sQLitePreparedStatement5 != null) {
-                                                        sQLitePreparedStatement5.dispose();
                                                     }
                                                     if (sQLitePreparedStatement4 != null) {
-                                                        sQLitePreparedStatement4.dispose();
                                                     }
                                                     if (sQLitePreparedStatement2 != null) {
-                                                        sQLitePreparedStatement2.dispose();
                                                     }
                                                     if (sQLitePreparedStatement != null) {
-                                                        sQLitePreparedStatement.dispose();
                                                     }
                                                     if (sQLitePreparedStatement3 == null) {
-                                                        sQLitePreparedStatement3.dispose();
                                                     }
                                                 } catch (Throwable th67) {
                                                     sQLitePreparedStatement4 = executeFast10;
@@ -22045,7 +22042,6 @@ public class MessagesStorage extends BaseController {
                                                     sQLitePreparedStatement8 = null;
                                                     sQLitePreparedStatement11 = null;
                                                     if (z5) {
-                                                        sQLiteDatabase.commitTransaction();
                                                     }
                                                     if (sQLitePreparedStatement6 != null) {
                                                     }
@@ -22457,7 +22453,7 @@ public class MessagesStorage extends BaseController {
         tLRPC$TL_forumTopic.topicStartMessage = tLRPC$Message;
         tLRPC$TL_forumTopic.top_message = tLRPC$Message.id;
         tLRPC$TL_forumTopic.topMessage = tLRPC$Message;
-        tLRPC$TL_forumTopic.from_id = getMessagesController().getPeer(getUserConfig().clientUserId);
+        tLRPC$TL_forumTopic.from_id = tLRPC$Message.from_id;
         tLRPC$TL_forumTopic.notify_settings = new TLRPC$TL_peerNotifySettings();
         tLRPC$TL_forumTopic.unread_count = 0;
         TLRPC$MessageAction tLRPC$MessageAction = tLRPC$Message.action;
@@ -22528,7 +22524,7 @@ public class MessagesStorage extends BaseController {
             return;
         }
         if (z2) {
-            this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda163
+            this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda164
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesStorage.this.lambda$putMessages$177(arrayList, z, z3, i, z4, z5, i2);
@@ -22540,7 +22536,7 @@ public class MessagesStorage extends BaseController {
     }
 
     public void markMessageAsSendError(final TLRPC$Message tLRPC$Message, final boolean z) {
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda192
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda193
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$markMessageAsSendError$178(tLRPC$Message, z);
@@ -23214,7 +23210,7 @@ public class MessagesStorage extends BaseController {
             }
             final TLRPC$TL_updates tLRPC$TL_updates = new TLRPC$TL_updates();
             tLRPC$TL_updates.updates.add(tLRPC$TL_updateDeleteScheduledMessages);
-            Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda195
+            Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda196
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesStorage.this.lambda$updateMessageStateAndIdInternal$180(tLRPC$TL_updates);
@@ -23369,7 +23365,7 @@ public class MessagesStorage extends BaseController {
             return;
         }
         if (z3) {
-            this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda162
+            this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda163
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesStorage.this.lambda$updateUsers$182(arrayList, z, z2);
@@ -23615,7 +23611,7 @@ public class MessagesStorage extends BaseController {
 
     public void markMessagesAsRead(final LongSparseIntArray longSparseIntArray, final LongSparseIntArray longSparseIntArray2, final SparseIntArray sparseIntArray, boolean z) {
         if (z) {
-            this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda173
+            this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda174
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesStorage.this.lambda$markMessagesAsRead$184(longSparseIntArray, longSparseIntArray2, sparseIntArray);
@@ -23630,7 +23626,7 @@ public class MessagesStorage extends BaseController {
         if (arrayList.isEmpty()) {
             return;
         }
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda144
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda145
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$markMessagesAsDeletedByRandoms$186(arrayList);
@@ -23670,7 +23666,7 @@ public class MessagesStorage extends BaseController {
             for (int i = 0; i < size; i++) {
                 long keyAt = longSparseArray.keyAt(i);
                 final ArrayList<Integer> arrayList3 = (ArrayList) longSparseArray.valueAt(i);
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda141
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda142
                     @Override // java.lang.Runnable
                     public final void run() {
                         MessagesStorage.this.lambda$markMessagesAsDeletedByRandoms$185(arrayList3);
@@ -23726,7 +23722,7 @@ public class MessagesStorage extends BaseController {
         try {
             final int intValue = queryFinalized.next() ? queryFinalized.intValue(0) : 0;
             queryFinalized.dispose();
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda136
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda137
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesStorage.this.lambda$broadcastScheduledMessagesChange$187(l, intValue);
@@ -23777,13 +23773,13 @@ public class MessagesStorage extends BaseController {
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:193:0x0414  */
-    /* JADX WARN: Removed duplicated region for block: B:195:0x0419  */
-    /* JADX WARN: Removed duplicated region for block: B:197:0x041e  */
-    /* JADX WARN: Removed duplicated region for block: B:202:0x0427  */
-    /* JADX WARN: Removed duplicated region for block: B:204:0x042c  */
-    /* JADX WARN: Removed duplicated region for block: B:206:0x0431  */
-    /* JADX WARN: Removed duplicated region for block: B:257:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:197:0x041d  */
+    /* JADX WARN: Removed duplicated region for block: B:199:0x0422  */
+    /* JADX WARN: Removed duplicated region for block: B:201:0x0427  */
+    /* JADX WARN: Removed duplicated region for block: B:206:0x0430  */
+    /* JADX WARN: Removed duplicated region for block: B:208:0x0435  */
+    /* JADX WARN: Removed duplicated region for block: B:210:0x043a  */
+    /* JADX WARN: Removed duplicated region for block: B:261:? A[RETURN, SYNTHETIC] */
     /* renamed from: updateDialogsWithDeletedMessagesInternal */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -23958,7 +23954,9 @@ public class MessagesStorage extends BaseController {
                             int intValue = queryFinalized2.intValue(12);
                             tLRPC$TL_dialog.pinnedNum = intValue;
                             tLRPC$TL_dialog.pinned = intValue != 0;
-                            tLRPC$TL_dialog.unread_mark = (queryFinalized2.intValue(14) & 1) != 0;
+                            int intValue2 = queryFinalized2.intValue(14);
+                            tLRPC$TL_dialog.unread_mark = (intValue2 & 1) != 0;
+                            tLRPC$TL_dialog.view_forum_as_messages = (intValue2 & 64) != 0;
                             tLRPC$TL_dialog.folder_id = queryFinalized2.intValue(15);
                             tLRPC$TL_dialog.unread_reactions_count = queryFinalized2.intValue(17);
                             long longValue3 = queryFinalized2.longValue(18);
@@ -23975,9 +23973,9 @@ public class MessagesStorage extends BaseController {
                                 MessageObject.setUnreadFlags(TLdeserialize, queryFinalized2.intValue(5));
                                 TLdeserialize.id = queryFinalized2.intValue(6);
                                 TLdeserialize.send_state = queryFinalized2.intValue(7);
-                                int intValue2 = queryFinalized2.intValue(8);
-                                if (intValue2 != 0) {
-                                    tLRPC$TL_dialog.last_message_date = intValue2;
+                                int intValue3 = queryFinalized2.intValue(8);
+                                if (intValue3 != 0) {
+                                    tLRPC$TL_dialog.last_message_date = intValue3;
                                 }
                                 TLdeserialize.dialog_id = tLRPC$TL_dialog.id;
                                 tLRPC$TL_messages_dialogs.messages.add(TLdeserialize);
@@ -24111,9 +24109,9 @@ public class MessagesStorage extends BaseController {
                                 MessageObject.setUnreadFlags(TLdeserialize2, sQLiteCursor2.intValue(2));
                                 TLdeserialize2.id = sQLiteCursor2.intValue(3);
                                 TLdeserialize2.send_state = sQLiteCursor2.intValue(4);
-                                int intValue3 = sQLiteCursor2.intValue(5);
-                                if (intValue3 != 0) {
-                                    tLRPC$Dialog.last_message_date = intValue3;
+                                int intValue4 = sQLiteCursor2.intValue(5);
+                                if (intValue4 != 0) {
+                                    tLRPC$Dialog.last_message_date = intValue4;
                                 }
                                 TLdeserialize2.dialog_id = tLRPC$Dialog.id;
                                 tLRPC$TL_messages_dialogs.messages.add(TLdeserialize2);
@@ -24341,7 +24339,7 @@ public class MessagesStorage extends BaseController {
                                                 i2 = z3;
                                                 sQLiteCursor3.dispose();
                                                 messagesStorage.deleteFromDownloadQueue(arrayList3, i2);
-                                                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda150
+                                                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda151
                                                     @Override // java.lang.Runnable
                                                     public final void run() {
                                                         MessagesStorage.this.lambda$markMessagesAsDeletedInternal$191(arrayList2);
@@ -24441,7 +24439,7 @@ public class MessagesStorage extends BaseController {
                             i2 = z3;
                             sQLiteCursor3.dispose();
                             messagesStorage.deleteFromDownloadQueue(arrayList3, i2);
-                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda150
+                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda151
                                 @Override // java.lang.Runnable
                                 public final void run() {
                                     MessagesStorage.this.lambda$markMessagesAsDeletedInternal$191(arrayList2);
@@ -24533,7 +24531,7 @@ public class MessagesStorage extends BaseController {
         }
         try {
             messagesStorage.deleteFromDownloadQueue(arrayList3, i2);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda150
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda151
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesStorage.this.lambda$markMessagesAsDeletedInternal$191(arrayList2);
@@ -24752,12 +24750,12 @@ public class MessagesStorage extends BaseController {
         TLRPC$MessageMedia tLRPC$MessageMedia = tLRPC$Message.media;
         if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaUnsupported_old) {
             if (tLRPC$MessageMedia.bytes.length == 0) {
-                tLRPC$MessageMedia.bytes = Utilities.intToBytes(166);
+                tLRPC$MessageMedia.bytes = Utilities.intToBytes(167);
             }
         } else if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaUnsupported) {
             TLRPC$TL_messageMediaUnsupported_old tLRPC$TL_messageMediaUnsupported_old = new TLRPC$TL_messageMediaUnsupported_old();
             tLRPC$Message.media = tLRPC$TL_messageMediaUnsupported_old;
-            tLRPC$TL_messageMediaUnsupported_old.bytes = Utilities.intToBytes(166);
+            tLRPC$TL_messageMediaUnsupported_old.bytes = Utilities.intToBytes(167);
             tLRPC$Message.flags |= LiteMode.FLAG_CALLS_ANIMATIONS;
         }
     }
@@ -25322,7 +25320,7 @@ public class MessagesStorage extends BaseController {
         if (tLRPC$Message == null) {
             return;
         }
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda193
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda194
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$replaceMessageIfExists$194(tLRPC$Message, z, arrayList, arrayList2);
@@ -25802,7 +25800,7 @@ public class MessagesStorage extends BaseController {
             final MessageObject messageObject = new MessageObject(this.currentAccount, tLRPC$Message, (AbstractMap<Long, TLRPC$User>) hashMap, (AbstractMap<Long, TLRPC$Chat>) hashMap2, true, true);
             final ArrayList arrayList3 = new ArrayList();
             arrayList3.add(messageObject);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda169
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda170
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesStorage.this.lambda$replaceMessageIfExists$193(messageObject, arrayList3);
@@ -25821,7 +25819,7 @@ public class MessagesStorage extends BaseController {
     }
 
     public void putMessages(final TLRPC$messages_Messages tLRPC$messages_Messages, final long j, final int i, final int i2, final boolean z, final boolean z2, final int i3) {
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda208
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda209
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$putMessages$196(z2, j, tLRPC$messages_Messages, i3, i, i2, z);
@@ -27933,7 +27931,7 @@ public class MessagesStorage extends BaseController {
                                                             }
                                                         }
                                                         messagesStorage.deleteFromDownloadQueue(arrayList12, false);
-                                                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda146
+                                                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda147
                                                             @Override // java.lang.Runnable
                                                             public final void run() {
                                                                 MessagesStorage.this.lambda$putMessages$195(arrayList13);
@@ -28031,7 +28029,7 @@ public class MessagesStorage extends BaseController {
                                                         sQLitePreparedStatement10 = sQLitePreparedStatement6;
                                                     }
                                                     messagesStorage.deleteFromDownloadQueue(arrayList12, false);
-                                                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda146
+                                                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda147
                                                         @Override // java.lang.Runnable
                                                         public final void run() {
                                                             MessagesStorage.this.lambda$putMessages$195(arrayList13);
@@ -28552,57 +28550,66 @@ public class MessagesStorage extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Can't wrap try/catch for region: R(19:(10:5|6|7|(13:9|10|(1:12)(1:304)|13|14|15|(25:19|(3:21|(2:23|(1:25)(1:26))|(1:28))(1:166)|29|(2:31|(1:33)(19:164|35|(1:37)(1:163)|38|(1:40)(1:162)|41|(2:43|(1:45))|46|(1:48)|49|(1:51)|52|(7:54|(8:56|(1:58)|59|60|61|(10:65|(3:148|149|(1:151))|67|68|(3:133|134|(9:136|137|138|139|(1:141)|71|72|(3:74|75|76)|129))|70|71|72|(0)|129)|156|129)(1:160)|78|(3:103|104|(1:106))|80|(4:82|(1:84)|85|86)(2:88|(4:90|(1:92)|93|94)(2:95|(2:97|(2:99|100)(1:101))(1:102)))|87)(1:161)|77|78|(0)|80|(0)(0)|87))(1:165)|34|35|(0)(0)|38|(0)(0)|41|(0)|46|(0)|49|(0)|52|(0)(0)|77|78|(0)|80|(0)(0)|87|16|17)|167|168|169|170|(9:172|(6:175|176|177|(2:179|180)(1:182)|181|173)|188|189|(6:193|(2:194|(3:196|(2:198|(2:200|201)(1:268))(2:270|271)|269)(2:272|273))|(2:207|(12:209|210|211|212|(1:214)|215|216|217|(2:221|(7:227|(2:231|(7:233|234|235|236|(1:238)|239|240))|256|236|(0)|239|240))|257|239|240)(2:266|267))(2:203|204)|205|190|191)|274|275|276|277)(2:284|285)|278)(1:310)|110|111|112|(1:117)|114|115)|318|319|(6:321|322|323|324|325|326)(1:379)|327|328|(1:330)|331|(1:333)|334|(5:336|(4:339|(4:342|(2:346|347)|348|340)|351|337)|352|353|(9:355|356|357|358|359|360|(1:362)|114|115))|367|357|358|359|360|(0)|114|115) */
-    /* JADX WARN: Can't wrap try/catch for region: R(28:1|(3:2|3|4)|(10:5|6|7|(13:9|10|(1:12)(1:304)|13|14|15|(25:19|(3:21|(2:23|(1:25)(1:26))|(1:28))(1:166)|29|(2:31|(1:33)(19:164|35|(1:37)(1:163)|38|(1:40)(1:162)|41|(2:43|(1:45))|46|(1:48)|49|(1:51)|52|(7:54|(8:56|(1:58)|59|60|61|(10:65|(3:148|149|(1:151))|67|68|(3:133|134|(9:136|137|138|139|(1:141)|71|72|(3:74|75|76)|129))|70|71|72|(0)|129)|156|129)(1:160)|78|(3:103|104|(1:106))|80|(4:82|(1:84)|85|86)(2:88|(4:90|(1:92)|93|94)(2:95|(2:97|(2:99|100)(1:101))(1:102)))|87)(1:161)|77|78|(0)|80|(0)(0)|87))(1:165)|34|35|(0)(0)|38|(0)(0)|41|(0)|46|(0)|49|(0)|52|(0)(0)|77|78|(0)|80|(0)(0)|87|16|17)|167|168|169|170|(9:172|(6:175|176|177|(2:179|180)(1:182)|181|173)|188|189|(6:193|(2:194|(3:196|(2:198|(2:200|201)(1:268))(2:270|271)|269)(2:272|273))|(2:207|(12:209|210|211|212|(1:214)|215|216|217|(2:221|(7:227|(2:231|(7:233|234|235|236|(1:238)|239|240))|256|236|(0)|239|240))|257|239|240)(2:266|267))(2:203|204)|205|190|191)|274|275|276|277)(2:284|285)|278)(1:310)|110|111|112|(1:117)|114|115)|311|312|313|314|(7:385|386|(4:389|(4:394|(2:396|(1:398))(2:404|(1:406))|399|(2:401|402)(1:403))(2:391|392)|393|387)|407|408|(5:410|(3:414|411|412)|415|416|417)(1:425)|418)(1:316)|317|318|319|(6:321|322|323|324|325|326)(1:379)|327|328|(1:330)|331|(1:333)|334|(5:336|(4:339|(4:342|(2:346|347)|348|340)|351|337)|352|353|(9:355|356|357|358|359|360|(1:362)|114|115))|367|357|358|359|360|(0)|114|115|(1:(0))) */
-    /* JADX WARN: Code restructure failed: missing block: B:338:0x06d2, code lost:
+    /* JADX WARN: Can't wrap try/catch for region: R(22:1|(3:2|3|4)|(7:(10:5|6|7|(13:9|10|(1:12)(1:311)|13|14|15|(27:19|(3:21|(2:23|(1:25)(1:26))|(1:28))(1:173)|29|(2:31|(1:33)(21:171|35|(1:37)(1:170)|38|(1:40)(1:169)|41|(1:43)(1:168)|44|(2:46|(1:48))|49|(1:51)|52|(1:54)|55|(7:57|(8:59|(1:61)|62|63|64|(10:68|(3:154|155|(1:157))|70|71|(3:139|140|(9:142|143|144|145|(1:147)|74|75|(3:77|78|79)|135))|73|74|75|(0)|135)|162|135)(1:166)|81|(3:106|107|(1:109))|83|(4:85|(1:87)|88|89)(2:91|(4:93|(1:95)|96|97)(2:98|(2:100|(2:102|103)(1:104))(1:105)))|90)(1:167)|80|81|(0)|83|(0)(0)|90))(1:172)|34|35|(0)(0)|38|(0)(0)|41|(0)(0)|44|(0)|49|(0)|52|(0)|55|(0)(0)|80|81|(0)|83|(0)(0)|90|16|17)|174|175|176|177|(9:179|(6:182|183|184|(2:186|187)(1:189)|188|180)|195|196|(6:200|(2:201|(3:203|(2:205|(2:207|208)(1:275))(2:277|278)|276)(2:279|280))|(2:214|(12:216|217|218|219|(1:221)|222|223|224|(2:228|(7:234|(2:238|(7:240|241|242|243|(1:245)|246|247))|263|243|(0)|246|247))|264|246|247)(2:273|274))(2:210|211)|212|197|198)|281|282|283|284)(2:291|292)|285)(1:317)|113|114|115|(1:120)|117|118)|(5:343|(4:346|(4:349|(2:353|354)|355|347)|358|344)|359|360|(9:362|363|364|365|366|367|(1:369)|117|118))|366|367|(0)|117|118)|318|319|320|321|(7:391|392|(4:395|(4:400|(2:402|(1:404))(2:410|(1:412))|405|(2:407|408)(1:409))(2:397|398)|399|393)|413|414|(5:416|(3:420|417|418)|421|422|423)(1:431)|424)(1:323)|324|325|326|(6:328|329|330|331|332|333)(1:386)|334|335|(1:337)|338|(1:340)|341|374|364|365|(1:(0))) */
+    /* JADX WARN: Can't wrap try/catch for region: R(28:1|(3:2|3|4)|(10:5|6|7|(13:9|10|(1:12)(1:311)|13|14|15|(27:19|(3:21|(2:23|(1:25)(1:26))|(1:28))(1:173)|29|(2:31|(1:33)(21:171|35|(1:37)(1:170)|38|(1:40)(1:169)|41|(1:43)(1:168)|44|(2:46|(1:48))|49|(1:51)|52|(1:54)|55|(7:57|(8:59|(1:61)|62|63|64|(10:68|(3:154|155|(1:157))|70|71|(3:139|140|(9:142|143|144|145|(1:147)|74|75|(3:77|78|79)|135))|73|74|75|(0)|135)|162|135)(1:166)|81|(3:106|107|(1:109))|83|(4:85|(1:87)|88|89)(2:91|(4:93|(1:95)|96|97)(2:98|(2:100|(2:102|103)(1:104))(1:105)))|90)(1:167)|80|81|(0)|83|(0)(0)|90))(1:172)|34|35|(0)(0)|38|(0)(0)|41|(0)(0)|44|(0)|49|(0)|52|(0)|55|(0)(0)|80|81|(0)|83|(0)(0)|90|16|17)|174|175|176|177|(9:179|(6:182|183|184|(2:186|187)(1:189)|188|180)|195|196|(6:200|(2:201|(3:203|(2:205|(2:207|208)(1:275))(2:277|278)|276)(2:279|280))|(2:214|(12:216|217|218|219|(1:221)|222|223|224|(2:228|(7:234|(2:238|(7:240|241|242|243|(1:245)|246|247))|263|243|(0)|246|247))|264|246|247)(2:273|274))(2:210|211)|212|197|198)|281|282|283|284)(2:291|292)|285)(1:317)|113|114|115|(1:120)|117|118)|318|319|320|321|(7:391|392|(4:395|(4:400|(2:402|(1:404))(2:410|(1:412))|405|(2:407|408)(1:409))(2:397|398)|399|393)|413|414|(5:416|(3:420|417|418)|421|422|423)(1:431)|424)(1:323)|324|325|326|(6:328|329|330|331|332|333)(1:386)|334|335|(1:337)|338|(1:340)|341|(5:343|(4:346|(4:349|(2:353|354)|355|347)|358|344)|359|360|(9:362|363|364|365|366|367|(1:369)|117|118))|374|364|365|366|367|(0)|117|118|(1:(0))) */
+    /* JADX WARN: Can't wrap try/catch for region: R(7:(10:5|6|7|(13:9|10|(1:12)(1:311)|13|14|15|(27:19|(3:21|(2:23|(1:25)(1:26))|(1:28))(1:173)|29|(2:31|(1:33)(21:171|35|(1:37)(1:170)|38|(1:40)(1:169)|41|(1:43)(1:168)|44|(2:46|(1:48))|49|(1:51)|52|(1:54)|55|(7:57|(8:59|(1:61)|62|63|64|(10:68|(3:154|155|(1:157))|70|71|(3:139|140|(9:142|143|144|145|(1:147)|74|75|(3:77|78|79)|135))|73|74|75|(0)|135)|162|135)(1:166)|81|(3:106|107|(1:109))|83|(4:85|(1:87)|88|89)(2:91|(4:93|(1:95)|96|97)(2:98|(2:100|(2:102|103)(1:104))(1:105)))|90)(1:167)|80|81|(0)|83|(0)(0)|90))(1:172)|34|35|(0)(0)|38|(0)(0)|41|(0)(0)|44|(0)|49|(0)|52|(0)|55|(0)(0)|80|81|(0)|83|(0)(0)|90|16|17)|174|175|176|177|(9:179|(6:182|183|184|(2:186|187)(1:189)|188|180)|195|196|(6:200|(2:201|(3:203|(2:205|(2:207|208)(1:275))(2:277|278)|276)(2:279|280))|(2:214|(12:216|217|218|219|(1:221)|222|223|224|(2:228|(7:234|(2:238|(7:240|241|242|243|(1:245)|246|247))|263|243|(0)|246|247))|264|246|247)(2:273|274))(2:210|211)|212|197|198)|281|282|283|284)(2:291|292)|285)(1:317)|113|114|115|(1:120)|117|118)|(5:343|(4:346|(4:349|(2:353|354)|355|347)|358|344)|359|360|(9:362|363|364|365|366|367|(1:369)|117|118))|366|367|(0)|117|118) */
+    /* JADX WARN: Code restructure failed: missing block: B:342:0x06db, code lost:
         r0 = e;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:340:0x06d4, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:344:0x06dd, code lost:
         r0 = e;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:341:0x06d5, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:345:0x06de, code lost:
         r3 = r13;
         r5 = r15;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:344:0x06dc, code lost:
-        r0 = e;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:348:0x06e3, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:346:0x06e1, code lost:
         r0 = th;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:350:0x06e6, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:348:0x06e5, code lost:
         r0 = e;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:351:0x06e7, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:352:0x06ec, code lost:
+        r0 = th;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:354:0x06ef, code lost:
+        r0 = e;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:355:0x06f0, code lost:
         r3 = r13;
         r5 = r15;
         r4 = r22;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:358:0x06f6, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:362:0x06ff, code lost:
         r1 = r0;
         r2 = r18;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:71:0x0231, code lost:
-        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageActionGameScore) == false) goto L156;
+    /* JADX WARN: Code restructure failed: missing block: B:374:0x0746, code lost:
+        r9.dispose();
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:75:0x023a, code lost:
+        if ((r2 instanceof org.telegram.tgnet.TLRPC$TL_messageActionGameScore) == false) goto L162;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:109:0x02bf  */
-    /* JADX WARN: Removed duplicated region for block: B:118:0x02e0 A[Catch: all -> 0x0513, Exception -> 0x0519, TryCatch #41 {Exception -> 0x0519, all -> 0x0513, blocks: (B:111:0x02cb, B:113:0x02d1, B:115:0x02d7, B:116:0x02da, B:118:0x02e0, B:120:0x02f0, B:122:0x02fa, B:124:0x0302, B:126:0x030c, B:127:0x0313, B:128:0x031d, B:130:0x0325, B:132:0x0330, B:107:0x02ab, B:108:0x02af, B:134:0x034b), top: B:411:0x02d1 }] */
-    /* JADX WARN: Removed duplicated region for block: B:122:0x02fa A[Catch: all -> 0x0513, Exception -> 0x0519, TryCatch #41 {Exception -> 0x0519, all -> 0x0513, blocks: (B:111:0x02cb, B:113:0x02d1, B:115:0x02d7, B:116:0x02da, B:118:0x02e0, B:120:0x02f0, B:122:0x02fa, B:124:0x0302, B:126:0x030c, B:127:0x0313, B:128:0x031d, B:130:0x0325, B:132:0x0330, B:107:0x02ab, B:108:0x02af, B:134:0x034b), top: B:411:0x02d1 }] */
-    /* JADX WARN: Removed duplicated region for block: B:195:0x0497 A[Catch: Exception -> 0x049b, all -> 0x04aa, TRY_LEAVE, TryCatch #3 {all -> 0x04aa, blocks: (B:170:0x041d, B:172:0x043b, B:173:0x043d, B:174:0x044f, B:176:0x0453, B:178:0x0457, B:180:0x045d, B:182:0x0461, B:184:0x0465, B:186:0x046c, B:188:0x0472, B:191:0x048e, B:193:0x0493, B:195:0x0497), top: B:374:0x041d }] */
-    /* JADX WARN: Removed duplicated region for block: B:370:0x073d  */
+    /* JADX WARN: Removed duplicated region for block: B:113:0x02c8  */
+    /* JADX WARN: Removed duplicated region for block: B:122:0x02e9 A[Catch: all -> 0x051c, Exception -> 0x0522, TryCatch #38 {Exception -> 0x0522, all -> 0x051c, blocks: (B:115:0x02d4, B:117:0x02da, B:119:0x02e0, B:120:0x02e3, B:122:0x02e9, B:124:0x02f9, B:126:0x0303, B:128:0x030b, B:130:0x0315, B:131:0x031c, B:132:0x0326, B:134:0x032e, B:136:0x0339, B:111:0x02b4, B:112:0x02b8, B:138:0x0354), top: B:421:0x02da }] */
+    /* JADX WARN: Removed duplicated region for block: B:126:0x0303 A[Catch: all -> 0x051c, Exception -> 0x0522, TryCatch #38 {Exception -> 0x0522, all -> 0x051c, blocks: (B:115:0x02d4, B:117:0x02da, B:119:0x02e0, B:120:0x02e3, B:122:0x02e9, B:124:0x02f9, B:126:0x0303, B:128:0x030b, B:130:0x0315, B:131:0x031c, B:132:0x0326, B:134:0x032e, B:136:0x0339, B:111:0x02b4, B:112:0x02b8, B:138:0x0354), top: B:421:0x02da }] */
+    /* JADX WARN: Removed duplicated region for block: B:199:0x04a0 A[Catch: Exception -> 0x04a4, all -> 0x04b3, TRY_LEAVE, TryCatch #13 {all -> 0x04b3, blocks: (B:174:0x0426, B:176:0x0444, B:177:0x0446, B:178:0x0458, B:180:0x045c, B:182:0x0460, B:184:0x0466, B:186:0x046a, B:188:0x046e, B:190:0x0475, B:192:0x047b, B:195:0x0497, B:197:0x049c, B:199:0x04a0), top: B:384:0x0426 }] */
+    /* JADX WARN: Removed duplicated region for block: B:374:0x0746  */
     /* JADX WARN: Removed duplicated region for block: B:37:0x0151  */
     /* JADX WARN: Removed duplicated region for block: B:38:0x0153  */
-    /* JADX WARN: Removed duplicated region for block: B:411:0x02d1 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:41:0x0168  */
+    /* JADX WARN: Removed duplicated region for block: B:421:0x02da A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:42:0x016a  */
-    /* JADX WARN: Removed duplicated region for block: B:459:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:45:0x0183 A[Catch: all -> 0x051f, Exception -> 0x0526, TryCatch #18 {Exception -> 0x0526, blocks: (B:14:0x00af, B:16:0x00b5, B:18:0x00c2, B:20:0x00cf, B:22:0x00d5, B:23:0x00e4, B:25:0x00f3, B:27:0x0104, B:29:0x0125, B:35:0x0135, B:39:0x0154, B:43:0x016b, B:45:0x0183, B:47:0x018b, B:48:0x0190, B:50:0x01aa, B:51:0x01ba, B:53:0x01c9, B:54:0x01d0, B:56:0x01d7, B:58:0x01e2, B:60:0x0206, B:61:0x0208, B:26:0x00ff), top: B:392:0x00af }] */
-    /* JADX WARN: Removed duplicated region for block: B:460:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x01aa A[Catch: all -> 0x051f, Exception -> 0x0526, TryCatch #18 {Exception -> 0x0526, blocks: (B:14:0x00af, B:16:0x00b5, B:18:0x00c2, B:20:0x00cf, B:22:0x00d5, B:23:0x00e4, B:25:0x00f3, B:27:0x0104, B:29:0x0125, B:35:0x0135, B:39:0x0154, B:43:0x016b, B:45:0x0183, B:47:0x018b, B:48:0x0190, B:50:0x01aa, B:51:0x01ba, B:53:0x01c9, B:54:0x01d0, B:56:0x01d7, B:58:0x01e2, B:60:0x0206, B:61:0x0208, B:26:0x00ff), top: B:392:0x00af }] */
-    /* JADX WARN: Removed duplicated region for block: B:53:0x01c9 A[Catch: all -> 0x051f, Exception -> 0x0526, TryCatch #18 {Exception -> 0x0526, blocks: (B:14:0x00af, B:16:0x00b5, B:18:0x00c2, B:20:0x00cf, B:22:0x00d5, B:23:0x00e4, B:25:0x00f3, B:27:0x0104, B:29:0x0125, B:35:0x0135, B:39:0x0154, B:43:0x016b, B:45:0x0183, B:47:0x018b, B:48:0x0190, B:50:0x01aa, B:51:0x01ba, B:53:0x01c9, B:54:0x01d0, B:56:0x01d7, B:58:0x01e2, B:60:0x0206, B:61:0x0208, B:26:0x00ff), top: B:392:0x00af }] */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x01d7 A[Catch: all -> 0x051f, Exception -> 0x0526, TryCatch #18 {Exception -> 0x0526, blocks: (B:14:0x00af, B:16:0x00b5, B:18:0x00c2, B:20:0x00cf, B:22:0x00d5, B:23:0x00e4, B:25:0x00f3, B:27:0x0104, B:29:0x0125, B:35:0x0135, B:39:0x0154, B:43:0x016b, B:45:0x0183, B:47:0x018b, B:48:0x0190, B:50:0x01aa, B:51:0x01ba, B:53:0x01c9, B:54:0x01d0, B:56:0x01d7, B:58:0x01e2, B:60:0x0206, B:61:0x0208, B:26:0x00ff), top: B:392:0x00af }] */
-    /* JADX WARN: Removed duplicated region for block: B:94:0x028a  */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x0171  */
+    /* JADX WARN: Removed duplicated region for block: B:464:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:465:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x0173  */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x018c A[Catch: all -> 0x0528, Exception -> 0x052f, TryCatch #2 {Exception -> 0x052f, blocks: (B:14:0x00af, B:16:0x00b5, B:18:0x00c2, B:20:0x00cf, B:22:0x00d5, B:23:0x00e4, B:25:0x00f3, B:27:0x0104, B:29:0x0125, B:35:0x0135, B:39:0x0154, B:43:0x016b, B:47:0x0174, B:49:0x018c, B:51:0x0194, B:52:0x0199, B:54:0x01b3, B:55:0x01c3, B:57:0x01d2, B:58:0x01d9, B:60:0x01e0, B:62:0x01eb, B:64:0x020f, B:65:0x0211, B:26:0x00ff), top: B:380:0x00af }] */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x01b3 A[Catch: all -> 0x0528, Exception -> 0x052f, TryCatch #2 {Exception -> 0x052f, blocks: (B:14:0x00af, B:16:0x00b5, B:18:0x00c2, B:20:0x00cf, B:22:0x00d5, B:23:0x00e4, B:25:0x00f3, B:27:0x0104, B:29:0x0125, B:35:0x0135, B:39:0x0154, B:43:0x016b, B:47:0x0174, B:49:0x018c, B:51:0x0194, B:52:0x0199, B:54:0x01b3, B:55:0x01c3, B:57:0x01d2, B:58:0x01d9, B:60:0x01e0, B:62:0x01eb, B:64:0x020f, B:65:0x0211, B:26:0x00ff), top: B:380:0x00af }] */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x01d2 A[Catch: all -> 0x0528, Exception -> 0x052f, TryCatch #2 {Exception -> 0x052f, blocks: (B:14:0x00af, B:16:0x00b5, B:18:0x00c2, B:20:0x00cf, B:22:0x00d5, B:23:0x00e4, B:25:0x00f3, B:27:0x0104, B:29:0x0125, B:35:0x0135, B:39:0x0154, B:43:0x016b, B:47:0x0174, B:49:0x018c, B:51:0x0194, B:52:0x0199, B:54:0x01b3, B:55:0x01c3, B:57:0x01d2, B:58:0x01d9, B:60:0x01e0, B:62:0x01eb, B:64:0x020f, B:65:0x0211, B:26:0x00ff), top: B:380:0x00af }] */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x01e0 A[Catch: all -> 0x0528, Exception -> 0x052f, TryCatch #2 {Exception -> 0x052f, blocks: (B:14:0x00af, B:16:0x00b5, B:18:0x00c2, B:20:0x00cf, B:22:0x00d5, B:23:0x00e4, B:25:0x00f3, B:27:0x0104, B:29:0x0125, B:35:0x0135, B:39:0x0154, B:43:0x016b, B:47:0x0174, B:49:0x018c, B:51:0x0194, B:52:0x0199, B:54:0x01b3, B:55:0x01c3, B:57:0x01d2, B:58:0x01d9, B:60:0x01e0, B:62:0x01eb, B:64:0x020f, B:65:0x0211, B:26:0x00ff), top: B:380:0x00af }] */
+    /* JADX WARN: Removed duplicated region for block: B:98:0x0293  */
     /* JADX WARN: Type inference failed for: r7v31, types: [org.telegram.tgnet.TLRPC$TL_dialog] */
     /* JADX WARN: Type inference failed for: r7v32, types: [java.lang.Object, org.telegram.tgnet.TLRPC$Dialog] */
     /* JADX WARN: Type inference failed for: r7v36, types: [org.telegram.tgnet.TLRPC$TL_dialogFolder] */
@@ -28629,84 +28636,78 @@ public class MessagesStorage extends BaseController {
         int i4;
         SQLiteCursor sQLiteCursor3;
         ArrayList<TLRPC$EncryptedChat> arrayList8;
-        ArrayList<Long> arrayList9;
-        ArrayList arrayList10;
         final MessagesStorage messagesStorage2;
         HashSet hashSet2;
         final LongSparseArray longSparseArray3;
-        ArrayList<TLRPC$UserFull> arrayList11;
+        ArrayList<TLRPC$UserFull> arrayList9;
         int i5;
         int i6;
-        ArrayList arrayList12;
+        ArrayList arrayList10;
         int i7;
-        ArrayList<Long> arrayList13;
-        ArrayList arrayList14;
+        ArrayList<Long> arrayList11;
+        ArrayList arrayList12;
         HashSet hashSet3;
-        ArrayList arrayList15;
+        ArrayList arrayList13;
         LongSparseArray<SparseArray<ArrayList<TLRPC$Message>>> longSparseArray4;
         LongSparseArray<ArrayList<Integer>> longSparseArray5;
         MessagesStorage messagesStorage3;
+        ArrayList arrayList14;
+        ArrayList arrayList15;
         ArrayList arrayList16;
-        ArrayList arrayList17;
-        ArrayList arrayList18;
         HashSet hashSet4;
         MessagesStorage messagesStorage4;
-        ArrayList arrayList19;
-        ArrayList arrayList20;
+        ArrayList arrayList17;
+        ArrayList arrayList18;
         TLRPC$Dialog tLRPC$Dialog;
         HashSet hashSet5;
         NativeByteBuffer byteBufferValue;
         ?? tLRPC$TL_dialog;
-        ArrayList arrayList21;
+        ArrayList arrayList19;
         int i8;
         int i9;
         long longValue;
         long longValue2;
         NativeByteBuffer byteBufferValue2;
         int i10;
-        ArrayList<Long> arrayList22;
+        ArrayList<Long> arrayList20;
         LongSparseArray<SparseArray<ArrayList<TLRPC$Message>>> longSparseArray6;
         LongSparseArray<ArrayList<Integer>> longSparseArray7;
-        ArrayList arrayList23;
-        ArrayList arrayList24;
+        ArrayList arrayList21;
+        ArrayList arrayList22;
         HashSet hashSet6;
         Exception exc2;
         MessagesStorage messagesStorage5 = this;
         long[] jArr2 = jArr;
         TLRPC$TL_messages_dialogs tLRPC$TL_messages_dialogs2 = new TLRPC$TL_messages_dialogs();
-        ArrayList<TLRPC$EncryptedChat> arrayList25 = new ArrayList<>();
+        ArrayList<TLRPC$EncryptedChat> arrayList23 = new ArrayList<>();
         try {
-            try {
-                arrayList2 = new ArrayList<>();
-                hashSet = new HashSet();
-                arrayList2.add(Long.valueOf(getUserConfig().getClientUserId()));
-                arrayList3 = new ArrayList<>();
-                arrayList4 = new ArrayList();
-                arrayList5 = new ArrayList();
-                arrayList6 = new ArrayList();
-                longSparseArray = new LongSparseArray<>();
-                longSparseArray2 = new LongSparseArray<>();
-                arrayList7 = new ArrayList(2);
-                arrayList7.add(Integer.valueOf(i));
-                i4 = 0;
-                sQLiteCursor3 = null;
-            } catch (Throwable th2) {
-                th = th2;
-            }
+            arrayList2 = new ArrayList<>();
+            hashSet = new HashSet();
+            arrayList2.add(Long.valueOf(getUserConfig().getClientUserId()));
+            arrayList3 = new ArrayList<>();
+            arrayList4 = new ArrayList();
+            arrayList5 = new ArrayList();
+            arrayList6 = new ArrayList();
+            longSparseArray = new LongSparseArray<>();
+            longSparseArray2 = new LongSparseArray<>();
+            arrayList7 = new ArrayList(2);
+            arrayList7.add(Integer.valueOf(i));
+            i4 = 0;
+            sQLiteCursor3 = null;
         } catch (Exception e) {
             messagesStorage = messagesStorage5;
-            arrayList = arrayList25;
+            arrayList = arrayList23;
             tLRPC$TL_messages_dialogs = tLRPC$TL_messages_dialogs2;
             exc = e;
             sQLiteCursor2 = null;
-        } catch (Throwable th3) {
-            th = th3;
+        } catch (Throwable th2) {
+            th = th2;
             sQLiteCursor = null;
         }
         try {
             while (true) {
                 try {
-                    arrayList8 = arrayList25;
+                    arrayList8 = arrayList23;
                     if (i4 >= arrayList7.size()) {
                         break;
                     }
@@ -28719,9 +28720,9 @@ public class MessagesStorage extends BaseController {
                             i5 = 0;
                             i6 = 100;
                         }
-                        ArrayList arrayList26 = new ArrayList();
+                        ArrayList arrayList24 = new ArrayList();
                         HashSet hashSet7 = hashSet;
-                        ArrayList arrayList27 = arrayList4;
+                        ArrayList arrayList25 = arrayList4;
                         try {
                             LongSparseArray<SparseArray<ArrayList<TLRPC$Message>>> longSparseArray8 = longSparseArray;
                             LongSparseArray<ArrayList<Integer>> longSparseArray9 = longSparseArray2;
@@ -28729,7 +28730,7 @@ public class MessagesStorage extends BaseController {
                             while (queryFinalized.next()) {
                                 try {
                                     try {
-                                        ArrayList<Long> arrayList28 = arrayList3;
+                                        ArrayList<Long> arrayList26 = arrayList3;
                                         long longValue3 = queryFinalized.longValue(0);
                                         if (DialogObject.isFolderDialogId(longValue3)) {
                                             tLRPC$TL_dialog = new TLRPC$TL_dialogFolder();
@@ -28757,7 +28758,7 @@ public class MessagesStorage extends BaseController {
                                         int intValue2 = queryFinalized.intValue(10);
                                         tLRPC$TL_dialog.pts = intValue2;
                                         if (intValue2 != 0) {
-                                            arrayList21 = arrayList7;
+                                            arrayList19 = arrayList7;
                                             i8 = i4;
                                             if (!DialogObject.isUserDialog(tLRPC$TL_dialog.id)) {
                                                 i9 = 1;
@@ -28768,9 +28769,11 @@ public class MessagesStorage extends BaseController {
                                                 tLRPC$TL_dialog.pinnedNum = intValue3;
                                                 tLRPC$TL_dialog.pinned = intValue3 == 0;
                                                 tLRPC$TL_dialog.unread_mentions_count = queryFinalized.intValue(15);
-                                                tLRPC$TL_dialog.unread_mark = (queryFinalized.intValue(16) & 1) == 0;
+                                                int intValue4 = queryFinalized.intValue(16);
+                                                tLRPC$TL_dialog.unread_mark = (intValue4 & 1) == 0;
+                                                tLRPC$TL_dialog.view_forum_as_messages = (intValue4 & 64) == 0;
                                                 longValue = queryFinalized.longValue(8);
-                                                ArrayList arrayList29 = arrayList21;
+                                                ArrayList arrayList27 = arrayList19;
                                                 TLRPC$TL_peerNotifySettings tLRPC$TL_peerNotifySettings = new TLRPC$TL_peerNotifySettings();
                                                 tLRPC$TL_dialog.notify_settings = tLRPC$TL_peerNotifySettings;
                                                 if ((((int) longValue) & 1) != 0) {
@@ -28784,7 +28787,7 @@ public class MessagesStorage extends BaseController {
                                                 tLRPC$TL_dialog.unread_reactions_count = queryFinalized.intValue(19);
                                                 longValue2 = queryFinalized.longValue(20);
                                                 if (longValue2 != 0) {
-                                                    arrayList26.add(new Pair(Long.valueOf(longValue3), Long.valueOf(longValue2)));
+                                                    arrayList24.add(new Pair(Long.valueOf(longValue3), Long.valueOf(longValue2)));
                                                 }
                                                 tLRPC$TL_dialog.ttl_period = queryFinalized.intValue(21);
                                                 tLRPC$TL_messages_dialogs2.dialogs.add(tLRPC$TL_dialog);
@@ -28800,15 +28803,15 @@ public class MessagesStorage extends BaseController {
                                                         byteBufferValue2.reuse();
                                                         MessageObject.setUnreadFlags(TLdeserialize, queryFinalized.intValue(5));
                                                         TLdeserialize.id = queryFinalized.intValue(6);
-                                                        int intValue4 = queryFinalized.intValue(9);
-                                                        if (intValue4 != 0) {
-                                                            tLRPC$TL_dialog.last_message_date = intValue4;
+                                                        int intValue5 = queryFinalized.intValue(9);
+                                                        if (intValue5 != 0) {
+                                                            tLRPC$TL_dialog.last_message_date = intValue5;
                                                         }
                                                         TLdeserialize.send_state = queryFinalized.intValue(7);
                                                         TLdeserialize.dialog_id = tLRPC$TL_dialog.id;
                                                         tLRPC$TL_messages_dialogs2.messages.add(TLdeserialize);
-                                                        arrayList22 = arrayList28;
-                                                        addUsersAndChatsFromMessage(TLdeserialize, arrayList2, arrayList22, arrayList6);
+                                                        arrayList20 = arrayList26;
+                                                        addUsersAndChatsFromMessage(TLdeserialize, arrayList2, arrayList20, arrayList6);
                                                         try {
                                                             TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader = TLdeserialize.reply_to;
                                                             if (tLRPC$MessageReplyHeader != null && tLRPC$MessageReplyHeader.reply_to_msg_id != 0) {
@@ -28820,7 +28823,7 @@ public class MessagesStorage extends BaseController {
                                                                     } catch (Exception e2) {
                                                                         exc2 = e2;
                                                                         i10 = i12;
-                                                                        arrayList23 = arrayList26;
+                                                                        arrayList21 = arrayList24;
                                                                         longSparseArray6 = longSparseArray8;
                                                                         longSparseArray7 = longSparseArray9;
                                                                         messagesStorage3 = this;
@@ -28830,12 +28833,12 @@ public class MessagesStorage extends BaseController {
                                                                         if (DialogObject.isEncryptedDialog(longValue3)) {
                                                                         }
                                                                         longSparseArray8 = longSparseArray6;
-                                                                        arrayList27 = arrayList24;
-                                                                        arrayList3 = arrayList22;
+                                                                        arrayList25 = arrayList22;
+                                                                        arrayList3 = arrayList20;
                                                                         longSparseArray9 = longSparseArray7;
                                                                         hashSet7 = hashSet6;
-                                                                        arrayList26 = arrayList23;
-                                                                        arrayList7 = arrayList29;
+                                                                        arrayList24 = arrayList21;
+                                                                        arrayList7 = arrayList27;
                                                                         i4 = i10;
                                                                         jArr2 = jArr;
                                                                     }
@@ -28848,13 +28851,13 @@ public class MessagesStorage extends BaseController {
                                                                                 TLRPC$Message TLdeserialize2 = TLRPC$Message.TLdeserialize(byteBufferValue4, byteBufferValue4.readInt32(false), false);
                                                                                 TLdeserialize.replyMessage = TLdeserialize2;
                                                                                 i10 = i12;
-                                                                                arrayList23 = arrayList26;
+                                                                                arrayList21 = arrayList24;
                                                                                 try {
                                                                                     TLdeserialize2.readAttachPath(byteBufferValue4, getUserConfig().clientUserId);
                                                                                     byteBufferValue4.reuse();
                                                                                     TLRPC$Message tLRPC$Message = TLdeserialize.replyMessage;
                                                                                     if (tLRPC$Message != null) {
-                                                                                        addUsersAndChatsFromMessage(tLRPC$Message, arrayList2, arrayList22, arrayList6);
+                                                                                        addUsersAndChatsFromMessage(tLRPC$Message, arrayList2, arrayList20, arrayList6);
                                                                                     }
                                                                                     if (TLdeserialize.replyMessage == null) {
                                                                                         longSparseArray6 = longSparseArray8;
@@ -28871,12 +28874,12 @@ public class MessagesStorage extends BaseController {
                                                                                             if (DialogObject.isEncryptedDialog(longValue3)) {
                                                                                             }
                                                                                             longSparseArray8 = longSparseArray6;
-                                                                                            arrayList27 = arrayList24;
-                                                                                            arrayList3 = arrayList22;
+                                                                                            arrayList25 = arrayList22;
+                                                                                            arrayList3 = arrayList20;
                                                                                             longSparseArray9 = longSparseArray7;
                                                                                             hashSet7 = hashSet6;
-                                                                                            arrayList26 = arrayList23;
-                                                                                            arrayList7 = arrayList29;
+                                                                                            arrayList24 = arrayList21;
+                                                                                            arrayList7 = arrayList27;
                                                                                             i4 = i10;
                                                                                             jArr2 = jArr;
                                                                                         }
@@ -28895,12 +28898,12 @@ public class MessagesStorage extends BaseController {
                                                                                     if (DialogObject.isEncryptedDialog(longValue3)) {
                                                                                     }
                                                                                     longSparseArray8 = longSparseArray6;
-                                                                                    arrayList27 = arrayList24;
-                                                                                    arrayList3 = arrayList22;
+                                                                                    arrayList25 = arrayList22;
+                                                                                    arrayList3 = arrayList20;
                                                                                     longSparseArray9 = longSparseArray7;
                                                                                     hashSet7 = hashSet6;
-                                                                                    arrayList26 = arrayList23;
-                                                                                    arrayList7 = arrayList29;
+                                                                                    arrayList24 = arrayList21;
+                                                                                    arrayList7 = arrayList27;
                                                                                     i4 = i10;
                                                                                     jArr2 = jArr;
                                                                                 }
@@ -28908,7 +28911,7 @@ public class MessagesStorage extends BaseController {
                                                                         } catch (Exception e5) {
                                                                             e = e5;
                                                                             i10 = i12;
-                                                                            arrayList23 = arrayList26;
+                                                                            arrayList21 = arrayList24;
                                                                         }
                                                                     }
                                                                     if (TLdeserialize.replyMessage == null) {
@@ -28927,33 +28930,33 @@ public class MessagesStorage extends BaseController {
                                                                     if (DialogObject.isEncryptedDialog(longValue3)) {
                                                                     }
                                                                     longSparseArray8 = longSparseArray6;
-                                                                    arrayList27 = arrayList24;
-                                                                    arrayList3 = arrayList22;
+                                                                    arrayList25 = arrayList22;
+                                                                    arrayList3 = arrayList20;
                                                                     longSparseArray9 = longSparseArray7;
                                                                     hashSet7 = hashSet6;
-                                                                    arrayList26 = arrayList23;
-                                                                    arrayList7 = arrayList29;
+                                                                    arrayList24 = arrayList21;
+                                                                    arrayList7 = arrayList27;
                                                                     i4 = i10;
                                                                     jArr2 = jArr;
                                                                 }
                                                                 i10 = i12;
-                                                                arrayList23 = arrayList26;
+                                                                arrayList21 = arrayList24;
                                                             }
                                                             i10 = i12;
-                                                            arrayList23 = arrayList26;
+                                                            arrayList21 = arrayList24;
                                                             longSparseArray6 = longSparseArray8;
                                                             longSparseArray7 = longSparseArray9;
                                                         } catch (Exception e7) {
                                                             e = e7;
                                                             i10 = i12;
-                                                            arrayList23 = arrayList26;
+                                                            arrayList21 = arrayList24;
                                                         }
                                                     } else {
                                                         i10 = i8;
-                                                        arrayList22 = arrayList28;
+                                                        arrayList20 = arrayList26;
                                                         longSparseArray6 = longSparseArray8;
                                                         longSparseArray7 = longSparseArray9;
-                                                        arrayList23 = arrayList26;
+                                                        arrayList21 = arrayList24;
                                                         messagesStorage3 = this;
                                                         byteBufferValue2.reuse();
                                                     }
@@ -28978,8 +28981,8 @@ public class MessagesStorage extends BaseController {
                                                             }
                                                             sQLiteCursor2.dispose();
                                                             return;
-                                                        } catch (Throwable th4) {
-                                                            th = th4;
+                                                        } catch (Throwable th3) {
+                                                            th = th3;
                                                             sQLiteCursor = queryFinalized;
                                                             if (sQLiteCursor != null) {
                                                             }
@@ -28988,13 +28991,13 @@ public class MessagesStorage extends BaseController {
                                                     }
                                                     if (DialogObject.isEncryptedDialog(longValue3)) {
                                                         int encryptedChatId = DialogObject.getEncryptedChatId(longValue3);
-                                                        arrayList24 = arrayList27;
-                                                        if (!arrayList24.contains(Integer.valueOf(encryptedChatId))) {
-                                                            arrayList24.add(Integer.valueOf(encryptedChatId));
+                                                        arrayList22 = arrayList25;
+                                                        if (!arrayList22.contains(Integer.valueOf(encryptedChatId))) {
+                                                            arrayList22.add(Integer.valueOf(encryptedChatId));
                                                         }
                                                         hashSet6 = hashSet7;
                                                     } else {
-                                                        arrayList24 = arrayList27;
+                                                        arrayList22 = arrayList25;
                                                         if (DialogObject.isUserDialog(longValue3)) {
                                                             if (!arrayList2.contains(Long.valueOf(longValue3))) {
                                                                 arrayList2.add(Long.valueOf(longValue3));
@@ -29005,27 +29008,27 @@ public class MessagesStorage extends BaseController {
                                                             hashSet6 = hashSet7;
                                                             if (DialogObject.isChatDialog(longValue3)) {
                                                                 long j = -longValue3;
-                                                                if (!arrayList22.contains(Long.valueOf(j))) {
-                                                                    arrayList22.add(Long.valueOf(j));
+                                                                if (!arrayList20.contains(Long.valueOf(j))) {
+                                                                    arrayList20.add(Long.valueOf(j));
                                                                 }
                                                             }
                                                         }
                                                     }
                                                     longSparseArray8 = longSparseArray6;
-                                                    arrayList27 = arrayList24;
-                                                    arrayList3 = arrayList22;
+                                                    arrayList25 = arrayList22;
+                                                    arrayList3 = arrayList20;
                                                     longSparseArray9 = longSparseArray7;
                                                     hashSet7 = hashSet6;
-                                                    arrayList26 = arrayList23;
-                                                    arrayList7 = arrayList29;
+                                                    arrayList24 = arrayList21;
+                                                    arrayList7 = arrayList27;
                                                     i4 = i10;
                                                     jArr2 = jArr;
                                                 } else {
                                                     i10 = i8;
-                                                    arrayList22 = arrayList28;
+                                                    arrayList20 = arrayList26;
                                                     longSparseArray6 = longSparseArray8;
                                                     longSparseArray7 = longSparseArray9;
-                                                    arrayList23 = arrayList26;
+                                                    arrayList21 = arrayList24;
                                                 }
                                                 messagesStorage3 = this;
                                                 if (!DialogObject.isEncryptedDialog(longValue3)) {
@@ -29033,17 +29036,17 @@ public class MessagesStorage extends BaseController {
                                                 if (DialogObject.isEncryptedDialog(longValue3)) {
                                                 }
                                                 longSparseArray8 = longSparseArray6;
-                                                arrayList27 = arrayList24;
-                                                arrayList3 = arrayList22;
+                                                arrayList25 = arrayList22;
+                                                arrayList3 = arrayList20;
                                                 longSparseArray9 = longSparseArray7;
                                                 hashSet7 = hashSet6;
-                                                arrayList26 = arrayList23;
-                                                arrayList7 = arrayList29;
+                                                arrayList24 = arrayList21;
+                                                arrayList7 = arrayList27;
                                                 i4 = i10;
                                                 jArr2 = jArr;
                                             }
                                         } else {
-                                            arrayList21 = arrayList7;
+                                            arrayList19 = arrayList7;
                                             i8 = i4;
                                         }
                                         i9 = 0;
@@ -29054,9 +29057,11 @@ public class MessagesStorage extends BaseController {
                                         tLRPC$TL_dialog.pinnedNum = intValue32;
                                         tLRPC$TL_dialog.pinned = intValue32 == 0;
                                         tLRPC$TL_dialog.unread_mentions_count = queryFinalized.intValue(15);
-                                        tLRPC$TL_dialog.unread_mark = (queryFinalized.intValue(16) & 1) == 0;
+                                        int intValue42 = queryFinalized.intValue(16);
+                                        tLRPC$TL_dialog.unread_mark = (intValue42 & 1) == 0;
+                                        tLRPC$TL_dialog.view_forum_as_messages = (intValue42 & 64) == 0;
                                         longValue = queryFinalized.longValue(8);
-                                        ArrayList arrayList292 = arrayList21;
+                                        ArrayList arrayList272 = arrayList19;
                                         TLRPC$TL_peerNotifySettings tLRPC$TL_peerNotifySettings2 = new TLRPC$TL_peerNotifySettings();
                                         tLRPC$TL_dialog.notify_settings = tLRPC$TL_peerNotifySettings2;
                                         if ((((int) longValue) & 1) != 0) {
@@ -29079,12 +29084,12 @@ public class MessagesStorage extends BaseController {
                                         if (DialogObject.isEncryptedDialog(longValue3)) {
                                         }
                                         longSparseArray8 = longSparseArray6;
-                                        arrayList27 = arrayList24;
-                                        arrayList3 = arrayList22;
+                                        arrayList25 = arrayList22;
+                                        arrayList3 = arrayList20;
                                         longSparseArray9 = longSparseArray7;
                                         hashSet7 = hashSet6;
-                                        arrayList26 = arrayList23;
-                                        arrayList7 = arrayList292;
+                                        arrayList24 = arrayList21;
+                                        arrayList7 = arrayList272;
                                         i4 = i10;
                                         jArr2 = jArr;
                                     } catch (Exception e9) {
@@ -29094,17 +29099,17 @@ public class MessagesStorage extends BaseController {
                                         arrayList = arrayList8;
                                         messagesStorage = this;
                                     }
-                                } catch (Throwable th5) {
-                                    th = th5;
+                                } catch (Throwable th4) {
+                                    th = th4;
                                     sQLiteCursor = queryFinalized;
                                 }
                             }
-                            arrayList12 = arrayList7;
+                            arrayList10 = arrayList7;
                             i7 = i4;
-                            arrayList13 = arrayList3;
-                            arrayList14 = arrayList26;
+                            arrayList11 = arrayList3;
+                            arrayList12 = arrayList24;
                             hashSet3 = hashSet7;
-                            arrayList15 = arrayList27;
+                            arrayList13 = arrayList25;
                             longSparseArray4 = longSparseArray8;
                             longSparseArray5 = longSparseArray9;
                             messagesStorage3 = this;
@@ -29125,8 +29130,8 @@ public class MessagesStorage extends BaseController {
                             }
                             sQLiteCursor2.dispose();
                             return;
-                        } catch (Throwable th6) {
-                            th = th6;
+                        } catch (Throwable th5) {
+                            th = th5;
                             th = th;
                             sQLiteCursor = sQLiteCursor3;
                             if (sQLiteCursor != null) {
@@ -29136,52 +29141,52 @@ public class MessagesStorage extends BaseController {
                     } catch (Exception e11) {
                         exc = e11;
                         messagesStorage = messagesStorage5;
-                    } catch (Throwable th7) {
-                        th = th7;
+                    } catch (Throwable th6) {
+                        th = th6;
                         sQLiteCursor = sQLiteCursor3;
                         if (sQLiteCursor != null) {
                         }
                         throw th;
                     }
                     try {
-                        if (arrayList14.isEmpty()) {
-                            arrayList16 = arrayList6;
-                            arrayList17 = arrayList5;
-                            arrayList18 = arrayList15;
+                        if (arrayList12.isEmpty()) {
+                            arrayList14 = arrayList6;
+                            arrayList15 = arrayList5;
+                            arrayList16 = arrayList13;
                             hashSet4 = hashSet3;
                             messagesStorage4 = messagesStorage3;
                             sQLiteCursor3 = null;
                         } else {
                             StringBuilder sb = new StringBuilder();
                             int i13 = 0;
-                            while (i13 < arrayList14.size()) {
-                                ArrayList arrayList30 = arrayList14;
+                            while (i13 < arrayList12.size()) {
+                                ArrayList arrayList28 = arrayList12;
                                 try {
-                                    Pair pair = (Pair) arrayList30.get(i13);
+                                    Pair pair = (Pair) arrayList28.get(i13);
                                     sb.append("uid = ");
                                     sb.append(pair.first);
                                     sb.append(" AND group_id = ");
                                     sb.append(pair.second);
                                     i13++;
-                                    if (i13 < arrayList30.size()) {
+                                    if (i13 < arrayList28.size()) {
                                         sb.append(" OR ");
                                     }
-                                    arrayList14 = arrayList30;
+                                    arrayList12 = arrayList28;
                                 } catch (Exception e12) {
                                     exc = e12;
                                     messagesStorage = messagesStorage3;
                                     tLRPC$TL_messages_dialogs = tLRPC$TL_messages_dialogs2;
                                     arrayList = arrayList8;
                                     sQLiteCursor2 = null;
-                                } catch (Throwable th8) {
-                                    th = th8;
+                                } catch (Throwable th7) {
+                                    th = th7;
                                     sQLiteCursor = null;
                                     if (sQLiteCursor != null) {
                                     }
                                     throw th;
                                 }
                             }
-                            arrayList16 = arrayList6;
+                            arrayList14 = arrayList6;
                             int i14 = 0;
                             SQLiteCursor queryFinalized2 = messagesStorage3.database.queryFinalized(String.format(Locale.US, "SELECT uid, data, read_state, mid, send_state, date, replydata, group_id FROM messages_v2 WHERE %s ORDER BY date DESC", sb), new Object[0]);
                             while (queryFinalized2.next()) {
@@ -29191,25 +29196,25 @@ public class MessagesStorage extends BaseController {
                                     int i15 = 0;
                                     while (true) {
                                         if (i15 >= tLRPC$TL_messages_dialogs2.dialogs.size()) {
-                                            arrayList19 = arrayList5;
-                                            arrayList20 = arrayList15;
+                                            arrayList17 = arrayList5;
+                                            arrayList18 = arrayList13;
                                             tLRPC$Dialog = null;
                                             break;
                                         }
                                         tLRPC$Dialog = tLRPC$TL_messages_dialogs2.dialogs.get(i15);
                                         if (tLRPC$Dialog != null) {
-                                            arrayList19 = arrayList5;
-                                            arrayList20 = arrayList15;
+                                            arrayList17 = arrayList5;
+                                            arrayList18 = arrayList13;
                                             if (tLRPC$Dialog.id == longValue4) {
                                                 break;
                                             }
                                         } else {
-                                            arrayList19 = arrayList5;
-                                            arrayList20 = arrayList15;
+                                            arrayList17 = arrayList5;
+                                            arrayList18 = arrayList13;
                                         }
                                         i15++;
-                                        arrayList5 = arrayList19;
-                                        arrayList15 = arrayList20;
+                                        arrayList5 = arrayList17;
+                                        arrayList13 = arrayList18;
                                     }
                                     if (tLRPC$Dialog == null || byteBufferValue5 == null) {
                                         hashSet5 = hashSet3;
@@ -29224,14 +29229,14 @@ public class MessagesStorage extends BaseController {
                                                     byteBufferValue5.reuse();
                                                     MessageObject.setUnreadFlags(TLdeserialize3, queryFinalized2.intValue(2));
                                                     TLdeserialize3.id = queryFinalized2.intValue(3);
-                                                    int intValue5 = queryFinalized2.intValue(5);
-                                                    if (intValue5 != 0) {
-                                                        tLRPC$Dialog.last_message_date = intValue5;
+                                                    int intValue6 = queryFinalized2.intValue(5);
+                                                    if (intValue6 != 0) {
+                                                        tLRPC$Dialog.last_message_date = intValue6;
                                                     }
                                                     TLdeserialize3.send_state = queryFinalized2.intValue(4);
                                                     TLdeserialize3.dialog_id = longValue4;
                                                     tLRPC$TL_messages_dialogs2.messages.add(TLdeserialize3);
-                                                    addUsersAndChatsFromMessage(TLdeserialize3, arrayList2, arrayList13, null);
+                                                    addUsersAndChatsFromMessage(TLdeserialize3, arrayList2, arrayList11, null);
                                                     try {
                                                         TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader2 = TLdeserialize3.reply_to;
                                                         if (tLRPC$MessageReplyHeader2 != null && tLRPC$MessageReplyHeader2.reply_to_msg_id != 0) {
@@ -29245,7 +29250,7 @@ public class MessagesStorage extends BaseController {
                                                                     TLRPC$Message tLRPC$Message2 = TLdeserialize3.replyMessage;
                                                                     if (tLRPC$Message2 != null) {
                                                                         try {
-                                                                            addUsersAndChatsFromMessage(tLRPC$Message2, arrayList2, arrayList13, null);
+                                                                            addUsersAndChatsFromMessage(tLRPC$Message2, arrayList2, arrayList11, null);
                                                                             if (TLdeserialize3.replyMessage == null) {
                                                                                 addReplyMessages(TLdeserialize3, longSparseArray4, longSparseArray5);
                                                                             }
@@ -29256,10 +29261,10 @@ public class MessagesStorage extends BaseController {
                                                                             try {
                                                                                 messagesStorage2.checkSQLException(e);
                                                                                 messagesStorage3 = messagesStorage2;
-                                                                                arrayList5 = arrayList19;
+                                                                                arrayList5 = arrayList17;
                                                                                 i14 = 0;
                                                                                 hashSet3 = hashSet5;
-                                                                                arrayList15 = arrayList20;
+                                                                                arrayList13 = arrayList18;
                                                                             } catch (Exception e14) {
                                                                                 e = e14;
                                                                                 sQLiteCursor2 = queryFinalized2;
@@ -29277,8 +29282,8 @@ public class MessagesStorage extends BaseController {
                                                                                 }
                                                                                 sQLiteCursor2.dispose();
                                                                                 return;
-                                                                            } catch (Throwable th9) {
-                                                                                th = th9;
+                                                                            } catch (Throwable th8) {
+                                                                                th = th8;
                                                                                 sQLiteCursor = queryFinalized2;
                                                                                 th = th;
                                                                                 if (sQLiteCursor != null) {
@@ -29315,8 +29320,8 @@ public class MessagesStorage extends BaseController {
                                                     sQLiteCursor2.dispose();
                                                     return;
                                                 }
-                                            } catch (Throwable th10) {
-                                                th = th10;
+                                            } catch (Throwable th9) {
+                                                th = th9;
                                                 sQLiteCursor = queryFinalized2;
                                             }
                                         } else {
@@ -29326,21 +29331,21 @@ public class MessagesStorage extends BaseController {
                                         }
                                     }
                                     messagesStorage3 = messagesStorage2;
-                                    arrayList5 = arrayList19;
+                                    arrayList5 = arrayList17;
                                     i14 = 0;
                                     hashSet3 = hashSet5;
-                                    arrayList15 = arrayList20;
+                                    arrayList13 = arrayList18;
                                 } catch (Exception e17) {
                                     e = e17;
                                     sQLiteCursor2 = queryFinalized2;
                                     messagesStorage = messagesStorage3;
-                                } catch (Throwable th11) {
-                                    th = th11;
+                                } catch (Throwable th10) {
+                                    th = th10;
                                     sQLiteCursor = queryFinalized2;
                                 }
                             }
-                            arrayList17 = arrayList5;
-                            arrayList18 = arrayList15;
+                            arrayList15 = arrayList5;
+                            arrayList16 = arrayList13;
                             hashSet4 = hashSet3;
                             messagesStorage4 = messagesStorage3;
                             queryFinalized2.dispose();
@@ -29349,14 +29354,14 @@ public class MessagesStorage extends BaseController {
                         i4 = i7 + 1;
                         longSparseArray = longSparseArray4;
                         hashSet = hashSet4;
-                        arrayList3 = arrayList13;
+                        arrayList3 = arrayList11;
                         longSparseArray2 = longSparseArray5;
                         messagesStorage5 = messagesStorage4;
-                        arrayList25 = arrayList8;
-                        arrayList6 = arrayList16;
-                        arrayList5 = arrayList17;
-                        arrayList4 = arrayList18;
-                        arrayList7 = arrayList12;
+                        arrayList23 = arrayList8;
+                        arrayList6 = arrayList14;
+                        arrayList5 = arrayList15;
+                        arrayList4 = arrayList16;
+                        arrayList7 = arrayList10;
                         jArr2 = jArr;
                     } catch (Exception e18) {
                         exc = e18;
@@ -29374,8 +29379,8 @@ public class MessagesStorage extends BaseController {
                         }
                         sQLiteCursor2.dispose();
                         return;
-                    } catch (Throwable th12) {
-                        th = th12;
+                    } catch (Throwable th11) {
+                        th = th11;
                         sQLiteCursor = null;
                         if (sQLiteCursor != null) {
                         }
@@ -29386,10 +29391,10 @@ public class MessagesStorage extends BaseController {
                 } catch (Exception e19) {
                     e = e19;
                     messagesStorage = messagesStorage5;
-                    arrayList = arrayList25;
+                    arrayList = arrayList23;
                     tLRPC$TL_messages_dialogs = tLRPC$TL_messages_dialogs2;
-                } catch (Throwable th13) {
-                    th = th13;
+                } catch (Throwable th12) {
+                    th = th12;
                 }
                 tLRPC$TL_messages_dialogs.dialogs.clear();
                 tLRPC$TL_messages_dialogs.users.clear();
@@ -29403,50 +29408,6 @@ public class MessagesStorage extends BaseController {
                 sQLiteCursor2.dispose();
                 return;
             }
-            if (arrayList10.isEmpty()) {
-                arrayList = arrayList8;
-            } else {
-                try {
-                    try {
-                        arrayList = arrayList8;
-                        try {
-                            messagesStorage2.getEncryptedChatsInternal(TextUtils.join(",", arrayList10), arrayList, arrayList2);
-                        } catch (Exception e20) {
-                            exc = e20;
-                            messagesStorage = messagesStorage2;
-                            tLRPC$TL_messages_dialogs = tLRPC$TL_messages_dialogs2;
-                        }
-                    } catch (Throwable th14) {
-                        th = th14;
-                        sQLiteCursor = sQLiteCursor2;
-                        if (sQLiteCursor != null) {
-                            sQLiteCursor.dispose();
-                        }
-                        throw th;
-                    }
-                } catch (Exception e21) {
-                    exc = e21;
-                    messagesStorage = messagesStorage2;
-                    tLRPC$TL_messages_dialogs = tLRPC$TL_messages_dialogs2;
-                    arrayList = arrayList8;
-                    tLRPC$TL_messages_dialogs.dialogs.clear();
-                    tLRPC$TL_messages_dialogs.users.clear();
-                    tLRPC$TL_messages_dialogs.chats.clear();
-                    arrayList.clear();
-                    messagesStorage.checkSQLException(exc);
-                    getMessagesController().processLoadedDialogs(tLRPC$TL_messages_dialogs, arrayList, null, i, 0, 100, 1, true, false, true);
-                    if (sQLiteCursor2 == null) {
-                    }
-                    sQLiteCursor2.dispose();
-                    return;
-                }
-            }
-            if (!arrayList9.isEmpty()) {
-                messagesStorage2.getChatsInternal(TextUtils.join(",", arrayList9), tLRPC$TL_messages_dialogs2.chats);
-            }
-            if (!arrayList2.isEmpty()) {
-                messagesStorage2.getUsersInternal(TextUtils.join(",", arrayList2), tLRPC$TL_messages_dialogs2.users);
-            }
             if (!hashSet2.isEmpty()) {
                 HashSet<Long> hashSet8 = new HashSet<>();
                 Iterator it = hashSet2.iterator();
@@ -29459,10 +29420,10 @@ public class MessagesStorage extends BaseController {
                     }
                 }
                 if (!hashSet8.isEmpty()) {
-                    arrayList11 = messagesStorage2.loadUserInfos(hashSet8);
+                    arrayList9 = messagesStorage2.loadUserInfos(hashSet8);
                     messagesStorage = this;
                     tLRPC$TL_messages_dialogs = tLRPC$TL_messages_dialogs2;
-                    getMessagesController().processLoadedDialogs(tLRPC$TL_messages_dialogs2, arrayList, arrayList11, i, i2, i3, 1, false, false, true);
+                    getMessagesController().processLoadedDialogs(tLRPC$TL_messages_dialogs2, arrayList, arrayList9, i, i2, i3, 1, false, false, true);
                     if (sQLiteCursor2 == null) {
                         return;
                     }
@@ -29470,28 +29431,25 @@ public class MessagesStorage extends BaseController {
                     return;
                 }
             }
-            arrayList11 = null;
-            messagesStorage = this;
-            tLRPC$TL_messages_dialogs = tLRPC$TL_messages_dialogs2;
-            getMessagesController().processLoadedDialogs(tLRPC$TL_messages_dialogs2, arrayList, arrayList11, i, i2, i3, 1, false, false, true);
+            getMessagesController().processLoadedDialogs(tLRPC$TL_messages_dialogs2, arrayList, arrayList9, i, i2, i3, 1, false, false, true);
             if (sQLiteCursor2 == null) {
             }
             sQLiteCursor2.dispose();
             return;
-        } catch (Throwable th15) {
-            th = th15;
-            th = th;
+        } catch (Throwable th13) {
+            Throwable th14 = th13;
+            th = th14;
             sQLiteCursor = sQLiteCursor2;
             if (sQLiteCursor != null) {
             }
             throw th;
         }
-        ArrayList arrayList31 = arrayList5;
-        arrayList9 = arrayList3;
-        arrayList10 = arrayList4;
+        ArrayList arrayList29 = arrayList5;
+        ArrayList<Long> arrayList30 = arrayList3;
+        ArrayList arrayList31 = arrayList4;
         messagesStorage2 = messagesStorage5;
         hashSet2 = hashSet;
-        loadReplyMessages(longSparseArray, longSparseArray2, arrayList2, arrayList9, false);
+        loadReplyMessages(longSparseArray, longSparseArray2, arrayList2, arrayList30, false);
         if (jArr != null) {
             try {
                 ArrayList arrayList32 = new ArrayList();
@@ -29504,11 +29462,11 @@ public class MessagesStorage extends BaseController {
                             }
                         } else {
                             long j3 = -j2;
-                            if (!arrayList9.contains(Long.valueOf(j3))) {
-                                arrayList9.add(Long.valueOf(j3));
+                            if (!arrayList30.contains(Long.valueOf(j3))) {
+                                arrayList30.add(Long.valueOf(j3));
                             }
                         }
-                        if (!arrayList31.contains(Long.valueOf(jArr[i17]))) {
+                        if (!arrayList29.contains(Long.valueOf(jArr[i17]))) {
                             arrayList32.add(Long.valueOf(jArr[i17]));
                         }
                     }
@@ -29521,8 +29479,8 @@ public class MessagesStorage extends BaseController {
                     while (queryFinalized3.next()) {
                         try {
                             longSparseArray3.put(queryFinalized3.longValue(0), Integer.valueOf(queryFinalized3.intValue(1)));
-                        } catch (Exception e22) {
-                            exc = e22;
+                        } catch (Exception e20) {
+                            exc = e20;
                             sQLiteCursor2 = queryFinalized3;
                             messagesStorage = messagesStorage2;
                             tLRPC$TL_messages_dialogs = tLRPC$TL_messages_dialogs2;
@@ -29537,8 +29495,8 @@ public class MessagesStorage extends BaseController {
                             }
                             sQLiteCursor2.dispose();
                             return;
-                        } catch (Throwable th16) {
-                            th = th16;
+                        } catch (Throwable th15) {
+                            th = th15;
                             sQLiteCursor = queryFinalized3;
                             if (sQLiteCursor != null) {
                             }
@@ -29548,14 +29506,14 @@ public class MessagesStorage extends BaseController {
                     queryFinalized3.dispose();
                     sQLiteCursor3 = null;
                 }
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda132
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda133
                     @Override // java.lang.Runnable
                     public final void run() {
                         MessagesStorage.this.lambda$getDialogs$197(longSparseArray3);
                     }
                 });
-            } catch (Exception e23) {
-                exc = e23;
+            } catch (Exception e21) {
+                exc = e21;
                 messagesStorage = messagesStorage2;
                 tLRPC$TL_messages_dialogs = tLRPC$TL_messages_dialogs2;
                 sQLiteCursor2 = sQLiteCursor3;
@@ -29570,8 +29528,8 @@ public class MessagesStorage extends BaseController {
                 }
                 sQLiteCursor2.dispose();
                 return;
-            } catch (Throwable th17) {
-                th = th17;
+            } catch (Throwable th16) {
+                th = th16;
                 sQLiteCursor = sQLiteCursor3;
                 if (sQLiteCursor != null) {
                 }
@@ -29579,6 +29537,52 @@ public class MessagesStorage extends BaseController {
             }
         }
         sQLiteCursor2 = sQLiteCursor3;
+        if (arrayList31.isEmpty()) {
+            arrayList = arrayList8;
+        } else {
+            try {
+                try {
+                    arrayList = arrayList8;
+                    try {
+                        messagesStorage2.getEncryptedChatsInternal(TextUtils.join(",", arrayList31), arrayList, arrayList2);
+                    } catch (Exception e22) {
+                        exc = e22;
+                        messagesStorage = messagesStorage2;
+                        tLRPC$TL_messages_dialogs = tLRPC$TL_messages_dialogs2;
+                    }
+                } catch (Throwable th17) {
+                    th = th17;
+                    sQLiteCursor = sQLiteCursor2;
+                    if (sQLiteCursor != null) {
+                    }
+                    throw th;
+                }
+            } catch (Exception e23) {
+                exc = e23;
+                messagesStorage = messagesStorage2;
+                tLRPC$TL_messages_dialogs = tLRPC$TL_messages_dialogs2;
+                arrayList = arrayList8;
+                tLRPC$TL_messages_dialogs.dialogs.clear();
+                tLRPC$TL_messages_dialogs.users.clear();
+                tLRPC$TL_messages_dialogs.chats.clear();
+                arrayList.clear();
+                messagesStorage.checkSQLException(exc);
+                getMessagesController().processLoadedDialogs(tLRPC$TL_messages_dialogs, arrayList, null, i, 0, 100, 1, true, false, true);
+                if (sQLiteCursor2 == null) {
+                }
+                sQLiteCursor2.dispose();
+                return;
+            }
+        }
+        if (!arrayList30.isEmpty()) {
+            messagesStorage2.getChatsInternal(TextUtils.join(",", arrayList30), tLRPC$TL_messages_dialogs2.chats);
+        }
+        if (!arrayList2.isEmpty()) {
+            messagesStorage2.getUsersInternal(TextUtils.join(",", arrayList2), tLRPC$TL_messages_dialogs2.users);
+        }
+        arrayList9 = null;
+        messagesStorage = this;
+        tLRPC$TL_messages_dialogs = tLRPC$TL_messages_dialogs2;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -29630,7 +29634,7 @@ public class MessagesStorage extends BaseController {
         if (tLRPC$Dialog == null) {
             return;
         }
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda181
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda182
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$updateDialogData$199(tLRPC$Dialog);
@@ -29711,58 +29715,59 @@ public class MessagesStorage extends BaseController {
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:70:0x018a, code lost:
-        if (r14 < 0) goto L322;
+        if (r14 < 0) goto L324;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:103:0x0244 A[Catch: all -> 0x0225, Exception -> 0x022c, TRY_ENTER, TRY_LEAVE, TryCatch #63 {Exception -> 0x022c, all -> 0x0225, blocks: (B:90:0x021e, B:103:0x0244, B:120:0x0278, B:127:0x029a, B:131:0x02a1, B:138:0x02be, B:144:0x02cf, B:150:0x02e6, B:152:0x030c, B:155:0x0316, B:158:0x031c, B:159:0x0324, B:130:0x029f), top: B:417:0x021e }] */
+    /* JADX WARN: Removed duplicated region for block: B:103:0x0244 A[Catch: all -> 0x0225, Exception -> 0x022c, TRY_ENTER, TRY_LEAVE, TryCatch #62 {Exception -> 0x022c, all -> 0x0225, blocks: (B:90:0x021e, B:103:0x0244, B:120:0x0278, B:127:0x029a, B:131:0x02a1, B:138:0x02be, B:144:0x02cf, B:150:0x02e6, B:152:0x030c, B:155:0x0316, B:158:0x031c, B:159:0x0324, B:130:0x029f), top: B:422:0x021e }] */
     /* JADX WARN: Removed duplicated region for block: B:105:0x0249  */
     /* JADX WARN: Removed duplicated region for block: B:108:0x0253  */
     /* JADX WARN: Removed duplicated region for block: B:110:0x0257  */
     /* JADX WARN: Removed duplicated region for block: B:116:0x0265  */
     /* JADX WARN: Removed duplicated region for block: B:117:0x0267  */
-    /* JADX WARN: Removed duplicated region for block: B:120:0x0278 A[Catch: all -> 0x0225, Exception -> 0x022c, TRY_ENTER, TRY_LEAVE, TryCatch #63 {Exception -> 0x022c, all -> 0x0225, blocks: (B:90:0x021e, B:103:0x0244, B:120:0x0278, B:127:0x029a, B:131:0x02a1, B:138:0x02be, B:144:0x02cf, B:150:0x02e6, B:152:0x030c, B:155:0x0316, B:158:0x031c, B:159:0x0324, B:130:0x029f), top: B:417:0x021e }] */
+    /* JADX WARN: Removed duplicated region for block: B:120:0x0278 A[Catch: all -> 0x0225, Exception -> 0x022c, TRY_ENTER, TRY_LEAVE, TryCatch #62 {Exception -> 0x022c, all -> 0x0225, blocks: (B:90:0x021e, B:103:0x0244, B:120:0x0278, B:127:0x029a, B:131:0x02a1, B:138:0x02be, B:144:0x02cf, B:150:0x02e6, B:152:0x030c, B:155:0x0316, B:158:0x031c, B:159:0x0324, B:130:0x029f), top: B:422:0x021e }] */
     /* JADX WARN: Removed duplicated region for block: B:122:0x028e  */
     /* JADX WARN: Removed duplicated region for block: B:126:0x0298  */
     /* JADX WARN: Removed duplicated region for block: B:133:0x02a7  */
-    /* JADX WARN: Removed duplicated region for block: B:138:0x02be A[Catch: all -> 0x0225, Exception -> 0x022c, TRY_ENTER, TRY_LEAVE, TryCatch #63 {Exception -> 0x022c, all -> 0x0225, blocks: (B:90:0x021e, B:103:0x0244, B:120:0x0278, B:127:0x029a, B:131:0x02a1, B:138:0x02be, B:144:0x02cf, B:150:0x02e6, B:152:0x030c, B:155:0x0316, B:158:0x031c, B:159:0x0324, B:130:0x029f), top: B:417:0x021e }] */
+    /* JADX WARN: Removed duplicated region for block: B:138:0x02be A[Catch: all -> 0x0225, Exception -> 0x022c, TRY_ENTER, TRY_LEAVE, TryCatch #62 {Exception -> 0x022c, all -> 0x0225, blocks: (B:90:0x021e, B:103:0x0244, B:120:0x0278, B:127:0x029a, B:131:0x02a1, B:138:0x02be, B:144:0x02cf, B:150:0x02e6, B:152:0x030c, B:155:0x0316, B:158:0x031c, B:159:0x0324, B:130:0x029f), top: B:422:0x021e }] */
     /* JADX WARN: Removed duplicated region for block: B:140:0x02c6  */
-    /* JADX WARN: Removed duplicated region for block: B:144:0x02cf A[Catch: all -> 0x0225, Exception -> 0x022c, TRY_ENTER, TRY_LEAVE, TryCatch #63 {Exception -> 0x022c, all -> 0x0225, blocks: (B:90:0x021e, B:103:0x0244, B:120:0x0278, B:127:0x029a, B:131:0x02a1, B:138:0x02be, B:144:0x02cf, B:150:0x02e6, B:152:0x030c, B:155:0x0316, B:158:0x031c, B:159:0x0324, B:130:0x029f), top: B:417:0x021e }] */
+    /* JADX WARN: Removed duplicated region for block: B:144:0x02cf A[Catch: all -> 0x0225, Exception -> 0x022c, TRY_ENTER, TRY_LEAVE, TryCatch #62 {Exception -> 0x022c, all -> 0x0225, blocks: (B:90:0x021e, B:103:0x0244, B:120:0x0278, B:127:0x029a, B:131:0x02a1, B:138:0x02be, B:144:0x02cf, B:150:0x02e6, B:152:0x030c, B:155:0x0316, B:158:0x031c, B:159:0x0324, B:130:0x029f), top: B:422:0x021e }] */
     /* JADX WARN: Removed duplicated region for block: B:146:0x02d7  */
-    /* JADX WARN: Removed duplicated region for block: B:150:0x02e6 A[Catch: all -> 0x0225, Exception -> 0x022c, TRY_ENTER, TryCatch #63 {Exception -> 0x022c, all -> 0x0225, blocks: (B:90:0x021e, B:103:0x0244, B:120:0x0278, B:127:0x029a, B:131:0x02a1, B:138:0x02be, B:144:0x02cf, B:150:0x02e6, B:152:0x030c, B:155:0x0316, B:158:0x031c, B:159:0x0324, B:130:0x029f), top: B:417:0x021e }] */
-    /* JADX WARN: Removed duplicated region for block: B:152:0x030c A[Catch: all -> 0x0225, Exception -> 0x022c, TRY_LEAVE, TryCatch #63 {Exception -> 0x022c, all -> 0x0225, blocks: (B:90:0x021e, B:103:0x0244, B:120:0x0278, B:127:0x029a, B:131:0x02a1, B:138:0x02be, B:144:0x02cf, B:150:0x02e6, B:152:0x030c, B:155:0x0316, B:158:0x031c, B:159:0x0324, B:130:0x029f), top: B:417:0x021e }] */
-    /* JADX WARN: Removed duplicated region for block: B:158:0x031c A[Catch: all -> 0x0225, Exception -> 0x022c, TryCatch #63 {Exception -> 0x022c, all -> 0x0225, blocks: (B:90:0x021e, B:103:0x0244, B:120:0x0278, B:127:0x029a, B:131:0x02a1, B:138:0x02be, B:144:0x02cf, B:150:0x02e6, B:152:0x030c, B:155:0x0316, B:158:0x031c, B:159:0x0324, B:130:0x029f), top: B:417:0x021e }] */
+    /* JADX WARN: Removed duplicated region for block: B:150:0x02e6 A[Catch: all -> 0x0225, Exception -> 0x022c, TRY_ENTER, TryCatch #62 {Exception -> 0x022c, all -> 0x0225, blocks: (B:90:0x021e, B:103:0x0244, B:120:0x0278, B:127:0x029a, B:131:0x02a1, B:138:0x02be, B:144:0x02cf, B:150:0x02e6, B:152:0x030c, B:155:0x0316, B:158:0x031c, B:159:0x0324, B:130:0x029f), top: B:422:0x021e }] */
+    /* JADX WARN: Removed duplicated region for block: B:152:0x030c A[Catch: all -> 0x0225, Exception -> 0x022c, TRY_LEAVE, TryCatch #62 {Exception -> 0x022c, all -> 0x0225, blocks: (B:90:0x021e, B:103:0x0244, B:120:0x0278, B:127:0x029a, B:131:0x02a1, B:138:0x02be, B:144:0x02cf, B:150:0x02e6, B:152:0x030c, B:155:0x0316, B:158:0x031c, B:159:0x0324, B:130:0x029f), top: B:422:0x021e }] */
+    /* JADX WARN: Removed duplicated region for block: B:158:0x031c A[Catch: all -> 0x0225, Exception -> 0x022c, TryCatch #62 {Exception -> 0x022c, all -> 0x0225, blocks: (B:90:0x021e, B:103:0x0244, B:120:0x0278, B:127:0x029a, B:131:0x02a1, B:138:0x02be, B:144:0x02cf, B:150:0x02e6, B:152:0x030c, B:155:0x0316, B:158:0x031c, B:159:0x0324, B:130:0x029f), top: B:422:0x021e }] */
     /* JADX WARN: Removed duplicated region for block: B:163:0x0356  */
-    /* JADX WARN: Removed duplicated region for block: B:180:0x03c5 A[Catch: all -> 0x03e7, Exception -> 0x03ef, TRY_LEAVE, TryCatch #64 {Exception -> 0x03ef, all -> 0x03e7, blocks: (B:175:0x03ab, B:180:0x03c5), top: B:415:0x03ab }] */
+    /* JADX WARN: Removed duplicated region for block: B:180:0x03c5 A[Catch: all -> 0x03e7, Exception -> 0x03ef, TRY_LEAVE, TryCatch #65 {Exception -> 0x03ef, all -> 0x03e7, blocks: (B:175:0x03ab, B:180:0x03c5), top: B:416:0x03ab }] */
     /* JADX WARN: Removed duplicated region for block: B:206:0x042f  */
-    /* JADX WARN: Removed duplicated region for block: B:215:0x04b3  */
-    /* JADX WARN: Removed duplicated region for block: B:227:0x04df A[Catch: all -> 0x04ad, Exception -> 0x04b0, TRY_ENTER, TRY_LEAVE, TryCatch #59 {Exception -> 0x04b0, all -> 0x04ad, blocks: (B:209:0x0494, B:219:0x04c0, B:221:0x04c6, B:227:0x04df), top: B:425:0x0494 }] */
-    /* JADX WARN: Removed duplicated region for block: B:230:0x04e6 A[Catch: all -> 0x0515, Exception -> 0x051a, TRY_LEAVE, TryCatch #38 {Exception -> 0x051a, all -> 0x0515, blocks: (B:207:0x043c, B:217:0x04b9, B:225:0x04d3, B:228:0x04e2, B:230:0x04e6, B:224:0x04d0, B:216:0x04b5), top: B:467:0x043c }] */
-    /* JADX WARN: Removed duplicated region for block: B:242:0x0505  */
-    /* JADX WARN: Removed duplicated region for block: B:361:0x06c6  */
-    /* JADX WARN: Removed duplicated region for block: B:363:0x06cb  */
-    /* JADX WARN: Removed duplicated region for block: B:365:0x06d0  */
-    /* JADX WARN: Removed duplicated region for block: B:367:0x06d5  */
-    /* JADX WARN: Removed duplicated region for block: B:369:0x06da  */
-    /* JADX WARN: Removed duplicated region for block: B:371:0x06df  */
-    /* JADX WARN: Removed duplicated region for block: B:373:0x06e4  */
-    /* JADX WARN: Removed duplicated region for block: B:375:0x06e9  */
-    /* JADX WARN: Removed duplicated region for block: B:377:0x06ee  */
-    /* JADX WARN: Removed duplicated region for block: B:379:0x06f3  */
-    /* JADX WARN: Removed duplicated region for block: B:387:0x0702  */
-    /* JADX WARN: Removed duplicated region for block: B:389:0x0707  */
-    /* JADX WARN: Removed duplicated region for block: B:391:0x070c  */
-    /* JADX WARN: Removed duplicated region for block: B:393:0x0711  */
-    /* JADX WARN: Removed duplicated region for block: B:395:0x0716  */
-    /* JADX WARN: Removed duplicated region for block: B:397:0x071b  */
-    /* JADX WARN: Removed duplicated region for block: B:399:0x0720  */
-    /* JADX WARN: Removed duplicated region for block: B:401:0x0725  */
-    /* JADX WARN: Removed duplicated region for block: B:403:0x072a  */
-    /* JADX WARN: Removed duplicated region for block: B:405:0x072f  */
-    /* JADX WARN: Removed duplicated region for block: B:407:0x0734  */
-    /* JADX WARN: Removed duplicated region for block: B:425:0x0494 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:439:0x0392 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:473:0x019e A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:486:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:209:0x0488 A[Catch: all -> 0x051b, Exception -> 0x0520, TryCatch #40 {Exception -> 0x0520, all -> 0x051b, blocks: (B:207:0x043c, B:209:0x0488, B:210:0x048a, B:220:0x04bf, B:228:0x04d9, B:231:0x04e8, B:233:0x04ec, B:227:0x04d6, B:219:0x04bb), top: B:466:0x043c }] */
+    /* JADX WARN: Removed duplicated region for block: B:218:0x04b9  */
+    /* JADX WARN: Removed duplicated region for block: B:230:0x04e5 A[Catch: all -> 0x04b3, Exception -> 0x04b6, TRY_ENTER, TRY_LEAVE, TryCatch #56 {Exception -> 0x04b6, all -> 0x04b3, blocks: (B:212:0x049a, B:222:0x04c6, B:224:0x04cc, B:230:0x04e5), top: B:434:0x049a }] */
+    /* JADX WARN: Removed duplicated region for block: B:233:0x04ec A[Catch: all -> 0x051b, Exception -> 0x0520, TRY_LEAVE, TryCatch #40 {Exception -> 0x0520, all -> 0x051b, blocks: (B:207:0x043c, B:209:0x0488, B:210:0x048a, B:220:0x04bf, B:228:0x04d9, B:231:0x04e8, B:233:0x04ec, B:227:0x04d6, B:219:0x04bb), top: B:466:0x043c }] */
+    /* JADX WARN: Removed duplicated region for block: B:245:0x050b  */
+    /* JADX WARN: Removed duplicated region for block: B:364:0x06cc  */
+    /* JADX WARN: Removed duplicated region for block: B:366:0x06d1  */
+    /* JADX WARN: Removed duplicated region for block: B:368:0x06d6  */
+    /* JADX WARN: Removed duplicated region for block: B:370:0x06db  */
+    /* JADX WARN: Removed duplicated region for block: B:372:0x06e0  */
+    /* JADX WARN: Removed duplicated region for block: B:374:0x06e5  */
+    /* JADX WARN: Removed duplicated region for block: B:376:0x06ea  */
+    /* JADX WARN: Removed duplicated region for block: B:378:0x06ef  */
+    /* JADX WARN: Removed duplicated region for block: B:380:0x06f4  */
+    /* JADX WARN: Removed duplicated region for block: B:382:0x06f9  */
+    /* JADX WARN: Removed duplicated region for block: B:390:0x0708  */
+    /* JADX WARN: Removed duplicated region for block: B:392:0x070d  */
+    /* JADX WARN: Removed duplicated region for block: B:394:0x0712  */
+    /* JADX WARN: Removed duplicated region for block: B:396:0x0717  */
+    /* JADX WARN: Removed duplicated region for block: B:398:0x071c  */
+    /* JADX WARN: Removed duplicated region for block: B:400:0x0721  */
+    /* JADX WARN: Removed duplicated region for block: B:402:0x0726  */
+    /* JADX WARN: Removed duplicated region for block: B:404:0x072b  */
+    /* JADX WARN: Removed duplicated region for block: B:406:0x0730  */
+    /* JADX WARN: Removed duplicated region for block: B:408:0x0735  */
+    /* JADX WARN: Removed duplicated region for block: B:410:0x073a  */
+    /* JADX WARN: Removed duplicated region for block: B:434:0x049a A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:444:0x0392 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:472:0x019e A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:489:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -30605,7 +30610,12 @@ public class MessagesStorage extends BaseController {
                                                                         sQLitePreparedStatement5.bindInteger(9, tLRPC$Dialog.pts);
                                                                         sQLitePreparedStatement5.bindInteger(10, 0);
                                                                         sQLitePreparedStatement5.bindInteger(11, tLRPC$Dialog.pinnedNum);
-                                                                        sQLitePreparedStatement5.bindInteger(12, tLRPC$Dialog.unread_mark ? 1 : 0);
+                                                                        boolean z3 = tLRPC$Dialog.unread_mark;
+                                                                        int i18 = z3;
+                                                                        if (tLRPC$Dialog.view_forum_as_messages) {
+                                                                            i18 = (z3 ? 1 : 0) | 64;
+                                                                        }
+                                                                        sQLitePreparedStatement5.bindInteger(12, i18);
                                                                         sQLitePreparedStatement5.bindInteger(13, tLRPC$Dialog.folder_id);
                                                                         if (!(tLRPC$Dialog instanceof TLRPC$TL_dialogFolder)) {
                                                                             try {
@@ -30689,13 +30699,13 @@ public class MessagesStorage extends BaseController {
                                                                         if (tLRPC$Dialog.notify_settings == null) {
                                                                             sQLitePreparedStatement9.requery();
                                                                             sQLitePreparedStatement17 = sQLitePreparedStatement9;
-                                                                            int i18 = 1;
+                                                                            int i19 = 1;
                                                                             try {
                                                                                 sQLitePreparedStatement17.bindLong(1, tLRPC$Dialog.id);
                                                                                 if (tLRPC$Dialog.notify_settings.mute_until == 0) {
-                                                                                    i18 = 0;
+                                                                                    i19 = 0;
                                                                                 }
-                                                                                sQLitePreparedStatement17.bindInteger(2, i18);
+                                                                                sQLitePreparedStatement17.bindInteger(2, i19);
                                                                                 sQLitePreparedStatement17.step();
                                                                             } catch (Exception e13) {
                                                                                 e = e13;
@@ -30931,7 +30941,11 @@ public class MessagesStorage extends BaseController {
                                                         sQLitePreparedStatement5.bindInteger(9, tLRPC$Dialog.pts);
                                                         sQLitePreparedStatement5.bindInteger(10, 0);
                                                         sQLitePreparedStatement5.bindInteger(11, tLRPC$Dialog.pinnedNum);
-                                                        sQLitePreparedStatement5.bindInteger(12, tLRPC$Dialog.unread_mark ? 1 : 0);
+                                                        boolean z32 = tLRPC$Dialog.unread_mark;
+                                                        int i182 = z32;
+                                                        if (tLRPC$Dialog.view_forum_as_messages) {
+                                                        }
+                                                        sQLitePreparedStatement5.bindInteger(12, i182);
                                                         sQLitePreparedStatement5.bindInteger(13, tLRPC$Dialog.folder_id);
                                                         if (!(tLRPC$Dialog instanceof TLRPC$TL_dialogFolder)) {
                                                         }
@@ -31678,7 +31692,7 @@ public class MessagesStorage extends BaseController {
     }
 
     public void getDialogFolderId(final long j, final IntCallback intCallback) {
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda116
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda115
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$getDialogFolderId$201(j, intCallback);
@@ -31724,7 +31738,7 @@ public class MessagesStorage extends BaseController {
         if (arrayList == null && arrayList2 == null && j == 0) {
             return;
         }
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda160
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda161
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$setDialogsFolderId$202(arrayList, arrayList2, i, j);
@@ -31882,7 +31896,7 @@ public class MessagesStorage extends BaseController {
     }
 
     public void unpinAllDialogsExceptNew(final ArrayList<Long> arrayList, final int i) {
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda153
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda154
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$unpinAllDialogsExceptNew$205(arrayList, i);
@@ -32057,6 +32071,79 @@ public class MessagesStorage extends BaseController {
         sQLitePreparedStatement.dispose();
     }
 
+    public void setDialogViewThreadAsMessages(final long j, final boolean z) {
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda124
+            @Override // java.lang.Runnable
+            public final void run() {
+                MessagesStorage.this.lambda$setDialogViewThreadAsMessages$207(j, z);
+            }
+        });
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Code restructure failed: missing block: B:15:0x0030, code lost:
+        if (r2 == null) goto L11;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x005b A[Catch: all -> 0x0036, Exception -> 0x0038, TryCatch #2 {Exception -> 0x0038, blocks: (B:16:0x0032, B:22:0x003c, B:24:0x0041, B:23:0x003f, B:27:0x005b, B:28:0x005e), top: B:37:0x0002, outer: #1 }] */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public /* synthetic */ void lambda$setDialogViewThreadAsMessages$207(long j, boolean z) {
+        SQLiteCursor sQLiteCursor;
+        SQLitePreparedStatement sQLitePreparedStatement = null;
+        int i = 0;
+        try {
+            try {
+                try {
+                    try {
+                        sQLiteCursor = this.database.queryFinalized("SELECT flags FROM dialogs WHERE did = " + j, new Object[0]);
+                        try {
+                            if (sQLiteCursor.next()) {
+                                i = sQLiteCursor.intValue(0);
+                            }
+                        } catch (Exception e) {
+                            e = e;
+                            checkSQLException(e);
+                        }
+                    } catch (Throwable th) {
+                        if (0 != 0) {
+                            sQLitePreparedStatement.dispose();
+                        }
+                        throw th;
+                    }
+                } catch (Throwable th2) {
+                    th = th2;
+                    if (sQLiteCursor != null) {
+                        sQLiteCursor.dispose();
+                    }
+                    throw th;
+                }
+            } catch (Exception e2) {
+                e = e2;
+                sQLiteCursor = null;
+            } catch (Throwable th3) {
+                th = th3;
+                sQLiteCursor = null;
+                if (sQLiteCursor != null) {
+                }
+                throw th;
+            }
+            sQLiteCursor.dispose();
+            int i2 = z ? i | 64 : i & (-65);
+            sQLitePreparedStatement = this.database.executeFast("UPDATE dialogs SET flags = ? WHERE did = ?");
+            sQLitePreparedStatement.bindInteger(1, i2);
+            sQLitePreparedStatement.bindLong(2, j);
+            sQLitePreparedStatement.step();
+            sQLitePreparedStatement.dispose();
+        } catch (Exception e3) {
+            checkSQLException(e3);
+            if (0 == 0) {
+                return;
+            }
+        }
+        sQLitePreparedStatement.dispose();
+    }
+
     public void resetAllUnreadCounters(boolean z) {
         int size = this.dialogFilters.size();
         for (int i = 0; i < size; i++) {
@@ -32070,16 +32157,16 @@ public class MessagesStorage extends BaseController {
             }
         }
         calcUnreadCounters(false);
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda7
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda22
             @Override // java.lang.Runnable
             public final void run() {
-                MessagesStorage.this.lambda$resetAllUnreadCounters$207();
+                MessagesStorage.this.lambda$resetAllUnreadCounters$208();
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$resetAllUnreadCounters$207() {
+    public /* synthetic */ void lambda$resetAllUnreadCounters$208() {
         ArrayList<MessagesController.DialogFilter> arrayList = getMessagesController().dialogFilters;
         int size = arrayList.size();
         for (int i = 0; i < size; i++) {
@@ -32091,16 +32178,16 @@ public class MessagesStorage extends BaseController {
     }
 
     public void setDialogPinned(final long j, final int i) {
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda46
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda48
             @Override // java.lang.Runnable
             public final void run() {
-                MessagesStorage.this.lambda$setDialogPinned$208(i, j);
+                MessagesStorage.this.lambda$setDialogPinned$209(i, j);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$setDialogPinned$208(int i, long j) {
+    public /* synthetic */ void lambda$setDialogPinned$209(int i, long j) {
         SQLitePreparedStatement sQLitePreparedStatement = null;
         try {
             try {
@@ -32124,16 +32211,16 @@ public class MessagesStorage extends BaseController {
     }
 
     public void setDialogsPinned(final ArrayList<Long> arrayList, final ArrayList<Integer> arrayList2) {
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda158
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda160
             @Override // java.lang.Runnable
             public final void run() {
-                MessagesStorage.this.lambda$setDialogsPinned$209(arrayList, arrayList2);
+                MessagesStorage.this.lambda$setDialogsPinned$210(arrayList, arrayList2);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$setDialogsPinned$209(ArrayList arrayList, ArrayList arrayList2) {
+    public /* synthetic */ void lambda$setDialogsPinned$210(ArrayList arrayList, ArrayList arrayList2) {
         SQLitePreparedStatement sQLitePreparedStatement = null;
         try {
             try {
@@ -32164,16 +32251,16 @@ public class MessagesStorage extends BaseController {
         if (tLRPC$messages_Dialogs.dialogs.isEmpty()) {
             return;
         }
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda199
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda200
             @Override // java.lang.Runnable
             public final void run() {
-                MessagesStorage.this.lambda$putDialogs$210(tLRPC$messages_Dialogs, i);
+                MessagesStorage.this.lambda$putDialogs$211(tLRPC$messages_Dialogs, i);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$putDialogs$210(TLRPC$messages_Dialogs tLRPC$messages_Dialogs, int i) {
+    public /* synthetic */ void lambda$putDialogs$211(TLRPC$messages_Dialogs tLRPC$messages_Dialogs, int i) {
         putDialogsInternal(tLRPC$messages_Dialogs, i);
         try {
             loadUnreadMessages();
@@ -32183,10 +32270,10 @@ public class MessagesStorage extends BaseController {
     }
 
     public void getDialogMaxMessageId(final long j, final IntCallback intCallback) {
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda114
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda116
             @Override // java.lang.Runnable
             public final void run() {
-                MessagesStorage.this.lambda$getDialogMaxMessageId$212(j, intCallback);
+                MessagesStorage.this.lambda$getDialogMaxMessageId$213(j, intCallback);
             }
         });
     }
@@ -32198,7 +32285,7 @@ public class MessagesStorage extends BaseController {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public /* synthetic */ void lambda$getDialogMaxMessageId$212(long j, final IntCallback intCallback) {
+    public /* synthetic */ void lambda$getDialogMaxMessageId$213(long j, final IntCallback intCallback) {
         final int[] iArr = new int[1];
         SQLiteCursor sQLiteCursor = null;
         try {
@@ -32215,7 +32302,7 @@ public class MessagesStorage extends BaseController {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda5
                 @Override // java.lang.Runnable
                 public final void run() {
-                    MessagesStorage.lambda$getDialogMaxMessageId$211(MessagesStorage.IntCallback.this, iArr);
+                    MessagesStorage.lambda$getDialogMaxMessageId$212(MessagesStorage.IntCallback.this, iArr);
                 }
             });
         } catch (Throwable th) {
@@ -32227,17 +32314,17 @@ public class MessagesStorage extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$getDialogMaxMessageId$211(IntCallback intCallback, int[] iArr) {
+    public static /* synthetic */ void lambda$getDialogMaxMessageId$212(IntCallback intCallback, int[] iArr) {
         intCallback.run(iArr[0]);
     }
 
     public int getDialogReadMax(final boolean z, final long j) {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         final Integer[] numArr = {0};
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda209
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda210
             @Override // java.lang.Runnable
             public final void run() {
-                MessagesStorage.this.lambda$getDialogReadMax$213(z, j, numArr, countDownLatch);
+                MessagesStorage.this.lambda$getDialogReadMax$214(z, j, numArr, countDownLatch);
             }
         });
         try {
@@ -32255,7 +32342,7 @@ public class MessagesStorage extends BaseController {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public /* synthetic */ void lambda$getDialogReadMax$213(boolean z, long j, Integer[] numArr, CountDownLatch countDownLatch) {
+    public /* synthetic */ void lambda$getDialogReadMax$214(boolean z, long j, Integer[] numArr, CountDownLatch countDownLatch) {
         SQLiteCursor sQLiteCursor = null;
         try {
             try {
@@ -32294,10 +32381,10 @@ public class MessagesStorage extends BaseController {
     public int getChannelPtsSync(final long j) {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         final Integer[] numArr = {0};
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda127
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda128
             @Override // java.lang.Runnable
             public final void run() {
-                MessagesStorage.this.lambda$getChannelPtsSync$214(j, numArr, countDownLatch);
+                MessagesStorage.this.lambda$getChannelPtsSync$215(j, numArr, countDownLatch);
             }
         });
         try {
@@ -32315,7 +32402,7 @@ public class MessagesStorage extends BaseController {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public /* synthetic */ void lambda$getChannelPtsSync$214(long j, Integer[] numArr, CountDownLatch countDownLatch) {
+    public /* synthetic */ void lambda$getChannelPtsSync$215(long j, Integer[] numArr, CountDownLatch countDownLatch) {
         SQLiteCursor sQLiteCursor = null;
         try {
             try {
@@ -32344,10 +32431,10 @@ public class MessagesStorage extends BaseController {
     public TLRPC$User getUserSync(final long j) {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         final TLRPC$User[] tLRPC$UserArr = new TLRPC$User[1];
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda214
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda215
             @Override // java.lang.Runnable
             public final void run() {
-                MessagesStorage.this.lambda$getUserSync$215(tLRPC$UserArr, j, countDownLatch);
+                MessagesStorage.this.lambda$getUserSync$216(tLRPC$UserArr, j, countDownLatch);
             }
         });
         try {
@@ -32359,7 +32446,7 @@ public class MessagesStorage extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$getUserSync$215(TLRPC$User[] tLRPC$UserArr, long j, CountDownLatch countDownLatch) {
+    public /* synthetic */ void lambda$getUserSync$216(TLRPC$User[] tLRPC$UserArr, long j, CountDownLatch countDownLatch) {
         tLRPC$UserArr[0] = getUser(j);
         countDownLatch.countDown();
     }
@@ -32367,10 +32454,10 @@ public class MessagesStorage extends BaseController {
     public TLRPC$Chat getChatSync(final long j) {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         final TLRPC$Chat[] tLRPC$ChatArr = new TLRPC$Chat[1];
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda212
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda213
             @Override // java.lang.Runnable
             public final void run() {
-                MessagesStorage.this.lambda$getChatSync$216(tLRPC$ChatArr, j, countDownLatch);
+                MessagesStorage.this.lambda$getChatSync$217(tLRPC$ChatArr, j, countDownLatch);
             }
         });
         try {
@@ -32382,7 +32469,7 @@ public class MessagesStorage extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$getChatSync$216(TLRPC$Chat[] tLRPC$ChatArr, long j, CountDownLatch countDownLatch) {
+    public /* synthetic */ void lambda$getChatSync$217(TLRPC$Chat[] tLRPC$ChatArr, long j, CountDownLatch countDownLatch) {
         tLRPC$ChatArr[0] = getChat(j);
         countDownLatch.countDown();
     }
@@ -32985,7 +33072,7 @@ public class MessagesStorage extends BaseController {
                         longSparseArray3 = longSparseArray10;
                     }
                     LongSparseArray longSparseArray11 = longSparseArray3;
-                    Collections.sort(arrayList6, MessagesStorage$$ExternalSyntheticLambda220.INSTANCE);
+                    Collections.sort(arrayList6, MessagesStorage$$ExternalSyntheticLambda221.INSTANCE);
                     i7 = 0;
                     while (i7 < arrayList6.size()) {
                         DialogsSearchAdapter.DialogSearchResult dialogSearchResult6 = (DialogsSearchAdapter.DialogSearchResult) arrayList6.get(i7);
@@ -33089,7 +33176,7 @@ public class MessagesStorage extends BaseController {
                     while (i6 < longSparseArray3.size()) {
                     }
                     LongSparseArray longSparseArray112 = longSparseArray3;
-                    Collections.sort(arrayList6, MessagesStorage$$ExternalSyntheticLambda220.INSTANCE);
+                    Collections.sort(arrayList6, MessagesStorage$$ExternalSyntheticLambda221.INSTANCE);
                     i7 = 0;
                     while (i7 < arrayList6.size()) {
                     }
@@ -33120,7 +33207,7 @@ public class MessagesStorage extends BaseController {
                 while (i6 < longSparseArray3.size()) {
                 }
                 LongSparseArray longSparseArray1122 = longSparseArray3;
-                Collections.sort(arrayList6, MessagesStorage$$ExternalSyntheticLambda220.INSTANCE);
+                Collections.sort(arrayList6, MessagesStorage$$ExternalSyntheticLambda221.INSTANCE);
                 i7 = 0;
                 while (i7 < arrayList6.size()) {
                 }
@@ -33157,7 +33244,7 @@ public class MessagesStorage extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ int lambda$localSearch$217(DialogsSearchAdapter.DialogSearchResult dialogSearchResult, DialogsSearchAdapter.DialogSearchResult dialogSearchResult2) {
+    public static /* synthetic */ int lambda$localSearch$218(DialogsSearchAdapter.DialogSearchResult dialogSearchResult, DialogsSearchAdapter.DialogSearchResult dialogSearchResult2) {
         int i = dialogSearchResult.date;
         int i2 = dialogSearchResult2.date;
         if (i < i2) {
@@ -33207,7 +33294,7 @@ public class MessagesStorage extends BaseController {
         this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda69
             @Override // java.lang.Runnable
             public final void run() {
-                MessagesStorage.this.lambda$updateUnreadReactionsCount$218(i, z, j, i2);
+                MessagesStorage.this.lambda$updateUnreadReactionsCount$219(i, z, j, i2);
             }
         });
     }
@@ -33219,7 +33306,7 @@ public class MessagesStorage extends BaseController {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public /* synthetic */ void lambda$updateUnreadReactionsCount$218(int i, boolean z, long j, int i2) {
+    public /* synthetic */ void lambda$updateUnreadReactionsCount$219(int i, boolean z, long j, int i2) {
         SQLitePreparedStatement executeFast;
         int intValue;
         Throwable th;
@@ -33322,11 +33409,11 @@ public class MessagesStorage extends BaseController {
             getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda78
                 @Override // java.lang.Runnable
                 public final void run() {
-                    MessagesStorage.this.lambda$markMessageReactionsAsRead$219(j, i, i2);
+                    MessagesStorage.this.lambda$markMessageReactionsAsRead$220(j, i, i2);
                 }
             });
         } else {
-            lambda$markMessageReactionsAsRead$219(j, i, i2);
+            lambda$markMessageReactionsAsRead$220(j, i, i2);
         }
     }
 
@@ -33339,7 +33426,7 @@ public class MessagesStorage extends BaseController {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void lambda$markMessageReactionsAsRead$219(long j, int i, int i2) {
+    public void lambda$markMessageReactionsAsRead$220(long j, int i, int i2) {
         SQLiteCursor sQLiteCursor;
         TLRPC$Message tLRPC$Message;
         SQLitePreparedStatement executeFast;
@@ -33466,10 +33553,10 @@ public class MessagesStorage extends BaseController {
     }
 
     public void updateDialogUnreadReactions(final long j, final int i, final int i2, final boolean z) {
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda206
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda207
             @Override // java.lang.Runnable
             public final void run() {
-                MessagesStorage.this.lambda$updateDialogUnreadReactions$220(z, j, i2, i);
+                MessagesStorage.this.lambda$updateDialogUnreadReactions$221(z, j, i2, i);
             }
         });
     }
@@ -33483,7 +33570,7 @@ public class MessagesStorage extends BaseController {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public /* synthetic */ void lambda$updateDialogUnreadReactions$220(boolean z, long j, int i, int i2) {
+    public /* synthetic */ void lambda$updateDialogUnreadReactions$221(boolean z, long j, int i, int i2) {
         SQLiteCursor sQLiteCursor;
         SQLiteCursor queryFinalized;
         int max;

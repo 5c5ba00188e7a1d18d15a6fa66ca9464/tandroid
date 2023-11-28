@@ -3551,13 +3551,13 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public boolean isSwipeBackEnabled(MotionEvent motionEvent) {
         CachedMediaLayout cachedMediaLayout = this.cachedMediaLayout;
-        if (cachedMediaLayout != null) {
-            Rect rect = AndroidUtilities.rectTmp2;
-            cachedMediaLayout.getHitRect(rect);
-            if (rect.contains((int) motionEvent.getX(), ((int) motionEvent.getY()) - this.actionBar.getMeasuredHeight())) {
-                return this.cachedMediaLayout.viewPagerFixed.isCurrentTabFirst();
-            }
+        if (cachedMediaLayout == null || motionEvent == null) {
             return true;
+        }
+        Rect rect = AndroidUtilities.rectTmp2;
+        cachedMediaLayout.getHitRect(rect);
+        if (rect.contains((int) motionEvent.getX(), ((int) motionEvent.getY()) - this.actionBar.getMeasuredHeight())) {
+            return this.cachedMediaLayout.viewPagerFixed.isCurrentTabFirst();
         }
         return true;
     }

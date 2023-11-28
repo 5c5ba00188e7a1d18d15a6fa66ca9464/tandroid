@@ -2,7 +2,13 @@ package org.telegram.ui.Cells;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.ColorFilter;
+import android.graphics.LinearGradient;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.Shader;
+import android.graphics.drawable.Drawable;
 import android.os.SystemClock;
 import android.text.Layout;
 import android.text.TextUtils;
@@ -14,6 +20,7 @@ import androidx.dynamicanimation.animation.DynamicAnimation;
 import androidx.dynamicanimation.animation.FloatValueHolder;
 import androidx.dynamicanimation.animation.SpringAnimation;
 import androidx.dynamicanimation.animation.SpringForce;
+import java.util.Objects;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ContactsController;
 import org.telegram.messenger.DialogObject;
@@ -38,25 +45,33 @@ import org.telegram.ui.Components.CheckBox2;
 import org.telegram.ui.Components.CheckBoxBase;
 import org.telegram.ui.Components.Forum.ForumUtilities;
 import org.telegram.ui.Components.LayoutHelper;
+import org.telegram.ui.Components.RLottieDrawable;
 /* loaded from: classes3.dex */
 public class ShareDialogCell extends FrameLayout {
-    private AvatarDrawable avatarDrawable;
-    private CheckBox2 checkBox;
-    private int currentAccount;
+    private final AvatarDrawable avatarDrawable;
+    private final CheckBox2 checkBox;
+    private final int currentAccount;
     private long currentDialog;
-    private int currentType;
-    private BackupImageView imageView;
+    private final int currentType;
+    private final BackupImageView imageView;
     private long lastUpdateTime;
-    private TextView nameTextView;
+    private final TextView nameTextView;
     private float onlineProgress;
+    private RepostStoryDrawable repostStoryDrawable;
     private final Theme.ResourcesProvider resourcesProvider;
-    private SimpleTextView topicTextView;
+    private final SimpleTextView topicTextView;
     private boolean topicWasVisible;
     private TLRPC$User user;
 
     public ShareDialogCell(Context context, int i, Theme.ResourcesProvider resourcesProvider) {
         super(context);
-        this.avatarDrawable = new AvatarDrawable();
+        this.avatarDrawable = new AvatarDrawable() { // from class: org.telegram.ui.Cells.ShareDialogCell.1
+            @Override // android.graphics.drawable.Drawable
+            public void invalidateSelf() {
+                super.invalidateSelf();
+                ShareDialogCell.this.imageView.invalidate();
+            }
+        };
         this.currentAccount = UserConfig.selectedAccount;
         this.resourcesProvider = resourcesProvider;
         setWillNotDraw(false);
@@ -65,11 +80,11 @@ public class ShareDialogCell extends FrameLayout {
         this.imageView = backupImageView;
         backupImageView.setRoundRadius(AndroidUtilities.dp(28.0f));
         if (i == 2) {
-            addView(this.imageView, LayoutHelper.createFrame(48, 48.0f, 49, 0.0f, 7.0f, 0.0f, 0.0f));
+            addView(backupImageView, LayoutHelper.createFrame(48, 48.0f, 49, 0.0f, 7.0f, 0.0f, 0.0f));
         } else {
-            addView(this.imageView, LayoutHelper.createFrame(56, 56.0f, 49, 0.0f, 7.0f, 0.0f, 0.0f));
+            addView(backupImageView, LayoutHelper.createFrame(56, 56.0f, 49, 0.0f, 7.0f, 0.0f, 0.0f));
         }
-        TextView textView = new TextView(this, context) { // from class: org.telegram.ui.Cells.ShareDialogCell.1
+        TextView textView = new TextView(this, context) { // from class: org.telegram.ui.Cells.ShareDialogCell.2
             @Override // android.widget.TextView
             public void setText(CharSequence charSequence, TextView.BufferType bufferType) {
                 super.setText(Emoji.replaceEmoji(charSequence, getPaint().getFontMetricsInt(), AndroidUtilities.dp(10.0f), false), bufferType);
@@ -77,33 +92,33 @@ public class ShareDialogCell extends FrameLayout {
         };
         this.nameTextView = textView;
         NotificationCenter.listenEmojiLoading(textView);
-        this.nameTextView.setTextColor(getThemedColor(i == 1 ? Theme.key_voipgroup_nameText : Theme.key_dialogTextBlack));
-        this.nameTextView.setTextSize(1, 12.0f);
-        this.nameTextView.setMaxLines(2);
-        this.nameTextView.setGravity(49);
-        this.nameTextView.setLines(2);
-        this.nameTextView.setEllipsize(TextUtils.TruncateAt.END);
-        addView(this.nameTextView, LayoutHelper.createFrame(-1, -2.0f, 51, 6.0f, this.currentType == 2 ? 58.0f : 66.0f, 6.0f, 0.0f));
+        textView.setTextColor(getThemedColor(i == 1 ? Theme.key_voipgroup_nameText : Theme.key_dialogTextBlack));
+        textView.setTextSize(1, 12.0f);
+        textView.setMaxLines(2);
+        textView.setGravity(49);
+        textView.setLines(2);
+        textView.setEllipsize(TextUtils.TruncateAt.END);
+        addView(textView, LayoutHelper.createFrame(-1, -2.0f, 51, 6.0f, i == 2 ? 58.0f : 66.0f, 6.0f, 0.0f));
         SimpleTextView simpleTextView = new SimpleTextView(context);
         this.topicTextView = simpleTextView;
         simpleTextView.setTextColor(getThemedColor(i == 1 ? Theme.key_voipgroup_nameText : Theme.key_dialogTextBlack));
-        this.topicTextView.setTextSize(12);
-        this.topicTextView.setMaxLines(2);
-        this.topicTextView.setGravity(49);
-        this.topicTextView.setAlignment(Layout.Alignment.ALIGN_CENTER);
-        addView(this.topicTextView, LayoutHelper.createFrame(-1, -2.0f, 51, 6.0f, this.currentType == 2 ? 58.0f : 66.0f, 6.0f, 0.0f));
+        simpleTextView.setTextSize(12);
+        simpleTextView.setMaxLines(2);
+        simpleTextView.setGravity(49);
+        simpleTextView.setAlignment(Layout.Alignment.ALIGN_CENTER);
+        addView(simpleTextView, LayoutHelper.createFrame(-1, -2.0f, 51, 6.0f, i == 2 ? 58.0f : 66.0f, 6.0f, 0.0f));
         CheckBox2 checkBox2 = new CheckBox2(context, 21, resourcesProvider);
         this.checkBox = checkBox2;
         checkBox2.setColor(Theme.key_dialogRoundCheckBox, i == 1 ? Theme.key_voipgroup_inviteMembersBackground : Theme.key_dialogBackground, Theme.key_dialogRoundCheckBoxCheck);
-        this.checkBox.setDrawUnchecked(false);
-        this.checkBox.setDrawBackgroundAsArc(4);
-        this.checkBox.setProgressDelegate(new CheckBoxBase.ProgressDelegate() { // from class: org.telegram.ui.Cells.ShareDialogCell$$ExternalSyntheticLambda2
+        checkBox2.setDrawUnchecked(false);
+        checkBox2.setDrawBackgroundAsArc(4);
+        checkBox2.setProgressDelegate(new CheckBoxBase.ProgressDelegate() { // from class: org.telegram.ui.Cells.ShareDialogCell$$ExternalSyntheticLambda2
             @Override // org.telegram.ui.Components.CheckBoxBase.ProgressDelegate
             public final void setProgress(float f) {
                 ShareDialogCell.this.lambda$new$0(f);
             }
         });
-        addView(this.checkBox, LayoutHelper.createFrame(24, 24.0f, 49, 19.0f, this.currentType == 2 ? -40.0f : 42.0f, 0.0f, 0.0f));
+        addView(checkBox2, LayoutHelper.createFrame(24, 24.0f, 49, 19.0f, i == 2 ? -40.0f : 42.0f, 0.0f, 0.0f));
         setBackground(Theme.createRadSelectorDrawable(Theme.getColor(Theme.key_listSelector, resourcesProvider), AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f)));
     }
 
@@ -121,10 +136,16 @@ public class ShareDialogCell extends FrameLayout {
     }
 
     public void setDialog(long j, boolean z, CharSequence charSequence) {
-        if (DialogObject.isUserDialog(j)) {
+        if (j == Long.MAX_VALUE) {
+            this.nameTextView.setText(LocaleController.getString(R.string.FwdMyStory));
+            if (this.repostStoryDrawable == null) {
+                this.repostStoryDrawable = new RepostStoryDrawable(this.imageView, this.resourcesProvider);
+            }
+            this.imageView.setImage((ImageLocation) null, (String) null, this.repostStoryDrawable, (Object) null);
+        } else if (DialogObject.isUserDialog(j)) {
             TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(j));
             this.user = user;
-            this.avatarDrawable.setInfo(user);
+            this.avatarDrawable.setInfo(this.currentAccount, user);
             if (this.currentType != 2 && UserObject.isReplyUser(this.user)) {
                 this.nameTextView.setText(LocaleController.getString("RepliesTitle", R.string.RepliesTitle));
                 this.avatarDrawable.setAvatarType(12);
@@ -157,7 +178,7 @@ public class ShareDialogCell extends FrameLayout {
             } else {
                 this.nameTextView.setText("");
             }
-            this.avatarDrawable.setInfo(chat);
+            this.avatarDrawable.setInfo(this.currentAccount, chat);
             this.imageView.setForUserOrChat(chat, this.avatarDrawable);
             this.imageView.setRoundRadius((chat == null || !chat.forum) ? AndroidUtilities.dp(28.0f) : AndroidUtilities.dp(16.0f));
         }
@@ -310,6 +331,63 @@ public class ShareDialogCell extends FrameLayout {
         super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
         if (this.checkBox.isChecked()) {
             accessibilityNodeInfo.setSelected(true);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes3.dex */
+    public static class RepostStoryDrawable extends Drawable {
+        private final LinearGradient gradient;
+        private final RLottieDrawable lottieDrawable;
+        private final Paint paint;
+
+        @Override // android.graphics.drawable.Drawable
+        public int getOpacity() {
+            return -2;
+        }
+
+        @Override // android.graphics.drawable.Drawable
+        public void setAlpha(int i) {
+        }
+
+        @Override // android.graphics.drawable.Drawable
+        public void setColorFilter(ColorFilter colorFilter) {
+        }
+
+        public RepostStoryDrawable(View view, Theme.ResourcesProvider resourcesProvider) {
+            Paint paint = new Paint(1);
+            this.paint = paint;
+            LinearGradient linearGradient = new LinearGradient(0.0f, 0.0f, AndroidUtilities.dp(56.0f), AndroidUtilities.dp(56.0f), new int[]{Theme.getColor(Theme.key_stories_circle1, resourcesProvider), Theme.getColor(Theme.key_stories_circle2, resourcesProvider)}, new float[]{0.0f, 1.0f}, Shader.TileMode.CLAMP);
+            this.gradient = linearGradient;
+            paint.setShader(linearGradient);
+            RLottieDrawable rLottieDrawable = new RLottieDrawable(R.raw.story_repost, "story_repost", AndroidUtilities.dp(42.0f), AndroidUtilities.dp(42.0f), true, null);
+            this.lottieDrawable = rLottieDrawable;
+            rLottieDrawable.setMasterParent(view);
+            Objects.requireNonNull(rLottieDrawable);
+            AndroidUtilities.runOnUIThread(new ShareDialogCell$RepostStoryDrawable$$ExternalSyntheticLambda0(rLottieDrawable), 450L);
+        }
+
+        @Override // android.graphics.drawable.Drawable
+        public void draw(Canvas canvas) {
+            canvas.save();
+            canvas.translate(getBounds().left, getBounds().top);
+            canvas.drawCircle(getBounds().width() / 2.0f, getBounds().height() / 2.0f, getBounds().width() / 2.0f, this.paint);
+            canvas.restore();
+            Rect rect = AndroidUtilities.rectTmp2;
+            rect.set(getBounds());
+            rect.inset(AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f));
+            this.lottieDrawable.setBounds(rect);
+            this.lottieDrawable.draw(canvas);
+        }
+
+        @Override // android.graphics.drawable.Drawable
+        public int getIntrinsicWidth() {
+            return AndroidUtilities.dp(56.0f);
+        }
+
+        @Override // android.graphics.drawable.Drawable
+        public int getIntrinsicHeight() {
+            return AndroidUtilities.dp(56.0f);
         }
     }
 }

@@ -415,6 +415,13 @@ public interface INavigationLayout {
         }
 
         @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
+        public /* synthetic */ boolean isDark() {
+            boolean isCurrentThemeDark;
+            isCurrentThemeDark = Theme.isCurrentThemeDark();
+            return isCurrentThemeDark;
+        }
+
+        @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
         public /* synthetic */ void setAnimatedColor(int i, int i2) {
             Theme.ResourcesProvider.-CC.$default$setAnimatedColor(this, i, i2);
         }

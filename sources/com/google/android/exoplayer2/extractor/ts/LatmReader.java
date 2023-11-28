@@ -154,7 +154,7 @@ public final class LatmReader implements ElementaryStreamReader {
                 parsableBitArray.setPosition(position);
                 byte[] bArr = new byte[(parseAudioSpecificConfig + 7) / 8];
                 parsableBitArray.readBits(bArr, 0, parseAudioSpecificConfig);
-                Format build = new Format.Builder().setId(this.formatId).setSampleMimeType(MediaController.AUIDO_MIME_TYPE).setCodecs(this.codecs).setChannelCount(this.channelCount).setSampleRate(this.sampleRateHz).setInitializationData(Collections.singletonList(bArr)).setLanguage(this.language).build();
+                Format build = new Format.Builder().setId(this.formatId).setSampleMimeType(MediaController.AUDIO_MIME_TYPE).setCodecs(this.codecs).setChannelCount(this.channelCount).setSampleRate(this.sampleRateHz).setInitializationData(Collections.singletonList(bArr)).setLanguage(this.language).build();
                 if (!build.equals(this.format)) {
                     this.format = build;
                     this.sampleDurationUs = 1024000000 / build.sampleRate;

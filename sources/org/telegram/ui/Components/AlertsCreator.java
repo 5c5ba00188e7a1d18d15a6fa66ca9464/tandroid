@@ -1893,11 +1893,11 @@ public class AlertsCreator {
                 backupImageView.setImage((ImageLocation) null, (String) null, avatarDrawable, tLRPC$User);
             } else {
                 avatarDrawable.setScaleSize(1.0f);
-                avatarDrawable.setInfo(tLRPC$User);
+                avatarDrawable.setInfo(currentAccount, tLRPC$User);
                 backupImageView.setForUserOrChat(tLRPC$User, avatarDrawable);
             }
         } else {
-            avatarDrawable.setInfo(tLRPC$Chat);
+            avatarDrawable.setInfo(currentAccount, tLRPC$Chat);
             backupImageView.setForUserOrChat(tLRPC$Chat, avatarDrawable);
         }
         textView.setText(AndroidUtilities.replaceTags(str2));
@@ -1959,7 +1959,7 @@ public class AlertsCreator {
             backupImageView.setImage((ImageLocation) null, (String) null, avatarDrawable, tLRPC$User);
         } else {
             avatarDrawable.setScaleSize(1.0f);
-            avatarDrawable.setInfo(tLRPC$User);
+            avatarDrawable.setInfo(baseFragment.getCurrentAccount(), tLRPC$User);
             backupImageView.setForUserOrChat(tLRPC$User, avatarDrawable);
         }
         builder.setPositiveButton(LocaleController.getString(R.string.Start), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda18
@@ -2092,7 +2092,7 @@ public class AlertsCreator {
             backupImageView.setImage((ImageLocation) null, (String) null, avatarDrawable, tLRPC$User);
         } else {
             avatarDrawable.setScaleSize(1.0f);
-            avatarDrawable.setInfo(tLRPC$User);
+            avatarDrawable.setInfo(baseFragment.getCurrentAccount(), tLRPC$User);
             backupImageView.setForUserOrChat(tLRPC$User, avatarDrawable);
         }
         builder.setPositiveButton(LocaleController.getString(R.string.Start), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda13
@@ -2133,12 +2133,12 @@ public class AlertsCreator {
         if (r0 == false) goto L84;
      */
     /* JADX WARN: Removed duplicated region for block: B:159:0x03a1  */
-    /* JADX WARN: Removed duplicated region for block: B:166:0x03dd  */
-    /* JADX WARN: Removed duplicated region for block: B:168:0x03e9  */
-    /* JADX WARN: Removed duplicated region for block: B:176:0x042a  */
-    /* JADX WARN: Removed duplicated region for block: B:224:0x05b9  */
-    /* JADX WARN: Removed duplicated region for block: B:226:0x05c3  */
-    /* JADX WARN: Removed duplicated region for block: B:247:0x0666  */
+    /* JADX WARN: Removed duplicated region for block: B:166:0x03e1  */
+    /* JADX WARN: Removed duplicated region for block: B:168:0x03f1  */
+    /* JADX WARN: Removed duplicated region for block: B:176:0x0432  */
+    /* JADX WARN: Removed duplicated region for block: B:224:0x05c1  */
+    /* JADX WARN: Removed duplicated region for block: B:226:0x05cb  */
+    /* JADX WARN: Removed duplicated region for block: B:247:0x066e  */
     /* JADX WARN: Removed duplicated region for block: B:251:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:80:0x01d9  */
     /* JADX WARN: Removed duplicated region for block: B:81:0x01e0  */
@@ -2348,13 +2348,13 @@ public class AlertsCreator {
                                 backupImageView.setImage((ImageLocation) null, (String) null, avatarDrawable4, tLRPC$User);
                             } else {
                                 avatarDrawable4.setScaleSize(1.0f);
-                                avatarDrawable4.setInfo(tLRPC$User);
+                                avatarDrawable4.setInfo(baseFragment.getCurrentAccount(), tLRPC$User);
                                 backupImageView.setForUserOrChat(tLRPC$User, avatarDrawable4);
                             }
                         }
                     } else {
                         AvatarDrawable avatarDrawable5 = avatarDrawable;
-                        avatarDrawable5.setInfo(tLRPC$Chat);
+                        avatarDrawable5.setInfo(baseFragment.getCurrentAccount(), tLRPC$Chat);
                         backupImageView.setForUserOrChat(tLRPC$Chat, avatarDrawable5);
                     }
                     if (z3) {
@@ -2690,7 +2690,7 @@ public class AlertsCreator {
         AvatarDrawable avatarDrawable = new AvatarDrawable();
         avatarDrawable.setTextSize(AndroidUtilities.dp(12.0f));
         avatarDrawable.setScaleSize(1.0f);
-        avatarDrawable.setInfo(tLRPC$User);
+        avatarDrawable.setInfo(baseFragment.getCurrentAccount(), tLRPC$User);
         BackupImageView backupImageView = new BackupImageView(parentActivity);
         backupImageView.setRoundRadius(AndroidUtilities.dp(20.0f));
         backupImageView.setForUserOrChat(tLRPC$User, avatarDrawable);
@@ -3092,7 +3092,7 @@ public class AlertsCreator {
         textView2.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         textView2.setText(LocaleController.getString("IUnderstand", R.string.IUnderstand));
         textView2.setTextColor(Theme.getColor(Theme.key_featuredStickers_buttonText));
-        textView2.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6.0f), Theme.getColor(Theme.key_featuredStickers_addButton), Theme.getColor(Theme.key_featuredStickers_addButtonPressed)));
+        textView2.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(8.0f), Theme.getColor(Theme.key_featuredStickers_addButton), Theme.getColor(Theme.key_featuredStickers_addButtonPressed)));
         linearLayout.addView(textView2, LayoutHelper.createLinear(-1, 48, 0, 16, 12, 16, 8));
         builder.setCustomView(linearLayout);
         final BottomSheet show = builder.show();
@@ -3998,7 +3998,7 @@ public class AlertsCreator {
         textView2.setTextColor(scheduleDatePickerColors.buttonTextColor);
         textView2.setTextSize(1, 14.0f);
         textView2.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-        textView2.setBackgroundDrawable(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(4.0f), scheduleDatePickerColors.buttonBackgroundColor, scheduleDatePickerColors.buttonBackgroundPressedColor));
+        textView2.setBackgroundDrawable(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(8.0f), scheduleDatePickerColors.buttonBackgroundColor, scheduleDatePickerColors.buttonBackgroundPressedColor));
         textView2.setText(LocaleController.getString("SetTimeLimit", R.string.SetTimeLimit));
         LinearLayout linearLayout4 = linearLayout;
         linearLayout4.addView(textView2, LayoutHelper.createLinear(-1, 48, 83, 16, 15, 16, 16));
@@ -4195,7 +4195,7 @@ public class AlertsCreator {
         textView2.setTextColor(scheduleDatePickerColors.buttonTextColor);
         textView2.setTextSize(1, 14.0f);
         textView2.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-        textView2.setBackgroundDrawable(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(4.0f), scheduleDatePickerColors.buttonBackgroundColor, scheduleDatePickerColors.buttonBackgroundPressedColor));
+        textView2.setBackgroundDrawable(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(8.0f), scheduleDatePickerColors.buttonBackgroundColor, scheduleDatePickerColors.buttonBackgroundPressedColor));
         textView2.setText(LocaleController.getString("SetEmojiStatusUntilButton", R.string.SetEmojiStatusUntilButton));
         LinearLayout linearLayout4 = linearLayout;
         linearLayout4.addView(textView2, LayoutHelper.createLinear(-1, 48, 83, 16, 15, 16, 16));
@@ -4349,7 +4349,7 @@ public class AlertsCreator {
         animatedTextView.setTextColor(scheduleDatePickerColors.buttonTextColor);
         animatedTextView.setTextSize(AndroidUtilities.dp(14.0f));
         animatedTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-        animatedTextView.setBackgroundDrawable(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(4.0f), scheduleDatePickerColors.buttonBackgroundColor, scheduleDatePickerColors.buttonBackgroundPressedColor));
+        animatedTextView.setBackgroundDrawable(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(8.0f), scheduleDatePickerColors.buttonBackgroundColor, scheduleDatePickerColors.buttonBackgroundPressedColor));
         linearLayout.addView(animatedTextView, LayoutHelper.createLinear(-1, 48, 83, 16, 15, 16, 16));
         animatedTextView.setText(LocaleController.getString("DisableAutoDeleteTimer", R.string.DisableAutoDeleteTimer));
         numberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda143
@@ -4499,7 +4499,7 @@ public class AlertsCreator {
         textView2.setTextColor(scheduleDatePickerColors.buttonTextColor);
         textView2.setTextSize(1, 14.0f);
         textView2.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-        textView2.setBackgroundDrawable(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(4.0f), scheduleDatePickerColors.buttonBackgroundColor, scheduleDatePickerColors.buttonBackgroundPressedColor));
+        textView2.setBackgroundDrawable(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(8.0f), scheduleDatePickerColors.buttonBackgroundColor, scheduleDatePickerColors.buttonBackgroundPressedColor));
         textView2.setText(LocaleController.getString("AutoDeleteConfirm", R.string.AutoDeleteConfirm));
         linearLayout.addView(textView2, LayoutHelper.createLinear(-1, 48, 83, 16, 15, 16, 16));
         NumberPicker.OnValueChangeListener onValueChangeListener = new NumberPicker.OnValueChangeListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda138
@@ -4651,7 +4651,7 @@ public class AlertsCreator {
         textView2.setTextColor(scheduleDatePickerColors.buttonTextColor);
         textView2.setTextSize(1, 14.0f);
         textView2.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-        textView2.setBackgroundDrawable(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(4.0f), scheduleDatePickerColors.buttonBackgroundColor, scheduleDatePickerColors.buttonBackgroundPressedColor));
+        textView2.setBackgroundDrawable(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(8.0f), scheduleDatePickerColors.buttonBackgroundColor, scheduleDatePickerColors.buttonBackgroundPressedColor));
         textView2.setText(LocaleController.getString("AutoDeleteConfirm", R.string.AutoDeleteConfirm));
         linearLayout.addView(textView2, LayoutHelper.createLinear(-1, 48, 83, 16, 15, 16, 16));
         textView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda71

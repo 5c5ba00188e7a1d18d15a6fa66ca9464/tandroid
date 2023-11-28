@@ -6400,7 +6400,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     case MessageObject.TYPE_GIVEAWAY /* 26 */:
                         textView = new BlockRelatedArticlesHeaderCell(this.context, this);
                         break;
-                    case 27:
+                    case MessageObject.TYPE_JOINED_CHANNEL /* 27 */:
                         textView = new BlockDetailsBottomCell(this.context);
                         break;
                     case 28:
@@ -6539,7 +6539,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     case MessageObject.TYPE_GIVEAWAY /* 26 */:
                         ((BlockRelatedArticlesHeaderCell) viewHolder.itemView).setBlock((TLRPC$TL_pageBlockRelatedArticles) tLRPC$PageBlock2);
                         return;
-                    case 27:
+                    case MessageObject.TYPE_JOINED_CHANNEL /* 27 */:
                         BlockDetailsBottomCell blockDetailsBottomCell = (BlockDetailsBottomCell) viewHolder.itemView;
                         return;
                     default:

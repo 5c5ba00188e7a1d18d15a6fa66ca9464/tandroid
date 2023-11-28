@@ -511,12 +511,12 @@ public class SsManifestParser implements ParsingLoadable.Parser<SsManifest> {
                 builder.setContainerMimeType("video/mp4").setWidth(parseRequiredInt(xmlPullParser, "MaxWidth")).setHeight(parseRequiredInt(xmlPullParser, "MaxHeight")).setInitializationData(buildCodecSpecificData(xmlPullParser.getAttributeValue(null, "CodecPrivateData")));
             } else if (intValue == 1) {
                 if (fourCCToMimeType == null) {
-                    fourCCToMimeType = MediaController.AUIDO_MIME_TYPE;
+                    fourCCToMimeType = MediaController.AUDIO_MIME_TYPE;
                 }
                 int parseRequiredInt = parseRequiredInt(xmlPullParser, "Channels");
                 int parseRequiredInt2 = parseRequiredInt(xmlPullParser, "SamplingRate");
                 List<byte[]> buildCodecSpecificData = buildCodecSpecificData(xmlPullParser.getAttributeValue(null, "CodecPrivateData"));
-                if (buildCodecSpecificData.isEmpty() && MediaController.AUIDO_MIME_TYPE.equals(fourCCToMimeType)) {
+                if (buildCodecSpecificData.isEmpty() && MediaController.AUDIO_MIME_TYPE.equals(fourCCToMimeType)) {
                     buildCodecSpecificData = Collections.singletonList(AacUtil.buildAacLcAudioSpecificConfig(parseRequiredInt2, parseRequiredInt));
                 }
                 builder.setContainerMimeType("audio/mp4").setChannelCount(parseRequiredInt).setSampleRate(parseRequiredInt2).setInitializationData(buildCodecSpecificData);
@@ -561,7 +561,7 @@ public class SsManifestParser implements ParsingLoadable.Parser<SsManifest> {
                 return MediaController.VIDEO_MIME_TYPE;
             }
             if (str.equalsIgnoreCase("AAC") || str.equalsIgnoreCase("AACL") || str.equalsIgnoreCase("AACH") || str.equalsIgnoreCase("AACP")) {
-                return MediaController.AUIDO_MIME_TYPE;
+                return MediaController.AUDIO_MIME_TYPE;
             }
             if (str.equalsIgnoreCase("TTML") || str.equalsIgnoreCase("DFXP")) {
                 return "application/ttml+xml";

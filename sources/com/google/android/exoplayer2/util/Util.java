@@ -144,7 +144,7 @@ public final class Util {
                                 case 24:
                                 case 25:
                                 case MessageObject.TYPE_GIVEAWAY /* 26 */:
-                                case 27:
+                                case MessageObject.TYPE_JOINED_CHANNEL /* 27 */:
                                 case 28:
                                     return 6002;
                                 default:

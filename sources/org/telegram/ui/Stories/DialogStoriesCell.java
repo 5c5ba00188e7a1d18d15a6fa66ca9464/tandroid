@@ -1281,7 +1281,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
                 this.avatarImage.clearImage();
                 return;
             }
-            this.avatarDrawable.setInfo((TLObject) tLRPC$User);
+            this.avatarDrawable.setInfo(DialogStoriesCell.this.currentAccount, (TLObject) tLRPC$User);
             this.avatarImage.setForUserOrChat(tLRPC$User, this.avatarDrawable);
             if (this.mini) {
                 return;
@@ -1819,7 +1819,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
                     tLRPC$User = chat;
                 }
                 if (tLRPC$User != null) {
-                    this.crossfadeAvatarDrawable.setInfo((TLObject) tLRPC$User);
+                    this.crossfadeAvatarDrawable.setInfo(DialogStoriesCell.this.currentAccount, (TLObject) tLRPC$User);
                     this.crossfageToAvatarImage.setForUserOrChat(tLRPC$User, this.crossfadeAvatarDrawable);
                 }
             }

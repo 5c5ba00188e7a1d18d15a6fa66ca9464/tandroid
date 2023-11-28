@@ -101,7 +101,6 @@ public class ButtonBounce {
         return this.isPressed;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public void invalidate() {
         View view = this.view;
         if (view != null) {

@@ -920,7 +920,7 @@ public class SelfStoryViewsPage extends FrameLayout implements NotificationCente
                             spannableStringBuilder.append((CharSequence) "\n\n");
                             String string = LocaleController.getString("ExpiredViewsStubPremiumDescription", R.string.ExpiredViewsStubPremiumDescription);
                             final SelfStoryViewsPage selfStoryViewsPage2 = SelfStoryViewsPage.this;
-                            spannableStringBuilder.append(AndroidUtilities.replaceSingleTag(string, new Runnable() { // from class: org.telegram.ui.Stories.SelfStoryViewsPage$ListAdapter$$ExternalSyntheticLambda2
+                            spannableStringBuilder.append((CharSequence) AndroidUtilities.replaceSingleTag(string, new Runnable() { // from class: org.telegram.ui.Stories.SelfStoryViewsPage$ListAdapter$$ExternalSyntheticLambda2
                                 @Override // java.lang.Runnable
                                 public final void run() {
                                     SelfStoryViewsPage.access$1200(SelfStoryViewsPage.this);

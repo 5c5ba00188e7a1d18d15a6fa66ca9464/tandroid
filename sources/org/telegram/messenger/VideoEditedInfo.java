@@ -103,11 +103,12 @@ public class VideoEditedInfo {
 
     /* loaded from: classes.dex */
     public static class MediaEntity {
-        public static final int TYPE_LOCATION = 3;
-        public static final int TYPE_PHOTO = 2;
+        public static final byte TYPE_LOCATION = 3;
+        public static final byte TYPE_PHOTO = 2;
         public static final byte TYPE_REACTION = 4;
-        public static final int TYPE_STICKER = 0;
-        public static final int TYPE_TEXT = 1;
+        public static final byte TYPE_ROUND = 5;
+        public static final byte TYPE_STICKER = 0;
+        public static final byte TYPE_TEXT = 1;
         public int H;
         public int W;
         public float additionalHeight;
@@ -120,17 +121,23 @@ public class VideoEditedInfo {
         public float density;
         public TLRPC$Document document;
         public ArrayList<EmojiEntity> entities;
+        public boolean firstSeek;
         public int fontSize;
         public float framesPerDraw;
         public float height;
+        public boolean looped;
         public TL_stories$MediaArea mediaArea;
         public TLRPC$MessageMedia mediaGeo;
         public int[] metadata;
         public Object parentObject;
         public long ptr;
         public float rotation;
+        public long roundDuration;
+        public long roundLeft;
+        public long roundOffset;
         public float roundRadius;
         public Canvas roundRadiusCanvas;
+        public long roundRight;
         public float scale;
         public byte subType;
         public String text;
@@ -209,6 +216,12 @@ public class VideoEditedInfo {
             if (this.type == 4) {
                 this.mediaArea = TL_stories$MediaArea.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(false), false);
             }
+            if (this.type == 5) {
+                this.roundOffset = abstractSerializedData.readInt64(false);
+                this.roundLeft = abstractSerializedData.readInt64(false);
+                this.roundRight = abstractSerializedData.readInt64(false);
+                this.roundDuration = abstractSerializedData.readInt64(false);
+            }
         }
 
         public void serializeTo(AbstractSerializedData abstractSerializedData, boolean z) {
@@ -278,6 +291,12 @@ public class VideoEditedInfo {
             if (this.type == 4) {
                 this.mediaArea.serializeToStream(abstractSerializedData);
             }
+            if (this.type == 5) {
+                abstractSerializedData.writeInt64(this.roundOffset);
+                abstractSerializedData.writeInt64(this.roundLeft);
+                abstractSerializedData.writeInt64(this.roundRight);
+                abstractSerializedData.writeInt64(this.roundDuration);
+            }
         }
 
         public MediaEntity copy() {
@@ -326,6 +345,10 @@ public class VideoEditedInfo {
             mediaEntity.W = this.W;
             mediaEntity.H = this.H;
             mediaEntity.visibleReaction = this.visibleReaction;
+            mediaEntity.roundOffset = this.roundOffset;
+            mediaEntity.roundDuration = this.roundDuration;
+            mediaEntity.roundLeft = this.roundLeft;
+            mediaEntity.roundRight = this.roundRight;
             return mediaEntity;
         }
     }

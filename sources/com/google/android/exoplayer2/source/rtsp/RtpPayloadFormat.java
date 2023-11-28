@@ -258,7 +258,7 @@ public final class RtpPayloadFormat {
         switch (c) {
             case 0:
             case '\f':
-                return MediaController.AUIDO_MIME_TYPE;
+                return MediaController.AUDIO_MIME_TYPE;
             case 1:
             case 4:
                 return "audio/raw";

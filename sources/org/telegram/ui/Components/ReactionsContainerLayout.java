@@ -157,6 +157,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
     HashSet<ReactionsLayoutInBubble.VisibleReaction> selectedReactions;
     private Drawable shadow;
     private android.graphics.Rect shadowPad;
+    private boolean showExpandableReactions;
     boolean skipDraw;
     public boolean skipEnterAnimation;
     private float smallCircleRadius;
@@ -525,7 +526,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
-            if (viewHolder.getItemViewType() == 0) {
+            if (viewHolder.getItemViewType() == 0 || viewHolder.getItemViewType() == 3) {
                 ReactionHolderView reactionHolderView = (ReactionHolderView) viewHolder.itemView;
                 reactionHolderView.setScaleX(1.0f);
                 reactionHolderView.setScaleY(1.0f);
@@ -549,7 +550,8 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
             this.oldItems.addAll(this.items);
             this.items.clear();
             for (int i = 0; i < ReactionsContainerLayout.this.visibleReactionsList.size(); i++) {
-                this.items.add(new InnerItem(this, 0, (ReactionsLayoutInBubble.VisibleReaction) ReactionsContainerLayout.this.visibleReactionsList.get(i)));
+                ReactionsLayoutInBubble.VisibleReaction visibleReaction = (ReactionsLayoutInBubble.VisibleReaction) ReactionsContainerLayout.this.visibleReactionsList.get(i);
+                this.items.add(new InnerItem(this, visibleReaction.emojicon == null ? 3 : 0, visibleReaction));
             }
             if (ReactionsContainerLayout.this.showUnlockPremiumButton()) {
                 this.items.add(new InnerItem(this, 1, null));
@@ -580,7 +582,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                 InnerItem innerItem = (InnerItem) obj;
                 int i = this.viewType;
                 int i2 = innerItem.viewType;
-                if (i != i2 || i != 0) {
+                if (i != i2 || (i != 0 && i != 3)) {
                     return i == i2;
                 }
                 ReactionsLayoutInBubble.VisibleReaction visibleReaction = this.reaction;
@@ -604,6 +606,10 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         }
         reactionsContainerDelegate.onReactionClicked(this, ((ReactionHolderView) view).currentReaction, true, false);
         return true;
+    }
+
+    public boolean showExpandableReactions() {
+        return this.showExpandableReactions;
     }
 
     public void animatePullingBack() {
@@ -676,7 +682,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
     }
 
     public boolean showCustomEmojiReaction() {
-        return !MessagesController.getInstance(this.currentAccount).premiumLocked && this.allReactionsAvailable;
+        return (!MessagesController.getInstance(this.currentAccount).premiumLocked && this.allReactionsAvailable) || this.showExpandableReactions;
     }
 
     public boolean showUnlockPremiumButton() {
@@ -1257,6 +1263,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         TLRPC$TL_messageReactions tLRPC$TL_messageReactions;
         this.messageObject = messageObject;
         ArrayList arrayList = new ArrayList();
+        boolean z = true;
         if (messageObject != null && messageObject.isForwardedChannelPost() && (tLRPC$ChatFull = MessagesController.getInstance(this.currentAccount).getChatFull(-messageObject.getFromChatId())) == null) {
             this.waitingLoadingChatId = -messageObject.getFromChatId();
             MessagesController.getInstance(this.currentAccount).loadFullChat(-messageObject.getFromChatId(), 0, true);
@@ -1299,6 +1306,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
             fillRecentReactionsList(arrayList);
         }
         filterReactions(arrayList);
+        this.showExpandableReactions = (this.allReactionsAvailable || arrayList.size() <= 16) ? false : false;
         setVisibleReactionsList(arrayList);
         if (messageObject == null || (tLRPC$TL_messageReactions = messageObject.messageOwner.reactions) == null || tLRPC$TL_messageReactions.results == null) {
             return;
@@ -2148,7 +2156,8 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
             if (imageReceiver == null || imageReceiver.getLottieAnimation() == null) {
                 return;
             }
-            if (ReactionsContainerLayout.this.reactionsWindow != null || this.pressed) {
+            ReactionsContainerLayout reactionsContainerLayout = ReactionsContainerLayout.this;
+            if (reactionsContainerLayout.reactionsWindow != null || this.pressed || !reactionsContainerLayout.allReactionsIsDefault) {
                 imageReceiver.getLottieAnimation().start();
             } else if (imageReceiver.getLottieAnimation().getCurrentFrame() <= 2) {
                 imageReceiver.getLottieAnimation().stop();

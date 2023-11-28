@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import org.telegram.messenger.ChatObject;
+import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.voip.VoIPService;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
@@ -57,6 +58,7 @@ import org.telegram.tgnet.TLRPC$TL_inputPeerChat;
 import org.telegram.tgnet.TLRPC$TL_inputPeerUser;
 import org.telegram.tgnet.TLRPC$TL_peerChannel;
 import org.telegram.tgnet.TLRPC$TL_peerChat;
+import org.telegram.tgnet.TLRPC$TL_peerColor;
 import org.telegram.tgnet.TLRPC$TL_peerUser;
 import org.telegram.tgnet.TLRPC$TL_phone_editGroupCallTitle;
 import org.telegram.tgnet.TLRPC$TL_phone_getGroupCall;
@@ -108,6 +110,18 @@ public class ChatObject {
     public static final int VIDEO_FRAME_HAS_FRAME = 2;
     public static final int VIDEO_FRAME_NO_FRAME = 0;
     public static final int VIDEO_FRAME_REQUESTING = 1;
+
+    public static MessagesController.PeerColor getPeerColorForAvatar(int i, TLRPC$Chat tLRPC$Chat) {
+        return null;
+    }
+
+    public static int getProfileColorId(TLRPC$Chat tLRPC$Chat) {
+        return tLRPC$Chat == null ? 0 : -1;
+    }
+
+    public static long getProfileEmojiId(TLRPC$Chat tLRPC$Chat) {
+        return -1L;
+    }
 
     private static boolean isAdminAction(int i) {
         return i == 0 || i == 1 || i == 2 || i == 3 || i == 4 || i == 5 || i == 12 || i == 13 || i == 15;
@@ -2341,5 +2355,21 @@ public class ChatObject {
                 call.updateVisibleParticipants();
             }
         }
+    }
+
+    public static int getColorId(TLRPC$Chat tLRPC$Chat) {
+        if (tLRPC$Chat == null) {
+            return 0;
+        }
+        TLRPC$TL_peerColor tLRPC$TL_peerColor = tLRPC$Chat.color;
+        return (tLRPC$TL_peerColor == null || (tLRPC$TL_peerColor.flags & 1) == 0) ? (int) (tLRPC$Chat.id % 7) : tLRPC$TL_peerColor.color;
+    }
+
+    public static long getEmojiId(TLRPC$Chat tLRPC$Chat) {
+        TLRPC$TL_peerColor tLRPC$TL_peerColor;
+        if (tLRPC$Chat == null || (tLRPC$TL_peerColor = tLRPC$Chat.color) == null || (tLRPC$TL_peerColor.flags & 2) == 0) {
+            return 0L;
+        }
+        return tLRPC$TL_peerColor.background_emoji_id;
     }
 }

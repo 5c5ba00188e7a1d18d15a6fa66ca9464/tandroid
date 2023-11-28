@@ -227,8 +227,9 @@ public class TopicCreateFragment extends BaseFragment {
             SelectAnimatedEmojiDialog selectAnimatedEmojiDialog = new SelectAnimatedEmojiDialog(this, getContext(), false, null, 3, null) { // from class: org.telegram.ui.TopicCreateFragment.5
                 private boolean firstLayout = true;
 
-                @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-                protected void onLayout(boolean z, int i4, int i5, int i6, int i7) {
+                /* JADX INFO: Access modifiers changed from: protected */
+                @Override // org.telegram.ui.SelectAnimatedEmojiDialog, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
+                public void onLayout(boolean z, int i4, int i5, int i6, int i7) {
                     super.onLayout(z, i4, i5, i6, i7);
                     if (this.firstLayout) {
                         this.firstLayout = false;

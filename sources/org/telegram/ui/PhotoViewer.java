@@ -4787,6 +4787,10 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         this.parentAlert = chatAttachAlert;
     }
 
+    public void setParentActivity(Activity activity) {
+        setParentActivity(activity, null, null);
+    }
+
     public void setParentActivity(Activity activity, Theme.ResourcesProvider resourcesProvider) {
         setParentActivity(activity, null, resourcesProvider);
     }
@@ -8028,7 +8032,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             this.parentChatActivity.getFragmentView().requestLayout();
             z = z2;
         }
-        final 33 r12 = new 33(this.parentActivity, this.parentChatActivity, arrayList, null, null, false, null, null, false, true, null, frameLayoutDrawer, z);
+        final 33 r12 = new 33(this.parentActivity, this.parentChatActivity, arrayList, null, null, false, null, null, false, true, false, null, frameLayoutDrawer, z);
         r12.setFocusable(false);
         r12.getWindow().setSoftInputMode(48);
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PhotoViewer$$ExternalSyntheticLambda72
@@ -8046,11 +8050,11 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         final /* synthetic */ FrameLayout val$photoContainerView;
 
         /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        33(Context context, ChatActivity chatActivity, ArrayList arrayList, String str, String str2, boolean z, String str3, String str4, boolean z2, boolean z3, Theme.ResourcesProvider resourcesProvider, FrameLayout frameLayout, boolean z4) {
-            super(context, chatActivity, arrayList, str, str2, z, str3, str4, z2, z3, resourcesProvider);
-            PhotoViewer.this = r14;
+        33(Context context, ChatActivity chatActivity, ArrayList arrayList, String str, String str2, boolean z, String str3, String str4, boolean z2, boolean z3, boolean z4, Theme.ResourcesProvider resourcesProvider, FrameLayout frameLayout, boolean z5) {
+            super(context, chatActivity, arrayList, str, str2, z, str3, str4, z2, z3, z4, resourcesProvider);
+            PhotoViewer.this = r15;
             this.val$photoContainerView = frameLayout;
-            this.val$finalOpenKeyboardOnShareAlertClose = z4;
+            this.val$finalOpenKeyboardOnShareAlertClose = z5;
         }
 
         /* JADX INFO: Access modifiers changed from: protected */
@@ -18733,7 +18737,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                             }
                                         }
                                         if (chatActivity2 != null) {
-                                            chatActivity2.lambda$openDiscussionMessageChat$274(PhotoViewer.this.animationEndRunnable);
+                                            chatActivity2.lambda$openDiscussionMessageChat$275(PhotoViewer.this.animationEndRunnable);
                                             return;
                                         }
                                         PhotoViewer.this.animationEndRunnable.run();

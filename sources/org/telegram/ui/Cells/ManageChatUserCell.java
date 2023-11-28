@@ -22,19 +22,21 @@ import org.telegram.tgnet.TLRPC$FileLocation;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.tgnet.TLRPC$UserProfilePhoto;
 import org.telegram.tgnet.TLRPC$UserStatus;
+import org.telegram.tgnet.tl.TL_stories$StoryItem;
 import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AvatarDrawable;
 import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.LayoutHelper;
+import org.telegram.ui.Stories.StoriesUtilities;
 /* loaded from: classes3.dex */
 public class ManageChatUserCell extends FrameLayout {
-    private AvatarDrawable avatarDrawable;
-    private BackupImageView avatarImageView;
-    private int currentAccount;
+    private final AvatarDrawable avatarDrawable;
+    private final BackupImageView avatarImageView;
+    private final int currentAccount;
     private CharSequence currentName;
     private Object currentObject;
-    private CharSequence currrntStatus;
+    private CharSequence currentStatus;
     private ImageView customImageView;
     private ManageChatUserCellDelegate delegate;
     private int dividerColor;
@@ -42,14 +44,16 @@ public class ManageChatUserCell extends FrameLayout {
     private TLRPC$FileLocation lastAvatar;
     private String lastName;
     private int lastStatus;
-    private int namePadding;
-    private SimpleTextView nameTextView;
+    private final int namePadding;
+    private final SimpleTextView nameTextView;
     private boolean needDivider;
     private ImageView optionsButton;
-    private Theme.ResourcesProvider resourcesProvider;
+    private final Theme.ResourcesProvider resourcesProvider;
     private int statusColor;
     private int statusOnlineColor;
-    private SimpleTextView statusTextView;
+    private final SimpleTextView statusTextView;
+    private final StoriesUtilities.AvatarStoryParams storyAvatarParams;
+    private TL_stories$StoryItem storyItem;
 
     /* loaded from: classes3.dex */
     public interface ManageChatUserCellDelegate {
@@ -65,37 +69,54 @@ public class ManageChatUserCell extends FrameLayout {
         this(context, i, i2, z, null);
     }
 
-    public ManageChatUserCell(Context context, int i, int i2, boolean z, Theme.ResourcesProvider resourcesProvider) {
+    public ManageChatUserCell(Context context, int i, int i2, boolean z, final Theme.ResourcesProvider resourcesProvider) {
         super(context);
-        this.currentAccount = UserConfig.selectedAccount;
         this.dividerColor = -1;
+        this.currentAccount = UserConfig.selectedAccount;
+        this.storyAvatarParams = new StoriesUtilities.AvatarStoryParams(false);
         this.resourcesProvider = resourcesProvider;
         this.statusColor = Theme.getColor(Theme.key_windowBackgroundWhiteGrayText, resourcesProvider);
         this.statusOnlineColor = Theme.getColor(Theme.key_windowBackgroundWhiteBlueText, resourcesProvider);
         this.namePadding = i2;
         this.avatarDrawable = new AvatarDrawable();
-        BackupImageView backupImageView = new BackupImageView(context);
+        BackupImageView backupImageView = new BackupImageView(context) { // from class: org.telegram.ui.Cells.ManageChatUserCell.1
+            /* JADX INFO: Access modifiers changed from: protected */
+            @Override // org.telegram.ui.Components.BackupImageView, android.view.View
+            public void onDraw(Canvas canvas) {
+                int dp;
+                if (ManageChatUserCell.this.storyItem != null) {
+                    float dp2 = AndroidUtilities.dp(1.0f);
+                    ManageChatUserCell.this.storyAvatarParams.originalAvatarRect.set(dp2, dp2, getMeasuredWidth() - dp, getMeasuredHeight() - dp);
+                    ManageChatUserCell.this.storyAvatarParams.drawSegments = false;
+                    ManageChatUserCell.this.storyAvatarParams.animate = false;
+                    ManageChatUserCell.this.storyAvatarParams.drawInside = true;
+                    ManageChatUserCell.this.storyAvatarParams.isArchive = false;
+                    ManageChatUserCell.this.storyAvatarParams.resourcesProvider = resourcesProvider;
+                    ManageChatUserCell.this.storyAvatarParams.storyItem = ManageChatUserCell.this.storyItem;
+                    StoriesUtilities.drawAvatarWithStory(ManageChatUserCell.this.storyItem.dialogId, canvas, this.imageReceiver, ManageChatUserCell.this.storyAvatarParams);
+                    return;
+                }
+                super.onDraw(canvas);
+            }
+        };
         this.avatarImageView = backupImageView;
         backupImageView.setRoundRadius(AndroidUtilities.dp(23.0f));
-        BackupImageView backupImageView2 = this.avatarImageView;
         boolean z2 = LocaleController.isRTL;
-        addView(backupImageView2, LayoutHelper.createFrame(46, 46.0f, (z2 ? 5 : 3) | 48, z2 ? 0.0f : i + 7, 8.0f, z2 ? i + 7 : 0.0f, 0.0f));
+        addView(backupImageView, LayoutHelper.createFrame(46, 46.0f, (z2 ? 5 : 3) | 48, z2 ? 0.0f : i + 7, 8.0f, z2 ? i + 7 : 0.0f, 0.0f));
         SimpleTextView simpleTextView = new SimpleTextView(context);
         this.nameTextView = simpleTextView;
         simpleTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, resourcesProvider));
-        this.nameTextView.setTextSize(17);
-        this.nameTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-        this.nameTextView.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
-        SimpleTextView simpleTextView2 = this.nameTextView;
+        simpleTextView.setTextSize(17);
+        simpleTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        simpleTextView.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
         boolean z3 = LocaleController.isRTL;
-        addView(simpleTextView2, LayoutHelper.createFrame(-1, 20.0f, (z3 ? 5 : 3) | 48, z3 ? 46.0f : this.namePadding + 68, 11.5f, z3 ? this.namePadding + 68 : 46.0f, 0.0f));
-        SimpleTextView simpleTextView3 = new SimpleTextView(context);
-        this.statusTextView = simpleTextView3;
-        simpleTextView3.setTextSize(14);
-        this.statusTextView.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
-        SimpleTextView simpleTextView4 = this.statusTextView;
+        addView(simpleTextView, LayoutHelper.createFrame(-1, 20.0f, (z3 ? 5 : 3) | 48, z3 ? 46.0f : i2 + 68, 11.5f, z3 ? i2 + 68 : 46.0f, 0.0f));
+        SimpleTextView simpleTextView2 = new SimpleTextView(context);
+        this.statusTextView = simpleTextView2;
+        simpleTextView2.setTextSize(14);
+        simpleTextView2.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
         boolean z4 = LocaleController.isRTL;
-        addView(simpleTextView4, LayoutHelper.createFrame(-1, 20.0f, (z4 ? 5 : 3) | 48, z4 ? 28.0f : this.namePadding + 68, 34.5f, z4 ? this.namePadding + 68 : 28.0f, 0.0f));
+        addView(simpleTextView2, LayoutHelper.createFrame(-1, 20.0f, (z4 ? 5 : 3) | 48, z4 ? 28.0f : i2 + 68, 34.5f, z4 ? i2 + 68 : 28.0f, 0.0f));
         if (z) {
             ImageView imageView = new ImageView(context);
             this.optionsButton = imageView;
@@ -120,6 +141,23 @@ public class ManageChatUserCell extends FrameLayout {
         this.delegate.onOptionsButtonCheck(this, true);
     }
 
+    public void setStoryItem(TL_stories$StoryItem tL_stories$StoryItem, View.OnClickListener onClickListener) {
+        this.storyItem = tL_stories$StoryItem;
+        this.avatarImageView.setOnClickListener(onClickListener);
+    }
+
+    public TL_stories$StoryItem getStoryItem() {
+        return this.storyItem;
+    }
+
+    public BackupImageView getAvatarImageView() {
+        return this.avatarImageView;
+    }
+
+    public StoriesUtilities.AvatarStoryParams getStoryAvatarParams() {
+        return this.storyAvatarParams;
+    }
+
     public void setCustomRightImage(int i) {
         ImageView imageView = new ImageView(getContext());
         this.customImageView = imageView;
@@ -141,7 +179,7 @@ public class ManageChatUserCell extends FrameLayout {
         float f;
         float f2;
         if (obj == null) {
-            this.currrntStatus = null;
+            this.currentStatus = null;
             this.currentName = null;
             this.currentObject = null;
             this.nameTextView.setText("");
@@ -149,7 +187,7 @@ public class ManageChatUserCell extends FrameLayout {
             this.avatarImageView.setImageDrawable(null);
             return;
         }
-        this.currrntStatus = charSequence2;
+        this.currentStatus = charSequence2;
         this.currentName = charSequence;
         this.currentObject = obj;
         float f3 = 20.5f;
@@ -227,7 +265,7 @@ public class ManageChatUserCell extends FrameLayout {
         this.dividerColor = i;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:114:0x019f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:114:0x01a1, code lost:
         if (r12.equals(r6) == false) goto L105;
      */
     /* JADX WARN: Code restructure failed: missing block: B:44:0x0067, code lost:
@@ -271,7 +309,7 @@ public class ManageChatUserCell extends FrameLayout {
             } else {
                 str2 = null;
             }
-            this.avatarDrawable.setInfo(tLRPC$User);
+            this.avatarDrawable.setInfo(this.currentAccount, tLRPC$User);
             TLRPC$UserStatus tLRPC$UserStatus3 = tLRPC$User.status;
             if (tLRPC$UserStatus3 != null) {
                 this.lastStatus = tLRPC$UserStatus3.expires;
@@ -290,9 +328,9 @@ public class ManageChatUserCell extends FrameLayout {
                 SimpleTextView simpleTextView = this.nameTextView;
                 simpleTextView.setText(Emoji.replaceEmoji((CharSequence) str2, simpleTextView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(15.0f), false));
             }
-            if (this.currrntStatus != null) {
+            if (this.currentStatus != null) {
                 this.statusTextView.setTextColor(this.statusColor);
-                this.statusTextView.setText(this.currrntStatus);
+                this.statusTextView.setText(this.currentStatus);
             } else if (tLRPC$User.bot) {
                 this.statusTextView.setTextColor(this.statusColor);
                 if (tLRPC$User.bot_chat_history || this.isAdmin) {
@@ -327,7 +365,7 @@ public class ManageChatUserCell extends FrameLayout {
             } else {
                 str = null;
             }
-            this.avatarDrawable.setInfo(tLRPC$Chat);
+            this.avatarDrawable.setInfo(this.currentAccount, tLRPC$Chat);
             CharSequence charSequence2 = this.currentName;
             if (charSequence2 != null) {
                 this.lastName = null;
@@ -339,9 +377,9 @@ public class ManageChatUserCell extends FrameLayout {
                 this.lastName = str;
                 this.nameTextView.setText(str);
             }
-            if (this.currrntStatus != null) {
+            if (this.currentStatus != null) {
                 this.statusTextView.setTextColor(this.statusColor);
-                this.statusTextView.setText(this.currrntStatus);
+                this.statusTextView.setText(this.currentStatus);
             } else {
                 this.statusTextView.setTextColor(this.statusColor);
                 if (tLRPC$Chat.participants_count != 0) {
@@ -363,7 +401,7 @@ public class ManageChatUserCell extends FrameLayout {
         } else if (obj instanceof Integer) {
             this.nameTextView.setText(this.currentName);
             this.statusTextView.setTextColor(this.statusColor);
-            this.statusTextView.setText(this.currrntStatus);
+            this.statusTextView.setText(this.currentStatus);
             this.avatarDrawable.setAvatarType(3);
             this.avatarImageView.setImage(null, "50_50", this.avatarDrawable);
         }

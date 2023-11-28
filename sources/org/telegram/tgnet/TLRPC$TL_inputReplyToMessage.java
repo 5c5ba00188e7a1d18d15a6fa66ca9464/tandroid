@@ -31,11 +31,14 @@ public class TLRPC$TL_inputReplyToMessage extends TLRPC$InputReplyTo {
                 this.quote_entities.add(TLdeserialize);
             }
         }
+        if ((this.flags & 16) != 0) {
+            this.quote_offset = abstractSerializedData.readInt32(z);
+        }
     }
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(121554949);
+        abstractSerializedData.writeInt32(583071445);
         abstractSerializedData.writeInt32(this.flags);
         abstractSerializedData.writeInt32(this.reply_to_msg_id);
         if ((this.flags & 1) != 0) {
@@ -54,6 +57,9 @@ public class TLRPC$TL_inputReplyToMessage extends TLRPC$InputReplyTo {
             for (int i = 0; i < size; i++) {
                 this.quote_entities.get(i).serializeToStream(abstractSerializedData);
             }
+        }
+        if ((this.flags & 16) != 0) {
+            abstractSerializedData.writeInt32(this.quote_offset);
         }
     }
 }

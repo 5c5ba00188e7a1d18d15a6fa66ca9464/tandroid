@@ -92,6 +92,57 @@ public final class ColorUtils {
         RGBToHSL(Color.red(i), Color.green(i), Color.blue(i), fArr);
     }
 
+    public static int HSLToColor(float[] fArr) {
+        int round;
+        int round2;
+        int round3;
+        float f = fArr[0];
+        float f2 = fArr[1];
+        float f3 = fArr[2];
+        float abs = (1.0f - Math.abs((f3 * 2.0f) - 1.0f)) * f2;
+        float f4 = f3 - (0.5f * abs);
+        float abs2 = (1.0f - Math.abs(((f / 60.0f) % 2.0f) - 1.0f)) * abs;
+        switch (((int) f) / 60) {
+            case 0:
+                round = Math.round((abs + f4) * 255.0f);
+                round2 = Math.round((abs2 + f4) * 255.0f);
+                round3 = Math.round(f4 * 255.0f);
+                break;
+            case 1:
+                round = Math.round((abs2 + f4) * 255.0f);
+                round2 = Math.round((abs + f4) * 255.0f);
+                round3 = Math.round(f4 * 255.0f);
+                break;
+            case 2:
+                round = Math.round(f4 * 255.0f);
+                round2 = Math.round((abs + f4) * 255.0f);
+                round3 = Math.round((abs2 + f4) * 255.0f);
+                break;
+            case 3:
+                round = Math.round(f4 * 255.0f);
+                round2 = Math.round((abs2 + f4) * 255.0f);
+                round3 = Math.round((abs + f4) * 255.0f);
+                break;
+            case 4:
+                round = Math.round((abs2 + f4) * 255.0f);
+                round2 = Math.round(f4 * 255.0f);
+                round3 = Math.round((abs + f4) * 255.0f);
+                break;
+            case 5:
+            case 6:
+                round = Math.round((abs + f4) * 255.0f);
+                round2 = Math.round(f4 * 255.0f);
+                round3 = Math.round((abs2 + f4) * 255.0f);
+                break;
+            default:
+                round3 = 0;
+                round = 0;
+                round2 = 0;
+                break;
+        }
+        return Color.rgb(constrain(round, 0, 255), constrain(round2, 0, 255), constrain(round3, 0, 255));
+    }
+
     public static int setAlphaComponent(int i, int i2) {
         if (i2 < 0 || i2 > 255) {
             throw new IllegalArgumentException("alpha must be between 0 and 255.");
@@ -126,6 +177,10 @@ public final class ColorUtils {
 
     private static float constrain(float f, float f2, float f3) {
         return f < f2 ? f2 : Math.min(f, f3);
+    }
+
+    private static int constrain(int i, int i2, int i3) {
+        return i < i2 ? i2 : Math.min(i, i3);
     }
 
     public static int blendARGB(int i, int i2, float f) {

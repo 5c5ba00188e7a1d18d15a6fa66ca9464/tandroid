@@ -195,6 +195,7 @@ import org.telegram.ui.Components.ArchiveHelp;
 import org.telegram.ui.Components.AvatarDrawable;
 import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.BlurredRecyclerView;
+import org.telegram.ui.Components.BotWebViewSheet;
 import org.telegram.ui.Components.Bulletin;
 import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.ChatActivityEnterView;
@@ -3106,6 +3107,11 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
+    public boolean dismissDialogOnPause(Dialog dialog) {
+        return !(dialog instanceof BotWebViewSheet) && super.dismissDialogOnPause(dialog);
+    }
+
+    @Override // org.telegram.ui.ActionBar.BaseFragment
     public ActionBar createActionBar(Context context) {
         ActionBar actionBar = new ActionBar(context) { // from class: org.telegram.ui.DialogsActivity.4
             @Override // org.telegram.ui.ActionBar.ActionBar, android.view.View
@@ -3171,17 +3177,17 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:321:0x0d18  */
-    /* JADX WARN: Removed duplicated region for block: B:334:0x0d71  */
-    /* JADX WARN: Removed duplicated region for block: B:341:0x0db1  */
-    /* JADX WARN: Removed duplicated region for block: B:345:0x0e61  */
-    /* JADX WARN: Removed duplicated region for block: B:352:0x0ebe  */
-    /* JADX WARN: Removed duplicated region for block: B:356:0x0f07  */
-    /* JADX WARN: Removed duplicated region for block: B:357:0x0f0a  */
-    /* JADX WARN: Removed duplicated region for block: B:360:0x0f17  */
-    /* JADX WARN: Removed duplicated region for block: B:368:0x0f9e  */
-    /* JADX WARN: Removed duplicated region for block: B:369:0x0fa9  */
-    /* JADX WARN: Removed duplicated region for block: B:377:0x0fd3  */
+    /* JADX WARN: Removed duplicated region for block: B:321:0x0d1a  */
+    /* JADX WARN: Removed duplicated region for block: B:334:0x0d73  */
+    /* JADX WARN: Removed duplicated region for block: B:341:0x0db3  */
+    /* JADX WARN: Removed duplicated region for block: B:345:0x0e63  */
+    /* JADX WARN: Removed duplicated region for block: B:352:0x0ec0  */
+    /* JADX WARN: Removed duplicated region for block: B:356:0x0f09  */
+    /* JADX WARN: Removed duplicated region for block: B:357:0x0f0c  */
+    /* JADX WARN: Removed duplicated region for block: B:360:0x0f19  */
+    /* JADX WARN: Removed duplicated region for block: B:368:0x0fa0  */
+    /* JADX WARN: Removed duplicated region for block: B:369:0x0fab  */
+    /* JADX WARN: Removed duplicated region for block: B:377:0x0fd5  */
     /* JADX WARN: Type inference failed for: r0v112, types: [org.telegram.ui.ActionBar.ActionBar] */
     /* JADX WARN: Type inference failed for: r0v17, types: [org.telegram.ui.ActionBar.ActionBar] */
     /* JADX WARN: Type inference failed for: r0v229, types: [org.telegram.ui.DialogsActivity$DialogsRecyclerView, org.telegram.ui.Components.RecyclerListView] */
@@ -3403,7 +3409,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             backupImageView.setRoundRadius(AndroidUtilities.dp(18.0f));
             this.switchItem.addView(backupImageView, LayoutHelper.createFrame(36, 36, 17));
             TLRPC$User currentUser = getUserConfig().getCurrentUser();
-            avatarDrawable.setInfo(currentUser);
+            avatarDrawable.setInfo(this.currentAccount, currentUser);
             backupImageView.getImageReceiver().setCurrentAccount(this.currentAccount);
             backupImageView.setImage(ImageLocation.getForUserOrChat(currentUser, 1), "50_50", ImageLocation.getForUserOrChat(currentUser, 2), "50_50", (currentUser == null || (tLRPC$UserProfilePhoto = currentUser.photo) == null || (r3 = tLRPC$UserProfilePhoto.strippedBitmap) == null) ? avatarDrawable : r3, currentUser);
             for (int i11 = 0; i11 < 4; i11++) {
@@ -9489,16 +9495,32 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                                 this.slowedReloadAfterDialogClick = true;
                                 if (getMessagesController().checkCanOpenChat(bundle3, this)) {
                                     TLRPC$Chat chat2 = getMessagesController().getChat(Long.valueOf(-j));
+                                    TLRPC$Dialog dialog = getMessagesController().getDialog(j);
+                                    boolean z5 = dialog != null && dialog.view_forum_as_messages;
                                     if (chat2 != null && chat2.forum && i2 == 0) {
                                         if (!LiteMode.isEnabled(64)) {
-                                            presentFragment(new TopicsFragment(bundle3));
-                                            return;
+                                            if (z5) {
+                                                presentFragment(new ChatActivity(bundle3));
+                                                return;
+                                            } else {
+                                                presentFragment(new TopicsFragment(bundle3));
+                                                return;
+                                            }
                                         } else if (!z4) {
-                                            presentFragment(new TopicsFragment(bundle3));
-                                            return;
+                                            if (z5) {
+                                                presentFragment(new ChatActivity(bundle3));
+                                                return;
+                                            } else {
+                                                presentFragment(new TopicsFragment(bundle3));
+                                                return;
+                                            }
                                         } else if (this.searching) {
                                             return;
                                         } else {
+                                            if (z5) {
+                                                presentFragment(new ChatActivity(bundle3));
+                                                return;
+                                            }
                                             BaseFragment baseFragment = this.rightSlidingDialogContainer.currentFragment;
                                             if (baseFragment != null && ((TopicsFragment) baseFragment).getDialogId() == j) {
                                                 this.rightSlidingDialogContainer.lambda$presentFragment$1();

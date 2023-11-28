@@ -978,23 +978,23 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
     /* JADX WARN: Removed duplicated region for block: B:242:0x040e  */
     /* JADX WARN: Removed duplicated region for block: B:245:0x0423  */
     /* JADX WARN: Removed duplicated region for block: B:253:0x044c  */
-    /* JADX WARN: Removed duplicated region for block: B:254:0x046e  */
-    /* JADX WARN: Removed duplicated region for block: B:257:0x0496  */
-    /* JADX WARN: Removed duplicated region for block: B:263:0x04d7  */
-    /* JADX WARN: Removed duplicated region for block: B:272:0x04e8 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:275:0x04f0  */
-    /* JADX WARN: Removed duplicated region for block: B:277:0x04fa  */
-    /* JADX WARN: Removed duplicated region for block: B:287:0x053e  */
-    /* JADX WARN: Removed duplicated region for block: B:298:0x0563  */
-    /* JADX WARN: Removed duplicated region for block: B:301:0x0570  */
-    /* JADX WARN: Removed duplicated region for block: B:306:0x0596  */
-    /* JADX WARN: Removed duplicated region for block: B:309:0x05a1  */
-    /* JADX WARN: Removed duplicated region for block: B:314:0x05ac  */
-    /* JADX WARN: Removed duplicated region for block: B:321:0x05bb  */
-    /* JADX WARN: Removed duplicated region for block: B:327:0x05e0  */
-    /* JADX WARN: Removed duplicated region for block: B:351:0x0664  */
-    /* JADX WARN: Removed duplicated region for block: B:354:0x0676  */
-    /* JADX WARN: Removed duplicated region for block: B:359:0x069a  */
+    /* JADX WARN: Removed duplicated region for block: B:254:0x0470  */
+    /* JADX WARN: Removed duplicated region for block: B:257:0x049a  */
+    /* JADX WARN: Removed duplicated region for block: B:263:0x04db  */
+    /* JADX WARN: Removed duplicated region for block: B:272:0x04ec A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:275:0x04f4  */
+    /* JADX WARN: Removed duplicated region for block: B:277:0x04fe  */
+    /* JADX WARN: Removed duplicated region for block: B:287:0x0542  */
+    /* JADX WARN: Removed duplicated region for block: B:298:0x0567  */
+    /* JADX WARN: Removed duplicated region for block: B:301:0x0574  */
+    /* JADX WARN: Removed duplicated region for block: B:306:0x059a  */
+    /* JADX WARN: Removed duplicated region for block: B:309:0x05a5  */
+    /* JADX WARN: Removed duplicated region for block: B:314:0x05b0  */
+    /* JADX WARN: Removed duplicated region for block: B:321:0x05bf  */
+    /* JADX WARN: Removed duplicated region for block: B:327:0x05e4  */
+    /* JADX WARN: Removed duplicated region for block: B:351:0x0668  */
+    /* JADX WARN: Removed duplicated region for block: B:354:0x067a  */
+    /* JADX WARN: Removed duplicated region for block: B:359:0x069e  */
     /* JADX WARN: Removed duplicated region for block: B:64:0x00dd  */
     /* JADX WARN: Removed duplicated region for block: B:65:0x00e6  */
     /* JADX WARN: Removed duplicated region for block: B:69:0x00f9  */
@@ -1394,13 +1394,13 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
                                             peerId = MessageObject.getPeerId(this.participant.participant.peer);
                                             if (DialogObject.isUserDialog(peerId)) {
                                                 TLRPC$User user = AccountInstance.getInstance(this.currentAccount).getMessagesController().getUser(Long.valueOf(peerId));
-                                                this.noVideoStubLayout.avatarDrawable.setInfo(user);
+                                                this.noVideoStubLayout.avatarDrawable.setInfo(this.currentAccount, user);
                                                 forChat = ImageLocation.getForUser(user, 0);
                                                 forChat2 = ImageLocation.getForUser(user, 1);
                                                 tLRPC$User = user;
                                             } else {
                                                 TLRPC$Chat chat = AccountInstance.getInstance(UserConfig.selectedAccount).getMessagesController().getChat(Long.valueOf(-peerId));
-                                                this.noVideoStubLayout.avatarDrawable.setInfo(chat);
+                                                this.noVideoStubLayout.avatarDrawable.setInfo(this.currentAccount, chat);
                                                 forChat = ImageLocation.getForChat(chat, 0);
                                                 forChat2 = ImageLocation.getForChat(chat, 1);
                                                 tLRPC$User = chat;

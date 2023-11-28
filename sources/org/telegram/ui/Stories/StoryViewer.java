@@ -2487,7 +2487,6 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
             transitionViewHolder.storyImage = null;
             transitionViewHolder.avatarImage = null;
             this.containerView.disableHwAcceleration();
-            checkNavBarColor();
             this.locker.unlock();
             PeerStoriesView.VideoPlayerSharedScope videoPlayerSharedScope = this.currentPlayerScope;
             if (videoPlayerSharedScope != null) {
@@ -2502,6 +2501,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
             this.windowView = null;
             this.isShowing = false;
             this.foundViewToClose = false;
+            checkNavBarColor();
             Runnable runnable = this.onCloseListener;
             if (runnable != null) {
                 runnable.run();

@@ -29,7 +29,7 @@ public final class DefaultRtpPayloadReaderFactory {
                 }
                 break;
             case -53558318:
-                if (str.equals(MediaController.AUIDO_MIME_TYPE)) {
+                if (str.equals(MediaController.AUDIO_MIME_TYPE)) {
                     c = 3;
                     break;
                 }

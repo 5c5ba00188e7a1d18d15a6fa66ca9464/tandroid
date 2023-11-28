@@ -741,7 +741,7 @@ public class MediaDataController extends BaseController {
         if (this.isLoadingReactions || Math.abs((System.currentTimeMillis() / 1000) - this.reactionsUpdateDate) < 3600) {
             return;
         }
-        loadReactions(true, false);
+        loadReactions(true, null);
     }
 
     public void checkMenuBots(boolean z) {
@@ -1263,7 +1263,7 @@ public class MediaDataController extends BaseController {
         return this.reactionsList;
     }
 
-    public void loadReactions(boolean z, boolean z2) {
+    public void loadReactions(boolean z, Integer num) {
         this.isLoadingReactions = true;
         if (z) {
             getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda12
@@ -1275,7 +1275,7 @@ public class MediaDataController extends BaseController {
             return;
         }
         TLRPC$TL_messages_getAvailableReactions tLRPC$TL_messages_getAvailableReactions = new TLRPC$TL_messages_getAvailableReactions();
-        tLRPC$TL_messages_getAvailableReactions.hash = z2 ? 0 : this.reactionsUpdateHash;
+        tLRPC$TL_messages_getAvailableReactions.hash = num != null ? num.intValue() : this.reactionsUpdateHash;
         getConnectionsManager().sendRequest(tLRPC$TL_messages_getAvailableReactions, new RequestDelegate() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda181
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
@@ -1441,7 +1441,7 @@ public class MediaDataController extends BaseController {
         if (!z) {
             putReactionsToCache(list, i, i2);
         } else if (Math.abs((System.currentTimeMillis() / 1000) - i2) >= 3600) {
-            loadReactions(false, true);
+            loadReactions(false, Integer.valueOf(i));
         }
     }
 
@@ -9359,14 +9359,10 @@ public class MediaDataController extends BaseController {
 
     public Pair<Integer, TLRPC$DraftMessage> getOneThreadDraft(long j) {
         SparseArray<TLRPC$DraftMessage> sparseArray = this.drafts.get(j);
-        if (sparseArray != null && sparseArray.size() > 0) {
-            for (int i = 0; i < sparseArray.size(); i++) {
-                if (sparseArray.keyAt(i) != 0) {
-                    return new Pair<>(Integer.valueOf(sparseArray.keyAt(i)), sparseArray.valueAt(i));
-                }
-            }
+        if (sparseArray == null || sparseArray.size() <= 0) {
+            return null;
         }
-        return null;
+        return new Pair<>(Integer.valueOf(sparseArray.keyAt(0)), sparseArray.valueAt(0));
     }
 
     public TLRPC$Message getDraftMessage(long j, int i) {
@@ -9403,7 +9399,10 @@ public class MediaDataController extends BaseController {
                 tLRPC$TL_inputReplyToMessage.quote_text = replyQuote.getText();
                 TLRPC$InputReplyTo tLRPC$InputReplyTo2 = tLRPC$DraftMessage.reply_to;
                 if (tLRPC$InputReplyTo2.quote_text != null) {
-                    tLRPC$InputReplyTo2.flags |= 4;
+                    int i2 = tLRPC$InputReplyTo2.flags | 4;
+                    tLRPC$InputReplyTo2.flags = i2;
+                    tLRPC$InputReplyTo2.flags = i2 | 16;
+                    tLRPC$InputReplyTo2.quote_offset = replyQuote.start;
                 }
                 tLRPC$InputReplyTo2.quote_entities = replyQuote.getEntities();
                 ArrayList<TLRPC$MessageEntity> arrayList2 = tLRPC$DraftMessage.reply_to.quote_entities;

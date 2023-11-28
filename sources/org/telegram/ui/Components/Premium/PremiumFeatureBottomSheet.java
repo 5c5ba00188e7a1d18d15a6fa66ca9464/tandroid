@@ -45,6 +45,7 @@ import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.PremiumPreviewFragment;
 import org.telegram.ui.Stories.StoryViewer;
+import org.telegram.ui.ThemePreviewActivity;
 /* loaded from: classes4.dex */
 public class PremiumFeatureBottomSheet extends BottomSheet implements NotificationCenter.NotificationCenterDelegate {
     ActionBar actionBar;
@@ -57,6 +58,7 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
     int contentHeight;
     boolean enterAnimationIsRunning;
     private boolean forceAbout;
+    boolean fullscreenNext;
     private int gradientAlpha;
     private final boolean onlySelectedType;
     private PremiumButtonView premiumButtonView;
@@ -386,21 +388,22 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
         }
 
         /* JADX WARN: Removed duplicated region for block: B:39:0x00ce  */
-        /* JADX WARN: Removed duplicated region for block: B:48:0x00e6  */
-        /* JADX WARN: Removed duplicated region for block: B:49:0x00f1  */
-        /* JADX WARN: Removed duplicated region for block: B:54:0x0112  */
-        /* JADX WARN: Removed duplicated region for block: B:59:? A[RETURN, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:43:0x00d5 A[ADDED_TO_REGION] */
+        /* JADX WARN: Removed duplicated region for block: B:49:0x00ea  */
+        /* JADX WARN: Removed duplicated region for block: B:50:0x00f7  */
+        /* JADX WARN: Removed duplicated region for block: B:55:0x011c  */
+        /* JADX WARN: Removed duplicated region for block: B:60:? A[RETURN, SYNTHETIC] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         private void checkPage() {
             boolean z;
             int i;
+            boolean z2;
             PremiumFeatureBottomSheet premiumFeatureBottomSheet;
             int i2;
             PremiumFeatureBottomSheet premiumFeatureBottomSheet2;
             float measuredWidth;
-            boolean z2 = false;
             int i3 = 0;
             while (true) {
                 float f = 0.0f;
@@ -446,45 +449,58 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
                         premiumFeatureBottomSheet2 = PremiumFeatureBottomSheet.this;
                         if (premiumFeatureBottomSheet2.isFullscreenType(premiumFeatureBottomSheet2.premiumFeatures.get(premiumFeatureBottomSheet2.toPosition).type)) {
                             z2 = true;
+                            if (!z && z2) {
+                                PremiumFeatureBottomSheet premiumFeatureBottomSheet7 = PremiumFeatureBottomSheet.this;
+                                premiumFeatureBottomSheet7.progressToGradient = 1.0f;
+                                float f2 = premiumFeatureBottomSheet7.progress;
+                                if (f2 == 0.0f) {
+                                    f2 = 1.0f;
+                                }
+                                premiumFeatureBottomSheet7.progressToFullscreenView = f2;
+                                premiumFeatureBottomSheet7.fullscreenNext = true;
+                            } else if (z) {
+                                PremiumFeatureBottomSheet premiumFeatureBottomSheet8 = PremiumFeatureBottomSheet.this;
+                                float f3 = 1.0f - premiumFeatureBottomSheet8.progress;
+                                premiumFeatureBottomSheet8.progressToFullscreenView = f3;
+                                premiumFeatureBottomSheet8.progressToGradient = f3;
+                                premiumFeatureBottomSheet8.fullscreenNext = true;
+                            } else if (z2) {
+                                PremiumFeatureBottomSheet premiumFeatureBottomSheet9 = PremiumFeatureBottomSheet.this;
+                                float f4 = premiumFeatureBottomSheet9.progress;
+                                premiumFeatureBottomSheet9.progressToFullscreenView = f4;
+                                premiumFeatureBottomSheet9.progressToGradient = f4;
+                                premiumFeatureBottomSheet9.fullscreenNext = false;
+                            } else {
+                                PremiumFeatureBottomSheet premiumFeatureBottomSheet10 = PremiumFeatureBottomSheet.this;
+                                premiumFeatureBottomSheet10.progressToFullscreenView = 0.0f;
+                                premiumFeatureBottomSheet10.progressToGradient = 0.0f;
+                                premiumFeatureBottomSheet10.fullscreenNext = true;
+                            }
+                            premiumFeatureBottomSheet = PremiumFeatureBottomSheet.this;
+                            i2 = (int) ((1.0f - premiumFeatureBottomSheet.progressToFullscreenView) * 255.0f);
+                            if (i2 != premiumFeatureBottomSheet.gradientAlpha) {
+                                PremiumFeatureBottomSheet.this.gradientAlpha = i2;
+                                PremiumFeatureBottomSheet.this.content.invalidate();
+                                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.PremiumFeatureBottomSheet$5$$ExternalSyntheticLambda0
+                                    @Override // java.lang.Runnable
+                                    public final void run() {
+                                        PremiumFeatureBottomSheet.5.this.lambda$checkPage$0();
+                                    }
+                                });
+                                return;
+                            }
+                            return;
                         }
                     }
-                    if (!z && z2) {
-                        PremiumFeatureBottomSheet premiumFeatureBottomSheet7 = PremiumFeatureBottomSheet.this;
-                        premiumFeatureBottomSheet7.progressToGradient = 1.0f;
-                        float f2 = premiumFeatureBottomSheet7.progress;
-                        if (f2 == 0.0f) {
-                            f2 = 1.0f;
-                        }
-                        premiumFeatureBottomSheet7.progressToFullscreenView = f2;
-                    } else if (!z) {
-                        PremiumFeatureBottomSheet premiumFeatureBottomSheet8 = PremiumFeatureBottomSheet.this;
-                        float f3 = 1.0f - premiumFeatureBottomSheet8.progress;
-                        premiumFeatureBottomSheet8.progressToFullscreenView = f3;
-                        premiumFeatureBottomSheet8.progressToGradient = f3;
-                    } else if (z2) {
-                        PremiumFeatureBottomSheet premiumFeatureBottomSheet9 = PremiumFeatureBottomSheet.this;
-                        float f4 = premiumFeatureBottomSheet9.progress;
-                        premiumFeatureBottomSheet9.progressToFullscreenView = f4;
-                        premiumFeatureBottomSheet9.progressToGradient = f4;
-                    } else {
-                        PremiumFeatureBottomSheet premiumFeatureBottomSheet10 = PremiumFeatureBottomSheet.this;
-                        premiumFeatureBottomSheet10.progressToFullscreenView = 0.0f;
-                        premiumFeatureBottomSheet10.progressToGradient = 0.0f;
+                    z2 = false;
+                    if (!z) {
+                    }
+                    if (z) {
                     }
                     premiumFeatureBottomSheet = PremiumFeatureBottomSheet.this;
                     i2 = (int) ((1.0f - premiumFeatureBottomSheet.progressToFullscreenView) * 255.0f);
-                    if (i2 == premiumFeatureBottomSheet.gradientAlpha) {
-                        PremiumFeatureBottomSheet.this.gradientAlpha = i2;
-                        PremiumFeatureBottomSheet.this.content.invalidate();
-                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.PremiumFeatureBottomSheet$5$$ExternalSyntheticLambda0
-                            @Override // java.lang.Runnable
-                            public final void run() {
-                                PremiumFeatureBottomSheet.5.this.lambda$checkPage$0();
-                            }
-                        });
-                        return;
+                    if (i2 != premiumFeatureBottomSheet.gradientAlpha) {
                     }
-                    return;
                 }
             }
             z = false;
@@ -495,13 +511,14 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
                 if (premiumFeatureBottomSheet2.isFullscreenType(premiumFeatureBottomSheet2.premiumFeatures.get(premiumFeatureBottomSheet2.toPosition).type)) {
                 }
             }
+            z2 = false;
             if (!z) {
             }
-            if (!z) {
+            if (z) {
             }
             premiumFeatureBottomSheet = PremiumFeatureBottomSheet.this;
             i2 = (int) ((1.0f - premiumFeatureBottomSheet.progressToFullscreenView) * 255.0f);
-            if (i2 == premiumFeatureBottomSheet.gradientAlpha) {
+            if (i2 != premiumFeatureBottomSheet.gradientAlpha) {
             }
         }
 
@@ -535,7 +552,15 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
             i++;
         }
         if ((z || this.forceAbout) && baseFragment != null) {
-            baseFragment.presentFragment(new PremiumPreviewFragment(PremiumPreviewFragment.featureTypeToServerString(premiumFeatureData.type)));
+            PremiumPreviewFragment premiumPreviewFragment = new PremiumPreviewFragment(PremiumPreviewFragment.featureTypeToServerString(premiumFeatureData.type));
+            if (baseFragment instanceof ThemePreviewActivity) {
+                BaseFragment.BottomSheetParams bottomSheetParams = new BaseFragment.BottomSheetParams();
+                bottomSheetParams.transitionFromLeft = true;
+                bottomSheetParams.allowNestedScroll = false;
+                baseFragment.showAsSheet(premiumPreviewFragment, bottomSheetParams);
+            } else {
+                baseFragment.presentFragment(premiumPreviewFragment);
+            }
         } else {
             PremiumPreviewFragment.buyPremium(baseFragment, this.selectedTier, PremiumPreviewFragment.featureTypeToServerString(premiumFeatureData.type));
         }
@@ -578,6 +603,8 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
             } else if (i == 10) {
                 this.premiumButtonView.buttonTextView.setText(LocaleController.getString(R.string.UnlockPremiumIcons));
                 this.premiumButtonView.setIcon(R.raw.unlock_icon);
+            } else {
+                this.premiumButtonView.buttonTextView.setText(LocaleController.getString(R.string.AboutTelegramPremium));
             }
         } else {
             this.premiumButtonView.buttonTextView.setText(PremiumPreviewFragment.getPremiumButtonText(this.currentAccount, this.selectedTier));
@@ -761,7 +788,20 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
                                 if (PremiumFeatureBottomSheet.this.startType != 2) {
                                     if (PremiumFeatureBottomSheet.this.startType != 9) {
                                         if (PremiumFeatureBottomSheet.this.startType != 8) {
-                                            if (PremiumFeatureBottomSheet.this.startType == 13) {
+                                            if (PremiumFeatureBottomSheet.this.startType != 13) {
+                                                if (PremiumFeatureBottomSheet.this.startType != 22) {
+                                                    if (PremiumFeatureBottomSheet.this.startType == 23) {
+                                                        this.title.setText(LocaleController.getString(R.string.PremiumPreviewProfileColor));
+                                                        this.description.setText(AndroidUtilities.replaceTags(LocaleController.getString(R.string.PremiumPreviewProfileColorDescription)));
+                                                    } else {
+                                                        this.title.setText(premiumFeatureData.title);
+                                                        this.description.setText(AndroidUtilities.replaceTags(premiumFeatureData.description));
+                                                    }
+                                                } else {
+                                                    this.title.setText(LocaleController.getString(R.string.PremiumPreviewWallpaper));
+                                                    this.description.setText(AndroidUtilities.replaceTags(LocaleController.getString(R.string.PremiumPreviewWallpaperDescription)));
+                                                }
+                                            } else {
                                                 this.title.setText(LocaleController.getString(R.string.PremiumPreviewTranslations));
                                                 this.description.setText(AndroidUtilities.replaceTags(LocaleController.getString(R.string.PremiumPreviewTranslationsDescription)));
                                             }
@@ -915,7 +955,7 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
             this.closeLayout.setVisibility(0);
         }
         FrameLayout frameLayout = this.content;
-        frameLayout.setTranslationX(frameLayout.getMeasuredWidth() * this.progressToGradient);
+        frameLayout.setTranslationX((this.fullscreenNext ? frameLayout.getMeasuredWidth() : -frameLayout.getMeasuredWidth()) * this.progressToGradient);
         if (i4 != this.topCurrentOffset) {
             this.topCurrentOffset = i4;
             for (int i5 = 0; i5 < this.viewPager.getChildCount(); i5++) {

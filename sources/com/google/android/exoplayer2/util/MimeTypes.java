@@ -41,7 +41,7 @@ public final class MimeTypes {
                                             case 102:
                                             case 103:
                                             case 104:
-                                                return MediaController.AUIDO_MIME_TYPE;
+                                                return MediaController.AUDIO_MIME_TYPE;
                                             case 105:
                                             case 107:
                                                 return "audio/mpeg";
@@ -72,7 +72,7 @@ public final class MimeTypes {
                         }
                         return "video/wvc1";
                     }
-                    return MediaController.AUIDO_MIME_TYPE;
+                    return MediaController.AUDIO_MIME_TYPE;
                 }
                 return "video/hevc";
             }
@@ -124,7 +124,7 @@ public final class MimeTypes {
                 }
                 break;
             case -53558318:
-                if (str.equals(MediaController.AUIDO_MIME_TYPE)) {
+                if (str.equals(MediaController.AUDIO_MIME_TYPE)) {
                     c = 3;
                     break;
                 }
@@ -272,7 +272,7 @@ public final class MimeTypes {
         if (lowerCase.startsWith("mp4a.") && (objectTypeFromMp4aRFC6381CodecString = getObjectTypeFromMp4aRFC6381CodecString(lowerCase)) != null) {
             str2 = getMimeTypeFromMp4ObjectType(objectTypeFromMp4aRFC6381CodecString.objectTypeIndication);
         }
-        return str2 == null ? MediaController.AUIDO_MIME_TYPE : str2;
+        return str2 == null ? MediaController.AUDIO_MIME_TYPE : str2;
     }
 
     public static int getTrackType(String str) {
@@ -318,7 +318,7 @@ public final class MimeTypes {
                 }
                 break;
             case -53558318:
-                if (str.equals(MediaController.AUIDO_MIME_TYPE)) {
+                if (str.equals(MediaController.AUDIO_MIME_TYPE)) {
                     c = 2;
                     break;
                 }

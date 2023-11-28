@@ -248,7 +248,7 @@ public class UserCell2 extends FrameLayout {
         }
         this.lastAvatar = tLRPC$FileLocation;
         if (tLRPC$User != null) {
-            this.avatarDrawable.setInfo(tLRPC$User);
+            this.avatarDrawable.setInfo(this.currentAccount, tLRPC$User);
             TLRPC$UserStatus tLRPC$UserStatus3 = tLRPC$User.status;
             if (tLRPC$UserStatus3 != null) {
                 this.lastStatus = tLRPC$UserStatus3.expires;
@@ -256,7 +256,7 @@ public class UserCell2 extends FrameLayout {
                 this.lastStatus = 0;
             }
         } else if (tLRPC$Chat != null) {
-            this.avatarDrawable.setInfo(tLRPC$Chat);
+            this.avatarDrawable.setInfo(this.currentAccount, tLRPC$Chat);
         } else {
             CharSequence charSequence = this.currentName;
             if (charSequence != null) {

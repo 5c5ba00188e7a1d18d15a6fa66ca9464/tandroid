@@ -15,6 +15,7 @@ import android.text.Layout;
 import android.text.SpannableStringBuilder;
 import android.text.StaticLayout;
 import android.text.TextPaint;
+import android.text.style.RelativeSizeSpan;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.OvershootInterpolator;
@@ -87,7 +88,7 @@ public class LimitPreviewView extends LinearLayout {
             setPadding(0, AndroidUtilities.dp(16.0f), 0, 0);
             this.limitIcon = new CounterView(context);
             setIconValue(i2, false);
-            this.limitIcon.setPadding(AndroidUtilities.dp(24.0f), AndroidUtilities.dp(6.0f), AndroidUtilities.dp(24.0f), AndroidUtilities.dp(14.0f));
+            this.limitIcon.setPadding(AndroidUtilities.dp(19.0f), AndroidUtilities.dp(6.0f), AndroidUtilities.dp(19.0f), AndroidUtilities.dp(14.0f));
             addView(this.limitIcon, LayoutHelper.createLinear(-2, -2, 0.0f, 3));
         }
         final FrameLayout frameLayout = new FrameLayout(context);
@@ -247,7 +248,8 @@ public class LimitPreviewView extends LinearLayout {
 
     public void setIconValue(int i, boolean z) {
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
-        spannableStringBuilder.append((CharSequence) "d ").setSpan(new ColoredImageSpan(this.icon), 0, 1, 0);
+        spannableStringBuilder.append((CharSequence) "d").setSpan(new ColoredImageSpan(this.icon), 0, 1, 0);
+        spannableStringBuilder.append((CharSequence) " ").setSpan(new RelativeSizeSpan(0.8f), 1, 2, 0);
         spannableStringBuilder.append((CharSequence) Integer.toString(i));
         this.limitIcon.setText(spannableStringBuilder, z);
         this.limitIcon.requestLayout();

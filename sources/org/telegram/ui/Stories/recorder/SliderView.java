@@ -110,6 +110,8 @@ public class SliderView extends View {
                 animatedTextDrawable2.setText(LocaleController.getString(R.string.FlashWarmth));
             } else if (i == 2) {
                 animatedTextDrawable2.setText(LocaleController.getString(R.string.FlashIntensity));
+            } else if (i == 3) {
+                animatedTextDrawable2.setText(LocaleController.getString(R.string.WallpaperDimming));
             }
         }
         animatedTextDrawable.setText("");
@@ -125,7 +127,9 @@ public class SliderView extends View {
 
     public SliderView setValue(float f) {
         float f2 = this.minVolume;
-        this.value = (f - f2) / (this.maxVolume - f2);
+        float f3 = (f - f2) / (this.maxVolume - f2);
+        this.value = f3;
+        this.valueAnimated.set(f3, true);
         updateText(f);
         return this;
     }
@@ -133,6 +137,13 @@ public class SliderView extends View {
     public SliderView setOnValueChange(Utilities.Callback<Float> callback) {
         this.onValueChange = callback;
         return this;
+    }
+
+    public void animateValueTo(float f) {
+        this.valueIsAnimated = true;
+        float f2 = this.minVolume;
+        this.value = (f - f2) / (this.maxVolume - f2);
+        updateText(f);
     }
 
     @Override // android.view.View
@@ -244,7 +255,11 @@ public class SliderView extends View {
 
     @Override // android.view.View
     protected void onMeasure(int i, int i2) {
-        this.r = AndroidUtilities.dpf2(6.33f);
+        if (this.currentType == 3) {
+            this.r = AndroidUtilities.dpf2(8.0f);
+        } else {
+            this.r = AndroidUtilities.dpf2(6.33f);
+        }
         this.textPaint.setTextSize(AndroidUtilities.dp(16.0f));
         this.text.setTextSize(AndroidUtilities.dp(15.0f));
         if (this.currentType == 0) {

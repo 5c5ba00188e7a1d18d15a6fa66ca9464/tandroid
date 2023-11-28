@@ -69,7 +69,6 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
     private int autoRepeatCount;
     private long autoRepeatTimeout;
     private Object blendMode;
-    private int bufferedFrame;
     private boolean canceledLoading;
     private boolean centerRotation;
     public boolean clip;
@@ -1191,19 +1190,6 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
             return true;
         }
         return true;
-    }
-
-    public void incrementFrames(int i) {
-        Drawable drawable = this.currentMediaDrawable;
-        if (!(drawable instanceof RLottieDrawable) && (drawable instanceof AnimatedFileDrawable)) {
-            int i2 = this.bufferedFrame;
-            int i3 = i + i2;
-            this.bufferedFrame = i3;
-            while (i2 != i3) {
-                ((AnimatedFileDrawable) this.currentMediaDrawable).getNextFrame();
-                i3--;
-            }
-        }
     }
 
     public boolean onAttachedToWindow() {

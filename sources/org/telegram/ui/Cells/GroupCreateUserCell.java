@@ -416,7 +416,7 @@ public class GroupCreateUserCell extends FrameLayout {
                 } else {
                     str3 = null;
                 }
-                this.avatarDrawable.setInfo(tLRPC$User);
+                this.avatarDrawable.setInfo(this.currentAccount, tLRPC$User);
                 TLRPC$UserStatus tLRPC$UserStatus3 = tLRPC$User.status;
                 this.lastStatus = tLRPC$UserStatus3 != null ? tLRPC$UserStatus3.expires : 0;
                 CharSequence charSequence2 = this.currentName;
@@ -484,7 +484,7 @@ public class GroupCreateUserCell extends FrameLayout {
                 } else {
                     str = null;
                 }
-                this.avatarDrawable.setInfo(tLRPC$Chat2);
+                this.avatarDrawable.setInfo(this.currentAccount, tLRPC$Chat2);
                 CharSequence charSequence3 = this.currentName;
                 if (charSequence3 != null) {
                     this.lastName = null;

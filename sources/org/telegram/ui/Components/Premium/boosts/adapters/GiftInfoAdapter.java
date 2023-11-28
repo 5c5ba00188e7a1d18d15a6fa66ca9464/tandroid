@@ -100,6 +100,7 @@ public abstract class GiftInfoAdapter extends RecyclerListView.SelectionAdapter 
             linkCell = new TextInfoCell(context, this.resourcesProvider);
         } else if (i == 4) {
             linkCell = new ActionBtnCell(context, this.resourcesProvider);
+            linkCell.setPadding(0, 0, 0, AndroidUtilities.dp(14.0f));
         } else if (i != 5) {
             linkCell = new HeaderCell(context, this.resourcesProvider);
         } else {
@@ -192,9 +193,10 @@ public abstract class GiftInfoAdapter extends RecyclerListView.SelectionAdapter 
                 String str2 = this.slug;
                 if (str2 == null || str2.isEmpty()) {
                     textInfoCell.setText(LocaleController.getString("BoostingLinkNotActivated", R.string.BoostingLinkNotActivated));
-                } else {
-                    textInfoCell.setText("");
+                    return;
                 }
+                textInfoCell.setFixedSize(14);
+                textInfoCell.setText(null);
             } else if (this.isUnused) {
                 if (tLRPC$TL_payments_checkedGiftCode3.to_id == -1) {
                     string = LocaleController.getString("BoostingSendLinkToAnyone", R.string.BoostingSendLinkToAnyone);

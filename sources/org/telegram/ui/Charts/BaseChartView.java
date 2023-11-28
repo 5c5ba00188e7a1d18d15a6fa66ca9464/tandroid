@@ -105,6 +105,7 @@ public abstract class BaseChartView<T extends ChartData, L extends LineViewData>
     public float pickerWidth;
     public int pikerHeight;
     boolean postTransition;
+    protected Theme.ResourcesProvider resourcesProvider;
     Paint ripplePaint;
     protected int selectedIndex;
     Paint selectedLinePaint;
@@ -145,6 +146,7 @@ public abstract class BaseChartView<T extends ChartData, L extends LineViewData>
     private static final int LANDSCAPE_END_PADDING = AndroidUtilities.dp(16.0f);
     private static final int BOTTOM_SIGNATURE_OFFSET = AndroidUtilities.dp(10.0f);
     private static final int DP_12 = AndroidUtilities.dp(12.0f);
+    private static final int DP_8 = AndroidUtilities.dp(8.0f);
     private static final int DP_6 = AndroidUtilities.dp(6.0f);
     private static final int DP_5 = AndroidUtilities.dp(5.0f);
     private static final int DP_2 = AndroidUtilities.dp(2.0f);
@@ -189,6 +191,10 @@ public abstract class BaseChartView<T extends ChartData, L extends LineViewData>
     }
 
     public BaseChartView(Context context) {
+        this(context, null);
+    }
+
+    public BaseChartView(Context context, Theme.ResourcesProvider resourcesProvider) {
         super(context);
         this.horizontalLines = new ArrayList<>(10);
         this.bottomSignatureDate = new ArrayList<>(25);
@@ -283,6 +289,7 @@ public abstract class BaseChartView<T extends ChartData, L extends LineViewData>
         this.lastH = 0;
         this.lastTime = 0L;
         this.animateLegentTo = false;
+        this.resourcesProvider = resourcesProvider;
         init();
         this.touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
     }
@@ -312,22 +319,22 @@ public abstract class BaseChartView<T extends ChartData, L extends LineViewData>
     }
 
     protected LegendSignatureView createLegendView() {
-        return new LegendSignatureView(getContext());
+        return new LegendSignatureView(getContext(), this.resourcesProvider);
     }
 
     public void updateColors() {
         if (this.useAlphaSignature) {
-            this.signaturePaint.setColor(Theme.getColor(Theme.key_statisticChartSignatureAlpha));
+            this.signaturePaint.setColor(Theme.getColor(Theme.key_statisticChartSignatureAlpha, this.resourcesProvider));
         } else {
-            this.signaturePaint.setColor(Theme.getColor(Theme.key_statisticChartSignature));
+            this.signaturePaint.setColor(Theme.getColor(Theme.key_statisticChartSignature, this.resourcesProvider));
         }
-        this.bottomSignaturePaint.setColor(Theme.getColor(Theme.key_statisticChartSignature));
-        this.linePaint.setColor(Theme.getColor(Theme.key_statisticChartHintLine));
-        this.selectedLinePaint.setColor(Theme.getColor(Theme.key_statisticChartActiveLine));
-        this.pickerSelectorPaint.setColor(Theme.getColor(Theme.key_statisticChartActivePickerChart));
-        this.unactiveBottomChartPaint.setColor(Theme.getColor(Theme.key_statisticChartInactivePickerChart));
-        this.selectionBackgroundPaint.setColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-        this.ripplePaint.setColor(Theme.getColor(Theme.key_statisticChartRipple));
+        this.bottomSignaturePaint.setColor(Theme.getColor(Theme.key_statisticChartSignature, this.resourcesProvider));
+        this.linePaint.setColor(Theme.getColor(Theme.key_statisticChartHintLine, this.resourcesProvider));
+        this.selectedLinePaint.setColor(Theme.getColor(Theme.key_statisticChartActiveLine, this.resourcesProvider));
+        this.pickerSelectorPaint.setColor(Theme.getColor(Theme.key_statisticChartActivePickerChart, this.resourcesProvider));
+        this.unactiveBottomChartPaint.setColor(Theme.getColor(Theme.key_statisticChartInactivePickerChart, this.resourcesProvider));
+        this.selectionBackgroundPaint.setColor(Theme.getColor(Theme.key_windowBackgroundWhite, this.resourcesProvider));
+        this.ripplePaint.setColor(Theme.getColor(Theme.key_statisticChartRipple, this.resourcesProvider));
         this.legendSignatureView.recolor();
         this.hintLinePaintAlpha = this.linePaint.getAlpha();
         this.chartActiveLineAlpha = this.selectedLinePaint.getAlpha();
@@ -738,7 +745,6 @@ public abstract class BaseChartView<T extends ChartData, L extends LineViewData>
         Rect rect3;
         int i5;
         Rect rect4;
-        Rect rect5;
         boolean z;
         ValueAnimator valueAnimator;
         TransitionParams transitionParams;
@@ -845,42 +851,45 @@ public abstract class BaseChartView<T extends ChartData, L extends LineViewData>
                 this.pickerRect.set(i2, measuredHeight2, i, i7);
                 this.pickerDelegate.middlePickerArea.set(this.pickerRect);
                 Path path = this.pathTmp;
-                Rect rect6 = this.pickerRect;
-                int i16 = rect6.left;
-                int i17 = rect6.top;
+                Rect rect5 = this.pickerRect;
+                int i16 = rect5.left;
+                int i17 = rect5.top;
                 int i18 = DP_1;
                 int i19 = DP_12;
-                int i20 = DP_6;
-                canvas.drawPath(RoundedRect(path, i16, i17 - i18, i16 + i19, rect6.bottom + i18, i20, i20, true, false, false, true), this.pickerSelectorPaint);
+                int i20 = DP_8;
+                canvas.drawPath(RoundedRect(path, i16, i17 - i18, i16 + i19, rect5.bottom + i18, i20, i20, true, false, false, true), this.pickerSelectorPaint);
                 canvas.drawPath(RoundedRect(this.pathTmp, i3 - i19, rect.top - i18, this.pickerRect.right, rect.bottom + i18, i20, i20, false, true, true, false), this.pickerSelectorPaint);
                 canvas.drawRect(rect2.left + i19, this.pickerRect.bottom, rect2.right - i19, i4 + i18, this.pickerSelectorPaint);
                 canvas.drawRect(rect3.left + i19, i5 - i18, rect3.right - i19, this.pickerRect.top, this.pickerSelectorPaint);
-                float centerY = this.pickerRect.centerY() - i20;
+                Rect rect6 = this.pickerRect;
+                int i21 = rect6.left;
+                int i22 = DP_6;
+                float centerY = rect6.centerY() - i22;
                 Rect rect7 = this.pickerRect;
-                canvas.drawLine(rect4.left + i20, centerY, rect7.left + i20, rect7.centerY() + i20, this.whiteLinePaint);
-                float centerY2 = this.pickerRect.centerY() - i20;
+                canvas.drawLine(i21 + i22, centerY, rect7.left + i22, rect7.centerY() + i22, this.whiteLinePaint);
+                float centerY2 = this.pickerRect.centerY() - i22;
                 Rect rect8 = this.pickerRect;
-                canvas.drawLine(rect5.right - i20, centerY2, rect8.right - i20, rect8.centerY() + i20, this.whiteLinePaint);
+                canvas.drawLine(rect4.right - i22, centerY2, rect8.right - i22, rect8.centerY() + i22, this.whiteLinePaint);
                 ChartPickerDelegate.CapturesData middleCaptured = this.pickerDelegate.getMiddleCaptured();
                 Rect rect9 = this.pickerRect;
-                int i21 = rect9.bottom;
-                int i22 = rect9.top;
-                int i23 = (i21 - i22) >> 1;
-                int i24 = i22 + i23;
+                int i23 = rect9.bottom;
+                int i24 = rect9.top;
+                int i25 = (i23 - i24) >> 1;
+                int i26 = i24 + i25;
                 if (middleCaptured == null) {
                     ChartPickerDelegate.CapturesData leftCaptured = this.pickerDelegate.getLeftCaptured();
                     ChartPickerDelegate.CapturesData rightCaptured = this.pickerDelegate.getRightCaptured();
                     if (leftCaptured != null) {
-                        canvas.drawCircle(this.pickerRect.left + DP_5, i24, (i23 * leftCaptured.aValue) - DP_2, this.ripplePaint);
+                        canvas.drawCircle(this.pickerRect.left + DP_5, i26, (i25 * leftCaptured.aValue) - DP_2, this.ripplePaint);
                     }
                     if (rightCaptured != null) {
-                        canvas.drawCircle(this.pickerRect.right - DP_5, i24, (i23 * rightCaptured.aValue) - DP_2, this.ripplePaint);
+                        canvas.drawCircle(this.pickerRect.right - DP_5, i26, (i25 * rightCaptured.aValue) - DP_2, this.ripplePaint);
                     }
                 }
                 Rect rect10 = this.pickerDelegate.leftPickerArea;
-                int i25 = PICKER_CAPTURE_WIDTH;
-                rect10.set(i2 - i25, measuredHeight2, i2 + (i25 >> 1), i7);
-                this.pickerDelegate.rightPickerArea.set(i - (i25 >> 1), measuredHeight2, i + i25, i7);
+                int i27 = PICKER_CAPTURE_WIDTH;
+                rect10.set(i2 - i27, measuredHeight2, i2 + (i27 >> 1), i7);
+                this.pickerDelegate.rightPickerArea.set(i - (i27 >> 1), measuredHeight2, i + i27, i7);
                 return;
             }
             return;
@@ -1722,16 +1731,23 @@ public abstract class BaseChartView<T extends ChartData, L extends LineViewData>
         private boolean invalidate;
         int k;
         private Bitmap pickerRoundBitmap;
-        private RectF rectF = new RectF();
+        private RectF rectF;
+        private Theme.ResourcesProvider resourcesProvider;
         private Paint xRefP;
 
         public SharedUiComponents() {
+            this(null);
+        }
+
+        public SharedUiComponents(Theme.ResourcesProvider resourcesProvider) {
+            this.rectF = new RectF();
             Paint paint = new Paint(1);
             this.xRefP = paint;
             this.k = 0;
             this.invalidate = true;
             paint.setColor(0);
             this.xRefP.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+            this.resourcesProvider = resourcesProvider;
         }
 
         Bitmap getPickerMaskBitmap(int i, int i2) {
@@ -1742,8 +1758,8 @@ public abstract class BaseChartView<T extends ChartData, L extends LineViewData>
                 this.pickerRoundBitmap = Bitmap.createBitmap(i2, i, Bitmap.Config.ARGB_8888);
                 this.canvas = new Canvas(this.pickerRoundBitmap);
                 this.rectF.set(0.0f, 0.0f, i2, i);
-                this.canvas.drawColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-                this.canvas.drawRoundRect(this.rectF, AndroidUtilities.dp(4.0f), AndroidUtilities.dp(4.0f), this.xRefP);
+                this.canvas.drawColor(Theme.getColor(Theme.key_windowBackgroundWhite, this.resourcesProvider));
+                this.canvas.drawRoundRect(this.rectF, AndroidUtilities.dp(6.0f), AndroidUtilities.dp(6.0f), this.xRefP);
             }
             return this.pickerRoundBitmap;
         }

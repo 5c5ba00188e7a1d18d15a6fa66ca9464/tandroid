@@ -167,7 +167,7 @@ public class BottomSheet extends Dialog {
         return true;
     }
 
-    protected boolean canSwipeToBack() {
+    protected boolean canSwipeToBack(MotionEvent motionEvent) {
         return false;
     }
 
@@ -265,6 +265,7 @@ public class BottomSheet extends Dialog {
 
     /* loaded from: classes3.dex */
     public class ContainerView extends FrameLayout implements NestedScrollingParent {
+        private boolean allowedSwipeToBack;
         private Paint backgroundPaint;
         private AnimatorSet currentAnimation;
         private boolean keyboardChanged;
@@ -438,8 +439,9 @@ public class BottomSheet extends Dialog {
             if (BottomSheet.this.onContainerTouchEvent(motionEvent)) {
                 return true;
             }
-            if (BottomSheet.this.canSwipeToBack()) {
+            if (BottomSheet.this.canSwipeToBack(motionEvent) || this.allowedSwipeToBack) {
                 if (motionEvent != null && ((motionEvent.getAction() == 0 || motionEvent.getAction() == 2) && !this.startedTracking && !this.maybeStartTracking && motionEvent.getPointerCount() == 1)) {
+                    this.allowedSwipeToBack = true;
                     this.startedTrackingX = (int) motionEvent.getX();
                     this.startedTrackingY = (int) motionEvent.getY();
                     this.startedTrackingPointerId = motionEvent.getPointerId(0);
@@ -511,6 +513,7 @@ public class BottomSheet extends Dialog {
                     this.maybeStartTracking = false;
                     this.startedTracking = false;
                     this.startedTrackingPointerId = -1;
+                    this.allowedSwipeToBack = false;
                 }
             } else if (BottomSheet.this.canDismissWithTouchOutside() && motionEvent != null && ((motionEvent.getAction() == 0 || motionEvent.getAction() == 2) && !this.startedTracking && !this.maybeStartTracking && motionEvent.getPointerCount() == 1)) {
                 this.startedTrackingX = (int) motionEvent.getX();
@@ -528,7 +531,7 @@ public class BottomSheet extends Dialog {
                 if (velocityTracker != null) {
                     velocityTracker.clear();
                 }
-            } else if (motionEvent != null && motionEvent.getAction() == 2 && motionEvent.getPointerId(0) == this.startedTrackingPointerId) {
+            } else if (BottomSheet.this.canDismissWithSwipe() && motionEvent != null && motionEvent.getAction() == 2 && motionEvent.getPointerId(0) == this.startedTrackingPointerId) {
                 if (this.velocityTracker == null) {
                     this.velocityTracker = VelocityTracker.obtain();
                 }
@@ -570,7 +573,7 @@ public class BottomSheet extends Dialog {
                 }
                 this.startedTrackingPointerId = -1;
             }
-            return (!z && this.maybeStartTracking) || this.startedTracking || !(BottomSheet.this.canDismissWithSwipe() || BottomSheet.this.canSwipeToBack());
+            return (!z && this.maybeStartTracking) || this.startedTracking || !(BottomSheet.this.canDismissWithSwipe() || BottomSheet.this.canSwipeToBack(motionEvent));
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -722,9 +725,9 @@ public class BottomSheet extends Dialog {
             }
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:66:0x019d  */
-        /* JADX WARN: Removed duplicated region for block: B:70:0x01aa  */
-        /* JADX WARN: Removed duplicated region for block: B:74:0x01bd  */
+        /* JADX WARN: Removed duplicated region for block: B:68:0x01a1  */
+        /* JADX WARN: Removed duplicated region for block: B:72:0x01ae  */
+        /* JADX WARN: Removed duplicated region for block: B:76:0x01c1  */
         @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -745,7 +748,6 @@ public class BottomSheet extends Dialog {
             ViewGroup viewGroup;
             int i15;
             BottomSheet bottomSheet2;
-            BottomSheet bottomSheet3;
             BottomSheet.access$1410(BottomSheet.this);
             ViewGroup viewGroup2 = BottomSheet.this.containerView;
             if (viewGroup2 != null) {
@@ -756,10 +758,11 @@ public class BottomSheet extends Dialog {
                 } else {
                     i13 = i + BottomSheet.this.getLeftInset();
                     i14 = i3 - BottomSheet.this.getRightInset();
-                    if (BottomSheet.this.useSmoothKeyboard) {
+                    BottomSheet bottomSheet3 = BottomSheet.this;
+                    if (bottomSheet3.useSmoothKeyboard) {
                         measuredHeight = 0;
-                    } else {
-                        measuredHeight = (int) (measuredHeight - ((bottomSheet2.lastInsets.getSystemWindowInsetBottom() * (1.0f - BottomSheet.this.hideSystemVerticalInsetsProgress)) - (BottomSheet.this.drawNavigationBar ? 0 : bottomSheet3.getBottomInset())));
+                    } else if (!bottomSheet3.occupyNavigationBar) {
+                        measuredHeight = (int) (measuredHeight - ((bottomSheet3.lastInsets.getSystemWindowInsetBottom() * (1.0f - BottomSheet.this.hideSystemVerticalInsetsProgress)) - (BottomSheet.this.drawNavigationBar ? 0 : bottomSheet2.getBottomInset())));
                         if (i15 >= 29) {
                             measuredHeight -= BottomSheet.this.getAdditionalMandatoryOffsets();
                         }
@@ -881,7 +884,7 @@ public class BottomSheet extends Dialog {
 
         @Override // android.view.ViewGroup
         public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
-            if (BottomSheet.this.canDismissWithSwipe() || BottomSheet.this.canSwipeToBack()) {
+            if (BottomSheet.this.canDismissWithSwipe() || BottomSheet.this.canSwipeToBack(motionEvent)) {
                 return processTouchEvent(motionEvent, true);
             }
             return super.onInterceptTouchEvent(motionEvent);
@@ -1004,9 +1007,9 @@ public class BottomSheet extends Dialog {
             return super.drawChild(canvas, view, j);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:21:0x0095  */
-        /* JADX WARN: Removed duplicated region for block: B:37:0x00f9  */
-        /* JADX WARN: Removed duplicated region for block: B:39:? A[RETURN, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:25:0x009f  */
+        /* JADX WARN: Removed duplicated region for block: B:39:0x00fd  */
+        /* JADX WARN: Removed duplicated region for block: B:41:? A[RETURN, SYNTHETIC] */
         @Override // android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -1014,32 +1017,35 @@ public class BottomSheet extends Dialog {
         protected void onDraw(Canvas canvas) {
             boolean z;
             BottomSheet bottomSheet;
+            BottomSheet bottomSheet2;
+            BottomSheet bottomSheet3;
             if (this.backgroundPaint.getAlpha() < 255) {
-                BottomSheet bottomSheet2 = BottomSheet.this;
-                if (bottomSheet2.drawNavigationBar) {
+                BottomSheet bottomSheet4 = BottomSheet.this;
+                if (bottomSheet4.drawNavigationBar) {
                     float f = 0.0f;
-                    if (bottomSheet2.scrollNavBar || (Build.VERSION.SDK_INT >= 29 && bottomSheet2.getAdditionalMandatoryOffsets() > 0)) {
+                    if (bottomSheet4.scrollNavBar || (Build.VERSION.SDK_INT >= 29 && bottomSheet4.getAdditionalMandatoryOffsets() > 0)) {
                         f = Math.max(0.0f, BottomSheet.this.getBottomInset() - (BottomSheet.this.containerView.getMeasuredHeight() - BottomSheet.this.containerView.getTranslationY()));
                     }
-                    BottomSheet bottomSheet3 = BottomSheet.this;
-                    int bottomInset = bottomSheet3.drawNavigationBar ? bottomSheet3.getBottomInset() : 0;
+                    BottomSheet bottomSheet5 = BottomSheet.this;
+                    int bottomInset = bottomSheet5.drawNavigationBar ? bottomSheet5.getBottomInset() : 0;
                     canvas.save();
                     canvas.clipRect(BottomSheet.this.containerView.getLeft() + BottomSheet.this.backgroundPaddingLeft, ((getMeasuredHeight() - bottomInset) + f) - BottomSheet.this.currentPanTranslationY, BottomSheet.this.containerView.getRight() - BottomSheet.this.backgroundPaddingLeft, getMeasuredHeight() + f, Region.Op.DIFFERENCE);
                     z = true;
                     super.onDraw(canvas);
-                    if (BottomSheet.this.lastInsets != null) {
-                        BottomSheet bottomSheet4 = BottomSheet.this;
-                        if (bottomSheet4.keyboardHeight != 0) {
+                    bottomSheet = BottomSheet.this;
+                    if (bottomSheet.drawNavigationBar && bottomSheet.lastInsets != null) {
+                        bottomSheet2 = BottomSheet.this;
+                        if (bottomSheet2.keyboardHeight != 0) {
                             Paint paint = this.backgroundPaint;
-                            int i = bottomSheet4.behindKeyboardColorKey;
-                            paint.setColor(i >= 0 ? bottomSheet4.getThemedColor(i) : bottomSheet4.behindKeyboardColor);
+                            int i = bottomSheet2.behindKeyboardColorKey;
+                            paint.setColor(i >= 0 ? bottomSheet2.getThemedColor(i) : bottomSheet2.behindKeyboardColor);
                             float left = BottomSheet.this.containerView.getLeft() + BottomSheet.this.backgroundPaddingLeft;
                             int measuredHeight = getMeasuredHeight();
-                            BottomSheet bottomSheet5 = BottomSheet.this;
-                            float bottomInset2 = (measuredHeight - bottomSheet5.keyboardHeight) - (bottomSheet5.drawNavigationBar ? bottomSheet5.getBottomInset() : 0);
+                            BottomSheet bottomSheet6 = BottomSheet.this;
+                            float bottomInset2 = (measuredHeight - bottomSheet6.keyboardHeight) - (bottomSheet6.drawNavigationBar ? bottomSheet6.getBottomInset() : 0);
                             float right = BottomSheet.this.containerView.getRight() - BottomSheet.this.backgroundPaddingLeft;
                             int measuredHeight2 = getMeasuredHeight();
-                            canvas.drawRect(left, bottomInset2, right, measuredHeight2 - (BottomSheet.this.drawNavigationBar ? bottomSheet.getBottomInset() : 0), this.backgroundPaint);
+                            canvas.drawRect(left, bottomInset2, right, measuredHeight2 - (BottomSheet.this.drawNavigationBar ? bottomSheet3.getBottomInset() : 0), this.backgroundPaint);
                         }
                     }
                     BottomSheet.this.onContainerDraw(canvas);
@@ -1052,7 +1058,11 @@ public class BottomSheet extends Dialog {
             }
             z = false;
             super.onDraw(canvas);
-            if (BottomSheet.this.lastInsets != null) {
+            bottomSheet = BottomSheet.this;
+            if (bottomSheet.drawNavigationBar) {
+                bottomSheet2 = BottomSheet.this;
+                if (bottomSheet2.keyboardHeight != 0) {
+                }
             }
             BottomSheet.this.onContainerDraw(canvas);
             if (z) {
@@ -1469,7 +1479,7 @@ public class BottomSheet extends Dialog {
     }
 
     public void fixNavigationBar(int i) {
-        this.drawNavigationBar = true;
+        this.drawNavigationBar = !this.occupyNavigationBar;
         this.drawDoubleNavigationBar = true;
         this.scrollNavBar = true;
         this.navBarColorKey = -1;

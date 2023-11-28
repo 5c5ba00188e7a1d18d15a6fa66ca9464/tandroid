@@ -55,7 +55,7 @@ final class AudioTagPayloadReader extends TagPayloadReader {
             byte[] bArr = new byte[bytesLeft2];
             parsableByteArray.readBytes(bArr, 0, bytesLeft2);
             AacUtil.Config parseAudioSpecificConfig = AacUtil.parseAudioSpecificConfig(bArr);
-            this.output.format(new Format.Builder().setSampleMimeType(MediaController.AUIDO_MIME_TYPE).setCodecs(parseAudioSpecificConfig.codecs).setChannelCount(parseAudioSpecificConfig.channelCount).setSampleRate(parseAudioSpecificConfig.sampleRateHz).setInitializationData(Collections.singletonList(bArr)).build());
+            this.output.format(new Format.Builder().setSampleMimeType(MediaController.AUDIO_MIME_TYPE).setCodecs(parseAudioSpecificConfig.codecs).setChannelCount(parseAudioSpecificConfig.channelCount).setSampleRate(parseAudioSpecificConfig.sampleRateHz).setInitializationData(Collections.singletonList(bArr)).build());
             this.hasOutputFormat = true;
             return false;
         } else if (this.audioFormat != 10 || readUnsignedByte == 1) {

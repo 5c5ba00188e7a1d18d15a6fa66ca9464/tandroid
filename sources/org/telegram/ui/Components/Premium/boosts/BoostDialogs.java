@@ -178,6 +178,9 @@ public class BoostDialogs {
     }
 
     public static void showBulletin(BaseFragment baseFragment, TLRPC$Chat tLRPC$Chat, boolean z) {
+        if (baseFragment == null) {
+            return;
+        }
         showBulletin(BulletinFactory.of(baseFragment), baseFragment.getResourceProvider(), tLRPC$Chat, z);
     }
 

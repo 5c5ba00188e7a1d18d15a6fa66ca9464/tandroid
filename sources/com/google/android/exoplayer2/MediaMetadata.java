@@ -111,7 +111,7 @@ public final class MediaMetadata implements Bundleable {
                 return 1;
             case 20:
             case MessageObject.TYPE_GIVEAWAY /* 26 */:
-            case 27:
+            case MessageObject.TYPE_JOINED_CHANNEL /* 27 */:
             case 28:
             case 29:
             case 30:

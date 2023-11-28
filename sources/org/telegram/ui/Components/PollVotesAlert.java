@@ -289,6 +289,7 @@ public class PollVotesAlert extends BottomSheet {
         private ArrayList<Animator> animators;
         private AvatarDrawable avatarDrawable;
         private BackupImageView avatarImageView;
+        private int currentAccount;
         private TLRPC$Chat currentChat;
         private TLRPC$User currentUser;
         private boolean drawPlaceholder;
@@ -308,7 +309,7 @@ public class PollVotesAlert extends BottomSheet {
 
         public UserCell(Context context) {
             super(context);
-            int i = UserConfig.selectedAccount;
+            this.currentAccount = UserConfig.selectedAccount;
             this.placeholderAlpha = 1.0f;
             setWillNotDraw(false);
             this.avatarDrawable = new AvatarDrawable();
@@ -434,7 +435,7 @@ public class PollVotesAlert extends BottomSheet {
             }
             TLRPC$User tLRPC$User2 = this.currentUser;
             if (tLRPC$User2 != null) {
-                this.avatarDrawable.setInfo(tLRPC$User2);
+                this.avatarDrawable.setInfo(this.currentAccount, tLRPC$User2);
                 TLRPC$UserStatus tLRPC$UserStatus2 = this.currentUser.status;
                 if (tLRPC$UserStatus2 != null) {
                     this.lastStatus = tLRPC$UserStatus2.expires;
@@ -444,7 +445,7 @@ public class PollVotesAlert extends BottomSheet {
             } else {
                 TLRPC$Chat tLRPC$Chat3 = this.currentChat;
                 if (tLRPC$Chat3 != null) {
-                    this.avatarDrawable.setInfo(tLRPC$Chat3);
+                    this.avatarDrawable.setInfo(this.currentAccount, tLRPC$Chat3);
                 }
             }
             TLRPC$User tLRPC$User3 = this.currentUser;

@@ -379,14 +379,12 @@ public class UndoView extends FrameLayout {
         showWithAction(arrayList, i, obj, obj2, runnable, runnable2);
     }
 
-    /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:621:0x185c  */
-    /* JADX WARN: Removed duplicated region for block: B:624:0x187c  */
-    /* JADX WARN: Removed duplicated region for block: B:627:0x18a3  */
-    /* JADX WARN: Removed duplicated region for block: B:631:0x18e8  */
-    /* JADX WARN: Removed duplicated region for block: B:662:0x199a  */
+    /* JADX WARN: Removed duplicated region for block: B:621:0x1864  */
+    /* JADX WARN: Removed duplicated region for block: B:624:0x1884  */
+    /* JADX WARN: Removed duplicated region for block: B:627:0x18ab  */
+    /* JADX WARN: Removed duplicated region for block: B:631:0x18f0  */
+    /* JADX WARN: Removed duplicated region for block: B:662:0x19a2  */
     /* JADX WARN: Removed duplicated region for block: B:688:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Type inference failed for: r2v430, types: [java.lang.CharSequence] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -472,7 +470,7 @@ public class UndoView extends FrameLayout {
             if (i == ACTION_RINGTONE_ADDED) {
                 this.subinfoTextView.setSingleLine(false);
                 replaceTags = LocaleController.getString("SoundAdded", R.string.SoundAdded);
-                ?? replaceSingleTag = AndroidUtilities.replaceSingleTag(LocaleController.getString("SoundAddedSubtitle", R.string.SoundAddedSubtitle), runnable);
+                CharSequence replaceSingleTag = AndroidUtilities.replaceSingleTag(LocaleController.getString("SoundAddedSubtitle", R.string.SoundAddedSubtitle), runnable);
                 this.currentActionRunnable = null;
                 i4 = R.raw.sound_download;
                 this.timeLeft = 4000L;
@@ -489,7 +487,7 @@ public class UndoView extends FrameLayout {
                     SpannableStringBuilder replaceTags2 = ChatObject.isChannelOrGiga((TLRPC$Chat) obj2) ? AndroidUtilities.replaceTags(LocaleController.formatString("VoipChannelInvitedUser", R.string.VoipChannelInvitedUser, UserObject.getFirstName(tLRPC$User))) : AndroidUtilities.replaceTags(LocaleController.formatString("VoipGroupInvitedUser", R.string.VoipGroupInvitedUser, UserObject.getFirstName(tLRPC$User)));
                     AvatarDrawable avatarDrawable = new AvatarDrawable();
                     avatarDrawable.setTextSize(AndroidUtilities.dp(12.0f));
-                    avatarDrawable.setInfo(tLRPC$User);
+                    avatarDrawable.setInfo(this.currentAccount, tLRPC$User);
                     this.avatarImageView.setForUserOrChat(tLRPC$User, avatarDrawable);
                     this.avatarImageView.setVisibility(0);
                     this.timeLeft = 3000L;
@@ -506,7 +504,7 @@ public class UndoView extends FrameLayout {
                     AvatarDrawable avatarDrawable2 = new AvatarDrawable();
                     avatarDrawable2.setTextSize(AndroidUtilities.dp(12.0f));
                     TLObject tLObject = (TLObject) obj;
-                    avatarDrawable2.setInfo(tLObject);
+                    avatarDrawable2.setInfo(this.currentAccount, tLObject);
                     this.avatarImageView.setForUserOrChat(tLObject, avatarDrawable2);
                     this.avatarImageView.setVisibility(0);
                     this.timeLeft = 3000L;
@@ -515,12 +513,12 @@ public class UndoView extends FrameLayout {
                     avatarDrawable3.setTextSize(AndroidUtilities.dp(12.0f));
                     if (obj instanceof TLRPC$User) {
                         TLRPC$User tLRPC$User3 = (TLRPC$User) obj;
-                        avatarDrawable3.setInfo(tLRPC$User3);
+                        avatarDrawable3.setInfo(this.currentAccount, tLRPC$User3);
                         this.avatarImageView.setForUserOrChat(tLRPC$User3, avatarDrawable3);
                         str10 = ContactsController.formatName(tLRPC$User3.first_name, tLRPC$User3.last_name);
                     } else {
                         TLRPC$Chat tLRPC$Chat3 = (TLRPC$Chat) obj;
-                        avatarDrawable3.setInfo(tLRPC$Chat3);
+                        avatarDrawable3.setInfo(this.currentAccount, tLRPC$Chat3);
                         this.avatarImageView.setForUserOrChat(tLRPC$Chat3, avatarDrawable3);
                         str10 = tLRPC$Chat3.title;
                     }

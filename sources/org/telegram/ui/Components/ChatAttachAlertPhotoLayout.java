@@ -1083,6 +1083,21 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                 if (i4 < 0 || i4 >= allPhotosArray.size()) {
                     return;
                 }
+                ChatAttachAlert.ChatAttachViewDelegate chatAttachViewDelegate = this.parentAlert.delegate;
+                if (chatAttachViewDelegate != null && chatAttachViewDelegate.selectItemOnClicking() && (allPhotosArray.get(i4) instanceof MediaController.PhotoEntry)) {
+                    MediaController.PhotoEntry photoEntry = (MediaController.PhotoEntry) allPhotosArray.get(i4);
+                    selectedPhotos.clear();
+                    if (photoEntry != null) {
+                        addToSelectedPhotos(photoEntry, -1);
+                    }
+                    this.parentAlert.applyCaption();
+                    this.parentAlert.delegate.didPressedButton(7, true, true, 0, false);
+                    selectedPhotos.clear();
+                    cameraPhotos.clear();
+                    selectedPhotosOrder.clear();
+                    selectedPhotos.clear();
+                    return;
+                }
                 PhotoViewer.getInstance().setParentActivity(baseFragment2, resourcesProvider);
                 PhotoViewer.getInstance().setParentAlert(this.parentAlert);
                 PhotoViewer photoViewer = PhotoViewer.getInstance();
@@ -1137,9 +1152,9 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
             } else if (SharedConfig.inappCamera) {
                 openCamera(true);
             } else {
-                ChatAttachAlert.ChatAttachViewDelegate chatAttachViewDelegate = this.parentAlert.delegate;
-                if (chatAttachViewDelegate != null) {
-                    chatAttachViewDelegate.didPressedButton(0, false, true, 0, false);
+                ChatAttachAlert.ChatAttachViewDelegate chatAttachViewDelegate2 = this.parentAlert.delegate;
+                if (chatAttachViewDelegate2 != null) {
+                    chatAttachViewDelegate2.didPressedButton(0, false, true, 0, false);
                 }
             }
         }

@@ -723,7 +723,7 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
     private void initBypass(Format format) {
         disableBypass();
         String str = format.sampleMimeType;
-        if (!MediaController.AUIDO_MIME_TYPE.equals(str) && !"audio/mpeg".equals(str) && !"audio/opus".equals(str)) {
+        if (!MediaController.AUDIO_MIME_TYPE.equals(str) && !"audio/mpeg".equals(str) && !"audio/opus".equals(str)) {
             this.bypassBatchBuffer.setMaxSampleCount(1);
         } else {
             this.bypassBatchBuffer.setMaxSampleCount(32);

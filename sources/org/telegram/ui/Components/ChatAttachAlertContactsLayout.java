@@ -69,6 +69,7 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
     public static class UserCell extends FrameLayout {
         private AvatarDrawable avatarDrawable;
         private BackupImageView avatarImageView;
+        private int currentAccount;
         private int currentId;
         private CharSequence currentName;
         private CharSequence currentStatus;
@@ -95,7 +96,7 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
 
         public UserCell(Context context, Theme.ResourcesProvider resourcesProvider) {
             super(context);
-            int i = UserConfig.selectedAccount;
+            this.currentAccount = UserConfig.selectedAccount;
             this.resourcesProvider = resourcesProvider;
             this.avatarDrawable = new AvatarDrawable(resourcesProvider);
             BackupImageView backupImageView = new BackupImageView(context);
@@ -257,7 +258,7 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
             }
             TLRPC$User tLRPC$User2 = this.currentUser;
             if (tLRPC$User2 != null) {
-                this.avatarDrawable.setInfo(tLRPC$User2);
+                this.avatarDrawable.setInfo(this.currentAccount, tLRPC$User2);
                 TLRPC$UserStatus tLRPC$UserStatus2 = this.currentUser.status;
                 if (tLRPC$UserStatus2 != null) {
                     this.lastStatus = tLRPC$UserStatus2.expires;

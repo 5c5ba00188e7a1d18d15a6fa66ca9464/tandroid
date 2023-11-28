@@ -83,12 +83,14 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
     private Integer overrideSubtitleColor;
     private ChatActivity parentFragment;
     private Theme.ResourcesProvider resourcesProvider;
+    private int rightAvatarPadding;
     private String rightDrawableContentDescription;
     private boolean rightDrawableIsScamOrVerified;
     private boolean secretChatTimer;
     private SharedMediaLayout.SharedMediaPreloader sharedMediaPreloader;
     private StatusDrawable[] statusDrawables;
     public boolean[] statusMadeShorter;
+    private Integer storiesForceState;
     private AtomicReference<SimpleTextView> subtitleTextLargerCopyView;
     private SimpleTextView subtitleTextView;
     private ImageView timeItem;
@@ -103,6 +105,10 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
 
     public void hideSubtitle() {
         this.subtitleTextView.setVisibility(8);
+    }
+
+    public void setStoriesForceState(Integer num) {
+        this.storiesForceState = num;
     }
 
     /* loaded from: classes4.dex */
@@ -148,6 +154,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         this.currentAccount = UserConfig.selectedAccount;
         this.occupyStatusBar = true;
         this.leftPadding = AndroidUtilities.dp(8.0f);
+        this.rightAvatarPadding = 0;
         this.lastWidth = -1;
         this.largerWidth = -1;
         this.isOnline = new boolean[1];
@@ -349,7 +356,10 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
                 avatarStoryParams.drawSegments = true;
                 avatarStoryParams.drawInside = true;
                 avatarStoryParams.resourcesProvider = this.val$resourcesProvider;
-                StoriesUtilities.drawAvatarWithStory(ChatAvatarContainer.this.parentFragment.getDialogId(), canvas, this.imageReceiver, this.params);
+                if (ChatAvatarContainer.this.storiesForceState != null) {
+                    this.params.forceState = ChatAvatarContainer.this.storiesForceState.intValue();
+                }
+                StoriesUtilities.drawAvatarWithStory(ChatAvatarContainer.this.parentFragment != null ? ChatAvatarContainer.this.parentFragment.getDialogId() : 0L, canvas, this.imageReceiver, this.params);
                 return;
             }
             super.onDraw(canvas);
@@ -654,7 +664,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         int i5 = this.leftPadding;
         int i6 = currentActionBarHeight + 1;
         backupImageView.layout(i5, i6, AndroidUtilities.dp(42.0f) + i5, AndroidUtilities.dp(42.0f) + i6);
-        int dp = this.leftPadding + (this.avatarImageView.getVisibility() == 0 ? AndroidUtilities.dp(54.0f) : 0);
+        int dp = this.leftPadding + (this.avatarImageView.getVisibility() == 0 ? AndroidUtilities.dp(54.0f) : 0) + this.rightAvatarPadding;
         SimpleTextView simpleTextView = this.titleTextLargerCopyView.get();
         if (this.subtitleTextView.getVisibility() != 8) {
             this.titleTextView.layout(dp, (AndroidUtilities.dp(1.3f) + currentActionBarHeight) - this.titleTextView.getPaddingTop(), this.titleTextView.getMeasuredWidth() + dp, (((this.titleTextView.getTextHeight() + currentActionBarHeight) + AndroidUtilities.dp(1.3f)) - this.titleTextView.getPaddingTop()) + this.titleTextView.getPaddingBottom());
@@ -680,6 +690,10 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
 
     public void setLeftPadding(int i) {
         this.leftPadding = i;
+    }
+
+    public void setRightAvatarPadding(int i) {
+        this.rightAvatarPadding = i;
     }
 
     public void showTimeItem(boolean z) {
@@ -1070,7 +1084,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
     }
 
     public void setChatAvatar(TLRPC$Chat tLRPC$Chat) {
-        this.avatarDrawable.setInfo(tLRPC$Chat);
+        this.avatarDrawable.setInfo(this.currentAccount, tLRPC$Chat);
         BackupImageView backupImageView = this.avatarImageView;
         if (backupImageView != null) {
             backupImageView.setForUserOrChat(tLRPC$Chat, this.avatarDrawable);
@@ -1083,7 +1097,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
     }
 
     public void setUserAvatar(TLRPC$User tLRPC$User, boolean z) {
-        this.avatarDrawable.setInfo(tLRPC$User);
+        this.avatarDrawable.setInfo(this.currentAccount, tLRPC$User);
         if (UserObject.isReplyUser(tLRPC$User)) {
             this.avatarDrawable.setAvatarType(12);
             this.avatarDrawable.setScaleSize(0.8f);
@@ -1116,7 +1130,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         TLRPC$Chat currentChat = this.parentFragment.getCurrentChat();
         if (currentUser == null) {
             if (currentChat != null) {
-                this.avatarDrawable.setInfo(currentChat);
+                this.avatarDrawable.setInfo(this.currentAccount, currentChat);
                 BackupImageView backupImageView = this.avatarImageView;
                 if (backupImageView != null) {
                     backupImageView.setForUserOrChat(currentChat, this.avatarDrawable);
@@ -1126,7 +1140,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
             }
             return;
         }
-        this.avatarDrawable.setInfo(currentUser);
+        this.avatarDrawable.setInfo(this.currentAccount, currentUser);
         if (UserObject.isReplyUser(currentUser)) {
             this.avatarDrawable.setScaleSize(0.8f);
             this.avatarDrawable.setAvatarType(12);

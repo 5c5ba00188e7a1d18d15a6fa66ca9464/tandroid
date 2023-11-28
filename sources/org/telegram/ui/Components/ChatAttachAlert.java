@@ -701,6 +701,8 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
 
         void openAvatarsSearch();
 
+        boolean selectItemOnClicking();
+
         void sendAudio(ArrayList<MessageObject> arrayList, CharSequence charSequence, boolean z, int i);
 
         /* loaded from: classes4.dex */
@@ -719,6 +721,10 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             }
 
             public static void $default$openAvatarsSearch(ChatAttachViewDelegate chatAttachViewDelegate) {
+            }
+
+            public static boolean $default$selectItemOnClicking(ChatAttachViewDelegate chatAttachViewDelegate) {
+                return false;
             }
 
             public static void $default$sendAudio(ChatAttachViewDelegate chatAttachViewDelegate, ArrayList arrayList, CharSequence charSequence, boolean z, int i) {
@@ -1195,7 +1201,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             this.nameTextView.setTextColor(ChatAttachAlert.this.getThemedColor(Theme.key_dialogTextGray2));
             this.currentUser = tLRPC$User;
             this.nameTextView.setText(ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name));
-            this.avatarDrawable.setInfo(tLRPC$User);
+            this.avatarDrawable.setInfo(ChatAttachAlert.this.currentAccount, tLRPC$User);
             this.imageView.setForUserOrChat(tLRPC$User, this.avatarDrawable);
             this.imageView.setSize(-1, -1);
             this.imageView.setColorFilter(null);
@@ -1214,7 +1220,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             this.nameTextView.setTextColor(ChatAttachAlert.this.getThemedColor(Theme.key_dialogTextGray2));
             this.currentUser = tLRPC$User;
             this.nameTextView.setText(tLRPC$TL_attachMenuBot.short_name);
-            this.avatarDrawable.setInfo(tLRPC$User);
+            this.avatarDrawable.setInfo(ChatAttachAlert.this.currentAccount, tLRPC$User);
             TLRPC$TL_attachMenuBotIcon animatedAttachMenuBotIcon = MediaDataController.getAnimatedAttachMenuBotIcon(tLRPC$TL_attachMenuBot);
             if (animatedAttachMenuBotIcon == null) {
                 animatedAttachMenuBotIcon = MediaDataController.getStaticAttachMenuBotIcon(tLRPC$TL_attachMenuBot);

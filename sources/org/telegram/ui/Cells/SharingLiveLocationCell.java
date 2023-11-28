@@ -317,14 +317,14 @@ public class SharingLiveLocationCell extends FrameLayout {
         if (DialogObject.isUserDialog(liveLocation.id)) {
             TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(liveLocation.id));
             if (user != null) {
-                this.avatarDrawable.setInfo(user);
+                this.avatarDrawable.setInfo(this.currentAccount, user);
                 this.nameTextView.setText(ContactsController.formatName(user.first_name, user.last_name));
                 this.avatarImageView.setForUserOrChat(user, this.avatarDrawable);
             }
         } else {
             TLRPC$Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-liveLocation.id));
             if (chat != null) {
-                this.avatarDrawable.setInfo(chat);
+                this.avatarDrawable.setInfo(this.currentAccount, chat);
                 this.nameTextView.setText(chat.title);
                 this.avatarImageView.setForUserOrChat(chat, this.avatarDrawable);
             }
@@ -349,7 +349,7 @@ public class SharingLiveLocationCell extends FrameLayout {
         if (DialogObject.isUserDialog(sharingLocationInfo.did)) {
             TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(sharingLocationInfo.did));
             if (user != null) {
-                this.avatarDrawable.setInfo(user);
+                this.avatarDrawable.setInfo(this.currentAccount, user);
                 this.nameTextView.setText(ContactsController.formatName(user.first_name, user.last_name));
                 this.avatarImageView.setForUserOrChat(user, this.avatarDrawable);
                 return;
@@ -358,7 +358,7 @@ public class SharingLiveLocationCell extends FrameLayout {
         }
         TLRPC$Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-sharingLocationInfo.did));
         if (chat != null) {
-            this.avatarDrawable.setInfo(chat);
+            this.avatarDrawable.setInfo(this.currentAccount, chat);
             this.nameTextView.setText(chat.title);
             this.avatarImageView.setForUserOrChat(chat, this.avatarDrawable);
         }

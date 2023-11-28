@@ -3490,7 +3490,7 @@ public class PushListenerController {
                                                                     reactedText = str212222222222222222222;
                                                                     break;
                                                                 case MessageObject.TYPE_GIVEAWAY /* 26 */:
-                                                                case 27:
+                                                                case MessageObject.TYPE_JOINED_CHANNEL /* 27 */:
                                                                     j8 = makeEncryptedDialogId;
                                                                     obj3 = obj2;
                                                                     i9 = i5;
@@ -5579,7 +5579,7 @@ public class PushListenerController {
                 return LocaleController.formatString("PushReactRound", R.string.PushReactRound, objArr);
             case MessageObject.TYPE_GIVEAWAY /* 26 */:
                 return LocaleController.formatString("PushReactVideo", R.string.PushReactVideo, objArr);
-            case 27:
+            case MessageObject.TYPE_JOINED_CHANNEL /* 27 */:
                 return LocaleController.formatString("PushReactDoc", R.string.PushReactDoc, objArr);
             case 28:
                 return LocaleController.formatString("PushReactGeo", R.string.PushReactGeo, objArr);

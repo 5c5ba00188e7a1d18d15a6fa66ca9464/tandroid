@@ -434,7 +434,7 @@ public class ID3v2Info extends AudioInfo {
                     return;
                 }
             case '\b':
-            case 27:
+            case MessageObject.TYPE_JOINED_CHANNEL /* 27 */:
                 this.artist = parseTextFrame(iD3v2FrameBody);
                 return;
             case '\t':

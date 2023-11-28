@@ -72,12 +72,12 @@ public class MessageTopicButton {
         this.resourcesProvider = resourcesProvider;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:117:0x0545, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:117:0x053f, code lost:
         if (r1.type == 5) goto L97;
      */
-    /* JADX WARN: Removed duplicated region for block: B:131:0x0574  */
-    /* JADX WARN: Removed duplicated region for block: B:132:0x0583  */
-    /* JADX WARN: Removed duplicated region for block: B:135:0x0594  */
+    /* JADX WARN: Removed duplicated region for block: B:131:0x056e  */
+    /* JADX WARN: Removed duplicated region for block: B:132:0x057d  */
+    /* JADX WARN: Removed duplicated region for block: B:135:0x058e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -116,7 +116,7 @@ public class MessageTopicButton {
             i7 -= AndroidUtilities.dp(18.0f);
         }
         int i8 = i7;
-        this.topicNameLayout = StaticLayoutEx.createStaticLayout(str, 0, str.length(), Theme.chat_topicTextPaint, i8, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false, TextUtils.TruncateAt.END, i8, 2, false);
+        this.topicNameLayout = StaticLayoutEx.createStaticLayout(str, Theme.chat_topicTextPaint, i8, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false, TextUtils.TruncateAt.END, i8, 2, false);
         int dp5 = AndroidUtilities.dp(8.5f);
         int dp6 = AndroidUtilities.dp(24.0f);
         StaticLayout staticLayout = this.topicNameLayout;
