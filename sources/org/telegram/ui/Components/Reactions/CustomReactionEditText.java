@@ -8,10 +8,13 @@ import android.text.InputFilter;
 import android.text.SpannableStringBuilder;
 import android.view.ActionMode;
 import android.view.GestureDetector;
+import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import androidx.core.view.GestureDetectorCompat;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.EditTextCaption;
 @SuppressLint({"ViewConstructor"})
@@ -21,27 +24,12 @@ public class CustomReactionEditText extends EditTextCaption {
     private Runnable onFocused;
     private final Theme.ResourcesProvider resourcesProvider;
 
-    @Override // org.telegram.ui.Components.EditTextCaption, org.telegram.ui.Components.EditTextBoldCursor, android.view.View
-    public ActionMode startActionMode(ActionMode.Callback callback) {
-        return null;
-    }
-
-    @Override // org.telegram.ui.Components.EditTextCaption, org.telegram.ui.Components.EditTextBoldCursor, android.view.View
-    public ActionMode startActionMode(ActionMode.Callback callback, int i) {
-        return null;
-    }
-
     public CustomReactionEditText(Context context, Theme.ResourcesProvider resourcesProvider, int i) {
         super(context, resourcesProvider);
         this.resourcesProvider = resourcesProvider;
         this.gestureDetector = new GestureDetectorCompat(getContext(), new GestureDetector.SimpleOnGestureListener(this) { // from class: org.telegram.ui.Components.Reactions.CustomReactionEditText.1
             @Override // android.view.GestureDetector.SimpleOnGestureListener, android.view.GestureDetector.OnDoubleTapListener
             public boolean onDoubleTap(MotionEvent motionEvent) {
-                return true;
-            }
-
-            @Override // android.view.GestureDetector.SimpleOnGestureListener, android.view.GestureDetector.OnDoubleTapListener
-            public boolean onDoubleTapEvent(MotionEvent motionEvent) {
                 return true;
             }
         });
@@ -74,8 +62,8 @@ public class CustomReactionEditText extends EditTextCaption {
                 CustomReactionEditText.this.lambda$new$0(view, z);
             }
         });
+        setTextIsSelectable(true);
         setLongClickable(false);
-        setTextIsSelectable(false);
         setFocusableInTouchMode(false);
     }
 
@@ -95,10 +83,28 @@ public class CustomReactionEditText extends EditTextCaption {
 
     @Override // org.telegram.ui.Components.EditTextEffects, android.view.View
     public boolean dispatchTouchEvent(MotionEvent motionEvent) {
-        if (this.gestureDetector.onTouchEvent(motionEvent)) {
-            return false;
+        if (!this.gestureDetector.onTouchEvent(motionEvent) || isLongClickable()) {
+            return super.dispatchTouchEvent(motionEvent);
         }
-        return super.dispatchTouchEvent(motionEvent);
+        return false;
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // org.telegram.ui.Components.EditTextEffects, android.widget.TextView
+    public void onSelectionChanged(int i, int i2) {
+        super.onSelectionChanged(i, i2);
+        if (!hasSelection() || ((AddReactionsSpan[]) getText().getSpans(i, i2, AddReactionsSpan.class)).length == 0) {
+            return;
+        }
+        setSelection(i, i2 - 1);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // org.telegram.ui.Components.EditTextBoldCursor
+    public void extendActionMode(ActionMode actionMode, Menu menu) {
+        menu.clear();
+        int i = R.id.menu_delete;
+        menu.add(i, i, 0, LocaleController.getString("Delete", R.string.Delete));
     }
 
     public void setOnFocused(Runnable runnable) {
@@ -106,6 +112,7 @@ public class CustomReactionEditText extends EditTextCaption {
     }
 
     public void addReactionsSpan() {
+        setLongClickable(false);
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(getText());
         if (((AddReactionsSpan[]) spannableStringBuilder.getSpans(0, spannableStringBuilder.length(), AddReactionsSpan.class)).length == 0) {
             SpannableStringBuilder spannableStringBuilder2 = new SpannableStringBuilder("x");
@@ -139,6 +146,7 @@ public class CustomReactionEditText extends EditTextCaption {
     public /* synthetic */ void lambda$removeReactionsSpan$1(SpannableStringBuilder spannableStringBuilder, AddReactionsSpan addReactionsSpan) {
         getText().delete(spannableStringBuilder.getSpanStart(addReactionsSpan), spannableStringBuilder.getSpanEnd(addReactionsSpan));
         setCursorVisible(true);
+        setLongClickable(true);
     }
 
     public int getEditTextSelectionEnd() {
@@ -147,6 +155,14 @@ public class CustomReactionEditText extends EditTextCaption {
             return 0;
         }
         return selectionEnd;
+    }
+
+    public int getEditTextSelectionStart() {
+        int selectionStart = getSelectionStart();
+        if (selectionStart < 0) {
+            return 0;
+        }
+        return selectionStart;
     }
 
     public int getThemedColor(int i) {

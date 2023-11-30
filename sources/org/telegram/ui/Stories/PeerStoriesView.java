@@ -219,7 +219,7 @@ import org.telegram.ui.Stories.recorder.StoryRecorder;
 import org.telegram.ui.WrappedResourceProvider;
 /* loaded from: classes4.dex */
 public class PeerStoriesView extends SizeNotifierFrameLayout implements NotificationCenter.NotificationCenterDelegate {
-    public static final float SHARE_BUTTON_OFFSET;
+    public static boolean DISABLE_STORY_REPOSTING = false;
     private static int activeCount;
     private boolean BIG_SCREEN;
     private boolean allowDrawSurface;
@@ -455,10 +455,6 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
         return j2;
     }
 
-    static {
-        SHARE_BUTTON_OFFSET = (BuildVars.DISABLE_STORY_REPOSTING ? 0 : 46) + 46;
-    }
-
     public PeerStoriesView(final Context context, final StoryViewer storyViewer, final SharedResources sharedResources, final Theme.ResourcesProvider resourcesProvider) {
         super(context);
         this.allowDrawSurface = true;
@@ -626,7 +622,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
             }
         });
         ScaleStateListAnimator.apply(imageView);
-        if (!BuildVars.DISABLE_STORY_REPOSTING) {
+        if (!DISABLE_STORY_REPOSTING) {
             ImageView imageView2 = new ImageView(context);
             this.repostButton = imageView2;
             imageView2.setImageDrawable(sharedResources.repostDrawable);
@@ -3622,21 +3618,23 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
 
     /* JADX INFO: Access modifiers changed from: private */
     public void tryToOpenRepostStory() {
-        File path = this.currentStory.getPath();
-        if (path != null && path.exists()) {
-            ShareAlert shareAlert = this.shareAlert;
-            if (shareAlert != null) {
-                shareAlert.dismiss();
-            }
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.PeerStoriesView$$ExternalSyntheticLambda28
-                @Override // java.lang.Runnable
-                public final void run() {
-                    PeerStoriesView.this.openRepostStory();
+        if (MessagesController.getInstance(this.currentAccount).storiesEnabled()) {
+            File path = this.currentStory.getPath();
+            if (path != null && path.exists()) {
+                ShareAlert shareAlert = this.shareAlert;
+                if (shareAlert != null) {
+                    shareAlert.dismiss();
                 }
-            }, 120L);
-            return;
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.PeerStoriesView$$ExternalSyntheticLambda28
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        PeerStoriesView.this.openRepostStory();
+                    }
+                }, 120L);
+                return;
+            }
+            showDownloadAlert();
         }
-        showDownloadAlert();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -3647,7 +3645,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
         }
         String createLink = storyItemHolder.createLink();
         if (z) {
-            ShareAlert shareAlert = new ShareAlert(this.storyViewer.fragment.getContext(), null, null, createLink, null, false, createLink, null, false, false, !BuildVars.DISABLE_STORY_REPOSTING && MessagesController.getInstance(this.currentAccount).storiesEnabled(), new WrappedResourceProvider(this, this.resourcesProvider) { // from class: org.telegram.ui.Stories.PeerStoriesView.22
+            ShareAlert shareAlert = new ShareAlert(this.storyViewer.fragment.getContext(), null, null, createLink, null, false, createLink, null, false, false, !DISABLE_STORY_REPOSTING && MessagesController.getInstance(this.currentAccount).storiesEnabled() && (!(this.isChannel || UserObject.isService(this.dialogId)) || ChatObject.isPublic(this.isChannel ? MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-this.dialogId)) : null)), new WrappedResourceProvider(this, this.resourcesProvider) { // from class: org.telegram.ui.Stories.PeerStoriesView.22
                 @Override // org.telegram.ui.WrappedResourceProvider
                 public void appendColors() {
                     this.sparseIntArray.put(Theme.key_chat_emojiPanelBackground, ColorUtils.blendARGB(-16777216, -1, 0.2f));
@@ -4563,7 +4561,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:266:0x0716, code lost:
-        if (r1.captionTranslated != (r6 != null && r6.translated && r6.translatedText != null && android.text.TextUtils.equals(r6.translatedLng, org.telegram.ui.Components.TranslateAlert2.getToLanguage()))) goto L313;
+        if (r1.captionTranslated != (r6 != null && r6.translated && r6.translatedText != null && android.text.TextUtils.equals(r6.translatedLng, org.telegram.ui.Components.TranslateAlert2.getToLanguage()))) goto L309;
      */
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Removed duplicated region for block: B:304:0x078b  */
@@ -4573,7 +4571,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
     /* JADX WARN: Removed duplicated region for block: B:330:0x07e2  */
     /* JADX WARN: Type inference failed for: r2v4 */
     /* JADX WARN: Type inference failed for: r2v5, types: [int, boolean] */
-    /* JADX WARN: Type inference failed for: r2v57 */
+    /* JADX WARN: Type inference failed for: r2v65 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -5023,15 +5021,16 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
             if (frameLayout4 != null) {
                 frameLayout4.setVisibility(this.allowShare ? 0 : 4);
             }
-            this.likeButtonContainer.setVisibility(this.isFailed ? 4 : 0);
+            this.likeButtonContainer.setVisibility(this.isFailed ? 8 : 0);
         } else {
             this.shareButton.setVisibility(this.allowShare ? 0 : 4);
             FrameLayout frameLayout5 = this.repostButtonContainer;
             if (frameLayout5 != null) {
-                frameLayout5.setVisibility(this.allowShare ? 0 : 4);
+                frameLayout5.setVisibility(8);
             }
-            this.likeButtonContainer.setVisibility(this.isSelf ? 4 : 0);
+            this.likeButtonContainer.setVisibility(this.isSelf ? 8 : 0);
         }
+        this.likeButtonContainer.requestLayout();
         this.storyViewer.savedPositions.append(this.dialogId, i2);
         if (this.isActive) {
             requestVideoPlayer(0L);
@@ -5449,11 +5448,14 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                     this.selfStatusView.setText("");
                 }
                 this.likeButtonContainer.getLayoutParams().width = (int) (AndroidUtilities.dp(40.0f) + (this.reactionsCounterVisible ? this.reactionsCounter.getAnimateToWidth() + AndroidUtilities.dp(4.0f) : 0.0f));
+                ((ViewGroup.MarginLayoutParams) this.selfView.getLayoutParams()).rightMargin = AndroidUtilities.dp(40.0f) + this.likeButtonContainer.getLayoutParams().width;
                 FrameLayout frameLayout = this.repostButtonContainer;
                 if (frameLayout != null) {
                     frameLayout.getLayoutParams().width = (int) (AndroidUtilities.dp(40.0f) + (this.repostCounterVisible ? this.repostCounter.getAnimateToWidth() + AndroidUtilities.dp(4.0f) : 0.0f));
+                    ((ViewGroup.MarginLayoutParams) this.selfView.getLayoutParams()).rightMargin += this.repostButtonContainer.getLayoutParams().width;
                     this.repostButtonContainer.requestLayout();
                 }
+                this.selfView.requestLayout();
                 this.likeButtonContainer.requestLayout();
                 this.selfAvatarsView.setVisibility(8);
                 this.selfAvatarsContainer.setVisibility(8);
@@ -5509,6 +5511,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                     this.selfAvatarsContainer.setVisibility(8);
                 }
                 this.likeButtonContainer.getLayoutParams().width = AndroidUtilities.dp(40.0f);
+                this.bottomActionsLinearLayout.requestLayout();
             }
         }
     }
@@ -6986,7 +6989,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
         ChatActivityEnterView chatActivityEnterView = this.chatActivityEnterView;
         if (view == chatActivityEnterView) {
             this.sharedResources.rect1.set(0.0f, this.chatActivityEnterView.getY() + this.chatActivityEnterView.getAnimatedTop(), getMeasuredWidth() + AndroidUtilities.dp(20.0f), getMeasuredHeight());
-            this.sharedResources.rect2.set(AndroidUtilities.dp(10.0f), (this.chatActivityEnterView.getBottom() - AndroidUtilities.dp(48.0f)) + this.chatActivityEnterView.getTranslationY() + AndroidUtilities.dp(2.0f), (getMeasuredWidth() - AndroidUtilities.dp(10.0f)) - ((this.allowShare ? AndroidUtilities.dp(SHARE_BUTTON_OFFSET) : 0) + AndroidUtilities.dp(40.0f)), (this.chatActivityEnterView.getY() + this.chatActivityEnterView.getMeasuredHeight()) - AndroidUtilities.dp(2.0f));
+            this.sharedResources.rect2.set(AndroidUtilities.dp(10.0f), (this.chatActivityEnterView.getBottom() - AndroidUtilities.dp(48.0f)) + this.chatActivityEnterView.getTranslationY() + AndroidUtilities.dp(2.0f), (getMeasuredWidth() - AndroidUtilities.dp(10.0f)) - ((this.allowShare ? AndroidUtilities.dp(46.0f) : 0) + AndroidUtilities.dp(40.0f)), (this.chatActivityEnterView.getY() + this.chatActivityEnterView.getMeasuredHeight()) - AndroidUtilities.dp(2.0f));
             if (this.chatActivityEnterView.getMeasuredHeight() > AndroidUtilities.dp(50.0f)) {
                 this.chatActivityEnterView.getEditField().setTranslationY((1.0f - this.progressToKeyboard) * (this.chatActivityEnterView.getMeasuredHeight() - AndroidUtilities.dp(50.0f)));
             } else {

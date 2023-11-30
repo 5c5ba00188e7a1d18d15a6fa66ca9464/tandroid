@@ -1175,7 +1175,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         return f2;
     }
 
-    static /* synthetic */ int access$16616(ChatActivity chatActivity, float f) {
+    static /* synthetic */ int access$16716(ChatActivity chatActivity, float f) {
         int i = (int) (chatActivity.skeletonTotalTranslation + f);
         chatActivity.skeletonTotalTranslation = i;
         return i;
@@ -1641,7 +1641,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             }
             ChatMessageCell chatMessageCell = (ChatMessageCell) view;
             MessageObject primaryMessageObject = chatMessageCell.getPrimaryMessageObject();
-            if (primaryMessageObject.isSecretMedia() || primaryMessageObject.isExpiredStory()) {
+            if (primaryMessageObject.isSecretMedia() || primaryMessageObject.isExpiredStory() || primaryMessageObject.type == 27) {
                 return;
             }
             ReactionsEffectOverlay.removeCurrent(false);
@@ -2565,7 +2565,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
             /* JADX WARN: Removed duplicated region for block: B:28:0x007a  */
             /* JADX WARN: Removed duplicated region for block: B:32:0x008d  */
-            /* JADX WARN: Removed duplicated region for block: B:33:0x0093  */
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListenerExtended
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
@@ -2588,10 +2587,13 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             z2 = ChatActivity.this.createMenu(view, false, true, f, f2);
                         }
                         if (view instanceof ChatMessageCell) {
-                            return z2;
+                            ChatMessageCell chatMessageCell = (ChatMessageCell) view;
+                            if (chatMessageCell.getMessageObject() != null && chatMessageCell.getMessageObject().type != 27) {
+                                ChatActivity.this.startMultiselect(i);
+                                return true;
+                            }
                         }
-                        ChatActivity.this.startMultiselect(i);
-                        return true;
+                        return z2;
                     }
                 }
                 z = true;
@@ -2601,6 +2603,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 z2 = true;
                 if (view instanceof ChatMessageCell) {
                 }
+                return z2;
             }
         };
         this.onItemClickListener = new 11();
@@ -8287,15 +8290,14 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         @Override // androidx.recyclerview.widget.RecyclerView, android.view.View
         public void draw(Canvas canvas) {
             ChatActivity chatActivity;
+            float f;
             MessageSkeleton messageSkeleton;
             int lerp;
             MessageObject.GroupedMessages.TransitionParams transitionParams;
-            long j = 0;
             if ((ChatActivity.this.startMessageAppearTransitionMs == 0 || System.currentTimeMillis() - ChatActivity.this.startMessageAppearTransitionMs <= 200) && !AndroidUtilities.isTablet() && !ChatActivity.this.isComments) {
                 ChatActivity chatActivity2 = ChatActivity.this;
                 if (chatActivity2.currentUser == null) {
                     TLRPC$Chat tLRPC$Chat = chatActivity2.currentChat;
-                    int i = 0;
                     boolean z = true;
                     boolean z2 = tLRPC$Chat == null || ChatObject.isChannelAndNotMegaGroup(tLRPC$Chat);
                     if (ChatActivity.this.pullingDownOffset != 0.0f) {
@@ -8305,14 +8307,14 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     updateSkeletonColors();
                     updateSkeletonGradient();
                     int height = getHeight() - ChatActivity.this.blurredViewBottomOffset;
-                    int i2 = ConnectionsManager.DEFAULT_DATACENTER_ID;
-                    for (int i3 = 0; i3 < getChildCount(); i3++) {
-                        int top = getChildAt(i3).getTop();
-                        if (top < i2) {
-                            i2 = top;
+                    int i = ConnectionsManager.DEFAULT_DATACENTER_ID;
+                    for (int i2 = 0; i2 < getChildCount(); i2++) {
+                        int top = getChildAt(i2).getTop();
+                        if (top < i) {
+                            i = top;
                         }
                     }
-                    if (ChatActivity.this.startMessageAppearTransitionMs == 0 && i2 <= 0) {
+                    if (ChatActivity.this.startMessageAppearTransitionMs == 0 && i <= 0) {
                         ChatActivity chatActivity3 = ChatActivity.this;
                         chatActivity3.checkDispatchHideSkeletons(((BaseFragment) chatActivity3).fragmentBeginToShow);
                     }
@@ -8325,12 +8327,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         ChatActivity.this.skeletonColorMatrix.setSaturation(ChatActivity.SKELETON_SATURATION);
                         ChatActivity.this.skeletonServicePaint.setColorFilter(new ColorMatrixColorFilter(ChatActivity.this.skeletonColorMatrix));
                     }
-                    int i4 = 0;
-                    while (true) {
-                        if (i4 >= getChildCount()) {
-                            break;
-                        }
-                        View childAt = getChildAt(i4);
+                    int i3 = 0;
+                    while (i3 < getChildCount()) {
+                        View childAt = getChildAt(i3);
                         if (childAt instanceof ChatMessageCell) {
                             ChatMessageCell chatMessageCell = (ChatMessageCell) childAt;
                             MessageObject.GroupedMessages currentMessagesGroup = chatMessageCell.getCurrentMessagesGroup();
@@ -8341,11 +8340,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 lerp = height;
                             }
                             if (lerp >= height) {
-                                i4++;
+                                i3++;
                                 z = true;
                             }
                             height = lerp;
-                            i4++;
+                            i3++;
                             z = true;
                         } else {
                             if (childAt instanceof ChatActionCell) {
@@ -8354,7 +8353,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 }
                                 height = lerp;
                             }
-                            i4++;
+                            i3++;
                             z = true;
                         }
                     }
@@ -8364,9 +8363,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         }
                     } else {
                         boolean z3 = SharedConfig.getDevicePerformanceClass() != 0 && Theme.hasGradientService();
-                        int i5 = Theme.key_windowBackgroundWhite;
-                        boolean z4 = ColorUtils.calculateLuminance(getThemedColor(i5)) <= 0.699999988079071d && Theme.hasGradientService();
-                        boolean z5 = ColorUtils.calculateLuminance(getThemedColor(i5)) <= 0.009999999776482582d && Theme.hasGradientService();
+                        int i4 = Theme.key_windowBackgroundWhite;
+                        boolean z4 = ColorUtils.calculateLuminance(getThemedColor(i4)) <= 0.699999988079071d && Theme.hasGradientService();
+                        boolean z5 = ColorUtils.calculateLuminance(getThemedColor(i4)) <= 0.009999999776482582d && Theme.hasGradientService();
                         if (z3) {
                             Theme.applyServiceShaderMatrix(getMeasuredWidth(), AndroidUtilities.displaySize.y, 0.0f, getY() - ChatActivity.this.contentPanTranslation);
                         }
@@ -8378,35 +8377,38 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         int alpha2 = ChatActivity.this.skeletonPaint.getAlpha();
                         int alpha3 = ChatActivity.this.skeletonServicePaint.getAlpha();
                         int alpha4 = ChatActivity.this.skeletonOutlinePaint.getAlpha();
-                        ChatActivity.this.skeletonServicePaint.setAlpha((int) (currentTimeMillis * 255.0f));
-                        int i6 = (int) (currentTimeMillis * alpha2);
-                        ChatActivity.this.skeletonPaint.setAlpha(i6);
-                        ChatActivity.this.skeletonOutlinePaint.setAlpha(i6);
-                        int i7 = 0;
+                        ThemeDelegate themeDelegate = ChatActivity.this.themeDelegate;
+                        float f2 = (themeDelegate == null || !themeDelegate.isDark || ChatActivity.this.skeletonServicePaint.getShader() == null) ? 1.0f : 0.3f;
+                        ChatActivity.this.skeletonServicePaint.setAlpha((int) (255.0f * currentTimeMillis * f2));
+                        float f3 = alpha2;
+                        ChatActivity.this.skeletonPaint.setAlpha((int) (f2 * currentTimeMillis * f3));
+                        ChatActivity.this.skeletonOutlinePaint.setAlpha((int) (currentTimeMillis * f3));
+                        int i5 = 0;
                         while (true) {
                             chatActivity = ChatActivity.this;
+                            f = 3.0f;
                             if (height <= chatActivity.blurredViewTopOffset) {
                                 break;
                             }
                             int dp = height - AndroidUtilities.dp(3.0f);
-                            if (i7 >= ChatActivity.this.messageSkeletons.size()) {
+                            if (i5 >= ChatActivity.this.messageSkeletons.size()) {
                                 messageSkeleton = ChatActivity.this.getNewSkeleton(z2);
                                 ChatActivity.this.messageSkeletons.add(messageSkeleton);
                             } else {
-                                messageSkeleton = (MessageSkeleton) ChatActivity.this.messageSkeletons.get(i7);
+                                messageSkeleton = (MessageSkeleton) ChatActivity.this.messageSkeletons.get(i5);
                             }
-                            messageSkeleton.lastBottom = ChatActivity.this.startMessageAppearTransitionMs != j ? ChatActivity.this.messages.size() <= 2 ? Math.min(messageSkeleton.lastBottom, dp) : messageSkeleton.lastBottom : dp;
+                            messageSkeleton.lastBottom = ChatActivity.this.startMessageAppearTransitionMs != 0 ? ChatActivity.this.messages.size() <= 2 ? Math.min(messageSkeleton.lastBottom, dp) : messageSkeleton.lastBottom : dp;
                             height = dp - messageSkeleton.height;
-                            i7++;
-                            j = 0;
+                            i5++;
                         }
                         int height2 = chatActivity.messageSkeletons.isEmpty() ? getHeight() - ChatActivity.this.blurredViewBottomOffset : ((MessageSkeleton) ChatActivity.this.messageSkeletons.get(0)).lastBottom + AndroidUtilities.dp(3.0f);
-                        while (i < ChatActivity.this.messageSkeletons.size() && height2 > ChatActivity.this.blurredViewTopOffset) {
-                            int dp2 = height2 - AndroidUtilities.dp(3.0f);
-                            MessageSkeleton messageSkeleton2 = (MessageSkeleton) ChatActivity.this.messageSkeletons.get(i);
-                            int i8 = messageSkeleton2.lastBottom;
-                            int i9 = alpha;
-                            ChatActivity.this.skeletonBackgroundDrawable.setBounds(z2 ? AndroidUtilities.dp(3.0f) : AndroidUtilities.dp(51.0f), i8 - messageSkeleton2.height, messageSkeleton2.width, i8);
+                        int i6 = 0;
+                        while (i6 < ChatActivity.this.messageSkeletons.size() && height2 > ChatActivity.this.blurredViewTopOffset) {
+                            int dp2 = height2 - AndroidUtilities.dp(f);
+                            MessageSkeleton messageSkeleton2 = (MessageSkeleton) ChatActivity.this.messageSkeletons.get(i6);
+                            int i7 = messageSkeleton2.lastBottom;
+                            int i8 = alpha;
+                            ChatActivity.this.skeletonBackgroundDrawable.setBounds(z2 ? AndroidUtilities.dp(f) : AndroidUtilities.dp(51.0f), i7 - messageSkeleton2.height, messageSkeleton2.width, i7);
                             if (z3) {
                                 ChatActivity.this.skeletonBackgroundDrawable.drawCached(canvas, ChatActivity.this.skeletonBackgroundCacheParams, ChatActivity.this.skeletonServicePaint);
                             }
@@ -8416,22 +8418,23 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             }
                             ChatActivity.this.skeletonBackgroundDrawable.drawCached(canvas, ChatActivity.this.skeletonBackgroundCacheParams, ChatActivity.this.skeletonOutlinePaint);
                             if (!z2) {
-                                float f = 27.0f;
+                                float f4 = 27.0f;
                                 if (z3) {
-                                    canvas.drawCircle(AndroidUtilities.dp(27.0f), i8 - AndroidUtilities.dp(21.0f), AndroidUtilities.dp(21.0f), ChatActivity.this.skeletonServicePaint);
-                                    f = 27.0f;
+                                    canvas.drawCircle(AndroidUtilities.dp(27.0f), i7 - AndroidUtilities.dp(21.0f), AndroidUtilities.dp(21.0f), ChatActivity.this.skeletonServicePaint);
+                                    f4 = 27.0f;
                                 }
-                                canvas.drawCircle(AndroidUtilities.dp(f), i8 - AndroidUtilities.dp(21.0f), AndroidUtilities.dp(21.0f), ChatActivity.this.skeletonPaint);
-                                float f2 = 27.0f;
+                                canvas.drawCircle(AndroidUtilities.dp(f4), i7 - AndroidUtilities.dp(21.0f), AndroidUtilities.dp(21.0f), ChatActivity.this.skeletonPaint);
+                                float f5 = 27.0f;
                                 if (z4) {
-                                    canvas.drawCircle(AndroidUtilities.dp(27.0f), i8 - AndroidUtilities.dp(21.0f), AndroidUtilities.dp(21.0f), Theme.chat_actionBackgroundGradientDarkenPaint);
-                                    f2 = 27.0f;
+                                    canvas.drawCircle(AndroidUtilities.dp(27.0f), i7 - AndroidUtilities.dp(21.0f), AndroidUtilities.dp(21.0f), Theme.chat_actionBackgroundGradientDarkenPaint);
+                                    f5 = 27.0f;
                                 }
-                                canvas.drawCircle(AndroidUtilities.dp(f2), i8 - AndroidUtilities.dp(21.0f), AndroidUtilities.dp(21.0f), ChatActivity.this.skeletonOutlinePaint);
+                                canvas.drawCircle(AndroidUtilities.dp(f5), i7 - AndroidUtilities.dp(21.0f), AndroidUtilities.dp(21.0f), ChatActivity.this.skeletonOutlinePaint);
                             }
                             height2 = dp2 - messageSkeleton2.height;
-                            i++;
-                            alpha = i9;
+                            i6++;
+                            alpha = i8;
+                            f = 3.0f;
                         }
                         ChatActivity.this.skeletonServicePaint.setAlpha(alpha3);
                         ChatActivity.this.skeletonPaint.setAlpha(alpha2);
@@ -8481,7 +8484,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             }
             int width = getWidth();
             ChatActivity.this.skeletonLastUpdateTime = elapsedRealtime;
-            ChatActivity.access$16616(ChatActivity.this, ((float) (abs * width)) / 400.0f);
+            ChatActivity.access$16716(ChatActivity.this, ((float) (abs * width)) / 400.0f);
             if (ChatActivity.this.skeletonTotalTranslation >= width * 2) {
                 ChatActivity chatActivity = ChatActivity.this;
                 chatActivity.skeletonTotalTranslation = (-chatActivity.skeletonGradientWidth) * 2;
@@ -20828,10 +20831,12 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         }
         int messageType = getMessageType(messageObject);
         if ((messageObject == null || !messageObject.isAnyGift()) && messageType >= 2 && messageType != 20 && messageType != 21) {
-            if (messageObject == null || !messageObject.isWallpaperAction()) {
-                addToSelectedMessages(messageObject, z);
-                updateActionModeTitle();
-                updateVisibleRows();
+            if (messageObject == null || messageObject.type != 27) {
+                if (messageObject == null || !messageObject.isWallpaperAction()) {
+                    addToSelectedMessages(messageObject, z);
+                    updateActionModeTitle();
+                    updateVisibleRows();
+                }
             }
         }
     }
@@ -28786,62 +28791,62 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:1002:0x1766, code lost:
-        if (org.telegram.messenger.ChatObject.isChannel(r56.currentChat) == false) goto L874;
+    /* JADX WARN: Code restructure failed: missing block: B:1002:0x1763, code lost:
+        if ((r7.available_reactions instanceof org.telegram.tgnet.TLRPC$TL_chatReactionsNone) == false) goto L877;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1004:0x176a, code lost:
-        if (r56.currentUser != null) goto L874;
+    /* JADX WARN: Code restructure failed: missing block: B:1005:0x176d, code lost:
+        if (org.telegram.messenger.ChatObject.isChannel(r56.currentChat) == false) goto L877;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1006:0x1770, code lost:
-        if (r2.isEmpty() != false) goto L380;
+    /* JADX WARN: Code restructure failed: missing block: B:1007:0x1771, code lost:
+        if (r56.currentUser != null) goto L877;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:393:0x073d, code lost:
-        if (org.telegram.messenger.Emoji.fullyConsistsOfEmojis(r3) != false) goto L1456;
+    /* JADX WARN: Code restructure failed: missing block: B:1009:0x1777, code lost:
+        if (r2.isEmpty() != false) goto L383;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:650:0x0cde, code lost:
-        if (r0.edit_messages != false) goto L1145;
+    /* JADX WARN: Code restructure failed: missing block: B:396:0x0744, code lost:
+        if (org.telegram.messenger.Emoji.fullyConsistsOfEmojis(r3) != false) goto L1459;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:986:0x1737, code lost:
-        if (r2.isEmpty() == false) goto L861;
+    /* JADX WARN: Code restructure failed: missing block: B:653:0x0ce5, code lost:
+        if (r0.edit_messages != false) goto L1148;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:999:0x175c, code lost:
-        if ((r7.available_reactions instanceof org.telegram.tgnet.TLRPC$TL_chatReactionsNone) == false) goto L874;
+    /* JADX WARN: Code restructure failed: missing block: B:989:0x173e, code lost:
+        if (r2.isEmpty() == false) goto L864;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:1066:0x1853  */
-    /* JADX WARN: Removed duplicated region for block: B:1084:0x18cd  */
-    /* JADX WARN: Removed duplicated region for block: B:1085:0x18d0  */
-    /* JADX WARN: Removed duplicated region for block: B:1088:0x190c  */
-    /* JADX WARN: Removed duplicated region for block: B:1089:0x190e  */
-    /* JADX WARN: Removed duplicated region for block: B:1092:0x1916  */
-    /* JADX WARN: Removed duplicated region for block: B:1093:0x191b  */
-    /* JADX WARN: Removed duplicated region for block: B:1096:0x1936  */
-    /* JADX WARN: Removed duplicated region for block: B:1119:0x1ac0  */
-    /* JADX WARN: Removed duplicated region for block: B:1309:0x23fe  */
-    /* JADX WARN: Removed duplicated region for block: B:1312:0x242c  */
-    /* JADX WARN: Removed duplicated region for block: B:1313:0x2435  */
-    /* JADX WARN: Removed duplicated region for block: B:1433:0x2779  */
-    /* JADX WARN: Removed duplicated region for block: B:1434:0x2780  */
-    /* JADX WARN: Removed duplicated region for block: B:1439:0x27ac  */
-    /* JADX WARN: Removed duplicated region for block: B:1442:0x27d7  */
-    /* JADX WARN: Removed duplicated region for block: B:1444:0x27da  */
-    /* JADX WARN: Removed duplicated region for block: B:1455:0x283a  */
-    /* JADX WARN: Removed duplicated region for block: B:1461:0x2859  */
-    /* JADX WARN: Removed duplicated region for block: B:1462:0x285d  */
-    /* JADX WARN: Removed duplicated region for block: B:1465:0x2878  */
+    /* JADX WARN: Removed duplicated region for block: B:1069:0x185a  */
+    /* JADX WARN: Removed duplicated region for block: B:1087:0x18d4  */
+    /* JADX WARN: Removed duplicated region for block: B:1088:0x18d7  */
+    /* JADX WARN: Removed duplicated region for block: B:1091:0x1913  */
+    /* JADX WARN: Removed duplicated region for block: B:1092:0x1915  */
+    /* JADX WARN: Removed duplicated region for block: B:1095:0x191d  */
+    /* JADX WARN: Removed duplicated region for block: B:1096:0x1922  */
+    /* JADX WARN: Removed duplicated region for block: B:1099:0x193d  */
+    /* JADX WARN: Removed duplicated region for block: B:1122:0x1ac7  */
+    /* JADX WARN: Removed duplicated region for block: B:1312:0x2405  */
+    /* JADX WARN: Removed duplicated region for block: B:1315:0x2433  */
+    /* JADX WARN: Removed duplicated region for block: B:1316:0x243c  */
+    /* JADX WARN: Removed duplicated region for block: B:1436:0x2780  */
+    /* JADX WARN: Removed duplicated region for block: B:1437:0x2787  */
+    /* JADX WARN: Removed duplicated region for block: B:1442:0x27b3  */
+    /* JADX WARN: Removed duplicated region for block: B:1445:0x27de  */
+    /* JADX WARN: Removed duplicated region for block: B:1447:0x27e1  */
+    /* JADX WARN: Removed duplicated region for block: B:1458:0x2841  */
+    /* JADX WARN: Removed duplicated region for block: B:1464:0x2860  */
+    /* JADX WARN: Removed duplicated region for block: B:1465:0x2864  */
     /* JADX WARN: Removed duplicated region for block: B:1468:0x287f  */
+    /* JADX WARN: Removed duplicated region for block: B:1471:0x2886  */
     /* JADX WARN: Removed duplicated region for block: B:188:0x0321  */
     /* JADX WARN: Removed duplicated region for block: B:198:0x0345  */
     /* JADX WARN: Removed duplicated region for block: B:199:0x0347  */
-    /* JADX WARN: Removed duplicated region for block: B:307:0x054e A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:308:0x054f  */
-    /* JADX WARN: Removed duplicated region for block: B:408:0x0780  */
-    /* JADX WARN: Removed duplicated region for block: B:422:0x07e9  */
-    /* JADX WARN: Removed duplicated region for block: B:939:0x1689  */
-    /* JADX WARN: Removed duplicated region for block: B:940:0x168c  */
-    /* JADX WARN: Removed duplicated region for block: B:945:0x169e A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:950:0x16a7  */
-    /* JADX WARN: Removed duplicated region for block: B:952:0x16b0  */
+    /* JADX WARN: Removed duplicated region for block: B:310:0x0555 A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:311:0x0556  */
+    /* JADX WARN: Removed duplicated region for block: B:411:0x0787  */
+    /* JADX WARN: Removed duplicated region for block: B:425:0x07f0  */
+    /* JADX WARN: Removed duplicated region for block: B:942:0x1690  */
+    /* JADX WARN: Removed duplicated region for block: B:943:0x1693  */
+    /* JADX WARN: Removed duplicated region for block: B:948:0x16a5 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:953:0x16ae  */
+    /* JADX WARN: Removed duplicated region for block: B:955:0x16b7  */
     /* JADX WARN: Type inference failed for: r12v37 */
     /* JADX WARN: Type inference failed for: r12v5 */
     /* JADX WARN: Type inference failed for: r12v6, types: [int, boolean] */
@@ -31055,7 +31060,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 }
             } else {
                 ChatActivityEnterView chatActivityEnterView2 = this.chatActivityEnterView;
-                if (chatActivityEnterView2 == null || !(chatActivityEnterView2.isRecordingAudioVideo() || this.chatActivityEnterView.isRecordLocked())) {
+                if ((chatActivityEnterView2 == null || !(chatActivityEnterView2.isRecordingAudioVideo() || this.chatActivityEnterView.isRecordLocked())) && messageObject.type != 27) {
                     createActionMode();
                     ActionBarMenuItem item = this.actionBar.createActionMode().getItem(12);
                     if (item != null) {

@@ -21,7 +21,6 @@ import android.os.Build;
 import android.text.Editable;
 import android.text.SpannableString;
 import android.text.Spanned;
-import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import java.io.File;
@@ -588,7 +587,6 @@ public class TextureRenderer {
                     while (!mediaEntity.looped && mediaEntity.animatedFileDrawable.getProgressMs() < Math.min(clamp, mediaEntity.animatedFileDrawable.getDurationMs())) {
                         int progressMs = mediaEntity.animatedFileDrawable.getProgressMs();
                         mediaEntity.animatedFileDrawable.getNextFrame(false);
-                        Log.i("lolkek", "next frame " + progressMs + " -> " + mediaEntity.animatedFileDrawable.getProgressMs() + " (duration = " + mediaEntity.animatedFileDrawable.getDurationMs() + ", mspf = " + (1000.0f / mediaEntity.animatedFileDrawable.getFps()) + "ms)");
                         if (mediaEntity.animatedFileDrawable.getProgressMs() <= progressMs && (mediaEntity.animatedFileDrawable.getProgressMs() != 0 || progressMs != 0)) {
                             mediaEntity.looped = true;
                             break;

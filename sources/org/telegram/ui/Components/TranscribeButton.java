@@ -819,7 +819,7 @@ public class TranscribeButton {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.TranscribeButton$$ExternalSyntheticLambda5
                 @Override // java.lang.Runnable
                 public final void run() {
-                    TranscribeButton.lambda$transcribePressed$4(ChatMessageCell.ChatMessageCellDelegate.this, i);
+                    TranscribeButton.lambda$transcribePressed$4(MessageObject.this, chatMessageCellDelegate, i);
                 }
             });
             return;
@@ -855,10 +855,15 @@ public class TranscribeButton {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$transcribePressed$4(ChatMessageCell.ChatMessageCellDelegate chatMessageCellDelegate, int i) {
+    public static /* synthetic */ void lambda$transcribePressed$4(MessageObject messageObject, ChatMessageCell.ChatMessageCellDelegate chatMessageCellDelegate, int i) {
+        HashMap<Integer, MessageObject> hashMap = transcribeOperationsByDialogPosition;
+        if (hashMap != null) {
+            hashMap.remove(Integer.valueOf(reqInfoHash(messageObject)));
+        }
         if (chatMessageCellDelegate != null) {
             chatMessageCellDelegate.needShowPremiumBulletin(3);
         }
+        NotificationCenter.getInstance(i).lambda$postNotificationNameOnUIThread$1(NotificationCenter.voiceTranscriptionUpdate, messageObject);
         NotificationCenter.getInstance(i).lambda$postNotificationNameOnUIThread$1(NotificationCenter.updateTranscriptionLock, new Object[0]);
     }
 

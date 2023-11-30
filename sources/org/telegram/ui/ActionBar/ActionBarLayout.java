@@ -61,6 +61,7 @@ import org.telegram.ui.Components.FloatingDebug.FloatingDebugController;
 import org.telegram.ui.Components.FloatingDebug.FloatingDebugProvider;
 import org.telegram.ui.Components.GroupCallPip;
 import org.telegram.ui.Components.LayoutHelper;
+import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.Stories.StoryViewer;
 /* loaded from: classes3.dex */
 public class ActionBarLayout extends FrameLayout implements INavigationLayout, FloatingDebugProvider {
@@ -1390,6 +1391,8 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         INavigationLayout.INavigationLayoutDelegate iNavigationLayoutDelegate;
         final BaseFragment baseFragment;
         int i;
+        LaunchActivity launchActivity;
+        Dialog dialog;
         final BaseFragment baseFragment2 = navigationParams.fragment;
         final boolean z = navigationParams.removeLast;
         boolean z2 = navigationParams.noAnimation;
@@ -1400,7 +1403,11 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
             return false;
         }
         BaseFragment lastFragment = getLastFragment();
-        if (lastFragment != null && lastFragment.getVisibleDialog() != null && shouldOpenFragmentOverlay(lastFragment.getVisibleDialog())) {
+        Dialog visibleDialog = lastFragment != null ? lastFragment.getVisibleDialog() : null;
+        if (visibleDialog == null && (launchActivity = LaunchActivity.instance) != null && (dialog = launchActivity.visibleDialog) != null) {
+            visibleDialog = dialog;
+        }
+        if (shouldOpenFragmentOverlay(visibleDialog)) {
             BaseFragment.BottomSheetParams bottomSheetParams = new BaseFragment.BottomSheetParams();
             bottomSheetParams.transitionFromLeft = true;
             bottomSheetParams.allowNestedScroll = false;

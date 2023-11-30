@@ -787,7 +787,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         public RecordDot(Context context) {
             super(context);
             ChatActivityEnterView.this = r8;
-            int i = R.raw.chat_audio_record_delete_3;
+            int i = R.raw.chat_audio_record_delete_2;
             RLottieDrawable rLottieDrawable = new RLottieDrawable(i, "" + i, AndroidUtilities.dp(28.0f), AndroidUtilities.dp(28.0f), false, null);
             this.drawable = rLottieDrawable;
             rLottieDrawable.setCurrentParentView(this);
@@ -3483,7 +3483,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         RLottieImageView rLottieImageView = new RLottieImageView(getContext());
         this.recordDeleteImageView = rLottieImageView;
         rLottieImageView.setScaleType(ImageView.ScaleType.CENTER);
-        this.recordDeleteImageView.setAnimation(R.raw.chat_audio_record_delete_3, 28, 28);
+        this.recordDeleteImageView.setAnimation(R.raw.chat_audio_record_delete_2, 28, 28);
         this.recordDeleteImageView.getAnimatedDrawable().setInvalidateOnProgressSet(true);
         updateRecordedDeleteIconColors();
         this.recordDeleteImageView.setContentDescription(LocaleController.getString("Delete", R.string.Delete));
@@ -4099,7 +4099,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             int i = this.currentAccount;
             long j = this.dialog_id;
             botWebViewSheet.requestWebView(i, j, j, this.botMenuWebViewTitle, this.botMenuWebViewUrl, 2, 0, false);
-            botWebViewSheet.show();
+            this.parentFragment.showDialog(botWebViewSheet);
             BotCommandsMenuView botCommandsMenuView = this.botCommandsMenuButton;
             if (botCommandsMenuView != null) {
                 botCommandsMenuView.setOpened(false);
@@ -10087,7 +10087,11 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                         boolean z = tLRPC$KeyboardButton2 instanceof TLRPC$TL_keyboardButtonSimpleWebView;
                         MessageObject messageObject3 = messageObject;
                         botWebViewSheet.requestWebView(i, j3, j4, str, str2, z ? 1 : 0, messageObject3 != null ? messageObject3.messageOwner.id : 0, false);
-                        botWebViewSheet.show();
+                        if (ChatActivityEnterView.this.parentFragment != null) {
+                            ChatActivityEnterView.this.parentFragment.showDialog(botWebViewSheet);
+                        } else {
+                            botWebViewSheet.show();
+                        }
                     }
                 };
                 if (SharedPrefsHelper.isWebViewConfirmShown(this.currentAccount, j)) {

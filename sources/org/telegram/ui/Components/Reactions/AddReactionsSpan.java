@@ -65,7 +65,7 @@ public class AddReactionsSpan extends ReplacementSpan {
                 AddReactionsSpan.this.lambda$show$0(view, valueAnimator);
             }
         });
-        ofInt.setDuration(300L);
+        ofInt.setDuration(200L);
         ofInt.start();
     }
 
@@ -89,7 +89,7 @@ public class AddReactionsSpan extends ReplacementSpan {
                 runnable.run();
             }
         });
-        ofInt.setDuration(300L);
+        ofInt.setDuration(200L);
         ofInt.start();
     }
 
