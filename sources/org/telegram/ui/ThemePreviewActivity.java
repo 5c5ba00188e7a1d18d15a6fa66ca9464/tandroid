@@ -704,10 +704,10 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:102:0x0370, code lost:
-        if ("d".equals(((org.telegram.ui.WallpapersListActivity.ColorWallpaper) r1).slug) == false) goto L409;
+        if ("d".equals(((org.telegram.ui.WallpapersListActivity.ColorWallpaper) r1).slug) == false) goto L411;
      */
     /* JADX WARN: Code restructure failed: missing block: B:104:0x0376, code lost:
-        if ((r38.currentWallpaper instanceof org.telegram.tgnet.TLRPC$TL_wallPaper) != false) goto L409;
+        if ((r38.currentWallpaper instanceof org.telegram.tgnet.TLRPC$TL_wallPaper) != false) goto L411;
      */
     /* JADX WARN: Removed duplicated region for block: B:138:0x05a8  */
     /* JADX WARN: Removed duplicated region for block: B:147:0x05ce  */
@@ -717,28 +717,28 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
     /* JADX WARN: Removed duplicated region for block: B:157:0x0630  */
     /* JADX WARN: Removed duplicated region for block: B:160:0x0668 A[ADDED_TO_REGION] */
     /* JADX WARN: Removed duplicated region for block: B:164:0x0670  */
-    /* JADX WARN: Removed duplicated region for block: B:202:0x087d  */
-    /* JADX WARN: Removed duplicated region for block: B:213:0x089d  */
-    /* JADX WARN: Removed duplicated region for block: B:219:0x08b6  */
+    /* JADX WARN: Removed duplicated region for block: B:204:0x0885  */
+    /* JADX WARN: Removed duplicated region for block: B:215:0x08a5  */
+    /* JADX WARN: Removed duplicated region for block: B:221:0x08be  */
     /* JADX WARN: Removed duplicated region for block: B:22:0x005d  */
-    /* JADX WARN: Removed duplicated region for block: B:250:0x099f  */
-    /* JADX WARN: Removed duplicated region for block: B:253:0x09a3  */
+    /* JADX WARN: Removed duplicated region for block: B:252:0x09a7  */
+    /* JADX WARN: Removed duplicated region for block: B:255:0x09ab  */
     /* JADX WARN: Removed duplicated region for block: B:29:0x006f  */
-    /* JADX WARN: Removed duplicated region for block: B:302:0x0a90  */
-    /* JADX WARN: Removed duplicated region for block: B:341:0x0bc7  */
-    /* JADX WARN: Removed duplicated region for block: B:346:0x0bd3  */
+    /* JADX WARN: Removed duplicated region for block: B:304:0x0a98  */
+    /* JADX WARN: Removed duplicated region for block: B:343:0x0bcf  */
+    /* JADX WARN: Removed duplicated region for block: B:348:0x0bdb  */
     /* JADX WARN: Removed duplicated region for block: B:37:0x0112  */
     /* JADX WARN: Removed duplicated region for block: B:38:0x0114  */
-    /* JADX WARN: Removed duplicated region for block: B:410:0x0f7d  */
-    /* JADX WARN: Removed duplicated region for block: B:413:0x0f88  */
-    /* JADX WARN: Removed duplicated region for block: B:418:0x0ff0  */
-    /* JADX WARN: Removed duplicated region for block: B:419:0x0ff5  */
+    /* JADX WARN: Removed duplicated region for block: B:412:0x0f85  */
+    /* JADX WARN: Removed duplicated region for block: B:415:0x0f90  */
     /* JADX WARN: Removed duplicated region for block: B:41:0x0120  */
-    /* JADX WARN: Removed duplicated region for block: B:422:0x102b  */
-    /* JADX WARN: Removed duplicated region for block: B:425:0x115e  */
+    /* JADX WARN: Removed duplicated region for block: B:420:0x0ff8  */
+    /* JADX WARN: Removed duplicated region for block: B:421:0x0ffd  */
+    /* JADX WARN: Removed duplicated region for block: B:424:0x1033  */
+    /* JADX WARN: Removed duplicated region for block: B:427:0x1166  */
     /* JADX WARN: Removed duplicated region for block: B:42:0x0123  */
-    /* JADX WARN: Removed duplicated region for block: B:434:0x1187  */
-    /* JADX WARN: Removed duplicated region for block: B:437:0x1199  */
+    /* JADX WARN: Removed duplicated region for block: B:436:0x118f  */
+    /* JADX WARN: Removed duplicated region for block: B:439:0x11a1  */
     /* JADX WARN: Removed duplicated region for block: B:45:0x0167  */
     /* JADX WARN: Removed duplicated region for block: B:48:0x01b6  */
     /* JADX WARN: Removed duplicated region for block: B:51:0x021f  */
@@ -1045,7 +1045,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                 if (obj4 instanceof WallpapersListActivity.ColorWallpaper) {
                                 }
                             }
-                            createMenu.addItem(5, R.drawable.msg_share_filled);
+                            createMenu.addItem(5, R.drawable.msg_header_share);
                         }
                         if (this.dialogId != 0 && this.shouldShowDayNightIcon) {
                             int i15 = R.raw.sun;
@@ -1355,6 +1355,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                         i8 = this.screenType;
                         if (i8 != 1 || i8 == i4) {
                             if (i8 == i4) {
+                                final boolean insideBottomSheet = insideBottomSheet();
                                 FrameLayout frameLayout3 = new FrameLayout(context) { // from class: org.telegram.ui.ThemePreviewActivity.13
                                     private final ColorFilter colorFilter;
                                     private LinearGradient gradient;
@@ -1373,36 +1374,38 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
 
                                     @Override // android.view.ViewGroup, android.view.View
                                     protected void dispatchDraw(Canvas canvas) {
-                                        RectF rectF = AndroidUtilities.rectTmp;
-                                        rectF.set(0.0f, 0.0f, getWidth(), getHeight());
-                                        canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), 255, 31);
-                                        Theme.applyServiceShaderMatrixForView(this, ThemePreviewActivity.this.backgroundImage, ThemePreviewActivity.this.themeDelegate);
-                                        Paint paint = ThemePreviewActivity.this.themeDelegate.getPaint("paintChatActionBackground");
-                                        ColorFilter colorFilter = paint.getColorFilter();
-                                        paint.setColorFilter(this.colorFilter);
-                                        float f3 = 1.0f;
-                                        if (ThemePreviewActivity.this.backgroundImage != null && (ThemePreviewActivity.this.backgroundImage.getBackground() instanceof MotionBackgroundDrawable) && ThemePreviewActivity.this.currentIntensity < 0.0f) {
-                                            f3 = 0.33f;
+                                        if (insideBottomSheet) {
+                                            RectF rectF = AndroidUtilities.rectTmp;
+                                            rectF.set(0.0f, 0.0f, getWidth(), getHeight());
+                                            canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), 255, 31);
+                                            Theme.applyServiceShaderMatrixForView(this, ThemePreviewActivity.this.backgroundImage, ThemePreviewActivity.this.themeDelegate);
+                                            Paint paint = ThemePreviewActivity.this.themeDelegate.getPaint("paintChatActionBackground");
+                                            ColorFilter colorFilter = paint.getColorFilter();
+                                            paint.setColorFilter(this.colorFilter);
+                                            float f3 = 1.0f;
+                                            if (ThemePreviewActivity.this.backgroundImage != null && (ThemePreviewActivity.this.backgroundImage.getBackground() instanceof MotionBackgroundDrawable) && ThemePreviewActivity.this.currentIntensity < 0.0f) {
+                                                f3 = 0.33f;
+                                            }
+                                            int alpha = paint.getAlpha();
+                                            paint.setAlpha((int) (alpha * f3));
+                                            canvas.drawRect(rectF, paint);
+                                            paint.setAlpha(alpha);
+                                            paint.setColorFilter(colorFilter);
+                                            if (ThemePreviewActivity.this.shouldShowBrightnessControll && ThemePreviewActivity.this.dimAmount > 0.0f) {
+                                                canvas.drawColor(ColorUtils.setAlphaComponent(-16777216, (int) (ThemePreviewActivity.this.dimAmount * 255.0f * ThemePreviewActivity.this.progressToDarkTheme)));
+                                            }
+                                            canvas.save();
+                                            if (this.gradient == null || this.gradientHeight != getHeight()) {
+                                                int height = getHeight();
+                                                this.gradientHeight = height;
+                                                LinearGradient linearGradient = new LinearGradient(0.0f, 0.0f, 0.0f, height, new int[]{-1, 0}, new float[]{0.0f, 1.0f}, Shader.TileMode.CLAMP);
+                                                this.gradient = linearGradient;
+                                                this.gradientPaint.setShader(linearGradient);
+                                            }
+                                            canvas.drawRect(rectF, this.gradientPaint);
+                                            canvas.restore();
+                                            canvas.restore();
                                         }
-                                        int alpha = paint.getAlpha();
-                                        paint.setAlpha((int) (alpha * f3));
-                                        canvas.drawRect(rectF, paint);
-                                        paint.setAlpha(alpha);
-                                        paint.setColorFilter(colorFilter);
-                                        if (ThemePreviewActivity.this.shouldShowBrightnessControll && ThemePreviewActivity.this.dimAmount > 0.0f) {
-                                            canvas.drawColor(ColorUtils.setAlphaComponent(-16777216, (int) (ThemePreviewActivity.this.dimAmount * 255.0f * ThemePreviewActivity.this.progressToDarkTheme)));
-                                        }
-                                        canvas.save();
-                                        if (this.gradient == null || this.gradientHeight != getHeight()) {
-                                            int height = getHeight();
-                                            this.gradientHeight = height;
-                                            LinearGradient linearGradient = new LinearGradient(0.0f, 0.0f, 0.0f, height, new int[]{-1, 0}, new float[]{0.0f, 1.0f}, Shader.TileMode.CLAMP);
-                                            this.gradient = linearGradient;
-                                            this.gradientPaint.setShader(linearGradient);
-                                        }
-                                        canvas.drawRect(rectF, this.gradientPaint);
-                                        canvas.restore();
-                                        canvas.restore();
                                         super.dispatchDraw(canvas);
                                     }
 
@@ -1435,7 +1438,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                         ThemePreviewActivity.this.lambda$createView$7(view);
                                     }
                                 });
-                                if (this.dialogId != 0 && !this.self) {
+                                if (this.dialogId != 0 && !this.self && this.serverWallpaper == null) {
                                     BlurButton blurButton2 = new BlurButton(context);
                                     this.applyButton2 = blurButton2;
                                     ScaleStateListAnimator.apply(blurButton2, 0.033f, 1.2f);
@@ -5788,7 +5791,6 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
 
     /* JADX INFO: Access modifiers changed from: private */
     public void showPatternsView(final int i, final boolean z, boolean z2) {
-        float f;
         int indexOf;
         final boolean z3 = z && i == 1 && this.selectedPattern != null;
         if (z) {
@@ -5830,11 +5832,11 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             this.backgroundCheckBoxView[z3 ? (char) 2 : (char) 0].setVisibility(0);
         }
         if (i == 1 && !this.intensitySeekBar.isTwoSided()) {
-            float f2 = this.currentIntensity;
-            if (f2 < 0.0f) {
-                float f3 = -f2;
-                this.currentIntensity = f3;
-                this.intensitySeekBar.setProgress(f3);
+            float f = this.currentIntensity;
+            if (f < 0.0f) {
+                float f2 = -f;
+                this.currentIntensity = f2;
+                this.intensitySeekBar.setProgress(f2);
             }
         }
         if (z2) {
@@ -5871,7 +5873,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     RecyclerListView recyclerListView2 = this.listView2;
                     Property property4 = View.TRANSLATION_Y;
                     float[] fArr4 = new float[1];
-                    fArr4[0] = (-this.patternLayout[i].getMeasuredHeight()) + AndroidUtilities.dp(72 + ((this.dialogId == 0 || this.self) ? 0 : 58)) + (insideBottomSheet() ? AndroidUtilities.navigationBarHeight : 0);
+                    fArr4[0] = (-this.patternLayout[i].getMeasuredHeight()) + AndroidUtilities.dp((this.applyButton2 == null ? 0 : 58) + 72) + (insideBottomSheet() ? AndroidUtilities.navigationBarHeight : 0);
                     arrayList2.add(ObjectAnimator.ofFloat(recyclerListView2, property4, fArr4));
                     WallpaperCheckBoxView wallpaperCheckBoxView3 = this.backgroundCheckBoxView[2];
                     Property property5 = View.ALPHA;
@@ -5948,7 +5950,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 }
                 this.colorPicker.hideKeyboard();
             } else if (i10 == 2) {
-                this.listView2.setTranslationY((-AndroidUtilities.dp(i == 0 ? 343.0f : 316.0f)) + AndroidUtilities.dp(72 + ((this.dialogId == 0 || this.self) ? 0 : 58)) + (insideBottomSheet() ? AndroidUtilities.navigationBarHeight : 0));
+                this.listView2.setTranslationY((-AndroidUtilities.dp(i == 0 ? 343.0f : 316.0f)) + AndroidUtilities.dp((this.applyButton2 == null ? 0 : 58) + 72) + (insideBottomSheet() ? AndroidUtilities.navigationBarHeight : 0));
                 this.backgroundCheckBoxView[2].setAlpha(z3 ? 1.0f : 0.0f);
                 this.backgroundCheckBoxView[0].setAlpha(z3 ? 0.0f : 1.0f);
                 if (this.patternLayout[c].getVisibility() == 0) {
@@ -5967,18 +5969,16 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 }
                 this.colorPicker.hideKeyboard();
             }
-            f = 1.0f;
         } else {
             this.listView2.setTranslationY(0.0f);
             FrameLayout[] frameLayoutArr3 = this.patternLayout;
             frameLayoutArr3[i].setTranslationY(frameLayoutArr3[i].getMeasuredHeight());
-            f = 1.0f;
             this.backgroundCheckBoxView[0].setAlpha(1.0f);
             this.backgroundCheckBoxView[2].setAlpha(1.0f);
             this.backgroundImage.setAlpha(1.0f);
         }
         if (z && this.patternLayout[c].getVisibility() == 0) {
-            this.patternLayout[c].setAlpha(f);
+            this.patternLayout[c].setAlpha(1.0f);
             this.patternLayout[c].setVisibility(4);
         } else if (!z) {
             this.patternLayout[i].setVisibility(4);

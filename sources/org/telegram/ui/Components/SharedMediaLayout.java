@@ -5903,14 +5903,14 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:250:0x0574, code lost:
-        if (r5.getCount() > 0) goto L179;
+    /* JADX WARN: Code restructure failed: missing block: B:252:0x057e, code lost:
+        if (r5.getCount() > 0) goto L181;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:251:0x0576, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:253:0x0580, code lost:
         r3 = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:268:0x05b7, code lost:
-        if (r5.getCount() > 0) goto L179;
+    /* JADX WARN: Code restructure failed: missing block: B:270:0x05c1, code lost:
+        if (r5.getCount() > 0) goto L181;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -6118,7 +6118,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                 }
                 recycledViewPool = this.sharedMediaData[0].recycledViewPool;
             }
-            if (this.mediaPages[z ? 1 : 0].selectedType == 0 || this.mediaPages[z ? 1 : 0].selectedType == 8 || this.mediaPages[z ? 1 : 0].selectedType == 9 || this.mediaPages[z ? 1 : 0].selectedType == 2 || this.mediaPages[z ? 1 : 0].selectedType == 5 || this.mediaPages[z ? 1 : 0].selectedType == 6 || (this.mediaPages[z ? 1 : 0].selectedType == 7 && !this.delegate.canSearchMembers())) {
+            if (this.mediaPages[z ? 1 : 0].selectedType == 0 || this.mediaPages[z ? 1 : 0].selectedType == 8 || this.mediaPages[z ? 1 : 0].selectedType == 9 || this.mediaPages[z ? 1 : 0].selectedType == 2 || this.mediaPages[z ? 1 : 0].selectedType == 5 || this.mediaPages[z ? 1 : 0].selectedType == 6 || ((this.mediaPages[z ? 1 : 0].selectedType == 7 && !this.delegate.canSearchMembers()) || this.mediaPages[z ? 1 : 0].selectedType == 10)) {
                 if (z) {
                     this.searchItemState = 2;
                 } else {
@@ -7681,10 +7681,16 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             View profileSearchCell;
             if (i == 1) {
-                profileSearchCell = new MoreRecommendationsCell(SharedMediaLayout.this.profileActivity == null ? UserConfig.selectedAccount : SharedMediaLayout.this.profileActivity.getCurrentAccount(), this.mContext, SharedMediaLayout.this.resourcesProvider, new Runnable() { // from class: org.telegram.ui.Components.SharedMediaLayout$ChannelRecommendationsAdapter$$ExternalSyntheticLambda0
+                profileSearchCell = new MoreRecommendationsCell(SharedMediaLayout.this.profileActivity == null ? UserConfig.selectedAccount : SharedMediaLayout.this.profileActivity.getCurrentAccount(), this.mContext, SharedMediaLayout.this.resourcesProvider, new Runnable() { // from class: org.telegram.ui.Components.SharedMediaLayout$ChannelRecommendationsAdapter$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
                     public final void run() {
                         SharedMediaLayout.ChannelRecommendationsAdapter.this.lambda$onCreateViewHolder$0();
+                    }
+                });
+                profileSearchCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.SharedMediaLayout$ChannelRecommendationsAdapter$$ExternalSyntheticLambda0
+                    @Override // android.view.View.OnClickListener
+                    public final void onClick(View view) {
+                        SharedMediaLayout.ChannelRecommendationsAdapter.this.lambda$onCreateViewHolder$1(view);
                     }
                 });
             } else {
@@ -7699,6 +7705,17 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             if (SharedMediaLayout.this.profileActivity != null) {
                 SharedMediaLayout.this.profileActivity.presentFragment(new PremiumPreviewFragment("similar_channels"));
             }
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$onCreateViewHolder$1(View view) {
+            if (this.chats.size() <= 0) {
+                return;
+            }
+            Bundle bundle = new Bundle();
+            ArrayList<TLRPC$Chat> arrayList = this.chats;
+            bundle.putLong("chat_id", arrayList.get(arrayList.size() - 1).id);
+            SharedMediaLayout.this.profileActivity.presentFragment(new ChatActivity(bundle));
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -7729,11 +7746,17 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         private final Theme.ResourcesProvider resourcesProvider;
         private final LinkSpanDrawable.LinksTextView textView;
 
+        @Override // android.view.View
+        public void setOnClickListener(View.OnClickListener onClickListener) {
+            this.channelCell.setOnClickListener(onClickListener);
+        }
+
         public MoreRecommendationsCell(int i, Context context, Theme.ResourcesProvider resourcesProvider, final Runnable runnable) {
             super(context);
             this.resourcesProvider = resourcesProvider;
             ProfileSearchCell profileSearchCell = new ProfileSearchCell(context, resourcesProvider);
             this.channelCell = profileSearchCell;
+            profileSearchCell.setBackground(Theme.createSelectorDrawable(Theme.getColor(Theme.key_listSelector, resourcesProvider), 2));
             addView(profileSearchCell, LayoutHelper.createFrame(-1, -2.0f));
             View view = new View(context);
             this.gradientView = view;

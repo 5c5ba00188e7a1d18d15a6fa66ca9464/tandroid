@@ -21,6 +21,7 @@ import android.view.ViewConfiguration;
 import androidx.core.graphics.ColorUtils;
 import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.Emoji;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageReceiver;
@@ -117,27 +118,36 @@ public class ChannelRecommendationsCell {
         }
         this.channels.clear();
         MessagesController.ChannelRecommendations channelRecommendations = MessagesController.getInstance(this.currentAccount).getChannelRecommendations(-this.dialogId);
-        boolean z = channelRecommendations == null || channelRecommendations.chats.isEmpty();
+        ArrayList arrayList = (channelRecommendations == null || channelRecommendations.chats == null) ? new ArrayList() : new ArrayList(channelRecommendations.chats);
+        int i5 = 0;
+        while (i5 < arrayList.size()) {
+            if (!ChatObject.isNotInChat((TLRPC$Chat) arrayList.get(i5))) {
+                arrayList.remove(i5);
+                i5--;
+            }
+            i5++;
+        }
+        boolean z = arrayList.isEmpty() || (!UserConfig.getInstance(this.currentAccount).isPremium() && arrayList.size() == 1);
         this.loading = z;
         if (!z) {
-            int size = channelRecommendations.chats.size();
+            int size = arrayList.size();
             if (!UserConfig.getInstance(this.currentAccount).isPremium() && channelRecommendations.more > 0) {
                 size = Math.min(size - 1, MessagesController.getInstance(this.currentAccount).recommendedChannelsLimitDefault);
             }
             int min = Math.min(size, 10);
-            for (int i5 = 0; i5 < min; i5++) {
-                this.channels.add(new ChannelBlock(this.currentAccount, this.cell, channelRecommendations.chats.get(i5)));
+            for (int i6 = 0; i6 < min; i6++) {
+                this.channels.add(new ChannelBlock(this.currentAccount, this.cell, (TLRPC$Chat) arrayList.get(i6)));
             }
-            if (min < channelRecommendations.chats.size()) {
+            if (min < arrayList.size()) {
                 TLRPC$Chat[] tLRPC$ChatArr = new TLRPC$Chat[3];
                 TLRPC$Chat tLRPC$Chat = null;
-                tLRPC$ChatArr[0] = (min < 0 || min >= channelRecommendations.chats.size()) ? null : channelRecommendations.chats.get(min);
-                tLRPC$ChatArr[1] = (min < 0 || (i2 = min + 1) >= channelRecommendations.chats.size()) ? null : channelRecommendations.chats.get(i2);
-                if (min >= 0 && (i = min + 2) < channelRecommendations.chats.size()) {
-                    tLRPC$Chat = channelRecommendations.chats.get(i);
+                tLRPC$ChatArr[0] = (min < 0 || min >= arrayList.size()) ? null : (TLRPC$Chat) arrayList.get(min);
+                tLRPC$ChatArr[1] = (min < 0 || (i2 = min + 1) >= arrayList.size()) ? null : (TLRPC$Chat) arrayList.get(i2);
+                if (min >= 0 && (i = min + 2) < arrayList.size()) {
+                    tLRPC$Chat = (TLRPC$Chat) arrayList.get(i);
                 }
                 tLRPC$ChatArr[2] = tLRPC$Chat;
-                this.channels.add(new ChannelBlock(this.currentAccount, this.cell, tLRPC$ChatArr, (channelRecommendations.chats.size() + channelRecommendations.more) - min));
+                this.channels.add(new ChannelBlock(this.currentAccount, this.cell, tLRPC$ChatArr, (arrayList.size() + channelRecommendations.more) - min));
             }
         }
         if (isExpanded()) {
@@ -159,7 +169,7 @@ public class ChannelRecommendationsCell {
             return;
         }
         setMessageObject(messageObject);
-        this.cell.invalidate();
+        this.cell.invalidateOutbounds();
     }
 
     public void onAttachedToWindow() {
@@ -174,51 +184,6 @@ public class ChannelRecommendationsCell {
         }
     }
 
-    public void drawText(Canvas canvas) {
-        float f;
-        if (this.msg == null || this.cell == null) {
-            return;
-        }
-        float dp = this.serviceText != null ? AndroidUtilities.dp(10.66f) + this.serviceTextHeight + 0.0f : 0.0f;
-        if (this.cell.transitionParams.animateRecommendationsExpanded) {
-            if (isExpanded()) {
-                f = this.cell.transitionParams.animateChangeProgress;
-            } else {
-                f = 1.0f - this.cell.transitionParams.animateChangeProgress;
-            }
-        } else {
-            f = isExpanded() ? 1.0f : 0.0f;
-        }
-        float clamp = Utilities.clamp((f - 0.3f) / 0.7f, 1.0f, 0.0f);
-        if (clamp > 0.0f) {
-            int min = (int) Math.min(this.cell.getWidth() - AndroidUtilities.dp(18.0f), this.blockWidth * 6.5f);
-            this.backgroundBounds.set((this.cell.getWidth() - min) / 2.0f, AndroidUtilities.dp(10.0f) + dp, (this.cell.getWidth() + min) / 2.0f, dp + AndroidUtilities.dp(138.0f));
-            checkBackgroundPath(clamp);
-            canvas.save();
-            float f2 = (0.6f * clamp) + 0.4f;
-            canvas.scale(f2, f2, this.backgroundBounds.centerX(), this.backgroundBounds.top - AndroidUtilities.dp(6.0f));
-            canvas.clipPath(this.backgroundPath);
-            Text text = this.headerText;
-            if (text != null) {
-                text.draw(canvas, this.backgroundBounds.left + AndroidUtilities.dp(17.0f), this.backgroundBounds.top + AndroidUtilities.dp(20.0f), this.cell.getThemedColor(Theme.key_windowBackgroundWhiteBlackText), clamp);
-            }
-            float f3 = this.loadingAlpha.set(this.loading);
-            float dp2 = (this.backgroundBounds.left + AndroidUtilities.dp(7.0f)) - this.scrollX;
-            float dp3 = this.blockWidth + AndroidUtilities.dp(9.0f);
-            int floor = (int) Math.floor(((this.backgroundBounds.left - min) - dp2) / dp3);
-            int ceil = (int) Math.ceil((this.backgroundBounds.right - dp2) / dp3);
-            if (f3 < 1.0f) {
-                for (int max = Math.max(0, floor); max < Math.min(ceil + 1, this.channels.size()); max++) {
-                    canvas.save();
-                    canvas.translate((max * dp3) + dp2, this.backgroundBounds.bottom - ChannelBlock.height());
-                    this.channels.get(max).drawText(canvas, this.blockWidth, (1.0f - f3) * clamp);
-                    canvas.restore();
-                }
-            }
-            canvas.restore();
-        }
-    }
-
     public void draw(Canvas canvas) {
         float f;
         float f2;
@@ -226,6 +191,7 @@ public class ChannelRecommendationsCell {
         if (this.msg == null || this.cell == null) {
             return;
         }
+        computeScroll();
         if (this.serviceText != null) {
             canvas.save();
             float width = (this.cell.getWidth() - this.serviceText.getWidth()) / 2.0f;
@@ -263,7 +229,6 @@ public class ChannelRecommendationsCell {
             this.backgroundPaint.setAlpha((int) (clamp * 255.0f));
             this.backgroundPaint.setShadowLayer(AndroidUtilities.dpf2(1.0f), 0.0f, AndroidUtilities.dpf2(0.33f), ColorUtils.setAlphaComponent(-16777216, (int) (27.0f * clamp)));
             canvas.drawPath(this.backgroundPath, this.backgroundPaint);
-            canvas.save();
             canvas.clipPath(this.backgroundPath);
             Text text = this.headerText;
             if (text != null) {
@@ -276,9 +241,12 @@ public class ChannelRecommendationsCell {
             int ceil = (int) Math.ceil((this.backgroundBounds.right - dp2) / dp3);
             if (f4 < 1.0f) {
                 for (int max = Math.max(0, floor); max < Math.min(ceil + 1, this.channels.size()); max++) {
+                    ChannelBlock channelBlock = this.channels.get(max);
                     canvas.save();
                     canvas.translate((max * dp3) + dp2, this.backgroundBounds.bottom - ChannelBlock.height());
-                    this.channels.get(max).draw(canvas, this.blockWidth, (1.0f - f4) * clamp);
+                    float f5 = (1.0f - f4) * clamp;
+                    channelBlock.draw(canvas, this.blockWidth, f5);
+                    channelBlock.drawText(canvas, this.blockWidth, f5);
                     canvas.restore();
                 }
             }
@@ -301,7 +269,6 @@ public class ChannelRecommendationsCell {
                 canvas.translate(0.0f, this.backgroundBounds.bottom - ChannelBlock.height());
                 this.loadingDrawable.draw(canvas);
                 canvas.restore();
-                this.cell.invalidate();
             }
             float scale = this.closeBounce.getScale(0.02f);
             float dp4 = this.backgroundBounds.right - AndroidUtilities.dp(20.0f);
@@ -390,7 +357,6 @@ public class ChannelRecommendationsCell {
             this.bounce = new ButtonBounce(this, chatMessageCell) { // from class: org.telegram.ui.Cells.ChannelRecommendationsCell.ChannelBlock.1
                 @Override // org.telegram.ui.Components.ButtonBounce
                 public void invalidate() {
-                    super.invalidate();
                     chatMessageCell.invalidateOutbounds();
                 }
             };
@@ -472,7 +438,6 @@ public class ChannelRecommendationsCell {
             this.bounce = new ButtonBounce(this, chatMessageCell) { // from class: org.telegram.ui.Cells.ChannelRecommendationsCell.ChannelBlock.3
                 @Override // org.telegram.ui.Components.ButtonBounce
                 public void invalidate() {
-                    super.invalidate();
                     chatMessageCell.invalidateOutbounds();
                 }
             };
@@ -505,6 +470,7 @@ public class ChannelRecommendationsCell {
         }
 
         public void drawText(Canvas canvas, int i, float f) {
+            TextPaint textPaint;
             canvas.save();
             float scale = this.bounce.getScale(0.075f);
             float f2 = i;
@@ -518,6 +484,7 @@ public class ChannelRecommendationsCell {
                 } else {
                     this.nameTextPaint.setColor(this.cell.getThemedColor(Theme.key_windowBackgroundWhiteGrayText));
                 }
+                this.nameTextPaint.setAlpha((int) (textPaint.getAlpha() * f));
                 this.nameText.draw(canvas);
                 canvas.restore();
             }
@@ -863,14 +830,12 @@ public class ChannelRecommendationsCell {
             float currX = this.scroller.getCurrX();
             this.scrollX = currX;
             this.scrollX = Utilities.clamp(currX, this.channelsScrollWidth - (this.backgroundBounds.width() - AndroidUtilities.dp(14.0f)), 0.0f);
-            this.cell.invalidate();
             this.cell.invalidateOutbounds();
         }
     }
 
     private void scroll(float f) {
         this.scrollX = Utilities.clamp(this.scrollX + f, this.channelsScrollWidth - (this.backgroundBounds.width() - AndroidUtilities.dp(14.0f)), 0.0f);
-        this.cell.invalidate();
         this.cell.invalidateOutbounds();
     }
 }

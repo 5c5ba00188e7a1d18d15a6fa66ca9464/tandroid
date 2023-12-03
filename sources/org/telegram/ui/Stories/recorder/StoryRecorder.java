@@ -892,9 +892,16 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         if (runnable != null) {
             runnable.run();
             this.whenOpenDone = null;
+        } else {
+            onResumeInternal();
+        }
+        StoryEntry storyEntry = this.outputEntry;
+        if (storyEntry == null || !storyEntry.isRepost) {
             return;
         }
-        onResumeInternal();
+        createPhotoPaintView();
+        hidePhotoPaintView();
+        createFilterPhotoView();
     }
 
     public void onCloseDone() {
@@ -4728,9 +4735,12 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             this.videoTimeView.setVisibility(8);
         }
         if (i2 == 1) {
-            createPhotoPaintView();
-            hidePhotoPaintView();
-            createFilterPhotoView();
+            StoryEntry storyEntry = this.outputEntry;
+            if (storyEntry == null || !storyEntry.isRepost) {
+                createPhotoPaintView();
+                hidePhotoPaintView();
+                createFilterPhotoView();
+            }
             PhotoFilterView.EnhanceView enhanceView = this.photoFilterEnhanceView;
             if (enhanceView != null) {
                 enhanceView.setAllowTouch(false);
@@ -4741,8 +4751,8 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             this.previewView.updatePauseReason(5, false);
             this.previewView.updatePauseReason(7, false);
             VideoTimeView videoTimeView = this.videoTimeView;
-            StoryEntry storyEntry = this.outputEntry;
-            if (storyEntry != null && storyEntry.duration >= 30000) {
+            StoryEntry storyEntry2 = this.outputEntry;
+            if (storyEntry2 != null && storyEntry2.duration >= 30000) {
                 i4 = 0;
             }
             videoTimeView.setVisibility(i4);

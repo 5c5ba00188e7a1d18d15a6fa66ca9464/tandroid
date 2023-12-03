@@ -1537,7 +1537,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
 
     public void showAvatarConstructorFragment(AvatarConstructorPreviewCell avatarConstructorPreviewCell, TLRPC$VideoSize tLRPC$VideoSize) {
         ChatAttachAlert chatAttachAlert = this.parentAlert;
-        AvatarConstructorFragment avatarConstructorFragment = new AvatarConstructorFragment(chatAttachAlert.parentImageUpdater, chatAttachAlert.getAvatarFor());
+        final AvatarConstructorFragment avatarConstructorFragment = new AvatarConstructorFragment(chatAttachAlert.parentImageUpdater, chatAttachAlert.getAvatarFor());
         avatarConstructorFragment.finishOnDone = this.parentAlert.getAvatarFor() == null || this.parentAlert.getAvatarFor().type != 2;
         this.parentAlert.baseFragment.presentFragment(avatarConstructorFragment);
         if (avatarConstructorPreviewCell != null) {
@@ -1549,13 +1549,13 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         avatarConstructorFragment.setDelegate(new AvatarConstructorFragment.Delegate() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout$$ExternalSyntheticLambda21
             @Override // org.telegram.ui.Components.AvatarConstructorFragment.Delegate
             public final void onDone(AvatarConstructorFragment.BackgroundGradient backgroundGradient, long j, TLRPC$Document tLRPC$Document, AvatarConstructorFragment.PreviewView previewView) {
-                ChatAttachAlertPhotoLayout.this.lambda$showAvatarConstructorFragment$10(backgroundGradient, j, tLRPC$Document, previewView);
+                ChatAttachAlertPhotoLayout.this.lambda$showAvatarConstructorFragment$10(avatarConstructorFragment, backgroundGradient, j, tLRPC$Document, previewView);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showAvatarConstructorFragment$10(AvatarConstructorFragment.BackgroundGradient backgroundGradient, long j, TLRPC$Document tLRPC$Document, AvatarConstructorFragment.PreviewView previewView) {
+    public /* synthetic */ void lambda$showAvatarConstructorFragment$10(AvatarConstructorFragment avatarConstructorFragment, AvatarConstructorFragment.BackgroundGradient backgroundGradient, long j, TLRPC$Document tLRPC$Document, AvatarConstructorFragment.PreviewView previewView) {
         MediaController.PhotoEntry photoEntry;
         selectedPhotos.clear();
         Bitmap createBitmap = Bitmap.createBitmap(800, 800, Bitmap.Config.ARGB_8888);
@@ -1710,6 +1710,14 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         selectedPhotos.put(-1, photoEntry);
         selectedPhotosOrder.add(-1);
         this.parentAlert.delegate.didPressedButton(7, true, false, 0, false);
+        if (avatarConstructorFragment.finishOnDone) {
+            return;
+        }
+        BaseFragment baseFragment = this.parentAlert.baseFragment;
+        if (baseFragment != null) {
+            baseFragment.removeSelfFromStack();
+        }
+        avatarConstructorFragment.finishFragment();
     }
 
     /* JADX INFO: Access modifiers changed from: private */

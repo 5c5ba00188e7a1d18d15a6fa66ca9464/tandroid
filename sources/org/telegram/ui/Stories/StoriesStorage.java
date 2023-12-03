@@ -30,6 +30,7 @@ import org.telegram.tgnet.TLRPC$ChatFull;
 import org.telegram.tgnet.TLRPC$Message;
 import org.telegram.tgnet.TLRPC$MessageMedia;
 import org.telegram.tgnet.TLRPC$MessageReplyHeader;
+import org.telegram.tgnet.TLRPC$Peer;
 import org.telegram.tgnet.TLRPC$TL_error;
 import org.telegram.tgnet.TLRPC$TL_messageReplyStoryHeader;
 import org.telegram.tgnet.TLRPC$TL_webPageAttributeStory;
@@ -38,6 +39,7 @@ import org.telegram.tgnet.TLRPC$UserFull;
 import org.telegram.tgnet.TLRPC$WebPage;
 import org.telegram.tgnet.TLRPC$WebPageAttribute;
 import org.telegram.tgnet.tl.TL_stories$PeerStories;
+import org.telegram.tgnet.tl.TL_stories$StoryFwdHeader;
 import org.telegram.tgnet.tl.TL_stories$StoryItem;
 import org.telegram.tgnet.tl.TL_stories$TL_peerStories;
 import org.telegram.tgnet.tl.TL_stories$TL_stories_allStories;
@@ -67,8 +69,11 @@ public class StoriesStorage {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:41:0x00e4  */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x00ed  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x00f2  */
+    /* JADX WARN: Removed duplicated region for block: B:48:0x00fb  */
+    /* JADX WARN: Type inference failed for: r7v2, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r7v4 */
+    /* JADX WARN: Type inference failed for: r7v7 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -76,11 +81,13 @@ public class StoriesStorage {
         SQLiteCursor sQLiteCursor;
         boolean z;
         SQLiteDatabase sQLiteDatabase;
+        TLRPC$Peer tLRPC$Peer;
         SQLiteDatabase database = this.storage.getDatabase();
         ArrayList<TL_stories$PeerStories> arrayList = new ArrayList<>();
         ArrayList<Long> arrayList2 = new ArrayList<>();
         ArrayList<Long> arrayList3 = new ArrayList<>();
-        int i = 0;
+        int i = 1;
+        int i2 = 0;
         try {
             SQLiteCursor queryFinalized = database.queryFinalized("SELECT dialog_id, max_read FROM stories_counter", new Object[0]);
             try {
@@ -95,23 +102,28 @@ public class StoriesStorage {
                     }
                 }
                 queryFinalized.dispose();
-                int i2 = 0;
-                while (i2 < longSparseIntArray.size()) {
-                    long keyAt = longSparseIntArray.keyAt(i2);
-                    int valueAt = longSparseIntArray.valueAt(i2);
+                int i3 = 0;
+                while (i3 < longSparseIntArray.size()) {
+                    long keyAt = longSparseIntArray.keyAt(i3);
+                    int valueAt = longSparseIntArray.valueAt(i3);
                     Locale locale = Locale.US;
-                    Object[] objArr = new Object[1];
-                    objArr[i] = Long.valueOf(keyAt);
-                    sQLiteCursor = database.queryFinalized(String.format(locale, "SELECT data, custom_params FROM stories WHERE dialog_id = %d", objArr), new Object[i]);
+                    Object[] objArr = new Object[i];
+                    objArr[i2] = Long.valueOf(keyAt);
+                    sQLiteCursor = database.queryFinalized(String.format(locale, "SELECT data, custom_params FROM stories WHERE dialog_id = %d", objArr), new Object[i2]);
                     try {
                         ArrayList<TL_stories$StoryItem> arrayList4 = new ArrayList<>();
+                        ?? r7 = i;
                         while (sQLiteCursor.next()) {
-                            NativeByteBuffer byteBufferValue = sQLiteCursor.byteBufferValue(i);
-                            NativeByteBuffer byteBufferValue2 = sQLiteCursor.byteBufferValue(1);
+                            NativeByteBuffer byteBufferValue = sQLiteCursor.byteBufferValue(i2);
+                            NativeByteBuffer byteBufferValue2 = sQLiteCursor.byteBufferValue(r7);
                             if (byteBufferValue != null) {
                                 sQLiteDatabase = database;
-                                TL_stories$StoryItem TLdeserialize = TL_stories$StoryItem.TLdeserialize(byteBufferValue, byteBufferValue.readInt32(true), true);
+                                TL_stories$StoryItem TLdeserialize = TL_stories$StoryItem.TLdeserialize(byteBufferValue, byteBufferValue.readInt32(r7), r7);
                                 TLdeserialize.dialogId = keyAt;
+                                TL_stories$StoryFwdHeader tL_stories$StoryFwdHeader = TLdeserialize.fwd_from;
+                                if (tL_stories$StoryFwdHeader != null && (tLRPC$Peer = tL_stories$StoryFwdHeader.from) != null) {
+                                    MessagesStorage.addLoadPeerInfo(tLRPC$Peer, arrayList2, arrayList3);
+                                }
                                 StoryCustomParamsHelper.readLocalParams(TLdeserialize, byteBufferValue2);
                                 arrayList4.add(TLdeserialize);
                                 byteBufferValue.reuse();
@@ -122,7 +134,8 @@ public class StoriesStorage {
                                 byteBufferValue2.reuse();
                             }
                             database = sQLiteDatabase;
-                            i = 0;
+                            r7 = 1;
+                            i2 = 0;
                         }
                         SQLiteDatabase sQLiteDatabase2 = database;
                         sQLiteCursor.dispose();
@@ -131,9 +144,10 @@ public class StoriesStorage {
                         tL_stories$TL_peerStories.max_read_id = valueAt;
                         tL_stories$TL_peerStories.peer = MessagesController.getInstance(this.currentAccount).getPeer(keyAt);
                         arrayList.add(tL_stories$TL_peerStories);
-                        i2++;
+                        i3++;
                         database = sQLiteDatabase2;
-                        i = 0;
+                        i = 1;
+                        i2 = 0;
                     } catch (Throwable th) {
                         th = th;
                         try {
@@ -174,16 +188,16 @@ public class StoriesStorage {
         tL_stories$TL_stories_allStories.peer_stories = arrayList;
         tL_stories$TL_stories_allStories.users = this.storage.getUsers(arrayList2);
         tL_stories$TL_stories_allStories.chats = this.storage.getChats(arrayList3);
-        int i3 = 0;
-        while (i3 < tL_stories$TL_stories_allStories.peer_stories.size()) {
-            TL_stories$PeerStories tL_stories$PeerStories = tL_stories$TL_stories_allStories.peer_stories.get(i3);
+        int i4 = 0;
+        while (i4 < tL_stories$TL_stories_allStories.peer_stories.size()) {
+            TL_stories$PeerStories tL_stories$PeerStories = tL_stories$TL_stories_allStories.peer_stories.get(i4);
             checkExpiredStories(DialogObject.getPeerDialogId(tL_stories$PeerStories.peer), tL_stories$PeerStories.stories);
             if (tL_stories$PeerStories.stories.isEmpty()) {
-                tL_stories$TL_stories_allStories.peer_stories.remove(i3);
-                i3--;
+                tL_stories$TL_stories_allStories.peer_stories.remove(i4);
+                i4--;
             }
             Collections.sort(tL_stories$PeerStories.stories, StoriesController.storiesComparator);
-            i3++;
+            i4++;
         }
         Collections.sort(tL_stories$TL_stories_allStories.peer_stories, Comparator$-CC.comparingInt(StoriesStorage$$ExternalSyntheticLambda15.INSTANCE));
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoriesStorage$$ExternalSyntheticLambda2

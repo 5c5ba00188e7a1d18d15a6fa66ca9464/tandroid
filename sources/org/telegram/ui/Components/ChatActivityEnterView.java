@@ -4983,6 +4983,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                         }
                     } else if (this.clickMaybe) {
                         if (ChatActivityEnterView.this.delegate != null) {
+                            fixHandlesColor();
                             ChatActivityEnterView.this.delegate.onKeyboardRequested();
                         }
                         EditTextCaption editTextCaption = ChatActivityEnterView.this.messageEditText;
@@ -4994,9 +4995,14 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                     return this.clickMaybe;
                 }
                 if (motionEvent.getAction() == 0 && ChatActivityEnterView.this.delegate != null) {
+                    fixHandlesColor();
                     ChatActivityEnterView.this.delegate.onKeyboardRequested();
                 }
                 return super.onTouchEvent(motionEvent);
+            }
+
+            private void fixHandlesColor() {
+                setHandlesColor(ChatActivityEnterView.this.getThemedColor(Theme.key_chat_TextSelectionCursor));
             }
 
             @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEditTextCaption, org.telegram.ui.Components.EditTextEffects

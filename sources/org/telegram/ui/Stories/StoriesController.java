@@ -69,6 +69,7 @@ import org.telegram.tgnet.TLRPC$InputPeer;
 import org.telegram.tgnet.TLRPC$Message;
 import org.telegram.tgnet.TLRPC$MessageEntity;
 import org.telegram.tgnet.TLRPC$MessageMedia;
+import org.telegram.tgnet.TLRPC$Peer;
 import org.telegram.tgnet.TLRPC$Photo;
 import org.telegram.tgnet.TLRPC$PhotoSize;
 import org.telegram.tgnet.TLRPC$PrivacyRule;
@@ -110,6 +111,7 @@ import org.telegram.tgnet.TLRPC$UserFull;
 import org.telegram.tgnet.TLRPC$messages_Chats;
 import org.telegram.tgnet.tl.TL_stories$MediaArea;
 import org.telegram.tgnet.tl.TL_stories$PeerStories;
+import org.telegram.tgnet.tl.TL_stories$StoryFwdHeader;
 import org.telegram.tgnet.tl.TL_stories$StoryItem;
 import org.telegram.tgnet.tl.TL_stories$StoryViews;
 import org.telegram.tgnet.tl.TL_stories$TL_peerStories;
@@ -1736,6 +1738,8 @@ public class StoriesController {
             TL_stories$StoryItem tL_stories$StoryItem;
             if (tLObject != null) {
                 TL_stories$TL_stories_stories tL_stories$TL_stories_stories = (TL_stories$TL_stories_stories) tLObject;
+                MessagesController.getInstance(StoriesController.this.currentAccount).putUsers(tL_stories$TL_stories_stories.users, false);
+                MessagesController.getInstance(StoriesController.this.currentAccount).putChats(tL_stories$TL_stories_stories.chats, false);
                 if (tL_stories$TL_stories_stories.stories.size() > 0) {
                     tL_stories$StoryItem = tL_stories$TL_stories_stories.stories.get(0);
                     StoriesController.this.resolvedStories.put(j, tL_stories$StoryItem);
@@ -2897,10 +2901,19 @@ public class StoriesController {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
+        /* JADX WARN: Code restructure failed: missing block: B:36:0x00e2, code lost:
+            if (r7 == null) goto L48;
+         */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+        */
         public /* synthetic */ void lambda$preloadCache$3(MessagesStorage messagesStorage) {
+            TLRPC$Peer tLRPC$Peer;
             HashSet hashSet = new HashSet();
+            HashSet hashSet2 = new HashSet();
             final ArrayList arrayList = new ArrayList();
             final ArrayList<TLRPC$User> arrayList2 = new ArrayList<>();
+            final ArrayList<TLRPC$Chat> arrayList3 = new ArrayList<>();
             SQLiteCursor sQLiteCursor = null;
             try {
                 sQLiteCursor = messagesStorage.getDatabase().queryFinalized(String.format(Locale.US, "SELECT data FROM profile_stories WHERE dialog_id = %d AND type = %d ORDER BY story_id DESC", Long.valueOf(this.dialogId), Integer.valueOf(this.type)), new Object[0]);
@@ -2920,6 +2933,15 @@ public class StoriesController {
                                 hashSet.addAll(((TLRPC$TL_privacyValueAllowUsers) next).users);
                             }
                         }
+                        TL_stories$StoryFwdHeader tL_stories$StoryFwdHeader = TLdeserialize.fwd_from;
+                        if (tL_stories$StoryFwdHeader != null && (tLRPC$Peer = tL_stories$StoryFwdHeader.from) != null) {
+                            long peerDialogId = DialogObject.getPeerDialogId(tLRPC$Peer);
+                            if (peerDialogId >= 0) {
+                                hashSet.add(Long.valueOf(peerDialogId));
+                            } else {
+                                hashSet2.add(Long.valueOf(-peerDialogId));
+                            }
+                        }
                         messageObject.generateThumbs(false);
                         arrayList.add(messageObject);
                         byteBufferValue.reuse();
@@ -2929,28 +2951,34 @@ public class StoriesController {
                 if (!hashSet.isEmpty()) {
                     messagesStorage.getUsersInternal(TextUtils.join(",", hashSet), arrayList2);
                 }
+                if (!hashSet2.isEmpty()) {
+                    messagesStorage.getChatsInternal(TextUtils.join(",", hashSet2), arrayList3);
+                }
             } catch (Throwable th) {
                 try {
                     messagesStorage.checkSQLException(th);
-                } finally {
+                } catch (Throwable th2) {
                     if (sQLiteCursor != null) {
                         sQLiteCursor.dispose();
                     }
+                    throw th2;
                 }
             }
+            sQLiteCursor.dispose();
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoriesController$StoriesList$$ExternalSyntheticLambda4
                 @Override // java.lang.Runnable
                 public final void run() {
-                    StoriesController.StoriesList.this.lambda$preloadCache$2(arrayList, arrayList2);
+                    StoriesController.StoriesList.this.lambda$preloadCache$2(arrayList, arrayList2, arrayList3);
                 }
             });
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$preloadCache$2(ArrayList arrayList, ArrayList arrayList2) {
+        public /* synthetic */ void lambda$preloadCache$2(ArrayList arrayList, ArrayList arrayList2, ArrayList arrayList3) {
             FileLog.d("StoriesList " + this.type + "{" + this.dialogId + "} preloadCache {" + StoriesController.storyItemMessageIds(arrayList) + "}");
             this.preloading = false;
             MessagesController.getInstance(this.currentAccount).putUsers(arrayList2, true);
+            MessagesController.getInstance(this.currentAccount).putChats(arrayList3, true);
             if (this.invalidateAfterPreload) {
                 this.invalidateAfterPreload = false;
                 this.toLoad = null;

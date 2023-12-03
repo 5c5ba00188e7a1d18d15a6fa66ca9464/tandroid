@@ -3,6 +3,7 @@ package org.telegram.ui;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
@@ -65,11 +66,14 @@ import org.telegram.tgnet.TLRPC$TL_stats_publicForwards;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.tgnet.TLRPC$messages_Messages;
 import org.telegram.tgnet.tl.TL_stories$StoryItem;
+import org.telegram.tgnet.tl.TL_stories$StoryViews;
 import org.telegram.tgnet.tl.TL_stories$TL_publicForwardStory;
 import org.telegram.tgnet.tl.TL_stories$TL_stats_getStoryStats;
 import org.telegram.tgnet.tl.TL_stories$TL_stats_storyStats;
+import org.telegram.tgnet.tl.TL_stories$TL_storyItemDeleted;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.ActionBarMenu;
+import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BackDrawable;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
@@ -83,6 +87,7 @@ import org.telegram.ui.Charts.BaseChartView;
 import org.telegram.ui.Charts.data.ChartData;
 import org.telegram.ui.Charts.data.StackLinearChartData;
 import org.telegram.ui.Charts.view_data.ChartHeaderView;
+import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.ChatAvatarContainer;
 import org.telegram.ui.Components.CombinedDrawable;
 import org.telegram.ui.Components.EmptyTextProgressView;
@@ -295,6 +300,15 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
+    public boolean checkIsDeletedStory(MessageObject messageObject) {
+        if (messageObject != null && messageObject.isStory() && (messageObject.storyItem instanceof TL_stories$TL_storyItemDeleted)) {
+            BulletinFactory.of(this).createSimpleBulletin(R.raw.story_bomb1, LocaleController.getString("StoryNotFound", R.string.StoryNotFound)).show();
+            return true;
+        }
+        return false;
+    }
+
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public View createView(Context context) {
         CharSequence charSequence;
@@ -346,10 +360,18 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
         this.listViewAdapter = listAdapter;
         recyclerListView2.setAdapter(listAdapter);
         this.listView.setVerticalScrollbarPosition(LocaleController.isRTL ? 1 : 2);
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.MessageStatisticActivity$$ExternalSyntheticLambda11
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.MessageStatisticActivity$$ExternalSyntheticLambda12
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i3) {
                 MessageStatisticActivity.this.lambda$createView$0(view, i3);
+            }
+        });
+        this.listView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.MessageStatisticActivity$$ExternalSyntheticLambda13
+            @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListener
+            public final boolean onItemClick(View view, int i3) {
+                boolean lambda$createView$2;
+                lambda$createView$2 = MessageStatisticActivity.this.lambda$createView$2(view, i3);
+                return lambda$createView$2;
             }
         });
         this.listView.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.MessageStatisticActivity.3
@@ -482,10 +504,10 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
         this.actionBar.setItemsColor(Theme.getColor(i, getResourceProvider()), false);
         this.actionBar.setItemsBackgroundColor(Theme.getColor(Theme.key_actionBarActionModeDefaultSelector, getResourceProvider()), false);
         this.actionBar.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite, getResourceProvider()));
-        this.avatarContainer.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.MessageStatisticActivity$$ExternalSyntheticLambda0
+        this.avatarContainer.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.MessageStatisticActivity$$ExternalSyntheticLambda1
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
-                MessageStatisticActivity.this.lambda$createView$1(view);
+                MessageStatisticActivity.this.lambda$createView$3(view);
             }
         });
         updateMenu();
@@ -500,6 +522,10 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
         }
         MessageObject messageObject = this.messages.get(i - i2);
         if (messageObject.isStory()) {
+            if (checkIsDeletedStory(messageObject)) {
+                return;
+            }
+            getOrCreateStoryViewer().open(getContext(), messageObject.storyItem, StoriesListPlaceProvider.of(this.listView));
             return;
         }
         long dialogId = MessageObject.getDialogId(messageObject.messageOwner);
@@ -517,7 +543,68 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$1(View view) {
+    public /* synthetic */ boolean lambda$createView$2(View view, int i) {
+        int i2;
+        String str;
+        if (i >= this.startRow && i < this.endRow) {
+            try {
+                view.performHapticFeedback(0, 2);
+            } catch (Exception unused) {
+            }
+            final MessageObject messageObject = this.messages.get(i - this.startRow);
+            final long dialogId = MessageObject.getDialogId(messageObject.messageOwner);
+            final boolean isUserDialog = DialogObject.isUserDialog(dialogId);
+            ArrayList arrayList = new ArrayList();
+            ArrayList arrayList2 = new ArrayList();
+            ArrayList arrayList3 = new ArrayList();
+            AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity(), getResourceProvider());
+            if (messageObject.isStory()) {
+                if (isUserDialog) {
+                    i2 = R.string.OpenProfile;
+                    str = "OpenProfile";
+                } else {
+                    i2 = R.string.OpenChannel2;
+                    str = "OpenChannel2";
+                }
+                arrayList.add(LocaleController.getString(str, i2));
+                arrayList3.add(Integer.valueOf(isUserDialog ? R.drawable.msg_openprofile : R.drawable.msg_channel));
+            } else {
+                arrayList.add(LocaleController.getString("ViewMessage", R.string.ViewMessage));
+                arrayList3.add(Integer.valueOf(R.drawable.msg_msgbubble3));
+            }
+            arrayList2.add(0);
+            builder.setItems((CharSequence[]) arrayList.toArray(new CharSequence[arrayList2.size()]), AndroidUtilities.toIntArray(arrayList3), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.MessageStatisticActivity$$ExternalSyntheticLambda0
+                @Override // android.content.DialogInterface.OnClickListener
+                public final void onClick(DialogInterface dialogInterface, int i3) {
+                    MessageStatisticActivity.this.lambda$createView$1(messageObject, isUserDialog, dialogId, dialogInterface, i3);
+                }
+            });
+            showDialog(builder.create());
+        }
+        return false;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$createView$1(MessageObject messageObject, boolean z, long j, DialogInterface dialogInterface, int i) {
+        if (messageObject.isStory()) {
+            presentFragment(z ? ProfileActivity.of(j) : ChatActivity.of(j));
+            return;
+        }
+        Bundle bundle = new Bundle();
+        if (z) {
+            bundle.putLong("user_id", j);
+        } else {
+            bundle.putLong("chat_id", -j);
+        }
+        bundle.putInt("message_id", messageObject.getId());
+        bundle.putBoolean("need_remove_previous_same_chat_activity", false);
+        if (getMessagesController().checkCanOpenChat(bundle, this)) {
+            presentFragment(new ChatActivity(bundle));
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$createView$3(View view) {
         if (this.messageObject.isStory()) {
             return;
         }
@@ -589,10 +676,10 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
                 str = "";
             }
             tLRPC$TL_stats_getStoryPublicForwards.offset = str;
-            getConnectionsManager().bindRequestToGuid(getConnectionsManager().sendRequest(tLRPC$TL_stats_getStoryPublicForwards, new RequestDelegate() { // from class: org.telegram.ui.MessageStatisticActivity$$ExternalSyntheticLambda6
+            getConnectionsManager().bindRequestToGuid(getConnectionsManager().sendRequest(tLRPC$TL_stats_getStoryPublicForwards, new RequestDelegate() { // from class: org.telegram.ui.MessageStatisticActivity$$ExternalSyntheticLambda9
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    MessageStatisticActivity.this.lambda$loadChats$3(tLObject, tLRPC$TL_error);
+                    MessageStatisticActivity.this.lambda$loadChats$5(tLObject, tLRPC$TL_error);
                 }
             }, null, null, 0, this.chat.stats_dc, 1, true), this.classGuid);
             return;
@@ -620,23 +707,23 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
         getConnectionsManager().bindRequestToGuid(getConnectionsManager().sendRequest(tLRPC$TL_stats_getMessagePublicForwards, new RequestDelegate() { // from class: org.telegram.ui.MessageStatisticActivity$$ExternalSyntheticLambda7
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                MessageStatisticActivity.this.lambda$loadChats$5(tLObject, tLRPC$TL_error);
+                MessageStatisticActivity.this.lambda$loadChats$7(tLObject, tLRPC$TL_error);
             }
         }, null, null, 0, this.chat.stats_dc, 1, true), this.classGuid);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadChats$3(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.MessageStatisticActivity$$ExternalSyntheticLambda4
+    public /* synthetic */ void lambda$loadChats$5(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.MessageStatisticActivity$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
-                MessageStatisticActivity.this.lambda$loadChats$2(tLRPC$TL_error, tLObject);
+                MessageStatisticActivity.this.lambda$loadChats$4(tLRPC$TL_error, tLObject);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadChats$2(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
+    public /* synthetic */ void lambda$loadChats$4(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
         if (tLRPC$TL_error == null) {
             TLRPC$TL_stats_publicForwards tLRPC$TL_stats_publicForwards = (TLRPC$TL_stats_publicForwards) tLObject;
             if ((tLRPC$TL_stats_publicForwards.flags & 1) != 0) {
@@ -679,17 +766,17 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadChats$5(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$loadChats$7(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.MessageStatisticActivity$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
-                MessageStatisticActivity.this.lambda$loadChats$4(tLRPC$TL_error, tLObject);
+                MessageStatisticActivity.this.lambda$loadChats$6(tLRPC$TL_error, tLObject);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadChats$4(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
+    public /* synthetic */ void lambda$loadChats$6(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
         if (tLRPC$TL_error == null) {
             TLRPC$messages_Messages tLRPC$messages_Messages = (TLRPC$messages_Messages) tLObject;
             if ((tLRPC$messages_Messages.flags & 1) != 0) {
@@ -742,23 +829,23 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
         getConnectionsManager().sendRequest(tLRPC$TL_stats_getMessageStats, new RequestDelegate() { // from class: org.telegram.ui.MessageStatisticActivity$$ExternalSyntheticLambda8
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                MessageStatisticActivity.this.lambda$loadStat$10(tLObject, tLRPC$TL_error);
+                MessageStatisticActivity.this.lambda$loadStat$12(tLObject, tLRPC$TL_error);
             }
         }, null, null, 0, this.chat.stats_dc, 1, true);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadStat$10(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.MessageStatisticActivity$$ExternalSyntheticLambda2
+    public /* synthetic */ void lambda$loadStat$12(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.MessageStatisticActivity$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
-                MessageStatisticActivity.this.lambda$loadStat$9(tLRPC$TL_error, tLObject);
+                MessageStatisticActivity.this.lambda$loadStat$11(tLRPC$TL_error, tLObject);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadStat$9(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
+    public /* synthetic */ void lambda$loadStat$11(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
         TLRPC$StatsGraph tLRPC$StatsGraph;
         TLRPC$StatsGraph tLRPC$StatsGraph2;
         this.statsLoaded = true;
@@ -787,10 +874,10 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
             tLRPC$TL_stats_loadAsyncGraph.x = jArr[jArr.length - 1];
             tLRPC$TL_stats_loadAsyncGraph.flags |= 1;
             final String str = this.interactionsViewData.zoomToken + "_" + tLRPC$TL_stats_loadAsyncGraph.x;
-            ConnectionsManager.getInstance(this.currentAccount).bindRequestToGuid(ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_stats_loadAsyncGraph, new RequestDelegate() { // from class: org.telegram.ui.MessageStatisticActivity$$ExternalSyntheticLambda9
+            ConnectionsManager.getInstance(this.currentAccount).bindRequestToGuid(ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_stats_loadAsyncGraph, new RequestDelegate() { // from class: org.telegram.ui.MessageStatisticActivity$$ExternalSyntheticLambda10
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject2, TLRPC$TL_error tLRPC$TL_error2) {
-                    MessageStatisticActivity.this.lambda$loadStat$8(str, tLRPC$TL_stats_loadAsyncGraph, tLObject2, tLRPC$TL_error2);
+                    MessageStatisticActivity.this.lambda$loadStat$10(str, tLRPC$TL_stats_loadAsyncGraph, tLObject2, tLRPC$TL_error2);
                 }
             }, null, null, 0, this.chat.stats_dc, 1, true), this.classGuid);
             return;
@@ -799,7 +886,7 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadStat$8(final String str, final TLRPC$TL_stats_loadAsyncGraph tLRPC$TL_stats_loadAsyncGraph, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$loadStat$10(final String str, final TLRPC$TL_stats_loadAsyncGraph tLRPC$TL_stats_loadAsyncGraph, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         ChartData chartData = null;
         if (tLObject instanceof TLRPC$TL_statsGraph) {
             try {
@@ -808,31 +895,31 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
                 e.printStackTrace();
             }
         } else if (tLObject instanceof TLRPC$TL_statsGraphError) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.MessageStatisticActivity$$ExternalSyntheticLambda1
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.MessageStatisticActivity$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
-                    MessageStatisticActivity.this.lambda$loadStat$6(tLObject);
+                    MessageStatisticActivity.this.lambda$loadStat$8(tLObject);
                 }
             });
         }
         final ChartData chartData2 = chartData;
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.MessageStatisticActivity$$ExternalSyntheticLambda5
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.MessageStatisticActivity$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
-                MessageStatisticActivity.this.lambda$loadStat$7(tLRPC$TL_error, chartData2, str, tLRPC$TL_stats_loadAsyncGraph);
+                MessageStatisticActivity.this.lambda$loadStat$9(tLRPC$TL_error, chartData2, str, tLRPC$TL_stats_loadAsyncGraph);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadStat$6(TLObject tLObject) {
+    public /* synthetic */ void lambda$loadStat$8(TLObject tLObject) {
         if (getParentActivity() != null) {
             Toast.makeText(getParentActivity(), ((TLRPC$TL_statsGraphError) tLObject).error, 1).show();
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadStat$7(TLRPC$TL_error tLRPC$TL_error, ChartData chartData, String str, TLRPC$TL_stats_loadAsyncGraph tLRPC$TL_stats_loadAsyncGraph) {
+    public /* synthetic */ void lambda$loadStat$9(TLRPC$TL_error tLRPC$TL_error, ChartData chartData, String str, TLRPC$TL_stats_loadAsyncGraph tLRPC$TL_stats_loadAsyncGraph) {
         this.statsLoaded = true;
         if (tLRPC$TL_error != null || chartData == null) {
             updateRows();
@@ -1025,8 +1112,8 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
             return new RecyclerListView.Holder(headerCell);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:47:0x0169  */
-        /* JADX WARN: Removed duplicated region for block: B:60:? A[RETURN, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:57:0x017e  */
+        /* JADX WARN: Removed duplicated region for block: B:70:? A[RETURN, SYNTHETIC] */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -1073,7 +1160,9 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
             final MessageObject item = getItem(i);
             long dialogId = MessageObject.getDialogId(item.messageOwner);
             if (item.isStory()) {
-                manageChatUserCell.setData(DialogObject.isUserDialog(dialogId) ? MessageStatisticActivity.this.getMessagesController().getUser(Long.valueOf(dialogId)) : MessageStatisticActivity.this.getMessagesController().getChat(Long.valueOf(-dialogId)), null, LocaleController.formatPluralString("Views", item.storyItem.views.views_count, new Object[0]), i != MessageStatisticActivity.this.endRow - 1);
+                Object user = DialogObject.isUserDialog(dialogId) ? MessageStatisticActivity.this.getMessagesController().getUser(Long.valueOf(dialogId)) : MessageStatisticActivity.this.getMessagesController().getChat(Long.valueOf(-dialogId));
+                TL_stories$StoryViews tL_stories$StoryViews = item.storyItem.views;
+                manageChatUserCell.setData(user, null, tL_stories$StoryViews == null || tL_stories$StoryViews.views_count == 0 ? LocaleController.getString("NoViews", R.string.NoViews) : LocaleController.formatPluralString("Views", tL_stories$StoryViews.views_count, new Object[0]), i != MessageStatisticActivity.this.endRow - 1);
                 manageChatUserCell.setStoryItem(item.storyItem, new View.OnClickListener() { // from class: org.telegram.ui.MessageStatisticActivity$ListAdapter$$ExternalSyntheticLambda0
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
@@ -1112,6 +1201,9 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onBindViewHolder$0(MessageObject messageObject, View view) {
+            if (MessageStatisticActivity.this.checkIsDeletedStory(messageObject)) {
+                return;
+            }
             MessageStatisticActivity.this.getOrCreateStoryViewer().open(MessageStatisticActivity.this.getContext(), messageObject.storyItem, StoriesListPlaceProvider.of(MessageStatisticActivity.this.listView));
         }
 
@@ -1240,10 +1332,10 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public ArrayList<ThemeDescription> getThemeDescriptions() {
         ArrayList<ThemeDescription> arrayList = new ArrayList<>();
-        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.MessageStatisticActivity$$ExternalSyntheticLambda10
+        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.MessageStatisticActivity$$ExternalSyntheticLambda11
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public final void didSetColor() {
-                MessageStatisticActivity.this.lambda$getThemeDescriptions$11();
+                MessageStatisticActivity.this.lambda$getThemeDescriptions$13();
             }
 
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
@@ -1285,7 +1377,7 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$getThemeDescriptions$11() {
+    public /* synthetic */ void lambda$getThemeDescriptions$13() {
         RecyclerListView recyclerListView = this.listView;
         if (recyclerListView != null) {
             int childCount = recyclerListView.getChildCount();

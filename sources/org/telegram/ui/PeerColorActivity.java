@@ -430,6 +430,7 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
                 showSelectStatusDialog((SetReplyIconCell) view);
             } else if (i2 == this.clearRow) {
                 this.selectedColor = -1;
+                this.selectedEmoji = 0L;
                 PeerColorGrid peerColorGrid = this.peerColorPicker;
                 if (peerColorGrid != null) {
                     peerColorGrid.setSelected(-1);
@@ -440,7 +441,7 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
                 }
                 SetReplyIconCell setReplyIconCell = this.setReplyIconCell;
                 if (setReplyIconCell != null) {
-                    setReplyIconCell.invalidate();
+                    setReplyIconCell.update(true);
                 }
                 if (i == 1 && PeerColorActivity.this.colorBar != null) {
                     PeerColorActivity.this.colorBar.setColor(this.selectedColor, true);
@@ -448,6 +449,7 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
                 ProfilePreview profilePreview = this.profilePreview;
                 if (profilePreview != null) {
                     profilePreview.setColor(this.selectedColor, true);
+                    this.profilePreview.setEmoji(this.selectedEmoji, true);
                 }
                 checkResetColorButton();
             }
@@ -589,7 +591,10 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
                 }
                 PeerColorActivity peerColorActivity = PeerColorActivity.this;
                 int i = Theme.key_actionBarDefault;
-                return AndroidUtilities.computePerceivedBrightness(peerColorActivity.getThemedColor(i)) > 0.8f ? Theme.getColor(Theme.key_windowBackgroundWhiteBlueText, ((BaseFragment) PeerColorActivity.this).resourceProvider) : Theme.blendOver(Theme.getColor(Theme.key_windowBackgroundWhite, ((BaseFragment) PeerColorActivity.this).resourceProvider), Theme.multAlpha(PeerColorActivity.adaptProfileEmojiColor(Theme.getColor(i, ((BaseFragment) PeerColorActivity.this).resourceProvider)), 0.7f));
+                if (AndroidUtilities.computePerceivedBrightness(peerColorActivity.getThemedColor(i)) > 0.8f) {
+                    return Theme.getColor(Theme.key_windowBackgroundWhiteBlueText, ((BaseFragment) PeerColorActivity.this).resourceProvider);
+                }
+                return AndroidUtilities.computePerceivedBrightness(PeerColorActivity.this.getThemedColor(i)) < 0.2f ? Theme.multAlpha(Theme.getColor(Theme.key_actionBarDefaultTitle, ((BaseFragment) PeerColorActivity.this).resourceProvider), 0.5f) : Theme.blendOver(Theme.getColor(Theme.key_windowBackgroundWhite, ((BaseFragment) PeerColorActivity.this).resourceProvider), Theme.multAlpha(PeerColorActivity.adaptProfileEmojiColor(Theme.getColor(i, ((BaseFragment) PeerColorActivity.this).resourceProvider)), 0.7f));
             }
 
             @Override // android.widget.FrameLayout, android.view.View
