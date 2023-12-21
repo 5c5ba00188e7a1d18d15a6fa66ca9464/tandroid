@@ -1,7 +1,7 @@
 package org.telegram.tgnet;
 
 import org.telegram.messenger.LiteMode;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_decryptedMessage_layer45 extends TLRPC$TL_decryptedMessage {
     @Override // org.telegram.tgnet.TLRPC$TL_decryptedMessage, org.telegram.tgnet.TLObject
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {

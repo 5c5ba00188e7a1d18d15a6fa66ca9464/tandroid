@@ -24,6 +24,7 @@ import java.util.regex.Pattern;
 import org.telegram.messenger.FileLoaderPriorityQueue;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.MediaController;
+import org.telegram.messenger.R;
 import org.telegram.tgnet.ConnectionsManager;
 @SuppressLint({"InlinedApi"})
 /* loaded from: classes.dex */
@@ -127,27 +128,27 @@ public final class MediaCodecUtil {
                         return 128;
                     default:
                         switch (i) {
-                            case 30:
+                            case R.styleable.AppCompatTheme_actionModeTheme /* 30 */:
                                 return LiteMode.FLAG_CHAT_BLUR;
-                            case 31:
+                            case R.styleable.AppCompatTheme_actionModeWebSearchDrawable /* 31 */:
                                 return LiteMode.FLAG_CALLS_ANIMATIONS;
                             case 32:
                                 return 1024;
                             default:
                                 switch (i) {
-                                    case 40:
+                                    case R.styleable.AppCompatTheme_borderlessButtonStyle /* 40 */:
                                         return LiteMode.FLAG_AUTOPLAY_GIFS;
-                                    case 41:
+                                    case R.styleable.AppCompatTheme_buttonBarButtonStyle /* 41 */:
                                         return LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM;
-                                    case 42:
+                                    case R.styleable.AppCompatTheme_buttonBarNegativeButtonStyle /* 42 */:
                                         return LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM;
                                     default:
                                         switch (i) {
-                                            case 50:
+                                            case R.styleable.AppCompatTheme_colorAccent /* 50 */:
                                                 return LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM;
-                                            case 51:
+                                            case R.styleable.AppCompatTheme_colorBackgroundFloating /* 51 */:
                                                 return LiteMode.FLAG_CHAT_SCALE;
-                                            case 52:
+                                            case R.styleable.AppCompatTheme_colorButtonNormal /* 52 */:
                                                 return 65536;
                                             default:
                                                 return -1;
@@ -267,11 +268,11 @@ public final class MediaCodecUtil {
                                         if (i != 50) {
                                             if (i != 51) {
                                                 switch (i) {
-                                                    case 60:
+                                                    case R.styleable.AppCompatTheme_controlBackground /* 60 */:
                                                         return LiteMode.FLAG_AUTOPLAY_GIFS;
-                                                    case 61:
+                                                    case R.styleable.AppCompatTheme_dialogCornerRadius /* 61 */:
                                                         return LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM;
-                                                    case 62:
+                                                    case R.styleable.AppCompatTheme_dialogPreferredPadding /* 62 */:
                                                         return LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM;
                                                     default:
                                                         return -1;
@@ -397,7 +398,7 @@ public final class MediaCodecUtil {
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:37:0x0077, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:37:0x0078, code lost:
         if (r3.equals("av01") == false) goto L11;
      */
     /*

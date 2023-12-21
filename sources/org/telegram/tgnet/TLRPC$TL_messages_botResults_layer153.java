@@ -1,5 +1,5 @@
 package org.telegram.tgnet;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_messages_botResults_layer153 extends TLRPC$messages_BotResults {
     @Override // org.telegram.tgnet.TLObject
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {

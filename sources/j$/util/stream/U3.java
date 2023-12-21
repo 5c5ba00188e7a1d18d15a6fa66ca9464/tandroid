@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import j$.util.function.Consumer;
+import j$.util.t;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Objects;
@@ -18,7 +19,7 @@ public class U3 extends Z3 implements j$.util.function.f {
 
     @Override // j$.util.stream.Z3, java.lang.Iterable, j$.lang.e
     /* renamed from: B */
-    public j$.util.t spliterator() {
+    public t.a spliterator() {
         return new T3(this, 0, this.c, 0, this.b);
     }
 
@@ -49,7 +50,7 @@ public class U3 extends Z3 implements j$.util.function.f {
 
     @Override // java.lang.Iterable
     public Iterator iterator() {
-        return j$.util.L.f(spliterator());
+        return j$.util.J.f(spliterator());
     }
 
     @Override // j$.util.function.f

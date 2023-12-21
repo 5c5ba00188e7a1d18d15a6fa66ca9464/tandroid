@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.telegram.messenger.R;
 /* loaded from: classes.dex */
 final class WebvttCssParser {
     private static final Pattern VOICE_NAME_PATTERN = Pattern.compile("\\[voice=\"([^\"]*)\"\\]");
@@ -257,7 +258,7 @@ final class WebvttCssParser {
         str2.hashCode();
         char c = 65535;
         switch (str2.hashCode()) {
-            case 37:
+            case R.styleable.AppCompatTheme_alertDialogStyle /* 37 */:
                 if (str2.equals("%")) {
                     c = 0;
                     break;

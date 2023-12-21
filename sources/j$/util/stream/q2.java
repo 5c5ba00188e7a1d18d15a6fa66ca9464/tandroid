@@ -6,14 +6,14 @@ import java.util.Objects;
 public final class q2 extends s2 implements l3 {
     private final long[] h;
 
-    q2(q2 q2Var, j$.util.u uVar, long j, long j2) {
-        super(q2Var, uVar, j, j2, q2Var.h.length);
+    q2(q2 q2Var, j$.util.t tVar, long j, long j2) {
+        super(q2Var, tVar, j, j2, q2Var.h.length);
         this.h = q2Var.h;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public q2(j$.util.u uVar, y2 y2Var, long[] jArr) {
-        super(uVar, y2Var, jArr.length);
+    public q2(j$.util.t tVar, y2 y2Var, long[] jArr) {
+        super(tVar, y2Var, jArr.length);
         this.h = jArr;
     }
 
@@ -29,8 +29,8 @@ public final class q2 extends s2 implements l3 {
     }
 
     @Override // j$.util.stream.s2
-    s2 b(j$.util.u uVar, long j, long j2) {
-        return new q2(this, uVar, j, j2);
+    s2 b(j$.util.t tVar, long j, long j2) {
+        return new q2(this, tVar, j, j2);
     }
 
     @Override // j$.util.function.Consumer

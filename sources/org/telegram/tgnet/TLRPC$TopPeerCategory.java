@@ -1,5 +1,5 @@
 package org.telegram.tgnet;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public abstract class TLRPC$TopPeerCategory extends TLObject {
     public static TLRPC$TopPeerCategory TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
         TLRPC$TopPeerCategory tLRPC$TopPeerCategory;

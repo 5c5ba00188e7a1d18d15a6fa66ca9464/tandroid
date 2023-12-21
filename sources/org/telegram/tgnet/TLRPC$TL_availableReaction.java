@@ -1,5 +1,5 @@
 package org.telegram.tgnet;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_availableReaction extends TLObject {
     public TLRPC$Document activate_animation;
     public TLRPC$Document appear_animation;

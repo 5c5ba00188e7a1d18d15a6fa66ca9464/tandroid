@@ -1,10 +1,10 @@
 package j$.lang;
 
 import j$.util.function.Consumer;
-import j$.util.u;
+import j$.util.t;
 /* loaded from: classes2.dex */
 public interface e {
     void forEach(Consumer consumer);
 
-    u spliterator();
+    t spliterator();
 }

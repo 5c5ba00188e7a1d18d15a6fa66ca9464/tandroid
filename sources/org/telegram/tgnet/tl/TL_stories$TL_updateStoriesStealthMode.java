@@ -2,7 +2,7 @@ package org.telegram.tgnet.tl;
 
 import org.telegram.tgnet.AbstractSerializedData;
 import org.telegram.tgnet.TLRPC$Update;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TL_stories$TL_updateStoriesStealthMode extends TLRPC$Update {
     public TL_stories$TL_storiesStealthMode stealth_mode;
 

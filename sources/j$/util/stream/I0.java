@@ -5,8 +5,8 @@ import java.util.Objects;
 /* loaded from: classes2.dex */
 public class I0 extends L0 {
     /* JADX INFO: Access modifiers changed from: package-private */
-    public I0(j$.util.u uVar, int i, boolean z) {
-        super(uVar, i, z);
+    public I0(j$.util.t tVar, int i, boolean z) {
+        super(tVar, i, z);
     }
 
     @Override // j$.util.stream.c

@@ -1,5 +1,5 @@
 package org.telegram.tgnet;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_contacts_link_layer101 extends TLObject {
     public TLRPC$ContactLink_layer101 foreign_link;
     public TLRPC$ContactLink_layer101 my_link;

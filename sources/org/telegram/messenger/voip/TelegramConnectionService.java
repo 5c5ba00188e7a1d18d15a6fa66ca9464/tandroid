@@ -8,9 +8,8 @@ import android.telecom.ConnectionService;
 import android.telecom.PhoneAccountHandle;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.FileLog;
-import org.telegram.messenger.MessageObject;
-@TargetApi(MessageObject.TYPE_GIVEAWAY)
-/* loaded from: classes.dex */
+@TargetApi(26)
+/* loaded from: classes3.dex */
 public class TelegramConnectionService extends ConnectionService {
     @Override // android.app.Service
     public void onCreate() {

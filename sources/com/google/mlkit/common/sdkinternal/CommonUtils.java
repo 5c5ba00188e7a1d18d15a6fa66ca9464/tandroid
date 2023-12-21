@@ -6,7 +6,7 @@ import android.text.TextUtils;
 import com.google.android.gms.common.internal.GmsLogger;
 import com.google.android.gms.common.util.PlatformVersion;
 import java.util.Locale;
-/* compiled from: com.google.mlkit:common@@17.0.0 */
+/* compiled from: com.google.mlkit:common@@18.10.0 */
 /* loaded from: classes.dex */
 public class CommonUtils {
     private static final GmsLogger zza = new GmsLogger("CommonUtils", "");
@@ -15,12 +15,7 @@ public class CommonUtils {
         try {
             return String.valueOf(context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionCode);
         } catch (PackageManager.NameNotFoundException e) {
-            GmsLogger gmsLogger = zza;
-            String valueOf = String.valueOf(e);
-            StringBuilder sb = new StringBuilder(valueOf.length() + 48);
-            sb.append("Exception thrown when trying to get app version ");
-            sb.append(valueOf);
-            gmsLogger.e("CommonUtils", sb.toString());
+            zza.e("CommonUtils", "Exception thrown when trying to get app version ".concat(e.toString()));
             return "";
         }
     }

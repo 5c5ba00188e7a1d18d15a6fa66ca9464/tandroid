@@ -1,5 +1,5 @@
 package org.telegram.tgnet;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_stats_messageStats extends TLObject {
     public TLRPC$StatsGraph reactions_by_emotion_graph;
     public TLRPC$StatsGraph views_graph;

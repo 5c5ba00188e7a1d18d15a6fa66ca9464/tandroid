@@ -1,5 +1,5 @@
 package org.telegram.tgnet;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public abstract class TLRPC$PrivacyKey extends TLObject {
     public static TLRPC$PrivacyKey TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
         TLRPC$PrivacyKey tLRPC$PrivacyKey;

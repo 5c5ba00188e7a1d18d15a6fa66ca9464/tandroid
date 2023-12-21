@@ -1,5 +1,5 @@
 package org.telegram.tgnet;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_messages_saveDefaultSendAs extends TLObject {
     public TLRPC$InputPeer peer;
     public TLRPC$InputPeer send_as;

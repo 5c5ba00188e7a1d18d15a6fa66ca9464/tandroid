@@ -78,6 +78,36 @@ public class SafeParcelWriter {
         parcel.writeFloat(f);
     }
 
+    public static void writeFloatArray(Parcel parcel, int i, float[] fArr, boolean z) {
+        if (fArr == null) {
+            if (z) {
+                zzc(parcel, i, 0);
+                return;
+            }
+            return;
+        }
+        int zza = zza(parcel, i);
+        parcel.writeFloatArray(fArr);
+        zzb(parcel, zza);
+    }
+
+    public static void writeFloatList(Parcel parcel, int i, List<Float> list, boolean z) {
+        if (list == null) {
+            if (z) {
+                zzc(parcel, i, 0);
+                return;
+            }
+            return;
+        }
+        int zza = zza(parcel, i);
+        int size = list.size();
+        parcel.writeInt(size);
+        for (int i2 = 0; i2 < size; i2++) {
+            parcel.writeFloat(list.get(i2).floatValue());
+        }
+        zzb(parcel, zza);
+    }
+
     public static void writeFloatObject(Parcel parcel, int i, Float f, boolean z) {
         if (f != null) {
             zzc(parcel, i, 4);
@@ -147,6 +177,15 @@ public class SafeParcelWriter {
     public static void writeLong(Parcel parcel, int i, long j) {
         zzc(parcel, i, 8);
         parcel.writeLong(j);
+    }
+
+    public static void writeLongObject(Parcel parcel, int i, Long l, boolean z) {
+        if (l != null) {
+            zzc(parcel, i, 8);
+            parcel.writeLong(l.longValue());
+        } else if (z) {
+            zzc(parcel, i, 0);
+        }
     }
 
     public static void writeParcelable(Parcel parcel, int i, Parcelable parcelable, int i2, boolean z) {

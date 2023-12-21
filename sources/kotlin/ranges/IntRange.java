@@ -12,10 +12,12 @@ public final class IntRange extends IntProgression {
         return getFirst() <= i && i <= getLast();
     }
 
+    @Override // kotlin.ranges.IntProgression
     public boolean isEmpty() {
         return getFirst() > getLast();
     }
 
+    @Override // kotlin.ranges.IntProgression
     public boolean equals(Object obj) {
         if (obj instanceof IntRange) {
             if (!isEmpty() || !((IntRange) obj).isEmpty()) {
@@ -28,6 +30,7 @@ public final class IntRange extends IntProgression {
         return false;
     }
 
+    @Override // kotlin.ranges.IntProgression
     public int hashCode() {
         if (isEmpty()) {
             return -1;
@@ -35,6 +38,7 @@ public final class IntRange extends IntProgression {
         return (getFirst() * 31) + getLast();
     }
 
+    @Override // kotlin.ranges.IntProgression
     public String toString() {
         return getFirst() + ".." + getLast();
     }

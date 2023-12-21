@@ -6,7 +6,7 @@ import org.telegram.tgnet.TLRPC$MessageEntity;
 import org.telegram.tgnet.TLRPC$MessageMedia;
 import org.telegram.tgnet.TLRPC$PrivacyRule;
 import org.telegram.tgnet.TLRPC$Reaction;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TL_stories$TL_storyItem extends TL_stories$StoryItem {
     @Override // org.telegram.tgnet.TLObject
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {

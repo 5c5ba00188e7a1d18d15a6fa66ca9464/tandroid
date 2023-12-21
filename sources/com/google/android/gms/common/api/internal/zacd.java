@@ -12,7 +12,6 @@ import com.google.android.gms.common.internal.RootTelemetryConfiguration;
 import com.google.android.gms.common.util.ArrayUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import org.telegram.messenger.FileLoader;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
@@ -128,7 +127,7 @@ public final class zacd implements OnCompleteListener {
                             errorCode = connectionResult == null ? -1 : connectionResult.getErrorCode();
                             i4 = statusCode;
                         } else {
-                            i4 = FileLoader.MEDIA_DIR_VIDEO_PUBLIC;
+                            i4 = 101;
                         }
                     }
                     errorCode = -1;

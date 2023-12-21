@@ -21,16 +21,16 @@ public final class l1 implements N4 {
     }
 
     @Override // j$.util.stream.N4
-    public Object c(y2 y2Var, j$.util.u uVar) {
-        return (Boolean) new m1(this, y2Var, uVar).invoke();
+    public Object c(y2 y2Var, j$.util.t tVar) {
+        return (Boolean) new m1(this, y2Var, tVar).invoke();
     }
 
     @Override // j$.util.stream.N4
-    public Object d(y2 y2Var, j$.util.u uVar) {
+    public Object d(y2 y2Var, j$.util.t tVar) {
         j1 j1Var = (j1) this.c.get();
         c cVar = (c) y2Var;
         Objects.requireNonNull(j1Var);
-        cVar.n0(cVar.v0(j1Var), uVar);
+        cVar.n0(cVar.v0(j1Var), tVar);
         return Boolean.valueOf(j1Var.b);
     }
 }

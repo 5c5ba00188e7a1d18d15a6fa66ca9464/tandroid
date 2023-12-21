@@ -1,5 +1,5 @@
 package org.telegram.tgnet;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_messages_getStickerSet extends TLObject {
     public int hash;
     public TLRPC$InputStickerSet stickerset;

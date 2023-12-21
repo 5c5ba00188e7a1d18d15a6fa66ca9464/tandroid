@@ -1,12 +1,13 @@
 package j$.util.stream;
 
 import j$.util.function.Consumer;
+import j$.util.t;
 import java.util.Objects;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public final class V1 extends U3 implements u1, p1 {
     @Override // j$.util.stream.U3
-    public j$.util.t B() {
+    public t.a B() {
         return super.spliterator();
     }
 
@@ -106,7 +107,7 @@ public final class V1 extends U3 implements u1, p1 {
     }
 
     @Override // j$.util.stream.U3, j$.util.stream.Z3, java.lang.Iterable, j$.lang.e
-    public j$.util.w spliterator() {
+    public j$.util.u spliterator() {
         return super.spliterator();
     }
 
@@ -117,7 +118,7 @@ public final class V1 extends U3 implements u1, p1 {
     }
 
     @Override // j$.util.stream.U3, j$.util.stream.Z3, java.lang.Iterable, j$.lang.e
-    public j$.util.u spliterator() {
+    public j$.util.t spliterator() {
         return super.spliterator();
     }
 }

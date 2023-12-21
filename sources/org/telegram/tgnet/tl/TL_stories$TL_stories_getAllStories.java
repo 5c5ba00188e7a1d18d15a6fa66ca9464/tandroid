@@ -2,7 +2,7 @@ package org.telegram.tgnet.tl;
 
 import org.telegram.tgnet.AbstractSerializedData;
 import org.telegram.tgnet.TLObject;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TL_stories$TL_stories_getAllStories extends TLObject {
     public int flags;
     public boolean include_hidden;

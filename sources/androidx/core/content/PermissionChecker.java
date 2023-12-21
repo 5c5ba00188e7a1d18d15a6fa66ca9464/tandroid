@@ -31,6 +31,10 @@ public final class PermissionChecker {
         return noteProxyOpNoThrow == 0 ? 0 : -2;
     }
 
+    public static int checkSelfPermission(Context context, String str) {
+        return checkPermission(context, str, Process.myPid(), Process.myUid(), context.getPackageName());
+    }
+
     public static int checkCallingOrSelfPermission(Context context, String str) {
         return checkPermission(context, str, Binder.getCallingPid(), Binder.getCallingUid(), Binder.getCallingPid() == Process.myPid() ? context.getPackageName() : null);
     }

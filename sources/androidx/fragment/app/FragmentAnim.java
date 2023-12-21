@@ -13,28 +13,27 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.Transformation;
 import androidx.core.os.CancellationSignal;
 import androidx.core.view.OneShotPreDrawListener;
-import androidx.fragment.R$anim;
+import androidx.fragment.R$animator;
 import androidx.fragment.R$id;
 import androidx.fragment.app.FragmentTransition;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class FragmentAnim {
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static AnimationOrAnimator loadAnimation(Context context, FragmentContainer fragmentContainer, Fragment fragment, boolean z) {
-        int transitToAnimResourceId;
+    public static AnimationOrAnimator loadAnimation(Context context, Fragment fragment, boolean z, boolean z2) {
         int nextTransition = fragment.getNextTransition();
-        int nextAnim = fragment.getNextAnim();
-        boolean z2 = false;
-        fragment.setNextAnim(0);
-        View onFindViewById = fragmentContainer.onFindViewById(fragment.mContainerId);
-        if (onFindViewById != null) {
+        int nextAnim = getNextAnim(fragment, z, z2);
+        boolean z3 = false;
+        fragment.setAnimations(0, 0, 0, 0);
+        ViewGroup viewGroup = fragment.mContainer;
+        if (viewGroup != null) {
             int i = R$id.visible_removing_fragment_view_tag;
-            if (onFindViewById.getTag(i) != null) {
-                onFindViewById.setTag(i, null);
+            if (viewGroup.getTag(i) != null) {
+                fragment.mContainer.setTag(i, null);
             }
         }
-        ViewGroup viewGroup = fragment.mContainer;
-        if (viewGroup == null || viewGroup.getLayoutTransition() == null) {
+        ViewGroup viewGroup2 = fragment.mContainer;
+        if (viewGroup2 == null || viewGroup2.getLayoutTransition() == null) {
             Animation onCreateAnimation = fragment.onCreateAnimation(nextTransition, z, nextAnim);
             if (onCreateAnimation != null) {
                 return new AnimationOrAnimator(onCreateAnimation);
@@ -42,6 +41,9 @@ public class FragmentAnim {
             Animator onCreateAnimator = fragment.onCreateAnimator(nextTransition, z, nextAnim);
             if (onCreateAnimator != null) {
                 return new AnimationOrAnimator(onCreateAnimator);
+            }
+            if (nextAnim == 0 && nextTransition != 0) {
+                nextAnim = transitToAnimResourceId(nextTransition, z);
             }
             if (nextAnim != 0) {
                 boolean equals = "anim".equals(context.getResources().getResourceTypeName(nextAnim));
@@ -51,13 +53,13 @@ public class FragmentAnim {
                         if (loadAnimation != null) {
                             return new AnimationOrAnimator(loadAnimation);
                         }
-                        z2 = true;
+                        z3 = true;
                     } catch (Resources.NotFoundException e) {
                         throw e;
                     } catch (RuntimeException unused) {
                     }
                 }
-                if (!z2) {
+                if (!z3) {
                     try {
                         Animator loadAnimator = AnimatorInflater.loadAnimator(context, nextAnim);
                         if (loadAnimator != null) {
@@ -74,12 +76,22 @@ public class FragmentAnim {
                     }
                 }
             }
-            if (nextTransition != 0 && (transitToAnimResourceId = transitToAnimResourceId(nextTransition, z)) >= 0) {
-                return new AnimationOrAnimator(AnimationUtils.loadAnimation(context, transitToAnimResourceId));
-            }
             return null;
         }
         return null;
+    }
+
+    private static int getNextAnim(Fragment fragment, boolean z, boolean z2) {
+        if (z2) {
+            if (z) {
+                return fragment.getPopEnterAnim();
+            }
+            return fragment.getPopExitAnim();
+        } else if (z) {
+            return fragment.getEnterAnim();
+        } else {
+            return fragment.getExitAnim();
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -149,13 +161,13 @@ public class FragmentAnim {
 
     private static int transitToAnimResourceId(int i, boolean z) {
         if (i == 4097) {
-            return z ? R$anim.fragment_open_enter : R$anim.fragment_open_exit;
+            return z ? R$animator.fragment_open_enter : R$animator.fragment_open_exit;
         } else if (i == 4099) {
-            return z ? R$anim.fragment_fade_enter : R$anim.fragment_fade_exit;
+            return z ? R$animator.fragment_fade_enter : R$animator.fragment_fade_exit;
         } else if (i != 8194) {
             return -1;
         } else {
-            return z ? R$anim.fragment_close_enter : R$anim.fragment_close_exit;
+            return z ? R$animator.fragment_close_enter : R$animator.fragment_close_exit;
         }
     }
 
@@ -182,7 +194,7 @@ public class FragmentAnim {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public static class EndViewTransitionAnimation extends AnimationSet implements Runnable {
         private boolean mAnimating;
@@ -191,7 +203,8 @@ public class FragmentAnim {
         private final ViewGroup mParent;
         private boolean mTransitionEnded;
 
-        EndViewTransitionAnimation(Animation animation, ViewGroup viewGroup, View view) {
+        /* JADX INFO: Access modifiers changed from: package-private */
+        public EndViewTransitionAnimation(Animation animation, ViewGroup viewGroup, View view) {
             super(false);
             this.mAnimating = true;
             this.mParent = viewGroup;

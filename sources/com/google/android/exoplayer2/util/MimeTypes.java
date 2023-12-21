@@ -5,8 +5,8 @@ import com.google.common.base.Ascii;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.MediaController;
+import org.telegram.messenger.R;
 import org.webrtc.MediaStreamTrack;
 /* loaded from: classes.dex */
 public final class MimeTypes {
@@ -31,21 +31,21 @@ public final class MimeTypes {
                                 if (i != 165) {
                                     if (i != 166) {
                                         switch (i) {
-                                            case 96:
-                                            case 97:
-                                            case 98:
-                                            case 99:
-                                            case FileLoader.MEDIA_DIR_IMAGE_PUBLIC /* 100 */:
-                                            case FileLoader.MEDIA_DIR_VIDEO_PUBLIC /* 101 */:
+                                            case R.styleable.AppCompatTheme_seekBarStyle /* 96 */:
+                                            case R.styleable.AppCompatTheme_selectableItemBackground /* 97 */:
+                                            case R.styleable.AppCompatTheme_selectableItemBackgroundBorderless /* 98 */:
+                                            case R.styleable.AppCompatTheme_spinnerDropDownItemStyle /* 99 */:
+                                            case 100:
+                                            case 101:
                                                 return "video/mpeg2";
-                                            case 102:
-                                            case 103:
-                                            case 104:
+                                            case R.styleable.AppCompatTheme_textAppearanceLargePopupMenu /* 102 */:
+                                            case R.styleable.AppCompatTheme_textAppearanceListItem /* 103 */:
+                                            case R.styleable.AppCompatTheme_textAppearanceListItemSecondary /* 104 */:
                                                 return MediaController.AUDIO_MIME_TYPE;
-                                            case 105:
-                                            case 107:
+                                            case R.styleable.AppCompatTheme_textAppearanceListItemSmall /* 105 */:
+                                            case R.styleable.AppCompatTheme_textAppearanceSearchResultSubtitle /* 107 */:
                                                 return "audio/mpeg";
-                                            case 106:
+                                            case R.styleable.AppCompatTheme_textAppearancePopupMenuHeader /* 106 */:
                                                 return "video/mpeg";
                                             default:
                                                 switch (i) {

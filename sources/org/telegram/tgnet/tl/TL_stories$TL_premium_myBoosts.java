@@ -5,7 +5,7 @@ import org.telegram.tgnet.AbstractSerializedData;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$User;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TL_stories$TL_premium_myBoosts extends TLObject {
     public static int constructor = -1696454430;
     public ArrayList<TL_stories$TL_myBoost> my_boosts = new ArrayList<>();

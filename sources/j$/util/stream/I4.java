@@ -4,16 +4,16 @@ import j$.util.function.Consumer;
 import java.util.Comparator;
 import java.util.Objects;
 /* loaded from: classes2.dex */
-final class I4 extends J4 implements j$.util.u, Consumer {
+final class I4 extends J4 implements j$.util.t, Consumer {
     Object e;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public I4(j$.util.u uVar, long j, long j2) {
-        super(uVar, j, j2);
+    public I4(j$.util.t tVar, long j, long j2) {
+        super(tVar, j, j2);
     }
 
-    I4(j$.util.u uVar, I4 i4) {
-        super(uVar, i4);
+    I4(j$.util.t tVar, I4 i4) {
+        super(tVar, i4);
     }
 
     @Override // j$.util.function.Consumer
@@ -26,7 +26,7 @@ final class I4 extends J4 implements j$.util.u, Consumer {
         return Objects.requireNonNull(consumer);
     }
 
-    @Override // j$.util.u
+    @Override // j$.util.t
     public boolean b(Consumer consumer) {
         Objects.requireNonNull(consumer);
         while (r() != 1 && this.a.b(this)) {
@@ -39,7 +39,7 @@ final class I4 extends J4 implements j$.util.u, Consumer {
         return false;
     }
 
-    @Override // j$.util.u
+    @Override // j$.util.t
     public void forEachRemaining(Consumer consumer) {
         Objects.requireNonNull(consumer);
         k4 k4Var = null;
@@ -75,23 +75,23 @@ final class I4 extends J4 implements j$.util.u, Consumer {
         }
     }
 
-    @Override // j$.util.u
+    @Override // j$.util.t
     public Comparator getComparator() {
         throw new IllegalStateException();
     }
 
-    @Override // j$.util.u
+    @Override // j$.util.t
     public /* synthetic */ long getExactSizeIfKnown() {
         return j$.util.a.e(this);
     }
 
-    @Override // j$.util.u
+    @Override // j$.util.t
     public /* synthetic */ boolean hasCharacteristics(int i) {
         return j$.util.a.f(this, i);
     }
 
     @Override // j$.util.stream.J4
-    protected j$.util.u q(j$.util.u uVar) {
-        return new I4(uVar, this);
+    protected j$.util.t q(j$.util.t tVar) {
+        return new I4(tVar, this);
     }
 }

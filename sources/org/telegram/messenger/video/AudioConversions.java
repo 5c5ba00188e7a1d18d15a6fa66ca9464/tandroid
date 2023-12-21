@@ -1,5 +1,5 @@
 package org.telegram.messenger.video;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class AudioConversions {
     private static final int BYTES_PER_SAMPLE_PER_CHANNEL = 2;
     private static final int BYTES_PER_SHORT = 2;

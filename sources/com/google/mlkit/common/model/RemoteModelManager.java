@@ -4,29 +4,34 @@ import com.google.firebase.inject.Provider;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-/* compiled from: com.google.mlkit:common@@17.0.0 */
+/* compiled from: com.google.mlkit:common@@18.10.0 */
 /* loaded from: classes.dex */
 public class RemoteModelManager {
-    private final Map<Class<Object>, Provider<Object>> zza = new HashMap();
+    private final Map zza = new HashMap();
 
-    public RemoteModelManager(Set<RemoteModelManagerRegistration> set) {
-        for (RemoteModelManagerRegistration remoteModelManagerRegistration : set) {
-            this.zza.put(remoteModelManagerRegistration.zza(), remoteModelManagerRegistration.zzb());
+    /* compiled from: com.google.mlkit:common@@18.10.0 */
+    /* loaded from: classes.dex */
+    public static class RemoteModelManagerRegistration {
+        private final Class zza;
+        private final Provider zzb;
+
+        public <RemoteT extends RemoteModel> RemoteModelManagerRegistration(Class<RemoteT> cls, Provider<Object> provider) {
+            this.zza = cls;
+            this.zzb = provider;
+        }
+
+        final Provider zza() {
+            return this.zzb;
+        }
+
+        final Class zzb() {
+            return this.zza;
         }
     }
 
-    /* compiled from: com.google.mlkit:common@@17.0.0 */
-    /* loaded from: classes.dex */
-    public static class RemoteModelManagerRegistration {
-        private final Class<Object> zza;
-        private final Provider<Object> zzb;
-
-        final Class<Object> zza() {
-            return this.zza;
-        }
-
-        final Provider<Object> zzb() {
-            return this.zzb;
+    public RemoteModelManager(Set<RemoteModelManagerRegistration> set) {
+        for (RemoteModelManagerRegistration remoteModelManagerRegistration : set) {
+            this.zza.put(remoteModelManagerRegistration.zzb(), remoteModelManagerRegistration.zza());
         }
     }
 }

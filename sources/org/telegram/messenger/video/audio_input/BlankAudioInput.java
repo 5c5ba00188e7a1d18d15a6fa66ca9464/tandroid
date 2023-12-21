@@ -1,7 +1,7 @@
 package org.telegram.messenger.video.audio_input;
 
 import org.telegram.messenger.video.AudioConversions;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class BlankAudioInput extends AudioInput {
     public final long durationUs;
     private int remainingShorts;

@@ -3,18 +3,18 @@ package j$.util.stream;
 import java.util.Comparator;
 import java.util.Objects;
 /* loaded from: classes2.dex */
-abstract class H4 extends J4 implements j$.util.w {
+abstract class H4 extends J4 implements j$.util.u {
     /* JADX INFO: Access modifiers changed from: package-private */
-    public H4(j$.util.w wVar, long j, long j2) {
-        super(wVar, j, j2);
+    public H4(j$.util.u uVar, long j, long j2) {
+        super(uVar, j, j2);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public H4(j$.util.w wVar, H4 h4) {
-        super(wVar, h4);
+    public H4(j$.util.u uVar, H4 h4) {
+        super(uVar, h4);
     }
 
-    @Override // j$.util.w
+    @Override // j$.util.u
     /* renamed from: forEachRemaining */
     public void e(Object obj) {
         Objects.requireNonNull(obj);
@@ -25,7 +25,7 @@ abstract class H4 extends J4 implements j$.util.w {
                 return;
             }
             if (r != 2) {
-                ((j$.util.w) this.a).forEachRemaining(obj);
+                ((j$.util.u) this.a).forEachRemaining(obj);
                 return;
             }
             if (j4Var == null) {
@@ -34,7 +34,7 @@ abstract class H4 extends J4 implements j$.util.w {
                 j4Var.b = 0;
             }
             long j = 0;
-            while (((j$.util.w) this.a).tryAdvance(j4Var)) {
+            while (((j$.util.u) this.a).tryAdvance(j4Var)) {
                 j++;
                 if (j >= 128) {
                     break;
@@ -47,17 +47,17 @@ abstract class H4 extends J4 implements j$.util.w {
         }
     }
 
-    @Override // j$.util.u
+    @Override // j$.util.t
     public Comparator getComparator() {
         throw new IllegalStateException();
     }
 
-    @Override // j$.util.u
+    @Override // j$.util.t
     public /* synthetic */ long getExactSizeIfKnown() {
         return j$.util.a.e(this);
     }
 
-    @Override // j$.util.u
+    @Override // j$.util.t
     public /* synthetic */ boolean hasCharacteristics(int i) {
         return j$.util.a.f(this, i);
     }
@@ -66,11 +66,11 @@ abstract class H4 extends J4 implements j$.util.w {
 
     protected abstract j4 t(int i);
 
-    @Override // j$.util.w
+    @Override // j$.util.u
     /* renamed from: tryAdvance */
     public boolean k(Object obj) {
         Objects.requireNonNull(obj);
-        while (r() != 1 && ((j$.util.w) this.a).tryAdvance(this)) {
+        while (r() != 1 && ((j$.util.u) this.a).tryAdvance(this)) {
             if (p(1L) == 1) {
                 s(obj);
                 return true;

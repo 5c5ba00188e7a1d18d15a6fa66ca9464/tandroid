@@ -1,7 +1,7 @@
 package org.telegram.tgnet;
 
 import java.util.ArrayList;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_updateDeleteScheduledMessages extends TLRPC$Update {
     public ArrayList<Integer> messages = new ArrayList<>();
     public TLRPC$Peer peer;

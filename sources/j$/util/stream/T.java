@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import j$.util.function.BiConsumer;
+import j$.util.t;
 import java.util.Iterator;
 import java.util.Objects;
 /* loaded from: classes2.dex */
@@ -9,17 +10,17 @@ public abstract class T extends c implements U {
         super(cVar, i);
     }
 
-    public T(j$.util.u uVar, int i, boolean z) {
-        super(uVar, i, z);
+    public T(j$.util.t tVar, int i, boolean z) {
+        super(tVar, i, z);
     }
 
-    public static /* synthetic */ j$.util.t L0(j$.util.u uVar) {
-        return M0(uVar);
+    public static /* synthetic */ t.a L0(j$.util.t tVar) {
+        return M0(tVar);
     }
 
-    public static j$.util.t M0(j$.util.u uVar) {
-        if (uVar instanceof j$.util.t) {
-            return (j$.util.t) uVar;
+    public static t.a M0(j$.util.t tVar) {
+        if (tVar instanceof t.a) {
+            return (t.a) tVar;
         }
         if (Q4.a) {
             Q4.a(c.class, "using DoubleStream.adapt(Spliterator<Double> s)");
@@ -29,9 +30,9 @@ public abstract class T extends c implements U {
     }
 
     @Override // j$.util.stream.c
-    final void A0(j$.util.u uVar, m3 m3Var) {
+    final void A0(j$.util.t tVar, m3 m3Var) {
         j$.util.function.f f;
-        j$.util.t M0 = M0(uVar);
+        t.a M0 = M0(tVar);
         if (m3Var instanceof j$.util.function.f) {
             f = (j$.util.function.f) m3Var;
         } else if (Q4.a) {
@@ -70,7 +71,7 @@ public abstract class T extends c implements U {
     }
 
     @Override // j$.util.stream.c
-    final j$.util.u K0(y2 y2Var, j$.util.function.y yVar, boolean z) {
+    final j$.util.t K0(y2 y2Var, j$.util.function.y yVar, boolean z) {
         return new o4(y2Var, yVar, z);
     }
 
@@ -140,12 +141,12 @@ public abstract class T extends c implements U {
 
     @Override // j$.util.stream.g
     public final j$.util.n iterator() {
-        return j$.util.L.f(spliterator());
+        return j$.util.J.f(spliterator());
     }
 
     @Override // j$.util.stream.g
     public Iterator iterator() {
-        return j$.util.L.f(spliterator());
+        return j$.util.J.f(spliterator());
     }
 
     public void j(j$.util.function.f fVar) {
@@ -197,7 +198,7 @@ public abstract class T extends c implements U {
     }
 
     @Override // j$.util.stream.c, j$.util.stream.g
-    public final j$.util.t spliterator() {
+    public final t.a spliterator() {
         return M0(super.spliterator());
     }
 
@@ -244,7 +245,7 @@ public abstract class T extends c implements U {
     }
 
     @Override // j$.util.stream.c
-    final A1 z0(y2 y2Var, j$.util.u uVar, boolean z, j$.util.function.m mVar) {
-        return x2.f(y2Var, uVar, z);
+    final A1 z0(y2 y2Var, j$.util.t tVar, boolean z, j$.util.function.m mVar) {
+        return x2.f(y2Var, tVar, z);
     }
 }

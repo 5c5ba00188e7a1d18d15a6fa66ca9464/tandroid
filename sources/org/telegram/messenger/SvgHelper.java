@@ -26,7 +26,6 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javax.xml.parsers.SAXParserFactory;
-import org.telegram.messenger.voip.VoIPService;
 import org.telegram.ui.ActionBar.Theme;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
@@ -575,8 +574,8 @@ public class SvgHelper {
                     case '\t':
                     case '\n':
                     case ' ':
-                    case ',':
-                    case '-':
+                    case R.styleable.AppCompatTheme_buttonBarPositiveButtonStyle /* 44 */:
+                    case R.styleable.AppCompatTheme_buttonBarStyle /* 45 */:
                         if (charAt == '-' && str.charAt(i2 - 1) == 'e') {
                             break;
                         } else {
@@ -596,24 +595,24 @@ public class SvgHelper {
                                 continue;
                             }
                         }
-                    case ')':
-                    case VoIPService.CALL_MIN_LAYER /* 65 */:
-                    case 'C':
-                    case 'H':
-                    case 'L':
-                    case 'M':
-                    case 'Q':
-                    case 'S':
-                    case 'T':
+                    case R.styleable.AppCompatTheme_buttonBarButtonStyle /* 41 */:
+                    case 'A':
+                    case R.styleable.AppCompatTheme_dropdownListPreferredItemHeight /* 67 */:
+                    case R.styleable.AppCompatTheme_imageButtonStyle /* 72 */:
+                    case R.styleable.AppCompatTheme_listDividerAlertDialog /* 76 */:
+                    case R.styleable.AppCompatTheme_listMenuViewStyle /* 77 */:
+                    case R.styleable.AppCompatTheme_listPreferredItemHeightSmall /* 81 */:
+                    case R.styleable.AppCompatTheme_listPreferredItemPaddingLeft /* 83 */:
+                    case R.styleable.AppCompatTheme_listPreferredItemPaddingRight /* 84 */:
                     case 'V':
-                    case 'Z':
-                    case 'a':
-                    case 'c':
-                    case 'h':
-                    case 'l':
-                    case 'm':
-                    case 'q':
-                    case 's':
+                    case R.styleable.AppCompatTheme_popupWindowStyle /* 90 */:
+                    case R.styleable.AppCompatTheme_selectableItemBackground /* 97 */:
+                    case R.styleable.AppCompatTheme_spinnerDropDownItemStyle /* 99 */:
+                    case R.styleable.AppCompatTheme_textAppearanceListItemSecondary /* 104 */:
+                    case R.styleable.AppCompatTheme_textAppearanceSearchResultTitle /* 108 */:
+                    case R.styleable.AppCompatTheme_textAppearanceSmallPopupMenu /* 109 */:
+                    case R.styleable.AppCompatTheme_toolbarStyle /* 113 */:
+                    case R.styleable.AppCompatTheme_tooltipFrameBackground /* 115 */:
                     case 't':
                     case 'v':
                     case 'z':
@@ -748,16 +747,16 @@ public class SvgHelper {
             char charAt = str.charAt(i);
             if (charAt != '+' && charAt != '-') {
                 switch (charAt) {
-                    case '0':
-                    case '1':
-                    case '2':
-                    case '3':
-                    case '4':
-                    case '5':
-                    case '6':
-                    case '7':
-                    case '8':
-                    case '9':
+                    case R.styleable.AppCompatTheme_checkboxStyle /* 48 */:
+                    case R.styleable.AppCompatTheme_checkedTextViewStyle /* 49 */:
+                    case R.styleable.AppCompatTheme_colorAccent /* 50 */:
+                    case R.styleable.AppCompatTheme_colorBackgroundFloating /* 51 */:
+                    case R.styleable.AppCompatTheme_colorButtonNormal /* 52 */:
+                    case R.styleable.AppCompatTheme_colorControlActivated /* 53 */:
+                    case R.styleable.AppCompatTheme_colorControlHighlight /* 54 */:
+                    case R.styleable.AppCompatTheme_colorControlNormal /* 55 */:
+                    case R.styleable.AppCompatTheme_colorError /* 56 */:
+                    case R.styleable.AppCompatTheme_colorPrimary /* 57 */:
                         break;
                     default:
                         parserHelper.advance();
@@ -767,8 +766,8 @@ public class SvgHelper {
                 }
                 z = true;
                 switch (c2) {
-                    case VoIPService.CALL_MIN_LAYER /* 65 */:
-                    case 'a':
+                    case 'A':
+                    case R.styleable.AppCompatTheme_selectableItemBackground /* 97 */:
                         float nextFloat3 = parserHelper.nextFloat();
                         float nextFloat4 = parserHelper.nextFloat();
                         drawArc(path, f, f2, nextFloat3, nextFloat4, parserHelper.nextFloat(), parserHelper.nextFloat(), parserHelper.nextFloat(), (int) parserHelper.nextFloat(), (int) parserHelper.nextFloat());
@@ -778,8 +777,8 @@ public class SvgHelper {
                         f3 = f3;
                         z = false;
                         break;
-                    case 'C':
-                    case 'c':
+                    case R.styleable.AppCompatTheme_dropdownListPreferredItemHeight /* 67 */:
+                    case R.styleable.AppCompatTheme_spinnerDropDownItemStyle /* 99 */:
                         float nextFloat5 = parserHelper.nextFloat();
                         float nextFloat6 = parserHelper.nextFloat();
                         float nextFloat7 = parserHelper.nextFloat();
@@ -801,8 +800,8 @@ public class SvgHelper {
                         f2 = nextFloat10;
                         f5 = f7;
                         break;
-                    case 'H':
-                    case 'h':
+                    case R.styleable.AppCompatTheme_imageButtonStyle /* 72 */:
+                    case R.styleable.AppCompatTheme_textAppearanceListItemSecondary /* 104 */:
                         float nextFloat11 = parserHelper.nextFloat();
                         if (c2 == 'h') {
                             path.rLineTo(nextFloat11, 0.0f);
@@ -813,8 +812,8 @@ public class SvgHelper {
                         }
                         z = false;
                         break;
-                    case 'L':
-                    case 'l':
+                    case R.styleable.AppCompatTheme_listDividerAlertDialog /* 76 */:
+                    case R.styleable.AppCompatTheme_textAppearanceSearchResultTitle /* 108 */:
                         nextFloat = parserHelper.nextFloat();
                         nextFloat2 = parserHelper.nextFloat();
                         if (c2 == 'l') {
@@ -829,8 +828,8 @@ public class SvgHelper {
                             f2 = nextFloat2;
                             z = false;
                         }
-                    case 'M':
-                    case 'm':
+                    case R.styleable.AppCompatTheme_listMenuViewStyle /* 77 */:
+                    case R.styleable.AppCompatTheme_textAppearanceSmallPopupMenu /* 109 */:
                         nextFloat = parserHelper.nextFloat();
                         nextFloat2 = parserHelper.nextFloat();
                         if (c2 == 'm') {
@@ -849,8 +848,8 @@ public class SvgHelper {
                             f3 = f2;
                             z = false;
                         }
-                    case 'S':
-                    case 's':
+                    case R.styleable.AppCompatTheme_listPreferredItemPaddingLeft /* 83 */:
+                    case R.styleable.AppCompatTheme_tooltipFrameBackground /* 115 */:
                         float nextFloat12 = parserHelper.nextFloat();
                         float nextFloat13 = parserHelper.nextFloat();
                         float nextFloat14 = parserHelper.nextFloat();
@@ -882,7 +881,7 @@ public class SvgHelper {
                         }
                         z = false;
                         break;
-                    case 'Z':
+                    case R.styleable.AppCompatTheme_popupWindowStyle /* 90 */:
                     case 'z':
                         path.close();
                         path.moveTo(f4, f3);
@@ -907,28 +906,28 @@ public class SvgHelper {
                 c2 = (char) (c2 - 1);
                 z = true;
                 switch (c2) {
-                    case VoIPService.CALL_MIN_LAYER /* 65 */:
-                    case 'a':
+                    case 'A':
+                    case R.styleable.AppCompatTheme_selectableItemBackground /* 97 */:
                         break;
-                    case 'C':
-                    case 'c':
+                    case R.styleable.AppCompatTheme_dropdownListPreferredItemHeight /* 67 */:
+                    case R.styleable.AppCompatTheme_spinnerDropDownItemStyle /* 99 */:
                         break;
-                    case 'H':
-                    case 'h':
+                    case R.styleable.AppCompatTheme_imageButtonStyle /* 72 */:
+                    case R.styleable.AppCompatTheme_textAppearanceListItemSecondary /* 104 */:
                         break;
-                    case 'L':
-                    case 'l':
+                    case R.styleable.AppCompatTheme_listDividerAlertDialog /* 76 */:
+                    case R.styleable.AppCompatTheme_textAppearanceSearchResultTitle /* 108 */:
                         break;
-                    case 'M':
-                    case 'm':
+                    case R.styleable.AppCompatTheme_listMenuViewStyle /* 77 */:
+                    case R.styleable.AppCompatTheme_textAppearanceSmallPopupMenu /* 109 */:
                         break;
-                    case 'S':
-                    case 's':
+                    case R.styleable.AppCompatTheme_listPreferredItemPaddingLeft /* 83 */:
+                    case R.styleable.AppCompatTheme_tooltipFrameBackground /* 115 */:
                         break;
                     case 'V':
                     case 'v':
                         break;
-                    case 'Z':
+                    case R.styleable.AppCompatTheme_popupWindowStyle /* 90 */:
                     case 'z':
                         break;
                 }
@@ -958,28 +957,28 @@ public class SvgHelper {
                 c = c2;
                 z = true;
                 switch (c2) {
-                    case VoIPService.CALL_MIN_LAYER /* 65 */:
-                    case 'a':
+                    case 'A':
+                    case R.styleable.AppCompatTheme_selectableItemBackground /* 97 */:
                         break;
-                    case 'C':
-                    case 'c':
+                    case R.styleable.AppCompatTheme_dropdownListPreferredItemHeight /* 67 */:
+                    case R.styleable.AppCompatTheme_spinnerDropDownItemStyle /* 99 */:
                         break;
-                    case 'H':
-                    case 'h':
+                    case R.styleable.AppCompatTheme_imageButtonStyle /* 72 */:
+                    case R.styleable.AppCompatTheme_textAppearanceListItemSecondary /* 104 */:
                         break;
-                    case 'L':
-                    case 'l':
+                    case R.styleable.AppCompatTheme_listDividerAlertDialog /* 76 */:
+                    case R.styleable.AppCompatTheme_textAppearanceSearchResultTitle /* 108 */:
                         break;
-                    case 'M':
-                    case 'm':
+                    case R.styleable.AppCompatTheme_listMenuViewStyle /* 77 */:
+                    case R.styleable.AppCompatTheme_textAppearanceSmallPopupMenu /* 109 */:
                         break;
-                    case 'S':
-                    case 's':
+                    case R.styleable.AppCompatTheme_listPreferredItemPaddingLeft /* 83 */:
+                    case R.styleable.AppCompatTheme_tooltipFrameBackground /* 115 */:
                         break;
                     case 'V':
                     case 'v':
                         break;
-                    case 'Z':
+                    case R.styleable.AppCompatTheme_popupWindowStyle /* 90 */:
                     case 'z':
                         break;
                 }
@@ -1439,7 +1438,7 @@ public class SvgHelper {
                             break;
                         }
                         break;
-                    case 103:
+                    case R.styleable.AppCompatTheme_textAppearanceListItem /* 103 */:
                         if (str2.equals(ImageLoader.AUTOPLAY_FILTER)) {
                             c = 3;
                             break;
@@ -1754,7 +1753,7 @@ public class SvgHelper {
             str2.hashCode();
             char c = 65535;
             switch (str2.hashCode()) {
-                case 103:
+                case R.styleable.AppCompatTheme_textAppearanceListItem /* 103 */:
                     if (str2.equals(ImageLoader.AUTOPLAY_FILTER)) {
                         c = 0;
                         break;
@@ -1912,7 +1911,7 @@ public class SvgHelper {
             } else if (c2 != '-') {
                 z = true;
                 switch (this.current) {
-                    case '.':
+                    case R.styleable.AppCompatTheme_buttonStyle /* 46 */:
                         i = 0;
                         i2 = 0;
                         i3 = 0;
@@ -1921,24 +1920,24 @@ public class SvgHelper {
                             char read3 = read();
                             this.current = read3;
                             switch (read3) {
-                                case '0':
+                                case R.styleable.AppCompatTheme_checkboxStyle /* 48 */:
                                     if (i == 0) {
                                         while (true) {
                                             char read4 = read();
                                             this.current = read4;
                                             i2--;
                                             switch (read4) {
-                                                case '0':
+                                                case R.styleable.AppCompatTheme_checkboxStyle /* 48 */:
                                                     break;
-                                                case '1':
-                                                case '2':
-                                                case '3':
-                                                case '4':
-                                                case '5':
-                                                case '6':
-                                                case '7':
-                                                case '8':
-                                                case '9':
+                                                case R.styleable.AppCompatTheme_checkedTextViewStyle /* 49 */:
+                                                case R.styleable.AppCompatTheme_colorAccent /* 50 */:
+                                                case R.styleable.AppCompatTheme_colorBackgroundFloating /* 51 */:
+                                                case R.styleable.AppCompatTheme_colorButtonNormal /* 52 */:
+                                                case R.styleable.AppCompatTheme_colorControlActivated /* 53 */:
+                                                case R.styleable.AppCompatTheme_colorControlHighlight /* 54 */:
+                                                case R.styleable.AppCompatTheme_colorControlNormal /* 55 */:
+                                                case R.styleable.AppCompatTheme_colorError /* 56 */:
+                                                case R.styleable.AppCompatTheme_colorPrimary /* 57 */:
                                                 default:
                                                     if (!z2) {
                                                         return 0.0f;
@@ -1948,15 +1947,15 @@ public class SvgHelper {
                                         }
                                     }
                                     break;
-                                case '1':
-                                case '2':
-                                case '3':
-                                case '4':
-                                case '5':
-                                case '6':
-                                case '7':
-                                case '8':
-                                case '9':
+                                case R.styleable.AppCompatTheme_checkedTextViewStyle /* 49 */:
+                                case R.styleable.AppCompatTheme_colorAccent /* 50 */:
+                                case R.styleable.AppCompatTheme_colorBackgroundFloating /* 51 */:
+                                case R.styleable.AppCompatTheme_colorButtonNormal /* 52 */:
+                                case R.styleable.AppCompatTheme_colorControlActivated /* 53 */:
+                                case R.styleable.AppCompatTheme_colorControlHighlight /* 54 */:
+                                case R.styleable.AppCompatTheme_colorControlNormal /* 55 */:
+                                case R.styleable.AppCompatTheme_colorError /* 56 */:
+                                case R.styleable.AppCompatTheme_colorPrimary /* 57 */:
                                     while (true) {
                                         if (i < 9) {
                                             i++;
@@ -1984,38 +1983,38 @@ public class SvgHelper {
                             if (read != '+') {
                                 if (read != '-') {
                                     switch (read) {
-                                        case '0':
-                                        case '1':
-                                        case '2':
-                                        case '3':
-                                        case '4':
-                                        case '5':
-                                        case '6':
-                                        case '7':
-                                        case '8':
-                                        case '9':
+                                        case R.styleable.AppCompatTheme_checkboxStyle /* 48 */:
+                                        case R.styleable.AppCompatTheme_checkedTextViewStyle /* 49 */:
+                                        case R.styleable.AppCompatTheme_colorAccent /* 50 */:
+                                        case R.styleable.AppCompatTheme_colorBackgroundFloating /* 51 */:
+                                        case R.styleable.AppCompatTheme_colorButtonNormal /* 52 */:
+                                        case R.styleable.AppCompatTheme_colorControlActivated /* 53 */:
+                                        case R.styleable.AppCompatTheme_colorControlHighlight /* 54 */:
+                                        case R.styleable.AppCompatTheme_colorControlNormal /* 55 */:
+                                        case R.styleable.AppCompatTheme_colorError /* 56 */:
+                                        case R.styleable.AppCompatTheme_colorPrimary /* 57 */:
                                             break;
                                         default:
                                             reportUnexpectedCharacterError(read);
                                             return 0.0f;
                                     }
                                     switch (this.current) {
-                                        case '0':
+                                        case R.styleable.AppCompatTheme_checkboxStyle /* 48 */:
                                             while (true) {
                                                 char read6 = read();
                                                 this.current = read6;
                                                 switch (read6) {
                                                 }
                                             }
-                                        case '1':
-                                        case '2':
-                                        case '3':
-                                        case '4':
-                                        case '5':
-                                        case '6':
-                                        case '7':
-                                        case '8':
-                                        case '9':
+                                        case R.styleable.AppCompatTheme_checkedTextViewStyle /* 49 */:
+                                        case R.styleable.AppCompatTheme_colorAccent /* 50 */:
+                                        case R.styleable.AppCompatTheme_colorBackgroundFloating /* 51 */:
+                                        case R.styleable.AppCompatTheme_colorButtonNormal /* 52 */:
+                                        case R.styleable.AppCompatTheme_colorControlActivated /* 53 */:
+                                        case R.styleable.AppCompatTheme_colorControlHighlight /* 54 */:
+                                        case R.styleable.AppCompatTheme_colorControlNormal /* 55 */:
+                                        case R.styleable.AppCompatTheme_colorError /* 56 */:
+                                        case R.styleable.AppCompatTheme_colorPrimary /* 57 */:
                                             int i5 = 0;
                                             while (true) {
                                                 if (i4 < 3) {
@@ -2025,16 +2024,16 @@ public class SvgHelper {
                                                 char read7 = read();
                                                 this.current = read7;
                                                 switch (read7) {
-                                                    case '0':
-                                                    case '1':
-                                                    case '2':
-                                                    case '3':
-                                                    case '4':
-                                                    case '5':
-                                                    case '6':
-                                                    case '7':
-                                                    case '8':
-                                                    case '9':
+                                                    case R.styleable.AppCompatTheme_checkboxStyle /* 48 */:
+                                                    case R.styleable.AppCompatTheme_checkedTextViewStyle /* 49 */:
+                                                    case R.styleable.AppCompatTheme_colorAccent /* 50 */:
+                                                    case R.styleable.AppCompatTheme_colorBackgroundFloating /* 51 */:
+                                                    case R.styleable.AppCompatTheme_colorButtonNormal /* 52 */:
+                                                    case R.styleable.AppCompatTheme_colorControlActivated /* 53 */:
+                                                    case R.styleable.AppCompatTheme_colorControlHighlight /* 54 */:
+                                                    case R.styleable.AppCompatTheme_colorControlNormal /* 55 */:
+                                                    case R.styleable.AppCompatTheme_colorError /* 56 */:
+                                                    case R.styleable.AppCompatTheme_colorPrimary /* 57 */:
                                                         break;
                                                     default:
                                                         i4 = i5;
@@ -2049,16 +2048,16 @@ public class SvgHelper {
                             read2 = read();
                             this.current = read2;
                             switch (read2) {
-                                case '0':
-                                case '1':
-                                case '2':
-                                case '3':
-                                case '4':
-                                case '5':
-                                case '6':
-                                case '7':
-                                case '8':
-                                case '9':
+                                case R.styleable.AppCompatTheme_checkboxStyle /* 48 */:
+                                case R.styleable.AppCompatTheme_checkedTextViewStyle /* 49 */:
+                                case R.styleable.AppCompatTheme_colorAccent /* 50 */:
+                                case R.styleable.AppCompatTheme_colorBackgroundFloating /* 51 */:
+                                case R.styleable.AppCompatTheme_colorButtonNormal /* 52 */:
+                                case R.styleable.AppCompatTheme_colorControlActivated /* 53 */:
+                                case R.styleable.AppCompatTheme_colorControlHighlight /* 54 */:
+                                case R.styleable.AppCompatTheme_colorControlNormal /* 55 */:
+                                case R.styleable.AppCompatTheme_colorError /* 56 */:
+                                case R.styleable.AppCompatTheme_colorPrimary /* 57 */:
                                     break;
                                 default:
                                     reportUnexpectedCharacterError(read2);
@@ -2075,26 +2074,26 @@ public class SvgHelper {
                             i3 = -i3;
                         }
                         return buildFloat(i3, i6);
-                    case '/':
+                    case R.styleable.AppCompatTheme_buttonStyleSmall /* 47 */:
                     default:
                         return Float.NaN;
-                    case '0':
+                    case R.styleable.AppCompatTheme_checkboxStyle /* 48 */:
                         while (true) {
                             char read8 = read();
                             this.current = read8;
                             if (read8 != '.' && read8 != 'E' && read8 != 'e') {
                                 switch (read8) {
-                                    case '0':
+                                    case R.styleable.AppCompatTheme_checkboxStyle /* 48 */:
                                         break;
-                                    case '1':
-                                    case '2':
-                                    case '3':
-                                    case '4':
-                                    case '5':
-                                    case '6':
-                                    case '7':
-                                    case '8':
-                                    case '9':
+                                    case R.styleable.AppCompatTheme_checkedTextViewStyle /* 49 */:
+                                    case R.styleable.AppCompatTheme_colorAccent /* 50 */:
+                                    case R.styleable.AppCompatTheme_colorBackgroundFloating /* 51 */:
+                                    case R.styleable.AppCompatTheme_colorButtonNormal /* 52 */:
+                                    case R.styleable.AppCompatTheme_colorControlActivated /* 53 */:
+                                    case R.styleable.AppCompatTheme_colorControlHighlight /* 54 */:
+                                    case R.styleable.AppCompatTheme_colorControlNormal /* 55 */:
+                                    case R.styleable.AppCompatTheme_colorError /* 56 */:
+                                    case R.styleable.AppCompatTheme_colorPrimary /* 57 */:
                                         break;
                                     default:
                                         return 0.0f;
@@ -2126,15 +2125,15 @@ public class SvgHelper {
                         if (!z) {
                         }
                         return buildFloat(i3, i62);
-                    case '1':
-                    case '2':
-                    case '3':
-                    case '4':
-                    case '5':
-                    case '6':
-                    case '7':
-                    case '8':
-                    case '9':
+                    case R.styleable.AppCompatTheme_checkedTextViewStyle /* 49 */:
+                    case R.styleable.AppCompatTheme_colorAccent /* 50 */:
+                    case R.styleable.AppCompatTheme_colorBackgroundFloating /* 51 */:
+                    case R.styleable.AppCompatTheme_colorButtonNormal /* 52 */:
+                    case R.styleable.AppCompatTheme_colorControlActivated /* 53 */:
+                    case R.styleable.AppCompatTheme_colorControlHighlight /* 54 */:
+                    case R.styleable.AppCompatTheme_colorControlNormal /* 55 */:
+                    case R.styleable.AppCompatTheme_colorError /* 56 */:
+                    case R.styleable.AppCompatTheme_colorPrimary /* 57 */:
                         i = 0;
                         i2 = 0;
                         i3 = 0;
@@ -2148,16 +2147,16 @@ public class SvgHelper {
                             char read9 = read();
                             this.current = read9;
                             switch (read9) {
-                                case '0':
-                                case '1':
-                                case '2':
-                                case '3':
-                                case '4':
-                                case '5':
-                                case '6':
-                                case '7':
-                                case '8':
-                                case '9':
+                                case R.styleable.AppCompatTheme_checkboxStyle /* 48 */:
+                                case R.styleable.AppCompatTheme_checkedTextViewStyle /* 49 */:
+                                case R.styleable.AppCompatTheme_colorAccent /* 50 */:
+                                case R.styleable.AppCompatTheme_colorBackgroundFloating /* 51 */:
+                                case R.styleable.AppCompatTheme_colorButtonNormal /* 52 */:
+                                case R.styleable.AppCompatTheme_colorControlActivated /* 53 */:
+                                case R.styleable.AppCompatTheme_colorControlHighlight /* 54 */:
+                                case R.styleable.AppCompatTheme_colorControlNormal /* 55 */:
+                                case R.styleable.AppCompatTheme_colorError /* 56 */:
+                                case R.styleable.AppCompatTheme_colorPrimary /* 57 */:
                                     break;
                                 default:
                                     z2 = true;

@@ -222,7 +222,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
                             i13 = 51;
                         }
                         int i14 = i13 & 7;
-                        int i15 = i13 & 112;
+                        int i15 = i13 & R.styleable.AppCompatTheme_toolbarNavigationButtonStyle;
                         int i16 = i14 & 7;
                         if (i16 == 1) {
                             i6 = (((i4 - i2) - measuredWidth) / 2) + layoutParams.leftMargin;

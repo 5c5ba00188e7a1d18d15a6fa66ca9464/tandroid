@@ -1,5 +1,6 @@
 package androidx.fragment.app;
 
+import android.content.Context;
 import android.graphics.Rect;
 import android.os.Build;
 import android.util.SparseArray;
@@ -17,8 +18,8 @@ import java.util.List;
 /* loaded from: classes.dex */
 public class FragmentTransition {
     private static final int[] INVERSE_OPS = {0, 3, 0, 1, 5, 4, 7, 6, 9, 8, 10};
-    private static final FragmentTransitionImpl PLATFORM_IMPL;
-    private static final FragmentTransitionImpl SUPPORT_IMPL;
+    static final FragmentTransitionImpl PLATFORM_IMPL;
+    static final FragmentTransitionImpl SUPPORT_IMPL;
 
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
@@ -42,10 +43,8 @@ public class FragmentTransition {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static void startTransitions(FragmentManager fragmentManager, ArrayList<BackStackRecord> arrayList, ArrayList<Boolean> arrayList2, int i, int i2, boolean z, Callback callback) {
-        if (fragmentManager.mCurState < 1) {
-            return;
-        }
+    public static void startTransitions(Context context, FragmentContainer fragmentContainer, ArrayList<BackStackRecord> arrayList, ArrayList<Boolean> arrayList2, int i, int i2, boolean z, Callback callback) {
+        ViewGroup viewGroup;
         SparseArray sparseArray = new SparseArray();
         for (int i3 = i; i3 < i2; i3++) {
             BackStackRecord backStackRecord = arrayList.get(i3);
@@ -56,16 +55,18 @@ public class FragmentTransition {
             }
         }
         if (sparseArray.size() != 0) {
-            View view = new View(fragmentManager.mHost.getContext());
+            View view = new View(context);
             int size = sparseArray.size();
             for (int i4 = 0; i4 < size; i4++) {
                 int keyAt = sparseArray.keyAt(i4);
                 ArrayMap<String, String> calculateNameOverrides = calculateNameOverrides(keyAt, arrayList, arrayList2, i, i2);
                 FragmentContainerTransition fragmentContainerTransition = (FragmentContainerTransition) sparseArray.valueAt(i4);
-                if (z) {
-                    configureTransitionsReordered(fragmentManager, keyAt, fragmentContainerTransition, view, calculateNameOverrides, callback);
-                } else {
-                    configureTransitionsOrdered(fragmentManager, keyAt, fragmentContainerTransition, view, calculateNameOverrides, callback);
+                if (fragmentContainer.onHasView() && (viewGroup = (ViewGroup) fragmentContainer.onFindViewById(keyAt)) != null) {
+                    if (z) {
+                        configureTransitionsReordered(viewGroup, fragmentContainerTransition, view, calculateNameOverrides, callback);
+                    } else {
+                        configureTransitionsOrdered(viewGroup, fragmentContainerTransition, view, calculateNameOverrides, callback);
+                    }
                 }
             }
         }
@@ -106,13 +107,12 @@ public class FragmentTransition {
         return arrayMap;
     }
 
-    private static void configureTransitionsReordered(FragmentManager fragmentManager, int i, FragmentContainerTransition fragmentContainerTransition, View view, ArrayMap<String, String> arrayMap, final Callback callback) {
-        Fragment fragment;
-        final Fragment fragment2;
-        FragmentTransitionImpl chooseImpl;
+    private static void configureTransitionsReordered(ViewGroup viewGroup, FragmentContainerTransition fragmentContainerTransition, View view, ArrayMap<String, String> arrayMap, final Callback callback) {
         Object obj;
-        ViewGroup viewGroup = fragmentManager.mContainer.onHasView() ? (ViewGroup) fragmentManager.mContainer.onFindViewById(i) : null;
-        if (viewGroup == null || (chooseImpl = chooseImpl((fragment2 = fragmentContainerTransition.firstOut), (fragment = fragmentContainerTransition.lastIn))) == null) {
+        Fragment fragment = fragmentContainerTransition.lastIn;
+        final Fragment fragment2 = fragmentContainerTransition.firstOut;
+        FragmentTransitionImpl chooseImpl = chooseImpl(fragment2, fragment);
+        if (chooseImpl == null) {
             return;
         }
         boolean z = fragmentContainerTransition.lastInIsPop;
@@ -168,13 +168,12 @@ public class FragmentTransition {
         }
     }
 
-    private static void configureTransitionsOrdered(FragmentManager fragmentManager, int i, FragmentContainerTransition fragmentContainerTransition, View view, ArrayMap<String, String> arrayMap, final Callback callback) {
-        Fragment fragment;
-        final Fragment fragment2;
-        FragmentTransitionImpl chooseImpl;
+    private static void configureTransitionsOrdered(ViewGroup viewGroup, FragmentContainerTransition fragmentContainerTransition, View view, ArrayMap<String, String> arrayMap, final Callback callback) {
         Object obj;
-        ViewGroup viewGroup = fragmentManager.mContainer.onHasView() ? (ViewGroup) fragmentManager.mContainer.onFindViewById(i) : null;
-        if (viewGroup == null || (chooseImpl = chooseImpl((fragment2 = fragmentContainerTransition.firstOut), (fragment = fragmentContainerTransition.lastIn))) == null) {
+        Fragment fragment = fragmentContainerTransition.lastIn;
+        final Fragment fragment2 = fragmentContainerTransition.firstOut;
+        FragmentTransitionImpl chooseImpl = chooseImpl(fragment2, fragment);
+        if (chooseImpl == null) {
             return;
         }
         boolean z = fragmentContainerTransition.lastInIsPop;
@@ -193,7 +192,7 @@ public class FragmentTransition {
             obj = exitTransition;
         }
         ArrayList<View> configureEnteringExitingViews = configureEnteringExitingViews(chooseImpl, obj, fragment2, arrayList, view);
-        Object obj2 = (configureEnteringExitingViews == null || configureEnteringExitingViews.isEmpty()) ? null : obj;
+        Object obj2 = (configureEnteringExitingViews == null || configureEnteringExitingViews.isEmpty()) ? null : null;
         chooseImpl.addTarget(enterTransition, view);
         Object mergeTransitions = mergeTransitions(chooseImpl, enterTransition, obj2, configureSharedElementsOrdered, fragment, fragmentContainerTransition.lastInIsPop);
         if (fragment2 != null && configureEnteringExitingViews != null && (configureEnteringExitingViews.size() > 0 || arrayList.size() > 0)) {
@@ -550,7 +549,8 @@ public class FragmentTransition {
         }
     }
 
-    private static void retainValues(ArrayMap<String, String> arrayMap, ArrayMap<String, View> arrayMap2) {
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static void retainValues(ArrayMap<String, String> arrayMap, ArrayMap<String, View> arrayMap2) {
         for (int size = arrayMap.size() - 1; size >= 0; size--) {
             if (!arrayMap2.containsKey(arrayMap.valueAt(size))) {
                 arrayMap.removeAt(size);
@@ -558,7 +558,8 @@ public class FragmentTransition {
         }
     }
 
-    static void callSharedElementStartEnd(Fragment fragment, Fragment fragment2, boolean z, ArrayMap<String, View> arrayMap, boolean z2) {
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static void callSharedElementStartEnd(Fragment fragment, Fragment fragment2, boolean z, ArrayMap<String, View> arrayMap, boolean z2) {
         if (z) {
             fragment2.getEnterTransitionCallback();
         } else {
@@ -586,7 +587,8 @@ public class FragmentTransition {
         return null;
     }
 
-    static void setViewVisibility(ArrayList<View> arrayList, int i) {
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static void setViewVisibility(ArrayList<View> arrayList, int i) {
         if (arrayList == null) {
             return;
         }
@@ -618,7 +620,7 @@ public class FragmentTransition {
     }
 
     public static void calculatePopFragments(BackStackRecord backStackRecord, SparseArray<FragmentContainerTransition> sparseArray, boolean z) {
-        if (backStackRecord.mManager.mContainer.onHasView()) {
+        if (backStackRecord.mManager.getContainer().onHasView()) {
             for (int size = backStackRecord.mOps.size() - 1; size >= 0; size--) {
                 addToFirstInLastOut(backStackRecord, backStackRecord.mOps.get(size), sparseArray, true, z);
             }
@@ -626,22 +628,23 @@ public class FragmentTransition {
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:31:0x0039, code lost:
-        if (r0.mAdded != false) goto L64;
+        if (r0.mAdded != false) goto L60;
      */
     /* JADX WARN: Code restructure failed: missing block: B:56:0x006e, code lost:
         r9 = true;
      */
     /* JADX WARN: Code restructure failed: missing block: B:69:0x008a, code lost:
-        if (r0.mHidden == false) goto L64;
+        if (r0.mHidden == false) goto L60;
      */
     /* JADX WARN: Code restructure failed: missing block: B:70:0x008c, code lost:
         r9 = true;
      */
-    /* JADX WARN: Removed duplicated region for block: B:102:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:75:0x009a  */
     /* JADX WARN: Removed duplicated region for block: B:78:0x00a7 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:91:0x00c7 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:96:0x00d9 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:85:0x00b5  */
+    /* JADX WARN: Removed duplicated region for block: B:87:0x00c7 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:92:0x00d9 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:98:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -650,24 +653,23 @@ public class FragmentTransition {
         boolean z3;
         boolean z4;
         boolean z5;
-        boolean z6;
         FragmentContainerTransition fragmentContainerTransition;
-        FragmentManager fragmentManager;
         Fragment fragment = op.mFragment;
         if (fragment == null || (i = fragment.mContainerId) == 0) {
             return;
         }
         int i2 = z ? INVERSE_OPS[op.mCmd] : op.mCmd;
-        boolean z7 = false;
+        boolean z6 = false;
+        boolean z7 = true;
         if (i2 != 1) {
             if (i2 != 3) {
                 if (i2 == 4) {
                     boolean z8 = !z2 ? false : false;
                     z5 = z8;
-                    z4 = false;
-                    z6 = true;
+                    z4 = true;
+                    z7 = false;
                     fragmentContainerTransition = sparseArray.get(i);
-                    if (z7) {
+                    if (z6) {
                     }
                     if (!z2) {
                     }
@@ -679,23 +681,23 @@ public class FragmentTransition {
                     if (i2 != 6) {
                         if (i2 != 7) {
                             z4 = false;
-                            z6 = false;
+                            z7 = false;
                             z5 = false;
                             fragmentContainerTransition = sparseArray.get(i);
-                            if (z7) {
+                            if (z6) {
                                 fragmentContainerTransition = ensureContainer(fragmentContainerTransition, sparseArray, i);
                                 fragmentContainerTransition.lastIn = fragment;
                                 fragmentContainerTransition.lastInIsPop = z;
                                 fragmentContainerTransition.lastInTransaction = backStackRecord;
                             }
-                            if (!z2 && z4) {
+                            if (!z2 && z7) {
                                 if (fragmentContainerTransition != null && fragmentContainerTransition.firstOut == fragment) {
                                     fragmentContainerTransition.firstOut = null;
                                 }
-                                fragmentManager = backStackRecord.mManager;
-                                if (fragment.mState < 1 && fragmentManager.mCurState >= 1 && !backStackRecord.mReorderingAllowed) {
-                                    fragmentManager.makeActive(fragment);
-                                    fragmentManager.moveToState(fragment, 1);
+                                if (!backStackRecord.mReorderingAllowed) {
+                                    FragmentManager fragmentManager = backStackRecord.mManager;
+                                    fragmentManager.getFragmentStore().makeActive(fragmentManager.createOrGetFragmentStateManager(fragment));
+                                    fragmentManager.moveToState(fragment);
                                 }
                             }
                             if (z5 && (fragmentContainerTransition == null || fragmentContainerTransition.firstOut == null)) {
@@ -704,7 +706,7 @@ public class FragmentTransition {
                                 fragmentContainerTransition.firstOutIsPop = z;
                                 fragmentContainerTransition.firstOutTransaction = backStackRecord;
                             }
-                            if (z2 || !z6 || fragmentContainerTransition == null || fragmentContainerTransition.lastIn != fragment) {
+                            if (z2 || !z4 || fragmentContainerTransition == null || fragmentContainerTransition.lastIn != fragment) {
                                 return;
                             }
                             fragmentContainerTransition.lastIn = null;
@@ -717,21 +719,17 @@ public class FragmentTransition {
                         }
                     }
                     z3 = false;
-                    z7 = z3;
-                    z4 = true;
-                    z6 = false;
+                    z6 = z3;
+                    z4 = false;
                     z5 = false;
                     fragmentContainerTransition = sparseArray.get(i);
-                    if (z7) {
+                    if (z6) {
                     }
                     if (!z2) {
                         if (fragmentContainerTransition != null) {
                             fragmentContainerTransition.firstOut = null;
                         }
-                        fragmentManager = backStackRecord.mManager;
-                        if (fragment.mState < 1) {
-                            fragmentManager.makeActive(fragment);
-                            fragmentManager.moveToState(fragment, 1);
+                        if (!backStackRecord.mReorderingAllowed) {
                         }
                     }
                     if (z5) {
@@ -746,12 +744,11 @@ public class FragmentTransition {
                     return;
                 } else {
                     z3 = fragment.mHidden;
-                    z7 = z3;
-                    z4 = true;
-                    z6 = false;
+                    z6 = z3;
+                    z4 = false;
                     z5 = false;
                     fragmentContainerTransition = sparseArray.get(i);
-                    if (z7) {
+                    if (z6) {
                     }
                     if (!z2) {
                     }
@@ -764,10 +761,10 @@ public class FragmentTransition {
             if (!z2) {
             }
             z5 = z8;
-            z4 = false;
-            z6 = true;
+            z4 = true;
+            z7 = false;
             fragmentContainerTransition = sparseArray.get(i);
-            if (z7) {
+            if (z6) {
             }
             if (!z2) {
             }
@@ -778,12 +775,11 @@ public class FragmentTransition {
         }
         if (z2) {
             z3 = fragment.mIsNewlyAdded;
-            z7 = z3;
-            z4 = true;
-            z6 = false;
+            z6 = z3;
+            z4 = false;
             z5 = false;
             fragmentContainerTransition = sparseArray.get(i);
-            if (z7) {
+            if (z6) {
             }
             if (!z2) {
             }
@@ -795,12 +791,11 @@ public class FragmentTransition {
             if (!fragment.mAdded) {
             }
             z3 = false;
-            z7 = z3;
-            z4 = true;
-            z6 = false;
+            z6 = z3;
+            z4 = false;
             z5 = false;
             fragmentContainerTransition = sparseArray.get(i);
-            if (z7) {
+            if (z6) {
             }
             if (!z2) {
             }

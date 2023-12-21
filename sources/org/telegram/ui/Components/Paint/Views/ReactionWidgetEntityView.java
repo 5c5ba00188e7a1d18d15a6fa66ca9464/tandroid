@@ -153,7 +153,7 @@ public class ReactionWidgetEntityView extends EntityView {
     }
 
     @Override // org.telegram.ui.Components.Paint.Views.EntityView
-    protected org.telegram.ui.Components.Rect getSelectionBounds() {
+    public org.telegram.ui.Components.Rect getSelectionBounds() {
         ViewGroup viewGroup = (ViewGroup) getParent();
         if (viewGroup == null) {
             return new org.telegram.ui.Components.Rect();

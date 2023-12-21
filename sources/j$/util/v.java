@@ -1,18 +1,44 @@
 package j$.util;
 
 import j$.util.function.Consumer;
+import java.util.NoSuchElementException;
+import java.util.Objects;
 /* loaded from: classes2.dex */
-public interface v extends w {
-    @Override // j$.util.u
-    boolean b(Consumer consumer);
+class v implements java.util.Iterator, Consumer {
+    boolean a = false;
+    Object b;
+    final /* synthetic */ t c;
 
-    void d(j$.util.function.q qVar);
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public v(t tVar) {
+        this.c = tVar;
+    }
 
-    @Override // j$.util.u
-    void forEachRemaining(Consumer consumer);
+    @Override // j$.util.function.Consumer
+    public void accept(Object obj) {
+        this.a = true;
+        this.b = obj;
+    }
 
-    boolean i(j$.util.function.q qVar);
+    @Override // j$.util.function.Consumer
+    public /* synthetic */ Consumer andThen(Consumer consumer) {
+        return Objects.requireNonNull(consumer);
+    }
 
-    @Override // j$.util.w, j$.util.u
-    v trySplit();
+    @Override // java.util.Iterator
+    public boolean hasNext() {
+        if (!this.a) {
+            this.c.b(this);
+        }
+        return this.a;
+    }
+
+    @Override // java.util.Iterator
+    public Object next() {
+        if (this.a || hasNext()) {
+            this.a = false;
+            return this.b;
+        }
+        throw new NoSuchElementException();
+    }
 }

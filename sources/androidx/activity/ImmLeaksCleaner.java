@@ -1,5 +1,6 @@
 package androidx.activity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -62,6 +63,7 @@ final class ImmLeaksCleaner implements LifecycleEventObserver {
         }
     }
 
+    @SuppressLint({"SoonBlockedPrivateApi"})
     private static void initializeReflectiveFields() {
         try {
             sReflectedFieldsInitialized = 2;

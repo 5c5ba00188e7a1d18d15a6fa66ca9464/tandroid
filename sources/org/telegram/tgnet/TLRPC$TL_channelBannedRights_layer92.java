@@ -1,5 +1,5 @@
 package org.telegram.tgnet;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_channelBannedRights_layer92 extends TLObject {
     public boolean embed_links;
     public int flags;

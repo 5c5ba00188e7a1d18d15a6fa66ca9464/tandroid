@@ -1,5 +1,5 @@
 package org.telegram.tgnet;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_payments_getPaymentReceipt extends TLObject {
     public int msg_id;
     public TLRPC$InputPeer peer;

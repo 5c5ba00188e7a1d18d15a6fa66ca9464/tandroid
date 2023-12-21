@@ -1,17 +1,23 @@
 package androidx.core.view.inputmethod;
 
 import android.annotation.SuppressLint;
+import android.content.ClipData;
 import android.content.ClipDescription;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.ResultReceiver;
 import android.text.TextUtils;
+import android.util.Log;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputConnectionWrapper;
 import android.view.inputmethod.InputContentInfo;
 import androidx.core.util.ObjectsCompat;
+import androidx.core.util.Preconditions;
+import androidx.core.view.ContentInfoCompat;
+import androidx.core.view.ViewCompat;
 @SuppressLint({"PrivateConstructorForUtilityClass"})
 /* loaded from: classes.dex */
 public final class InputConnectionCompat {
@@ -23,7 +29,7 @@ public final class InputConnectionCompat {
 
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r0v0 */
-    /* JADX WARN: Type inference failed for: r0v3, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r0v3, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r0v5 */
     /* JADX WARN: Type inference failed for: r0v6 */
     static boolean handlePerformPrivateCommand(String str, Bundle bundle, OnCommitContentListener onCommitContentListener) {
@@ -94,5 +100,37 @@ public final class InputConnectionCompat {
                 return super.performPrivateCommand(str, bundle);
             }
         };
+    }
+
+    public static InputConnection createWrapper(View view, InputConnection inputConnection, EditorInfo editorInfo) {
+        return createWrapper(inputConnection, editorInfo, createOnCommitContentListenerUsingPerformReceiveContent(view));
+    }
+
+    private static OnCommitContentListener createOnCommitContentListenerUsingPerformReceiveContent(final View view) {
+        Preconditions.checkNotNull(view);
+        return new OnCommitContentListener() { // from class: androidx.core.view.inputmethod.InputConnectionCompat$$ExternalSyntheticLambda0
+            @Override // androidx.core.view.inputmethod.InputConnectionCompat.OnCommitContentListener
+            public final boolean onCommitContent(InputContentInfoCompat inputContentInfoCompat, int i, Bundle bundle) {
+                boolean lambda$createOnCommitContentListenerUsingPerformReceiveContent$0;
+                lambda$createOnCommitContentListenerUsingPerformReceiveContent$0 = InputConnectionCompat.lambda$createOnCommitContentListenerUsingPerformReceiveContent$0(view, inputContentInfoCompat, i, bundle);
+                return lambda$createOnCommitContentListenerUsingPerformReceiveContent$0;
+            }
+        };
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ boolean lambda$createOnCommitContentListenerUsingPerformReceiveContent$0(View view, InputContentInfoCompat inputContentInfoCompat, int i, Bundle bundle) {
+        if (Build.VERSION.SDK_INT >= 25 && (i & 1) != 0) {
+            try {
+                inputContentInfoCompat.requestPermission();
+                InputContentInfo inputContentInfo = (InputContentInfo) inputContentInfoCompat.unwrap();
+                bundle = bundle == null ? new Bundle() : new Bundle(bundle);
+                bundle.putParcelable("androidx.core.view.extra.INPUT_CONTENT_INFO", inputContentInfo);
+            } catch (Exception e) {
+                Log.w("InputConnectionCompat", "Can't insert content from IME; requestPermission() failed", e);
+                return false;
+            }
+        }
+        return ViewCompat.performReceiveContent(view, new ContentInfoCompat.Builder(new ClipData(inputContentInfoCompat.getDescription(), new ClipData.Item(inputContentInfoCompat.getContentUri())), 2).setLinkUri(inputContentInfoCompat.getLinkUri()).setExtras(bundle).build()) == null;
     }
 }

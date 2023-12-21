@@ -20,6 +20,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
@@ -33,6 +34,7 @@ import androidx.core.graphics.ColorUtils;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
+import com.google.android.exoplayer2.util.Consumer;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -44,6 +46,7 @@ import java.util.List;
 import java.util.Objects;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
+import org.telegram.messenger.ChannelBoostsController;
 import org.telegram.messenger.ChatThemeController;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
@@ -54,17 +57,21 @@ import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
+import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.ResultCallback;
 import org.telegram.tgnet.TLObject;
+import org.telegram.tgnet.TLRPC$Chat;
+import org.telegram.tgnet.TLRPC$ChatFull;
 import org.telegram.tgnet.TLRPC$TL_account_getWallPaper;
 import org.telegram.tgnet.TLRPC$TL_error;
 import org.telegram.tgnet.TLRPC$TL_inputWallPaperSlug;
 import org.telegram.tgnet.TLRPC$TL_wallPaper;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.tgnet.TLRPC$WallPaper;
+import org.telegram.tgnet.tl.TL_stories$TL_premium_boostsStatus;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BackDrawable;
 import org.telegram.ui.ActionBar.BaseFragment;
@@ -78,17 +85,21 @@ import org.telegram.ui.Cells.ThemesHorizontalListCell;
 import org.telegram.ui.ChatActivity;
 import org.telegram.ui.Components.ChatAttachAlert;
 import org.telegram.ui.Components.ChatThemeBottomSheet;
+import org.telegram.ui.Components.Premium.LimitReachedBottomSheet;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.PhotoViewer;
+import org.telegram.ui.StatisticActivity;
 import org.telegram.ui.ThemePreviewActivity;
 import org.telegram.ui.WallpapersListActivity;
 /* loaded from: classes4.dex */
 public class ChatThemeBottomSheet extends BottomSheet implements NotificationCenter.NotificationCenterDelegate {
     private final Adapter adapter;
     private final View applyButton;
+    private AnimatedTextView applySubTextView;
     private AnimatedTextView applyTextView;
     private final BackDrawable backButtonDrawable;
     private final ImageView backButtonView;
+    private TL_stories$TL_premium_boostsStatus boostsStatus;
     private TextView cancelOrResetTextView;
     private View changeDayNightView;
     private ValueAnimator changeDayNightViewAnimator;
@@ -97,6 +108,8 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
     public ChatAttachAlert chatAttachAlert;
     private FrameLayout chatAttachButton;
     private AnimatedTextView chatAttachButtonText;
+    private boolean checkedBoostsLevel;
+    private boolean checkingBoostsLevel;
     private TextView chooseBackgroundTextView;
     private EmojiThemes currentTheme;
     private TLRPC$WallPaper currentWallpaper;
@@ -108,27 +121,34 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
     private boolean isApplyClicked;
     private boolean isLightDarkChangeAnimation;
     private final LinearLayoutManager layoutManager;
+    private ColoredImageSpan lockSpan;
     private final boolean originalIsDark;
     private final EmojiThemes originalTheme;
-    ThemePreviewActivity overlayFragment;
+    BaseFragment overlayFragment;
     private int prevSelectedPosition;
     private final FlickerLoadingView progressView;
     private final RecyclerListView recyclerView;
     private FrameLayout rootLayout;
     private final LinearSmoothScroller scroller;
     private ChatThemeItem selectedItem;
+    private float subTextTranslation;
+    private ValueAnimator subTextTranslationAnimator;
     private final ChatActivity.ThemeDelegate themeDelegate;
     private TextView themeHintTextView;
     private final TextView titleView;
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ boolean lambda$setupLightDarkTheme$9(View view, MotionEvent motionEvent) {
+    public static /* synthetic */ boolean lambda$setupLightDarkTheme$11(View view, MotionEvent motionEvent) {
         return true;
     }
 
     public ChatThemeBottomSheet(final ChatActivity chatActivity, ChatActivity.ThemeDelegate themeDelegate) {
         super(chatActivity.getParentActivity(), true, themeDelegate);
+        String str;
         this.prevSelectedPosition = -1;
+        this.checkingBoostsLevel = false;
+        this.checkedBoostsLevel = false;
+        this.subTextTranslation = 0.0f;
         this.chatActivity = chatActivity;
         this.themeDelegate = themeDelegate;
         this.originalTheme = themeDelegate.getCurrentTheme();
@@ -168,7 +188,7 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         BackDrawable backDrawable = new BackDrawable(false);
         this.backButtonDrawable = backDrawable;
         imageView.setImageDrawable(backDrawable);
-        imageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet$$ExternalSyntheticLambda3
+        imageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet$$ExternalSyntheticLambda5
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 ChatThemeBottomSheet.this.lambda$new$0(view);
@@ -201,7 +221,7 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         this.darkThemeView = rLottieImageView;
         rLottieImageView.setAnimation(rLottieDrawable);
         rLottieImageView.setScaleType(ImageView.ScaleType.CENTER);
-        rLottieImageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet$$ExternalSyntheticLambda4
+        rLottieImageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet$$ExternalSyntheticLambda7
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 ChatThemeBottomSheet.this.lambda$new$1(view);
@@ -228,7 +248,7 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         this.layoutManager = linearLayoutManager;
         recyclerListView.setLayoutManager(linearLayoutManager);
         recyclerListView.setPadding(AndroidUtilities.dp(12.0f), 0, AndroidUtilities.dp(12.0f), 0);
-        recyclerListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet$$ExternalSyntheticLambda14
+        recyclerListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet$$ExternalSyntheticLambda22
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i4) {
                 ChatThemeBottomSheet.this.lambda$new$2(view, i4);
@@ -243,7 +263,7 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         View view = new View(getContext());
         this.applyButton = view;
         view.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6.0f), getThemedColor(i2), getThemedColor(Theme.key_featuredStickers_addButtonPressed)));
-        view.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet$$ExternalSyntheticLambda2
+        view.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet$$ExternalSyntheticLambda4
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {
                 ChatThemeBottomSheet.this.lambda$new$3(view2);
@@ -275,10 +295,23 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         AnimatedTextView animatedTextView2 = this.applyTextView;
         animatedTextView2.adaptWidth = false;
         animatedTextView2.setGravity(17);
-        this.applyTextView.setTextColor(getThemedColor(Theme.key_featuredStickers_buttonText));
+        AnimatedTextView animatedTextView3 = this.applyTextView;
+        int i4 = Theme.key_featuredStickers_buttonText;
+        animatedTextView3.setTextColor(getThemedColor(i4));
         this.applyTextView.setTextSize(AndroidUtilities.dp(15.0f));
         this.applyTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.rootLayout.addView(this.applyTextView, LayoutHelper.createFrame(-1, 48.0f, 8388611, 16.0f, 162.0f, 16.0f, 16.0f));
+        AnimatedTextView animatedTextView4 = new AnimatedTextView(getContext(), true, true, true);
+        this.applySubTextView = animatedTextView4;
+        animatedTextView4.getDrawable().setEllipsizeByGradient(true);
+        AnimatedTextView animatedTextView5 = this.applySubTextView;
+        animatedTextView5.adaptWidth = false;
+        animatedTextView5.setGravity(17);
+        this.applySubTextView.setTextColor(getThemedColor(i4));
+        this.applySubTextView.setTextSize(AndroidUtilities.dp(12.0f));
+        this.applySubTextView.setAlpha(0.0f);
+        this.applySubTextView.setTranslationY(AndroidUtilities.dp(11.0f));
+        this.rootLayout.addView(this.applySubTextView, LayoutHelper.createFrame(-1, 48.0f, 8388611, 16.0f, 162.0f, 16.0f, 16.0f));
         if (this.currentWallpaper != null) {
             TextView textView3 = new TextView(getContext());
             this.cancelOrResetTextView = textView3;
@@ -288,7 +321,7 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
             this.cancelOrResetTextView.setSingleLine(true);
             this.cancelOrResetTextView.setText(LocaleController.getString("RestToDefaultBackground", R.string.RestToDefaultBackground));
             this.cancelOrResetTextView.setTextSize(1, 15.0f);
-            this.cancelOrResetTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet$$ExternalSyntheticLambda6
+            this.cancelOrResetTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet$$ExternalSyntheticLambda8
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view2) {
                     ChatThemeBottomSheet.this.lambda$new$4(chatActivity, view2);
@@ -301,7 +334,12 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
             this.themeHintTextView.setGravity(17);
             this.themeHintTextView.setLines(1);
             this.themeHintTextView.setSingleLine(true);
-            this.themeHintTextView.setText(LocaleController.formatString("ChatThemeApplyHint", R.string.ChatThemeApplyHint, chatActivity.getCurrentUser().first_name));
+            if (chatActivity.getCurrentUser() != null) {
+                str = UserObject.getFirstName(chatActivity.getCurrentUser());
+            } else {
+                str = chatActivity.getCurrentChat() != null ? chatActivity.getCurrentChat().title : "";
+            }
+            this.themeHintTextView.setText(LocaleController.formatString("ChatThemeApplyHint", R.string.ChatThemeApplyHint, str));
             this.themeHintTextView.setTextSize(1, 15.0f);
             this.rootLayout.addView(this.themeHintTextView, LayoutHelper.createFrame(-1, 48.0f, 8388611, 16.0f, 214.0f, 16.0f, 12.0f));
         }
@@ -422,7 +460,13 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
     }
 
     private void updateState(boolean z) {
+        TL_stories$TL_premium_boostsStatus tL_stories$TL_premium_boostsStatus;
+        boolean z2;
         EmojiThemes emojiThemes;
+        TLRPC$Chat currentChat = this.chatActivity.getCurrentChat();
+        if (currentChat != null) {
+            checkBoostsLevel();
+        }
         if (!this.dataLoaded) {
             this.backButtonDrawable.setRotation(1.0f, z);
             this.applyButton.setEnabled(false);
@@ -430,6 +474,7 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
             AndroidUtilities.updateViewVisibilityAnimated(this.cancelOrResetTextView, false, 0.9f, false, z);
             AndroidUtilities.updateViewVisibilityAnimated(this.applyButton, false, 1.0f, false, z);
             AndroidUtilities.updateViewVisibilityAnimated(this.applyTextView, false, 0.9f, false, z);
+            AndroidUtilities.updateViewVisibilityAnimated(this.applySubTextView, false, 0.9f, false, z);
             AndroidUtilities.updateViewVisibilityAnimated(this.themeHintTextView, false, 0.9f, false, z);
             AndroidUtilities.updateViewVisibilityAnimated(this.progressView, true, 1.0f, true, z);
             return;
@@ -438,19 +483,41 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         if (hasChanges()) {
             this.backButtonDrawable.setRotation(0.0f, z);
             this.applyButton.setEnabled(true);
+            ChatThemeItem chatThemeItem = this.selectedItem;
+            if (chatThemeItem != null && (emojiThemes = chatThemeItem.chatTheme) != null && emojiThemes.showAsDefaultStub && emojiThemes.wallpaper == null) {
+                this.applyTextView.setText(LocaleController.getString("ChatResetTheme", R.string.ChatResetTheme));
+            } else {
+                this.applyTextView.setText(LocaleController.getString("ChatApplyTheme", R.string.ChatApplyTheme));
+                if (currentChat != null && (tL_stories$TL_premium_boostsStatus = this.boostsStatus) != null && tL_stories$TL_premium_boostsStatus.level < this.chatActivity.getMessagesController().channelWallpaperLevelMin) {
+                    SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder("l");
+                    if (this.lockSpan == null) {
+                        ColoredImageSpan coloredImageSpan = new ColoredImageSpan(R.drawable.mini_switch_lock);
+                        this.lockSpan = coloredImageSpan;
+                        coloredImageSpan.setTopOffset(1);
+                    }
+                    spannableStringBuilder.setSpan(this.lockSpan, 0, 1, 33);
+                    spannableStringBuilder.append((CharSequence) " ").append((CharSequence) LocaleController.formatPluralString("ReactionLevelRequiredBtn", this.chatActivity.getMessagesController().channelWallpaperLevelMin, new Object[0]));
+                    this.applySubTextView.setText(spannableStringBuilder);
+                    z2 = true;
+                    updateApplySubTextTranslation(z2, !z && this.applyTextView.getAlpha() > 0.8f);
+                    AndroidUtilities.updateViewVisibilityAnimated(this.chooseBackgroundTextView, false, 0.9f, false, z);
+                    AndroidUtilities.updateViewVisibilityAnimated(this.cancelOrResetTextView, false, 0.9f, false, z);
+                    AndroidUtilities.updateViewVisibilityAnimated(this.applyButton, true, 1.0f, false, z);
+                    AndroidUtilities.updateViewVisibilityAnimated(this.applyTextView, true, 0.9f, false, z);
+                    AndroidUtilities.updateViewVisibilityAnimated(this.applySubTextView, z2, 0.9f, false, 0.7f, z);
+                    AndroidUtilities.updateViewVisibilityAnimated(this.themeHintTextView, true, 0.9f, false, z);
+                    return;
+                }
+            }
+            z2 = false;
+            updateApplySubTextTranslation(z2, !z && this.applyTextView.getAlpha() > 0.8f);
             AndroidUtilities.updateViewVisibilityAnimated(this.chooseBackgroundTextView, false, 0.9f, false, z);
             AndroidUtilities.updateViewVisibilityAnimated(this.cancelOrResetTextView, false, 0.9f, false, z);
             AndroidUtilities.updateViewVisibilityAnimated(this.applyButton, true, 1.0f, false, z);
             AndroidUtilities.updateViewVisibilityAnimated(this.applyTextView, true, 0.9f, false, z);
+            AndroidUtilities.updateViewVisibilityAnimated(this.applySubTextView, z2, 0.9f, false, 0.7f, z);
             AndroidUtilities.updateViewVisibilityAnimated(this.themeHintTextView, true, 0.9f, false, z);
-            ChatThemeItem chatThemeItem = this.selectedItem;
-            if (chatThemeItem != null && (emojiThemes = chatThemeItem.chatTheme) != null && emojiThemes.showAsDefaultStub && emojiThemes.wallpaper == null) {
-                this.applyTextView.setText(LocaleController.getString("ChatResetTheme", R.string.ChatResetTheme));
-                return;
-            } else {
-                this.applyTextView.setText(LocaleController.getString("ChatApplyTheme", R.string.ChatApplyTheme));
-                return;
-            }
+            return;
         }
         this.backButtonDrawable.setRotation(1.0f, z);
         this.applyButton.setEnabled(false);
@@ -458,7 +525,68 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         AndroidUtilities.updateViewVisibilityAnimated(this.cancelOrResetTextView, true, 0.9f, false, z);
         AndroidUtilities.updateViewVisibilityAnimated(this.applyButton, false, 1.0f, false, z);
         AndroidUtilities.updateViewVisibilityAnimated(this.applyTextView, false, 0.9f, false, z);
+        AndroidUtilities.updateViewVisibilityAnimated(this.applySubTextView, false, 0.9f, false, z);
         AndroidUtilities.updateViewVisibilityAnimated(this.themeHintTextView, false, 0.9f, false, z);
+    }
+
+    private void checkBoostsLevel() {
+        ChatActivity chatActivity = this.chatActivity;
+        if (chatActivity == null || this.checkingBoostsLevel || this.checkedBoostsLevel || this.boostsStatus != null) {
+            return;
+        }
+        this.checkingBoostsLevel = true;
+        chatActivity.getMessagesController().getBoostsController().getBoostsStats(this.chatActivity.getDialogId(), new Consumer() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet$$ExternalSyntheticLambda11
+            @Override // com.google.android.exoplayer2.util.Consumer
+            public final void accept(Object obj) {
+                ChatThemeBottomSheet.this.lambda$checkBoostsLevel$5((TL_stories$TL_premium_boostsStatus) obj);
+            }
+        });
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$checkBoostsLevel$5(TL_stories$TL_premium_boostsStatus tL_stories$TL_premium_boostsStatus) {
+        this.boostsStatus = tL_stories$TL_premium_boostsStatus;
+        this.checkedBoostsLevel = true;
+        updateState(true);
+        this.checkingBoostsLevel = false;
+    }
+
+    private void updateApplySubTextTranslation(final boolean z, boolean z2) {
+        ValueAnimator valueAnimator = this.subTextTranslationAnimator;
+        if (valueAnimator != null) {
+            valueAnimator.cancel();
+            this.subTextTranslationAnimator = null;
+        }
+        if (z2) {
+            float[] fArr = new float[2];
+            fArr[0] = this.subTextTranslation;
+            fArr[1] = z ? 1.0f : 0.0f;
+            ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
+            this.subTextTranslationAnimator = ofFloat;
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet$$ExternalSyntheticLambda0
+                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                    ChatThemeBottomSheet.this.lambda$updateApplySubTextTranslation$6(valueAnimator2);
+                }
+            });
+            this.subTextTranslationAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet.5
+                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                public void onAnimationEnd(Animator animator) {
+                    ChatThemeBottomSheet.this.subTextTranslation = z ? 1.0f : 0.0f;
+                    ChatThemeBottomSheet.this.applyTextView.setTranslationY((-AndroidUtilities.dp(7.0f)) * ChatThemeBottomSheet.this.subTextTranslation);
+                }
+            });
+            this.subTextTranslationAnimator.start();
+            return;
+        }
+        this.subTextTranslation = z ? 1.0f : 0.0f;
+        this.applyTextView.setTranslationY((-AndroidUtilities.dp(7.0f)) * this.subTextTranslation);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$updateApplySubTextTranslation$6(ValueAnimator valueAnimator) {
+        this.subTextTranslation = ((Float) valueAnimator.getAnimatedValue()).floatValue();
+        this.applyTextView.setTranslationY((-AndroidUtilities.dp(7.0f)) * this.subTextTranslation);
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
@@ -474,7 +602,7 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         this.isApplyClicked = false;
         List<EmojiThemes> cachedThemes = this.themeDelegate.getCachedThemes();
         if (cachedThemes == null || cachedThemes.isEmpty()) {
-            chatThemeController.requestAllChatThemes(new 5(), true);
+            chatThemeController.requestAllChatThemes(new 6(), true);
         } else {
             onDataLoaded(cachedThemes);
         }
@@ -492,10 +620,10 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         } else {
             this.hintView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("ChatThemeNightSwitchTooltip", R.string.ChatThemeNightSwitchTooltip, new Object[0])));
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet$$ExternalSyntheticLambda8
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet$$ExternalSyntheticLambda17
             @Override // java.lang.Runnable
             public final void run() {
-                ChatThemeBottomSheet.this.lambda$onCreate$5();
+                ChatThemeBottomSheet.this.lambda$onCreate$7();
             }
         }, 1500L);
         this.container.addView(this.hintView, LayoutHelper.createFrame(-2, -2.0f, 51, 10.0f, 0.0f, 10.0f, 0.0f));
@@ -503,8 +631,8 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
 
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes4.dex */
-    public class 5 implements ResultCallback<List<EmojiThemes>> {
-        5() {
+    public class 6 implements ResultCallback<List<EmojiThemes>> {
+        6() {
         }
 
         @Override // org.telegram.tgnet.ResultCallback
@@ -512,10 +640,10 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
             if (list != null && !list.isEmpty()) {
                 ChatThemeBottomSheet.this.themeDelegate.setCachedThemes(list);
             }
-            NotificationCenter.getInstance(((BottomSheet) ChatThemeBottomSheet.this).currentAccount).doOnIdle(new Runnable() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet$5$$ExternalSyntheticLambda0
+            NotificationCenter.getInstance(((BottomSheet) ChatThemeBottomSheet.this).currentAccount).doOnIdle(new Runnable() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet$6$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    ChatThemeBottomSheet.5.this.lambda$onComplete$0(list);
+                    ChatThemeBottomSheet.6.this.lambda$onComplete$0(list);
                 }
             });
         }
@@ -532,7 +660,7 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onCreate$5() {
+    public /* synthetic */ void lambda$onCreate$7() {
         this.hintView.showForView(this.darkThemeView, true);
     }
 
@@ -588,16 +716,16 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), this.resourcesProvider);
             builder.setTitle(LocaleController.getString("ChatThemeSaveDialogTitle", R.string.ChatThemeSaveDialogTitle));
             builder.setSubtitle(LocaleController.getString("ChatThemeSaveDialogText", R.string.ChatThemeSaveDialogText));
-            builder.setPositiveButton(LocaleController.getString("ChatThemeSaveDialogApply", R.string.ChatThemeSaveDialogApply), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet$$ExternalSyntheticLambda1
+            builder.setPositiveButton(LocaleController.getString("ChatThemeSaveDialogApply", R.string.ChatThemeSaveDialogApply), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet$$ExternalSyntheticLambda2
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i) {
-                    ChatThemeBottomSheet.this.lambda$close$6(dialogInterface, i);
+                    ChatThemeBottomSheet.this.lambda$close$8(dialogInterface, i);
                 }
             });
-            builder.setNegativeButton(LocaleController.getString("ChatThemeSaveDialogDiscard", R.string.ChatThemeSaveDialogDiscard), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet$$ExternalSyntheticLambda0
+            builder.setNegativeButton(LocaleController.getString("ChatThemeSaveDialogDiscard", R.string.ChatThemeSaveDialogDiscard), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet$$ExternalSyntheticLambda1
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i) {
-                    ChatThemeBottomSheet.this.lambda$close$7(dialogInterface, i);
+                    ChatThemeBottomSheet.this.lambda$close$9(dialogInterface, i);
                 }
             });
             builder.show();
@@ -607,12 +735,12 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$close$6(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$close$8(DialogInterface dialogInterface, int i) {
         applySelectedTheme();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$close$7(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$close$9(DialogInterface dialogInterface, int i) {
         dismiss();
     }
 
@@ -620,24 +748,23 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
     @SuppressLint({"NotifyDataSetChanged"})
     public void didReceivedNotification(int i, int i2, Object... objArr) {
         if (i == NotificationCenter.emojiLoaded) {
-            NotificationCenter.getInstance(this.currentAccount).doOnIdle(new Runnable() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet$$ExternalSyntheticLambda10
+            NotificationCenter.getInstance(this.currentAccount).doOnIdle(new Runnable() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet$$ExternalSyntheticLambda18
                 @Override // java.lang.Runnable
                 public final void run() {
-                    ChatThemeBottomSheet.this.lambda$didReceivedNotification$8();
+                    ChatThemeBottomSheet.this.lambda$didReceivedNotification$10();
                 }
             });
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$didReceivedNotification$8() {
+    public /* synthetic */ void lambda$didReceivedNotification$10() {
         this.adapter.notifyDataSetChanged();
     }
 
     @Override // org.telegram.ui.ActionBar.BottomSheet
     public ArrayList<ThemeDescription> getThemeDescriptions() {
-        ThemePreviewActivity themePreviewActivity;
-        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet.6
+        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet.7
             private boolean isAnimationStarted = false;
 
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
@@ -674,9 +801,12 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
             }
         };
         ArrayList<ThemeDescription> arrayList = new ArrayList<>();
-        if (this.chatActivity.forceDisallowRedrawThemeDescriptions && (themePreviewActivity = this.overlayFragment) != null) {
-            arrayList.addAll(themePreviewActivity.getThemeDescriptionsInternal());
-            return arrayList;
+        if (this.chatActivity.forceDisallowRedrawThemeDescriptions) {
+            BaseFragment baseFragment = this.overlayFragment;
+            if (baseFragment instanceof ThemePreviewActivity) {
+                arrayList.addAll(((ThemePreviewActivity) baseFragment).getThemeDescriptionsInternal());
+                return arrayList;
+            }
         }
         ChatAttachAlert chatAttachAlert = this.chatAttachAlert;
         if (chatAttachAlert != null) {
@@ -724,7 +854,7 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         final float max = Math.max(createBitmap.getHeight(), createBitmap.getWidth()) * 0.9f;
         Shader.TileMode tileMode = Shader.TileMode.CLAMP;
         paint2.setShader(new BitmapShader(createBitmap, tileMode, tileMode));
-        View view = new View(getContext()) { // from class: org.telegram.ui.Components.ChatThemeBottomSheet.7
+        View view = new View(getContext()) { // from class: org.telegram.ui.Components.ChatThemeBottomSheet.8
             @Override // android.view.View
             protected void onDraw(Canvas canvas2) {
                 super.onDraw(canvas2);
@@ -743,11 +873,11 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
             }
         };
         this.changeDayNightView = view;
-        view.setOnTouchListener(ChatThemeBottomSheet$$ExternalSyntheticLambda7.INSTANCE);
+        view.setOnTouchListener(ChatThemeBottomSheet$$ExternalSyntheticLambda9.INSTANCE);
         this.changeDayNightViewProgress = 0.0f;
         ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
         this.changeDayNightViewAnimator = ofFloat;
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet.8
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet.9
             boolean changedNavigationBarColor = false;
 
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
@@ -760,7 +890,7 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
                 this.changedNavigationBarColor = true;
             }
         });
-        this.changeDayNightViewAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet.9
+        this.changeDayNightViewAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet.10
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationEnd(Animator animator) {
                 if (ChatThemeBottomSheet.this.changeDayNightView != null) {
@@ -777,16 +907,16 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         this.changeDayNightViewAnimator.setInterpolator(Easings.easeInOutQuad);
         this.changeDayNightViewAnimator.start();
         frameLayout.addView(this.changeDayNightView, new ViewGroup.LayoutParams(-1, -1));
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet$$ExternalSyntheticLambda12
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet$$ExternalSyntheticLambda19
             @Override // java.lang.Runnable
             public final void run() {
-                ChatThemeBottomSheet.this.lambda$setupLightDarkTheme$10(z);
+                ChatThemeBottomSheet.this.lambda$setupLightDarkTheme$12(z);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$setupLightDarkTheme$10(boolean z) {
+    public /* synthetic */ void lambda$setupLightDarkTheme$12(boolean z) {
         Adapter adapter = this.adapter;
         if (adapter == null || adapter.items == null || isDismissed()) {
             return;
@@ -943,6 +1073,19 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
 
     private void applySelectedTheme() {
         boolean z;
+        if (this.checkingBoostsLevel) {
+            return;
+        }
+        TL_stories$TL_premium_boostsStatus tL_stories$TL_premium_boostsStatus = this.boostsStatus;
+        if (tL_stories$TL_premium_boostsStatus != null && tL_stories$TL_premium_boostsStatus.level < this.chatActivity.getMessagesController().channelWallpaperLevelMin) {
+            this.chatActivity.getMessagesController().getBoostsController().userCanBoostChannel(this.chatActivity.getDialogId(), this.boostsStatus, new Consumer() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet$$ExternalSyntheticLambda10
+                @Override // com.google.android.exoplayer2.util.Consumer
+                public final void accept(Object obj) {
+                    ChatThemeBottomSheet.this.lambda$applySelectedTheme$14((ChannelBoostsController.CanApplyBoost) obj);
+                }
+            });
+            return;
+        }
         ChatThemeItem chatThemeItem = this.selectedItem;
         EmojiThemes emojiThemes = chatThemeItem.chatTheme;
         Bulletin bulletin = null;
@@ -980,6 +1123,38 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         if (bulletin != null) {
             bulletin.show();
         }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$applySelectedTheme$14(ChannelBoostsController.CanApplyBoost canApplyBoost) {
+        if (getContext() == null) {
+            return;
+        }
+        LimitReachedBottomSheet limitReachedBottomSheet = new LimitReachedBottomSheet(this.chatActivity, getContext(), 22, this.currentAccount, this.resourcesProvider);
+        limitReachedBottomSheet.setCanApplyBoost(canApplyBoost);
+        limitReachedBottomSheet.setBoostsStats(this.boostsStatus, true);
+        limitReachedBottomSheet.setDialogId(this.chatActivity.getDialogId());
+        limitReachedBottomSheet.showStatisticButtonInLink(new Runnable() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet$$ExternalSyntheticLambda12
+            @Override // java.lang.Runnable
+            public final void run() {
+                ChatThemeBottomSheet.this.lambda$applySelectedTheme$13();
+            }
+        });
+        limitReachedBottomSheet.show();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$applySelectedTheme$13() {
+        TLRPC$Chat chat = this.chatActivity.getMessagesController().getChat(Long.valueOf(-this.chatActivity.getDialogId()));
+        Bundle bundle = new Bundle();
+        bundle.putLong("chat_id", -this.chatActivity.getDialogId());
+        bundle.putBoolean("is_megagroup", chat.megagroup);
+        bundle.putBoolean("start_from_boosts", true);
+        TLRPC$ChatFull chatFull = this.chatActivity.getMessagesController().getChatFull(-this.chatActivity.getDialogId());
+        if (chatFull == null || !chatFull.can_view_stats) {
+            bundle.putBoolean("only_boosts", true);
+        }
+        showAsSheet(new StatisticActivity(bundle));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1256,6 +1431,207 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         }
     }
 
+    public static void openGalleryForBackground(Activity activity, BaseFragment baseFragment, long j, final Theme.ResourcesProvider resourcesProvider, Utilities.Callback<TLRPC$WallPaper> callback, ThemePreviewActivity.DayNightSwitchDelegate dayNightSwitchDelegate, TL_stories$TL_premium_boostsStatus tL_stories$TL_premium_boostsStatus) {
+        final ChatAttachAlert chatAttachAlert = new ChatAttachAlert(activity, baseFragment, false, false, false, resourcesProvider);
+        chatAttachAlert.drawNavigationBar = true;
+        chatAttachAlert.setupPhotoPicker(LocaleController.getString("ChooseBackground", R.string.ChooseBackground));
+        chatAttachAlert.setDelegate(new 11(chatAttachAlert, tL_stories$TL_premium_boostsStatus, resourcesProvider, dayNightSwitchDelegate, j, callback, baseFragment));
+        chatAttachAlert.setMaxSelectedPhotos(1, false);
+        chatAttachAlert.init();
+        chatAttachAlert.getPhotoLayout().loadGalleryPhotos();
+        chatAttachAlert.show();
+        FrameLayout frameLayout = new FrameLayout(activity) { // from class: org.telegram.ui.Components.ChatThemeBottomSheet.12
+            Paint paint = new Paint();
+
+            @Override // android.widget.FrameLayout, android.view.View
+            protected void onMeasure(int i, int i2) {
+                super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(48.0f), 1073741824));
+            }
+
+            @Override // android.view.ViewGroup, android.view.View
+            protected void dispatchDraw(Canvas canvas) {
+                super.dispatchDraw(canvas);
+                this.paint.setColor(Theme.getColor(Theme.key_divider, resourcesProvider));
+                canvas.drawRect(0.0f, 0.0f, getMeasuredWidth(), 1.0f, this.paint);
+            }
+        };
+        final AnimatedTextView animatedTextView = new AnimatedTextView(activity, true, true, true);
+        animatedTextView.setTextSize(AndroidUtilities.dp(14.0f));
+        animatedTextView.setText(LocaleController.getString(R.string.SetColorAsBackground));
+        animatedTextView.setGravity(17);
+        int i = Theme.key_featuredStickers_addButton;
+        animatedTextView.setTextColor(Theme.getColor(i, resourcesProvider));
+        frameLayout.addView(animatedTextView, LayoutHelper.createFrame(-1, -2, 17));
+        frameLayout.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(0.0f), Theme.getColor(Theme.key_windowBackgroundWhite, resourcesProvider), ColorUtils.setAlphaComponent(Theme.getColor(i, resourcesProvider), 76)));
+        frameLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet$$ExternalSyntheticLambda3
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view) {
+                ChatThemeBottomSheet.lambda$openGalleryForBackground$15(ChatAttachAlert.this, animatedTextView, view);
+            }
+        });
+        chatAttachAlert.sizeNotifierFrameLayout.addView(frameLayout, LayoutHelper.createFrame(-1, -2, 80));
+    }
+
+    /* loaded from: classes4.dex */
+    class 11 implements ChatAttachAlert.ChatAttachViewDelegate {
+        final /* synthetic */ TL_stories$TL_premium_boostsStatus val$cachedBoostsStatus;
+        final /* synthetic */ ChatAttachAlert val$chatAttachAlert;
+        final /* synthetic */ long val$dialogId;
+        final /* synthetic */ BaseFragment val$fragment;
+        final /* synthetic */ Utilities.Callback val$onSet;
+        final /* synthetic */ Theme.ResourcesProvider val$resourcesProvider;
+        final /* synthetic */ ThemePreviewActivity.DayNightSwitchDelegate val$toggleTheme;
+
+        @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
+        public /* synthetic */ void didSelectBot(TLRPC$User tLRPC$User) {
+            ChatAttachAlert.ChatAttachViewDelegate.-CC.$default$didSelectBot(this, tLRPC$User);
+        }
+
+        @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
+        public /* synthetic */ void doOnIdle(Runnable runnable) {
+            ChatAttachAlert.ChatAttachViewDelegate.-CC.$default$doOnIdle(this, runnable);
+        }
+
+        @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
+        public /* synthetic */ boolean needEnterComment() {
+            return ChatAttachAlert.ChatAttachViewDelegate.-CC.$default$needEnterComment(this);
+        }
+
+        @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
+        public /* synthetic */ void onCameraOpened() {
+            ChatAttachAlert.ChatAttachViewDelegate.-CC.$default$onCameraOpened(this);
+        }
+
+        @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
+        public /* synthetic */ void openAvatarsSearch() {
+            ChatAttachAlert.ChatAttachViewDelegate.-CC.$default$openAvatarsSearch(this);
+        }
+
+        @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
+        public /* synthetic */ void sendAudio(ArrayList arrayList, CharSequence charSequence, boolean z, int i) {
+            ChatAttachAlert.ChatAttachViewDelegate.-CC.$default$sendAudio(this, arrayList, charSequence, z, i);
+        }
+
+        11(ChatAttachAlert chatAttachAlert, TL_stories$TL_premium_boostsStatus tL_stories$TL_premium_boostsStatus, Theme.ResourcesProvider resourcesProvider, ThemePreviewActivity.DayNightSwitchDelegate dayNightSwitchDelegate, long j, Utilities.Callback callback, BaseFragment baseFragment) {
+            this.val$chatAttachAlert = chatAttachAlert;
+            this.val$cachedBoostsStatus = tL_stories$TL_premium_boostsStatus;
+            this.val$resourcesProvider = resourcesProvider;
+            this.val$toggleTheme = dayNightSwitchDelegate;
+            this.val$dialogId = j;
+            this.val$onSet = callback;
+            this.val$fragment = baseFragment;
+        }
+
+        @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
+        public boolean selectItemOnClicking() {
+            System.currentTimeMillis();
+            return true;
+        }
+
+        @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
+        public void didPressedButton(int i, boolean z, boolean z2, int i2, boolean z3) {
+            try {
+                HashMap<Object, Object> selectedPhotos = this.val$chatAttachAlert.getPhotoLayout().getSelectedPhotos();
+                if (selectedPhotos.isEmpty()) {
+                    return;
+                }
+                MediaController.PhotoEntry photoEntry = (MediaController.PhotoEntry) selectedPhotos.values().iterator().next();
+                String str = photoEntry.imagePath;
+                if (str == null) {
+                    str = photoEntry.path;
+                }
+                if (str != null) {
+                    File directory = FileLoader.getDirectory(4);
+                    File file = new File(directory, Utilities.random.nextInt() + ".jpg");
+                    android.graphics.Point realScreenSize = AndroidUtilities.getRealScreenSize();
+                    Bitmap loadBitmap = ImageLoader.loadBitmap(str, null, (float) realScreenSize.x, (float) realScreenSize.y, true);
+                    loadBitmap.compress(Bitmap.CompressFormat.JPEG, 87, new FileOutputStream(file));
+                    ThemePreviewActivity themePreviewActivity = new ThemePreviewActivity(this, new WallpapersListActivity.FileWallpaper("", file, file), loadBitmap) { // from class: org.telegram.ui.Components.ChatThemeBottomSheet.11.1
+                        @Override // org.telegram.ui.ThemePreviewActivity
+                        public boolean insideBottomSheet() {
+                            return true;
+                        }
+                    };
+                    themePreviewActivity.boostsStatus = this.val$cachedBoostsStatus;
+                    themePreviewActivity.setResourceProvider(this.val$resourcesProvider);
+                    themePreviewActivity.setOnSwitchDayNightDelegate(this.val$toggleTheme);
+                    themePreviewActivity.setInitialModes(false, false, 0.2f);
+                    themePreviewActivity.setDialogId(this.val$dialogId);
+                    final ChatAttachAlert chatAttachAlert = this.val$chatAttachAlert;
+                    final Utilities.Callback callback = this.val$onSet;
+                    themePreviewActivity.setDelegate(new ThemePreviewActivity.WallpaperActivityDelegate() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet$11$$ExternalSyntheticLambda1
+                        @Override // org.telegram.ui.ThemePreviewActivity.WallpaperActivityDelegate
+                        public final void didSetNewBackground(TLRPC$WallPaper tLRPC$WallPaper) {
+                            ChatThemeBottomSheet.11.lambda$didPressedButton$0(ChatAttachAlert.this, callback, tLRPC$WallPaper);
+                        }
+                    });
+                    BaseFragment.BottomSheetParams bottomSheetParams = new BaseFragment.BottomSheetParams();
+                    bottomSheetParams.transitionFromLeft = true;
+                    bottomSheetParams.allowNestedScroll = false;
+                    bottomSheetParams.occupyNavigationBar = true;
+                    this.val$fragment.showAsSheet(themePreviewActivity, bottomSheetParams);
+                    this.val$chatAttachAlert.dismiss();
+                }
+            } catch (Throwable th) {
+                FileLog.e(th);
+            }
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public static /* synthetic */ void lambda$didPressedButton$0(ChatAttachAlert chatAttachAlert, Utilities.Callback callback, TLRPC$WallPaper tLRPC$WallPaper) {
+            chatAttachAlert.dismissInternal();
+            if (callback != null) {
+                callback.run(tLRPC$WallPaper);
+            }
+        }
+
+        @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
+        public void onWallpaperSelected(Object obj) {
+            ThemePreviewActivity themePreviewActivity = new ThemePreviewActivity(this, obj, null, true, false) { // from class: org.telegram.ui.Components.ChatThemeBottomSheet.11.2
+                @Override // org.telegram.ui.ThemePreviewActivity
+                public boolean insideBottomSheet() {
+                    return true;
+                }
+            };
+            themePreviewActivity.boostsStatus = this.val$cachedBoostsStatus;
+            themePreviewActivity.setResourceProvider(this.val$resourcesProvider);
+            themePreviewActivity.setOnSwitchDayNightDelegate(this.val$toggleTheme);
+            themePreviewActivity.setDialogId(this.val$dialogId);
+            final ChatAttachAlert chatAttachAlert = this.val$chatAttachAlert;
+            final Utilities.Callback callback = this.val$onSet;
+            themePreviewActivity.setDelegate(new ThemePreviewActivity.WallpaperActivityDelegate() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet$11$$ExternalSyntheticLambda0
+                @Override // org.telegram.ui.ThemePreviewActivity.WallpaperActivityDelegate
+                public final void didSetNewBackground(TLRPC$WallPaper tLRPC$WallPaper) {
+                    ChatThemeBottomSheet.11.lambda$onWallpaperSelected$1(ChatAttachAlert.this, callback, tLRPC$WallPaper);
+                }
+            });
+            BaseFragment.BottomSheetParams bottomSheetParams = new BaseFragment.BottomSheetParams();
+            bottomSheetParams.transitionFromLeft = true;
+            bottomSheetParams.allowNestedScroll = false;
+            bottomSheetParams.occupyNavigationBar = true;
+            this.val$fragment.showAsSheet(themePreviewActivity, bottomSheetParams);
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public static /* synthetic */ void lambda$onWallpaperSelected$1(ChatAttachAlert chatAttachAlert, Utilities.Callback callback, TLRPC$WallPaper tLRPC$WallPaper) {
+            chatAttachAlert.dismissInternal();
+            if (callback != null) {
+                callback.run(tLRPC$WallPaper);
+            }
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$openGalleryForBackground$15(ChatAttachAlert chatAttachAlert, AnimatedTextView animatedTextView, View view) {
+        if (chatAttachAlert.getCurrentAttachLayout() == chatAttachAlert.getPhotoLayout()) {
+            animatedTextView.setText(LocaleController.getString(R.string.ChooseBackgroundFromGallery));
+            chatAttachAlert.openColorsLayout();
+            return;
+        }
+        animatedTextView.setText(LocaleController.getString(R.string.SetColorAsBackground));
+        chatAttachAlert.showLayout(chatAttachAlert.getPhotoLayout());
+    }
+
     /* JADX INFO: Access modifiers changed from: private */
     public void openGalleryForBackground() {
         Activity parentActivity = this.chatActivity.getParentActivity();
@@ -1264,12 +1640,12 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         this.chatAttachAlert = chatAttachAlert;
         chatAttachAlert.drawNavigationBar = true;
         chatAttachAlert.setupPhotoPicker(LocaleController.getString("ChooseBackground", R.string.ChooseBackground));
-        this.chatAttachAlert.setDelegate(new 10());
+        this.chatAttachAlert.setDelegate(new 13());
         this.chatAttachAlert.setMaxSelectedPhotos(1, false);
         this.chatAttachAlert.init();
         this.chatAttachAlert.getPhotoLayout().loadGalleryPhotos();
         this.chatAttachAlert.show();
-        this.chatAttachButton = new FrameLayout(getContext()) { // from class: org.telegram.ui.Components.ChatThemeBottomSheet.11
+        this.chatAttachButton = new FrameLayout(getContext()) { // from class: org.telegram.ui.Components.ChatThemeBottomSheet.14
             Paint paint = new Paint();
 
             @Override // android.widget.FrameLayout, android.view.View
@@ -1294,10 +1670,10 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         animatedTextView2.setTextColor(getThemedColor(i));
         this.chatAttachButton.addView(this.chatAttachButtonText, LayoutHelper.createFrame(-1, -2, 17));
         this.chatAttachButton.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(0.0f), getThemedColor(Theme.key_windowBackgroundWhite), ColorUtils.setAlphaComponent(getThemedColor(i), 76)));
-        this.chatAttachButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet$$ExternalSyntheticLambda5
+        this.chatAttachButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet$$ExternalSyntheticLambda6
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
-                ChatThemeBottomSheet.this.lambda$openGalleryForBackground$11(view);
+                ChatThemeBottomSheet.this.lambda$openGalleryForBackground$16(view);
             }
         });
         this.chatAttachAlert.sizeNotifierFrameLayout.addView(this.chatAttachButton, LayoutHelper.createFrame(-1, -2, 80));
@@ -1305,7 +1681,7 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
 
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes4.dex */
-    public class 10 implements ChatAttachAlert.ChatAttachViewDelegate {
+    public class 13 implements ChatAttachAlert.ChatAttachViewDelegate {
         @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
         public /* synthetic */ void didSelectBot(TLRPC$User tLRPC$User) {
             ChatAttachAlert.ChatAttachViewDelegate.-CC.$default$didSelectBot(this, tLRPC$User);
@@ -1313,7 +1689,7 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
 
         @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
         public /* synthetic */ void doOnIdle(Runnable runnable) {
-            runnable.run();
+            ChatAttachAlert.ChatAttachViewDelegate.-CC.$default$doOnIdle(this, runnable);
         }
 
         @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
@@ -1336,7 +1712,7 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
             ChatAttachAlert.ChatAttachViewDelegate.-CC.$default$sendAudio(this, arrayList, charSequence, z, i);
         }
 
-        10() {
+        13() {
         }
 
         @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
@@ -1363,18 +1739,19 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
                     android.graphics.Point realScreenSize = AndroidUtilities.getRealScreenSize();
                     Bitmap loadBitmap = ImageLoader.loadBitmap(str, null, (float) realScreenSize.x, (float) realScreenSize.y, true);
                     loadBitmap.compress(Bitmap.CompressFormat.JPEG, 87, new FileOutputStream(file));
-                    ThemePreviewActivity themePreviewActivity = new ThemePreviewActivity(this, new WallpapersListActivity.FileWallpaper("", file, file), loadBitmap) { // from class: org.telegram.ui.Components.ChatThemeBottomSheet.10.1
+                    ThemePreviewActivity themePreviewActivity = new ThemePreviewActivity(this, new WallpapersListActivity.FileWallpaper("", file, file), loadBitmap) { // from class: org.telegram.ui.Components.ChatThemeBottomSheet.13.1
                         @Override // org.telegram.ui.ThemePreviewActivity
                         public boolean insideBottomSheet() {
                             return true;
                         }
                     };
+                    themePreviewActivity.boostsStatus = ChatThemeBottomSheet.this.boostsStatus;
                     themePreviewActivity.setInitialModes(false, false, 0.2f);
                     themePreviewActivity.setDialogId(ChatThemeBottomSheet.this.chatActivity.getDialogId());
-                    themePreviewActivity.setDelegate(new ThemePreviewActivity.WallpaperActivityDelegate() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet$10$$ExternalSyntheticLambda0
+                    themePreviewActivity.setDelegate(new ThemePreviewActivity.WallpaperActivityDelegate() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet$13$$ExternalSyntheticLambda0
                         @Override // org.telegram.ui.ThemePreviewActivity.WallpaperActivityDelegate
-                        public final void didSetNewBackground() {
-                            ChatThemeBottomSheet.10.this.lambda$didPressedButton$0();
+                        public final void didSetNewBackground(TLRPC$WallPaper tLRPC$WallPaper) {
+                            ChatThemeBottomSheet.13.this.lambda$didPressedButton$0(tLRPC$WallPaper);
                         }
                     });
                     ChatThemeBottomSheet.this.showAsSheet(themePreviewActivity);
@@ -1385,38 +1762,39 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$didPressedButton$0() {
+        public /* synthetic */ void lambda$didPressedButton$0(TLRPC$WallPaper tLRPC$WallPaper) {
             ChatThemeBottomSheet.this.chatAttachAlert.dismissInternal();
             ChatThemeBottomSheet.this.dismiss();
         }
 
         @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
         public void onWallpaperSelected(Object obj) {
-            ThemePreviewActivity themePreviewActivity = new ThemePreviewActivity(this, obj, null, true, false) { // from class: org.telegram.ui.Components.ChatThemeBottomSheet.10.2
+            ThemePreviewActivity themePreviewActivity = new ThemePreviewActivity(this, obj, null, true, false) { // from class: org.telegram.ui.Components.ChatThemeBottomSheet.13.2
                 @Override // org.telegram.ui.ThemePreviewActivity
                 public boolean insideBottomSheet() {
                     return true;
                 }
             };
+            themePreviewActivity.boostsStatus = ChatThemeBottomSheet.this.boostsStatus;
             themePreviewActivity.setDialogId(ChatThemeBottomSheet.this.chatActivity.getDialogId());
-            themePreviewActivity.setDelegate(new ThemePreviewActivity.WallpaperActivityDelegate() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet$10$$ExternalSyntheticLambda1
+            themePreviewActivity.setDelegate(new ThemePreviewActivity.WallpaperActivityDelegate() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet$13$$ExternalSyntheticLambda1
                 @Override // org.telegram.ui.ThemePreviewActivity.WallpaperActivityDelegate
-                public final void didSetNewBackground() {
-                    ChatThemeBottomSheet.10.this.lambda$onWallpaperSelected$1();
+                public final void didSetNewBackground(TLRPC$WallPaper tLRPC$WallPaper) {
+                    ChatThemeBottomSheet.13.this.lambda$onWallpaperSelected$1(tLRPC$WallPaper);
                 }
             });
             ChatThemeBottomSheet.this.showAsSheet(themePreviewActivity);
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onWallpaperSelected$1() {
+        public /* synthetic */ void lambda$onWallpaperSelected$1(TLRPC$WallPaper tLRPC$WallPaper) {
             ChatThemeBottomSheet.this.chatAttachAlert.dismissInternal();
             ChatThemeBottomSheet.this.dismiss();
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$openGalleryForBackground$11(View view) {
+    public /* synthetic */ void lambda$openGalleryForBackground$16(View view) {
         if (this.chatAttachAlert.getCurrentAttachLayout() == this.chatAttachAlert.getPhotoLayout()) {
             this.chatAttachButtonText.setText(LocaleController.getString("ChooseBackgroundFromGallery", R.string.ChooseBackgroundFromGallery));
             this.chatAttachAlert.openColorsLayout();
@@ -1430,7 +1808,7 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
 
     /* JADX INFO: Access modifiers changed from: private */
     /* renamed from: fixColorsAfterAnotherWindow */
-    public void lambda$showAsSheet$13() {
+    public void lambda$showAsSheet$21() {
         if (isDismissed() || this.isApplyClicked) {
             return;
         }
@@ -1460,13 +1838,55 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         this.adapter.notifyDataSetChanged();
     }
 
+    private void showAsSheet(BaseFragment baseFragment) {
+        if (baseFragment == null) {
+            return;
+        }
+        BaseFragment.BottomSheetParams bottomSheetParams = new BaseFragment.BottomSheetParams();
+        bottomSheetParams.transitionFromLeft = true;
+        bottomSheetParams.allowNestedScroll = false;
+        baseFragment.setResourceProvider(this.chatActivity.getResourceProvider());
+        bottomSheetParams.onOpenAnimationFinished = ChatThemeBottomSheet$$ExternalSyntheticLambda20.INSTANCE;
+        bottomSheetParams.onPreFinished = new Runnable() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet$$ExternalSyntheticLambda15
+            @Override // java.lang.Runnable
+            public final void run() {
+                ChatThemeBottomSheet.this.lambda$showAsSheet$18();
+            }
+        };
+        bottomSheetParams.onDismiss = new Runnable() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet$$ExternalSyntheticLambda13
+            @Override // java.lang.Runnable
+            public final void run() {
+                ChatThemeBottomSheet.this.lambda$showAsSheet$19();
+            }
+        };
+        bottomSheetParams.occupyNavigationBar = true;
+        ChatActivity chatActivity = this.chatActivity;
+        this.overlayFragment = baseFragment;
+        chatActivity.showAsSheet(baseFragment, bottomSheetParams);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$showAsSheet$17() {
+        PhotoViewer.getInstance().closePhoto(false, false);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$showAsSheet$19() {
+        this.overlayFragment = null;
+    }
+
     /* JADX INFO: Access modifiers changed from: private */
     public void showAsSheet(ThemePreviewActivity themePreviewActivity) {
         BaseFragment.BottomSheetParams bottomSheetParams = new BaseFragment.BottomSheetParams();
         bottomSheetParams.transitionFromLeft = true;
         bottomSheetParams.allowNestedScroll = false;
         themePreviewActivity.setResourceProvider(this.chatActivity.getResourceProvider());
-        themePreviewActivity.setOnSwitchDayNightDelegate(new ThemePreviewActivity.DayNightSwitchDelegate() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet.12
+        themePreviewActivity.setOnSwitchDayNightDelegate(new ThemePreviewActivity.DayNightSwitchDelegate() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet.15
+            @Override // org.telegram.ui.ThemePreviewActivity.DayNightSwitchDelegate
+            public boolean supportsAnimation() {
+                return true;
+            }
+
             @Override // org.telegram.ui.ThemePreviewActivity.DayNightSwitchDelegate
             public boolean isDark() {
                 return ChatThemeBottomSheet.this.forceDark;
@@ -1489,17 +1909,17 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
                 }
             }
         });
-        bottomSheetParams.onOpenAnimationFinished = ChatThemeBottomSheet$$ExternalSyntheticLambda13.INSTANCE;
-        bottomSheetParams.onPreFinished = new Runnable() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet$$ExternalSyntheticLambda9
+        bottomSheetParams.onOpenAnimationFinished = ChatThemeBottomSheet$$ExternalSyntheticLambda21.INSTANCE;
+        bottomSheetParams.onPreFinished = new Runnable() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet$$ExternalSyntheticLambda16
             @Override // java.lang.Runnable
             public final void run() {
-                ChatThemeBottomSheet.this.lambda$showAsSheet$13();
+                ChatThemeBottomSheet.this.lambda$showAsSheet$21();
             }
         };
-        bottomSheetParams.onDismiss = new Runnable() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet$$ExternalSyntheticLambda11
+        bottomSheetParams.onDismiss = new Runnable() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet$$ExternalSyntheticLambda14
             @Override // java.lang.Runnable
             public final void run() {
-                ChatThemeBottomSheet.this.lambda$showAsSheet$14();
+                ChatThemeBottomSheet.this.lambda$showAsSheet$22();
             }
         };
         bottomSheetParams.occupyNavigationBar = true;
@@ -1508,12 +1928,12 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showAsSheet$12() {
+    public static /* synthetic */ void lambda$showAsSheet$20() {
         PhotoViewer.getInstance().closePhoto(false, false);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showAsSheet$14() {
+    public /* synthetic */ void lambda$showAsSheet$22() {
         this.overlayFragment = null;
     }
 
@@ -1528,6 +1948,14 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
 
         public ChatThemeItem(EmojiThemes emojiThemes) {
             this.chatTheme = emojiThemes;
+        }
+
+        public String getEmoticon() {
+            EmojiThemes emojiThemes = this.chatTheme;
+            if (emojiThemes == null || emojiThemes.showAsDefaultStub) {
+                return null;
+            }
+            return emojiThemes.getEmoticon();
         }
     }
 }

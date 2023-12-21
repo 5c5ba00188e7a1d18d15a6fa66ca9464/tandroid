@@ -1,5 +1,5 @@
 package org.telegram.tgnet;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_updateChannelViewForumAsMessages extends TLRPC$Update {
     public long channel_id;
     public boolean enabled;

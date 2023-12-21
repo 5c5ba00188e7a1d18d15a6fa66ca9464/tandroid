@@ -1,5 +1,5 @@
 package org.telegram.tgnet;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_channels_editAdmin extends TLObject {
     public TLRPC$TL_chatAdminRights admin_rights;
     public TLRPC$InputChannel channel;

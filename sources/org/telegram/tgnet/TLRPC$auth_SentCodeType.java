@@ -1,5 +1,5 @@
 package org.telegram.tgnet;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public abstract class TLRPC$auth_SentCodeType extends TLObject {
     public boolean apple_signin_allowed;
     public String email_pattern;

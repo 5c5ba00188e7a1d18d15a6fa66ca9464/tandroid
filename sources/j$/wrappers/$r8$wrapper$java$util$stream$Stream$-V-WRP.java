@@ -210,7 +210,7 @@ public final /* synthetic */ class $r8$wrapper$java$util$stream$Stream$-V-WRP im
     }
 
     @Override // j$.util.stream.g
-    public /* synthetic */ j$.util.u spliterator() {
+    public /* synthetic */ j$.util.t spliterator() {
         return g.a(this.a.spliterator());
     }
 

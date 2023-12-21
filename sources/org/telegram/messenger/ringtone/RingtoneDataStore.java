@@ -25,7 +25,7 @@ import org.telegram.tgnet.TLRPC$TL_account_getSavedRingtones;
 import org.telegram.tgnet.TLRPC$TL_account_savedRingtones;
 import org.telegram.tgnet.TLRPC$TL_account_savedRingtonesNotModified;
 import org.telegram.tgnet.TLRPC$TL_error;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class RingtoneDataStore {
     private static volatile long lastReloadTimeMs;
     private static volatile long queryHash;
@@ -374,7 +374,7 @@ public class RingtoneDataStore {
         return null;
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public class CachedTone {
         public TLRPC$Document document;
         public int localId;

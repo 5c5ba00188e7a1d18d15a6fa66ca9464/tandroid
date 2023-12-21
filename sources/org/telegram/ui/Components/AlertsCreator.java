@@ -1323,7 +1323,7 @@ public class AlertsCreator {
 
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r10v0 */
-    /* JADX WARN: Type inference failed for: r10v1, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r10v1, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r10v3 */
     /* JADX WARN: Type inference failed for: r9v0 */
     /* JADX WARN: Type inference failed for: r9v1, types: [int, boolean] */
@@ -1416,7 +1416,7 @@ public class AlertsCreator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x00f1  */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x00f2  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -6050,7 +6050,7 @@ public class AlertsCreator {
                     Intent intent = new Intent("android.settings.action.MANAGE_OVERLAY_PERMISSION", Uri.parse("package:" + context.getPackageName()));
                     Activity findActivity = AndroidUtilities.findActivity(context);
                     if (findActivity instanceof LaunchActivity) {
-                        findActivity.startActivityForResult(intent, 105);
+                        findActivity.startActivityForResult(intent, R.styleable.AppCompatTheme_textAppearanceListItemSmall);
                     } else {
                         context.startActivity(intent);
                     }
@@ -6457,18 +6457,18 @@ public class AlertsCreator {
     /* JADX WARN: Removed duplicated region for block: B:23:0x0057  */
     /* JADX WARN: Removed duplicated region for block: B:25:0x0061  */
     /* JADX WARN: Removed duplicated region for block: B:30:0x0078  */
-    /* JADX WARN: Removed duplicated region for block: B:313:0x062b  */
-    /* JADX WARN: Removed duplicated region for block: B:314:0x0638  */
-    /* JADX WARN: Removed duplicated region for block: B:343:0x06f6  */
-    /* JADX WARN: Removed duplicated region for block: B:344:0x0700  */
-    /* JADX WARN: Removed duplicated region for block: B:347:0x070d  */
-    /* JADX WARN: Removed duplicated region for block: B:356:0x073c  */
-    /* JADX WARN: Removed duplicated region for block: B:376:0x078f  */
-    /* JADX WARN: Removed duplicated region for block: B:377:0x07ba  */
+    /* JADX WARN: Removed duplicated region for block: B:313:0x062c  */
+    /* JADX WARN: Removed duplicated region for block: B:314:0x0639  */
+    /* JADX WARN: Removed duplicated region for block: B:343:0x06f7  */
+    /* JADX WARN: Removed duplicated region for block: B:344:0x0701  */
+    /* JADX WARN: Removed duplicated region for block: B:347:0x070e  */
+    /* JADX WARN: Removed duplicated region for block: B:360:0x0748  */
     /* JADX WARN: Removed duplicated region for block: B:37:0x008f  */
-    /* JADX WARN: Removed duplicated region for block: B:380:0x07ed  */
-    /* JADX WARN: Removed duplicated region for block: B:383:0x07ff  */
-    /* JADX WARN: Removed duplicated region for block: B:420:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:384:0x07a6  */
+    /* JADX WARN: Removed duplicated region for block: B:385:0x07d1  */
+    /* JADX WARN: Removed duplicated region for block: B:388:0x0804  */
+    /* JADX WARN: Removed duplicated region for block: B:391:0x0816  */
+    /* JADX WARN: Removed duplicated region for block: B:429:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:60:0x00ec  */
     /* JADX WARN: Removed duplicated region for block: B:61:0x00f3  */
     /*
@@ -6914,8 +6914,9 @@ public class AlertsCreator {
             if (messageObject == null) {
                 boolean z17 = messageObject.isGiveaway() && !messageObject.isForwarded();
                 if (z17) {
-                    str = LocaleController.getInstance().formatterGiveawayMonthDayYear.format(new Date(((TLRPC$TL_messageMediaGiveaway) messageObject.messageOwner.media).until_date * j3));
-                    z6 = z17;
+                    long j6 = ((TLRPC$TL_messageMediaGiveaway) messageObject.messageOwner.media).until_date * j3;
+                    str = LocaleController.getInstance().formatterGiveawayMonthDayYear.format(new Date(j6));
+                    z6 = System.currentTimeMillis() < j6;
                 } else {
                     z6 = z17;
                     str = null;
@@ -6927,15 +6928,16 @@ public class AlertsCreator {
                     str = null;
                     while (i34 >= 0) {
                         boolean z18 = z6;
-                        int i35 = 0;
-                        while (i35 < sparseArrayArr[i34].size()) {
+                        for (int i35 = 0; i35 < sparseArrayArr[i34].size(); i35++) {
                             MessageObject valueAt5 = sparseArrayArr[i34].valueAt(i35);
                             boolean z19 = valueAt5.isGiveaway() && !valueAt5.isForwarded();
                             if (z19) {
-                                str = LocaleController.getInstance().formatterGiveawayMonthDayYear.format(new Date(((TLRPC$TL_messageMediaGiveaway) valueAt5.messageOwner.media).until_date * j3));
+                                long j7 = ((TLRPC$TL_messageMediaGiveaway) valueAt5.messageOwner.media).until_date * j3;
+                                str = LocaleController.getInstance().formatterGiveawayMonthDayYear.format(new Date(j7));
+                                z18 = System.currentTimeMillis() < j7;
+                            } else {
+                                z18 = z19;
                             }
-                            i35++;
-                            z18 = z19;
                         }
                         i34--;
                         z6 = z18;

@@ -5,7 +5,7 @@ import org.telegram.tgnet.AbstractSerializedData;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$User;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TL_stories$TL_stories_peerStories extends TLObject {
     public TL_stories$PeerStories stories;
     public ArrayList<TLRPC$Chat> chats = new ArrayList<>();

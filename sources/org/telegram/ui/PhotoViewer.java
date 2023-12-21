@@ -3012,7 +3012,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         i13 = 51;
                     }
                     int i14 = i13 & 7;
-                    int i15 = i13 & 112;
+                    int i15 = i13 & R.styleable.AppCompatTheme_toolbarNavigationButtonStyle;
                     if (i14 == 1) {
                         i5 = (((paddingRight - paddingLeft) - measuredWidth) / 2) + layoutParams.leftMargin;
                         i6 = layoutParams.rightMargin;
@@ -5491,7 +5491,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             }
 
             @Override // org.telegram.ui.Stories.recorder.CaptionContainerView
-            protected boolean ignoreTouches() {
+            protected boolean ignoreTouches(float f, float f2) {
                 return (this.keyboardShown || PhotoViewer.this.currentEditMode == 0) ? false : true;
             }
 
@@ -5865,7 +5865,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         ListAdapter listAdapter = new ListAdapter(this.parentActivity);
         this.selectedPhotosAdapter = listAdapter;
         selectedPhotosListView2.setAdapter(listAdapter);
-        this.containerView.addView(this.selectedPhotosListView, LayoutHelper.createFrame(-1, 103, 51));
+        this.containerView.addView(this.selectedPhotosListView, LayoutHelper.createFrame(-1, (int) R.styleable.AppCompatTheme_textAppearanceListItem, 51));
         this.selectedPhotosListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.PhotoViewer$$ExternalSyntheticLambda91
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view2, int i11) {
@@ -11150,7 +11150,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         Bitmap createCroppedBitmap3 = createCroppedBitmap(decodeFile, mediaEditState.cropState, null, false);
                         if (!this.isCurrentVideo) {
                             if (hasAnimatedMediaEntities()) {
-                                String file = FileLoader.getInstance(this.currentAccount).getPathToAttach(ImageLoader.scaleAndSaveImage(createCroppedBitmap2, Bitmap.CompressFormat.JPEG, AndroidUtilities.getPhotoSize(), AndroidUtilities.getPhotoSize(), 87, false, (int) FileLoader.MEDIA_DIR_VIDEO_PUBLIC, (int) FileLoader.MEDIA_DIR_VIDEO_PUBLIC), true).toString();
+                                String file = FileLoader.getInstance(this.currentAccount).getPathToAttach(ImageLoader.scaleAndSaveImage(createCroppedBitmap2, Bitmap.CompressFormat.JPEG, AndroidUtilities.getPhotoSize(), AndroidUtilities.getPhotoSize(), 87, false, 101, 101), true).toString();
                                 this.currentImagePath = file;
                                 mediaEditState.imagePath = file;
                             } else {
@@ -11170,11 +11170,11 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         }
                     } else {
                         if (!this.isCurrentVideo) {
-                            String file2 = FileLoader.getInstance(this.currentAccount).getPathToAttach(ImageLoader.scaleAndSaveImage(createCroppedBitmap2, Bitmap.CompressFormat.JPEG, AndroidUtilities.getPhotoSize(), AndroidUtilities.getPhotoSize(), 87, false, (int) FileLoader.MEDIA_DIR_VIDEO_PUBLIC, (int) FileLoader.MEDIA_DIR_VIDEO_PUBLIC), true).toString();
+                            String file2 = FileLoader.getInstance(this.currentAccount).getPathToAttach(ImageLoader.scaleAndSaveImage(createCroppedBitmap2, Bitmap.CompressFormat.JPEG, AndroidUtilities.getPhotoSize(), AndroidUtilities.getPhotoSize(), 87, false, 101, 101), true).toString();
                             this.currentImagePath = file2;
                             mediaEditState.imagePath = file2;
                         }
-                        mediaEditState.thumbPath = FileLoader.getInstance(this.currentAccount).getPathToAttach(ImageLoader.scaleAndSaveImage(createCroppedBitmap2, 512.0f, 512.0f, 70, false, (int) FileLoader.MEDIA_DIR_VIDEO_PUBLIC, (int) FileLoader.MEDIA_DIR_VIDEO_PUBLIC), true).toString();
+                        mediaEditState.thumbPath = FileLoader.getInstance(this.currentAccount).getPathToAttach(ImageLoader.scaleAndSaveImage(createCroppedBitmap2, 512.0f, 512.0f, 70, false, 101, 101), true).toString();
                     }
                     if (this.currentEditMode == 0 && this.isCurrentVideo) {
                         bitmap3.recycle();
@@ -11278,17 +11278,17 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 if (mediaEditState.filterPath != null) {
                     new File(mediaEditState.filterPath).delete();
                 }
-                mediaEditState.filterPath = FileLoader.getInstance(this.currentAccount).getPathToAttach(ImageLoader.scaleAndSaveImage(bitmap, Bitmap.CompressFormat.JPEG, AndroidUtilities.getPhotoSize(), AndroidUtilities.getPhotoSize(), 87, false, (int) FileLoader.MEDIA_DIR_VIDEO_PUBLIC, (int) FileLoader.MEDIA_DIR_VIDEO_PUBLIC), true).toString();
+                mediaEditState.filterPath = FileLoader.getInstance(this.currentAccount).getPathToAttach(ImageLoader.scaleAndSaveImage(bitmap, Bitmap.CompressFormat.JPEG, AndroidUtilities.getPhotoSize(), AndroidUtilities.getPhotoSize(), 87, false, 101, 101), true).toString();
                 MediaController.CropState cropState2 = mediaEditState.cropState;
                 Bitmap createCroppedBitmap4 = cropState2 != null ? createCroppedBitmap(bitmap, cropState2, null, true) : bitmap;
                 String str3 = mediaEditState.paintPath;
                 if (str3 == null) {
                     if (!this.isCurrentVideo) {
-                        String file3 = FileLoader.getInstance(this.currentAccount).getPathToAttach(ImageLoader.scaleAndSaveImage(createCroppedBitmap4, Bitmap.CompressFormat.JPEG, AndroidUtilities.getPhotoSize(), AndroidUtilities.getPhotoSize(), 87, false, (int) FileLoader.MEDIA_DIR_VIDEO_PUBLIC, (int) FileLoader.MEDIA_DIR_VIDEO_PUBLIC), true).toString();
+                        String file3 = FileLoader.getInstance(this.currentAccount).getPathToAttach(ImageLoader.scaleAndSaveImage(createCroppedBitmap4, Bitmap.CompressFormat.JPEG, AndroidUtilities.getPhotoSize(), AndroidUtilities.getPhotoSize(), 87, false, 101, 101), true).toString();
                         this.currentImagePath = file3;
                         mediaEditState.imagePath = file3;
                     }
-                    mediaEditState.thumbPath = FileLoader.getInstance(this.currentAccount).getPathToAttach(ImageLoader.scaleAndSaveImage(createCroppedBitmap4, Bitmap.CompressFormat.JPEG, 512.0f, 512.0f, 83, false, (int) FileLoader.MEDIA_DIR_VIDEO_PUBLIC, (int) FileLoader.MEDIA_DIR_VIDEO_PUBLIC), true).toString();
+                    mediaEditState.thumbPath = FileLoader.getInstance(this.currentAccount).getPathToAttach(ImageLoader.scaleAndSaveImage(createCroppedBitmap4, Bitmap.CompressFormat.JPEG, 512.0f, 512.0f, 83, false, 101, 101), true).toString();
                     savedFilterState3 = savedFilterState;
                     bitmap5 = bitmap;
                 } else {
@@ -11312,7 +11312,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     }
                     if (!this.isCurrentVideo) {
                         if (hasAnimatedMediaEntities()) {
-                            String file4 = FileLoader.getInstance(this.currentAccount).getPathToAttach(ImageLoader.scaleAndSaveImage(createCroppedBitmap4, Bitmap.CompressFormat.JPEG, AndroidUtilities.getPhotoSize(), AndroidUtilities.getPhotoSize(), 87, false, (int) FileLoader.MEDIA_DIR_VIDEO_PUBLIC, (int) FileLoader.MEDIA_DIR_VIDEO_PUBLIC), true).toString();
+                            String file4 = FileLoader.getInstance(this.currentAccount).getPathToAttach(ImageLoader.scaleAndSaveImage(createCroppedBitmap4, Bitmap.CompressFormat.JPEG, AndroidUtilities.getPhotoSize(), AndroidUtilities.getPhotoSize(), 87, false, 101, 101), true).toString();
                             this.currentImagePath = file4;
                             mediaEditState.imagePath = file4;
                         } else {
@@ -11355,7 +11355,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         }
                     }
                     ArrayList<VideoEditedInfo.MediaEntity> arrayList3 = savedFilterState2;
-                    TLRPC$PhotoSize scaleAndSaveImage = ImageLoader.scaleAndSaveImage(bitmap5, Bitmap.CompressFormat.PNG, AndroidUtilities.getPhotoSize(), AndroidUtilities.getPhotoSize(), 87, false, (int) FileLoader.MEDIA_DIR_VIDEO_PUBLIC, (int) FileLoader.MEDIA_DIR_VIDEO_PUBLIC);
+                    TLRPC$PhotoSize scaleAndSaveImage = ImageLoader.scaleAndSaveImage(bitmap5, Bitmap.CompressFormat.PNG, AndroidUtilities.getPhotoSize(), AndroidUtilities.getPhotoSize(), 87, false, 101, 101);
                     mediaEditState.stickers = arrayList3 != null ? new ArrayList<>(arrayList3) : null;
                     EditState editState2 = this.editState;
                     String file5 = FileLoader.getInstance(this.currentAccount).getPathToAttach(scaleAndSaveImage, true).toString();
@@ -11372,7 +11372,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     editState4.averageDuration = lcm;
                     mediaEditState.averageDuration = lcm;
                     if (mediaEditState.mediaEntities != null && bitmapArr[0] != null) {
-                        mediaEditState.fullPaintPath = FileLoader.getInstance(this.currentAccount).getPathToAttach(ImageLoader.scaleAndSaveImage(bitmapArr[0], Bitmap.CompressFormat.PNG, AndroidUtilities.getPhotoSize(), AndroidUtilities.getPhotoSize(), 87, false, (int) FileLoader.MEDIA_DIR_VIDEO_PUBLIC, (int) FileLoader.MEDIA_DIR_VIDEO_PUBLIC), true).toString();
+                        mediaEditState.fullPaintPath = FileLoader.getInstance(this.currentAccount).getPathToAttach(ImageLoader.scaleAndSaveImage(bitmapArr[0], Bitmap.CompressFormat.PNG, AndroidUtilities.getPhotoSize(), AndroidUtilities.getPhotoSize(), 87, false, 101, 101), true).toString();
                     } else {
                         mediaEditState.fullPaintPath = mediaEditState.paintPath;
                     }
@@ -11463,7 +11463,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                 z4 = false;
                                 if (!this.isCurrentVideo) {
                                     if (hasAnimatedMediaEntities()) {
-                                        String file6 = FileLoader.getInstance(this.currentAccount).getPathToAttach(ImageLoader.scaleAndSaveImage(bitmap7, Bitmap.CompressFormat.JPEG, AndroidUtilities.getPhotoSize(), AndroidUtilities.getPhotoSize(), 87, false, (int) FileLoader.MEDIA_DIR_VIDEO_PUBLIC, (int) FileLoader.MEDIA_DIR_VIDEO_PUBLIC), true).toString();
+                                        String file6 = FileLoader.getInstance(this.currentAccount).getPathToAttach(ImageLoader.scaleAndSaveImage(bitmap7, Bitmap.CompressFormat.JPEG, AndroidUtilities.getPhotoSize(), AndroidUtilities.getPhotoSize(), 87, false, 101, 101), true).toString();
                                         this.currentImagePath = file6;
                                         mediaEditState.imagePath = file6;
                                     } else {
@@ -12950,6 +12950,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 photoViewer2.updateMinMax(photoViewer2.scale);
                 PhotoViewer.this.padImageForHorizontalInsets = true;
                 PhotoViewer.this.containerView.invalidate();
+                if (PhotoViewer.this.placeProvider == null || !PhotoViewer.this.placeProvider.closeKeyboard()) {
+                    PhotoViewer.this.makeFocusable();
+                }
             }
         });
         this.imageMoveAnimation.start();
@@ -14372,7 +14375,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     /* JADX WARN: Removed duplicated region for block: B:899:0x0345  */
     /* JADX WARN: Removed duplicated region for block: B:911:0x036b  */
     /* JADX WARN: Type inference failed for: r2v123 */
-    /* JADX WARN: Type inference failed for: r2v124, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r2v124, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r2v139 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

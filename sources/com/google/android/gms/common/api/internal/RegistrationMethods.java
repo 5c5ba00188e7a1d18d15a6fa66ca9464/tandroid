@@ -39,6 +39,16 @@ public class RegistrationMethods<A extends Api.AnyClient, L> {
             return this;
         }
 
+        public Builder<A, L> setAutoResolveMissingFeatures(boolean z) {
+            this.zaf = z;
+            return this;
+        }
+
+        public Builder<A, L> setFeatures(Feature... featureArr) {
+            this.zae = featureArr;
+            return this;
+        }
+
         public Builder<A, L> setMethodKey(int i) {
             this.zag = i;
             return this;

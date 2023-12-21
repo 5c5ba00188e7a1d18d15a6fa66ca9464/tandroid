@@ -12,7 +12,7 @@ import java.util.List;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.FileLog;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class CameraSession {
     public static final int ORIENTATION_HYSTERESIS = 5;
     public CameraInfo cameraInfo;
@@ -248,9 +248,9 @@ public class CameraSession {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:28:0x0052  */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x0058  */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x0063  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x0050  */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x0056  */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x0061  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
 import android.graphics.Matrix;
@@ -26,11 +27,13 @@ import android.text.Layout;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.util.Pair;
 import android.util.SparseArray;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -45,9 +48,11 @@ import androidx.dynamicanimation.animation.SpringForce;
 import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.face.Face;
 import com.google.android.gms.vision.face.FaceDetector;
+import java.io.File;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import org.telegram.messenger.AndroidUtilities;
@@ -76,15 +81,18 @@ import org.telegram.tgnet.TLRPC$StickerSetCovered;
 import org.telegram.tgnet.TLRPC$TL_documentAttributeSticker;
 import org.telegram.tgnet.TLRPC$TL_inputDocument;
 import org.telegram.tgnet.TLRPC$TL_maskCoords;
+import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.ActionBarPopupWindow;
 import org.telegram.ui.ActionBar.AdjustPanLayoutHelper;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.BubbleActivity;
+import org.telegram.ui.ChatActivity;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.AnimatedEmojiSpan;
 import org.telegram.ui.Components.ChatActivityEnterViewAnimatedIconView;
+import org.telegram.ui.Components.ChatAttachAlert;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.EmojiView;
 import org.telegram.ui.Components.IPhotoPaintView;
@@ -110,6 +118,7 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.Size;
 import org.telegram.ui.Components.SizeNotifierFrameLayout;
 import org.telegram.ui.Components.SizeNotifierFrameLayoutPhoto;
+import org.telegram.ui.Components.ThanosEffect;
 import org.telegram.ui.Components.TrendingStickersLayout;
 import org.telegram.ui.PhotoViewer;
 import org.telegram.ui.Stories.recorder.EmojiBottomSheet;
@@ -186,6 +195,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
     private float tabsSelectionProgress;
     public PaintTextOptionsView textOptionsView;
     private TextView textTab;
+    private ThanosEffect thanosEffect;
     private Paint toolsPaint;
     private SpringAnimation toolsTransformAnimation;
     private float toolsTransformProgress;
@@ -212,6 +222,10 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
     private void bottomPanelTranslationY(float f, float f2) {
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$onSwitchSegmentedAnimation$49() {
+    }
+
     protected void didSetAnimatedSticker(RLottieDrawable rLottieDrawable) {
     }
 
@@ -221,6 +235,11 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
 
     public /* bridge */ /* synthetic */ View getView() {
         return IPhotoPaintView.-CC.$default$getView(this);
+    }
+
+    @Override // org.telegram.ui.Components.Paint.Views.EntityView.EntityViewDelegate
+    public /* synthetic */ boolean isEntityDeletable() {
+        return EntityView.EntityViewDelegate.-CC.$default$isEntityDeletable(this);
     }
 
     protected void onEmojiViewCloseByClick() {
@@ -275,6 +294,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
     protected void updateKeyboard() {
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
     @SuppressLint({"NotifyDataSetChanged"})
     public LPhotoPaintView(final Context context, Activity activity, final int i, Bitmap bitmap, final Bitmap bitmap2, int i2, ArrayList<VideoEditedInfo.MediaEntity> arrayList, MediaController.CropState cropState, final Runnable runnable, final Theme.ResourcesProvider resourcesProvider) {
         super(context, activity, true);
@@ -307,7 +327,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         this.toolsPaint = new Paint(1);
         this.zoomOutVisible = false;
         this.pos = new int[2];
-        this.openKeyboardRunnable = new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView.17
+        this.openKeyboardRunnable = new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView.19
             @Override // java.lang.Runnable
             public void run() {
                 if (LPhotoPaintView.this.currentEntityView instanceof TextPaintView) {
@@ -324,7 +344,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         };
         setDelegate(this);
         this.currentAccount = i;
-        this.resourcesProvider = new Theme.ResourcesProvider() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda41
+        this.resourcesProvider = new Theme.ResourcesProvider() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda47
             @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
             public /* synthetic */ void applyServiceShaderMatrix(int i4, int i5, float f, float f2) {
                 Theme.applyServiceShaderMatrix(i4, i5, f, f2);
@@ -399,7 +419,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         this.originalBitmapRotation = i2;
         UndoStore undoStore = new UndoStore();
         this.undoStore = undoStore;
-        undoStore.setDelegate(new UndoStore.UndoStoreDelegate() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda42
+        undoStore.setDelegate(new UndoStore.UndoStoreDelegate() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda48
             @Override // org.telegram.ui.Components.Paint.UndoStore.UndoStoreDelegate
             public final void historyChanged() {
                 LPhotoPaintView.this.lambda$new$1();
@@ -632,8 +652,23 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
                     stickerView = createText;
                 } else {
                     i3 = size;
-                    i4++;
-                    size = i3;
+                    if (b == 2) {
+                        PhotoView createPhoto = createPhoto(mediaEntity.text, false);
+                        createPhoto.preloadSegmented(mediaEntity.segmentedPath);
+                        if ((mediaEntity.subType & 2) != 0) {
+                            createPhoto.mirror();
+                        }
+                        if ((mediaEntity.subType & 16) != 0) {
+                            createPhoto.toggleSegmented(false);
+                        }
+                        ViewGroup.LayoutParams layoutParams2 = createPhoto.getLayoutParams();
+                        layoutParams2.width = mediaEntity.viewWidth;
+                        layoutParams2.height = mediaEntity.viewHeight;
+                        stickerView = createPhoto;
+                    } else {
+                        i4++;
+                        size = i3;
+                    }
                 }
                 stickerView.setX((mediaEntity.x * this.paintingSize.width) - ((mediaEntity.viewWidth * (1.0f - mediaEntity.scale)) / 2.0f));
                 stickerView.setY((mediaEntity.y * this.paintingSize.height) - ((mediaEntity.viewHeight * (1.0f - mediaEntity.scale)) / 2.0f));
@@ -666,7 +701,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         imageView.setImageResource(R.drawable.photo_undo2);
         this.undoButton.setPadding(AndroidUtilities.dp(3.0f), AndroidUtilities.dp(3.0f), AndroidUtilities.dp(3.0f), AndroidUtilities.dp(3.0f));
         this.undoButton.setBackground(Theme.createSelectorDrawable(1090519039));
-        this.undoButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda11
+        this.undoButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda13
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {
                 LPhotoPaintView.this.lambda$new$2(view2);
@@ -692,7 +727,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         this.zoomOutButton.addView(this.zoomOutImage, LayoutHelper.createLinear(24, 24, 16, 0, 0, 8, 0));
         this.zoomOutButton.addView(this.zoomOutText, LayoutHelper.createLinear(-2, -2, 16));
         this.zoomOutButton.setAlpha(0.0f);
-        this.zoomOutButton.setOnClickListener(LPhotoPaintView$$ExternalSyntheticLambda20.INSTANCE);
+        this.zoomOutButton.setOnClickListener(LPhotoPaintView$$ExternalSyntheticLambda22.INSTANCE);
         this.topLayout.addView(this.zoomOutButton, LayoutHelper.createFrame(-2, 32, 17));
         TextView textView2 = new TextView(context);
         this.undoAllButton = textView2;
@@ -703,7 +738,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         this.undoAllButton.setTextColor(-1);
         this.undoAllButton.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.undoAllButton.setTextSize(1, 16.0f);
-        this.undoAllButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda12
+        this.undoAllButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda15
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {
                 LPhotoPaintView.this.lambda$new$4(view2);
@@ -720,7 +755,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         this.cancelTextButton.setTextColor(-1);
         this.cancelTextButton.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.cancelTextButton.setTextSize(1, 16.0f);
-        this.cancelTextButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda14
+        this.cancelTextButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda16
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {
                 LPhotoPaintView.this.lambda$new$5(view2);
@@ -738,7 +773,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         this.doneTextButton.setTextColor(-1);
         this.doneTextButton.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.doneTextButton.setTextSize(1, 16.0f);
-        this.doneTextButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda15
+        this.doneTextButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda17
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {
                 LPhotoPaintView.this.lambda$new$6(view2);
@@ -848,7 +883,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         this.bottomLayout = frameLayout3;
         frameLayout3.setPadding(AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f), 0);
         this.bottomLayout.setBackground(new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{0, Integer.MIN_VALUE}));
-        addView(this.bottomLayout, LayoutHelper.createFrame(-1, 104, 80));
+        addView(this.bottomLayout, LayoutHelper.createFrame(-1, (int) R.styleable.AppCompatTheme_textAppearanceListItemSecondary, 80));
         PaintToolsView paintToolsView = new PaintToolsView(context, bitmap2 != null);
         this.paintToolsView = paintToolsView;
         paintToolsView.setPadding(AndroidUtilities.dp(16.0f), 0, AndroidUtilities.dp(16.0f), 0);
@@ -898,7 +933,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         PaintTypefaceListView paintTypefaceListView = new PaintTypefaceListView(context);
         this.typefaceListView = paintTypefaceListView;
         paintTypefaceListView.setVisibility(8);
-        this.typefaceListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda43
+        this.typefaceListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda49
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view2, int i6) {
                 LPhotoPaintView.this.lambda$new$7(view2, i6);
@@ -929,7 +964,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         this.colorsListView = paintColorsListView;
         paintColorsListView.setVisibility(8);
         this.colorsListView.setColorPalette(PersistColorPalette.getInstance(i));
-        this.colorsListView.setColorListener(new Consumer() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda24
+        this.colorsListView.setColorListener(new Consumer() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda26
             @Override // androidx.core.util.Consumer
             public final void accept(Object obj) {
                 LPhotoPaintView.this.lambda$new$8((Integer) obj);
@@ -946,7 +981,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         this.doneButton = paintDoneView;
         paintDoneView.setPadding(AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f));
         this.doneButton.setBackground(Theme.createSelectorDrawable(1090519039));
-        this.doneButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda17
+        this.doneButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda18
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {
                 LPhotoPaintView.this.lambda$new$10(context, bitmap2, persistColorPalette, view2);
@@ -959,7 +994,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         this.weightChooserView.setRenderView(this.renderView);
         this.weightChooserView.setValueOverride(this.weightDefaultValueOverride);
         this.colorSwatch.brushWeight = this.weightDefaultValueOverride.get();
-        this.weightChooserView.setOnUpdate(new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda34
+        this.weightChooserView.setOnUpdate(new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda36
             @Override // java.lang.Runnable
             public final void run() {
                 LPhotoPaintView.this.lambda$new$11(i);
@@ -1091,7 +1126,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         if (this.emojiViewVisible) {
             hideEmojiPopup(false);
         }
-        lambda$registerRemovalUndo$41(this.currentEntityView);
+        lambda$registerRemovalUndo$45(this.currentEntityView);
         selectEntity(null);
     }
 
@@ -1170,7 +1205,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
                     LPhotoPaintView.this.colorsListView.setSelectedColorIndex(persistColorPalette.getCurrentColorPosition());
                     LPhotoPaintView.this.colorsListView.getAdapter().notifyDataSetChanged();
                 }
-            }).setColorListener(new Consumer() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda25
+            }).setColorListener(new Consumer() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda27
                 @Override // androidx.core.util.Consumer
                 public final void accept(Object obj) {
                     LPhotoPaintView.this.lambda$new$9(persistColorPalette, (Integer) obj);
@@ -1255,7 +1290,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         Point startPositionRelativeToEntity = startPositionRelativeToEntity(null);
         TextPaintView textPaintView = new TextPaintView(getContext(), startPositionRelativeToEntity, (int) (paintingSize.width / 9.0f), "", this.colorSwatch, this.selectedTextType);
         float f = paintingSize.width;
-        textPaintView.setMinMaxFontSize((int) ((f / 9.0f) * 0.5f), (int) ((f / 9.0f) * 2.0f), new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda30
+        textPaintView.setMinMaxFontSize((int) ((f / 9.0f) * 0.5f), (int) ((f / 9.0f) * 2.0f), new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda33
             @Override // java.lang.Runnable
             public final void run() {
                 LPhotoPaintView.this.lambda$createText$13();
@@ -1385,7 +1420,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         EntityView entityView4 = this.currentEntityView;
         this.currentEntityView = entityView;
         if ((entityView4 instanceof TextPaintView) && TextUtils.isEmpty(((TextPaintView) entityView4).getText())) {
-            lambda$registerRemovalUndo$41(entityView4);
+            lambda$registerRemovalUndo$45(entityView4);
         }
         EntityView entityView5 = this.currentEntityView;
         if (entityView5 != null) {
@@ -1515,7 +1550,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         this.drawTab.setGravity(1);
         this.drawTab.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.drawTab.setSingleLine();
-        this.drawTab.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda9
+        this.drawTab.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda11
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 LPhotoPaintView.this.lambda$setupTabsLayout$14(view);
@@ -1527,7 +1562,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         textView3.setText(LocaleController.getString(R.string.PhotoEditorSticker).toUpperCase());
         this.stickerTab.setBackground(Theme.createSelectorDrawable(getThemedColor(i), 7));
         this.stickerTab.setPadding(0, AndroidUtilities.dp(8.0f), 0, AndroidUtilities.dp(8.0f));
-        this.stickerTab.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda8
+        this.stickerTab.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda9
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 LPhotoPaintView.this.lambda$setupTabsLayout$15(view);
@@ -1551,7 +1586,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         this.textTab.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.textTab.setAlpha(0.6f);
         this.textTab.setSingleLine();
-        this.textTab.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda10
+        this.textTab.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda12
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 LPhotoPaintView.this.lambda$setupTabsLayout$16(view);
@@ -1686,7 +1721,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
     private void openStickersView() {
         final int i = this.tabsSelectedIndex;
         switchTab(1);
-        postDelayed(new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda33
+        postDelayed(new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda35
             @Override // java.lang.Runnable
             public final void run() {
                 LPhotoPaintView.this.lambda$openStickersView$18();
@@ -1695,19 +1730,25 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         EmojiBottomSheet emojiBottomSheet = new EmojiBottomSheet(this, getContext(), false, this.resourcesProvider) { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView.15
             @Override // org.telegram.ui.Stories.recorder.EmojiBottomSheet
             public boolean canShowWidget(Integer num) {
-                return false;
+                return num.intValue() == 2;
             }
         };
-        emojiBottomSheet.whenDocumentSelected(new Utilities.Callback3() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda39
+        emojiBottomSheet.whenDocumentSelected(new Utilities.Callback3() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda44
             @Override // org.telegram.messenger.Utilities.Callback3
             public final void run(Object obj, Object obj2, Object obj3) {
                 LPhotoPaintView.this.lambda$openStickersView$19(obj, (TLRPC$Document) obj2, (Boolean) obj3);
             }
         });
+        emojiBottomSheet.whenWidgetSelected(new Utilities.Callback() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda45
+            @Override // org.telegram.messenger.Utilities.Callback
+            public final void run(Object obj) {
+                LPhotoPaintView.this.lambda$openStickersView$20((Integer) obj);
+            }
+        });
         emojiBottomSheet.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda6
             @Override // android.content.DialogInterface.OnDismissListener
             public final void onDismiss(DialogInterface dialogInterface) {
-                LPhotoPaintView.this.lambda$openStickersView$20(i, dialogInterface);
+                LPhotoPaintView.this.lambda$openStickersView$21(i, dialogInterface);
             }
         });
         emojiBottomSheet.show();
@@ -1730,9 +1771,185 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$openStickersView$20(int i, DialogInterface dialogInterface) {
+    public /* synthetic */ void lambda$openStickersView$20(Integer num) {
+        if (num.intValue() == 2) {
+            showPhotoAlert();
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$openStickersView$21(int i, DialogInterface dialogInterface) {
         onOpenCloseStickersAlert(false);
         switchTab(i);
+    }
+
+    private void showPhotoAlert() {
+        final ChatAttachAlert chatAttachAlert = new ChatAttachAlert(getContext(), new ChatActivity(null) { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView.16
+            @Override // org.telegram.ui.ChatActivity, org.telegram.ui.Components.ChatActivityInterface, org.telegram.ui.Components.InstantCameraView.Delegate
+            public long getDialogId() {
+                return 0L;
+            }
+
+            @Override // org.telegram.ui.ChatActivity
+            public boolean isKeyboardVisible() {
+                return false;
+            }
+
+            @Override // org.telegram.ui.ChatActivity, org.telegram.ui.ActionBar.BaseFragment
+            public boolean isLightStatusBar() {
+                return false;
+            }
+
+            @Override // org.telegram.ui.ChatActivity, org.telegram.ui.ActionBar.BaseFragment
+            public Theme.ResourcesProvider getResourceProvider() {
+                return LPhotoPaintView.this.resourcesProvider;
+            }
+
+            @Override // org.telegram.ui.ActionBar.BaseFragment
+            public Activity getParentActivity() {
+                return AndroidUtilities.findActivity(LPhotoPaintView.this.getContext());
+            }
+
+            @Override // org.telegram.ui.ChatActivity, org.telegram.ui.Components.ChatActivityInterface
+            public TLRPC$User getCurrentUser() {
+                return UserConfig.getInstance(this.currentAccount).getCurrentUser();
+            }
+        }, false, false, false, this.resourcesProvider);
+        chatAttachAlert.drawNavigationBar = true;
+        chatAttachAlert.setupPhotoPicker(LocaleController.getString(R.string.AddImage));
+        chatAttachAlert.setDelegate(new ChatAttachAlert.ChatAttachViewDelegate() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView.17
+            @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
+            public /* synthetic */ void didSelectBot(TLRPC$User tLRPC$User) {
+                ChatAttachAlert.ChatAttachViewDelegate.-CC.$default$didSelectBot(this, tLRPC$User);
+            }
+
+            @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
+            public /* synthetic */ void doOnIdle(Runnable runnable) {
+                runnable.run();
+            }
+
+            @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
+            public /* synthetic */ boolean needEnterComment() {
+                return ChatAttachAlert.ChatAttachViewDelegate.-CC.$default$needEnterComment(this);
+            }
+
+            @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
+            public /* synthetic */ void onCameraOpened() {
+                ChatAttachAlert.ChatAttachViewDelegate.-CC.$default$onCameraOpened(this);
+            }
+
+            @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
+            public /* synthetic */ void onWallpaperSelected(Object obj) {
+                ChatAttachAlert.ChatAttachViewDelegate.-CC.$default$onWallpaperSelected(this, obj);
+            }
+
+            @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
+            public /* synthetic */ void openAvatarsSearch() {
+                ChatAttachAlert.ChatAttachViewDelegate.-CC.$default$openAvatarsSearch(this);
+            }
+
+            @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
+            public /* synthetic */ void sendAudio(ArrayList arrayList, CharSequence charSequence, boolean z, int i) {
+                ChatAttachAlert.ChatAttachViewDelegate.-CC.$default$sendAudio(this, arrayList, charSequence, z, i);
+            }
+
+            @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
+            public boolean selectItemOnClicking() {
+                System.currentTimeMillis();
+                return true;
+            }
+
+            @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
+            public void didPressedButton(int i, boolean z, boolean z2, int i2, boolean z3) {
+                try {
+                    HashMap<Object, Object> selectedPhotos = chatAttachAlert.getPhotoLayout().getSelectedPhotos();
+                    if (selectedPhotos.isEmpty()) {
+                        return;
+                    }
+                    MediaController.PhotoEntry photoEntry = (MediaController.PhotoEntry) selectedPhotos.values().iterator().next();
+                    String str = photoEntry.imagePath;
+                    if (str == null) {
+                        str = photoEntry.path;
+                    }
+                    LPhotoPaintView lPhotoPaintView = LPhotoPaintView.this;
+                    lPhotoPaintView.appearAnimation(lPhotoPaintView.createPhoto(str, true));
+                    chatAttachAlert.dismiss();
+                } catch (Throwable th) {
+                    FileLog.e(th);
+                }
+            }
+        });
+        chatAttachAlert.setOnDismissListener(LPhotoPaintView$$ExternalSyntheticLambda7.INSTANCE);
+        chatAttachAlert.setMaxSelectedPhotos(1, false);
+        chatAttachAlert.init();
+        MediaController.forceBroadcastNewPhotos = true;
+        chatAttachAlert.getPhotoLayout().loadGalleryPhotos();
+        chatAttachAlert.show();
+    }
+
+    public void appearAnimation(final View view) {
+        float scaleX = view.getScaleX();
+        float scaleY = view.getScaleY();
+        view.setScaleX(scaleX * 0.5f);
+        view.setScaleY(0.5f * scaleY);
+        view.setAlpha(0.0f);
+        view.animate().scaleX(scaleX).scaleY(scaleY).alpha(1.0f).setInterpolator(new OvershootInterpolator(3.0f)).setDuration(240L).withEndAction(new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda37
+            @Override // java.lang.Runnable
+            public final void run() {
+                LPhotoPaintView.this.lambda$appearAnimation$23(view);
+            }
+        }).start();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$appearAnimation$23(View view) {
+        if (view instanceof EntityView) {
+            EntityView entityView = (EntityView) view;
+            entityView.updateSelectionView();
+            selectEntity(entityView);
+        }
+    }
+
+    public PhotoView createPhoto(String str, boolean z) {
+        Size basePhotoSize = basePhotoSize(str);
+        Pair<Integer, Integer> imageOrientation = AndroidUtilities.getImageOrientation(str);
+        if ((((Integer) imageOrientation.first).intValue() / 90) % 2 == 1) {
+            float f = basePhotoSize.width;
+            basePhotoSize.width = basePhotoSize.height;
+            basePhotoSize.height = f;
+        }
+        PhotoView photoView = new PhotoView(getContext(), centerPositionForEntity(), 0.0f, 1.0f, basePhotoSize, str, ((Integer) imageOrientation.first).intValue(), ((Integer) imageOrientation.second).intValue());
+        photoView.centerImage.setLayerNum(12);
+        photoView.setDelegate(this);
+        this.entitiesView.addView(photoView);
+        if (z) {
+            registerRemovalUndo(photoView);
+            selectEntity(photoView);
+        }
+        return photoView;
+    }
+
+    private Size basePhotoSize(String str) {
+        float f;
+        try {
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true;
+            BitmapFactory.decodeFile(str, options);
+            f = options.outWidth / options.outHeight;
+        } catch (Exception e) {
+            FileLog.e(e);
+            f = 1.0f;
+        }
+        if (f > 1.0f) {
+            double measuredWidth = this.entitiesView.getMeasuredWidth();
+            Double.isNaN(measuredWidth);
+            float floor = (float) Math.floor(measuredWidth * 0.5d);
+            return new Size(floor, floor / f);
+        }
+        double measuredHeight = this.entitiesView.getMeasuredHeight();
+        Double.isNaN(measuredHeight);
+        float floor2 = (float) Math.floor(measuredHeight * 0.5d);
+        return new Size(f * floor2, floor2);
     }
 
     @Override // android.view.View, android.view.ViewParent
@@ -1776,6 +1993,12 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         this.entitiesView.setScaleX(f4);
         this.entitiesView.setScaleY(this.baseScale);
         this.entitiesView.measure(View.MeasureSpec.makeMeasureSpec((int) this.paintingSize.width, 1073741824), View.MeasureSpec.makeMeasureSpec((int) this.paintingSize.height, 1073741824));
+        ThanosEffect thanosEffect = this.thanosEffect;
+        if (thanosEffect != null) {
+            thanosEffect.measure(View.MeasureSpec.makeMeasureSpec((int) this.paintingSize.width, 1073741824), View.MeasureSpec.makeMeasureSpec((int) this.paintingSize.height, 1073741824));
+            this.thanosEffect.setScaleX(this.baseScale);
+            this.thanosEffect.setScaleY(this.baseScale);
+        }
         updateEntitiesSelections();
         this.selectionContainerView.measure(View.MeasureSpec.makeMeasureSpec(i3, 1073741824), View.MeasureSpec.makeMeasureSpec(i4, 1073741824));
         measureChild(this.bottomLayout, i, i2);
@@ -1830,6 +2053,10 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         int measuredHeight = ((this.renderView.getMeasuredHeight() - this.entitiesView.getMeasuredHeight()) / 2) + currentActionBarHeight;
         EntitiesContainerView entitiesContainerView = this.entitiesView;
         entitiesContainerView.layout(measuredWidth, measuredHeight, entitiesContainerView.getMeasuredWidth() + measuredWidth, this.entitiesView.getMeasuredHeight() + measuredHeight);
+        ThanosEffect thanosEffect = this.thanosEffect;
+        if (thanosEffect != null) {
+            thanosEffect.layout(measuredWidth, measuredHeight, this.entitiesView.getMeasuredWidth() + measuredWidth, this.entitiesView.getMeasuredHeight() + measuredHeight);
+        }
         FrameLayout frameLayout = this.selectionContainerView;
         frameLayout.layout(ceil, currentActionBarHeight, frameLayout.getMeasuredWidth() + ceil, this.selectionContainerView.getMeasuredHeight() + currentActionBarHeight);
     }
@@ -1880,16 +2107,16 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
     }
 
     private void detectFaces() {
-        this.queue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda32
+        this.queue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda34
             @Override // java.lang.Runnable
             public final void run() {
-                LPhotoPaintView.this.lambda$detectFaces$21();
+                LPhotoPaintView.this.lambda$detectFaces$24();
             }
         }, 200L);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$detectFaces$21() {
+    public /* synthetic */ void lambda$detectFaces$24() {
         int i;
         FaceDetector faceDetector = null;
         try {
@@ -1936,11 +2163,11 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         this.renderView.shutdown();
         this.entitiesView.setVisibility(8);
         this.selectionContainerView.setVisibility(8);
-        this.queue.postRunnable(LPhotoPaintView$$ExternalSyntheticLambda38.INSTANCE);
+        this.queue.postRunnable(LPhotoPaintView$$ExternalSyntheticLambda43.INSTANCE);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$shutdown$22() {
+    public static /* synthetic */ void lambda$shutdown$25() {
         Looper myLooper = Looper.myLooper();
         if (myLooper != null) {
             myLooper.quit();
@@ -1988,25 +2215,28 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         return this.undoStore.canUndo();
     }
 
+    /* JADX WARN: Removed duplicated region for block: B:80:0x02e6  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public Bitmap getBitmap(ArrayList<VideoEditedInfo.MediaEntity> arrayList, Bitmap[] bitmapArr) {
         Canvas canvas;
-        Bitmap bitmap;
         int i;
-        Point point;
+        int i2;
         boolean z;
-        Point point2;
-        Point point3;
+        boolean z2;
+        File saveSegmentedImage;
+        int i3;
         AnimatedEmojiSpan[] animatedEmojiSpanArr;
-        LPhotoPaintView lPhotoPaintView = this;
-        int i2 = 0;
-        Bitmap resultBitmap = lPhotoPaintView.renderView.getResultBitmap(false, false);
-        lPhotoPaintView.lcm = BigInteger.ONE;
-        if (resultBitmap != null && lPhotoPaintView.entitiesView.entitiesCount() > 0) {
-            int childCount = lPhotoPaintView.entitiesView.getChildCount();
+        int i4 = 0;
+        Bitmap resultBitmap = this.renderView.getResultBitmap(false, false);
+        this.lcm = BigInteger.ONE;
+        if (resultBitmap != null && this.entitiesView.entitiesCount() > 0) {
+            int childCount = this.entitiesView.getChildCount();
             Canvas canvas2 = null;
-            int i3 = 0;
-            while (i3 < childCount) {
-                View childAt = lPhotoPaintView.entitiesView.getChildAt(i3);
+            int i5 = 0;
+            while (i5 < childCount) {
+                View childAt = this.entitiesView.getChildAt(i5);
                 if (childAt instanceof EntityView) {
                     EntityView entityView = (EntityView) childAt;
                     Point position = entityView.getPosition();
@@ -2018,32 +2248,31 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
                             CharSequence text = textPaintView.getText();
                             if (text instanceof Spanned) {
                                 Spanned spanned = (Spanned) text;
-                                AnimatedEmojiSpan[] animatedEmojiSpanArr2 = (AnimatedEmojiSpan[]) spanned.getSpans(i2, text.length(), AnimatedEmojiSpan.class);
+                                AnimatedEmojiSpan[] animatedEmojiSpanArr2 = (AnimatedEmojiSpan[]) spanned.getSpans(i4, text.length(), AnimatedEmojiSpan.class);
                                 if (animatedEmojiSpanArr2 != null) {
-                                    int i4 = 0;
-                                    while (i4 < animatedEmojiSpanArr2.length) {
-                                        AnimatedEmojiSpan animatedEmojiSpan = animatedEmojiSpanArr2[i4];
+                                    int i6 = 0;
+                                    while (i6 < animatedEmojiSpanArr2.length) {
+                                        AnimatedEmojiSpan animatedEmojiSpan = animatedEmojiSpanArr2[i6];
                                         Canvas canvas3 = canvas2;
                                         TLRPC$Document tLRPC$Document = animatedEmojiSpan.document;
                                         if (tLRPC$Document == null) {
-                                            point3 = position;
+                                            i3 = childCount;
                                             animatedEmojiSpanArr = animatedEmojiSpanArr2;
-                                            tLRPC$Document = AnimatedEmojiDrawable.findDocument(lPhotoPaintView.currentAccount, animatedEmojiSpan.getDocumentId());
+                                            tLRPC$Document = AnimatedEmojiDrawable.findDocument(this.currentAccount, animatedEmojiSpan.getDocumentId());
                                         } else {
-                                            point3 = position;
+                                            i3 = childCount;
                                             animatedEmojiSpanArr = animatedEmojiSpanArr2;
                                         }
                                         if (tLRPC$Document != null) {
-                                            AnimatedEmojiDrawable.getDocumentFetcher(lPhotoPaintView.currentAccount).putDocument(tLRPC$Document);
+                                            AnimatedEmojiDrawable.getDocumentFetcher(this.currentAccount).putDocument(tLRPC$Document);
                                         }
                                         VideoEditedInfo.EmojiEntity emojiEntity = new VideoEditedInfo.EmojiEntity();
-                                        Bitmap bitmap2 = resultBitmap;
-                                        int i5 = childCount;
+                                        int i7 = i5;
                                         emojiEntity.document_id = animatedEmojiSpan.getDocumentId();
                                         emojiEntity.document = tLRPC$Document;
                                         emojiEntity.offset = spanned.getSpanStart(animatedEmojiSpan);
                                         emojiEntity.length = spanned.getSpanEnd(animatedEmojiSpan) - emojiEntity.offset;
-                                        emojiEntity.documentAbsolutePath = FileLoader.getInstance(lPhotoPaintView.currentAccount).getPathToAttach(tLRPC$Document, true).getAbsolutePath();
+                                        emojiEntity.documentAbsolutePath = FileLoader.getInstance(this.currentAccount).getPathToAttach(tLRPC$Document, true).getAbsolutePath();
                                         boolean isAnimatedStickerDocument = MessageObject.isAnimatedStickerDocument(emojiEntity.document, true);
                                         if (isAnimatedStickerDocument || MessageObject.isVideoStickerDocument(emojiEntity.document)) {
                                             emojiEntity.subType = (byte) ((isAnimatedStickerDocument ? (byte) 1 : (byte) 4) | emojiEntity.subType);
@@ -2051,26 +2280,23 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
                                         mediaEntity.entities.add(emojiEntity);
                                         if (tLRPC$Document != null) {
                                             BigInteger valueOf = BigInteger.valueOf(5000L);
-                                            lPhotoPaintView.lcm = lPhotoPaintView.lcm.multiply(valueOf).divide(lPhotoPaintView.lcm.gcd(valueOf));
+                                            this.lcm = this.lcm.multiply(valueOf).divide(this.lcm.gcd(valueOf));
                                         }
-                                        i4++;
-                                        resultBitmap = bitmap2;
+                                        i6++;
                                         canvas2 = canvas3;
-                                        position = point3;
+                                        childCount = i3;
                                         animatedEmojiSpanArr2 = animatedEmojiSpanArr;
-                                        childCount = i5;
+                                        i5 = i7;
                                     }
                                 }
                                 canvas = canvas2;
-                                bitmap = resultBitmap;
                                 i = childCount;
-                                point = position;
+                                i2 = i5;
                                 mediaEntity.entities.isEmpty();
                             } else {
                                 canvas = canvas2;
-                                bitmap = resultBitmap;
                                 i = childCount;
-                                point = position;
+                                i2 = i5;
                             }
                             mediaEntity.text = text.toString();
                             mediaEntity.subType = (byte) textPaintView.getType();
@@ -2080,9 +2306,8 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
                             mediaEntity.textAlign = textPaintView.getAlign();
                         } else {
                             canvas = canvas2;
-                            bitmap = resultBitmap;
                             i = childCount;
-                            point = position;
+                            i2 = i5;
                             if (entityView instanceof StickerView) {
                                 mediaEntity.type = (byte) 0;
                                 StickerView stickerView = (StickerView) entityView;
@@ -2099,58 +2324,91 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
                                     long duration = isAnimatedStickerDocument2 ? stickerView.getDuration() : 5000L;
                                     if (duration != 0) {
                                         BigInteger valueOf2 = BigInteger.valueOf(duration);
-                                        lPhotoPaintView.lcm = lPhotoPaintView.lcm.multiply(valueOf2).divide(lPhotoPaintView.lcm.gcd(valueOf2));
+                                        this.lcm = this.lcm.multiply(valueOf2).divide(this.lcm.gcd(valueOf2));
                                     }
                                 }
                                 if (stickerView.isMirrored()) {
                                     mediaEntity.subType = (byte) (mediaEntity.subType | 2);
                                 }
+                            } else if (entityView instanceof PhotoView) {
+                                PhotoView photoView = (PhotoView) entityView;
+                                mediaEntity.type = (byte) 2;
+                                Size baseSize2 = photoView.getBaseSize();
+                                mediaEntity.width = baseSize2.width;
+                                mediaEntity.height = baseSize2.height;
+                                mediaEntity.text = photoView.getPath(this.currentAccount);
+                                if (photoView.isMirrored()) {
+                                    mediaEntity.subType = (byte) (mediaEntity.subType | 2);
+                                }
+                                if (photoView.hasSegmentedImage() && photoView.isSegmented() && (saveSegmentedImage = photoView.saveSegmentedImage(this.currentAccount)) != null) {
+                                    mediaEntity.subType = (byte) (mediaEntity.subType | 16);
+                                    mediaEntity.segmentedPath = saveSegmentedImage.getPath();
+                                }
+                                z2 = false;
+                                arrayList.add(mediaEntity);
+                                float scaleX = childAt.getScaleX();
+                                float scaleY = childAt.getScaleY();
+                                float x = childAt.getX();
+                                float y = childAt.getY();
+                                mediaEntity.viewWidth = childAt.getWidth();
+                                mediaEntity.viewHeight = childAt.getHeight();
+                                mediaEntity.width = (childAt.getWidth() * scaleX) / this.entitiesView.getMeasuredWidth();
+                                mediaEntity.height = (childAt.getHeight() * scaleY) / this.entitiesView.getMeasuredHeight();
+                                mediaEntity.x = (((childAt.getWidth() * (1.0f - scaleX)) / 2.0f) + x) / this.entitiesView.getMeasuredWidth();
+                                mediaEntity.y = (((childAt.getHeight() * (1.0f - scaleY)) / 2.0f) + y) / this.entitiesView.getMeasuredHeight();
+                                double d = -childAt.getRotation();
+                                Double.isNaN(d);
+                                mediaEntity.rotation = (float) (d * 0.017453292519943295d);
+                                mediaEntity.textViewX = (x + (childAt.getWidth() / 2.0f)) / this.entitiesView.getMeasuredWidth();
+                                mediaEntity.textViewY = (y + (childAt.getHeight() / 2.0f)) / this.entitiesView.getMeasuredHeight();
+                                mediaEntity.textViewWidth = mediaEntity.viewWidth / this.entitiesView.getMeasuredWidth();
+                                mediaEntity.textViewHeight = mediaEntity.viewHeight / this.entitiesView.getMeasuredHeight();
+                                mediaEntity.scale = scaleX;
+                                if (bitmapArr[0] == null) {
+                                    bitmapArr[0] = Bitmap.createBitmap(resultBitmap.getWidth(), resultBitmap.getHeight(), resultBitmap.getConfig());
+                                    Canvas canvas4 = new Canvas(bitmapArr[0]);
+                                    canvas4.drawBitmap(resultBitmap, 0.0f, 0.0f, (Paint) null);
+                                    canvas = canvas4;
+                                }
+                                z = z2;
                             }
                         }
+                        z2 = true;
                         arrayList.add(mediaEntity);
-                        float scaleX = childAt.getScaleX();
-                        float scaleY = childAt.getScaleY();
-                        float x = childAt.getX();
-                        float y = childAt.getY();
+                        float scaleX2 = childAt.getScaleX();
+                        float scaleY2 = childAt.getScaleY();
+                        float x2 = childAt.getX();
+                        float y2 = childAt.getY();
                         mediaEntity.viewWidth = childAt.getWidth();
                         mediaEntity.viewHeight = childAt.getHeight();
-                        mediaEntity.width = (childAt.getWidth() * scaleX) / lPhotoPaintView.entitiesView.getMeasuredWidth();
-                        mediaEntity.height = (childAt.getHeight() * scaleY) / lPhotoPaintView.entitiesView.getMeasuredHeight();
-                        mediaEntity.x = (((childAt.getWidth() * (1.0f - scaleX)) / 2.0f) + x) / lPhotoPaintView.entitiesView.getMeasuredWidth();
-                        mediaEntity.y = (((childAt.getHeight() * (1.0f - scaleY)) / 2.0f) + y) / lPhotoPaintView.entitiesView.getMeasuredHeight();
-                        double d = -childAt.getRotation();
-                        Double.isNaN(d);
-                        mediaEntity.rotation = (float) (d * 0.017453292519943295d);
-                        mediaEntity.textViewX = (x + (childAt.getWidth() / 2.0f)) / lPhotoPaintView.entitiesView.getMeasuredWidth();
-                        mediaEntity.textViewY = (y + (childAt.getHeight() / 2.0f)) / lPhotoPaintView.entitiesView.getMeasuredHeight();
-                        mediaEntity.textViewWidth = mediaEntity.viewWidth / lPhotoPaintView.entitiesView.getMeasuredWidth();
-                        mediaEntity.textViewHeight = mediaEntity.viewHeight / lPhotoPaintView.entitiesView.getMeasuredHeight();
-                        mediaEntity.scale = scaleX;
+                        mediaEntity.width = (childAt.getWidth() * scaleX2) / this.entitiesView.getMeasuredWidth();
+                        mediaEntity.height = (childAt.getHeight() * scaleY2) / this.entitiesView.getMeasuredHeight();
+                        mediaEntity.x = (((childAt.getWidth() * (1.0f - scaleX2)) / 2.0f) + x2) / this.entitiesView.getMeasuredWidth();
+                        mediaEntity.y = (((childAt.getHeight() * (1.0f - scaleY2)) / 2.0f) + y2) / this.entitiesView.getMeasuredHeight();
+                        double d2 = -childAt.getRotation();
+                        Double.isNaN(d2);
+                        mediaEntity.rotation = (float) (d2 * 0.017453292519943295d);
+                        mediaEntity.textViewX = (x2 + (childAt.getWidth() / 2.0f)) / this.entitiesView.getMeasuredWidth();
+                        mediaEntity.textViewY = (y2 + (childAt.getHeight() / 2.0f)) / this.entitiesView.getMeasuredHeight();
+                        mediaEntity.textViewWidth = mediaEntity.viewWidth / this.entitiesView.getMeasuredWidth();
+                        mediaEntity.textViewHeight = mediaEntity.viewHeight / this.entitiesView.getMeasuredHeight();
+                        mediaEntity.scale = scaleX2;
                         if (bitmapArr[0] == null) {
-                            bitmapArr[0] = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), bitmap.getConfig());
-                            Canvas canvas4 = new Canvas(bitmapArr[0]);
-                            canvas4.drawBitmap(bitmap, 0.0f, 0.0f, (Paint) null);
-                            canvas = canvas4;
                         }
-                        z = true;
+                        z = z2;
                     } else {
                         canvas = canvas2;
-                        bitmap = resultBitmap;
                         i = childCount;
-                        point = position;
+                        i2 = i5;
                         z = false;
                     }
-                    Canvas canvas5 = new Canvas(bitmap);
-                    int i6 = 0;
-                    int i7 = 2;
-                    while (i6 < i7) {
-                        Canvas canvas6 = i6 == 0 ? canvas5 : canvas;
-                        if (canvas6 == null || (i6 == 0 && z)) {
-                            point2 = point;
-                        } else {
+                    Canvas canvas5 = new Canvas(resultBitmap);
+                    int i8 = 0;
+                    while (i8 < 2) {
+                        Canvas canvas6 = i8 == 0 ? canvas5 : canvas;
+                        if (canvas6 != null && (i8 != 0 || !z)) {
                             canvas6.save();
-                            point2 = point;
-                            canvas6.translate(point2.x, point2.y);
+                            canvas6.translate(position.x, position.y);
                             canvas6.scale(childAt.getScaleX(), childAt.getScaleY());
                             canvas6.rotate(childAt.getRotation());
                             canvas6.translate((-entityView.getWidth()) / 2.0f, (-entityView.getHeight()) / 2.0f);
@@ -2170,27 +2428,21 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
                             }
                             canvas6.restore();
                         }
-                        i6++;
-                        i7 = 2;
-                        point = point2;
+                        i8++;
                     }
                     canvas2 = canvas;
-                    i3++;
-                    lPhotoPaintView = this;
-                    resultBitmap = bitmap;
+                    i5 = i2 + 1;
                     childCount = i;
-                    i2 = 0;
+                    i4 = 0;
                 } else {
                     canvas = canvas2;
-                    bitmap = resultBitmap;
                     i = childCount;
+                    i2 = i5;
                 }
                 canvas2 = canvas;
-                i3++;
-                lPhotoPaintView = this;
-                resultBitmap = bitmap;
+                i5 = i2 + 1;
                 childCount = i;
-                i2 = 0;
+                i4 = 0;
             }
         }
         return resultBitmap;
@@ -2453,16 +2705,16 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
                 this.typefaceListView.setAlpha(0.0f);
                 this.typefaceListView.setVisibility(0);
             }
-            this.typefaceMenuTransformAnimation.addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda28
+            this.typefaceMenuTransformAnimation.addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda30
                 @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationUpdateListener
                 public final void onAnimationUpdate(DynamicAnimation dynamicAnimation, float f, float f2) {
-                    LPhotoPaintView.this.lambda$showTypefaceMenu$24(dynamicAnimation, f, f2);
+                    LPhotoPaintView.this.lambda$showTypefaceMenu$27(dynamicAnimation, f, f2);
                 }
             });
-            this.typefaceMenuTransformAnimation.addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda26
+            this.typefaceMenuTransformAnimation.addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda29
                 @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationEndListener
                 public final void onAnimationEnd(DynamicAnimation dynamicAnimation, boolean z2, float f, float f2) {
-                    LPhotoPaintView.this.lambda$showTypefaceMenu$25(z, dynamicAnimation, z2, f, f2);
+                    LPhotoPaintView.this.lambda$showTypefaceMenu$28(z, dynamicAnimation, z2, f, f2);
                 }
             });
             this.typefaceMenuTransformAnimation.start();
@@ -2470,7 +2722,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showTypefaceMenu$24(DynamicAnimation dynamicAnimation, float f, float f2) {
+    public /* synthetic */ void lambda$showTypefaceMenu$27(DynamicAnimation dynamicAnimation, float f, float f2) {
         float f3 = f / 1000.0f;
         this.typefaceMenuTransformProgress = f3;
         this.typefaceListView.setAlpha(f3);
@@ -2480,7 +2732,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showTypefaceMenu$25(boolean z, DynamicAnimation dynamicAnimation, boolean z2, float f, float f2) {
+    public /* synthetic */ void lambda$showTypefaceMenu$28(boolean z, DynamicAnimation dynamicAnimation, boolean z2, float f, float f2) {
         if (dynamicAnimation == this.typefaceMenuTransformAnimation) {
             this.typefaceMenuTransformAnimation = null;
             if (!z) {
@@ -2510,16 +2762,16 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
             zArr[0] = z2;
             final float translationY = this.bottomLayout.getTranslationY();
             final ViewGroup barView = getBarView();
-            this.toolsTransformAnimation.addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda29
+            this.toolsTransformAnimation.addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda31
                 @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationUpdateListener
                 public final void onAnimationUpdate(DynamicAnimation dynamicAnimation, float f, float f2) {
-                    LPhotoPaintView.this.lambda$showColorList$26(barView, z, zArr, translationY, dynamicAnimation, f, f2);
+                    LPhotoPaintView.this.lambda$showColorList$29(barView, z, zArr, translationY, dynamicAnimation, f, f2);
                 }
             });
-            this.toolsTransformAnimation.addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda27
+            this.toolsTransformAnimation.addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda28
                 @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationEndListener
                 public final void onAnimationEnd(DynamicAnimation dynamicAnimation, boolean z3, float f, float f2) {
-                    LPhotoPaintView.this.lambda$showColorList$27(z, dynamicAnimation, z3, f, f2);
+                    LPhotoPaintView.this.lambda$showColorList$30(z, dynamicAnimation, z3, f, f2);
                 }
             });
             this.toolsTransformAnimation.start();
@@ -2531,7 +2783,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showColorList$26(View view, boolean z, boolean[] zArr, float f, DynamicAnimation dynamicAnimation, float f2, float f3) {
+    public /* synthetic */ void lambda$showColorList$29(View view, boolean z, boolean[] zArr, float f, DynamicAnimation dynamicAnimation, float f2, float f3) {
         float f4 = f2 / 1000.0f;
         this.toolsTransformProgress = f4;
         float f5 = ((1.0f - f4) * 0.4f) + 0.6f;
@@ -2557,7 +2809,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showColorList$27(boolean z, DynamicAnimation dynamicAnimation, boolean z2, float f, float f2) {
+    public /* synthetic */ void lambda$showColorList$30(boolean z, DynamicAnimation dynamicAnimation, boolean z2, float f, float f2) {
         if (dynamicAnimation == this.toolsTransformAnimation) {
             this.toolsTransformAnimation = null;
             if (z) {
@@ -2592,7 +2844,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
                 duration.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda4
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                        LPhotoPaintView.this.lambda$setCurrentSwatch$28(num, i, valueAnimator);
+                        LPhotoPaintView.this.lambda$setCurrentSwatch$31(num, i, valueAnimator);
                     }
                 });
                 duration.start();
@@ -2610,7 +2862,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$setCurrentSwatch$28(Integer num, int i, ValueAnimator valueAnimator) {
+    public /* synthetic */ void lambda$setCurrentSwatch$31(Integer num, int i, ValueAnimator valueAnimator) {
         float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         this.colorSwatch.color = ColorUtils.blendARGB(num.intValue(), i, floatValue);
         FrameLayout frameLayout = this.bottomLayout;
@@ -2650,7 +2902,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         popupButton.setText(str);
         popupButton.setSelected(z);
         if (runnable != null) {
-            popupButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda7
+            popupButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda8
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     runnable.run();
@@ -2859,32 +3111,32 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
 
     @Override // org.telegram.ui.Components.Paint.Views.PaintToolsView.Delegate
     public void onAddButtonPressed(View view) {
-        showPopup(new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda31
+        showPopup(new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda32
             @Override // java.lang.Runnable
             public final void run() {
-                LPhotoPaintView.this.lambda$onAddButtonPressed$32();
+                LPhotoPaintView.this.lambda$onAddButtonPressed$35();
             }
         }, this, 53, 0, getHeight());
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onAddButtonPressed$32() {
+    public /* synthetic */ void lambda$onAddButtonPressed$35() {
         boolean fillShapes = PersistColorPalette.getInstance(this.currentAccount).getFillShapes();
         for (int i = 0; i < Brush.Shape.SHAPES_LIST.size(); i++) {
             final Brush.Shape shape = Brush.Shape.SHAPES_LIST.get(i);
             final int filledIconRes = fillShapes ? shape.getFilledIconRes() : shape.getIconRes();
-            PopupButton buttonForPopup = buttonForPopup(shape.getShapeName(), filledIconRes, false, new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda35
+            PopupButton buttonForPopup = buttonForPopup(shape.getShapeName(), filledIconRes, false, new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda38
                 @Override // java.lang.Runnable
                 public final void run() {
-                    LPhotoPaintView.this.lambda$onAddButtonPressed$30(shape, filledIconRes);
+                    LPhotoPaintView.this.lambda$onAddButtonPressed$33(shape, filledIconRes);
                 }
             });
-            buttonForPopup.setOnLongClickListener(new View.OnLongClickListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda21
+            buttonForPopup.setOnLongClickListener(new View.OnLongClickListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda23
                 @Override // android.view.View.OnLongClickListener
                 public final boolean onLongClick(View view) {
-                    boolean lambda$onAddButtonPressed$31;
-                    lambda$onAddButtonPressed$31 = LPhotoPaintView.this.lambda$onAddButtonPressed$31(view);
-                    return lambda$onAddButtonPressed$31;
+                    boolean lambda$onAddButtonPressed$34;
+                    lambda$onAddButtonPressed$34 = LPhotoPaintView.this.lambda$onAddButtonPressed$34(view);
+                    return lambda$onAddButtonPressed$34;
                 }
             });
             this.popupLayout.addView((View) buttonForPopup, LayoutHelper.createLinear(-1, 48));
@@ -2892,7 +3144,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onAddButtonPressed$30(Brush.Shape shape, int i) {
+    public /* synthetic */ void lambda$onAddButtonPressed$33(Brush.Shape shape, int i) {
         if (this.renderView.getCurrentBrush() instanceof Brush.Shape) {
             this.ignoreToolChangeAnimationOnce = true;
         }
@@ -2901,7 +3153,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ boolean lambda$onAddButtonPressed$31(View view) {
+    public /* synthetic */ boolean lambda$onAddButtonPressed$34(View view) {
         if (this.popupLayout != null) {
             PersistColorPalette.getInstance(this.currentAccount).toggleFillShapes();
             boolean fillShapes = PersistColorPalette.getInstance(this.currentAccount).getFillShapes();
@@ -2918,16 +3170,16 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
 
     private void showMenuForEntity(final EntityView entityView) {
         int[] centerLocationInWindow = getCenterLocationInWindow(entityView);
-        showPopup(new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda36
+        showPopup(new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda40
             @Override // java.lang.Runnable
             public final void run() {
-                LPhotoPaintView.this.lambda$showMenuForEntity$37(entityView);
+                LPhotoPaintView.this.lambda$showMenuForEntity$41(entityView);
             }
         }, this, 51, centerLocationInWindow[0], centerLocationInWindow[1] - AndroidUtilities.dp(32.0f));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showMenuForEntity$37(final EntityView entityView) {
+    public /* synthetic */ void lambda$showMenuForEntity$41(final EntityView entityView) {
         LinearLayout linearLayout = new LinearLayout(getContext());
         linearLayout.setOrientation(0);
         TextView textView = new TextView(getContext());
@@ -2940,10 +3192,10 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         textView.setTag(0);
         textView.setText(LocaleController.getString("PaintDelete", R.string.PaintDelete));
         textView.setEllipsize(TextUtils.TruncateAt.END);
-        textView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda18
+        textView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda20
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
-                LPhotoPaintView.this.lambda$showMenuForEntity$33(entityView, view);
+                LPhotoPaintView.this.lambda$showMenuForEntity$36(entityView, view);
             }
         });
         linearLayout.addView(textView, LayoutHelper.createLinear(-2, 48));
@@ -2957,10 +3209,10 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
             textView2.setEllipsize(TextUtils.TruncateAt.END);
             textView2.setTag(1);
             textView2.setText(LocaleController.getString("PaintEdit", R.string.PaintEdit));
-            textView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda13
+            textView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda14
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
-                    LPhotoPaintView.this.lambda$showMenuForEntity$34(view);
+                    LPhotoPaintView.this.lambda$showMenuForEntity$37(view);
                 }
             });
             linearLayout.addView(textView2, LayoutHelper.createLinear(-2, 48));
@@ -2978,7 +3230,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
             textView3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda19
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
-                    LPhotoPaintView.this.lambda$showMenuForEntity$35(entityView, view);
+                    LPhotoPaintView.this.lambda$showMenuForEntity$38(entityView, view);
                 }
             });
             linearLayout.addView(textView3, LayoutHelper.createLinear(-2, 48));
@@ -2992,13 +3244,35 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         textView4.setTextSize(1, 14.0f);
         textView4.setTag(2);
         textView4.setText(LocaleController.getString("PaintDuplicate", R.string.PaintDuplicate));
-        textView4.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda16
+        textView4.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda10
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
-                LPhotoPaintView.this.lambda$showMenuForEntity$36(view);
+                LPhotoPaintView.this.lambda$showMenuForEntity$39(view);
             }
         });
         linearLayout.addView(textView4, LayoutHelper.createLinear(-2, 48));
+        if (entityView instanceof PhotoView) {
+            final PhotoView photoView = (PhotoView) entityView;
+            if (photoView.hasSegmentedImage()) {
+                TextView textView5 = new TextView(getContext());
+                textView5.setTextColor(getThemedColor(i));
+                textView5.setBackgroundDrawable(Theme.getSelectorDrawable(false));
+                textView5.setGravity(16);
+                textView5.setEllipsize(TextUtils.TruncateAt.END);
+                textView5.setPadding(AndroidUtilities.dp(14.0f), 0, AndroidUtilities.dp(16.0f), 0);
+                textView5.setTextSize(1, 14.0f);
+                textView5.setTag(5);
+                textView5.setText(LocaleController.getString(photoView.isSegmented() ? R.string.SegmentationUndoCutOut : R.string.SegmentationCutOut));
+                textView5.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda21
+                    @Override // android.view.View.OnClickListener
+                    public final void onClick(View view) {
+                        LPhotoPaintView.this.lambda$showMenuForEntity$40(photoView, view);
+                    }
+                });
+                linearLayout.addView(textView5, LayoutHelper.createLinear(-2, 44));
+                photoView.highlightSegmented();
+            }
+        }
         this.popupLayout.addView(linearLayout);
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) linearLayout.getLayoutParams();
         layoutParams.width = -2;
@@ -3007,8 +3281,8 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showMenuForEntity$33(EntityView entityView, View view) {
-        lambda$registerRemovalUndo$41(entityView);
+    public /* synthetic */ void lambda$showMenuForEntity$36(EntityView entityView, View view) {
+        lambda$registerRemovalUndo$45(entityView);
         ActionBarPopupWindow actionBarPopupWindow = this.popupWindow;
         if (actionBarPopupWindow == null || !actionBarPopupWindow.isShowing()) {
             return;
@@ -3017,7 +3291,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showMenuForEntity$34(View view) {
+    public /* synthetic */ void lambda$showMenuForEntity$37(View view) {
         editSelectedTextEntity();
         ActionBarPopupWindow actionBarPopupWindow = this.popupWindow;
         if (actionBarPopupWindow == null || !actionBarPopupWindow.isShowing()) {
@@ -3027,7 +3301,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showMenuForEntity$35(EntityView entityView, View view) {
+    public /* synthetic */ void lambda$showMenuForEntity$38(EntityView entityView, View view) {
         ((StickerView) entityView).mirror(true);
         ActionBarPopupWindow actionBarPopupWindow = this.popupWindow;
         if (actionBarPopupWindow == null || !actionBarPopupWindow.isShowing()) {
@@ -3037,8 +3311,21 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showMenuForEntity$36(View view) {
+    public /* synthetic */ void lambda$showMenuForEntity$39(View view) {
         duplicateSelectedEntity();
+        ActionBarPopupWindow actionBarPopupWindow = this.popupWindow;
+        if (actionBarPopupWindow == null || !actionBarPopupWindow.isShowing()) {
+            return;
+        }
+        this.popupWindow.dismiss(true);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$showMenuForEntity$40(PhotoView photoView, View view) {
+        photoView.toggleSegmented(true);
+        if (photoView.isSegmented()) {
+            onSwitchSegmentedAnimation(photoView);
+        }
         ActionBarPopupWindow actionBarPopupWindow = this.popupWindow;
         if (actionBarPopupWindow == null || !actionBarPopupWindow.isShowing()) {
             return;
@@ -3109,18 +3396,18 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
             this.popupLayout = actionBarPopupWindowLayout;
             actionBarPopupWindowLayout.setAnimationEnabled(true);
             this.popupLayout.setBackgroundColor(-14145495);
-            this.popupLayout.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda22
+            this.popupLayout.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda24
                 @Override // android.view.View.OnTouchListener
                 public final boolean onTouch(View view2, MotionEvent motionEvent) {
-                    boolean lambda$showPopup$38;
-                    lambda$showPopup$38 = LPhotoPaintView.this.lambda$showPopup$38(view2, motionEvent);
-                    return lambda$showPopup$38;
+                    boolean lambda$showPopup$42;
+                    lambda$showPopup$42 = LPhotoPaintView.this.lambda$showPopup$42(view2, motionEvent);
+                    return lambda$showPopup$42;
                 }
             });
-            this.popupLayout.setDispatchKeyEventListener(new ActionBarPopupWindow.OnDispatchKeyEventListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda40
+            this.popupLayout.setDispatchKeyEventListener(new ActionBarPopupWindow.OnDispatchKeyEventListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda46
                 @Override // org.telegram.ui.ActionBar.ActionBarPopupWindow.OnDispatchKeyEventListener
                 public final void onDispatchKeyEvent(KeyEvent keyEvent) {
-                    LPhotoPaintView.this.lambda$showPopup$39(keyEvent);
+                    LPhotoPaintView.this.lambda$showPopup$43(keyEvent);
                 }
             });
             this.popupLayout.setShownFromBottom(true);
@@ -3137,10 +3424,10 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
             this.popupWindow.setInputMethodMode(2);
             this.popupWindow.setSoftInputMode(0);
             this.popupWindow.getContentView().setFocusableInTouchMode(true);
-            this.popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda23
+            this.popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda25
                 @Override // android.widget.PopupWindow.OnDismissListener
                 public final void onDismiss() {
-                    LPhotoPaintView.this.lambda$showPopup$40();
+                    LPhotoPaintView.this.lambda$showPopup$44();
                 }
             });
         }
@@ -3155,7 +3442,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ boolean lambda$showPopup$38(View view, MotionEvent motionEvent) {
+    public /* synthetic */ boolean lambda$showPopup$42(View view, MotionEvent motionEvent) {
         ActionBarPopupWindow actionBarPopupWindow;
         if (motionEvent.getActionMasked() == 0 && (actionBarPopupWindow = this.popupWindow) != null && actionBarPopupWindow.isShowing()) {
             view.getHitRect(this.popupRect);
@@ -3169,7 +3456,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showPopup$39(KeyEvent keyEvent) {
+    public /* synthetic */ void lambda$showPopup$43(KeyEvent keyEvent) {
         ActionBarPopupWindow actionBarPopupWindow;
         if (keyEvent.getKeyCode() == 4 && keyEvent.getRepeatCount() == 0 && (actionBarPopupWindow = this.popupWindow) != null && actionBarPopupWindow.isShowing()) {
             this.popupWindow.dismiss();
@@ -3177,7 +3464,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showPopup$40() {
+    public /* synthetic */ void lambda$showPopup$44() {
         this.popupLayout.removeInnerViews();
     }
 
@@ -3322,7 +3609,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
 
     private StickerView createSticker(Object obj, TLRPC$Document tLRPC$Document, boolean z) {
         StickerPosition calculateStickerPosition = calculateStickerPosition(tLRPC$Document);
-        StickerView stickerView = new StickerView(getContext(), calculateStickerPosition.position, calculateStickerPosition.angle, calculateStickerPosition.scale, baseStickerSize(), tLRPC$Document, obj) { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView.16
+        StickerView stickerView = new StickerView(getContext(), calculateStickerPosition.position, calculateStickerPosition.angle, calculateStickerPosition.scale, baseStickerSize(), tLRPC$Document, obj) { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView.18
             @Override // org.telegram.ui.Components.Paint.Views.StickerView
             protected void didSetAnimatedSticker(RLottieDrawable rLottieDrawable) {
                 LPhotoPaintView.this.didSetAnimatedSticker(rLottieDrawable);
@@ -3349,7 +3636,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
 
     /* JADX INFO: Access modifiers changed from: private */
     /* renamed from: removeEntity */
-    public void lambda$registerRemovalUndo$41(EntityView entityView) {
+    public void lambda$registerRemovalUndo$45(EntityView entityView) {
         EntityView entityView2 = this.currentEntityView;
         if (entityView == entityView2 && entityView2 != null) {
             entityView2.deselect();
@@ -3373,10 +3660,10 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
     }
 
     private void registerRemovalUndo(final EntityView entityView) {
-        this.undoStore.registerUndo(entityView.getUUID(), new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda37
+        this.undoStore.registerUndo(entityView.getUUID(), new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda39
             @Override // java.lang.Runnable
             public final void run() {
-                LPhotoPaintView.this.lambda$registerRemovalUndo$41(entityView);
+                LPhotoPaintView.this.lambda$registerRemovalUndo$45(entityView);
             }
         });
     }
@@ -3530,13 +3817,13 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
                 return;
             }
             ValueAnimator ofFloat = ValueAnimator.ofFloat(this.emojiPadding, 0.0f);
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda1
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda0
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    LPhotoPaintView.this.lambda$showEmojiPopup$42(valueAnimator);
+                    LPhotoPaintView.this.lambda$showEmojiPopup$46(valueAnimator);
                 }
             });
-            ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView.18
+            ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView.20
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationEnd(Animator animator) {
                     LPhotoPaintView.this.emojiView.setTranslationY(0.0f);
@@ -3565,7 +3852,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showEmojiPopup$42(ValueAnimator valueAnimator) {
+    public /* synthetic */ void lambda$showEmojiPopup$46(ValueAnimator valueAnimator) {
         this.emojiView.setTranslationY(((Float) valueAnimator.getAnimatedValue()).floatValue());
     }
 
@@ -3578,14 +3865,14 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
             if (emojiView != null && emojiView.getVisibility() == 0 && !this.waitingForKeyboardOpen) {
                 ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, this.emojiView.getMeasuredHeight());
                 this.bottomPanelIgnoreOnce = false;
-                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda0
+                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda1
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                        LPhotoPaintView.this.lambda$hideEmojiPopup$43(valueAnimator);
+                        LPhotoPaintView.this.lambda$hideEmojiPopup$47(valueAnimator);
                     }
                 });
                 this.isAnimatePopupClosing = true;
-                ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView.19
+                ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView.21
                     @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                     public void onAnimationEnd(Animator animator) {
                         LPhotoPaintView lPhotoPaintView = LPhotoPaintView.this;
@@ -3604,7 +3891,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$hideEmojiPopup$43(ValueAnimator valueAnimator) {
+    public /* synthetic */ void lambda$hideEmojiPopup$47(ValueAnimator valueAnimator) {
         this.emojiView.setTranslationY(((Float) valueAnimator.getAnimatedValue()).floatValue());
     }
 
@@ -3727,13 +4014,13 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         if (AndroidUtilities.isTablet()) {
             this.emojiView.setForseMultiwindowLayout(true);
         }
-        this.emojiView.setDelegate(new 20());
+        this.emojiView.setDelegate(new 22());
         addView(this.emojiView);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes4.dex */
-    public class 20 implements EmojiView.EmojiViewDelegate {
+    public class 22 implements EmojiView.EmojiViewDelegate {
         @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
         public /* synthetic */ boolean canSchedule() {
             return EmojiView.EmojiViewDelegate.-CC.$default$canSchedule(this);
@@ -3838,7 +4125,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
             EmojiView.EmojiViewDelegate.-CC.$default$showTrendingStickersAlert(this, trendingStickersLayout);
         }
 
-        20() {
+        22() {
         }
 
         @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
@@ -3909,10 +4196,10 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
             AlertDialog.Builder builder = new AlertDialog.Builder(LPhotoPaintView.this.getContext(), LPhotoPaintView.this.resourcesProvider);
             builder.setTitle(LocaleController.getString("ClearRecentEmojiTitle", R.string.ClearRecentEmojiTitle));
             builder.setMessage(LocaleController.getString("ClearRecentEmojiText", R.string.ClearRecentEmojiText));
-            builder.setPositiveButton(LocaleController.getString("ClearButton", R.string.ClearButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$20$$ExternalSyntheticLambda0
+            builder.setPositiveButton(LocaleController.getString("ClearButton", R.string.ClearButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$22$$ExternalSyntheticLambda0
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i) {
-                    LPhotoPaintView.20.this.lambda$onClearEmojiRecent$0(dialogInterface, i);
+                    LPhotoPaintView.22.this.lambda$onClearEmojiRecent$0(dialogInterface, i);
                 }
             });
             builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
@@ -3956,5 +4243,69 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
                 ((TextPaintView) childAt).updateTypeface();
             }
         }
+    }
+
+    public ThanosEffect getThanosEffect() {
+        if (this.thanosEffect == null) {
+            ThanosEffect thanosEffect = new ThanosEffect(getContext());
+            this.thanosEffect = thanosEffect;
+            addView(thanosEffect);
+        }
+        return this.thanosEffect;
+    }
+
+    public void onSwitchSegmentedAnimation(final PhotoView photoView) {
+        float f;
+        if (photoView == null) {
+            return;
+        }
+        ThanosEffect thanosEffect = getThanosEffect();
+        if (thanosEffect == null) {
+            photoView.onSwitchSegmentedAnimationStarted(false);
+            return;
+        }
+        Bitmap segmentedOutBitmap = photoView.getSegmentedOutBitmap();
+        if (segmentedOutBitmap == null) {
+            photoView.onSwitchSegmentedAnimationStarted(false);
+            return;
+        }
+        Matrix matrix = new Matrix();
+        float width = photoView.getWidth();
+        float height = photoView.getHeight();
+        float f2 = 0.0f;
+        if (photoView.getRotation() != 0.0f) {
+            float width2 = segmentedOutBitmap.getWidth();
+            float height2 = segmentedOutBitmap.getHeight();
+            float f3 = width2 / 2.0f;
+            float f4 = height2 / 2.0f;
+            float sqrt = (float) Math.sqrt((f3 * f3) + (f4 * f4));
+            float f5 = sqrt * 2.0f;
+            int i = (int) f5;
+            Bitmap createBitmap = Bitmap.createBitmap(i, i, Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(createBitmap);
+            canvas.save();
+            canvas.rotate(photoView.getRotation(), sqrt, sqrt);
+            canvas.drawBitmap(segmentedOutBitmap, (f5 - width2) / 2.0f, (f5 - height2) / 2.0f, (Paint) null);
+            segmentedOutBitmap.recycle();
+            float f6 = width / 2.0f;
+            float f7 = height / 2.0f;
+            float sqrt2 = ((float) Math.sqrt((f6 * f6) + (f7 * f7))) * 2.0f;
+            f2 = (-(sqrt2 - width)) / 2.0f;
+            height = sqrt2;
+            f = (-(sqrt2 - height)) / 2.0f;
+            width = height;
+            segmentedOutBitmap = createBitmap;
+        } else {
+            f = 0.0f;
+        }
+        matrix.postScale(width, height);
+        matrix.postScale(photoView.getScaleX(), photoView.getScaleY(), width / 2.0f, height / 2.0f);
+        matrix.postTranslate(photoView.getX() + f2, photoView.getY() + f);
+        thanosEffect.animate(matrix, segmentedOutBitmap, new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda41
+            @Override // java.lang.Runnable
+            public final void run() {
+                PhotoView.this.onSwitchSegmentedAnimationStarted(true);
+            }
+        }, LPhotoPaintView$$ExternalSyntheticLambda42.INSTANCE);
     }
 }

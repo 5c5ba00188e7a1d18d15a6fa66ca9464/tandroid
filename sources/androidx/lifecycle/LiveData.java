@@ -6,6 +6,7 @@ import androidx.lifecycle.Lifecycle;
 /* loaded from: classes.dex */
 public abstract class LiveData<T> {
     static final Object NOT_SET = new Object();
+    private boolean mChangingActiveState;
     private volatile Object mData;
     private boolean mDispatchInvalidated;
     private boolean mDispatchingValue;
@@ -97,6 +98,19 @@ public abstract class LiveData<T> {
         lifecycleOwner.getLifecycle().addObserver(lifecycleBoundObserver);
     }
 
+    public void observeForever(Observer<? super T> observer) {
+        assertMainThread("observeForever");
+        AlwaysActiveObserver alwaysActiveObserver = new AlwaysActiveObserver(this, observer);
+        LiveData<T>.ObserverWrapper putIfAbsent = this.mObservers.putIfAbsent(observer, alwaysActiveObserver);
+        if (putIfAbsent instanceof LifecycleBoundObserver) {
+            throw new IllegalArgumentException("Cannot add the same observer with different lifecycles");
+        }
+        if (putIfAbsent != null) {
+            return;
+        }
+        alwaysActiveObserver.activeStateChanged(true);
+    }
+
     public void removeObserver(Observer<? super T> observer) {
         assertMainThread("removeObserver");
         LiveData<T>.ObserverWrapper remove = this.mObservers.remove(observer);
@@ -139,6 +153,33 @@ public abstract class LiveData<T> {
         return this.mActiveCount > 0;
     }
 
+    void changeActiveCounter(int i) {
+        int i2 = this.mActiveCount;
+        this.mActiveCount = i + i2;
+        if (this.mChangingActiveState) {
+            return;
+        }
+        this.mChangingActiveState = true;
+        while (true) {
+            try {
+                int i3 = this.mActiveCount;
+                if (i2 == i3) {
+                    return;
+                }
+                boolean z = i2 == 0 && i3 > 0;
+                boolean z2 = i2 > 0 && i3 == 0;
+                if (z) {
+                    onActive();
+                } else if (z2) {
+                    onInactive();
+                }
+                i2 = i3;
+            } finally {
+                this.mChangingActiveState = false;
+            }
+        }
+    }
+
     /* loaded from: classes.dex */
     class LifecycleBoundObserver extends LiveData<T>.ObserverWrapper implements LifecycleEventObserver {
         final LifecycleOwner mOwner;
@@ -155,10 +196,16 @@ public abstract class LiveData<T> {
 
         @Override // androidx.lifecycle.LifecycleEventObserver
         public void onStateChanged(LifecycleOwner lifecycleOwner, Lifecycle.Event event) {
-            if (this.mOwner.getLifecycle().getCurrentState() == Lifecycle.State.DESTROYED) {
+            Lifecycle.State currentState = this.mOwner.getLifecycle().getCurrentState();
+            if (currentState == Lifecycle.State.DESTROYED) {
                 LiveData.this.removeObserver(this.mObserver);
-            } else {
+                return;
+            }
+            Lifecycle.State state = null;
+            while (state != currentState) {
                 activeStateChanged(shouldBeActive());
+                state = currentState;
+                currentState = this.mOwner.getLifecycle().getCurrentState();
             }
         }
 
@@ -198,20 +245,22 @@ public abstract class LiveData<T> {
                 return;
             }
             this.mActive = z;
-            LiveData liveData = LiveData.this;
-            int i = liveData.mActiveCount;
-            boolean z2 = i == 0;
-            liveData.mActiveCount = i + (z ? 1 : -1);
-            if (z2 && z) {
-                liveData.onActive();
-            }
-            LiveData liveData2 = LiveData.this;
-            if (liveData2.mActiveCount == 0 && !this.mActive) {
-                liveData2.onInactive();
-            }
+            LiveData.this.changeActiveCounter(z ? 1 : -1);
             if (this.mActive) {
                 LiveData.this.dispatchingValue(this);
             }
+        }
+    }
+
+    /* loaded from: classes.dex */
+    private class AlwaysActiveObserver extends LiveData<T>.ObserverWrapper {
+        @Override // androidx.lifecycle.LiveData.ObserverWrapper
+        boolean shouldBeActive() {
+            return true;
+        }
+
+        AlwaysActiveObserver(LiveData liveData, Observer<? super T> observer) {
+            super(observer);
         }
     }
 

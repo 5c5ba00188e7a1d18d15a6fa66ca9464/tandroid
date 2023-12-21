@@ -2,7 +2,7 @@ package org.telegram.messenger.utils;
 
 import j$.util.function.ToIntFunction;
 import org.telegram.messenger.utils.BitmapsCache;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public final /* synthetic */ class BitmapsCache$$ExternalSyntheticLambda2 implements ToIntFunction {
     public static final /* synthetic */ BitmapsCache$$ExternalSyntheticLambda2 INSTANCE = new BitmapsCache$$ExternalSyntheticLambda2();
 

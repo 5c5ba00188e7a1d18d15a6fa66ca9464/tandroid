@@ -4,7 +4,7 @@ import j$.util.function.Consumer;
 import j$.util.function.Predicate;
 import j$.util.stream.Stream;
 import j$.util.stream.o1;
-import j$.util.u;
+import j$.util.t;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
@@ -23,51 +23,51 @@ public abstract /* synthetic */ class a {
         }
     }
 
-    public static void b(t tVar, Consumer consumer) {
+    public static void b(t.a aVar, Consumer consumer) {
         if (consumer instanceof j$.util.function.f) {
-            tVar.e((j$.util.function.f) consumer);
-        } else if (N.a) {
-            N.a(tVar.getClass(), "{0} calling Spliterator.OfDouble.forEachRemaining((DoubleConsumer) action::accept)");
+            aVar.e((j$.util.function.f) consumer);
+        } else if (L.a) {
+            L.a(aVar.getClass(), "{0} calling Spliterator.OfDouble.forEachRemaining((DoubleConsumer) action::accept)");
             throw null;
         } else {
             Objects.requireNonNull(consumer);
-            tVar.e(new m(consumer));
+            aVar.e(new m(consumer));
         }
     }
 
-    public static void c(u.a aVar, Consumer consumer) {
+    public static void c(t.b bVar, Consumer consumer) {
         if (consumer instanceof j$.util.function.l) {
-            aVar.c((j$.util.function.l) consumer);
-        } else if (N.a) {
-            N.a(aVar.getClass(), "{0} calling Spliterator.OfInt.forEachRemaining((IntConsumer) action::accept)");
+            bVar.c((j$.util.function.l) consumer);
+        } else if (L.a) {
+            L.a(bVar.getClass(), "{0} calling Spliterator.OfInt.forEachRemaining((IntConsumer) action::accept)");
             throw null;
         } else {
             Objects.requireNonNull(consumer);
-            aVar.c(new o(consumer));
+            bVar.c(new o(consumer));
         }
     }
 
-    public static void d(v vVar, Consumer consumer) {
+    public static void d(t.c cVar, Consumer consumer) {
         if (consumer instanceof j$.util.function.q) {
-            vVar.d((j$.util.function.q) consumer);
-        } else if (N.a) {
-            N.a(vVar.getClass(), "{0} calling Spliterator.OfLong.forEachRemaining((LongConsumer) action::accept)");
+            cVar.d((j$.util.function.q) consumer);
+        } else if (L.a) {
+            L.a(cVar.getClass(), "{0} calling Spliterator.OfLong.forEachRemaining((LongConsumer) action::accept)");
             throw null;
         } else {
             Objects.requireNonNull(consumer);
-            vVar.d(new q(consumer));
+            cVar.d(new q(consumer));
         }
     }
 
-    public static long e(u uVar) {
-        if ((uVar.characteristics() & 64) == 0) {
+    public static long e(t tVar) {
+        if ((tVar.characteristics() & 64) == 0) {
             return -1L;
         }
-        return uVar.estimateSize();
+        return tVar.estimateSize();
     }
 
-    public static boolean f(u uVar, int i) {
-        return (uVar.characteristics() & i) == i;
+    public static boolean f(t tVar, int i) {
+        return (tVar.characteristics() & i) == i;
     }
 
     public static Stream g(Collection collection) {
@@ -94,40 +94,40 @@ public abstract /* synthetic */ class a {
         return o1.y(Collection$-EL.b(collection), false);
     }
 
-    public static boolean j(t tVar, Consumer consumer) {
+    public static boolean j(t.a aVar, Consumer consumer) {
         if (consumer instanceof j$.util.function.f) {
-            return tVar.k((j$.util.function.f) consumer);
+            return aVar.k((j$.util.function.f) consumer);
         }
-        if (N.a) {
-            N.a(tVar.getClass(), "{0} calling Spliterator.OfDouble.tryAdvance((DoubleConsumer) action::accept)");
+        if (L.a) {
+            L.a(aVar.getClass(), "{0} calling Spliterator.OfDouble.tryAdvance((DoubleConsumer) action::accept)");
             throw null;
         }
         Objects.requireNonNull(consumer);
-        return tVar.k(new m(consumer));
+        return aVar.k(new m(consumer));
     }
 
-    public static boolean k(u.a aVar, Consumer consumer) {
+    public static boolean k(t.b bVar, Consumer consumer) {
         if (consumer instanceof j$.util.function.l) {
-            return aVar.g((j$.util.function.l) consumer);
+            return bVar.g((j$.util.function.l) consumer);
         }
-        if (N.a) {
-            N.a(aVar.getClass(), "{0} calling Spliterator.OfInt.tryAdvance((IntConsumer) action::accept)");
+        if (L.a) {
+            L.a(bVar.getClass(), "{0} calling Spliterator.OfInt.tryAdvance((IntConsumer) action::accept)");
             throw null;
         }
         Objects.requireNonNull(consumer);
-        return aVar.g(new o(consumer));
+        return bVar.g(new o(consumer));
     }
 
-    public static boolean l(v vVar, Consumer consumer) {
+    public static boolean l(t.c cVar, Consumer consumer) {
         if (consumer instanceof j$.util.function.q) {
-            return vVar.i((j$.util.function.q) consumer);
+            return cVar.i((j$.util.function.q) consumer);
         }
-        if (N.a) {
-            N.a(vVar.getClass(), "{0} calling Spliterator.OfLong.tryAdvance((LongConsumer) action::accept)");
+        if (L.a) {
+            L.a(cVar.getClass(), "{0} calling Spliterator.OfLong.tryAdvance((LongConsumer) action::accept)");
             throw null;
         }
         Objects.requireNonNull(consumer);
-        return vVar.i(new q(consumer));
+        return cVar.i(new q(consumer));
     }
 
     public static Optional m(java.util.Optional optional) {

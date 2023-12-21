@@ -11,7 +11,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import org.telegram.messenger.FileLoader;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public final class EncryptedFileDataSource extends BaseDataSource {
     private int bytesRemaining;
     EncryptedFileInputStream fileInputStream;
@@ -25,7 +25,7 @@ public final class EncryptedFileDataSource extends BaseDataSource {
         return emptyMap;
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class EncryptedFileDataSourceException extends IOException {
         public EncryptedFileDataSourceException(Throwable th) {
             super(th);

@@ -32,12 +32,12 @@ final class Q1 extends R1 implements y1 {
     }
 
     @Override // j$.util.stream.A1
-    public j$.util.w spliterator() {
+    public j$.util.u spliterator() {
         return new h2(this);
     }
 
     @Override // j$.util.stream.A1
-    public j$.util.u spliterator() {
+    public j$.util.t spliterator() {
         return new h2(this);
     }
 }

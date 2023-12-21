@@ -10,11 +10,11 @@ final class K3 extends J0 {
     }
 
     @Override // j$.util.stream.c
-    public A1 E0(y2 y2Var, j$.util.u uVar, j$.util.function.m mVar) {
+    public A1 E0(y2 y2Var, j$.util.t tVar, j$.util.function.m mVar) {
         if (d4.SORTED.d(y2Var.s0())) {
-            return y2Var.p0(uVar, false, mVar);
+            return y2Var.p0(tVar, false, mVar);
         }
-        int[] iArr = (int[]) ((w1) y2Var.p0(uVar, true, mVar)).e();
+        int[] iArr = (int[]) ((w1) y2Var.p0(tVar, true, mVar)).e();
         Arrays.sort(iArr);
         return new c2(iArr);
     }

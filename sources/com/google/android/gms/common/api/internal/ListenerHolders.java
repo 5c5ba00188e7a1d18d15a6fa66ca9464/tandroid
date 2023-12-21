@@ -6,6 +6,7 @@ import com.google.android.gms.common.internal.Preconditions;
 import java.util.Collections;
 import java.util.Set;
 import java.util.WeakHashMap;
+import java.util.concurrent.Executor;
 /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public class ListenerHolders {
@@ -30,5 +31,12 @@ public class ListenerHolders {
             listenerHolder.clear();
         }
         this.zaa.clear();
+    }
+
+    public static <L> ListenerHolder<L> createListenerHolder(L l, Executor executor, String str) {
+        Preconditions.checkNotNull(l, "Listener must not be null");
+        Preconditions.checkNotNull(executor, "Executor must not be null");
+        Preconditions.checkNotNull(str, "Listener type must not be null");
+        return new ListenerHolder<>(executor, l, str);
     }
 }

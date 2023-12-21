@@ -2,9 +2,8 @@ package org.telegram.tgnet;
 
 import java.util.ArrayList;
 import org.telegram.tgnet.tl.TL_stories$TL_boost;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_payments_checkedGiftCode extends TLObject {
-    public static int constructor = -1222446760;
     public TL_stories$TL_boost boost;
     public int date;
     public int flags;
@@ -18,7 +17,7 @@ public class TLRPC$TL_payments_checkedGiftCode extends TLObject {
     public ArrayList<TLRPC$User> users = new ArrayList<>();
 
     public static TLRPC$TL_payments_checkedGiftCode TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-        if (constructor != i) {
+        if (675942550 != i) {
             if (z) {
                 throw new RuntimeException(String.format("can't parse magic %x in TL_payments_checkedGiftCode", Integer.valueOf(i)));
             }
@@ -34,7 +33,9 @@ public class TLRPC$TL_payments_checkedGiftCode extends TLObject {
         int readInt32 = abstractSerializedData.readInt32(z);
         this.flags = readInt32;
         this.via_giveaway = (readInt32 & 4) != 0;
-        this.from_id = TLRPC$Peer.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+        if ((readInt32 & 16) != 0) {
+            this.from_id = TLRPC$Peer.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+        }
         if ((this.flags & 8) != 0) {
             this.giveaway_msg_id = abstractSerializedData.readInt32(z);
         }
@@ -80,11 +81,13 @@ public class TLRPC$TL_payments_checkedGiftCode extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(675942550);
         int i = this.via_giveaway ? this.flags | 4 : this.flags & (-5);
         this.flags = i;
         abstractSerializedData.writeInt32(i);
-        this.from_id.serializeToStream(abstractSerializedData);
+        if ((this.flags & 16) != 0) {
+            this.from_id.serializeToStream(abstractSerializedData);
+        }
         if ((this.flags & 8) != 0) {
             abstractSerializedData.writeInt32(this.giveaway_msg_id);
         }

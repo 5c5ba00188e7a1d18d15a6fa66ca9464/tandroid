@@ -1,6 +1,6 @@
 package com.google.android.gms.internal.mlkit_language_id;
 
-import org.telegram.messenger.FileLoader;
+import org.telegram.messenger.R;
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 public enum zzaj implements zzet {
@@ -82,25 +82,25 @@ public enum zzaj implements zzet {
     zzbx(91),
     zzby(92),
     zzbz(93),
-    zzca(111),
-    zzcb(112),
-    zzcc(113),
+    zzca(R.styleable.AppCompatTheme_textColorSearchUrl),
+    zzcb(R.styleable.AppCompatTheme_toolbarNavigationButtonStyle),
+    zzcc(R.styleable.AppCompatTheme_toolbarStyle),
     zzcd(121),
     zzce(122),
     zzcf(123),
     zzcg(131),
     zzch(132),
     zzci(133),
-    zzcj(102),
-    zzck(103),
-    zzcl(104),
-    zzcm(105),
+    zzcj(R.styleable.AppCompatTheme_textAppearanceLargePopupMenu),
+    zzck(R.styleable.AppCompatTheme_textAppearanceListItem),
+    zzcl(R.styleable.AppCompatTheme_textAppearanceListItemSecondary),
+    zzcm(R.styleable.AppCompatTheme_textAppearanceListItemSmall),
     zzcn(181),
     zzco(182),
     zzcp(183),
     zzcq(184),
     zzcr(100),
-    zzcs(FileLoader.MEDIA_DIR_VIDEO_PUBLIC),
+    zzcs(101),
     zzct(251),
     zzcu(252),
     zzcv(260),

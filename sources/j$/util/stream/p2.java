@@ -6,14 +6,14 @@ import java.util.Objects;
 public final class p2 extends s2 implements k3 {
     private final int[] h;
 
-    p2(p2 p2Var, j$.util.u uVar, long j, long j2) {
-        super(p2Var, uVar, j, j2, p2Var.h.length);
+    p2(p2 p2Var, j$.util.t tVar, long j, long j2) {
+        super(p2Var, tVar, j, j2, p2Var.h.length);
         this.h = p2Var.h;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public p2(j$.util.u uVar, y2 y2Var, int[] iArr) {
-        super(uVar, y2Var, iArr.length);
+    public p2(j$.util.t tVar, y2 y2Var, int[] iArr) {
+        super(tVar, y2Var, iArr.length);
         this.h = iArr;
     }
 
@@ -29,8 +29,8 @@ public final class p2 extends s2 implements k3 {
     }
 
     @Override // j$.util.stream.s2
-    s2 b(j$.util.u uVar, long j, long j2) {
-        return new p2(this, uVar, j, j2);
+    s2 b(j$.util.t tVar, long j, long j2) {
+        return new p2(this, tVar, j, j2);
     }
 
     @Override // j$.util.function.Consumer

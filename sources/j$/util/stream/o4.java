@@ -1,24 +1,25 @@
 package j$.util.stream;
 
 import j$.util.function.Consumer;
+import j$.util.t;
 import java.util.Objects;
 /* loaded from: classes2.dex */
-final class o4 extends f4 implements j$.util.t {
+final class o4 extends f4 implements t.a {
     /* JADX INFO: Access modifiers changed from: package-private */
     public o4(y2 y2Var, j$.util.function.y yVar, boolean z) {
         super(y2Var, yVar, z);
     }
 
-    o4(y2 y2Var, j$.util.u uVar, boolean z) {
-        super(y2Var, uVar, z);
+    o4(y2 y2Var, j$.util.t tVar, boolean z) {
+        super(y2Var, tVar, z);
     }
 
-    @Override // j$.util.u
+    @Override // j$.util.t
     public /* synthetic */ boolean b(Consumer consumer) {
         return j$.util.a.j(this, consumer);
     }
 
-    @Override // j$.util.w
+    @Override // j$.util.u
     /* renamed from: e */
     public void forEachRemaining(j$.util.function.f fVar) {
         if (this.h != null || this.i) {
@@ -32,7 +33,7 @@ final class o4 extends f4 implements j$.util.t {
         this.i = true;
     }
 
-    @Override // j$.util.u
+    @Override // j$.util.t
     public /* synthetic */ void forEachRemaining(Consumer consumer) {
         j$.util.a.b(this, consumer);
     }
@@ -45,7 +46,7 @@ final class o4 extends f4 implements j$.util.t {
         this.f = new b(this);
     }
 
-    @Override // j$.util.w
+    @Override // j$.util.u
     /* renamed from: k */
     public boolean tryAdvance(j$.util.function.f fVar) {
         Objects.requireNonNull(fVar);
@@ -60,12 +61,12 @@ final class o4 extends f4 implements j$.util.t {
     }
 
     @Override // j$.util.stream.f4
-    f4 l(j$.util.u uVar) {
-        return new o4(this.b, uVar, this.a);
+    f4 l(j$.util.t tVar) {
+        return new o4(this.b, tVar, this.a);
     }
 
-    @Override // j$.util.stream.f4, j$.util.u
-    public j$.util.t trySplit() {
-        return (j$.util.t) super.trySplit();
+    @Override // j$.util.stream.f4, j$.util.t
+    public t.a trySplit() {
+        return (t.a) super.trySplit();
     }
 }

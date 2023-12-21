@@ -38,7 +38,7 @@ import org.telegram.messenger.SendMessagesHelper;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.SerializedData;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class CameraController implements MediaRecorder.OnInfoListener {
     private static final int CORE_POOL_SIZE = 1;
     private static volatile CameraController Instance = null;
@@ -56,10 +56,10 @@ public class CameraController implements MediaRecorder.OnInfoListener {
     private ArrayList<Runnable> onFinishCameraInitRunnables = new ArrayList<>();
     protected ThreadPoolExecutor threadPool = new ThreadPoolExecutor(1, 1, 60, TimeUnit.SECONDS, new LinkedBlockingQueue());
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public interface ErrorCallback {
 
-        /* loaded from: classes.dex */
+        /* loaded from: classes3.dex */
         public final /* synthetic */ class -CC {
             public static void $default$onError(ErrorCallback errorCallback, int i, Camera camera, CameraSession cameraSession) {
             }
@@ -68,14 +68,14 @@ public class CameraController implements MediaRecorder.OnInfoListener {
         void onError(int i, Camera camera, CameraSession cameraSession);
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public interface ICameraView {
         boolean startRecording(File file, Runnable runnable);
 
         void stopRecording();
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public interface VideoTakeCallback {
         void onFinishVideoRecording(String str, long j);
     }
@@ -1210,7 +1210,7 @@ public class CameraController implements MediaRecorder.OnInfoListener {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class CompareSizesByArea implements Comparator<Size> {
         CompareSizesByArea() {
         }

@@ -11,13 +11,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowInsets;
 import android.widget.FrameLayout;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.R$styleable;
 import java.util.ArrayList;
 /* loaded from: classes.dex */
 public final class FragmentContainerView extends FrameLayout {
+    private View.OnApplyWindowInsetsListener mApplyWindowInsetsListener;
     private ArrayList<View> mDisappearingFragmentChildren;
     private boolean mDrawDisappearingViewsFirst;
     private ArrayList<View> mTransitioningFragmentViews;
+
+    @Override // android.view.View
+    public WindowInsets onApplyWindowInsets(WindowInsets windowInsets) {
+        return windowInsets;
+    }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public FragmentContainerView(Context context, AttributeSet attributeSet, FragmentManager fragmentManager) {
@@ -31,20 +39,20 @@ public final class FragmentContainerView extends FrameLayout {
         obtainStyledAttributes.recycle();
         int id = getId();
         Fragment findFragmentById = fragmentManager.findFragmentById(id);
-        if (classAttribute == null || findFragmentById != null) {
-            return;
-        }
-        if (id <= 0) {
-            if (string != null) {
-                str = " with tag " + string;
-            } else {
-                str = "";
+        if (classAttribute != null && findFragmentById == null) {
+            if (id <= 0) {
+                if (string != null) {
+                    str = " with tag " + string;
+                } else {
+                    str = "";
+                }
+                throw new IllegalStateException("FragmentContainerView must have an android:id to add Fragment " + classAttribute + str);
             }
-            throw new IllegalStateException("FragmentContainerView must have an android:id to add Fragment " + classAttribute + str);
+            Fragment instantiate = fragmentManager.getFragmentFactory().instantiate(context.getClassLoader(), classAttribute);
+            instantiate.onInflate(context, attributeSet, (Bundle) null);
+            fragmentManager.beginTransaction().setReorderingAllowed(true).add(this, instantiate, string).commitNowAllowingStateLoss();
         }
-        Fragment instantiate = fragmentManager.getFragmentFactory().instantiate(context.getClassLoader(), classAttribute);
-        instantiate.onInflate(context, attributeSet, (Bundle) null);
-        fragmentManager.beginTransaction().setReorderingAllowed(true).add(this, instantiate, string).commitNowAllowingStateLoss();
+        fragmentManager.onContainerAvailable(this);
     }
 
     @Override // android.view.ViewGroup
@@ -57,9 +65,25 @@ public final class FragmentContainerView extends FrameLayout {
     }
 
     @Override // android.view.View
-    public WindowInsets onApplyWindowInsets(WindowInsets windowInsets) {
-        for (int i = 0; i < getChildCount(); i++) {
-            getChildAt(i).dispatchApplyWindowInsets(new WindowInsets(windowInsets));
+    public void setOnApplyWindowInsetsListener(View.OnApplyWindowInsetsListener onApplyWindowInsetsListener) {
+        this.mApplyWindowInsetsListener = onApplyWindowInsetsListener;
+    }
+
+    @Override // android.view.ViewGroup, android.view.View
+    public WindowInsets dispatchApplyWindowInsets(WindowInsets windowInsets) {
+        WindowInsetsCompat onApplyWindowInsets;
+        WindowInsetsCompat windowInsetsCompat = WindowInsetsCompat.toWindowInsetsCompat(windowInsets);
+        View.OnApplyWindowInsetsListener onApplyWindowInsetsListener = this.mApplyWindowInsetsListener;
+        if (onApplyWindowInsetsListener != null) {
+            onApplyWindowInsets = WindowInsetsCompat.toWindowInsetsCompat(onApplyWindowInsetsListener.onApplyWindowInsets(this, windowInsets));
+        } else {
+            onApplyWindowInsets = ViewCompat.onApplyWindowInsets(this, windowInsetsCompat);
+        }
+        if (!onApplyWindowInsets.isConsumed()) {
+            int childCount = getChildCount();
+            for (int i = 0; i < childCount; i++) {
+                ViewCompat.dispatchApplyWindowInsets(getChildAt(i), onApplyWindowInsets);
+            }
         }
         return windowInsets;
     }
@@ -179,12 +203,13 @@ public final class FragmentContainerView extends FrameLayout {
     }
 
     private void addDisappearingFragmentView(View view) {
-        ArrayList<View> arrayList;
-        if (view.getAnimation() != null || ((arrayList = this.mTransitioningFragmentViews) != null && arrayList.contains(view))) {
-            if (this.mDisappearingFragmentChildren == null) {
-                this.mDisappearingFragmentChildren = new ArrayList<>();
-            }
-            this.mDisappearingFragmentChildren.add(view);
+        ArrayList<View> arrayList = this.mTransitioningFragmentViews;
+        if (arrayList == null || !arrayList.contains(view)) {
+            return;
         }
+        if (this.mDisappearingFragmentChildren == null) {
+            this.mDisappearingFragmentChildren = new ArrayList<>();
+        }
+        this.mDisappearingFragmentChildren.add(view);
     }
 }

@@ -1,7 +1,7 @@
 package org.telegram.tgnet;
 
 import org.telegram.tgnet.tl.TL_stories$TL_publicForwardStory;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public abstract class TLRPC$PublicForward extends TLObject {
     public static TLRPC$PublicForward TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
         TLRPC$PublicForward tL_stories$TL_publicForwardStory;

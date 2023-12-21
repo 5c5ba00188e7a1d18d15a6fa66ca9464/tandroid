@@ -10,7 +10,7 @@ import org.telegram.tgnet.TLRPC$PrivacyRule;
 import org.telegram.tgnet.TLRPC$Reaction;
 import org.telegram.tgnet.TLRPC$TL_textWithEntities;
 import org.telegram.ui.Stories.recorder.StoryPrivacyBottomSheet;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public abstract class TL_stories$StoryItem extends TLObject {
     public String attachPath;
     public String caption;

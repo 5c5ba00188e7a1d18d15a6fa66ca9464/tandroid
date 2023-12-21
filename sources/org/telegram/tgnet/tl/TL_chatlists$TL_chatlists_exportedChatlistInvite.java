@@ -3,7 +3,7 @@ package org.telegram.tgnet.tl;
 import org.telegram.tgnet.AbstractSerializedData;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$DialogFilter;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TL_chatlists$TL_chatlists_exportedChatlistInvite extends TLObject {
     public TLRPC$DialogFilter filter;
     public TL_chatlists$TL_exportedChatlistInvite invite;

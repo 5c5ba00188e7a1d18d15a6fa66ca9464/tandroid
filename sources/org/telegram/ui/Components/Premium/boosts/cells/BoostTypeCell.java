@@ -28,8 +28,9 @@ public class BoostTypeCell extends BaseCell {
         this.titleTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.Premium.boosts.cells.BaseCell
-    protected void updateLayouts() {
+    public void updateLayouts() {
         this.imageView.setLayoutParams(LayoutHelper.createFrame(40, 40.0f, (LocaleController.isRTL ? 5 : 3) | 16, 57.0f, 0.0f, 57.0f, 0.0f));
         SimpleTextView simpleTextView = this.titleTextView;
         boolean z = LocaleController.isRTL;

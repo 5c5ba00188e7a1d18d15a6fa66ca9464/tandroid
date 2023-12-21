@@ -40,15 +40,15 @@ abstract class o0 implements N4, O4 {
     }
 
     @Override // j$.util.stream.N4
-    public Object c(y2 y2Var, j$.util.u uVar) {
-        (this.a ? new q0(y2Var, uVar, this) : new r0(y2Var, uVar, y2Var.v0(this))).invoke();
+    public Object c(y2 y2Var, j$.util.t tVar) {
+        (this.a ? new q0(y2Var, tVar, this) : new r0(y2Var, tVar, y2Var.v0(this))).invoke();
         return null;
     }
 
     @Override // j$.util.stream.N4
-    public Object d(y2 y2Var, j$.util.u uVar) {
+    public Object d(y2 y2Var, j$.util.t tVar) {
         c cVar = (c) y2Var;
-        cVar.n0(cVar.v0(this), uVar);
+        cVar.n0(cVar.v0(this), tVar);
         return null;
     }
 

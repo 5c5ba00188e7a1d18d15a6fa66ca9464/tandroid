@@ -13,5 +13,5 @@ public interface z1 extends A1 {
     void g(Object obj);
 
     @Override // j$.util.stream.A1
-    j$.util.w spliterator();
+    j$.util.u spliterator();
 }

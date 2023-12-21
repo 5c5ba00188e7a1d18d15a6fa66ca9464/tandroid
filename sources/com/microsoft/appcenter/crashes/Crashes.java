@@ -527,9 +527,9 @@ public class Crashes extends AbstractAppCenterService {
     /* JADX INFO: Access modifiers changed from: private */
     public synchronized void handleUserConfirmation(final int i) {
         post(new Runnable() { // from class: com.microsoft.appcenter.crashes.Crashes.12
-            /* JADX WARN: Removed duplicated region for block: B:28:0x00bc  */
-            /* JADX WARN: Removed duplicated region for block: B:31:0x00d8  */
-            /* JADX WARN: Removed duplicated region for block: B:37:0x00f3 A[SYNTHETIC] */
+            /* JADX WARN: Removed duplicated region for block: B:28:0x00bd  */
+            /* JADX WARN: Removed duplicated region for block: B:31:0x00d9  */
+            /* JADX WARN: Removed duplicated region for block: B:37:0x00f4 A[SYNTHETIC] */
             @Override // java.lang.Runnable
             /*
                 Code decompiled incorrectly, please refer to instructions dump.

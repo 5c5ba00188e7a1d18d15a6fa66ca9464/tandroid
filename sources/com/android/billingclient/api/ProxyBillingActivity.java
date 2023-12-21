@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.os.ResultReceiver;
 import com.google.android.apps.common.proguard.UsedByReflection;
 import com.google.android.gms.internal.play_billing.zzb;
-import org.telegram.messenger.FileLoader;
+import org.telegram.messenger.R;
 /* compiled from: com.android.billingclient:billing@@5.1.0 */
 @UsedByReflection("PlatformActivityProxy")
 /* loaded from: classes.dex */
@@ -105,7 +105,7 @@ public class ProxyBillingActivity extends Activity {
                 pendingIntent = (PendingIntent) getIntent().getParcelableExtra("BUY_INTENT");
                 if (getIntent().hasExtra("IS_FLOW_FROM_FIRST_PARTY_CLIENT") && getIntent().getBooleanExtra("IS_FLOW_FROM_FIRST_PARTY_CLIENT", false)) {
                     this.isFlowFromFirstPartyClient = true;
-                    i = 110;
+                    i = R.styleable.AppCompatTheme_textColorAlertDialogListItem;
                 }
                 i = 100;
             } else {
@@ -115,7 +115,7 @@ public class ProxyBillingActivity extends Activity {
                 } else if (getIntent().hasExtra("IN_APP_MESSAGE_INTENT")) {
                     pendingIntent = (PendingIntent) getIntent().getParcelableExtra("IN_APP_MESSAGE_INTENT");
                     this.inAppMessageResultReceiver = (ResultReceiver) getIntent().getParcelableExtra("in_app_message_result_receiver");
-                    i = FileLoader.MEDIA_DIR_VIDEO_PUBLIC;
+                    i = 101;
                 } else {
                     pendingIntent = null;
                 }

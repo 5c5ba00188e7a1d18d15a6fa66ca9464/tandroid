@@ -1,5 +1,5 @@
 package org.telegram.tgnet;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_pageBlockPullquote extends TLRPC$PageBlock {
     public TLRPC$RichText caption;
     public TLRPC$RichText text;

@@ -63,6 +63,7 @@ import org.telegram.ui.Components.spoilers.SpoilersTextView;
 import org.telegram.ui.LaunchActivity;
 /* loaded from: classes3.dex */
 public class AlertDialog extends Dialog implements Drawable.Callback, NotificationCenter.NotificationCenterDelegate {
+    private View aboveMessageView;
     private int additioanalHorizontalPadding;
     private float aspectRatio;
     private int backgroundColor;
@@ -805,10 +806,14 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
             radialProgressView.setProgressColor(getThemedColor(Theme.key_dialog_inlineProgress));
             this.progressViewContainer.addView(radialProgressView, LayoutHelper.createFrame(86, 86, 17));
         } else {
-            this.scrollContainer.addView(this.messageTextView, LayoutHelper.createLinear(-2, -2, (this.topAnimationIsNew ? 1 : LocaleController.isRTL ? 5 : 3) | 48, 24, 0, 24, (this.customView == null && this.items == null) ? 0 : this.customViewOffset));
-            View view2 = this.bottomView;
+            View view2 = this.aboveMessageView;
             if (view2 != null) {
-                this.scrollContainer.addView(view2, LayoutHelper.createLinear(-1, -2, 24.0f, -24.0f, 24.0f, 0.0f));
+                this.scrollContainer.addView(view2, LayoutHelper.createLinear(-1, -2, 22.0f, 4.0f, 22.0f, 12.0f));
+            }
+            this.scrollContainer.addView(this.messageTextView, LayoutHelper.createLinear(-2, -2, (this.topAnimationIsNew ? 1 : LocaleController.isRTL ? 5 : 3) | 48, 24, 0, 24, (this.customView == null && this.items == null) ? 0 : this.customViewOffset));
+            View view3 = this.bottomView;
+            if (view3 != null) {
+                this.scrollContainer.addView(view3, LayoutHelper.createLinear(-1, -2, 22.0f, 12.0f, 22.0f, 0.0f));
             }
         }
         if (!TextUtils.isEmpty(this.message)) {
@@ -834,17 +839,17 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
                     this.scrollContainer.addView(alertDialogCell, LayoutHelper.createLinear(-1, 50));
                     alertDialogCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.AlertDialog$$ExternalSyntheticLambda3
                         @Override // android.view.View.OnClickListener
-                        public final void onClick(View view3) {
-                            AlertDialog.this.lambda$inflateContent$1(view3);
+                        public final void onClick(View view4) {
+                            AlertDialog.this.lambda$inflateContent$1(view4);
                         }
                     });
                 }
                 i5++;
             }
         }
-        View view3 = this.customView;
-        if (view3 != null) {
-            if (view3.getParent() != null) {
+        View view4 = this.customView;
+        if (view4 != null) {
+            if (view4.getParent() != null) {
                 ((ViewGroup) this.customView.getParent()).removeView(this.customView);
             }
             this.scrollContainer.addView(this.customView, LayoutHelper.createLinear(-1, this.customViewHeight));
@@ -879,7 +884,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
                         int i11;
                         int childCount = getChildCount();
                         int i12 = i8 - i6;
-                        View view4 = null;
+                        View view5 = null;
                         for (int i13 = 0; i13 < childCount; i13++) {
                             View childAt = getChildAt(i13);
                             Integer num = (Integer) childAt.getTag();
@@ -890,18 +895,18 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
                                     } else {
                                         childAt.layout((i12 - getPaddingRight()) - childAt.getMeasuredWidth(), getPaddingTop(), i12 - getPaddingRight(), getPaddingTop() + childAt.getMeasuredHeight());
                                     }
-                                    view4 = childAt;
+                                    view5 = childAt;
                                 } else if (num.intValue() == -2) {
                                     if (LocaleController.isRTL) {
                                         int paddingLeft = getPaddingLeft();
-                                        if (view4 != null) {
-                                            paddingLeft += view4.getMeasuredWidth() + AndroidUtilities.dp(8.0f);
+                                        if (view5 != null) {
+                                            paddingLeft += view5.getMeasuredWidth() + AndroidUtilities.dp(8.0f);
                                         }
                                         childAt.layout(paddingLeft, getPaddingTop(), childAt.getMeasuredWidth() + paddingLeft, getPaddingTop() + childAt.getMeasuredHeight());
                                     } else {
                                         int paddingRight = (i12 - getPaddingRight()) - childAt.getMeasuredWidth();
-                                        if (view4 != null) {
-                                            paddingRight -= view4.getMeasuredWidth() + AndroidUtilities.dp(8.0f);
+                                        if (view5 != null) {
+                                            paddingRight -= view5.getMeasuredWidth() + AndroidUtilities.dp(8.0f);
                                         }
                                         childAt.layout(paddingRight, getPaddingTop(), childAt.getMeasuredWidth() + paddingRight, getPaddingTop() + childAt.getMeasuredHeight());
                                     }
@@ -915,9 +920,9 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
                             } else {
                                 int measuredWidth = childAt.getMeasuredWidth();
                                 int measuredHeight = childAt.getMeasuredHeight();
-                                if (view4 != null) {
-                                    i10 = view4.getLeft() + ((view4.getMeasuredWidth() - measuredWidth) / 2);
-                                    i11 = view4.getTop() + ((view4.getMeasuredHeight() - measuredHeight) / 2);
+                                if (view5 != null) {
+                                    i10 = view5.getLeft() + ((view5.getMeasuredWidth() - measuredWidth) / 2);
+                                    i11 = view5.getTop() + ((view5.getMeasuredHeight() - measuredHeight) / 2);
                                 } else {
                                     i10 = 0;
                                     i11 = 0;
@@ -994,8 +999,8 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
                 }
                 textView5.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.AlertDialog$$ExternalSyntheticLambda2
                     @Override // android.view.View.OnClickListener
-                    public final void onClick(View view4) {
-                        AlertDialog.this.lambda$inflateContent$2(view4);
+                    public final void onClick(View view5) {
+                        AlertDialog.this.lambda$inflateContent$2(view5);
                     }
                 });
             }
@@ -1031,8 +1036,8 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
                 }
                 textView6.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.AlertDialog$$ExternalSyntheticLambda5
                     @Override // android.view.View.OnClickListener
-                    public final void onClick(View view4) {
-                        AlertDialog.this.lambda$inflateContent$3(view4);
+                    public final void onClick(View view5) {
+                        AlertDialog.this.lambda$inflateContent$3(view5);
                     }
                 });
             }
@@ -1068,8 +1073,8 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
                 }
                 textView7.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.AlertDialog$$ExternalSyntheticLambda4
                     @Override // android.view.View.OnClickListener
-                    public final void onClick(View view4) {
-                        AlertDialog.this.lambda$inflateContent$4(view4);
+                    public final void onClick(View view5) {
+                        AlertDialog.this.lambda$inflateContent$4(view5);
                     }
                 });
             }
@@ -1108,8 +1113,8 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
             Rect rect2 = this.backgroundPaddings;
             layoutParams.width = min + rect2.left + rect2.right;
         }
-        View view4 = this.customView;
-        if (view4 != null && this.checkFocusable && canTextInput(view4)) {
+        View view5 = this.customView;
+        if (view5 != null && this.checkFocusable && canTextInput(view5)) {
             layoutParams.softInputMode = 4;
         } else {
             layoutParams.flags |= 131072;
@@ -1259,6 +1264,24 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
         TextView textView2 = this.messageTextView;
         if (textView2 != null) {
             textView2.setTextColor(i);
+        }
+    }
+
+    public void setTextSize(int i, int i2) {
+        TextView textView = this.titleTextView;
+        if (textView != null) {
+            textView.setTextSize(1, i);
+        }
+        TextView textView2 = this.messageTextView;
+        if (textView2 != null) {
+            textView2.setTextSize(1, i2);
+        }
+    }
+
+    public void setMessageLineSpacing(float f) {
+        TextView textView = this.messageTextView;
+        if (textView != null) {
+            textView.setLineSpacing(AndroidUtilities.dp(f), 1.0f);
         }
     }
 
@@ -1593,6 +1616,11 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
         public Builder setView(View view, int i) {
             this.alertDialog.customView = view;
             this.alertDialog.customViewHeight = i;
+            return this;
+        }
+
+        public Builder aboveMessageView(View view) {
+            this.alertDialog.aboveMessageView = view;
             return this;
         }
 

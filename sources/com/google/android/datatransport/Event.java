@@ -10,6 +10,10 @@ public abstract class Event<T> {
 
     public abstract Priority getPriority();
 
+    public static <T> Event<T> ofData(T t) {
+        return new AutoValue_Event(null, t, Priority.DEFAULT);
+    }
+
     public static <T> Event<T> ofTelemetry(T t) {
         return new AutoValue_Event(null, t, Priority.VERY_LOW);
     }

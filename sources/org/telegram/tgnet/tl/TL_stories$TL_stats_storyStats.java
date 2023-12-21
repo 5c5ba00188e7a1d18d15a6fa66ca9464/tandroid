@@ -3,7 +3,7 @@ package org.telegram.tgnet.tl;
 import org.telegram.tgnet.AbstractSerializedData;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$StatsGraph;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TL_stories$TL_stats_storyStats extends TLObject {
     public TLRPC$StatsGraph reactions_by_emotion_graph;
     public TLRPC$StatsGraph views_graph;

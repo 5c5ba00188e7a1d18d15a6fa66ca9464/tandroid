@@ -4,6 +4,8 @@ import android.util.Log;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStore;
+import androidx.lifecycle.viewmodel.CreationExtras;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -11,6 +13,11 @@ import java.util.Iterator;
 /* loaded from: classes.dex */
 public final class FragmentManagerViewModel extends ViewModel {
     private static final ViewModelProvider.Factory FACTORY = new ViewModelProvider.Factory() { // from class: androidx.fragment.app.FragmentManagerViewModel.1
+        @Override // androidx.lifecycle.ViewModelProvider.Factory
+        public /* synthetic */ ViewModel create(Class cls, CreationExtras creationExtras) {
+            return ViewModelProvider.Factory.-CC.$default$create(this, cls, creationExtras);
+        }
+
         @Override // androidx.lifecycle.ViewModelProvider.Factory
         public <T extends ViewModel> T create(Class<T> cls) {
             return new FragmentManagerViewModel(true);
@@ -22,6 +29,7 @@ public final class FragmentManagerViewModel extends ViewModel {
     private final HashMap<String, ViewModelStore> mViewModelStores = new HashMap<>();
     private boolean mHasBeenCleared = false;
     private boolean mHasSavedSnapshot = false;
+    private boolean mIsStateSaved = false;
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static FragmentManagerViewModel getInstance(ViewModelStore viewModelStore) {
@@ -31,6 +39,11 @@ public final class FragmentManagerViewModel extends ViewModel {
     /* JADX INFO: Access modifiers changed from: package-private */
     public FragmentManagerViewModel(boolean z) {
         this.mStateAutomaticallySaved = z;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public void setIsStateSaved(boolean z) {
+        this.mIsStateSaved = z;
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
@@ -48,12 +61,18 @@ public final class FragmentManagerViewModel extends ViewModel {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public boolean addRetainedFragment(Fragment fragment) {
-        if (this.mRetainedFragments.containsKey(fragment.mWho)) {
-            return false;
+    public void addRetainedFragment(Fragment fragment) {
+        if (this.mIsStateSaved) {
+            if (FragmentManager.isLoggingEnabled(2)) {
+                Log.v("FragmentManager", "Ignoring addRetainedFragment as the state is already saved");
+            }
+        } else if (this.mRetainedFragments.containsKey(fragment.mWho)) {
+        } else {
+            this.mRetainedFragments.put(fragment.mWho, fragment);
+            if (FragmentManager.isLoggingEnabled(2)) {
+                Log.v("FragmentManager", "Updating retained Fragments: Added " + fragment);
+            }
         }
-        this.mRetainedFragments.put(fragment.mWho, fragment);
-        return true;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -63,7 +82,7 @@ public final class FragmentManagerViewModel extends ViewModel {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public Collection<Fragment> getRetainedFragments() {
-        return this.mRetainedFragments.values();
+        return new ArrayList(this.mRetainedFragments.values());
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -78,8 +97,17 @@ public final class FragmentManagerViewModel extends ViewModel {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public boolean removeRetainedFragment(Fragment fragment) {
-        return this.mRetainedFragments.remove(fragment.mWho) != null;
+    public void removeRetainedFragment(Fragment fragment) {
+        if (this.mIsStateSaved) {
+            if (FragmentManager.isLoggingEnabled(2)) {
+                Log.v("FragmentManager", "Ignoring removeRetainedFragment as the state is already saved");
+                return;
+            }
+            return;
+        }
+        if ((this.mRetainedFragments.remove(fragment.mWho) != null) && FragmentManager.isLoggingEnabled(2)) {
+            Log.v("FragmentManager", "Updating retained Fragments: Removed " + fragment);
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

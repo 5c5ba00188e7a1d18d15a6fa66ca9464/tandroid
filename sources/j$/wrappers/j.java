@@ -1,22 +1,23 @@
 package j$.wrappers;
 
+import j$.util.t;
 import java.util.Comparator;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 import java.util.function.DoubleConsumer;
 /* loaded from: classes2.dex */
 public final /* synthetic */ class j implements Spliterator.OfDouble {
-    final /* synthetic */ j$.util.t a;
+    final /* synthetic */ t.a a;
 
-    private /* synthetic */ j(j$.util.t tVar) {
-        this.a = tVar;
+    private /* synthetic */ j(t.a aVar) {
+        this.a = aVar;
     }
 
-    public static /* synthetic */ Spliterator.OfDouble a(j$.util.t tVar) {
-        if (tVar == null) {
+    public static /* synthetic */ Spliterator.OfDouble a(t.a aVar) {
+        if (aVar == null) {
             return null;
         }
-        return tVar instanceof i ? ((i) tVar).a : new j(tVar);
+        return aVar instanceof i ? ((i) aVar).a : new j(aVar);
     }
 
     @Override // java.util.Spliterator

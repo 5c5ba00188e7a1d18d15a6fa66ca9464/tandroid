@@ -1,5 +1,5 @@
 package org.telegram.tgnet;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_folderPeer extends TLObject {
     public int folder_id;
     public TLRPC$Peer peer;

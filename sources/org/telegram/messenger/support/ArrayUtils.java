@@ -2,11 +2,11 @@ package org.telegram.messenger.support;
 
 import java.lang.reflect.Array;
 import org.telegram.tgnet.ConnectionsManager;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class ArrayUtils {
-    private static Object[] EMPTY = new Object[0];
     private static final int CACHE_SIZE = 73;
-    private static Object[] sCache = new Object[CACHE_SIZE];
+    private static Object[] EMPTY = new Object[0];
+    private static Object[] sCache = new Object[73];
 
     public static int idealByteArraySize(int i) {
         for (int i2 = 4; i2 < 32; i2++) {
@@ -68,7 +68,7 @@ public class ArrayUtils {
         if (cls == Object.class) {
             return (T[]) EMPTY;
         }
-        int identityHashCode = ((System.identityHashCode(cls) / 8) & ConnectionsManager.DEFAULT_DATACENTER_ID) % CACHE_SIZE;
+        int identityHashCode = ((System.identityHashCode(cls) / 8) & ConnectionsManager.DEFAULT_DATACENTER_ID) % 73;
         Object obj = sCache[identityHashCode];
         if (obj == null || obj.getClass().getComponentType() != cls) {
             obj = Array.newInstance((Class<?>) cls, 0);

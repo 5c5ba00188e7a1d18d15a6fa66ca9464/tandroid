@@ -1,6 +1,7 @@
 package com.google.mlkit.common.sdkinternal;
 
 import com.google.android.gms.common.internal.Preconditions;
+import com.google.android.gms.internal.mlkit_common.zzsc;
 import com.google.android.gms.tasks.CancellationToken;
 import com.google.android.gms.tasks.CancellationTokenSource;
 import com.google.android.gms.tasks.Task;
@@ -11,36 +12,17 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
-/* compiled from: com.google.mlkit:common@@17.0.0 */
+/* compiled from: com.google.mlkit:common@@18.10.0 */
 /* loaded from: classes.dex */
 public abstract class ModelResource {
-    private final AtomicInteger zza = new AtomicInteger(0);
-    protected final TaskQueue taskQueue = new TaskQueue();
-    private final AtomicBoolean zzb = new AtomicBoolean(false);
+    protected final TaskQueue taskQueue;
+    private final AtomicInteger zza;
+    private final AtomicBoolean zzb;
 
-    public abstract void load() throws MlKitException;
-
-    protected abstract void release();
-
-    public void pin() {
-        this.zza.incrementAndGet();
-    }
-
-    public void unpin(Executor executor) {
-        Preconditions.checkState(this.zza.get() > 0);
-        this.taskQueue.submit(executor, new Runnable(this) { // from class: com.google.mlkit.common.sdkinternal.zzk
-            private final ModelResource zza;
-
-            /* JADX INFO: Access modifiers changed from: package-private */
-            {
-                this.zza = this;
-            }
-
-            @Override // java.lang.Runnable
-            public final void run() {
-                this.zza.zza();
-            }
-        });
+    public ModelResource() {
+        this.zza = new AtomicInteger(0);
+        this.zzb = new AtomicBoolean(false);
+        this.taskQueue = new TaskQueue();
     }
 
     public <T> Task<T> callAfterLoad(final Executor executor, final Callable<T> callable, final CancellationToken cancellationToken) {
@@ -50,56 +32,24 @@ public abstract class ModelResource {
         }
         final CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
         final TaskCompletionSource taskCompletionSource = new TaskCompletionSource(cancellationTokenSource.getToken());
-        this.taskQueue.submit(new Executor(executor, cancellationToken, cancellationTokenSource, taskCompletionSource) { // from class: com.google.mlkit.common.sdkinternal.zzm
-            private final Executor zza;
-            private final CancellationToken zzb;
-            private final CancellationTokenSource zzc;
-            private final TaskCompletionSource zzd;
-
-            /* JADX INFO: Access modifiers changed from: package-private */
-            {
-                this.zza = executor;
-                this.zzb = cancellationToken;
-                this.zzc = cancellationTokenSource;
-                this.zzd = taskCompletionSource;
-            }
-
+        this.taskQueue.submit(new Executor() { // from class: com.google.mlkit.common.sdkinternal.zzm
             @Override // java.util.concurrent.Executor
             public final void execute(Runnable runnable) {
-                Executor executor2 = this.zza;
-                CancellationToken cancellationToken2 = this.zzb;
-                CancellationTokenSource cancellationTokenSource2 = this.zzc;
-                TaskCompletionSource taskCompletionSource2 = this.zzd;
                 try {
-                    executor2.execute(runnable);
+                    executor.execute(runnable);
                 } catch (RuntimeException e) {
-                    if (cancellationToken2.isCancellationRequested()) {
-                        cancellationTokenSource2.cancel();
+                    if (cancellationToken.isCancellationRequested()) {
+                        cancellationTokenSource.cancel();
                     } else {
-                        taskCompletionSource2.setException(e);
+                        taskCompletionSource.setException(e);
                     }
                     throw e;
                 }
             }
-        }, new Runnable(this, cancellationToken, cancellationTokenSource, callable, taskCompletionSource) { // from class: com.google.mlkit.common.sdkinternal.zzl
-            private final ModelResource zza;
-            private final CancellationToken zzb;
-            private final CancellationTokenSource zzc;
-            private final Callable zzd;
-            private final TaskCompletionSource zze;
-
-            /* JADX INFO: Access modifiers changed from: package-private */
-            {
-                this.zza = this;
-                this.zzb = cancellationToken;
-                this.zzc = cancellationTokenSource;
-                this.zzd = callable;
-                this.zze = taskCompletionSource;
-            }
-
+        }, new Runnable() { // from class: com.google.mlkit.common.sdkinternal.zzn
             @Override // java.lang.Runnable
             public final void run() {
-                this.zza.zza(this.zzb, this.zzc, this.zzd, this.zze);
+                ModelResource.this.zza(cancellationToken, cancellationTokenSource, callable, taskCompletionSource);
             }
         });
         return taskCompletionSource.getTask();
@@ -107,6 +57,30 @@ public abstract class ModelResource {
 
     public boolean isLoaded() {
         return this.zzb.get();
+    }
+
+    public abstract void load() throws MlKitException;
+
+    public void pin() {
+        this.zza.incrementAndGet();
+    }
+
+    protected abstract void release();
+
+    public void unpin(Executor executor) {
+        unpinWithTask(executor);
+    }
+
+    public Task<Void> unpinWithTask(Executor executor) {
+        Preconditions.checkState(this.zza.get() > 0);
+        final TaskCompletionSource taskCompletionSource = new TaskCompletionSource();
+        this.taskQueue.submit(executor, new Runnable() { // from class: com.google.mlkit.common.sdkinternal.zzl
+            @Override // java.lang.Runnable
+            public final void run() {
+                ModelResource.this.zzb(taskCompletionSource);
+            }
+        });
+        return taskCompletionSource.getTask();
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -144,12 +118,20 @@ public abstract class ModelResource {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public final /* synthetic */ void zza() {
+    public final /* synthetic */ void zzb(TaskCompletionSource taskCompletionSource) {
         int decrementAndGet = this.zza.decrementAndGet();
         Preconditions.checkState(decrementAndGet >= 0);
         if (decrementAndGet == 0) {
             release();
             this.zzb.set(false);
         }
+        zzsc.zza();
+        taskCompletionSource.setResult(null);
+    }
+
+    protected ModelResource(TaskQueue taskQueue) {
+        this.zza = new AtomicInteger(0);
+        this.zzb = new AtomicBoolean(false);
+        this.taskQueue = taskQueue;
     }
 }

@@ -1,17 +1,17 @@
 package j$.util.stream;
 
-import j$.util.u;
+import j$.util.t;
 import java.util.concurrent.atomic.AtomicLong;
 /* loaded from: classes2.dex */
 abstract class J4 {
-    protected final j$.util.u a;
+    protected final j$.util.t a;
     protected final boolean b;
     private final long c;
     private final AtomicLong d;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public J4(j$.util.u uVar, long j, long j2) {
-        this.a = uVar;
+    public J4(j$.util.t tVar, long j, long j2) {
+        this.a = tVar;
         int i = (j2 > 0L ? 1 : (j2 == 0L ? 0 : -1));
         this.b = i < 0;
         this.c = i >= 0 ? j2 : 0L;
@@ -19,8 +19,8 @@ abstract class J4 {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public J4(j$.util.u uVar, J4 j4) {
-        this.a = uVar;
+    public J4(j$.util.t tVar, J4 j4) {
+        this.a = tVar;
         this.b = j4.b;
         this.d = j4.d;
         this.c = j4.c;
@@ -58,7 +58,7 @@ abstract class J4 {
         return j2 > j3 ? Math.max(min - (j2 - j3), 0L) : min;
     }
 
-    protected abstract j$.util.u q(j$.util.u uVar);
+    protected abstract j$.util.t q(j$.util.t tVar);
 
     /* JADX INFO: Access modifiers changed from: protected */
     public final int r() {
@@ -68,27 +68,27 @@ abstract class J4 {
         return this.b ? 3 : 1;
     }
 
-    public /* bridge */ /* synthetic */ j$.util.t trySplit() {
-        return (j$.util.t) trySplit();
+    public /* bridge */ /* synthetic */ t.a trySplit() {
+        return (t.a) trySplit();
     }
 
-    public /* bridge */ /* synthetic */ u.a trySplit() {
-        return (u.a) trySplit();
+    public /* bridge */ /* synthetic */ t.b trySplit() {
+        return (t.b) trySplit();
     }
 
-    public final j$.util.u trySplit() {
-        j$.util.u trySplit;
+    public /* bridge */ /* synthetic */ t.c trySplit() {
+        return (t.c) trySplit();
+    }
+
+    public final j$.util.t trySplit() {
+        j$.util.t trySplit;
         if (this.d.get() == 0 || (trySplit = this.a.trySplit()) == null) {
             return null;
         }
         return q(trySplit);
     }
 
-    public /* bridge */ /* synthetic */ j$.util.v trySplit() {
-        return (j$.util.v) trySplit();
-    }
-
-    public /* bridge */ /* synthetic */ j$.util.w trySplit() {
-        return (j$.util.w) trySplit();
+    public /* bridge */ /* synthetic */ j$.util.u trySplit() {
+        return (j$.util.u) trySplit();
     }
 }

@@ -1,5 +1,5 @@
 package org.telegram.messenger.utils;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public final /* synthetic */ class BitmapsCache$$ExternalSyntheticLambda1 implements Runnable {
     public static final /* synthetic */ BitmapsCache$$ExternalSyntheticLambda1 INSTANCE = new BitmapsCache$$ExternalSyntheticLambda1();
 

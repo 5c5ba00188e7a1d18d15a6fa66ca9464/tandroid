@@ -17,5 +17,5 @@ interface A1 {
 
     A1 r(long j, long j2, j$.util.function.m mVar);
 
-    j$.util.u spliterator();
+    j$.util.t spliterator();
 }

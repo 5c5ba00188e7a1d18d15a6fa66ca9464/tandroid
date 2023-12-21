@@ -3,7 +3,7 @@ package org.telegram.messenger.video;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.Components.PhotoViewerWebView;
 import org.telegram.ui.Components.VideoPlayer;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class VideoPlayerRewinder {
     private long rewindBackSeekPlayerPosition;
     public boolean rewindByBackSeek;

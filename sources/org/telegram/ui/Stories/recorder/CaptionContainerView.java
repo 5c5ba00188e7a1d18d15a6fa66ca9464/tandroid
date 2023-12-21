@@ -190,7 +190,7 @@ public class CaptionContainerView extends FrameLayout {
         return 2;
     }
 
-    protected boolean ignoreTouches() {
+    protected boolean ignoreTouches(float f, float f2) {
         return false;
     }
 
@@ -520,7 +520,7 @@ public class CaptionContainerView extends FrameLayout {
 
     @Override // android.view.ViewGroup, android.view.View
     public boolean dispatchTouchEvent(MotionEvent motionEvent) {
-        if (this.ignoreTouches || ignoreTouches() || !(this.bounds.contains(motionEvent.getX(), motionEvent.getY()) || this.keyboardShown)) {
+        if (this.ignoreTouches || ((motionEvent.getAction() == 0 && ignoreTouches(motionEvent.getX(), motionEvent.getY())) || !(this.bounds.contains(motionEvent.getX(), motionEvent.getY()) || this.keyboardShown))) {
             return false;
         }
         if (motionEvent.getAction() == 0 && !this.keyboardShown) {

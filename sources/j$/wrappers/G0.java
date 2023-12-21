@@ -48,7 +48,7 @@ public final /* synthetic */ class G0 implements j$.util.stream.g {
     }
 
     @Override // j$.util.stream.g
-    public /* synthetic */ j$.util.u spliterator() {
+    public /* synthetic */ j$.util.t spliterator() {
         return g.a(this.a.spliterator());
     }
 

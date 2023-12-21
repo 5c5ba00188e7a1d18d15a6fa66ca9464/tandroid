@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import org.telegram.messenger.FileLoaderPriorityQueue;
 import org.telegram.messenger.LiteMode;
 import org.telegram.tgnet.tl.TL_stories$PeerStories;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public abstract class TLRPC$UserFull extends TLObject {
     public String about;
     public boolean blocked;

@@ -1,7 +1,7 @@
 package org.telegram.tgnet;
 
 import java.util.ArrayList;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_channels_inviteToChannel extends TLObject {
     public TLRPC$InputChannel channel;
     public ArrayList<TLRPC$InputUser> users = new ArrayList<>();

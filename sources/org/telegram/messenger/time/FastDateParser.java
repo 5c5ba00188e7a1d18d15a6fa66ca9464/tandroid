@@ -20,8 +20,8 @@ import java.util.TreeMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.telegram.messenger.FileLoader;
-/* loaded from: classes.dex */
+import org.telegram.messenger.R;
+/* loaded from: classes3.dex */
 public class FastDateParser implements DateParser, Serializable {
     private static final long serialVersionUID = 2;
     private final int century;
@@ -311,7 +311,7 @@ public class FastDateParser implements DateParser, Serializable {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static abstract class Strategy {
         abstract boolean addRegex(FastDateParser fastDateParser, StringBuilder sb);
 
@@ -333,49 +333,49 @@ public class FastDateParser implements DateParser, Serializable {
         }
         if (charAt != 'z') {
             switch (charAt) {
-                case '\'':
+                case R.styleable.AppCompatTheme_autoCompleteTextViewStyle /* 39 */:
                     if (str.length() > 2) {
                         return new CopyQuotedStrategy(str.substring(1, str.length() - 1));
                     }
                     return new CopyQuotedStrategy(str);
-                case 'S':
+                case R.styleable.AppCompatTheme_listPreferredItemPaddingLeft /* 83 */:
                     return MILLISECOND_STRATEGY;
-                case 'W':
+                case R.styleable.AppCompatTheme_panelMenuListTheme /* 87 */:
                     return WEEK_OF_MONTH_STRATEGY;
-                case 'Z':
+                case R.styleable.AppCompatTheme_popupWindowStyle /* 90 */:
                     break;
-                case 'a':
+                case R.styleable.AppCompatTheme_selectableItemBackground /* 97 */:
                     return getLocaleSpecificStrategy(9, calendar);
-                case FileLoader.MEDIA_DIR_IMAGE_PUBLIC /* 100 */:
+                case 'd':
                     return DAY_OF_MONTH_STRATEGY;
-                case 'h':
+                case R.styleable.AppCompatTheme_textAppearanceListItemSecondary /* 104 */:
                     return MODULO_HOUR_STRATEGY;
-                case 'k':
+                case R.styleable.AppCompatTheme_textAppearanceSearchResultSubtitle /* 107 */:
                     return HOUR_OF_DAY_STRATEGY;
-                case 'm':
+                case R.styleable.AppCompatTheme_textAppearanceSmallPopupMenu /* 109 */:
                     return MINUTE_STRATEGY;
-                case 's':
+                case R.styleable.AppCompatTheme_tooltipFrameBackground /* 115 */:
                     return SECOND_STRATEGY;
                 case 'w':
                     return WEEK_OF_YEAR_STRATEGY;
                 default:
                     switch (charAt) {
-                        case 'D':
+                        case R.styleable.AppCompatTheme_editTextBackground /* 68 */:
                             return DAY_OF_YEAR_STRATEGY;
-                        case 'E':
+                        case R.styleable.AppCompatTheme_editTextColor /* 69 */:
                             return getLocaleSpecificStrategy(7, calendar);
-                        case 'F':
+                        case R.styleable.AppCompatTheme_editTextStyle /* 70 */:
                             return DAY_OF_WEEK_IN_MONTH_STRATEGY;
-                        case 'G':
+                        case R.styleable.AppCompatTheme_homeAsUpIndicator /* 71 */:
                             return getLocaleSpecificStrategy(0, calendar);
-                        case 'H':
+                        case R.styleable.AppCompatTheme_imageButtonStyle /* 72 */:
                             return MODULO_HOUR_OF_DAY_STRATEGY;
                         default:
                             switch (charAt) {
-                                case 'K':
+                                case R.styleable.AppCompatTheme_listChoiceIndicatorSingleAnimated /* 75 */:
                                     return HOUR_STRATEGY;
-                                case 'L':
-                                case 'M':
+                                case R.styleable.AppCompatTheme_listDividerAlertDialog /* 76 */:
+                                case R.styleable.AppCompatTheme_listMenuViewStyle /* 77 */:
                                     return str.length() >= 3 ? getLocaleSpecificStrategy(2, calendar) : NUMBER_MONTH_STRATEGY;
                             }
                             return new CopyQuotedStrategy(str);
@@ -415,7 +415,7 @@ public class FastDateParser implements DateParser, Serializable {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class CopyQuotedStrategy extends Strategy {
         private final String formatField;
 
@@ -441,7 +441,7 @@ public class FastDateParser implements DateParser, Serializable {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class TextStrategy extends Strategy {
         private final int field;
         private final Map<String, Integer> keyValues;
@@ -479,7 +479,7 @@ public class FastDateParser implements DateParser, Serializable {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     private static class NumberStrategy extends Strategy {
         private final int field;
 
@@ -516,7 +516,7 @@ public class FastDateParser implements DateParser, Serializable {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class TimeZoneStrategy extends Strategy {
         private static final int ID = 0;
         private static final int LONG_DST = 3;

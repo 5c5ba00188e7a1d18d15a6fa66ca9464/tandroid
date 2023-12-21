@@ -49,19 +49,6 @@ public class SparseArrayCompat<E> implements Cloneable {
         return e;
     }
 
-    public void remove(int i) {
-        int binarySearch = ContainerHelpers.binarySearch(this.mKeys, this.mSize, i);
-        if (binarySearch >= 0) {
-            Object[] objArr = this.mValues;
-            Object obj = objArr[binarySearch];
-            Object obj2 = DELETED;
-            if (obj != obj2) {
-                objArr[binarySearch] = obj2;
-                this.mGarbage = true;
-            }
-        }
-    }
-
     private void gc() {
         int i = this.mSize;
         int[] iArr = this.mKeys;
@@ -148,13 +135,6 @@ public class SparseArrayCompat<E> implements Cloneable {
         return (E) this.mValues[i];
     }
 
-    public int indexOfKey(int i) {
-        if (this.mGarbage) {
-            gc();
-        }
-        return ContainerHelpers.binarySearch(this.mKeys, this.mSize, i);
-    }
-
     public void clear() {
         int i = this.mSize;
         Object[] objArr = this.mValues;
@@ -163,6 +143,32 @@ public class SparseArrayCompat<E> implements Cloneable {
         }
         this.mSize = 0;
         this.mGarbage = false;
+    }
+
+    public void append(int i, E e) {
+        int i2 = this.mSize;
+        if (i2 != 0 && i <= this.mKeys[i2 - 1]) {
+            put(i, e);
+            return;
+        }
+        if (this.mGarbage && i2 >= this.mKeys.length) {
+            gc();
+        }
+        int i3 = this.mSize;
+        if (i3 >= this.mKeys.length) {
+            int idealIntArraySize = ContainerHelpers.idealIntArraySize(i3 + 1);
+            int[] iArr = new int[idealIntArraySize];
+            Object[] objArr = new Object[idealIntArraySize];
+            int[] iArr2 = this.mKeys;
+            System.arraycopy(iArr2, 0, iArr, 0, iArr2.length);
+            Object[] objArr2 = this.mValues;
+            System.arraycopy(objArr2, 0, objArr, 0, objArr2.length);
+            this.mKeys = iArr;
+            this.mValues = objArr;
+        }
+        this.mKeys[i3] = i;
+        this.mValues[i3] = e;
+        this.mSize = i3 + 1;
     }
 
     public String toString() {

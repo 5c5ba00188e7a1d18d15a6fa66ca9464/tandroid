@@ -33,7 +33,7 @@ import org.xml.sax.ContentHandler;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class CopyUtilities {
     public static Spannable fromHTML(String str) {
         try {
@@ -121,14 +121,14 @@ public class CopyUtilities {
         return tLRPC$MessageEntity;
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class HTMLTagAttributesHandler implements Html.TagHandler, ContentHandler {
         private final TagHandler handler;
         private ArrayDeque<Boolean> tagStatus;
         private Editable text;
         private ContentHandler wrapped;
 
-        /* loaded from: classes.dex */
+        /* loaded from: classes3.dex */
         public interface TagHandler {
             boolean handleTag(boolean z, String str, Editable editable, Attributes attributes);
         }
@@ -223,7 +223,7 @@ public class CopyUtilities {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class HTMLTagHandler implements HTMLTagAttributesHandler.TagHandler {
         private HTMLTagHandler() {
         }
@@ -324,7 +324,7 @@ public class CopyUtilities {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class ParsedSpan {
         final String lng;
         final int type;

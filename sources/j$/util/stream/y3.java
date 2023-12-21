@@ -1,5 +1,6 @@
 package j$.util.stream;
 
+import j$.util.t;
 import org.telegram.messenger.LiteMode;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
@@ -16,25 +17,25 @@ public class y3 extends Q {
     }
 
     @Override // j$.util.stream.c
-    A1 E0(y2 y2Var, j$.util.u uVar, j$.util.function.m mVar) {
-        long q0 = y2Var.q0(uVar);
-        if (q0 > 0 && uVar.hasCharacteristics(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM)) {
-            return x2.f(y2Var, B3.b(y2Var.r0(), uVar, this.l, this.m), true);
+    A1 E0(y2 y2Var, j$.util.t tVar, j$.util.function.m mVar) {
+        long q0 = y2Var.q0(tVar);
+        if (q0 > 0 && tVar.hasCharacteristics(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM)) {
+            return x2.f(y2Var, B3.b(y2Var.r0(), tVar, this.l, this.m), true);
         }
-        return !d4.ORDERED.d(y2Var.s0()) ? x2.f(this, N0((j$.util.t) y2Var.w0(uVar), this.l, this.m, q0), true) : (A1) new A3(this, y2Var, uVar, mVar, this.l, this.m).invoke();
+        return !d4.ORDERED.d(y2Var.s0()) ? x2.f(this, N0((t.a) y2Var.w0(tVar), this.l, this.m, q0), true) : (A1) new A3(this, y2Var, tVar, mVar, this.l, this.m).invoke();
     }
 
     @Override // j$.util.stream.c
-    j$.util.u F0(y2 y2Var, j$.util.u uVar) {
+    j$.util.t F0(y2 y2Var, j$.util.t tVar) {
         long d;
-        long q0 = y2Var.q0(uVar);
-        if (q0 > 0 && uVar.hasCharacteristics(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM)) {
-            j$.util.t tVar = (j$.util.t) y2Var.w0(uVar);
+        long q0 = y2Var.q0(tVar);
+        if (q0 > 0 && tVar.hasCharacteristics(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM)) {
+            t.a aVar = (t.a) y2Var.w0(tVar);
             long j = this.l;
             d = B3.d(j, this.m);
-            return new u4(tVar, j, d);
+            return new u4(aVar, j, d);
         }
-        return !d4.ORDERED.d(y2Var.s0()) ? N0((j$.util.t) y2Var.w0(uVar), this.l, this.m, q0) : ((A1) new A3(this, y2Var, uVar, w3.a, this.l, this.m).invoke()).spliterator();
+        return !d4.ORDERED.d(y2Var.s0()) ? N0((t.a) y2Var.w0(tVar), this.l, this.m, q0) : ((A1) new A3(this, y2Var, tVar, w3.a, this.l, this.m).invoke()).spliterator();
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -43,7 +44,7 @@ public class y3 extends Q {
         return new x3(this, m3Var);
     }
 
-    j$.util.t N0(j$.util.t tVar, long j, long j2, long j3) {
+    t.a N0(t.a aVar, long j, long j2, long j3) {
         long j4;
         long j5;
         if (j <= j3) {
@@ -54,6 +55,6 @@ public class y3 extends Q {
             j4 = j;
             j5 = j2;
         }
-        return new E4(tVar, j4, j5);
+        return new E4(aVar, j4, j5);
     }
 }

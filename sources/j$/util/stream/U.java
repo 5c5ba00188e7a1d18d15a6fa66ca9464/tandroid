@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import j$.util.function.BiConsumer;
+import j$.util.t;
 /* loaded from: classes2.dex */
 public interface U extends g {
     j$.util.j G(j$.util.function.d dVar);
@@ -59,7 +60,7 @@ public interface U extends g {
     U sorted();
 
     @Override // j$.util.stream.g
-    j$.util.t spliterator();
+    t.a spliterator();
 
     double sum();
 

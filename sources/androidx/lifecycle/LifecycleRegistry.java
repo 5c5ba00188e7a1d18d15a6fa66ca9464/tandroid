@@ -52,8 +52,12 @@ public class LifecycleRegistry extends Lifecycle {
     }
 
     private void moveToState(Lifecycle.State state) {
-        if (this.mState == state) {
+        Lifecycle.State state2 = this.mState;
+        if (state2 == state) {
             return;
+        }
+        if (state2 == Lifecycle.State.INITIALIZED && state == Lifecycle.State.DESTROYED) {
+            throw new IllegalStateException("no event down from " + this.mState);
         }
         this.mState = state;
         if (this.mHandlingEvent || this.mAddingObserverCounter != 0) {
@@ -63,6 +67,9 @@ public class LifecycleRegistry extends Lifecycle {
         this.mHandlingEvent = true;
         sync();
         this.mHandlingEvent = false;
+        if (this.mState == Lifecycle.State.DESTROYED) {
+            this.mObserverMap = new FastSafeIterableMap<>();
+        }
     }
 
     private boolean isSynced() {
@@ -136,13 +143,12 @@ public class LifecycleRegistry extends Lifecycle {
         return this.mState;
     }
 
-    /* JADX WARN: Multi-variable type inference failed */
     private void forwardPass(LifecycleOwner lifecycleOwner) {
         SafeIterableMap<LifecycleObserver, ObserverWithState>.IteratorWithAdditions iteratorWithAdditions = this.mObserverMap.iteratorWithAdditions();
         while (iteratorWithAdditions.hasNext() && !this.mNewEventOccurred) {
             Map.Entry next = iteratorWithAdditions.next();
             ObserverWithState observerWithState = (ObserverWithState) next.getValue();
-            while (observerWithState.mState.compareTo(this.mState) < 0 && !this.mNewEventOccurred && this.mObserverMap.contains(next.getKey())) {
+            while (observerWithState.mState.compareTo(this.mState) < 0 && !this.mNewEventOccurred && this.mObserverMap.contains((LifecycleObserver) next.getKey())) {
                 pushParentState(observerWithState.mState);
                 Lifecycle.Event upFrom = Lifecycle.Event.upFrom(observerWithState.mState);
                 if (upFrom == null) {

@@ -6,13 +6,13 @@ final class j0 extends d {
     private final d0 j;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public j0(d0 d0Var, y2 y2Var, j$.util.u uVar) {
-        super(y2Var, uVar);
+    public j0(d0 d0Var, y2 y2Var, j$.util.t tVar) {
+        super(y2Var, tVar);
         this.j = d0Var;
     }
 
-    j0(j0 j0Var, j$.util.u uVar) {
-        super(j0Var, uVar);
+    j0(j0 j0Var, j$.util.t tVar) {
+        super(j0Var, tVar);
         this.j = j0Var.j;
     }
 
@@ -61,8 +61,8 @@ final class j0 extends d {
 
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // j$.util.stream.f
-    public f f(j$.util.u uVar) {
-        return new j0(this, uVar);
+    public f f(j$.util.t tVar) {
+        return new j0(this, tVar);
     }
 
     @Override // j$.util.stream.d

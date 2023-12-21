@@ -136,6 +136,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     public static AlbumEntry allVideosAlbumEntry;
     private static Runnable broadcastPhotosRunnable;
     private static final ConcurrentHashMap<String, Integer> cachedEncoderBitrates;
+    public static boolean forceBroadcastNewPhotos;
     private static final String[] projectionPhotos;
     private static final String[] projectionVideo;
     private static Runnable refreshGalleryRunnable;
@@ -3716,12 +3717,12 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         return playMessage(messageObject, false);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:182:0x0488  */
-    /* JADX WARN: Removed duplicated region for block: B:184:0x0493  */
-    /* JADX WARN: Removed duplicated region for block: B:199:0x055a  */
-    /* JADX WARN: Removed duplicated region for block: B:209:0x0593  */
-    /* JADX WARN: Removed duplicated region for block: B:263:0x04ac A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:276:0x046f A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:182:0x048a  */
+    /* JADX WARN: Removed duplicated region for block: B:184:0x0495  */
+    /* JADX WARN: Removed duplicated region for block: B:199:0x055c  */
+    /* JADX WARN: Removed duplicated region for block: B:209:0x0595  */
+    /* JADX WARN: Removed duplicated region for block: B:273:0x0471 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:275:0x04ae A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -4511,14 +4512,17 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
 
     public boolean isPlayingMessage(MessageObject messageObject) {
         MessageObject messageObject2;
-        if ((this.audioPlayer != null || this.videoPlayer != null) && messageObject != null && (messageObject2 = this.playingMessageObject) != null) {
-            long j = messageObject2.eventId;
-            if (j != 0 && j == messageObject.eventId) {
-                return !this.downloadingCurrentMessage;
+        if (messageObject == null || !messageObject.isRepostPreview) {
+            if ((this.audioPlayer != null || this.videoPlayer != null) && messageObject != null && (messageObject2 = this.playingMessageObject) != null) {
+                long j = messageObject2.eventId;
+                if (j != 0 && j == messageObject.eventId) {
+                    return !this.downloadingCurrentMessage;
+                }
+                if (isSamePlayingMessage(messageObject)) {
+                    return !this.downloadingCurrentMessage;
+                }
             }
-            if (isSamePlayingMessage(messageObject)) {
-                return !this.downloadingCurrentMessage;
-            }
+            return false;
         }
         return false;
     }
@@ -6296,25 +6300,25 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:182:0x03c7, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:182:0x03c8, code lost:
         if (r0.checkSelfPermission("android.permission.READ_EXTERNAL_STORAGE") != 0) goto L38;
      */
     /* JADX WARN: Code restructure failed: missing block: B:31:0x00b4, code lost:
         if (r0.checkSelfPermission("android.permission.READ_MEDIA_AUDIO") == 0) goto L197;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:157:0x0344  */
+    /* JADX WARN: Removed duplicated region for block: B:157:0x0345  */
     /* JADX WARN: Removed duplicated region for block: B:16:0x0072  */
-    /* JADX WARN: Removed duplicated region for block: B:179:0x03bf  */
-    /* JADX WARN: Removed duplicated region for block: B:195:0x03f8  */
-    /* JADX WARN: Removed duplicated region for block: B:196:0x03fb  */
-    /* JADX WARN: Removed duplicated region for block: B:199:0x040f  */
-    /* JADX WARN: Removed duplicated region for block: B:277:0x056b A[LOOP:0: B:275:0x0565->B:277:0x056b, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:300:0x03ac A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:179:0x03c0  */
+    /* JADX WARN: Removed duplicated region for block: B:195:0x03f9  */
+    /* JADX WARN: Removed duplicated region for block: B:196:0x03fc  */
+    /* JADX WARN: Removed duplicated region for block: B:199:0x0410  */
+    /* JADX WARN: Removed duplicated region for block: B:277:0x056c A[LOOP:0: B:275:0x0566->B:277:0x056c, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:300:0x0367 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:302:0x0103 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:304:0x0366 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:328:0x0555 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:344:0x0547 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:310:0x03ad A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:328:0x0556 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:344:0x0548 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:37:0x00ee  */
     /* JADX WARN: Removed duplicated region for block: B:38:0x00f1  */
     /*
@@ -7407,7 +7411,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$broadcastNewPhotos$43(int i, ArrayList arrayList, ArrayList arrayList2, Integer num, AlbumEntry albumEntry, AlbumEntry albumEntry2, AlbumEntry albumEntry3) {
-        if (PhotoViewer.getInstance().isVisible()) {
+        if (PhotoViewer.getInstance().isVisible() && !forceBroadcastNewPhotos) {
             broadcastNewPhotos(i, arrayList, arrayList2, num, albumEntry, albumEntry2, albumEntry3, 1000);
             return;
         }
@@ -7676,12 +7680,12 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x00ff  */
-    /* JADX WARN: Removed duplicated region for block: B:39:0x0102  */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x0136  */
-    /* JADX WARN: Removed duplicated region for block: B:81:0x01e7  */
-    /* JADX WARN: Removed duplicated region for block: B:91:0x01f5  */
-    /* JADX WARN: Removed duplicated region for block: B:94:0x0231 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x0101  */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x0104  */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x0138  */
+    /* JADX WARN: Removed duplicated region for block: B:82:0x01b7  */
+    /* JADX WARN: Removed duplicated region for block: B:92:0x01c5  */
+    /* JADX WARN: Removed duplicated region for block: B:95:0x0201 A[ADDED_TO_REGION] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -7751,9 +7755,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             file = file2;
             i = i14;
         }
-        if (str == null) {
-            str = "";
-        }
+        String str2 = str == null ? "" : str;
         if (j3 > 0 && j5 > 0) {
             i2 = i7;
             j2 = j5 - j3;
@@ -7814,7 +7816,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                     };
                     videoEditedInfo.videoConvertFirstWrite = true;
                     MediaCodecVideoConvertor mediaCodecVideoConvertor = new MediaCodecVideoConvertor();
-                    MediaCodecVideoConvertor.ConvertVideoParams of = MediaCodecVideoConvertor.ConvertVideoParams.of(str, file3, i9, z2, i10, i11, i2, i4, i6, i13, i, j3, j5, j4, z3, j2, videoEditedInfo.filterState, videoEditedInfo.paintPath, videoEditedInfo.blurPath, videoEditedInfo.mediaEntities, videoEditedInfo.isPhoto, videoEditedInfo.cropState, videoEditedInfo.roundVideo, videoConvertorListener, videoEditedInfo.gradientTopColor, videoEditedInfo.gradientBottomColor, videoEditedInfo.muted, videoEditedInfo.isStory, videoEditedInfo.hdrInfo, videoEditedInfo.parts);
+                    MediaCodecVideoConvertor.ConvertVideoParams of = MediaCodecVideoConvertor.ConvertVideoParams.of(str2, file3, i9, z2, i10, i11, i2, i4, i6, i13, i, j3, j5, j4, z3, j2, videoConvertorListener, videoEditedInfo);
                     of.soundInfos.addAll(videoEditedInfo.mixedSoundInfos);
                     boolean convertVideo = mediaCodecVideoConvertor.convertVideo(of);
                     z = videoEditedInfo.canceled;
@@ -7862,7 +7864,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             };
             videoEditedInfo.videoConvertFirstWrite = true;
             MediaCodecVideoConvertor mediaCodecVideoConvertor2 = new MediaCodecVideoConvertor();
-            MediaCodecVideoConvertor.ConvertVideoParams of2 = MediaCodecVideoConvertor.ConvertVideoParams.of(str, file32, i9, z2, i10, i11, i2, i4, i6, i13, i, j3, j5, j4, z3, j2, videoEditedInfo.filterState, videoEditedInfo.paintPath, videoEditedInfo.blurPath, videoEditedInfo.mediaEntities, videoEditedInfo.isPhoto, videoEditedInfo.cropState, videoEditedInfo.roundVideo, videoConvertorListener2, videoEditedInfo.gradientTopColor, videoEditedInfo.gradientBottomColor, videoEditedInfo.muted, videoEditedInfo.isStory, videoEditedInfo.hdrInfo, videoEditedInfo.parts);
+            MediaCodecVideoConvertor.ConvertVideoParams of2 = MediaCodecVideoConvertor.ConvertVideoParams.of(str2, file32, i9, z2, i10, i11, i2, i4, i6, i13, i, j3, j5, j4, z3, j2, videoConvertorListener2, videoEditedInfo);
             of2.soundInfos.addAll(videoEditedInfo.mixedSoundInfos);
             boolean convertVideo2 = mediaCodecVideoConvertor2.convertVideo(of2);
             z = videoEditedInfo.canceled;
@@ -7918,7 +7920,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         };
         videoEditedInfo.videoConvertFirstWrite = true;
         MediaCodecVideoConvertor mediaCodecVideoConvertor22 = new MediaCodecVideoConvertor();
-        MediaCodecVideoConvertor.ConvertVideoParams of22 = MediaCodecVideoConvertor.ConvertVideoParams.of(str, file322, i9, z2, i10, i11, i2, i4, i6, i13, i, j3, j5, j4, z3, j2, videoEditedInfo.filterState, videoEditedInfo.paintPath, videoEditedInfo.blurPath, videoEditedInfo.mediaEntities, videoEditedInfo.isPhoto, videoEditedInfo.cropState, videoEditedInfo.roundVideo, videoConvertorListener22, videoEditedInfo.gradientTopColor, videoEditedInfo.gradientBottomColor, videoEditedInfo.muted, videoEditedInfo.isStory, videoEditedInfo.hdrInfo, videoEditedInfo.parts);
+        MediaCodecVideoConvertor.ConvertVideoParams of22 = MediaCodecVideoConvertor.ConvertVideoParams.of(str2, file322, i9, z2, i10, i11, i2, i4, i6, i13, i, j3, j5, j4, z3, j2, videoConvertorListener22, videoEditedInfo);
         of22.soundInfos.addAll(videoEditedInfo.mixedSoundInfos);
         boolean convertVideo22 = mediaCodecVideoConvertor22.convertVideo(of22);
         z = videoEditedInfo.canceled;

@@ -6,13 +6,13 @@ final class V2 extends f {
     private final U2 h;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public V2(U2 u2, y2 y2Var, j$.util.u uVar) {
-        super(y2Var, uVar);
+    public V2(U2 u2, y2 y2Var, j$.util.t tVar) {
+        super(y2Var, tVar);
         this.h = u2;
     }
 
-    V2(V2 v2, j$.util.u uVar) {
-        super(v2, uVar);
+    V2(V2 v2, j$.util.t tVar) {
+        super(v2, tVar);
         this.h = v2.h;
     }
 
@@ -27,8 +27,8 @@ final class V2 extends f {
 
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // j$.util.stream.f
-    public f f(j$.util.u uVar) {
-        return new V2(this, uVar);
+    public f f(j$.util.t tVar) {
+        return new V2(this, tVar);
     }
 
     @Override // j$.util.stream.f, java.util.concurrent.CountedCompleter

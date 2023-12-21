@@ -1,7 +1,7 @@
 package org.telegram.tgnet;
 
 import java.util.ArrayList;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_messages_emojiGroups extends TLRPC$messages_EmojiGroups {
     public ArrayList<TLRPC$TL_emojiGroup> groups = new ArrayList<>();
     public int hash;

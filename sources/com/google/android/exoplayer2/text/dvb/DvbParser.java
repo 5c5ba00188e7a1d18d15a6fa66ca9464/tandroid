@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.List;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.MessagesStorage;
+import org.telegram.messenger.R;
 /* loaded from: classes.dex */
 final class DvbParser {
     private static final byte[] defaultMap2To4 = {0, 7, 8, 15};
@@ -469,10 +470,10 @@ final class DvbParser {
                             case 32:
                                 bArr7 = buildClutMapTable(4, 4, parsableBitArray);
                                 continue;
-                            case 33:
+                            case R.styleable.AppCompatTheme_actionOverflowMenuStyle /* 33 */:
                                 bArr5 = buildClutMapTable(4, 8, parsableBitArray);
                                 continue;
-                            case 34:
+                            case R.styleable.AppCompatTheme_activityChooserViewStyle /* 34 */:
                                 bArr6 = buildClutMapTable(16, 8, parsableBitArray);
                                 continue;
                             default:

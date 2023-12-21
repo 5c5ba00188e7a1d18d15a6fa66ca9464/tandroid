@@ -1,5 +1,5 @@
 package org.telegram.tgnet;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_updateReadHistoryOutbox extends TLRPC$Update {
     public int max_id;
     public TLRPC$Peer peer;

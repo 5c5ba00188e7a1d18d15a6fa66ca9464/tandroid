@@ -4,6 +4,7 @@ import j$.util.function.BiConsumer;
 import j$.util.stream.IntStream;
 import j$.util.stream.Stream;
 import j$.util.stream.e1;
+import j$.util.t;
 import java.util.Iterator;
 import java.util.stream.LongStream;
 /* loaded from: classes2.dex */
@@ -192,13 +193,13 @@ public final /* synthetic */ class M0 implements e1 {
     }
 
     @Override // j$.util.stream.e1, j$.util.stream.g
-    public /* synthetic */ j$.util.u spliterator() {
-        return g.a(this.a.spliterator());
+    public /* synthetic */ t.c spliterator() {
+        return m.a(this.a.spliterator());
     }
 
     @Override // j$.util.stream.e1, j$.util.stream.g
-    public /* synthetic */ j$.util.v spliterator() {
-        return m.a(this.a.spliterator());
+    public /* synthetic */ j$.util.t spliterator() {
+        return g.a(this.a.spliterator());
     }
 
     @Override // j$.util.stream.e1

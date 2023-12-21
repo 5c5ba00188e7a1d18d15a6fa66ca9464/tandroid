@@ -5,7 +5,7 @@ import java.nio.ShortBuffer;
 import org.telegram.messenger.video.AudioBufferConverter;
 import org.telegram.messenger.video.AudioConversions;
 import org.telegram.messenger.video.AudioDecoder;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class GeneralAudioInput extends AudioInput {
     private AudioBufferConverter audioBufferConverter;
     private ShortBuffer buffer;

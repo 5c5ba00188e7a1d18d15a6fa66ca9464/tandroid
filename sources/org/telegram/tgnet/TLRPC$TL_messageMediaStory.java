@@ -1,7 +1,7 @@
 package org.telegram.tgnet;
 
 import org.telegram.tgnet.tl.TL_stories$StoryItem;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_messageMediaStory extends TLRPC$MessageMedia {
     @Override // org.telegram.tgnet.TLObject
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {

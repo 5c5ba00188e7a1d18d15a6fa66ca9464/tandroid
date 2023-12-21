@@ -136,9 +136,9 @@ public final class d4 {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static int c(j$.util.u uVar) {
-        int characteristics = uVar.characteristics();
-        return ((characteristics & 4) == 0 || uVar.getComparator() == null) ? f & characteristics : f & characteristics & (-5);
+    public static int c(j$.util.t tVar) {
+        int characteristics = tVar.characteristics();
+        return ((characteristics & 4) == 0 || tVar.getComparator() == null) ? f & characteristics : f & characteristics & (-5);
     }
 
     private static b4 f(c4 c4Var) {

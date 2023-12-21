@@ -1,7 +1,7 @@
 package org.telegram.tgnet;
 
 import java.util.ArrayList;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_help_peerColors extends TLRPC$help_PeerColors {
     public ArrayList<TLRPC$TL_help_peerColorOption> colors = new ArrayList<>();
     public int hash;

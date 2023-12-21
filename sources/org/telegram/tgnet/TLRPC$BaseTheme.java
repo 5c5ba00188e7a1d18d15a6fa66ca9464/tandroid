@@ -1,5 +1,5 @@
 package org.telegram.tgnet;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public abstract class TLRPC$BaseTheme extends TLObject {
     public static TLRPC$BaseTheme TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
         TLRPC$BaseTheme tLRPC$TL_baseThemeNight;

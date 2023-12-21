@@ -1,91 +1,80 @@
 package com.google.mlkit.common.sdkinternal;
 
-import com.google.android.gms.internal.mlkit_common.zzal;
+import com.google.android.gms.common.internal.Preconditions;
+import com.google.android.gms.internal.mlkit_common.zzbg;
+import java.util.ArrayDeque;
 import java.util.Deque;
-import java.util.WeakHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-/* compiled from: com.google.mlkit:common@@17.0.0 */
+/* compiled from: com.google.mlkit:common@@18.10.0 */
 /* loaded from: classes.dex */
-public class MlKitThreadPool extends zzal {
-    private static final ThreadLocal<Deque<Runnable>> zzd = new zzj();
-    private final ExecutorService zza = new ThreadPoolExecutor(0, Runtime.getRuntime().availableProcessors(), 60, TimeUnit.SECONDS, new LinkedBlockingQueue(), new ThreadFactory(this) { // from class: com.google.mlkit.common.sdkinternal.zzi
-        private final MlKitThreadPool zza;
+public class MlKitThreadPool extends zzbg {
+    private static final ThreadLocal zza = new ThreadLocal();
+    private final ThreadPoolExecutor zzb;
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        {
-            this.zza = this;
-        }
+    public MlKitThreadPool() {
+        final ThreadFactory defaultThreadFactory = Executors.defaultThreadFactory();
+        int availableProcessors = Runtime.getRuntime().availableProcessors();
+        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(availableProcessors, availableProcessors, 60L, TimeUnit.SECONDS, new LinkedBlockingQueue(), new ThreadFactory() { // from class: com.google.mlkit.common.sdkinternal.zzj
+            @Override // java.util.concurrent.ThreadFactory
+            public final Thread newThread(final Runnable runnable) {
+                return defaultThreadFactory.newThread(new Runnable() { // from class: com.google.mlkit.common.sdkinternal.zzk
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        MlKitThreadPool.zzd(runnable);
+                    }
+                });
+            }
+        });
+        this.zzb = threadPoolExecutor;
+        threadPoolExecutor.allowCoreThreadTimeOut(true);
+    }
 
-        @Override // java.util.concurrent.ThreadFactory
-        public final Thread newThread(Runnable runnable) {
-            return this.zza.zzb(runnable);
-        }
-    });
-    private final ThreadFactory zzb = Executors.defaultThreadFactory();
-    private final WeakHashMap<Thread, Void> zzc = new WeakHashMap<>();
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    @Override // com.google.android.gms.internal.mlkit_common.zzal
-    public final ExecutorService zzb() {
-        return this.zza;
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static /* synthetic */ void zzd(Runnable runnable) {
+        zza.set(new ArrayDeque());
+        runnable.run();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* renamed from: zzc */
-    public final Thread zzb(Runnable runnable) {
-        Thread newThread = this.zzb.newThread(runnable);
-        synchronized (this.zzc) {
-            this.zzc.put(newThread, null);
+    public static void zze(Deque deque, Runnable runnable) {
+        Preconditions.checkNotNull(deque);
+        deque.add(runnable);
+        if (deque.size() <= 1) {
+            do {
+                runnable.run();
+                deque.removeFirst();
+                runnable = (Runnable) deque.peekFirst();
+            } while (runnable != null);
         }
-        return newThread;
     }
 
     @Override // java.util.concurrent.Executor
-    public void execute(final Runnable runnable) {
-        boolean containsKey;
-        synchronized (this.zzc) {
-            containsKey = this.zzc.containsKey(Thread.currentThread());
-        }
-        if (containsKey) {
-            zzd(runnable);
-        } else {
-            this.zza.execute(new Runnable(runnable) { // from class: com.google.mlkit.common.sdkinternal.zzh
-                private final Runnable zza;
-
-                /* JADX INFO: Access modifiers changed from: package-private */
-                {
-                    this.zza = runnable;
-                }
-
+    public final void execute(final Runnable runnable) {
+        Deque deque = (Deque) zza.get();
+        if (deque == null || deque.size() > 1) {
+            this.zzb.execute(new Runnable() { // from class: com.google.mlkit.common.sdkinternal.zzi
                 @Override // java.lang.Runnable
                 public final void run() {
-                    MlKitThreadPool.zzd(this.zza);
+                    MlKitThreadPool.zze((Deque) MlKitThreadPool.zza.get(), runnable);
                 }
             });
+        } else {
+            zze(deque, runnable);
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public static void zzd(Runnable runnable) {
-        Deque<Runnable> deque = zzd.get();
-        deque.add(runnable);
-        if (deque.size() > 1) {
-            return;
-        }
-        do {
-            runnable.run();
-            deque.removeFirst();
-            runnable = deque.peekFirst();
-        } while (runnable != null);
-    }
-
-    @Override // com.google.android.gms.internal.mlkit_common.zzz
+    @Override // com.google.android.gms.internal.mlkit_common.zzai
     protected final /* synthetic */ Object zza() {
-        return zzb();
+        return this.zzb;
+    }
+
+    @Override // com.google.android.gms.internal.mlkit_common.zzbg
+    protected final ExecutorService zzb() {
+        return this.zzb;
     }
 }

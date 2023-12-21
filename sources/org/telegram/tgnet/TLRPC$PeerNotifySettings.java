@@ -1,5 +1,5 @@
 package org.telegram.tgnet;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public abstract class TLRPC$PeerNotifySettings extends TLObject {
     public TLRPC$NotificationSound android_sound;
     public int events_mask;

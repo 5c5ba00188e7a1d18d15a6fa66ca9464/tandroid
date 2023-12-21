@@ -1,5 +1,5 @@
 package org.telegram.tgnet;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_messages_requestEncryption extends TLObject {
     public byte[] g_a;
     public int random_id;

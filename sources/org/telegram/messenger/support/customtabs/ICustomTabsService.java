@@ -5,13 +5,13 @@ import android.os.IBinder;
 import android.os.IInterface;
 import android.os.Parcel;
 import android.os.RemoteException;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public interface ICustomTabsService extends IInterface {
     boolean newSession(ICustomTabsCallback iCustomTabsCallback) throws RemoteException;
 
     boolean warmup(long j) throws RemoteException;
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static abstract class Stub extends Binder implements ICustomTabsService {
         public static ICustomTabsService asInterface(IBinder iBinder) {
             if (iBinder == null) {
@@ -21,7 +21,7 @@ public interface ICustomTabsService extends IInterface {
             return (queryLocalInterface == null || !(queryLocalInterface instanceof ICustomTabsService)) ? new Proxy(iBinder) : (ICustomTabsService) queryLocalInterface;
         }
 
-        /* loaded from: classes.dex */
+        /* loaded from: classes3.dex */
         private static class Proxy implements ICustomTabsService {
             private IBinder mRemote;
 

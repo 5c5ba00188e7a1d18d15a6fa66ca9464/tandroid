@@ -4,7 +4,7 @@ import org.telegram.tgnet.AbstractSerializedData;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Bool;
 import org.telegram.tgnet.TLRPC$InputPeer;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TL_stories$TL_stories_togglePeerStoriesHidden extends TLObject {
     public boolean hidden;
     public TLRPC$InputPeer peer;

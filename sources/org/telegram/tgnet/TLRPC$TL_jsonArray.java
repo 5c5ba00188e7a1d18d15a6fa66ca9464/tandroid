@@ -1,7 +1,7 @@
 package org.telegram.tgnet;
 
 import java.util.ArrayList;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_jsonArray extends TLRPC$JSONValue {
     public ArrayList<TLRPC$JSONValue> value = new ArrayList<>();
 

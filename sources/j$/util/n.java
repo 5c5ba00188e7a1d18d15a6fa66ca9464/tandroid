@@ -7,7 +7,7 @@ public interface n extends p {
 
     void forEachRemaining(Consumer consumer);
 
-    @Override // java.util.Iterator, j$.util.Iterator
+    @Override // java.util.Iterator
     Double next();
 
     double nextDouble();

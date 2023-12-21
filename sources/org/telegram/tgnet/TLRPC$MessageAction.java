@@ -1,7 +1,7 @@
 package org.telegram.tgnet;
 
 import java.util.ArrayList;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public abstract class TLRPC$MessageAction extends TLObject {
     public String address;
     public long amount;
@@ -377,7 +377,35 @@ public abstract class TLRPC$MessageAction extends TLObject {
                 };
                 break;
             case -758129906:
-                tLRPC$MessageAction = new TLRPC$TL_messageActionGiftCode();
+                tLRPC$MessageAction = new TLRPC$TL_messageActionGiftCode() { // from class: org.telegram.tgnet.TLRPC$TL_messageActionGiftCode_layer167
+                    @Override // org.telegram.tgnet.TLRPC$TL_messageActionGiftCode, org.telegram.tgnet.TLObject
+                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
+                        int readInt32 = abstractSerializedData2.readInt32(z2);
+                        this.flags = readInt32;
+                        this.via_giveaway = (readInt32 & 1) != 0;
+                        this.unclaimed = (readInt32 & 4) != 0;
+                        if ((readInt32 & 2) != 0) {
+                            this.boost_peer = TLRPC$Peer.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
+                        }
+                        this.months = abstractSerializedData2.readInt32(z2);
+                        this.slug = abstractSerializedData2.readString(z2);
+                    }
+
+                    @Override // org.telegram.tgnet.TLRPC$TL_messageActionGiftCode, org.telegram.tgnet.TLObject
+                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
+                        abstractSerializedData2.writeInt32(-758129906);
+                        int i2 = this.via_giveaway ? this.flags | 1 : this.flags & (-2);
+                        this.flags = i2;
+                        int i3 = this.unclaimed ? i2 | 4 : i2 & (-5);
+                        this.flags = i3;
+                        abstractSerializedData2.writeInt32(i3);
+                        if ((this.flags & 2) != 0) {
+                            this.boost_peer.serializeToStream(abstractSerializedData2);
+                        }
+                        abstractSerializedData2.writeInt32(this.months);
+                        abstractSerializedData2.writeString(this.slug);
+                    }
+                };
                 break;
             case -648257196:
                 tLRPC$MessageAction = new TLRPC$TL_messageActionSecureValuesSent();
@@ -641,6 +669,9 @@ public abstract class TLRPC$MessageAction extends TLObject {
                         abstractSerializedData2.writeInt32((int) this.user_id);
                     }
                 };
+                break;
+            case 1737240073:
+                tLRPC$MessageAction = new TLRPC$TL_messageActionGiftCode();
                 break;
             case 1991897370:
                 tLRPC$MessageAction = new TLRPC$TL_messageActionInviteToGroupCall() { // from class: org.telegram.tgnet.TLRPC$TL_messageActionInviteToGroupCall_layer131

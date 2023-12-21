@@ -1,7 +1,7 @@
 package org.telegram.tgnet;
 
 import java.util.ArrayList;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_phone_checkGroupCall extends TLObject {
     public TLRPC$TL_inputGroupCall call;
     public ArrayList<Integer> sources = new ArrayList<>();

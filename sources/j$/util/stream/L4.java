@@ -9,11 +9,11 @@ final class L4 extends f4 {
         super(y2Var, yVar, z);
     }
 
-    L4(y2 y2Var, j$.util.u uVar, boolean z) {
-        super(y2Var, uVar, z);
+    L4(y2 y2Var, j$.util.t tVar, boolean z) {
+        super(y2Var, tVar, z);
     }
 
-    @Override // j$.util.u
+    @Override // j$.util.t
     public boolean b(Consumer consumer) {
         Object obj;
         Objects.requireNonNull(consumer);
@@ -44,7 +44,7 @@ final class L4 extends f4 {
         return a;
     }
 
-    @Override // j$.util.u
+    @Override // j$.util.t
     public void forEachRemaining(Consumer consumer) {
         if (this.h != null || this.i) {
             do {
@@ -66,7 +66,7 @@ final class L4 extends f4 {
     }
 
     @Override // j$.util.stream.f4
-    f4 l(j$.util.u uVar) {
-        return new L4(this.b, uVar, this.a);
+    f4 l(j$.util.t tVar) {
+        return new L4(this.b, tVar, this.a);
     }
 }

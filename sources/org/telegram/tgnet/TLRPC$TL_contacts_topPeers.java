@@ -1,7 +1,7 @@
 package org.telegram.tgnet;
 
 import java.util.ArrayList;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_contacts_topPeers extends TLRPC$contacts_TopPeers {
     public ArrayList<TLRPC$TL_topPeerCategoryPeers> categories = new ArrayList<>();
     public ArrayList<TLRPC$Chat> chats = new ArrayList<>();

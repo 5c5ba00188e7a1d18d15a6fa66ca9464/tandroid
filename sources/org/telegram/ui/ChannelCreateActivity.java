@@ -483,7 +483,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
                                 i16 = 51;
                             }
                             int i17 = i16 & 7;
-                            int i18 = i16 & 112;
+                            int i18 = i16 & R.styleable.AppCompatTheme_toolbarNavigationButtonStyle;
                             int i19 = i17 & 7;
                             if (i19 == 1) {
                                 i9 = (((i7 - i5) - measuredWidth) / 2) + layoutParams.leftMargin;

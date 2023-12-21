@@ -4,22 +4,22 @@ import j$.util.function.Consumer;
 import java.util.Comparator;
 import java.util.Objects;
 /* loaded from: classes2.dex */
-final class C4 extends D4 implements j$.util.u {
+final class C4 extends D4 implements j$.util.t {
     /* JADX INFO: Access modifiers changed from: package-private */
-    public C4(j$.util.u uVar, long j, long j2) {
-        super(uVar, j, j2, 0L, Math.min(uVar.estimateSize(), j2));
+    public C4(j$.util.t tVar, long j, long j2) {
+        super(tVar, j, j2, 0L, Math.min(tVar.estimateSize(), j2));
     }
 
-    private C4(j$.util.u uVar, long j, long j2, long j3, long j4) {
-        super(uVar, j, j2, j3, j4);
+    private C4(j$.util.t tVar, long j, long j2, long j3, long j4) {
+        super(tVar, j, j2, j3, j4);
     }
 
     @Override // j$.util.stream.D4
-    protected j$.util.u a(j$.util.u uVar, long j, long j2, long j3, long j4) {
-        return new C4(uVar, j, j2, j3, j4);
+    protected j$.util.t a(j$.util.t tVar, long j, long j2, long j3, long j4) {
+        return new C4(tVar, j, j2, j3, j4);
     }
 
-    @Override // j$.util.u
+    @Override // j$.util.t
     public boolean b(Consumer consumer) {
         long j;
         Objects.requireNonNull(consumer);
@@ -42,7 +42,7 @@ final class C4 extends D4 implements j$.util.u {
         return this.c.b(consumer);
     }
 
-    @Override // j$.util.u
+    @Override // j$.util.t
     public void forEachRemaining(Consumer consumer) {
         Objects.requireNonNull(consumer);
         long j = this.a;
@@ -69,17 +69,17 @@ final class C4 extends D4 implements j$.util.u {
         }
     }
 
-    @Override // j$.util.u
+    @Override // j$.util.t
     public Comparator getComparator() {
         throw new IllegalStateException();
     }
 
-    @Override // j$.util.u
+    @Override // j$.util.t
     public /* synthetic */ long getExactSizeIfKnown() {
         return j$.util.a.e(this);
     }
 
-    @Override // j$.util.u
+    @Override // j$.util.t
     public /* synthetic */ boolean hasCharacteristics(int i) {
         return j$.util.a.f(this, i);
     }

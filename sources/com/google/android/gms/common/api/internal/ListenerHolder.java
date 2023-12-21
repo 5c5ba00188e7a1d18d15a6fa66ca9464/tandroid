@@ -94,4 +94,11 @@ public final class ListenerHolder<L> {
             throw e;
         }
     }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public ListenerHolder(Executor executor, L l, String str) {
+        this.zaa = (Executor) Preconditions.checkNotNull(executor, "Executor must not be null");
+        this.zab = Preconditions.checkNotNull(l, "Listener must not be null");
+        this.zac = new ListenerKey(l, Preconditions.checkNotEmpty(str));
+    }
 }

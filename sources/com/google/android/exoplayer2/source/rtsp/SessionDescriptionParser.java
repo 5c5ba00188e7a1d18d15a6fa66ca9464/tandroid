@@ -9,14 +9,14 @@ import com.google.android.exoplayer2.util.Util;
 import com.google.common.base.Strings;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.telegram.messenger.FileLoader;
+import org.telegram.messenger.R;
 /* loaded from: classes.dex */
 final class SessionDescriptionParser {
     private static final Pattern SDP_LINE_PATTERN = Pattern.compile("([a-z])=\\s?(.+)");
     private static final Pattern ATTRIBUTE_PATTERN = Pattern.compile("([\\x21\\x23-\\x27\\x2a\\x2b\\x2d\\x2e\\x30-\\x39\\x41-\\x5a\\x5e-\\x7e]+)(?::(.*))?");
     private static final Pattern MEDIA_DESCRIPTION_PATTERN = Pattern.compile("(\\S+)\\s(\\S+)\\s(\\S+)\\s(\\S+)");
 
-    /* JADX WARN: Code restructure failed: missing block: B:135:0x01b7, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:135:0x01b9, code lost:
         continue;
      */
     /*
@@ -36,67 +36,67 @@ final class SessionDescriptionParser {
                 String str4 = (String) Assertions.checkNotNull(matcher.group(2));
                 char c = 65535;
                 switch (str3.hashCode()) {
-                    case 97:
+                    case R.styleable.AppCompatTheme_selectableItemBackground /* 97 */:
                         if (str3.equals("a")) {
                             c = 11;
                             break;
                         }
                         break;
-                    case 98:
+                    case R.styleable.AppCompatTheme_selectableItemBackgroundBorderless /* 98 */:
                         if (str3.equals("b")) {
                             c = '\b';
                             break;
                         }
                         break;
-                    case 99:
+                    case R.styleable.AppCompatTheme_spinnerDropDownItemStyle /* 99 */:
                         if (str3.equals("c")) {
                             c = 7;
                             break;
                         }
                         break;
-                    case FileLoader.MEDIA_DIR_VIDEO_PUBLIC /* 101 */:
+                    case 101:
                         if (str3.equals("e")) {
                             c = 5;
                             break;
                         }
                         break;
-                    case 105:
+                    case R.styleable.AppCompatTheme_textAppearanceListItemSmall /* 105 */:
                         if (str3.equals("i")) {
                             c = 3;
                             break;
                         }
                         break;
-                    case 107:
+                    case R.styleable.AppCompatTheme_textAppearanceSearchResultSubtitle /* 107 */:
                         if (str3.equals("k")) {
                             c = '\n';
                             break;
                         }
                         break;
-                    case 109:
+                    case R.styleable.AppCompatTheme_textAppearanceSmallPopupMenu /* 109 */:
                         if (str3.equals("m")) {
                             c = '\f';
                             break;
                         }
                         break;
-                    case 111:
+                    case R.styleable.AppCompatTheme_textColorSearchUrl /* 111 */:
                         if (str3.equals("o")) {
                             c = 1;
                             break;
                         }
                         break;
-                    case 112:
+                    case R.styleable.AppCompatTheme_toolbarNavigationButtonStyle /* 112 */:
                         if (str3.equals("p")) {
                             c = 6;
                             break;
                         }
                         break;
-                    case 114:
+                    case R.styleable.AppCompatTheme_tooltipForegroundColor /* 114 */:
                         if (str3.equals("r")) {
                             c = '\r';
                             break;
                         }
                         break;
-                    case 115:
+                    case R.styleable.AppCompatTheme_tooltipFrameBackground /* 115 */:
                         if (str3.equals("s")) {
                             c = 2;
                             break;

@@ -1,5 +1,5 @@
 package org.telegram.tgnet;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_dialogFolder extends TLRPC$Dialog {
     public TLRPC$TL_folder folder;
     public int unread_muted_messages_count;

@@ -17,56 +17,56 @@ public abstract class x2 {
         return (j < 0 || j >= 2147483639) ? new t2() : new b2(j, mVar);
     }
 
-    public static A1 e(y2 y2Var, j$.util.u uVar, boolean z, j$.util.function.m mVar) {
-        long q0 = y2Var.q0(uVar);
-        if (q0 < 0 || !uVar.hasCharacteristics(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM)) {
-            A1 a1 = (A1) new H1(y2Var, mVar, uVar).invoke();
+    public static A1 e(y2 y2Var, j$.util.t tVar, boolean z, j$.util.function.m mVar) {
+        long q0 = y2Var.q0(tVar);
+        if (q0 < 0 || !tVar.hasCharacteristics(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM)) {
+            A1 a1 = (A1) new H1(y2Var, mVar, tVar).invoke();
             return z ? l(a1, mVar) : a1;
         } else if (q0 < 2147483639) {
             Object[] objArr = (Object[]) mVar.apply((int) q0);
-            new r2(uVar, y2Var, objArr).invoke();
+            new r2(tVar, y2Var, objArr).invoke();
             return new D1(objArr);
         } else {
             throw new IllegalArgumentException("Stream size exceeds max array size");
         }
     }
 
-    public static u1 f(y2 y2Var, j$.util.u uVar, boolean z) {
-        long q0 = y2Var.q0(uVar);
-        if (q0 < 0 || !uVar.hasCharacteristics(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM)) {
-            u1 u1Var = (u1) new H1(y2Var, uVar, 0).invoke();
+    public static u1 f(y2 y2Var, j$.util.t tVar, boolean z) {
+        long q0 = y2Var.q0(tVar);
+        if (q0 < 0 || !tVar.hasCharacteristics(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM)) {
+            u1 u1Var = (u1) new H1(y2Var, tVar, 0).invoke();
             return z ? m(u1Var) : u1Var;
         } else if (q0 < 2147483639) {
             double[] dArr = new double[(int) q0];
-            new o2(uVar, y2Var, dArr).invoke();
+            new o2(tVar, y2Var, dArr).invoke();
             return new T1(dArr);
         } else {
             throw new IllegalArgumentException("Stream size exceeds max array size");
         }
     }
 
-    public static w1 g(y2 y2Var, j$.util.u uVar, boolean z) {
-        long q0 = y2Var.q0(uVar);
-        if (q0 < 0 || !uVar.hasCharacteristics(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM)) {
-            w1 w1Var = (w1) new H1(y2Var, uVar, 1).invoke();
+    public static w1 g(y2 y2Var, j$.util.t tVar, boolean z) {
+        long q0 = y2Var.q0(tVar);
+        if (q0 < 0 || !tVar.hasCharacteristics(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM)) {
+            w1 w1Var = (w1) new H1(y2Var, tVar, 1).invoke();
             return z ? n(w1Var) : w1Var;
         } else if (q0 < 2147483639) {
             int[] iArr = new int[(int) q0];
-            new p2(uVar, y2Var, iArr).invoke();
+            new p2(tVar, y2Var, iArr).invoke();
             return new c2(iArr);
         } else {
             throw new IllegalArgumentException("Stream size exceeds max array size");
         }
     }
 
-    public static y1 h(y2 y2Var, j$.util.u uVar, boolean z) {
-        long q0 = y2Var.q0(uVar);
-        if (q0 < 0 || !uVar.hasCharacteristics(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM)) {
-            y1 y1Var = (y1) new H1(y2Var, uVar, 2).invoke();
+    public static y1 h(y2 y2Var, j$.util.t tVar, boolean z) {
+        long q0 = y2Var.q0(tVar);
+        if (q0 < 0 || !tVar.hasCharacteristics(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM)) {
+            y1 y1Var = (y1) new H1(y2Var, tVar, 2).invoke();
             return z ? o(y1Var) : y1Var;
         } else if (q0 < 2147483639) {
             long[] jArr = new long[(int) q0];
-            new q2(uVar, y2Var, jArr).invoke();
+            new q2(tVar, y2Var, jArr).invoke();
             return new l2(jArr);
         } else {
             throw new IllegalArgumentException("Stream size exceeds max array size");

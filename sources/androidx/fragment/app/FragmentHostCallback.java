@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
+import androidx.core.content.ContextCompat;
 import androidx.core.util.Preconditions;
 /* loaded from: classes.dex */
 public abstract class FragmentHostCallback<E> extends FragmentContainer {
@@ -15,10 +16,6 @@ public abstract class FragmentHostCallback<E> extends FragmentContainer {
     private final Context mContext;
     final FragmentManager mFragmentManager;
     private final Handler mHandler;
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void onAttachFragment(Fragment fragment) {
-    }
 
     @Override // androidx.fragment.app.FragmentContainer
     public View onFindViewById(int i) {
@@ -59,7 +56,7 @@ public abstract class FragmentHostCallback<E> extends FragmentContainer {
         if (i != -1) {
             throw new IllegalStateException("Starting activity with a requestCode requires a FragmentActivity host");
         }
-        this.mContext.startActivity(intent);
+        ContextCompat.startActivity(this.mContext, intent, bundle);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

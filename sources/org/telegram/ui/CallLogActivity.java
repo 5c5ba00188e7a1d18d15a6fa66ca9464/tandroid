@@ -1117,6 +1117,12 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+        public void notifyItemRemoved(int i) {
+            updateRows();
+            super.notifyItemRemoved(i);
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public void notifyItemRangeRemoved(int i, int i2) {
             updateRows();
             super.notifyItemRangeRemoved(i, i2);

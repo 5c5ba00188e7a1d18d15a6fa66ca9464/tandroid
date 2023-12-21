@@ -2,7 +2,7 @@ package org.telegram.tgnet;
 
 import android.text.TextUtils;
 import org.telegram.messenger.LiteMode;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_message_secret extends TLRPC$TL_message {
     @Override // org.telegram.tgnet.TLRPC$TL_message, org.telegram.tgnet.TLObject
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {

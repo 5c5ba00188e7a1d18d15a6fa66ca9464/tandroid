@@ -52,8 +52,9 @@ public class SelectorCountryCell extends BaseCell {
         checkBox2.setLayoutParams(LayoutHelper.createFrame(24, 24.0f, (LocaleController.isRTL ? 5 : 3) | 16, 13.0f, 0.0f, 14.0f, 0.0f));
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.Premium.boosts.cells.BaseCell
-    protected void updateLayouts() {
+    public void updateLayouts() {
         SimpleTextView simpleTextView = this.titleTextView;
         boolean z = LocaleController.isRTL;
         simpleTextView.setLayoutParams(LayoutHelper.createFrame(-1, -2.0f, (z ? 5 : 3) | 16, z ? 20.0f : 52.0f, 0.0f, z ? 52.0f : 20.0f, 0.0f));

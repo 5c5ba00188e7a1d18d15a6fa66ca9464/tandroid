@@ -1,15 +1,15 @@
 package j$.util.stream;
 
-import j$.util.u;
+import j$.util.t;
 import java.util.ArrayDeque;
 import java.util.Comparator;
 import java.util.Deque;
 /* loaded from: classes2.dex */
-abstract class k2 implements j$.util.u {
+abstract class k2 implements j$.util.t {
     A1 a;
     int b;
-    j$.util.u c;
-    j$.util.u d;
+    j$.util.t c;
+    j$.util.t d;
     Deque e;
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -34,20 +34,20 @@ abstract class k2 implements j$.util.u {
         }
     }
 
-    @Override // j$.util.u
+    @Override // j$.util.t
     public final int characteristics() {
         return 64;
     }
 
-    @Override // j$.util.u
+    @Override // j$.util.t
     public final long estimateSize() {
         long j = 0;
         if (this.a == null) {
             return 0L;
         }
-        j$.util.u uVar = this.c;
-        if (uVar != null) {
-            return uVar.estimateSize();
+        j$.util.t tVar = this.c;
+        if (tVar != null) {
+            return tVar.estimateSize();
         }
         for (int i = this.b; i < this.a.p(); i++) {
             j += this.a.b(i).count();
@@ -68,12 +68,12 @@ abstract class k2 implements j$.util.u {
         }
     }
 
-    @Override // j$.util.u
+    @Override // j$.util.t
     public Comparator getComparator() {
         throw new IllegalStateException();
     }
 
-    @Override // j$.util.u
+    @Override // j$.util.t
     public /* synthetic */ long getExactSizeIfKnown() {
         return j$.util.a.e(this);
     }
@@ -84,8 +84,8 @@ abstract class k2 implements j$.util.u {
             return false;
         }
         if (this.d == null) {
-            j$.util.u uVar = this.c;
-            if (uVar == null) {
+            j$.util.t tVar = this.c;
+            if (tVar == null) {
                 Deque f = f();
                 this.e = f;
                 A1 a = a(f);
@@ -93,38 +93,43 @@ abstract class k2 implements j$.util.u {
                     this.a = null;
                     return false;
                 }
-                uVar = a.spliterator();
+                tVar = a.spliterator();
             }
-            this.d = uVar;
+            this.d = tVar;
             return true;
         }
         return true;
     }
 
-    @Override // j$.util.u
+    @Override // j$.util.t
     public /* synthetic */ boolean hasCharacteristics(int i) {
         return j$.util.a.f(this, i);
     }
 
-    @Override // j$.util.u
-    public /* bridge */ /* synthetic */ j$.util.t trySplit() {
-        return (j$.util.t) trySplit();
+    @Override // j$.util.t
+    public /* bridge */ /* synthetic */ t.a trySplit() {
+        return (t.a) trySplit();
     }
 
-    @Override // j$.util.u
-    public /* bridge */ /* synthetic */ u.a trySplit() {
-        return (u.a) trySplit();
+    @Override // j$.util.t
+    public /* bridge */ /* synthetic */ t.b trySplit() {
+        return (t.b) trySplit();
     }
 
-    @Override // j$.util.u
-    public final j$.util.u trySplit() {
+    @Override // j$.util.t
+    public /* bridge */ /* synthetic */ t.c trySplit() {
+        return (t.c) trySplit();
+    }
+
+    @Override // j$.util.t
+    public final j$.util.t trySplit() {
         A1 a1 = this.a;
         if (a1 == null || this.d != null) {
             return null;
         }
-        j$.util.u uVar = this.c;
-        if (uVar != null) {
-            return uVar.trySplit();
+        j$.util.t tVar = this.c;
+        if (tVar != null) {
+            return tVar.trySplit();
         }
         if (this.b < a1.p() - 1) {
             A1 a12 = this.a;
@@ -135,7 +140,7 @@ abstract class k2 implements j$.util.u {
         A1 b = this.a.b(this.b);
         this.a = b;
         if (b.p() == 0) {
-            j$.util.u spliterator = this.a.spliterator();
+            j$.util.t spliterator = this.a.spliterator();
             this.c = spliterator;
             return spliterator.trySplit();
         }
@@ -145,13 +150,8 @@ abstract class k2 implements j$.util.u {
         return a13.b(0).spliterator();
     }
 
-    @Override // j$.util.u
-    public /* bridge */ /* synthetic */ j$.util.v trySplit() {
-        return (j$.util.v) trySplit();
-    }
-
-    @Override // j$.util.u
-    public /* bridge */ /* synthetic */ j$.util.w trySplit() {
-        return (j$.util.w) trySplit();
+    @Override // j$.util.t
+    public /* bridge */ /* synthetic */ j$.util.u trySplit() {
+        return (j$.util.u) trySplit();
     }
 }

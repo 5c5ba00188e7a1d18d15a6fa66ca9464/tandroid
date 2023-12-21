@@ -9,14 +9,14 @@ final class j2 extends k2 {
         super(a1);
     }
 
-    @Override // j$.util.u
+    @Override // j$.util.t
     public boolean b(Consumer consumer) {
         A1 a;
         if (h()) {
             boolean b = this.d.b(consumer);
             if (!b) {
                 if (this.c == null && (a = a(this.e)) != null) {
-                    j$.util.u spliterator = a.spliterator();
+                    j$.util.t spliterator = a.spliterator();
                     this.d = spliterator;
                     return spliterator.b(consumer);
                 }
@@ -27,7 +27,7 @@ final class j2 extends k2 {
         return false;
     }
 
-    @Override // j$.util.u
+    @Override // j$.util.t
     public void forEachRemaining(Consumer consumer) {
         if (this.a == null) {
             return;
@@ -37,9 +37,9 @@ final class j2 extends k2 {
             } while (b(consumer));
             return;
         }
-        j$.util.u uVar = this.c;
-        if (uVar != null) {
-            uVar.forEachRemaining(consumer);
+        j$.util.t tVar = this.c;
+        if (tVar != null) {
+            tVar.forEachRemaining(consumer);
             return;
         }
         Deque f = f();

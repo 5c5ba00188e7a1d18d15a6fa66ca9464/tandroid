@@ -26,10 +26,6 @@ public class FragmentController {
         return this.mHost.mFragmentManager;
     }
 
-    public Fragment findFragmentByWho(String str) {
-        return this.mHost.mFragmentManager.findFragmentByWho(str);
-    }
-
     public void attachHost(Fragment fragment) {
         FragmentHostCallback<?> fragmentHostCallback = this.mHost;
         fragmentHostCallback.mFragmentManager.attachController(fragmentHostCallback, fragmentHostCallback, fragment);

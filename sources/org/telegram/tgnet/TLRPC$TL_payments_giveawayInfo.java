@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_payments_giveawayInfo extends TLRPC$payments_GiveawayInfo {
-    public static int constructor = 1130879648;
     public long admin_disallowed_chat_id;
     public String disallowed_country;
     public int flags;
@@ -30,7 +29,7 @@ public class TLRPC$TL_payments_giveawayInfo extends TLRPC$payments_GiveawayInfo 
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(1130879648);
         int i = this.participating ? this.flags | 1 : this.flags & (-2);
         this.flags = i;
         int i2 = this.preparing_results ? i | 8 : i & (-9);

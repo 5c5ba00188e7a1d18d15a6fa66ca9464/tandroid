@@ -33,8 +33,8 @@ final class Y1 extends a2 implements y1 {
     }
 
     @Override // j$.util.stream.A1
-    public j$.util.w spliterator() {
-        return j$.util.L.d();
+    public j$.util.u spliterator() {
+        return j$.util.J.d();
     }
 
     @Override // j$.util.stream.a2, j$.util.stream.A1
@@ -44,7 +44,7 @@ final class Y1 extends a2 implements y1 {
     }
 
     @Override // j$.util.stream.A1
-    public j$.util.u spliterator() {
-        return j$.util.L.d();
+    public j$.util.t spliterator() {
+        return j$.util.J.d();
     }
 }

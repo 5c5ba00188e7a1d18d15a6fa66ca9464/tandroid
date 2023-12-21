@@ -480,7 +480,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
                             i13 = 0;
                         }
                         int absoluteGravity = Gravity.getAbsoluteGravity(i13, Build.VERSION.SDK_INT >= 17 ? getLayoutDirection() : 0);
-                        int i14 = i13 & 112;
+                        int i14 = i13 & R.styleable.AppCompatTheme_toolbarNavigationButtonStyle;
                         int i15 = absoluteGravity & 7;
                         if (i15 == 1) {
                             i6 = (((paddingRight - paddingLeft) - measuredWidth) / 2) + paddingLeft + layoutParams.leftMargin;

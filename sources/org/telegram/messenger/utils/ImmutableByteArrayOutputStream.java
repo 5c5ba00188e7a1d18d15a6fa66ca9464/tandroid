@@ -3,7 +3,7 @@ package org.telegram.messenger.utils;
 import java.io.OutputStream;
 import java.util.Arrays;
 import org.telegram.tgnet.ConnectionsManager;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class ImmutableByteArrayOutputStream extends OutputStream {
     public byte[] buf;
     protected int count;

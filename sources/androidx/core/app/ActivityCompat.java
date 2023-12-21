@@ -25,8 +25,6 @@ public class ActivityCompat extends ContextCompat {
 
     /* loaded from: classes.dex */
     public interface PermissionCompatDelegate {
-        boolean onActivityResult(Activity activity, int i, int i2, Intent intent);
-
         boolean requestPermissions(Activity activity, String[] strArr, int i);
     }
 
@@ -35,15 +33,27 @@ public class ActivityCompat extends ContextCompat {
         void validateRequestPermissionsRequestCode(int i);
     }
 
-    public static PermissionCompatDelegate getPermissionCompatDelegate() {
-        return sDelegate;
-    }
-
     public static void startActivityForResult(Activity activity, Intent intent, int i, Bundle bundle) {
         if (Build.VERSION.SDK_INT >= 16) {
             Api16Impl.startActivityForResult(activity, intent, i, bundle);
         } else {
             activity.startActivityForResult(intent, i);
+        }
+    }
+
+    public static void startIntentSenderForResult(Activity activity, IntentSender intentSender, int i, Intent intent, int i2, int i3, int i4, Bundle bundle) throws IntentSender.SendIntentException {
+        if (Build.VERSION.SDK_INT >= 16) {
+            Api16Impl.startIntentSenderForResult(activity, intentSender, i, intent, i2, i3, i4, bundle);
+        } else {
+            activity.startIntentSenderForResult(intentSender, i, intent, i2, i3, i4);
+        }
+    }
+
+    public static void finishAffinity(Activity activity) {
+        if (Build.VERSION.SDK_INT >= 16) {
+            Api16Impl.finishAffinity(activity);
+        } else {
+            activity.finish();
         }
     }
 
@@ -96,6 +106,27 @@ public class ActivityCompat extends ContextCompat {
         }
     }
 
+    public static void recreate(final Activity activity) {
+        if (Build.VERSION.SDK_INT >= 28) {
+            activity.recreate();
+        } else {
+            new Handler(activity.getMainLooper()).post(new Runnable() { // from class: androidx.core.app.ActivityCompat$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ActivityCompat.lambda$recreate$0(activity);
+                }
+            });
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$recreate$0(Activity activity) {
+        if (activity.isFinishing() || ActivityRecreator.recreate(activity)) {
+            return;
+        }
+        activity.recreate();
+    }
+
     /* loaded from: classes.dex */
     static class Api16Impl {
         static void startActivityForResult(Activity activity, Intent intent, int i, Bundle bundle) {
@@ -111,8 +142,9 @@ public class ActivityCompat extends ContextCompat {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    static class Api23Impl {
+    public static class Api23Impl {
         static void requestPermissions(Activity activity, String[] strArr, int i) {
             activity.requestPermissions(strArr, i);
         }

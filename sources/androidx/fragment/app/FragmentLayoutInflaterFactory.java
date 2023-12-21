@@ -6,11 +6,12 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import androidx.fragment.R$styleable;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class FragmentLayoutInflaterFactory implements LayoutInflater.Factory2 {
-    private final FragmentManager mFragmentManager;
+    final FragmentManager mFragmentManager;
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public FragmentLayoutInflaterFactory(FragmentManager fragmentManager) {
@@ -24,6 +25,7 @@ public class FragmentLayoutInflaterFactory implements LayoutInflater.Factory2 {
 
     @Override // android.view.LayoutInflater.Factory2
     public View onCreateView(View view, String str, Context context, AttributeSet attributeSet) {
+        final FragmentStateManager createOrGetFragmentStateManager;
         if (FragmentContainerView.class.getName().equals(str)) {
             return new FragmentContainerView(context, attributeSet, this.mFragmentManager);
         }
@@ -50,9 +52,6 @@ public class FragmentLayoutInflaterFactory implements LayoutInflater.Factory2 {
             if (findFragmentById == null && id != -1) {
                 findFragmentById = this.mFragmentManager.findFragmentById(id);
             }
-            if (FragmentManager.isLoggingEnabled(2)) {
-                Log.v("FragmentManager", "onCreateView: id=0x" + Integer.toHexString(resourceId) + " fname=" + attributeValue + " existing=" + findFragmentById);
-            }
             if (findFragmentById == null) {
                 findFragmentById = this.mFragmentManager.getFragmentFactory().instantiate(context.getClassLoader(), attributeValue);
                 findFragmentById.mFromLayout = true;
@@ -62,25 +61,28 @@ public class FragmentLayoutInflaterFactory implements LayoutInflater.Factory2 {
                 findFragmentById.mInLayout = true;
                 FragmentManager fragmentManager = this.mFragmentManager;
                 findFragmentById.mFragmentManager = fragmentManager;
-                FragmentHostCallback<?> fragmentHostCallback = fragmentManager.mHost;
-                findFragmentById.mHost = fragmentHostCallback;
-                findFragmentById.onInflate(fragmentHostCallback.getContext(), attributeSet, findFragmentById.mSavedFragmentState);
-                this.mFragmentManager.addFragment(findFragmentById);
-                this.mFragmentManager.moveToState(findFragmentById);
+                findFragmentById.mHost = fragmentManager.getHost();
+                findFragmentById.onInflate(this.mFragmentManager.getHost().getContext(), attributeSet, findFragmentById.mSavedFragmentState);
+                createOrGetFragmentStateManager = this.mFragmentManager.addFragment(findFragmentById);
+                if (FragmentManager.isLoggingEnabled(2)) {
+                    Log.v("FragmentManager", "Fragment " + findFragmentById + " has been inflated via the <fragment> tag: id=0x" + Integer.toHexString(resourceId));
+                }
             } else if (findFragmentById.mInLayout) {
                 throw new IllegalArgumentException(attributeSet.getPositionDescription() + ": Duplicate id 0x" + Integer.toHexString(resourceId) + ", tag " + string + ", or parent id 0x" + Integer.toHexString(id) + " with another fragment for " + attributeValue);
             } else {
                 findFragmentById.mInLayout = true;
-                FragmentHostCallback<?> fragmentHostCallback2 = this.mFragmentManager.mHost;
-                findFragmentById.mHost = fragmentHostCallback2;
-                findFragmentById.onInflate(fragmentHostCallback2.getContext(), attributeSet, findFragmentById.mSavedFragmentState);
+                FragmentManager fragmentManager2 = this.mFragmentManager;
+                findFragmentById.mFragmentManager = fragmentManager2;
+                findFragmentById.mHost = fragmentManager2.getHost();
+                findFragmentById.onInflate(this.mFragmentManager.getHost().getContext(), attributeSet, findFragmentById.mSavedFragmentState);
+                createOrGetFragmentStateManager = this.mFragmentManager.createOrGetFragmentStateManager(findFragmentById);
+                if (FragmentManager.isLoggingEnabled(2)) {
+                    Log.v("FragmentManager", "Retained Fragment " + findFragmentById + " has been re-attached via the <fragment> tag: id=0x" + Integer.toHexString(resourceId));
+                }
             }
-            FragmentManager fragmentManager2 = this.mFragmentManager;
-            if (fragmentManager2.mCurState < 1 && findFragmentById.mFromLayout) {
-                fragmentManager2.moveToState(findFragmentById, 1);
-            } else {
-                fragmentManager2.moveToState(findFragmentById);
-            }
+            findFragmentById.mContainer = (ViewGroup) view;
+            createOrGetFragmentStateManager.moveToExpectedState();
+            createOrGetFragmentStateManager.ensureInflatedView();
             View view2 = findFragmentById.mView;
             if (view2 == null) {
                 throw new IllegalStateException("Fragment " + attributeValue + " did not create a view.");
@@ -91,6 +93,18 @@ public class FragmentLayoutInflaterFactory implements LayoutInflater.Factory2 {
             if (findFragmentById.mView.getTag() == null) {
                 findFragmentById.mView.setTag(string);
             }
+            findFragmentById.mView.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() { // from class: androidx.fragment.app.FragmentLayoutInflaterFactory.1
+                @Override // android.view.View.OnAttachStateChangeListener
+                public void onViewDetachedFromWindow(View view3) {
+                }
+
+                @Override // android.view.View.OnAttachStateChangeListener
+                public void onViewAttachedToWindow(View view3) {
+                    Fragment fragment = createOrGetFragmentStateManager.getFragment();
+                    createOrGetFragmentStateManager.moveToExpectedState();
+                    SpecialEffectsController.getOrCreateController((ViewGroup) fragment.mView.getParent(), FragmentLayoutInflaterFactory.this.mFragmentManager).forceCompleteAllOperations();
+                }
+            });
             return findFragmentById.mView;
         }
         return null;

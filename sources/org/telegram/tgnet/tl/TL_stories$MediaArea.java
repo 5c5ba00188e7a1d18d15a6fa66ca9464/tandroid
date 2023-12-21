@@ -3,7 +3,7 @@ package org.telegram.tgnet.tl;
 import org.telegram.tgnet.AbstractSerializedData;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Reaction;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TL_stories$MediaArea extends TLObject {
     public TL_stories$TL_mediaAreaCoordinates coordinates;
     public boolean dark;
@@ -25,6 +25,12 @@ public class TL_stories$MediaArea extends TLObject {
                 break;
             case 340088945:
                 tL_stories$TL_inputMediaAreaVenue = new TL_stories$TL_mediaAreaSuggestedReaction();
+                break;
+            case 577893055:
+                tL_stories$TL_inputMediaAreaVenue = new TL_stories$TL_inputMediaAreaChannelPost();
+                break;
+            case 1996756655:
+                tL_stories$TL_inputMediaAreaVenue = new TL_stories$TL_mediaAreaChannelPost();
                 break;
             default:
                 tL_stories$TL_inputMediaAreaVenue = null;

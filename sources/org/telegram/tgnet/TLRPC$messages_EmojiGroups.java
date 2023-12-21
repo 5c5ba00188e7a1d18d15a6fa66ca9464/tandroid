@@ -1,5 +1,5 @@
 package org.telegram.tgnet;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public abstract class TLRPC$messages_EmojiGroups extends TLObject {
     public static TLRPC$messages_EmojiGroups TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
         TLRPC$messages_EmojiGroups tLRPC$TL_messages_emojiGroups;

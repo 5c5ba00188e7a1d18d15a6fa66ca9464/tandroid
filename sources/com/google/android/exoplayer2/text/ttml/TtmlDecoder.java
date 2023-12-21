@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.telegram.messenger.R;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -229,10 +230,10 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:59:0x01ab, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:59:0x01ac, code lost:
         if (r0.equals("tb") == false) goto L40;
      */
-    /* JADX WARN: Removed duplicated region for block: B:47:0x017b  */
+    /* JADX WARN: Removed duplicated region for block: B:47:0x017c  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -385,7 +386,7 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:102:0x01e9, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:102:0x01eb, code lost:
         if (r3.equals("text") == false) goto L49;
      */
     /*
@@ -897,7 +898,7 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
             str2.hashCode();
             char c = 65535;
             switch (str2.hashCode()) {
-                case 37:
+                case R.styleable.AppCompatTheme_alertDialogStyle /* 37 */:
                     if (str2.equals("%")) {
                         c = 0;
                         break;
@@ -950,7 +951,7 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:23:0x00d1, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:23:0x00d2, code lost:
         if (r13.equals("ms") == false) goto L21;
      */
     /*
@@ -991,21 +992,21 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
             String str2 = (String) Assertions.checkNotNull(matcher2.group(2));
             str2.hashCode();
             switch (str2.hashCode()) {
-                case 102:
+                case R.styleable.AppCompatTheme_textAppearanceLargePopupMenu /* 102 */:
                     if (str2.equals("f")) {
                         c = 0;
                         break;
                     }
                     c = 65535;
                     break;
-                case 104:
+                case R.styleable.AppCompatTheme_textAppearanceListItemSecondary /* 104 */:
                     if (str2.equals("h")) {
                         c = 1;
                         break;
                     }
                     c = 65535;
                     break;
-                case 109:
+                case R.styleable.AppCompatTheme_textAppearanceSmallPopupMenu /* 109 */:
                     if (str2.equals("m")) {
                         c = 2;
                         break;

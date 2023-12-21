@@ -1,7 +1,7 @@
 package org.telegram.tgnet;
 
 import java.util.ArrayList;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_attachMenuBotsBot extends TLObject {
     public TLRPC$TL_attachMenuBot bot;
     public ArrayList<TLRPC$User> users = new ArrayList<>();

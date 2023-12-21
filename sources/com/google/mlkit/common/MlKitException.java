@@ -1,7 +1,7 @@
 package com.google.mlkit.common;
 
 import com.google.android.gms.common.internal.Preconditions;
-/* compiled from: com.google.mlkit:common@@17.0.0 */
+/* compiled from: com.google.mlkit:common@@18.10.0 */
 /* loaded from: classes.dex */
 public class MlKitException extends Exception {
     public MlKitException(String str, int i) {

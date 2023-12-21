@@ -1,5 +1,5 @@
 package org.telegram.tgnet;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_phone_sendSignalingData extends TLObject {
     public byte[] data;
     public TLRPC$TL_inputPhoneCall peer;

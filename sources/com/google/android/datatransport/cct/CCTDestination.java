@@ -12,6 +12,7 @@ import java.util.regex.Pattern;
 public final class CCTDestination implements EncodedDestination {
     private static final String DEFAULT_API_KEY;
     static final String DEFAULT_END_POINT;
+    public static final CCTDestination INSTANCE;
     static final String LEGACY_END_POINT;
     public static final CCTDestination LEGACY_INSTANCE;
     private static final Set<Encoding> SUPPORTED_ENCODINGS;
@@ -31,7 +32,7 @@ public final class CCTDestination implements EncodedDestination {
         String mergeStrings3 = StringMerger.mergeStrings("AzSCki82AwsLzKd5O8zo", "IayckHiZRO1EFl1aGoK");
         DEFAULT_API_KEY = mergeStrings3;
         SUPPORTED_ENCODINGS = Collections.unmodifiableSet(new HashSet(Arrays.asList(Encoding.of("proto"), Encoding.of("json"))));
-        new CCTDestination(mergeStrings, null);
+        INSTANCE = new CCTDestination(mergeStrings, null);
         LEGACY_INSTANCE = new CCTDestination(mergeStrings2, mergeStrings3);
     }
 

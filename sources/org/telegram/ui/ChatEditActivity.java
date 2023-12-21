@@ -319,7 +319,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onDeletePhoto$0() {
             ChatEditActivity.this.avatarImage.setImageDrawable(ChatEditActivity.this.avatarDrawable);
-            ChatEditActivity.this.setAvatarCell.setTextAndIcon(LocaleController.getString("ChatSetPhotoOrVideo", R.string.ChatSetPhotoOrVideo), R.drawable.msg_addphoto, true);
+            ChatEditActivity.this.setAvatarCell.setTextAndIcon((CharSequence) LocaleController.getString("ChatSetPhotoOrVideo", R.string.ChatSetPhotoOrVideo), R.drawable.msg_addphoto, true);
             if (ChatEditActivity.this.currentUser != null) {
                 ChatEditActivity.this.currentUser.photo = null;
                 ChatEditActivity.this.getMessagesController().putUser(ChatEditActivity.this.currentUser, true);
@@ -558,13 +558,13 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         return checkDiscard();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:198:0x06e4  */
-    /* JADX WARN: Removed duplicated region for block: B:206:0x0739  */
-    /* JADX WARN: Removed duplicated region for block: B:214:0x0786  */
-    /* JADX WARN: Removed duplicated region for block: B:224:0x07c0  */
-    /* JADX WARN: Removed duplicated region for block: B:239:0x0841  */
-    /* JADX WARN: Removed duplicated region for block: B:240:0x084d  */
-    /* JADX WARN: Removed duplicated region for block: B:243:0x0853  */
+    /* JADX WARN: Removed duplicated region for block: B:198:0x06ec  */
+    /* JADX WARN: Removed duplicated region for block: B:206:0x0741  */
+    /* JADX WARN: Removed duplicated region for block: B:214:0x078e  */
+    /* JADX WARN: Removed duplicated region for block: B:224:0x07c8  */
+    /* JADX WARN: Removed duplicated region for block: B:239:0x0849  */
+    /* JADX WARN: Removed duplicated region for block: B:240:0x0855  */
+    /* JADX WARN: Removed duplicated region for block: B:243:0x085b  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -669,7 +669,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                             i15 = 51;
                         }
                         int i16 = i15 & 7;
-                        int i17 = i15 & 112;
+                        int i17 = i15 & R.styleable.AppCompatTheme_toolbarNavigationButtonStyle;
                         int i18 = i16 & 7;
                         if (i18 == 1) {
                             i8 = (((i6 - i4) - measuredWidth) / 2) + layoutParams.leftMargin;
@@ -960,7 +960,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                 });
             }
             if (ChatObject.isChannelAndNotMegaGroup(this.currentChat) && ChatObject.canChangeChatInfo(this.currentChat)) {
-                PeerColorActivity.ChangeNameColorCell changeNameColorCell = new PeerColorActivity.ChangeNameColorCell(this.currentAccount, true, context, getResourceProvider());
+                PeerColorActivity.ChangeNameColorCell changeNameColorCell = new PeerColorActivity.ChangeNameColorCell(this.currentAccount, -this.currentChat.id, context, getResourceProvider());
                 this.colorCell = changeNameColorCell;
                 changeNameColorCell.setBackgroundDrawable(Theme.getSelectorDrawable(true));
                 this.typeEditContainer.addView(this.colorCell, LayoutHelper.createLinear(-1, -2));
@@ -1100,7 +1100,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                     if (!ChatObject.isChannel(this.currentChat) || this.currentChat.gigagroup) {
                         TextCell textCell18 = new TextCell(context);
                         this.logCell = textCell18;
-                        textCell18.setTextAndIcon(LocaleController.getString("EventLog", R.string.EventLog), R.drawable.msg_log, false);
+                        textCell18.setTextAndIcon((CharSequence) LocaleController.getString("EventLog", R.string.EventLog), R.drawable.msg_log, false);
                         this.logCell.setBackground(Theme.getSelectorDrawable(false));
                         this.logCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda20
                             @Override // android.view.View.OnClickListener
@@ -1112,7 +1112,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                     if (ChatObject.isChannelAndNotMegaGroup(this.currentChat)) {
                         TextCell textCell19 = new TextCell(context);
                         this.statsAndBoosts = textCell19;
-                        textCell19.setTextAndIcon(LocaleController.getString("StatisticsAndBoosts", R.string.StatisticsAndBoosts), R.drawable.msg_stats, true);
+                        textCell19.setTextAndIcon((CharSequence) LocaleController.getString("StatisticsAndBoosts", R.string.StatisticsAndBoosts), R.drawable.msg_stats, true);
                         this.statsAndBoosts.setBackground(Theme.getSelectorDrawable(false));
                         this.statsAndBoosts.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda28
                             @Override // android.view.View.OnClickListener
@@ -1229,7 +1229,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
             }
             TextCell textCell182 = new TextCell(context);
             this.logCell = textCell182;
-            textCell182.setTextAndIcon(LocaleController.getString("EventLog", R.string.EventLog), R.drawable.msg_log, false);
+            textCell182.setTextAndIcon((CharSequence) LocaleController.getString("EventLog", R.string.EventLog), R.drawable.msg_log, false);
             this.logCell.setBackground(Theme.getSelectorDrawable(false));
             this.logCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda20
                 @Override // android.view.View.OnClickListener
@@ -1281,7 +1281,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
             TextCell textCell22 = new TextCell(context);
             this.editIntroCell = textCell22;
             textCell22.setBackground(Theme.getSelectorDrawable(false));
-            this.editIntroCell.setTextAndIcon(LocaleController.getString(R.string.BotEditIntro), R.drawable.msg_log, true);
+            this.editIntroCell.setTextAndIcon((CharSequence) LocaleController.getString(R.string.BotEditIntro), R.drawable.msg_log, true);
             this.infoContainer.addView(this.editIntroCell, LayoutHelper.createLinear(-1, -2));
             this.editIntroCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda8
                 @Override // android.view.View.OnClickListener
@@ -1292,7 +1292,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
             TextCell textCell23 = new TextCell(context);
             this.editCommandsCell = textCell23;
             textCell23.setBackground(Theme.getSelectorDrawable(false));
-            this.editCommandsCell.setTextAndIcon(LocaleController.getString(R.string.BotEditCommands), R.drawable.msg_media, true);
+            this.editCommandsCell.setTextAndIcon((CharSequence) LocaleController.getString(R.string.BotEditCommands), R.drawable.msg_media, true);
             this.infoContainer.addView(this.editCommandsCell, LayoutHelper.createLinear(-1, -2));
             this.editCommandsCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda13
                 @Override // android.view.View.OnClickListener
@@ -1303,7 +1303,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
             TextCell textCell24 = new TextCell(context);
             this.changeBotSettingsCell = textCell24;
             textCell24.setBackground(Theme.getSelectorDrawable(false));
-            this.changeBotSettingsCell.setTextAndIcon(LocaleController.getString(R.string.BotChangeSettings), R.drawable.msg_bot, true);
+            this.changeBotSettingsCell.setTextAndIcon((CharSequence) LocaleController.getString(R.string.BotChangeSettings), R.drawable.msg_bot, true);
             this.infoContainer.addView(this.changeBotSettingsCell, LayoutHelper.createLinear(-1, -2));
             this.changeBotSettingsCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda11
                 @Override // android.view.View.OnClickListener
@@ -1512,7 +1512,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$4() {
         this.avatarImage.setImageDrawable(this.avatarDrawable);
-        this.setAvatarCell.setTextAndIcon(LocaleController.getString("ChatSetPhotoOrVideo", R.string.ChatSetPhotoOrVideo), R.drawable.msg_addphoto, true);
+        this.setAvatarCell.setTextAndIcon((CharSequence) LocaleController.getString("ChatSetPhotoOrVideo", R.string.ChatSetPhotoOrVideo), R.drawable.msg_addphoto, true);
         TLRPC$User tLRPC$User = this.currentUser;
         if (tLRPC$User != null) {
             tLRPC$User.photo = null;
@@ -1599,7 +1599,8 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$14(View view) {
-        presentFragment(new PeerColorActivity(-this.currentChat.id).setOnApplied(this));
+        presentFragment(new ChannelColorActivity(-this.currentChat.id).setOnApplied(this));
+        MessagesController.getInstance(this.currentAccount).getMainSettings().edit().putInt("boostingappearance", MessagesController.getInstance(this.currentAccount).getMainSettings().getInt("boostingappearance", 0) + 1).apply();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1868,9 +1869,9 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         }
         if (this.setAvatarCell != null) {
             if (z || this.imageUpdater.isUploadingImage()) {
-                this.setAvatarCell.setTextAndIcon(LocaleController.getString("ChatSetNewPhoto", R.string.ChatSetNewPhoto), R.drawable.msg_addphoto, true);
+                this.setAvatarCell.setTextAndIcon((CharSequence) LocaleController.getString("ChatSetNewPhoto", R.string.ChatSetNewPhoto), R.drawable.msg_addphoto, true);
             } else {
-                this.setAvatarCell.setTextAndIcon(LocaleController.getString("ChatSetPhotoOrVideo", R.string.ChatSetPhotoOrVideo), R.drawable.msg_addphoto, true);
+                this.setAvatarCell.setTextAndIcon((CharSequence) LocaleController.getString("ChatSetPhotoOrVideo", R.string.ChatSetPhotoOrVideo), R.drawable.msg_addphoto, true);
             }
             if (this.cameraDrawable == null) {
                 int i = R.raw.camera_outline;
@@ -2063,7 +2064,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
             obj = this.currentChat;
         }
         backupImageView.setImage(forLocal, "50_50", avatarDrawable, obj);
-        this.setAvatarCell.setTextAndIcon(LocaleController.getString("ChatSetNewPhoto", R.string.ChatSetNewPhoto), R.drawable.msg_addphoto, true);
+        this.setAvatarCell.setTextAndIcon((CharSequence) LocaleController.getString("ChatSetNewPhoto", R.string.ChatSetNewPhoto), R.drawable.msg_addphoto, true);
         if (this.cameraDrawable == null) {
             int i2 = R.raw.camera_outline;
             this.cameraDrawable = new RLottieDrawable(i2, "" + i2, AndroidUtilities.dp(50.0f), AndroidUtilities.dp(50.0f), false, null);
@@ -2691,7 +2692,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                 textCell32.setTextAndValueAndIcon(string11, String.format("%d", objArr2), R.drawable.msg_admins, true);
             } else {
                 if (this.isChannel) {
-                    textCell23.setTextAndIcon(LocaleController.getString("ChannelSubscribers", R.string.ChannelSubscribers), R.drawable.msg_groups, true);
+                    textCell23.setTextAndIcon((CharSequence) LocaleController.getString("ChannelSubscribers", R.string.ChannelSubscribers), R.drawable.msg_groups, true);
                     TextCell textCell33 = this.blockCell;
                     String string12 = LocaleController.getString("ChannelBlacklist", R.string.ChannelBlacklist);
                     int i13 = R.drawable.msg_chats_remove;
@@ -2709,10 +2710,10 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                         TextCell textCell37 = this.logCell;
                         textCell36.setTextAndIcon(string14, i15, textCell37 != null && textCell37.getVisibility() == 0);
                     } else {
-                        this.blockCell.setTextAndIcon(LocaleController.getString("ChannelPermissions", R.string.ChannelPermissions), R.drawable.msg_permissions, true);
+                        this.blockCell.setTextAndIcon((CharSequence) LocaleController.getString("ChannelPermissions", R.string.ChannelPermissions), R.drawable.msg_permissions, true);
                     }
                 }
-                this.adminCell.setTextAndIcon(LocaleController.getString("ChannelAdministrators", R.string.ChannelAdministrators), R.drawable.msg_admins, true);
+                this.adminCell.setTextAndIcon((CharSequence) LocaleController.getString("ChannelAdministrators", R.string.ChannelAdministrators), R.drawable.msg_admins, true);
             }
             this.reactionsCell.setVisibility(ChatObject.canChangeChatInfo(this.currentChat) ? 0 : 8);
             updateReactionsCell(z2);
@@ -2733,7 +2734,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         textCell38.setTextAndValueAndIcon(string15, tLRPC$StickerSet != null ? tLRPC$StickerSet.title : LocaleController.getString(R.string.Add), R.drawable.msg_sticker, false);
     }
 
-    private void updateColorCell() {
+    public void updateColorCell() {
         TextCell textCell;
         TextCell textCell2;
         PeerColorActivity.ChangeNameColorCell changeNameColorCell = this.colorCell;

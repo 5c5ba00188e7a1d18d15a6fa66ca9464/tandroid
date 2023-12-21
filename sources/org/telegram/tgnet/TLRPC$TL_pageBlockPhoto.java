@@ -1,5 +1,5 @@
 package org.telegram.tgnet;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_pageBlockPhoto extends TLRPC$PageBlock {
     public TLRPC$TL_pageCaption caption;
     public int flags;

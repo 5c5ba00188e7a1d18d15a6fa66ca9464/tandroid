@@ -2,78 +2,77 @@ package j$.util;
 
 import j$.util.Iterator;
 import j$.util.function.Consumer;
-import j$.util.p;
-import j$.util.u;
+import j$.util.t;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 /* loaded from: classes2.dex */
-class y implements p.a, j$.util.function.l, Iterator {
+class y implements n, j$.util.function.f, Iterator {
     boolean a = false;
-    int b;
-    final /* synthetic */ u.a c;
+    double b;
+    final /* synthetic */ t.a c;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public y(u.a aVar) {
+    public y(t.a aVar) {
         this.c = aVar;
     }
 
-    @Override // j$.util.function.l
-    public void accept(int i) {
+    @Override // j$.util.function.f
+    public void accept(double d) {
         this.a = true;
-        this.b = i;
+        this.b = d;
     }
 
     @Override // j$.util.p
-    /* renamed from: c */
-    public void forEachRemaining(j$.util.function.l lVar) {
-        Objects.requireNonNull(lVar);
+    /* renamed from: e */
+    public void forEachRemaining(j$.util.function.f fVar) {
+        Objects.requireNonNull(fVar);
         while (hasNext()) {
-            lVar.accept(nextInt());
+            fVar.accept(nextDouble());
         }
     }
 
-    @Override // j$.util.p.a, j$.util.Iterator
+    @Override // j$.util.n, j$.util.Iterator
     public void forEachRemaining(Consumer consumer) {
-        if (consumer instanceof j$.util.function.l) {
-            forEachRemaining((j$.util.function.l) consumer);
+        if (consumer instanceof j$.util.function.f) {
+            forEachRemaining((j$.util.function.f) consumer);
             return;
         }
         Objects.requireNonNull(consumer);
-        if (!N.a) {
+        if (!L.a) {
             while (hasNext()) {
-                consumer.accept(Integer.valueOf(nextInt()));
+                consumer.accept(Double.valueOf(nextDouble()));
             }
             return;
         }
-        N.a(y.class, "{0} calling PrimitiveIterator.OfInt.forEachRemainingInt(action::accept)");
+        L.a(y.class, "{0} calling PrimitiveIterator.OfDouble.forEachRemainingDouble(action::accept)");
         throw null;
     }
 
     @Override // java.util.Iterator, j$.util.Iterator
     public boolean hasNext() {
         if (!this.a) {
-            this.c.g(this);
+            this.c.k(this);
         }
         return this.a;
     }
 
-    @Override // j$.util.function.l
-    public j$.util.function.l l(j$.util.function.l lVar) {
-        Objects.requireNonNull(lVar);
-        return new j$.util.function.k(this, lVar);
+    @Override // j$.util.function.f
+    public j$.util.function.f j(j$.util.function.f fVar) {
+        Objects.requireNonNull(fVar);
+        return new j$.util.function.e(this, fVar);
     }
 
-    @Override // j$.util.p.a, java.util.Iterator
-    public Integer next() {
-        if (N.a) {
-            N.a(y.class, "{0} calling PrimitiveIterator.OfInt.nextInt()");
+    @Override // j$.util.n, java.util.Iterator
+    public Double next() {
+        if (L.a) {
+            L.a(y.class, "{0} calling PrimitiveIterator.OfDouble.nextLong()");
             throw null;
         }
-        return Integer.valueOf(nextInt());
+        return Double.valueOf(nextDouble());
     }
 
-    @Override // j$.util.p.a
-    public int nextInt() {
+    @Override // j$.util.n
+    public double nextDouble() {
         if (this.a || hasNext()) {
             this.a = false;
             return this.b;

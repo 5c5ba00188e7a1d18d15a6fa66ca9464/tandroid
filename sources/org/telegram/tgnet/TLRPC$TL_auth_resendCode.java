@@ -1,5 +1,5 @@
 package org.telegram.tgnet;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_auth_resendCode extends TLObject {
     public String phone_code_hash;
     public String phone_number;

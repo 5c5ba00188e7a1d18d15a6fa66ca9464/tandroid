@@ -1,5 +1,5 @@
 package org.telegram.tgnet;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_inputSecureFile extends TLRPC$InputSecureFile {
     public long access_hash;
     public long id;

@@ -9,7 +9,7 @@ import android.view.Surface;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import org.telegram.messenger.FileLog;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class AudioDecoder {
     private static final int TIMEOUT_USEC = 0;
     private boolean allInputExtracted;
@@ -22,7 +22,7 @@ public class AudioDecoder {
     private long startTimeUs;
     private int trackIndex;
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class DecodedBufferData {
         public ByteBuffer byteBuffer = null;
         public int index = -1;

@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.video.audio_input.AudioInput;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class AudioRecoder {
     private static final int BYTES_PER_SHORT = 2;
     ArrayList<AudioInput> audioInputs;

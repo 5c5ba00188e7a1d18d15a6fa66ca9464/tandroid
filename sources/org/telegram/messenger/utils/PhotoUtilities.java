@@ -35,7 +35,7 @@ import org.telegram.ui.ChatActivity;
 import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.ImageUpdater;
 import org.telegram.ui.ProfileActivity;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class PhotoUtilities {
     public static void applyPhotoToUser(TLRPC$Photo tLRPC$Photo, TLRPC$User tLRPC$User, boolean z) {
         ArrayList<TLRPC$PhotoSize> arrayList = tLRPC$Photo.sizes;

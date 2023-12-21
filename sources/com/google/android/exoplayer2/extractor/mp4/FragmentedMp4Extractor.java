@@ -33,7 +33,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
-import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.LiteMode;
 import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
@@ -414,7 +413,7 @@ public class FragmentedMp4Extractor implements Extractor {
         if ((this.flags & 4) != 0) {
             trackOutputArr[i] = this.extractorOutput.track(100, 5);
             i++;
-            i3 = FileLoader.MEDIA_DIR_VIDEO_PUBLIC;
+            i3 = 101;
         }
         TrackOutput[] trackOutputArr2 = (TrackOutput[]) Util.nullSafeArrayCopy(this.emsgTrackOutputs, i);
         this.emsgTrackOutputs = trackOutputArr2;

@@ -1,5 +1,5 @@
 package org.telegram.tgnet;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_channels_deleteTopicHistory extends TLObject {
     public TLRPC$InputChannel channel;
     public int top_msg_id;

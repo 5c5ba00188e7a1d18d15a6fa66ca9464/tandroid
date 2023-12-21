@@ -1,5 +1,5 @@
 package org.telegram.tgnet;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public abstract class TLRPC$PostInteractionCounters extends TLObject {
     public static TLRPC$PostInteractionCounters TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
         TLRPC$PostInteractionCounters tLRPC$TL_postInteractionCountersStory;

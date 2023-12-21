@@ -1,5 +1,5 @@
 package org.telegram.tgnet;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_statsGraph extends TLRPC$StatsGraph {
     public int flags;
     public TLRPC$TL_dataJSON json;

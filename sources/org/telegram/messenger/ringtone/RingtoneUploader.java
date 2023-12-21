@@ -15,7 +15,7 @@ import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$InputFile;
 import org.telegram.tgnet.TLRPC$TL_account_uploadRingtone;
 import org.telegram.tgnet.TLRPC$TL_error;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class RingtoneUploader implements NotificationCenter.NotificationCenterDelegate {
     private boolean canceled;
     private int currentAccount;

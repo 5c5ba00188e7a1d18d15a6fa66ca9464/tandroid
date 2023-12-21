@@ -10,6 +10,13 @@ public class TaskUtil {
         setResultOrApiException(status, null, taskCompletionSource);
     }
 
+    public static <ResultT> boolean trySetResultOrApiException(Status status, ResultT resultt, TaskCompletionSource<ResultT> taskCompletionSource) {
+        if (status.isSuccess()) {
+            return taskCompletionSource.trySetResult(resultt);
+        }
+        return taskCompletionSource.trySetException(ApiExceptionUtil.fromStatus(status));
+    }
+
     public static <ResultT> void setResultOrApiException(Status status, ResultT resultt, TaskCompletionSource<ResultT> taskCompletionSource) {
         if (status.isSuccess()) {
             taskCompletionSource.setResult(resultt);

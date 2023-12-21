@@ -25,11 +25,11 @@ final class M3 extends c3 {
     }
 
     @Override // j$.util.stream.c
-    public A1 E0(y2 y2Var, j$.util.u uVar, j$.util.function.m mVar) {
+    public A1 E0(y2 y2Var, j$.util.t tVar, j$.util.function.m mVar) {
         if (d4.SORTED.d(y2Var.s0()) && this.l) {
-            return y2Var.p0(uVar, false, mVar);
+            return y2Var.p0(tVar, false, mVar);
         }
-        Object[] q = y2Var.p0(uVar, true, mVar).q(mVar);
+        Object[] q = y2Var.p0(tVar, true, mVar).q(mVar);
         Arrays.sort(q, this.m);
         return new D1(q);
     }

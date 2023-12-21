@@ -1,5 +1,5 @@
 package org.telegram.tgnet;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_help_dismissSuggestion extends TLObject {
     public TLRPC$InputPeer peer;
     public String suggestion;

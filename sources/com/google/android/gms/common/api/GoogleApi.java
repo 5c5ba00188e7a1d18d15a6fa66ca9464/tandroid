@@ -14,6 +14,7 @@ import com.google.android.gms.common.api.internal.ApiKey;
 import com.google.android.gms.common.api.internal.BaseImplementation$ApiMethodImpl;
 import com.google.android.gms.common.api.internal.GoogleApiManager;
 import com.google.android.gms.common.api.internal.ListenerHolder;
+import com.google.android.gms.common.api.internal.ListenerHolders;
 import com.google.android.gms.common.api.internal.NonGmsServiceBrokerClient;
 import com.google.android.gms.common.api.internal.RegistrationMethods;
 import com.google.android.gms.common.api.internal.StatusExceptionMapper;
@@ -160,6 +161,10 @@ public abstract class GoogleApi<O extends Api.ApiOptions> {
 
     public Looper getLooper() {
         return this.zag;
+    }
+
+    public <L> ListenerHolder<L> registerListener(L l, String str) {
+        return ListenerHolders.createListenerHolder(l, this.zag, str);
     }
 
     public final int zaa() {

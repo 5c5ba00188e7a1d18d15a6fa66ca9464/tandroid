@@ -1,33 +1,41 @@
 package com.google.android.gms.internal.mlkit_common;
 
-import java.lang.ref.ReferenceQueue;
-import java.lang.ref.WeakReference;
-import java.util.Objects;
-/* compiled from: com.google.mlkit:common@@17.0.0 */
+import java.util.Arrays;
+/* compiled from: com.google.mlkit:common@@18.10.0 */
 /* loaded from: classes.dex */
-final class zzas extends WeakReference<Throwable> {
-    private final int zza;
+public final class zzas {
+    Object[] zza = new Object[8];
+    int zzb = 0;
+    zzar zzc;
 
-    public zzas(Throwable th, ReferenceQueue<Throwable> referenceQueue) {
-        super(th, referenceQueue);
-        Objects.requireNonNull(th, "The referent cannot be null");
-        this.zza = System.identityHashCode(th);
-    }
-
-    public final int hashCode() {
-        return this.zza;
-    }
-
-    public final boolean equals(Object obj) {
-        if (obj != null && obj.getClass() == zzas.class) {
-            if (this == obj) {
-                return true;
-            }
-            zzas zzasVar = (zzas) obj;
-            if (this.zza == zzasVar.zza && get() == zzasVar.get()) {
-                return true;
-            }
+    public final zzas zza(Object obj, Object obj2) {
+        int i = this.zzb + 1;
+        Object[] objArr = this.zza;
+        int length = objArr.length;
+        int i2 = i + i;
+        if (i2 > length) {
+            this.zza = Arrays.copyOf(objArr, zzal.zza(length, i2));
         }
-        return false;
+        zzah.zza(obj, obj2);
+        Object[] objArr2 = this.zza;
+        int i3 = this.zzb;
+        int i4 = i3 + i3;
+        objArr2[i4] = obj;
+        objArr2[i4 + 1] = obj2;
+        this.zzb = i3 + 1;
+        return this;
+    }
+
+    public final zzat zzb() {
+        zzar zzarVar = this.zzc;
+        if (zzarVar == null) {
+            zzbb zzg = zzbb.zzg(this.zzb, this.zza, this);
+            zzar zzarVar2 = this.zzc;
+            if (zzarVar2 == null) {
+                return zzg;
+            }
+            throw zzarVar2.zza();
+        }
+        throw zzarVar.zza();
     }
 }

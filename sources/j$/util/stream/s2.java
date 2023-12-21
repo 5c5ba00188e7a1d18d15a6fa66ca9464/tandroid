@@ -5,7 +5,7 @@ import java.util.Objects;
 import java.util.concurrent.CountedCompleter;
 /* loaded from: classes2.dex */
 abstract class s2 extends CountedCompleter implements m3 {
-    protected final j$.util.u a;
+    protected final j$.util.t a;
     protected final y2 b;
     protected final long c;
     protected long d;
@@ -14,9 +14,9 @@ abstract class s2 extends CountedCompleter implements m3 {
     protected int g;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public s2(s2 s2Var, j$.util.u uVar, long j, long j2, int i) {
+    public s2(s2 s2Var, j$.util.t tVar, long j, long j2, int i) {
         super(s2Var);
-        this.a = uVar;
+        this.a = tVar;
         this.b = s2Var.b;
         this.c = s2Var.c;
         this.d = j;
@@ -27,10 +27,10 @@ abstract class s2 extends CountedCompleter implements m3 {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public s2(j$.util.u uVar, y2 y2Var, int i) {
-        this.a = uVar;
+    public s2(j$.util.t tVar, y2 y2Var, int i) {
+        this.a = tVar;
         this.b = y2Var;
-        this.c = f.h(uVar.estimateSize());
+        this.c = f.h(tVar.estimateSize());
         this.d = 0L;
         this.e = i;
     }
@@ -55,22 +55,22 @@ abstract class s2 extends CountedCompleter implements m3 {
         return Objects.requireNonNull(consumer);
     }
 
-    abstract s2 b(j$.util.u uVar, long j, long j2);
+    abstract s2 b(j$.util.t tVar, long j, long j2);
 
     @Override // java.util.concurrent.CountedCompleter
     public void compute() {
-        j$.util.u trySplit;
-        j$.util.u uVar = this.a;
+        j$.util.t trySplit;
+        j$.util.t tVar = this.a;
         s2 s2Var = this;
-        while (uVar.estimateSize() > s2Var.c && (trySplit = uVar.trySplit()) != null) {
+        while (tVar.estimateSize() > s2Var.c && (trySplit = tVar.trySplit()) != null) {
             s2Var.setPendingCount(1);
             long estimateSize = trySplit.estimateSize();
             s2Var.b(trySplit, s2Var.d, estimateSize).fork();
-            s2Var = s2Var.b(uVar, s2Var.d + estimateSize, s2Var.e - estimateSize);
+            s2Var = s2Var.b(tVar, s2Var.d + estimateSize, s2Var.e - estimateSize);
         }
         c cVar = (c) s2Var.b;
         Objects.requireNonNull(cVar);
-        cVar.n0(cVar.v0(s2Var), uVar);
+        cVar.n0(cVar.v0(s2Var), tVar);
         s2Var.propagateCompletion();
     }
 

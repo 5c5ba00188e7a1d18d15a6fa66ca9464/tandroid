@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.util.LongSparseArray;
 import android.view.View;
 import android.view.ViewPropertyAnimator;
 import android.view.animation.Interpolator;
@@ -23,6 +24,7 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.SharedConfig;
+import org.telegram.messenger.Utilities;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.BotHelpCell;
 import org.telegram.ui.Cells.ChatMessageCell;
@@ -30,6 +32,7 @@ import org.telegram.ui.ChatActivity;
 import org.telegram.ui.Components.ChatGreetingsView;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.RecyclerListView;
+import org.telegram.ui.Components.ThanosEffect;
 import org.telegram.ui.TextMessageEnterTransition;
 import org.telegram.ui.VoiceMessageEnterTransition;
 /* loaded from: classes.dex */
@@ -37,6 +40,7 @@ public class ChatListItemAnimator extends DefaultItemAnimator {
     public static final Interpolator DEFAULT_INTERPOLATOR = new CubicBezierInterpolator(0.19919472913616398d, 0.010644531250000006d, 0.27920937042459737d, 0.91025390625d);
     private final ChatActivity activity;
     private ChatGreetingsView chatGreetingsView;
+    private Utilities.Callback0Return<ThanosEffect> getThanosEffectContainer;
     private RecyclerView.ViewHolder greetingsSticker;
     private final RecyclerListView recyclerListView;
     private final Theme.ResourcesProvider resourcesProvider;
@@ -47,6 +51,7 @@ public class ChatListItemAnimator extends DefaultItemAnimator {
     HashMap<RecyclerView.ViewHolder, Animator> animators = new HashMap<>();
     ArrayList<Runnable> runOnAnimationsEnd = new ArrayList<>();
     HashMap<Long, Long> groupIdToEnterDelay = new HashMap<>();
+    private final ArrayList<RecyclerView.ViewHolder> toBeSnapped = new ArrayList<>();
 
     @Override // androidx.recyclerview.widget.RecyclerView.ItemAnimator
     public long getChangeDuration() {
@@ -126,73 +131,148 @@ public class ChatListItemAnimator extends DefaultItemAnimator {
         }
     }
 
+    /* JADX WARN: Removed duplicated region for block: B:109:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x00fc  */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x011d  */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x0157  */
+    /* JADX WARN: Removed duplicated region for block: B:86:0x0189  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     private void runAlphaEnterTransition() {
-        boolean z = !this.mPendingRemovals.isEmpty();
-        boolean z2 = !this.mPendingMoves.isEmpty();
-        boolean z3 = !this.mPendingChanges.isEmpty();
-        boolean z4 = !this.mPendingAdditions.isEmpty();
-        if (z || z2 || z4 || z3) {
-            Iterator<RecyclerView.ViewHolder> it = this.mPendingRemovals.iterator();
-            while (it.hasNext()) {
-                animateRemoveImpl(it.next());
-            }
-            this.mPendingRemovals.clear();
-            if (z2) {
-                final ArrayList<DefaultItemAnimator.MoveInfo> arrayList = new ArrayList<>();
-                arrayList.addAll(this.mPendingMoves);
-                this.mMovesList.add(arrayList);
-                this.mPendingMoves.clear();
-                Runnable runnable = new Runnable() { // from class: androidx.recyclerview.widget.ChatListItemAnimator.1
-                    @Override // java.lang.Runnable
-                    public void run() {
-                        Iterator it2 = arrayList.iterator();
-                        while (it2.hasNext()) {
-                            DefaultItemAnimator.MoveInfo moveInfo = (DefaultItemAnimator.MoveInfo) it2.next();
-                            ChatListItemAnimator.this.animateMoveImpl(moveInfo.holder, moveInfo);
+        final boolean z;
+        Iterator<RecyclerView.ViewHolder> it;
+        MessageObject.GroupedMessages currentMessagesGroup;
+        MessageObject messageObject;
+        boolean z2 = !this.mPendingRemovals.isEmpty();
+        boolean z3 = !this.mPendingMoves.isEmpty();
+        boolean z4 = !this.mPendingChanges.isEmpty();
+        boolean z5 = !this.mPendingAdditions.isEmpty();
+        if (!z2 && !z3 && !z5 && !z4) {
+            return;
+        }
+        Utilities.Callback0Return<ThanosEffect> callback0Return = this.getThanosEffectContainer;
+        boolean z6 = (callback0Return == null || callback0Return.run() == null) ? false : true;
+        if (z6) {
+            LongSparseArray longSparseArray = null;
+            int i = 0;
+            while (i < this.mPendingRemovals.size()) {
+                RecyclerView.ViewHolder viewHolder = this.mPendingRemovals.get(i);
+                if (this.toBeSnapped.contains(viewHolder)) {
+                    View view = viewHolder.itemView;
+                    if ((view instanceof ChatMessageCell) && ((ChatMessageCell) view).getCurrentMessagesGroup() != null && (messageObject = ((ChatMessageCell) viewHolder.itemView).getMessageObject()) != null && messageObject.getGroupId() != 0) {
+                        if (longSparseArray == null) {
+                            longSparseArray = new LongSparseArray();
                         }
-                        arrayList.clear();
-                        ChatListItemAnimator.this.mMovesList.remove(arrayList);
-                    }
-                };
-                if (this.delayAnimations && z) {
-                    ViewCompat.postOnAnimationDelayed(arrayList.get(0).holder.itemView, runnable, getMoveAnimationDelay());
-                } else {
-                    runnable.run();
-                }
-            }
-            if (z3) {
-                final ArrayList<DefaultItemAnimator.ChangeInfo> arrayList2 = new ArrayList<>();
-                arrayList2.addAll(this.mPendingChanges);
-                this.mChangesList.add(arrayList2);
-                this.mPendingChanges.clear();
-                Runnable runnable2 = new Runnable() { // from class: androidx.recyclerview.widget.ChatListItemAnimator.2
-                    @Override // java.lang.Runnable
-                    public void run() {
-                        Iterator it2 = arrayList2.iterator();
-                        while (it2.hasNext()) {
-                            ChatListItemAnimator.this.animateChangeImpl((DefaultItemAnimator.ChangeInfo) it2.next());
+                        ArrayList arrayList = (ArrayList) longSparseArray.get(messageObject.getGroupId());
+                        if (arrayList == null) {
+                            long groupId = messageObject.getGroupId();
+                            ArrayList arrayList2 = new ArrayList();
+                            longSparseArray.put(groupId, arrayList2);
+                            arrayList = arrayList2;
                         }
-                        arrayList2.clear();
-                        ChatListItemAnimator.this.mChangesList.remove(arrayList2);
+                        this.toBeSnapped.remove(viewHolder);
+                        this.mPendingRemovals.remove(i);
+                        i--;
+                        arrayList.add(viewHolder);
                     }
-                };
-                if (this.delayAnimations && z) {
-                    ViewCompat.postOnAnimationDelayed(arrayList2.get(0).oldHolder.itemView, runnable2, 0L);
-                } else {
-                    runnable2.run();
                 }
+                i++;
             }
-            if (z4) {
-                ArrayList arrayList3 = new ArrayList();
-                arrayList3.addAll(this.mPendingAdditions);
+            if (longSparseArray != null) {
+                z = false;
+                for (int i2 = 0; i2 < longSparseArray.size(); i2++) {
+                    ArrayList<RecyclerView.ViewHolder> arrayList3 = (ArrayList) longSparseArray.valueAt(i2);
+                    if (arrayList3.size() > 0) {
+                        View view2 = arrayList3.get(0).itemView;
+                        if (!(!(view2 instanceof ChatMessageCell) || (currentMessagesGroup = ((ChatMessageCell) view2).getCurrentMessagesGroup()) == null || currentMessagesGroup.messages.size() <= arrayList3.size())) {
+                            this.mPendingRemovals.addAll(arrayList3);
+                        } else {
+                            animateRemoveGroupImpl(arrayList3);
+                            z = true;
+                        }
+                    }
+                }
+                it = this.mPendingRemovals.iterator();
+                while (it.hasNext()) {
+                    RecyclerView.ViewHolder next = it.next();
+                    boolean z7 = this.toBeSnapped.remove(next) && z6;
+                    animateRemoveImpl(next, z7);
+                    if (z7) {
+                        z = true;
+                    }
+                }
+                this.mPendingRemovals.clear();
+                if (z3) {
+                    final ArrayList<DefaultItemAnimator.MoveInfo> arrayList4 = new ArrayList<>();
+                    arrayList4.addAll(this.mPendingMoves);
+                    this.mMovesList.add(arrayList4);
+                    this.mPendingMoves.clear();
+                    Runnable runnable = new Runnable() { // from class: androidx.recyclerview.widget.ChatListItemAnimator.1
+                        @Override // java.lang.Runnable
+                        public void run() {
+                            Iterator it2 = arrayList4.iterator();
+                            while (it2.hasNext()) {
+                                DefaultItemAnimator.MoveInfo moveInfo = (DefaultItemAnimator.MoveInfo) it2.next();
+                                ChatListItemAnimator.this.animateMoveImpl(moveInfo.holder, moveInfo, z);
+                            }
+                            arrayList4.clear();
+                            ChatListItemAnimator.this.mMovesList.remove(arrayList4);
+                        }
+                    };
+                    if (this.delayAnimations && z2) {
+                        ViewCompat.postOnAnimationDelayed(arrayList4.get(0).holder.itemView, runnable, z ? 0L : getMoveAnimationDelay());
+                    } else {
+                        runnable.run();
+                    }
+                }
+                if (z4) {
+                    final ArrayList<DefaultItemAnimator.ChangeInfo> arrayList5 = new ArrayList<>();
+                    arrayList5.addAll(this.mPendingChanges);
+                    this.mChangesList.add(arrayList5);
+                    this.mPendingChanges.clear();
+                    Runnable runnable2 = new Runnable() { // from class: androidx.recyclerview.widget.ChatListItemAnimator.2
+                        @Override // java.lang.Runnable
+                        public void run() {
+                            Iterator it2 = arrayList5.iterator();
+                            while (it2.hasNext()) {
+                                ChatListItemAnimator.this.animateChangeImpl((DefaultItemAnimator.ChangeInfo) it2.next());
+                            }
+                            arrayList5.clear();
+                            ChatListItemAnimator.this.mChangesList.remove(arrayList5);
+                        }
+                    };
+                    if (this.delayAnimations && z2) {
+                        ViewCompat.postOnAnimationDelayed(arrayList5.get(0).oldHolder.itemView, runnable2, 0L);
+                    } else {
+                        runnable2.run();
+                    }
+                }
+                if (z5) {
+                    return;
+                }
+                ArrayList arrayList6 = new ArrayList();
+                arrayList6.addAll(this.mPendingAdditions);
                 this.mPendingAdditions.clear();
-                Collections.sort(arrayList3, ChatListItemAnimator$$ExternalSyntheticLambda7.INSTANCE);
-                Iterator it2 = arrayList3.iterator();
+                Collections.sort(arrayList6, ChatListItemAnimator$$ExternalSyntheticLambda9.INSTANCE);
+                Iterator it2 = arrayList6.iterator();
                 while (it2.hasNext()) {
                     animateAddImpl((RecyclerView.ViewHolder) it2.next());
                 }
-                arrayList3.clear();
+                arrayList6.clear();
+                return;
             }
+        }
+        z = false;
+        it = this.mPendingRemovals.iterator();
+        while (it.hasNext()) {
+        }
+        this.mPendingRemovals.clear();
+        if (z3) {
+        }
+        if (z4) {
+        }
+        if (z5) {
         }
     }
 
@@ -685,18 +765,24 @@ public class ChatListItemAnimator extends DefaultItemAnimator {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
+    @Override // androidx.recyclerview.widget.DefaultItemAnimator
+    public void animateMoveImpl(RecyclerView.ViewHolder viewHolder, DefaultItemAnimator.MoveInfo moveInfo) {
+        animateMoveImpl(viewHolder, moveInfo, false);
+    }
+
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:75:0x0229  */
+    /* JADX WARN: Removed duplicated region for block: B:74:0x0227  */
+    /* JADX WARN: Removed duplicated region for block: B:75:0x022d  */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x023b  */
     /* JADX WARN: Type inference failed for: r10v1 */
     /* JADX WARN: Type inference failed for: r10v2, types: [boolean] */
     /* JADX WARN: Type inference failed for: r10v3 */
     /* JADX WARN: Type inference failed for: r2v11 */
     /* JADX WARN: Type inference failed for: r2v16 */
-    @Override // androidx.recyclerview.widget.DefaultItemAnimator
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void animateMoveImpl(final RecyclerView.ViewHolder viewHolder, DefaultItemAnimator.MoveInfo moveInfo) {
+    protected void animateMoveImpl(final RecyclerView.ViewHolder viewHolder, DefaultItemAnimator.MoveInfo moveInfo, boolean z) {
         final ChatMessageCell chatMessageCell;
         View view;
         int i;
@@ -708,7 +794,6 @@ public class ChatListItemAnimator extends DefaultItemAnimator {
         char c;
         int i2;
         int[] iArr;
-        Interpolator interpolator;
         int i3 = moveInfo.fromX;
         int i4 = moveInfo.fromY;
         int i5 = moveInfo.toY;
@@ -738,11 +823,15 @@ public class ChatListItemAnimator extends DefaultItemAnimator {
                 viewHolder2 = viewHolder;
                 view = view2;
                 i = i6;
-                interpolator = this.translationInterpolator;
-                if (interpolator != null) {
-                    animatorSet.setInterpolator(interpolator);
+                if (z) {
+                    animatorSet.setInterpolator(CubicBezierInterpolator.EASE_OUT);
+                } else {
+                    Interpolator interpolator = this.translationInterpolator;
+                    if (interpolator != null) {
+                        animatorSet.setInterpolator(interpolator);
+                    }
                 }
-                animatorSet.setDuration(getMoveDuration());
+                animatorSet.setDuration(((float) getMoveDuration()) * (z ? 1.9f : 1.0f));
                 final View view4 = view;
                 final int i7 = i;
                 animatorSet.addListener(new AnimatorListenerAdapter() { // from class: androidx.recyclerview.widget.ChatListItemAnimator.6
@@ -786,7 +875,7 @@ public class ChatListItemAnimator extends DefaultItemAnimator {
                 ValueAnimator ofFloat2 = ValueAnimator.ofFloat(0.0f, 1.0f);
                 final float f = chatMessageCell3.getCurrentMessagesGroup() == null ? transitionParams2.captionEnterProgress : chatMessageCell3.getCurrentMessagesGroup().transitionParams.captionEnterProgress;
                 final float hasCaptionLayout = chatMessageCell3.getCurrentMessagesGroup() == null ? chatMessageCell3.hasCaptionLayout() : chatMessageCell3.getCurrentMessagesGroup().hasCaption;
-                boolean z = f != hasCaptionLayout;
+                boolean z2 = f != hasCaptionLayout;
                 if (transitionParams2.animateRadius) {
                     int[] iArr2 = new int[4];
                     for (int i8 = 0; i8 < 4; i8++) {
@@ -796,7 +885,7 @@ public class ChatListItemAnimator extends DefaultItemAnimator {
                 } else {
                     iArr = null;
                 }
-                final boolean z2 = z;
+                final boolean z3 = z2;
                 view = view2;
                 transitionParams = transitionParams2;
                 chatMessageCell = chatMessageCell3;
@@ -807,7 +896,7 @@ public class ChatListItemAnimator extends DefaultItemAnimator {
                 ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: androidx.recyclerview.widget.ChatListItemAnimator$$ExternalSyntheticLambda1
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                        ChatListItemAnimator.lambda$animateMoveImpl$2(ChatListItemAnimator.MoveInfoExtended.this, transitionParams2, z2, f, hasCaptionLayout, chatMessageCell, iArr3, viewHolder, valueAnimator);
+                        ChatListItemAnimator.lambda$animateMoveImpl$2(ChatListItemAnimator.MoveInfoExtended.this, transitionParams2, z3, f, hasCaptionLayout, chatMessageCell, iArr3, viewHolder, valueAnimator);
                     }
                 });
                 animatorSet.playTogether(ofFloat2);
@@ -857,12 +946,12 @@ public class ChatListItemAnimator extends DefaultItemAnimator {
                 final RecyclerListView recyclerListView = (RecyclerListView) viewHolder2.itemView.getParent();
                 final float f2 = currentMessagesGroup.transitionParams.captionEnterProgress;
                 final float f3 = currentMessagesGroup.hasCaption ? 1.0f : 0.0f;
-                final boolean z3 = f2 != f3;
+                final boolean z4 = f2 != f3;
                 final MoveInfoExtended moveInfoExtended3 = moveInfoExtended;
                 ofFloat4.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: androidx.recyclerview.widget.ChatListItemAnimator$$ExternalSyntheticLambda3
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                        ChatListItemAnimator.lambda$animateMoveImpl$4(MessageObject.GroupedMessages.TransitionParams.this, moveInfoExtended3, z3, f2, f3, recyclerListView, valueAnimator);
+                        ChatListItemAnimator.lambda$animateMoveImpl$4(MessageObject.GroupedMessages.TransitionParams.this, moveInfoExtended3, z4, f2, f3, recyclerListView, valueAnimator);
                     }
                 });
                 ofFloat4.addListener(new AnimatorListenerAdapter(this) { // from class: androidx.recyclerview.widget.ChatListItemAnimator.5
@@ -906,10 +995,9 @@ public class ChatListItemAnimator extends DefaultItemAnimator {
                 animatorArr3[c] = ofFloat6;
                 animatorSet.playTogether(animatorArr3);
             }
-            interpolator = this.translationInterpolator;
-            if (interpolator != null) {
+            if (z) {
             }
-            animatorSet.setDuration(getMoveDuration());
+            animatorSet.setDuration(((float) getMoveDuration()) * (z ? 1.9f : 1.0f));
             final View view42 = view;
             final int i72 = i;
             animatorSet.addListener(new AnimatorListenerAdapter() { // from class: androidx.recyclerview.widget.ChatListItemAnimator.6
@@ -945,10 +1033,9 @@ public class ChatListItemAnimator extends DefaultItemAnimator {
         viewHolder2 = viewHolder;
         view = view2;
         i = i6;
-        interpolator = this.translationInterpolator;
-        if (interpolator != null) {
+        if (z) {
         }
-        animatorSet.setDuration(getMoveDuration());
+        animatorSet.setDuration(((float) getMoveDuration()) * (z ? 1.9f : 1.0f));
         final View view422 = view;
         final int i722 = i;
         animatorSet.addListener(new AnimatorListenerAdapter() { // from class: androidx.recyclerview.widget.ChatListItemAnimator.6
@@ -1567,34 +1654,87 @@ public class ChatListItemAnimator extends DefaultItemAnimator {
         chatMessageCell.invalidate();
     }
 
-    @Override // androidx.recyclerview.widget.DefaultItemAnimator
-    protected void animateRemoveImpl(final RecyclerView.ViewHolder viewHolder) {
+    protected void animateRemoveImpl(final RecyclerView.ViewHolder viewHolder, boolean z) {
+        Utilities.Callback0Return<ThanosEffect> callback0Return;
         if (BuildVars.LOGS_ENABLED) {
-            FileLog.d("animate remove impl");
+            StringBuilder sb = new StringBuilder();
+            sb.append("animate remove impl ");
+            sb.append(z ? " with thanos" : "");
+            FileLog.d(sb.toString());
         }
         final View view = viewHolder.itemView;
         this.mRemoveAnimations.add(viewHolder);
-        ObjectAnimator ofFloat = ObjectAnimator.ofFloat(view, View.ALPHA, view.getAlpha(), 0.0f);
-        dispatchRemoveStarting(viewHolder);
-        ofFloat.setDuration(getRemoveDuration());
-        ofFloat.addListener(new AnimatorListenerAdapter() { // from class: androidx.recyclerview.widget.ChatListItemAnimator.11
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                animator.removeAllListeners();
-                view.setAlpha(1.0f);
-                view.setScaleX(1.0f);
-                view.setScaleY(1.0f);
-                view.setTranslationX(0.0f);
-                view.setTranslationY(0.0f);
-                if (ChatListItemAnimator.this.mRemoveAnimations.remove(viewHolder)) {
-                    ChatListItemAnimator.this.dispatchRemoveFinished(viewHolder);
-                    ChatListItemAnimator.this.dispatchFinishedWhenDone();
+        if (z && (callback0Return = this.getThanosEffectContainer) != null) {
+            dispatchRemoveStarting(viewHolder);
+            callback0Return.run().animate(view, new Runnable() { // from class: androidx.recyclerview.widget.ChatListItemAnimator$$ExternalSyntheticLambda7
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ChatListItemAnimator.this.lambda$animateRemoveImpl$8(viewHolder);
                 }
+            });
+        } else {
+            ObjectAnimator ofFloat = ObjectAnimator.ofFloat(view, View.ALPHA, view.getAlpha(), 0.0f);
+            dispatchRemoveStarting(viewHolder);
+            ofFloat.setDuration(getRemoveDuration());
+            ofFloat.addListener(new AnimatorListenerAdapter() { // from class: androidx.recyclerview.widget.ChatListItemAnimator.11
+                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                public void onAnimationEnd(Animator animator) {
+                    animator.removeAllListeners();
+                    view.setAlpha(1.0f);
+                    view.setScaleX(1.0f);
+                    view.setScaleY(1.0f);
+                    view.setTranslationX(0.0f);
+                    view.setTranslationY(0.0f);
+                    if (ChatListItemAnimator.this.mRemoveAnimations.remove(viewHolder)) {
+                        ChatListItemAnimator.this.dispatchRemoveFinished(viewHolder);
+                        ChatListItemAnimator.this.dispatchFinishedWhenDone();
+                    }
+                }
+            });
+            this.animators.put(viewHolder, ofFloat);
+            ofFloat.start();
+        }
+        this.recyclerListView.stopScroll();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$animateRemoveImpl$8(RecyclerView.ViewHolder viewHolder) {
+        if (this.mRemoveAnimations.remove(viewHolder)) {
+            dispatchRemoveFinished(viewHolder);
+            dispatchFinishedWhenDone();
+        }
+    }
+
+    private void animateRemoveGroupImpl(final ArrayList<RecyclerView.ViewHolder> arrayList) {
+        if (BuildVars.LOGS_ENABLED) {
+            FileLog.d("animate remove group impl with thanos");
+        }
+        this.mRemoveAnimations.addAll(arrayList);
+        ThanosEffect run = this.getThanosEffectContainer.run();
+        for (int i = 0; i < arrayList.size(); i++) {
+            dispatchRemoveStarting(arrayList.get(i));
+        }
+        ArrayList<View> arrayList2 = new ArrayList<>();
+        for (int i2 = 0; i2 < arrayList.size(); i2++) {
+            arrayList2.add(arrayList.get(i2).itemView);
+        }
+        run.animateGroup(arrayList2, new Runnable() { // from class: androidx.recyclerview.widget.ChatListItemAnimator$$ExternalSyntheticLambda8
+            @Override // java.lang.Runnable
+            public final void run() {
+                ChatListItemAnimator.this.lambda$animateRemoveGroupImpl$9(arrayList);
             }
         });
-        this.animators.put(viewHolder, ofFloat);
-        ofFloat.start();
         this.recyclerListView.stopScroll();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$animateRemoveGroupImpl$9(ArrayList arrayList) {
+        if (this.mRemoveAnimations.removeAll(arrayList)) {
+            for (int i = 0; i < arrayList.size(); i++) {
+                dispatchRemoveFinished((RecyclerView.ViewHolder) arrayList.get(i));
+            }
+            dispatchFinishedWhenDone();
+        }
     }
 
     public void setShouldAnimateEnterFromBottom(boolean z) {
@@ -1668,5 +1808,22 @@ public class ChatListItemAnimator extends DefaultItemAnimator {
 
         ItemHolderInfoExtended(ChatListItemAnimator chatListItemAnimator) {
         }
+    }
+
+    public void prepareThanos(RecyclerView.ViewHolder viewHolder) {
+        MessageObject messageObject;
+        if (viewHolder == null) {
+            return;
+        }
+        this.toBeSnapped.add(viewHolder);
+        View view = viewHolder.itemView;
+        if (!(view instanceof ChatMessageCell) || (messageObject = ((ChatMessageCell) view).getMessageObject()) == null) {
+            return;
+        }
+        messageObject.deletedByThanos = true;
+    }
+
+    public void setOnSnapMessage(Utilities.Callback0Return<ThanosEffect> callback0Return) {
+        this.getThanosEffectContainer = callback0Return;
     }
 }

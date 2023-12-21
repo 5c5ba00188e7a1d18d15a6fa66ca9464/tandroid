@@ -4,7 +4,7 @@ import android.media.AudioManager;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.Utilities;
 import org.webrtc.MediaStreamTrack;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class VoipAudioManager {
     private Boolean isSpeakerphoneOn;
 
@@ -12,7 +12,7 @@ public class VoipAudioManager {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static final class InstanceHolder {
         static final VoipAudioManager instance = new VoipAudioManager();
 

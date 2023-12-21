@@ -271,7 +271,7 @@ public class GroupCreateSpan extends View {
                 min = AndroidUtilities.dp(((530 - (z ? 28 : 32)) - 18) - 114) / 2;
             } else {
                 android.graphics.Point point = AndroidUtilities.displaySize;
-                min = (Math.min(point.x, point.y) - AndroidUtilities.dp(((z ? 28 : 32) + 18) + 114)) / 2;
+                min = (Math.min(point.x, point.y) - AndroidUtilities.dp(((z ? 28 : 32) + 18) + R.styleable.AppCompatTheme_tooltipForegroundColor)) / 2;
             }
             staticLayout = new StaticLayout(TextUtils.ellipsize(Emoji.replaceEmoji((CharSequence) str.replace('\n', ' '), textPaint.getFontMetricsInt(), AndroidUtilities.dp(12.0f), false), textPaint, min, TextUtils.TruncateAt.END), textPaint, 1000, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
             this.nameLayout = staticLayout;

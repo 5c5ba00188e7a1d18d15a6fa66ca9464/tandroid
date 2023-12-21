@@ -2,7 +2,7 @@ package org.telegram.messenger.video.remix;
 
 import java.nio.ShortBuffer;
 import org.telegram.messenger.LiteMode;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class DownMixAudioRemixer implements AudioRemixer {
     @Override // org.telegram.messenger.video.remix.AudioRemixer
     public void remix(ShortBuffer shortBuffer, int i, ShortBuffer shortBuffer2, int i2) {

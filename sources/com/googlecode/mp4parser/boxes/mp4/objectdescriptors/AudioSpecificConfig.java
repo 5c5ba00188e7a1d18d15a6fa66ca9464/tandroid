@@ -7,7 +7,7 @@ import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import org.telegram.messenger.MessageObject;
+import org.telegram.messenger.R;
 @Descriptor(objectTypeIndication = 64, tags = {5})
 /* loaded from: classes.dex */
 public class AudioSpecificConfig extends BaseDescriptor {
@@ -185,32 +185,32 @@ public class AudioSpecificConfig extends BaseDescriptor {
                 throw new UnsupportedOperationException("can't parse ErrorResilientCelpSpecificConfig yet");
             case 25:
                 throw new UnsupportedOperationException("can't parse ErrorResilientHvxcSpecificConfig yet");
-            case MessageObject.TYPE_GIVEAWAY /* 26 */:
-            case MessageObject.TYPE_JOINED_CHANNEL /* 27 */:
+            case 26:
+            case 27:
                 parseParametricSpecificConfig(this.samplingFrequencyIndex, this.channelConfiguration, i2, bitReaderBuffer);
                 break;
             case 28:
                 throw new UnsupportedOperationException("can't parse SSCSpecificConfig yet");
-            case 30:
+            case R.styleable.AppCompatTheme_actionModeTheme /* 30 */:
                 this.sacPayloadEmbedding = bitReaderBuffer.readBits(1);
                 throw new UnsupportedOperationException("can't parse SpatialSpecificConfig yet");
             case 32:
-            case 33:
-            case 34:
+            case R.styleable.AppCompatTheme_actionOverflowMenuStyle /* 33 */:
+            case R.styleable.AppCompatTheme_activityChooserViewStyle /* 34 */:
                 throw new UnsupportedOperationException("can't parse MPEG_1_2_SpecificConfig yet");
-            case 35:
+            case R.styleable.AppCompatTheme_alertDialogButtonGroupStyle /* 35 */:
                 throw new UnsupportedOperationException("can't parse DSTSpecificConfig yet");
-            case 36:
+            case R.styleable.AppCompatTheme_alertDialogCenterButtons /* 36 */:
                 this.fillBits = bitReaderBuffer.readBits(5);
                 throw new UnsupportedOperationException("can't parse ALSSpecificConfig yet");
-            case 37:
-            case 38:
+            case R.styleable.AppCompatTheme_alertDialogStyle /* 37 */:
+            case R.styleable.AppCompatTheme_alertDialogTheme /* 38 */:
                 throw new UnsupportedOperationException("can't parse SLSSpecificConfig yet");
-            case 39:
+            case R.styleable.AppCompatTheme_autoCompleteTextViewStyle /* 39 */:
                 new ELDSpecificConfig(this.channelConfiguration, bitReaderBuffer);
                 break;
-            case 40:
-            case 41:
+            case R.styleable.AppCompatTheme_borderlessButtonStyle /* 40 */:
+            case R.styleable.AppCompatTheme_buttonBarButtonStyle /* 41 */:
                 throw new UnsupportedOperationException("can't parse SymbolicMusicSpecificConfig yet");
         }
         int i3 = this.audioObjectType;
@@ -223,8 +223,8 @@ public class AudioSpecificConfig extends BaseDescriptor {
                 case 23:
                 case 24:
                 case 25:
-                case MessageObject.TYPE_GIVEAWAY /* 26 */:
-                case MessageObject.TYPE_JOINED_CHANNEL /* 27 */:
+                case 26:
+                case 27:
                     break;
                 default:
                     if (this.extensionAudioObjectType != 5 || bitReaderBuffer.remainingBits() < 16) {

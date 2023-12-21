@@ -226,7 +226,8 @@ public class DefaultItemAnimator extends SimpleItemAnimator {
         this.delayAnimations = z;
     }
 
-    protected void animateRemoveImpl(final RecyclerView.ViewHolder viewHolder) {
+    /* JADX INFO: Access modifiers changed from: protected */
+    public void animateRemoveImpl(final RecyclerView.ViewHolder viewHolder) {
         final View view = viewHolder.itemView;
         final ViewPropertyAnimator animate = view.animate();
         this.mRemoveAnimations.add(viewHolder);

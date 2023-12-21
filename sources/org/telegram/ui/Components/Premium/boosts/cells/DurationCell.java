@@ -11,7 +11,7 @@ import org.telegram.ui.Components.LayoutHelper;
 /* loaded from: classes4.dex */
 public class DurationCell extends BaseCell {
     private Object code;
-    private final SimpleTextView totalTextView;
+    protected final SimpleTextView totalTextView;
 
     @Override // org.telegram.ui.Components.Premium.boosts.cells.BaseCell
     protected boolean needCheck() {

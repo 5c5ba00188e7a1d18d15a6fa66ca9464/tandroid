@@ -22,6 +22,11 @@ final class LocaleListPlatformWrapper implements LocaleListInterface {
     }
 
     @Override // androidx.core.os.LocaleListInterface
+    public boolean isEmpty() {
+        return this.mLocaleList.isEmpty();
+    }
+
+    @Override // androidx.core.os.LocaleListInterface
     public int size() {
         return this.mLocaleList.size();
     }
@@ -36,5 +41,10 @@ final class LocaleListPlatformWrapper implements LocaleListInterface {
 
     public String toString() {
         return this.mLocaleList.toString();
+    }
+
+    @Override // androidx.core.os.LocaleListInterface
+    public String toLanguageTags() {
+        return this.mLocaleList.toLanguageTags();
     }
 }

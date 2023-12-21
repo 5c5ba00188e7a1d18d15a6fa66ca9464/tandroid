@@ -1,5 +1,5 @@
 package org.telegram.tgnet;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_urlAuthResultAccepted extends TLRPC$UrlAuthResult {
     public String url;
 

@@ -1,7 +1,7 @@
 package org.telegram.tgnet;
 
 import java.util.ArrayList;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public abstract class TLRPC$DecryptedMessage extends TLObject {
     public TLRPC$DecryptedMessageAction action;
     public ArrayList<TLRPC$MessageEntity> entities = new ArrayList<>();

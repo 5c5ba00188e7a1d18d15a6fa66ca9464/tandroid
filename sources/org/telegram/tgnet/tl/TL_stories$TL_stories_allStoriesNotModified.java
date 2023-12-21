@@ -1,7 +1,7 @@
 package org.telegram.tgnet.tl;
 
 import org.telegram.tgnet.AbstractSerializedData;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TL_stories$TL_stories_allStoriesNotModified extends TL_stories$stories_AllStories {
     public int flags;
     public String state;

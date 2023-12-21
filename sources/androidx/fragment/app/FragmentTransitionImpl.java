@@ -2,8 +2,10 @@ package androidx.fragment.app;
 
 import android.annotation.SuppressLint;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import androidx.core.os.CancellationSignal;
 import androidx.core.view.OneShotPreDrawListener;
 import androidx.core.view.ViewCompat;
@@ -48,9 +50,24 @@ public abstract class FragmentTransitionImpl {
 
     /* JADX INFO: Access modifiers changed from: protected */
     public void getBoundsOnScreen(View view, Rect rect) {
-        int[] iArr = new int[2];
-        view.getLocationOnScreen(iArr);
-        rect.set(iArr[0], iArr[1], iArr[0] + view.getWidth(), iArr[1] + view.getHeight());
+        if (ViewCompat.isAttachedToWindow(view)) {
+            RectF rectF = new RectF();
+            rectF.set(0.0f, 0.0f, view.getWidth(), view.getHeight());
+            view.getMatrix().mapRect(rectF);
+            rectF.offset(view.getLeft(), view.getTop());
+            ViewParent parent = view.getParent();
+            while (parent instanceof View) {
+                View view2 = (View) parent;
+                rectF.offset(-view2.getScrollX(), -view2.getScrollY());
+                view2.getMatrix().mapRect(rectF);
+                rectF.offset(view2.getLeft(), view2.getTop());
+                parent = view2.getParent();
+            }
+            int[] iArr = new int[2];
+            view.getRootView().getLocationOnScreen(iArr);
+            rectF.offset(iArr[0], iArr[1]);
+            rect.set(Math.round(rectF.left), Math.round(rectF.top), Math.round(rectF.right), Math.round(rectF.bottom));
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -177,7 +194,9 @@ public abstract class FragmentTransitionImpl {
         if (containedBeforeIndex(list, view, size)) {
             return;
         }
-        list.add(view);
+        if (ViewCompat.getTransitionName(view) != null) {
+            list.add(view);
+        }
         for (int i = size; i < list.size(); i++) {
             View view2 = list.get(i);
             if (view2 instanceof ViewGroup) {
@@ -185,7 +204,7 @@ public abstract class FragmentTransitionImpl {
                 int childCount = viewGroup.getChildCount();
                 for (int i2 = 0; i2 < childCount; i2++) {
                     View childAt = viewGroup.getChildAt(i2);
-                    if (!containedBeforeIndex(list, childAt, size)) {
+                    if (!containedBeforeIndex(list, childAt, size) && ViewCompat.getTransitionName(childAt) != null) {
                         list.add(childAt);
                     }
                 }

@@ -4,18 +4,23 @@ import androidx.collection.SimpleArrayMap;
 import androidx.fragment.app.Fragment;
 /* loaded from: classes.dex */
 public class FragmentFactory {
-    private static final SimpleArrayMap<String, Class<?>> sClassMap = new SimpleArrayMap<>();
+    private static final SimpleArrayMap<ClassLoader, SimpleArrayMap<String, Class<?>>> sClassCacheMap = new SimpleArrayMap<>();
 
     public Fragment instantiate(ClassLoader classLoader, String str) {
         throw null;
     }
 
     private static Class<?> loadClass(ClassLoader classLoader, String str) throws ClassNotFoundException {
-        SimpleArrayMap<String, Class<?>> simpleArrayMap = sClassMap;
-        Class<?> cls = simpleArrayMap.get(str);
+        SimpleArrayMap<ClassLoader, SimpleArrayMap<String, Class<?>>> simpleArrayMap = sClassCacheMap;
+        SimpleArrayMap<String, Class<?>> simpleArrayMap2 = simpleArrayMap.get(classLoader);
+        if (simpleArrayMap2 == null) {
+            simpleArrayMap2 = new SimpleArrayMap<>();
+            simpleArrayMap.put(classLoader, simpleArrayMap2);
+        }
+        Class<?> cls = simpleArrayMap2.get(str);
         if (cls == null) {
             Class<?> cls2 = Class.forName(str, false, classLoader);
-            simpleArrayMap.put(str, cls2);
+            simpleArrayMap2.put(str, cls2);
             return cls2;
         }
         return cls;

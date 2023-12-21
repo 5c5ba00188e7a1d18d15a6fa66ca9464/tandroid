@@ -1,64 +1,56 @@
 package com.google.android.gms.internal.mlkit_common;
 
+import java.util.Arrays;
 import java.util.Objects;
-import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
-/* compiled from: com.google.mlkit:common@@17.0.0 */
+/* compiled from: com.google.mlkit:common@@18.10.0 */
 /* loaded from: classes.dex */
 public final class zzy {
-    @NonNullDecl
-    public static <T> T zza(@NonNullDecl T t) {
-        Objects.requireNonNull(t);
-        return t;
+    private final String zza;
+    private final zzw zzb;
+    private zzw zzc;
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public /* synthetic */ zzy(String str, zzx zzxVar) {
+        zzw zzwVar = new zzw();
+        this.zzb = zzwVar;
+        this.zzc = zzwVar;
+        Objects.requireNonNull(str);
+        this.zza = str;
     }
 
-    public static int zza(int i, int i2) {
-        String zza;
-        if (i < 0 || i >= i2) {
-            if (i < 0) {
-                zza = zzx.zza("%s (%s) must not be negative", "index", Integer.valueOf(i));
-            } else if (i2 < 0) {
-                StringBuilder sb = new StringBuilder(26);
-                sb.append("negative size: ");
-                sb.append(i2);
-                throw new IllegalArgumentException(sb.toString());
-            } else {
-                zza = zzx.zza("%s (%s) must be less than size (%s)", "index", Integer.valueOf(i), Integer.valueOf(i2));
+    public final String toString() {
+        StringBuilder sb = new StringBuilder(32);
+        sb.append(this.zza);
+        sb.append('{');
+        zzw zzwVar = this.zzb.zzc;
+        String str = "";
+        while (zzwVar != null) {
+            Object obj = zzwVar.zzb;
+            sb.append(str);
+            String str2 = zzwVar.zza;
+            if (str2 != null) {
+                sb.append(str2);
+                sb.append('=');
             }
-            throw new IndexOutOfBoundsException(zza);
-        }
-        return i;
-    }
-
-    public static int zzb(int i, int i2) {
-        if (i < 0 || i > i2) {
-            throw new IndexOutOfBoundsException(zza(i, i2, "index"));
-        }
-        return i;
-    }
-
-    private static String zza(int i, int i2, @NullableDecl String str) {
-        if (i < 0) {
-            return zzx.zza("%s (%s) must not be negative", str, Integer.valueOf(i));
-        }
-        if (i2 >= 0) {
-            return zzx.zza("%s (%s) must not be greater than size (%s)", str, Integer.valueOf(i), Integer.valueOf(i2));
-        }
-        StringBuilder sb = new StringBuilder(26);
-        sb.append("negative size: ");
-        sb.append(i2);
-        throw new IllegalArgumentException(sb.toString());
-    }
-
-    public static void zza(int i, int i2, int i3) {
-        String zza;
-        if (i < 0 || i2 < i || i2 > i3) {
-            if (i < 0 || i > i3) {
-                zza = zza(i, i3, "start index");
+            if (obj == null || !obj.getClass().isArray()) {
+                sb.append(obj);
             } else {
-                zza = (i2 < 0 || i2 > i3) ? zza(i2, i3, "end index") : zzx.zza("end index (%s) must not be less than start index (%s)", Integer.valueOf(i2), Integer.valueOf(i));
+                String deepToString = Arrays.deepToString(new Object[]{obj});
+                sb.append((CharSequence) deepToString, 1, deepToString.length() - 1);
             }
-            throw new IndexOutOfBoundsException(zza);
+            zzwVar = zzwVar.zzc;
+            str = ", ";
         }
+        sb.append('}');
+        return sb.toString();
+    }
+
+    public final zzy zza(String str, Object obj) {
+        zzw zzwVar = new zzw();
+        this.zzc.zzc = zzwVar;
+        this.zzc = zzwVar;
+        zzwVar.zzb = obj;
+        zzwVar.zza = str;
+        return this;
     }
 }

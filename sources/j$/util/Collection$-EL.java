@@ -18,28 +18,28 @@ public final /* synthetic */ class Collection$-EL {
         }
     }
 
-    public static u b(Collection collection) {
+    public static t b(Collection collection) {
         if (collection instanceof b) {
             return ((b) collection).spliterator();
         }
         if (collection instanceof LinkedHashSet) {
             LinkedHashSet linkedHashSet = (LinkedHashSet) collection;
             Objects.requireNonNull(linkedHashSet);
-            return new J(linkedHashSet, 17);
+            return new H(linkedHashSet, 17);
         } else if (collection instanceof SortedSet) {
             SortedSet sortedSet = (SortedSet) collection;
             return new s(sortedSet, sortedSet, 21);
         } else if (collection instanceof Set) {
             Set set = (Set) collection;
             Objects.requireNonNull(set);
-            return new J(set, 1);
+            return new H(set, 1);
         } else if (collection instanceof List) {
             List list = (List) collection;
             Objects.requireNonNull(list);
-            return new J(list, 16);
+            return new H(list, 16);
         } else {
             Objects.requireNonNull(collection);
-            return new J(collection, 0);
+            return new H(collection, 0);
         }
     }
 

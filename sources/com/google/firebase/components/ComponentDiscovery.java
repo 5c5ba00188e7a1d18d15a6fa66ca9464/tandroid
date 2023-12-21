@@ -31,22 +31,6 @@ public final class ComponentDiscovery<T> {
         this.retriever = registrarNameRetriever;
     }
 
-    @Deprecated
-    public List<ComponentRegistrar> discover() {
-        ArrayList arrayList = new ArrayList();
-        for (String str : this.retriever.retrieve(this.context)) {
-            try {
-                ComponentRegistrar instantiate = instantiate(str);
-                if (instantiate != null) {
-                    arrayList.add(instantiate);
-                }
-            } catch (InvalidRegistrarException e) {
-                Log.w("ComponentDiscovery", "Invalid component registrar.", e);
-            }
-        }
-        return arrayList;
-    }
-
     public List<Provider<ComponentRegistrar>> discoverLazy() {
         ArrayList arrayList = new ArrayList();
         for (final String str : this.retriever.retrieve(this.context)) {

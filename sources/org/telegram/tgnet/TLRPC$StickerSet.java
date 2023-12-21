@@ -2,11 +2,12 @@ package org.telegram.tgnet;
 
 import java.util.ArrayList;
 import org.telegram.messenger.LiteMode;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public abstract class TLRPC$StickerSet extends TLObject {
     public long access_hash;
     public boolean animated;
     public boolean archived;
+    public boolean channel_emoji_status;
     public int count;
     public boolean emojis;
     public int flags;

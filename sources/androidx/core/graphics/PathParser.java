@@ -3,7 +3,7 @@ package androidx.core.graphics;
 import android.graphics.Path;
 import android.util.Log;
 import java.util.ArrayList;
-import org.telegram.messenger.voip.VoIPService;
+import org.telegram.messenger.R;
 /* loaded from: classes.dex */
 public class PathParser {
     static float[] copyOfRange(float[] fArr, int i, int i2) {
@@ -55,6 +55,38 @@ public class PathParser {
             addNode(arrayList, str.charAt(i2), new float[0]);
         }
         return (PathDataNode[]) arrayList.toArray(new PathDataNode[arrayList.size()]);
+    }
+
+    public static PathDataNode[] deepCopyNodes(PathDataNode[] pathDataNodeArr) {
+        if (pathDataNodeArr == null) {
+            return null;
+        }
+        PathDataNode[] pathDataNodeArr2 = new PathDataNode[pathDataNodeArr.length];
+        for (int i = 0; i < pathDataNodeArr.length; i++) {
+            pathDataNodeArr2[i] = new PathDataNode(pathDataNodeArr[i]);
+        }
+        return pathDataNodeArr2;
+    }
+
+    public static boolean canMorph(PathDataNode[] pathDataNodeArr, PathDataNode[] pathDataNodeArr2) {
+        if (pathDataNodeArr == null || pathDataNodeArr2 == null || pathDataNodeArr.length != pathDataNodeArr2.length) {
+            return false;
+        }
+        for (int i = 0; i < pathDataNodeArr.length; i++) {
+            if (pathDataNodeArr[i].mType != pathDataNodeArr2[i].mType || pathDataNodeArr[i].mParams.length != pathDataNodeArr2[i].mParams.length) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static void updateNodes(PathDataNode[] pathDataNodeArr, PathDataNode[] pathDataNodeArr2) {
+        for (int i = 0; i < pathDataNodeArr2.length; i++) {
+            pathDataNodeArr[i].mType = pathDataNodeArr2[i].mType;
+            for (int i2 = 0; i2 < pathDataNodeArr2[i].mParams.length; i2++) {
+                pathDataNodeArr[i].mParams[i2] = pathDataNodeArr2[i].mParams[i2];
+            }
+        }
     }
 
     private static int nextStart(String str, int i) {
@@ -123,16 +155,16 @@ public class PathParser {
             if (charAt != ' ') {
                 if (charAt != 'E' && charAt != 'e') {
                     switch (charAt) {
-                        case ',':
+                        case R.styleable.AppCompatTheme_buttonBarPositiveButtonStyle /* 44 */:
                             break;
-                        case '-':
+                        case R.styleable.AppCompatTheme_buttonBarStyle /* 45 */:
                             if (i2 != i && !z) {
                                 extractFloatResult.mEndWithNegOrDot = true;
                                 break;
                             }
                             z = false;
                             break;
-                        case '.':
+                        case R.styleable.AppCompatTheme_buttonStyle /* 46 */:
                             if (z2) {
                                 extractFloatResult.mEndWithNegOrDot = true;
                                 break;
@@ -170,12 +202,31 @@ public class PathParser {
             this.mParams = fArr;
         }
 
+        PathDataNode(PathDataNode pathDataNode) {
+            this.mType = pathDataNode.mType;
+            float[] fArr = pathDataNode.mParams;
+            this.mParams = PathParser.copyOfRange(fArr, 0, fArr.length);
+        }
+
         public static void nodesToPath(PathDataNode[] pathDataNodeArr, Path path) {
             float[] fArr = new float[6];
             char c = 'm';
             for (int i = 0; i < pathDataNodeArr.length; i++) {
                 addCommand(path, fArr, c, pathDataNodeArr[i].mType, pathDataNodeArr[i].mParams);
                 c = pathDataNodeArr[i].mType;
+            }
+        }
+
+        public void interpolatePathDataNode(PathDataNode pathDataNode, PathDataNode pathDataNode2, float f) {
+            this.mType = pathDataNode.mType;
+            int i = 0;
+            while (true) {
+                float[] fArr = pathDataNode.mParams;
+                if (i >= fArr.length) {
+                    return;
+                }
+                this.mParams[i] = (fArr[i] * (1.0f - f)) + (pathDataNode2.mParams[i] * f);
+                i++;
             }
         }
 
@@ -199,36 +250,36 @@ public class PathParser {
             float f13 = fArr[4];
             float f14 = fArr[5];
             switch (c3) {
-                case VoIPService.CALL_MIN_LAYER /* 65 */:
-                case 'a':
+                case 'A':
+                case R.styleable.AppCompatTheme_selectableItemBackground /* 97 */:
                     i = 7;
                     break;
-                case 'C':
-                case 'c':
+                case R.styleable.AppCompatTheme_dropdownListPreferredItemHeight /* 67 */:
+                case R.styleable.AppCompatTheme_spinnerDropDownItemStyle /* 99 */:
                     i = 6;
                     break;
-                case 'H':
+                case R.styleable.AppCompatTheme_imageButtonStyle /* 72 */:
                 case 'V':
-                case 'h':
+                case R.styleable.AppCompatTheme_textAppearanceListItemSecondary /* 104 */:
                 case 'v':
                     i = 1;
                     break;
-                case 'L':
-                case 'M':
-                case 'T':
-                case 'l':
-                case 'm':
+                case R.styleable.AppCompatTheme_listDividerAlertDialog /* 76 */:
+                case R.styleable.AppCompatTheme_listMenuViewStyle /* 77 */:
+                case R.styleable.AppCompatTheme_listPreferredItemPaddingRight /* 84 */:
+                case R.styleable.AppCompatTheme_textAppearanceSearchResultTitle /* 108 */:
+                case R.styleable.AppCompatTheme_textAppearanceSmallPopupMenu /* 109 */:
                 case 't':
                 default:
                     i = 2;
                     break;
-                case 'Q':
-                case 'S':
-                case 'q':
-                case 's':
+                case R.styleable.AppCompatTheme_listPreferredItemHeightSmall /* 81 */:
+                case R.styleable.AppCompatTheme_listPreferredItemPaddingLeft /* 83 */:
+                case R.styleable.AppCompatTheme_toolbarStyle /* 113 */:
+                case R.styleable.AppCompatTheme_tooltipFrameBackground /* 115 */:
                     i = 4;
                     break;
-                case 'Z':
+                case R.styleable.AppCompatTheme_popupWindowStyle /* 90 */:
                 case 'z':
                     path.close();
                     path.moveTo(f13, f14);

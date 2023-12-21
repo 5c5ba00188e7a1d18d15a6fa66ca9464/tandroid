@@ -44,7 +44,7 @@ public final class S1 extends C1 {
     }
 
     @Override // j$.util.stream.A1
-    public j$.util.u spliterator() {
+    public j$.util.t spliterator() {
         return new j2(this);
     }
 

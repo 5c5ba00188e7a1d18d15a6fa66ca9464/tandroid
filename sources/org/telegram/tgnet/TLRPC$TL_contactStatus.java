@@ -1,5 +1,5 @@
 package org.telegram.tgnet;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_contactStatus extends TLObject {
     public TLRPC$UserStatus status;
     public long user_id;

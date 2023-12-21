@@ -1,5 +1,5 @@
 package org.telegram.tgnet;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_help_appConfig extends TLRPC$help_AppConfig {
     public TLRPC$JSONValue config;
     public int hash;

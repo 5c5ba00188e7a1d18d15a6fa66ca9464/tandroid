@@ -1,7 +1,7 @@
 package org.telegram.messenger.video.remix;
 
 import java.nio.ShortBuffer;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class UpMixAudioRemixer implements AudioRemixer {
     @Override // org.telegram.messenger.video.remix.AudioRemixer
     public int getRemixedSize(int i, int i2, int i3) {

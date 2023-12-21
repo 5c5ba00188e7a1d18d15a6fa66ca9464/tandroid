@@ -5,7 +5,7 @@ import java.util.Comparator;
 import java.util.Objects;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public class S3 implements j$.util.u {
+public class S3 implements j$.util.t {
     int a;
     final int b;
     int c;
@@ -24,7 +24,7 @@ public class S3 implements j$.util.u {
         this.e = objArr == null ? a4Var.e : objArr[i];
     }
 
-    @Override // j$.util.u
+    @Override // j$.util.t
     public boolean b(Consumer consumer) {
         Objects.requireNonNull(consumer);
         int i = this.a;
@@ -48,12 +48,12 @@ public class S3 implements j$.util.u {
         return false;
     }
 
-    @Override // j$.util.u
+    @Override // j$.util.t
     public int characteristics() {
         return 16464;
     }
 
-    @Override // j$.util.u
+    @Override // j$.util.t
     public long estimateSize() {
         int i = this.a;
         int i2 = this.b;
@@ -64,7 +64,7 @@ public class S3 implements j$.util.u {
         return ((jArr[i2] + this.d) - jArr[i]) - this.c;
     }
 
-    @Override // j$.util.u
+    @Override // j$.util.t
     public void forEachRemaining(Consumer consumer) {
         int i;
         Objects.requireNonNull(consumer);
@@ -96,23 +96,23 @@ public class S3 implements j$.util.u {
         }
     }
 
-    @Override // j$.util.u
+    @Override // j$.util.t
     public Comparator getComparator() {
         throw new IllegalStateException();
     }
 
-    @Override // j$.util.u
+    @Override // j$.util.t
     public /* synthetic */ long getExactSizeIfKnown() {
         return j$.util.a.e(this);
     }
 
-    @Override // j$.util.u
+    @Override // j$.util.t
     public /* synthetic */ boolean hasCharacteristics(int i) {
         return j$.util.a.f(this, i);
     }
 
-    @Override // j$.util.u
-    public j$.util.u trySplit() {
+    @Override // j$.util.t
+    public j$.util.t trySplit() {
         int i = this.a;
         int i2 = this.b;
         if (i < i2) {
@@ -131,7 +131,7 @@ public class S3 implements j$.util.u {
             if (i7 == 0) {
                 return null;
             }
-            j$.util.u m = j$.util.L.m(this.e, i6, i6 + i7, 1040);
+            j$.util.t m = j$.util.J.m(this.e, i6, i6 + i7, 1040);
             this.c += i7;
             return m;
         } else {

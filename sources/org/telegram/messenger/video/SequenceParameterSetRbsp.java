@@ -4,7 +4,7 @@ import com.googlecode.mp4parser.h264.read.CAVLCReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Array;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class SequenceParameterSetRbsp {
     public int bit_depth_chroma_minus8;
     public int bit_depth_luma_minus8;

@@ -3,16 +3,15 @@ package com.google.mlkit.common.sdkinternal;
 import android.content.Context;
 import android.content.SharedPreferences;
 import com.google.firebase.components.Component;
-import com.google.firebase.components.ComponentContainer;
 import com.google.firebase.components.Dependency;
 import java.util.UUID;
-/* compiled from: com.google.mlkit:common@@17.0.0 */
+/* compiled from: com.google.mlkit:common@@18.10.0 */
 /* loaded from: classes.dex */
 public class SharedPrefManager {
-    public static final Component<?> COMPONENT = Component.builder(SharedPrefManager.class).add(Dependency.required(MlKitContext.class)).add(Dependency.required(Context.class)).factory(zzn.zza).build();
-    private final Context zza;
+    public static final Component<?> COMPONENT = Component.builder(SharedPrefManager.class).add(Dependency.required(MlKitContext.class)).add(Dependency.required(Context.class)).factory(zzs.zza).build();
+    protected final Context zza;
 
-    private SharedPrefManager(Context context) {
+    public SharedPrefManager(Context context) {
         this.zza = context;
     }
 
@@ -26,12 +25,7 @@ public class SharedPrefManager {
         return uuid;
     }
 
-    private final SharedPreferences zza() {
+    protected final SharedPreferences zza() {
         return this.zza.getSharedPreferences("com.google.mlkit.internal", 0);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static final /* synthetic */ SharedPrefManager zza(ComponentContainer componentContainer) {
-        return new SharedPrefManager((Context) componentContainer.get(Context.class));
     }
 }

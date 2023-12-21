@@ -7,14 +7,14 @@ abstract class d extends f {
     protected volatile boolean i;
 
     /* JADX INFO: Access modifiers changed from: protected */
-    public d(d dVar, j$.util.u uVar) {
-        super(dVar, uVar);
+    public d(d dVar, j$.util.t tVar) {
+        super(dVar, tVar);
         this.h = dVar.h;
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    public d(y2 y2Var, j$.util.u uVar) {
-        super(y2Var, uVar);
+    public d(y2 y2Var, j$.util.t tVar) {
+        super(y2Var, tVar);
         this.h = new AtomicReference(null);
     }
 
@@ -36,9 +36,9 @@ abstract class d extends f {
     */
     public void compute() {
         Object obj;
-        j$.util.u trySplit;
-        j$.util.u uVar = this.b;
-        long estimateSize = uVar.estimateSize();
+        j$.util.t trySplit;
+        j$.util.t tVar = this.b;
+        long estimateSize = tVar.estimateSize();
         long j = this.c;
         if (j == 0) {
             j = f.h(estimateSize);
@@ -67,16 +67,16 @@ abstract class d extends f {
             if (z2) {
                 obj = dVar.k();
                 break;
-            } else if (estimateSize <= j || (trySplit = uVar.trySplit()) == null) {
+            } else if (estimateSize <= j || (trySplit = tVar.trySplit()) == null) {
                 break;
             } else {
                 d dVar3 = (d) dVar.f(trySplit);
                 dVar.d = dVar3;
-                d dVar4 = (d) dVar.f(uVar);
+                d dVar4 = (d) dVar.f(tVar);
                 dVar.e = dVar4;
                 dVar.setPendingCount(1);
                 if (z) {
-                    uVar = trySplit;
+                    tVar = trySplit;
                     dVar = dVar3;
                     dVar3 = dVar4;
                 } else {
@@ -84,7 +84,7 @@ abstract class d extends f {
                 }
                 z = !z;
                 dVar3.fork();
-                estimateSize = uVar.estimateSize();
+                estimateSize = tVar.estimateSize();
             }
         }
         dVar.g(obj);

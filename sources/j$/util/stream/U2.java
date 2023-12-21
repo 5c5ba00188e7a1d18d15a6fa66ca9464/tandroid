@@ -19,16 +19,16 @@ public abstract class U2 implements N4 {
     }
 
     @Override // j$.util.stream.N4
-    public Object c(y2 y2Var, j$.util.u uVar) {
-        return ((S2) new V2(this, y2Var, uVar).invoke()).get();
+    public Object c(y2 y2Var, j$.util.t tVar) {
+        return ((S2) new V2(this, y2Var, tVar).invoke()).get();
     }
 
     @Override // j$.util.stream.N4
-    public Object d(y2 y2Var, j$.util.u uVar) {
+    public Object d(y2 y2Var, j$.util.t tVar) {
         S2 a = a();
         c cVar = (c) y2Var;
         Objects.requireNonNull(a);
-        cVar.n0(cVar.v0(a), uVar);
+        cVar.n0(cVar.v0(a), tVar);
         return a.get();
     }
 }

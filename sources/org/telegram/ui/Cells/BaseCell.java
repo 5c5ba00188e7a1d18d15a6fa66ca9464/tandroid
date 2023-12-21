@@ -12,6 +12,10 @@ public abstract class BaseCell extends ViewGroup {
     private CheckForTap pendingCheckForTap;
     private int pressCount;
 
+    public int getBoundsLeft() {
+        return 0;
+    }
+
     @Override // android.view.View
     public boolean hasOverlappingRendering() {
         return false;
@@ -127,5 +131,9 @@ public abstract class BaseCell extends ViewGroup {
         if (checkForTap != null) {
             removeCallbacks(checkForTap);
         }
+    }
+
+    public int getBoundsRight() {
+        return getWidth();
     }
 }

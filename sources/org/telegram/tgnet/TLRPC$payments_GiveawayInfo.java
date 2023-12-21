@@ -1,5 +1,5 @@
 package org.telegram.tgnet;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public abstract class TLRPC$payments_GiveawayInfo extends TLObject {
     public static TLRPC$payments_GiveawayInfo TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
         TLRPC$payments_GiveawayInfo tLRPC$TL_payments_giveawayInfo = i != 13456752 ? i != 1130879648 ? null : new TLRPC$TL_payments_giveawayInfo() : new TLRPC$TL_payments_giveawayInfoResults();

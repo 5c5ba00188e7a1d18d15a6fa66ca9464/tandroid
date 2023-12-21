@@ -52,7 +52,7 @@ final class E1 implements A1 {
     }
 
     @Override // j$.util.stream.A1
-    public j$.util.u spliterator() {
+    public j$.util.t spliterator() {
         Collection collection = this.a;
         return (collection instanceof j$.util.b ? ((j$.util.b) collection).stream() : j$.util.a.i(collection)).spliterator();
     }

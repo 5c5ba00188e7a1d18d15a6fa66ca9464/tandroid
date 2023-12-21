@@ -6397,10 +6397,10 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     case 25:
                         textView = new BlockTableCell(this.context, this);
                         break;
-                    case MessageObject.TYPE_GIVEAWAY /* 26 */:
+                    case 26:
                         textView = new BlockRelatedArticlesHeaderCell(this.context, this);
                         break;
-                    case MessageObject.TYPE_JOINED_CHANNEL /* 27 */:
+                    case 27:
                         textView = new BlockDetailsBottomCell(this.context);
                         break;
                     case 28:
@@ -6536,10 +6536,10 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     case 25:
                         ((BlockTableCell) viewHolder.itemView).setBlock((TLRPC$TL_pageBlockTable) tLRPC$PageBlock2);
                         return;
-                    case MessageObject.TYPE_GIVEAWAY /* 26 */:
+                    case 26:
                         ((BlockRelatedArticlesHeaderCell) viewHolder.itemView).setBlock((TLRPC$TL_pageBlockRelatedArticles) tLRPC$PageBlock2);
                         return;
-                    case MessageObject.TYPE_JOINED_CHANNEL /* 27 */:
+                    case 27:
                         BlockDetailsBottomCell blockDetailsBottomCell = (BlockDetailsBottomCell) viewHolder.itemView;
                         return;
                     default:
@@ -6731,6 +6731,12 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+        public void notifyItemInserted(int i) {
+            updateRows();
+            super.notifyItemInserted(i);
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public void notifyItemMoved(int i, int i2) {
             updateRows();
             super.notifyItemMoved(i, i2);
@@ -6740,6 +6746,12 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         public void notifyItemRangeInserted(int i, int i2) {
             updateRows();
             super.notifyItemRangeInserted(i, i2);
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+        public void notifyItemRemoved(int i) {
+            updateRows();
+            super.notifyItemRemoved(i);
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter

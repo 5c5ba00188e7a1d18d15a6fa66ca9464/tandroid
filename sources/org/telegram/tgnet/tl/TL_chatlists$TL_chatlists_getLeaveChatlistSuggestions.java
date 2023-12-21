@@ -4,7 +4,7 @@ import org.telegram.tgnet.AbstractSerializedData;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Peer;
 import org.telegram.tgnet.TLRPC$Vector;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TL_chatlists$TL_chatlists_getLeaveChatlistSuggestions extends TLObject {
     public TL_chatlists$TL_inputChatlistDialogFilter chatlist;
 

@@ -1,8 +1,10 @@
 package androidx.fragment.app;
 
 import android.annotation.SuppressLint;
+import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
+import androidx.fragment.app.FragmentManager;
 import java.util.ArrayList;
 /* JADX INFO: Access modifiers changed from: package-private */
 @SuppressLint({"BanParcelableUsage"})
@@ -23,7 +25,10 @@ public final class FragmentManagerState implements Parcelable {
     ArrayList<String> mAdded;
     BackStackState[] mBackStack;
     int mBackStackIndex;
+    ArrayList<FragmentManager.LaunchedFragmentInfo> mLaunchedFragments;
     String mPrimaryNavActiveWho;
+    ArrayList<String> mResultKeys;
+    ArrayList<Bundle> mResults;
 
     @Override // android.os.Parcelable
     public int describeContents() {
@@ -32,15 +37,22 @@ public final class FragmentManagerState implements Parcelable {
 
     public FragmentManagerState() {
         this.mPrimaryNavActiveWho = null;
+        this.mResultKeys = new ArrayList<>();
+        this.mResults = new ArrayList<>();
     }
 
     public FragmentManagerState(Parcel parcel) {
         this.mPrimaryNavActiveWho = null;
+        this.mResultKeys = new ArrayList<>();
+        this.mResults = new ArrayList<>();
         this.mActive = parcel.createTypedArrayList(FragmentState.CREATOR);
         this.mAdded = parcel.createStringArrayList();
         this.mBackStack = (BackStackState[]) parcel.createTypedArray(BackStackState.CREATOR);
         this.mBackStackIndex = parcel.readInt();
         this.mPrimaryNavActiveWho = parcel.readString();
+        this.mResultKeys = parcel.createStringArrayList();
+        this.mResults = parcel.createTypedArrayList(Bundle.CREATOR);
+        this.mLaunchedFragments = parcel.createTypedArrayList(FragmentManager.LaunchedFragmentInfo.CREATOR);
     }
 
     @Override // android.os.Parcelable
@@ -50,5 +62,8 @@ public final class FragmentManagerState implements Parcelable {
         parcel.writeTypedArray(this.mBackStack, i);
         parcel.writeInt(this.mBackStackIndex);
         parcel.writeString(this.mPrimaryNavActiveWho);
+        parcel.writeStringList(this.mResultKeys);
+        parcel.writeTypedList(this.mResults);
+        parcel.writeTypedList(this.mLaunchedFragments);
     }
 }

@@ -1,6 +1,6 @@
 package j$.util.stream;
 
-import j$.util.u;
+import j$.util.t;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Objects;
@@ -11,9 +11,8 @@ public abstract class Z3 extends e implements Iterable, j$.lang.e {
     Object e;
     Object[] f;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes2.dex */
-    public abstract class a implements j$.util.w {
+    abstract class a implements j$.util.u {
         int a;
         final int b;
         int c;
@@ -32,12 +31,12 @@ public abstract class Z3 extends e implements Iterable, j$.lang.e {
 
         abstract void a(Object obj, int i, Object obj2);
 
-        @Override // j$.util.u
+        @Override // j$.util.t
         public int characteristics() {
             return 16464;
         }
 
-        @Override // j$.util.u
+        @Override // j$.util.t
         public long estimateSize() {
             int i = this.a;
             int i2 = this.b;
@@ -48,9 +47,9 @@ public abstract class Z3 extends e implements Iterable, j$.lang.e {
             return ((jArr[i2] + this.d) - jArr[i]) - this.c;
         }
 
-        abstract j$.util.w f(Object obj, int i, int i2);
+        abstract j$.util.u f(Object obj, int i, int i2);
 
-        @Override // j$.util.w
+        @Override // j$.util.u
         /* renamed from: forEachRemaining */
         public void e(Object obj) {
             int i;
@@ -76,24 +75,24 @@ public abstract class Z3 extends e implements Iterable, j$.lang.e {
             }
         }
 
-        @Override // j$.util.u
+        @Override // j$.util.t
         public Comparator getComparator() {
             throw new IllegalStateException();
         }
 
-        @Override // j$.util.u
+        @Override // j$.util.t
         public /* synthetic */ long getExactSizeIfKnown() {
             return j$.util.a.e(this);
         }
 
-        abstract j$.util.w h(int i, int i2, int i3, int i4);
+        abstract j$.util.u h(int i, int i2, int i3, int i4);
 
-        @Override // j$.util.u
+        @Override // j$.util.t
         public /* synthetic */ boolean hasCharacteristics(int i) {
             return j$.util.a.f(this, i);
         }
 
-        @Override // j$.util.w
+        @Override // j$.util.u
         /* renamed from: tryAdvance */
         public boolean k(Object obj) {
             Objects.requireNonNull(obj);
@@ -118,29 +117,29 @@ public abstract class Z3 extends e implements Iterable, j$.lang.e {
             return false;
         }
 
-        @Override // j$.util.w, j$.util.u
-        public /* bridge */ /* synthetic */ j$.util.t trySplit() {
-            return (j$.util.t) trySplit();
+        @Override // j$.util.u, j$.util.t
+        public /* bridge */ /* synthetic */ t.a trySplit() {
+            return (t.a) trySplit();
         }
 
-        @Override // j$.util.w, j$.util.u
-        public /* bridge */ /* synthetic */ u.a trySplit() {
-            return (u.a) trySplit();
+        @Override // j$.util.u, j$.util.t
+        public /* bridge */ /* synthetic */ t.b trySplit() {
+            return (t.b) trySplit();
         }
 
-        @Override // j$.util.w, j$.util.u
-        public /* bridge */ /* synthetic */ j$.util.v trySplit() {
-            return (j$.util.v) trySplit();
+        @Override // j$.util.u, j$.util.t
+        public /* bridge */ /* synthetic */ t.c trySplit() {
+            return (t.c) trySplit();
         }
 
-        @Override // j$.util.w, j$.util.u
-        public j$.util.w trySplit() {
+        @Override // j$.util.u, j$.util.t
+        public j$.util.u trySplit() {
             int i = this.a;
             int i2 = this.b;
             if (i < i2) {
                 int i3 = this.c;
                 Z3 z3 = Z3.this;
-                j$.util.w h = h(i, i2 - 1, i3, z3.u(z3.f[i2 - 1]));
+                j$.util.u h = h(i, i2 - 1, i3, z3.u(z3.f[i2 - 1]));
                 int i4 = this.b;
                 this.a = i4;
                 this.c = 0;
@@ -153,7 +152,7 @@ public abstract class Z3 extends e implements Iterable, j$.lang.e {
                 if (i7 == 0) {
                     return null;
                 }
-                j$.util.w f = f(this.e, i6, i7);
+                j$.util.u f = f(this.e, i6, i7);
                 this.c += i7;
                 return f;
             } else {
@@ -252,7 +251,7 @@ public abstract class Z3 extends e implements Iterable, j$.lang.e {
         t(this.e, 0, this.b, obj);
     }
 
-    public abstract j$.util.u spliterator();
+    public abstract j$.util.t spliterator();
 
     @Override // java.lang.Iterable, j$.lang.e
     public /* synthetic */ Spliterator spliterator() {

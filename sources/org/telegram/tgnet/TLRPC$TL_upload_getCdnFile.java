@@ -1,5 +1,5 @@
 package org.telegram.tgnet;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_upload_getCdnFile extends TLObject {
     public byte[] file_token;
     public int limit;

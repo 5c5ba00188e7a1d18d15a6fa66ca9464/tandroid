@@ -5,7 +5,7 @@ import org.telegram.tgnet.AbstractSerializedData;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Peer;
 import org.telegram.tgnet.TLRPC$TL_peerUser;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public abstract class TL_stories$PeerStories extends TLObject {
     public int flags;
     public int max_read_id;

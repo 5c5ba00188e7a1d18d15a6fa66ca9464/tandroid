@@ -1,16 +1,18 @@
 package androidx.core;
 /* loaded from: classes.dex */
 public final class R$id {
-    public static final int accessibility_action_clickable_span = 2131230725;
-    public static final int tag_accessibility_actions = 2131230917;
-    public static final int tag_accessibility_clickable_spans = 2131230918;
-    public static final int tag_accessibility_heading = 2131230919;
-    public static final int tag_accessibility_pane_title = 2131230920;
-    public static final int tag_on_apply_window_listener = 2131230921;
-    public static final int tag_screen_reader_focusable = 2131230924;
-    public static final int tag_state_description = 2131230925;
-    public static final int tag_transition_group = 2131230926;
-    public static final int tag_unhandled_key_event_manager = 2131230927;
-    public static final int tag_unhandled_key_listeners = 2131230928;
-    public static final int tag_window_insets_animation_callback = 2131230929;
+    public static final int accessibility_action_clickable_span = 2131296267;
+    public static final int tag_accessibility_actions = 2131296539;
+    public static final int tag_accessibility_clickable_spans = 2131296540;
+    public static final int tag_accessibility_heading = 2131296541;
+    public static final int tag_accessibility_pane_title = 2131296542;
+    public static final int tag_on_apply_window_listener = 2131296543;
+    public static final int tag_on_receive_content_listener = 2131296544;
+    public static final int tag_on_receive_content_mime_types = 2131296545;
+    public static final int tag_screen_reader_focusable = 2131296546;
+    public static final int tag_state_description = 2131296547;
+    public static final int tag_transition_group = 2131296548;
+    public static final int tag_unhandled_key_event_manager = 2131296549;
+    public static final int tag_unhandled_key_listeners = 2131296550;
+    public static final int tag_window_insets_animation_callback = 2131296551;
 }

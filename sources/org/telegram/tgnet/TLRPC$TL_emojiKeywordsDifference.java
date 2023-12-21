@@ -1,7 +1,7 @@
 package org.telegram.tgnet;
 
 import java.util.ArrayList;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_emojiKeywordsDifference extends TLObject {
     public int from_version;
     public ArrayList<TLRPC$EmojiKeyword> keywords = new ArrayList<>();

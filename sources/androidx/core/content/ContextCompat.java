@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.RestrictionsManager;
 import android.content.pm.LauncherApps;
+import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.hardware.ConsumerIrManager;
 import android.hardware.SensorManager;
@@ -62,6 +63,7 @@ import android.view.accessibility.CaptioningManager;
 import android.view.inputmethod.InputMethodManager;
 import android.view.textservice.TextServicesManager;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.core.os.BuildCompat;
 import androidx.core.util.ObjectsCompat;
 import java.io.File;
@@ -73,6 +75,15 @@ public class ContextCompat {
     private static final Object sLock = new Object();
     private static final Object sSync = new Object();
     private static TypedValue sTempValue;
+
+    public static boolean startActivities(Context context, Intent[] intentArr, Bundle bundle) {
+        if (Build.VERSION.SDK_INT >= 16) {
+            Api16Impl.startActivities(context, intentArr, bundle);
+            return true;
+        }
+        context.startActivities(intentArr);
+        return true;
+    }
 
     public static void startActivity(Context context, Intent intent, Bundle bundle) {
         if (Build.VERSION.SDK_INT >= 16) {
@@ -107,6 +118,10 @@ public class ContextCompat {
             i2 = sTempValue.resourceId;
         }
         return context.getResources().getDrawable(i2);
+    }
+
+    public static ColorStateList getColorStateList(Context context, int i) {
+        return ResourcesCompat.getColorStateList(context.getResources(), i, context.getTheme());
     }
 
     public static int getColor(Context context, int i) {

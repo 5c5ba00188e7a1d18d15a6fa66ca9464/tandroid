@@ -7,16 +7,16 @@ class N1 extends f {
     protected final j$.util.function.r i;
     protected final j$.util.function.b j;
 
-    N1(N1 n1, j$.util.u uVar) {
-        super(n1, uVar);
+    N1(N1 n1, j$.util.t tVar) {
+        super(n1, tVar);
         this.h = n1.h;
         this.i = n1.i;
         this.j = n1.j;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public N1(y2 y2Var, j$.util.u uVar, j$.util.function.r rVar, j$.util.function.b bVar) {
-        super(y2Var, uVar);
+    public N1(y2 y2Var, j$.util.t tVar, j$.util.function.r rVar, j$.util.function.b bVar) {
+        super(y2Var, tVar);
         this.h = y2Var;
         this.i = rVar;
         this.j = bVar;
@@ -32,8 +32,8 @@ class N1 extends f {
 
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // j$.util.stream.f
-    public f f(j$.util.u uVar) {
-        return new N1(this, uVar);
+    public f f(j$.util.t tVar) {
+        return new N1(this, tVar);
     }
 
     @Override // j$.util.stream.f, java.util.concurrent.CountedCompleter

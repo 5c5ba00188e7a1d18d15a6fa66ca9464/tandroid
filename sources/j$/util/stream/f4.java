@@ -3,11 +3,11 @@ package j$.util.stream;
 import java.util.Comparator;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public abstract class f4 implements j$.util.u {
+public abstract class f4 implements j$.util.t {
     final boolean a;
     final y2 b;
     private j$.util.function.y c;
-    j$.util.u d;
+    j$.util.t d;
     m3 e;
     j$.util.function.c f;
     long g;
@@ -23,10 +23,10 @@ public abstract class f4 implements j$.util.u {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public f4(y2 y2Var, j$.util.u uVar, boolean z) {
+    public f4(y2 y2Var, j$.util.t tVar, boolean z) {
         this.b = y2Var;
         this.c = null;
-        this.d = uVar;
+        this.d = tVar;
         this.a = z;
     }
 
@@ -90,20 +90,20 @@ public abstract class f4 implements j$.util.u {
         return f();
     }
 
-    @Override // j$.util.u
+    @Override // j$.util.t
     public final int characteristics() {
         h();
         int g = d4.g(this.b.s0()) & d4.f;
         return (g & 64) != 0 ? (g & (-16449)) | (this.d.characteristics() & 16448) : g;
     }
 
-    @Override // j$.util.u
+    @Override // j$.util.t
     public final long estimateSize() {
         h();
         return this.d.estimateSize();
     }
 
-    @Override // j$.util.u
+    @Override // j$.util.t
     public Comparator getComparator() {
         if (j$.util.a.f(this, 4)) {
             return null;
@@ -111,7 +111,7 @@ public abstract class f4 implements j$.util.u {
         throw new IllegalStateException();
     }
 
-    @Override // j$.util.u
+    @Override // j$.util.t
     public final long getExactSizeIfKnown() {
         h();
         if (d4.SIZED.d(this.b.s0())) {
@@ -123,31 +123,31 @@ public abstract class f4 implements j$.util.u {
     /* JADX INFO: Access modifiers changed from: package-private */
     public final void h() {
         if (this.d == null) {
-            this.d = (j$.util.u) this.c.get();
+            this.d = (j$.util.t) this.c.get();
             this.c = null;
         }
     }
 
-    @Override // j$.util.u
+    @Override // j$.util.t
     public /* synthetic */ boolean hasCharacteristics(int i) {
         return j$.util.a.f(this, i);
     }
 
     abstract void j();
 
-    abstract f4 l(j$.util.u uVar);
+    abstract f4 l(j$.util.t tVar);
 
     public final String toString() {
         return String.format("%s[%s]", getClass().getName(), this.d);
     }
 
-    @Override // j$.util.u
-    public j$.util.u trySplit() {
+    @Override // j$.util.t
+    public j$.util.t trySplit() {
         if (!this.a || this.i) {
             return null;
         }
         h();
-        j$.util.u trySplit = this.d.trySplit();
+        j$.util.t trySplit = this.d.trySplit();
         if (trySplit == null) {
             return null;
         }

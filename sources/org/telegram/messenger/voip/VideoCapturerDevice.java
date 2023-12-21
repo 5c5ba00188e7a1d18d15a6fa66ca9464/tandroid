@@ -106,7 +106,7 @@ public class VideoCapturerDevice {
     public static /* synthetic */ void lambda$checkScreenCapturerSize$1(VideoCapturerDevice videoCapturerDevice, Point point) {
         VideoCapturer videoCapturer = videoCapturerDevice.videoCapturer;
         if (videoCapturer != null) {
-            videoCapturer.changeCaptureFormat(point.x, point.y, CAPTURE_FPS);
+            videoCapturer.changeCaptureFormat(point.x, point.y, 30);
         }
     }
 
@@ -231,7 +231,7 @@ public class VideoCapturerDevice {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public class 1 extends MediaProjection.Callback {
         1() {
         }
@@ -258,7 +258,7 @@ public class VideoCapturerDevice {
             }
             this.nativeCapturerObserver = nativeGetJavaVideoCapturerObserver(j);
             this.videoCapturer.initialize(this.videoCapturerSurfaceTextureHelper, ApplicationLoader.applicationContext, this.nativeCapturerObserver);
-            this.videoCapturer.startCapture(point.x, point.y, CAPTURE_FPS);
+            this.videoCapturer.startCapture(point.x, point.y, 30);
             WebRtcAudioRecord webRtcAudioRecord = WebRtcAudioRecord.Instance;
             if (webRtcAudioRecord != null) {
                 webRtcAudioRecord.initDeviceAudioRecord(((ScreenCapturerAndroid) this.videoCapturer).getMediaProjection());
@@ -267,7 +267,7 @@ public class VideoCapturerDevice {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public class 2 implements CameraVideoCapturer.CameraEventsHandler {
         @Override // org.webrtc.CameraVideoCapturer.CameraEventsHandler
         public void onCameraClosed() {
@@ -312,11 +312,11 @@ public class VideoCapturerDevice {
         }
         this.nativeCapturerObserver = nativeGetJavaVideoCapturerObserver(this.nativePtr);
         this.videoCapturer.initialize(this.videoCapturerSurfaceTextureHelper, ApplicationLoader.applicationContext, this.nativeCapturerObserver);
-        this.videoCapturer.startCapture(CAPTURE_WIDTH, CAPTURE_HEIGHT, CAPTURE_FPS);
+        this.videoCapturer.startCapture(CAPTURE_WIDTH, CAPTURE_HEIGHT, 30);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public class 3 implements CameraVideoCapturer.CameraSwitchHandler {
         @Override // org.webrtc.CameraVideoCapturer.CameraSwitchHandler
         public void onCameraSwitchError(String str) {
@@ -388,7 +388,7 @@ public class VideoCapturerDevice {
             return;
         }
         if (i == 2) {
-            videoCapturer.startCapture(CAPTURE_WIDTH, CAPTURE_HEIGHT, CAPTURE_FPS);
+            videoCapturer.startCapture(CAPTURE_WIDTH, CAPTURE_HEIGHT, 30);
             return;
         }
         try {

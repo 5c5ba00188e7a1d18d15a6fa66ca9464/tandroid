@@ -16,25 +16,25 @@ public class p3 extends c3 {
     }
 
     @Override // j$.util.stream.c
-    A1 E0(y2 y2Var, j$.util.u uVar, j$.util.function.m mVar) {
-        long q0 = y2Var.q0(uVar);
-        if (q0 > 0 && uVar.hasCharacteristics(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM)) {
-            return x2.e(y2Var, B3.b(y2Var.r0(), uVar, this.l, this.m), true, mVar);
+    A1 E0(y2 y2Var, j$.util.t tVar, j$.util.function.m mVar) {
+        long q0 = y2Var.q0(tVar);
+        if (q0 > 0 && tVar.hasCharacteristics(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM)) {
+            return x2.e(y2Var, B3.b(y2Var.r0(), tVar, this.l, this.m), true, mVar);
         }
-        return !d4.ORDERED.d(y2Var.s0()) ? x2.e(this, L0(y2Var.w0(uVar), this.l, this.m, q0), true, mVar) : (A1) new A3(this, y2Var, uVar, mVar, this.l, this.m).invoke();
+        return !d4.ORDERED.d(y2Var.s0()) ? x2.e(this, L0(y2Var.w0(tVar), this.l, this.m, q0), true, mVar) : (A1) new A3(this, y2Var, tVar, mVar, this.l, this.m).invoke();
     }
 
     @Override // j$.util.stream.c
-    j$.util.u F0(y2 y2Var, j$.util.u uVar) {
+    j$.util.t F0(y2 y2Var, j$.util.t tVar) {
         long d;
-        long q0 = y2Var.q0(uVar);
-        if (q0 > 0 && uVar.hasCharacteristics(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM)) {
-            j$.util.u w0 = y2Var.w0(uVar);
+        long q0 = y2Var.q0(tVar);
+        if (q0 > 0 && tVar.hasCharacteristics(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM)) {
+            j$.util.t w0 = y2Var.w0(tVar);
             long j = this.l;
             d = B3.d(j, this.m);
             return new C4(w0, j, d);
         }
-        return !d4.ORDERED.d(y2Var.s0()) ? L0(y2Var.w0(uVar), this.l, this.m, q0) : ((A1) new A3(this, y2Var, uVar, n3.a, this.l, this.m).invoke()).spliterator();
+        return !d4.ORDERED.d(y2Var.s0()) ? L0(y2Var.w0(tVar), this.l, this.m, q0) : ((A1) new A3(this, y2Var, tVar, n3.a, this.l, this.m).invoke()).spliterator();
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -43,7 +43,7 @@ public class p3 extends c3 {
         return new o3(this, m3Var);
     }
 
-    j$.util.u L0(j$.util.u uVar, long j, long j2, long j3) {
+    j$.util.t L0(j$.util.t tVar, long j, long j2, long j3) {
         long j4;
         long j5;
         if (j <= j3) {
@@ -54,6 +54,6 @@ public class p3 extends c3 {
             j4 = j;
             j5 = j2;
         }
-        return new I4(uVar, j4, j5);
+        return new I4(tVar, j4, j5);
     }
 }

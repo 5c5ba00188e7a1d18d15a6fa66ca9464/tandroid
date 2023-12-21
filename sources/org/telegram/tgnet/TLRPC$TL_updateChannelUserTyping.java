@@ -1,5 +1,5 @@
 package org.telegram.tgnet;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_updateChannelUserTyping extends TLRPC$Update {
     public TLRPC$SendMessageAction action;
     public long channel_id;

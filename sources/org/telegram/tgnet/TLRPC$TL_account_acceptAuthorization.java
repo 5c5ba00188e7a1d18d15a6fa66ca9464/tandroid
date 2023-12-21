@@ -1,7 +1,7 @@
 package org.telegram.tgnet;
 
 import java.util.ArrayList;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_account_acceptAuthorization extends TLObject {
     public long bot_id;
     public TLRPC$TL_secureCredentialsEncrypted credentials;

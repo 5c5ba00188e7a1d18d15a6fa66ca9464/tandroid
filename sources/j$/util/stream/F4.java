@@ -1,19 +1,19 @@
 package j$.util.stream;
 
 import j$.util.function.Consumer;
-import j$.util.u;
+import j$.util.t;
 import java.util.Objects;
 /* loaded from: classes2.dex */
-final class F4 extends H4 implements u.a, j$.util.function.l {
+final class F4 extends H4 implements t.b, j$.util.function.l {
     int e;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public F4(u.a aVar, long j, long j2) {
-        super(aVar, j, j2);
+    public F4(t.b bVar, long j, long j2) {
+        super(bVar, j, j2);
     }
 
-    F4(u.a aVar, F4 f4) {
-        super(aVar, f4);
+    F4(t.b bVar, F4 f4) {
+        super(bVar, f4);
     }
 
     @Override // j$.util.function.l
@@ -21,12 +21,12 @@ final class F4 extends H4 implements u.a, j$.util.function.l {
         this.e = i;
     }
 
-    @Override // j$.util.u
+    @Override // j$.util.t
     public /* synthetic */ boolean b(Consumer consumer) {
         return j$.util.a.k(this, consumer);
     }
 
-    @Override // j$.util.u
+    @Override // j$.util.t
     public /* synthetic */ void forEachRemaining(Consumer consumer) {
         j$.util.a.c(this, consumer);
     }
@@ -38,8 +38,8 @@ final class F4 extends H4 implements u.a, j$.util.function.l {
     }
 
     @Override // j$.util.stream.J4
-    protected j$.util.u q(j$.util.u uVar) {
-        return new F4((u.a) uVar, this);
+    protected j$.util.t q(j$.util.t tVar) {
+        return new F4((t.b) tVar, this);
     }
 
     @Override // j$.util.stream.H4

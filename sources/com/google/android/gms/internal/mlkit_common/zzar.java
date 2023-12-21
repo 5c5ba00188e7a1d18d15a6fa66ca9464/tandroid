@@ -1,17 +1,27 @@
 package com.google.android.gms.internal.mlkit_common;
-
-import java.util.Objects;
-/* compiled from: com.google.mlkit:common@@17.0.0 */
+/* compiled from: com.google.mlkit:common@@18.10.0 */
 /* loaded from: classes.dex */
-final class zzar extends zzaq {
-    private final zzap zza = new zzap();
+final class zzar {
+    private final Object zza;
+    private final Object zzb;
+    private final Object zzc;
 
-    @Override // com.google.android.gms.internal.mlkit_common.zzaq
-    public final void zza(Throwable th, Throwable th2) {
-        if (th2 == th) {
-            throw new IllegalArgumentException("Self suppression is not allowed.", th2);
-        }
-        Objects.requireNonNull(th2, "The suppressed exception cannot be null.");
-        this.zza.zza(th, true).add(th2);
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public zzar(Object obj, Object obj2, Object obj3) {
+        this.zza = obj;
+        this.zzb = obj2;
+        this.zzc = obj3;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public final IllegalArgumentException zza() {
+        Object obj = this.zzc;
+        Object obj2 = this.zzb;
+        Object obj3 = this.zza;
+        String valueOf = String.valueOf(obj3);
+        String valueOf2 = String.valueOf(obj2);
+        String valueOf3 = String.valueOf(obj3);
+        String valueOf4 = String.valueOf(obj);
+        return new IllegalArgumentException("Multiple entries with same key: " + valueOf + "=" + valueOf2 + " and " + valueOf3 + "=" + valueOf4);
     }
 }

@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_payments_giveawayInfoResults extends TLRPC$payments_GiveawayInfo {
-    public static int constructor = 13456752;
     public int activated_count;
     public int finish_date;
     public int flags;
@@ -28,7 +27,7 @@ public class TLRPC$TL_payments_giveawayInfoResults extends TLRPC$payments_Giveaw
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(13456752);
         int i = this.winner ? this.flags | 1 : this.flags & (-2);
         this.flags = i;
         int i2 = this.refunded ? i | 2 : i & (-3);

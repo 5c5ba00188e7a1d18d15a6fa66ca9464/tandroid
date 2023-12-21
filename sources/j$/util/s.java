@@ -5,7 +5,7 @@ import java.util.Comparator;
 import java.util.SortedSet;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public class s extends J {
+public class s extends H {
     final /* synthetic */ SortedSet f;
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -15,7 +15,7 @@ public class s extends J {
         this.f = sortedSet;
     }
 
-    @Override // j$.util.J, j$.util.u
+    @Override // j$.util.H, j$.util.t
     public Comparator getComparator() {
         return this.f.comparator();
     }

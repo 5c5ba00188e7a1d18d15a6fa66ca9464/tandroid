@@ -1,6 +1,7 @@
 package androidx.core.view;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Build;
 import android.util.Log;
 import android.util.TypedValue;
@@ -50,6 +51,22 @@ public final class ViewConfigurationCompat {
         return 0.0f;
     }
 
+    public static int getScaledHoverSlop(ViewConfiguration viewConfiguration) {
+        if (Build.VERSION.SDK_INT >= 28) {
+            return Api28Impl.getScaledHoverSlop(viewConfiguration);
+        }
+        return viewConfiguration.getScaledTouchSlop() / 2;
+    }
+
+    public static boolean shouldShowMenuShortcutsWhenKeyboardPresent(ViewConfiguration viewConfiguration, Context context) {
+        if (Build.VERSION.SDK_INT >= 28) {
+            return Api28Impl.shouldShowMenuShortcutsWhenKeyboardPresent(viewConfiguration);
+        }
+        Resources resources = context.getResources();
+        int identifier = resources.getIdentifier("config_showMenuShortcutsWhenKeyboardPresent", "bool", "android");
+        return identifier != 0 && resources.getBoolean(identifier);
+    }
+
     /* loaded from: classes.dex */
     static class Api26Impl {
         static float getScaledHorizontalScrollFactor(ViewConfiguration viewConfiguration) {
@@ -58,6 +75,17 @@ public final class ViewConfigurationCompat {
 
         static float getScaledVerticalScrollFactor(ViewConfiguration viewConfiguration) {
             return viewConfiguration.getScaledVerticalScrollFactor();
+        }
+    }
+
+    /* loaded from: classes.dex */
+    static class Api28Impl {
+        static int getScaledHoverSlop(ViewConfiguration viewConfiguration) {
+            return viewConfiguration.getScaledHoverSlop();
+        }
+
+        static boolean shouldShowMenuShortcutsWhenKeyboardPresent(ViewConfiguration viewConfiguration) {
+            return viewConfiguration.shouldShowMenuShortcutsWhenKeyboardPresent();
         }
     }
 }

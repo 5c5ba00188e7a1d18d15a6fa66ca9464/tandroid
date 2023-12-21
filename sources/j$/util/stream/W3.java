@@ -1,7 +1,7 @@
 package j$.util.stream;
 
 import j$.util.function.Consumer;
-import j$.util.u;
+import j$.util.t;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Objects;
@@ -19,7 +19,7 @@ public class W3 extends Z3 implements j$.util.function.l {
 
     @Override // j$.util.stream.Z3, java.lang.Iterable, j$.lang.e
     /* renamed from: B */
-    public u.a spliterator() {
+    public t.b spliterator() {
         return new V3(this, 0, this.c, 0, this.b);
     }
 
@@ -50,7 +50,7 @@ public class W3 extends Z3 implements j$.util.function.l {
 
     @Override // java.lang.Iterable
     public Iterator iterator() {
-        return j$.util.L.g(spliterator());
+        return j$.util.J.g(spliterator());
     }
 
     @Override // j$.util.function.l

@@ -3,12 +3,10 @@ package androidx.fragment.app;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentSender;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,104 +15,97 @@ import android.view.Window;
 import androidx.activity.ComponentActivity;
 import androidx.activity.OnBackPressedDispatcher;
 import androidx.activity.OnBackPressedDispatcherOwner;
-import androidx.collection.SparseArrayCompat;
+import androidx.activity.contextaware.OnContextAvailableListener;
+import androidx.activity.result.ActivityResultRegistry;
+import androidx.activity.result.ActivityResultRegistryOwner;
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleRegistry;
 import androidx.lifecycle.ViewModelStore;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.loader.app.LoaderManager;
+import androidx.savedstate.SavedStateRegistry;
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
 /* loaded from: classes.dex */
 public class FragmentActivity extends ComponentActivity implements ActivityCompat.OnRequestPermissionsResultCallback, ActivityCompat.RequestPermissionsRequestCodeValidator {
     boolean mCreated;
-    int mNextCandidateRequestIndex;
-    SparseArrayCompat<String> mPendingFragmentActivityResults;
-    boolean mRequestedPermissionsFromFragment;
     boolean mResumed;
-    boolean mStartedActivityFromFragment;
-    boolean mStartedIntentSenderFromFragment;
     final FragmentController mFragments = FragmentController.createController(new HostCallbacks());
     final LifecycleRegistry mFragmentLifecycleRegistry = new LifecycleRegistry(this);
     boolean mStopped = true;
 
+    @Deprecated
     public void onAttachFragment(Fragment fragment) {
     }
 
-    @Override // android.app.Activity
-    protected void onActivityResult(int i, int i2, Intent intent) {
-        this.mFragments.noteStateNotSaved();
-        int i3 = i >> 16;
-        if (i3 != 0) {
-            int i4 = i3 - 1;
-            String str = this.mPendingFragmentActivityResults.get(i4);
-            this.mPendingFragmentActivityResults.remove(i4);
-            if (str == null) {
-                Log.w("FragmentActivity", "Activity result delivered for unknown Fragment.");
-                return;
-            }
-            Fragment findFragmentByWho = this.mFragments.findFragmentByWho(str);
-            if (findFragmentByWho == null) {
-                Log.w("FragmentActivity", "Activity result no fragment exists for who: " + str);
-                return;
-            }
-            findFragmentByWho.onActivityResult(i & 65535, i2, intent);
-            return;
-        }
-        ActivityCompat.PermissionCompatDelegate permissionCompatDelegate = ActivityCompat.getPermissionCompatDelegate();
-        if (permissionCompatDelegate == null || !permissionCompatDelegate.onActivityResult(this, i, i2, intent)) {
-            super.onActivityResult(i, i2, intent);
-        }
+    @Override // androidx.core.app.ActivityCompat.RequestPermissionsRequestCodeValidator
+    @Deprecated
+    public final void validateRequestPermissionsRequestCode(int i) {
     }
 
-    @Override // android.app.Activity
+    public FragmentActivity() {
+        init();
+    }
+
+    private void init() {
+        getSavedStateRegistry().registerSavedStateProvider("android:support:fragments", new SavedStateRegistry.SavedStateProvider() { // from class: androidx.fragment.app.FragmentActivity.1
+            @Override // androidx.savedstate.SavedStateRegistry.SavedStateProvider
+            public Bundle saveState() {
+                Bundle bundle = new Bundle();
+                FragmentActivity.this.markFragmentsCreated();
+                FragmentActivity.this.mFragmentLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_STOP);
+                Parcelable saveAllState = FragmentActivity.this.mFragments.saveAllState();
+                if (saveAllState != null) {
+                    bundle.putParcelable("android:support:fragments", saveAllState);
+                }
+                return bundle;
+            }
+        });
+        addOnContextAvailableListener(new OnContextAvailableListener() { // from class: androidx.fragment.app.FragmentActivity.2
+            @Override // androidx.activity.contextaware.OnContextAvailableListener
+            public void onContextAvailable(Context context) {
+                FragmentActivity.this.mFragments.attachHost(null);
+                Bundle consumeRestoredStateForKey = FragmentActivity.this.getSavedStateRegistry().consumeRestoredStateForKey("android:support:fragments");
+                if (consumeRestoredStateForKey != null) {
+                    FragmentActivity.this.mFragments.restoreSaveState(consumeRestoredStateForKey.getParcelable("android:support:fragments"));
+                }
+            }
+        });
+    }
+
+    @Override // androidx.activity.ComponentActivity, android.app.Activity
+    protected void onActivityResult(int i, int i2, Intent intent) {
+        this.mFragments.noteStateNotSaved();
+        super.onActivityResult(i, i2, intent);
+    }
+
+    @Override // androidx.activity.ComponentActivity, android.app.Activity
     public void onMultiWindowModeChanged(boolean z) {
         this.mFragments.dispatchMultiWindowModeChanged(z);
     }
 
-    @Override // android.app.Activity
+    @Override // androidx.activity.ComponentActivity, android.app.Activity
     public void onPictureInPictureModeChanged(boolean z) {
         this.mFragments.dispatchPictureInPictureModeChanged(z);
     }
 
-    @Override // android.app.Activity, android.content.ComponentCallbacks
+    @Override // androidx.activity.ComponentActivity, android.app.Activity, android.content.ComponentCallbacks
     public void onConfigurationChanged(Configuration configuration) {
-        super.onConfigurationChanged(configuration);
         this.mFragments.noteStateNotSaved();
+        super.onConfigurationChanged(configuration);
         this.mFragments.dispatchConfigurationChanged(configuration);
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // androidx.activity.ComponentActivity, androidx.core.app.ComponentActivity, android.app.Activity
     public void onCreate(Bundle bundle) {
-        this.mFragments.attachHost(null);
-        if (bundle != null) {
-            this.mFragments.restoreSaveState(bundle.getParcelable("android:support:fragments"));
-            if (bundle.containsKey("android:support:next_request_index")) {
-                this.mNextCandidateRequestIndex = bundle.getInt("android:support:next_request_index");
-                int[] intArray = bundle.getIntArray("android:support:request_indicies");
-                String[] stringArray = bundle.getStringArray("android:support:request_fragment_who");
-                if (intArray == null || stringArray == null || intArray.length != stringArray.length) {
-                    Log.w("FragmentActivity", "Invalid requestCode mapping in savedInstanceState.");
-                } else {
-                    this.mPendingFragmentActivityResults = new SparseArrayCompat<>(intArray.length);
-                    for (int i = 0; i < intArray.length; i++) {
-                        this.mPendingFragmentActivityResults.put(intArray[i], stringArray[i]);
-                    }
-                }
-            }
-        }
-        if (this.mPendingFragmentActivityResults == null) {
-            this.mPendingFragmentActivityResults = new SparseArrayCompat<>();
-            this.mNextCandidateRequestIndex = 0;
-        }
         super.onCreate(bundle);
         this.mFragmentLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_CREATE);
         this.mFragments.dispatchCreate();
     }
 
-    @Override // android.app.Activity, android.view.Window.Callback
+    @Override // androidx.activity.ComponentActivity, android.app.Activity, android.view.Window.Callback
     public boolean onCreatePanelMenu(int i, Menu menu) {
         if (i == 0) {
             return super.onCreatePanelMenu(i, menu) | this.mFragments.dispatchCreateOptionsMenu(menu, getMenuInflater());
@@ -152,7 +143,7 @@ public class FragmentActivity extends ComponentActivity implements ActivityCompa
         this.mFragments.dispatchLowMemory();
     }
 
-    @Override // android.app.Activity, android.view.Window.Callback
+    @Override // androidx.activity.ComponentActivity, android.app.Activity, android.view.Window.Callback
     public boolean onMenuItemSelected(int i, MenuItem menuItem) {
         if (super.onMenuItemSelected(i, menuItem)) {
             return true;
@@ -166,7 +157,7 @@ public class FragmentActivity extends ComponentActivity implements ActivityCompa
         return this.mFragments.dispatchOptionsItemSelected(menuItem);
     }
 
-    @Override // android.app.Activity, android.view.Window.Callback
+    @Override // androidx.activity.ComponentActivity, android.app.Activity, android.view.Window.Callback
     public void onPanelClosed(int i, Menu menu) {
         if (i == 0) {
             this.mFragments.dispatchOptionsMenuClosed(menu);
@@ -182,10 +173,10 @@ public class FragmentActivity extends ComponentActivity implements ActivityCompa
         this.mFragmentLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_PAUSE);
     }
 
-    @Override // android.app.Activity
+    @Override // androidx.activity.ComponentActivity, android.app.Activity
     protected void onNewIntent(@SuppressLint({"UnknownNullness"}) Intent intent) {
-        super.onNewIntent(intent);
         this.mFragments.noteStateNotSaved();
+        super.onNewIntent(intent);
     }
 
     @Override // android.app.Activity
@@ -195,14 +186,15 @@ public class FragmentActivity extends ComponentActivity implements ActivityCompa
 
     @Override // android.app.Activity
     protected void onResume() {
+        this.mFragments.noteStateNotSaved();
         super.onResume();
         this.mResumed = true;
-        this.mFragments.noteStateNotSaved();
         this.mFragments.execPendingActions();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.app.Activity
-    protected void onPostResume() {
+    public void onPostResume() {
         super.onPostResume();
         onResumeFragments();
     }
@@ -212,7 +204,7 @@ public class FragmentActivity extends ComponentActivity implements ActivityCompa
         this.mFragments.dispatchResume();
     }
 
-    @Override // android.app.Activity, android.view.Window.Callback
+    @Override // androidx.activity.ComponentActivity, android.app.Activity, android.view.Window.Callback
     public boolean onPreparePanel(int i, View view, Menu menu) {
         if (i == 0) {
             return onPrepareOptionsPanel(view, menu) | this.mFragments.dispatchPrepareOptionsMenu(menu);
@@ -226,44 +218,23 @@ public class FragmentActivity extends ComponentActivity implements ActivityCompa
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    @Override // androidx.activity.ComponentActivity, androidx.core.app.ComponentActivity, android.app.Activity
-    public void onSaveInstanceState(Bundle bundle) {
-        super.onSaveInstanceState(bundle);
-        markFragmentsCreated();
-        this.mFragmentLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_STOP);
-        Parcelable saveAllState = this.mFragments.saveAllState();
-        if (saveAllState != null) {
-            bundle.putParcelable("android:support:fragments", saveAllState);
-        }
-        if (this.mPendingFragmentActivityResults.size() > 0) {
-            bundle.putInt("android:support:next_request_index", this.mNextCandidateRequestIndex);
-            int[] iArr = new int[this.mPendingFragmentActivityResults.size()];
-            String[] strArr = new String[this.mPendingFragmentActivityResults.size()];
-            for (int i = 0; i < this.mPendingFragmentActivityResults.size(); i++) {
-                iArr[i] = this.mPendingFragmentActivityResults.keyAt(i);
-                strArr[i] = this.mPendingFragmentActivityResults.valueAt(i);
-            }
-            bundle.putIntArray("android:support:request_indicies", iArr);
-            bundle.putStringArray("android:support:request_fragment_who", strArr);
-        }
-    }
-
     @Override // android.app.Activity
-    protected void onStart() {
+    public void onStart() {
+        this.mFragments.noteStateNotSaved();
         super.onStart();
         this.mStopped = false;
         if (!this.mCreated) {
             this.mCreated = true;
             this.mFragments.dispatchActivityCreated();
         }
-        this.mFragments.noteStateNotSaved();
         this.mFragments.execPendingActions();
         this.mFragmentLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START);
         this.mFragments.dispatchStart();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.app.Activity
-    protected void onStop() {
+    public void onStop() {
         super.onStop();
         this.mStopped = true;
         markFragmentsCreated();
@@ -306,102 +277,14 @@ public class FragmentActivity extends ComponentActivity implements ActivityCompa
         return LoaderManager.getInstance(this);
     }
 
-    @Override // android.app.Activity
-    public void startActivityForResult(@SuppressLint({"UnknownNullness"}) Intent intent, int i) {
-        if (!this.mStartedActivityFromFragment && i != -1) {
-            checkForValidRequestCode(i);
-        }
-        super.startActivityForResult(intent, i);
-    }
-
-    @Override // android.app.Activity
-    public void startActivityForResult(@SuppressLint({"UnknownNullness"}) Intent intent, int i, Bundle bundle) {
-        if (!this.mStartedActivityFromFragment && i != -1) {
-            checkForValidRequestCode(i);
-        }
-        super.startActivityForResult(intent, i, bundle);
-    }
-
-    @Override // android.app.Activity
-    public void startIntentSenderForResult(@SuppressLint({"UnknownNullness"}) IntentSender intentSender, int i, Intent intent, int i2, int i3, int i4) throws IntentSender.SendIntentException {
-        if (!this.mStartedIntentSenderFromFragment && i != -1) {
-            checkForValidRequestCode(i);
-        }
-        super.startIntentSenderForResult(intentSender, i, intent, i2, i3, i4);
-    }
-
-    @Override // android.app.Activity
-    public void startIntentSenderForResult(@SuppressLint({"UnknownNullness"}) IntentSender intentSender, int i, Intent intent, int i2, int i3, int i4, Bundle bundle) throws IntentSender.SendIntentException {
-        if (!this.mStartedIntentSenderFromFragment && i != -1) {
-            checkForValidRequestCode(i);
-        }
-        super.startIntentSenderForResult(intentSender, i, intent, i2, i3, i4, bundle);
-    }
-
-    static void checkForValidRequestCode(int i) {
-        if ((i & (-65536)) != 0) {
-            throw new IllegalArgumentException("Can only use lower 16 bits for requestCode");
-        }
-    }
-
-    @Override // androidx.core.app.ActivityCompat.RequestPermissionsRequestCodeValidator
-    public final void validateRequestPermissionsRequestCode(int i) {
-        if (this.mRequestedPermissionsFromFragment || i == -1) {
-            return;
-        }
-        checkForValidRequestCode(i);
-    }
-
-    @Override // android.app.Activity, androidx.core.app.ActivityCompat.OnRequestPermissionsResultCallback
+    @Override // androidx.activity.ComponentActivity, android.app.Activity
     public void onRequestPermissionsResult(int i, String[] strArr, int[] iArr) {
         this.mFragments.noteStateNotSaved();
-        int i2 = (i >> 16) & 65535;
-        if (i2 != 0) {
-            int i3 = i2 - 1;
-            String str = this.mPendingFragmentActivityResults.get(i3);
-            this.mPendingFragmentActivityResults.remove(i3);
-            if (str == null) {
-                Log.w("FragmentActivity", "Activity result delivered for unknown Fragment.");
-                return;
-            }
-            Fragment findFragmentByWho = this.mFragments.findFragmentByWho(str);
-            if (findFragmentByWho == null) {
-                Log.w("FragmentActivity", "Activity result no fragment exists for who: " + str);
-                return;
-            }
-            findFragmentByWho.onRequestPermissionsResult(i & 65535, strArr, iArr);
-        }
-    }
-
-    public void startActivityFromFragment(Fragment fragment, @SuppressLint({"UnknownNullness"}) Intent intent, int i, Bundle bundle) {
-        this.mStartedActivityFromFragment = true;
-        try {
-            if (i == -1) {
-                ActivityCompat.startActivityForResult(this, intent, -1, bundle);
-                return;
-            }
-            checkForValidRequestCode(i);
-            ActivityCompat.startActivityForResult(this, intent, ((allocateRequestIndex(fragment) + 1) << 16) + (i & 65535), bundle);
-        } finally {
-            this.mStartedActivityFromFragment = false;
-        }
-    }
-
-    private int allocateRequestIndex(Fragment fragment) {
-        if (this.mPendingFragmentActivityResults.size() >= 65534) {
-            throw new IllegalStateException("Too many pending Fragment activity results.");
-        }
-        while (this.mPendingFragmentActivityResults.indexOfKey(this.mNextCandidateRequestIndex) >= 0) {
-            this.mNextCandidateRequestIndex = (this.mNextCandidateRequestIndex + 1) % 65534;
-        }
-        int i = this.mNextCandidateRequestIndex;
-        this.mPendingFragmentActivityResults.put(i, fragment.mWho);
-        this.mNextCandidateRequestIndex = (this.mNextCandidateRequestIndex + 1) % 65534;
-        return i;
+        super.onRequestPermissionsResult(i, strArr, iArr);
     }
 
     /* loaded from: classes.dex */
-    class HostCallbacks extends FragmentHostCallback<FragmentActivity> implements ViewModelStoreOwner, OnBackPressedDispatcherOwner {
+    class HostCallbacks extends FragmentHostCallback<FragmentActivity> implements ViewModelStoreOwner, OnBackPressedDispatcherOwner, ActivityResultRegistryOwner, FragmentOnAttachListener {
         public HostCallbacks() {
             super(FragmentActivity.this);
         }
@@ -441,13 +324,8 @@ public class FragmentActivity extends ComponentActivity implements ActivityCompa
             FragmentActivity.this.supportInvalidateOptionsMenu();
         }
 
-        @Override // androidx.fragment.app.FragmentHostCallback
-        public void onStartActivityFromFragment(Fragment fragment, Intent intent, int i, Bundle bundle) {
-            FragmentActivity.this.startActivityFromFragment(fragment, intent, i, bundle);
-        }
-
-        @Override // androidx.fragment.app.FragmentHostCallback
-        public void onAttachFragment(Fragment fragment) {
+        @Override // androidx.fragment.app.FragmentOnAttachListener
+        public void onAttachFragment(FragmentManager fragmentManager, Fragment fragment) {
             FragmentActivity.this.onAttachFragment(fragment);
         }
 
@@ -461,9 +339,14 @@ public class FragmentActivity extends ComponentActivity implements ActivityCompa
             Window window = FragmentActivity.this.getWindow();
             return (window == null || window.peekDecorView() == null) ? false : true;
         }
+
+        @Override // androidx.activity.result.ActivityResultRegistryOwner
+        public ActivityResultRegistry getActivityResultRegistry() {
+            return FragmentActivity.this.getActivityResultRegistry();
+        }
     }
 
-    private void markFragmentsCreated() {
+    void markFragmentsCreated() {
         do {
         } while (markState(getSupportFragmentManager(), Lifecycle.State.CREATED));
     }
@@ -475,7 +358,12 @@ public class FragmentActivity extends ComponentActivity implements ActivityCompa
                 if (fragment.getHost() != null) {
                     z |= markState(fragment.getChildFragmentManager(), state);
                 }
-                if (fragment.getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) {
+                FragmentViewLifecycleOwner fragmentViewLifecycleOwner = fragment.mViewLifecycleOwner;
+                if (fragmentViewLifecycleOwner != null && fragmentViewLifecycleOwner.getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) {
+                    fragment.mViewLifecycleOwner.setCurrentState(state);
+                    z = true;
+                }
+                if (fragment.mLifecycleRegistry.getCurrentState().isAtLeast(Lifecycle.State.STARTED)) {
                     fragment.mLifecycleRegistry.setCurrentState(state);
                     z = true;
                 }

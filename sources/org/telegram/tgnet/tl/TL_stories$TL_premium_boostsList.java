@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import org.telegram.tgnet.AbstractSerializedData;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$User;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TL_stories$TL_premium_boostsList extends TLObject {
     public static int constructor = -2030542532;
     public int count;

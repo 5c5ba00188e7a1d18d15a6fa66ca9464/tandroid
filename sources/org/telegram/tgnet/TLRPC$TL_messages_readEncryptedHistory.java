@@ -1,5 +1,5 @@
 package org.telegram.tgnet;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_messages_readEncryptedHistory extends TLObject {
     public int max_date;
     public TLRPC$TL_inputEncryptedChat peer;

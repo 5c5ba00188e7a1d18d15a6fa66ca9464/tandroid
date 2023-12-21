@@ -43,6 +43,11 @@ public class ReportFragment extends Fragment {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static ReportFragment get(Activity activity) {
+        return (ReportFragment) activity.getFragmentManager().findFragmentByTag("androidx.lifecycle.LifecycleDispatcher.report_fragment_tag");
+    }
+
     private void dispatchCreate(ActivityInitializationListener activityInitializationListener) {
         if (activityInitializationListener != null) {
             activityInitializationListener.onCreate();
@@ -105,6 +110,11 @@ public class ReportFragment extends Fragment {
         if (Build.VERSION.SDK_INT < 29) {
             dispatch(getActivity(), event);
         }
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public void setProcessListener(ActivityInitializationListener activityInitializationListener) {
+        this.mProcessListener = activityInitializationListener;
     }
 
     /* loaded from: classes.dex */

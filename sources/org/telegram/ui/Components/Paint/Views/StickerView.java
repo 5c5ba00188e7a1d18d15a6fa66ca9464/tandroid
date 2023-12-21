@@ -189,7 +189,7 @@ public class StickerView extends EntityView {
     }
 
     @Override // org.telegram.ui.Components.Paint.Views.EntityView
-    protected Rect getSelectionBounds() {
+    public Rect getSelectionBounds() {
         ViewGroup viewGroup = (ViewGroup) getParent();
         if (viewGroup == null) {
             return new Rect();

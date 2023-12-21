@@ -11,7 +11,7 @@ import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.voip.Instance;
 import org.webrtc.ContextUtils;
 import org.webrtc.VideoSink;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class NativeInstance {
     private AudioLevelsCallback audioLevelsCallback;
     private RequestBroadcastPartCallback cancelRequestBroadcastPartCallback;
@@ -30,33 +30,33 @@ public class NativeInstance {
     private float[] temp = new float[1];
     private VideoSourcesCallback unknownParticipantsCallback;
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public interface AudioLevelsCallback {
         void run(int[] iArr, float[] fArr, boolean[] zArr);
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public interface PayloadCallback {
         void run(int i, String str);
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public interface RequestBroadcastPartCallback {
         void run(long j, long j2, int i, int i2);
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public interface RequestCurrentTimeCallback {
         void run(long j);
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class SsrcGroup {
         public String semantics;
         public int[] ssrcs;
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public interface VideoSourcesCallback {
         void run(long j, int[] iArr);
     }

@@ -38,8 +38,9 @@ public class BoostTypeSingleCell extends BoostTypeCell {
         this.imageView.setRoundRadius(AndroidUtilities.dp(20.0f));
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.Premium.boosts.cells.BoostTypeCell, org.telegram.ui.Components.Premium.boosts.cells.BaseCell
-    protected void updateLayouts() {
+    public void updateLayouts() {
         this.imageView.setLayoutParams(LayoutHelper.createFrame(40, 40.0f, (LocaleController.isRTL ? 5 : 3) | 16, 16.0f, 0.0f, 16.0f, 0.0f));
         SimpleTextView simpleTextView = this.titleTextView;
         boolean z = LocaleController.isRTL;

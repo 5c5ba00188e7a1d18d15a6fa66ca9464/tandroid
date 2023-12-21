@@ -1,109 +1,70 @@
 package com.google.mlkit.common.sdkinternal;
 
 import com.google.android.gms.common.internal.Preconditions;
-import com.google.android.gms.internal.mlkit_common.zzan;
-import com.google.mlkit.common.sdkinternal.TaskQueue;
-import java.io.Closeable;
 import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.concurrent.Executor;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.atomic.AtomicReference;
-/* compiled from: com.google.mlkit:common@@17.0.0 */
+/* compiled from: com.google.mlkit:common@@18.10.0 */
 /* loaded from: classes.dex */
 public class TaskQueue {
     private boolean zzb;
     private final Object zza = new Object();
-    private final Queue<zzb> zzc = new ArrayDeque();
-    private final AtomicReference<Thread> zzd = new AtomicReference<>();
+    private final Queue zzc = new ArrayDeque();
+    private final AtomicReference zzd = new AtomicReference();
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* compiled from: com.google.mlkit:common@@17.0.0 */
-    /* loaded from: classes.dex */
-    public static class zzb {
-        final Executor zza;
-        final Runnable zzb;
-
-        private zzb(Executor executor, Runnable runnable) {
-            this.zza = executor;
-            this.zzb = runnable;
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    /* compiled from: com.google.mlkit:common@@17.0.0 */
-    /* loaded from: classes.dex */
-    public class zza implements Closeable {
-        private zza() {
-            Preconditions.checkState(((Thread) TaskQueue.this.zzd.getAndSet(Thread.currentThread())) == null);
-        }
-
-        @Override // java.io.Closeable, java.lang.AutoCloseable
-        public final void close() {
-            TaskQueue.this.zzd.set(null);
-            TaskQueue.this.zza();
-        }
-    }
-
-    public void submit(Executor executor, Runnable runnable) {
+    public final void zzc() {
         synchronized (this.zza) {
-            if (this.zzb) {
-                this.zzc.add(new zzb(executor, runnable));
+            if (this.zzc.isEmpty()) {
+                this.zzb = false;
                 return;
             }
-            this.zzb = true;
-            zza(executor, runnable);
+            zzv zzvVar = (zzv) this.zzc.remove();
+            zzd(zzvVar.zza, zzvVar.zzb);
         }
     }
 
-    private final void zza(Executor executor, final Runnable runnable) {
+    private final void zzd(Executor executor, final Runnable runnable) {
         try {
-            executor.execute(new Runnable(this, runnable) { // from class: com.google.mlkit.common.sdkinternal.zzp
-                private final TaskQueue zza;
-                private final Runnable zzb;
-
-                /* JADX INFO: Access modifiers changed from: package-private */
-                {
-                    this.zza = this;
-                    this.zzb = runnable;
-                }
-
+            executor.execute(new Runnable() { // from class: com.google.mlkit.common.sdkinternal.zzt
                 @Override // java.lang.Runnable
                 public final void run() {
-                    TaskQueue taskQueue = this.zza;
-                    Runnable runnable2 = this.zzb;
-                    TaskQueue.zza zzaVar = new TaskQueue.zza();
+                    zzx zzxVar = new zzx(TaskQueue.this, null);
                     try {
-                        runnable2.run();
-                        zzaVar.close();
+                        runnable.run();
+                        zzxVar.close();
                     } catch (Throwable th) {
                         try {
-                            zzaVar.close();
+                            zzxVar.close();
                         } catch (Throwable th2) {
-                            zzan.zza(th, th2);
+                            try {
+                                Throwable.class.getDeclaredMethod("addSuppressed", Throwable.class).invoke(th, th2);
+                            } catch (Exception unused) {
+                            }
                         }
                         throw th;
                     }
                 }
             });
         } catch (RejectedExecutionException unused) {
-            zza();
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public final void zza() {
-        synchronized (this.zza) {
-            if (this.zzc.isEmpty()) {
-                this.zzb = false;
-                return;
-            }
-            zzb remove = this.zzc.remove();
-            zza(remove.zza, remove.zzb);
+            zzc();
         }
     }
 
     public void checkIsRunningOnCurrentThread() {
         Preconditions.checkState(Thread.currentThread().equals(this.zzd.get()));
+    }
+
+    public void submit(Executor executor, Runnable runnable) {
+        synchronized (this.zza) {
+            if (this.zzb) {
+                this.zzc.add(new zzv(executor, runnable, null));
+                return;
+            }
+            this.zzb = true;
+            zzd(executor, runnable);
+        }
     }
 }

@@ -175,7 +175,7 @@ import org.telegram.ui.Components.ContextProgressView;
 import org.telegram.ui.Components.EditTextBoldCursor;
 import org.telegram.ui.Components.HintEditText;
 import org.telegram.ui.Components.LayoutHelper;
-import org.telegram.ui.Components.Premium.boosts.BoostRepository$$ExternalSyntheticLambda31;
+import org.telegram.ui.Components.Premium.boosts.BoostRepository$$ExternalSyntheticLambda33;
 import org.telegram.ui.Components.TypefaceSpan;
 import org.telegram.ui.Components.URLSpanNoUnderline;
 import org.telegram.ui.Components.UndoView;
@@ -592,7 +592,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
     /* JADX WARN: Removed duplicated region for block: B:670:0x1b9b  */
     /* JADX WARN: Type inference failed for: r0v92, types: [org.telegram.ui.Cells.RecurrentPaymentsAcceptCell] */
     /* JADX WARN: Type inference failed for: r10v4 */
-    /* JADX WARN: Type inference failed for: r10v5, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r10v5, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r10v9 */
     /* JADX WARN: Type inference failed for: r11v10, types: [java.lang.StringBuilder] */
     /* JADX WARN: Type inference failed for: r1v106, types: [org.telegram.ui.Cells.TextDetailSettingsCell[]] */
@@ -624,7 +624,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
     /* JADX WARN: Type inference failed for: r3v312, types: [android.widget.EditText] */
     /* JADX WARN: Type inference failed for: r3v314, types: [android.widget.LinearLayout] */
     /* JADX WARN: Type inference failed for: r5v0 */
-    /* JADX WARN: Type inference failed for: r5v168, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r5v168, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r5v169 */
     /* JADX WARN: Type inference failed for: r6v9, types: [java.lang.CharSequence, android.text.SpannableString, java.lang.Object] */
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -796,7 +796,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                     hashMap2.put(split[1], split[2]);
                 } else {
                     bufferedReader.close();
-                    Collections.sort(this.countriesArray, BoostRepository$$ExternalSyntheticLambda31.INSTANCE);
+                    Collections.sort(this.countriesArray, BoostRepository$$ExternalSyntheticLambda33.INSTANCE);
                     this.inputFields = new EditTextBoldCursor[10];
                     int i9 = 0;
                     while (i9 < 10) {
@@ -4612,11 +4612,23 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                 } else if ("smartglocal".equals(this.paymentForm.native_provider)) {
                     new AsyncTask<Object, Object, String>() { // from class: org.telegram.ui.PaymentFormActivity.26
                         /* JADX INFO: Access modifiers changed from: protected */
-                        /* JADX WARN: Code restructure failed: missing block: B:36:0x0135, code lost:
-                            if (r4 == null) goto L24;
+                        /* JADX WARN: Can't wrap try/catch for region: R(9:3|4|(9:(12:45|46|(3:48|49|(1:51))|(1:8)(2:41|(1:43)(1:44))|9|10|11|12|13|14|15|(4:23|(1:25)|26|27)(3:19|20|21))|13|14|15|(1:17)|23|(0)|26|27)|6|(0)(0)|9|10|11|12) */
+                        /* JADX WARN: Code restructure failed: missing block: B:10:0x009b, code lost:
+                            if (r4.endsWith(".smart-glocal.com/cds/v1/tokenize/card") != false) goto L6;
                          */
-                        /* JADX WARN: Not initialized variable reg: 4, insn: 0x013c: MOVE  (r2 I:??[OBJECT, ARRAY]) = (r4 I:??[OBJECT, ARRAY]), block:B:40:0x013c */
-                        /* JADX WARN: Removed duplicated region for block: B:42:0x013f  */
+                        /* JADX WARN: Code restructure failed: missing block: B:42:0x0169, code lost:
+                            r13 = e;
+                         */
+                        /* JADX WARN: Code restructure failed: missing block: B:48:0x016f, code lost:
+                            org.telegram.messenger.FileLog.e(r13);
+                         */
+                        /* JADX WARN: Code restructure failed: missing block: B:49:0x0172, code lost:
+                            if (r4 == null) goto L27;
+                         */
+                        /* JADX WARN: Not initialized variable reg: 4, insn: 0x0179: MOVE  (r2 I:??[OBJECT, ARRAY]) = (r4 I:??[OBJECT, ARRAY]), block:B:53:0x0179 */
+                        /* JADX WARN: Removed duplicated region for block: B:15:0x00a3 A[Catch: all -> 0x016b, Exception -> 0x016d, TRY_ENTER, TryCatch #2 {Exception -> 0x016d, blocks: (B:3:0x0007, B:15:0x00a3, B:20:0x00c4, B:16:0x00a9, B:18:0x00b5, B:19:0x00bd), top: B:62:0x0007 }] */
+                        /* JADX WARN: Removed duplicated region for block: B:16:0x00a9 A[Catch: all -> 0x016b, Exception -> 0x016d, TryCatch #2 {Exception -> 0x016d, blocks: (B:3:0x0007, B:15:0x00a3, B:20:0x00c4, B:16:0x00a9, B:18:0x00b5, B:19:0x00bd), top: B:62:0x0007 }] */
+                        /* JADX WARN: Removed duplicated region for block: B:33:0x0142 A[Catch: Exception -> 0x0169, all -> 0x0178, TRY_LEAVE, TryCatch #4 {Exception -> 0x0169, blocks: (B:22:0x00cc, B:24:0x0103, B:28:0x0112, B:31:0x013e, B:33:0x0142, B:41:0x0168, B:40:0x0165), top: B:66:0x00cc }] */
                         @Override // android.os.AsyncTask
                         /*
                             Code decompiled incorrectly, please refer to instructions dump.
@@ -4624,81 +4636,116 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                         public String doInBackground(Object... objArr) {
                             HttpURLConnection httpURLConnection;
                             HttpURLConnection httpURLConnection2;
+                            JSONObject jSONObject;
+                            String string;
                             URL url;
+                            OutputStream outputStream;
                             int responseCode;
                             HttpURLConnection httpURLConnection3 = null;
                             try {
+                            } catch (Throwable th) {
+                                th = th;
+                                httpURLConnection3 = httpURLConnection;
+                            }
+                            try {
                                 try {
-                                    JSONObject jSONObject = new JSONObject();
+                                    jSONObject = new JSONObject();
                                     JSONObject jSONObject2 = new JSONObject();
                                     jSONObject2.put("number", card.getNumber());
                                     jSONObject2.put("expiration_month", String.format(Locale.US, "%02d", card.getExpMonth()));
                                     jSONObject2.put("expiration_year", "" + card.getExpYear());
                                     jSONObject2.put("security_code", "" + card.getCVC());
                                     jSONObject.put("card", jSONObject2);
-                                    if (PaymentFormActivity.this.paymentForm.invoice.test) {
-                                        url = new URL("https://tgb-playground.smart-glocal.com/cds/v1/tokenize/card");
-                                    } else {
-                                        url = new URL("https://tgb.smart-glocal.com/cds/v1/tokenize/card");
-                                    }
-                                    httpURLConnection = (HttpURLConnection) url.openConnection();
-                                    try {
-                                        httpURLConnection.setConnectTimeout(30000);
-                                        httpURLConnection.setReadTimeout(80000);
-                                        httpURLConnection.setUseCaches(false);
-                                        httpURLConnection.setDoOutput(true);
-                                        httpURLConnection.setRequestMethod("POST");
-                                        httpURLConnection.setRequestProperty("Content-Type", "application/json");
-                                        httpURLConnection.setRequestProperty("X-PUBLIC-TOKEN", PaymentFormActivity.this.providerApiKey);
-                                        OutputStream outputStream = httpURLConnection.getOutputStream();
+                                } catch (Exception e) {
+                                    e = e;
+                                    httpURLConnection2 = null;
+                                }
+                                try {
+                                    if (PaymentFormActivity.this.paymentForm.native_params != null) {
                                         try {
-                                            outputStream.write(jSONObject.toString().getBytes("UTF-8"));
-                                            outputStream.close();
-                                            responseCode = httpURLConnection.getResponseCode();
-                                        } catch (Throwable th) {
-                                            if (outputStream != null) {
+                                            string = new JSONObject(PaymentFormActivity.this.paymentForm.native_params.data).getString("tokenize_url");
+                                            if (string != null) {
                                                 try {
-                                                    outputStream.close();
-                                                } catch (Throwable th2) {
-                                                    th.addSuppressed(th2);
+                                                    if (string.startsWith("https://")) {
+                                                    }
+                                                } catch (Exception unused) {
                                                 }
                                             }
-                                            throw th;
+                                        } catch (Exception unused2) {
                                         }
-                                    } catch (Exception e) {
-                                        e = e;
-                                        FileLog.e(e);
+                                        if (string != null) {
+                                            if (PaymentFormActivity.this.paymentForm.invoice.test) {
+                                                url = new URL("https://tgb-playground.smart-glocal.com/cds/v1/tokenize/card");
+                                            } else {
+                                                url = new URL("https://tgb.smart-glocal.com/cds/v1/tokenize/card");
+                                            }
+                                        } else {
+                                            url = new URL(string);
+                                        }
+                                        httpURLConnection2 = (HttpURLConnection) url.openConnection();
+                                        httpURLConnection2.setConnectTimeout(30000);
+                                        httpURLConnection2.setReadTimeout(80000);
+                                        httpURLConnection2.setUseCaches(false);
+                                        httpURLConnection2.setDoOutput(true);
+                                        httpURLConnection2.setRequestMethod("POST");
+                                        httpURLConnection2.setRequestProperty("Content-Type", "application/json");
+                                        httpURLConnection2.setRequestProperty("X-PUBLIC-TOKEN", PaymentFormActivity.this.providerApiKey);
+                                        outputStream = httpURLConnection2.getOutputStream();
+                                        outputStream.write(jSONObject.toString().getBytes("UTF-8"));
+                                        outputStream.close();
+                                        responseCode = httpURLConnection2.getResponseCode();
+                                        if (responseCode < 200 && responseCode < 300) {
+                                            JSONObject jSONObject3 = new JSONObject();
+                                            jSONObject3.put("token", new JSONObject(PaymentFormActivity.getResponseBody(httpURLConnection2.getInputStream())).getJSONObject("data").getString("token"));
+                                            jSONObject3.put("type", "card");
+                                            String jSONObject4 = jSONObject3.toString();
+                                            httpURLConnection2.disconnect();
+                                            return jSONObject4;
+                                        }
+                                        if (BuildVars.DEBUG_VERSION) {
+                                            FileLog.e("" + PaymentFormActivity.getResponseBody(httpURLConnection2.getErrorStream()));
+                                        }
+                                        httpURLConnection2.disconnect();
+                                        return null;
                                     }
-                                } catch (Throwable th3) {
-                                    th = th3;
-                                    httpURLConnection3 = httpURLConnection2;
-                                    if (httpURLConnection3 != null) {
-                                        httpURLConnection3.disconnect();
+                                    outputStream.write(jSONObject.toString().getBytes("UTF-8"));
+                                    outputStream.close();
+                                    responseCode = httpURLConnection2.getResponseCode();
+                                    if (responseCode < 200) {
                                     }
-                                    throw th;
+                                    if (BuildVars.DEBUG_VERSION) {
+                                    }
+                                    httpURLConnection2.disconnect();
+                                    return null;
+                                } catch (Throwable th2) {
+                                    if (outputStream != null) {
+                                        try {
+                                            outputStream.close();
+                                        } catch (Throwable th3) {
+                                            th2.addSuppressed(th3);
+                                        }
+                                    }
+                                    throw th2;
                                 }
-                            } catch (Exception e2) {
-                                e = e2;
-                                httpURLConnection = null;
+                                string = null;
+                                if (string != null) {
+                                }
+                                httpURLConnection2 = (HttpURLConnection) url.openConnection();
+                                httpURLConnection2.setConnectTimeout(30000);
+                                httpURLConnection2.setReadTimeout(80000);
+                                httpURLConnection2.setUseCaches(false);
+                                httpURLConnection2.setDoOutput(true);
+                                httpURLConnection2.setRequestMethod("POST");
+                                httpURLConnection2.setRequestProperty("Content-Type", "application/json");
+                                httpURLConnection2.setRequestProperty("X-PUBLIC-TOKEN", PaymentFormActivity.this.providerApiKey);
+                                outputStream = httpURLConnection2.getOutputStream();
                             } catch (Throwable th4) {
                                 th = th4;
                                 if (httpURLConnection3 != null) {
+                                    httpURLConnection3.disconnect();
                                 }
                                 throw th;
                             }
-                            if (responseCode >= 200 && responseCode < 300) {
-                                JSONObject jSONObject3 = new JSONObject();
-                                jSONObject3.put("token", new JSONObject(PaymentFormActivity.getResponseBody(httpURLConnection.getInputStream())).getJSONObject("data").getString("token"));
-                                jSONObject3.put("type", "card");
-                                String jSONObject4 = jSONObject3.toString();
-                                httpURLConnection.disconnect();
-                                return jSONObject4;
-                            }
-                            if (BuildVars.DEBUG_VERSION) {
-                                FileLog.e("" + PaymentFormActivity.getResponseBody(httpURLConnection.getErrorStream()));
-                            }
-                            httpURLConnection.disconnect();
-                            return null;
                         }
 
                         /* JADX INFO: Access modifiers changed from: protected */

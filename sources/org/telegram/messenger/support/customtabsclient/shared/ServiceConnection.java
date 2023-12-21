@@ -4,7 +4,7 @@ import android.content.ComponentName;
 import java.lang.ref.WeakReference;
 import org.telegram.messenger.support.customtabs.CustomTabsClient;
 import org.telegram.messenger.support.customtabs.CustomTabsServiceConnection;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class ServiceConnection extends CustomTabsServiceConnection {
     private WeakReference<ServiceConnectionCallback> mConnectionCallback;
 

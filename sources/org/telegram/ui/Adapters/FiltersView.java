@@ -198,8 +198,9 @@ public class FiltersView extends RecyclerListView {
                 }).start();
             }
 
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // androidx.recyclerview.widget.DefaultItemAnimator
-            protected void animateRemoveImpl(final RecyclerView.ViewHolder viewHolder) {
+            public void animateRemoveImpl(final RecyclerView.ViewHolder viewHolder) {
                 final View view = viewHolder.itemView;
                 final ViewPropertyAnimator animate = view.animate();
                 this.mRemoveAnimations.add(viewHolder);

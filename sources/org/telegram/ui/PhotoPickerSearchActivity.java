@@ -308,7 +308,7 @@ public class PhotoPickerSearchActivity extends BaseFragment {
                             i15 = 51;
                         }
                         int i16 = i15 & 7;
-                        int i17 = i15 & 112;
+                        int i17 = i15 & R.styleable.AppCompatTheme_toolbarNavigationButtonStyle;
                         int i18 = i16 & 7;
                         if (i18 == 1) {
                             i8 = (((i6 - i4) - measuredWidth) / 2) + layoutParams.leftMargin;

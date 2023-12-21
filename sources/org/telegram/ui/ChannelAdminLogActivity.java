@@ -730,7 +730,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                             i13 = 51;
                         }
                         int i14 = i13 & 7;
-                        int i15 = i13 & 112;
+                        int i15 = i13 & R.styleable.AppCompatTheme_toolbarNavigationButtonStyle;
                         int i16 = i14 & 7;
                         if (i16 == 1) {
                             i6 = (((i4 - i2) - measuredWidth) / 2) + layoutParams.leftMargin;
@@ -3064,8 +3064,8 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             }
 
             @Override // org.telegram.ui.Cells.ChatActionCell.ChatActionCellDelegate
-            public /* synthetic */ void didOpenPremiumGift(ChatActionCell chatActionCell, TLRPC$TL_premiumGiftOption tLRPC$TL_premiumGiftOption, boolean z) {
-                ChatActionCell.ChatActionCellDelegate.-CC.$default$didOpenPremiumGift(this, chatActionCell, tLRPC$TL_premiumGiftOption, z);
+            public /* synthetic */ void didOpenPremiumGift(ChatActionCell chatActionCell, TLRPC$TL_premiumGiftOption tLRPC$TL_premiumGiftOption, String str, boolean z) {
+                ChatActionCell.ChatActionCellDelegate.-CC.$default$didOpenPremiumGift(this, chatActionCell, tLRPC$TL_premiumGiftOption, str, z);
             }
 
             @Override // org.telegram.ui.Cells.ChatActionCell.ChatActionCellDelegate
@@ -3093,6 +3093,10 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             @Override // org.telegram.ui.Cells.ChatActionCell.ChatActionCellDelegate
             public void didClickImage(ChatActionCell chatActionCell) {
                 MessageObject messageObject = chatActionCell.getMessageObject();
+                if (messageObject.type == 22) {
+                    ChannelAdminLogActivity.this.presentFragment(new ChannelColorActivity(getDialogId()).setOnApplied(ChannelAdminLogActivity.this));
+                    return;
+                }
                 PhotoViewer.getInstance().setParentActivity(ChannelAdminLogActivity.this);
                 TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(messageObject.photoThumbs, 640);
                 if (closestPhotoSizeWithSize == null) {
@@ -3353,6 +3357,16 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             updateRows();
             try {
                 super.notifyItemRangeChanged(i, i2);
+            } catch (Exception e) {
+                FileLog.e(e);
+            }
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+        public void notifyItemInserted(int i) {
+            updateRows();
+            try {
+                super.notifyItemInserted(i);
             } catch (Exception e) {
                 FileLog.e(e);
             }

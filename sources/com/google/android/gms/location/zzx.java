@@ -5,6 +5,7 @@ import android.os.Parcelable;
 import android.os.WorkSource;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
 import com.google.android.gms.internal.location.zzd;
+import org.telegram.messenger.R;
 import org.telegram.tgnet.ConnectionsManager;
 /* compiled from: com.google.android.gms:play-services-location@@21.0.1 */
 /* loaded from: classes.dex */
@@ -21,7 +22,7 @@ public final class zzx implements Parcelable.Creator {
         long j4 = 600000;
         long j5 = 0;
         long j6 = -1;
-        int i = 102;
+        int i = R.styleable.AppCompatTheme_textAppearanceLargePopupMenu;
         int i2 = ConnectionsManager.DEFAULT_DATACENTER_ID;
         float f = 0.0f;
         boolean z = false;

@@ -2393,6 +2393,14 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                     }
                     return super.drawChild(canvas, view, j2);
                 }
+
+                @Override // org.telegram.ui.Components.RecyclerListView
+                public Integer getSelectorColor(int i19) {
+                    if (getAdapter() == SharedMediaLayout.this.channelRecommendationsAdapter && SharedMediaLayout.this.channelRecommendationsAdapter.more > 0 && i19 == SharedMediaLayout.this.channelRecommendationsAdapter.getItemCount() - 1) {
+                        return 0;
+                    }
+                    return super.getSelectorColor(i19);
+                }
             };
             this.mediaPages[i16].listView.setFastScrollEnabled(1);
             this.mediaPages[i16].listView.setScrollingTouchSlop(1);
@@ -2541,13 +2549,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                         }
                         if ((mediaPage.selectedType != 0 && mediaPage.selectedType != 9 && (mediaPage.selectedType != 8 || !SharedMediaLayout.this.isStoriesView())) || !(view instanceof SharedPhotoVideoCell2)) {
                             if (mediaPage.selectedType == 10) {
-                                Bundle bundle = new Bundle();
-                                bundle.putLong("chat_id", ((TLRPC$Chat) SharedMediaLayout.this.channelRecommendationsAdapter.chats.get(i19)).id);
-                                ChatActivity chatActivity = new ChatActivity(bundle);
-                                if (SharedMediaLayout.this.profileActivity instanceof ProfileActivity) {
-                                    ((ProfileActivity) SharedMediaLayout.this.profileActivity).prepareBlurBitmap();
-                                }
-                                SharedMediaLayout.this.profileActivity.presentFragmentAsPreview(chatActivity);
+                                SharedMediaLayout.this.channelRecommendationsAdapter.openPreview(i19);
                                 return true;
                             }
                         } else {
@@ -2957,7 +2959,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$3(View view) {
-        onActionBarItemClick(view, 102);
+        onActionBarItemClick(view, R.styleable.AppCompatTheme_textAppearanceLargePopupMenu);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -2967,7 +2969,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$5(View view) {
-        onActionBarItemClick(view, FileLoader.MEDIA_DIR_VIDEO_PUBLIC);
+        onActionBarItemClick(view, 101);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -2983,12 +2985,15 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                         } else if (mediaPage.selectedType != 5 || !(view instanceof ContextLinkCell)) {
                             if (mediaPage.selectedType != 0 || !(view instanceof SharedPhotoVideoCell2)) {
                                 if ((mediaPage.selectedType != 8 && mediaPage.selectedType != 9) || !(view instanceof SharedPhotoVideoCell2)) {
-                                    if (mediaPage.selectedType != 10 || !(view instanceof ProfileSearchCell) || i < 0 || i >= this.channelRecommendationsAdapter.chats.size()) {
+                                    if (mediaPage.selectedType == 10) {
+                                        if (((view instanceof ProfileSearchCell) || f2 < AndroidUtilities.dp(60.0f)) && i >= 0 && i < this.channelRecommendationsAdapter.chats.size()) {
+                                            Bundle bundle = new Bundle();
+                                            bundle.putLong("chat_id", ((TLRPC$Chat) this.channelRecommendationsAdapter.chats.get(i)).id);
+                                            this.profileActivity.presentFragment(new ChatActivity(bundle));
+                                            return;
+                                        }
                                         return;
                                     }
-                                    Bundle bundle = new Bundle();
-                                    bundle.putLong("chat_id", ((TLRPC$Chat) this.channelRecommendationsAdapter.chats.get(i)).id);
-                                    this.profileActivity.presentFragment(new ChatActivity(bundle));
                                     return;
                                 }
                                 MessageObject messageObject = ((SharedPhotoVideoCell2) view).getMessageObject();
@@ -3999,7 +4004,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         if (this.mediaPages[0].selectedType == 7) {
             return this.delegate.canSearchMembers();
         }
-        return (this.mediaPages[0].selectedType == 0 || this.mediaPages[0].selectedType == 8 || this.mediaPages[0].selectedType == 9 || this.mediaPages[0].selectedType == 2 || this.mediaPages[0].selectedType == 5 || this.mediaPages[0].selectedType == 6) ? false : true;
+        return (this.mediaPages[0].selectedType == 0 || this.mediaPages[0].selectedType == 8 || this.mediaPages[0].selectedType == 9 || this.mediaPages[0].selectedType == 2 || this.mediaPages[0].selectedType == 5 || this.mediaPages[0].selectedType == 6 || this.mediaPages[0].selectedType == 10) ? false : true;
     }
 
     public boolean isCalendarItemVisible() {
@@ -4056,7 +4061,8 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         storiesAdapter2.destroy();
     }
 
-    private void checkCurrentTabValid() {
+    /* JADX INFO: Access modifiers changed from: private */
+    public void checkCurrentTabValid() {
         if (this.scrollSlidingTextTabStrip.hasTab(this.scrollSlidingTextTabStrip.getCurrentTabId())) {
             return;
         }
@@ -5287,8 +5293,9 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             }
         } else if (i != NotificationCenter.storiesUpdated) {
             if (i == NotificationCenter.channelRecommendationsLoaded && ((Long) objArr[0]).longValue() == (-this.dialog_id)) {
-                this.channelRecommendationsAdapter.update();
+                this.channelRecommendationsAdapter.update(true);
                 updateTabs(true);
+                checkCurrentTabValid();
             }
         } else {
             int i20 = 0;
@@ -5677,35 +5684,27 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         this.mergeDialogId = j;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:101:0x0121, code lost:
-        if (org.telegram.messenger.DialogObject.isChatDialog(r16.dialog_id) == false) goto L189;
+    /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Code restructure failed: missing block: B:100:0x011b, code lost:
+        r5 = !r16.channelRecommendationsAdapter.chats.isEmpty();
      */
-    /* JADX WARN: Code restructure failed: missing block: B:103:0x0130, code lost:
-        if (org.telegram.messenger.MessagesController.ChannelRecommendations.hasRecommendations(r16.profileActivity.getCurrentAccount(), -r16.dialog_id) == false) goto L189;
+    /* JADX WARN: Code restructure failed: missing block: B:101:0x012c, code lost:
+        if (r5 == r16.scrollSlidingTextTabStrip.hasTab(10)) goto L70;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:104:0x0132, code lost:
-        r5 = true;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:105:0x0134, code lost:
-        r5 = false;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:107:0x013b, code lost:
-        if (r5 == r16.scrollSlidingTextTabStrip.hasTab(10)) goto L75;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:108:0x013d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:102:0x012e, code lost:
         r3 = r3 + 1;
      */
     /* JADX WARN: Code restructure failed: missing block: B:70:0x00cc, code lost:
-        if ((r16.hasMedia[4] <= 0) == r16.scrollSlidingTextTabStrip.hasTab(4)) goto L193;
+        if ((r16.hasMedia[4] <= 0) == r16.scrollSlidingTextTabStrip.hasTab(4)) goto L187;
      */
     /* JADX WARN: Code restructure failed: missing block: B:77:0x00de, code lost:
-        if ((r16.hasMedia[4] <= 0) == r16.scrollSlidingTextTabStrip.hasTab(4)) goto L193;
+        if ((r16.hasMedia[4] <= 0) == r16.scrollSlidingTextTabStrip.hasTab(4)) goto L187;
      */
     /* JADX WARN: Code restructure failed: missing block: B:78:0x00e0, code lost:
         r3 = r3 + 1;
      */
     /* JADX WARN: Code restructure failed: missing block: B:80:0x00e6, code lost:
-        if (r16.hasMedia[2] > 0) goto L192;
+        if (r16.hasMedia[2] > 0) goto L186;
      */
     /* JADX WARN: Code restructure failed: missing block: B:81:0x00e8, code lost:
         r5 = true;
@@ -5720,7 +5719,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         r3 = r3 + 1;
      */
     /* JADX WARN: Code restructure failed: missing block: B:87:0x00f9, code lost:
-        if (r16.hasMedia[5] > 0) goto L191;
+        if (r16.hasMedia[5] > 0) goto L185;
      */
     /* JADX WARN: Code restructure failed: missing block: B:88:0x00fb, code lost:
         r5 = true;
@@ -5735,7 +5734,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         r3 = r3 + 1;
      */
     /* JADX WARN: Code restructure failed: missing block: B:94:0x010c, code lost:
-        if (r16.hasMedia[6] > 0) goto L190;
+        if (r16.hasMedia[6] > 0) goto L184;
      */
     /* JADX WARN: Code restructure failed: missing block: B:95:0x010e, code lost:
         r5 = true;
@@ -5752,7 +5751,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    private void updateTabs(boolean z) {
+    public void updateTabs(boolean z) {
         TLRPC$UserFull tLRPC$UserFull;
         TLRPC$ChatFull tLRPC$ChatFull;
         boolean z2;
@@ -7646,30 +7645,39 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         private final Context mContext;
         private int more;
 
-        public ChannelRecommendationsAdapter(Context context) {
-            this.mContext = context;
-            update();
+        @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
+        public boolean isEnabled(RecyclerView.ViewHolder viewHolder) {
+            return true;
         }
 
-        public void update() {
+        public ChannelRecommendationsAdapter(Context context) {
+            this.mContext = context;
+            update(false);
+        }
+
+        public void update(boolean z) {
             TLRPC$Chat chat;
             if (SharedMediaLayout.this.profileActivity == null || !DialogObject.isChatDialog(SharedMediaLayout.this.dialog_id) || (chat = MessagesController.getInstance(SharedMediaLayout.this.profileActivity.getCurrentAccount()).getChat(Long.valueOf(-SharedMediaLayout.this.dialog_id))) == null || !ChatObject.isChannelAndNotMegaGroup(chat)) {
                 return;
             }
             MessagesController.ChannelRecommendations channelRecommendations = MessagesController.getInstance(SharedMediaLayout.this.profileActivity.getCurrentAccount()).getChannelRecommendations(chat.id);
             this.chats.clear();
+            int i = 0;
             if (channelRecommendations != null) {
-                this.chats.addAll(channelRecommendations.chats);
-                this.more = UserConfig.getInstance(SharedMediaLayout.this.profileActivity.getCurrentAccount()).isPremium() ? 0 : channelRecommendations.more;
-            } else {
-                this.more = 0;
+                for (int i2 = 0; i2 < channelRecommendations.chats.size(); i2++) {
+                    TLRPC$Chat tLRPC$Chat = channelRecommendations.chats.get(i2);
+                    if (tLRPC$Chat != null && ChatObject.isNotInChat(tLRPC$Chat)) {
+                        this.chats.add(tLRPC$Chat);
+                    }
+                }
             }
-            notifyDataSetChanged();
-        }
-
-        @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
-        public boolean isEnabled(RecyclerView.ViewHolder viewHolder) {
-            return viewHolder.getItemViewType() == 0;
+            if (!this.chats.isEmpty() && !UserConfig.getInstance(SharedMediaLayout.this.profileActivity.getCurrentAccount()).isPremium()) {
+                i = channelRecommendations.more;
+            }
+            this.more = i;
+            if (z) {
+                notifyDataSetChanged();
+            }
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -7681,16 +7689,10 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             View profileSearchCell;
             if (i == 1) {
-                profileSearchCell = new MoreRecommendationsCell(SharedMediaLayout.this.profileActivity == null ? UserConfig.selectedAccount : SharedMediaLayout.this.profileActivity.getCurrentAccount(), this.mContext, SharedMediaLayout.this.resourcesProvider, new Runnable() { // from class: org.telegram.ui.Components.SharedMediaLayout$ChannelRecommendationsAdapter$$ExternalSyntheticLambda1
+                profileSearchCell = new MoreRecommendationsCell(SharedMediaLayout.this.profileActivity == null ? UserConfig.selectedAccount : SharedMediaLayout.this.profileActivity.getCurrentAccount(), this.mContext, SharedMediaLayout.this.resourcesProvider, new Runnable() { // from class: org.telegram.ui.Components.SharedMediaLayout$ChannelRecommendationsAdapter$$ExternalSyntheticLambda2
                     @Override // java.lang.Runnable
                     public final void run() {
                         SharedMediaLayout.ChannelRecommendationsAdapter.this.lambda$onCreateViewHolder$0();
-                    }
-                });
-                profileSearchCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.SharedMediaLayout$ChannelRecommendationsAdapter$$ExternalSyntheticLambda0
-                    @Override // android.view.View.OnClickListener
-                    public final void onClick(View view) {
-                        SharedMediaLayout.ChannelRecommendationsAdapter.this.lambda$onCreateViewHolder$1(view);
                     }
                 });
             } else {
@@ -7707,15 +7709,77 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onCreateViewHolder$1(View view) {
-            if (this.chats.size() <= 0) {
+        public void openPreview(final int i) {
+            if (i < 0 || i >= this.chats.size()) {
                 return;
             }
+            final TLRPC$Chat tLRPC$Chat = this.chats.get(i);
             Bundle bundle = new Bundle();
-            ArrayList<TLRPC$Chat> arrayList = this.chats;
-            bundle.putLong("chat_id", arrayList.get(arrayList.size() - 1).id);
-            SharedMediaLayout.this.profileActivity.presentFragment(new ChatActivity(bundle));
+            bundle.putLong("chat_id", tLRPC$Chat.id);
+            ChatActivity chatActivity = new ChatActivity(bundle);
+            if (SharedMediaLayout.this.profileActivity instanceof ProfileActivity) {
+                ((ProfileActivity) SharedMediaLayout.this.profileActivity).prepareBlurBitmap();
+            }
+            ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(SharedMediaLayout.this.getContext(), R.drawable.popup_fixed_alert, SharedMediaLayout.this.resourcesProvider, 2);
+            actionBarPopupWindowLayout.setBackgroundColor(SharedMediaLayout.this.getThemedColor(Theme.key_actionBarDefaultSubmenuBackground));
+            ActionBarMenuSubItem actionBarMenuSubItem = new ActionBarMenuSubItem(SharedMediaLayout.this.getContext(), false, false);
+            actionBarMenuSubItem.setTextAndIcon(LocaleController.getString(R.string.OpenChannel2), R.drawable.msg_channel);
+            actionBarMenuSubItem.setMinimumWidth(160);
+            actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.SharedMediaLayout$ChannelRecommendationsAdapter$$ExternalSyntheticLambda0
+                @Override // android.view.View.OnClickListener
+                public final void onClick(View view) {
+                    SharedMediaLayout.ChannelRecommendationsAdapter.this.lambda$openPreview$1(view);
+                }
+            });
+            actionBarPopupWindowLayout.addView(actionBarMenuSubItem);
+            ActionBarMenuSubItem actionBarMenuSubItem2 = new ActionBarMenuSubItem(SharedMediaLayout.this.getContext(), false, false);
+            actionBarMenuSubItem2.setTextAndIcon(LocaleController.getString(R.string.ProfileJoinChannel), R.drawable.msg_addbot);
+            actionBarMenuSubItem2.setMinimumWidth(160);
+            actionBarMenuSubItem2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.SharedMediaLayout$ChannelRecommendationsAdapter$$ExternalSyntheticLambda1
+                @Override // android.view.View.OnClickListener
+                public final void onClick(View view) {
+                    SharedMediaLayout.ChannelRecommendationsAdapter.this.lambda$openPreview$3(tLRPC$Chat, i, view);
+                }
+            });
+            actionBarPopupWindowLayout.addView(actionBarMenuSubItem2);
+            SharedMediaLayout.this.profileActivity.presentFragmentAsPreviewWithMenu(chatActivity, actionBarPopupWindowLayout);
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$openPreview$1(View view) {
+            if (SharedMediaLayout.this.profileActivity == null || SharedMediaLayout.this.profileActivity.getParentLayout() == null) {
+                return;
+            }
+            SharedMediaLayout.this.profileActivity.getParentLayout().expandPreviewFragment();
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$openPreview$3(final TLRPC$Chat tLRPC$Chat, int i, View view) {
+            SharedMediaLayout.this.profileActivity.finishPreviewFragment();
+            tLRPC$Chat.left = false;
+            update(false);
+            notifyItemRemoved(i);
+            if (this.chats.isEmpty()) {
+                SharedMediaLayout.this.updateTabs(true);
+                SharedMediaLayout.this.checkCurrentTabValid();
+            }
+            SharedMediaLayout.this.profileActivity.getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.channelRecommendationsLoaded, Long.valueOf(-SharedMediaLayout.this.dialog_id));
+            SharedMediaLayout.this.profileActivity.getMessagesController().addUserToChat(tLRPC$Chat.id, SharedMediaLayout.this.profileActivity.getUserConfig().getCurrentUser(), 0, null, SharedMediaLayout.this.profileActivity, new Runnable() { // from class: org.telegram.ui.Components.SharedMediaLayout$ChannelRecommendationsAdapter$$ExternalSyntheticLambda3
+                @Override // java.lang.Runnable
+                public final void run() {
+                    SharedMediaLayout.ChannelRecommendationsAdapter.this.lambda$openPreview$2(tLRPC$Chat);
+                }
+            });
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$openPreview$2(TLRPC$Chat tLRPC$Chat) {
+            BulletinFactory of = BulletinFactory.of(SharedMediaLayout.this.profileActivity);
+            int i = R.raw.contact_check;
+            int i2 = R.string.YouJoinedChannel;
+            Object[] objArr = new Object[1];
+            objArr[0] = tLRPC$Chat == null ? "" : tLRPC$Chat.title;
+            of.createSimpleBulletin(i, LocaleController.formatString(i2, objArr)).show();
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -7745,11 +7809,6 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         private final View gradientView;
         private final Theme.ResourcesProvider resourcesProvider;
         private final LinkSpanDrawable.LinksTextView textView;
-
-        @Override // android.view.View
-        public void setOnClickListener(View.OnClickListener onClickListener) {
-            this.channelCell.setOnClickListener(onClickListener);
-        }
 
         public MoreRecommendationsCell(int i, Context context, Theme.ResourcesProvider resourcesProvider, final Runnable runnable) {
             super(context);

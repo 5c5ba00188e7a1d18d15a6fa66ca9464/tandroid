@@ -242,7 +242,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
         }
 
         @Override // java.util.Collection, java.lang.Iterable, java.util.Set, j$.util.b, j$.lang.e
-        public j$.util.u spliterator() {
+        public j$.util.t spliterator() {
             ConcurrentHashMap concurrentHashMap = this.a;
             long m = concurrentHashMap.m();
             l[] lVarArr = concurrentHashMap.a;
@@ -272,7 +272,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes2.dex */
-    public static final class f extends p implements j$.util.u {
+    public static final class f extends p implements j$.util.t {
         final ConcurrentHashMap i;
         long j;
 
@@ -282,7 +282,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
             this.j = j;
         }
 
-        @Override // j$.util.u
+        @Override // j$.util.t
         public boolean b(Consumer consumer) {
             Objects.requireNonNull(consumer);
             l a = a();
@@ -293,17 +293,17 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
             return true;
         }
 
-        @Override // j$.util.u
+        @Override // j$.util.t
         public int characteristics() {
             return 4353;
         }
 
-        @Override // j$.util.u
+        @Override // j$.util.t
         public long estimateSize() {
             return this.j;
         }
 
-        @Override // j$.util.u
+        @Override // j$.util.t
         public void forEachRemaining(Consumer consumer) {
             Objects.requireNonNull(consumer);
             while (true) {
@@ -315,23 +315,23 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
             }
         }
 
-        @Override // j$.util.u
+        @Override // j$.util.t
         public Comparator getComparator() {
             throw new IllegalStateException();
         }
 
-        @Override // j$.util.u
+        @Override // j$.util.t
         public /* synthetic */ long getExactSizeIfKnown() {
             return j$.util.a.e(this);
         }
 
-        @Override // j$.util.u
+        @Override // j$.util.t
         public /* synthetic */ boolean hasCharacteristics(int i) {
             return j$.util.a.f(this, i);
         }
 
-        @Override // j$.util.u
-        public j$.util.u trySplit() {
+        @Override // j$.util.t
+        public j$.util.t trySplit() {
             int i = this.f;
             int i2 = this.g;
             int i3 = (i + i2) >>> 1;
@@ -518,7 +518,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
         }
 
         @Override // java.util.Collection, java.lang.Iterable, java.util.Set, j$.util.b, j$.lang.e
-        public j$.util.u spliterator() {
+        public j$.util.t spliterator() {
             ConcurrentHashMap concurrentHashMap = this.a;
             long m = concurrentHashMap.m();
             l[] lVarArr = concurrentHashMap.a;
@@ -548,7 +548,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes2.dex */
-    public static final class j extends p implements j$.util.u {
+    public static final class j extends p implements j$.util.t {
         long i;
 
         j(l[] lVarArr, int i, int i2, int i3, long j) {
@@ -556,7 +556,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
             this.i = j;
         }
 
-        @Override // j$.util.u
+        @Override // j$.util.t
         public boolean b(Consumer consumer) {
             Objects.requireNonNull(consumer);
             l a = a();
@@ -567,17 +567,17 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
             return true;
         }
 
-        @Override // j$.util.u
+        @Override // j$.util.t
         public int characteristics() {
             return 4353;
         }
 
-        @Override // j$.util.u
+        @Override // j$.util.t
         public long estimateSize() {
             return this.i;
         }
 
-        @Override // j$.util.u
+        @Override // j$.util.t
         public void forEachRemaining(Consumer consumer) {
             Objects.requireNonNull(consumer);
             while (true) {
@@ -589,23 +589,23 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
             }
         }
 
-        @Override // j$.util.u
+        @Override // j$.util.t
         public Comparator getComparator() {
             throw new IllegalStateException();
         }
 
-        @Override // j$.util.u
+        @Override // j$.util.t
         public /* synthetic */ long getExactSizeIfKnown() {
             return j$.util.a.e(this);
         }
 
-        @Override // j$.util.u
+        @Override // j$.util.t
         public /* synthetic */ boolean hasCharacteristics(int i) {
             return j$.util.a.f(this, i);
         }
 
-        @Override // j$.util.u
-        public j$.util.u trySplit() {
+        @Override // j$.util.t
+        public j$.util.t trySplit() {
             int i = this.f;
             int i2 = this.g;
             int i3 = (i + i2) >>> 1;
@@ -1529,7 +1529,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes2.dex */
-    public static final class t extends p implements j$.util.u {
+    public static final class t extends p implements j$.util.t {
         long i;
 
         t(l[] lVarArr, int i, int i2, int i3, long j) {
@@ -1537,7 +1537,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
             this.i = j;
         }
 
-        @Override // j$.util.u
+        @Override // j$.util.t
         public boolean b(Consumer consumer) {
             Objects.requireNonNull(consumer);
             l a = a();
@@ -1548,17 +1548,17 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
             return true;
         }
 
-        @Override // j$.util.u
+        @Override // j$.util.t
         public int characteristics() {
             return 4352;
         }
 
-        @Override // j$.util.u
+        @Override // j$.util.t
         public long estimateSize() {
             return this.i;
         }
 
-        @Override // j$.util.u
+        @Override // j$.util.t
         public void forEachRemaining(Consumer consumer) {
             Objects.requireNonNull(consumer);
             while (true) {
@@ -1570,23 +1570,23 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
             }
         }
 
-        @Override // j$.util.u
+        @Override // j$.util.t
         public Comparator getComparator() {
             throw new IllegalStateException();
         }
 
-        @Override // j$.util.u
+        @Override // j$.util.t
         public /* synthetic */ long getExactSizeIfKnown() {
             return j$.util.a.e(this);
         }
 
-        @Override // j$.util.u
+        @Override // j$.util.t
         public /* synthetic */ boolean hasCharacteristics(int i) {
             return j$.util.a.f(this, i);
         }
 
-        @Override // j$.util.u
-        public j$.util.u trySplit() {
+        @Override // j$.util.t
+        public j$.util.t trySplit() {
             int i = this.f;
             int i2 = this.g;
             int i3 = (i + i2) >>> 1;
@@ -1686,7 +1686,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
         }
 
         @Override // java.util.Collection, java.lang.Iterable, j$.util.b, j$.lang.e
-        public j$.util.u spliterator() {
+        public j$.util.t spliterator() {
             ConcurrentHashMap concurrentHashMap = this.a;
             long m = concurrentHashMap.m();
             l[] lVarArr = concurrentHashMap.a;
@@ -1777,7 +1777,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
             m2 = j4 + j2;
         }
         boolean z = true;
-        if (cVarArr != null && (length = cVarArr.length - 1) >= 0 && (cVar = cVarArr[length & j$.util.concurrent.i.c()]) != null) {
+        if (cVarArr != null && (length = cVarArr.length - 1) >= 0 && (cVar = cVarArr[length & ThreadLocalRandom.b()]) != null) {
             Unsafe unsafe2 = h;
             long j5 = m;
             long j6 = cVar.value;
@@ -1878,13 +1878,13 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
         int length;
         boolean z4;
         int length2;
-        int c2 = j$.util.concurrent.i.c();
-        if (c2 == 0) {
-            j$.util.concurrent.i.g();
-            i2 = j$.util.concurrent.i.c();
+        int b2 = ThreadLocalRandom.b();
+        if (b2 == 0) {
+            ThreadLocalRandom.f();
+            i2 = ThreadLocalRandom.b();
             z2 = true;
         } else {
-            i2 = c2;
+            i2 = b2;
             z2 = z;
         }
         while (true) {
@@ -1915,7 +1915,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
                         } else {
                             z2 = true;
                         }
-                        i3 = j$.util.concurrent.i.a(i3);
+                        i3 = ThreadLocalRandom.a(i3);
                     } else if (this.cellsBusy == 0) {
                         c cVar2 = new c(j2);
                         if (this.cellsBusy == 0 && h.compareAndSwapInt(this, l, 0, 1)) {
@@ -1939,7 +1939,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
                         }
                     }
                     z5 = false;
-                    i3 = j$.util.concurrent.i.a(i3);
+                    i3 = ThreadLocalRandom.a(i3);
                 } else if (this.cellsBusy == 0 && this.c == cVarArr && h.compareAndSwapInt(this, l, 0, 1)) {
                     try {
                         if (this.c == cVarArr) {

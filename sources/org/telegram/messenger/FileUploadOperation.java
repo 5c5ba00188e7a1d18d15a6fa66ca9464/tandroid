@@ -679,12 +679,12 @@ public class FileUploadOperation {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:26:0x0099, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:26:0x009a, code lost:
         if (r21.uploadingFilePath.toLowerCase().endsWith(r9) != false) goto L117;
      */
-    /* JADX WARN: Removed duplicated region for block: B:111:0x02bc  */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x00b9  */
-    /* JADX WARN: Removed duplicated region for block: B:36:0x00c9  */
+    /* JADX WARN: Removed duplicated region for block: B:111:0x02bd  */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x00ba  */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x00ca  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

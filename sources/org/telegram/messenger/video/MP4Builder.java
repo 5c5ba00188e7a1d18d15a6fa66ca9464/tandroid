@@ -38,7 +38,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class MP4Builder {
     private boolean splitMdat;
     private boolean wasFirstVideoFrame;
@@ -177,7 +177,7 @@ public class MP4Builder {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class InterleaveChunkMdat implements Box {
         private long contentSize;
         private long dataOffset;

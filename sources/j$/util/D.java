@@ -1,53 +1,54 @@
 package j$.util;
 
 import j$.util.function.Consumer;
+import j$.util.t;
 import java.util.Comparator;
 import java.util.Objects;
 /* loaded from: classes2.dex */
-final class D extends H implements t {
-    @Override // j$.util.t, j$.util.u
+final class D extends F implements t.c {
+    @Override // j$.util.t.c, j$.util.t
     public /* synthetic */ boolean b(Consumer consumer) {
-        return a.j(this, consumer);
+        return a.l(this, consumer);
+    }
+
+    @Override // j$.util.t.c
+    public void d(j$.util.function.q qVar) {
+        Objects.requireNonNull(qVar);
+    }
+
+    @Override // j$.util.t.c, j$.util.t
+    public /* synthetic */ void forEachRemaining(Consumer consumer) {
+        a.d(this, consumer);
     }
 
     @Override // j$.util.t
-    public void e(j$.util.function.f fVar) {
-        Objects.requireNonNull(fVar);
-    }
-
-    @Override // j$.util.t, j$.util.u
-    public /* synthetic */ void forEachRemaining(Consumer consumer) {
-        a.b(this, consumer);
-    }
-
-    @Override // j$.util.u
     public Comparator getComparator() {
         throw new IllegalStateException();
     }
 
-    @Override // j$.util.u
+    @Override // j$.util.t
     public /* synthetic */ long getExactSizeIfKnown() {
         return a.e(this);
     }
 
-    @Override // j$.util.u
+    @Override // j$.util.t
     public /* synthetic */ boolean hasCharacteristics(int i) {
         return a.f(this, i);
     }
 
-    @Override // j$.util.t
-    public boolean k(j$.util.function.f fVar) {
-        Objects.requireNonNull(fVar);
+    @Override // j$.util.t.c
+    public boolean i(j$.util.function.q qVar) {
+        Objects.requireNonNull(qVar);
         return false;
     }
 
-    @Override // j$.util.H, j$.util.t, j$.util.w, j$.util.u
-    public /* bridge */ /* synthetic */ t trySplit() {
+    @Override // j$.util.F, j$.util.t.a, j$.util.u, j$.util.t
+    public /* bridge */ /* synthetic */ t.c trySplit() {
         return null;
     }
 
-    @Override // j$.util.H, j$.util.t, j$.util.w, j$.util.u
-    public /* bridge */ /* synthetic */ w trySplit() {
+    @Override // j$.util.F, j$.util.t.a, j$.util.u, j$.util.t
+    public /* bridge */ /* synthetic */ u trySplit() {
         return null;
     }
 }

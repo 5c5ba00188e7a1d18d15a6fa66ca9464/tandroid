@@ -1,7 +1,7 @@
 package org.telegram.tgnet;
 
 import java.util.ArrayList;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_messages_availableReactions extends TLRPC$messages_AvailableReactions {
     public int hash;
     public ArrayList<TLRPC$TL_availableReaction> reactions = new ArrayList<>();

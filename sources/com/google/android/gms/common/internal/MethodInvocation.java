@@ -18,6 +18,11 @@ public class MethodInvocation extends AbstractSafeParcelable {
     private final int zah;
     private final int zai;
 
+    @Deprecated
+    public MethodInvocation(int i, int i2, int i3, long j, long j2, String str, String str2, int i4) {
+        this(i, i2, i3, j, j2, str, str2, i4, -1);
+    }
+
     @Override // android.os.Parcelable
     public final void writeToParcel(Parcel parcel, int i) {
         int beginObjectHeader = SafeParcelWriter.beginObjectHeader(parcel);

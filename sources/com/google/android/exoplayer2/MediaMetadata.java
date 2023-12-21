@@ -8,7 +8,7 @@ import com.google.android.exoplayer2.util.Util;
 import com.google.common.base.Objects;
 import java.util.Arrays;
 import java.util.List;
-import org.telegram.messenger.MessageObject;
+import org.telegram.messenger.R;
 /* loaded from: classes.dex */
 public final class MediaMetadata implements Bundleable {
     public final CharSequence albumArtist;
@@ -103,18 +103,18 @@ public final class MediaMetadata implements Bundleable {
             case 17:
             case 18:
             case 19:
-            case 31:
+            case R.styleable.AppCompatTheme_actionModeWebSearchDrawable /* 31 */:
             case 32:
-            case 33:
-            case 34:
-            case 35:
+            case R.styleable.AppCompatTheme_actionOverflowMenuStyle /* 33 */:
+            case R.styleable.AppCompatTheme_activityChooserViewStyle /* 34 */:
+            case R.styleable.AppCompatTheme_alertDialogButtonGroupStyle /* 35 */:
                 return 1;
             case 20:
-            case MessageObject.TYPE_GIVEAWAY /* 26 */:
-            case MessageObject.TYPE_JOINED_CHANNEL /* 27 */:
+            case 26:
+            case 27:
             case 28:
             case 29:
-            case 30:
+            case R.styleable.AppCompatTheme_actionModeTheme /* 30 */:
             default:
                 return 0;
             case 21:

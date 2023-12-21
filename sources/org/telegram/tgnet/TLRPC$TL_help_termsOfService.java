@@ -1,7 +1,7 @@
 package org.telegram.tgnet;
 
 import java.util.ArrayList;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_help_termsOfService extends TLObject {
     public ArrayList<TLRPC$MessageEntity> entities = new ArrayList<>();
     public int flags;

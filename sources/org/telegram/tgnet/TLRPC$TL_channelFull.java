@@ -3,7 +3,7 @@ package org.telegram.tgnet;
 import org.telegram.messenger.FileLoaderPriorityQueue;
 import org.telegram.messenger.LiteMode;
 import org.telegram.tgnet.tl.TL_stories$PeerStories;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_channelFull extends TLRPC$ChatFull {
     @Override // org.telegram.tgnet.TLObject
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
@@ -149,11 +149,14 @@ public class TLRPC$TL_channelFull extends TLRPC$ChatFull {
         if ((this.flags2 & 16) != 0) {
             this.stories = TL_stories$PeerStories.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
         }
+        if ((this.flags2 & 128) != 0) {
+            this.wallpaper = TLRPC$WallPaper.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+        }
     }
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(1915758525);
+        abstractSerializedData.writeInt32(254528367);
         int i = this.can_view_participants ? this.flags | 8 : this.flags & (-9);
         this.flags = i;
         int i2 = this.can_set_username ? i | 64 : i & (-65);
@@ -288,6 +291,9 @@ public class TLRPC$TL_channelFull extends TLRPC$ChatFull {
         }
         if ((this.flags2 & 16) != 0) {
             this.stories.serializeToStream(abstractSerializedData);
+        }
+        if ((this.flags2 & 128) != 0) {
+            this.wallpaper.serializeToStream(abstractSerializedData);
         }
     }
 }

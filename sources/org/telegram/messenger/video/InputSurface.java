@@ -10,7 +10,7 @@ import android.opengl.EGLSurface;
 import android.view.Surface;
 import java.util.Objects;
 @TargetApi(17)
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class InputSurface {
     private static final int EGL_OPENGL_ES2_BIT = 4;
     private static final int EGL_RECORDABLE_ANDROID = 12610;

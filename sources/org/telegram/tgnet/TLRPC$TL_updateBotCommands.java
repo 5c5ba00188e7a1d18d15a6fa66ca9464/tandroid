@@ -1,7 +1,7 @@
 package org.telegram.tgnet;
 
 import java.util.ArrayList;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_updateBotCommands extends TLRPC$Update {
     public long bot_id;
     public ArrayList<TLRPC$TL_botCommand> commands = new ArrayList<>();

@@ -2,17 +2,18 @@ package com.google.mlkit.common.internal;
 
 import com.google.firebase.components.ComponentContainer;
 import com.google.firebase.components.ComponentFactory;
-import com.google.mlkit.common.sdkinternal.MlKitThreadPool;
-/* compiled from: com.google.mlkit:common@@17.0.0 */
+import com.google.mlkit.common.sdkinternal.MlKitContext;
+import com.google.mlkit.common.sdkinternal.model.ModelFileHelper;
+/* compiled from: com.google.mlkit:common@@18.10.0 */
 /* loaded from: classes.dex */
-final /* synthetic */ class zza implements ComponentFactory {
-    static final ComponentFactory zza = new zza();
+public final /* synthetic */ class zza implements ComponentFactory {
+    public static final /* synthetic */ zza zza = new zza();
 
-    private zza() {
+    private /* synthetic */ zza() {
     }
 
     @Override // com.google.firebase.components.ComponentFactory
     public final Object create(ComponentContainer componentContainer) {
-        return new MlKitThreadPool();
+        return new ModelFileHelper((MlKitContext) componentContainer.get(MlKitContext.class));
     }
 }

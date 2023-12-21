@@ -3,7 +3,7 @@ package org.telegram.messenger.voip;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$TL_error;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public final /* synthetic */ class VoIPService$$ExternalSyntheticLambda94 implements RequestDelegate {
     public static final /* synthetic */ VoIPService$$ExternalSyntheticLambda94 INSTANCE = new VoIPService$$ExternalSyntheticLambda94();
 

@@ -15,7 +15,7 @@ import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.MessagesController;
 import org.telegram.ui.Components.voip.VoIPHelper;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class VoIPController {
     public static final int DATA_SAVING_ALWAYS = 2;
     public static final int DATA_SAVING_MOBILE = 1;
@@ -51,7 +51,7 @@ public class VoIPController {
     protected ConnectionStateListener listener;
     protected long nativeInst = nativeInit(new File(ApplicationLoader.applicationContext.getFilesDir(), "voip_persistent_state.json").getAbsolutePath());
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public interface ConnectionStateListener {
         void onConnectionStateChanged(int i, boolean z);
 
@@ -178,8 +178,8 @@ public class VoIPController {
         nativeSetMicMute(this.nativeInst, z);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:24:0x0049  */
-    /* JADX WARN: Removed duplicated region for block: B:25:0x0060  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x0047  */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x005d  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -307,7 +307,7 @@ public class VoIPController {
         return nativeNeedRate(this.nativeInst);
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class Stats {
         public long bytesRecvdMobile;
         public long bytesRecvdWifi;

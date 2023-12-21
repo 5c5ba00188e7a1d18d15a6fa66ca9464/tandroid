@@ -1,5 +1,5 @@
 package org.telegram.messenger.voip;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public final /* synthetic */ class VoIPService$$ExternalSyntheticLambda59 implements Runnable {
     public static final /* synthetic */ VoIPService$$ExternalSyntheticLambda59 INSTANCE = new VoIPService$$ExternalSyntheticLambda59();
 

@@ -2,46 +2,66 @@ package org.telegram.ui.Stories.recorder;
 
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.LinearGradient;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.PointF;
+import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.SurfaceTexture;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Pair;
 import android.util.Size;
+import android.util.SparseIntArray;
 import android.view.MotionEvent;
 import android.view.TextureView;
+import android.view.View;
 import android.view.ViewConfiguration;
+import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.view.ViewPropertyAnimator;
 import android.widget.FrameLayout;
 import com.google.android.exoplayer2.analytics.AnalyticsListener;
 import com.google.zxing.common.detector.MathUtils;
 import java.io.File;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Map;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.ApplicationLoader;
+import org.telegram.messenger.ChatThemeController;
 import org.telegram.messenger.MessageObject;
+import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.Utilities;
+import org.telegram.tgnet.ResultCallback;
+import org.telegram.tgnet.TLRPC$ChatFull;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$DocumentAttribute;
 import org.telegram.tgnet.TLRPC$Message;
 import org.telegram.tgnet.TLRPC$TL_documentAttributeAudio;
 import org.telegram.tgnet.TLRPC$TL_documentAttributeFilename;
+import org.telegram.tgnet.TLRPC$TL_error;
+import org.telegram.tgnet.TLRPC$UserFull;
+import org.telegram.tgnet.TLRPC$WallPaper;
+import org.telegram.ui.ActionBar.EmojiThemes;
+import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.ChatBackgroundDrawable;
 import org.telegram.ui.Components.AnimatedFloat;
 import org.telegram.ui.Components.BlurringShader;
-import org.telegram.ui.Components.ButtonBounce;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
+import org.telegram.ui.Components.MotionBackgroundDrawable;
 import org.telegram.ui.Components.Paint.Views.RoundView;
 import org.telegram.ui.Components.PhotoFilterView;
 import org.telegram.ui.Components.VideoEditTextureView;
@@ -51,10 +71,6 @@ import org.telegram.ui.Stories.recorder.StoryEntry;
 import org.telegram.ui.Stories.recorder.TimelineView;
 /* loaded from: classes4.dex */
 public class PreviewView extends FrameLayout {
-    private float Tx;
-    private float Ty;
-    private IStoryPart activePart;
-    private boolean activePartPressed;
     private boolean allowCropping;
     private boolean allowRotation;
     private boolean allowWithSingleTouch;
@@ -67,27 +83,24 @@ public class PreviewView extends FrameLayout {
     private float cy;
     private boolean doNotSpanRotation;
     private boolean draw;
+    public boolean drawForThemeToggle;
     private StoryEntry entry;
     public TextureView filterTextureView;
     private Matrix finalMatrix;
     private int gradientBottom;
     private final Paint gradientPaint;
     private int gradientTop;
-    private float h;
-    private boolean inTrash;
     public Runnable invalidateBlur;
     public boolean isMuted;
-    private boolean isPart;
     private long lastPos;
     private final PointF lastTouch;
     private float lastTouchDistance;
     private double lastTouchRotation;
     private final Matrix matrix;
+    private boolean moving;
     private boolean multitouch;
     private Runnable onErrorListener;
     private Runnable onTap;
-    private final HashMap<Integer, Bitmap> partsBitmap;
-    private final HashMap<Integer, ButtonBounce> partsBounce;
     private final HashSet<Integer> pauseLinks;
     private PhotoFilterView photoFilterView;
     private float rotationDiff;
@@ -99,18 +112,13 @@ public class PreviewView extends FrameLayout {
     private final Paint snapPaint;
     private boolean snappedRotation;
     private long tapTime;
-    private Matrix tempMatrix;
-    private float[] tempVertices;
     private VideoEditTextureView textureView;
+    private final TextureViewHolder textureViewHolder;
     private final AnimatedFloat thumbAlpha;
     private Bitmap thumbBitmap;
     private TimelineView timelineView;
     private final PointF touch;
     private Matrix touchMatrix;
-    private float trashCx;
-    private float trashCy;
-    private int trashPartIndex;
-    private AnimatedFloat trashT;
     private final Runnable updateAudioProgressRunnable;
     private final Runnable updateProgressRunnable;
     private final Runnable updateRoundProgressRunnable;
@@ -118,18 +126,13 @@ public class PreviewView extends FrameLayout {
     private int videoHeight;
     private VideoPlayer videoPlayer;
     private int videoWidth;
+    private Drawable wallpaperDrawable;
 
     public boolean additionalTouchEvent(MotionEvent motionEvent) {
         return false;
     }
 
-    public void onEntityDragEnd(boolean z) {
-    }
-
-    public void onEntityDragStart() {
-    }
-
-    public void onEntityDragTrash(boolean z) {
+    protected void invalidateTextureViewHolder() {
     }
 
     public void onEntityDraggedBottom(boolean z) {
@@ -144,12 +147,10 @@ public class PreviewView extends FrameLayout {
     public void onRoundSelectChange(boolean z) {
     }
 
-    public PreviewView(Context context, BlurringShader.BlurManager blurManager) {
+    public PreviewView(Context context, BlurringShader.BlurManager blurManager, TextureViewHolder textureViewHolder) {
         super(context);
         Paint paint = new Paint(1);
         this.snapPaint = paint;
-        this.partsBitmap = new HashMap<>();
-        this.partsBounce = new HashMap<>();
         this.updateProgressRunnable = new Runnable() { // from class: org.telegram.ui.Stories.recorder.PreviewView$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
@@ -174,15 +175,15 @@ public class PreviewView extends FrameLayout {
         this.vertices = new float[2];
         this.draw = true;
         this.thumbAlpha = new AnimatedFloat(this, 0L, 320L, CubicBezierInterpolator.EASE_OUT);
+        this.drawForThemeToggle = false;
         this.allowCropping = true;
         this.lastTouch = new PointF();
         this.touch = new PointF();
         this.touchMatrix = new Matrix();
         this.finalMatrix = new Matrix();
-        this.trashT = new AnimatedFloat(this, 0L, 280L, CubicBezierInterpolator.EASE_OUT_QUINT);
-        this.tempVertices = new float[2];
         this.pauseLinks = new HashSet<>();
         this.blurManager = blurManager;
+        this.textureViewHolder = textureViewHolder;
         paint.setStrokeWidth(AndroidUtilities.dp(1.0f));
         paint.setStyle(Paint.Style.STROKE);
         paint.setColor(-1);
@@ -213,7 +214,7 @@ public class PreviewView extends FrameLayout {
         if (storyEntry == null) {
             setupVideoPlayer(null, runnable, j);
             setupImage(null);
-            setupParts(null);
+            setupWallpaper(null);
             this.gradientPaint.setShader(null);
             setupAudio((StoryEntry) null, false);
             setupRound(null, null, false);
@@ -225,20 +226,42 @@ public class PreviewView extends FrameLayout {
             if (storyEntry.gradientTopColor != 0 || storyEntry.gradientBottomColor != 0) {
                 setupGradient();
             } else {
-                storyEntry.setupGradient(new Runnable() { // from class: org.telegram.ui.Stories.recorder.PreviewView$$ExternalSyntheticLambda2
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        PreviewView.this.setupGradient();
-                    }
-                });
+                storyEntry.setupGradient(new PreviewView$$ExternalSyntheticLambda2(this));
             }
         } else {
             setupVideoPlayer(null, runnable, 0L);
             setupImage(storyEntry);
             setupGradient();
         }
-        setupParts(storyEntry);
         applyMatrix();
+        setupWallpaper(storyEntry);
+        setupAudio(storyEntry, false);
+        setupRound(storyEntry, null, false);
+    }
+
+    public void preset(StoryEntry storyEntry) {
+        this.entry = storyEntry;
+        if (storyEntry == null) {
+            setupImage(null);
+            setupWallpaper(null);
+            this.gradientPaint.setShader(null);
+            setupAudio((StoryEntry) null, false);
+            setupRound(null, null, false);
+            return;
+        }
+        if (storyEntry.isVideo) {
+            setupImage(storyEntry);
+            if (storyEntry.gradientTopColor != 0 || storyEntry.gradientBottomColor != 0) {
+                setupGradient();
+            } else {
+                storyEntry.setupGradient(new PreviewView$$ExternalSyntheticLambda2(this));
+            }
+        } else {
+            setupImage(storyEntry);
+            setupGradient();
+        }
+        applyMatrix();
+        setupWallpaper(storyEntry);
         setupAudio(storyEntry, false);
         setupRound(storyEntry, null, false);
     }
@@ -291,11 +314,11 @@ public class PreviewView extends FrameLayout {
                 }
 
                 @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
-                public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) {
+                public void onVideoSizeChanged(int i, int i2, int i3, float f) {
                 }
 
-                @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
-                public void onVideoSizeChanged(int i, int i2, int i3, float f) {
+                {
+                    PreviewView.this = this;
                 }
 
                 @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
@@ -305,6 +328,11 @@ public class PreviewView extends FrameLayout {
                         return;
                     }
                     AndroidUtilities.runOnUIThread(PreviewView.this.updateAudioProgressRunnable);
+                }
+
+                @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
+                public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) {
+                    PreviewView.this.invalidateTextureViewHolder();
                 }
             });
             this.audioPlayer.preparePlayer(Uri.fromFile(new File(storyEntry.audioPath)), "other");
@@ -369,7 +397,6 @@ public class PreviewView extends FrameLayout {
         setupAudio(this.entry, z);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public void seekTo(long j) {
         VideoPlayer videoPlayer = this.videoPlayer;
         if (videoPlayer != null) {
@@ -401,6 +428,10 @@ public class PreviewView extends FrameLayout {
         this.timelineView = timelineView;
         if (timelineView != null) {
             timelineView.setDelegate(new TimelineView.TimelineDelegate() { // from class: org.telegram.ui.Stories.recorder.PreviewView.2
+                {
+                    PreviewView.this = this;
+                }
+
                 @Override // org.telegram.ui.Stories.recorder.TimelineView.TimelineDelegate
                 public void onProgressDragChange(boolean z) {
                     PreviewView.this.updatePauseReason(-4, z);
@@ -598,7 +629,7 @@ public class PreviewView extends FrameLayout {
                     return;
                 }
                 final String path = originalFile.getPath();
-                Bitmap scaledBitmap = StoryEntry.getScaledBitmap(new StoryEntry.DecodeBitmap() { // from class: org.telegram.ui.Stories.recorder.PreviewView$$ExternalSyntheticLambda8
+                Bitmap scaledBitmap = StoryEntry.getScaledBitmap(new StoryEntry.DecodeBitmap() { // from class: org.telegram.ui.Stories.recorder.PreviewView$$ExternalSyntheticLambda9
                     @Override // org.telegram.ui.Stories.recorder.StoryEntry.DecodeBitmap
                     public final Bitmap decode(BitmapFactory.Options options) {
                         Bitmap lambda$setupImage$0;
@@ -636,7 +667,6 @@ public class PreviewView extends FrameLayout {
         invalidate();
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ Bitmap lambda$setupImage$0(StoryEntry storyEntry, long j, String str, BitmapFactory.Options options) {
         if (storyEntry.isVideo) {
             String str2 = storyEntry.thumbPath;
@@ -653,7 +683,6 @@ public class PreviewView extends FrameLayout {
         return BitmapFactory.decodeFile(str, options);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public void setupGradient() {
         final int measuredHeight = getMeasuredHeight() > 0 ? getMeasuredHeight() : AndroidUtilities.displaySize.y;
         StoryEntry storyEntry = this.entry;
@@ -699,7 +728,6 @@ public class PreviewView extends FrameLayout {
         invalidate();
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setupGradient$1(int i, int[] iArr) {
         StoryEntry storyEntry = this.entry;
         int i2 = iArr[0];
@@ -720,7 +748,6 @@ public class PreviewView extends FrameLayout {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setupGradient$2(int i, int[] iArr) {
         StoryEntry storyEntry = this.entry;
         int i2 = iArr[0];
@@ -741,7 +768,8 @@ public class PreviewView extends FrameLayout {
         }
     }
 
-    private void setupVideoPlayer(StoryEntry storyEntry, Runnable runnable, long j) {
+    public void setupVideoPlayer(StoryEntry storyEntry, Runnable runnable, long j) {
+        ArrayList<MessageObject> arrayList;
         if (storyEntry == null) {
             VideoPlayer videoPlayer = this.videoPlayer;
             if (videoPlayer != null) {
@@ -749,19 +777,24 @@ public class PreviewView extends FrameLayout {
                 this.videoPlayer.releasePlayer(true);
                 this.videoPlayer = null;
             }
-            VideoEditTextureView videoEditTextureView = this.textureView;
-            if (videoEditTextureView != null) {
-                videoEditTextureView.clearAnimation();
-                this.textureView.animate().alpha(0.0f).withEndAction(new Runnable() { // from class: org.telegram.ui.Stories.recorder.PreviewView$$ExternalSyntheticLambda3
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        PreviewView.this.lambda$setupVideoPlayer$3();
-                    }
-                }).start();
+            TextureViewHolder textureViewHolder = this.textureViewHolder;
+            if (textureViewHolder != null && textureViewHolder.active) {
+                textureViewHolder.setTextureView(null);
+            } else {
+                VideoEditTextureView videoEditTextureView = this.textureView;
+                if (videoEditTextureView != null) {
+                    videoEditTextureView.clearAnimation();
+                    this.textureView.animate().alpha(0.0f).withEndAction(new Runnable() { // from class: org.telegram.ui.Stories.recorder.PreviewView$$ExternalSyntheticLambda3
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            PreviewView.this.lambda$setupVideoPlayer$3();
+                        }
+                    }).start();
+                }
             }
             TimelineView timelineView = this.timelineView;
             if (timelineView != null) {
-                timelineView.setVideo(null, 1L, 0.0f);
+                timelineView.setVideo(false, null, 1L, 0.0f);
             }
             AndroidUtilities.cancelRunOnUIThread(this.updateProgressRunnable);
             if (runnable != null) {
@@ -788,11 +821,16 @@ public class PreviewView extends FrameLayout {
         }
         this.textureView = new VideoEditTextureView(getContext(), this.videoPlayer);
         this.blurManager.resetBitmap();
-        this.textureView.updateUiBlurManager(this.blurManager);
-        this.textureView.setAlpha(runnable != null ? 1.0f : 0.0f);
+        this.textureView.updateUiBlurManager(storyEntry.isRepostMessage ? null : this.blurManager);
         this.textureView.setOpaque(false);
         applyMatrix();
-        addView(this.textureView, LayoutHelper.createFrame(-2, -2, 51));
+        TextureViewHolder textureViewHolder2 = this.textureViewHolder;
+        if (textureViewHolder2 != null && textureViewHolder2.active) {
+            textureViewHolder2.setTextureView(this.textureView);
+        } else {
+            this.textureView.setAlpha(runnable != null ? 1.0f : 0.0f);
+            addView(this.textureView, LayoutHelper.createFrame(-2, -2, 51));
+        }
         storyEntry.detectHDR(new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.PreviewView$$ExternalSyntheticLambda5
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
@@ -810,7 +848,7 @@ public class PreviewView extends FrameLayout {
         }
         checkVolumes();
         updateAudioPlayer(true);
-        this.timelineView.setVideo(storyEntry.getOriginalFile().getAbsolutePath(), getDuration(), storyEntry.videoVolume);
+        this.timelineView.setVideo(storyEntry.isRepostMessage && (arrayList = storyEntry.messageObjects) != null && arrayList.size() == 1 && storyEntry.messageObjects.get(0).type == 5, storyEntry.getOriginalFile().getAbsolutePath(), getDuration(), storyEntry.videoVolume);
         this.timelineView.setVideoLeft(storyEntry.left);
         this.timelineView.setVideoRight(storyEntry.right);
         TimelineView timelineView2 = this.timelineView;
@@ -820,7 +858,6 @@ public class PreviewView extends FrameLayout {
         timelineView2.setProgress(j);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setupVideoPlayer$3() {
         VideoEditTextureView videoEditTextureView = this.textureView;
         if (videoEditTextureView != null) {
@@ -830,7 +867,6 @@ public class PreviewView extends FrameLayout {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes4.dex */
     public class 3 implements VideoPlayer.VideoPlayerDelegate {
         final /* synthetic */ StoryEntry val$entry;
@@ -856,11 +892,8 @@ public class PreviewView extends FrameLayout {
             return false;
         }
 
-        @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
-        public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) {
-        }
-
         3(StoryEntry storyEntry, Runnable[] runnableArr) {
+            PreviewView.this = r1;
             this.val$entry = storyEntry;
             this.val$whenReadyFinal = runnableArr;
         }
@@ -909,17 +942,23 @@ public class PreviewView extends FrameLayout {
 
         @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
         public void onRenderedFirstFrame() {
+            if (PreviewView.this.textureViewHolder != null && PreviewView.this.textureViewHolder.active) {
+                PreviewView.this.textureViewHolder.activateTextureView(PreviewView.this.videoWidth, PreviewView.this.videoHeight);
+            }
             Runnable[] runnableArr = this.val$whenReadyFinal;
             if (runnableArr[0] == null) {
                 if (PreviewView.this.textureView != null) {
-                    ViewPropertyAnimator duration = PreviewView.this.textureView.animate().alpha(1.0f).setDuration(180L);
-                    final StoryEntry storyEntry = this.val$entry;
-                    duration.withEndAction(new Runnable() { // from class: org.telegram.ui.Stories.recorder.PreviewView$3$$ExternalSyntheticLambda0
-                        @Override // java.lang.Runnable
-                        public final void run() {
-                            PreviewView.3.this.lambda$onRenderedFirstFrame$0(storyEntry);
-                        }
-                    }).start();
+                    if (PreviewView.this.textureViewHolder == null || !PreviewView.this.textureViewHolder.active) {
+                        ViewPropertyAnimator duration = PreviewView.this.textureView.animate().alpha(1.0f).setDuration(180L);
+                        final StoryEntry storyEntry = this.val$entry;
+                        duration.withEndAction(new Runnable() { // from class: org.telegram.ui.Stories.recorder.PreviewView$3$$ExternalSyntheticLambda0
+                            @Override // java.lang.Runnable
+                            public final void run() {
+                                PreviewView.3.this.lambda$onRenderedFirstFrame$0(storyEntry);
+                            }
+                        }).start();
+                        return;
+                    }
                     return;
                 }
                 return;
@@ -936,7 +975,6 @@ public class PreviewView extends FrameLayout {
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onRenderedFirstFrame$0(StoryEntry storyEntry) {
             if (PreviewView.this.bitmap != null) {
                 PreviewView.this.bitmap.recycle();
@@ -947,14 +985,82 @@ public class PreviewView extends FrameLayout {
                 PreviewView.this.invalidate();
             }
         }
+
+        @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
+        public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) {
+            PreviewView.this.invalidateTextureViewHolder();
+        }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setupVideoPlayer$4(StoryEntry.HDRInfo hDRInfo) {
         VideoEditTextureView videoEditTextureView = this.textureView;
         if (videoEditTextureView != null) {
             videoEditTextureView.setHDRInfo(hDRInfo);
         }
+    }
+
+    /* loaded from: classes4.dex */
+    public static class TextureViewHolder {
+        public boolean active;
+        private TextureView textureView;
+        public boolean textureViewActive;
+        public int videoHeight;
+        public int videoWidth;
+        private Utilities.Callback2<Integer, Integer> whenTextureViewActive;
+        private Utilities.Callback<TextureView> whenTextureViewReceived;
+
+        public void setTextureView(TextureView textureView) {
+            TextureView textureView2 = this.textureView;
+            if (textureView2 == textureView) {
+                return;
+            }
+            if (textureView2 != null) {
+                ViewParent parent = textureView2.getParent();
+                if (parent instanceof ViewGroup) {
+                    ((ViewGroup) parent).removeView(this.textureView);
+                }
+                this.textureView = null;
+            }
+            this.textureViewActive = false;
+            this.textureView = textureView;
+            Utilities.Callback<TextureView> callback = this.whenTextureViewReceived;
+            if (callback != null) {
+                callback.run(textureView);
+            }
+        }
+
+        public void activateTextureView(int i, int i2) {
+            this.textureViewActive = true;
+            this.videoWidth = i;
+            this.videoHeight = i2;
+            Utilities.Callback2<Integer, Integer> callback2 = this.whenTextureViewActive;
+            if (callback2 != null) {
+                callback2.run(Integer.valueOf(i), Integer.valueOf(this.videoHeight));
+            }
+        }
+
+        public void takeTextureView(Utilities.Callback<TextureView> callback, Utilities.Callback2<Integer, Integer> callback2) {
+            Utilities.Callback2<Integer, Integer> callback22;
+            this.whenTextureViewReceived = callback;
+            this.whenTextureViewActive = callback2;
+            TextureView textureView = this.textureView;
+            if (textureView != null && callback != null) {
+                callback.run(textureView);
+            }
+            if (!this.textureViewActive || (callback22 = this.whenTextureViewActive) == null) {
+                return;
+            }
+            callback22.run(Integer.valueOf(this.videoWidth), Integer.valueOf(this.videoHeight));
+        }
+    }
+
+    @Override // android.view.ViewGroup
+    protected boolean drawChild(Canvas canvas, View view, long j) {
+        StoryEntry storyEntry;
+        if (view == this.textureView && (storyEntry = this.entry) != null && storyEntry.isRepostMessage) {
+            return false;
+        }
+        return super.drawChild(canvas, view, j);
     }
 
     public void setupRound(StoryEntry storyEntry, RoundView roundView, boolean z) {
@@ -1012,6 +1118,10 @@ public class PreviewView extends FrameLayout {
 
             @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
             public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) {
+            }
+
+            {
+                PreviewView.this = this;
             }
 
             @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
@@ -1077,54 +1187,6 @@ public class PreviewView extends FrameLayout {
         return j;
     }
 
-    public void setupParts(StoryEntry storyEntry) {
-        boolean z;
-        if (storyEntry == null) {
-            for (Bitmap bitmap : this.partsBitmap.values()) {
-                if (bitmap != null) {
-                    bitmap.recycle();
-                }
-            }
-            this.partsBitmap.clear();
-            this.partsBounce.clear();
-            return;
-        }
-        int measuredWidth = getMeasuredWidth() <= 0 ? AndroidUtilities.displaySize.x : getMeasuredWidth();
-        int i = (int) ((measuredWidth * 16) / 9.0f);
-        for (int i2 = 0; i2 < storyEntry.parts.size(); i2++) {
-            StoryEntry.Part part = storyEntry.parts.get(i2);
-            if (part != null && this.partsBitmap.get(Integer.valueOf(part.id)) == null) {
-                String path = part.file.getPath();
-                BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inJustDecodeBounds = true;
-                BitmapFactory.decodeFile(path, options);
-                options.inJustDecodeBounds = false;
-                options.inSampleSize = StoryEntry.calculateInSampleSize(options, measuredWidth, i);
-                this.partsBitmap.put(Integer.valueOf(part.id), BitmapFactory.decodeFile(path, options));
-            }
-        }
-        Iterator<Map.Entry<Integer, Bitmap>> it = this.partsBitmap.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry<Integer, Bitmap> next = it.next();
-            int i3 = 0;
-            while (true) {
-                if (i3 >= storyEntry.parts.size()) {
-                    z = false;
-                    break;
-                } else if (storyEntry.parts.get(i3).id == next.getKey().intValue()) {
-                    z = true;
-                    break;
-                } else {
-                    i3++;
-                }
-            }
-            if (!z) {
-                it.remove();
-                this.partsBounce.remove(next.getKey());
-            }
-        }
-    }
-
     public void setFilterTextureView(TextureView textureView, PhotoFilterView photoFilterView) {
         TextureView textureView2 = this.filterTextureView;
         if (textureView2 != null) {
@@ -1142,7 +1204,6 @@ public class PreviewView extends FrameLayout {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$5() {
         VideoPlayer videoPlayer = this.videoPlayer;
         if (videoPlayer == null || this.timelineView == null) {
@@ -1177,7 +1238,6 @@ public class PreviewView extends FrameLayout {
         this.lastPos = currentPosition;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$6() {
         VideoPlayer videoPlayer = this.audioPlayer;
         if (videoPlayer == null || this.videoPlayer != null || this.roundPlayer != null || this.timelineView == null) {
@@ -1205,7 +1265,6 @@ public class PreviewView extends FrameLayout {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$7() {
         VideoPlayer videoPlayer = this.roundPlayer;
         if (videoPlayer == null || this.videoPlayer != null || this.timelineView == null) {
@@ -1234,8 +1293,7 @@ public class PreviewView extends FrameLayout {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:31:0x0094, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:82:0x0094, code lost:
         if (r3 <= (r0 + r5)) goto L34;
      */
     /*
@@ -1287,7 +1345,6 @@ public class PreviewView extends FrameLayout {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public void updateRoundPlayer(boolean z) {
         StoryEntry storyEntry;
         VideoPlayer videoPlayer = this.roundPlayer;
@@ -1409,7 +1466,7 @@ public class PreviewView extends FrameLayout {
         float f3 = this.cx;
         float f4 = this.cy;
         float[] fArr6 = this.vertices;
-        this.h = MathUtils.distance(f3, f4, fArr6[0], fArr6[1]) * 2.0f;
+        MathUtils.distance(f3, f4, fArr6[0], fArr6[1]);
     }
 
     public void setDraw(boolean z) {
@@ -1419,8 +1476,22 @@ public class PreviewView extends FrameLayout {
 
     @Override // android.view.ViewGroup, android.view.View
     protected void dispatchDraw(Canvas canvas) {
-        Bitmap bitmap;
-        canvas.drawRect(0.0f, 0.0f, getWidth(), getHeight(), this.gradientPaint);
+        if (this.wallpaperDrawable != null) {
+            if (this.drawForThemeToggle) {
+                Path path = new Path();
+                RectF rectF = AndroidUtilities.rectTmp;
+                rectF.set(0.0f, 0.0f, getWidth(), getHeight());
+                path.addRoundRect(rectF, AndroidUtilities.dp(12.0f), AndroidUtilities.dp(12.0f), Path.Direction.CW);
+                canvas.save();
+                canvas.clipPath(path);
+            }
+            StoryEntry.drawBackgroundDrawable(canvas, this.wallpaperDrawable, getWidth(), getHeight());
+            if (this.drawForThemeToggle) {
+                canvas.restore();
+            }
+        } else {
+            canvas.drawRect(0.0f, 0.0f, getWidth(), getHeight(), this.gradientPaint);
+        }
         if (this.draw && this.entry != null) {
             float f = this.thumbAlpha.set(this.bitmap != null);
             if (this.thumbBitmap != null && 1.0f - f > 0.0f) {
@@ -1439,34 +1510,6 @@ public class PreviewView extends FrameLayout {
             }
         }
         super.dispatchDraw(canvas);
-        if (!this.draw || this.entry == null) {
-            return;
-        }
-        float f2 = this.trashT.set(!this.inTrash);
-        for (int i = 0; i < this.entry.parts.size(); i++) {
-            StoryEntry.Part part = this.entry.parts.get(i);
-            if (part != null && (bitmap = this.partsBitmap.get(Integer.valueOf(part.id))) != null) {
-                ButtonBounce buttonBounce = this.partsBounce.get(Integer.valueOf(part.id));
-                float scale = buttonBounce != null ? buttonBounce.getScale(0.05f) : 1.0f;
-                this.matrix.set(part.matrix);
-                canvas.save();
-                if (scale != 1.0f) {
-                    float[] fArr = this.tempVertices;
-                    fArr[0] = part.width / 2.0f;
-                    fArr[1] = part.height / 2.0f;
-                    this.matrix.mapPoints(fArr);
-                    canvas.scale(scale, scale, (this.tempVertices[0] / this.entry.resultWidth) * getWidth(), (this.tempVertices[1] / this.entry.resultHeight) * getHeight());
-                }
-                if (this.trashPartIndex == part.id) {
-                    float lerp = AndroidUtilities.lerp(0.2f, 1.0f, f2);
-                    canvas.scale(lerp, lerp, this.trashCx, this.trashCy);
-                }
-                this.matrix.preScale(part.width / bitmap.getWidth(), part.height / bitmap.getHeight());
-                this.matrix.postScale(getWidth() / this.entry.resultWidth, getHeight() / this.entry.resultHeight);
-                canvas.drawBitmap(bitmap, this.matrix, this.bitmapPaint);
-                canvas.restore();
-            }
-        }
     }
 
     public VideoEditTextureView getTextureView() {
@@ -1502,7 +1545,7 @@ public class PreviewView extends FrameLayout {
 
     public void applyMatrix() {
         StoryEntry storyEntry = this.entry;
-        if (storyEntry == null) {
+        if (storyEntry == null || storyEntry.isRepostMessage) {
             return;
         }
         if (this.textureView != null) {
@@ -1532,10 +1575,7 @@ public class PreviewView extends FrameLayout {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:100:0x027d  */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x019d  */
-    /* JADX WARN: Removed duplicated region for block: B:95:0x0268  */
-    /* JADX WARN: Removed duplicated region for block: B:97:0x026f  */
+    /* JADX WARN: Removed duplicated region for block: B:146:0x013c  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1546,11 +1586,10 @@ public class PreviewView extends FrameLayout {
         boolean z;
         int i;
         boolean z2;
-        boolean z3;
         if (this.allowCropping) {
             int i2 = 1;
-            boolean z4 = motionEvent.getPointerCount() > 1;
-            if (z4) {
+            boolean z3 = motionEvent.getPointerCount() > 1;
+            if (z3) {
                 this.touch.x = (motionEvent.getX(0) + motionEvent.getX(1)) / 2.0f;
                 this.touch.y = (motionEvent.getY(0) + motionEvent.getY(1)) / 2.0f;
                 f = MathUtils.distance(motionEvent.getX(0), motionEvent.getY(0), motionEvent.getX(1), motionEvent.getY(1));
@@ -1561,61 +1600,34 @@ public class PreviewView extends FrameLayout {
                 d = 0.0d;
                 f = 0.0f;
             }
-            if (this.multitouch != z4) {
+            if (this.multitouch != z3) {
                 PointF pointF = this.lastTouch;
                 PointF pointF2 = this.touch;
                 pointF.x = pointF2.x;
                 pointF.y = pointF2.y;
                 this.lastTouchDistance = f;
                 this.lastTouchRotation = d;
-                this.multitouch = z4;
+                this.multitouch = z3;
             }
             if (this.entry == null) {
                 return false;
             }
             float width = storyEntry.resultWidth / getWidth();
             if (motionEvent.getActionMasked() == 0) {
-                this.Ty = 0.0f;
-                this.Tx = 0.0f;
                 this.rotationDiff = 0.0f;
                 this.snappedRotation = false;
                 this.doNotSpanRotation = false;
-                PointF pointF3 = this.touch;
-                IStoryPart findPartAt = findPartAt(pointF3.x, pointF3.y);
-                this.activePart = findPartAt;
-                boolean z5 = findPartAt instanceof StoryEntry.Part;
-                this.isPart = z5;
-                if (z5) {
-                    this.entry.parts.remove(findPartAt);
-                    this.entry.parts.add((StoryEntry.Part) this.activePart);
-                    this.trashPartIndex = this.activePart.id;
-                    invalidate();
-                    this.allowWithSingleTouch = true;
-                    ButtonBounce buttonBounce = this.partsBounce.get(Integer.valueOf(this.activePart.id));
-                    if (buttonBounce == null) {
-                        HashMap<Integer, ButtonBounce> hashMap = this.partsBounce;
-                        Integer valueOf = Integer.valueOf(this.activePart.id);
-                        ButtonBounce buttonBounce2 = new ButtonBounce(this);
-                        hashMap.put(valueOf, buttonBounce2);
-                        buttonBounce = buttonBounce2;
-                    }
-                    buttonBounce.setPressed(true);
-                    this.activePartPressed = true;
-                    onEntityDragStart();
-                    onEntityDraggedTop(false);
-                    onEntityDraggedBottom(false);
-                } else {
-                    this.trashPartIndex = -1;
-                }
-                this.touchMatrix.set(this.activePart.matrix);
+                invalidate();
+                this.moving = true;
+                this.touchMatrix.set(this.entry.matrix);
             }
-            if (motionEvent.getActionMasked() == 2 && this.activePart != null) {
-                PointF pointF4 = this.touch;
-                float f2 = pointF4.x * width;
-                float f3 = pointF4.y * width;
-                PointF pointF5 = this.lastTouch;
-                float f4 = pointF5.x * width;
-                float f5 = pointF5.y * width;
+            if (motionEvent.getActionMasked() == 2 && this.moving && this.entry != null) {
+                PointF pointF3 = this.touch;
+                float f2 = pointF3.x * width;
+                float f3 = pointF3.y * width;
+                PointF pointF4 = this.lastTouch;
+                float f4 = pointF4.x * width;
+                float f5 = pointF4.y * width;
                 if (motionEvent.getPointerCount() > 1) {
                     float f6 = this.lastTouchDistance;
                     if (f6 != 0.0f) {
@@ -1626,14 +1638,14 @@ public class PreviewView extends FrameLayout {
                     float f8 = this.rotationDiff + degrees;
                     this.rotationDiff = f8;
                     if (!this.allowRotation) {
-                        boolean z6 = Math.abs(f8) > 20.0f;
-                        this.allowRotation = z6;
-                        if (!z6) {
+                        boolean z4 = Math.abs(f8) > 20.0f;
+                        this.allowRotation = z4;
+                        if (!z4) {
                             extractPointsData(this.touchMatrix);
                             this.allowRotation = (((float) Math.round(this.angle / 90.0f)) * 90.0f) - this.angle > 20.0f;
                         }
                         if (!this.snappedRotation) {
-                            z3 = 1;
+                            z2 = 1;
                             try {
                                 performHapticFeedback(9, 1);
                             } catch (Exception unused) {
@@ -1642,31 +1654,20 @@ public class PreviewView extends FrameLayout {
                             if (this.allowRotation) {
                                 this.touchMatrix.postRotate(degrees, f2, f3);
                             }
-                            this.allowWithSingleTouch = z3;
-                            i = z3;
+                            this.allowWithSingleTouch = z2;
+                            i = z2;
                         }
                     }
-                    z3 = 1;
+                    z2 = 1;
                     if (this.allowRotation) {
                     }
-                    this.allowWithSingleTouch = z3;
-                    i = z3;
+                    this.allowWithSingleTouch = z2;
+                    i = z2;
                 } else {
                     i = 1;
                 }
                 if (motionEvent.getPointerCount() > i || this.allowWithSingleTouch) {
-                    float f9 = f2 - f4;
-                    float f10 = f3 - f5;
-                    this.touchMatrix.postTranslate(f9, f10);
-                    this.Tx += f9;
-                    this.Ty += f10;
-                }
-                if (this.activePartPressed && MathUtils.distance(0.0f, 0.0f, this.Tx, this.Ty) > AndroidUtilities.touchSlop) {
-                    ButtonBounce buttonBounce3 = this.partsBounce.get(Integer.valueOf(this.activePart.id));
-                    if (buttonBounce3 != null) {
-                        buttonBounce3.setPressed(false);
-                    }
-                    this.activePartPressed = false;
+                    this.touchMatrix.postTranslate(f2 - f4, f3 - f5);
                 }
                 this.finalMatrix.set(this.touchMatrix);
                 this.matrix.set(this.touchMatrix);
@@ -1686,72 +1687,31 @@ public class PreviewView extends FrameLayout {
                         this.snappedRotation = false;
                     }
                 }
-                if (this.isPart) {
-                    PointF pointF6 = this.touch;
-                    if (MathUtils.distance(pointF6.x, pointF6.y, getWidth() / 2.0f, getHeight() - AndroidUtilities.dp(76.0f)) < AndroidUtilities.dp(35.0f)) {
-                        z2 = true;
-                        if (z2 != this.inTrash) {
-                            onEntityDragTrash(z2);
-                            this.inTrash = z2;
-                        }
-                        if (z2) {
-                            PointF pointF7 = this.touch;
-                            this.trashCx = pointF7.x;
-                            this.trashCy = pointF7.y;
-                        }
-                        if (this.isPart) {
-                            onEntityDraggedTop(this.cy - (this.h / 2.0f) < (((float) AndroidUtilities.dp(66.0f)) / ((float) getHeight())) * ((float) this.entry.resultHeight));
-                            onEntityDraggedBottom(this.cy + (this.h / 2.0f) > ((float) this.entry.resultHeight) - ((((float) AndroidUtilities.dp(114.0f)) / ((float) getHeight())) * ((float) this.entry.resultHeight)));
-                        }
-                        this.activePart.matrix.set(this.finalMatrix);
-                        i2 = 1;
-                        this.entry.editedMedia = true;
-                        applyMatrix();
-                        invalidate();
-                    }
-                }
-                z2 = false;
-                if (z2 != this.inTrash) {
-                }
-                if (z2) {
-                }
-                if (this.isPart) {
-                }
-                this.activePart.matrix.set(this.finalMatrix);
+                this.entry.matrix.set(this.finalMatrix);
                 i2 = 1;
                 this.entry.editedMedia = true;
                 applyMatrix();
                 invalidate();
             }
             if (motionEvent.getAction() == i2 || motionEvent.getAction() == 3) {
-                this.Ty = 0.0f;
-                this.Tx = 0.0f;
-                if (!(this.activePart instanceof StoryEntry.Part) || motionEvent.getPointerCount() <= 1) {
-                    ButtonBounce buttonBounce4 = this.partsBounce.get(Integer.valueOf(this.activePart.id));
-                    if (buttonBounce4 != null) {
-                        buttonBounce4.setPressed(false);
-                    }
-                    this.activePartPressed = false;
-                    this.allowWithSingleTouch = false;
-                    onEntityDragEnd(this.inTrash && motionEvent.getAction() == 1);
-                    this.activePart = null;
+                if (motionEvent.getPointerCount() <= i2) {
                     z = false;
-                    this.inTrash = false;
+                    this.allowWithSingleTouch = false;
                     onEntityDraggedTop(false);
                     onEntityDraggedBottom(false);
                 } else {
                     z = false;
                 }
-                this.isPart = z;
+                this.moving = z;
                 this.allowRotation = z;
                 this.rotationDiff = 0.0f;
                 this.snappedRotation = z;
                 invalidate();
             }
-            PointF pointF8 = this.lastTouch;
-            PointF pointF9 = this.touch;
-            pointF8.x = pointF9.x;
-            pointF8.y = pointF9.y;
+            PointF pointF5 = this.lastTouch;
+            PointF pointF6 = this.touch;
+            pointF5.x = pointF6.x;
+            pointF5.y = pointF6.y;
             this.lastTouchDistance = f;
             this.lastTouchRotation = d;
             return true;
@@ -1759,38 +1719,10 @@ public class PreviewView extends FrameLayout {
         return false;
     }
 
-    public void deleteCurrentPart() {
-        IStoryPart iStoryPart = this.activePart;
-        if (iStoryPart != null) {
-            this.entry.parts.remove(iStoryPart);
-            setupParts(this.entry);
-        }
-    }
-
-    private IStoryPart findPartAt(float f, float f2) {
-        for (int size = this.entry.parts.size() - 1; size >= 0; size--) {
-            StoryEntry.Part part = this.entry.parts.get(size);
-            this.tempVertices[0] = (f / getWidth()) * this.entry.resultWidth;
-            this.tempVertices[1] = (f2 / getHeight()) * this.entry.resultHeight;
-            if (this.tempMatrix == null) {
-                this.tempMatrix = new Matrix();
-            }
-            part.matrix.invert(this.tempMatrix);
-            this.tempMatrix.mapPoints(this.tempVertices);
-            float[] fArr = this.tempVertices;
-            if (fArr[0] >= 0.0f && fArr[0] <= part.width && fArr[1] >= 0.0f && fArr[1] <= part.height) {
-                return part;
-            }
-        }
-        return this.entry;
-    }
-
     private boolean tapTouchEvent(MotionEvent motionEvent) {
         Runnable runnable;
         if (motionEvent.getAction() == 0) {
             this.tapTime = System.currentTimeMillis();
-            motionEvent.getX();
-            motionEvent.getY();
             return true;
         } else if (motionEvent.getAction() == 1) {
             if (System.currentTimeMillis() - this.tapTime <= ViewConfiguration.getTapTimeout() && (runnable = this.onTap) != null) {
@@ -1821,11 +1753,8 @@ public class PreviewView extends FrameLayout {
 
     @Override // android.view.ViewGroup, android.view.View
     public boolean dispatchTouchEvent(MotionEvent motionEvent) {
-        boolean z = touchEvent(motionEvent);
-        if (!(this.activePart instanceof StoryEntry.Part)) {
-            z = additionalTouchEvent(motionEvent) || z;
-            tapTouchEvent(motionEvent);
-        }
+        boolean z = additionalTouchEvent(motionEvent) || touchEvent(motionEvent);
+        tapTouchEvent(motionEvent);
         if (z) {
             if (motionEvent.getPointerCount() <= 1) {
                 super.dispatchTouchEvent(motionEvent);
@@ -1855,5 +1784,227 @@ public class PreviewView extends FrameLayout {
 
     public void play(boolean z) {
         updatePauseReason(-9982, !z);
+    }
+
+    public static Drawable getBackgroundDrawable(Drawable drawable, int i, long j, boolean z) {
+        TLRPC$WallPaper tLRPC$WallPaper = null;
+        if (j == Long.MIN_VALUE) {
+            return null;
+        }
+        if (j >= 0) {
+            TLRPC$UserFull userFull = MessagesController.getInstance(i).getUserFull(j);
+            if (userFull != null) {
+                tLRPC$WallPaper = userFull.wallpaper;
+            }
+        } else {
+            TLRPC$ChatFull chatFull = MessagesController.getInstance(i).getChatFull(-j);
+            if (chatFull != null) {
+                tLRPC$WallPaper = chatFull.wallpaper;
+            }
+        }
+        return getBackgroundDrawable(drawable, i, tLRPC$WallPaper, z);
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:106:0x008c  */
+    /* JADX WARN: Removed duplicated region for block: B:107:0x0091  */
+    /* JADX WARN: Removed duplicated region for block: B:110:0x00a1  */
+    /* JADX WARN: Removed duplicated region for block: B:111:0x00a6  */
+    /* JADX WARN: Removed duplicated region for block: B:114:0x00b7  */
+    /* JADX WARN: Removed duplicated region for block: B:120:0x00c9  */
+    /* JADX WARN: Removed duplicated region for block: B:121:0x00cd  */
+    /* JADX WARN: Removed duplicated region for block: B:129:0x00ef  */
+    /* JADX WARN: Removed duplicated region for block: B:133:? A[RETURN, SYNTHETIC] */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public static Drawable getBackgroundDrawable(Drawable drawable, int i, TLRPC$WallPaper tLRPC$WallPaper, boolean z) {
+        Theme.ThemeInfo theme;
+        String str;
+        SparseIntArray themeFileValues;
+        int[] defaultColors;
+        Theme.ThemeAccent accent;
+        if (tLRPC$WallPaper != null && TextUtils.isEmpty(ChatThemeController.getWallpaperEmoticon(tLRPC$WallPaper))) {
+            return ChatBackgroundDrawable.getOrCreate(drawable, tLRPC$WallPaper, z);
+        }
+        EmojiThemes theme2 = (tLRPC$WallPaper == null || tLRPC$WallPaper.settings == null) ? null : ChatThemeController.getInstance(i).getTheme(tLRPC$WallPaper.settings.emoticon);
+        if (theme2 != null) {
+            return getBackgroundDrawableFromTheme(i, theme2, 0, z);
+        }
+        SharedPreferences sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("themeconfig", 0);
+        String str2 = "Blue";
+        String string = sharedPreferences.getString("lastDayTheme", "Blue");
+        string = (Theme.getTheme(string) == null || Theme.getTheme(string).isDark()) ? "Blue" : "Blue";
+        String str3 = "Dark Blue";
+        String string2 = sharedPreferences.getString("lastDarkTheme", "Dark Blue");
+        string2 = (Theme.getTheme(string2) == null || !Theme.getTheme(string2).isDark()) ? "Dark Blue" : "Dark Blue";
+        Theme.ThemeInfo activeTheme = Theme.getActiveTheme();
+        if (!string.equals(string2)) {
+            str3 = string2;
+        } else if (activeTheme.isDark() || string.equals("Dark Blue") || string.equals("Night")) {
+            str3 = string2;
+            if (!z) {
+                theme = Theme.getTheme(str3);
+            } else {
+                theme = Theme.getTheme(str2);
+            }
+            SparseIntArray sparseIntArray = new SparseIntArray();
+            String[] strArr = new String[1];
+            str = theme.assetName;
+            if (str == null) {
+                themeFileValues = Theme.getThemeFileValues(null, str, strArr);
+            } else {
+                themeFileValues = Theme.getThemeFileValues(new File(theme.pathToFile), null, strArr);
+            }
+            defaultColors = Theme.getDefaultColors();
+            if (defaultColors != null) {
+                for (int i2 = 0; i2 < defaultColors.length; i2++) {
+                    sparseIntArray.put(i2, defaultColors[i2]);
+                }
+            }
+            accent = theme.getAccent(false);
+            if (accent == null) {
+                accent.fillAccentColors(themeFileValues, sparseIntArray);
+            } else if (themeFileValues != null) {
+                for (int i3 = 0; i3 < themeFileValues.size(); i3++) {
+                    sparseIntArray.put(themeFileValues.keyAt(i3), themeFileValues.valueAt(i3));
+                }
+            }
+            Theme.BackgroundDrawableSettings createBackgroundDrawable = Theme.createBackgroundDrawable(theme, sparseIntArray, strArr[0], 0, true);
+            Drawable drawable2 = createBackgroundDrawable.themedWallpaper;
+            return drawable2 == null ? drawable2 : createBackgroundDrawable.wallpaper;
+        }
+        str2 = string;
+        if (!z) {
+        }
+        SparseIntArray sparseIntArray2 = new SparseIntArray();
+        String[] strArr2 = new String[1];
+        str = theme.assetName;
+        if (str == null) {
+        }
+        defaultColors = Theme.getDefaultColors();
+        if (defaultColors != null) {
+        }
+        accent = theme.getAccent(false);
+        if (accent == null) {
+        }
+        Theme.BackgroundDrawableSettings createBackgroundDrawable2 = Theme.createBackgroundDrawable(theme, sparseIntArray2, strArr2[0], 0, true);
+        Drawable drawable22 = createBackgroundDrawable2.themedWallpaper;
+        if (drawable22 == null) {
+        }
+    }
+
+    public void setupWallpaper(StoryEntry storyEntry) {
+        if (storyEntry != null) {
+            long j = storyEntry.backgroundWallpaperPeerId;
+            if (j != Long.MIN_VALUE) {
+                Drawable backgroundDrawable = getBackgroundDrawable(this.wallpaperDrawable, storyEntry.currentAccount, j, storyEntry.isDark);
+                storyEntry.backgroundDrawable = backgroundDrawable;
+                this.wallpaperDrawable = backgroundDrawable;
+                if (backgroundDrawable != null) {
+                    backgroundDrawable.setCallback(this);
+                }
+                BlurringShader.BlurManager blurManager = this.blurManager;
+                if (blurManager != null) {
+                    Drawable drawable = this.wallpaperDrawable;
+                    if (drawable != null) {
+                        if (drawable instanceof BitmapDrawable) {
+                            blurManager.setFallbackBlur(((BitmapDrawable) drawable).getBitmap(), 0);
+                        } else {
+                            int intrinsicWidth = drawable.getIntrinsicWidth();
+                            int intrinsicHeight = this.wallpaperDrawable.getIntrinsicHeight();
+                            if (intrinsicWidth <= 0 || intrinsicHeight <= 0) {
+                                intrinsicWidth = 1080;
+                                intrinsicHeight = 1920;
+                            }
+                            float f = intrinsicWidth;
+                            float f2 = intrinsicHeight;
+                            float max = Math.max(100.0f / f, 100.0f / f2);
+                            if (max > 1.0f) {
+                                intrinsicWidth = (int) (f * max);
+                                intrinsicHeight = (int) (f2 * max);
+                            }
+                            Bitmap createBitmap = Bitmap.createBitmap(intrinsicWidth, intrinsicHeight, Bitmap.Config.ARGB_8888);
+                            this.wallpaperDrawable.setBounds(0, 0, intrinsicWidth, intrinsicHeight);
+                            this.wallpaperDrawable.draw(new Canvas(createBitmap));
+                            this.blurManager.setFallbackBlur(createBitmap, 0, true);
+                        }
+                    } else {
+                        blurManager.setFallbackBlur(null, 0);
+                    }
+                }
+                invalidate();
+                return;
+            }
+        }
+        this.wallpaperDrawable = null;
+    }
+
+    public static Drawable getBackgroundDrawableFromTheme(int i, String str, boolean z) {
+        return getBackgroundDrawableFromTheme(i, str, z, false);
+    }
+
+    public static Drawable getBackgroundDrawableFromTheme(int i, String str, boolean z, boolean z2) {
+        EmojiThemes theme = ChatThemeController.getInstance(i).getTheme(str);
+        if (theme == null) {
+            return Theme.getCachedWallpaper();
+        }
+        return getBackgroundDrawableFromTheme(i, theme, 0, z, z2);
+    }
+
+    public static Drawable getBackgroundDrawableFromTheme(int i, EmojiThemes emojiThemes, int i2, boolean z) {
+        return getBackgroundDrawableFromTheme(i, emojiThemes, i2, z, false);
+    }
+
+    public static Drawable getBackgroundDrawableFromTheme(int i, final EmojiThemes emojiThemes, int i2, final boolean z, boolean z2) {
+        if (emojiThemes.showAsDefaultStub) {
+            Drawable drawable = Theme.createBackgroundDrawable(EmojiThemes.getDefaultThemeInfo(z), emojiThemes.getPreviewColors(i, z ? 1 : 0), emojiThemes.getWallpaperLink(z ? 1 : 0), i2, false).wallpaper;
+            return new ColorDrawable(-16777216);
+        }
+        SparseIntArray previewColors = emojiThemes.getPreviewColors(i, z ? 1 : 0);
+        int i3 = Theme.key_chat_wallpaper;
+        int i4 = previewColors.get(i3, Theme.getColor(i3));
+        int i5 = Theme.key_chat_wallpaper_gradient_to1;
+        int i6 = previewColors.get(i5, Theme.getColor(i5));
+        int i7 = Theme.key_chat_wallpaper_gradient_to2;
+        int i8 = previewColors.get(i7, Theme.getColor(i7));
+        int i9 = Theme.key_chat_wallpaper_gradient_to3;
+        int i10 = previewColors.get(i9, Theme.getColor(i9));
+        final MotionBackgroundDrawable motionBackgroundDrawable = new MotionBackgroundDrawable();
+        motionBackgroundDrawable.isPreview = z2;
+        motionBackgroundDrawable.setPatternBitmap(emojiThemes.getWallpaper(z ? 1 : 0).settings.intensity);
+        motionBackgroundDrawable.setColors(i4, i6, i8, i10, 0, true);
+        motionBackgroundDrawable.setPhase(i2);
+        final int patternColor = motionBackgroundDrawable.getPatternColor();
+        emojiThemes.loadWallpaper(z ? 1 : 0, new ResultCallback() { // from class: org.telegram.ui.Stories.recorder.PreviewView$$ExternalSyntheticLambda8
+            @Override // org.telegram.tgnet.ResultCallback
+            public final void onComplete(Object obj) {
+                PreviewView.lambda$getBackgroundDrawableFromTheme$8(EmojiThemes.this, z, z, motionBackgroundDrawable, patternColor, (Pair) obj);
+            }
+
+            @Override // org.telegram.tgnet.ResultCallback
+            public /* synthetic */ void onError(TLRPC$TL_error tLRPC$TL_error) {
+                ResultCallback.-CC.$default$onError(this, tLRPC$TL_error);
+            }
+        });
+        return motionBackgroundDrawable;
+    }
+
+    public static /* synthetic */ void lambda$getBackgroundDrawableFromTheme$8(EmojiThemes emojiThemes, boolean z, boolean z2, MotionBackgroundDrawable motionBackgroundDrawable, int i, Pair pair) {
+        if (pair == null) {
+            return;
+        }
+        long longValue = ((Long) pair.first).longValue();
+        Bitmap bitmap = (Bitmap) pair.second;
+        if (longValue != emojiThemes.getTlTheme(z ? 1 : 0).id || bitmap == null) {
+            return;
+        }
+        motionBackgroundDrawable.setPatternBitmap(emojiThemes.getWallpaper(z2 ? 1 : 0).settings.intensity, bitmap);
+        motionBackgroundDrawable.setPatternColorFilter(i);
+        motionBackgroundDrawable.setPatternAlpha(1.0f);
+    }
+
+    @Override // android.view.View
+    protected boolean verifyDrawable(Drawable drawable) {
+        return this.wallpaperDrawable == drawable || super.verifyDrawable(drawable);
     }
 }

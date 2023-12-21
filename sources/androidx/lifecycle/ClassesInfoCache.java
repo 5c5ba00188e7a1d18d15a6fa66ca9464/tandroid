@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+@Deprecated
 /* loaded from: classes.dex */
 final class ClassesInfoCache {
     static ClassesInfoCache sInstance = new ClassesInfoCache();
@@ -112,6 +113,7 @@ final class ClassesInfoCache {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
+    @Deprecated
     /* loaded from: classes.dex */
     public static class CallbackInfo {
         final Map<Lifecycle.Event, List<MethodReference>> mEventToHandlers = new HashMap();
@@ -146,6 +148,7 @@ final class ClassesInfoCache {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
+    @Deprecated
     /* loaded from: classes.dex */
     public static final class MethodReference {
         final int mCallType;

@@ -1,7 +1,7 @@
 package org.telegram.tgnet;
 
 import org.telegram.tgnet.tl.TL_stories$StoryItem;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$WebPageAttribute extends TLObject {
     public int flags;
 

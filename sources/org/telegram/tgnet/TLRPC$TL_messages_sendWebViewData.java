@@ -1,5 +1,5 @@
 package org.telegram.tgnet;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_messages_sendWebViewData extends TLObject {
     public TLRPC$InputUser bot;
     public String button_text;

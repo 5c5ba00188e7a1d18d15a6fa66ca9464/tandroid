@@ -1,29 +1,9 @@
 package org.telegram.tgnet.tl;
 
 import org.telegram.tgnet.AbstractSerializedData;
-import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Reaction;
-/* loaded from: classes.dex */
-public class TL_stories$TL_storyView extends TLObject {
-    public boolean blocked;
-    public boolean blocked_my_stories_from;
-    public int date;
-    public int flags;
-    public TLRPC$Reaction reaction;
-    public long user_id;
-
-    public static TL_stories$TL_storyView TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-        if (-1329730875 != i) {
-            if (z) {
-                throw new RuntimeException(String.format("can't parse magic %x in TL_storyView", Integer.valueOf(i)));
-            }
-            return null;
-        }
-        TL_stories$TL_storyView tL_stories$TL_storyView = new TL_stories$TL_storyView();
-        tL_stories$TL_storyView.readParams(abstractSerializedData, z);
-        return tL_stories$TL_storyView;
-    }
-
+/* loaded from: classes3.dex */
+public class TL_stories$TL_storyView extends TL_stories$StoryView {
     @Override // org.telegram.tgnet.TLObject
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
         int readInt32 = abstractSerializedData.readInt32(z);

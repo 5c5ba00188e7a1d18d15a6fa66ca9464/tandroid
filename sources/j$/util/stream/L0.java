@@ -2,7 +2,7 @@ package j$.util.stream;
 
 import j$.util.function.BiConsumer;
 import j$.util.p;
-import j$.util.u;
+import j$.util.t;
 import java.util.Iterator;
 import java.util.Objects;
 /* loaded from: classes2.dex */
@@ -11,17 +11,17 @@ public abstract class L0 extends c implements IntStream {
         super(cVar, i);
     }
 
-    public L0(j$.util.u uVar, int i, boolean z) {
-        super(uVar, i, z);
+    public L0(j$.util.t tVar, int i, boolean z) {
+        super(tVar, i, z);
     }
 
-    public static /* synthetic */ u.a L0(j$.util.u uVar) {
-        return M0(uVar);
+    public static /* synthetic */ t.b L0(j$.util.t tVar) {
+        return M0(tVar);
     }
 
-    public static u.a M0(j$.util.u uVar) {
-        if (uVar instanceof u.a) {
-            return (u.a) uVar;
+    public static t.b M0(j$.util.t tVar) {
+        if (tVar instanceof t.b) {
+            return (t.b) tVar;
         }
         if (Q4.a) {
             Q4.a(c.class, "using IntStream.adapt(Spliterator<Integer> s)");
@@ -37,9 +37,9 @@ public abstract class L0 extends c implements IntStream {
     }
 
     @Override // j$.util.stream.c
-    final void A0(j$.util.u uVar, m3 m3Var) {
+    final void A0(j$.util.t tVar, m3 m3Var) {
         j$.util.function.l b0;
-        u.a M0 = M0(uVar);
+        t.b M0 = M0(tVar);
         if (m3Var instanceof j$.util.function.l) {
             b0 = (j$.util.function.l) m3Var;
         } else if (Q4.a) {
@@ -79,7 +79,7 @@ public abstract class L0 extends c implements IntStream {
     }
 
     @Override // j$.util.stream.c
-    final j$.util.u K0(y2 y2Var, j$.util.function.y yVar, boolean z) {
+    final j$.util.t K0(y2 y2Var, j$.util.function.y yVar, boolean z) {
         return new q4(y2Var, yVar, z);
     }
 
@@ -173,12 +173,12 @@ public abstract class L0 extends c implements IntStream {
 
     @Override // j$.util.stream.g
     public final p.a iterator() {
-        return j$.util.L.g(spliterator());
+        return j$.util.J.g(spliterator());
     }
 
     @Override // j$.util.stream.g
     public Iterator iterator() {
-        return j$.util.L.g(spliterator());
+        return j$.util.J.g(spliterator());
     }
 
     @Override // j$.util.stream.IntStream
@@ -228,7 +228,7 @@ public abstract class L0 extends c implements IntStream {
     }
 
     @Override // j$.util.stream.c, j$.util.stream.g
-    public final u.a spliterator() {
+    public final t.b spliterator() {
         return M0(super.spliterator());
     }
 
@@ -263,7 +263,7 @@ public abstract class L0 extends c implements IntStream {
     }
 
     @Override // j$.util.stream.c
-    final A1 z0(y2 y2Var, j$.util.u uVar, boolean z, j$.util.function.m mVar) {
-        return x2.g(y2Var, uVar, z);
+    final A1 z0(y2 y2Var, j$.util.t tVar, boolean z, j$.util.function.m mVar) {
+        return x2.g(y2Var, tVar, z);
     }
 }

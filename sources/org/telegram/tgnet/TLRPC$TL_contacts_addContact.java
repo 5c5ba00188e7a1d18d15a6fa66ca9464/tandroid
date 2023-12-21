@@ -1,5 +1,5 @@
 package org.telegram.tgnet;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_contacts_addContact extends TLObject {
     public boolean add_phone_privacy_exception;
     public String first_name;

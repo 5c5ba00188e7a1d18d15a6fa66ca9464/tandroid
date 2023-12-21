@@ -1,18 +1,19 @@
 package j$.util.stream;
 
 import j$.util.function.Consumer;
+import j$.util.t;
 import java.util.Objects;
 /* loaded from: classes2.dex */
-final class E4 extends H4 implements j$.util.t, j$.util.function.f {
+final class E4 extends H4 implements t.a, j$.util.function.f {
     double e;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public E4(j$.util.t tVar, long j, long j2) {
-        super(tVar, j, j2);
+    public E4(t.a aVar, long j, long j2) {
+        super(aVar, j, j2);
     }
 
-    E4(j$.util.t tVar, E4 e4) {
-        super(tVar, e4);
+    E4(t.a aVar, E4 e4) {
+        super(aVar, e4);
     }
 
     @Override // j$.util.function.f
@@ -20,12 +21,12 @@ final class E4 extends H4 implements j$.util.t, j$.util.function.f {
         this.e = d;
     }
 
-    @Override // j$.util.u
+    @Override // j$.util.t
     public /* synthetic */ boolean b(Consumer consumer) {
         return j$.util.a.j(this, consumer);
     }
 
-    @Override // j$.util.u
+    @Override // j$.util.t
     public /* synthetic */ void forEachRemaining(Consumer consumer) {
         j$.util.a.b(this, consumer);
     }
@@ -37,8 +38,8 @@ final class E4 extends H4 implements j$.util.t, j$.util.function.f {
     }
 
     @Override // j$.util.stream.J4
-    protected j$.util.u q(j$.util.u uVar) {
-        return new E4((j$.util.t) uVar, this);
+    protected j$.util.t q(j$.util.t tVar) {
+        return new E4((t.a) tVar, this);
     }
 
     @Override // j$.util.stream.H4

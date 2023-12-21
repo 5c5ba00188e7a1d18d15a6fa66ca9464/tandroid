@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 import java.util.concurrent.ConcurrentMap;
-import org.telegram.messenger.FileLoader;
-/* loaded from: classes.dex */
+import org.telegram.messenger.R;
+/* loaded from: classes3.dex */
 public class FastDatePrinter implements DatePrinter, Serializable {
     public static final int FULL = 0;
     public static final int LONG = 1;
@@ -30,13 +30,13 @@ public class FastDatePrinter implements DatePrinter, Serializable {
     private final TimeZone mTimeZone;
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public interface NumberRule extends Rule {
         void appendTo(StringBuffer stringBuffer, int i);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public interface Rule {
         void appendTo(StringBuffer stringBuffer, Calendar calendar);
 
@@ -125,7 +125,7 @@ public class FastDatePrinter implements DatePrinter, Serializable {
             if (charAt != 'y') {
                 if (charAt != 'z') {
                     switch (charAt) {
-                        case '\'':
+                        case R.styleable.AppCompatTheme_autoCompleteTextViewStyle /* 39 */:
                             String substring = parseToken.substring(1);
                             if (substring.length() == 1) {
                                 timeZoneNameRule = new CharacterLiteral(substring.charAt(0));
@@ -134,13 +134,13 @@ public class FastDatePrinter implements DatePrinter, Serializable {
                                 timeZoneNameRule = new StringLiteral(substring);
                                 break;
                             }
-                        case 'S':
+                        case R.styleable.AppCompatTheme_listPreferredItemPaddingLeft /* 83 */:
                             selectNumberRule = selectNumberRule(14, length2);
                             break;
-                        case 'W':
+                        case R.styleable.AppCompatTheme_panelMenuListTheme /* 87 */:
                             selectNumberRule = selectNumberRule(4, length2);
                             break;
-                        case 'Z':
+                        case R.styleable.AppCompatTheme_popupWindowStyle /* 90 */:
                             if (length2 == 1) {
                                 selectNumberRule = TimeZoneNumberRule.INSTANCE_NO_COLON;
                                 break;
@@ -148,22 +148,22 @@ public class FastDatePrinter implements DatePrinter, Serializable {
                                 selectNumberRule = TimeZoneNumberRule.INSTANCE_COLON;
                                 break;
                             }
-                        case 'a':
+                        case R.styleable.AppCompatTheme_selectableItemBackground /* 97 */:
                             timeZoneNameRule = new TextField(9, amPmStrings);
                             break;
-                        case FileLoader.MEDIA_DIR_IMAGE_PUBLIC /* 100 */:
+                        case 'd':
                             timeZoneNameRule = selectNumberRule(5, length2);
                             break;
-                        case 'h':
+                        case R.styleable.AppCompatTheme_textAppearanceListItemSecondary /* 104 */:
                             timeZoneNameRule = new TwelveHourField(selectNumberRule(10, length2));
                             break;
-                        case 'k':
+                        case R.styleable.AppCompatTheme_textAppearanceSearchResultSubtitle /* 107 */:
                             timeZoneNameRule = new TwentyFourHourField(selectNumberRule(11, length2));
                             break;
-                        case 'm':
+                        case R.styleable.AppCompatTheme_textAppearanceSmallPopupMenu /* 109 */:
                             timeZoneNameRule = selectNumberRule(12, length2);
                             break;
-                        case 's':
+                        case R.styleable.AppCompatTheme_tooltipFrameBackground /* 115 */:
                             timeZoneNameRule = selectNumberRule(13, length2);
                             break;
                         case 'w':
@@ -171,27 +171,27 @@ public class FastDatePrinter implements DatePrinter, Serializable {
                             break;
                         default:
                             switch (charAt) {
-                                case 'D':
+                                case R.styleable.AppCompatTheme_editTextBackground /* 68 */:
                                     timeZoneNameRule = selectNumberRule(6, length2);
                                     break;
-                                case 'E':
+                                case R.styleable.AppCompatTheme_editTextColor /* 69 */:
                                     timeZoneNameRule = new TextField(7, length2 < 4 ? shortWeekdays : weekdays);
                                     break;
-                                case 'F':
+                                case R.styleable.AppCompatTheme_editTextStyle /* 70 */:
                                     timeZoneNameRule = selectNumberRule(8, length2);
                                     break;
-                                case 'G':
+                                case R.styleable.AppCompatTheme_homeAsUpIndicator /* 71 */:
                                     timeZoneNameRule = new TextField(0, eras);
                                     break;
-                                case 'H':
+                                case R.styleable.AppCompatTheme_imageButtonStyle /* 72 */:
                                     timeZoneNameRule = selectNumberRule(11, length2);
                                     break;
                                 default:
                                     switch (charAt) {
-                                        case 'K':
+                                        case R.styleable.AppCompatTheme_listChoiceIndicatorSingleAnimated /* 75 */:
                                             timeZoneNameRule = selectNumberRule(10, length2);
                                             break;
-                                        case 'L':
+                                        case R.styleable.AppCompatTheme_listDividerAlertDialog /* 76 */:
                                             if (length2 < 4) {
                                                 if (length2 != 3) {
                                                     if (length2 == 2) {
@@ -209,7 +209,7 @@ public class FastDatePrinter implements DatePrinter, Serializable {
                                                 timeZoneNameRule = new TextField(2, months);
                                                 break;
                                             }
-                                        case 'M':
+                                        case R.styleable.AppCompatTheme_listMenuViewStyle /* 77 */:
                                             if (length2 < 4) {
                                                 if (length2 != 3) {
                                                     if (length2 == 2) {
@@ -417,7 +417,7 @@ public class FastDatePrinter implements DatePrinter, Serializable {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class CharacterLiteral implements Rule {
         private final char mValue;
 
@@ -437,7 +437,7 @@ public class FastDatePrinter implements DatePrinter, Serializable {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class StringLiteral implements Rule {
         private final String mValue;
 
@@ -457,7 +457,7 @@ public class FastDatePrinter implements DatePrinter, Serializable {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class TextField implements Rule {
         private final int mField;
         private final String[] mValues;
@@ -490,7 +490,7 @@ public class FastDatePrinter implements DatePrinter, Serializable {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class UnpaddedNumberField implements NumberRule {
         private final int mField;
 
@@ -522,7 +522,7 @@ public class FastDatePrinter implements DatePrinter, Serializable {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class UnpaddedMonthField implements NumberRule {
         static final UnpaddedMonthField INSTANCE = new UnpaddedMonthField();
 
@@ -551,7 +551,7 @@ public class FastDatePrinter implements DatePrinter, Serializable {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class PaddedNumberField implements NumberRule {
         private final int mField;
         private final int mSize;
@@ -605,7 +605,7 @@ public class FastDatePrinter implements DatePrinter, Serializable {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class TwoDigitNumberField implements NumberRule {
         private final int mField;
 
@@ -635,7 +635,7 @@ public class FastDatePrinter implements DatePrinter, Serializable {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class TwoDigitYearField implements NumberRule {
         static final TwoDigitYearField INSTANCE = new TwoDigitYearField();
 
@@ -660,7 +660,7 @@ public class FastDatePrinter implements DatePrinter, Serializable {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class TwoDigitMonthField implements NumberRule {
         static final TwoDigitMonthField INSTANCE = new TwoDigitMonthField();
 
@@ -685,7 +685,7 @@ public class FastDatePrinter implements DatePrinter, Serializable {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class TwelveHourField implements NumberRule {
         private final NumberRule mRule;
 
@@ -714,7 +714,7 @@ public class FastDatePrinter implements DatePrinter, Serializable {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class TwentyFourHourField implements NumberRule {
         private final NumberRule mRule;
 
@@ -755,7 +755,7 @@ public class FastDatePrinter implements DatePrinter, Serializable {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class TimeZoneNameRule implements Rule {
         private final String mDaylight;
         private final Locale mLocale;
@@ -786,7 +786,7 @@ public class FastDatePrinter implements DatePrinter, Serializable {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class TimeZoneNumberRule implements Rule {
         static final TimeZoneNumberRule INSTANCE_COLON = new TimeZoneNumberRule(true);
         static final TimeZoneNumberRule INSTANCE_NO_COLON = new TimeZoneNumberRule(false);
@@ -823,7 +823,7 @@ public class FastDatePrinter implements DatePrinter, Serializable {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class TimeZoneDisplayKey {
         private final Locale mLocale;
         private final int mStyle;

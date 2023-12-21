@@ -1,5 +1,5 @@
 package org.telegram.tgnet;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public abstract class TLRPC$PasswordKdfAlgo extends TLObject {
     public static TLRPC$PasswordKdfAlgo TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
         TLRPC$PasswordKdfAlgo tLRPC$TL_passwordKdfAlgoUnknown;

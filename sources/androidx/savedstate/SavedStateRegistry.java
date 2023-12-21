@@ -7,96 +7,171 @@ import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleEventObserver;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.savedstate.Recreator;
+import java.util.Iterator;
 import java.util.Map;
+import kotlin.jvm.internal.DefaultConstructorMarker;
+import kotlin.jvm.internal.Intrinsics;
+/* compiled from: SavedStateRegistry.kt */
 @SuppressLint({"RestrictedApi"})
 /* loaded from: classes.dex */
 public final class SavedStateRegistry {
-    private Recreator.SavedStateProvider mRecreatorProvider;
-    private boolean mRestored;
-    private Bundle mRestoredState;
-    private SafeIterableMap<String, SavedStateProvider> mComponents = new SafeIterableMap<>();
-    boolean mAllowingSavingState = true;
+    private boolean attached;
+    private final SafeIterableMap<String, SavedStateProvider> components = new SafeIterableMap<>();
+    private boolean isAllowingSavingState = true;
+    private boolean isRestored;
+    private Recreator.SavedStateProvider recreatorProvider;
+    private Bundle restoredState;
 
+    /* compiled from: SavedStateRegistry.kt */
     /* loaded from: classes.dex */
     public interface AutoRecreated {
         void onRecreated(SavedStateRegistryOwner savedStateRegistryOwner);
     }
 
+    /* compiled from: SavedStateRegistry.kt */
     /* loaded from: classes.dex */
     public interface SavedStateProvider {
         Bundle saveState();
     }
 
-    public Bundle consumeRestoredStateForKey(String str) {
-        if (!this.mRestored) {
-            throw new IllegalStateException("You can consumeRestoredStateForKey only after super.onCreate of corresponding component");
+    static {
+        new Companion(null);
+    }
+
+    public final Bundle consumeRestoredStateForKey(String key) {
+        Intrinsics.checkNotNullParameter(key, "key");
+        if (!this.isRestored) {
+            throw new IllegalStateException("You can consumeRestoredStateForKey only after super.onCreate of corresponding component".toString());
         }
-        Bundle bundle = this.mRestoredState;
+        Bundle bundle = this.restoredState;
         if (bundle != null) {
-            Bundle bundle2 = bundle.getBundle(str);
-            this.mRestoredState.remove(str);
-            if (this.mRestoredState.isEmpty()) {
-                this.mRestoredState = null;
+            Bundle bundle2 = bundle != null ? bundle.getBundle(key) : null;
+            Bundle bundle3 = this.restoredState;
+            if (bundle3 != null) {
+                bundle3.remove(key);
+            }
+            Bundle bundle4 = this.restoredState;
+            boolean z = false;
+            if (bundle4 != null && !bundle4.isEmpty()) {
+                z = true;
+            }
+            if (!z) {
+                this.restoredState = null;
             }
             return bundle2;
         }
         return null;
     }
 
-    public void registerSavedStateProvider(String str, SavedStateProvider savedStateProvider) {
-        if (this.mComponents.putIfAbsent(str, savedStateProvider) != null) {
-            throw new IllegalArgumentException("SavedStateProvider with the given key is already registered");
+    public final void registerSavedStateProvider(String key, SavedStateProvider provider) {
+        Intrinsics.checkNotNullParameter(key, "key");
+        Intrinsics.checkNotNullParameter(provider, "provider");
+        if (!(this.components.putIfAbsent(key, provider) == null)) {
+            throw new IllegalArgumentException("SavedStateProvider with the given key is already registered".toString());
         }
     }
 
-    public void runOnNextRecreation(Class<? extends AutoRecreated> cls) {
-        if (!this.mAllowingSavingState) {
-            throw new IllegalStateException("Can not perform this action after onSaveInstanceState");
+    public final SavedStateProvider getSavedStateProvider(String key) {
+        Intrinsics.checkNotNullParameter(key, "key");
+        Iterator<Map.Entry<String, SavedStateProvider>> it = this.components.iterator();
+        while (it.hasNext()) {
+            Map.Entry<String, SavedStateProvider> components = it.next();
+            Intrinsics.checkNotNullExpressionValue(components, "components");
+            SavedStateProvider value = components.getValue();
+            if (Intrinsics.areEqual(components.getKey(), key)) {
+                return value;
+            }
         }
-        if (this.mRecreatorProvider == null) {
-            this.mRecreatorProvider = new Recreator.SavedStateProvider(this);
+        return null;
+    }
+
+    public final void runOnNextRecreation(Class<? extends AutoRecreated> clazz) {
+        Intrinsics.checkNotNullParameter(clazz, "clazz");
+        if (!this.isAllowingSavingState) {
+            throw new IllegalStateException("Can not perform this action after onSaveInstanceState".toString());
         }
+        Recreator.SavedStateProvider savedStateProvider = this.recreatorProvider;
+        if (savedStateProvider == null) {
+            savedStateProvider = new Recreator.SavedStateProvider(this);
+        }
+        this.recreatorProvider = savedStateProvider;
         try {
-            cls.getDeclaredConstructor(new Class[0]);
-            this.mRecreatorProvider.add(cls.getName());
+            clazz.getDeclaredConstructor(new Class[0]);
+            Recreator.SavedStateProvider savedStateProvider2 = this.recreatorProvider;
+            if (savedStateProvider2 != null) {
+                String name = clazz.getName();
+                Intrinsics.checkNotNullExpressionValue(name, "clazz.name");
+                savedStateProvider2.add(name);
+            }
         } catch (NoSuchMethodException e) {
-            throw new IllegalArgumentException("Class" + cls.getSimpleName() + " must have default constructor in order to be automatically recreated", e);
+            throw new IllegalArgumentException("Class " + clazz.getSimpleName() + " must have default constructor in order to be automatically recreated", e);
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void performRestore(Lifecycle lifecycle, Bundle bundle) {
-        if (this.mRestored) {
-            throw new IllegalStateException("SavedStateRegistry was already restored.");
+    public final void performAttach$savedstate_release(Lifecycle lifecycle) {
+        Intrinsics.checkNotNullParameter(lifecycle, "lifecycle");
+        if (!(!this.attached)) {
+            throw new IllegalStateException("SavedStateRegistry was already attached.".toString());
         }
-        if (bundle != null) {
-            this.mRestoredState = bundle.getBundle("androidx.lifecycle.BundlableSavedStateRegistry.key");
-        }
-        lifecycle.addObserver(new LifecycleEventObserver() { // from class: androidx.savedstate.SavedStateRegistry.1
+        lifecycle.addObserver(new LifecycleEventObserver() { // from class: androidx.savedstate.SavedStateRegistry$$ExternalSyntheticLambda0
             @Override // androidx.lifecycle.LifecycleEventObserver
-            public void onStateChanged(LifecycleOwner lifecycleOwner, Lifecycle.Event event) {
-                if (event == Lifecycle.Event.ON_START) {
-                    SavedStateRegistry.this.mAllowingSavingState = true;
-                } else if (event == Lifecycle.Event.ON_STOP) {
-                    SavedStateRegistry.this.mAllowingSavingState = false;
-                }
+            public final void onStateChanged(LifecycleOwner lifecycleOwner, Lifecycle.Event event) {
+                SavedStateRegistry.performAttach$lambda-4(SavedStateRegistry.this, lifecycleOwner, event);
             }
         });
-        this.mRestored = true;
+        this.attached = true;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void performSave(Bundle bundle) {
-        Bundle bundle2 = new Bundle();
-        Bundle bundle3 = this.mRestoredState;
-        if (bundle3 != null) {
-            bundle2.putAll(bundle3);
+    /* JADX INFO: Access modifiers changed from: private */
+    public static final void performAttach$lambda-4(SavedStateRegistry this$0, LifecycleOwner lifecycleOwner, Lifecycle.Event event) {
+        Intrinsics.checkNotNullParameter(this$0, "this$0");
+        Intrinsics.checkNotNullParameter(lifecycleOwner, "<anonymous parameter 0>");
+        Intrinsics.checkNotNullParameter(event, "event");
+        if (event == Lifecycle.Event.ON_START) {
+            this$0.isAllowingSavingState = true;
+        } else if (event == Lifecycle.Event.ON_STOP) {
+            this$0.isAllowingSavingState = false;
         }
-        SafeIterableMap<String, SavedStateProvider>.IteratorWithAdditions iteratorWithAdditions = this.mComponents.iteratorWithAdditions();
+    }
+
+    public final void performRestore$savedstate_release(Bundle bundle) {
+        if (!this.attached) {
+            throw new IllegalStateException("You must call performAttach() before calling performRestore(Bundle).".toString());
+        }
+        if (!(!this.isRestored)) {
+            throw new IllegalStateException("SavedStateRegistry was already restored.".toString());
+        }
+        this.restoredState = bundle != null ? bundle.getBundle("androidx.lifecycle.BundlableSavedStateRegistry.key") : null;
+        this.isRestored = true;
+    }
+
+    public final void performSave(Bundle outBundle) {
+        Intrinsics.checkNotNullParameter(outBundle, "outBundle");
+        Bundle bundle = new Bundle();
+        Bundle bundle2 = this.restoredState;
+        if (bundle2 != null) {
+            bundle.putAll(bundle2);
+        }
+        SafeIterableMap<String, SavedStateProvider>.IteratorWithAdditions iteratorWithAdditions = this.components.iteratorWithAdditions();
+        Intrinsics.checkNotNullExpressionValue(iteratorWithAdditions, "this.components.iteratorWithAdditions()");
         while (iteratorWithAdditions.hasNext()) {
             Map.Entry next = iteratorWithAdditions.next();
-            bundle2.putBundle((String) next.getKey(), ((SavedStateProvider) next.getValue()).saveState());
+            bundle.putBundle((String) next.getKey(), ((SavedStateProvider) next.getValue()).saveState());
         }
-        bundle.putBundle("androidx.lifecycle.BundlableSavedStateRegistry.key", bundle2);
+        if (bundle.isEmpty()) {
+            return;
+        }
+        outBundle.putBundle("androidx.lifecycle.BundlableSavedStateRegistry.key", bundle);
+    }
+
+    /* compiled from: SavedStateRegistry.kt */
+    /* loaded from: classes.dex */
+    private static final class Companion {
+        public /* synthetic */ Companion(DefaultConstructorMarker defaultConstructorMarker) {
+            this();
+        }
+
+        private Companion() {
+        }
     }
 }

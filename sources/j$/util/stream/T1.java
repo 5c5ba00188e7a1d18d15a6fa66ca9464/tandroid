@@ -82,8 +82,8 @@ public class T1 implements u1 {
     }
 
     @Override // j$.util.stream.z1, j$.util.stream.A1
-    public j$.util.w spliterator() {
-        return j$.util.L.j(this.a, 0, this.b, 1040);
+    public j$.util.u spliterator() {
+        return j$.util.J.j(this.a, 0, this.b, 1040);
     }
 
     public String toString() {
@@ -97,7 +97,7 @@ public class T1 implements u1 {
     }
 
     @Override // j$.util.stream.z1, j$.util.stream.A1
-    public j$.util.u spliterator() {
-        return j$.util.L.j(this.a, 0, this.b, 1040);
+    public j$.util.t spliterator() {
+        return j$.util.J.j(this.a, 0, this.b, 1040);
     }
 }

@@ -2,7 +2,7 @@ package j$.util.stream;
 
 import j$.util.function.BiConsumer;
 import j$.util.p;
-import j$.util.u;
+import j$.util.t;
 /* loaded from: classes2.dex */
 public interface IntStream extends g {
     U A(j$.wrappers.W w);
@@ -69,7 +69,7 @@ public interface IntStream extends g {
     IntStream sorted();
 
     @Override // j$.util.stream.g
-    u.a spliterator();
+    t.b spliterator();
 
     int sum();
 

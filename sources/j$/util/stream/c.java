@@ -9,7 +9,7 @@ abstract class c extends y2 implements g {
     private c d;
     private int e;
     private int f;
-    private j$.util.u g;
+    private j$.util.t g;
     private boolean h;
     private boolean i;
     private Runnable j;
@@ -34,9 +34,9 @@ abstract class c extends y2 implements g {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public c(j$.util.u uVar, int i, boolean z) {
+    public c(j$.util.t tVar, int i, boolean z) {
         this.b = null;
-        this.g = uVar;
+        this.g = tVar;
         this.a = this;
         int i2 = d4.g & i;
         this.c = i2;
@@ -45,12 +45,12 @@ abstract class c extends y2 implements g {
         this.k = z;
     }
 
-    private j$.util.u I0(int i) {
+    private j$.util.t I0(int i) {
         int i2;
         int i3;
         c cVar = this.a;
-        j$.util.u uVar = cVar.g;
-        if (uVar != null) {
+        j$.util.t tVar = cVar.g;
+        if (tVar != null) {
             cVar.g = null;
             if (cVar.k && cVar.i) {
                 c cVar2 = cVar.d;
@@ -62,8 +62,8 @@ abstract class c extends y2 implements g {
                         if (d4.SHORT_CIRCUIT.d(i5)) {
                             i5 &= d4.u ^ (-1);
                         }
-                        uVar = cVar2.F0(cVar, uVar);
-                        if (uVar.hasCharacteristics(64)) {
+                        tVar = cVar2.F0(cVar, tVar);
+                        if (tVar.hasCharacteristics(64)) {
                             i2 = i5 & (d4.t ^ (-1));
                             i3 = d4.s;
                         } else {
@@ -83,12 +83,12 @@ abstract class c extends y2 implements g {
             if (i != 0) {
                 this.f = d4.a(i, this.f);
             }
-            return uVar;
+            return tVar;
         }
         throw new IllegalStateException("source already consumed or closed");
     }
 
-    abstract void A0(j$.util.u uVar, m3 m3Var);
+    abstract void A0(j$.util.t tVar, m3 m3Var);
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public abstract e4 B0();
@@ -98,16 +98,16 @@ abstract class c extends y2 implements g {
         return d4.ORDERED.d(this.f);
     }
 
-    public /* synthetic */ j$.util.u D0() {
+    public /* synthetic */ j$.util.t D0() {
         return I0(0);
     }
 
-    A1 E0(y2 y2Var, j$.util.u uVar, j$.util.function.m mVar) {
+    A1 E0(y2 y2Var, j$.util.t tVar, j$.util.function.m mVar) {
         throw new UnsupportedOperationException("Parallel evaluation is not supported");
     }
 
-    j$.util.u F0(y2 y2Var, j$.util.u uVar) {
-        return E0(y2Var, uVar, a.a).spliterator();
+    j$.util.t F0(y2 y2Var, j$.util.t tVar) {
+        return E0(y2Var, tVar, a.a).spliterator();
     }
 
     abstract boolean G0();
@@ -116,24 +116,24 @@ abstract class c extends y2 implements g {
     public abstract m3 H0(int i, m3 m3Var);
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public final j$.util.u J0() {
+    public final j$.util.t J0() {
         c cVar = this.a;
         if (this == cVar) {
             if (this.h) {
                 throw new IllegalStateException("stream has already been operated upon or closed");
             }
             this.h = true;
-            j$.util.u uVar = cVar.g;
-            if (uVar != null) {
+            j$.util.t tVar = cVar.g;
+            if (tVar != null) {
                 cVar.g = null;
-                return uVar;
+                return tVar;
             }
             throw new IllegalStateException("source already consumed or closed");
         }
         throw new IllegalStateException();
     }
 
-    abstract j$.util.u K0(y2 y2Var, j$.util.function.y yVar, boolean z);
+    abstract j$.util.t K0(y2 y2Var, j$.util.function.y yVar, boolean z);
 
     @Override // j$.util.stream.g, java.lang.AutoCloseable
     public void close() {
@@ -154,26 +154,26 @@ abstract class c extends y2 implements g {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     @Override // j$.util.stream.y2
-    public final void n0(m3 m3Var, j$.util.u uVar) {
+    public final void n0(m3 m3Var, j$.util.t tVar) {
         Objects.requireNonNull(m3Var);
         if (d4.SHORT_CIRCUIT.d(this.f)) {
-            o0(m3Var, uVar);
+            o0(m3Var, tVar);
             return;
         }
-        m3Var.n(uVar.getExactSizeIfKnown());
-        uVar.forEachRemaining(m3Var);
+        m3Var.n(tVar.getExactSizeIfKnown());
+        tVar.forEachRemaining(m3Var);
         m3Var.m();
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     @Override // j$.util.stream.y2
-    public final void o0(m3 m3Var, j$.util.u uVar) {
+    public final void o0(m3 m3Var, j$.util.t tVar) {
         c cVar = this;
         while (cVar.e > 0) {
             cVar = cVar.b;
         }
-        m3Var.n(uVar.getExactSizeIfKnown());
-        cVar.A0(uVar, m3Var);
+        m3Var.n(tVar.getExactSizeIfKnown());
+        cVar.A0(tVar, m3Var);
         m3Var.m();
     }
 
@@ -190,13 +190,13 @@ abstract class c extends y2 implements g {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     @Override // j$.util.stream.y2
-    public final A1 p0(j$.util.u uVar, boolean z, j$.util.function.m mVar) {
+    public final A1 p0(j$.util.t tVar, boolean z, j$.util.function.m mVar) {
         if (this.a.k) {
-            return z0(this, uVar, z, mVar);
+            return z0(this, tVar, z, mVar);
         }
-        s1 t0 = t0(q0(uVar), mVar);
+        s1 t0 = t0(q0(tVar), mVar);
         Objects.requireNonNull(t0);
-        n0(v0(t0), uVar);
+        n0(v0(t0), tVar);
         return t0.a();
     }
 
@@ -207,9 +207,9 @@ abstract class c extends y2 implements g {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     @Override // j$.util.stream.y2
-    public final long q0(j$.util.u uVar) {
+    public final long q0(j$.util.t tVar) {
         if (d4.SIZED.d(this.f)) {
-            return uVar.getExactSizeIfKnown();
+            return tVar.getExactSizeIfKnown();
         }
         return -1L;
     }
@@ -235,17 +235,17 @@ abstract class c extends y2 implements g {
         return this;
     }
 
-    public j$.util.u spliterator() {
+    public j$.util.t spliterator() {
         if (this.h) {
             throw new IllegalStateException("stream has already been operated upon or closed");
         }
         this.h = true;
         c cVar = this.a;
         if (this == cVar) {
-            j$.util.u uVar = cVar.g;
-            if (uVar != null) {
+            j$.util.t tVar = cVar.g;
+            if (tVar != null) {
                 cVar.g = null;
-                return uVar;
+                return tVar;
             }
             throw new IllegalStateException("source already consumed or closed");
         }
@@ -254,9 +254,9 @@ abstract class c extends y2 implements g {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     @Override // j$.util.stream.y2
-    public final m3 u0(m3 m3Var, j$.util.u uVar) {
+    public final m3 u0(m3 m3Var, j$.util.t tVar) {
         Objects.requireNonNull(m3Var);
-        n0(v0(m3Var), uVar);
+        n0(v0(m3Var), tVar);
         return m3Var;
     }
 
@@ -272,8 +272,8 @@ abstract class c extends y2 implements g {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     @Override // j$.util.stream.y2
-    public final j$.util.u w0(j$.util.u uVar) {
-        return this.e == 0 ? uVar : K0(this, new b(uVar), this.a.k);
+    public final j$.util.t w0(j$.util.t tVar) {
+        return this.e == 0 ? tVar : K0(this, new b(tVar), this.a.k);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -299,5 +299,5 @@ abstract class c extends y2 implements g {
         return p0(I0(0), true, mVar);
     }
 
-    abstract A1 z0(y2 y2Var, j$.util.u uVar, boolean z, j$.util.function.m mVar);
+    abstract A1 z0(y2 y2Var, j$.util.t tVar, boolean z, j$.util.function.m mVar);
 }

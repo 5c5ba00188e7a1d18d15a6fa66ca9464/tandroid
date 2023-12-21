@@ -41,8 +41,8 @@ import java.util.Map;
 import java.util.UUID;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.MediaController;
-import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesStorage;
+import org.telegram.messenger.R;
 /* loaded from: classes.dex */
 public class MatroskaExtractor implements Extractor {
     private static final byte[] SSA_DIALOGUE_FORMAT;
@@ -1571,12 +1571,12 @@ public class MatroskaExtractor implements Extractor {
             case 23:
             case 24:
             case 25:
-            case MessageObject.TYPE_GIVEAWAY /* 26 */:
-            case MessageObject.TYPE_JOINED_CHANNEL /* 27 */:
+            case 26:
+            case 27:
             case 28:
             case 29:
-            case 30:
-            case 31:
+            case R.styleable.AppCompatTheme_actionModeTheme /* 30 */:
+            case R.styleable.AppCompatTheme_actionModeWebSearchDrawable /* 31 */:
             case ' ':
                 return true;
             default:
@@ -2171,7 +2171,7 @@ public class MatroskaExtractor implements Extractor {
                     i2 = -1;
                     i3 = -1;
                     break;
-                case MessageObject.TYPE_GIVEAWAY /* 26 */:
+                case 26:
                     HevcConfig parse3 = HevcConfig.parse(new ParsableByteArray(getCodecPrivate(this.codecId)));
                     list = parse3.initializationData;
                     this.nalUnitLengthFieldLength = parse3.nalUnitLengthFieldLength;
@@ -2183,7 +2183,7 @@ public class MatroskaExtractor implements Extractor {
                     str = str2;
                     singletonList = list22;
                     break;
-                case MessageObject.TYPE_JOINED_CHANNEL /* 27 */:
+                case 27:
                     singletonList = null;
                     str = null;
                     str4 = "text/vtt";
@@ -2204,14 +2204,14 @@ public class MatroskaExtractor implements Extractor {
                     i2 = -1;
                     i3 = -1;
                     break;
-                case 30:
+                case R.styleable.AppCompatTheme_actionModeTheme /* 30 */:
                     str4 = "audio/eac3";
                     singletonList = null;
                     str = null;
                     i2 = -1;
                     i3 = -1;
                     break;
-                case 31:
+                case R.styleable.AppCompatTheme_actionModeWebSearchDrawable /* 31 */:
                     singletonList = Collections.singletonList(getCodecPrivate(this.codecId));
                     str4 = "audio/flac";
                     str = null;

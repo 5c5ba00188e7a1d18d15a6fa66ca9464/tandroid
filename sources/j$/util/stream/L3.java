@@ -10,11 +10,11 @@ final class L3 extends b1 {
     }
 
     @Override // j$.util.stream.c
-    public A1 E0(y2 y2Var, j$.util.u uVar, j$.util.function.m mVar) {
+    public A1 E0(y2 y2Var, j$.util.t tVar, j$.util.function.m mVar) {
         if (d4.SORTED.d(y2Var.s0())) {
-            return y2Var.p0(uVar, false, mVar);
+            return y2Var.p0(tVar, false, mVar);
         }
-        long[] jArr = (long[]) ((y1) y2Var.p0(uVar, true, mVar)).e();
+        long[] jArr = (long[]) ((y1) y2Var.p0(tVar, true, mVar)).e();
         Arrays.sort(jArr);
         return new l2(jArr);
     }

@@ -1,7 +1,7 @@
 package org.telegram.tgnet;
 
 import java.util.ArrayList;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_account_setPrivacy extends TLObject {
     public TLRPC$InputPrivacyKey key;
     public ArrayList<TLRPC$InputPrivacyRule> rules = new ArrayList<>();

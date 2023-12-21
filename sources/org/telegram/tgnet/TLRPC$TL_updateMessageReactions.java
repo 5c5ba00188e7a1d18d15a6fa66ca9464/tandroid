@@ -1,5 +1,5 @@
 package org.telegram.tgnet;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_updateMessageReactions extends TLRPC$Update {
     public int flags;
     public int msg_id;

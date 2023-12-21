@@ -1,7 +1,7 @@
 package org.telegram.tgnet;
 
 import java.util.ArrayList;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_payments_paymentForm extends TLObject {
     public long bot_id;
     public boolean can_save_credentials;

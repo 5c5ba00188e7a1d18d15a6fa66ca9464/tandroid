@@ -1,5 +1,5 @@
 package org.telegram.tgnet;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_updateNotifySettings extends TLRPC$Update {
     public TLRPC$PeerNotifySettings notify_settings;
     public TLRPC$NotifyPeer peer;

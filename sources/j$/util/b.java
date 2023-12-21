@@ -11,7 +11,7 @@ public interface b extends j$.lang.e {
     boolean k(Predicate predicate);
 
     @Override // j$.lang.e
-    u spliterator();
+    t spliterator();
 
     Stream stream();
 }

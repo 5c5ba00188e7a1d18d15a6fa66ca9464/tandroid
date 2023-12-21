@@ -1,7 +1,7 @@
 package org.telegram.tgnet;
 
 import java.util.ArrayList;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public abstract class TLRPC$PhoneCallProtocol extends TLObject {
     public int flags;
     public ArrayList<String> library_versions = new ArrayList<>();

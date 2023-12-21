@@ -2,9 +2,8 @@ package j$.util.stream;
 
 import j$.util.function.Consumer;
 import j$.util.function.Predicate;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public class L extends d3 {
+class L extends d3 {
     public final /* synthetic */ int l = 1;
     final /* synthetic */ Object m;
 

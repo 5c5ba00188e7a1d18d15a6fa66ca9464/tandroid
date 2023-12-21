@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import org.telegram.tgnet.AbstractSerializedData;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Peer;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TL_chatlists$TL_exportedChatlistInvite extends TLObject {
     public int flags;
     public ArrayList<TLRPC$Peer> peers = new ArrayList<>();

@@ -65,8 +65,8 @@ public class D1 implements A1 {
     }
 
     @Override // j$.util.stream.A1
-    public j$.util.u spliterator() {
-        return j$.util.L.m(this.a, 0, this.b, 1040);
+    public j$.util.t spliterator() {
+        return j$.util.J.m(this.a, 0, this.b, 1040);
     }
 
     public String toString() {

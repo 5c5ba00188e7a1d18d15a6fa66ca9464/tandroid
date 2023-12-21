@@ -11,8 +11,8 @@ public final /* synthetic */ class PeerColorActivity$$ExternalSyntheticLambda4 i
 
     @Override // android.view.View.OnTouchListener
     public final boolean onTouch(View view, MotionEvent motionEvent) {
-        boolean lambda$toggleTheme$11;
-        lambda$toggleTheme$11 = PeerColorActivity.lambda$toggleTheme$11(view, motionEvent);
-        return lambda$toggleTheme$11;
+        boolean lambda$toggleTheme$5;
+        lambda$toggleTheme$5 = PeerColorActivity.lambda$toggleTheme$5(view, motionEvent);
+        return lambda$toggleTheme$5;
     }
 }

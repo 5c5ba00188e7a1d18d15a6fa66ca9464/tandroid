@@ -492,7 +492,7 @@ public class ProximitySheet extends FrameLayout {
                     i14 = 51;
                 }
                 int i15 = i14 & 7;
-                int i16 = i14 & 112;
+                int i16 = i14 & R.styleable.AppCompatTheme_toolbarNavigationButtonStyle;
                 int i17 = i15 & 7;
                 if (i17 == 1) {
                     i5 = ((i12 - measuredWidth2) / 2) + layoutParams.leftMargin;

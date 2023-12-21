@@ -2,7 +2,7 @@ package org.telegram.tgnet;
 
 import java.util.Comparator;
 import org.telegram.tgnet.ConnectionsManager;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public final /* synthetic */ class ConnectionsManager$DnsTxtLoadTask$$ExternalSyntheticLambda1 implements Comparator {
     public static final /* synthetic */ ConnectionsManager$DnsTxtLoadTask$$ExternalSyntheticLambda1 INSTANCE = new ConnectionsManager$DnsTxtLoadTask$$ExternalSyntheticLambda1();
 

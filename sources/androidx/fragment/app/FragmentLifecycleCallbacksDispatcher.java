@@ -1,6 +1,5 @@
 package androidx.fragment.app;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import androidx.fragment.app.FragmentManager;
@@ -25,14 +24,15 @@ public class FragmentLifecycleCallbacksDispatcher {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* JADX WARN: Removed duplicated region for block: B:8:0x0020  */
+    /* JADX WARN: Removed duplicated region for block: B:8:0x0029  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void dispatchOnFragmentPreAttached(Fragment fragment, Context context, boolean z) {
+    public void dispatchOnFragmentPreAttached(Fragment fragment, boolean z) {
+        this.mFragmentManager.getHost().getContext();
         Fragment parent = this.mFragmentManager.getParent();
         if (parent != null) {
-            parent.getParentFragmentManager().getLifecycleCallbacksDispatcher().dispatchOnFragmentPreAttached(fragment, context, true);
+            parent.getParentFragmentManager().getLifecycleCallbacksDispatcher().dispatchOnFragmentPreAttached(fragment, true);
         }
         Iterator<FragmentLifecycleCallbacksHolder> it = this.mLifecycleCallbacks.iterator();
         while (it.hasNext()) {
@@ -47,14 +47,15 @@ public class FragmentLifecycleCallbacksDispatcher {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* JADX WARN: Removed duplicated region for block: B:8:0x0020  */
+    /* JADX WARN: Removed duplicated region for block: B:8:0x0029  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void dispatchOnFragmentAttached(Fragment fragment, Context context, boolean z) {
+    public void dispatchOnFragmentAttached(Fragment fragment, boolean z) {
+        this.mFragmentManager.getHost().getContext();
         Fragment parent = this.mFragmentManager.getParent();
         if (parent != null) {
-            parent.getParentFragmentManager().getLifecycleCallbacksDispatcher().dispatchOnFragmentAttached(fragment, context, true);
+            parent.getParentFragmentManager().getLifecycleCallbacksDispatcher().dispatchOnFragmentAttached(fragment, true);
         }
         Iterator<FragmentLifecycleCallbacksHolder> it = this.mLifecycleCallbacks.iterator();
         while (it.hasNext()) {

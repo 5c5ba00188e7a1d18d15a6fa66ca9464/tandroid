@@ -8,8 +8,8 @@ public final /* synthetic */ class b implements j$.util.function.y, j$.util.func
     public final /* synthetic */ int a = 2;
     public final /* synthetic */ Object b;
 
-    public /* synthetic */ b(j$.util.u uVar) {
-        this.b = uVar;
+    public /* synthetic */ b(j$.util.t tVar) {
+        this.b = tVar;
     }
 
     @Override // j$.util.function.Consumer
@@ -44,7 +44,7 @@ public final /* synthetic */ class b implements j$.util.function.y, j$.util.func
     public Object get() {
         switch (this.a) {
             case 0:
-                return (j$.util.u) this.b;
+                return (j$.util.t) this.b;
             default:
                 return ((c) this.b).D0();
         }

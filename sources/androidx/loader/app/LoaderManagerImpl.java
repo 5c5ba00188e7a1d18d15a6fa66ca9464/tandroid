@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStore;
+import androidx.lifecycle.viewmodel.CreationExtras;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.Loader;
 import java.io.FileDescriptor;
@@ -224,6 +225,11 @@ public class LoaderManagerImpl extends LoaderManager {
     /* loaded from: classes.dex */
     public static class LoaderViewModel extends ViewModel {
         private static final ViewModelProvider.Factory FACTORY = new ViewModelProvider.Factory() { // from class: androidx.loader.app.LoaderManagerImpl.LoaderViewModel.1
+            @Override // androidx.lifecycle.ViewModelProvider.Factory
+            public /* synthetic */ ViewModel create(Class cls, CreationExtras creationExtras) {
+                return ViewModelProvider.Factory.-CC.$default$create(this, cls, creationExtras);
+            }
+
             @Override // androidx.lifecycle.ViewModelProvider.Factory
             public <T extends ViewModel> T create(Class<T> cls) {
                 return new LoaderViewModel();

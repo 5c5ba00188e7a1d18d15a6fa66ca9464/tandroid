@@ -2528,6 +2528,11 @@ public class FilterCreateActivity extends BaseFragment {
                 }
 
                 @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+                public void notifyItemInserted(int i) {
+                    realAdapter().notifyItemInserted(i + 1);
+                }
+
+                @Override // androidx.recyclerview.widget.RecyclerView.Adapter
                 public void notifyItemMoved(int i, int i2) {
                     realAdapter().notifyItemMoved(i + 1, i2);
                 }
@@ -2550,6 +2555,11 @@ public class FilterCreateActivity extends BaseFragment {
                 @Override // androidx.recyclerview.widget.RecyclerView.Adapter
                 public void notifyItemRangeRemoved(int i, int i2) {
                     realAdapter().notifyItemRangeRemoved(i + 1, i2);
+                }
+
+                @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+                public void notifyItemRemoved(int i) {
+                    realAdapter().notifyItemRemoved(i + 1);
                 }
 
                 @Override // androidx.recyclerview.widget.RecyclerView.Adapter

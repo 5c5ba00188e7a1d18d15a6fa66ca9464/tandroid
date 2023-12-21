@@ -60,6 +60,32 @@ public class SafeParcelReader {
         return bArr;
     }
 
+    public static float[] createFloatArray(Parcel parcel, int i) {
+        int readSize = readSize(parcel, i);
+        int dataPosition = parcel.dataPosition();
+        if (readSize == 0) {
+            return null;
+        }
+        float[] createFloatArray = parcel.createFloatArray();
+        parcel.setDataPosition(dataPosition + readSize);
+        return createFloatArray;
+    }
+
+    public static ArrayList<Float> createFloatList(Parcel parcel, int i) {
+        int readSize = readSize(parcel, i);
+        int dataPosition = parcel.dataPosition();
+        if (readSize == 0) {
+            return null;
+        }
+        ArrayList<Float> arrayList = new ArrayList<>();
+        int readInt = parcel.readInt();
+        for (int i2 = 0; i2 < readInt; i2++) {
+            arrayList.add(Float.valueOf(parcel.readFloat()));
+        }
+        parcel.setDataPosition(dataPosition + readSize);
+        return arrayList;
+    }
+
     public static int[] createIntArray(Parcel parcel, int i) {
         int readSize = readSize(parcel, i);
         int dataPosition = parcel.dataPosition();
@@ -224,6 +250,15 @@ public class SafeParcelReader {
     public static long readLong(Parcel parcel, int i) {
         zzb(parcel, i, 8);
         return parcel.readLong();
+    }
+
+    public static Long readLongObject(Parcel parcel, int i) {
+        int readSize = readSize(parcel, i);
+        if (readSize == 0) {
+            return null;
+        }
+        zza(parcel, i, readSize, 8);
+        return Long.valueOf(parcel.readLong());
     }
 
     public static int readSize(Parcel parcel, int i) {

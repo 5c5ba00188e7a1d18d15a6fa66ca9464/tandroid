@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.Arrays;
 import java.util.Objects;
+import org.telegram.messenger.R;
 /* loaded from: classes.dex */
 public class JsonReader implements Closeable {
     private final Reader in;
@@ -478,10 +479,10 @@ public class JsonReader implements Closeable {
                 }
                 if (c != ';') {
                     switch (c) {
-                        case '[':
-                        case ']':
+                        case R.styleable.AppCompatTheme_radioButtonStyle /* 91 */:
+                        case R.styleable.AppCompatTheme_ratingBarStyleIndicator /* 93 */:
                             return false;
-                        case '\\':
+                        case R.styleable.AppCompatTheme_ratingBarStyle /* 92 */:
                             break;
                         default:
                             return true;
@@ -744,10 +745,10 @@ public class JsonReader implements Closeable {
                                     if (c != '{' && c != '}' && c != ':') {
                                         if (c != ';') {
                                             switch (c) {
-                                                case '[':
-                                                case ']':
+                                                case R.styleable.AppCompatTheme_radioButtonStyle /* 91 */:
+                                                case R.styleable.AppCompatTheme_ratingBarStyleIndicator /* 93 */:
                                                     break;
-                                                case '\\':
+                                                case R.styleable.AppCompatTheme_ratingBarStyle /* 92 */:
                                                     break;
                                                 default:
                                                     i2++;
@@ -834,10 +835,10 @@ public class JsonReader implements Closeable {
                                     if (c != '{' && c != '}' && c != ':') {
                                         if (c != ';') {
                                             switch (c) {
-                                                case '[':
-                                                case ']':
+                                                case R.styleable.AppCompatTheme_radioButtonStyle /* 91 */:
+                                                case R.styleable.AppCompatTheme_ratingBarStyleIndicator /* 93 */:
                                                     break;
-                                                case '\\':
+                                                case R.styleable.AppCompatTheme_ratingBarStyle /* 92 */:
                                                     break;
                                                 default:
                                                     i++;

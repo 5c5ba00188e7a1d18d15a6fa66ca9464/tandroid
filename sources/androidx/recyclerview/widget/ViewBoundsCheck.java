@@ -1,6 +1,7 @@
 package androidx.recyclerview.widget;
 
 import android.view.View;
+import org.telegram.messenger.R;
 /* loaded from: classes.dex */
 class ViewBoundsCheck {
     BoundFlags mBoundFlags = new BoundFlags();
@@ -61,7 +62,7 @@ class ViewBoundsCheck {
             int i = this.mBoundFlags;
             if ((i & 7) == 0 || (i & (compare(this.mChildStart, this.mRvStart) << 0)) != 0) {
                 int i2 = this.mBoundFlags;
-                if ((i2 & 112) == 0 || (i2 & (compare(this.mChildStart, this.mRvEnd) << 4)) != 0) {
+                if ((i2 & R.styleable.AppCompatTheme_toolbarNavigationButtonStyle) == 0 || (i2 & (compare(this.mChildStart, this.mRvEnd) << 4)) != 0) {
                     int i3 = this.mBoundFlags;
                     if ((i3 & 1792) == 0 || (i3 & (compare(this.mChildEnd, this.mRvStart) << 8)) != 0) {
                         int i4 = this.mBoundFlags;

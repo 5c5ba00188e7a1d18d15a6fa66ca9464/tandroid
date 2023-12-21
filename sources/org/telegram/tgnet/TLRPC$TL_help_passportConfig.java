@@ -1,5 +1,5 @@
 package org.telegram.tgnet;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_help_passportConfig extends TLRPC$help_PassportConfig {
     public TLRPC$TL_dataJSON countries_langs;
     public int hash;

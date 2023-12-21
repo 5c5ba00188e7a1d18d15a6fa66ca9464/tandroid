@@ -1203,10 +1203,10 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
                         int i5 = Theme.key_windowBackgroundWhiteBlueText4;
                         textCell.setColors(i5, i5);
                         if (StickersActivity.this.currentType == 5) {
-                            textCell.setTextAndIcon(LocaleController.getString(R.string.ShowMoreEmojiPacks), R.drawable.msg2_trending, false);
+                            textCell.setTextAndIcon((CharSequence) LocaleController.getString(R.string.ShowMoreEmojiPacks), R.drawable.msg2_trending, false);
                             return;
                         } else {
-                            textCell.setTextAndIcon(LocaleController.getString(R.string.ShowMoreStickers), R.drawable.msg2_trending, false);
+                            textCell.setTextAndIcon((CharSequence) LocaleController.getString(R.string.ShowMoreStickers), R.drawable.msg2_trending, false);
                             return;
                         }
                     }

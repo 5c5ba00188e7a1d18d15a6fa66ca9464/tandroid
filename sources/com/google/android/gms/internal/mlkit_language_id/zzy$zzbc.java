@@ -1,7 +1,6 @@
 package com.google.android.gms.internal.mlkit_language_id;
 
 import com.google.android.gms.internal.mlkit_language_id.zzeo;
-import org.telegram.messenger.FileLoader;
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 public final class zzy$zzbc extends zzeo<zzy$zzbc, zzb> implements zzgb {
@@ -21,7 +20,7 @@ public final class zzy$zzbc extends zzeo<zzy$zzbc, zzb> implements zzgb {
         zzb(1),
         zzc(2),
         zzd(3),
-        zze(FileLoader.MEDIA_DIR_VIDEO_PUBLIC),
+        zze(101),
         zzf(1001),
         zzg(1002);
         

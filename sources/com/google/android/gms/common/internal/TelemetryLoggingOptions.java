@@ -19,6 +19,11 @@ public class TelemetryLoggingOptions implements Api.ApiOptions {
         public TelemetryLoggingOptions build() {
             return new TelemetryLoggingOptions(this.zaa, null);
         }
+
+        public Builder setApi(String str) {
+            this.zaa = str;
+            return this;
+        }
     }
 
     /* synthetic */ TelemetryLoggingOptions(String str, zaad zaadVar) {

@@ -8,6 +8,6 @@ public final /* synthetic */ class WallpapersListActivity$$ExternalSyntheticLamb
 
     @Override // java.lang.Runnable
     public final void run() {
-        WallpapersListActivity.lambda$showAsSheet$5();
+        WallpapersListActivity.lambda$showAsSheet$6();
     }
 }

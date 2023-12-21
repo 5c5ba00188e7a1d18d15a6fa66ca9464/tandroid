@@ -5,8 +5,8 @@ import java.util.Objects;
 /* loaded from: classes2.dex */
 public class P extends T {
     /* JADX INFO: Access modifiers changed from: package-private */
-    public P(j$.util.u uVar, int i, boolean z) {
-        super(uVar, i, z);
+    public P(j$.util.t tVar, int i, boolean z) {
+        super(tVar, i, z);
     }
 
     @Override // j$.util.stream.c

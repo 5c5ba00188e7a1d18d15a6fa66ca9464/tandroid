@@ -6,7 +6,7 @@ import android.os.IBinder;
 import android.os.IInterface;
 import android.os.Parcel;
 import android.os.RemoteException;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public interface ICustomTabsCallback extends IInterface {
     void extraCallback(String str, Bundle bundle) throws RemoteException;
 
@@ -16,7 +16,7 @@ public interface ICustomTabsCallback extends IInterface {
 
     void onPostMessage(String str, Bundle bundle) throws RemoteException;
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static abstract class Stub extends Binder implements ICustomTabsCallback {
         @Override // android.os.IInterface
         public IBinder asBinder() {

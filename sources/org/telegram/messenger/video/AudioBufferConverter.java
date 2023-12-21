@@ -7,7 +7,7 @@ import org.telegram.messenger.video.remix.AudioRemixer;
 import org.telegram.messenger.video.remix.DefaultAudioRemixer;
 import org.telegram.messenger.video.resample.AudioResampler;
 import org.telegram.messenger.video.resample.DefaultAudioResampler;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class AudioBufferConverter {
     private static final int BYTES_PER_SHORT = 2;
     private static final String TAG = "AudioBufferConverter";

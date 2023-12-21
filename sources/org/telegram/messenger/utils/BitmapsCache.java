@@ -27,7 +27,7 @@ import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.utils.BitmapsCache;
 import org.telegram.ui.Components.RLottieDrawable;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class BitmapsCache {
     private static ThreadPoolExecutor bitmapCompressExecutor;
     static volatile boolean cleanupScheduled;
@@ -71,14 +71,14 @@ public class BitmapsCache {
         }
     };
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class CacheOptions {
         public int compressQuality = 100;
         public boolean fallback = false;
         public boolean firstFrame;
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public interface Cacheable {
         int getNextFrame(Bitmap bitmap);
 
@@ -87,7 +87,7 @@ public class BitmapsCache {
         void releaseForGenerateCache();
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class Metadata {
         public int frame;
     }
@@ -95,7 +95,7 @@ public class BitmapsCache {
     public void cancelCreate() {
     }
 
-    /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:53:0x011d -> B:72:0x0135). Please submit an issue!!! */
+    /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:53:0x011c -> B:72:0x0134). Please submit an issue!!! */
     public BitmapsCache(File file, Cacheable cacheable, CacheOptions cacheOptions, int i, int i2, boolean z) {
         RandomAccessFile randomAccessFile;
         Throwable th;
@@ -209,15 +209,15 @@ public class BitmapsCache {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:27:0x0068, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:27:0x0067, code lost:
         if (r24.cachedFile != r0) goto L110;
      */
-    /* JADX WARN: Removed duplicated region for block: B:117:0x00c4 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:125:0x00e8 A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x0089 A[Catch: all -> 0x01fd, IOException -> 0x01ff, FileNotFoundException -> 0x0204, TryCatch #12 {FileNotFoundException -> 0x0204, IOException -> 0x01ff, blocks: (B:3:0x0002, B:17:0x004c, B:26:0x0066, B:32:0x0074, B:36:0x007b, B:38:0x0089, B:39:0x0090, B:40:0x00c0, B:42:0x00c4, B:46:0x00ce, B:48:0x00d6, B:51:0x00de, B:54:0x00e9, B:56:0x00ed, B:58:0x00f1, B:62:0x00fb, B:61:0x00f8, B:63:0x00fe, B:64:0x011b, B:66:0x0121, B:67:0x013e, B:68:0x0179, B:73:0x01c1, B:75:0x01cc, B:76:0x01d1, B:77:0x01d5, B:79:0x01d9, B:81:0x01dd, B:85:0x01e7, B:84:0x01e4, B:89:0x01f3, B:45:0x00cb), top: B:119:0x0002, outer: #8 }] */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x0179 A[Catch: all -> 0x01fd, IOException -> 0x01ff, FileNotFoundException -> 0x0204, TryCatch #12 {FileNotFoundException -> 0x0204, IOException -> 0x01ff, blocks: (B:3:0x0002, B:17:0x004c, B:26:0x0066, B:32:0x0074, B:36:0x007b, B:38:0x0089, B:39:0x0090, B:40:0x00c0, B:42:0x00c4, B:46:0x00ce, B:48:0x00d6, B:51:0x00de, B:54:0x00e9, B:56:0x00ed, B:58:0x00f1, B:62:0x00fb, B:61:0x00f8, B:63:0x00fe, B:64:0x011b, B:66:0x0121, B:67:0x013e, B:68:0x0179, B:73:0x01c1, B:75:0x01cc, B:76:0x01d1, B:77:0x01d5, B:79:0x01d9, B:81:0x01dd, B:85:0x01e7, B:84:0x01e4, B:89:0x01f3, B:45:0x00cb), top: B:119:0x0002, outer: #8 }] */
-    /* JADX WARN: Removed duplicated region for block: B:75:0x01cc A[Catch: all -> 0x01fd, IOException -> 0x01ff, FileNotFoundException -> 0x0204, TryCatch #12 {FileNotFoundException -> 0x0204, IOException -> 0x01ff, blocks: (B:3:0x0002, B:17:0x004c, B:26:0x0066, B:32:0x0074, B:36:0x007b, B:38:0x0089, B:39:0x0090, B:40:0x00c0, B:42:0x00c4, B:46:0x00ce, B:48:0x00d6, B:51:0x00de, B:54:0x00e9, B:56:0x00ed, B:58:0x00f1, B:62:0x00fb, B:61:0x00f8, B:63:0x00fe, B:64:0x011b, B:66:0x0121, B:67:0x013e, B:68:0x0179, B:73:0x01c1, B:75:0x01cc, B:76:0x01d1, B:77:0x01d5, B:79:0x01d9, B:81:0x01dd, B:85:0x01e7, B:84:0x01e4, B:89:0x01f3, B:45:0x00cb), top: B:119:0x0002, outer: #8 }] */
-    /* JADX WARN: Removed duplicated region for block: B:79:0x01d9 A[Catch: all -> 0x01fd, IOException -> 0x01ff, FileNotFoundException -> 0x0204, TRY_LEAVE, TryCatch #12 {FileNotFoundException -> 0x0204, IOException -> 0x01ff, blocks: (B:3:0x0002, B:17:0x004c, B:26:0x0066, B:32:0x0074, B:36:0x007b, B:38:0x0089, B:39:0x0090, B:40:0x00c0, B:42:0x00c4, B:46:0x00ce, B:48:0x00d6, B:51:0x00de, B:54:0x00e9, B:56:0x00ed, B:58:0x00f1, B:62:0x00fb, B:61:0x00f8, B:63:0x00fe, B:64:0x011b, B:66:0x0121, B:67:0x013e, B:68:0x0179, B:73:0x01c1, B:75:0x01cc, B:76:0x01d1, B:77:0x01d5, B:79:0x01d9, B:81:0x01dd, B:85:0x01e7, B:84:0x01e4, B:89:0x01f3, B:45:0x00cb), top: B:119:0x0002, outer: #8 }] */
+    /* JADX WARN: Removed duplicated region for block: B:122:0x00c2 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:125:0x00e6 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x0087 A[Catch: all -> 0x01fb, IOException -> 0x01fd, FileNotFoundException -> 0x0202, TryCatch #12 {FileNotFoundException -> 0x0202, IOException -> 0x01fd, blocks: (B:3:0x0002, B:17:0x004b, B:26:0x0065, B:32:0x0073, B:36:0x007a, B:38:0x0087, B:39:0x008e, B:40:0x00be, B:42:0x00c2, B:46:0x00cc, B:48:0x00d4, B:51:0x00dc, B:54:0x00e7, B:56:0x00eb, B:58:0x00ef, B:62:0x00f9, B:61:0x00f6, B:63:0x00fc, B:64:0x0119, B:66:0x011f, B:67:0x013c, B:68:0x0177, B:73:0x01bf, B:75:0x01ca, B:76:0x01cf, B:77:0x01d3, B:79:0x01d7, B:81:0x01db, B:85:0x01e5, B:84:0x01e2, B:89:0x01f1, B:45:0x00c9), top: B:119:0x0002, outer: #7 }] */
+    /* JADX WARN: Removed duplicated region for block: B:68:0x0177 A[Catch: all -> 0x01fb, IOException -> 0x01fd, FileNotFoundException -> 0x0202, TryCatch #12 {FileNotFoundException -> 0x0202, IOException -> 0x01fd, blocks: (B:3:0x0002, B:17:0x004b, B:26:0x0065, B:32:0x0073, B:36:0x007a, B:38:0x0087, B:39:0x008e, B:40:0x00be, B:42:0x00c2, B:46:0x00cc, B:48:0x00d4, B:51:0x00dc, B:54:0x00e7, B:56:0x00eb, B:58:0x00ef, B:62:0x00f9, B:61:0x00f6, B:63:0x00fc, B:64:0x0119, B:66:0x011f, B:67:0x013c, B:68:0x0177, B:73:0x01bf, B:75:0x01ca, B:76:0x01cf, B:77:0x01d3, B:79:0x01d7, B:81:0x01db, B:85:0x01e5, B:84:0x01e2, B:89:0x01f1, B:45:0x00c9), top: B:119:0x0002, outer: #7 }] */
+    /* JADX WARN: Removed duplicated region for block: B:75:0x01ca A[Catch: all -> 0x01fb, IOException -> 0x01fd, FileNotFoundException -> 0x0202, TryCatch #12 {FileNotFoundException -> 0x0202, IOException -> 0x01fd, blocks: (B:3:0x0002, B:17:0x004b, B:26:0x0065, B:32:0x0073, B:36:0x007a, B:38:0x0087, B:39:0x008e, B:40:0x00be, B:42:0x00c2, B:46:0x00cc, B:48:0x00d4, B:51:0x00dc, B:54:0x00e7, B:56:0x00eb, B:58:0x00ef, B:62:0x00f9, B:61:0x00f6, B:63:0x00fc, B:64:0x0119, B:66:0x011f, B:67:0x013c, B:68:0x0177, B:73:0x01bf, B:75:0x01ca, B:76:0x01cf, B:77:0x01d3, B:79:0x01d7, B:81:0x01db, B:85:0x01e5, B:84:0x01e2, B:89:0x01f1, B:45:0x00c9), top: B:119:0x0002, outer: #7 }] */
+    /* JADX WARN: Removed duplicated region for block: B:79:0x01d7 A[Catch: all -> 0x01fb, IOException -> 0x01fd, FileNotFoundException -> 0x0202, TRY_LEAVE, TryCatch #12 {FileNotFoundException -> 0x0202, IOException -> 0x01fd, blocks: (B:3:0x0002, B:17:0x004b, B:26:0x0065, B:32:0x0073, B:36:0x007a, B:38:0x0087, B:39:0x008e, B:40:0x00be, B:42:0x00c2, B:46:0x00cc, B:48:0x00d4, B:51:0x00dc, B:54:0x00e7, B:56:0x00eb, B:58:0x00ef, B:62:0x00f9, B:61:0x00f6, B:63:0x00fc, B:64:0x0119, B:66:0x011f, B:67:0x013c, B:68:0x0177, B:73:0x01bf, B:75:0x01ca, B:76:0x01cf, B:77:0x01d3, B:79:0x01d7, B:81:0x01db, B:85:0x01e5, B:84:0x01e2, B:89:0x01f1, B:45:0x00c9), top: B:119:0x0002, outer: #7 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -643,7 +643,7 @@ public class BitmapsCache {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public class FrameOffset {
         int frameOffset;
         int frameSize;
@@ -655,7 +655,7 @@ public class BitmapsCache {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class CacheGeneratorSharedTools {
         private Bitmap[] bitmap;
         ImmutableByteArrayOutputStream[] byteArrayOutputStream;

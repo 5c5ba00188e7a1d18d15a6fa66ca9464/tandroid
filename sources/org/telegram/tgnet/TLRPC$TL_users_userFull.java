@@ -1,7 +1,7 @@
 package org.telegram.tgnet;
 
 import java.util.ArrayList;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_users_userFull extends TLObject {
     public TLRPC$UserFull full_user;
     public ArrayList<TLRPC$Chat> chats = new ArrayList<>();

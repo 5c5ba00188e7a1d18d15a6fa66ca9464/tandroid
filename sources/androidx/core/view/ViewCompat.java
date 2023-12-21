@@ -15,6 +15,7 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.SparseArray;
+import android.view.ContentInfo;
 import android.view.Display;
 import android.view.KeyEvent;
 import android.view.View;
@@ -45,23 +46,39 @@ import org.telegram.messenger.LiteMode;
 @SuppressLint({"PrivateConstructorForUtilityClass"})
 /* loaded from: classes.dex */
 public class ViewCompat {
+    private static final OnReceiveContentViewBehavior NO_OP_ON_RECEIVE_CONTENT_VIEW_BEHAVIOR;
     private static boolean sAccessibilityDelegateCheckFailed;
     private static Field sAccessibilityDelegateField;
+    private static final AccessibilityPaneVisibilityManager sAccessibilityPaneVisibilityManager;
     private static Field sMinHeightField;
     private static boolean sMinHeightFieldFetched;
     private static Field sMinWidthField;
     private static boolean sMinWidthFieldFetched;
     private static WeakHashMap<View, String> sTransitionNameMap;
+    private static WeakHashMap<View, ViewPropertyAnimatorCompat> sViewPropertyAnimatorMap;
 
     /* loaded from: classes.dex */
     public interface OnUnhandledKeyEventListenerCompat {
         boolean onUnhandledKeyEvent(View view, KeyEvent keyEvent);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ ContentInfoCompat lambda$static$0(ContentInfoCompat contentInfoCompat) {
+        return contentInfoCompat;
+    }
+
     static {
         new AtomicInteger(1);
+        sViewPropertyAnimatorMap = null;
         sAccessibilityDelegateCheckFailed = false;
-        new AccessibilityPaneVisibilityManager();
+        NO_OP_ON_RECEIVE_CONTENT_VIEW_BEHAVIOR = ViewCompat$$ExternalSyntheticLambda0.INSTANCE;
+        sAccessibilityPaneVisibilityManager = new AccessibilityPaneVisibilityManager();
+    }
+
+    public static void saveAttributeDataForStyleable(View view, @SuppressLint({"ContextFirst"}) Context context, int[] iArr, AttributeSet attributeSet, TypedArray typedArray, int i, int i2) {
+        if (Build.VERSION.SDK_INT >= 29) {
+            Api29Impl.saveAttributeDataForStyleable(view, context, iArr, attributeSet, typedArray, i, i2);
+        }
     }
 
     public static void onInitializeAccessibilityNodeInfo(View view, AccessibilityNodeInfoCompat accessibilityNodeInfoCompat) {
@@ -265,6 +282,19 @@ public class ViewCompat {
         return 0;
     }
 
+    public static ViewPropertyAnimatorCompat animate(View view) {
+        if (sViewPropertyAnimatorMap == null) {
+            sViewPropertyAnimatorMap = new WeakHashMap<>();
+        }
+        ViewPropertyAnimatorCompat viewPropertyAnimatorCompat = sViewPropertyAnimatorMap.get(view);
+        if (viewPropertyAnimatorCompat == null) {
+            ViewPropertyAnimatorCompat viewPropertyAnimatorCompat2 = new ViewPropertyAnimatorCompat(view);
+            sViewPropertyAnimatorMap.put(view, viewPropertyAnimatorCompat2);
+            return viewPropertyAnimatorCompat2;
+        }
+        return viewPropertyAnimatorCompat;
+    }
+
     public static void setElevation(View view, float f) {
         if (Build.VERSION.SDK_INT >= 21) {
             Api21Impl.setElevation(view, f);
@@ -311,6 +341,14 @@ public class ViewCompat {
             return null;
         }
         return weakHashMap.get(view);
+    }
+
+    @Deprecated
+    public static int getWindowSystemUiVisibility(View view) {
+        if (Build.VERSION.SDK_INT >= 16) {
+            return Api16Impl.getWindowSystemUiVisibility(view);
+        }
+        return 0;
     }
 
     public static void requestApplyInsets(View view) {
@@ -361,6 +399,153 @@ public class ViewCompat {
         return null;
     }
 
+    public static WindowInsetsCompat computeSystemWindowInsets(View view, WindowInsetsCompat windowInsetsCompat, Rect rect) {
+        return Build.VERSION.SDK_INT >= 21 ? Api21Impl.computeSystemWindowInsets(view, windowInsetsCompat, rect) : windowInsetsCompat;
+    }
+
+    public static String[] getOnReceiveContentMimeTypes(View view) {
+        if (Build.VERSION.SDK_INT >= 31) {
+            return Api31Impl.getReceiveContentMimeTypes(view);
+        }
+        return (String[]) view.getTag(R$id.tag_on_receive_content_mime_types);
+    }
+
+    public static ContentInfoCompat performReceiveContent(View view, ContentInfoCompat contentInfoCompat) {
+        if (Log.isLoggable("ViewCompat", 3)) {
+            Log.d("ViewCompat", "performReceiveContent: " + contentInfoCompat + ", view=" + view.getClass().getSimpleName() + "[" + view.getId() + "]");
+        }
+        if (Build.VERSION.SDK_INT >= 31) {
+            return Api31Impl.performReceiveContent(view, contentInfoCompat);
+        }
+        OnReceiveContentListener onReceiveContentListener = (OnReceiveContentListener) view.getTag(R$id.tag_on_receive_content_listener);
+        if (onReceiveContentListener != null) {
+            ContentInfoCompat onReceiveContent = onReceiveContentListener.onReceiveContent(view, contentInfoCompat);
+            if (onReceiveContent == null) {
+                return null;
+            }
+            return getFallback(view).onReceiveContent(onReceiveContent);
+        }
+        return getFallback(view).onReceiveContent(contentInfoCompat);
+    }
+
+    private static OnReceiveContentViewBehavior getFallback(View view) {
+        if (view instanceof OnReceiveContentViewBehavior) {
+            return (OnReceiveContentViewBehavior) view;
+        }
+        return NO_OP_ON_RECEIVE_CONTENT_VIEW_BEHAVIOR;
+    }
+
+    /* loaded from: classes.dex */
+    private static final class Api31Impl {
+        public static void setOnReceiveContentListener(View view, String[] strArr, OnReceiveContentListener onReceiveContentListener) {
+            if (onReceiveContentListener == null) {
+                view.setOnReceiveContentListener(strArr, null);
+            } else {
+                view.setOnReceiveContentListener(strArr, new OnReceiveContentListenerAdapter(onReceiveContentListener));
+            }
+        }
+
+        public static String[] getReceiveContentMimeTypes(View view) {
+            return view.getReceiveContentMimeTypes();
+        }
+
+        public static ContentInfoCompat performReceiveContent(View view, ContentInfoCompat contentInfoCompat) {
+            ContentInfo contentInfo = contentInfoCompat.toContentInfo();
+            ContentInfo performReceiveContent = view.performReceiveContent(contentInfo);
+            if (performReceiveContent == null) {
+                return null;
+            }
+            return performReceiveContent == contentInfo ? contentInfoCompat : ContentInfoCompat.toContentInfoCompat(performReceiveContent);
+        }
+    }
+
+    /* loaded from: classes.dex */
+    private static final class OnReceiveContentListenerAdapter implements android.view.OnReceiveContentListener {
+        private final OnReceiveContentListener mJetpackListener;
+
+        OnReceiveContentListenerAdapter(OnReceiveContentListener onReceiveContentListener) {
+            this.mJetpackListener = onReceiveContentListener;
+        }
+
+        @Override // android.view.OnReceiveContentListener
+        public ContentInfo onReceiveContent(View view, ContentInfo contentInfo) {
+            ContentInfoCompat contentInfoCompat = ContentInfoCompat.toContentInfoCompat(contentInfo);
+            ContentInfoCompat onReceiveContent = this.mJetpackListener.onReceiveContent(view, contentInfoCompat);
+            if (onReceiveContent == null) {
+                return null;
+            }
+            return onReceiveContent == contentInfoCompat ? contentInfo : onReceiveContent.toContentInfo();
+        }
+    }
+
+    public static void setBackground(View view, Drawable drawable) {
+        if (Build.VERSION.SDK_INT >= 16) {
+            Api16Impl.setBackground(view, drawable);
+        } else {
+            view.setBackgroundDrawable(drawable);
+        }
+    }
+
+    public static ColorStateList getBackgroundTintList(View view) {
+        if (Build.VERSION.SDK_INT >= 21) {
+            return Api21Impl.getBackgroundTintList(view);
+        }
+        if (view instanceof TintableBackgroundView) {
+            return ((TintableBackgroundView) view).getSupportBackgroundTintList();
+        }
+        return null;
+    }
+
+    public static void setBackgroundTintList(View view, ColorStateList colorStateList) {
+        int i = Build.VERSION.SDK_INT;
+        if (i >= 21) {
+            Api21Impl.setBackgroundTintList(view, colorStateList);
+            if (i == 21) {
+                Drawable background = view.getBackground();
+                boolean z = (Api21Impl.getBackgroundTintList(view) == null && Api21Impl.getBackgroundTintMode(view) == null) ? false : true;
+                if (background == null || !z) {
+                    return;
+                }
+                if (background.isStateful()) {
+                    background.setState(view.getDrawableState());
+                }
+                Api16Impl.setBackground(view, background);
+            }
+        } else if (view instanceof TintableBackgroundView) {
+            ((TintableBackgroundView) view).setSupportBackgroundTintList(colorStateList);
+        }
+    }
+
+    public static PorterDuff.Mode getBackgroundTintMode(View view) {
+        if (Build.VERSION.SDK_INT >= 21) {
+            return Api21Impl.getBackgroundTintMode(view);
+        }
+        if (view instanceof TintableBackgroundView) {
+            return ((TintableBackgroundView) view).getSupportBackgroundTintMode();
+        }
+        return null;
+    }
+
+    public static void setBackgroundTintMode(View view, PorterDuff.Mode mode) {
+        int i = Build.VERSION.SDK_INT;
+        if (i >= 21) {
+            Api21Impl.setBackgroundTintMode(view, mode);
+            if (i == 21) {
+                Drawable background = view.getBackground();
+                boolean z = (Api21Impl.getBackgroundTintList(view) == null && Api21Impl.getBackgroundTintMode(view) == null) ? false : true;
+                if (background == null || !z) {
+                    return;
+                }
+                if (background.isStateful()) {
+                    background.setState(view.getDrawableState());
+                }
+                Api16Impl.setBackground(view, background);
+            }
+        } else if (view instanceof TintableBackgroundView) {
+            ((TintableBackgroundView) view).setSupportBackgroundTintMode(mode);
+        }
+    }
+
     public static void stopNestedScroll(View view) {
         if (Build.VERSION.SDK_INT >= 21) {
             Api21Impl.stopNestedScroll(view);
@@ -396,6 +581,19 @@ public class ViewCompat {
         return view.getWindowToken() != null;
     }
 
+    public static boolean hasOnClickListeners(View view) {
+        if (Build.VERSION.SDK_INT >= 15) {
+            return Api15Impl.hasOnClickListeners(view);
+        }
+        return false;
+    }
+
+    public static void setScrollIndicators(View view, int i, int i2) {
+        if (Build.VERSION.SDK_INT >= 23) {
+            Api23Impl.setScrollIndicators(view, i, i2);
+        }
+    }
+
     public static Display getDisplay(View view) {
         if (Build.VERSION.SDK_INT >= 17) {
             return Api17Impl.getDisplay(view);
@@ -420,6 +618,10 @@ public class ViewCompat {
             return false;
         }
         return UnhandledKeyEventManager.at(view).dispatch(view, keyEvent);
+    }
+
+    public static void setScreenReaderFocusable(View view, boolean z) {
+        screenReaderFocusableProperty().set(view, Boolean.valueOf(z));
     }
 
     public static boolean isScreenReaderFocusable(View view) {
@@ -447,6 +649,17 @@ public class ViewCompat {
                 return !booleanNullToFalseEquals(bool, bool2);
             }
         };
+    }
+
+    public static void setAccessibilityPaneTitle(View view, CharSequence charSequence) {
+        if (Build.VERSION.SDK_INT >= 19) {
+            paneTitleProperty().set(view, charSequence);
+            if (charSequence != null) {
+                sAccessibilityPaneVisibilityManager.addAccessibilityPane(view);
+            } else {
+                sAccessibilityPaneVisibilityManager.removeAccessibilityPane(view);
+            }
+        }
     }
 
     public static CharSequence getAccessibilityPaneTitle(View view) {
@@ -659,6 +872,20 @@ public class ViewCompat {
             registerForLayoutCallback(view);
         }
 
+        void addAccessibilityPane(View view) {
+            this.mPanesToVisible.put(view, Boolean.valueOf(view.isShown() && view.getWindowVisibility() == 0));
+            view.addOnAttachStateChangeListener(this);
+            if (Api19Impl.isAttachedToWindow(view)) {
+                registerForLayoutCallback(view);
+            }
+        }
+
+        void removeAccessibilityPane(View view) {
+            this.mPanesToVisible.remove(view);
+            view.removeOnAttachStateChangeListener(this);
+            unregisterForLayoutCallback(view);
+        }
+
         private void checkPaneVisibility(View view, boolean z) {
             boolean z2 = view.isShown() && view.getWindowVisibility() == 0;
             if (z != z2) {
@@ -669,6 +896,10 @@ public class ViewCompat {
 
         private void registerForLayoutCallback(View view) {
             view.getViewTreeObserver().addOnGlobalLayoutListener(this);
+        }
+
+        private void unregisterForLayoutCallback(View view) {
+            Api16Impl.removeOnGlobalLayoutListener(view.getViewTreeObserver(), this);
         }
     }
 
@@ -1094,6 +1325,13 @@ public class ViewCompat {
 
         static void notifySubtreeAccessibilityStateChanged(ViewParent viewParent, View view, View view2, int i) {
             viewParent.notifySubtreeAccessibilityStateChanged(view, view2, i);
+        }
+    }
+
+    /* loaded from: classes.dex */
+    static class Api15Impl {
+        static boolean hasOnClickListeners(View view) {
+            return view.hasOnClickListeners();
         }
     }
 

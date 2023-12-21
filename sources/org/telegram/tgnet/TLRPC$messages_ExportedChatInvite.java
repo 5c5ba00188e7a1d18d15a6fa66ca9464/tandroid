@@ -1,7 +1,7 @@
 package org.telegram.tgnet;
 
 import java.util.ArrayList;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public abstract class TLRPC$messages_ExportedChatInvite extends TLObject {
     public TLRPC$ExportedChatInvite invite;
     public ArrayList<TLRPC$User> users = new ArrayList<>();

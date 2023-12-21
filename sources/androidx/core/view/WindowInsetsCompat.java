@@ -15,13 +15,14 @@ import java.lang.reflect.Method;
 import java.util.Objects;
 /* loaded from: classes.dex */
 public class WindowInsetsCompat {
+    public static final WindowInsetsCompat CONSUMED;
     private final Impl mImpl;
 
     static {
         if (Build.VERSION.SDK_INT >= 30) {
-            WindowInsetsCompat windowInsetsCompat = Impl30.CONSUMED;
+            CONSUMED = Impl30.CONSUMED;
         } else {
-            WindowInsetsCompat windowInsetsCompat2 = Impl.CONSUMED;
+            CONSUMED = Impl.CONSUMED;
         }
     }
 
@@ -151,6 +152,10 @@ public class WindowInsetsCompat {
         return this.mImpl.getStableInsets();
     }
 
+    public WindowInsetsCompat inset(int i, int i2, int i3, int i4) {
+        return this.mImpl.inset(i, i2, i3, i4);
+    }
+
     public Insets getInsets(int i) {
         return this.mImpl.getInsets(i);
     }
@@ -251,6 +256,10 @@ public class WindowInsetsCompat {
 
         Insets getTappableElementInsets() {
             return getSystemWindowInsets();
+        }
+
+        WindowInsetsCompat inset(int i, int i2, int i3, int i4) {
+            return CONSUMED;
         }
 
         Insets getInsets(int i) {
@@ -391,6 +400,14 @@ public class WindowInsetsCompat {
                 this.mSystemWindowInsets = Insets.of(this.mPlatformInsets.getSystemWindowInsetLeft(), this.mPlatformInsets.getSystemWindowInsetTop(), this.mPlatformInsets.getSystemWindowInsetRight(), this.mPlatformInsets.getSystemWindowInsetBottom());
             }
             return this.mSystemWindowInsets;
+        }
+
+        @Override // androidx.core.view.WindowInsetsCompat.Impl
+        WindowInsetsCompat inset(int i, int i2, int i3, int i4) {
+            Builder builder = new Builder(WindowInsetsCompat.toWindowInsetsCompat(this.mPlatformInsets));
+            builder.setSystemWindowInsets(WindowInsetsCompat.insetInsets(getSystemWindowInsets(), i, i2, i3, i4));
+            builder.setStableInsets(WindowInsetsCompat.insetInsets(getStableInsets(), i, i2, i3, i4));
+            return builder.build();
         }
 
         @Override // androidx.core.view.WindowInsetsCompat.Impl
@@ -612,6 +629,19 @@ public class WindowInsetsCompat {
             }
             return this.mTappableElementInsets;
         }
+
+        @Override // androidx.core.view.WindowInsetsCompat.Impl20, androidx.core.view.WindowInsetsCompat.Impl
+        WindowInsetsCompat inset(int i, int i2, int i3, int i4) {
+            return WindowInsetsCompat.toWindowInsetsCompat(this.mPlatformInsets.inset(i, i2, i3, i4));
+        }
+    }
+
+    static Insets insetInsets(Insets insets, int i, int i2, int i3, int i4) {
+        int max = Math.max(0, insets.left - i);
+        int max2 = Math.max(0, insets.top - i2);
+        int max3 = Math.max(0, insets.right - i3);
+        int max4 = Math.max(0, insets.bottom - i4);
+        return (max == i && max2 == i2 && max3 == i3 && max4 == i4) ? insets : Insets.of(max, max2, max3, max4);
     }
 
     /* loaded from: classes.dex */

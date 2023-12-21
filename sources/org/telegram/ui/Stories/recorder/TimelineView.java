@@ -85,6 +85,7 @@ public class TimelineView extends View {
     private boolean hasAudio;
     private boolean hasRound;
     private boolean hasVideo;
+    private boolean isMainVideoRound;
     private long lastTime;
     private float lastX;
     private final AnimatedFloat loopProgress;
@@ -180,7 +181,7 @@ public class TimelineView extends View {
     }
 
     public static int heightDp() {
-        return 112;
+        return R.styleable.AppCompatTheme_toolbarNavigationButtonStyle;
     }
 
     private long getBaseDuration() {
@@ -372,7 +373,7 @@ public class TimelineView extends View {
         this.delegate = timelineDelegate;
     }
 
-    public void setVideo(String str, long j, float f) {
+    public void setVideo(boolean z, String str, long j, float f) {
         if (TextUtils.equals(this.videoPath, str)) {
             return;
         }
@@ -381,6 +382,7 @@ public class TimelineView extends View {
             videoThumbsLoader.destroy();
             this.thumbs = null;
         }
+        this.isMainVideoRound = z;
         if (str != null) {
             this.scroll = 0L;
             this.videoPath = str;
@@ -464,13 +466,14 @@ public class TimelineView extends View {
         if (getMeasuredWidth() <= 0 || this.thumbs != null) {
             return;
         }
+        boolean z = this.isMainVideoRound;
         String str = this.videoPath;
         int i = this.w;
         int i2 = this.px;
         int i3 = (i - i2) - i2;
         int dp = AndroidUtilities.dp(38.0f);
         long j = this.videoDuration;
-        VideoThumbsLoader videoThumbsLoader = new VideoThumbsLoader(this, str, i3, dp, j > 2 ? Long.valueOf(j) : null);
+        VideoThumbsLoader videoThumbsLoader = new VideoThumbsLoader(this, z, str, i3, dp, j > 2 ? Long.valueOf(j) : null);
         this.thumbs = videoThumbsLoader;
         if (videoThumbsLoader.getDuration() > 0) {
             this.videoDuration = this.thumbs.getDuration();
@@ -489,7 +492,7 @@ public class TimelineView extends View {
             int i3 = (i - i2) - i2;
             int dp = AndroidUtilities.dp(38.0f);
             long j = this.roundDuration;
-            VideoThumbsLoader videoThumbsLoader = new VideoThumbsLoader(str, i3, dp, j > 2 ? Long.valueOf(j) : null, this.hasVideo ? this.videoDuration : 120000L);
+            VideoThumbsLoader videoThumbsLoader = new VideoThumbsLoader(false, str, i3, dp, j > 2 ? Long.valueOf(j) : null, this.hasVideo ? this.videoDuration : 120000L);
             this.roundThumbs = videoThumbsLoader;
             if (videoThumbsLoader.getDuration() > 0) {
                 this.roundDuration = this.roundThumbs.getDuration();
@@ -1799,8 +1802,8 @@ public class TimelineView extends View {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:417:0x03c2  */
-    /* JADX WARN: Removed duplicated region for block: B:422:0x03fa  */
+    /* JADX WARN: Removed duplicated region for block: B:425:0x03ca  */
+    /* JADX WARN: Removed duplicated region for block: B:430:0x0402  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1857,7 +1860,6 @@ public class TimelineView extends View {
         Bitmap bitmap;
         float f28;
         float f29;
-        boolean z2;
         Bitmap bitmap2;
         TimelineView timelineView = this;
         Canvas canvas2 = canvas;
@@ -1892,17 +1894,22 @@ public class TimelineView extends View {
                 int max3 = (int) Math.max(0.0d, Math.floor((f32 - timelineView.px) / frameWidth));
                 int min2 = (int) Math.min(timelineView.thumbs.count, Math.ceil(((f33 - f32) - timelineView.px) / frameWidth) + 1.0d);
                 int i6 = (int) timelineView.videoBounds.top;
-                boolean z3 = timelineView.thumbs.frames.size() >= min2;
+                boolean z2 = timelineView.thumbs.frames.size() >= min2;
+                boolean z3 = z2 && !timelineView.isMainVideoRound;
                 if (z3) {
-                    for (int i7 = max3; i7 < Math.min(timelineView.thumbs.frames.size(), min2); i7++) {
-                        if (((VideoThumbsLoader.BitmapFrame) timelineView.thumbs.frames.get(i7)).bitmap == null) {
-                            z2 = false;
+                    int i7 = max3;
+                    while (true) {
+                        if (i7 >= Math.min(timelineView.thumbs.frames.size(), min2)) {
                             break;
+                        } else if (((VideoThumbsLoader.BitmapFrame) timelineView.thumbs.frames.get(i7)).bitmap == null) {
+                            z3 = false;
+                            break;
+                        } else {
+                            i7++;
                         }
                     }
                 }
-                z2 = z3;
-                if (!z2) {
+                if (!z3) {
                     if (paint5 == null) {
                         canvas2.drawColor(1073741824);
                     } else {
@@ -1919,7 +1926,7 @@ public class TimelineView extends View {
                     f32 += frameWidth;
                     max3++;
                 }
-                if (!z3) {
+                if (!z2) {
                     timelineView.thumbs.load();
                 }
             }
@@ -2491,6 +2498,7 @@ public class TimelineView extends View {
     /* loaded from: classes4.dex */
     public class VideoThumbsLoader {
         private final Paint bitmapPaint;
+        private Path clipPath;
         private final int count;
         private boolean destroyed;
         private long duration;
@@ -2498,32 +2506,34 @@ public class TimelineView extends View {
         private final long frameIterator;
         private final int frameWidth;
         private final ArrayList<BitmapFrame> frames;
+        private final boolean isRound;
         private boolean loading;
         private MediaMetadataRetriever metadataRetriever;
         private long nextFrame;
 
-        public VideoThumbsLoader(TimelineView timelineView, String str, int i, int i2, Long l) {
-            this(str, i, i2, l, 120000L);
+        public VideoThumbsLoader(TimelineView timelineView, boolean z, String str, int i, int i2, Long l) {
+            this(z, str, i, i2, l, 120000L);
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:65:0x0066, code lost:
-            if (r0 != 270) goto L24;
+        /* JADX WARN: Code restructure failed: missing block: B:65:0x0068, code lost:
+            if (r7 != 270) goto L24;
          */
-        /* JADX WARN: Removed duplicated region for block: B:77:0x007f  */
-        /* JADX WARN: Removed duplicated region for block: B:80:0x0089 A[ADDED_TO_REGION] */
+        /* JADX WARN: Removed duplicated region for block: B:77:0x0081  */
+        /* JADX WARN: Removed duplicated region for block: B:80:0x008b A[ADDED_TO_REGION] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
-        public VideoThumbsLoader(String str, int i, int i2, Long l, long j) {
+        public VideoThumbsLoader(boolean z, String str, int i, int i2, Long l, long j) {
             Exception e;
             int i3;
             float f;
             int max;
             String extractMetadata;
-            TimelineView.this = r6;
+            TimelineView.this = r5;
             this.frames = new ArrayList<>();
             this.loading = false;
             this.bitmapPaint = new Paint(3);
+            this.isRound = z;
             MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
             this.metadataRetriever = mediaMetadataRetriever;
             long j2 = 120000;
@@ -2538,21 +2548,21 @@ public class TimelineView extends View {
                 i3 = extractMetadata3 != null ? Integer.parseInt(extractMetadata3) : 0;
                 try {
                     String extractMetadata4 = this.metadataRetriever.extractMetadata(19);
-                    r6 = extractMetadata4 != null ? Integer.parseInt(extractMetadata4) : 0;
+                    r5 = extractMetadata4 != null ? Integer.parseInt(extractMetadata4) : 0;
                 } catch (Exception e2) {
                     e = e2;
-                    r6 = i3;
+                    r5 = i3;
                     i3 = 0;
                     this.metadataRetriever = null;
                     FileLog.e(e);
                     int i4 = i3;
-                    i3 = r6;
-                    r6 = i4;
+                    i3 = r5;
+                    r5 = i4;
                     if (l != null) {
                     }
                     f = 1.0f;
                     if (i3 != 0) {
-                        f = i3 / r6;
+                        f = i3 / r5;
                     }
                     float clamp = Utilities.clamp(f, 1.3333334f, 0.5625f);
                     this.frameHeight = Math.max(1, i2);
@@ -2569,13 +2579,13 @@ public class TimelineView extends View {
                 } catch (Exception e3) {
                     e = e3;
                     int i5 = i3;
-                    i3 = r6;
-                    r6 = i5;
+                    i3 = r5;
+                    r5 = i5;
                     this.metadataRetriever = null;
                     FileLog.e(e);
                     int i42 = i3;
-                    i3 = r6;
-                    r6 = i42;
+                    i3 = r5;
+                    r5 = i42;
                     if (l != null) {
                     }
                     f = 1.0f;
@@ -2599,16 +2609,16 @@ public class TimelineView extends View {
                 if (parseInt != 90) {
                 }
                 int i422 = i3;
-                i3 = r6;
-                r6 = i422;
+                i3 = r5;
+                r5 = i422;
             }
             if (l != null) {
                 j2 = l.longValue();
                 this.duration = j2;
             }
             f = 1.0f;
-            if (i3 != 0 && r6 != 0) {
-                f = i3 / r6;
+            if (i3 != 0 && r5 != 0) {
+                f = i3 / r5;
             }
             float clamp22 = Utilities.clamp(f, 1.3333334f, 0.5625f);
             this.frameHeight = Math.max(1, i2);
@@ -2651,7 +2661,20 @@ public class TimelineView extends View {
                     Bitmap createBitmap = Bitmap.createBitmap(this.frameWidth, this.frameHeight, Bitmap.Config.ARGB_8888);
                     Canvas canvas = new Canvas(createBitmap);
                     float max = Math.max(this.frameWidth / bitmap.getWidth(), this.frameHeight / bitmap.getHeight());
-                    canvas.drawBitmap(bitmap, new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight()), new Rect((int) ((createBitmap.getWidth() - (bitmap.getWidth() * max)) / 2.0f), (int) ((createBitmap.getHeight() - (bitmap.getHeight() * max)) / 2.0f), (int) ((createBitmap.getWidth() + (bitmap.getWidth() * max)) / 2.0f), (int) ((createBitmap.getHeight() + (bitmap.getHeight() * max)) / 2.0f)), this.bitmapPaint);
+                    Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+                    Rect rect2 = new Rect((int) ((createBitmap.getWidth() - (bitmap.getWidth() * max)) / 2.0f), (int) ((createBitmap.getHeight() - (bitmap.getHeight() * max)) / 2.0f), (int) ((createBitmap.getWidth() + (bitmap.getWidth() * max)) / 2.0f), (int) ((createBitmap.getHeight() + (bitmap.getHeight() * max)) / 2.0f));
+                    if (this.isRound) {
+                        if (this.clipPath == null) {
+                            this.clipPath = new Path();
+                        }
+                        this.clipPath.rewind();
+                        Path path = this.clipPath;
+                        int i = this.frameWidth;
+                        int i2 = this.frameHeight;
+                        path.addCircle(i / 2.0f, i2 / 2.0f, Math.min(i, i2) / 2.0f, Path.Direction.CW);
+                        canvas.clipPath(this.clipPath);
+                    }
+                    canvas.drawBitmap(bitmap, rect, rect2, this.bitmapPaint);
                     bitmap.recycle();
                     bitmap = createBitmap;
                 }

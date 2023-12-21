@@ -11,7 +11,7 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.voip.NativeInstance;
 import org.webrtc.ContextUtils;
 import org.webrtc.VideoSink;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public final class Instance {
     public static final int AUDIO_STATE_ACTIVE = 1;
     public static final int AUDIO_STATE_MUTED = 0;
@@ -58,22 +58,22 @@ public final class Instance {
     public static final List<String> AVAILABLE_VERSIONS = Arrays.asList("2.4.4", "2.7.7", "5.0.0", "6.0.0", "7.0.0", "8.0.0", "9.0.0", "10.0.0", "11.0.0");
     private static ServerConfig globalServerConfig = new ServerConfig(new JSONObject());
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public interface OnRemoteMediaStateUpdatedListener {
         void onMediaStateUpdated(int i, int i2);
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public interface OnSignalBarsUpdatedListener {
         void onSignalBarsUpdated(int i);
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public interface OnSignalingDataListener {
         void onSignalingData(byte[] bArr);
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public interface OnStateUpdatedListener {
         void onStateUpdated(int i, boolean z);
     }
@@ -139,7 +139,7 @@ public final class Instance {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static final class Config {
         public final int dataSaving;
         public final boolean enableAec;
@@ -174,7 +174,7 @@ public final class Instance {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static final class Endpoint {
         public final long id;
         public final String ipv4;
@@ -218,7 +218,7 @@ public final class Instance {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static final class Proxy {
         public final String host;
         public final String login;
@@ -237,7 +237,7 @@ public final class Instance {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static final class EncryptionKey {
         public final boolean isOutgoing;
         public final byte[] value;
@@ -252,7 +252,7 @@ public final class Instance {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static final class FinalState {
         public String debugLog;
         public final boolean isRatingSuggested;
@@ -271,7 +271,7 @@ public final class Instance {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static final class TrafficStats {
         public final long bytesReceivedMobile;
         public final long bytesReceivedWifi;
@@ -290,7 +290,7 @@ public final class Instance {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static final class Fingerprint {
         public final String fingerprint;
         public final String hash;
@@ -307,7 +307,7 @@ public final class Instance {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static final class Candidate {
         public final String component;
         public final String foundation;
@@ -344,7 +344,7 @@ public final class Instance {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static final class ServerConfig {
         public final boolean enableStunMarking;
         public final boolean enable_h264_decoder;

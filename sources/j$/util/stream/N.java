@@ -2,9 +2,8 @@ package j$.util.stream;
 
 import j$.util.function.Function;
 import j$.util.function.ToLongFunction;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public class N extends c1 {
+class N extends c1 {
     public final /* synthetic */ int l = 1;
     final /* synthetic */ Object m;
 

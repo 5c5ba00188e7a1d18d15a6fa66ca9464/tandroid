@@ -1,5 +1,5 @@
 package org.telegram.tgnet;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_channelAdminLogEventActionPinTopic extends TLRPC$ChannelAdminLogEventAction {
     public int flags;
     public TLRPC$ForumTopic new_topic;

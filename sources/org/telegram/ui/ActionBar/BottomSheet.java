@@ -819,7 +819,7 @@ public class BottomSheet extends Dialog {
                                 i17 = 51;
                             }
                             int i18 = i17 & 7;
-                            int i19 = i17 & 112;
+                            int i19 = i17 & R.styleable.AppCompatTheme_toolbarNavigationButtonStyle;
                             int i20 = i18 & 7;
                             if (i20 == 1) {
                                 i7 = (((i6 - i5) - measuredWidth2) / 2) + layoutParams.leftMargin;

@@ -1,6 +1,6 @@
 package com.google.android.gms.internal.mlkit_language_id;
 
-import org.telegram.messenger.FileLoader;
+import org.telegram.messenger.R;
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 public enum zzai implements zzet {
@@ -15,21 +15,21 @@ public enum zzai implements zzet {
     zzj(9),
     zzk(5),
     zzl(100),
-    zzm(FileLoader.MEDIA_DIR_VIDEO_PUBLIC),
-    zzn(102),
-    zzo(103),
-    zzp(104),
-    zzq(105),
-    zzr(106),
-    zzs(107),
-    zzt(108),
-    zzu(109),
-    zzv(110),
-    zzw(111),
-    zzx(112),
-    zzy(113),
-    zzz(114),
-    zzaa(115),
+    zzm(101),
+    zzn(R.styleable.AppCompatTheme_textAppearanceLargePopupMenu),
+    zzo(R.styleable.AppCompatTheme_textAppearanceListItem),
+    zzp(R.styleable.AppCompatTheme_textAppearanceListItemSecondary),
+    zzq(R.styleable.AppCompatTheme_textAppearanceListItemSmall),
+    zzr(R.styleable.AppCompatTheme_textAppearancePopupMenuHeader),
+    zzs(R.styleable.AppCompatTheme_textAppearanceSearchResultSubtitle),
+    zzt(R.styleable.AppCompatTheme_textAppearanceSearchResultTitle),
+    zzu(R.styleable.AppCompatTheme_textAppearanceSmallPopupMenu),
+    zzv(R.styleable.AppCompatTheme_textColorAlertDialogListItem),
+    zzw(R.styleable.AppCompatTheme_textColorSearchUrl),
+    zzx(R.styleable.AppCompatTheme_toolbarNavigationButtonStyle),
+    zzy(R.styleable.AppCompatTheme_toolbarStyle),
+    zzz(R.styleable.AppCompatTheme_tooltipForegroundColor),
+    zzaa(R.styleable.AppCompatTheme_tooltipFrameBackground),
     zzab(116),
     zzb(9999);
     

@@ -760,9 +760,9 @@ public class ContactsController extends BaseController {
         return i > 3;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:252:0x058b A[Catch: all -> 0x05a3, TRY_LEAVE, TryCatch #2 {all -> 0x05a3, blocks: (B:250:0x0586, B:252:0x058b), top: B:278:0x0586 }] */
-    /* JADX WARN: Removed duplicated region for block: B:261:0x059d  */
-    /* JADX WARN: Removed duplicated region for block: B:288:0x0590 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:252:0x058c A[Catch: all -> 0x05a4, TRY_LEAVE, TryCatch #5 {all -> 0x05a4, blocks: (B:250:0x0587, B:252:0x058c), top: B:284:0x0587 }] */
+    /* JADX WARN: Removed duplicated region for block: B:261:0x059e  */
+    /* JADX WARN: Removed duplicated region for block: B:288:0x0591 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:330:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1373,8 +1373,8 @@ public class ContactsController extends BaseController {
      */
     /* JADX WARN: Removed duplicated region for block: B:112:0x0274  */
     /* JADX WARN: Removed duplicated region for block: B:224:0x04cd  */
-    /* JADX WARN: Removed duplicated region for block: B:226:0x04f9  */
-    /* JADX WARN: Removed duplicated region for block: B:228:0x050b  */
+    /* JADX WARN: Removed duplicated region for block: B:226:0x04fa  */
+    /* JADX WARN: Removed duplicated region for block: B:228:0x050c  */
     /* JADX WARN: Removed duplicated region for block: B:84:0x01f1  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

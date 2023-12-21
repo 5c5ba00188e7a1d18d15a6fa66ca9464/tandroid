@@ -13,8 +13,19 @@ import java.util.List;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class FragmentStore {
+    private FragmentManagerViewModel mNonConfig;
     private final ArrayList<Fragment> mAdded = new ArrayList<>();
     private final HashMap<String, FragmentStateManager> mActive = new HashMap<>();
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public void setNonConfig(FragmentManagerViewModel fragmentManagerViewModel) {
+        this.mNonConfig = fragmentManagerViewModel;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public FragmentManagerViewModel getNonConfig() {
+        return this.mNonConfig;
+    }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public void resetActiveFragments() {
@@ -40,7 +51,22 @@ public class FragmentStore {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public void makeActive(FragmentStateManager fragmentStateManager) {
-        this.mActive.put(fragmentStateManager.getFragment().mWho, fragmentStateManager);
+        Fragment fragment = fragmentStateManager.getFragment();
+        if (containsActiveFragment(fragment.mWho)) {
+            return;
+        }
+        this.mActive.put(fragment.mWho, fragmentStateManager);
+        if (fragment.mRetainInstanceChangedWhileDetached) {
+            if (fragment.mRetainInstance) {
+                this.mNonConfig.addRetainedFragment(fragment);
+            } else {
+                this.mNonConfig.removeRetainedFragment(fragment);
+            }
+            fragment.mRetainInstanceChangedWhileDetached = false;
+        }
+        if (FragmentManager.isLoggingEnabled(2)) {
+            Log.v("FragmentManager", "Added fragment to active set " + fragment);
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -56,16 +82,29 @@ public class FragmentStore {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public void dispatchStateChange(int i) {
-        Iterator<Fragment> it = this.mAdded.iterator();
-        while (it.hasNext()) {
-            FragmentStateManager fragmentStateManager = this.mActive.get(it.next().mWho);
+        for (FragmentStateManager fragmentStateManager : this.mActive.values()) {
             if (fragmentStateManager != null) {
                 fragmentStateManager.setFragmentManagerState(i);
             }
         }
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public void moveToExpectedState() {
+        Iterator<Fragment> it = this.mAdded.iterator();
+        while (it.hasNext()) {
+            FragmentStateManager fragmentStateManager = this.mActive.get(it.next().mWho);
+            if (fragmentStateManager != null) {
+                fragmentStateManager.moveToExpectedState();
+            }
+        }
         for (FragmentStateManager fragmentStateManager2 : this.mActive.values()) {
             if (fragmentStateManager2 != null) {
-                fragmentStateManager2.setFragmentManagerState(i);
+                fragmentStateManager2.moveToExpectedState();
+                Fragment fragment = fragmentStateManager2.getFragment();
+                if (fragment.mRemoving && !fragment.isInBackStack()) {
+                    makeInactive(fragmentStateManager2);
+                }
             }
         }
     }
@@ -81,19 +120,11 @@ public class FragmentStore {
     /* JADX INFO: Access modifiers changed from: package-private */
     public void makeInactive(FragmentStateManager fragmentStateManager) {
         Fragment fragment = fragmentStateManager.getFragment();
-        for (FragmentStateManager fragmentStateManager2 : this.mActive.values()) {
-            if (fragmentStateManager2 != null) {
-                Fragment fragment2 = fragmentStateManager2.getFragment();
-                if (fragment.mWho.equals(fragment2.mTargetWho)) {
-                    fragment2.mTarget = fragment;
-                    fragment2.mTargetWho = null;
-                }
-            }
+        if (fragment.mRetainInstance) {
+            this.mNonConfig.removeRetainedFragment(fragment);
         }
-        this.mActive.put(fragment.mWho, null);
-        String str = fragment.mTargetWho;
-        if (str != null) {
-            fragment.mTarget = findActiveFragment(str);
+        if (this.mActive.put(fragment.mWho, null) != null && FragmentManager.isLoggingEnabled(2)) {
+            Log.v("FragmentManager", "Removed fragment from active set " + fragment);
         }
     }
 
@@ -135,6 +166,17 @@ public class FragmentStore {
             }
             return arrayList;
         }
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public List<FragmentStateManager> getActiveFragmentStateManagers() {
+        ArrayList arrayList = new ArrayList();
+        for (FragmentStateManager fragmentStateManager : this.mActive.values()) {
+            if (fragmentStateManager != null) {
+                arrayList.add(fragmentStateManager);
+            }
+        }
+        return arrayList;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -207,7 +249,7 @@ public class FragmentStore {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public boolean containsActiveFragment(String str) {
-        return this.mActive.containsKey(str);
+        return this.mActive.get(str) != null;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -236,18 +278,30 @@ public class FragmentStore {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public Fragment findFragmentUnder(Fragment fragment) {
+    public int findFragmentIndexInContainer(Fragment fragment) {
+        View view;
+        View view2;
         ViewGroup viewGroup = fragment.mContainer;
-        View view = fragment.mView;
-        if (viewGroup != null && view != null) {
-            for (int indexOf = this.mAdded.indexOf(fragment) - 1; indexOf >= 0; indexOf--) {
-                Fragment fragment2 = this.mAdded.get(indexOf);
-                if (fragment2.mContainer == viewGroup && fragment2.mView != null) {
-                    return fragment2;
-                }
+        if (viewGroup == null) {
+            return -1;
+        }
+        int indexOf = this.mAdded.indexOf(fragment);
+        for (int i = indexOf - 1; i >= 0; i--) {
+            Fragment fragment2 = this.mAdded.get(i);
+            if (fragment2.mContainer == viewGroup && (view2 = fragment2.mView) != null) {
+                return viewGroup.indexOfChild(view2) + 1;
             }
         }
-        return null;
+        while (true) {
+            indexOf++;
+            if (indexOf >= this.mAdded.size()) {
+                return -1;
+            }
+            Fragment fragment3 = this.mAdded.get(indexOf);
+            if (fragment3.mContainer == viewGroup && (view = fragment3.mView) != null) {
+                return viewGroup.indexOfChild(view);
+            }
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -255,7 +309,7 @@ public class FragmentStore {
         String str2 = str + "    ";
         if (!this.mActive.isEmpty()) {
             printWriter.print(str);
-            printWriter.print("Active Fragments:");
+            printWriter.println("Active Fragments:");
             for (FragmentStateManager fragmentStateManager : this.mActive.values()) {
                 printWriter.print(str);
                 if (fragmentStateManager != null) {

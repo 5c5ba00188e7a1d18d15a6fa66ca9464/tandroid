@@ -33,6 +33,7 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.telegram.messenger.LiteMode;
+import org.telegram.messenger.R;
 import org.webrtc.MediaStreamTrack;
 import org.xml.sax.helpers.DefaultHandler;
 import org.xmlpull.v1.XmlPullParser;
@@ -79,10 +80,10 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:78:0x01c4  */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x01e4  */
-    /* JADX WARN: Removed duplicated region for block: B:82:0x01eb A[LOOP:0: B:25:0x00a9->B:82:0x01eb, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:84:0x01a7 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:78:0x01c7  */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x01e7  */
+    /* JADX WARN: Removed duplicated region for block: B:82:0x01ee A[LOOP:0: B:25:0x00ac->B:82:0x01ee, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:84:0x01aa A[SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -362,8 +363,8 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
         return new Period(str, j, list, list2, descriptor);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:71:0x030e A[LOOP:0: B:3:0x007d->B:71:0x030e, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:72:0x02cf A[EDGE_INSN: B:72:0x02cf->B:65:0x02cf ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:71:0x030f A[LOOP:0: B:3:0x007e->B:71:0x030f, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x02d0 A[EDGE_INSN: B:72:0x02d0->B:65:0x02d0 ?: BREAK  , SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -616,9 +617,9 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
         return "image".equals(attributeValue) ? 4 : -1;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:49:0x00ba  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x00c1  */
-    /* JADX WARN: Removed duplicated region for block: B:71:0x0120  */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x00bb  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x00c2  */
+    /* JADX WARN: Removed duplicated region for block: B:71:0x0122  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -753,8 +754,8 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
         maybeSkipTag(xmlPullParser);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:57:0x01ef A[LOOP:0: B:3:0x006b->B:57:0x01ef, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x0199 A[EDGE_INSN: B:58:0x0199->B:47:0x0199 ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x01f0 A[LOOP:0: B:3:0x006c->B:57:0x01f0, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x019a A[EDGE_INSN: B:58:0x019a->B:47:0x019a ?: BREAK  , SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1616,31 +1617,31 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
         }
         char c = 65535;
         switch (str.hashCode()) {
-            case 49:
+            case R.styleable.AppCompatTheme_checkedTextViewStyle /* 49 */:
                 if (str.equals("1")) {
                     c = 0;
                     break;
                 }
                 break;
-            case 50:
+            case R.styleable.AppCompatTheme_colorAccent /* 50 */:
                 if (str.equals("2")) {
                     c = 1;
                     break;
                 }
                 break;
-            case 51:
+            case R.styleable.AppCompatTheme_colorBackgroundFloating /* 51 */:
                 if (str.equals("3")) {
                     c = 2;
                     break;
                 }
                 break;
-            case 52:
+            case R.styleable.AppCompatTheme_colorButtonNormal /* 52 */:
                 if (str.equals("4")) {
                     c = 3;
                     break;
                 }
                 break;
-            case 54:
+            case R.styleable.AppCompatTheme_colorControlHighlight /* 54 */:
                 if (str.equals("6")) {
                     c = 4;
                     break;

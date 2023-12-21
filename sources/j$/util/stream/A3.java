@@ -10,8 +10,8 @@ final class A3 extends d {
     private long n;
     private volatile boolean o;
 
-    A3(A3 a3, j$.util.u uVar) {
-        super(a3, uVar);
+    A3(A3 a3, j$.util.t tVar) {
+        super(a3, tVar);
         this.j = a3.j;
         this.k = a3.k;
         this.l = a3.l;
@@ -19,8 +19,8 @@ final class A3 extends d {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public A3(c cVar, y2 y2Var, j$.util.u uVar, j$.util.function.m mVar, long j, long j2) {
-        super(y2Var, uVar);
+    public A3(c cVar, y2 y2Var, j$.util.t tVar, j$.util.function.m mVar, long j, long j2) {
+        super(y2Var, tVar);
         this.j = cVar;
         this.k = mVar;
         this.l = j;
@@ -62,8 +62,8 @@ final class A3 extends d {
 
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // j$.util.stream.f
-    public f f(j$.util.u uVar) {
-        return new A3(this, uVar);
+    public f f(j$.util.t tVar) {
+        return new A3(this, tVar);
     }
 
     @Override // j$.util.stream.d

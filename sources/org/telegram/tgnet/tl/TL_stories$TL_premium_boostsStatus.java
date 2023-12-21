@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import org.telegram.tgnet.AbstractSerializedData;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$TL_statsPercentValue;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TL_stories$TL_premium_boostsStatus extends TLObject {
     public static int constructor = 1230586490;
     public String boost_url;

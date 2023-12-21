@@ -21,13 +21,13 @@ public abstract class e3 extends c implements Stream {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public e3(j$.util.u uVar, int i, boolean z) {
-        super(uVar, i, z);
+    public e3(j$.util.t tVar, int i, boolean z) {
+        super(tVar, i, z);
     }
 
     @Override // j$.util.stream.c
-    final void A0(j$.util.u uVar, m3 m3Var) {
-        while (!m3Var.o() && uVar.b(m3Var)) {
+    final void A0(j$.util.t tVar, m3 m3Var) {
+        while (!m3Var.o() && tVar.b(m3Var)) {
         }
     }
 
@@ -51,7 +51,7 @@ public abstract class e3 extends c implements Stream {
     }
 
     @Override // j$.util.stream.c
-    final j$.util.u K0(y2 y2Var, j$.util.function.y yVar, boolean z) {
+    final j$.util.t K0(y2 y2Var, j$.util.function.y yVar, boolean z) {
         return new L4(y2Var, yVar, z);
     }
 
@@ -154,7 +154,7 @@ public abstract class e3 extends c implements Stream {
 
     @Override // j$.util.stream.g
     public final Iterator iterator() {
-        return j$.util.L.i(spliterator());
+        return j$.util.J.i(spliterator());
     }
 
     @Override // j$.util.stream.Stream
@@ -250,8 +250,8 @@ public abstract class e3 extends c implements Stream {
     }
 
     @Override // j$.util.stream.c
-    final A1 z0(y2 y2Var, j$.util.u uVar, boolean z, j$.util.function.m mVar) {
-        return x2.e(y2Var, uVar, z, mVar);
+    final A1 z0(y2 y2Var, j$.util.t tVar, boolean z, j$.util.function.m mVar) {
+        return x2.e(y2Var, tVar, z, mVar);
     }
 
     @Override // j$.util.stream.Stream

@@ -1,5 +1,5 @@
 package org.telegram.tgnet;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public abstract class TLRPC$account_Password extends TLObject {
     public TLRPC$PasswordKdfAlgo current_algo;
     public String email_unconfirmed_pattern;

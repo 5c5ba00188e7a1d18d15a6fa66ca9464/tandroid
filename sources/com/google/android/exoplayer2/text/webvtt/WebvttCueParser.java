@@ -32,6 +32,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.telegram.messenger.R;
 /* loaded from: classes.dex */
 public final class WebvttCueParser {
     public static final Pattern CUE_HEADER_PATTERN = Pattern.compile("^(\\S+)\\s+-->\\s+(\\S+)(.*)?$");
@@ -470,19 +471,19 @@ public final class WebvttCueParser {
         str.hashCode();
         char c = 65535;
         switch (str.hashCode()) {
-            case 98:
+            case R.styleable.AppCompatTheme_selectableItemBackgroundBorderless /* 98 */:
                 if (str.equals("b")) {
                     c = 0;
                     break;
                 }
                 break;
-            case 99:
+            case R.styleable.AppCompatTheme_spinnerDropDownItemStyle /* 99 */:
                 if (str.equals("c")) {
                     c = 1;
                     break;
                 }
                 break;
-            case 105:
+            case R.styleable.AppCompatTheme_textAppearanceListItemSmall /* 105 */:
                 if (str.equals("i")) {
                     c = 2;
                     break;
@@ -547,19 +548,19 @@ public final class WebvttCueParser {
                     break;
                 }
                 break;
-            case 98:
+            case R.styleable.AppCompatTheme_selectableItemBackgroundBorderless /* 98 */:
                 if (str2.equals("b")) {
                     c = 1;
                     break;
                 }
                 break;
-            case 99:
+            case R.styleable.AppCompatTheme_spinnerDropDownItemStyle /* 99 */:
                 if (str2.equals("c")) {
                     c = 2;
                     break;
                 }
                 break;
-            case 105:
+            case R.styleable.AppCompatTheme_textAppearanceListItemSmall /* 105 */:
                 if (str2.equals("i")) {
                     c = 3;
                     break;

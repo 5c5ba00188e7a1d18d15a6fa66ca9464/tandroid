@@ -1,24 +1,24 @@
 package j$.util.stream;
 
-import j$.util.u;
+import j$.util.t;
 /* loaded from: classes2.dex */
 abstract class D4 {
     final long a;
     final long b;
-    j$.util.u c;
+    j$.util.t c;
     long d;
     long e;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public D4(j$.util.u uVar, long j, long j2, long j3, long j4) {
-        this.c = uVar;
+    public D4(j$.util.t tVar, long j, long j2, long j3, long j4) {
+        this.c = tVar;
         this.a = j;
         this.b = j2;
         this.d = j3;
         this.e = j4;
     }
 
-    protected abstract j$.util.u a(j$.util.u uVar, long j, long j2, long j3, long j4);
+    protected abstract j$.util.t a(j$.util.t tVar, long j, long j2, long j3, long j4);
 
     public int characteristics() {
         return this.c.characteristics();
@@ -33,22 +33,26 @@ abstract class D4 {
         return 0L;
     }
 
-    public /* bridge */ /* synthetic */ j$.util.t trySplit() {
-        return (j$.util.t) trySplit();
+    public /* bridge */ /* synthetic */ t.a trySplit() {
+        return (t.a) trySplit();
     }
 
-    public /* bridge */ /* synthetic */ u.a trySplit() {
-        return (u.a) trySplit();
+    public /* bridge */ /* synthetic */ t.b trySplit() {
+        return (t.b) trySplit();
     }
 
-    public j$.util.u trySplit() {
+    public /* bridge */ /* synthetic */ t.c trySplit() {
+        return (t.c) trySplit();
+    }
+
+    public j$.util.t trySplit() {
         long j = this.a;
         long j2 = this.e;
         if (j >= j2 || this.d >= j2) {
             return null;
         }
         while (true) {
-            j$.util.u trySplit = this.c.trySplit();
+            j$.util.t trySplit = this.c.trySplit();
             if (trySplit == null) {
                 return null;
             }
@@ -74,11 +78,7 @@ abstract class D4 {
         }
     }
 
-    public /* bridge */ /* synthetic */ j$.util.v trySplit() {
-        return (j$.util.v) trySplit();
-    }
-
-    public /* bridge */ /* synthetic */ j$.util.w trySplit() {
-        return (j$.util.w) trySplit();
+    public /* bridge */ /* synthetic */ j$.util.u trySplit() {
+        return (j$.util.u) trySplit();
     }
 }

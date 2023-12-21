@@ -112,11 +112,11 @@ public class a4 extends e implements Consumer, Iterable, j$.lang.e {
 
     @Override // java.lang.Iterable
     public Iterator iterator() {
-        return j$.util.L.i(spliterator());
+        return j$.util.J.i(spliterator());
     }
 
     @Override // java.lang.Iterable, j$.lang.e
-    public j$.util.u spliterator() {
+    public j$.util.t spliterator() {
         return new S3(this, 0, this.c, 0, this.b);
     }
 

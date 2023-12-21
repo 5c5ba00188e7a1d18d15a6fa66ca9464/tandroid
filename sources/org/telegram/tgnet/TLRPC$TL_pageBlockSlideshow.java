@@ -1,7 +1,7 @@
 package org.telegram.tgnet;
 
 import java.util.ArrayList;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_pageBlockSlideshow extends TLRPC$PageBlock {
     public TLRPC$TL_pageCaption caption;
     public ArrayList<TLRPC$PageBlock> items = new ArrayList<>();

@@ -84,7 +84,7 @@ public final class t2 extends a4 implements A1, s1 {
     }
 
     @Override // j$.util.stream.a4, java.lang.Iterable, j$.lang.e
-    public j$.util.u spliterator() {
+    public j$.util.t spliterator() {
         return super.spliterator();
     }
 }

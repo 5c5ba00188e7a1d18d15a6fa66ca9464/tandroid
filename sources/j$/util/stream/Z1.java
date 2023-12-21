@@ -16,7 +16,7 @@ class Z1 extends a2 {
     }
 
     @Override // j$.util.stream.A1
-    public j$.util.u spliterator() {
-        return j$.util.L.e();
+    public j$.util.t spliterator() {
+        return j$.util.J.e();
     }
 }

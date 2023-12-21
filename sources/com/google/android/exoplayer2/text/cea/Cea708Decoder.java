@@ -23,6 +23,7 @@ import java.util.Comparator;
 import java.util.List;
 import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.MessagesStorage;
+import org.telegram.messenger.R;
 /* loaded from: classes.dex */
 public final class Cea708Decoder extends CeaDecoder {
     private final CueInfoBuilder[] cueInfoBuilders;
@@ -423,22 +424,22 @@ public final class Cea708Decoder extends CeaDecoder {
             this.currentCueInfoBuilder.append((char) 339);
         } else if (i != 61) {
             switch (i) {
-                case 48:
+                case R.styleable.AppCompatTheme_checkboxStyle /* 48 */:
                     this.currentCueInfoBuilder.append((char) 9608);
                     return;
-                case 49:
+                case R.styleable.AppCompatTheme_checkedTextViewStyle /* 49 */:
                     this.currentCueInfoBuilder.append((char) 8216);
                     return;
-                case 50:
+                case R.styleable.AppCompatTheme_colorAccent /* 50 */:
                     this.currentCueInfoBuilder.append((char) 8217);
                     return;
-                case 51:
+                case R.styleable.AppCompatTheme_colorBackgroundFloating /* 51 */:
                     this.currentCueInfoBuilder.append((char) 8220);
                     return;
-                case 52:
+                case R.styleable.AppCompatTheme_colorButtonNormal /* 52 */:
                     this.currentCueInfoBuilder.append((char) 8221);
                     return;
-                case 53:
+                case R.styleable.AppCompatTheme_colorControlActivated /* 53 */:
                     this.currentCueInfoBuilder.append((char) 8226);
                     return;
                 default:

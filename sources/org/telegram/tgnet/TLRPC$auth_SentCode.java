@@ -1,5 +1,5 @@
 package org.telegram.tgnet;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public abstract class TLRPC$auth_SentCode extends TLObject {
     public TLRPC$auth_Authorization authorization;
     public int flags;

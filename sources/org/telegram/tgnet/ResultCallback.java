@@ -1,8 +1,8 @@
 package org.telegram.tgnet;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public interface ResultCallback<T> {
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public final /* synthetic */ class -CC {
         public static void $default$onError(ResultCallback resultCallback, Throwable th) {
         }

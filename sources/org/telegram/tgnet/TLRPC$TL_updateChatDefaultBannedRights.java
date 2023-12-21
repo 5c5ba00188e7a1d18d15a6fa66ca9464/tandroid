@@ -1,5 +1,5 @@
 package org.telegram.tgnet;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_updateChatDefaultBannedRights extends TLRPC$Update {
     public TLRPC$TL_chatBannedRights default_banned_rights;
     public TLRPC$Peer peer;

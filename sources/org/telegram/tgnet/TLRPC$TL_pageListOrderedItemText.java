@@ -1,5 +1,5 @@
 package org.telegram.tgnet;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_pageListOrderedItemText extends TLRPC$PageListOrderedItem {
     public String num;
     public TLRPC$RichText text;

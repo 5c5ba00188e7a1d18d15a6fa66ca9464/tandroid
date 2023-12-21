@@ -138,9 +138,8 @@ public class EffectsTextView extends SpoilersTextView {
         this.links.clear();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.spoilers.SpoilersTextView, android.widget.TextView, android.view.View
-    public void onDraw(Canvas canvas) {
+    protected void onDraw(Canvas canvas) {
         if (!this.isCustomLinkCollector) {
             canvas.save();
             if (!this.disablePaddingsOffset) {

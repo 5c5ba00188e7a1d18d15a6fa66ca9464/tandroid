@@ -6,8 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import org.telegram.messenger.MessageObject;
-import org.telegram.messenger.voip.VoIPService;
+import org.telegram.messenger.R;
 import sun.misc.Unsafe;
 /* loaded from: classes.dex */
 final class zzds<T> implements zzef<T> {
@@ -116,7 +115,7 @@ final class zzds<T> implements zzef<T> {
         Unsafe unsafe = zzmh;
         long j3 = this.zzmi[i8 + 2] & 1048575;
         switch (i7) {
-            case 51:
+            case R.styleable.AppCompatTheme_colorBackgroundFloating /* 51 */:
                 if (i5 == 1) {
                     valueOf = Double.valueOf(zzax.zze(bArr, i));
                     unsafe.putObject(t, j, valueOf);
@@ -125,7 +124,7 @@ final class zzds<T> implements zzef<T> {
                     return zzb;
                 }
                 return i;
-            case 52:
+            case R.styleable.AppCompatTheme_colorButtonNormal /* 52 */:
                 if (i5 == 5) {
                     valueOf2 = Float.valueOf(zzax.zzf(bArr, i));
                     unsafe.putObject(t, j, valueOf2);
@@ -134,8 +133,8 @@ final class zzds<T> implements zzef<T> {
                     return zzb;
                 }
                 return i;
-            case 53:
-            case 54:
+            case R.styleable.AppCompatTheme_colorControlActivated /* 53 */:
+            case R.styleable.AppCompatTheme_colorControlHighlight /* 54 */:
                 if (i5 == 0) {
                     zzb = zzax.zzb(bArr, i, zzayVar);
                     j2 = zzayVar.zzfe;
@@ -145,8 +144,8 @@ final class zzds<T> implements zzef<T> {
                     return zzb;
                 }
                 return i;
-            case 55:
-            case 62:
+            case R.styleable.AppCompatTheme_colorControlNormal /* 55 */:
+            case R.styleable.AppCompatTheme_dialogPreferredPadding /* 62 */:
                 if (i5 == 0) {
                     zzb = zzax.zza(bArr, i, zzayVar);
                     i9 = zzayVar.zzfd;
@@ -156,8 +155,8 @@ final class zzds<T> implements zzef<T> {
                     return zzb;
                 }
                 return i;
-            case 56:
-            case VoIPService.CALL_MIN_LAYER /* 65 */:
+            case R.styleable.AppCompatTheme_colorError /* 56 */:
+            case 65:
                 if (i5 == 1) {
                     valueOf = Long.valueOf(zzax.zzd(bArr, i));
                     unsafe.putObject(t, j, valueOf);
@@ -166,7 +165,7 @@ final class zzds<T> implements zzef<T> {
                     return zzb;
                 }
                 return i;
-            case 57:
+            case R.styleable.AppCompatTheme_colorPrimary /* 57 */:
             case 64:
                 if (i5 == 5) {
                     valueOf2 = Integer.valueOf(zzax.zzc(bArr, i));
@@ -176,7 +175,7 @@ final class zzds<T> implements zzef<T> {
                     return zzb;
                 }
                 return i;
-            case 58:
+            case R.styleable.AppCompatTheme_colorPrimaryDark /* 58 */:
                 if (i5 == 0) {
                     zzb = zzax.zzb(bArr, i, zzayVar);
                     valueOf3 = Boolean.valueOf(zzayVar.zzfe != 0);
@@ -185,7 +184,7 @@ final class zzds<T> implements zzef<T> {
                     return zzb;
                 }
                 return i;
-            case 59:
+            case R.styleable.AppCompatTheme_colorSwitchThumbNormal /* 59 */:
                 if (i5 == 2) {
                     zzb = zzax.zza(bArr, i, zzayVar);
                     i10 = zzayVar.zzfd;
@@ -204,7 +203,7 @@ final class zzds<T> implements zzef<T> {
                     }
                 }
                 return i;
-            case 60:
+            case R.styleable.AppCompatTheme_controlBackground /* 60 */:
                 if (i5 == 2) {
                     zzb = zza(zzad(i8), bArr, i, i2, zzayVar);
                     Object object = unsafe.getInt(t, j3) == i4 ? unsafe.getObject(t, j) : null;
@@ -217,7 +216,7 @@ final class zzds<T> implements zzef<T> {
                     return zzb;
                 }
                 return i;
-            case 61:
+            case R.styleable.AppCompatTheme_dialogCornerRadius /* 61 */:
                 if (i5 == 2) {
                     zzb = zzax.zza(bArr, i, zzayVar);
                     i10 = zzayVar.zzfd;
@@ -233,7 +232,7 @@ final class zzds<T> implements zzef<T> {
                     return zzb;
                 }
                 return i;
-            case 63:
+            case R.styleable.AppCompatTheme_dialogTheme /* 63 */:
                 if (i5 == 0) {
                     int zza = zzax.zza(bArr, i, zzayVar);
                     int i11 = zzayVar.zzfd;
@@ -248,7 +247,7 @@ final class zzds<T> implements zzef<T> {
                     return zzb;
                 }
                 return i;
-            case 66:
+            case R.styleable.AppCompatTheme_dropDownListViewStyle /* 66 */:
                 if (i5 == 0) {
                     zzb = zzax.zza(bArr, i, zzayVar);
                     i9 = zzbk.zzm(zzayVar.zzfd);
@@ -258,7 +257,7 @@ final class zzds<T> implements zzef<T> {
                     return zzb;
                 }
                 return i;
-            case 67:
+            case R.styleable.AppCompatTheme_dropdownListPreferredItemHeight /* 67 */:
                 if (i5 == 0) {
                     zzb = zzax.zzb(bArr, i, zzayVar);
                     j2 = zzbk.zza(zzayVar.zzfe);
@@ -268,7 +267,7 @@ final class zzds<T> implements zzef<T> {
                     return zzb;
                 }
                 return i;
-            case 68:
+            case R.styleable.AppCompatTheme_editTextBackground /* 68 */:
                 if (i5 == 3) {
                     zzb = zza(zzad(i8), bArr, i, i2, (i3 & (-8)) | 4, zzayVar);
                     Object object2 = unsafe.getInt(t, j3) == i4 ? unsafe.getObject(t, j) : null;
@@ -373,7 +372,7 @@ final class zzds<T> implements zzef<T> {
         }
         switch (i7) {
             case 18:
-            case 35:
+            case R.styleable.AppCompatTheme_alertDialogButtonGroupStyle /* 35 */:
                 if (i5 == 2) {
                     zzbq zzbqVar = (zzbq) zzcnVar;
                     int zza3 = zzax.zza(bArr, i8, zzayVar);
@@ -404,7 +403,7 @@ final class zzds<T> implements zzef<T> {
                 }
                 return i8;
             case 19:
-            case 36:
+            case R.styleable.AppCompatTheme_alertDialogCenterButtons /* 36 */:
                 if (i5 == 2) {
                     zzce zzceVar = (zzce) zzcnVar;
                     int zza4 = zzax.zza(bArr, i8, zzayVar);
@@ -436,8 +435,8 @@ final class zzds<T> implements zzef<T> {
                 return i8;
             case 20:
             case 21:
-            case 37:
-            case 38:
+            case R.styleable.AppCompatTheme_alertDialogStyle /* 37 */:
+            case R.styleable.AppCompatTheme_alertDialogTheme /* 38 */:
                 if (i5 == 2) {
                     zzdc zzdcVar = (zzdc) zzcnVar;
                     int zza5 = zzax.zza(bArr, i8, zzayVar);
@@ -466,8 +465,8 @@ final class zzds<T> implements zzef<T> {
                 return i8;
             case 22:
             case 29:
-            case 39:
-            case 43:
+            case R.styleable.AppCompatTheme_autoCompleteTextViewStyle /* 39 */:
+            case R.styleable.AppCompatTheme_buttonBarNeutralButtonStyle /* 43 */:
                 if (i5 == 2) {
                     return zzax.zza(bArr, i8, zzcnVar, zzayVar);
                 }
@@ -477,8 +476,8 @@ final class zzds<T> implements zzef<T> {
                 return i8;
             case 23:
             case 32:
-            case 40:
-            case 46:
+            case R.styleable.AppCompatTheme_borderlessButtonStyle /* 40 */:
+            case R.styleable.AppCompatTheme_buttonStyle /* 46 */:
                 if (i5 == 2) {
                     zzdc zzdcVar3 = (zzdc) zzcnVar;
                     int zza6 = zzax.zza(bArr, i8, zzayVar);
@@ -509,9 +508,9 @@ final class zzds<T> implements zzef<T> {
                 }
                 return i8;
             case 24:
-            case 31:
-            case 41:
-            case 45:
+            case R.styleable.AppCompatTheme_actionModeWebSearchDrawable /* 31 */:
+            case R.styleable.AppCompatTheme_buttonBarButtonStyle /* 41 */:
+            case R.styleable.AppCompatTheme_buttonBarStyle /* 45 */:
                 if (i5 == 2) {
                     zzch zzchVar = (zzch) zzcnVar;
                     int zza7 = zzax.zza(bArr, i8, zzayVar);
@@ -542,7 +541,7 @@ final class zzds<T> implements zzef<T> {
                 }
                 return i8;
             case 25:
-            case 42:
+            case R.styleable.AppCompatTheme_buttonBarNegativeButtonStyle /* 42 */:
                 if (i5 != 2) {
                     if (i5 == 0) {
                         zzaz zzazVar = (zzaz) zzcnVar;
@@ -562,7 +561,7 @@ final class zzds<T> implements zzef<T> {
                     throw zzco.zzbl();
                 }
                 return zza;
-            case MessageObject.TYPE_GIVEAWAY /* 26 */:
+            case 26:
                 if (i5 == 2) {
                     int i19 = ((j & 536870912) > 0L ? 1 : ((j & 536870912) == 0L ? 0 : -1));
                     i8 = zzax.zza(bArr, i8, zzayVar);
@@ -625,7 +624,7 @@ final class zzds<T> implements zzef<T> {
                     }
                 }
                 return i8;
-            case MessageObject.TYPE_JOINED_CHANNEL /* 27 */:
+            case 27:
                 if (i5 == 2) {
                     return zza(zzad(i6), i3, bArr, i, i2, zzcnVar, zzayVar);
                 }
@@ -637,8 +636,8 @@ final class zzds<T> implements zzef<T> {
                     break;
                 }
                 return i8;
-            case 30:
-            case 44:
+            case R.styleable.AppCompatTheme_actionModeTheme /* 30 */:
+            case R.styleable.AppCompatTheme_buttonBarPositiveButtonStyle /* 44 */:
                 if (i5 != 2) {
                     if (i5 == 0) {
                         zza = zzax.zza(i3, bArr, i, i2, zzcnVar, zzayVar);
@@ -656,8 +655,8 @@ final class zzds<T> implements zzef<T> {
                     zzcgVar.zzjp = zzeyVar2;
                 }
                 return zza;
-            case 33:
-            case 47:
+            case R.styleable.AppCompatTheme_actionOverflowMenuStyle /* 33 */:
+            case R.styleable.AppCompatTheme_buttonStyleSmall /* 47 */:
                 if (i5 == 2) {
                     zzch zzchVar3 = (zzch) zzcnVar;
                     int zza11 = zzax.zza(bArr, i8, zzayVar);
@@ -684,8 +683,8 @@ final class zzds<T> implements zzef<T> {
                     return zza2;
                 }
                 return i8;
-            case 34:
-            case 48:
+            case R.styleable.AppCompatTheme_activityChooserViewStyle /* 34 */:
+            case R.styleable.AppCompatTheme_checkboxStyle /* 48 */:
                 if (i5 == 2) {
                     zzdc zzdcVar5 = (zzdc) zzcnVar;
                     int zza12 = zzax.zza(bArr, i8, zzayVar);
@@ -712,7 +711,7 @@ final class zzds<T> implements zzef<T> {
                     return zzb2;
                 }
                 return i8;
-            case 49:
+            case R.styleable.AppCompatTheme_checkedTextViewStyle /* 49 */:
                 if (i5 == 3) {
                     zzef zzad = zzad(i6);
                     int i27 = (i3 & (-8)) | 4;
@@ -2059,10 +2058,10 @@ final class zzds<T> implements zzef<T> {
                             zzeh.zzn(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, false);
                             continue;
                             i = i10 + 4;
-                        case MessageObject.TYPE_GIVEAWAY /* 26 */:
+                        case 26:
                             zzeh.zza(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar);
                             break;
-                        case MessageObject.TYPE_JOINED_CHANNEL /* 27 */:
+                        case 27:
                             zzeh.zza(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, zzad(i10));
                             break;
                         case 28:
@@ -2072,11 +2071,11 @@ final class zzds<T> implements zzef<T> {
                             zzeh.zzi(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, false);
                             continue;
                             i = i10 + 4;
-                        case 30:
+                        case R.styleable.AppCompatTheme_actionModeTheme /* 30 */:
                             zzeh.zzm(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, false);
                             continue;
                             i = i10 + 4;
-                        case 31:
+                        case R.styleable.AppCompatTheme_actionModeWebSearchDrawable /* 31 */:
                             zzeh.zzl(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, false);
                             continue;
                             i = i10 + 4;
@@ -2084,135 +2083,135 @@ final class zzds<T> implements zzef<T> {
                             zzeh.zzg(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, false);
                             continue;
                             i = i10 + 4;
-                        case 33:
+                        case R.styleable.AppCompatTheme_actionOverflowMenuStyle /* 33 */:
                             zzeh.zzj(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, false);
                             continue;
                             i = i10 + 4;
-                        case 34:
+                        case R.styleable.AppCompatTheme_activityChooserViewStyle /* 34 */:
                             zzeh.zze(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, false);
                             continue;
                             i = i10 + 4;
-                        case 35:
+                        case R.styleable.AppCompatTheme_alertDialogButtonGroupStyle /* 35 */:
                             zzeh.zza(this.zzmi[i10], (List<Double>) unsafe.getObject(t, j), zzfrVar, true);
                             break;
-                        case 36:
+                        case R.styleable.AppCompatTheme_alertDialogCenterButtons /* 36 */:
                             zzeh.zzb(this.zzmi[i10], (List<Float>) unsafe.getObject(t, j), zzfrVar, true);
                             break;
-                        case 37:
+                        case R.styleable.AppCompatTheme_alertDialogStyle /* 37 */:
                             zzeh.zzc(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, true);
                             break;
-                        case 38:
+                        case R.styleable.AppCompatTheme_alertDialogTheme /* 38 */:
                             zzeh.zzd(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, true);
                             break;
-                        case 39:
+                        case R.styleable.AppCompatTheme_autoCompleteTextViewStyle /* 39 */:
                             zzeh.zzh(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, true);
                             break;
-                        case 40:
+                        case R.styleable.AppCompatTheme_borderlessButtonStyle /* 40 */:
                             zzeh.zzf(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, true);
                             break;
-                        case 41:
+                        case R.styleable.AppCompatTheme_buttonBarButtonStyle /* 41 */:
                             zzeh.zzk(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, true);
                             break;
-                        case 42:
+                        case R.styleable.AppCompatTheme_buttonBarNegativeButtonStyle /* 42 */:
                             zzeh.zzn(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, true);
                             break;
-                        case 43:
+                        case R.styleable.AppCompatTheme_buttonBarNeutralButtonStyle /* 43 */:
                             zzeh.zzi(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, true);
                             break;
-                        case 44:
+                        case R.styleable.AppCompatTheme_buttonBarPositiveButtonStyle /* 44 */:
                             zzeh.zzm(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, true);
                             break;
-                        case 45:
+                        case R.styleable.AppCompatTheme_buttonBarStyle /* 45 */:
                             zzeh.zzl(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, true);
                             break;
-                        case 46:
+                        case R.styleable.AppCompatTheme_buttonStyle /* 46 */:
                             zzeh.zzg(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, true);
                             break;
-                        case 47:
+                        case R.styleable.AppCompatTheme_buttonStyleSmall /* 47 */:
                             zzeh.zzj(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, true);
                             break;
-                        case 48:
+                        case R.styleable.AppCompatTheme_checkboxStyle /* 48 */:
                             zzeh.zze(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, true);
                             break;
-                        case 49:
+                        case R.styleable.AppCompatTheme_checkedTextViewStyle /* 49 */:
                             zzeh.zzb(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, zzad(i10));
                             break;
-                        case 50:
+                        case R.styleable.AppCompatTheme_colorAccent /* 50 */:
                             zza(zzfrVar, i6, unsafe.getObject(t, j), i10);
                             break;
-                        case 51:
+                        case R.styleable.AppCompatTheme_colorBackgroundFloating /* 51 */:
                             if (zza((zzds<T>) t, i6, i10)) {
                                 zzfrVar.zza(i6, zze(t, j));
                                 break;
                             }
                             break;
-                        case 52:
+                        case R.styleable.AppCompatTheme_colorButtonNormal /* 52 */:
                             if (zza((zzds<T>) t, i6, i10)) {
                                 zzfrVar.zza(i6, zzf(t, j));
                                 break;
                             }
                             break;
-                        case 53:
+                        case R.styleable.AppCompatTheme_colorControlActivated /* 53 */:
                             if (zza((zzds<T>) t, i6, i10)) {
                                 zzfrVar.zzi(i6, zzh(t, j));
                                 break;
                             }
                             break;
-                        case 54:
+                        case R.styleable.AppCompatTheme_colorControlHighlight /* 54 */:
                             if (zza((zzds<T>) t, i6, i10)) {
                                 zzfrVar.zza(i6, zzh(t, j));
                                 break;
                             }
                             break;
-                        case 55:
+                        case R.styleable.AppCompatTheme_colorControlNormal /* 55 */:
                             if (zza((zzds<T>) t, i6, i10)) {
                                 zzfrVar.zzc(i6, zzg(t, j));
                                 break;
                             }
                             break;
-                        case 56:
+                        case R.styleable.AppCompatTheme_colorError /* 56 */:
                             if (zza((zzds<T>) t, i6, i10)) {
                                 zzfrVar.zzc(i6, zzh(t, j));
                                 break;
                             }
                             break;
-                        case 57:
+                        case R.styleable.AppCompatTheme_colorPrimary /* 57 */:
                             if (zza((zzds<T>) t, i6, i10)) {
                                 zzfrVar.zzf(i6, zzg(t, j));
                                 break;
                             }
                             break;
-                        case 58:
+                        case R.styleable.AppCompatTheme_colorPrimaryDark /* 58 */:
                             if (zza((zzds<T>) t, i6, i10)) {
                                 zzfrVar.zzb(i6, zzi(t, j));
                                 break;
                             }
                             break;
-                        case 59:
+                        case R.styleable.AppCompatTheme_colorSwitchThumbNormal /* 59 */:
                             if (zza((zzds<T>) t, i6, i10)) {
                                 zza(i6, unsafe.getObject(t, j), zzfrVar);
                                 break;
                             }
                             break;
-                        case 60:
+                        case R.styleable.AppCompatTheme_controlBackground /* 60 */:
                             if (zza((zzds<T>) t, i6, i10)) {
                                 zzfrVar.zza(i6, unsafe.getObject(t, j), zzad(i10));
                                 break;
                             }
                             break;
-                        case 61:
+                        case R.styleable.AppCompatTheme_dialogCornerRadius /* 61 */:
                             if (zza((zzds<T>) t, i6, i10)) {
                                 zzfrVar.zza(i6, (zzbb) unsafe.getObject(t, j));
                                 break;
                             }
                             break;
-                        case 62:
+                        case R.styleable.AppCompatTheme_dialogPreferredPadding /* 62 */:
                             if (zza((zzds<T>) t, i6, i10)) {
                                 zzfrVar.zzd(i6, zzg(t, j));
                                 break;
                             }
                             break;
-                        case 63:
+                        case R.styleable.AppCompatTheme_dialogTheme /* 63 */:
                             if (zza((zzds<T>) t, i6, i10)) {
                                 zzfrVar.zzn(i6, zzg(t, j));
                                 break;
@@ -2224,25 +2223,25 @@ final class zzds<T> implements zzef<T> {
                                 break;
                             }
                             break;
-                        case VoIPService.CALL_MIN_LAYER /* 65 */:
+                        case 65:
                             if (zza((zzds<T>) t, i6, i10)) {
                                 zzfrVar.zzj(i6, zzh(t, j));
                                 break;
                             }
                             break;
-                        case 66:
+                        case R.styleable.AppCompatTheme_dropDownListViewStyle /* 66 */:
                             if (zza((zzds<T>) t, i6, i10)) {
                                 zzfrVar.zze(i6, zzg(t, j));
                                 break;
                             }
                             break;
-                        case 67:
+                        case R.styleable.AppCompatTheme_dropdownListPreferredItemHeight /* 67 */:
                             if (zza((zzds<T>) t, i6, i10)) {
                                 zzfrVar.zzb(i6, zzh(t, j));
                                 break;
                             }
                             break;
-                        case 68:
+                        case R.styleable.AppCompatTheme_editTextBackground /* 68 */:
                             if (zza((zzds<T>) t, i6, i10)) {
                                 zzfrVar.zzb(i6, unsafe.getObject(t, j), zzad(i10));
                                 break;
@@ -2522,51 +2521,51 @@ final class zzds<T> implements zzef<T> {
                 case 23:
                 case 24:
                 case 25:
-                case MessageObject.TYPE_GIVEAWAY /* 26 */:
-                case MessageObject.TYPE_JOINED_CHANNEL /* 27 */:
+                case 26:
+                case 27:
                 case 28:
                 case 29:
-                case 30:
-                case 31:
+                case R.styleable.AppCompatTheme_actionModeTheme /* 30 */:
+                case R.styleable.AppCompatTheme_actionModeWebSearchDrawable /* 31 */:
                 case 32:
-                case 33:
-                case 34:
-                case 35:
-                case 36:
-                case 37:
-                case 38:
-                case 39:
-                case 40:
-                case 41:
-                case 42:
-                case 43:
-                case 44:
-                case 45:
-                case 46:
-                case 47:
-                case 48:
-                case 49:
-                case 50:
+                case R.styleable.AppCompatTheme_actionOverflowMenuStyle /* 33 */:
+                case R.styleable.AppCompatTheme_activityChooserViewStyle /* 34 */:
+                case R.styleable.AppCompatTheme_alertDialogButtonGroupStyle /* 35 */:
+                case R.styleable.AppCompatTheme_alertDialogCenterButtons /* 36 */:
+                case R.styleable.AppCompatTheme_alertDialogStyle /* 37 */:
+                case R.styleable.AppCompatTheme_alertDialogTheme /* 38 */:
+                case R.styleable.AppCompatTheme_autoCompleteTextViewStyle /* 39 */:
+                case R.styleable.AppCompatTheme_borderlessButtonStyle /* 40 */:
+                case R.styleable.AppCompatTheme_buttonBarButtonStyle /* 41 */:
+                case R.styleable.AppCompatTheme_buttonBarNegativeButtonStyle /* 42 */:
+                case R.styleable.AppCompatTheme_buttonBarNeutralButtonStyle /* 43 */:
+                case R.styleable.AppCompatTheme_buttonBarPositiveButtonStyle /* 44 */:
+                case R.styleable.AppCompatTheme_buttonBarStyle /* 45 */:
+                case R.styleable.AppCompatTheme_buttonStyle /* 46 */:
+                case R.styleable.AppCompatTheme_buttonStyleSmall /* 47 */:
+                case R.styleable.AppCompatTheme_checkboxStyle /* 48 */:
+                case R.styleable.AppCompatTheme_checkedTextViewStyle /* 49 */:
+                case R.styleable.AppCompatTheme_colorAccent /* 50 */:
                     z = zzeh.zzd(zzfd.zzo(t, j), zzfd.zzo(t2, j));
                     break;
-                case 51:
-                case 52:
-                case 53:
-                case 54:
-                case 55:
-                case 56:
-                case 57:
-                case 58:
-                case 59:
-                case 60:
-                case 61:
-                case 62:
-                case 63:
+                case R.styleable.AppCompatTheme_colorBackgroundFloating /* 51 */:
+                case R.styleable.AppCompatTheme_colorButtonNormal /* 52 */:
+                case R.styleable.AppCompatTheme_colorControlActivated /* 53 */:
+                case R.styleable.AppCompatTheme_colorControlHighlight /* 54 */:
+                case R.styleable.AppCompatTheme_colorControlNormal /* 55 */:
+                case R.styleable.AppCompatTheme_colorError /* 56 */:
+                case R.styleable.AppCompatTheme_colorPrimary /* 57 */:
+                case R.styleable.AppCompatTheme_colorPrimaryDark /* 58 */:
+                case R.styleable.AppCompatTheme_colorSwitchThumbNormal /* 59 */:
+                case R.styleable.AppCompatTheme_controlBackground /* 60 */:
+                case R.styleable.AppCompatTheme_dialogCornerRadius /* 61 */:
+                case R.styleable.AppCompatTheme_dialogPreferredPadding /* 62 */:
+                case R.styleable.AppCompatTheme_dialogTheme /* 63 */:
                 case 64:
-                case VoIPService.CALL_MIN_LAYER /* 65 */:
-                case 66:
-                case 67:
-                case 68:
+                case 65:
+                case R.styleable.AppCompatTheme_dropDownListViewStyle /* 66 */:
+                case R.styleable.AppCompatTheme_dropdownListPreferredItemHeight /* 67 */:
+                case R.styleable.AppCompatTheme_editTextBackground /* 68 */:
                     long zzah = zzah(i) & 1048575;
                     if (zzfd.zzj(t, zzah) == zzfd.zzj(t2, zzah)) {
                         break;
@@ -2671,31 +2670,31 @@ final class zzds<T> implements zzef<T> {
                 case 23:
                 case 24:
                 case 25:
-                case MessageObject.TYPE_GIVEAWAY /* 26 */:
-                case MessageObject.TYPE_JOINED_CHANNEL /* 27 */:
+                case 26:
+                case 27:
                 case 28:
                 case 29:
-                case 30:
-                case 31:
+                case R.styleable.AppCompatTheme_actionModeTheme /* 30 */:
+                case R.styleable.AppCompatTheme_actionModeWebSearchDrawable /* 31 */:
                 case 32:
-                case 33:
-                case 34:
-                case 35:
-                case 36:
-                case 37:
-                case 38:
-                case 39:
-                case 40:
-                case 41:
-                case 42:
-                case 43:
-                case 44:
-                case 45:
-                case 46:
-                case 47:
-                case 48:
-                case 49:
-                case 50:
+                case R.styleable.AppCompatTheme_actionOverflowMenuStyle /* 33 */:
+                case R.styleable.AppCompatTheme_activityChooserViewStyle /* 34 */:
+                case R.styleable.AppCompatTheme_alertDialogButtonGroupStyle /* 35 */:
+                case R.styleable.AppCompatTheme_alertDialogCenterButtons /* 36 */:
+                case R.styleable.AppCompatTheme_alertDialogStyle /* 37 */:
+                case R.styleable.AppCompatTheme_alertDialogTheme /* 38 */:
+                case R.styleable.AppCompatTheme_autoCompleteTextViewStyle /* 39 */:
+                case R.styleable.AppCompatTheme_borderlessButtonStyle /* 40 */:
+                case R.styleable.AppCompatTheme_buttonBarButtonStyle /* 41 */:
+                case R.styleable.AppCompatTheme_buttonBarNegativeButtonStyle /* 42 */:
+                case R.styleable.AppCompatTheme_buttonBarNeutralButtonStyle /* 43 */:
+                case R.styleable.AppCompatTheme_buttonBarPositiveButtonStyle /* 44 */:
+                case R.styleable.AppCompatTheme_buttonBarStyle /* 45 */:
+                case R.styleable.AppCompatTheme_buttonStyle /* 46 */:
+                case R.styleable.AppCompatTheme_buttonStyleSmall /* 47 */:
+                case R.styleable.AppCompatTheme_checkboxStyle /* 48 */:
+                case R.styleable.AppCompatTheme_checkedTextViewStyle /* 49 */:
+                case R.styleable.AppCompatTheme_colorAccent /* 50 */:
                     i = i2 * 53;
                     zzo2 = zzfd.zzo(t, j);
                     zzj = zzo2.hashCode();
@@ -2704,7 +2703,7 @@ final class zzds<T> implements zzef<T> {
                 case 17:
                     zzo = zzfd.zzo(t, j);
                     break;
-                case 51:
+                case R.styleable.AppCompatTheme_colorBackgroundFloating /* 51 */:
                     if (zza((zzds<T>) t, i4, i3)) {
                         i = i2 * 53;
                         zzn = zze(t, j);
@@ -2715,7 +2714,7 @@ final class zzds<T> implements zzef<T> {
                     } else {
                         break;
                     }
-                case 52:
+                case R.styleable.AppCompatTheme_colorButtonNormal /* 52 */:
                     if (zza((zzds<T>) t, i4, i3)) {
                         i = i2 * 53;
                         zzm = zzf(t, j);
@@ -2725,7 +2724,7 @@ final class zzds<T> implements zzef<T> {
                     } else {
                         break;
                     }
-                case 53:
+                case R.styleable.AppCompatTheme_colorControlActivated /* 53 */:
                     if (!zza((zzds<T>) t, i4, i3)) {
                         break;
                     }
@@ -2734,7 +2733,7 @@ final class zzds<T> implements zzef<T> {
                     zzj = zzci.zzl(zzk);
                     i2 = i + zzj;
                     break;
-                case 54:
+                case R.styleable.AppCompatTheme_colorControlHighlight /* 54 */:
                     if (!zza((zzds<T>) t, i4, i3)) {
                         break;
                     }
@@ -2743,7 +2742,7 @@ final class zzds<T> implements zzef<T> {
                     zzj = zzci.zzl(zzk);
                     i2 = i + zzj;
                     break;
-                case 55:
+                case R.styleable.AppCompatTheme_colorControlNormal /* 55 */:
                     if (!zza((zzds<T>) t, i4, i3)) {
                         break;
                     }
@@ -2751,7 +2750,7 @@ final class zzds<T> implements zzef<T> {
                     zzj = zzg(t, j);
                     i2 = i + zzj;
                     break;
-                case 56:
+                case R.styleable.AppCompatTheme_colorError /* 56 */:
                     if (!zza((zzds<T>) t, i4, i3)) {
                         break;
                     }
@@ -2760,7 +2759,7 @@ final class zzds<T> implements zzef<T> {
                     zzj = zzci.zzl(zzk);
                     i2 = i + zzj;
                     break;
-                case 57:
+                case R.styleable.AppCompatTheme_colorPrimary /* 57 */:
                     if (!zza((zzds<T>) t, i4, i3)) {
                         break;
                     }
@@ -2768,7 +2767,7 @@ final class zzds<T> implements zzef<T> {
                     zzj = zzg(t, j);
                     i2 = i + zzj;
                     break;
-                case 58:
+                case R.styleable.AppCompatTheme_colorPrimaryDark /* 58 */:
                     if (zza((zzds<T>) t, i4, i3)) {
                         i = i2 * 53;
                         zzl = zzi(t, j);
@@ -2778,7 +2777,7 @@ final class zzds<T> implements zzef<T> {
                     } else {
                         break;
                     }
-                case 59:
+                case R.styleable.AppCompatTheme_colorSwitchThumbNormal /* 59 */:
                     if (!zza((zzds<T>) t, i4, i3)) {
                         break;
                     }
@@ -2786,7 +2785,7 @@ final class zzds<T> implements zzef<T> {
                     zzj = ((String) zzfd.zzo(t, j)).hashCode();
                     i2 = i + zzj;
                     break;
-                case 60:
+                case R.styleable.AppCompatTheme_controlBackground /* 60 */:
                     if (!zza((zzds<T>) t, i4, i3)) {
                         break;
                     }
@@ -2795,7 +2794,7 @@ final class zzds<T> implements zzef<T> {
                     zzj = zzo2.hashCode();
                     i2 = i + zzj;
                     break;
-                case 61:
+                case R.styleable.AppCompatTheme_dialogCornerRadius /* 61 */:
                     if (!zza((zzds<T>) t, i4, i3)) {
                         break;
                     }
@@ -2804,7 +2803,7 @@ final class zzds<T> implements zzef<T> {
                     zzj = zzo2.hashCode();
                     i2 = i + zzj;
                     break;
-                case 62:
+                case R.styleable.AppCompatTheme_dialogPreferredPadding /* 62 */:
                     if (!zza((zzds<T>) t, i4, i3)) {
                         break;
                     }
@@ -2812,7 +2811,7 @@ final class zzds<T> implements zzef<T> {
                     zzj = zzg(t, j);
                     i2 = i + zzj;
                     break;
-                case 63:
+                case R.styleable.AppCompatTheme_dialogTheme /* 63 */:
                     if (!zza((zzds<T>) t, i4, i3)) {
                         break;
                     }
@@ -2828,7 +2827,7 @@ final class zzds<T> implements zzef<T> {
                     zzj = zzg(t, j);
                     i2 = i + zzj;
                     break;
-                case VoIPService.CALL_MIN_LAYER /* 65 */:
+                case 65:
                     if (!zza((zzds<T>) t, i4, i3)) {
                         break;
                     }
@@ -2837,7 +2836,7 @@ final class zzds<T> implements zzef<T> {
                     zzj = zzci.zzl(zzk);
                     i2 = i + zzj;
                     break;
-                case 66:
+                case R.styleable.AppCompatTheme_dropDownListViewStyle /* 66 */:
                     if (!zza((zzds<T>) t, i4, i3)) {
                         break;
                     }
@@ -2845,7 +2844,7 @@ final class zzds<T> implements zzef<T> {
                     zzj = zzg(t, j);
                     i2 = i + zzj;
                     break;
-                case 67:
+                case R.styleable.AppCompatTheme_dropdownListPreferredItemHeight /* 67 */:
                     if (!zza((zzds<T>) t, i4, i3)) {
                         break;
                     }
@@ -2854,7 +2853,7 @@ final class zzds<T> implements zzef<T> {
                     zzj = zzci.zzl(zzk);
                     i2 = i + zzj;
                     break;
-                case 68:
+                case R.styleable.AppCompatTheme_editTextBackground /* 68 */:
                     if (!zza((zzds<T>) t, i4, i3)) {
                         break;
                     }
@@ -3093,10 +3092,10 @@ final class zzds<T> implements zzef<T> {
                             case 25:
                                 zzeh.zzn(this.zzmi[length2], (List) zzfd.zzo(t, zzag & 1048575), zzfrVar, false);
                                 break;
-                            case MessageObject.TYPE_GIVEAWAY /* 26 */:
+                            case 26:
                                 zzeh.zza(this.zzmi[length2], (List) zzfd.zzo(t, zzag & 1048575), zzfrVar);
                                 break;
-                            case MessageObject.TYPE_JOINED_CHANNEL /* 27 */:
+                            case 27:
                                 zzeh.zza(this.zzmi[length2], (List) zzfd.zzo(t, zzag & 1048575), zzfrVar, zzad(length2));
                                 break;
                             case 28:
@@ -3105,70 +3104,70 @@ final class zzds<T> implements zzef<T> {
                             case 29:
                                 zzeh.zzi(this.zzmi[length2], (List) zzfd.zzo(t, zzag & 1048575), zzfrVar, false);
                                 break;
-                            case 30:
+                            case R.styleable.AppCompatTheme_actionModeTheme /* 30 */:
                                 zzeh.zzm(this.zzmi[length2], (List) zzfd.zzo(t, zzag & 1048575), zzfrVar, false);
                                 break;
-                            case 31:
+                            case R.styleable.AppCompatTheme_actionModeWebSearchDrawable /* 31 */:
                                 zzeh.zzl(this.zzmi[length2], (List) zzfd.zzo(t, zzag & 1048575), zzfrVar, false);
                                 break;
                             case 32:
                                 zzeh.zzg(this.zzmi[length2], (List) zzfd.zzo(t, zzag & 1048575), zzfrVar, false);
                                 break;
-                            case 33:
+                            case R.styleable.AppCompatTheme_actionOverflowMenuStyle /* 33 */:
                                 zzeh.zzj(this.zzmi[length2], (List) zzfd.zzo(t, zzag & 1048575), zzfrVar, false);
                                 break;
-                            case 34:
+                            case R.styleable.AppCompatTheme_activityChooserViewStyle /* 34 */:
                                 zzeh.zze(this.zzmi[length2], (List) zzfd.zzo(t, zzag & 1048575), zzfrVar, false);
                                 break;
-                            case 35:
+                            case R.styleable.AppCompatTheme_alertDialogButtonGroupStyle /* 35 */:
                                 zzeh.zza(this.zzmi[length2], (List<Double>) zzfd.zzo(t, zzag & 1048575), zzfrVar, true);
                                 break;
-                            case 36:
+                            case R.styleable.AppCompatTheme_alertDialogCenterButtons /* 36 */:
                                 zzeh.zzb(this.zzmi[length2], (List<Float>) zzfd.zzo(t, zzag & 1048575), zzfrVar, true);
                                 break;
-                            case 37:
+                            case R.styleable.AppCompatTheme_alertDialogStyle /* 37 */:
                                 zzeh.zzc(this.zzmi[length2], (List) zzfd.zzo(t, zzag & 1048575), zzfrVar, true);
                                 break;
-                            case 38:
+                            case R.styleable.AppCompatTheme_alertDialogTheme /* 38 */:
                                 zzeh.zzd(this.zzmi[length2], (List) zzfd.zzo(t, zzag & 1048575), zzfrVar, true);
                                 break;
-                            case 39:
+                            case R.styleable.AppCompatTheme_autoCompleteTextViewStyle /* 39 */:
                                 zzeh.zzh(this.zzmi[length2], (List) zzfd.zzo(t, zzag & 1048575), zzfrVar, true);
                                 break;
-                            case 40:
+                            case R.styleable.AppCompatTheme_borderlessButtonStyle /* 40 */:
                                 zzeh.zzf(this.zzmi[length2], (List) zzfd.zzo(t, zzag & 1048575), zzfrVar, true);
                                 break;
-                            case 41:
+                            case R.styleable.AppCompatTheme_buttonBarButtonStyle /* 41 */:
                                 zzeh.zzk(this.zzmi[length2], (List) zzfd.zzo(t, zzag & 1048575), zzfrVar, true);
                                 break;
-                            case 42:
+                            case R.styleable.AppCompatTheme_buttonBarNegativeButtonStyle /* 42 */:
                                 zzeh.zzn(this.zzmi[length2], (List) zzfd.zzo(t, zzag & 1048575), zzfrVar, true);
                                 break;
-                            case 43:
+                            case R.styleable.AppCompatTheme_buttonBarNeutralButtonStyle /* 43 */:
                                 zzeh.zzi(this.zzmi[length2], (List) zzfd.zzo(t, zzag & 1048575), zzfrVar, true);
                                 break;
-                            case 44:
+                            case R.styleable.AppCompatTheme_buttonBarPositiveButtonStyle /* 44 */:
                                 zzeh.zzm(this.zzmi[length2], (List) zzfd.zzo(t, zzag & 1048575), zzfrVar, true);
                                 break;
-                            case 45:
+                            case R.styleable.AppCompatTheme_buttonBarStyle /* 45 */:
                                 zzeh.zzl(this.zzmi[length2], (List) zzfd.zzo(t, zzag & 1048575), zzfrVar, true);
                                 break;
-                            case 46:
+                            case R.styleable.AppCompatTheme_buttonStyle /* 46 */:
                                 zzeh.zzg(this.zzmi[length2], (List) zzfd.zzo(t, zzag & 1048575), zzfrVar, true);
                                 break;
-                            case 47:
+                            case R.styleable.AppCompatTheme_buttonStyleSmall /* 47 */:
                                 zzeh.zzj(this.zzmi[length2], (List) zzfd.zzo(t, zzag & 1048575), zzfrVar, true);
                                 break;
-                            case 48:
+                            case R.styleable.AppCompatTheme_checkboxStyle /* 48 */:
                                 zzeh.zze(this.zzmi[length2], (List) zzfd.zzo(t, zzag & 1048575), zzfrVar, true);
                                 break;
-                            case 49:
+                            case R.styleable.AppCompatTheme_checkedTextViewStyle /* 49 */:
                                 zzeh.zzb(this.zzmi[length2], (List) zzfd.zzo(t, zzag & 1048575), zzfrVar, zzad(length2));
                                 break;
-                            case 50:
+                            case R.styleable.AppCompatTheme_colorAccent /* 50 */:
                                 zza(zzfrVar, i2, zzfd.zzo(t, zzag & 1048575), length2);
                                 break;
-                            case 51:
+                            case R.styleable.AppCompatTheme_colorBackgroundFloating /* 51 */:
                                 if (zza((zzds<T>) t, i2, length2)) {
                                     zzn2 = zze(t, zzag & 1048575);
                                     zzfrVar.zza(i2, zzn2);
@@ -3176,7 +3175,7 @@ final class zzds<T> implements zzef<T> {
                                 } else {
                                     break;
                                 }
-                            case 52:
+                            case R.styleable.AppCompatTheme_colorButtonNormal /* 52 */:
                                 if (zza((zzds<T>) t, i2, length2)) {
                                     zzm2 = zzf(t, zzag & 1048575);
                                     zzfrVar.zza(i2, zzm2);
@@ -3184,7 +3183,7 @@ final class zzds<T> implements zzef<T> {
                                 } else {
                                     break;
                                 }
-                            case 53:
+                            case R.styleable.AppCompatTheme_colorControlActivated /* 53 */:
                                 if (zza((zzds<T>) t, i2, length2)) {
                                     zzk6 = zzh(t, zzag & 1048575);
                                     zzfrVar.zzi(i2, zzk6);
@@ -3192,7 +3191,7 @@ final class zzds<T> implements zzef<T> {
                                 } else {
                                     break;
                                 }
-                            case 54:
+                            case R.styleable.AppCompatTheme_colorControlHighlight /* 54 */:
                                 if (zza((zzds<T>) t, i2, length2)) {
                                     zzk7 = zzh(t, zzag & 1048575);
                                     zzfrVar.zza(i2, zzk7);
@@ -3200,7 +3199,7 @@ final class zzds<T> implements zzef<T> {
                                 } else {
                                     break;
                                 }
-                            case 55:
+                            case R.styleable.AppCompatTheme_colorControlNormal /* 55 */:
                                 if (zza((zzds<T>) t, i2, length2)) {
                                     zzj7 = zzg(t, zzag & 1048575);
                                     zzfrVar.zzc(i2, zzj7);
@@ -3208,7 +3207,7 @@ final class zzds<T> implements zzef<T> {
                                 } else {
                                     break;
                                 }
-                            case 56:
+                            case R.styleable.AppCompatTheme_colorError /* 56 */:
                                 if (zza((zzds<T>) t, i2, length2)) {
                                     zzk8 = zzh(t, zzag & 1048575);
                                     zzfrVar.zzc(i2, zzk8);
@@ -3216,7 +3215,7 @@ final class zzds<T> implements zzef<T> {
                                 } else {
                                     break;
                                 }
-                            case 57:
+                            case R.styleable.AppCompatTheme_colorPrimary /* 57 */:
                                 if (zza((zzds<T>) t, i2, length2)) {
                                     zzj8 = zzg(t, zzag & 1048575);
                                     zzfrVar.zzf(i2, zzj8);
@@ -3224,7 +3223,7 @@ final class zzds<T> implements zzef<T> {
                                 } else {
                                     break;
                                 }
-                            case 58:
+                            case R.styleable.AppCompatTheme_colorPrimaryDark /* 58 */:
                                 if (zza((zzds<T>) t, i2, length2)) {
                                     zzl2 = zzi(t, zzag & 1048575);
                                     zzfrVar.zzb(i2, zzl2);
@@ -3232,25 +3231,25 @@ final class zzds<T> implements zzef<T> {
                                 } else {
                                     break;
                                 }
-                            case 59:
+                            case R.styleable.AppCompatTheme_colorSwitchThumbNormal /* 59 */:
                                 if (!zza((zzds<T>) t, i2, length2)) {
                                     break;
                                 }
                                 zza(i2, zzfd.zzo(t, zzag & 1048575), zzfrVar);
                                 break;
-                            case 60:
+                            case R.styleable.AppCompatTheme_controlBackground /* 60 */:
                                 if (!zza((zzds<T>) t, i2, length2)) {
                                     break;
                                 }
                                 zzfrVar.zza(i2, zzfd.zzo(t, zzag & 1048575), zzad(length2));
                                 break;
-                            case 61:
+                            case R.styleable.AppCompatTheme_dialogCornerRadius /* 61 */:
                                 if (!zza((zzds<T>) t, i2, length2)) {
                                     break;
                                 }
                                 zzfrVar.zza(i2, (zzbb) zzfd.zzo(t, zzag & 1048575));
                                 break;
-                            case 62:
+                            case R.styleable.AppCompatTheme_dialogPreferredPadding /* 62 */:
                                 if (zza((zzds<T>) t, i2, length2)) {
                                     zzj9 = zzg(t, zzag & 1048575);
                                     zzfrVar.zzd(i2, zzj9);
@@ -3258,7 +3257,7 @@ final class zzds<T> implements zzef<T> {
                                 } else {
                                     break;
                                 }
-                            case 63:
+                            case R.styleable.AppCompatTheme_dialogTheme /* 63 */:
                                 if (zza((zzds<T>) t, i2, length2)) {
                                     zzj10 = zzg(t, zzag & 1048575);
                                     zzfrVar.zzn(i2, zzj10);
@@ -3274,7 +3273,7 @@ final class zzds<T> implements zzef<T> {
                                 } else {
                                     break;
                                 }
-                            case VoIPService.CALL_MIN_LAYER /* 65 */:
+                            case 65:
                                 if (zza((zzds<T>) t, i2, length2)) {
                                     zzk9 = zzh(t, zzag & 1048575);
                                     zzfrVar.zzj(i2, zzk9);
@@ -3282,7 +3281,7 @@ final class zzds<T> implements zzef<T> {
                                 } else {
                                     break;
                                 }
-                            case 66:
+                            case R.styleable.AppCompatTheme_dropDownListViewStyle /* 66 */:
                                 if (zza((zzds<T>) t, i2, length2)) {
                                     zzj12 = zzg(t, zzag & 1048575);
                                     zzfrVar.zze(i2, zzj12);
@@ -3290,7 +3289,7 @@ final class zzds<T> implements zzef<T> {
                                 } else {
                                     break;
                                 }
-                            case 67:
+                            case R.styleable.AppCompatTheme_dropdownListPreferredItemHeight /* 67 */:
                                 if (zza((zzds<T>) t, i2, length2)) {
                                     zzk10 = zzh(t, zzag & 1048575);
                                     zzfrVar.zzb(i2, zzk10);
@@ -3298,7 +3297,7 @@ final class zzds<T> implements zzef<T> {
                                 } else {
                                     break;
                                 }
-                            case 68:
+                            case R.styleable.AppCompatTheme_editTextBackground /* 68 */:
                                 if (!zza((zzds<T>) t, i2, length2)) {
                                     break;
                                 }
@@ -3495,10 +3494,10 @@ final class zzds<T> implements zzef<T> {
                             case 25:
                                 zzeh.zzn(this.zzmi[i], (List) zzfd.zzo(t, zzag2 & 1048575), zzfrVar, false);
                                 break;
-                            case MessageObject.TYPE_GIVEAWAY /* 26 */:
+                            case 26:
                                 zzeh.zza(this.zzmi[i], (List) zzfd.zzo(t, zzag2 & 1048575), zzfrVar);
                                 break;
-                            case MessageObject.TYPE_JOINED_CHANNEL /* 27 */:
+                            case 27:
                                 zzeh.zza(this.zzmi[i], (List) zzfd.zzo(t, zzag2 & 1048575), zzfrVar, zzad(i));
                                 break;
                             case 28:
@@ -3507,70 +3506,70 @@ final class zzds<T> implements zzef<T> {
                             case 29:
                                 zzeh.zzi(this.zzmi[i], (List) zzfd.zzo(t, zzag2 & 1048575), zzfrVar, false);
                                 break;
-                            case 30:
+                            case R.styleable.AppCompatTheme_actionModeTheme /* 30 */:
                                 zzeh.zzm(this.zzmi[i], (List) zzfd.zzo(t, zzag2 & 1048575), zzfrVar, false);
                                 break;
-                            case 31:
+                            case R.styleable.AppCompatTheme_actionModeWebSearchDrawable /* 31 */:
                                 zzeh.zzl(this.zzmi[i], (List) zzfd.zzo(t, zzag2 & 1048575), zzfrVar, false);
                                 break;
                             case 32:
                                 zzeh.zzg(this.zzmi[i], (List) zzfd.zzo(t, zzag2 & 1048575), zzfrVar, false);
                                 break;
-                            case 33:
+                            case R.styleable.AppCompatTheme_actionOverflowMenuStyle /* 33 */:
                                 zzeh.zzj(this.zzmi[i], (List) zzfd.zzo(t, zzag2 & 1048575), zzfrVar, false);
                                 break;
-                            case 34:
+                            case R.styleable.AppCompatTheme_activityChooserViewStyle /* 34 */:
                                 zzeh.zze(this.zzmi[i], (List) zzfd.zzo(t, zzag2 & 1048575), zzfrVar, false);
                                 break;
-                            case 35:
+                            case R.styleable.AppCompatTheme_alertDialogButtonGroupStyle /* 35 */:
                                 zzeh.zza(this.zzmi[i], (List<Double>) zzfd.zzo(t, zzag2 & 1048575), zzfrVar, true);
                                 break;
-                            case 36:
+                            case R.styleable.AppCompatTheme_alertDialogCenterButtons /* 36 */:
                                 zzeh.zzb(this.zzmi[i], (List<Float>) zzfd.zzo(t, zzag2 & 1048575), zzfrVar, true);
                                 break;
-                            case 37:
+                            case R.styleable.AppCompatTheme_alertDialogStyle /* 37 */:
                                 zzeh.zzc(this.zzmi[i], (List) zzfd.zzo(t, zzag2 & 1048575), zzfrVar, true);
                                 break;
-                            case 38:
+                            case R.styleable.AppCompatTheme_alertDialogTheme /* 38 */:
                                 zzeh.zzd(this.zzmi[i], (List) zzfd.zzo(t, zzag2 & 1048575), zzfrVar, true);
                                 break;
-                            case 39:
+                            case R.styleable.AppCompatTheme_autoCompleteTextViewStyle /* 39 */:
                                 zzeh.zzh(this.zzmi[i], (List) zzfd.zzo(t, zzag2 & 1048575), zzfrVar, true);
                                 break;
-                            case 40:
+                            case R.styleable.AppCompatTheme_borderlessButtonStyle /* 40 */:
                                 zzeh.zzf(this.zzmi[i], (List) zzfd.zzo(t, zzag2 & 1048575), zzfrVar, true);
                                 break;
-                            case 41:
+                            case R.styleable.AppCompatTheme_buttonBarButtonStyle /* 41 */:
                                 zzeh.zzk(this.zzmi[i], (List) zzfd.zzo(t, zzag2 & 1048575), zzfrVar, true);
                                 break;
-                            case 42:
+                            case R.styleable.AppCompatTheme_buttonBarNegativeButtonStyle /* 42 */:
                                 zzeh.zzn(this.zzmi[i], (List) zzfd.zzo(t, zzag2 & 1048575), zzfrVar, true);
                                 break;
-                            case 43:
+                            case R.styleable.AppCompatTheme_buttonBarNeutralButtonStyle /* 43 */:
                                 zzeh.zzi(this.zzmi[i], (List) zzfd.zzo(t, zzag2 & 1048575), zzfrVar, true);
                                 break;
-                            case 44:
+                            case R.styleable.AppCompatTheme_buttonBarPositiveButtonStyle /* 44 */:
                                 zzeh.zzm(this.zzmi[i], (List) zzfd.zzo(t, zzag2 & 1048575), zzfrVar, true);
                                 break;
-                            case 45:
+                            case R.styleable.AppCompatTheme_buttonBarStyle /* 45 */:
                                 zzeh.zzl(this.zzmi[i], (List) zzfd.zzo(t, zzag2 & 1048575), zzfrVar, true);
                                 break;
-                            case 46:
+                            case R.styleable.AppCompatTheme_buttonStyle /* 46 */:
                                 zzeh.zzg(this.zzmi[i], (List) zzfd.zzo(t, zzag2 & 1048575), zzfrVar, true);
                                 break;
-                            case 47:
+                            case R.styleable.AppCompatTheme_buttonStyleSmall /* 47 */:
                                 zzeh.zzj(this.zzmi[i], (List) zzfd.zzo(t, zzag2 & 1048575), zzfrVar, true);
                                 break;
-                            case 48:
+                            case R.styleable.AppCompatTheme_checkboxStyle /* 48 */:
                                 zzeh.zze(this.zzmi[i], (List) zzfd.zzo(t, zzag2 & 1048575), zzfrVar, true);
                                 break;
-                            case 49:
+                            case R.styleable.AppCompatTheme_checkedTextViewStyle /* 49 */:
                                 zzeh.zzb(this.zzmi[i], (List) zzfd.zzo(t, zzag2 & 1048575), zzfrVar, zzad(i));
                                 break;
-                            case 50:
+                            case R.styleable.AppCompatTheme_colorAccent /* 50 */:
                                 zza(zzfrVar, i3, zzfd.zzo(t, zzag2 & 1048575), i);
                                 break;
-                            case 51:
+                            case R.styleable.AppCompatTheme_colorBackgroundFloating /* 51 */:
                                 if (zza((zzds<T>) t, i3, i)) {
                                     zzn = zze(t, zzag2 & 1048575);
                                     zzfrVar.zza(i3, zzn);
@@ -3578,7 +3577,7 @@ final class zzds<T> implements zzef<T> {
                                 } else {
                                     break;
                                 }
-                            case 52:
+                            case R.styleable.AppCompatTheme_colorButtonNormal /* 52 */:
                                 if (zza((zzds<T>) t, i3, i)) {
                                     zzm = zzf(t, zzag2 & 1048575);
                                     zzfrVar.zza(i3, zzm);
@@ -3586,7 +3585,7 @@ final class zzds<T> implements zzef<T> {
                                 } else {
                                     break;
                                 }
-                            case 53:
+                            case R.styleable.AppCompatTheme_colorControlActivated /* 53 */:
                                 if (zza((zzds<T>) t, i3, i)) {
                                     zzk = zzh(t, zzag2 & 1048575);
                                     zzfrVar.zzi(i3, zzk);
@@ -3594,7 +3593,7 @@ final class zzds<T> implements zzef<T> {
                                 } else {
                                     break;
                                 }
-                            case 54:
+                            case R.styleable.AppCompatTheme_colorControlHighlight /* 54 */:
                                 if (zza((zzds<T>) t, i3, i)) {
                                     zzk2 = zzh(t, zzag2 & 1048575);
                                     zzfrVar.zza(i3, zzk2);
@@ -3602,7 +3601,7 @@ final class zzds<T> implements zzef<T> {
                                 } else {
                                     break;
                                 }
-                            case 55:
+                            case R.styleable.AppCompatTheme_colorControlNormal /* 55 */:
                                 if (zza((zzds<T>) t, i3, i)) {
                                     zzj = zzg(t, zzag2 & 1048575);
                                     zzfrVar.zzc(i3, zzj);
@@ -3610,7 +3609,7 @@ final class zzds<T> implements zzef<T> {
                                 } else {
                                     break;
                                 }
-                            case 56:
+                            case R.styleable.AppCompatTheme_colorError /* 56 */:
                                 if (zza((zzds<T>) t, i3, i)) {
                                     zzk3 = zzh(t, zzag2 & 1048575);
                                     zzfrVar.zzc(i3, zzk3);
@@ -3618,7 +3617,7 @@ final class zzds<T> implements zzef<T> {
                                 } else {
                                     break;
                                 }
-                            case 57:
+                            case R.styleable.AppCompatTheme_colorPrimary /* 57 */:
                                 if (zza((zzds<T>) t, i3, i)) {
                                     zzj2 = zzg(t, zzag2 & 1048575);
                                     zzfrVar.zzf(i3, zzj2);
@@ -3626,7 +3625,7 @@ final class zzds<T> implements zzef<T> {
                                 } else {
                                     break;
                                 }
-                            case 58:
+                            case R.styleable.AppCompatTheme_colorPrimaryDark /* 58 */:
                                 if (zza((zzds<T>) t, i3, i)) {
                                     zzl = zzi(t, zzag2 & 1048575);
                                     zzfrVar.zzb(i3, zzl);
@@ -3634,25 +3633,25 @@ final class zzds<T> implements zzef<T> {
                                 } else {
                                     break;
                                 }
-                            case 59:
+                            case R.styleable.AppCompatTheme_colorSwitchThumbNormal /* 59 */:
                                 if (!zza((zzds<T>) t, i3, i)) {
                                     break;
                                 }
                                 zza(i3, zzfd.zzo(t, zzag2 & 1048575), zzfrVar);
                                 break;
-                            case 60:
+                            case R.styleable.AppCompatTheme_controlBackground /* 60 */:
                                 if (!zza((zzds<T>) t, i3, i)) {
                                     break;
                                 }
                                 zzfrVar.zza(i3, zzfd.zzo(t, zzag2 & 1048575), zzad(i));
                                 break;
-                            case 61:
+                            case R.styleable.AppCompatTheme_dialogCornerRadius /* 61 */:
                                 if (!zza((zzds<T>) t, i3, i)) {
                                     break;
                                 }
                                 zzfrVar.zza(i3, (zzbb) zzfd.zzo(t, zzag2 & 1048575));
                                 break;
-                            case 62:
+                            case R.styleable.AppCompatTheme_dialogPreferredPadding /* 62 */:
                                 if (zza((zzds<T>) t, i3, i)) {
                                     zzj3 = zzg(t, zzag2 & 1048575);
                                     zzfrVar.zzd(i3, zzj3);
@@ -3660,7 +3659,7 @@ final class zzds<T> implements zzef<T> {
                                 } else {
                                     break;
                                 }
-                            case 63:
+                            case R.styleable.AppCompatTheme_dialogTheme /* 63 */:
                                 if (zza((zzds<T>) t, i3, i)) {
                                     zzj4 = zzg(t, zzag2 & 1048575);
                                     zzfrVar.zzn(i3, zzj4);
@@ -3676,7 +3675,7 @@ final class zzds<T> implements zzef<T> {
                                 } else {
                                     break;
                                 }
-                            case VoIPService.CALL_MIN_LAYER /* 65 */:
+                            case 65:
                                 if (zza((zzds<T>) t, i3, i)) {
                                     zzk4 = zzh(t, zzag2 & 1048575);
                                     zzfrVar.zzj(i3, zzk4);
@@ -3684,7 +3683,7 @@ final class zzds<T> implements zzef<T> {
                                 } else {
                                     break;
                                 }
-                            case 66:
+                            case R.styleable.AppCompatTheme_dropDownListViewStyle /* 66 */:
                                 if (zza((zzds<T>) t, i3, i)) {
                                     zzj6 = zzg(t, zzag2 & 1048575);
                                     zzfrVar.zze(i3, zzj6);
@@ -3692,7 +3691,7 @@ final class zzds<T> implements zzef<T> {
                                 } else {
                                     break;
                                 }
-                            case 67:
+                            case R.styleable.AppCompatTheme_dropdownListPreferredItemHeight /* 67 */:
                                 if (zza((zzds<T>) t, i3, i)) {
                                     zzk5 = zzh(t, zzag2 & 1048575);
                                     zzfrVar.zzb(i3, zzk5);
@@ -3700,7 +3699,7 @@ final class zzds<T> implements zzef<T> {
                                 } else {
                                     break;
                                 }
-                            case 68:
+                            case R.styleable.AppCompatTheme_editTextBackground /* 68 */:
                                 if (!zza((zzds<T>) t, i3, i)) {
                                     break;
                                 }
@@ -4120,61 +4119,61 @@ final class zzds<T> implements zzef<T> {
                 case 23:
                 case 24:
                 case 25:
-                case MessageObject.TYPE_GIVEAWAY /* 26 */:
-                case MessageObject.TYPE_JOINED_CHANNEL /* 27 */:
+                case 26:
+                case 27:
                 case 28:
                 case 29:
-                case 30:
-                case 31:
+                case R.styleable.AppCompatTheme_actionModeTheme /* 30 */:
+                case R.styleable.AppCompatTheme_actionModeWebSearchDrawable /* 31 */:
                 case 32:
-                case 33:
-                case 34:
-                case 35:
-                case 36:
-                case 37:
-                case 38:
-                case 39:
-                case 40:
-                case 41:
-                case 42:
-                case 43:
-                case 44:
-                case 45:
-                case 46:
-                case 47:
-                case 48:
-                case 49:
+                case R.styleable.AppCompatTheme_actionOverflowMenuStyle /* 33 */:
+                case R.styleable.AppCompatTheme_activityChooserViewStyle /* 34 */:
+                case R.styleable.AppCompatTheme_alertDialogButtonGroupStyle /* 35 */:
+                case R.styleable.AppCompatTheme_alertDialogCenterButtons /* 36 */:
+                case R.styleable.AppCompatTheme_alertDialogStyle /* 37 */:
+                case R.styleable.AppCompatTheme_alertDialogTheme /* 38 */:
+                case R.styleable.AppCompatTheme_autoCompleteTextViewStyle /* 39 */:
+                case R.styleable.AppCompatTheme_borderlessButtonStyle /* 40 */:
+                case R.styleable.AppCompatTheme_buttonBarButtonStyle /* 41 */:
+                case R.styleable.AppCompatTheme_buttonBarNegativeButtonStyle /* 42 */:
+                case R.styleable.AppCompatTheme_buttonBarNeutralButtonStyle /* 43 */:
+                case R.styleable.AppCompatTheme_buttonBarPositiveButtonStyle /* 44 */:
+                case R.styleable.AppCompatTheme_buttonBarStyle /* 45 */:
+                case R.styleable.AppCompatTheme_buttonStyle /* 46 */:
+                case R.styleable.AppCompatTheme_buttonStyleSmall /* 47 */:
+                case R.styleable.AppCompatTheme_checkboxStyle /* 48 */:
+                case R.styleable.AppCompatTheme_checkedTextViewStyle /* 49 */:
                     this.zzmw.zza(t, t2, j);
                     break;
-                case 50:
+                case R.styleable.AppCompatTheme_colorAccent /* 50 */:
                     zzeh.zza(this.zzmz, t, t2, j);
                     break;
-                case 51:
-                case 52:
-                case 53:
-                case 54:
-                case 55:
-                case 56:
-                case 57:
-                case 58:
-                case 59:
+                case R.styleable.AppCompatTheme_colorBackgroundFloating /* 51 */:
+                case R.styleable.AppCompatTheme_colorButtonNormal /* 52 */:
+                case R.styleable.AppCompatTheme_colorControlActivated /* 53 */:
+                case R.styleable.AppCompatTheme_colorControlHighlight /* 54 */:
+                case R.styleable.AppCompatTheme_colorControlNormal /* 55 */:
+                case R.styleable.AppCompatTheme_colorError /* 56 */:
+                case R.styleable.AppCompatTheme_colorPrimary /* 57 */:
+                case R.styleable.AppCompatTheme_colorPrimaryDark /* 58 */:
+                case R.styleable.AppCompatTheme_colorSwitchThumbNormal /* 59 */:
                     if (!zza((zzds<T>) t2, i2, i)) {
                         break;
                     }
                     zzfd.zza(t, j, zzfd.zzo(t2, j));
                     zzb((zzds<T>) t, i2, i);
                     break;
-                case 60:
-                case 68:
+                case R.styleable.AppCompatTheme_controlBackground /* 60 */:
+                case R.styleable.AppCompatTheme_editTextBackground /* 68 */:
                     zzb(t, t2, i);
                     break;
-                case 61:
-                case 62:
-                case 63:
+                case R.styleable.AppCompatTheme_dialogCornerRadius /* 61 */:
+                case R.styleable.AppCompatTheme_dialogPreferredPadding /* 62 */:
+                case R.styleable.AppCompatTheme_dialogTheme /* 63 */:
                 case 64:
-                case VoIPService.CALL_MIN_LAYER /* 65 */:
-                case 66:
-                case 67:
+                case 65:
+                case R.styleable.AppCompatTheme_dropDownListViewStyle /* 66 */:
+                case R.styleable.AppCompatTheme_dropdownListPreferredItemHeight /* 67 */:
                     if (!zza((zzds<T>) t2, i2, i)) {
                         break;
                     }
@@ -4526,7 +4525,7 @@ final class zzds<T> implements zzef<T> {
                         break;
                     case 19:
                     case 24:
-                    case 31:
+                    case R.styleable.AppCompatTheme_actionModeWebSearchDrawable /* 31 */:
                         zzw = zzeh.zzv(i11, (List) unsafe.getObject(t, j3), false);
                         i9 += zzw;
                         j = 0;
@@ -4551,12 +4550,12 @@ final class zzds<T> implements zzef<T> {
                         i9 += zzw;
                         j = 0;
                         break;
-                    case MessageObject.TYPE_GIVEAWAY /* 26 */:
+                    case 26:
                         zzw = zzeh.zzc(i11, (List) unsafe.getObject(t, j3));
                         i9 += zzw;
                         j = 0;
                         break;
-                    case MessageObject.TYPE_JOINED_CHANNEL /* 27 */:
+                    case 27:
                         zzw = zzeh.zzc(i11, (List<?>) unsafe.getObject(t, j3), zzad(i8));
                         i9 += zzw;
                         j = 0;
@@ -4571,192 +4570,192 @@ final class zzds<T> implements zzef<T> {
                         i9 += zzw;
                         j = 0;
                         break;
-                    case 30:
+                    case R.styleable.AppCompatTheme_actionModeTheme /* 30 */:
                         zzw = zzeh.zzr(i11, (List) unsafe.getObject(t, j3), false);
                         i9 += zzw;
                         j = 0;
                         break;
-                    case 33:
+                    case R.styleable.AppCompatTheme_actionOverflowMenuStyle /* 33 */:
                         zzw = zzeh.zzu(i11, (List) unsafe.getObject(t, j3), false);
                         i9 += zzw;
                         j = 0;
                         break;
-                    case 34:
+                    case R.styleable.AppCompatTheme_activityChooserViewStyle /* 34 */:
                         zzw = zzeh.zzq(i11, (List) unsafe.getObject(t, j3), false);
                         i9 += zzw;
                         j = 0;
                         break;
-                    case 35:
+                    case R.styleable.AppCompatTheme_alertDialogButtonGroupStyle /* 35 */:
                         zzi = zzeh.zzi((List) unsafe.getObject(t, j3));
                         if (zzi > 0) {
                             break;
                         }
                         j = 0;
                         break;
-                    case 36:
+                    case R.styleable.AppCompatTheme_alertDialogCenterButtons /* 36 */:
                         zzi = zzeh.zzh((List) unsafe.getObject(t, j3));
                         if (zzi > 0) {
                             break;
                         }
                         j = 0;
                         break;
-                    case 37:
+                    case R.styleable.AppCompatTheme_alertDialogStyle /* 37 */:
                         zzi = zzeh.zza((List) unsafe.getObject(t, j3));
                         if (zzi > 0) {
                             break;
                         }
                         j = 0;
                         break;
-                    case 38:
+                    case R.styleable.AppCompatTheme_alertDialogTheme /* 38 */:
                         zzi = zzeh.zzb((List) unsafe.getObject(t, j3));
                         if (zzi > 0) {
                             break;
                         }
                         j = 0;
                         break;
-                    case 39:
+                    case R.styleable.AppCompatTheme_autoCompleteTextViewStyle /* 39 */:
                         zzi = zzeh.zze((List) unsafe.getObject(t, j3));
                         if (zzi > 0) {
                             break;
                         }
                         j = 0;
                         break;
-                    case 40:
+                    case R.styleable.AppCompatTheme_borderlessButtonStyle /* 40 */:
                         zzi = zzeh.zzi((List) unsafe.getObject(t, j3));
                         if (zzi > 0) {
                             break;
                         }
                         j = 0;
                         break;
-                    case 41:
+                    case R.styleable.AppCompatTheme_buttonBarButtonStyle /* 41 */:
                         zzi = zzeh.zzh((List) unsafe.getObject(t, j3));
                         if (zzi > 0) {
                             break;
                         }
                         j = 0;
                         break;
-                    case 42:
+                    case R.styleable.AppCompatTheme_buttonBarNegativeButtonStyle /* 42 */:
                         zzi = zzeh.zzj((List) unsafe.getObject(t, j3));
                         if (zzi > 0) {
                             break;
                         }
                         j = 0;
                         break;
-                    case 43:
+                    case R.styleable.AppCompatTheme_buttonBarNeutralButtonStyle /* 43 */:
                         zzi = zzeh.zzf((List) unsafe.getObject(t, j3));
                         if (zzi > 0) {
                             break;
                         }
                         j = 0;
                         break;
-                    case 44:
+                    case R.styleable.AppCompatTheme_buttonBarPositiveButtonStyle /* 44 */:
                         zzi = zzeh.zzd((List) unsafe.getObject(t, j3));
                         if (zzi > 0) {
                             break;
                         }
                         j = 0;
                         break;
-                    case 45:
+                    case R.styleable.AppCompatTheme_buttonBarStyle /* 45 */:
                         zzi = zzeh.zzh((List) unsafe.getObject(t, j3));
                         if (zzi > 0) {
                             break;
                         }
                         j = 0;
                         break;
-                    case 46:
+                    case R.styleable.AppCompatTheme_buttonStyle /* 46 */:
                         zzi = zzeh.zzi((List) unsafe.getObject(t, j3));
                         if (zzi > 0) {
                             break;
                         }
                         j = 0;
                         break;
-                    case 47:
+                    case R.styleable.AppCompatTheme_buttonStyleSmall /* 47 */:
                         zzi = zzeh.zzg((List) unsafe.getObject(t, j3));
                         if (zzi > 0) {
                             break;
                         }
                         j = 0;
                         break;
-                    case 48:
+                    case R.styleable.AppCompatTheme_checkboxStyle /* 48 */:
                         zzi = zzeh.zzc((List) unsafe.getObject(t, j3));
                         if (zzi > 0) {
                             break;
                         }
                         j = 0;
                         break;
-                    case 49:
+                    case R.styleable.AppCompatTheme_checkedTextViewStyle /* 49 */:
                         zzw = zzeh.zzd(i11, (List) unsafe.getObject(t, j3), zzad(i8));
                         i9 += zzw;
                         j = 0;
                         break;
-                    case 50:
+                    case R.styleable.AppCompatTheme_colorAccent /* 50 */:
                         zzw = this.zzmz.zzb(i11, unsafe.getObject(t, j3), zzae(i8));
                         i9 += zzw;
                         j = 0;
                         break;
-                    case 51:
+                    case R.styleable.AppCompatTheme_colorBackgroundFloating /* 51 */:
                         if (zza((zzds<T>) t, i11, i8)) {
                             zzw = zzbn.zzb(i11, 0.0d);
                             i9 += zzw;
                         }
                         j = 0;
                         break;
-                    case 52:
+                    case R.styleable.AppCompatTheme_colorButtonNormal /* 52 */:
                         if (zza((zzds<T>) t, i11, i8)) {
                             zzr = zzbn.zzb(i11, 0.0f);
                             i9 += zzr;
                         }
                         j = 0;
                         break;
-                    case 53:
+                    case R.styleable.AppCompatTheme_colorControlActivated /* 53 */:
                         if (zza((zzds<T>) t, i11, i8)) {
                             zzw = zzbn.zzd(i11, zzh(t, j3));
                             i9 += zzw;
                         }
                         j = 0;
                         break;
-                    case 54:
+                    case R.styleable.AppCompatTheme_colorControlHighlight /* 54 */:
                         if (zza((zzds<T>) t, i11, i8)) {
                             zzw = zzbn.zze(i11, zzh(t, j3));
                             i9 += zzw;
                         }
                         j = 0;
                         break;
-                    case 55:
+                    case R.styleable.AppCompatTheme_colorControlNormal /* 55 */:
                         if (zza((zzds<T>) t, i11, i8)) {
                             zzw = zzbn.zzg(i11, zzg(t, j3));
                             i9 += zzw;
                         }
                         j = 0;
                         break;
-                    case 56:
+                    case R.styleable.AppCompatTheme_colorError /* 56 */:
                         if (zza((zzds<T>) t, i11, i8)) {
                             zzw = zzbn.zzg(i11, 0L);
                             i9 += zzw;
                         }
                         j = 0;
                         break;
-                    case 57:
+                    case R.styleable.AppCompatTheme_colorPrimary /* 57 */:
                         if (zza((zzds<T>) t, i11, i8)) {
                             zzr = zzbn.zzj(i11, 0);
                             i9 += zzr;
                         }
                         j = 0;
                         break;
-                    case 58:
+                    case R.styleable.AppCompatTheme_colorPrimaryDark /* 58 */:
                         break;
-                    case 59:
+                    case R.styleable.AppCompatTheme_colorSwitchThumbNormal /* 59 */:
                         if (zza((zzds<T>) t, i11, i8)) {
                             object = unsafe.getObject(t, j3);
                             break;
                         }
                         j = 0;
                         break;
-                    case 60:
+                    case R.styleable.AppCompatTheme_controlBackground /* 60 */:
                         break;
-                    case 61:
+                    case R.styleable.AppCompatTheme_dialogCornerRadius /* 61 */:
                         break;
-                    case 62:
+                    case R.styleable.AppCompatTheme_dialogPreferredPadding /* 62 */:
                         if (zza((zzds<T>) t, i11, i8)) {
                             i3 = zzg(t, j3);
                             zzw = zzbn.zzh(i11, i3);
@@ -4764,7 +4763,7 @@ final class zzds<T> implements zzef<T> {
                         }
                         j = 0;
                         break;
-                    case 63:
+                    case R.styleable.AppCompatTheme_dialogTheme /* 63 */:
                         if (zza((zzds<T>) t, i11, i8)) {
                             i4 = zzg(t, j3);
                             zzw = zzbn.zzl(i11, i4);
@@ -4774,9 +4773,9 @@ final class zzds<T> implements zzef<T> {
                         break;
                     case 64:
                         break;
-                    case VoIPService.CALL_MIN_LAYER /* 65 */:
+                    case 65:
                         break;
-                    case 66:
+                    case R.styleable.AppCompatTheme_dropDownListViewStyle /* 66 */:
                         if (zza((zzds<T>) t, i11, i8)) {
                             i5 = zzg(t, j3);
                             zzw = zzbn.zzi(i11, i5);
@@ -4784,7 +4783,7 @@ final class zzds<T> implements zzef<T> {
                         }
                         j = 0;
                         break;
-                    case 67:
+                    case R.styleable.AppCompatTheme_dropdownListPreferredItemHeight /* 67 */:
                         if (zza((zzds<T>) t, i11, i8)) {
                             j2 = zzh(t, j3);
                             zzw = zzbn.zzf(i11, j2);
@@ -4792,7 +4791,7 @@ final class zzds<T> implements zzef<T> {
                         }
                         j = 0;
                         break;
-                    case 68:
+                    case R.styleable.AppCompatTheme_editTextBackground /* 68 */:
                         break;
                     default:
                         j = 0;
@@ -4980,7 +4979,7 @@ final class zzds<T> implements zzef<T> {
                     break;
                 case 19:
                 case 24:
-                case 31:
+                case R.styleable.AppCompatTheme_actionModeWebSearchDrawable /* 31 */:
                     zzw2 = zzeh.zzv(i18, zzd(t, j4), false);
                     break;
                 case 20:
@@ -4995,10 +4994,10 @@ final class zzds<T> implements zzef<T> {
                 case 25:
                     zzw2 = zzeh.zzx(i18, zzd(t, j4), false);
                     break;
-                case MessageObject.TYPE_GIVEAWAY /* 26 */:
+                case 26:
                     zzw2 = zzeh.zzc(i18, zzd(t, j4));
                     break;
-                case MessageObject.TYPE_JOINED_CHANNEL /* 27 */:
+                case 27:
                     zzw2 = zzeh.zzc(i18, (List<?>) zzd(t, j4), zzad(i15));
                     break;
                 case 28:
@@ -5007,16 +5006,16 @@ final class zzds<T> implements zzef<T> {
                 case 29:
                     zzw2 = zzeh.zzt(i18, zzd(t, j4), false);
                     break;
-                case 30:
+                case R.styleable.AppCompatTheme_actionModeTheme /* 30 */:
                     zzw2 = zzeh.zzr(i18, zzd(t, j4), false);
                     break;
-                case 33:
+                case R.styleable.AppCompatTheme_actionOverflowMenuStyle /* 33 */:
                     zzw2 = zzeh.zzu(i18, zzd(t, j4), false);
                     break;
-                case 34:
+                case R.styleable.AppCompatTheme_activityChooserViewStyle /* 34 */:
                     zzw2 = zzeh.zzq(i18, zzd(t, j4), false);
                     break;
-                case 35:
+                case R.styleable.AppCompatTheme_alertDialogButtonGroupStyle /* 35 */:
                     zzi2 = zzeh.zzi((List) unsafe2.getObject(t, j4));
                     if (zzi2 > 0) {
                         break;
@@ -5025,7 +5024,7 @@ final class zzds<T> implements zzef<T> {
                         i15 += 4;
                         i6 = 267386880;
                     }
-                case 36:
+                case R.styleable.AppCompatTheme_alertDialogCenterButtons /* 36 */:
                     zzi2 = zzeh.zzh((List) unsafe2.getObject(t, j4));
                     if (zzi2 > 0) {
                         break;
@@ -5034,7 +5033,7 @@ final class zzds<T> implements zzef<T> {
                         i15 += 4;
                         i6 = 267386880;
                     }
-                case 37:
+                case R.styleable.AppCompatTheme_alertDialogStyle /* 37 */:
                     zzi2 = zzeh.zza((List) unsafe2.getObject(t, j4));
                     if (zzi2 > 0) {
                         break;
@@ -5043,7 +5042,7 @@ final class zzds<T> implements zzef<T> {
                         i15 += 4;
                         i6 = 267386880;
                     }
-                case 38:
+                case R.styleable.AppCompatTheme_alertDialogTheme /* 38 */:
                     zzi2 = zzeh.zzb((List) unsafe2.getObject(t, j4));
                     if (zzi2 > 0) {
                         break;
@@ -5052,7 +5051,7 @@ final class zzds<T> implements zzef<T> {
                         i15 += 4;
                         i6 = 267386880;
                     }
-                case 39:
+                case R.styleable.AppCompatTheme_autoCompleteTextViewStyle /* 39 */:
                     zzi2 = zzeh.zze((List) unsafe2.getObject(t, j4));
                     if (zzi2 > 0) {
                         break;
@@ -5061,7 +5060,7 @@ final class zzds<T> implements zzef<T> {
                         i15 += 4;
                         i6 = 267386880;
                     }
-                case 40:
+                case R.styleable.AppCompatTheme_borderlessButtonStyle /* 40 */:
                     zzi2 = zzeh.zzi((List) unsafe2.getObject(t, j4));
                     if (zzi2 > 0) {
                         break;
@@ -5070,7 +5069,7 @@ final class zzds<T> implements zzef<T> {
                         i15 += 4;
                         i6 = 267386880;
                     }
-                case 41:
+                case R.styleable.AppCompatTheme_buttonBarButtonStyle /* 41 */:
                     zzi2 = zzeh.zzh((List) unsafe2.getObject(t, j4));
                     if (zzi2 > 0) {
                         break;
@@ -5079,7 +5078,7 @@ final class zzds<T> implements zzef<T> {
                         i15 += 4;
                         i6 = 267386880;
                     }
-                case 42:
+                case R.styleable.AppCompatTheme_buttonBarNegativeButtonStyle /* 42 */:
                     zzi2 = zzeh.zzj((List) unsafe2.getObject(t, j4));
                     if (zzi2 > 0) {
                         break;
@@ -5088,7 +5087,7 @@ final class zzds<T> implements zzef<T> {
                         i15 += 4;
                         i6 = 267386880;
                     }
-                case 43:
+                case R.styleable.AppCompatTheme_buttonBarNeutralButtonStyle /* 43 */:
                     zzi2 = zzeh.zzf((List) unsafe2.getObject(t, j4));
                     if (zzi2 > 0) {
                         break;
@@ -5097,7 +5096,7 @@ final class zzds<T> implements zzef<T> {
                         i15 += 4;
                         i6 = 267386880;
                     }
-                case 44:
+                case R.styleable.AppCompatTheme_buttonBarPositiveButtonStyle /* 44 */:
                     zzi2 = zzeh.zzd((List) unsafe2.getObject(t, j4));
                     if (zzi2 > 0) {
                         break;
@@ -5106,7 +5105,7 @@ final class zzds<T> implements zzef<T> {
                         i15 += 4;
                         i6 = 267386880;
                     }
-                case 45:
+                case R.styleable.AppCompatTheme_buttonBarStyle /* 45 */:
                     zzi2 = zzeh.zzh((List) unsafe2.getObject(t, j4));
                     if (zzi2 > 0) {
                         break;
@@ -5115,7 +5114,7 @@ final class zzds<T> implements zzef<T> {
                         i15 += 4;
                         i6 = 267386880;
                     }
-                case 46:
+                case R.styleable.AppCompatTheme_buttonStyle /* 46 */:
                     zzi2 = zzeh.zzi((List) unsafe2.getObject(t, j4));
                     if (zzi2 > 0) {
                         break;
@@ -5124,7 +5123,7 @@ final class zzds<T> implements zzef<T> {
                         i15 += 4;
                         i6 = 267386880;
                     }
-                case 47:
+                case R.styleable.AppCompatTheme_buttonStyleSmall /* 47 */:
                     zzi2 = zzeh.zzg((List) unsafe2.getObject(t, j4));
                     if (zzi2 > 0) {
                         break;
@@ -5133,7 +5132,7 @@ final class zzds<T> implements zzef<T> {
                         i15 += 4;
                         i6 = 267386880;
                     }
-                case 48:
+                case R.styleable.AppCompatTheme_checkboxStyle /* 48 */:
                     zzi2 = zzeh.zzc((List) unsafe2.getObject(t, j4));
                     if (zzi2 > 0) {
                         break;
@@ -5142,13 +5141,13 @@ final class zzds<T> implements zzef<T> {
                         i15 += 4;
                         i6 = 267386880;
                     }
-                case 49:
+                case R.styleable.AppCompatTheme_checkedTextViewStyle /* 49 */:
                     zzw2 = zzeh.zzd(i18, zzd(t, j4), zzad(i15));
                     break;
-                case 50:
+                case R.styleable.AppCompatTheme_colorAccent /* 50 */:
                     zzw2 = this.zzmz.zzb(i18, zzfd.zzo(t, j4), zzae(i15));
                     break;
-                case 51:
+                case R.styleable.AppCompatTheme_colorBackgroundFloating /* 51 */:
                     if (!zza((zzds<T>) t, i18, i15)) {
                         continue;
                         i15 += 4;
@@ -5156,7 +5155,7 @@ final class zzds<T> implements zzef<T> {
                     }
                     zzw2 = zzbn.zzb(i18, 0.0d);
                     break;
-                case 52:
+                case R.styleable.AppCompatTheme_colorButtonNormal /* 52 */:
                     if (!zza((zzds<T>) t, i18, i15)) {
                         continue;
                         i15 += 4;
@@ -5164,7 +5163,7 @@ final class zzds<T> implements zzef<T> {
                     }
                     zzw2 = zzbn.zzb(i18, 0.0f);
                     break;
-                case 53:
+                case R.styleable.AppCompatTheme_colorControlActivated /* 53 */:
                     if (zza((zzds<T>) t, i18, i15)) {
                         zzk = zzh(t, j4);
                         zzw2 = zzbn.zzd(i18, zzk);
@@ -5174,7 +5173,7 @@ final class zzds<T> implements zzef<T> {
                         i15 += 4;
                         i6 = 267386880;
                     }
-                case 54:
+                case R.styleable.AppCompatTheme_colorControlHighlight /* 54 */:
                     if (zza((zzds<T>) t, i18, i15)) {
                         zzk2 = zzh(t, j4);
                         zzw2 = zzbn.zze(i18, zzk2);
@@ -5184,7 +5183,7 @@ final class zzds<T> implements zzef<T> {
                         i15 += 4;
                         i6 = 267386880;
                     }
-                case 55:
+                case R.styleable.AppCompatTheme_colorControlNormal /* 55 */:
                     if (zza((zzds<T>) t, i18, i15)) {
                         zzj = zzg(t, j4);
                         zzw2 = zzbn.zzg(i18, zzj);
@@ -5194,7 +5193,7 @@ final class zzds<T> implements zzef<T> {
                         i15 += 4;
                         i6 = 267386880;
                     }
-                case 56:
+                case R.styleable.AppCompatTheme_colorError /* 56 */:
                     if (!zza((zzds<T>) t, i18, i15)) {
                         continue;
                         i15 += 4;
@@ -5202,7 +5201,7 @@ final class zzds<T> implements zzef<T> {
                     }
                     zzw2 = zzbn.zzg(i18, 0L);
                     break;
-                case 57:
+                case R.styleable.AppCompatTheme_colorPrimary /* 57 */:
                     if (!zza((zzds<T>) t, i18, i15)) {
                         continue;
                         i15 += 4;
@@ -5210,7 +5209,7 @@ final class zzds<T> implements zzef<T> {
                     }
                     zzw2 = zzbn.zzj(i18, 0);
                     break;
-                case 58:
+                case R.styleable.AppCompatTheme_colorPrimaryDark /* 58 */:
                     if (!zza((zzds<T>) t, i18, i15)) {
                         continue;
                         i15 += 4;
@@ -5218,7 +5217,7 @@ final class zzds<T> implements zzef<T> {
                     }
                     zzw2 = zzbn.zzc(i18, true);
                     break;
-                case 59:
+                case R.styleable.AppCompatTheme_colorSwitchThumbNormal /* 59 */:
                     if (zza((zzds<T>) t, i18, i15)) {
                         zzo = zzfd.zzo(t, j4);
                         break;
@@ -5227,7 +5226,7 @@ final class zzds<T> implements zzef<T> {
                         i15 += 4;
                         i6 = 267386880;
                     }
-                case 60:
+                case R.styleable.AppCompatTheme_controlBackground /* 60 */:
                     if (!zza((zzds<T>) t, i18, i15)) {
                         continue;
                         i15 += 4;
@@ -5235,7 +5234,7 @@ final class zzds<T> implements zzef<T> {
                     }
                     zzw2 = zzeh.zzc(i18, zzfd.zzo(t, j4), zzad(i15));
                     break;
-                case 61:
+                case R.styleable.AppCompatTheme_dialogCornerRadius /* 61 */:
                     if (!zza((zzds<T>) t, i18, i15)) {
                         continue;
                         i15 += 4;
@@ -5244,7 +5243,7 @@ final class zzds<T> implements zzef<T> {
                     zzo = zzfd.zzo(t, j4);
                     zzw2 = zzbn.zzc(i18, (zzbb) zzo);
                     break;
-                case 62:
+                case R.styleable.AppCompatTheme_dialogPreferredPadding /* 62 */:
                     if (zza((zzds<T>) t, i18, i15)) {
                         zzj2 = zzg(t, j4);
                         zzw2 = zzbn.zzh(i18, zzj2);
@@ -5254,7 +5253,7 @@ final class zzds<T> implements zzef<T> {
                         i15 += 4;
                         i6 = 267386880;
                     }
-                case 63:
+                case R.styleable.AppCompatTheme_dialogTheme /* 63 */:
                     if (zza((zzds<T>) t, i18, i15)) {
                         zzj3 = zzg(t, j4);
                         zzw2 = zzbn.zzl(i18, zzj3);
@@ -5272,7 +5271,7 @@ final class zzds<T> implements zzef<T> {
                     }
                     zzw2 = zzbn.zzk(i18, 0);
                     break;
-                case VoIPService.CALL_MIN_LAYER /* 65 */:
+                case 65:
                     if (!zza((zzds<T>) t, i18, i15)) {
                         continue;
                         i15 += 4;
@@ -5280,7 +5279,7 @@ final class zzds<T> implements zzef<T> {
                     }
                     zzw2 = zzbn.zzh(i18, 0L);
                     break;
-                case 66:
+                case R.styleable.AppCompatTheme_dropDownListViewStyle /* 66 */:
                     if (zza((zzds<T>) t, i18, i15)) {
                         zzj4 = zzg(t, j4);
                         zzw2 = zzbn.zzi(i18, zzj4);
@@ -5290,7 +5289,7 @@ final class zzds<T> implements zzef<T> {
                         i15 += 4;
                         i6 = 267386880;
                     }
-                case 67:
+                case R.styleable.AppCompatTheme_dropdownListPreferredItemHeight /* 67 */:
                     if (zza((zzds<T>) t, i18, i15)) {
                         zzk3 = zzh(t, j4);
                         zzw2 = zzbn.zzf(i18, zzk3);
@@ -5300,7 +5299,7 @@ final class zzds<T> implements zzef<T> {
                         i15 += 4;
                         i6 = 267386880;
                     }
-                case 68:
+                case R.styleable.AppCompatTheme_editTextBackground /* 68 */:
                     if (!zza((zzds<T>) t, i18, i15)) {
                         continue;
                         i15 += 4;

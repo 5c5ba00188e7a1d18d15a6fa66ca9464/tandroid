@@ -49,8 +49,10 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.ChatMessageCell;
 import org.telegram.ui.Cells.TextSelectionHelper;
 import org.telegram.ui.Cells.ThemePreviewMessagesCell;
+import org.telegram.ui.ChatBackgroundDrawable;
 import org.telegram.ui.Components.AnimatedColor;
 import org.telegram.ui.Components.AnimatedEmojiSpan;
+import org.telegram.ui.Components.AnimatedFloat;
 import org.telegram.ui.Components.AvatarDrawable;
 import org.telegram.ui.Components.BackgroundGradientDrawable;
 import org.telegram.ui.Components.CubicBezierInterpolator;
@@ -59,16 +61,19 @@ import org.telegram.ui.Components.MotionBackgroundDrawable;
 import org.telegram.ui.Components.Reactions.ReactionsEffectOverlay;
 import org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble;
 import org.telegram.ui.PinchToZoomHelper;
+import org.telegram.ui.Stories.recorder.StoryEntry;
 /* loaded from: classes3.dex */
 public class ThemePreviewMessagesCell extends LinearLayout {
     private Drawable backgroundDrawable;
     private BackgroundGradientDrawable.Disposable backgroundGradientDisposable;
     private final Runnable cancelProgress;
     private ChatMessageCell[] cells;
+    public boolean customAnimation;
     public BaseFragment fragment;
     private Drawable oldBackgroundDrawable;
     private BackgroundGradientDrawable.Disposable oldBackgroundGradientDisposable;
     private Drawable overrideDrawable;
+    private final AnimatedFloat overrideDrawableUpdate;
     private INavigationLayout parentLayout;
     private int progress;
     private Drawable shadowDrawable;
@@ -102,8 +107,8 @@ public class ThemePreviewMessagesCell extends LinearLayout {
         this(context, iNavigationLayout, i, j, null);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:75:0x03df  */
-    /* JADX WARN: Removed duplicated region for block: B:88:0x0435 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:75:0x03fa  */
+    /* JADX WARN: Removed duplicated region for block: B:88:0x0454 A[SYNTHETIC] */
     @SuppressLint({"ClickableViewAccessibility"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -128,6 +133,7 @@ public class ThemePreviewMessagesCell extends LinearLayout {
                 ThemePreviewMessagesCell.this.lambda$new$0();
             }
         };
+        this.overrideDrawableUpdate = new AnimatedFloat(this, 0L, 350L, CubicBezierInterpolator.EASE_OUT_QUINT);
         this.type = i;
         int i3 = UserConfig.selectedAccount;
         this.parentLayout = iNavigationLayout;
@@ -437,18 +443,14 @@ public class ThemePreviewMessagesCell extends LinearLayout {
                         int themedColor2;
                         if (getMessageObject() != null && getMessageObject().overrideLinkColor >= 0) {
                             int i5 = getMessageObject().overrideLinkColor;
-                            if (getMessageObject().overrideProfilePeerColor != null) {
-                                themedColor = getMessageObject().overrideProfilePeerColor.getAvatarColor1();
-                                themedColor2 = getMessageObject().overrideProfilePeerColor.getAvatarColor2();
-                            } else if (i5 >= 14) {
+                            if (i5 >= 14) {
                                 MessagesController messagesController = MessagesController.getInstance(UserConfig.selectedAccount);
                                 MessagesController.PeerColors peerColors = messagesController != null ? messagesController.peerColors : null;
                                 MessagesController.PeerColor color = peerColors != null ? peerColors.getColor(i5) : null;
                                 if (color != null) {
                                     int color1 = color.getColor1();
-                                    int themedColor3 = getThemedColor(Theme.keys_avatar_background[AvatarDrawable.getPeerColorIndex(color1)]);
+                                    themedColor = getThemedColor(Theme.keys_avatar_background[AvatarDrawable.getPeerColorIndex(color1)]);
                                     themedColor2 = getThemedColor(Theme.keys_avatar_background2[AvatarDrawable.getPeerColorIndex(color1)]);
-                                    themedColor = themedColor3;
                                 } else {
                                     long j3 = i5;
                                     themedColor = getThemedColor(Theme.keys_avatar_background[AvatarDrawable.getColorIndex(j3)]);
@@ -820,7 +822,27 @@ public class ThemePreviewMessagesCell extends LinearLayout {
 
     public void setOverrideBackground(Drawable drawable) {
         this.overrideDrawable = drawable;
+        if (drawable != null) {
+            drawable.setCallback(this);
+        }
+        if ((this.overrideDrawable instanceof ChatBackgroundDrawable) && isAttachedToWindow()) {
+            ((ChatBackgroundDrawable) this.overrideDrawable).onAttachedToWindow(this);
+        }
         invalidate();
+    }
+
+    @Override // android.view.ViewGroup, android.view.View
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        Drawable drawable = this.overrideDrawable;
+        if (drawable instanceof ChatBackgroundDrawable) {
+            ((ChatBackgroundDrawable) drawable).onAttachedToWindow(this);
+        }
+    }
+
+    @Override // android.view.View
+    protected boolean verifyDrawable(Drawable drawable) {
+        return drawable == this.overrideDrawable || drawable == this.oldBackgroundDrawable || super.verifyDrawable(drawable);
     }
 
     @Override // android.widget.LinearLayout, android.view.View
@@ -833,7 +855,7 @@ public class ThemePreviewMessagesCell extends LinearLayout {
             invalidate();
         }
         if (drawable != this.backgroundDrawable && drawable != null) {
-            if (Theme.isAnimatingColor()) {
+            if (Theme.isAnimatingColor() || this.customAnimation) {
                 this.oldBackgroundDrawable = this.backgroundDrawable;
                 this.oldBackgroundGradientDisposable = this.backgroundGradientDisposable;
             } else {
@@ -844,13 +866,14 @@ public class ThemePreviewMessagesCell extends LinearLayout {
                 }
             }
             this.backgroundDrawable = drawable;
+            this.overrideDrawableUpdate.set(0.0f, true);
         }
-        float themeAnimationValue = this.parentLayout.getThemeAnimationValue();
+        float themeAnimationValue = this.customAnimation ? this.overrideDrawableUpdate.set(1.0f) : this.parentLayout.getThemeAnimationValue();
         int i = 0;
         while (i < 2) {
             Drawable drawable2 = i == 0 ? this.oldBackgroundDrawable : this.backgroundDrawable;
             if (drawable2 != null) {
-                int i2 = (i != 1 || this.oldBackgroundDrawable == null || this.parentLayout == null) ? 255 : (int) (255.0f * themeAnimationValue);
+                int i2 = (i != 1 || this.oldBackgroundDrawable == null || (this.parentLayout == null && !this.customAnimation)) ? 255 : (int) (255.0f * themeAnimationValue);
                 if (i2 > 0) {
                     drawable2.setAlpha(i2);
                     if ((drawable2 instanceof ColorDrawable) || (drawable2 instanceof GradientDrawable) || (drawable2 instanceof MotionBackgroundDrawable)) {
@@ -881,6 +904,8 @@ public class ThemePreviewMessagesCell extends LinearLayout {
                         }
                         drawable2.draw(canvas);
                         canvas.restore();
+                    } else {
+                        StoryEntry.drawBackgroundDrawable(canvas, drawable2, getWidth(), getHeight());
                     }
                     if (i == 0 && this.oldBackgroundDrawable != null && themeAnimationValue >= 1.0f) {
                         BackgroundGradientDrawable.Disposable disposable2 = this.oldBackgroundGradientDisposable;
@@ -917,6 +942,10 @@ public class ThemePreviewMessagesCell extends LinearLayout {
         if (disposable2 != null) {
             disposable2.dispose();
             this.oldBackgroundGradientDisposable = null;
+        }
+        Drawable drawable = this.overrideDrawable;
+        if (drawable instanceof ChatBackgroundDrawable) {
+            ((ChatBackgroundDrawable) drawable).onDetachedFromWindow(this);
         }
     }
 

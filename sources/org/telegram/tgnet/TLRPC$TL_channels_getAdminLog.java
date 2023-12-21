@@ -1,7 +1,7 @@
 package org.telegram.tgnet;
 
 import java.util.ArrayList;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_channels_getAdminLog extends TLObject {
     public ArrayList<TLRPC$InputUser> admins = new ArrayList<>();
     public TLRPC$InputChannel channel;

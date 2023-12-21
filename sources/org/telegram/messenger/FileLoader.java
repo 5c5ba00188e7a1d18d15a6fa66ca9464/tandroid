@@ -1116,7 +1116,7 @@ public class FileLoader extends BaseController {
                             } else if (i5 == 0) {
                                 directory2 = getDirectory(100);
                             } else {
-                                directory2 = getDirectory(MEDIA_DIR_VIDEO_PUBLIC);
+                                directory2 = getDirectory(101);
                             }
                             directory = directory4;
                             str5 = str2;

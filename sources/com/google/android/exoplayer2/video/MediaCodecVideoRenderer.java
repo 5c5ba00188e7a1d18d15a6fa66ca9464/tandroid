@@ -38,13 +38,10 @@ import com.google.common.collect.ImmutableList;
 import java.nio.ByteBuffer;
 import java.util.Collection;
 import java.util.List;
-import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.MediaController;
-import org.telegram.messenger.MessageObject;
-import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesStorage;
-import org.telegram.messenger.voip.VoIPService;
+import org.telegram.messenger.R;
 /* loaded from: classes.dex */
 public class MediaCodecVideoRenderer extends MediaCodecRenderer {
     private static final int[] STANDARD_LONG_EDGE_VIDEO_PX = {1920, 1600, 1440, 1280, 960, 854, 640, 540, 480};
@@ -1158,7 +1155,7 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:537:0x072a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:537:0x0735, code lost:
         if (r0.equals("ELUGA_Ray_X") == false) goto L46;
      */
     /*
@@ -2338,96 +2335,96 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
                             case 23:
                             case 24:
                             case 25:
-                            case MessageObject.TYPE_GIVEAWAY /* 26 */:
-                            case MessageObject.TYPE_JOINED_CHANNEL /* 27 */:
+                            case 26:
+                            case 27:
                             case 28:
                             case 29:
-                            case 30:
-                            case 31:
+                            case R.styleable.AppCompatTheme_actionModeTheme /* 30 */:
+                            case R.styleable.AppCompatTheme_actionModeWebSearchDrawable /* 31 */:
                             case ' ':
-                            case '!':
-                            case '\"':
-                            case '#':
-                            case '$':
-                            case '%':
-                            case '&':
-                            case '\'':
-                            case '(':
-                            case ')':
-                            case '*':
-                            case '+':
-                            case ',':
-                            case '-':
-                            case '.':
-                            case '/':
-                            case '0':
-                            case '1':
-                            case '2':
-                            case '3':
-                            case '4':
-                            case '5':
-                            case '6':
-                            case '7':
-                            case '8':
-                            case '9':
-                            case ':':
-                            case ';':
-                            case '<':
-                            case '=':
-                            case '>':
-                            case '?':
+                            case R.styleable.AppCompatTheme_actionOverflowMenuStyle /* 33 */:
+                            case R.styleable.AppCompatTheme_activityChooserViewStyle /* 34 */:
+                            case R.styleable.AppCompatTheme_alertDialogButtonGroupStyle /* 35 */:
+                            case R.styleable.AppCompatTheme_alertDialogCenterButtons /* 36 */:
+                            case R.styleable.AppCompatTheme_alertDialogStyle /* 37 */:
+                            case R.styleable.AppCompatTheme_alertDialogTheme /* 38 */:
+                            case R.styleable.AppCompatTheme_autoCompleteTextViewStyle /* 39 */:
+                            case R.styleable.AppCompatTheme_borderlessButtonStyle /* 40 */:
+                            case R.styleable.AppCompatTheme_buttonBarButtonStyle /* 41 */:
+                            case R.styleable.AppCompatTheme_buttonBarNegativeButtonStyle /* 42 */:
+                            case R.styleable.AppCompatTheme_buttonBarNeutralButtonStyle /* 43 */:
+                            case R.styleable.AppCompatTheme_buttonBarPositiveButtonStyle /* 44 */:
+                            case R.styleable.AppCompatTheme_buttonBarStyle /* 45 */:
+                            case R.styleable.AppCompatTheme_buttonStyle /* 46 */:
+                            case R.styleable.AppCompatTheme_buttonStyleSmall /* 47 */:
+                            case R.styleable.AppCompatTheme_checkboxStyle /* 48 */:
+                            case R.styleable.AppCompatTheme_checkedTextViewStyle /* 49 */:
+                            case R.styleable.AppCompatTheme_colorAccent /* 50 */:
+                            case R.styleable.AppCompatTheme_colorBackgroundFloating /* 51 */:
+                            case R.styleable.AppCompatTheme_colorButtonNormal /* 52 */:
+                            case R.styleable.AppCompatTheme_colorControlActivated /* 53 */:
+                            case R.styleable.AppCompatTheme_colorControlHighlight /* 54 */:
+                            case R.styleable.AppCompatTheme_colorControlNormal /* 55 */:
+                            case R.styleable.AppCompatTheme_colorError /* 56 */:
+                            case R.styleable.AppCompatTheme_colorPrimary /* 57 */:
+                            case R.styleable.AppCompatTheme_colorPrimaryDark /* 58 */:
+                            case R.styleable.AppCompatTheme_colorSwitchThumbNormal /* 59 */:
+                            case R.styleable.AppCompatTheme_controlBackground /* 60 */:
+                            case R.styleable.AppCompatTheme_dialogCornerRadius /* 61 */:
+                            case R.styleable.AppCompatTheme_dialogPreferredPadding /* 62 */:
+                            case R.styleable.AppCompatTheme_dialogTheme /* 63 */:
                             case '@':
-                            case VoIPService.CALL_MIN_LAYER /* 65 */:
-                            case 'B':
-                            case 'C':
-                            case 'D':
-                            case 'E':
-                            case 'F':
-                            case 'G':
-                            case 'H':
-                            case 'I':
-                            case 'J':
-                            case 'K':
-                            case 'L':
-                            case 'M':
-                            case 'N':
-                            case 'O':
-                            case MessagesController.DialogPhotos.STEP /* 80 */:
-                            case 'Q':
-                            case 'R':
-                            case 'S':
-                            case 'T':
-                            case 'U':
+                            case 'A':
+                            case R.styleable.AppCompatTheme_dropDownListViewStyle /* 66 */:
+                            case R.styleable.AppCompatTheme_dropdownListPreferredItemHeight /* 67 */:
+                            case R.styleable.AppCompatTheme_editTextBackground /* 68 */:
+                            case R.styleable.AppCompatTheme_editTextColor /* 69 */:
+                            case R.styleable.AppCompatTheme_editTextStyle /* 70 */:
+                            case R.styleable.AppCompatTheme_homeAsUpIndicator /* 71 */:
+                            case R.styleable.AppCompatTheme_imageButtonStyle /* 72 */:
+                            case R.styleable.AppCompatTheme_listChoiceBackgroundIndicator /* 73 */:
+                            case R.styleable.AppCompatTheme_listChoiceIndicatorMultipleAnimated /* 74 */:
+                            case R.styleable.AppCompatTheme_listChoiceIndicatorSingleAnimated /* 75 */:
+                            case R.styleable.AppCompatTheme_listDividerAlertDialog /* 76 */:
+                            case R.styleable.AppCompatTheme_listMenuViewStyle /* 77 */:
+                            case R.styleable.AppCompatTheme_listPopupWindowStyle /* 78 */:
+                            case R.styleable.AppCompatTheme_listPreferredItemHeight /* 79 */:
+                            case 'P':
+                            case R.styleable.AppCompatTheme_listPreferredItemHeightSmall /* 81 */:
+                            case R.styleable.AppCompatTheme_listPreferredItemPaddingEnd /* 82 */:
+                            case R.styleable.AppCompatTheme_listPreferredItemPaddingLeft /* 83 */:
+                            case R.styleable.AppCompatTheme_listPreferredItemPaddingRight /* 84 */:
+                            case R.styleable.AppCompatTheme_listPreferredItemPaddingStart /* 85 */:
                             case 'V':
-                            case 'W':
-                            case 'X':
-                            case 'Y':
-                            case 'Z':
-                            case '[':
-                            case '\\':
-                            case ']':
-                            case '^':
-                            case '_':
-                            case '`':
-                            case 'a':
-                            case 'b':
-                            case 'c':
-                            case FileLoader.MEDIA_DIR_IMAGE_PUBLIC /* 100 */:
-                            case FileLoader.MEDIA_DIR_VIDEO_PUBLIC /* 101 */:
-                            case 'f':
-                            case 'g':
-                            case 'h':
-                            case 'i':
-                            case 'j':
-                            case 'k':
-                            case 'l':
-                            case 'm':
-                            case 'n':
-                            case 'o':
-                            case 'p':
-                            case 'q':
-                            case 'r':
-                            case 's':
+                            case R.styleable.AppCompatTheme_panelMenuListTheme /* 87 */:
+                            case R.styleable.AppCompatTheme_panelMenuListWidth /* 88 */:
+                            case R.styleable.AppCompatTheme_popupMenuStyle /* 89 */:
+                            case R.styleable.AppCompatTheme_popupWindowStyle /* 90 */:
+                            case R.styleable.AppCompatTheme_radioButtonStyle /* 91 */:
+                            case R.styleable.AppCompatTheme_ratingBarStyle /* 92 */:
+                            case R.styleable.AppCompatTheme_ratingBarStyleIndicator /* 93 */:
+                            case R.styleable.AppCompatTheme_ratingBarStyleSmall /* 94 */:
+                            case R.styleable.AppCompatTheme_searchViewStyle /* 95 */:
+                            case R.styleable.AppCompatTheme_seekBarStyle /* 96 */:
+                            case R.styleable.AppCompatTheme_selectableItemBackground /* 97 */:
+                            case R.styleable.AppCompatTheme_selectableItemBackgroundBorderless /* 98 */:
+                            case R.styleable.AppCompatTheme_spinnerDropDownItemStyle /* 99 */:
+                            case 'd':
+                            case 'e':
+                            case R.styleable.AppCompatTheme_textAppearanceLargePopupMenu /* 102 */:
+                            case R.styleable.AppCompatTheme_textAppearanceListItem /* 103 */:
+                            case R.styleable.AppCompatTheme_textAppearanceListItemSecondary /* 104 */:
+                            case R.styleable.AppCompatTheme_textAppearanceListItemSmall /* 105 */:
+                            case R.styleable.AppCompatTheme_textAppearancePopupMenuHeader /* 106 */:
+                            case R.styleable.AppCompatTheme_textAppearanceSearchResultSubtitle /* 107 */:
+                            case R.styleable.AppCompatTheme_textAppearanceSearchResultTitle /* 108 */:
+                            case R.styleable.AppCompatTheme_textAppearanceSmallPopupMenu /* 109 */:
+                            case R.styleable.AppCompatTheme_textColorAlertDialogListItem /* 110 */:
+                            case R.styleable.AppCompatTheme_textColorSearchUrl /* 111 */:
+                            case R.styleable.AppCompatTheme_toolbarNavigationButtonStyle /* 112 */:
+                            case R.styleable.AppCompatTheme_toolbarStyle /* 113 */:
+                            case R.styleable.AppCompatTheme_tooltipForegroundColor /* 114 */:
+                            case R.styleable.AppCompatTheme_tooltipFrameBackground /* 115 */:
                             case 't':
                             case 'u':
                             case 'v':

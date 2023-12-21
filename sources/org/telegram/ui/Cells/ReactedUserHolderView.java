@@ -8,7 +8,9 @@ import android.graphics.Canvas;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
+import android.text.style.RelativeSizeSpan;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.DocumentObject;
 import org.telegram.messenger.Emoji;
+import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
@@ -30,17 +33,23 @@ import org.telegram.messenger.UserObject;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$ChatPhoto;
+import org.telegram.tgnet.TLRPC$Document;
+import org.telegram.tgnet.TLRPC$MessageMedia;
 import org.telegram.tgnet.TLRPC$MessagePeerReaction;
+import org.telegram.tgnet.TLRPC$Photo;
 import org.telegram.tgnet.TLRPC$Reaction;
 import org.telegram.tgnet.TLRPC$TL_availableReaction;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.tgnet.TLRPC$UserProfilePhoto;
+import org.telegram.tgnet.tl.TL_stories$StoryFwdHeader;
+import org.telegram.tgnet.tl.TL_stories$StoryItem;
 import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.AvatarDrawable;
 import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.CubicBezierInterpolator;
+import org.telegram.ui.Components.DotDividerSpan;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.MessageSeenCheckDrawable;
 import org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble;
@@ -50,7 +59,9 @@ import org.telegram.ui.Stories.StoriesUtilities;
 public class ReactedUserHolderView extends FrameLayout {
     public static int STYLE_DEFAULT = 0;
     public static int STYLE_STORY = 1;
+    public static final MessageSeenCheckDrawable forwardDrawable;
     public static final MessageSeenCheckDrawable reactDrawable;
+    public static final MessageSeenCheckDrawable repostDrawable;
     public static final MessageSeenCheckDrawable seenDrawable;
     private ValueAnimator alphaAnimator;
     private float alphaInternal;
@@ -64,6 +75,8 @@ public class ReactedUserHolderView extends FrameLayout {
     BackupImageView reactView;
     Theme.ResourcesProvider resourcesProvider;
     StatusBadgeComponent statusBadgeComponent;
+    public int storyId;
+    public BackupImageView storyPreviewView;
     int style;
     SimpleTextView subtitleView;
     SimpleTextView titleView;
@@ -76,6 +89,10 @@ public class ReactedUserHolderView extends FrameLayout {
         int i2 = Theme.key_windowBackgroundWhiteGrayText;
         seenDrawable = new MessageSeenCheckDrawable(i, i2);
         reactDrawable = new MessageSeenCheckDrawable(R.drawable.msg_reactions, i2, 16, 16, 5.66f);
+        int i3 = R.drawable.mini_repost_story;
+        int i4 = Theme.key_stories_circle1;
+        repostDrawable = new MessageSeenCheckDrawable(i3, i4);
+        forwardDrawable = new MessageSeenCheckDrawable(R.drawable.mini_forward_story, i4);
     }
 
     public ReactedUserHolderView(int i, int i2, Context context, Theme.ResourcesProvider resourcesProvider) {
@@ -154,6 +171,9 @@ public class ReactedUserHolderView extends FrameLayout {
         BackupImageView backupImageView2 = new BackupImageView(context);
         this.reactView = backupImageView2;
         addView(backupImageView2, LayoutHelper.createFrameRelatively(24.0f, 24.0f, 8388629, 0.0f, 0.0f, 12.0f, 0.0f));
+        BackupImageView backupImageView3 = new BackupImageView(context);
+        this.storyPreviewView = backupImageView3;
+        addView(backupImageView3, LayoutHelper.createFrameRelatively(22.0f, 35.0f, 8388629, 0.0f, 0.0f, 12.0f, 0.0f));
         if (z) {
             View view = new View(context);
             this.overlaySelectorView = view;
@@ -163,11 +183,26 @@ public class ReactedUserHolderView extends FrameLayout {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    public void setUserReaction(TLRPC$User tLRPC$User, TLRPC$Chat tLRPC$Chat, TLRPC$Reaction tLRPC$Reaction, boolean z, long j, boolean z2, boolean z3) {
+    /* JADX WARN: Removed duplicated region for block: B:64:0x01bb  */
+    /* JADX WARN: Removed duplicated region for block: B:67:0x01dd  */
+    /* JADX WARN: Removed duplicated region for block: B:95:0x02e7  */
+    /* JADX WARN: Removed duplicated region for block: B:98:0x02fe  */
+    /* JADX WARN: Removed duplicated region for block: B:99:0x0301  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public void setUserReaction(TLRPC$User tLRPC$User, TLRPC$Chat tLRPC$Chat, TLRPC$Reaction tLRPC$Reaction, boolean z, long j, TL_stories$StoryItem tL_stories$StoryItem, boolean z2, boolean z3, boolean z4) {
         TLRPC$ChatPhoto tLRPC$ChatPhoto;
         Drawable drawable;
         String formatString;
-        boolean z4;
+        boolean z5;
+        boolean z6;
+        long j2;
+        float f;
+        MessageSeenCheckDrawable messageSeenCheckDrawable;
+        TL_stories$StoryFwdHeader tL_stories$StoryFwdHeader;
+        TLRPC$Document tLRPC$Document;
+        TLRPC$Photo tLRPC$Photo;
         TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto;
         TLRPC$User tLRPC$User2 = tLRPC$User == null ? tLRPC$Chat : tLRPC$User;
         if (tLRPC$User2 == null) {
@@ -193,7 +228,7 @@ public class ReactedUserHolderView extends FrameLayout {
             this.reactView.setColorFilter(new PorterDuffColorFilter(-53704, PorterDuff.Mode.MULTIPLY));
             this.reactView.setImageDrawable(mutate);
             formatString = LocaleController.formatString("AccDescrLike", R.string.AccDescrLike, new Object[0]);
-            z4 = true;
+            z5 = true;
         } else if (tLRPC$Reaction != null) {
             ReactionsLayoutInBubble.VisibleReaction fromTLReaction = ReactionsLayoutInBubble.VisibleReaction.fromTLReaction(tLRPC$Reaction);
             if (fromTLReaction.emojicon != null) {
@@ -201,17 +236,17 @@ public class ReactedUserHolderView extends FrameLayout {
                 TLRPC$TL_availableReaction tLRPC$TL_availableReaction = MediaDataController.getInstance(this.currentAccount).getReactionsMap().get(fromTLReaction.emojicon);
                 if (tLRPC$TL_availableReaction != null) {
                     this.reactView.setImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction.center_icon), "40_40_lastreactframe", "webp", DocumentObject.getSvgThumb(tLRPC$TL_availableReaction.static_icon.thumbs, Theme.key_windowBackgroundGray, 1.0f), tLRPC$TL_availableReaction);
-                    z4 = true;
+                    z6 = true;
                 } else {
                     this.reactView.setImageDrawable(null);
-                    z4 = false;
+                    z6 = false;
                 }
                 this.reactView.setColorFilter(null);
             } else {
                 AnimatedEmojiDrawable animatedEmojiDrawable = new AnimatedEmojiDrawable(0, this.currentAccount, fromTLReaction.documentId);
                 animatedEmojiDrawable.setColorFilter(Theme.getAnimatedEmojiColorFilter(this.resourcesProvider));
                 this.reactView.setAnimatedEmojiDrawable(animatedEmojiDrawable);
-                z4 = true;
+                z6 = true;
             }
             int i = R.string.AccDescrReactedWith;
             Object[] objArr = new Object[2];
@@ -222,40 +257,105 @@ public class ReactedUserHolderView extends FrameLayout {
             }
             objArr[1] = obj;
             formatString = LocaleController.formatString("AccDescrReactedWith", i, objArr);
+            z5 = z6;
         } else {
             this.reactView.setAnimatedEmojiDrawable(null);
             this.reactView.setImageDrawable(null);
             formatString = LocaleController.formatString("AccDescrPersonHasSeen", R.string.AccDescrPersonHasSeen, this.titleView.getText());
-            z4 = false;
+            z5 = false;
         }
-        if (j != 0) {
-            formatString = formatString + " " + LocaleController.formatSeenDate(j);
-        }
-        setContentDescription(formatString);
-        float f = 0.0f;
-        if (j != 0) {
-            this.subtitleView.setVisibility(0);
-            this.subtitleView.setText(TextUtils.concat((z2 ? seenDrawable : reactDrawable).getSpanned(getContext(), this.resourcesProvider), LocaleController.formatSeenDate(j)));
-            this.subtitleView.setTranslationY(!z2 ? AndroidUtilities.dp(-1.0f) : 0.0f);
-            this.titleView.setTranslationY(0.0f);
-            if (z3) {
-                this.titleView.setTranslationY(AndroidUtilities.dp(9.0f));
-                this.titleView.animate().translationY(0.0f);
-                this.subtitleView.setAlpha(0.0f);
-                this.subtitleView.animate().alpha(1.0f);
+        if (tL_stories$StoryItem != null) {
+            this.storyId = tL_stories$StoryItem.id;
+            TLRPC$MessageMedia tLRPC$MessageMedia = tL_stories$StoryItem.media;
+            if (tLRPC$MessageMedia != null && (tLRPC$Photo = tLRPC$MessageMedia.photo) != null) {
+                this.storyPreviewView.setImage(ImageLocation.getForPhoto(FileLoader.getClosestPhotoSizeWithSize(tLRPC$Photo.sizes, 35, false, null, true), tL_stories$StoryItem.media.photo), "22_35", (ImageLocation) null, (String) null, -1, tL_stories$StoryItem);
+            } else if (tLRPC$MessageMedia != null && (tLRPC$Document = tLRPC$MessageMedia.document) != null) {
+                this.storyPreviewView.setImage(ImageLocation.getForDocument(FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 35, false, null, true), tL_stories$StoryItem.media.document), "22_35", (ImageLocation) null, (String) null, -1, tL_stories$StoryItem);
+            }
+            this.storyPreviewView.setRoundRadius(AndroidUtilities.dp(3.33f));
+            if (j <= 0) {
+                j2 = tL_stories$StoryItem.date;
+                if (j2 != 0) {
+                    formatString = formatString + " " + LocaleController.formatSeenDate(j2);
+                }
+                setContentDescription(formatString);
+                f = 0.0f;
+                if (j2 == 0) {
+                    this.subtitleView.setVisibility(0);
+                    if (tL_stories$StoryItem != null) {
+                        messageSeenCheckDrawable = z2 ? forwardDrawable : repostDrawable;
+                    } else if (z3) {
+                        messageSeenCheckDrawable = seenDrawable;
+                    } else {
+                        messageSeenCheckDrawable = reactDrawable;
+                    }
+                    SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
+                    spannableStringBuilder.append(messageSeenCheckDrawable.getSpanned(getContext(), this.resourcesProvider));
+                    spannableStringBuilder.append((CharSequence) LocaleController.formatSeenDate(j2));
+                    if (!z2 && tL_stories$StoryItem != null && !TextUtils.isEmpty(tL_stories$StoryItem.caption)) {
+                        spannableStringBuilder.append((CharSequence) "\u2004");
+                        spannableStringBuilder.append((CharSequence) ".");
+                        DotDividerSpan dotDividerSpan = new DotDividerSpan();
+                        dotDividerSpan.setSize(2.33333f);
+                        dotDividerSpan.setTopPadding(AndroidUtilities.dp(5.0f));
+                        spannableStringBuilder.setSpan(dotDividerSpan, spannableStringBuilder.length() - 1, spannableStringBuilder.length(), 33);
+                        spannableStringBuilder.append((CharSequence) "\u2004");
+                        int length = spannableStringBuilder.length();
+                        spannableStringBuilder.append((CharSequence) LocaleController.getString(R.string.StoryRepostCommented));
+                        spannableStringBuilder.setSpan(new RelativeSizeSpan(0.95f), length, spannableStringBuilder.length(), 33);
+                    } else if (!z2 && tL_stories$StoryItem != null && (tL_stories$StoryFwdHeader = tL_stories$StoryItem.fwd_from) != null && tL_stories$StoryFwdHeader.modified) {
+                        spannableStringBuilder.append((CharSequence) "\u2004");
+                        spannableStringBuilder.append((CharSequence) ".");
+                        DotDividerSpan dotDividerSpan2 = new DotDividerSpan();
+                        dotDividerSpan2.setSize(2.33333f);
+                        dotDividerSpan2.setTopPadding(AndroidUtilities.dp(5.0f));
+                        spannableStringBuilder.setSpan(dotDividerSpan2, spannableStringBuilder.length() - 1, spannableStringBuilder.length(), 33);
+                        spannableStringBuilder.append((CharSequence) "\u2004");
+                        int length2 = spannableStringBuilder.length();
+                        spannableStringBuilder.append((CharSequence) "edited");
+                        spannableStringBuilder.setSpan(new RelativeSizeSpan(0.95f), length2, spannableStringBuilder.length(), 33);
+                    }
+                    this.subtitleView.setText(spannableStringBuilder);
+                    this.subtitleView.setTranslationY(!z3 ? AndroidUtilities.dp(-1.0f) : 0.0f);
+                    this.titleView.setTranslationY(0.0f);
+                    if (z4) {
+                        this.titleView.setTranslationY(AndroidUtilities.dp(9.0f));
+                        this.titleView.animate().translationY(0.0f);
+                        this.subtitleView.setAlpha(0.0f);
+                        this.subtitleView.animate().alpha(1.0f);
+                    }
+                } else {
+                    this.subtitleView.setVisibility(8);
+                    this.titleView.setTranslationY(AndroidUtilities.dp(9.0f));
+                }
+                this.titleView.setRightPadding(AndroidUtilities.dp(!z5 ? 30.0f : 0.0f));
+                this.titleView.setTranslationX((z5 || !LocaleController.isRTL) ? 0.0f : AndroidUtilities.dp(30.0f));
+                ((ViewGroup.MarginLayoutParams) this.subtitleView.getLayoutParams()).rightMargin = AndroidUtilities.dp((z5 || LocaleController.isRTL) ? 12.0f : 36.0f);
+                SimpleTextView simpleTextView = this.subtitleView;
+                if (z5 && LocaleController.isRTL) {
+                    f = AndroidUtilities.dp(30.0f);
+                }
+                simpleTextView.setTranslationX(f);
             }
         } else {
-            this.subtitleView.setVisibility(8);
-            this.titleView.setTranslationY(AndroidUtilities.dp(9.0f));
+            this.storyId = -1;
+            this.storyPreviewView.setImageDrawable(null);
         }
-        this.titleView.setRightPadding(AndroidUtilities.dp(z4 ? 30.0f : 0.0f));
-        this.titleView.setTranslationX((z4 && LocaleController.isRTL) ? AndroidUtilities.dp(30.0f) : 0.0f);
-        ((ViewGroup.MarginLayoutParams) this.subtitleView.getLayoutParams()).rightMargin = AndroidUtilities.dp((!z4 || LocaleController.isRTL) ? 12.0f : 36.0f);
-        SimpleTextView simpleTextView = this.subtitleView;
-        if (z4 && LocaleController.isRTL) {
+        j2 = j;
+        if (j2 != 0) {
+        }
+        setContentDescription(formatString);
+        f = 0.0f;
+        if (j2 == 0) {
+        }
+        this.titleView.setRightPadding(AndroidUtilities.dp(!z5 ? 30.0f : 0.0f));
+        this.titleView.setTranslationX((z5 || !LocaleController.isRTL) ? 0.0f : AndroidUtilities.dp(30.0f));
+        ((ViewGroup.MarginLayoutParams) this.subtitleView.getLayoutParams()).rightMargin = AndroidUtilities.dp((z5 || LocaleController.isRTL) ? 12.0f : 36.0f);
+        SimpleTextView simpleTextView2 = this.subtitleView;
+        if (z5) {
             f = AndroidUtilities.dp(30.0f);
         }
-        simpleTextView.setTranslationX(f);
+        simpleTextView2.setTranslationX(f);
     }
 
     public void setUserReaction(TLRPC$MessagePeerReaction tLRPC$MessagePeerReaction) {
@@ -272,7 +372,7 @@ public class ReactedUserHolderView extends FrameLayout {
             chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-peerId));
             tLRPC$User = null;
         }
-        setUserReaction(tLRPC$User, chat, tLRPC$MessagePeerReaction.reaction, false, tLRPC$MessagePeerReaction.date, tLRPC$MessagePeerReaction.dateIsSeen, false);
+        setUserReaction(tLRPC$User, chat, tLRPC$MessagePeerReaction.reaction, false, tLRPC$MessagePeerReaction.date, null, false, tLRPC$MessagePeerReaction.dateIsSeen, false);
     }
 
     @Override // android.widget.FrameLayout, android.view.View

@@ -1,25 +1,25 @@
 package j$.util.stream;
 
-import j$.util.u;
+import j$.util.t;
 /* loaded from: classes2.dex */
 abstract class B3 {
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static j$.util.u b(e4 e4Var, j$.util.u uVar, long j, long j2) {
+    public static j$.util.t b(e4 e4Var, j$.util.t tVar, long j, long j2) {
         long d = d(j, j2);
         int i = z3.a[e4Var.ordinal()];
         if (i != 1) {
             if (i != 2) {
                 if (i != 3) {
                     if (i == 4) {
-                        return new u4((j$.util.t) uVar, j, d);
+                        return new u4((t.a) tVar, j, d);
                     }
                     throw new IllegalStateException("Unknown shape " + e4Var);
                 }
-                return new y4((j$.util.v) uVar, j, d);
+                return new y4((t.c) tVar, j, d);
             }
-            return new w4((u.a) uVar, j, d);
+            return new w4((t.b) tVar, j, d);
         }
-        return new C4(uVar, j, d);
+        return new C4(tVar, j, d);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

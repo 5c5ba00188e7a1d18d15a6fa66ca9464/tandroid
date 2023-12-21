@@ -1,5 +1,5 @@
 package org.telegram.tgnet;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public abstract class TLRPC$messages_SentEncryptedMessage extends TLObject {
     public int date;
     public TLRPC$EncryptedFile file;

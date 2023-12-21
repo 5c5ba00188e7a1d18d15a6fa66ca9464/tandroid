@@ -2,7 +2,7 @@ package j$.util.stream;
 
 import j$.util.function.Consumer;
 import j$.util.function.Predicate;
-import j$.util.u;
+import j$.util.t;
 import java.util.Objects;
 /* loaded from: classes2.dex */
 public abstract /* synthetic */ class o1 {
@@ -98,7 +98,7 @@ public abstract /* synthetic */ class o1 {
             Q4.a(u1Var.getClass(), "{0} calling Node.OfLong.forEachRemaining(Consumer)");
             throw null;
         } else {
-            ((j$.util.t) u1Var.spliterator()).forEachRemaining(consumer);
+            ((t.a) u1Var.spliterator()).forEachRemaining(consumer);
         }
     }
 
@@ -109,7 +109,7 @@ public abstract /* synthetic */ class o1 {
             Q4.a(w1Var.getClass(), "{0} calling Node.OfInt.forEachRemaining(Consumer)");
             throw null;
         } else {
-            ((u.a) w1Var.spliterator()).forEachRemaining(consumer);
+            ((t.b) w1Var.spliterator()).forEachRemaining(consumer);
         }
     }
 
@@ -120,7 +120,7 @@ public abstract /* synthetic */ class o1 {
             Q4.a(y1Var.getClass(), "{0} calling Node.OfLong.forEachRemaining(Consumer)");
             throw null;
         } else {
-            ((j$.util.v) y1Var.spliterator()).forEachRemaining(consumer);
+            ((t.c) y1Var.spliterator()).forEachRemaining(consumer);
         }
     }
 
@@ -129,12 +129,12 @@ public abstract /* synthetic */ class o1 {
             return u1Var;
         }
         long j3 = j2 - j;
-        j$.util.t tVar = (j$.util.t) u1Var.spliterator();
+        t.a aVar = (t.a) u1Var.spliterator();
         p1 j4 = x2.j(j3);
         j4.n(j3);
-        for (int i = 0; i < j && tVar.k(t1.a); i++) {
+        for (int i = 0; i < j && aVar.k(t1.a); i++) {
         }
-        for (int i2 = 0; i2 < j3 && tVar.k(j4); i2++) {
+        for (int i2 = 0; i2 < j3 && aVar.k(j4); i2++) {
         }
         j4.m();
         return j4.a();
@@ -145,12 +145,12 @@ public abstract /* synthetic */ class o1 {
             return w1Var;
         }
         long j3 = j2 - j;
-        u.a aVar = (u.a) w1Var.spliterator();
+        t.b bVar = (t.b) w1Var.spliterator();
         q1 p = x2.p(j3);
         p.n(j3);
-        for (int i = 0; i < j && aVar.g(v1.a); i++) {
+        for (int i = 0; i < j && bVar.g(v1.a); i++) {
         }
-        for (int i2 = 0; i2 < j3 && aVar.g(p); i2++) {
+        for (int i2 = 0; i2 < j3 && bVar.g(p); i2++) {
         }
         p.m();
         return p.a();
@@ -161,12 +161,12 @@ public abstract /* synthetic */ class o1 {
             return y1Var;
         }
         long j3 = j2 - j;
-        j$.util.v vVar = (j$.util.v) y1Var.spliterator();
+        t.c cVar = (t.c) y1Var.spliterator();
         r1 q = x2.q(j3);
         q.n(j3);
-        for (int i = 0; i < j && vVar.i(x1.a); i++) {
+        for (int i = 0; i < j && cVar.i(x1.a); i++) {
         }
-        for (int i2 = 0; i2 < j3 && vVar.i(q); i2++) {
+        for (int i2 = 0; i2 < j3 && cVar.i(q); i2++) {
         }
         q.m();
         return q.a();
@@ -176,7 +176,7 @@ public abstract /* synthetic */ class o1 {
         if (j == 0 && j2 == a1.count()) {
             return a1;
         }
-        j$.util.u spliterator = a1.spliterator();
+        j$.util.t spliterator = a1.spliterator();
         long j3 = j2 - j;
         s1 d = x2.d(j3, mVar);
         d.n(j3);
@@ -188,16 +188,16 @@ public abstract /* synthetic */ class o1 {
         return d.a();
     }
 
-    public static U r(j$.util.t tVar, boolean z) {
-        return new P(tVar, d4.c(tVar), z);
+    public static U r(t.a aVar, boolean z) {
+        return new P(aVar, d4.c(aVar), z);
     }
 
-    public static IntStream s(u.a aVar, boolean z) {
-        return new I0(aVar, d4.c(aVar), z);
+    public static IntStream s(t.b bVar, boolean z) {
+        return new I0(bVar, d4.c(bVar), z);
     }
 
-    public static e1 t(j$.util.v vVar, boolean z) {
-        return new a1(vVar, d4.c(vVar), z);
+    public static e1 t(t.c cVar, boolean z) {
+        return new a1(cVar, d4.c(cVar), z);
     }
 
     public static N4 u(j$.wrappers.D d, k1 k1Var) {
@@ -224,8 +224,8 @@ public abstract /* synthetic */ class o1 {
         return new l1(e4.REFERENCE, k1Var, new o(k1Var, predicate));
     }
 
-    public static Stream y(j$.util.u uVar, boolean z) {
-        Objects.requireNonNull(uVar);
-        return new b3(uVar, d4.c(uVar), z);
+    public static Stream y(j$.util.t tVar, boolean z) {
+        Objects.requireNonNull(tVar);
+        return new b3(tVar, d4.c(tVar), z);
     }
 }

@@ -1,5 +1,5 @@
 package org.telegram.tgnet;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_account_verifyPhone extends TLObject {
     public String phone_code;
     public String phone_code_hash;

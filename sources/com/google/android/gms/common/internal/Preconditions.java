@@ -87,6 +87,13 @@ public final class Preconditions {
         return str;
     }
 
+    public static long checkNotZero(long j) {
+        if (j != 0) {
+            return j;
+        }
+        throw new IllegalArgumentException("Given Long is zero");
+    }
+
     public static void checkState(boolean z, String str, Object... objArr) {
         if (!z) {
             throw new IllegalStateException(String.format(str, objArr));

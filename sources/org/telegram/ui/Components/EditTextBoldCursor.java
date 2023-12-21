@@ -42,7 +42,6 @@ import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.FileLoaderPriorityQueue;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
-import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.XiaomiUtilities;
@@ -134,7 +133,7 @@ public class EditTextBoldCursor extends EditTextEffects {
     }
 
     @Override // android.widget.TextView, android.view.View
-    @TargetApi(MessageObject.TYPE_GIVEAWAY)
+    @TargetApi(26)
     public int getAutofillType() {
         return 0;
     }
@@ -933,7 +932,7 @@ public class EditTextBoldCursor extends EditTextEffects {
                 if (this.allowDrawCursor && z) {
                     canvas.save();
                     if (getVerticalOffsetMethod != null) {
-                        if ((getGravity() & 112) != 48) {
+                        if ((getGravity() & R.styleable.AppCompatTheme_toolbarNavigationButtonStyle) != 48) {
                             totalPaddingTop = ((Integer) getVerticalOffsetMethod.invoke(this, Boolean.TRUE)).intValue();
                             canvas.translate(getPaddingLeft(), getExtendedPaddingTop() + totalPaddingTop);
                             Layout layout = getLayout();
@@ -988,7 +987,7 @@ public class EditTextBoldCursor extends EditTextEffects {
                         this.gradientDrawable.draw(canvas);
                         canvas.restore();
                     } else {
-                        if ((getGravity() & 112) != 48) {
+                        if ((getGravity() & R.styleable.AppCompatTheme_toolbarNavigationButtonStyle) != 48) {
                             totalPaddingTop = getTotalPaddingTop() - getExtendedPaddingTop();
                             canvas.translate(getPaddingLeft(), getExtendedPaddingTop() + totalPaddingTop);
                             Layout layout22 = getLayout();
@@ -1051,7 +1050,7 @@ public class EditTextBoldCursor extends EditTextEffects {
             try {
                 canvas.save();
                 if (getVerticalOffsetMethod != null) {
-                    if ((getGravity() & 112) != 48) {
+                    if ((getGravity() & R.styleable.AppCompatTheme_toolbarNavigationButtonStyle) != 48) {
                         totalPaddingTop2 = ((Integer) getVerticalOffsetMethod.invoke(this, Boolean.TRUE)).intValue();
                         canvas.translate(getPaddingLeft(), getExtendedPaddingTop() + totalPaddingTop2);
                         Layout layout3 = getLayout();
@@ -1108,7 +1107,7 @@ public class EditTextBoldCursor extends EditTextEffects {
                     canvas.restore();
                     this.cursorDrawn = false;
                 } else {
-                    if ((getGravity() & 112) != 48) {
+                    if ((getGravity() & R.styleable.AppCompatTheme_toolbarNavigationButtonStyle) != 48) {
                         totalPaddingTop2 = getTotalPaddingTop() - getExtendedPaddingTop();
                         canvas.translate(getPaddingLeft(), getExtendedPaddingTop() + totalPaddingTop2);
                         Layout layout322 = getLayout();

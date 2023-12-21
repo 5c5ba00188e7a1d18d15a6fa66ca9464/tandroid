@@ -1,7 +1,7 @@
 package org.telegram.tgnet;
 
 import java.util.ArrayList;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_groupCallParticipantVideoSourceGroup extends TLObject {
     public String semantics;
     public ArrayList<Integer> sources = new ArrayList<>();

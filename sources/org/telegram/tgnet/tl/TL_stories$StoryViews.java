@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import org.telegram.tgnet.AbstractSerializedData;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$ReactionCount;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public abstract class TL_stories$StoryViews extends TLObject {
     public int flags;
     public int forwards_count;

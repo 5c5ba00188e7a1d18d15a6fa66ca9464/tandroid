@@ -1,126 +1,85 @@
 package j$.util;
 
-import j$.util.Iterator;
-import j$.util.function.Consumer;
-import java.util.Collection;
-import java.util.Comparator;
+import j$.util.p;
+import j$.util.t;
 import java.util.Objects;
-import org.telegram.messenger.LiteMode;
-import org.telegram.tgnet.ConnectionsManager;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public class J implements u {
-    private final Collection a;
-    private java.util.Iterator b = null;
-    private final int c;
-    private long d;
-    private int e;
+public abstract class J {
+    private static final t a = new E();
+    private static final t.b b = new C();
+    private static final t.c c = new D();
+    private static final t.a d = new B();
 
-    public J(Collection collection, int i) {
-        this.a = collection;
-        this.c = (i & LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM) == 0 ? i | 64 | LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM : i;
-    }
-
-    @Override // j$.util.u
-    public boolean b(Consumer consumer) {
-        Objects.requireNonNull(consumer);
-        if (this.b == null) {
-            this.b = this.a.iterator();
-            this.d = this.a.size();
-        }
-        if (this.b.hasNext()) {
-            consumer.accept(this.b.next());
-            return true;
-        }
-        return false;
-    }
-
-    @Override // j$.util.u
-    public int characteristics() {
-        return this.c;
-    }
-
-    @Override // j$.util.u
-    public long estimateSize() {
-        if (this.b == null) {
-            this.b = this.a.iterator();
-            long size = this.a.size();
-            this.d = size;
-            return size;
-        }
-        return this.d;
-    }
-
-    @Override // j$.util.u
-    public void forEachRemaining(Consumer consumer) {
-        Objects.requireNonNull(consumer);
-        java.util.Iterator it = this.b;
-        if (it == null) {
-            it = this.a.iterator();
-            this.b = it;
-            this.d = this.a.size();
-        }
-        if (it instanceof Iterator) {
-            ((Iterator) it).forEachRemaining(consumer);
-        } else {
-            Iterator.-CC.$default$forEachRemaining(it, consumer);
-        }
-    }
-
-    @Override // j$.util.u
-    public Comparator getComparator() {
-        if (a.f(this, 4)) {
-            return null;
-        }
-        throw new IllegalStateException();
-    }
-
-    @Override // j$.util.u
-    public /* synthetic */ long getExactSizeIfKnown() {
-        return a.e(this);
-    }
-
-    @Override // j$.util.u
-    public /* synthetic */ boolean hasCharacteristics(int i) {
-        return a.f(this, i);
-    }
-
-    @Override // j$.util.u
-    public u trySplit() {
-        long j;
-        java.util.Iterator it = this.b;
-        if (it == null) {
-            it = this.a.iterator();
-            this.b = it;
-            j = this.a.size();
-            this.d = j;
-        } else {
-            j = this.d;
-        }
-        if (j <= 1 || !it.hasNext()) {
-            return null;
-        }
-        int i = this.e + 1024;
-        if (i > j) {
-            i = (int) j;
-        }
-        if (i > 33554432) {
-            i = ConnectionsManager.FileTypeVideo;
-        }
-        Object[] objArr = new Object[i];
-        int i2 = 0;
-        do {
-            objArr[i2] = it.next();
-            i2++;
-            if (i2 >= i) {
-                break;
+    private static void a(int i, int i2, int i3) {
+        if (i2 <= i3) {
+            if (i2 < 0) {
+                throw new ArrayIndexOutOfBoundsException(i2);
             }
-        } while (it.hasNext());
-        this.e = i2;
-        long j2 = this.d;
-        if (j2 != Long.MAX_VALUE) {
-            this.d = j2 - i2;
+            if (i3 > i) {
+                throw new ArrayIndexOutOfBoundsException(i3);
+            }
+            return;
         }
-        return new B(objArr, 0, i2, this.c);
+        throw new ArrayIndexOutOfBoundsException("origin(" + i2 + ") > fence(" + i3 + ")");
+    }
+
+    public static t.a b() {
+        return d;
+    }
+
+    public static t.b c() {
+        return b;
+    }
+
+    public static t.c d() {
+        return c;
+    }
+
+    public static t e() {
+        return a;
+    }
+
+    public static n f(t.a aVar) {
+        Objects.requireNonNull(aVar);
+        return new y(aVar);
+    }
+
+    public static p.a g(t.b bVar) {
+        Objects.requireNonNull(bVar);
+        return new w(bVar);
+    }
+
+    public static r h(t.c cVar) {
+        Objects.requireNonNull(cVar);
+        return new x(cVar);
+    }
+
+    public static java.util.Iterator i(t tVar) {
+        Objects.requireNonNull(tVar);
+        return new v(tVar);
+    }
+
+    public static t.a j(double[] dArr, int i, int i2, int i3) {
+        Objects.requireNonNull(dArr);
+        a(dArr.length, i, i2);
+        return new A(dArr, i, i2, i3);
+    }
+
+    public static t.b k(int[] iArr, int i, int i2, int i3) {
+        Objects.requireNonNull(iArr);
+        a(iArr.length, i, i2);
+        return new G(iArr, i, i2, i3);
+    }
+
+    public static t.c l(long[] jArr, int i, int i2, int i3) {
+        Objects.requireNonNull(jArr);
+        a(jArr.length, i, i2);
+        return new I(jArr, i, i2, i3);
+    }
+
+    public static t m(Object[] objArr, int i, int i2, int i3) {
+        Objects.requireNonNull(objArr);
+        a(objArr.length, i, i2);
+        return new z(objArr, i, i2, i3);
     }
 }

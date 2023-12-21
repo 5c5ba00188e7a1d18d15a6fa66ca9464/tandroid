@@ -3,14 +3,14 @@ package j$.util.stream;
 final class r2 extends s2 {
     private final Object[] h;
 
-    r2(r2 r2Var, j$.util.u uVar, long j, long j2) {
-        super(r2Var, uVar, j, j2, r2Var.h.length);
+    r2(r2 r2Var, j$.util.t tVar, long j, long j2) {
+        super(r2Var, tVar, j, j2, r2Var.h.length);
         this.h = r2Var.h;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public r2(j$.util.u uVar, y2 y2Var, Object[] objArr) {
-        super(uVar, y2Var, objArr.length);
+    public r2(j$.util.t tVar, y2 y2Var, Object[] objArr) {
+        super(tVar, y2Var, objArr.length);
         this.h = objArr;
     }
 
@@ -26,7 +26,7 @@ final class r2 extends s2 {
     }
 
     @Override // j$.util.stream.s2
-    s2 b(j$.util.u uVar, long j, long j2) {
-        return new r2(this, uVar, j, j2);
+    s2 b(j$.util.t tVar, long j, long j2) {
+        return new r2(this, tVar, j, j2);
     }
 }

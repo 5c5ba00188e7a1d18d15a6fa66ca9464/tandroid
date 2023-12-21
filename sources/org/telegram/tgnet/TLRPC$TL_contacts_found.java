@@ -1,7 +1,7 @@
 package org.telegram.tgnet;
 
 import java.util.ArrayList;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_contacts_found extends TLObject {
     public ArrayList<TLRPC$Peer> my_results = new ArrayList<>();
     public ArrayList<TLRPC$Peer> results = new ArrayList<>();

@@ -24,6 +24,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.ChatObject;
+import org.telegram.messenger.DialogObject;
 import org.telegram.messenger.Emoji;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageLoader;
@@ -42,8 +43,6 @@ import org.telegram.tgnet.TLRPC$ChatParticipants;
 import org.telegram.tgnet.TLRPC$EmojiStatus;
 import org.telegram.tgnet.TLRPC$TL_channelFull;
 import org.telegram.tgnet.TLRPC$TL_chatFull;
-import org.telegram.tgnet.TLRPC$TL_emojiStatus;
-import org.telegram.tgnet.TLRPC$TL_emojiStatusUntil;
 import org.telegram.tgnet.TLRPC$TL_forumTopic;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.tgnet.TLRPC$UserFull;
@@ -84,6 +83,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
     private ChatActivity parentFragment;
     private Theme.ResourcesProvider resourcesProvider;
     private int rightAvatarPadding;
+    private String rightDrawable2ContentDescription;
     private String rightDrawableContentDescription;
     private boolean rightDrawableIsScamOrVerified;
     private boolean secretChatTimer;
@@ -164,6 +164,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         this.allowShorterStatus = false;
         this.rightDrawableIsScamOrVerified = false;
         this.rightDrawableContentDescription = null;
+        this.rightDrawable2ContentDescription = null;
         this.resourcesProvider = resourcesProvider;
         boolean z2 = baseFragment instanceof ChatActivity;
         if (z2) {
@@ -601,6 +602,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         simpleTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         simpleTextView.setLeftDrawableTopPadding(-AndroidUtilities.dp(1.3f));
         simpleTextView.setRightDrawable(this.titleTextView.getRightDrawable());
+        simpleTextView.setRightDrawable2(this.titleTextView.getRightDrawable2());
         simpleTextView.setRightDrawableOutside(this.titleTextView.getRightDrawableOutside());
         simpleTextView.setLeftDrawable(this.titleTextView.getLeftDrawable());
         simpleTextView.setText(this.titleTextView.getText());
@@ -751,11 +753,11 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
             return;
         }
         if (drawable2 != null) {
-            this.rightDrawableContentDescription = LocaleController.getString("NotificationsMuted", R.string.NotificationsMuted);
+            this.rightDrawable2ContentDescription = LocaleController.getString("NotificationsMuted", R.string.NotificationsMuted);
         } else {
-            this.rightDrawableContentDescription = null;
+            this.rightDrawable2ContentDescription = null;
         }
-        this.titleTextView.setRightDrawable(drawable2);
+        this.titleTextView.setRightDrawable2(drawable2);
     }
 
     public void setTitle(CharSequence charSequence) {
@@ -768,53 +770,47 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         }
         this.titleTextView.setText(charSequence);
         if (z || z2) {
-            if (this.titleTextView.getRightDrawable() instanceof ScamDrawable) {
-                return;
+            if (!(this.titleTextView.getRightDrawable() instanceof ScamDrawable)) {
+                ScamDrawable scamDrawable = new ScamDrawable(11, !z ? 1 : 0);
+                scamDrawable.setColor(getThemedColor(Theme.key_actionBarDefaultSubtitle));
+                this.titleTextView.setRightDrawable2(scamDrawable);
+                this.rightDrawable2ContentDescription = LocaleController.getString("ScamMessage", R.string.ScamMessage);
+                this.rightDrawableIsScamOrVerified = true;
             }
-            ScamDrawable scamDrawable = new ScamDrawable(11, !z ? 1 : 0);
-            scamDrawable.setColor(getThemedColor(Theme.key_actionBarDefaultSubtitle));
-            this.titleTextView.setRightDrawable(scamDrawable);
-            this.rightDrawableContentDescription = LocaleController.getString("ScamMessage", R.string.ScamMessage);
-            this.rightDrawableIsScamOrVerified = true;
         } else if (z3) {
             Drawable mutate = getResources().getDrawable(R.drawable.verified_area).mutate();
             mutate.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_profile_verifiedBackground), PorterDuff.Mode.MULTIPLY));
             Drawable mutate2 = getResources().getDrawable(R.drawable.verified_check).mutate();
             mutate2.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_profile_verifiedCheck), PorterDuff.Mode.MULTIPLY));
-            this.titleTextView.setRightDrawable(new CombinedDrawable(mutate, mutate2));
+            this.titleTextView.setRightDrawable2(new CombinedDrawable(mutate, mutate2));
             this.rightDrawableIsScamOrVerified = true;
-            this.rightDrawableContentDescription = LocaleController.getString("AccDescrVerified", R.string.AccDescrVerified);
-        } else if (z4) {
-            boolean z6 = tLRPC$EmojiStatus instanceof TLRPC$TL_emojiStatus;
-            if (!z6 && (tLRPC$EmojiStatus instanceof TLRPC$TL_emojiStatusUntil)) {
-                int i = ((TLRPC$TL_emojiStatusUntil) tLRPC$EmojiStatus).until;
-                long currentTimeMillis = System.currentTimeMillis() / 1000;
-            }
+            this.rightDrawable2ContentDescription = LocaleController.getString("AccDescrVerified", R.string.AccDescrVerified);
+        } else if (this.titleTextView.getRightDrawable() instanceof ScamDrawable) {
+            this.titleTextView.setRightDrawable2(null);
+            this.rightDrawableIsScamOrVerified = false;
+            this.rightDrawable2ContentDescription = null;
+        }
+        if (z4 || DialogObject.getEmojiStatusDocumentId(tLRPC$EmojiStatus) != 0) {
             if ((this.titleTextView.getRightDrawable() instanceof AnimatedEmojiDrawable.WrapSizeDrawable) && (((AnimatedEmojiDrawable.WrapSizeDrawable) this.titleTextView.getRightDrawable()).getDrawable() instanceof AnimatedEmojiDrawable)) {
                 ((AnimatedEmojiDrawable) ((AnimatedEmojiDrawable.WrapSizeDrawable) this.titleTextView.getRightDrawable()).getDrawable()).removeView(this.titleTextView);
             }
-            if (z6) {
-                this.emojiStatusDrawable.set(((TLRPC$TL_emojiStatus) tLRPC$EmojiStatus).document_id, z5);
-            } else {
-                if (tLRPC$EmojiStatus instanceof TLRPC$TL_emojiStatusUntil) {
-                    TLRPC$TL_emojiStatusUntil tLRPC$TL_emojiStatusUntil = (TLRPC$TL_emojiStatusUntil) tLRPC$EmojiStatus;
-                    if (tLRPC$TL_emojiStatusUntil.until > ((int) (System.currentTimeMillis() / 1000))) {
-                        this.emojiStatusDrawable.set(tLRPC$TL_emojiStatusUntil.document_id, z5);
-                    }
-                }
+            if (DialogObject.getEmojiStatusDocumentId(tLRPC$EmojiStatus) != 0) {
+                this.emojiStatusDrawable.set(DialogObject.getEmojiStatusDocumentId(tLRPC$EmojiStatus), z5);
+            } else if (z4) {
                 Drawable mutate3 = ContextCompat.getDrawable(ApplicationLoader.applicationContext, R.drawable.msg_premium_liststar).mutate();
                 mutate3.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_profile_verifiedBackground), PorterDuff.Mode.MULTIPLY));
                 this.emojiStatusDrawable.set(mutate3, z5);
+            } else {
+                this.emojiStatusDrawable.set((Drawable) null, z5);
             }
             this.emojiStatusDrawable.setColor(Integer.valueOf(getThemedColor(Theme.key_profile_verifiedBackground)));
             this.titleTextView.setRightDrawable(this.emojiStatusDrawable);
-            this.rightDrawableIsScamOrVerified = true;
-            this.rightDrawableContentDescription = LocaleController.getString("AccDescrPremium", R.string.AccDescrPremium);
-        } else if (this.titleTextView.getRightDrawable() instanceof ScamDrawable) {
-            this.titleTextView.setRightDrawable((Drawable) null);
             this.rightDrawableIsScamOrVerified = false;
-            this.rightDrawableContentDescription = null;
+            this.rightDrawableContentDescription = LocaleController.getString("AccDescrPremium", R.string.AccDescrPremium);
+            return;
         }
+        this.titleTextView.setRightDrawable((Drawable) null);
+        this.rightDrawableContentDescription = null;
     }
 
     public void setSubtitle(CharSequence charSequence) {
@@ -1295,6 +1291,10 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         if (this.rightDrawableContentDescription != null) {
             sb.append(", ");
             sb.append(this.rightDrawableContentDescription);
+        }
+        if (this.rightDrawable2ContentDescription != null) {
+            sb.append(", ");
+            sb.append(this.rightDrawable2ContentDescription);
         }
         sb.append("\n");
         sb.append(this.subtitleTextView.getText());

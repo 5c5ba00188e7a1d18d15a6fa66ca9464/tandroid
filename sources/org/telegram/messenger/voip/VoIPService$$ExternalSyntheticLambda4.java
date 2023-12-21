@@ -1,5 +1,5 @@
 package org.telegram.messenger.voip;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public final /* synthetic */ class VoIPService$$ExternalSyntheticLambda4 implements Runnable {
     public final /* synthetic */ NativeInstance f$0;
 

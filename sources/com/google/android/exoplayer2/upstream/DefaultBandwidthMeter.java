@@ -11,12 +11,9 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import java.util.HashMap;
 import java.util.Map;
-import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.ImageReceiver;
-import org.telegram.messenger.MessageObject;
-import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesStorage;
-import org.telegram.messenger.voip.VoIPService;
+import org.telegram.messenger.R;
 /* loaded from: classes.dex */
 public final class DefaultBandwidthMeter implements BandwidthMeter, TransferListener {
     private static DefaultBandwidthMeter singletonInstance;
@@ -1666,7 +1663,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
         }
         switch (c) {
             case 0:
-            case '1':
+            case R.styleable.AppCompatTheme_checkedTextViewStyle /* 49 */:
                 return new int[]{2, 2, 0, 0, 2, 2};
             case 1:
                 return new int[]{1, 4, 3, 4, 4, 2};
@@ -1679,8 +1676,8 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
             case 16:
             case 25:
             case 28:
-            case '8':
-            case 'D':
+            case R.styleable.AppCompatTheme_colorError /* 56 */:
+            case R.styleable.AppCompatTheme_editTextBackground /* 68 */:
                 return new int[]{0, 2, 0, 0, 2, 2};
             case 5:
                 return new int[]{1, 1, 1, 3, 2, 2};
@@ -1689,7 +1686,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
             case 7:
                 return new int[]{4, 4, 4, 3, 2, 2};
             case '\b':
-            case '>':
+            case R.styleable.AppCompatTheme_dialogPreferredPadding /* 62 */:
             case 188:
                 return new int[]{4, 2, 2, 2, 2, 2};
             case '\t':
@@ -1699,10 +1696,10 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
             case 11:
                 return new int[]{0, 2, 1, 1, 3, 0};
             case '\f':
-            case 'U':
+            case R.styleable.AppCompatTheme_listPreferredItemPaddingStart /* 85 */:
                 return new int[]{1, 2, 4, 4, 2, 2};
             case '\r':
-            case '2':
+            case R.styleable.AppCompatTheme_colorAccent /* 50 */:
             case 'x':
             case 140:
             case 143:
@@ -1712,10 +1709,10 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 return new int[]{0, 2, 2, 2, 2, 2};
             case 14:
             case 19:
-            case ':':
+            case R.styleable.AppCompatTheme_colorPrimaryDark /* 58 */:
                 return new int[]{3, 3, 4, 4, 2, 2};
             case 15:
-            case '^':
+            case R.styleable.AppCompatTheme_ratingBarStyleSmall /* 94 */:
                 return new int[]{1, 1, 1, 1, 2, 2};
             case 17:
             case 't':
@@ -1723,14 +1720,14 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
             case 18:
                 return new int[]{0, 1, 4, 4, 3, 2};
             case 20:
-            case '?':
-            case 'S':
+            case R.styleable.AppCompatTheme_dialogTheme /* 63 */:
+            case R.styleable.AppCompatTheme_listPreferredItemPaddingLeft /* 83 */:
             case 189:
                 return new int[]{0, 0, 0, 0, 1, 2};
             case 21:
                 return new int[]{1, 3, 1, 4, 4, 2};
             case 22:
-            case '[':
+            case R.styleable.AppCompatTheme_radioButtonStyle /* 91 */:
             case 133:
             case 153:
             case 204:
@@ -1743,171 +1740,171 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
             case 132:
             case 175:
                 return new int[]{1, 2, 2, 2, 2, 2};
-            case MessageObject.TYPE_GIVEAWAY /* 26 */:
+            case 26:
                 return new int[]{3, 2, 0, 1, 2, 2};
-            case MessageObject.TYPE_JOINED_CHANNEL /* 27 */:
+            case 27:
                 return new int[]{1, 2, 3, 2, 2, 2};
             case 29:
                 return new int[]{1, 1, 2, 1, 1, 0};
-            case 30:
+            case R.styleable.AppCompatTheme_actionModeTheme /* 30 */:
             case 'v':
                 return new int[]{3, 2, 1, 2, 2, 2};
-            case 31:
+            case R.styleable.AppCompatTheme_actionModeWebSearchDrawable /* 31 */:
             case ImageReceiver.DEFAULT_CROSSFADE_DURATION /* 150 */:
             case 231:
                 return new int[]{3, 1, 2, 1, 2, 2};
             case ' ':
                 return new int[]{3, 2, 1, 0, 2, 2};
-            case '!':
+            case R.styleable.AppCompatTheme_actionOverflowMenuStyle /* 33 */:
                 return new int[]{1, 1, 2, 3, 2, 2};
-            case '\"':
-            case ')':
+            case R.styleable.AppCompatTheme_activityChooserViewStyle /* 34 */:
+            case R.styleable.AppCompatTheme_buttonBarButtonStyle /* 41 */:
                 return new int[]{2, 2, 2, 1, 2, 2};
-            case '#':
+            case R.styleable.AppCompatTheme_alertDialogButtonGroupStyle /* 35 */:
                 return new int[]{0, 2, 3, 3, 3, 3};
-            case '$':
-            case 'o':
+            case R.styleable.AppCompatTheme_alertDialogCenterButtons /* 36 */:
+            case R.styleable.AppCompatTheme_textColorSearchUrl /* 111 */:
                 return new int[]{4, 3, 3, 2, 2, 2};
-            case '%':
+            case R.styleable.AppCompatTheme_alertDialogStyle /* 37 */:
             case 183:
                 return new int[]{4, 2, 4, 2, 2, 2};
-            case '&':
-            case 'L':
+            case R.styleable.AppCompatTheme_alertDialogTheme /* 38 */:
+            case R.styleable.AppCompatTheme_listDividerAlertDialog /* 76 */:
                 return new int[]{3, 3, 3, 3, 2, 2};
-            case '\'':
+            case R.styleable.AppCompatTheme_autoCompleteTextViewStyle /* 39 */:
                 return new int[]{0, 0, 0, 0, 0, 3};
-            case '(':
-            case '=':
+            case R.styleable.AppCompatTheme_borderlessButtonStyle /* 40 */:
+            case R.styleable.AppCompatTheme_dialogCornerRadius /* 61 */:
                 return new int[]{3, 4, 3, 3, 2, 2};
-            case '*':
+            case R.styleable.AppCompatTheme_buttonBarNegativeButtonStyle /* 42 */:
                 return new int[]{1, 1, 2, 1, 3, 2};
-            case '+':
+            case R.styleable.AppCompatTheme_buttonBarNeutralButtonStyle /* 43 */:
                 return new int[]{4, 3, 3, 4, 2, 2};
-            case ',':
+            case R.styleable.AppCompatTheme_buttonBarPositiveButtonStyle /* 44 */:
                 return new int[]{2, 0, 4, 3, 3, 1};
-            case '-':
+            case R.styleable.AppCompatTheme_buttonBarStyle /* 45 */:
                 return new int[]{2, 3, 4, 2, 2, 2};
-            case '.':
+            case R.styleable.AppCompatTheme_buttonStyle /* 46 */:
                 return new int[]{2, 4, 4, 4, 2, 2};
-            case '/':
-            case 'n':
+            case R.styleable.AppCompatTheme_buttonStyleSmall /* 47 */:
+            case R.styleable.AppCompatTheme_textColorAlertDialogListItem /* 110 */:
                 return new int[]{4, 2, 4, 3, 2, 2};
-            case '0':
+            case R.styleable.AppCompatTheme_checkboxStyle /* 48 */:
                 return new int[]{2, 3, 0, 1, 2, 2};
-            case '3':
-            case 'Z':
+            case R.styleable.AppCompatTheme_colorBackgroundFloating /* 51 */:
+            case R.styleable.AppCompatTheme_popupWindowStyle /* 90 */:
             case '~':
                 return new int[]{1, 0, 0, 0, 0, 2};
-            case '4':
+            case R.styleable.AppCompatTheme_colorButtonNormal /* 52 */:
                 return new int[]{0, 0, 2, 0, 1, 2};
-            case '5':
+            case R.styleable.AppCompatTheme_colorControlActivated /* 53 */:
                 return new int[]{0, 1, 3, 2, 2, 2};
-            case '6':
+            case R.styleable.AppCompatTheme_colorControlHighlight /* 54 */:
             case 201:
             case 207:
                 return new int[]{4, 3, 4, 4, 2, 2};
-            case '7':
-            case '<':
-            case '\\':
+            case R.styleable.AppCompatTheme_colorControlNormal /* 55 */:
+            case R.styleable.AppCompatTheme_controlBackground /* 60 */:
+            case R.styleable.AppCompatTheme_ratingBarStyle /* 92 */:
             case '|':
             case 144:
                 return new int[]{0, 0, 0, 0, 0, 2};
-            case '9':
+            case R.styleable.AppCompatTheme_colorPrimary /* 57 */:
                 return new int[]{3, 4, 4, 4, 4, 2};
-            case ';':
+            case R.styleable.AppCompatTheme_colorSwitchThumbNormal /* 59 */:
                 return new int[]{1, 3, 2, 1, 2, 2};
             case '@':
             case 194:
                 return new int[]{4, 4, 3, 2, 2, 2};
-            case VoIPService.CALL_MIN_LAYER /* 65 */:
+            case 'A':
                 return new int[]{0, 0, 0, 2, 0, 2};
-            case 'B':
+            case R.styleable.AppCompatTheme_dropDownListViewStyle /* 66 */:
                 return new int[]{3, 1, 2, 3, 2, 2};
-            case 'C':
+            case R.styleable.AppCompatTheme_dropdownListPreferredItemHeight /* 67 */:
                 return new int[]{4, 2, 3, 0, 2, 2};
-            case 'E':
+            case R.styleable.AppCompatTheme_editTextColor /* 69 */:
                 return new int[]{1, 1, 2, 1, 1, 2};
-            case 'F':
+            case R.styleable.AppCompatTheme_editTextStyle /* 70 */:
             case 205:
                 return new int[]{3, 4, 1, 0, 2, 2};
-            case 'G':
+            case R.styleable.AppCompatTheme_homeAsUpIndicator /* 71 */:
                 return new int[]{0, 1, 1, 2, 1, 2};
-            case 'H':
-            case 'p':
-            case 's':
+            case R.styleable.AppCompatTheme_imageButtonStyle /* 72 */:
+            case R.styleable.AppCompatTheme_toolbarNavigationButtonStyle /* 112 */:
+            case R.styleable.AppCompatTheme_tooltipFrameBackground /* 115 */:
             case 'w':
             case 200:
             case 224:
                 return new int[]{1, 2, 0, 0, 2, 2};
-            case 'I':
+            case R.styleable.AppCompatTheme_listChoiceBackgroundIndicator /* 73 */:
                 return new int[]{1, 0, 0, 2, 2, 2};
-            case 'J':
+            case R.styleable.AppCompatTheme_listChoiceIndicatorMultipleAnimated /* 74 */:
             case 168:
             case 192:
                 return new int[]{3, 2, 3, 3, 2, 2};
-            case 'K':
+            case R.styleable.AppCompatTheme_listChoiceIndicatorSingleAnimated /* 75 */:
                 return new int[]{0, 2, 1, 0, 2, 2};
-            case 'M':
-            case 'g':
+            case R.styleable.AppCompatTheme_listMenuViewStyle /* 77 */:
+            case R.styleable.AppCompatTheme_textAppearanceListItem /* 103 */:
                 return new int[]{1, 2, 0, 1, 2, 2};
-            case 'N':
+            case R.styleable.AppCompatTheme_listPopupWindowStyle /* 78 */:
             case 208:
                 return new int[]{2, 2, 2, 4, 2, 2};
-            case 'O':
+            case R.styleable.AppCompatTheme_listPreferredItemHeight /* 79 */:
                 return new int[]{4, 3, 2, 4, 2, 2};
-            case MessagesController.DialogPhotos.STEP /* 80 */:
+            case 'P':
                 return new int[]{4, 4, 4, 2, 2, 2};
-            case 'Q':
+            case R.styleable.AppCompatTheme_listPreferredItemHeightSmall /* 81 */:
                 return new int[]{3, 1, 1, 3, 2, 2};
-            case 'R':
+            case R.styleable.AppCompatTheme_listPreferredItemPaddingEnd /* 82 */:
                 return new int[]{4, 4, 3, 3, 2, 2};
-            case 'T':
+            case R.styleable.AppCompatTheme_listPreferredItemPaddingRight /* 84 */:
                 return new int[]{2, 2, 2, 1, 1, 2};
             case 'V':
                 return new int[]{4, 4, 2, 2, 2, 2};
-            case 'W':
+            case R.styleable.AppCompatTheme_panelMenuListTheme /* 87 */:
                 return new int[]{3, 0, 1, 1, 2, 2};
-            case 'X':
+            case R.styleable.AppCompatTheme_panelMenuListWidth /* 88 */:
                 return new int[]{0, 1, 1, 3, 2, 0};
-            case 'Y':
+            case R.styleable.AppCompatTheme_popupMenuStyle /* 89 */:
                 return new int[]{3, 3, 2, 2, 2, 2};
-            case ']':
+            case R.styleable.AppCompatTheme_ratingBarStyleIndicator /* 93 */:
                 return new int[]{3, 1, 1, 2, 3, 2};
-            case '_':
+            case R.styleable.AppCompatTheme_searchViewStyle /* 95 */:
                 return new int[]{1, 2, 2, 3, 4, 2};
-            case '`':
+            case R.styleable.AppCompatTheme_seekBarStyle /* 96 */:
                 return new int[]{0, 2, 0, 1, 2, 2};
-            case 'a':
+            case R.styleable.AppCompatTheme_selectableItemBackground /* 97 */:
                 return new int[]{1, 1, 2, 1, 2, 1};
-            case 'b':
+            case R.styleable.AppCompatTheme_selectableItemBackgroundBorderless /* 98 */:
             case 215:
             case 230:
                 return new int[]{4, 2, 2, 4, 2, 2};
-            case 'c':
+            case R.styleable.AppCompatTheme_spinnerDropDownItemStyle /* 99 */:
             case 190:
                 return new int[]{3, 2, 2, 2, 2, 2};
-            case FileLoader.MEDIA_DIR_IMAGE_PUBLIC /* 100 */:
+            case 'd':
                 return new int[]{4, 2, 3, 3, 4, 2};
-            case FileLoader.MEDIA_DIR_VIDEO_PUBLIC /* 101 */:
+            case 'e':
                 return new int[]{0, 0, 1, 0, 0, 2};
-            case 'f':
+            case R.styleable.AppCompatTheme_textAppearanceLargePopupMenu /* 102 */:
                 return new int[]{0, 0, 1, 1, 1, 2};
-            case 'h':
+            case R.styleable.AppCompatTheme_textAppearanceListItemSecondary /* 104 */:
                 return new int[]{2, 4, 2, 1, 2, 2};
-            case 'i':
+            case R.styleable.AppCompatTheme_textAppearanceListItemSmall /* 105 */:
                 return new int[]{2, 0, 1, 1, 2, 2};
-            case 'j':
+            case R.styleable.AppCompatTheme_textAppearancePopupMenuHeader /* 106 */:
                 return new int[]{0, 3, 3, 3, 4, 4};
-            case 'k':
+            case R.styleable.AppCompatTheme_textAppearanceSearchResultSubtitle /* 107 */:
                 return new int[]{3, 2, 2, 1, 2, 2};
-            case 'l':
+            case R.styleable.AppCompatTheme_textAppearanceSearchResultTitle /* 108 */:
             case 141:
                 return new int[]{2, 1, 1, 2, 2, 2};
-            case 'm':
+            case R.styleable.AppCompatTheme_textAppearanceSmallPopupMenu /* 109 */:
                 return new int[]{1, 0, 4, 2, 2, 2};
-            case 'q':
+            case R.styleable.AppCompatTheme_toolbarStyle /* 113 */:
                 return new int[]{0, 2, 2, 4, 4, 4};
-            case 'r':
+            case R.styleable.AppCompatTheme_tooltipForegroundColor /* 114 */:
                 return new int[]{1, 0, 1, 0, 0, 2};
             case 'u':
                 return new int[]{1, 2, 1, 3, 2, 2};

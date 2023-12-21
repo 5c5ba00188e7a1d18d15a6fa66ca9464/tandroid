@@ -9,7 +9,7 @@ import android.os.Bundle;
 import androidx.core.app.BundleCompat;
 import androidx.core.content.ContextCompat;
 import java.util.ArrayList;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public final class CustomTabsIntent {
     public final Intent intent;
     public final Bundle startAnimationBundle;
@@ -24,7 +24,7 @@ public final class CustomTabsIntent {
         this.startAnimationBundle = bundle;
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static final class Builder {
         private ArrayList<Bundle> mActionButtons;
         private boolean mInstantAppsEnabled;

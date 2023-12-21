@@ -5,9 +5,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class CycleDetector {
+class CycleDetector {
 
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */

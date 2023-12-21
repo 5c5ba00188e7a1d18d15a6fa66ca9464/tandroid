@@ -82,8 +82,8 @@ public class c2 implements w1 {
     }
 
     @Override // j$.util.stream.z1, j$.util.stream.A1
-    public j$.util.w spliterator() {
-        return j$.util.L.k(this.a, 0, this.b, 1040);
+    public j$.util.u spliterator() {
+        return j$.util.J.k(this.a, 0, this.b, 1040);
     }
 
     public String toString() {
@@ -97,7 +97,7 @@ public class c2 implements w1 {
     }
 
     @Override // j$.util.stream.z1, j$.util.stream.A1
-    public j$.util.u spliterator() {
-        return j$.util.L.k(this.a, 0, this.b, 1040);
+    public j$.util.t spliterator() {
+        return j$.util.J.k(this.a, 0, this.b, 1040);
     }
 }

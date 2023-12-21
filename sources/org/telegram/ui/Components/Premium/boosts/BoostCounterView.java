@@ -88,14 +88,19 @@ public class BoostCounterView extends View {
             animateCount();
         }
         this.lastCount = i;
+        int length = this.countText.getText().length();
         AnimatedTextView.AnimatedTextDrawable animatedTextDrawable = this.countText;
         animatedTextDrawable.setText("x" + i, z);
+        int length2 = this.countText.getText().length();
         invalidate();
+        if (length != length2) {
+            requestLayout();
+        }
     }
 
     @Override // android.view.View
     protected void onMeasure(int i, int i2) {
-        super.onMeasure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(26.0f), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(26.0f), 1073741824));
+        super.onMeasure(View.MeasureSpec.makeMeasureSpec((int) (AndroidUtilities.dp(15.0f) + this.countText.getWidth()), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(26.0f), 1073741824));
     }
 
     @Override // android.view.View
@@ -104,7 +109,7 @@ public class BoostCounterView extends View {
         canvas.save();
         canvas.translate(AndroidUtilities.dp(3.0f), AndroidUtilities.dp(3.0f));
         Rect rect = AndroidUtilities.rectTmp2;
-        rect.set(0, 0, AndroidUtilities.dp(20.0f), AndroidUtilities.dp(20.0f));
+        rect.set(0, 0, AndroidUtilities.dp(8.0f) + ((int) this.countText.getCurrentWidth()), AndroidUtilities.dp(20.0f));
         RectF rectF = AndroidUtilities.rectTmp;
         rectF.set(rect);
         if (this.countScale != 1.0f) {
@@ -113,7 +118,7 @@ public class BoostCounterView extends View {
             canvas.scale(f, f, rect.centerX(), rect.centerY());
         }
         canvas.drawRoundRect(rectF, AndroidUtilities.dp(10.0f), AndroidUtilities.dp(10.0f), this.bgPaint);
-        rect.set(0, 0, AndroidUtilities.dp(20.0f), AndroidUtilities.dp(19.0f));
+        rect.set(0, 0, (int) rectF.width(), AndroidUtilities.dp(19.0f));
         this.countText.setBounds(rect);
         this.countText.draw(canvas);
         if (this.countScale != 1.0f) {

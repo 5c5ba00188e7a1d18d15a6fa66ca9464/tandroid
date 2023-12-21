@@ -266,6 +266,10 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x008b  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public void postDrawInternal(Canvas canvas, View view) {
         ActionBar actionBar;
         boolean z = this.showShadow;
@@ -280,6 +284,9 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
                     this.headerShadowDrawable.setBounds(this.backgroundPaddingLeft, this.actionBar.getBottom(), view.getMeasuredWidth() - this.backgroundPaddingLeft, this.actionBar.getBottom() + this.headerShadowDrawable.getIntrinsicHeight());
                     this.headerShadowDrawable.setAlpha((int) (this.actionBar.getAlpha() * 255.0f * this.shadowAlpha));
                     this.headerShadowDrawable.draw(canvas);
+                    if (this.headerShadowDrawable.getAlpha() < 255) {
+                        view.invalidate();
+                    }
                 }
                 this.wasDrawn = true;
             }
@@ -297,6 +304,8 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
             this.headerShadowDrawable.setBounds(this.backgroundPaddingLeft, this.actionBar.getBottom(), view.getMeasuredWidth() - this.backgroundPaddingLeft, this.actionBar.getBottom() + this.headerShadowDrawable.getIntrinsicHeight());
             this.headerShadowDrawable.setAlpha((int) (this.actionBar.getAlpha() * 255.0f * this.shadowAlpha));
             this.headerShadowDrawable.draw(canvas);
+            if (this.headerShadowDrawable.getAlpha() < 255) {
+            }
         }
         this.wasDrawn = true;
     }

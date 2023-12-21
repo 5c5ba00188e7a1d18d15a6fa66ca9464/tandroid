@@ -1,5 +1,5 @@
 package org.telegram.tgnet;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public abstract class TLRPC$BotInlineResult extends TLObject {
     public TLRPC$WebDocument content;
     public String description;

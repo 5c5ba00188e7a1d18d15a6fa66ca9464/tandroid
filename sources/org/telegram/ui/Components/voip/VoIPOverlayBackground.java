@@ -11,6 +11,7 @@ import androidx.core.graphics.ColorUtils;
 import androidx.palette.graphics.Palette;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ImageReceiver;
+import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
 /* loaded from: classes4.dex */
 public class VoIPOverlayBackground extends ImageView {
@@ -19,7 +20,7 @@ public class VoIPOverlayBackground extends ImageView {
 
     public VoIPOverlayBackground(Context context) {
         super(context);
-        ColorUtils.setAlphaComponent(-16777216, 102);
+        ColorUtils.setAlphaComponent(-16777216, R.styleable.AppCompatTheme_textAppearanceLargePopupMenu);
         setScaleType(ImageView.ScaleType.CENTER_CROP);
     }
 
@@ -27,7 +28,7 @@ public class VoIPOverlayBackground extends ImageView {
     protected void onDraw(Canvas canvas) {
         float f = this.blackoutProgress;
         if (f == 1.0f) {
-            canvas.drawColor(ColorUtils.setAlphaComponent(-16777216, 102));
+            canvas.drawColor(ColorUtils.setAlphaComponent(-16777216, R.styleable.AppCompatTheme_textAppearanceLargePopupMenu));
         } else if (f == 0.0f) {
             setImageAlpha(255);
             super.onDraw(canvas);

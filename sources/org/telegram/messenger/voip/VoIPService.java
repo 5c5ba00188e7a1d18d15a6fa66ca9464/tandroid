@@ -207,7 +207,7 @@ import org.webrtc.VideoFrame;
 import org.webrtc.VideoSink;
 import org.webrtc.voiceengine.WebRtcAudioTrack;
 @SuppressLint({"NewApi"})
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class VoIPService extends Service implements SensorEventListener, AudioManager.OnAudioFocusChangeListener, VoIPController.ConnectionStateListener, NotificationCenter.NotificationCenterDelegate {
     public static final String ACTION_HEADSET_PLUG = "android.intent.action.HEADSET_PLUG";
     public static final int AUDIO_ROUTE_BLUETOOTH = 2;
@@ -466,17 +466,17 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
     private String[] currentBackgroundEndpointId = new String[2];
     private HashMap<String, ProxyVideoSink> remoteSinks = new HashMap<>();
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class SharedUIParams {
         public boolean cameraAlertWasShowed;
         public boolean tapToVideoTooltipWasShowed;
         public boolean wasVideoCall;
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public interface StateListener {
 
-        /* loaded from: classes.dex */
+        /* loaded from: classes3.dex */
         public final /* synthetic */ class -CC {
             public static void $default$onAudioSettingsChanged(StateListener stateListener) {
             }
@@ -545,7 +545,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public class 1 implements Runnable {
         1() {
         }
@@ -710,7 +710,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public class 5 implements VideoSink {
         final /* synthetic */ String val$endpointId;
         final /* synthetic */ boolean val$screencast;
@@ -777,7 +777,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class ProxyVideoSink implements VideoSink {
         private VideoSink background;
         private long nativeInstance;
@@ -1761,8 +1761,8 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:34:0x0053 A[Catch: Exception -> 0x0073, TRY_ENTER, TryCatch #0 {Exception -> 0x0073, blocks: (B:34:0x0053, B:36:0x005d, B:39:0x0062, B:41:0x006f, B:40:0x0066), top: B:46:0x0051 }] */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x0066 A[Catch: Exception -> 0x0073, TryCatch #0 {Exception -> 0x0073, blocks: (B:34:0x0053, B:36:0x005d, B:39:0x0062, B:41:0x006f, B:40:0x0066), top: B:46:0x0051 }] */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x0052 A[Catch: Exception -> 0x0072, TRY_ENTER, TryCatch #0 {Exception -> 0x0072, blocks: (B:34:0x0052, B:36:0x005c, B:39:0x0061, B:41:0x006e, B:40:0x0065), top: B:46:0x0050 }] */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x0065 A[Catch: Exception -> 0x0072, TryCatch #0 {Exception -> 0x0072, blocks: (B:34:0x0052, B:36:0x005c, B:39:0x0061, B:41:0x006e, B:40:0x0065), top: B:46:0x0050 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1826,8 +1826,8 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         this.currentGroupModeStreaming = optBoolean;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:69:0x0161  */
-    /* JADX WARN: Removed duplicated region for block: B:74:0x016e  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x015e  */
+    /* JADX WARN: Removed duplicated region for block: B:74:0x016b  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2627,7 +2627,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class RequestedParticipant {
         public int audioSsrc;
         public TLRPC$TL_groupCallParticipant participant;
@@ -3119,21 +3119,22 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         return this.switchingStream;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:102:0x02df A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:106:0x02f2 A[Catch: Exception -> 0x03c0, TryCatch #1 {Exception -> 0x03c0, blocks: (B:5:0x0010, B:7:0x0014, B:8:0x002a, B:10:0x0036, B:12:0x0041, B:13:0x0068, B:15:0x0071, B:16:0x007b, B:18:0x0081, B:20:0x008e, B:26:0x009f, B:28:0x00a5, B:29:0x00a9, B:39:0x00c8, B:41:0x00df, B:43:0x00e7, B:45:0x00fc, B:51:0x0108, B:56:0x0112, B:58:0x0116, B:60:0x0139, B:64:0x017b, B:84:0x0258, B:86:0x0261, B:88:0x026d, B:90:0x0276, B:92:0x028b, B:94:0x0291, B:96:0x02b3, B:100:0x02d4, B:103:0x02e1, B:104:0x02ee, B:106:0x02f2, B:108:0x02f6, B:110:0x02fc, B:112:0x0304, B:116:0x0312, B:117:0x031e, B:118:0x0323, B:120:0x0391, B:121:0x0394, B:123:0x039c, B:124:0x03ac, B:59:0x0131, B:11:0x003c, B:22:0x0092), top: B:137:0x0010, inners: #2 }] */
-    /* JADX WARN: Removed duplicated region for block: B:120:0x0391 A[Catch: Exception -> 0x03c0, TryCatch #1 {Exception -> 0x03c0, blocks: (B:5:0x0010, B:7:0x0014, B:8:0x002a, B:10:0x0036, B:12:0x0041, B:13:0x0068, B:15:0x0071, B:16:0x007b, B:18:0x0081, B:20:0x008e, B:26:0x009f, B:28:0x00a5, B:29:0x00a9, B:39:0x00c8, B:41:0x00df, B:43:0x00e7, B:45:0x00fc, B:51:0x0108, B:56:0x0112, B:58:0x0116, B:60:0x0139, B:64:0x017b, B:84:0x0258, B:86:0x0261, B:88:0x026d, B:90:0x0276, B:92:0x028b, B:94:0x0291, B:96:0x02b3, B:100:0x02d4, B:103:0x02e1, B:104:0x02ee, B:106:0x02f2, B:108:0x02f6, B:110:0x02fc, B:112:0x0304, B:116:0x0312, B:117:0x031e, B:118:0x0323, B:120:0x0391, B:121:0x0394, B:123:0x039c, B:124:0x03ac, B:59:0x0131, B:11:0x003c, B:22:0x0092), top: B:137:0x0010, inners: #2 }] */
-    /* JADX WARN: Removed duplicated region for block: B:141:0x018d A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:51:0x0108 A[Catch: Exception -> 0x03c0, TryCatch #1 {Exception -> 0x03c0, blocks: (B:5:0x0010, B:7:0x0014, B:8:0x002a, B:10:0x0036, B:12:0x0041, B:13:0x0068, B:15:0x0071, B:16:0x007b, B:18:0x0081, B:20:0x008e, B:26:0x009f, B:28:0x00a5, B:29:0x00a9, B:39:0x00c8, B:41:0x00df, B:43:0x00e7, B:45:0x00fc, B:51:0x0108, B:56:0x0112, B:58:0x0116, B:60:0x0139, B:64:0x017b, B:84:0x0258, B:86:0x0261, B:88:0x026d, B:90:0x0276, B:92:0x028b, B:94:0x0291, B:96:0x02b3, B:100:0x02d4, B:103:0x02e1, B:104:0x02ee, B:106:0x02f2, B:108:0x02f6, B:110:0x02fc, B:112:0x0304, B:116:0x0312, B:117:0x031e, B:118:0x0323, B:120:0x0391, B:121:0x0394, B:123:0x039c, B:124:0x03ac, B:59:0x0131, B:11:0x003c, B:22:0x0092), top: B:137:0x0010, inners: #2 }] */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x0116 A[Catch: Exception -> 0x03c0, TryCatch #1 {Exception -> 0x03c0, blocks: (B:5:0x0010, B:7:0x0014, B:8:0x002a, B:10:0x0036, B:12:0x0041, B:13:0x0068, B:15:0x0071, B:16:0x007b, B:18:0x0081, B:20:0x008e, B:26:0x009f, B:28:0x00a5, B:29:0x00a9, B:39:0x00c8, B:41:0x00df, B:43:0x00e7, B:45:0x00fc, B:51:0x0108, B:56:0x0112, B:58:0x0116, B:60:0x0139, B:64:0x017b, B:84:0x0258, B:86:0x0261, B:88:0x026d, B:90:0x0276, B:92:0x028b, B:94:0x0291, B:96:0x02b3, B:100:0x02d4, B:103:0x02e1, B:104:0x02ee, B:106:0x02f2, B:108:0x02f6, B:110:0x02fc, B:112:0x0304, B:116:0x0312, B:117:0x031e, B:118:0x0323, B:120:0x0391, B:121:0x0394, B:123:0x039c, B:124:0x03ac, B:59:0x0131, B:11:0x003c, B:22:0x0092), top: B:137:0x0010, inners: #2 }] */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x0131 A[Catch: Exception -> 0x03c0, TryCatch #1 {Exception -> 0x03c0, blocks: (B:5:0x0010, B:7:0x0014, B:8:0x002a, B:10:0x0036, B:12:0x0041, B:13:0x0068, B:15:0x0071, B:16:0x007b, B:18:0x0081, B:20:0x008e, B:26:0x009f, B:28:0x00a5, B:29:0x00a9, B:39:0x00c8, B:41:0x00df, B:43:0x00e7, B:45:0x00fc, B:51:0x0108, B:56:0x0112, B:58:0x0116, B:60:0x0139, B:64:0x017b, B:84:0x0258, B:86:0x0261, B:88:0x026d, B:90:0x0276, B:92:0x028b, B:94:0x0291, B:96:0x02b3, B:100:0x02d4, B:103:0x02e1, B:104:0x02ee, B:106:0x02f2, B:108:0x02f6, B:110:0x02fc, B:112:0x0304, B:116:0x0312, B:117:0x031e, B:118:0x0323, B:120:0x0391, B:121:0x0394, B:123:0x039c, B:124:0x03ac, B:59:0x0131, B:11:0x003c, B:22:0x0092), top: B:137:0x0010, inners: #2 }] */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x0178  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x017a  */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x020e A[Catch: Exception -> 0x03bc, TryCatch #3 {Exception -> 0x03bc, blocks: (B:67:0x018d, B:69:0x01e1, B:70:0x01ed, B:71:0x01ff, B:73:0x020e, B:74:0x0217, B:76:0x021d, B:80:0x0232, B:82:0x0254), top: B:141:0x018d }] */
-    /* JADX WARN: Removed duplicated region for block: B:82:0x0254 A[Catch: Exception -> 0x03bc, TRY_LEAVE, TryCatch #3 {Exception -> 0x03bc, blocks: (B:67:0x018d, B:69:0x01e1, B:70:0x01ed, B:71:0x01ff, B:73:0x020e, B:74:0x0217, B:76:0x021d, B:80:0x0232, B:82:0x0254), top: B:141:0x018d }] */
-    /* JADX WARN: Removed duplicated region for block: B:85:0x025f  */
-    /* JADX WARN: Removed duplicated region for block: B:88:0x026d A[Catch: Exception -> 0x03c0, TryCatch #1 {Exception -> 0x03c0, blocks: (B:5:0x0010, B:7:0x0014, B:8:0x002a, B:10:0x0036, B:12:0x0041, B:13:0x0068, B:15:0x0071, B:16:0x007b, B:18:0x0081, B:20:0x008e, B:26:0x009f, B:28:0x00a5, B:29:0x00a9, B:39:0x00c8, B:41:0x00df, B:43:0x00e7, B:45:0x00fc, B:51:0x0108, B:56:0x0112, B:58:0x0116, B:60:0x0139, B:64:0x017b, B:84:0x0258, B:86:0x0261, B:88:0x026d, B:90:0x0276, B:92:0x028b, B:94:0x0291, B:96:0x02b3, B:100:0x02d4, B:103:0x02e1, B:104:0x02ee, B:106:0x02f2, B:108:0x02f6, B:110:0x02fc, B:112:0x0304, B:116:0x0312, B:117:0x031e, B:118:0x0323, B:120:0x0391, B:121:0x0394, B:123:0x039c, B:124:0x03ac, B:59:0x0131, B:11:0x003c, B:22:0x0092), top: B:137:0x0010, inners: #2 }] */
-    /* JADX WARN: Removed duplicated region for block: B:98:0x02d1  */
-    /* JADX WARN: Removed duplicated region for block: B:99:0x02d3  */
+    /* JADX WARN: Removed duplicated region for block: B:102:0x02d6 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:106:0x02e9 A[Catch: Exception -> 0x03b7, TryCatch #3 {Exception -> 0x03b7, blocks: (B:5:0x0010, B:7:0x0014, B:8:0x002a, B:10:0x0036, B:12:0x0041, B:13:0x0068, B:15:0x0071, B:16:0x007b, B:18:0x0081, B:20:0x008e, B:26:0x009f, B:28:0x00a5, B:29:0x00a9, B:39:0x00c8, B:41:0x00df, B:43:0x00e7, B:45:0x00fc, B:51:0x0108, B:56:0x0112, B:58:0x0116, B:60:0x0138, B:64:0x0179, B:84:0x0256, B:86:0x025f, B:88:0x026a, B:90:0x0272, B:92:0x0285, B:94:0x028b, B:96:0x02aa, B:100:0x02cb, B:103:0x02d8, B:104:0x02e5, B:106:0x02e9, B:108:0x02ed, B:110:0x02f3, B:112:0x02fb, B:116:0x0309, B:117:0x0315, B:118:0x031a, B:120:0x0388, B:121:0x038b, B:123:0x0393, B:124:0x03a3, B:59:0x0130, B:11:0x003c, B:22:0x0092), top: B:141:0x0010, inners: #1 }] */
+    /* JADX WARN: Removed duplicated region for block: B:120:0x0388 A[Catch: Exception -> 0x03b7, TryCatch #3 {Exception -> 0x03b7, blocks: (B:5:0x0010, B:7:0x0014, B:8:0x002a, B:10:0x0036, B:12:0x0041, B:13:0x0068, B:15:0x0071, B:16:0x007b, B:18:0x0081, B:20:0x008e, B:26:0x009f, B:28:0x00a5, B:29:0x00a9, B:39:0x00c8, B:41:0x00df, B:43:0x00e7, B:45:0x00fc, B:51:0x0108, B:56:0x0112, B:58:0x0116, B:60:0x0138, B:64:0x0179, B:84:0x0256, B:86:0x025f, B:88:0x026a, B:90:0x0272, B:92:0x0285, B:94:0x028b, B:96:0x02aa, B:100:0x02cb, B:103:0x02d8, B:104:0x02e5, B:106:0x02e9, B:108:0x02ed, B:110:0x02f3, B:112:0x02fb, B:116:0x0309, B:117:0x0315, B:118:0x031a, B:120:0x0388, B:121:0x038b, B:123:0x0393, B:124:0x03a3, B:59:0x0130, B:11:0x003c, B:22:0x0092), top: B:141:0x0010, inners: #1 }] */
+    /* JADX WARN: Removed duplicated region for block: B:131:0x03bc  */
+    /* JADX WARN: Removed duplicated region for block: B:143:0x018b A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x0108 A[Catch: Exception -> 0x03b7, TryCatch #3 {Exception -> 0x03b7, blocks: (B:5:0x0010, B:7:0x0014, B:8:0x002a, B:10:0x0036, B:12:0x0041, B:13:0x0068, B:15:0x0071, B:16:0x007b, B:18:0x0081, B:20:0x008e, B:26:0x009f, B:28:0x00a5, B:29:0x00a9, B:39:0x00c8, B:41:0x00df, B:43:0x00e7, B:45:0x00fc, B:51:0x0108, B:56:0x0112, B:58:0x0116, B:60:0x0138, B:64:0x0179, B:84:0x0256, B:86:0x025f, B:88:0x026a, B:90:0x0272, B:92:0x0285, B:94:0x028b, B:96:0x02aa, B:100:0x02cb, B:103:0x02d8, B:104:0x02e5, B:106:0x02e9, B:108:0x02ed, B:110:0x02f3, B:112:0x02fb, B:116:0x0309, B:117:0x0315, B:118:0x031a, B:120:0x0388, B:121:0x038b, B:123:0x0393, B:124:0x03a3, B:59:0x0130, B:11:0x003c, B:22:0x0092), top: B:141:0x0010, inners: #1 }] */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x0116 A[Catch: Exception -> 0x03b7, TryCatch #3 {Exception -> 0x03b7, blocks: (B:5:0x0010, B:7:0x0014, B:8:0x002a, B:10:0x0036, B:12:0x0041, B:13:0x0068, B:15:0x0071, B:16:0x007b, B:18:0x0081, B:20:0x008e, B:26:0x009f, B:28:0x00a5, B:29:0x00a9, B:39:0x00c8, B:41:0x00df, B:43:0x00e7, B:45:0x00fc, B:51:0x0108, B:56:0x0112, B:58:0x0116, B:60:0x0138, B:64:0x0179, B:84:0x0256, B:86:0x025f, B:88:0x026a, B:90:0x0272, B:92:0x0285, B:94:0x028b, B:96:0x02aa, B:100:0x02cb, B:103:0x02d8, B:104:0x02e5, B:106:0x02e9, B:108:0x02ed, B:110:0x02f3, B:112:0x02fb, B:116:0x0309, B:117:0x0315, B:118:0x031a, B:120:0x0388, B:121:0x038b, B:123:0x0393, B:124:0x03a3, B:59:0x0130, B:11:0x003c, B:22:0x0092), top: B:141:0x0010, inners: #1 }] */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x0130 A[Catch: Exception -> 0x03b7, TryCatch #3 {Exception -> 0x03b7, blocks: (B:5:0x0010, B:7:0x0014, B:8:0x002a, B:10:0x0036, B:12:0x0041, B:13:0x0068, B:15:0x0071, B:16:0x007b, B:18:0x0081, B:20:0x008e, B:26:0x009f, B:28:0x00a5, B:29:0x00a9, B:39:0x00c8, B:41:0x00df, B:43:0x00e7, B:45:0x00fc, B:51:0x0108, B:56:0x0112, B:58:0x0116, B:60:0x0138, B:64:0x0179, B:84:0x0256, B:86:0x025f, B:88:0x026a, B:90:0x0272, B:92:0x0285, B:94:0x028b, B:96:0x02aa, B:100:0x02cb, B:103:0x02d8, B:104:0x02e5, B:106:0x02e9, B:108:0x02ed, B:110:0x02f3, B:112:0x02fb, B:116:0x0309, B:117:0x0315, B:118:0x031a, B:120:0x0388, B:121:0x038b, B:123:0x0393, B:124:0x03a3, B:59:0x0130, B:11:0x003c, B:22:0x0092), top: B:141:0x0010, inners: #1 }] */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x0176  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x0178  */
+    /* JADX WARN: Removed duplicated region for block: B:73:0x020c A[Catch: Exception -> 0x03b3, TryCatch #4 {Exception -> 0x03b3, blocks: (B:67:0x018b, B:69:0x01df, B:70:0x01eb, B:71:0x01fd, B:73:0x020c, B:74:0x0215, B:76:0x021b, B:80:0x0230, B:82:0x0252), top: B:143:0x018b }] */
+    /* JADX WARN: Removed duplicated region for block: B:82:0x0252 A[Catch: Exception -> 0x03b3, TRY_LEAVE, TryCatch #4 {Exception -> 0x03b3, blocks: (B:67:0x018b, B:69:0x01df, B:70:0x01eb, B:71:0x01fd, B:73:0x020c, B:74:0x0215, B:76:0x021b, B:80:0x0230, B:82:0x0252), top: B:143:0x018b }] */
+    /* JADX WARN: Removed duplicated region for block: B:85:0x025d  */
+    /* JADX WARN: Removed duplicated region for block: B:88:0x026a A[Catch: Exception -> 0x03b7, TryCatch #3 {Exception -> 0x03b7, blocks: (B:5:0x0010, B:7:0x0014, B:8:0x002a, B:10:0x0036, B:12:0x0041, B:13:0x0068, B:15:0x0071, B:16:0x007b, B:18:0x0081, B:20:0x008e, B:26:0x009f, B:28:0x00a5, B:29:0x00a9, B:39:0x00c8, B:41:0x00df, B:43:0x00e7, B:45:0x00fc, B:51:0x0108, B:56:0x0112, B:58:0x0116, B:60:0x0138, B:64:0x0179, B:84:0x0256, B:86:0x025f, B:88:0x026a, B:90:0x0272, B:92:0x0285, B:94:0x028b, B:96:0x02aa, B:100:0x02cb, B:103:0x02d8, B:104:0x02e5, B:106:0x02e9, B:108:0x02ed, B:110:0x02f3, B:112:0x02fb, B:116:0x0309, B:117:0x0315, B:118:0x031a, B:120:0x0388, B:121:0x038b, B:123:0x0393, B:124:0x03a3, B:59:0x0130, B:11:0x003c, B:22:0x0092), top: B:141:0x0010, inners: #1 }] */
+    /* JADX WARN: Removed duplicated region for block: B:98:0x02c8  */
+    /* JADX WARN: Removed duplicated region for block: B:99:0x02ca  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -3255,10 +3256,8 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
                             } catch (Exception e) {
                                 e = e;
                                 if (BuildVars.LOGS_ENABLED) {
-                                    FileLog.e("error starting call", e);
                                 }
                                 callFailed();
-                                return;
                             }
                         }
                         z4 = z6;
@@ -3913,6 +3912,10 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
             }, 5000L);
         } catch (Exception e2) {
             e = e2;
+            if (BuildVars.LOGS_ENABLED) {
+                FileLog.e("error starting call", e);
+            }
+            callFailed();
         }
     }
 
@@ -3990,7 +3993,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public class 7 implements Runnable {
         7() {
         }
@@ -4517,10 +4520,10 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:44:0x00f5 A[Catch: all -> 0x0153, TryCatch #0 {, blocks: (B:12:0x0023, B:14:0x0027, B:16:0x0029, B:18:0x0042, B:23:0x0055, B:25:0x006c, B:28:0x008b, B:36:0x00a9, B:42:0x00de, B:44:0x00f5, B:49:0x0117, B:51:0x011d, B:56:0x012b, B:61:0x0142, B:62:0x0151, B:54:0x0125, B:45:0x010b, B:30:0x0091, B:32:0x0095, B:34:0x009f, B:35:0x00a4, B:26:0x0083, B:39:0x00d2, B:41:0x00d9, B:19:0x0048, B:21:0x0051), top: B:68:0x0023, inners: #1 }] */
-    /* JADX WARN: Removed duplicated region for block: B:45:0x010b A[Catch: all -> 0x0153, TryCatch #0 {, blocks: (B:12:0x0023, B:14:0x0027, B:16:0x0029, B:18:0x0042, B:23:0x0055, B:25:0x006c, B:28:0x008b, B:36:0x00a9, B:42:0x00de, B:44:0x00f5, B:49:0x0117, B:51:0x011d, B:56:0x012b, B:61:0x0142, B:62:0x0151, B:54:0x0125, B:45:0x010b, B:30:0x0091, B:32:0x0095, B:34:0x009f, B:35:0x00a4, B:26:0x0083, B:39:0x00d2, B:41:0x00d9, B:19:0x0048, B:21:0x0051), top: B:68:0x0023, inners: #1 }] */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x013b  */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x013e  */
+    /* JADX WARN: Removed duplicated region for block: B:44:0x00f3 A[Catch: all -> 0x014f, TryCatch #1 {, blocks: (B:12:0x0023, B:14:0x0027, B:16:0x0029, B:18:0x0042, B:23:0x0055, B:25:0x006c, B:28:0x008a, B:36:0x00a8, B:42:0x00dc, B:44:0x00f3, B:49:0x0114, B:51:0x011a, B:56:0x0128, B:61:0x013e, B:62:0x014d, B:54:0x0122, B:45:0x0109, B:30:0x0090, B:32:0x0094, B:34:0x009e, B:35:0x00a3, B:26:0x0082, B:39:0x00d0, B:41:0x00d7, B:19:0x0048, B:21:0x0051), top: B:70:0x0023, inners: #0 }] */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x0109 A[Catch: all -> 0x014f, TryCatch #1 {, blocks: (B:12:0x0023, B:14:0x0027, B:16:0x0029, B:18:0x0042, B:23:0x0055, B:25:0x006c, B:28:0x008a, B:36:0x00a8, B:42:0x00dc, B:44:0x00f3, B:49:0x0114, B:51:0x011a, B:56:0x0128, B:61:0x013e, B:62:0x014d, B:54:0x0122, B:45:0x0109, B:30:0x0090, B:32:0x0094, B:34:0x009e, B:35:0x00a3, B:26:0x0082, B:39:0x00d0, B:41:0x00d7, B:19:0x0048, B:21:0x0051), top: B:70:0x0023, inners: #0 }] */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x0137  */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x013a  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -5046,7 +5049,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         return LaunchActivity.class;
     }
 
-    @TargetApi(MessageObject.TYPE_GIVEAWAY)
+    @TargetApi(26)
     public CallConnection getConnectionAndStartCall() {
         if (this.systemCallConnection == null) {
             if (BuildVars.LOGS_ENABLED) {
@@ -5761,7 +5764,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:28:0x00e7  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x00e6  */
     /* JADX WARN: Type inference failed for: r10v13 */
     /* JADX WARN: Type inference failed for: r10v3 */
     /*
@@ -6356,7 +6359,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         return this.remoteVideoState;
     }
 
-    @TargetApi(MessageObject.TYPE_GIVEAWAY)
+    @TargetApi(26)
     private PhoneAccountHandle addAccountToTelecomManager() {
         TLRPC$User currentUser = UserConfig.getInstance(this.currentAccount).getCurrentUser();
         ComponentName componentName = new ComponentName(this, TelegramConnectionService.class);
@@ -6365,7 +6368,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         return phoneAccountHandle;
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public class CallConnection extends Connection {
         public CallConnection() {
             setConnectionProperties(128);

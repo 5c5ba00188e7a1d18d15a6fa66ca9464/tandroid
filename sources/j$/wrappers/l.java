@@ -1,23 +1,23 @@
 package j$.wrappers;
 
-import j$.util.u;
+import j$.util.t;
 import java.util.Comparator;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 import java.util.function.IntConsumer;
 /* loaded from: classes2.dex */
 public final /* synthetic */ class l implements Spliterator.OfInt {
-    final /* synthetic */ u.a a;
+    final /* synthetic */ t.b a;
 
-    private /* synthetic */ l(u.a aVar) {
-        this.a = aVar;
+    private /* synthetic */ l(t.b bVar) {
+        this.a = bVar;
     }
 
-    public static /* synthetic */ Spliterator.OfInt a(u.a aVar) {
-        if (aVar == null) {
+    public static /* synthetic */ Spliterator.OfInt a(t.b bVar) {
+        if (bVar == null) {
             return null;
         }
-        return aVar instanceof k ? ((k) aVar).a : new l(aVar);
+        return bVar instanceof k ? ((k) bVar).a : new l(bVar);
     }
 
     @Override // java.util.Spliterator

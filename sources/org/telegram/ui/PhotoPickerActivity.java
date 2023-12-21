@@ -1052,7 +1052,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
                         i13 = 51;
                     }
                     int i14 = i13 & 7;
-                    int i15 = i13 & 112;
+                    int i15 = i13 & R.styleable.AppCompatTheme_toolbarNavigationButtonStyle;
                     int i16 = i14 & 7;
                     if (i16 == 1) {
                         i5 = ((i11 - measuredWidth) / 2) + layoutParams.leftMargin;
@@ -2124,9 +2124,9 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
             } else {
                 TextCell textCell = (TextCell) viewHolder.itemView;
                 if (i < PhotoPickerActivity.this.recentSearches.size()) {
-                    textCell.setTextAndIcon((String) PhotoPickerActivity.this.recentSearches.get(i), R.drawable.msg_recent, false);
+                    textCell.setTextAndIcon((CharSequence) PhotoPickerActivity.this.recentSearches.get(i), R.drawable.msg_recent, false);
                 } else {
-                    textCell.setTextAndIcon(LocaleController.getString("ClearRecentHistory", R.string.ClearRecentHistory), R.drawable.msg_clear_recent, false);
+                    textCell.setTextAndIcon((CharSequence) LocaleController.getString("ClearRecentHistory", R.string.ClearRecentHistory), R.drawable.msg_clear_recent, false);
                 }
             }
         }

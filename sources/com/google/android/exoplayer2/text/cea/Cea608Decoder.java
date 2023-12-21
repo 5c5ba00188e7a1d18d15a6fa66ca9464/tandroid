@@ -19,7 +19,7 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import org.telegram.messenger.FileLoader;
+import org.telegram.messenger.R;
 /* loaded from: classes.dex */
 public final class Cea608Decoder extends CeaDecoder {
     private int captionMode;
@@ -39,7 +39,7 @@ public final class Cea608Decoder extends CeaDecoder {
     private static final int[] ROW_INDICES = {11, 1, 3, 12, 14, 5, 7, 9};
     private static final int[] COLUMN_INDICES = {0, 4, 8, 12, 16, 20, 24, 28};
     private static final int[] STYLE_COLORS = {-1, -16711936, -16776961, -16711681, -65536, -256, -65281};
-    private static final int[] BASIC_CHARACTER_SET = {32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 225, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 233, 93, 237, 243, 250, 97, 98, 99, 100, FileLoader.MEDIA_DIR_VIDEO_PUBLIC, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 231, 247, 209, 241, 9632};
+    private static final int[] BASIC_CHARACTER_SET = {32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 225, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 233, 93, 237, 243, 250, 97, 98, 99, 100, 101, R.styleable.AppCompatTheme_textAppearanceLargePopupMenu, R.styleable.AppCompatTheme_textAppearanceListItem, R.styleable.AppCompatTheme_textAppearanceListItemSecondary, R.styleable.AppCompatTheme_textAppearanceListItemSmall, R.styleable.AppCompatTheme_textAppearancePopupMenuHeader, R.styleable.AppCompatTheme_textAppearanceSearchResultSubtitle, R.styleable.AppCompatTheme_textAppearanceSearchResultTitle, R.styleable.AppCompatTheme_textAppearanceSmallPopupMenu, R.styleable.AppCompatTheme_textColorAlertDialogListItem, R.styleable.AppCompatTheme_textColorSearchUrl, R.styleable.AppCompatTheme_toolbarNavigationButtonStyle, R.styleable.AppCompatTheme_toolbarStyle, R.styleable.AppCompatTheme_tooltipForegroundColor, R.styleable.AppCompatTheme_tooltipFrameBackground, 116, 117, 118, 119, 120, 121, 122, 231, 247, 209, 241, 9632};
     private static final int[] SPECIAL_CHARACTER_SET = {174, 176, 189, 191, 8482, 162, 163, 9834, 224, 32, 232, 226, 234, 238, 244, 251};
     private static final int[] SPECIAL_ES_FR_CHARACTER_SET = {193, 201, 211, 218, 220, 252, 8216, 161, 42, 39, 8212, 169, 8480, 8226, 8220, 8221, 192, 194, 199, 200, 202, 203, 235, 206, 207, 239, 212, 217, 249, 219, 171, 187};
     private static final int[] SPECIAL_PT_DE_CHARACTER_SET = {195, 227, 205, 204, 236, 210, 242, 213, 245, 123, 125, 92, 94, 95, 124, 126, 196, 228, 214, 246, 223, 165, 164, 9474, 197, 229, 216, 248, 9484, 9488, 9492, 9496};
@@ -309,15 +309,15 @@ public final class Cea608Decoder extends CeaDecoder {
             setCaptionMode(2);
         } else if (b != 41) {
             switch (b) {
-                case 37:
+                case R.styleable.AppCompatTheme_alertDialogStyle /* 37 */:
                     setCaptionMode(1);
                     setCaptionRowCount(2);
                     return;
-                case 38:
+                case R.styleable.AppCompatTheme_alertDialogTheme /* 38 */:
                     setCaptionMode(1);
                     setCaptionRowCount(3);
                     return;
-                case 39:
+                case R.styleable.AppCompatTheme_autoCompleteTextViewStyle /* 39 */:
                     setCaptionMode(1);
                     setCaptionRowCount(4);
                     return;
@@ -328,7 +328,7 @@ public final class Cea608Decoder extends CeaDecoder {
                     }
                     if (b != 33) {
                         switch (b) {
-                            case 44:
+                            case R.styleable.AppCompatTheme_buttonBarPositiveButtonStyle /* 44 */:
                                 this.cues = Collections.emptyList();
                                 int i2 = this.captionMode;
                                 if (i2 == 1 || i2 == 3) {
@@ -336,16 +336,16 @@ public final class Cea608Decoder extends CeaDecoder {
                                     return;
                                 }
                                 return;
-                            case 45:
+                            case R.styleable.AppCompatTheme_buttonBarStyle /* 45 */:
                                 if (i != 1 || this.currentCueBuilder.isEmpty()) {
                                     return;
                                 }
                                 this.currentCueBuilder.rollUp();
                                 return;
-                            case 46:
+                            case R.styleable.AppCompatTheme_buttonStyle /* 46 */:
                                 resetCueBuilders();
                                 return;
-                            case 47:
+                            case R.styleable.AppCompatTheme_buttonStyleSmall /* 47 */:
                                 this.cues = getDisplayCues();
                                 resetCueBuilders();
                                 return;
@@ -420,16 +420,16 @@ public final class Cea608Decoder extends CeaDecoder {
         } else if (isServiceSwitchCommand(b)) {
             if (b2 != 32 && b2 != 47) {
                 switch (b2) {
-                    case 37:
-                    case 38:
-                    case 39:
+                    case R.styleable.AppCompatTheme_alertDialogStyle /* 37 */:
+                    case R.styleable.AppCompatTheme_alertDialogTheme /* 38 */:
+                    case R.styleable.AppCompatTheme_autoCompleteTextViewStyle /* 39 */:
                         break;
                     default:
                         switch (b2) {
-                            case 41:
+                            case R.styleable.AppCompatTheme_buttonBarButtonStyle /* 41 */:
                                 break;
-                            case 42:
-                            case 43:
+                            case R.styleable.AppCompatTheme_buttonBarNegativeButtonStyle /* 42 */:
+                            case R.styleable.AppCompatTheme_buttonBarNeutralButtonStyle /* 43 */:
                                 this.isInCaptionService = false;
                                 return;
                             default:

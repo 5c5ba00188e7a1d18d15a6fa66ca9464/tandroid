@@ -470,7 +470,7 @@ public class Emoji {
                                             char charAt6 = charSequence.charAt(i14);
                                             i7 = i;
                                             if (i3 != 1) {
-                                                if (charAt3 != '*' && charAt3 != '#' && (charAt3 < MAX_RECENT_EMOJI_COUNT || charAt3 > '9')) {
+                                                if (charAt3 != '*' && charAt3 != '#' && (charAt3 < '0' || charAt3 > '9')) {
                                                     if (i11 != -1 && charAt6 >= 65024) {
                                                         if (charAt6 <= 65039) {
                                                             i12++;
@@ -666,7 +666,7 @@ public class Emoji {
                                 }
                                 i10 = i2 + 1;
                                 i9 = i152222;
-                            } else if (i10 > 0 && (((charAt = charSequence.charAt(i9)) >= MAX_RECENT_EMOJI_COUNT && charAt <= '9') || charAt == '#' || charAt == '*')) {
+                            } else if (i10 > 0 && (((charAt = charSequence.charAt(i9)) >= '0' && charAt <= '9') || charAt == '#' || charAt == '*')) {
                                 i12 = (i10 - i9) + 1;
                                 sb.append(charAt);
                                 sb.append(charAt3);
@@ -911,7 +911,7 @@ public class Emoji {
         if (num == null) {
             num = 0;
         }
-        if (num.intValue() == 0 && emojiUseHistory.size() >= MAX_RECENT_EMOJI_COUNT) {
+        if (num.intValue() == 0 && emojiUseHistory.size() >= 48) {
             ArrayList<String> arrayList = recentEmoji;
             emojiUseHistory.remove(arrayList.get(arrayList.size() - 1));
             ArrayList<String> arrayList2 = recentEmoji;
@@ -934,7 +934,7 @@ public class Emoji {
             recentEmoji.add(entry.getKey());
         }
         Collections.sort(recentEmoji, Emoji$$ExternalSyntheticLambda2.INSTANCE);
-        while (recentEmoji.size() > MAX_RECENT_EMOJI_COUNT) {
+        while (recentEmoji.size() > 48) {
             ArrayList<String> arrayList = recentEmoji;
             arrayList.remove(arrayList.size() - 1);
         }

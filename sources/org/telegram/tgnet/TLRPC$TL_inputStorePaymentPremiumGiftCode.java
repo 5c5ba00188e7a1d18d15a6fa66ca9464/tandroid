@@ -1,9 +1,8 @@
 package org.telegram.tgnet;
 
 import java.util.ArrayList;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_inputStorePaymentPremiumGiftCode extends TLRPC$InputStorePaymentPurpose {
-    public static int constructor = -1551868097;
     public long amount;
     public TLRPC$InputPeer boost_peer;
     public String currency;
@@ -37,7 +36,7 @@ public class TLRPC$TL_inputStorePaymentPremiumGiftCode extends TLRPC$InputStoreP
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(constructor);
+        abstractSerializedData.writeInt32(-1551868097);
         abstractSerializedData.writeInt32(this.flags);
         abstractSerializedData.writeInt32(481674261);
         int size = this.users.size();

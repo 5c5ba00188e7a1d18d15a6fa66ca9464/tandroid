@@ -13,7 +13,8 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
-/* loaded from: classes.dex */
+import org.telegram.messenger.R;
+/* loaded from: classes3.dex */
 public class HevcDecoderConfigurationRecord {
     int avgFrameRate;
     int bitDepthChromaMinus8;
@@ -43,7 +44,7 @@ public class HevcDecoderConfigurationRecord {
     int reserved5 = 31;
     List<Array> arrays = new ArrayList();
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class H265NalUnitHeader {
         public int forbiddenZeroFlag;
         public int nalUnitType;
@@ -429,7 +430,7 @@ public class HevcDecoderConfigurationRecord {
         this.progressive_source_flag = z;
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes3.dex */
     public static class Array {
         public boolean array_completeness;
         public List<byte[]> nalUnits;
@@ -486,12 +487,12 @@ public class HevcDecoderConfigurationRecord {
                 case 32:
                     arrayList3.add(byteBuffer.duplicate());
                     break;
-                case 33:
+                case R.styleable.AppCompatTheme_actionOverflowMenuStyle /* 33 */:
                     arrayList.add(byteBuffer.duplicate());
                     byteBuffer.position(2);
                     sequenceParameterSetRbsp = new SequenceParameterSetRbsp(new CleanInputStream(Channels.newInputStream(new ByteBufferByteChannel(byteBuffer.slice()))));
                     break;
-                case 34:
+                case R.styleable.AppCompatTheme_activityChooserViewStyle /* 34 */:
                     arrayList2.add(byteBuffer.duplicate());
                     break;
             }

@@ -1,7 +1,7 @@
 package org.telegram.tgnet;
 
 import java.util.ArrayList;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLRPC$TL_stats_megagroupStats extends TLObject {
     public TLRPC$StatsGraph actions_graph;
     public TLRPC$StatsGraph growth_graph;

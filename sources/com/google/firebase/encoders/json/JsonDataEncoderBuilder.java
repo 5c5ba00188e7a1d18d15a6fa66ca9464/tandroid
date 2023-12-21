@@ -10,6 +10,7 @@ import com.google.firebase.encoders.config.Configurator;
 import com.google.firebase.encoders.config.EncoderConfig;
 import j$.util.DesugarTimeZone;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.io.Writer;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -93,6 +94,16 @@ public final class JsonDataEncoderBuilder implements EncoderConfig<JsonDataEncod
                 JsonValueObjectEncoderContext jsonValueObjectEncoderContext = new JsonValueObjectEncoderContext(writer, JsonDataEncoderBuilder.this.objectEncoders, JsonDataEncoderBuilder.this.valueEncoders, JsonDataEncoderBuilder.this.fallbackEncoder, JsonDataEncoderBuilder.this.ignoreNullValues);
                 jsonValueObjectEncoderContext.add(obj, false);
                 jsonValueObjectEncoderContext.close();
+            }
+
+            @Override // com.google.firebase.encoders.DataEncoder
+            public String encode(Object obj) {
+                StringWriter stringWriter = new StringWriter();
+                try {
+                    encode(obj, stringWriter);
+                } catch (IOException unused) {
+                }
+                return stringWriter.toString();
             }
         };
     }

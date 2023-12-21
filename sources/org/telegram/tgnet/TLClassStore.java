@@ -2,7 +2,7 @@ package org.telegram.tgnet;
 
 import android.util.SparseArray;
 import org.telegram.messenger.FileLog;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class TLClassStore {
     static TLClassStore store;
     private SparseArray<Class> classStore;

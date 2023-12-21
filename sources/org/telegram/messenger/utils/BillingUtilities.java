@@ -17,7 +17,7 @@ import org.telegram.tgnet.SerializedData;
 import org.telegram.tgnet.TLRPC$InputStorePaymentPurpose;
 import org.telegram.tgnet.TLRPC$TL_inputStorePaymentPremiumGiftCode;
 import org.telegram.tgnet.TLRPC$TL_inputStorePaymentPremiumGiveaway;
-/* loaded from: classes.dex */
+/* loaded from: classes3.dex */
 public class BillingUtilities {
     private static TLRPC$InputStorePaymentPurpose remPaymentPurpose;
 

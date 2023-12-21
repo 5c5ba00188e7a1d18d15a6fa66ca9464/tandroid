@@ -5,7 +5,7 @@ import j$.util.p;
 import j$.util.stream.IntStream;
 import j$.util.stream.Stream;
 import j$.util.stream.e1;
-import j$.util.u;
+import j$.util.t;
 import java.util.Iterator;
 /* loaded from: classes2.dex */
 public final /* synthetic */ class $r8$wrapper$java$util$stream$IntStream$-V-WRP implements IntStream {
@@ -203,12 +203,12 @@ public final /* synthetic */ class $r8$wrapper$java$util$stream$IntStream$-V-WRP
     }
 
     @Override // j$.util.stream.IntStream, j$.util.stream.g
-    public /* synthetic */ u.a spliterator() {
+    public /* synthetic */ t.b spliterator() {
         return k.a(this.a.spliterator());
     }
 
     @Override // j$.util.stream.IntStream, j$.util.stream.g
-    public /* synthetic */ j$.util.u spliterator() {
+    public /* synthetic */ j$.util.t spliterator() {
         return g.a(this.a.spliterator());
     }
 
