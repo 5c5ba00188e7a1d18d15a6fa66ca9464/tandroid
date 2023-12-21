@@ -12965,9 +12965,9 @@ public class Theme {
         return createBackgroundDrawable(themeInfo, overrideWallpaperInfo, sparseIntArray, pathToWallpaper, str, currentColorsNoAccent.get(key_wallpaperFileOffset, -1), (int) f, i, z2, false, false, z3, null, z);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:110:0x022e  */
-    /* JADX WARN: Removed duplicated region for block: B:160:0x0357  */
-    /* JADX WARN: Removed duplicated region for block: B:165:0x036b  */
+    /* JADX WARN: Removed duplicated region for block: B:110:0x022c  */
+    /* JADX WARN: Removed duplicated region for block: B:160:0x0355  */
+    /* JADX WARN: Removed duplicated region for block: B:165:0x0369  */
     /* JADX WARN: Removed duplicated region for block: B:61:0x00f8  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -13067,7 +13067,7 @@ public class Theme {
                         } else if (file != null) {
                             int i10 = R.raw.default_pattern;
                             Point point = AndroidUtilities.displaySize;
-                            bitmap = SvgHelper.getBitmap(i10, point.x, point.y, -16777216);
+                            bitmap = SvgHelper.getBitmap(i10, point.x, point.y, -1);
                         } else {
                             bitmap = null;
                         }

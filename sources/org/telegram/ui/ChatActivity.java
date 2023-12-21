@@ -7720,6 +7720,15 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         }
 
         /* JADX INFO: Access modifiers changed from: protected */
+        @Override // org.telegram.ui.Components.RecyclerListView
+        public boolean allowSelectChildAtPosition(View view) {
+            if (view == null || view.getVisibility() != 4) {
+                return super.allowSelectChildAtPosition(view);
+            }
+            return false;
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View
         public void onMeasure(int i, int i2) {
             ChatActivity.this.saveScrollPosition();
