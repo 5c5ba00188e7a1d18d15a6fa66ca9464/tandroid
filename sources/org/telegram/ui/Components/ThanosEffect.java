@@ -153,10 +153,9 @@ public class ThanosEffect extends TextureView {
 
     public void scroll(int i, int i2) {
         DrawingThread drawingThread = this.drawThread;
-        if (drawingThread == null || !drawingThread.running) {
-            return;
+        if (drawingThread != null) {
+            boolean z = drawingThread.running;
         }
-        this.drawThread.scroll(i, i2);
     }
 
     public void animateGroup(ArrayList<View> arrayList, Runnable runnable) {
@@ -206,6 +205,7 @@ public class ThanosEffect extends TextureView {
         private final Runnable invalidate;
         private int longevityHandle;
         private int matrixHandle;
+        private int offsetHandle;
         private int particlesCountHandle;
         private final ArrayList<Animation> pendingAnimations;
         private int rectPosHandle;
@@ -248,9 +248,8 @@ public class ThanosEffect extends TextureView {
             } else if (i == 4) {
                 for (int i2 = 0; i2 < this.pendingAnimations.size(); i2++) {
                     Animation animation = this.pendingAnimations.get(i2);
-                    animation.left += message.arg1;
-                    animation.top += message.arg2;
-                    animation.invalidateMatrix = true;
+                    animation.offsetLeft += message.arg1;
+                    animation.offsetTop += message.arg2;
                 }
             }
         }
@@ -278,13 +277,6 @@ public class ThanosEffect extends TextureView {
             Handler handler = getHandler();
             if (handler != null) {
                 handler.sendMessage(handler.obtainMessage(1, i, i2));
-            }
-        }
-
-        public void scroll(int i, int i2) {
-            Handler handler = getHandler();
-            if (handler != null) {
-                handler.sendMessage(handler.obtainMessage(4, i, i2));
             }
         }
 
@@ -406,6 +398,7 @@ public class ThanosEffect extends TextureView {
                     this.seedHandle = GLES31.glGetUniformLocation(this.drawProgram, "seed");
                     this.densityHandle = GLES31.glGetUniformLocation(this.drawProgram, "dp");
                     this.longevityHandle = GLES31.glGetUniformLocation(this.drawProgram, "longevity");
+                    this.offsetHandle = GLES31.glGetUniformLocation(this.drawProgram, "offset");
                     GLES31.glViewport(0, 0, this.width, this.height);
                     GLES31.glEnable(3042);
                     GLES31.glBlendFunc(770, 771);
@@ -528,6 +521,8 @@ public class ThanosEffect extends TextureView {
             public float longevity;
             public final Matrix matrix;
             public final float[] matrixValues;
+            public float offsetLeft;
+            public float offsetTop;
             public int particlesCount;
             public final float seed;
             public Runnable startCallback;
@@ -544,6 +539,8 @@ public class ThanosEffect extends TextureView {
                 this.lastDrawTime = -1L;
                 this.time = 0.0f;
                 this.firstDraw = true;
+                this.offsetLeft = 0.0f;
+                this.offsetTop = 0.0f;
                 this.left = 0.0f;
                 this.top = 0.0f;
                 this.density = AndroidUtilities.density;
@@ -572,7 +569,7 @@ public class ThanosEffect extends TextureView {
                 this.bitmap = bitmap;
             }
 
-            /* JADX WARN: Code restructure failed: missing block: B:84:0x020e, code lost:
+            /* JADX WARN: Code restructure failed: missing block: B:84:0x0212, code lost:
                 if (r0.messages.size() != 1) goto L88;
              */
             /*
@@ -603,6 +600,8 @@ public class ThanosEffect extends TextureView {
                 animation.lastDrawTime = -1L;
                 animation.time = 0.0f;
                 animation.firstDraw = true;
+                animation.offsetLeft = 0.0f;
+                animation.offsetTop = 0.0f;
                 animation.left = 0.0f;
                 animation.top = 0.0f;
                 animation.density = AndroidUtilities.density;
@@ -933,6 +932,10 @@ public class ThanosEffect extends TextureView {
             public static /* synthetic */ void lambda$new$0(ArrayList arrayList) {
                 for (int i = 0; i < arrayList.size(); i++) {
                     ((View) arrayList.get(i)).setVisibility(4);
+                    if (arrayList.get(i) instanceof ChatMessageCell) {
+                        ((ChatMessageCell) arrayList.get(i)).setCheckBoxVisible(false, false);
+                        ((ChatMessageCell) arrayList.get(i)).setChecked(false, false, false);
+                    }
                 }
             }
 
@@ -957,7 +960,7 @@ public class ThanosEffect extends TextureView {
                 int i;
                 int i2;
                 int devicePerformanceClass = SharedConfig.getDevicePerformanceClass();
-                int i3 = devicePerformanceClass != 1 ? devicePerformanceClass != 2 ? 30000 : 75000 : 55000;
+                int i3 = devicePerformanceClass != 1 ? devicePerformanceClass != 2 ? 30000 : 120000 : 60000;
                 float max = Math.max(AndroidUtilities.dpf2(0.4f), 1.0f);
                 int clamp = Utilities.clamp((int) ((this.viewWidth * this.viewHeight) / (max * max)), (int) (i3 * f), 10);
                 this.particlesCount = clamp;
@@ -985,9 +988,9 @@ public class ThanosEffect extends TextureView {
                 }
             }
 
-            /* JADX WARN: Removed duplicated region for block: B:19:0x00e1  */
-            /* JADX WARN: Removed duplicated region for block: B:26:0x0105  */
-            /* JADX WARN: Removed duplicated region for block: B:27:0x010c  */
+            /* JADX WARN: Removed duplicated region for block: B:19:0x00e0  */
+            /* JADX WARN: Removed duplicated region for block: B:26:0x0104  */
+            /* JADX WARN: Removed duplicated region for block: B:27:0x010b  */
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
             */
@@ -996,6 +999,8 @@ public class ThanosEffect extends TextureView {
                 this.lastDrawTime = -1L;
                 this.time = 0.0f;
                 this.firstDraw = true;
+                this.offsetLeft = 0.0f;
+                this.offsetTop = 0.0f;
                 this.left = 0.0f;
                 this.top = 0.0f;
                 this.density = AndroidUtilities.density;
@@ -1032,10 +1037,7 @@ public class ThanosEffect extends TextureView {
                 canvas.translate(-this.left, 0.0f);
                 boolean z = view instanceof ChatMessageCell;
                 if (z) {
-                    ChatMessageCell chatMessageCell = (ChatMessageCell) view;
-                    chatMessageCell.drawingToBitmap = true;
-                    chatMessageCell.setCheckBoxVisible(false, false);
-                    chatMessageCell.checkBoxTranslation = 0;
+                    ((ChatMessageCell) view).drawingToBitmap = true;
                 }
                 boolean z2 = view instanceof ChatActionCell;
                 if (z2) {
@@ -1044,15 +1046,15 @@ public class ThanosEffect extends TextureView {
                         chatActionCell.drawBackground(canvas, true);
                         view.draw(canvas);
                         if (z) {
-                            ChatMessageCell chatMessageCell2 = (ChatMessageCell) view;
-                            ImageReceiver avatarImage = chatMessageCell2.getAvatarImage();
+                            ChatMessageCell chatMessageCell = (ChatMessageCell) view;
+                            ImageReceiver avatarImage = chatMessageCell.getAvatarImage();
                             if (avatarImage != null && avatarImage.getVisible()) {
                                 canvas.save();
                                 canvas.translate(0.0f, -view.getY());
                                 avatarImage.draw(canvas);
                                 canvas.restore();
                             }
-                            chatMessageCell2.drawingToBitmap = false;
+                            chatMessageCell.drawingToBitmap = false;
                         }
                         if (!z) {
                             ((ChatMessageCell) view).drawOutboundsContent(canvas);
@@ -1064,9 +1066,9 @@ public class ThanosEffect extends TextureView {
                     }
                 }
                 if (z) {
-                    ChatMessageCell chatMessageCell3 = (ChatMessageCell) view;
-                    if (chatMessageCell3.drawBackgroundInParent()) {
-                        chatMessageCell3.drawBackgroundInternal(canvas, true);
+                    ChatMessageCell chatMessageCell2 = (ChatMessageCell) view;
+                    if (chatMessageCell2.drawBackgroundInParent()) {
+                        chatMessageCell2.drawBackgroundInternal(canvas, true);
                     }
                 }
                 view.draw(canvas);
@@ -1082,6 +1084,10 @@ public class ThanosEffect extends TextureView {
             public /* synthetic */ void lambda$new$1() {
                 for (int i = 0; i < this.views.size(); i++) {
                     this.views.get(i).setVisibility(4);
+                    if (this.views.get(i) instanceof ChatMessageCell) {
+                        ((ChatMessageCell) this.views.get(i)).setCheckBoxVisible(false, false);
+                        ((ChatMessageCell) this.views.get(i)).setChecked(false, false, false);
+                    }
                 }
             }
 
@@ -1130,6 +1136,7 @@ public class ThanosEffect extends TextureView {
                 GLES31.glUniform1f(DrawingThread.this.deltaTimeHandle, ((float) d) * this.timeScale);
                 GLES31.glUniform1f(DrawingThread.this.particlesCountHandle, this.particlesCount);
                 GLES31.glUniform3f(DrawingThread.this.gridSizeHandle, this.gridWidth, this.gridHeight, this.gridSize);
+                GLES31.glUniform2f(DrawingThread.this.offsetHandle, this.offsetLeft, this.offsetTop);
                 GLES31.glUniform2f(DrawingThread.this.rectSizeHandle, this.viewWidth, this.viewHeight);
                 GLES31.glUniform1f(DrawingThread.this.seedHandle, this.seed);
                 GLES31.glUniform2f(DrawingThread.this.rectPosHandle, 0.0f, 0.0f);

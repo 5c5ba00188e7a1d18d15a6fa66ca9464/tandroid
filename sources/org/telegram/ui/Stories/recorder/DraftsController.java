@@ -61,8 +61,8 @@ public class DraftsController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:25:0x005b, code lost:
-        if (r1 == null) goto L26;
+    /* JADX WARN: Code restructure failed: missing block: B:30:0x0099, code lost:
+        if (r1 == null) goto L34;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -80,11 +80,13 @@ public class DraftsController {
             if (database == null) {
                 return;
             }
+            ArrayList arrayList2 = new ArrayList();
             StringBuilder sb = new StringBuilder();
             sb.append("SELECT id, data, type FROM story_drafts WHERE type = ");
             sb.append(z ? "2" : "0 OR type = 1");
             sb.append(" ORDER BY date DESC");
-            sQLiteCursor = database.queryFinalized(sb.toString(), new Object[0]);
+            String sb2 = sb.toString();
+            sQLiteCursor = database.queryFinalized(sb2, new Object[0]);
             while (sQLiteCursor.next()) {
                 long longValue = sQLiteCursor.longValue(0);
                 NativeByteBuffer byteBufferValue = sQLiteCursor.byteBufferValue(1);
@@ -95,8 +97,15 @@ public class DraftsController {
                         arrayList.add(storyDraft);
                     } catch (Exception e2) {
                         FileLog.e(e2);
+                        arrayList2.add(Long.valueOf(longValue));
                     }
                     byteBufferValue.reuse();
+                }
+            }
+            sQLiteCursor.dispose();
+            if (arrayList2.size() > 0) {
+                for (int i = 0; i < arrayList2.size(); i++) {
+                    database.executeFast("DELETE FROM story_drafts WHERE id = " + arrayList2.get(i)).stepThis().dispose();
                 }
             }
             sQLiteCursor.dispose();
@@ -300,7 +309,7 @@ public class DraftsController {
     }
 
     public void append(StoryEntry storyEntry) {
-        if (storyEntry == null) {
+        if (storyEntry == null || storyEntry.isRepostMessage) {
             return;
         }
         prepare(storyEntry);
@@ -398,7 +407,7 @@ public class DraftsController {
     }
 
     public void saveForEdit(StoryEntry storyEntry, long j, TL_stories$StoryItem tL_stories$StoryItem) {
-        if (storyEntry == null || tL_stories$StoryItem == null || tL_stories$StoryItem.media == null) {
+        if (storyEntry == null || storyEntry.isRepostMessage || tL_stories$StoryItem == null || tL_stories$StoryItem.media == null) {
             return;
         }
         ArrayList<StoryEntry> arrayList = new ArrayList<>();
@@ -1005,7 +1014,7 @@ public class DraftsController {
                 if (this.mediaEntities == null) {
                     this.mediaEntities = new ArrayList<>();
                 }
-                this.mediaEntities.add(new VideoEditedInfo.MediaEntity(abstractSerializedData, true));
+                this.mediaEntities.add(new VideoEditedInfo.MediaEntity(abstractSerializedData, true, z));
             }
             if (abstractSerializedData.readInt32(z) != 481674261) {
                 if (z) {

@@ -6194,10 +6194,12 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 }
                 for (int i3 = 0; i3 < 2; i3++) {
                     if (ProfileActivity.this.emojiStatusDrawable[i3] != null) {
-                        if (l == null) {
+                        if (l == null && ProfileActivity.this.currentChat == null) {
                             ProfileActivity.this.emojiStatusDrawable[i3].set(ProfileActivity.this.getPremiumCrossfadeDrawable(i3), true);
-                        } else {
+                        } else if (l != null) {
                             ProfileActivity.this.emojiStatusDrawable[i3].set(l.longValue(), true);
+                        } else {
+                            ProfileActivity.this.emojiStatusDrawable[i3].set((Drawable) null, true);
                         }
                     }
                 }
@@ -8083,7 +8085,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 }
                 this.listAdapter.onBindViewHolder(holder, this.phoneRow);
             } else if (this.chatId != 0) {
-                if ((MessagesController.UPDATE_MASK_CHAT & intValue) != 0 || (MessagesController.UPDATE_MASK_CHAT_AVATAR & intValue) != 0 || (MessagesController.UPDATE_MASK_CHAT_NAME & intValue) != 0 || (MessagesController.UPDATE_MASK_CHAT_MEMBERS & intValue) != 0 || (MessagesController.UPDATE_MASK_STATUS & intValue) != 0) {
+                if ((MessagesController.UPDATE_MASK_CHAT & intValue) != 0 || (MessagesController.UPDATE_MASK_CHAT_AVATAR & intValue) != 0 || (MessagesController.UPDATE_MASK_CHAT_NAME & intValue) != 0 || (MessagesController.UPDATE_MASK_CHAT_MEMBERS & intValue) != 0 || (MessagesController.UPDATE_MASK_STATUS & intValue) != 0 || (MessagesController.UPDATE_MASK_EMOJI_STATUS & intValue) != 0) {
                     if ((MessagesController.UPDATE_MASK_CHAT & intValue) != 0) {
                         updateListAnimated(true);
                     } else {

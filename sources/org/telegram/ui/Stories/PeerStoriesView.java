@@ -3674,6 +3674,11 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                     PeerStoriesView.this.shareAlert = null;
                 }
 
+                @Override // org.telegram.ui.Components.ShareAlert
+                protected void onShareStory(View view) {
+                    PeerStoriesView.this.tryToOpenRepostStory();
+                }
+
                 /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.ShareAlert
                 public void onSend(LongSparseArray<TLRPC$Dialog> longSparseArray, int i, TLRPC$TL_forumTopic tLRPC$TL_forumTopic) {
@@ -3683,9 +3688,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                     if (of != null) {
                         if (longSparseArray.size() == 1) {
                             long keyAt = longSparseArray.keyAt(0);
-                            if (keyAt == Long.MAX_VALUE) {
-                                PeerStoriesView.this.tryToOpenRepostStory();
-                            } else if (keyAt == UserConfig.getInstance(this.currentAccount).clientUserId) {
+                            if (keyAt == UserConfig.getInstance(this.currentAccount).clientUserId) {
                                 of.createSimpleBulletin(R.raw.saved_messages, AndroidUtilities.replaceTags(LocaleController.formatString("StorySharedToSavedMessages", R.string.StorySharedToSavedMessages, new Object[0])), 5000).hideAfterBottomSheet(false).show();
                             } else if (keyAt < 0) {
                                 TLRPC$Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-keyAt));
@@ -4636,7 +4639,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
     /* JADX WARN: Removed duplicated region for block: B:340:0x081d  */
     /* JADX WARN: Removed duplicated region for block: B:341:0x081f  */
     /* JADX WARN: Type inference failed for: r2v4 */
-    /* JADX WARN: Type inference failed for: r2v5, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r2v5, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r2v71 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

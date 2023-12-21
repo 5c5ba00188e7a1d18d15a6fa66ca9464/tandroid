@@ -13,6 +13,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
+import android.util.SparseArray;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import androidx.collection.LongSparseArray;
 import androidx.core.graphics.ColorUtils;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.exoplayer2.util.Consumer;
@@ -613,8 +615,8 @@ public class SelfStoryViewsPage extends FrameLayout implements NotificationCente
         updateViewState(false);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:121:0x01ce  */
-    /* JADX WARN: Removed duplicated region for block: B:122:0x01d1  */
+    /* JADX WARN: Removed duplicated region for block: B:128:0x01f3  */
+    /* JADX WARN: Removed duplicated region for block: B:129:0x01f6  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -632,7 +634,8 @@ public class SelfStoryViewsPage extends FrameLayout implements NotificationCente
                 this.showReactionsSort = tL_stories$StoryViews.reactions_count >= (BuildVars.DEBUG_PRIVATE_VERSION ? 5 : 10);
                 this.showContactsFilter = (tL_stories$StoryItem.dialogId < 0 || i2 < 20 || tL_stories$StoryItem.contacts || tL_stories$StoryItem.close_friends || tL_stories$StoryItem.selected_contacts) ? false : true;
             }
-            ViewsModel viewsModel = MessagesController.getInstance(this.currentAccount).storiesController.selfViewsModel.get(tL_stories$StoryItem.id);
+            SparseArray<ViewsModel> sparseArray = MessagesController.getInstance(this.currentAccount).storiesController.selfViewsModel.get(tL_stories$StoryItem.dialogId);
+            ViewsModel viewsModel = sparseArray != null ? sparseArray.get(tL_stories$StoryItem.id) : null;
             this.defaultModel = viewsModel;
             TL_stories$StoryViews tL_stories$StoryViews2 = tL_stories$StoryItem.views;
             int i3 = tL_stories$StoryViews2 == null ? 0 : tL_stories$StoryViews2.views_count;
@@ -645,7 +648,13 @@ public class SelfStoryViewsPage extends FrameLayout implements NotificationCente
                 this.defaultModel = viewsModel2;
                 viewsModel2.reloadIfNeed(this.state, this.showContactsFilter, this.showReactionsSort);
                 this.defaultModel.loadNext();
-                MessagesController.getInstance(this.currentAccount).storiesController.selfViewsModel.put(tL_stories$StoryItem.id, this.defaultModel);
+                if (sparseArray != null) {
+                    sparseArray.put(tL_stories$StoryItem.id, this.defaultModel);
+                } else {
+                    SparseArray<ViewsModel> sparseArray2 = new SparseArray<>();
+                    sparseArray2.put(tL_stories$StoryItem.id, this.defaultModel);
+                    MessagesController.getInstance(this.currentAccount).storiesController.selfViewsModel.put(tL_stories$StoryItem.dialogId, sparseArray2);
+                }
             } else {
                 viewsModel.reloadIfNeed(this.state, this.showContactsFilter, this.showReactionsSort);
                 i = 20;
@@ -730,7 +739,8 @@ public class SelfStoryViewsPage extends FrameLayout implements NotificationCente
         if (tL_stories$StoryItem == null) {
             return;
         }
-        ViewsModel viewsModel = MessagesController.getInstance(i).storiesController.selfViewsModel.get(tL_stories$StoryItem.id);
+        SparseArray<ViewsModel> sparseArray = MessagesController.getInstance(i).storiesController.selfViewsModel.get(tL_stories$StoryItem.dialogId);
+        ViewsModel viewsModel = sparseArray == null ? null : sparseArray.get(tL_stories$StoryItem.id);
         TL_stories$StoryViews tL_stories$StoryViews = tL_stories$StoryItem.views;
         int i2 = tL_stories$StoryViews == null ? 0 : tL_stories$StoryViews.views_count;
         if (viewsModel == null || viewsModel.totalCount != i2) {
@@ -739,7 +749,13 @@ public class SelfStoryViewsPage extends FrameLayout implements NotificationCente
             }
             ViewsModel viewsModel2 = new ViewsModel(i, j, tL_stories$StoryItem, true);
             viewsModel2.loadNext();
-            MessagesController.getInstance(i).storiesController.selfViewsModel.put(tL_stories$StoryItem.id, viewsModel2);
+            if (sparseArray == null) {
+                LongSparseArray<SparseArray<ViewsModel>> longSparseArray = MessagesController.getInstance(i).storiesController.selfViewsModel;
+                long j2 = tL_stories$StoryItem.dialogId;
+                sparseArray = new SparseArray<>();
+                longSparseArray.put(j2, sparseArray);
+            }
+            sparseArray.put(tL_stories$StoryItem.id, viewsModel2);
         }
     }
 

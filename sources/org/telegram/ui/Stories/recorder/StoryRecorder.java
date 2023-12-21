@@ -637,6 +637,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             this.fromRect.set(sourceView.screenRect);
             this.fromRounding = sourceView.rounding;
         } else {
+            this.fromSourceView = null;
             this.openType = 0;
             this.fromRect.set(0.0f, AndroidUtilities.dp(100.0f), AndroidUtilities.displaySize.x, AndroidUtilities.dp(100.0f) + AndroidUtilities.displaySize.y);
             this.fromRounding = AndroidUtilities.dp(8.0f);
@@ -1242,7 +1243,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
                             StoryRecorder.this.fromSourceView.backgroundImageReceiver.setRoundRadius(i);
                         } else if (StoryRecorder.this.fromSourceView.backgroundDrawable != null) {
                             StoryRecorder.this.fromSourceView.backgroundDrawable.setBounds((int) StoryRecorder.this.rectF.left, (int) StoryRecorder.this.rectF.top, (int) StoryRecorder.this.rectF.right, (int) StoryRecorder.this.rectF.bottom);
-                            StoryRecorder.this.fromSourceView.backgroundDrawable.setAlpha((int) (255.0f * clamp));
+                            StoryRecorder.this.fromSourceView.backgroundDrawable.setAlpha((int) (255.0f * clamp * clamp * clamp));
                             StoryRecorder.this.fromSourceView.backgroundDrawable.draw(canvas);
                         } else if (StoryRecorder.this.fromSourceView.backgroundPaint != null) {
                             if (StoryRecorder.this.fromSourceView.hasShadow) {
@@ -2768,6 +2769,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
 
     public /* synthetic */ void lambda$initViews$13(Runnable runnable) {
         applyPaint();
+        applyPaintMessage();
         applyFilter(runnable);
     }
 
@@ -3144,6 +3146,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
     }
 
     public /* synthetic */ void lambda$upload$32(boolean z) {
+        applyPaintMessage();
         this.preparingUpload = false;
         uploadInternal(z);
     }
@@ -5866,21 +5869,9 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:238:0x016d, code lost:
-        if (r5.isRecycled() != false) goto L64;
+    /* JADX WARN: Code restructure failed: missing block: B:203:0x016d, code lost:
+        if (r2.isRecycled() != false) goto L70;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:254:0x01c1, code lost:
-        if (r2.isRecycled() == false) goto L71;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:255:0x01c3, code lost:
-        r2.recycle();
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:267:0x01e4, code lost:
-        if (r2.isRecycled() == false) goto L71;
-     */
-    /* JADX WARN: Removed duplicated region for block: B:310:0x0304  */
-    /* JADX WARN: Removed duplicated region for block: B:317:0x0359  */
-    /* JADX WARN: Removed duplicated region for block: B:348:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -5947,6 +5938,9 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         Bitmap.CompressFormat compressFormat = Bitmap.CompressFormat.PNG;
         StoryEntry storyEntry8 = this.outputEntry;
         storyEntry7.paintFile = fileLoader.getPathToAttach(ImageLoader.scaleAndSaveImage(bitmap, compressFormat, storyEntry8.resultWidth, storyEntry8.resultHeight, 87, false, 101, 101), true);
+        if (bitmap != null && !bitmap.isRecycled()) {
+            bitmap.recycle();
+        }
         StoryEntry storyEntry9 = this.outputEntry;
         if (storyEntry9.isRepostMessage) {
             File file4 = storyEntry9.backgroundFile;
@@ -5983,98 +5977,65 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
                     }
                 }
             }
-            File file5 = this.outputEntry.messageFile;
+        }
+        StoryEntry storyEntry12 = this.outputEntry;
+        if (storyEntry12.isRepostMessage) {
+            File file5 = storyEntry12.messageVideoMaskFile;
             if (file5 != null) {
                 try {
                     file5.delete();
                 } catch (Exception e3) {
                     FileLog.e(e3);
                 }
-                this.outputEntry.messageFile = null;
+                this.outputEntry.messageVideoMaskFile = null;
             }
-            this.outputEntry.messageFile = StoryEntry.makeCacheFile(this.currentAccount, "webp");
-            PaintView paintView3 = this.paintView;
-            StoryEntry storyEntry12 = this.outputEntry;
-            bitmap = paintView3.getBitmap(storyEntry12.mediaEntities, storyEntry12.resultWidth, storyEntry12.resultHeight, false, false, true, !z, storyEntry12);
-            try {
-                try {
-                    bitmap.compress(Bitmap.CompressFormat.WEBP, 100, new FileOutputStream(this.outputEntry.messageFile));
-                } catch (Exception e4) {
-                    FileLog.e(e4);
-                    try {
-                        this.outputEntry.messageFile.delete();
-                    } catch (Exception e5) {
-                        FileLog.e(e5);
-                    }
-                    this.outputEntry.messageFile = null;
-                    if (bitmap != null) {
-                    }
-                    File file6 = this.outputEntry.messageVideoMaskFile;
-                    if (file6 != null) {
+            StoryEntry storyEntry13 = this.outputEntry;
+            if (storyEntry13.isRepostMessage && storyEntry13.isVideo) {
+                int i = storyEntry13.width;
+                int i2 = storyEntry13.height;
+                MessageEntityView findMessageView = this.paintView.findMessageView();
+                if (findMessageView != null && findMessageView.listView.getChildCount() == 1 && i > 0 && i2 > 0) {
+                    if ((findMessageView.listView.getChildAt(0) instanceof ChatMessageCell) && (photoImage = ((ChatMessageCell) findMessageView.listView.getChildAt(0)).getPhotoImage()) != null && ((int) photoImage.getImageWidth()) > 0 && ((int) photoImage.getImageHeight()) > 0) {
+                        float f = i;
+                        float f2 = i2;
+                        float max = Math.max(photoImage.getImageWidth() / f, photoImage.getImageHeight() / f2);
+                        int i3 = (int) ((f * max) / 2.0f);
+                        int i4 = (int) ((f2 * max) / 2.0f);
+                        Bitmap createBitmap2 = Bitmap.createBitmap(i3, i4, Bitmap.Config.ARGB_8888);
+                        float[] fArr = new float[8];
+                        for (int i5 = 0; i5 < photoImage.getRoundRadius().length; i5++) {
+                            int i6 = i5 * 2;
+                            fArr[i6] = photoImage.getRoundRadius()[i5];
+                            fArr[i6 + 1] = photoImage.getRoundRadius()[i5];
+                        }
+                        Canvas canvas = new Canvas(createBitmap2);
+                        Path path = new Path();
+                        canvas.scale(0.5f, 0.5f);
+                        RectF rectF = AndroidUtilities.rectTmp;
+                        float f3 = (i3 * 2.0f) / 2.0f;
+                        float f4 = (i4 * 2.0f) / 2.0f;
+                        rectF.set(f3 - (photoImage.getImageWidth() / 2.0f), f4 - (photoImage.getImageHeight() / 2.0f), f3 + (photoImage.getImageWidth() / 2.0f), f4 + (photoImage.getImageHeight() / 2.0f));
+                        path.addRoundRect(rectF, fArr, Path.Direction.CW);
+                        Paint paint = new Paint(1);
+                        paint.setColor(-1);
+                        canvas.drawPath(path, paint);
                         try {
-                            file6.delete();
-                        } catch (Exception e6) {
-                            FileLog.e(e6);
+                            this.outputEntry.messageVideoMaskFile = StoryEntry.makeCacheFile(this.currentAccount, "webp");
+                            createBitmap2.compress(Bitmap.CompressFormat.WEBP, 100, new FileOutputStream(this.outputEntry.messageVideoMaskFile));
+                        } catch (Exception e4) {
+                            FileLog.e(e4);
+                            this.outputEntry.messageVideoMaskFile = null;
                         }
-                        this.outputEntry.messageVideoMaskFile = null;
+                        createBitmap2.recycle();
                     }
-                    StoryEntry storyEntry13 = this.outputEntry;
-                    if (storyEntry13.isRepostMessage && storyEntry13.isVideo) {
-                        int i = storyEntry13.width;
-                        int i2 = storyEntry13.height;
-                        MessageEntityView findMessageView = this.paintView.findMessageView();
-                        if (findMessageView != null && findMessageView.listView.getChildCount() == 1 && i > 0 && i2 > 0) {
-                            if ((findMessageView.listView.getChildAt(0) instanceof ChatMessageCell) && (photoImage = ((ChatMessageCell) findMessageView.listView.getChildAt(0)).getPhotoImage()) != null && ((int) photoImage.getImageWidth()) > 0 && ((int) photoImage.getImageHeight()) > 0) {
-                                float f = i;
-                                float f2 = i2;
-                                float max = Math.max(photoImage.getImageWidth() / f, photoImage.getImageHeight() / f2);
-                                int i3 = (int) ((f * max) / 2.0f);
-                                int i4 = (int) ((f2 * max) / 2.0f);
-                                Bitmap createBitmap2 = Bitmap.createBitmap(i3, i4, Bitmap.Config.ARGB_8888);
-                                float[] fArr = new float[8];
-                                for (int i5 = 0; i5 < photoImage.getRoundRadius().length; i5++) {
-                                    int i6 = i5 * 2;
-                                    fArr[i6] = photoImage.getRoundRadius()[i5];
-                                    fArr[i6 + 1] = photoImage.getRoundRadius()[i5];
-                                }
-                                Canvas canvas = new Canvas(createBitmap2);
-                                Path path = new Path();
-                                canvas.scale(0.5f, 0.5f);
-                                RectF rectF = AndroidUtilities.rectTmp;
-                                float f3 = (i3 * 2.0f) / 2.0f;
-                                float f4 = (i4 * 2.0f) / 2.0f;
-                                rectF.set(f3 - (photoImage.getImageWidth() / 2.0f), f4 - (photoImage.getImageHeight() / 2.0f), f3 + (photoImage.getImageWidth() / 2.0f), f4 + (photoImage.getImageHeight() / 2.0f));
-                                path.addRoundRect(rectF, fArr, Path.Direction.CW);
-                                Paint paint = new Paint(1);
-                                paint.setColor(-1);
-                                canvas.drawPath(path, paint);
-                                try {
-                                    this.outputEntry.messageVideoMaskFile = StoryEntry.makeCacheFile(this.currentAccount, "webp");
-                                    createBitmap2.compress(Bitmap.CompressFormat.WEBP, 100, new FileOutputStream(this.outputEntry.messageVideoMaskFile));
-                                } catch (Exception e7) {
-                                    FileLog.e(e7);
-                                    this.outputEntry.messageVideoMaskFile = null;
-                                }
-                                createBitmap2.recycle();
-                            }
-                        }
-                    }
-                    if (!wouldBeVideo) {
-                    }
-                    if (this.paintView.hasBlur()) {
-                    }
-                }
-            } finally {
-                if (bitmap != null && !bitmap.isRecycled()) {
-                    bitmap.recycle();
                 }
             }
         }
         if (!wouldBeVideo) {
-            PaintView paintView4 = this.paintView;
+            PaintView paintView3 = this.paintView;
             ArrayList<VideoEditedInfo.MediaEntity> arrayList2 = new ArrayList<>();
             StoryEntry storyEntry14 = this.outputEntry;
-            Bitmap bitmap2 = paintView4.getBitmap(arrayList2, storyEntry14.resultWidth, storyEntry14.resultHeight, false, true, false, false, storyEntry14);
+            Bitmap bitmap2 = paintView3.getBitmap(arrayList2, storyEntry14.resultWidth, storyEntry14.resultHeight, false, true, false, false, storyEntry14);
             StoryEntry storyEntry15 = this.outputEntry;
             FileLoader fileLoader2 = FileLoader.getInstance(this.currentAccount);
             Bitmap.CompressFormat compressFormat2 = Bitmap.CompressFormat.PNG;
@@ -6085,18 +6046,62 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             }
         }
         if (this.paintView.hasBlur()) {
+            Bitmap blurBitmap = this.paintView.getBlurBitmap();
+            StoryEntry storyEntry17 = this.outputEntry;
+            FileLoader fileLoader3 = FileLoader.getInstance(this.currentAccount);
+            Bitmap.CompressFormat compressFormat3 = Bitmap.CompressFormat.PNG;
+            StoryEntry storyEntry18 = this.outputEntry;
+            storyEntry17.paintBlurFile = fileLoader3.getPathToAttach(ImageLoader.scaleAndSaveImage(blurBitmap, compressFormat3, storyEntry18.resultWidth, storyEntry18.resultHeight, 87, false, 101, 101), true);
+            if (blurBitmap == null || blurBitmap.isRecycled()) {
+                return;
+            }
+            blurBitmap.recycle();
+        }
+    }
+
+    private void applyPaintMessage() {
+        StoryEntry storyEntry;
+        if (this.paintView == null || (storyEntry = this.outputEntry) == null || !storyEntry.isRepostMessage) {
             return;
         }
-        Bitmap blurBitmap = this.paintView.getBlurBitmap();
-        StoryEntry storyEntry17 = this.outputEntry;
-        FileLoader fileLoader3 = FileLoader.getInstance(this.currentAccount);
-        Bitmap.CompressFormat compressFormat3 = Bitmap.CompressFormat.PNG;
-        StoryEntry storyEntry18 = this.outputEntry;
-        storyEntry17.paintBlurFile = fileLoader3.getPathToAttach(ImageLoader.scaleAndSaveImage(blurBitmap, compressFormat3, storyEntry18.resultWidth, storyEntry18.resultHeight, 87, false, 101, 101), true);
-        if (blurBitmap == null || blurBitmap.isRecycled()) {
-            return;
+        File file = storyEntry.messageFile;
+        if (file != null) {
+            try {
+                file.delete();
+            } catch (Exception e) {
+                FileLog.e(e);
+            }
+            this.outputEntry.messageFile = null;
         }
-        blurBitmap.recycle();
+        this.outputEntry.messageFile = StoryEntry.makeCacheFile(this.currentAccount, "webp");
+        PaintView paintView = this.paintView;
+        StoryEntry storyEntry2 = this.outputEntry;
+        Bitmap bitmap = paintView.getBitmap(storyEntry2.mediaEntities, storyEntry2.resultWidth, storyEntry2.resultHeight, false, false, true, !this.isVideo, storyEntry2);
+        try {
+            try {
+                bitmap.compress(Bitmap.CompressFormat.WEBP, 100, new FileOutputStream(this.outputEntry.messageFile));
+                if (bitmap.isRecycled()) {
+                    return;
+                }
+            } catch (Exception e2) {
+                FileLog.e(e2);
+                try {
+                    this.outputEntry.messageFile.delete();
+                } catch (Exception e3) {
+                    FileLog.e(e3);
+                }
+                this.outputEntry.messageFile = null;
+                if (bitmap == null || bitmap.isRecycled()) {
+                    return;
+                }
+            }
+            bitmap.recycle();
+        } catch (Throwable th) {
+            if (bitmap != null && !bitmap.isRecycled()) {
+                bitmap.recycle();
+            }
+            throw th;
+        }
     }
 
     private void applyFilter(Runnable runnable) {
@@ -6523,6 +6528,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         this.showSavedDraftHint = !this.outputEntry.isDraft;
         applyFilter(null);
         applyPaint();
+        applyPaintMessage();
         destroyPhotoFilterView();
         StoryEntry storyEntry2 = this.outputEntry;
         storyEntry2.destroy(true);

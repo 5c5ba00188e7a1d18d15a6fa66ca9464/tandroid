@@ -52,7 +52,6 @@ public class MessageEntityView extends EntityView {
     private boolean clipVideoMessageForBitmap;
     public final FrameLayout container;
     private final SparseIntArray currentColors;
-    private final ChatActionCell dateCell;
     public boolean firstMeasure;
     private MessageObject.GroupedMessages groupedMessages;
     private boolean isDark;
@@ -92,7 +91,7 @@ public class MessageEntityView extends EntityView {
         this.firstMeasure = true;
         this.isDark = Theme.isCurrentThemeDark();
         this.currentColors = new SparseIntArray();
-        this.resourcesProvider = new Theme.ResourcesProvider() { // from class: org.telegram.ui.Components.Paint.Views.MessageEntityView.8
+        this.resourcesProvider = new Theme.ResourcesProvider() { // from class: org.telegram.ui.Components.Paint.Views.MessageEntityView.7
             public final Paint chat_actionBackgroundGradientDarkenPaint;
             public final Paint chat_actionBackgroundSelectedPaint;
             public final TextPaint chat_actionTextPaint;
@@ -267,11 +266,10 @@ public class MessageEntityView extends EntityView {
         };
         setRotation(f);
         setScale(f2);
-        int i = 0;
-        for (int i2 = 0; i2 < arrayList.size(); i2++) {
-            MessageObject messageObject = arrayList.get(i2);
+        for (int i = 0; i < arrayList.size(); i++) {
+            MessageObject messageObject = arrayList.get(i);
             TLRPC$Message tLRPC$Message = messageObject.messageOwner;
-            i = tLRPC$Message.date;
+            int i2 = tLRPC$Message.date;
             TLRPC$TL_message copyMessage = copyMessage(tLRPC$Message);
             Boolean useForwardForRepost = StoryEntry.useForwardForRepost(messageObject);
             if (useForwardForRepost != null && useForwardForRepost.booleanValue() && (tLRPC$MessageFwdHeader = copyMessage.fwd_from) != null && (tLRPC$Peer = tLRPC$MessageFwdHeader.from_id) != null) {
@@ -284,41 +282,6 @@ public class MessageEntityView extends EntityView {
             int i3 = messageObject.currentAccount;
             this.messageObjects.add(new MessageObject(i3, copyMessage, messageObject.replyMessageObject, MessagesController.getInstance(i3).getUsers(), MessagesController.getInstance(messageObject.currentAccount).getChats(), null, null, true, true, 0L, true, z));
         }
-        ChatActionCell chatActionCell = new ChatActionCell(context, false, this.resourcesProvider, blurManager) { // from class: org.telegram.ui.Components.Paint.Views.MessageEntityView.1
-            public final BlurringShader.StoryBlurDrawer blurDrawer;
-            private final TextPaint textPaint;
-            final /* synthetic */ BlurringShader.BlurManager val$blurManager;
-
-            {
-                this.val$blurManager = blurManager;
-                this.blurDrawer = new BlurringShader.StoryBlurDrawer(blurManager, this, 10);
-                TextPaint textPaint = new TextPaint(1);
-                this.textPaint = textPaint;
-                textPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-                textPaint.setTextSize(AndroidUtilities.dp(Math.max(16, SharedConfig.fontSize) - 2));
-                textPaint.setColor(-1);
-            }
-
-            /* JADX INFO: Access modifiers changed from: protected */
-            @Override // org.telegram.ui.Cells.ChatActionCell
-            public Paint getThemedPaint(String str) {
-                if ("paintChatActionText".equals(str) || "paintChatActionText2".equals(str)) {
-                    return this.textPaint;
-                }
-                if ("paintChatActionBackground".equals(str)) {
-                    MessageEntityView.this.usesBackgroundPaint = true;
-                    Paint paint = this.blurDrawer.adapt(MessageEntityView.this.isDark).getPaint(1.0f);
-                    if (paint != null) {
-                        return paint;
-                    }
-                }
-                return super.getThemedPaint(str);
-            }
-        };
-        this.dateCell = chatActionCell;
-        chatActionCell.setTranslationX(AndroidUtilities.dp(26.0f));
-        chatActionCell.setCustomDate(i, false, false);
-        addView(chatActionCell, LayoutHelper.createFrame(-1, -2.0f));
         this.groupedMessages = null;
         if (this.messageObjects.size() > 1) {
             MessageObject.GroupedMessages groupedMessages = new MessageObject.GroupedMessages();
@@ -327,7 +290,7 @@ public class MessageEntityView extends EntityView {
             this.groupedMessages.groupId = this.messageObjects.get(0).getGroupId();
             this.groupedMessages.calculate();
         }
-        FrameLayout frameLayout = new FrameLayout(context) { // from class: org.telegram.ui.Components.Paint.Views.MessageEntityView.2
+        FrameLayout frameLayout = new FrameLayout(context) { // from class: org.telegram.ui.Components.Paint.Views.MessageEntityView.1
             private final Matrix videoMatrix = new Matrix();
             private final float[] radii = new float[8];
             private final Path clipPath = new Path();
@@ -411,7 +374,7 @@ public class MessageEntityView extends EntityView {
         };
         this.container = frameLayout;
         addView(frameLayout, LayoutHelper.createFrame(-1, -1.0f));
-        RecyclerListView recyclerListView = new RecyclerListView(context, this.resourcesProvider) { // from class: org.telegram.ui.Components.Paint.Views.MessageEntityView.3
+        RecyclerListView recyclerListView = new RecyclerListView(context, this.resourcesProvider) { // from class: org.telegram.ui.Components.Paint.Views.MessageEntityView.2
             private final ArrayList<ChatMessageCell> drawTimeAfter = new ArrayList<>();
             private final ArrayList<ChatMessageCell> drawNamesAfter = new ArrayList<>();
             private final ArrayList<ChatMessageCell> drawCaptionAfter = new ArrayList<>();
@@ -562,12 +525,12 @@ public class MessageEntityView extends EntityView {
                                 groupedMessages2 = currentMessagesGroup2;
                             }
                         } else if (childAt instanceof ChatActionCell) {
-                            ChatActionCell chatActionCell2 = (ChatActionCell) childAt;
-                            if (chatActionCell2.hasGradientService()) {
+                            ChatActionCell chatActionCell = (ChatActionCell) childAt;
+                            if (chatActionCell.hasGradientService()) {
                                 canvas.save();
-                                canvas2.translate(chatActionCell2.getX(), chatActionCell2.getY());
-                                canvas2.scale(chatActionCell2.getScaleX(), chatActionCell2.getScaleY(), chatActionCell2.getMeasuredWidth() / 2.0f, chatActionCell2.getMeasuredHeight() / 2.0f);
-                                chatActionCell2.drawBackground(canvas2, true);
+                                canvas2.translate(chatActionCell.getX(), chatActionCell.getY());
+                                canvas2.scale(chatActionCell.getScaleX(), chatActionCell.getScaleY(), chatActionCell.getMeasuredWidth() / 2.0f, chatActionCell.getMeasuredHeight() / 2.0f);
+                                chatActionCell.drawBackground(canvas2, true);
                                 canvas.restore();
                             }
                         }
@@ -695,7 +658,7 @@ public class MessageEntityView extends EntityView {
                 Code decompiled incorrectly, please refer to instructions dump.
             */
             public boolean drawChild(Canvas canvas, View view, long j) {
-                ChatActionCell chatActionCell2;
+                ChatActionCell chatActionCell;
                 float f3;
                 boolean z2;
                 int adapterPosition;
@@ -704,9 +667,9 @@ public class MessageEntityView extends EntityView {
                 ChatMessageCell chatMessageCell = null;
                 if (view instanceof ChatMessageCell) {
                     chatMessageCell = (ChatMessageCell) view;
-                    chatActionCell2 = null;
+                    chatActionCell = null;
                 } else {
-                    chatActionCell2 = view instanceof ChatActionCell ? (ChatActionCell) view : null;
+                    chatActionCell = view instanceof ChatActionCell ? (ChatActionCell) view : null;
                 }
                 boolean drawChild = super.drawChild(canvas, view, j);
                 if (chatMessageCell != null && chatMessageCell.hasOutboundsContent()) {
@@ -714,10 +677,10 @@ public class MessageEntityView extends EntityView {
                     canvas.translate(chatMessageCell.getX(), chatMessageCell.getY());
                     chatMessageCell.drawOutboundsContent(canvas);
                     canvas.restore();
-                } else if (chatActionCell2 != null) {
+                } else if (chatActionCell != null) {
                     canvas.save();
-                    canvas.translate(chatActionCell2.getX(), chatActionCell2.getY());
-                    chatActionCell2.drawOutboundsContent(canvas);
+                    canvas.translate(chatActionCell.getX(), chatActionCell.getY());
+                    chatActionCell.drawOutboundsContent(canvas);
                     canvas.restore();
                 }
                 if (view.getTranslationY() != 0.0f) {
@@ -842,8 +805,8 @@ public class MessageEntityView extends EntityView {
                             slidingOffsetX = f5;
                             top = i7;
                         }
-                        if (top2 - AndroidUtilities.dp(48.0f) < top) {
-                            top2 = top + AndroidUtilities.dp(48.0f);
+                        if (top2 - AndroidUtilities.dp(42.0f) < top) {
+                            top2 = top + AndroidUtilities.dp(42.0f);
                         }
                         if (!chatMessageCell.drawPinnedBottom()) {
                             int bottom = z3 ? chatMessageCell.getBottom() : (int) (chatMessageCell.getY() + chatMessageCell.getMeasuredHeight() + chatMessageCell.getTransitionParams().deltaBottom);
@@ -858,7 +821,7 @@ public class MessageEntityView extends EntityView {
                         if (chatMessageCell.getCurrentMessagesGroup() != null && chatMessageCell.getCurrentMessagesGroup().transitionParams.backgroundChangeBounds) {
                             top2 = (int) (top2 - chatMessageCell.getTranslationY());
                         }
-                        avatarImage.setImageY(top2 - AndroidUtilities.dp(44.0f));
+                        avatarImage.setImageY(top2 - AndroidUtilities.dp(40.0f));
                         if (chatMessageCell.shouldDrawAlphaLayer()) {
                             avatarImage.setAlpha(chatMessageCell.getAlpha());
                             z2 = true;
@@ -889,7 +852,7 @@ public class MessageEntityView extends EntityView {
             }
         };
         this.listView = recyclerListView;
-        recyclerListView.setAdapter(new RecyclerListView.SelectionAdapter() { // from class: org.telegram.ui.Components.Paint.Views.MessageEntityView.4
+        recyclerListView.setAdapter(new RecyclerListView.SelectionAdapter() { // from class: org.telegram.ui.Components.Paint.Views.MessageEntityView.3
             @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
             public boolean isEnabled(RecyclerView.ViewHolder viewHolder) {
                 return true;
@@ -897,7 +860,7 @@ public class MessageEntityView extends EntityView {
 
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
             public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i4) {
-                ChatMessageCell chatMessageCell = new ChatMessageCell(context, false, null, MessageEntityView.this.resourcesProvider) { // from class: org.telegram.ui.Components.Paint.Views.MessageEntityView.4.1
+                ChatMessageCell chatMessageCell = new ChatMessageCell(context, false, null, MessageEntityView.this.resourcesProvider) { // from class: org.telegram.ui.Components.Paint.Views.MessageEntityView.3.1
                     public BlurringShader.StoryBlurDrawer blurDrawer;
                     private final Paint clearPaint;
                     private final RectF dst;
@@ -922,7 +885,7 @@ public class MessageEntityView extends EntityView {
                     /* JADX INFO: Access modifiers changed from: protected */
                     @Override // org.telegram.ui.Cells.ChatMessageCell, android.view.View
                     public void onDraw(Canvas canvas) {
-                        4 r0 = 4.this;
+                        3 r0 = 3.this;
                         PreviewView.TextureViewHolder textureViewHolder2 = textureViewHolder;
                         if ((textureViewHolder2 != null && textureViewHolder2.active && textureViewHolder2.textureViewActive) || MessageEntityView.this.clipVideoMessageForBitmap) {
                             canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), 255, 31);
@@ -950,7 +913,7 @@ public class MessageEntityView extends EntityView {
                     public boolean drawPhotoImage(Canvas canvas) {
                         PreviewView.TextureViewHolder textureViewHolder2;
                         ImageReceiver photoImage = getPhotoImage();
-                        4 r1 = 4.this;
+                        3 r1 = 3.this;
                         if (z && photoImage != null && (((textureViewHolder2 = textureViewHolder) != null && textureViewHolder2.active && textureViewHolder2.textureViewActive && MessageEntityView.this.textureViewActive) || MessageEntityView.this.clipVideoMessageForBitmap || (MessageEntityView.this.textureView != null && MessageEntityView.this.drawForBitmap()))) {
                             for (int i5 = 0; i5 < photoImage.getRoundRadius().length; i5++) {
                                 int i6 = i5 * 2;
@@ -1001,7 +964,7 @@ public class MessageEntityView extends EntityView {
                 return MessageEntityView.this.messageObjects.size();
             }
         });
-        GridLayoutManagerFixed gridLayoutManagerFixed = new GridLayoutManagerFixed(context, 1000, 1, true) { // from class: org.telegram.ui.Components.Paint.Views.MessageEntityView.5
+        GridLayoutManagerFixed gridLayoutManagerFixed = new GridLayoutManagerFixed(context, 1000, 1, true) { // from class: org.telegram.ui.Components.Paint.Views.MessageEntityView.4
             @Override // androidx.recyclerview.widget.GridLayoutManager, androidx.recyclerview.widget.LinearLayoutManager, androidx.recyclerview.widget.RecyclerView.LayoutManager
             public boolean supportsPredictiveItemAnimations() {
                 return false;
@@ -1038,7 +1001,7 @@ public class MessageEntityView extends EntityView {
                 return false;
             }
         };
-        gridLayoutManagerFixed.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() { // from class: org.telegram.ui.Components.Paint.Views.MessageEntityView.6
+        gridLayoutManagerFixed.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() { // from class: org.telegram.ui.Components.Paint.Views.MessageEntityView.5
             @Override // androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
             public int getSpanSize(int i4) {
                 int size = (MessageEntityView.this.messageObjects.size() - 1) - i4;
@@ -1053,7 +1016,7 @@ public class MessageEntityView extends EntityView {
             }
         });
         recyclerListView.setLayoutManager(gridLayoutManagerFixed);
-        recyclerListView.addItemDecoration(new RecyclerView.ItemDecoration(this) { // from class: org.telegram.ui.Components.Paint.Views.MessageEntityView.7
+        recyclerListView.addItemDecoration(new RecyclerView.ItemDecoration(this) { // from class: org.telegram.ui.Components.Paint.Views.MessageEntityView.6
             @Override // androidx.recyclerview.widget.RecyclerView.ItemDecoration
             public void getItemOffsets(Rect rect, View view, RecyclerView recyclerView, RecyclerView.State state) {
                 ChatMessageCell chatMessageCell;
@@ -1191,7 +1154,6 @@ public class MessageEntityView extends EntityView {
     }
 
     public void invalidateAll() {
-        this.dateCell.invalidate();
         this.listView.invalidate();
         for (int i = 0; i < this.listView.getChildCount(); i++) {
             this.listView.getChildAt(i).invalidate();
@@ -1221,28 +1183,19 @@ public class MessageEntityView extends EntityView {
 
     @Override // android.widget.FrameLayout, android.view.View
     protected void onMeasure(int i, int i2) {
-        this.dateCell.measure(this.container.getMeasuredWidth() > 0 ? View.MeasureSpec.makeMeasureSpec(this.container.getMeasuredWidth(), 1073741824) : i, i2);
-        this.container.measure(i, View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i2) - this.dateCell.getMeasuredHeight(), View.MeasureSpec.getMode(i2)));
-        this.dateCell.measure(this.container.getMeasuredWidth() > 0 ? View.MeasureSpec.makeMeasureSpec(this.container.getMeasuredWidth(), 1073741824) : i, i2);
-        setMeasuredDimension(this.container.getMeasuredWidth(), this.dateCell.getMeasuredHeight() + this.container.getMeasuredHeight());
+        this.container.measure(i, i2);
+        setMeasuredDimension(this.container.getMeasuredWidth(), this.container.getMeasuredHeight());
         updatePosition();
         if (this.firstMeasure) {
-            float min = Math.min((View.MeasureSpec.getSize(i) - AndroidUtilities.dp(32.0f)) / getMeasuredWidth(), (View.MeasureSpec.getSize(i2) - AndroidUtilities.dp(192.0f)) / getMeasuredHeight());
+            float min = Math.min((View.MeasureSpec.getSize(i) - AndroidUtilities.dp(44.0f)) / getMeasuredWidth(), (View.MeasureSpec.getSize(i2) - AndroidUtilities.dp(192.0f)) / getMeasuredHeight());
             if (min < 1.0f) {
                 setScale(min);
             }
             Point position = getPosition();
-            position.x -= AndroidUtilities.dp(18.0f);
+            position.x -= AndroidUtilities.dp(19.0f) * Math.min(1.0f, min);
             setPosition(position);
             this.firstMeasure = false;
         }
-    }
-
-    @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-    protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
-        ChatActionCell chatActionCell = this.dateCell;
-        chatActionCell.layout(0, 0, chatActionCell.getMeasuredWidth(), this.dateCell.getMeasuredHeight());
-        this.container.layout(0, this.dateCell.getMeasuredHeight(), this.container.getMeasuredWidth(), this.dateCell.getMeasuredHeight() + this.container.getMeasuredHeight());
     }
 
     @Override // org.telegram.ui.Components.Paint.Views.EntityView

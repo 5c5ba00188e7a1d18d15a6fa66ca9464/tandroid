@@ -849,15 +849,18 @@ public class ChannelColorActivity extends BaseFragment {
     /* JADX WARN: Code restructure failed: missing block: B:10:0x001e, code lost:
         if (r0 > r12.currentLevel) goto L9;
      */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x00b9  */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x008e  */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x00a4  */
+    /* JADX WARN: Removed duplicated region for block: B:48:0x00d6  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public /* synthetic */ void lambda$showLimit$12(ChannelBoostsController.CanApplyBoost canApplyBoost) {
         int i;
         final int i2;
-        final TLRPC$Chat chat;
         int i3;
+        final TLRPC$Chat chat;
+        int i4;
         if (this.currentReplyColor != this.selectedReplyColor) {
             MessagesController.PeerColors peerColors = getMessagesController().peerColors;
             MessagesController.PeerColor color = peerColors == null ? null : peerColors.getColor(this.selectedReplyColor);
@@ -866,20 +869,28 @@ public class ChannelColorActivity extends BaseFragment {
             }
         }
         i = 0;
-        int i4 = 20;
+        int i5 = 20;
         if (this.currentProfileColor != this.selectedProfileColor) {
             MessagesController.PeerColors peerColors2 = getMessagesController().profilePeerColors;
             MessagesController.PeerColor color2 = peerColors2 != null ? peerColors2.getColor(this.selectedProfileColor) : null;
-            if (color2 != null && (i3 = color2.lvl) > this.currentLevel) {
-                i4 = 24;
-                i2 = i3;
+            if (color2 != null && (i4 = color2.lvl) > this.currentLevel) {
+                i5 = 24;
+                i2 = i4;
                 if (this.currentReplyEmoji != this.selectedReplyEmoji && getMessagesController().channelBgIconLevelMin > this.currentLevel) {
-                    i4 = 26;
+                    i5 = 26;
                 }
                 if (this.currentProfileEmoji != this.selectedProfileEmoji && getMessagesController().channelProfileIconLevelMin > this.currentLevel) {
-                    i4 = 27;
+                    i5 = 27;
                 }
-                LimitReachedBottomSheet limitReachedBottomSheet = new LimitReachedBottomSheet(this, this, getContext(), (!DialogObject.emojiStatusesEqual(this.currentStatusEmoji, this.selectedStatusEmoji) || getMessagesController().channelEmojiStatusLevelMin <= this.currentLevel) ? i4 : 25, this.currentAccount, getResourceProvider()) { // from class: org.telegram.ui.ChannelColorActivity.2
+                if (!DialogObject.emojiStatusesEqual(this.currentStatusEmoji, this.selectedStatusEmoji) && getMessagesController().channelEmojiStatusLevelMin > this.currentLevel) {
+                    i5 = 25;
+                }
+                if (ChatThemeController.wallpaperEquals(this.currentWallpaper, this.selectedWallpaper)) {
+                    i3 = !TextUtils.isEmpty(ChatThemeController.getWallpaperEmoticon(this.selectedWallpaper)) ? 22 : 23;
+                } else {
+                    i3 = i5;
+                }
+                LimitReachedBottomSheet limitReachedBottomSheet = new LimitReachedBottomSheet(this, this, getContext(), i3, this.currentAccount, getResourceProvider()) { // from class: org.telegram.ui.ChannelColorActivity.2
                     @Override // org.telegram.ui.Components.Premium.LimitReachedBottomSheet
                     protected int channelColorLevelMin() {
                         return i2;
@@ -903,12 +914,17 @@ public class ChannelColorActivity extends BaseFragment {
         }
         i2 = i;
         if (this.currentReplyEmoji != this.selectedReplyEmoji) {
-            i4 = 26;
+            i5 = 26;
         }
         if (this.currentProfileEmoji != this.selectedProfileEmoji) {
-            i4 = 27;
+            i5 = 27;
         }
-        LimitReachedBottomSheet limitReachedBottomSheet2 = new LimitReachedBottomSheet(this, this, getContext(), (!DialogObject.emojiStatusesEqual(this.currentStatusEmoji, this.selectedStatusEmoji) || getMessagesController().channelEmojiStatusLevelMin <= this.currentLevel) ? i4 : 25, this.currentAccount, getResourceProvider()) { // from class: org.telegram.ui.ChannelColorActivity.2
+        if (!DialogObject.emojiStatusesEqual(this.currentStatusEmoji, this.selectedStatusEmoji)) {
+            i5 = 25;
+        }
+        if (ChatThemeController.wallpaperEquals(this.currentWallpaper, this.selectedWallpaper)) {
+        }
+        LimitReachedBottomSheet limitReachedBottomSheet2 = new LimitReachedBottomSheet(this, this, getContext(), i3, this.currentAccount, getResourceProvider()) { // from class: org.telegram.ui.ChannelColorActivity.2
             @Override // org.telegram.ui.Components.Premium.LimitReachedBottomSheet
             protected int channelColorLevelMin() {
                 return i2;
@@ -1847,9 +1863,14 @@ public class ChannelColorActivity extends BaseFragment {
                 chatThemeItem.themeIndex = isDark;
                 this.items.add(chatThemeItem);
             }
-            for (int i2 = 0; i2 < this.items.size(); i2++) {
-                ChatThemeBottomSheet.ChatThemeItem chatThemeItem2 = this.items.get(i2);
-                chatThemeItem2.isSelected = TextUtils.equals(this.currentEmoticon, chatThemeItem2.getEmoticon()) || (TextUtils.isEmpty(this.currentEmoticon) && chatThemeItem2.chatTheme.showAsDefaultStub);
+            int i2 = -1;
+            for (int i3 = 0; i3 < this.items.size(); i3++) {
+                ChatThemeBottomSheet.ChatThemeItem chatThemeItem2 = this.items.get(i3);
+                boolean z = TextUtils.equals(this.currentEmoticon, chatThemeItem2.getEmoticon()) || (TextUtils.isEmpty(this.currentEmoticon) && chatThemeItem2.chatTheme.showAsDefaultStub);
+                chatThemeItem2.isSelected = z;
+                if (z) {
+                    i2 = i3;
+                }
             }
             RecyclerListView.SelectionAdapter selectionAdapter = this.adapter;
             if (selectionAdapter != null) {
@@ -1857,11 +1878,15 @@ public class ChannelColorActivity extends BaseFragment {
             }
             this.listView.animate().alpha(1.0f).setDuration(150L).start();
             updateState(true);
+            if (i2 < 0 || !(this.listView.getLayoutManager() instanceof LinearLayoutManager)) {
+                return;
+            }
+            ((LinearLayoutManager) this.listView.getLayoutManager()).scrollToPositionWithOffset(i2, (AndroidUtilities.displaySize.x - AndroidUtilities.dp(83.0f)) / 2);
         }
 
         /* JADX INFO: Access modifiers changed from: private */
         /* JADX WARN: Type inference failed for: r4v23 */
-        /* JADX WARN: Type inference failed for: r4v5, types: [int, boolean] */
+        /* JADX WARN: Type inference failed for: r4v5, types: [boolean, int] */
         /* JADX WARN: Type inference failed for: r4v8 */
         public boolean parseTheme(final Theme.ThemeInfo themeInfo) {
             int stringKeyToInt;

@@ -22538,7 +22538,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Type inference failed for: r4v30 */
     /* JADX WARN: Type inference failed for: r4v32 */
     /* JADX WARN: Type inference failed for: r7v15 */
-    /* JADX WARN: Type inference failed for: r7v16, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r7v16, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r7v20 */
     /* JADX WARN: Type inference failed for: r7v21 */
     /*
@@ -28905,7 +28905,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Removed duplicated region for block: B:948:0x16a5  */
     /* JADX WARN: Type inference failed for: r12v37 */
     /* JADX WARN: Type inference failed for: r12v5 */
-    /* JADX WARN: Type inference failed for: r12v6, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r12v6, types: [boolean, int] */
     @SuppressLint({"ClickableViewAccessibility"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -37589,11 +37589,12 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     arrayList = new ArrayList<>();
                     arrayList.add(messageObject);
                 }
-                boolean canRepostMessage = StoryEntry.canRepostMessage(messageObject);
+                ArrayList<MessageObject> arrayList2 = arrayList;
+                boolean z = ChatActivity.this.getMessagesController().storiesEnabled() && StoryEntry.canRepostMessage(messageObject);
                 ChatActivity chatActivity = ChatActivity.this;
                 Context context = ChatActivity.this.getContext();
                 ChatActivity chatActivity2 = ChatActivity.this;
-                chatActivity.showDialog(new 1(context, chatActivity2, arrayList, null, null, ChatObject.isChannel(chatActivity2.currentChat), null, null, false, false, canRepostMessage, ChatActivity.this.themeDelegate, canRepostMessage, messageObject));
+                chatActivity.showDialog(new 1(context, chatActivity2, arrayList2, null, null, ChatObject.isChannel(chatActivity2.currentChat), null, null, false, false, z, ChatActivity.this.themeDelegate, z, messageObject));
                 AndroidUtilities.setAdjustResizeToNothing(ChatActivity.this.getParentActivity(), ((BaseFragment) ChatActivity.this).classGuid);
                 ((BaseFragment) ChatActivity.this).fragmentView.requestLayout();
             }
@@ -37644,7 +37645,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
             /* JADX INFO: Access modifiers changed from: private */
             public /* synthetic */ void lambda$onShareStory$1(StoryRecorder storyRecorder, View view, Long l, Runnable runnable, Boolean bool, final Long l2) {
-                if (bool.booleanValue()) {
+                boolean booleanValue = bool.booleanValue();
+                StoryRecorder.SourceView sourceView = null;
+                if (booleanValue) {
                     AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatActivity$ChatMessageCellDelegate$1$$ExternalSyntheticLambda0
                         @Override // java.lang.Runnable
                         public final void run() {
@@ -37654,7 +37657,10 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     dismiss();
                     storyRecorder.replaceSourceView(null);
                 } else {
-                    storyRecorder.replaceSourceView(view instanceof ShareDialogCell ? StoryRecorder.SourceView.fromShareCell((ShareDialogCell) view) : null);
+                    if ((view instanceof ShareDialogCell) && view.isAttachedToWindow()) {
+                        sourceView = StoryRecorder.SourceView.fromShareCell((ShareDialogCell) view);
+                    }
+                    storyRecorder.replaceSourceView(sourceView);
                 }
                 AndroidUtilities.runOnUIThread(runnable);
             }
