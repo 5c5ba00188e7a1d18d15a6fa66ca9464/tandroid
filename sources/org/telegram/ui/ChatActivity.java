@@ -9113,7 +9113,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 ImageReceiver avatarImage = chatMessageCell.getAvatarImage();
                 if (avatarImage != null) {
                     MessageObject.GroupedMessages validGroupedMessage = ChatActivity.this.getValidGroupedMessage(messageObject);
-                    if (!chatMessageCell.getMessageObject().deleted) {
+                    if (!chatMessageCell.getMessageObject().deleted || chatMessageCell.getMessageObject().deletedByThanos) {
                         boolean z5 = ChatActivity.this.chatListView.isFastScrollAnimationRunning() || (validGroupedMessage != null && validGroupedMessage.transitionParams.backgroundChangeBounds);
                         int top2 = z5 ? view.getTop() : (int) view.getY();
                         if (chatMessageCell.drawPinnedBottom()) {
@@ -9319,9 +9319,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         if (view.getTranslationY() != 0.0f) {
                             canvas.restore();
                         }
-                        if (!chatMessageCell.getMessageObject().deletedByThanos) {
-                            avatarImage.setVisible(false, false);
-                        }
+                        avatarImage.setVisible(false, false);
                         return z;
                     }
                 }
@@ -23651,18 +23649,18 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         if (r8 == r41.groupedMessagesMap.get(r7.getGroupId())) goto L41;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:133:0x026e  */
-    /* JADX WARN: Removed duplicated region for block: B:141:0x02a0  */
-    /* JADX WARN: Removed duplicated region for block: B:142:0x02a9  */
-    /* JADX WARN: Removed duplicated region for block: B:147:0x02c5  */
-    /* JADX WARN: Removed duplicated region for block: B:150:0x02cd  */
-    /* JADX WARN: Removed duplicated region for block: B:152:0x030c  */
-    /* JADX WARN: Removed duplicated region for block: B:156:0x0319  */
-    /* JADX WARN: Removed duplicated region for block: B:177:0x038f  */
-    /* JADX WARN: Removed duplicated region for block: B:204:0x045a  */
-    /* JADX WARN: Removed duplicated region for block: B:206:0x045d  */
-    /* JADX WARN: Removed duplicated region for block: B:231:0x04e0  */
-    /* JADX WARN: Removed duplicated region for block: B:235:0x04f5  */
+    /* JADX WARN: Removed duplicated region for block: B:133:0x0276  */
+    /* JADX WARN: Removed duplicated region for block: B:141:0x02a8  */
+    /* JADX WARN: Removed duplicated region for block: B:142:0x02b1  */
+    /* JADX WARN: Removed duplicated region for block: B:147:0x02cd  */
+    /* JADX WARN: Removed duplicated region for block: B:150:0x02d5  */
+    /* JADX WARN: Removed duplicated region for block: B:152:0x0314  */
+    /* JADX WARN: Removed duplicated region for block: B:156:0x0321  */
+    /* JADX WARN: Removed duplicated region for block: B:177:0x0397  */
+    /* JADX WARN: Removed duplicated region for block: B:204:0x0462  */
+    /* JADX WARN: Removed duplicated region for block: B:206:0x0465  */
+    /* JADX WARN: Removed duplicated region for block: B:231:0x04e8  */
+    /* JADX WARN: Removed duplicated region for block: B:235:0x04fd  */
     /* JADX WARN: Removed duplicated region for block: B:252:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:30:0x006a  */
     /* JADX WARN: Removed duplicated region for block: B:47:0x00b4  */
@@ -23827,6 +23825,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                                 arrayList4.add(Integer.valueOf(chatActivityAdapter2.messagesStartRow + indexOf));
                                                 if (remove != null && (tLRPC$Message = remove.messageOwner) != null && tLRPC$Message.send_state == 0) {
                                                     arrayList5.add(Integer.valueOf(this.chatAdapter.messagesStartRow + indexOf));
+                                                    remove.deletedByThanos = LiteMode.isEnabled(65536);
                                                 }
                                             }
                                             if (remove.getGroupId() != 0) {
