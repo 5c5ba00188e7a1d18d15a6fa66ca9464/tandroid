@@ -6014,7 +6014,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     /* JADX WARN: Type inference failed for: r4v226 */
     /* JADX WARN: Type inference failed for: r4v227 */
     /* JADX WARN: Type inference failed for: r4v679 */
-    /* JADX WARN: Type inference failed for: r5v18, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r5v18, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r5v661, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r5v662 */
     /* JADX WARN: Type inference failed for: r5v682 */
@@ -26699,7 +26699,10 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                     this.radialProgress.setProgress(0.0f, false);
                     this.radialProgress.setMiniIcon(getMiniIconForCurrentState(), false, z);
                 }
-                this.delegate.didPressImage(this, 0.0f, 0.0f);
+                ChatMessageCellDelegate chatMessageCellDelegate = this.delegate;
+                if (chatMessageCellDelegate != null) {
+                    chatMessageCellDelegate.didPressImage(this, 0.0f, 0.0f);
+                }
             } else if (i == 4) {
                 int i9 = this.documentAttachType;
                 if (i9 == 3 || i9 == 5 || (i9 == 7 && (messageObject = this.currentMessageObject) != null && messageObject.isVoiceTranscriptionOpen())) {
@@ -27630,7 +27633,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     /* JADX WARN: Type inference failed for: r6v2, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r6v29 */
     /* JADX WARN: Type inference failed for: r9v64 */
-    /* JADX WARN: Type inference failed for: r9v65, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r9v65, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r9v66 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
