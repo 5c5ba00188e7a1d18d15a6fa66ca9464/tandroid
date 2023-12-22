@@ -2881,9 +2881,9 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
         return false;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:151:0x0447  */
-    /* JADX WARN: Removed duplicated region for block: B:155:0x05bc  */
-    /* JADX WARN: Removed duplicated region for block: B:156:0x065c  */
+    /* JADX WARN: Removed duplicated region for block: B:152:0x0449  */
+    /* JADX WARN: Removed duplicated region for block: B:156:0x05dc  */
+    /* JADX WARN: Removed duplicated region for block: B:157:0x069a  */
     /* JADX WARN: Removed duplicated region for block: B:16:0x0059  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -2896,16 +2896,15 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
         View view;
         boolean z5;
         View view2;
+        View view3;
         ImageReceiver imageReceiver;
         ArrayList<MessageObject> arrayList2;
         long j;
         File saveSegmentedImage;
-        boolean z6;
-        RectF rectF;
         int i5;
         int i6;
         AnimatedEmojiSpan[] animatedEmojiSpanArr;
-        boolean z7;
+        boolean z6;
         PaintView paintView = this;
         ArrayList<VideoEditedInfo.MediaEntity> arrayList3 = arrayList;
         int i7 = 0;
@@ -2955,7 +2954,7 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
                                                 AnimatedEmojiDrawable.getDocumentFetcher(paintView.currentAccount).putDocument(tLRPC$Document);
                                             }
                                             VideoEditedInfo.EmojiEntity emojiEntity = new VideoEditedInfo.EmojiEntity();
-                                            View view3 = childAt;
+                                            View view4 = childAt;
                                             emojiEntity.document_id = animatedEmojiSpan.getDocumentId();
                                             emojiEntity.document = tLRPC$Document;
                                             emojiEntity.offset = spanned.getSpanStart(animatedEmojiSpan);
@@ -2968,7 +2967,7 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
                                                     break;
                                                 }
                                                 animatedEmojiSpanArr = animatedEmojiSpanArr2;
-                                                z7 = true;
+                                                z6 = true;
                                                 emojiEntity.documentAbsolutePath = FileLoader.getInstance(paintView.currentAccount).getPathToAttach(tLRPC$Document.thumbs.get(i10), true).getAbsolutePath();
                                                 i10++;
                                                 if (i10 >= tLRPC$Document.thumbs.size()) {
@@ -2977,8 +2976,8 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
                                                 animatedEmojiSpanArr2 = animatedEmojiSpanArr;
                                             }
                                             animatedEmojiSpanArr = animatedEmojiSpanArr2;
-                                            z7 = true;
-                                            boolean isAnimatedStickerDocument = MessageObject.isAnimatedStickerDocument(emojiEntity.document, z7);
+                                            z6 = true;
+                                            boolean isAnimatedStickerDocument = MessageObject.isAnimatedStickerDocument(emojiEntity.document, z6);
                                             if (isAnimatedStickerDocument || isVideoStickerDocument(emojiEntity.document)) {
                                                 emojiEntity.subType = (byte) ((isAnimatedStickerDocument ? (byte) 1 : (byte) 4) | emojiEntity.subType);
                                             }
@@ -2993,7 +2992,7 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
                                             i9++;
                                             childCount = i5;
                                             i8 = i6;
-                                            childAt = view3;
+                                            childAt = view4;
                                             animatedEmojiSpanArr2 = animatedEmojiSpanArr;
                                         }
                                     }
@@ -3126,14 +3125,16 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
                                             if (storyEntry != null && storyEntry.isVideo) {
                                                 storyEntry.matrix.reset();
                                                 if (messageEntityView.listView.getChildCount() == 1) {
-                                                    View childAt2 = messageEntityView.listView.getChildAt(0);
-                                                    if (childAt2 instanceof ChatMessageCell) {
-                                                        imageReceiver = ((ChatMessageCell) childAt2).getPhotoImage();
+                                                    view3 = messageEntityView.listView.getChildAt(0);
+                                                    if (view3 instanceof ChatMessageCell) {
+                                                        imageReceiver = ((ChatMessageCell) view3).getPhotoImage();
                                                         if (imageReceiver != null) {
                                                             float max = Math.max(imageReceiver.getImageWidth() / Math.max(1, storyEntry.width), imageReceiver.getImageHeight() / Math.max(1, storyEntry.height));
                                                             storyEntry.matrix.postScale(max, max);
                                                             storyEntry.matrix.postTranslate(imageReceiver.getCenterX() - ((storyEntry.width * max) / 2.0f), imageReceiver.getCenterY() - ((storyEntry.height * max) / 2.0f));
                                                             storyEntry.matrix.postTranslate(messageEntityView.container.getX(), messageEntityView.container.getY());
+                                                            storyEntry.matrix.postTranslate(messageEntityView.listView.getX(), messageEntityView.listView.getY());
+                                                            storyEntry.matrix.postTranslate(view3.getX(), view3.getY());
                                                             storyEntry.matrix.postScale(messageEntityView.getScaleX(), messageEntityView.getScaleY(), messageEntityView.getPivotX(), messageEntityView.getPivotY());
                                                             storyEntry.matrix.postRotate(messageEntityView.getRotation(), messageEntityView.getPivotX(), messageEntityView.getPivotY());
                                                             storyEntry.matrix.postTranslate(messageEntityView.getX(), messageEntityView.getY());
@@ -3141,6 +3142,8 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
                                                             storyEntry.matrix.postScale(storyEntry.resultWidth, storyEntry.resultHeight);
                                                         }
                                                     }
+                                                } else {
+                                                    view3 = null;
                                                 }
                                                 imageReceiver = null;
                                                 if (imageReceiver != null) {
@@ -3168,9 +3171,12 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
                                     mediaEntity.textViewWidth = mediaEntity.viewWidth / paintView.entitiesView.getMeasuredWidth();
                                     mediaEntity.textViewHeight = mediaEntity.viewHeight / paintView.entitiesView.getMeasuredHeight();
                                     mediaEntity.scale = scaleX;
-                                    z6 = entityView instanceof MessageEntityView;
-                                    if (!z6) {
-                                        ((MessageEntityView) entityView).getBubbleBounds(AndroidUtilities.rectTmp);
+                                    if (!(entityView instanceof MessageEntityView)) {
+                                        MessageEntityView messageEntityView2 = (MessageEntityView) entityView;
+                                        RectF rectF = AndroidUtilities.rectTmp;
+                                        messageEntityView2.getBubbleBounds(rectF);
+                                        rectF.offset(messageEntityView2.container.getX(), messageEntityView2.container.getY());
+                                        rectF.offset(messageEntityView2.listView.getX(), messageEntityView2.listView.getY());
                                         mediaEntity.mediaArea.coordinates.x = ((((x + (view.getWidth() / 2.0f)) - ((view.getWidth() / 2.0f) * scaleX)) + (rectF.centerX() * scaleX)) / paintView.entitiesView.getMeasuredWidth()) * 100.0f;
                                         mediaEntity.mediaArea.coordinates.y = ((((y + (view.getHeight() / 2.0f)) - ((view.getHeight() / 2.0f) * scaleY)) + (rectF.centerY() * scaleY)) / paintView.entitiesView.getMeasuredHeight()) * 100.0f;
                                         mediaEntity.mediaArea.coordinates.w = ((rectF.width() * scaleX) / paintView.entitiesView.getMeasuredWidth()) * 100.0f;
@@ -3196,14 +3202,14 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
                                             mediaEntity.x = f - (f4 / 2.0f);
                                         }
                                     } else {
-                                        boolean z8 = entityView instanceof LocationView;
-                                        if (z8 || (entityView instanceof ReactionWidgetEntityView) || z6) {
+                                        boolean z7 = entityView instanceof LocationView;
+                                        if (z7 || (entityView instanceof ReactionWidgetEntityView)) {
                                             TL_stories$TL_mediaAreaCoordinates tL_stories$TL_mediaAreaCoordinates2 = mediaEntity.mediaArea.coordinates;
                                             float f5 = mediaEntity.x;
                                             float f6 = mediaEntity.width;
                                             tL_stories$TL_mediaAreaCoordinates2.x = (f5 + (f6 / 2.0f)) * 100.0f;
                                             tL_stories$TL_mediaAreaCoordinates2.y = (mediaEntity.y + (mediaEntity.height / 2.0f)) * 100.0f;
-                                            if (z8) {
+                                            if (z7) {
                                                 LocationView locationView2 = (LocationView) entityView;
                                                 tL_stories$TL_mediaAreaCoordinates2.w = (f6 - (((locationView2.marker.padx * 2) * scaleX) / paintView.entitiesView.getMeasuredWidth())) * 100.0f;
                                                 mediaEntity.mediaArea.coordinates.h = (mediaEntity.height - (((locationView2.marker.pady * 2) * scaleY) / paintView.entitiesView.getMeasuredHeight())) * 100.0f;
@@ -3242,8 +3248,7 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
                             mediaEntity.textViewWidth = mediaEntity.viewWidth / paintView.entitiesView.getMeasuredWidth();
                             mediaEntity.textViewHeight = mediaEntity.viewHeight / paintView.entitiesView.getMeasuredHeight();
                             mediaEntity.scale = scaleX2;
-                            z6 = entityView instanceof MessageEntityView;
-                            if (!z6) {
+                            if (!(entityView instanceof MessageEntityView)) {
                             }
                         } else {
                             i3 = childCount;
@@ -3282,10 +3287,10 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
                                         }
                                         createBitmap2.recycle();
                                     } else if (view2 instanceof MessageEntityView) {
-                                        MessageEntityView messageEntityView2 = (MessageEntityView) view2;
-                                        messageEntityView2.prepareToDraw(true);
+                                        MessageEntityView messageEntityView3 = (MessageEntityView) view2;
+                                        messageEntityView3.prepareToDraw(true);
                                         view2.draw(canvas2);
-                                        messageEntityView2.prepareToDraw(false);
+                                        messageEntityView3.prepareToDraw(false);
                                     } else {
                                         view2.draw(canvas2);
                                     }

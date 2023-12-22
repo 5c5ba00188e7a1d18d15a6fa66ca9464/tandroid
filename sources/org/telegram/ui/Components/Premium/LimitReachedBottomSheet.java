@@ -1409,11 +1409,11 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
             } else if (i9 == 24) {
                 str = LocaleController.formatString(R.string.ChannelNeedBoostsForProfileColorDescription, Integer.valueOf(LimitReachedBottomSheet.this.channelColorLevelMin()));
             } else if (i9 == 25) {
-                str = LocaleController.formatString(R.string.ChannelNeedBoostsForProfileIconDescription, Integer.valueOf(MessagesController.getInstance(((BottomSheet) LimitReachedBottomSheet.this).currentAccount).channelEmojiStatusLevelMin));
+                str = LocaleController.formatString(R.string.ChannelNeedBoostsForEmojiStatusDescription, Integer.valueOf(MessagesController.getInstance(((BottomSheet) LimitReachedBottomSheet.this).currentAccount).channelEmojiStatusLevelMin));
             } else if (i9 == 26) {
                 str = LocaleController.formatString(R.string.ChannelNeedBoostsForReplyIconDescription, Integer.valueOf(MessagesController.getInstance(((BottomSheet) LimitReachedBottomSheet.this).currentAccount).channelBgIconLevelMin));
             } else if (i9 == 27) {
-                str = LocaleController.formatString(R.string.ChannelNeedBoostsForEmojiStatusDescription, Integer.valueOf(MessagesController.getInstance(((BottomSheet) LimitReachedBottomSheet.this).currentAccount).channelProfileIconLevelMin));
+                str = LocaleController.formatString(R.string.ChannelNeedBoostsForProfileIconDescription, Integer.valueOf(MessagesController.getInstance(((BottomSheet) LimitReachedBottomSheet.this).currentAccount).channelProfileIconLevelMin));
             } else if (i9 == 22) {
                 str = LocaleController.formatString(R.string.ChannelNeedBoostsForWallpaperDescription, Integer.valueOf(MessagesController.getInstance(((BottomSheet) LimitReachedBottomSheet.this).currentAccount).channelWallpaperLevelMin));
             } else if (i9 == 23) {

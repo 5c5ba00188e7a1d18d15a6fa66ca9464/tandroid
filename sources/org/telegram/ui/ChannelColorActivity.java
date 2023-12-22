@@ -1662,6 +1662,11 @@ public class ChannelColorActivity extends BaseFragment {
             }
         }
 
+        public boolean isDark() {
+            Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
+            return resourcesProvider != null ? resourcesProvider.isDark() : Theme.isCurrentThemeDark();
+        }
+
         public ThemeChooser(Context context, final boolean z, final int i, final Theme.ResourcesProvider resourcesProvider) {
             super(context);
             this.items = new ArrayList();
@@ -1824,12 +1829,10 @@ public class ChannelColorActivity extends BaseFragment {
             }
         }
 
-        /* JADX WARN: Multi-variable type inference failed */
         public void updateColors() {
-            Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-            int isDark = resourcesProvider != null ? resourcesProvider.isDark() : Theme.isCurrentThemeDark();
+            boolean isDark = isDark();
             for (int i = 0; i < this.items.size(); i++) {
-                this.items.get(i).themeIndex = isDark;
+                this.items.get(i).themeIndex = isDark ? 1 : 0;
             }
             AndroidUtilities.forEachViews((RecyclerView) this.listView, (Consumer<View>) new Consumer() { // from class: org.telegram.ui.ChannelColorActivity$ThemeChooser$$ExternalSyntheticLambda0
                 @Override // com.google.android.exoplayer2.util.Consumer
