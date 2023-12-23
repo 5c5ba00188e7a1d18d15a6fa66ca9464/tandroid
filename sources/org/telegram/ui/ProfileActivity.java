@@ -3082,7 +3082,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             protected TextView createTextView() {
                 TextView textView2 = new TextView(context);
                 textView2.setTextColor(ProfileActivity.this.getThemedColor(Theme.key_player_actionBarSubtitle));
-                textView2.setTextSize(1, 14.0f);
+                textView2.setTextSize(0, AndroidUtilities.dp(14.0f));
                 textView2.setSingleLine(true);
                 textView2.setEllipsize(TextUtils.TruncateAt.END);
                 textView2.setGravity(3);
@@ -3091,7 +3091,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         };
         this.mediaCounterTextView = clippingTextViewSwitcher;
         clippingTextViewSwitcher.setAlpha(0.0f);
-        this.avatarContainer2.addView(this.mediaCounterTextView, LayoutHelper.createFrame(-2, -2.0f, 51, 118.0f, 0.0f, 8.0f, 0.0f));
+        this.avatarContainer2.addView(this.mediaCounterTextView, LayoutHelper.createFrame(-2, -2.0f, 51, 118.33f, -2.0f, 8.0f, 0.0f));
         this.storyView = new ProfileStoriesView(context, this.currentAccount, getDialogId(), this.avatarContainer, this.avatarImage, this.resourcesProvider) { // from class: org.telegram.ui.ProfileActivity.26
             @Override // org.telegram.ui.Stories.ProfileStoriesView
             protected void onTap(StoryViewer.PlaceProvider placeProvider) {
@@ -4924,6 +4924,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             String str2;
             String str3;
             String str4;
+            String str5;
             if (i != ProfileActivity.this.versionRow) {
                 if (i < ProfileActivity.this.membersStartRow || i >= ProfileActivity.this.membersEndRow) {
                     return ProfileActivity.this.processOnClickOrPress(i, view, view.getWidth() / 2.0f, (int) (view.getHeight() * 0.75f));
@@ -4935,7 +4936,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             if (i4 >= 2 || BuildVars.DEBUG_PRIVATE_VERSION) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this.getParentActivity(), ProfileActivity.this.resourcesProvider);
                 builder.setTitle(LocaleController.getString("DebugMenu", R.string.DebugMenu));
-                CharSequence[] charSequenceArr = new CharSequence[27];
+                CharSequence[] charSequenceArr = new CharSequence[28];
                 charSequenceArr[0] = LocaleController.getString("DebugMenuImportContacts", R.string.DebugMenuImportContacts);
                 charSequenceArr[1] = LocaleController.getString("DebugMenuReloadContacts", R.string.DebugMenuReloadContacts);
                 charSequenceArr[2] = LocaleController.getString("DebugMenuResetContacts", R.string.DebugMenuResetContacts);
@@ -4993,7 +4994,17 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 charSequenceArr[23] = BuildVars.DEBUG_VERSION ? SharedConfig.useSurfaceInStories ? "back to TextureView in stories" : "use SurfaceView in stories" : null;
                 charSequenceArr[24] = BuildVars.DEBUG_PRIVATE_VERSION ? SharedConfig.photoViewerBlur ? "do not blur in photoviewer" : "blur in photoviewer" : null;
                 charSequenceArr[25] = !SharedConfig.payByInvoice ? "Enable Invoice Payment" : "Disable Invoice Payment";
-                charSequenceArr[26] = BuildVars.DEBUG_PRIVATE_VERSION ? "Update Attach Bots" : null;
+                boolean z3 = BuildVars.DEBUG_PRIVATE_VERSION;
+                charSequenceArr[26] = z3 ? "Update Attach Bots" : null;
+                if (z3) {
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(SharedConfig.forceLessData ? "Disable using less data" : "Use less data on stories");
+                    sb.append(ApplicationLoader.isConnectionSlow() ? " (connection is already slow)" : "");
+                    str5 = sb.toString();
+                } else {
+                    str5 = null;
+                }
+                charSequenceArr[27] = str5;
                 final Context context = this.val$context;
                 builder.setItems(charSequenceArr, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$15$$ExternalSyntheticLambda1
                     @Override // android.content.DialogInterface.OnClickListener
@@ -5161,6 +5172,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     SharedConfig.togglePaymentByInvoice();
                 } else if (i == 26) {
                     ProfileActivity.this.getMediaDataController().loadAttachMenuBots(false, true);
+                } else if (i == 27) {
+                    SharedConfig.setForceLessData(!SharedConfig.forceLessData);
                 }
             } else {
                 int i3 = ConnectionsManager.CPU_COUNT;

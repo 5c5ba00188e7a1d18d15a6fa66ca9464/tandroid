@@ -8,6 +8,7 @@ import android.graphics.SurfaceTexture;
 import android.opengl.GLES20;
 import android.opengl.GLES31;
 import android.opengl.GLUtils;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -42,6 +43,10 @@ public class ThanosEffect extends TextureView {
     private DrawingThread drawThread;
     private final Choreographer.FrameCallback frameCallback;
     private final ArrayList<ToSet> toSet;
+
+    public static boolean supports() {
+        return Build.VERSION.SDK_INT >= 21;
+    }
 
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes4.dex */
@@ -241,6 +246,7 @@ public class ThanosEffect extends TextureView {
                 draw();
             } else if (i == 1) {
                 resizeInternal(message.arg1, message.arg2);
+                draw();
             } else if (i == 2) {
                 killInternal();
             } else if (i == 3) {

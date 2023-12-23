@@ -4629,15 +4629,15 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
         updatePosition(false);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:277:0x0751, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:277:0x075d, code lost:
         if (r1.captionTranslated != (r4 != null && r4.translated && r4.translatedText != null && android.text.TextUtils.equals(r4.translatedLng, org.telegram.ui.Components.TranslateAlert2.getToLanguage()))) goto L309;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:315:0x07c8  */
-    /* JADX WARN: Removed duplicated region for block: B:318:0x07d3  */
-    /* JADX WARN: Removed duplicated region for block: B:319:0x07dd  */
-    /* JADX WARN: Removed duplicated region for block: B:340:0x081d  */
-    /* JADX WARN: Removed duplicated region for block: B:341:0x081f  */
+    /* JADX WARN: Removed duplicated region for block: B:315:0x07d4  */
+    /* JADX WARN: Removed duplicated region for block: B:318:0x07df  */
+    /* JADX WARN: Removed duplicated region for block: B:319:0x07e9  */
+    /* JADX WARN: Removed duplicated region for block: B:340:0x0829  */
+    /* JADX WARN: Removed duplicated region for block: B:341:0x082b  */
     /* JADX WARN: Type inference failed for: r2v4 */
     /* JADX WARN: Type inference failed for: r2v5, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r2v71 */
@@ -4780,7 +4780,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
             } else {
                 i = i7;
                 TLRPC$MessageMedia tLRPC$MessageMedia = tL_stories$StoryItem10.media;
-                boolean z12 = tLRPC$MessageMedia != null && MessageObject.isVideoDocument(tLRPC$MessageMedia.document);
+                boolean z12 = tLRPC$MessageMedia != null && MessageObject.isVideoDocument(tLRPC$MessageMedia.getDocument());
                 tL_stories$StoryItem10.dialogId = this.dialogId;
                 this.imageReceiver.setCrossfadeWithOldImage(z9);
                 this.imageReceiver.setCrossfadeDuration(ImageReceiver.DEFAULT_CROSSFADE_DURATION);
@@ -4797,7 +4797,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                         }
                         if (z12) {
                             TLRPC$MessageMedia tLRPC$MessageMedia3 = tL_stories$StoryItem10.media;
-                            Drawable createStripedBitmap = tLRPC$MessageMedia3 != null ? ImageLoader.createStripedBitmap(tLRPC$MessageMedia3.document.thumbs) : null;
+                            Drawable createStripedBitmap = tLRPC$MessageMedia3 != null ? ImageLoader.createStripedBitmap(tLRPC$MessageMedia3.getDocument().thumbs) : null;
                             if (tL_stories$StoryItem10.firstFramePath != null) {
                                 if (ImageLoader.getInstance().isInMemCache(ImageLocation.getForPath(tL_stories$StoryItem10.firstFramePath).getKey(null, null, false) + "@" + storyImageFilter, false)) {
                                     z4 = z9;
@@ -4826,12 +4826,12 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                         Drawable drawable = ((storyViewer.storiesList != null || storyViewer.isSingleStory) && (transitionViewHolder = storyViewer.transitionViewHolder) != null && (imageReceiver = transitionViewHolder.storyImage) != null && transitionViewHolder.storyId == tL_stories$StoryItem10.id) ? imageReceiver.getDrawable() : null;
                         tL_stories$StoryItem10.dialogId = this.dialogId;
                         if (z12) {
-                            TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tL_stories$StoryItem10.media.document.thumbs, 1000);
-                            Drawable createStripedBitmap3 = drawable == null ? ImageLoader.createStripedBitmap(tL_stories$StoryItem10.media.document.thumbs) : drawable;
-                            ImageLocation forDocument = ImageLocation.getForDocument(closestPhotoSizeWithSize, tL_stories$StoryItem10.media.document);
+                            TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tL_stories$StoryItem10.media.getDocument().thumbs, 1000);
+                            Drawable createStripedBitmap3 = drawable == null ? ImageLoader.createStripedBitmap(tL_stories$StoryItem10.media.getDocument().thumbs) : drawable;
+                            ImageLocation forDocument = ImageLocation.getForDocument(closestPhotoSizeWithSize, tL_stories$StoryItem10.media.getDocument());
                             z4 = z9;
                             tL_stories$StoryItem = tL_stories$StoryItem10;
-                            this.imageReceiver.setImage(null, null, ImageLocation.getForDocument(tL_stories$StoryItem10.media.document), storyImageFilter + "_pframe", forDocument, storyImageFilter, createStripedBitmap3, 0L, null, tL_stories$StoryItem10, 0);
+                            this.imageReceiver.setImage(null, null, ImageLocation.getForDocument(tL_stories$StoryItem10.media.getDocument()), storyImageFilter + "_pframe", forDocument, storyImageFilter, createStripedBitmap3, 0L, null, tL_stories$StoryItem10, 0);
                         } else {
                             z4 = z9;
                             TLRPC$MessageMedia tLRPC$MessageMedia5 = tL_stories$StoryItem10.media;
@@ -5316,14 +5316,13 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
     }
 
     /* JADX WARN: Removed duplicated region for block: B:25:0x00a2  */
-    /* JADX WARN: Removed duplicated region for block: B:71:0x01d9 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x01db A[SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private void updatePreloadImages() {
         int i;
         ImageReceiver imageReceiver;
-        TLRPC$Document tLRPC$Document;
         int max = (int) (Math.max(AndroidUtilities.getRealScreenSize().x, AndroidUtilities.getRealScreenSize().y) / AndroidUtilities.density);
         String str = max + "_" + max;
         this.uriesToPrepare.clear();
@@ -5354,8 +5353,8 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                     tL_stories$StoryItem.dialogId = this.dialogId;
                     setStoryImage(tL_stories$StoryItem, imageReceiver, str);
                     TLRPC$MessageMedia tLRPC$MessageMedia = tL_stories$StoryItem.media;
-                    if ((tLRPC$MessageMedia == null || (tLRPC$Document = tLRPC$MessageMedia.document) == null || !MessageObject.isVideoDocument(tLRPC$Document)) ? false : false) {
-                        TLRPC$Document tLRPC$Document2 = tL_stories$StoryItem.media.document;
+                    if ((tLRPC$MessageMedia == null || !MessageObject.isVideoDocument(tLRPC$MessageMedia.getDocument())) ? false : false) {
+                        TLRPC$Document document = tL_stories$StoryItem.media.getDocument();
                         if (tL_stories$StoryItem.fileReference == 0) {
                             tL_stories$StoryItem.fileReference = FileLoader.getInstance(this.currentAccount).getFileReference(tL_stories$StoryItem);
                         }
@@ -5364,21 +5363,21 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                             sb.append("?account=");
                             sb.append(this.currentAccount);
                             sb.append("&id=");
-                            sb.append(tLRPC$Document2.id);
+                            sb.append(document.id);
                             sb.append("&hash=");
-                            sb.append(tLRPC$Document2.access_hash);
+                            sb.append(document.access_hash);
                             sb.append("&dc=");
-                            sb.append(tLRPC$Document2.dc_id);
+                            sb.append(document.dc_id);
                             sb.append("&size=");
-                            sb.append(tLRPC$Document2.size);
+                            sb.append(document.size);
                             sb.append("&mime=");
-                            sb.append(URLEncoder.encode(tLRPC$Document2.mime_type, "UTF-8"));
+                            sb.append(URLEncoder.encode(document.mime_type, "UTF-8"));
                             sb.append("&rid=");
                             sb.append(tL_stories$StoryItem.fileReference);
                             sb.append("&name=");
-                            sb.append(URLEncoder.encode(FileLoader.getDocumentFileName(tLRPC$Document2), "UTF-8"));
+                            sb.append(URLEncoder.encode(FileLoader.getDocumentFileName(document), "UTF-8"));
                             sb.append("&reference=");
-                            byte[] bArr = tLRPC$Document2.file_reference;
+                            byte[] bArr = document.file_reference;
                             if (bArr == null) {
                                 bArr = new byte[0];
                             }
@@ -5388,8 +5387,8 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                             sb.append("&did=");
                             sb.append(tL_stories$StoryItem.dialogId);
                             String sb2 = sb.toString();
-                            this.uriesToPrepare.add(Uri.parse("tg://" + FileLoader.getAttachFileName(tLRPC$Document2) + sb2));
-                            this.documentsToPrepare.add(tLRPC$Document2);
+                            this.uriesToPrepare.add(Uri.parse("tg://" + FileLoader.getAttachFileName(document) + sb2));
+                            this.documentsToPrepare.add(document);
                         } catch (UnsupportedEncodingException e) {
                             e.printStackTrace();
                         }
@@ -5422,14 +5421,13 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
 
     private void setStoryImage(TL_stories$StoryItem tL_stories$StoryItem, ImageReceiver imageReceiver, String str) {
         ArrayList<TLRPC$PhotoSize> arrayList;
-        TLRPC$Document tLRPC$Document;
         StoriesController.UploadingStory findEditingStory = this.storiesController.findEditingStory(this.dialogId, tL_stories$StoryItem);
         if (findEditingStory != null) {
             setStoryImage(findEditingStory, imageReceiver, str);
             return;
         }
         TLRPC$MessageMedia tLRPC$MessageMedia = tL_stories$StoryItem.media;
-        boolean z = (tLRPC$MessageMedia == null || (tLRPC$Document = tLRPC$MessageMedia.document) == null || !MessageObject.isVideoDocument(tLRPC$Document)) ? false : true;
+        boolean z = tLRPC$MessageMedia != null && MessageObject.isVideoDocument(tLRPC$MessageMedia.getDocument());
         String str2 = tL_stories$StoryItem.attachPath;
         if (str2 != null) {
             if (tL_stories$StoryItem.media == null) {
@@ -5442,9 +5440,9 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
             }
             imageReceiver.setImage(ImageLocation.getForPath(tL_stories$StoryItem.attachPath), str, null, null, null, 0L, null, null, 0);
         } else if (z) {
-            TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tL_stories$StoryItem.media.document.thumbs, 1000);
-            ImageLocation forDocument = ImageLocation.getForDocument(tL_stories$StoryItem.media.document);
-            imageReceiver.setImage(forDocument, str + "_pframe", ImageLocation.getForDocument(closestPhotoSizeWithSize, tL_stories$StoryItem.media.document), str, null, null, null, 0L, null, tL_stories$StoryItem, 0);
+            TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tL_stories$StoryItem.media.getDocument().thumbs, 1000);
+            ImageLocation forDocument = ImageLocation.getForDocument(tL_stories$StoryItem.media.getDocument());
+            imageReceiver.setImage(forDocument, str + "_pframe", ImageLocation.getForDocument(closestPhotoSizeWithSize, tL_stories$StoryItem.media.getDocument()), str, null, null, null, 0L, null, tL_stories$StoryItem, 0);
         } else {
             TLRPC$MessageMedia tLRPC$MessageMedia2 = tL_stories$StoryItem.media;
             TLRPC$Photo tLRPC$Photo = tLRPC$MessageMedia2 != null ? tLRPC$MessageMedia2.photo : null;
@@ -5617,10 +5615,11 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                     if (tL_stories$StoryItem != null) {
                         tL_stories$StoryItem.dialogId = this.dialogId;
                         try {
-                            tLRPC$Document2 = tL_stories$StoryItem.media.document;
+                            tLRPC$Document2 = tL_stories$StoryItem.media.getDocument();
                             try {
-                                if (tL_stories$StoryItem.fileReference == 0) {
-                                    tL_stories$StoryItem.fileReference = FileLoader.getInstance(this.currentAccount).getFileReference(this.currentStory.storyItem);
+                                TL_stories$StoryItem tL_stories$StoryItem2 = this.currentStory.storyItem;
+                                if (tL_stories$StoryItem2.fileReference == 0) {
+                                    tL_stories$StoryItem2.fileReference = FileLoader.getInstance(this.currentAccount).getFileReference(this.currentStory.storyItem);
                                 }
                                 StringBuilder sb = new StringBuilder();
                                 sb.append("?account=");
@@ -5652,9 +5651,10 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                                 Uri parse = Uri.parse("tg://" + FileLoader.getAttachFileName(tLRPC$Document2) + sb.toString());
                                 this.videoDuration = (long) (MessageObject.getDocumentDuration(tLRPC$Document2) * 1000.0d);
                                 uri = parse;
-                            } catch (Exception unused) {
-                                uri = null;
                                 tLRPC$Document = tLRPC$Document2;
+                            } catch (Exception unused) {
+                                tLRPC$Document = tLRPC$Document2;
+                                uri = null;
                                 this.delegate.requestPlayer(tLRPC$Document, uri, j, this.playerSharedScope);
                                 this.storyContainer.invalidate();
                                 return;
@@ -5662,7 +5662,6 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                         } catch (Exception unused2) {
                             tLRPC$Document2 = null;
                         }
-                        tLRPC$Document = tLRPC$Document2;
                     } else {
                         tLRPC$Document = null;
                         uri = null;
@@ -6523,19 +6522,19 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
         private boolean isVideoInternal() {
             String str;
             TLRPC$MessageMedia tLRPC$MessageMedia;
-            TLRPC$Document tLRPC$Document;
             StoriesController.UploadingStory uploadingStory = this.uploadingStory;
             if (uploadingStory != null) {
                 return uploadingStory.isVideo;
             }
             TL_stories$StoryItem tL_stories$StoryItem = this.storyItem;
-            if (tL_stories$StoryItem != null && (tLRPC$MessageMedia = tL_stories$StoryItem.media) != null && (tLRPC$Document = tLRPC$MessageMedia.document) != null) {
-                return tLRPC$Document != null && MessageObject.isVideoDocument(tLRPC$Document);
-            } else if (tL_stories$StoryItem == null || tL_stories$StoryItem.media != null || (str = tL_stories$StoryItem.attachPath) == null) {
-                return false;
-            } else {
-                return str.toLowerCase().endsWith(".mp4");
+            if (tL_stories$StoryItem != null && (tLRPC$MessageMedia = tL_stories$StoryItem.media) != null && tLRPC$MessageMedia.getDocument() != null) {
+                return MessageObject.isVideoDocument(this.storyItem.media.getDocument());
             }
+            TL_stories$StoryItem tL_stories$StoryItem2 = this.storyItem;
+            if (tL_stories$StoryItem2 == null || tL_stories$StoryItem2.media != null || (str = tL_stories$StoryItem2.attachPath) == null) {
+                return false;
+            }
+            return str.toLowerCase().endsWith(".mp4");
         }
 
         void set(StoriesController.UploadingStory uploadingStory) {
@@ -6625,11 +6624,12 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
         /* JADX INFO: Access modifiers changed from: package-private */
         public boolean hasSound() {
             TLRPC$MessageMedia tLRPC$MessageMedia;
+            TLRPC$Document document;
             if (this.isVideo) {
                 TL_stories$StoryItem tL_stories$StoryItem = this.storyItem;
-                if (tL_stories$StoryItem != null && (tLRPC$MessageMedia = tL_stories$StoryItem.media) != null && tLRPC$MessageMedia.document != null) {
-                    for (int i = 0; i < this.storyItem.media.document.attributes.size(); i++) {
-                        TLRPC$DocumentAttribute tLRPC$DocumentAttribute = this.storyItem.media.document.attributes.get(i);
+                if (tL_stories$StoryItem != null && (tLRPC$MessageMedia = tL_stories$StoryItem.media) != null && (document = tLRPC$MessageMedia.getDocument()) != null) {
+                    for (int i = 0; i < document.attributes.size(); i++) {
+                        TLRPC$DocumentAttribute tLRPC$DocumentAttribute = document.attributes.get(i);
                         if ((tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeVideo) && tLRPC$DocumentAttribute.nosound) {
                             return false;
                         }
@@ -6672,15 +6672,16 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
             TL_stories$StoryItem tL_stories$StoryItem = this.storyItem;
             if (tL_stories$StoryItem != null) {
                 TLRPC$MessageMedia tLRPC$MessageMedia = tL_stories$StoryItem.media;
-                if (tLRPC$MessageMedia == null || tLRPC$MessageMedia.document == null) {
-                    if (tLRPC$MessageMedia == null || (tLRPC$Photo = tLRPC$MessageMedia.photo) == null) {
-                        return null;
-                    }
-                    TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Photo.sizes, ConnectionsManager.DEFAULT_DATACENTER_ID);
-                    File pathToAttach = FileLoader.getInstance(PeerStoriesView.this.currentAccount).getPathToAttach(closestPhotoSizeWithSize, true);
-                    return !pathToAttach.exists() ? FileLoader.getInstance(PeerStoriesView.this.currentAccount).getPathToAttach(closestPhotoSizeWithSize, false) : pathToAttach;
+                if (tLRPC$MessageMedia != null && tLRPC$MessageMedia.getDocument() != null) {
+                    return FileLoader.getInstance(PeerStoriesView.this.currentAccount).getPathToAttach(this.storyItem.media.getDocument());
                 }
-                return FileLoader.getInstance(PeerStoriesView.this.currentAccount).getPathToAttach(this.storyItem.media.document);
+                TLRPC$MessageMedia tLRPC$MessageMedia2 = this.storyItem.media;
+                if (tLRPC$MessageMedia2 == null || (tLRPC$Photo = tLRPC$MessageMedia2.photo) == null) {
+                    return null;
+                }
+                TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Photo.sizes, ConnectionsManager.DEFAULT_DATACENTER_ID);
+                File pathToAttach = FileLoader.getInstance(PeerStoriesView.this.currentAccount).getPathToAttach(closestPhotoSizeWithSize, true);
+                return !pathToAttach.exists() ? FileLoader.getInstance(PeerStoriesView.this.currentAccount).getPathToAttach(closestPhotoSizeWithSize, false) : pathToAttach;
             }
             return null;
         }

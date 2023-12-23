@@ -7907,6 +7907,8 @@ public class Theme {
             return createRect(colorDrawable, i2, fArr);
         }
 
+        /* JADX WARN: Multi-variable type inference failed */
+        /* JADX WARN: Type inference failed for: r7v4, types: [android.graphics.drawable.LayerDrawable] */
         private static Drawable createRect(Drawable drawable, int i, float... fArr) {
             ShapeDrawable shapeDrawable;
             ShapeDrawable shapeDrawable2;
@@ -7928,9 +7930,11 @@ public class Theme {
                 shapeDrawable = new ShapeDrawable(new RectShape());
                 shapeDrawable.getPaint().setColor(i);
             }
-            LayerDrawable layerDrawable = new LayerDrawable(new Drawable[]{drawable, shapeDrawable});
-            stateListDrawable.addState(new int[]{16842919}, layerDrawable);
-            stateListDrawable.addState(new int[]{16842913}, layerDrawable);
+            if (drawable != null) {
+                shapeDrawable = new LayerDrawable(new Drawable[]{drawable, shapeDrawable});
+            }
+            stateListDrawable.addState(new int[]{16842919}, shapeDrawable);
+            stateListDrawable.addState(new int[]{16842913}, shapeDrawable);
             stateListDrawable.addState(StateSet.WILD_CARD, drawable);
             return stateListDrawable;
         }
@@ -7948,9 +7952,12 @@ public class Theme {
                 return new RippleDrawable(new ColorStateList(new int[][]{StateSet.WILD_CARD}, new int[]{i}), drawable, new CircleDrawable(f));
             }
             StateListDrawable stateListDrawable = new StateListDrawable();
-            LayerDrawable layerDrawable = new LayerDrawable(new Drawable[]{drawable, new CircleDrawable(f, i)});
-            stateListDrawable.addState(new int[]{16842919}, layerDrawable);
-            stateListDrawable.addState(new int[]{16842913}, layerDrawable);
+            Drawable circleDrawable = new CircleDrawable(f, i);
+            if (drawable != null) {
+                circleDrawable = new LayerDrawable(new Drawable[]{drawable, circleDrawable});
+            }
+            stateListDrawable.addState(new int[]{16842919}, circleDrawable);
+            stateListDrawable.addState(new int[]{16842913}, circleDrawable);
             stateListDrawable.addState(StateSet.WILD_CARD, drawable);
             return stateListDrawable;
         }
@@ -12965,9 +12972,9 @@ public class Theme {
         return createBackgroundDrawable(themeInfo, overrideWallpaperInfo, sparseIntArray, pathToWallpaper, str, currentColorsNoAccent.get(key_wallpaperFileOffset, -1), (int) f, i, z2, false, false, z3, null, z);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:111:0x022d  */
-    /* JADX WARN: Removed duplicated region for block: B:161:0x0356  */
-    /* JADX WARN: Removed duplicated region for block: B:166:0x036a  */
+    /* JADX WARN: Removed duplicated region for block: B:113:0x0233  */
+    /* JADX WARN: Removed duplicated region for block: B:163:0x035c  */
+    /* JADX WARN: Removed duplicated region for block: B:168:0x0370  */
     /* JADX WARN: Removed duplicated region for block: B:61:0x00f8  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -13051,7 +13058,9 @@ public class Theme {
                     }
                     if (i8 != 0 && i7 != 0) {
                         MotionBackgroundDrawable motionBackgroundDrawable2 = new MotionBackgroundDrawable(i5, i8, i7, i6, false);
-                        if (file != null) {
+                        if (file == null || isCustomTheme()) {
+                            bitmap = null;
+                        } else {
                             if (tLRPC$Document != null) {
                                 bitmap2 = SvgHelper.getBitmap(FileLoader.getInstance(UserConfig.selectedAccount).getPathToAttach(tLRPC$Document, true), AndroidUtilities.dp(360.0f), AndroidUtilities.dp(640.0f), false);
                             } else {
@@ -13070,8 +13079,6 @@ public class Theme {
                                     e.printStackTrace();
                                 }
                             }
-                        } else {
-                            bitmap = null;
                         }
                         motionBackgroundDrawable2.setPatternBitmap(i2, bitmap);
                         motionBackgroundDrawable2.setPhase(i3);

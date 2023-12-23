@@ -508,10 +508,10 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         setMessageObject(messageObject, false);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:296:0x0120  */
-    /* JADX WARN: Removed duplicated region for block: B:301:0x0140  */
-    /* JADX WARN: Removed duplicated region for block: B:315:0x01d9  */
-    /* JADX WARN: Removed duplicated region for block: B:316:0x01eb  */
+    /* JADX WARN: Removed duplicated region for block: B:298:0x0120  */
+    /* JADX WARN: Removed duplicated region for block: B:305:0x0145  */
+    /* JADX WARN: Removed duplicated region for block: B:319:0x01de  */
+    /* JADX WARN: Removed duplicated region for block: B:320:0x01f0  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -574,7 +574,11 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                                 Theme.ResourcesProvider resourcesProvider = this.themeDelegate;
                                 boolean isDark = resourcesProvider != null ? resourcesProvider.isDark() : Theme.isCurrentThemeDark();
                                 this.imageReceiver.clearImage();
-                                this.wallpaperPreviewDrawable = PreviewView.getBackgroundDrawableFromTheme(this.currentAccount, ChatThemeController.getWallpaperEmoticon(tLRPC$WallPaper), isDark, false);
+                                Drawable backgroundDrawableFromTheme = PreviewView.getBackgroundDrawableFromTheme(this.currentAccount, ChatThemeController.getWallpaperEmoticon(tLRPC$WallPaper), isDark, false);
+                                this.wallpaperPreviewDrawable = backgroundDrawableFromTheme;
+                                if (backgroundDrawableFromTheme != null) {
+                                    backgroundDrawableFromTheme.setCallback(this);
+                                }
                             } else if (tLRPC$WallPaper != null && (str = tLRPC$WallPaper.uploadingImage) != null) {
                                 this.imageReceiver.setImage(ImageLocation.getForPath(str), "150_150_wallpaper" + tLRPC$WallPaper.id + ChatBackgroundDrawable.hash(tLRPC$WallPaper.settings), null, null, ChatBackgroundDrawable.createThumb(tLRPC$WallPaper), 0L, null, tLRPC$WallPaper, 1);
                                 this.wallpaperPreviewDrawable = null;
@@ -2377,6 +2381,11 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         if (view != null) {
             view.invalidate();
         }
+    }
+
+    @Override // android.view.View
+    protected boolean verifyDrawable(Drawable drawable) {
+        return drawable == this.wallpaperPreviewDrawable || super.verifyDrawable(drawable);
     }
 
     private ColorFilter getAdaptiveEmojiColorFilter(int i) {
