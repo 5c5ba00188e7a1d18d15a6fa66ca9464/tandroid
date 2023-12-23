@@ -360,7 +360,6 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     private View themeSwitchSunView;
     private String videoPath;
     private ActionMode visibleActionMode;
-    public Dialog visibleDialog;
     private String voicePath;
     private boolean wasMutedByAdminRaisedHand;
     public static final Pattern PREFIX_T_ME_PATTERN = Pattern.compile("^(?:http(?:s|)://|)([A-z0-9-]+?)\\.t\\.me");
@@ -369,6 +368,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     private static ArrayList<BaseFragment> rightFragmentsStack = new ArrayList<>();
     public ArrayList<INavigationLayout> sheetFragmentsStack = new ArrayList<>();
     private List<PasscodeView> overlayPasscodeViews = new ArrayList();
+    public final ArrayList<Dialog> visibleDialogs = new ArrayList<>();
     private boolean isNavigationBarColorFrozen = false;
     private List<Runnable> onUserLeaveHintListeners = new ArrayList();
     private SparseIntArray requestedPermissions = new SparseIntArray();
@@ -397,6 +397,16 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     @Override // org.telegram.ui.ActionBar.INavigationLayout.INavigationLayoutDelegate
     public /* synthetic */ void onMeasureOverride(int[] iArr) {
         INavigationLayout.INavigationLayoutDelegate.-CC.$default$onMeasureOverride(this, iArr);
+    }
+
+    public Dialog getVisibleDialog() {
+        for (int size = this.visibleDialogs.size() - 1; size >= 0; size--) {
+            Dialog dialog = this.visibleDialogs.get(size);
+            if (dialog.isShowing()) {
+                return dialog;
+            }
+        }
+        return null;
     }
 
     @Override // android.app.Activity
@@ -1182,13 +1192,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         int i = this.currentAccount;
         long j = tLRPC$TL_attachMenuBot.bot_id;
         botWebViewSheet.requestWebView(i, j, j, tLRPC$TL_attachMenuBot.short_name, null, 1, 0, false, null, null, false, str, null, 2);
-        Dialog dialog = this.visibleDialog;
-        if (dialog != null) {
-            dialog.dismiss();
-            this.visibleDialog = null;
-        }
         botWebViewSheet.show();
-        this.visibleDialog = botWebViewSheet;
+        this.visibleDialogs.add(botWebViewSheet);
     }
 
     @Override // org.telegram.ui.ActionBar.INavigationLayout.INavigationLayoutDelegate
@@ -11268,13 +11273,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         botWebViewSheet.setParentActivity(this);
         long j = tLRPC$User.id;
         botWebViewSheet.requestWebView(i, j, j, null, null, 3, 0, false, baseFragment, tLRPC$TL_messages_botApp.app, atomicBoolean.get(), str, tLRPC$User);
-        Dialog dialog = this.visibleDialog;
-        if (dialog != null) {
-            dialog.dismiss();
-            this.visibleDialog = null;
-        }
         botWebViewSheet.show();
-        this.visibleDialog = botWebViewSheet;
+        this.visibleDialogs.add(botWebViewSheet);
         if (tLRPC$TL_messages_botApp.inactive || z) {
             botWebViewSheet.showJustAddedBulletin();
         }
@@ -11435,11 +11435,12 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 if (baseFragment2 != null) {
                     baseFragment2.dismissCurrentDialog();
                 }
-                Dialog dialog = this.visibleDialog;
-                if (dialog != null) {
-                    dialog.dismiss();
-                    this.visibleDialog = null;
+                for (int i2 = 0; i2 < this.visibleDialogs.size(); i2++) {
+                    if (this.visibleDialogs.get(i2).isShowing()) {
+                        this.visibleDialogs.get(i2).dismiss();
+                    }
                 }
+                this.visibleDialogs.clear();
                 lambda$runLinkRequest$87(dialogsActivity);
                 return;
             } else if (baseFragment2 instanceof ChatActivity) {
@@ -11525,11 +11526,12 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             if (baseFragment != null) {
                 baseFragment.dismissCurrentDialog();
             }
-            Dialog dialog = this.visibleDialog;
-            if (dialog != null) {
-                dialog.dismiss();
-                this.visibleDialog = null;
+            for (int i = 0; i < this.visibleDialogs.size(); i++) {
+                if (this.visibleDialogs.get(i).isShowing()) {
+                    this.visibleDialogs.get(i).dismiss();
+                }
             }
+            this.visibleDialogs.clear();
             lambda$runLinkRequest$87(dialogsActivity);
         } else if (baseFragment instanceof ChatActivity) {
             ((ChatActivity) baseFragment).openAttachBotLayout(tLRPC$User.id, str, true);
@@ -11757,36 +11759,26 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
 
     public Dialog showAlertDialog(AlertDialog.Builder builder) {
         try {
-            Dialog dialog = this.visibleDialog;
-            if (dialog != null) {
-                dialog.dismiss();
-                this.visibleDialog = null;
-            }
-        } catch (Exception e) {
-            FileLog.e(e);
-        }
-        try {
-            AlertDialog show = builder.show();
-            this.visibleDialog = show;
+            final AlertDialog show = builder.show();
             show.setCanceledOnTouchOutside(true);
-            this.visibleDialog.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda14
+            show.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda15
                 @Override // android.content.DialogInterface.OnDismissListener
                 public final void onDismiss(DialogInterface dialogInterface) {
-                    LaunchActivity.this.lambda$showAlertDialog$119(dialogInterface);
+                    LaunchActivity.this.lambda$showAlertDialog$119(show, dialogInterface);
                 }
             });
-            return this.visibleDialog;
-        } catch (Exception e2) {
-            FileLog.e(e2);
+            this.visibleDialogs.add(show);
+            return show;
+        } catch (Exception e) {
+            FileLog.e(e);
             return null;
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showAlertDialog$119(DialogInterface dialogInterface) {
-        Dialog dialog = this.visibleDialog;
-        if (dialog != null) {
-            if (dialog == this.localeDialog) {
+    public /* synthetic */ void lambda$showAlertDialog$119(AlertDialog alertDialog, DialogInterface dialogInterface) {
+        if (alertDialog != null) {
+            if (alertDialog == this.localeDialog) {
                 INavigationLayout iNavigationLayout = this.actionBarLayout;
                 BaseFragment lastFragment = iNavigationLayout == null ? null : iNavigationLayout.getLastFragment();
                 try {
@@ -11800,7 +11792,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     FileLog.e(e);
                 }
                 this.localeDialog = null;
-            } else if (dialog == this.proxyErrorDialog) {
+            } else if (alertDialog == this.proxyErrorDialog) {
                 MessagesController.getGlobalMainSettings();
                 SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
                 edit.putBoolean("proxy_enabled", false);
@@ -11811,7 +11803,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 this.proxyErrorDialog = null;
             }
         }
-        this.visibleDialog = null;
+        this.visibleDialogs.remove(alertDialog);
     }
 
     public void showBulletin(Function<BulletinFactory, Bulletin> function) {
@@ -12456,15 +12448,16 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         if (themeEditorView != null) {
             themeEditorView.destroy();
         }
-        try {
-            Dialog dialog = this.visibleDialog;
-            if (dialog != null) {
-                dialog.dismiss();
-                this.visibleDialog = null;
+        for (int i = 0; i < this.visibleDialogs.size(); i++) {
+            try {
+                if (this.visibleDialogs.get(i).isShowing()) {
+                    this.visibleDialogs.get(i).dismiss();
+                }
+            } catch (Exception e) {
+                FileLog.e(e);
             }
-        } catch (Exception e) {
-            FileLog.e(e);
         }
+        this.visibleDialogs.clear();
         try {
             if (this.onGlobalLayoutListener != null) {
                 getWindow().getDecorView().getRootView().getViewTreeObserver().removeOnGlobalLayoutListener(this.onGlobalLayoutListener);
@@ -13588,7 +13581,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         }
         try {
             Dialog createFreeSpaceDialog = AlertsCreator.createFreeSpaceDialog(this);
-            createFreeSpaceDialog.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda15
+            createFreeSpaceDialog.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda14
                 @Override // android.content.DialogInterface.OnDismissListener
                 public final void onDismiss(DialogInterface dialogInterface) {
                     LaunchActivity.this.lambda$checkFreeDiscSpace$139(dialogInterface);
@@ -13747,11 +13740,12 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         this.localeDialog = null;
         this.drawerLayoutContainer.closeDrawer(true);
         lambda$runLinkRequest$87(new LanguageSelectActivity());
-        Dialog dialog = this.visibleDialog;
-        if (dialog != null) {
-            dialog.dismiss();
-            this.visibleDialog = null;
+        for (int i = 0; i < this.visibleDialogs.size(); i++) {
+            if (this.visibleDialogs.get(i).isShowing()) {
+                this.visibleDialogs.get(i).dismiss();
+            }
         }
+        this.visibleDialogs.clear();
     }
 
     /* JADX INFO: Access modifiers changed from: private */

@@ -1392,7 +1392,6 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         final BaseFragment baseFragment;
         int i;
         LaunchActivity launchActivity;
-        Dialog dialog;
         final BaseFragment baseFragment2 = navigationParams.fragment;
         final boolean z = navigationParams.removeLast;
         boolean z2 = navigationParams.noAnimation;
@@ -1404,10 +1403,10 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         }
         BaseFragment lastFragment = getLastFragment();
         Dialog visibleDialog = lastFragment != null ? lastFragment.getVisibleDialog() : null;
-        if (visibleDialog == null && (launchActivity = LaunchActivity.instance) != null && (dialog = launchActivity.visibleDialog) != null) {
-            visibleDialog = dialog;
+        if (visibleDialog == null && (launchActivity = LaunchActivity.instance) != null && launchActivity.getVisibleDialog() != null) {
+            visibleDialog = LaunchActivity.instance.getVisibleDialog();
         }
-        if (shouldOpenFragmentOverlay(visibleDialog)) {
+        if (lastFragment != null && shouldOpenFragmentOverlay(visibleDialog)) {
             BaseFragment.BottomSheetParams bottomSheetParams = new BaseFragment.BottomSheetParams();
             bottomSheetParams.transitionFromLeft = true;
             bottomSheetParams.allowNestedScroll = false;
