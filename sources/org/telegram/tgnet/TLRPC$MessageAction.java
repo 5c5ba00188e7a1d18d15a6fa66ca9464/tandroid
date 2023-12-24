@@ -468,7 +468,27 @@ public abstract class TLRPC$MessageAction extends TLObject {
                 };
                 break;
             case -25742243:
-                tLRPC$MessageAction = new TLRPC$TL_messageActionRequestedPeer();
+                tLRPC$MessageAction = new TLRPC$TL_messageActionRequestedPeer() { // from class: org.telegram.tgnet.TLRPC$TL_messageActionRequestedPeer_layer168
+                    public TLRPC$Peer peer;
+
+                    @Override // org.telegram.tgnet.TLRPC$TL_messageActionRequestedPeer, org.telegram.tgnet.TLObject
+                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
+                        this.button_id = abstractSerializedData2.readInt32(z2);
+                        TLRPC$Peer TLdeserialize = TLRPC$Peer.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
+                        this.peer = TLdeserialize;
+                        if (TLdeserialize == null) {
+                            return;
+                        }
+                        this.peers.add(TLdeserialize);
+                    }
+
+                    @Override // org.telegram.tgnet.TLRPC$TL_messageActionRequestedPeer, org.telegram.tgnet.TLObject
+                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
+                        abstractSerializedData2.writeInt32(-25742243);
+                        abstractSerializedData2.writeInt32(this.button_id);
+                        this.peer.serializeToStream(abstractSerializedData2);
+                    }
+                };
                 break;
             case 29007925:
                 tLRPC$MessageAction = new TLRPC$MessageAction() { // from class: org.telegram.tgnet.TLRPC$TL_messageActionPhoneNumberRequest
@@ -489,6 +509,9 @@ public abstract class TLRPC$MessageAction extends TLObject {
                 break;
             case 715107781:
                 tLRPC$MessageAction = new TLRPC$TL_messageActionGiveawayResults();
+                break;
+            case 827428507:
+                tLRPC$MessageAction = new TLRPC$TL_messageActionRequestedPeer();
                 break;
             case 858499565:
                 tLRPC$MessageAction = new TLRPC$MessageAction() { // from class: org.telegram.tgnet.TLRPC$TL_messageActionGiveawayLaunch

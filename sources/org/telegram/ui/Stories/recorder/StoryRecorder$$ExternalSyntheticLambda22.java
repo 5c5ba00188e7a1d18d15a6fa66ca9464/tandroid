@@ -11,8 +11,8 @@ public final /* synthetic */ class StoryRecorder$$ExternalSyntheticLambda22 impl
 
     @Override // android.view.View.OnTouchListener
     public final boolean onTouch(View view, MotionEvent motionEvent) {
-        boolean lambda$toggleTheme$69;
-        lambda$toggleTheme$69 = StoryRecorder.lambda$toggleTheme$69(view, motionEvent);
-        return lambda$toggleTheme$69;
+        boolean lambda$toggleTheme$70;
+        lambda$toggleTheme$70 = StoryRecorder.lambda$toggleTheme$70(view, motionEvent);
+        return lambda$toggleTheme$70;
     }
 }

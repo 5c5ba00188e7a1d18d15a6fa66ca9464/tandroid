@@ -337,6 +337,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         return (messageObject == null || !isButtonLayout(messageObject) || this.giftPremiumButtonLayout == null) ? false : true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(ImageReceiver imageReceiver, boolean z, boolean z2, boolean z3) {
         final RLottieDrawable lottieAnimation;
         ChatActionCellDelegate chatActionCellDelegate;
@@ -508,10 +509,10 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         setMessageObject(messageObject, false);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:298:0x0120  */
-    /* JADX WARN: Removed duplicated region for block: B:305:0x0145  */
-    /* JADX WARN: Removed duplicated region for block: B:319:0x01de  */
-    /* JADX WARN: Removed duplicated region for block: B:320:0x01f0  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x0120  */
+    /* JADX WARN: Removed duplicated region for block: B:76:0x0145  */
+    /* JADX WARN: Removed duplicated region for block: B:90:0x01de  */
+    /* JADX WARN: Removed duplicated region for block: B:91:0x01f0  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -878,9 +879,9 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         invalidate();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:253:0x01a8  */
-    /* JADX WARN: Removed duplicated region for block: B:281:0x0220  */
-    /* JADX WARN: Removed duplicated region for block: B:283:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:111:0x01a8  */
+    /* JADX WARN: Removed duplicated region for block: B:139:0x0220  */
+    /* JADX WARN: Removed duplicated region for block: B:141:? A[RETURN, SYNTHETIC] */
     @Override // android.view.View
     @SuppressLint({"ClickableViewAccessibility"})
     /*
@@ -1062,6 +1063,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$openPremiumGiftChannel$1(TLRPC$TL_messageActionGiftCode tLRPC$TL_messageActionGiftCode) {
         this.delegate.didOpenPremiumGiftChannel(this, tLRPC$TL_messageActionGiftCode.slug, false);
     }
@@ -1103,10 +1105,12 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$openPremiumGiftPreview$2(TLRPC$TL_premiumGiftOption tLRPC$TL_premiumGiftOption, String str) {
         this.delegate.didOpenPremiumGift(this, tLRPC$TL_premiumGiftOption, str, false);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void openLink(CharacterStyle characterStyle) {
         if (this.delegate == null || !(characterStyle instanceof URLSpan)) {
             return;
@@ -1194,7 +1198,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:122:0x00d8  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x00d8  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1547,9 +1551,10 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         return this.customDate;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:390:0x0731  */
-    /* JADX WARN: Removed duplicated region for block: B:401:0x07b5  */
-    /* JADX WARN: Removed duplicated region for block: B:405:0x080c  */
+    /* JADX INFO: Access modifiers changed from: protected */
+    /* JADX WARN: Removed duplicated region for block: B:183:0x0731  */
+    /* JADX WARN: Removed duplicated region for block: B:194:0x07b5  */
+    /* JADX WARN: Removed duplicated region for block: B:198:0x080c  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -2299,10 +2304,6 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                 int spanEnd = spannableStringBuilder.getSpanEnd(characterStyle);
                 spannableStringBuilder.removeSpan(characterStyle);
                 spannableStringBuilder.setSpan(new ClickableSpan() { // from class: org.telegram.ui.Cells.ChatActionCell.1
-                    {
-                        ChatActionCell.this = this;
-                    }
-
                     @Override // android.text.style.ClickableSpan
                     public void onClick(View view) {
                         if (ChatActionCell.this.delegate != null) {

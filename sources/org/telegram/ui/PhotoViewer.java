@@ -14375,7 +14375,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     /* JADX WARN: Removed duplicated region for block: B:899:0x0345  */
     /* JADX WARN: Removed duplicated region for block: B:911:0x036b  */
     /* JADX WARN: Type inference failed for: r2v123 */
-    /* JADX WARN: Type inference failed for: r2v124, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r2v124, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r2v139 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

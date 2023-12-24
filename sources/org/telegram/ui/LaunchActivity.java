@@ -261,6 +261,7 @@ import org.telegram.ui.Components.PipRoundVideoView;
 import org.telegram.ui.Components.Premium.LimitReachedBottomSheet;
 import org.telegram.ui.Components.Premium.boosts.BoostPagerBottomSheet;
 import org.telegram.ui.Components.Premium.boosts.GiftInfoBottomSheet;
+import org.telegram.ui.Components.Premium.boosts.UserSelectorBottomSheet;
 import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.Components.RLottieImageView;
 import org.telegram.ui.Components.RecyclerListView;
@@ -1983,66 +1984,66 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:1165:0x2402, code lost:
-        if (r1.checkCanOpenChat(r0, r2.get(r2.size() - (r3 == true ? 1 : 0))) != false) goto L124;
+    /* JADX WARN: Code restructure failed: missing block: B:1168:0x2409, code lost:
+        if (r1.checkCanOpenChat(r0, r2.get(r2.size() - (r3 == true ? 1 : 0))) != false) goto L127;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1182:0x2481, code lost:
-        if (r1.checkCanOpenChat(r0, r2.get(r2.size() - (r3 == true ? 1 : 0))) != false) goto L142;
+    /* JADX WARN: Code restructure failed: missing block: B:1185:0x2488, code lost:
+        if (r1.checkCanOpenChat(r0, r2.get(r2.size() - (r3 == true ? 1 : 0))) != false) goto L145;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:177:0x0345, code lost:
-        if (r95.sendingText == null) goto L316;
+    /* JADX WARN: Code restructure failed: missing block: B:180:0x034c, code lost:
+        if (r95.sendingText == null) goto L319;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:65:0x0157, code lost:
-        if (r9.equals(r0) != false) goto L44;
+    /* JADX WARN: Code restructure failed: missing block: B:68:0x015e, code lost:
+        if (r9.equals(r0) != false) goto L47;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:916:0x1ae5, code lost:
-        if (r5.longValue() == 0) goto L1237;
+    /* JADX WARN: Code restructure failed: missing block: B:919:0x1aec, code lost:
+        if (r5.longValue() == 0) goto L1240;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:101:0x01f9  */
-    /* JADX WARN: Removed duplicated region for block: B:1051:0x1fbe  */
-    /* JADX WARN: Removed duplicated region for block: B:1052:0x1fc2 A[Catch: all -> 0x1fd1, TRY_LEAVE, TryCatch #20 {all -> 0x1fd1, blocks: (B:1049:0x1fac, B:1052:0x1fc2), top: B:1445:0x1fac }] */
-    /* JADX WARN: Removed duplicated region for block: B:1090:0x20d3  */
-    /* JADX WARN: Removed duplicated region for block: B:1091:0x20e5  */
-    /* JADX WARN: Removed duplicated region for block: B:1140:0x2388  */
-    /* JADX WARN: Removed duplicated region for block: B:1152:0x23b3  */
-    /* JADX WARN: Removed duplicated region for block: B:1153:0x23c5  */
-    /* JADX WARN: Removed duplicated region for block: B:1275:0x265e  */
-    /* JADX WARN: Removed duplicated region for block: B:1276:0x266f  */
-    /* JADX WARN: Removed duplicated region for block: B:1279:0x267d  */
-    /* JADX WARN: Removed duplicated region for block: B:1280:0x268d  */
-    /* JADX WARN: Removed duplicated region for block: B:1358:0x2932 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:1361:0x293b  */
-    /* JADX WARN: Removed duplicated region for block: B:1372:0x2988  */
-    /* JADX WARN: Removed duplicated region for block: B:1382:0x29ca  */
-    /* JADX WARN: Removed duplicated region for block: B:1386:0x29e1  */
-    /* JADX WARN: Removed duplicated region for block: B:1388:0x29e8  */
-    /* JADX WARN: Removed duplicated region for block: B:1414:0x15f4 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1462:0x1feb A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:176:0x0343  */
-    /* JADX WARN: Removed duplicated region for block: B:181:0x034c  */
-    /* JADX WARN: Removed duplicated region for block: B:210:0x0407  */
-    /* JADX WARN: Removed duplicated region for block: B:277:0x0534  */
-    /* JADX WARN: Removed duplicated region for block: B:363:0x075e  */
-    /* JADX WARN: Removed duplicated region for block: B:403:0x0866  */
-    /* JADX WARN: Removed duplicated region for block: B:521:0x0c08  */
-    /* JADX WARN: Removed duplicated region for block: B:522:0x0c0f  */
-    /* JADX WARN: Removed duplicated region for block: B:525:0x0c73  */
-    /* JADX WARN: Removed duplicated region for block: B:526:0x0c80  */
-    /* JADX WARN: Removed duplicated region for block: B:529:0x0c89  */
-    /* JADX WARN: Removed duplicated region for block: B:531:0x0c8c  */
-    /* JADX WARN: Removed duplicated region for block: B:535:0x0c9f A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:542:0x0ccb  */
-    /* JADX WARN: Removed duplicated region for block: B:543:0x0cf4  */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x0153  */
-    /* JADX WARN: Removed duplicated region for block: B:872:0x196e  */
-    /* JADX WARN: Removed duplicated region for block: B:88:0x01c0  */
-    /* JADX WARN: Removed duplicated region for block: B:909:0x1a53 A[Catch: Exception -> 0x1a62, TRY_LEAVE, TryCatch #15 {Exception -> 0x1a62, blocks: (B:907:0x1a47, B:909:0x1a53), top: B:1436:0x1a47 }] */
-    /* JADX WARN: Removed duplicated region for block: B:911:0x1a60  */
-    /* JADX WARN: Removed duplicated region for block: B:965:0x1da1  */
-    /* JADX WARN: Removed duplicated region for block: B:966:0x1dca  */
-    /* JADX WARN: Removed duplicated region for block: B:96:0x01eb  */
-    /* JADX WARN: Removed duplicated region for block: B:984:0x1ea0  */
+    /* JADX WARN: Removed duplicated region for block: B:104:0x0200  */
+    /* JADX WARN: Removed duplicated region for block: B:1054:0x1fc5  */
+    /* JADX WARN: Removed duplicated region for block: B:1055:0x1fc9 A[Catch: all -> 0x1fd8, TRY_LEAVE, TryCatch #26 {all -> 0x1fd8, blocks: (B:1052:0x1fb3, B:1055:0x1fc9), top: B:1456:0x1fb3 }] */
+    /* JADX WARN: Removed duplicated region for block: B:1093:0x20da  */
+    /* JADX WARN: Removed duplicated region for block: B:1094:0x20ec  */
+    /* JADX WARN: Removed duplicated region for block: B:1143:0x238f  */
+    /* JADX WARN: Removed duplicated region for block: B:1155:0x23ba  */
+    /* JADX WARN: Removed duplicated region for block: B:1156:0x23cc  */
+    /* JADX WARN: Removed duplicated region for block: B:1278:0x2665  */
+    /* JADX WARN: Removed duplicated region for block: B:1279:0x2676  */
+    /* JADX WARN: Removed duplicated region for block: B:1282:0x2684  */
+    /* JADX WARN: Removed duplicated region for block: B:1283:0x2694  */
+    /* JADX WARN: Removed duplicated region for block: B:1361:0x2939 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:1364:0x2942  */
+    /* JADX WARN: Removed duplicated region for block: B:1375:0x298f  */
+    /* JADX WARN: Removed duplicated region for block: B:1385:0x29d1  */
+    /* JADX WARN: Removed duplicated region for block: B:1389:0x29e8  */
+    /* JADX WARN: Removed duplicated region for block: B:1391:0x29ef  */
+    /* JADX WARN: Removed duplicated region for block: B:1423:0x1ff2 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1425:0x15fb A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:179:0x034a  */
+    /* JADX WARN: Removed duplicated region for block: B:184:0x0353  */
+    /* JADX WARN: Removed duplicated region for block: B:213:0x040e  */
+    /* JADX WARN: Removed duplicated region for block: B:280:0x053b  */
+    /* JADX WARN: Removed duplicated region for block: B:366:0x0765  */
+    /* JADX WARN: Removed duplicated region for block: B:406:0x086d  */
+    /* JADX WARN: Removed duplicated region for block: B:524:0x0c0f  */
+    /* JADX WARN: Removed duplicated region for block: B:525:0x0c16  */
+    /* JADX WARN: Removed duplicated region for block: B:528:0x0c7a  */
+    /* JADX WARN: Removed duplicated region for block: B:529:0x0c87  */
+    /* JADX WARN: Removed duplicated region for block: B:532:0x0c90  */
+    /* JADX WARN: Removed duplicated region for block: B:534:0x0c93  */
+    /* JADX WARN: Removed duplicated region for block: B:538:0x0ca6 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:545:0x0cd2  */
+    /* JADX WARN: Removed duplicated region for block: B:546:0x0cfb  */
+    /* JADX WARN: Removed duplicated region for block: B:67:0x015a  */
+    /* JADX WARN: Removed duplicated region for block: B:875:0x1975  */
+    /* JADX WARN: Removed duplicated region for block: B:912:0x1a5a A[Catch: Exception -> 0x1a69, TRY_LEAVE, TryCatch #7 {Exception -> 0x1a69, blocks: (B:910:0x1a4e, B:912:0x1a5a), top: B:1421:0x1a4e }] */
+    /* JADX WARN: Removed duplicated region for block: B:914:0x1a67  */
+    /* JADX WARN: Removed duplicated region for block: B:91:0x01c7  */
+    /* JADX WARN: Removed duplicated region for block: B:968:0x1da8  */
+    /* JADX WARN: Removed duplicated region for block: B:969:0x1dd1  */
+    /* JADX WARN: Removed duplicated region for block: B:987:0x1ea7  */
+    /* JADX WARN: Removed duplicated region for block: B:99:0x01f2  */
     /* JADX WARN: Type inference failed for: r10v17 */
     /* JADX WARN: Type inference failed for: r10v21 */
     /* JADX WARN: Type inference failed for: r10v23 */
@@ -2064,7 +2065,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     /* JADX WARN: Type inference failed for: r9v284 */
     /* JADX WARN: Type inference failed for: r9v286 */
     /* JADX WARN: Type inference failed for: r9v287 */
-    /* JADX WARN: Type inference failed for: r9v9, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r9v9, types: [int, boolean] */
     @SuppressLint({"Range"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -2288,7 +2289,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         CharSequence charSequenceExtra;
         String str75;
         String str76;
-        if (GiftInfoBottomSheet.handleIntent(intent, progress) || AndroidUtilities.handleProxyIntent(this, intent)) {
+        if (GiftInfoBottomSheet.handleIntent(intent, progress) || UserSelectorBottomSheet.handleIntent(intent, progress) || AndroidUtilities.handleProxyIntent(this, intent)) {
             return true;
         }
         if (intent == null || !"android.intent.action.MAIN".equals(intent.getAction())) {

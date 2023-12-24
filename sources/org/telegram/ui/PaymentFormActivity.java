@@ -592,7 +592,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
     /* JADX WARN: Removed duplicated region for block: B:670:0x1b9b  */
     /* JADX WARN: Type inference failed for: r0v92, types: [org.telegram.ui.Cells.RecurrentPaymentsAcceptCell] */
     /* JADX WARN: Type inference failed for: r10v4 */
-    /* JADX WARN: Type inference failed for: r10v5, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r10v5, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r10v9 */
     /* JADX WARN: Type inference failed for: r11v10, types: [java.lang.StringBuilder] */
     /* JADX WARN: Type inference failed for: r1v106, types: [org.telegram.ui.Cells.TextDetailSettingsCell[]] */
@@ -624,7 +624,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
     /* JADX WARN: Type inference failed for: r3v312, types: [android.widget.EditText] */
     /* JADX WARN: Type inference failed for: r3v314, types: [android.widget.LinearLayout] */
     /* JADX WARN: Type inference failed for: r5v0 */
-    /* JADX WARN: Type inference failed for: r5v168, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r5v168, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r5v169 */
     /* JADX WARN: Type inference failed for: r6v9, types: [java.lang.CharSequence, android.text.SpannableString, java.lang.Object] */
     @Override // org.telegram.ui.ActionBar.BaseFragment

@@ -4701,8 +4701,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         return super.onTouchEvent(motionEvent);
                     }
 
+                    /* JADX INFO: Access modifiers changed from: protected */
                     @Override // org.telegram.ui.Cells.ChatActionCell, android.view.View
-                    protected void onDraw(Canvas canvas) {
+                    public void onDraw(Canvas canvas) {
                         float y = ((ChatActivity.this.chatListView.getY() + ChatActivity.this.chatListViewPaddingTop) - getY()) - AndroidUtilities.dp(4.0f);
                         if (y > 0.0f) {
                             if (y < getMeasuredHeight()) {
@@ -4944,7 +4945,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
                     @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
                     public void sendSticker(TLRPC$Document tLRPC$Document, String str2, Object obj, boolean z4, int i18) {
-                        ChatActivity.this.chatActivityEnterView.lambda$onStickerSelected$48(tLRPC$Document, str2, obj, null, true, z4, i18);
+                        ChatActivity.this.chatActivityEnterView.lambda$onStickerSelected$50(tLRPC$Document, str2, obj, null, true, z4, i18);
                     }
 
                     @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
@@ -6096,8 +6097,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 return super.onTouchEvent(motionEvent);
             }
 
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Cells.ChatActionCell, android.view.View
-            protected void onDraw(Canvas canvas) {
+            public void onDraw(Canvas canvas) {
                 float y = ((ChatActivity.this.chatListView.getY() + ChatActivity.this.chatListViewPaddingTop) - getY()) - AndroidUtilities.dp(4.0f);
                 if (y > 0.0f) {
                     if (y < getMeasuredHeight()) {
@@ -6330,7 +6332,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
             @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
             public void sendSticker(TLRPC$Document tLRPC$Document, String str2, Object obj, boolean z42, int i182) {
-                ChatActivity.this.chatActivityEnterView.lambda$onStickerSelected$48(tLRPC$Document, str2, obj, null, true, z42, i182);
+                ChatActivity.this.chatActivityEnterView.lambda$onStickerSelected$50(tLRPC$Document, str2, obj, null, true, z42, i182);
             }
 
             @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
@@ -8641,7 +8643,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         }
 
         /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Type inference failed for: r14v20, types: [boolean, int] */
+        /* JADX WARN: Type inference failed for: r14v20, types: [int, boolean] */
         /* JADX WARN: Type inference failed for: r14v21 */
         /* JADX WARN: Type inference failed for: r14v22 */
         private void drawChatBackgroundElements(Canvas canvas) {
@@ -23713,7 +23715,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Removed duplicated region for block: B:95:0x0198  */
     /* JADX WARN: Removed duplicated region for block: B:98:0x01a4  */
     /* JADX WARN: Type inference failed for: r14v4 */
-    /* JADX WARN: Type inference failed for: r14v5, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r14v5, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r14v9 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -40885,13 +40887,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$checkThemeEmoticonOrWallpaper$299() {
-        TLRPC$ChatFull tLRPC$ChatFull;
         TLRPC$UserFull tLRPC$UserFull = this.userInfo;
-        String str = tLRPC$UserFull != null ? tLRPC$UserFull.theme_emoticon : null;
-        if (str == null && (tLRPC$ChatFull = this.chatInfo) != null) {
-            str = tLRPC$ChatFull.theme_emoticon;
-        }
-        setChatThemeEmoticon(str);
+        setChatThemeEmoticon(tLRPC$UserFull != null ? tLRPC$UserFull.theme_emoticon : null);
     }
 
     private void setChatThemeEmoticon(String str) {
@@ -41212,6 +41209,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 initPaints();
             }
             themeAnimationSettings.applyTheme = false;
+            if (ChatActivity.this.dialog_id < 0) {
+                themeAnimationSettings.applyTrulyTheme = false;
+            }
             themeAnimationSettings.afterStartDescriptionsAddedRunnable = new Runnable() { // from class: org.telegram.ui.ChatActivity$ThemeDelegate$$ExternalSyntheticLambda5
                 @Override // java.lang.Runnable
                 public final void run() {
@@ -41390,7 +41390,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 }
                 this.patternAlphaAnimator.start();
             }
-            if (emojiThemes == null) {
+            if (emojiThemes == null && ChatActivity.this.dialog_id >= 0) {
                 if (Theme.getActiveTheme().isDark() == this.isDark) {
                     theme = Theme.getActiveTheme();
                 } else {
@@ -42056,7 +42056,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     }
 
     public ThanosEffect getChatThanosEffect() {
-        if (LiteMode.isEnabled(65536)) {
+        if (LiteMode.isEnabled(65536) && ThanosEffect.supports()) {
             if (this.chatListThanosEffect == null) {
                 if (getContext() == null || !ThanosEffect.supports() || this.chatListView == null || this.contentView == null) {
                     return null;

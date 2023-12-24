@@ -21,6 +21,8 @@ import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$InputFileLocation;
 import org.telegram.tgnet.TLRPC$InputWebFileLocation;
+import org.telegram.tgnet.TLRPC$Message;
+import org.telegram.tgnet.TLRPC$MessageMedia;
 import org.telegram.tgnet.TLRPC$TL_document;
 import org.telegram.tgnet.TLRPC$TL_documentAttributeVideo;
 import org.telegram.tgnet.TLRPC$TL_documentEncrypted;
@@ -2909,6 +2911,8 @@ public class FileLoadOperation {
     }
 
     private void requestReference(RequestInfo requestInfo) {
+        TLRPC$Message tLRPC$Message;
+        TLRPC$MessageMedia tLRPC$MessageMedia;
         TLRPC$WebPage tLRPC$WebPage;
         if (this.requestingReference) {
             return;
@@ -2918,7 +2922,7 @@ public class FileLoadOperation {
         Object obj = this.parentObject;
         if (obj instanceof MessageObject) {
             MessageObject messageObject = (MessageObject) obj;
-            if (messageObject.getId() < 0 && (tLRPC$WebPage = messageObject.messageOwner.media.webpage) != null) {
+            if (messageObject.getId() < 0 && (tLRPC$Message = messageObject.messageOwner) != null && (tLRPC$MessageMedia = tLRPC$Message.media) != null && (tLRPC$WebPage = tLRPC$MessageMedia.webpage) != null) {
                 this.parentObject = tLRPC$WebPage;
             }
         }
@@ -2932,7 +2936,7 @@ public class FileLoadOperation {
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Removed duplicated region for block: B:56:0x00bc  */
     /* JADX WARN: Type inference failed for: r11v0 */
-    /* JADX WARN: Type inference failed for: r11v1, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r11v1, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r11v11 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

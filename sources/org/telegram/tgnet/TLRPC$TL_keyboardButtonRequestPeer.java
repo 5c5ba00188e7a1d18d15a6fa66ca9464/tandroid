@@ -1,6 +1,7 @@
 package org.telegram.tgnet;
 /* loaded from: classes3.dex */
 public class TLRPC$TL_keyboardButtonRequestPeer extends TLRPC$KeyboardButton {
+    public int max_quantity;
     public TLRPC$RequestPeerType peer_type;
 
     @Override // org.telegram.tgnet.TLObject
@@ -8,13 +9,15 @@ public class TLRPC$TL_keyboardButtonRequestPeer extends TLRPC$KeyboardButton {
         this.text = abstractSerializedData.readString(z);
         this.button_id = abstractSerializedData.readInt32(z);
         this.peer_type = TLRPC$RequestPeerType.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+        this.max_quantity = abstractSerializedData.readInt32(z);
     }
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-        abstractSerializedData.writeInt32(218842764);
+        abstractSerializedData.writeInt32(1406648280);
         abstractSerializedData.writeString(this.text);
         abstractSerializedData.writeInt32(this.button_id);
         this.peer_type.serializeToStream(abstractSerializedData);
+        abstractSerializedData.writeInt32(this.max_quantity);
     }
 }

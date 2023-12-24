@@ -1323,7 +1323,7 @@ public class AlertsCreator {
 
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r10v0 */
-    /* JADX WARN: Type inference failed for: r10v1, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r10v1, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r10v3 */
     /* JADX WARN: Type inference failed for: r9v0 */
     /* JADX WARN: Type inference failed for: r9v1, types: [int, boolean] */
