@@ -441,7 +441,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
                 AndroidUtilities.addToClipboard(getBoostLink());
                 dismiss();
                 return;
-            } else if (UserConfig.getInstance(this.currentAccount).isPremium() || MessagesController.getInstance(this.currentAccount).premiumLocked || this.isVeryLargeFile) {
+            } else if (UserConfig.getInstance(this.currentAccount).isPremium() || MessagesController.getInstance(this.currentAccount).premiumFeaturesBlocked() || this.isVeryLargeFile) {
                 dismiss();
                 return;
             } else {
@@ -791,7 +791,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
             spannableStringBuilder.setSpan(new ColoredImageSpan(R.drawable.msg_copy_filled), 0, 1, 0);
             spannableStringBuilder.append((CharSequence) LocaleController.getString("CopyLink", R.string.CopyLink));
             this.premiumButtonView.buttonTextView.setText(spannableStringBuilder);
-        } else if (UserConfig.getInstance(this.currentAccount).isPremium() || MessagesController.getInstance(this.currentAccount).premiumLocked || this.isVeryLargeFile) {
+        } else if (UserConfig.getInstance(this.currentAccount).isPremium() || MessagesController.getInstance(this.currentAccount).premiumFeaturesBlocked() || this.isVeryLargeFile) {
             this.premiumButtonView.buttonTextView.setText(LocaleController.getString("OK", R.string.OK));
             this.premiumButtonView.hideIcon();
         } else {
@@ -1356,22 +1356,22 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
         TextView title;
         LinearLayout titleLinearLayout;
 
-        /* JADX WARN: Removed duplicated region for block: B:124:0x03c8  */
-        /* JADX WARN: Removed duplicated region for block: B:125:0x03cb  */
-        /* JADX WARN: Removed duplicated region for block: B:128:0x03f1  */
-        /* JADX WARN: Removed duplicated region for block: B:137:0x0412  */
-        /* JADX WARN: Removed duplicated region for block: B:151:0x046c  */
-        /* JADX WARN: Removed duplicated region for block: B:156:0x04a1  */
-        /* JADX WARN: Removed duplicated region for block: B:158:0x04b0  */
-        /* JADX WARN: Removed duplicated region for block: B:199:0x05b5  */
-        /* JADX WARN: Removed duplicated region for block: B:214:0x073d  */
-        /* JADX WARN: Removed duplicated region for block: B:221:0x078a  */
-        /* JADX WARN: Removed duplicated region for block: B:222:0x079a  */
-        /* JADX WARN: Removed duplicated region for block: B:225:0x07ab  */
-        /* JADX WARN: Removed duplicated region for block: B:226:0x07bf  */
-        /* JADX WARN: Removed duplicated region for block: B:69:0x0316  */
-        /* JADX WARN: Removed duplicated region for block: B:70:0x0326  */
-        /* JADX WARN: Removed duplicated region for block: B:74:0x0330  */
+        /* JADX WARN: Removed duplicated region for block: B:124:0x03ca  */
+        /* JADX WARN: Removed duplicated region for block: B:125:0x03cd  */
+        /* JADX WARN: Removed duplicated region for block: B:128:0x03f3  */
+        /* JADX WARN: Removed duplicated region for block: B:137:0x0414  */
+        /* JADX WARN: Removed duplicated region for block: B:151:0x046e  */
+        /* JADX WARN: Removed duplicated region for block: B:156:0x04a3  */
+        /* JADX WARN: Removed duplicated region for block: B:158:0x04b2  */
+        /* JADX WARN: Removed duplicated region for block: B:199:0x05b7  */
+        /* JADX WARN: Removed duplicated region for block: B:214:0x073f  */
+        /* JADX WARN: Removed duplicated region for block: B:221:0x078c  */
+        /* JADX WARN: Removed duplicated region for block: B:222:0x079c  */
+        /* JADX WARN: Removed duplicated region for block: B:225:0x07ad  */
+        /* JADX WARN: Removed duplicated region for block: B:226:0x07c1  */
+        /* JADX WARN: Removed duplicated region for block: B:69:0x0318  */
+        /* JADX WARN: Removed duplicated region for block: B:70:0x0328  */
+        /* JADX WARN: Removed duplicated region for block: B:74:0x0332  */
         @SuppressLint({"SetTextI18n"})
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -1398,7 +1398,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
             LimitParams limitParams = LimitReachedBottomSheet.getLimitParams(LimitReachedBottomSheet.this.type, ((BottomSheet) LimitReachedBottomSheet.this).currentAccount);
             LimitReachedBottomSheet.this.limitParams = limitParams;
             int i8 = limitParams.icon;
-            boolean z3 = MessagesController.getInstance(((BottomSheet) LimitReachedBottomSheet.this).currentAccount).premiumLocked;
+            boolean premiumFeaturesBlocked = MessagesController.getInstance(((BottomSheet) LimitReachedBottomSheet.this).currentAccount).premiumFeaturesBlocked();
             int i9 = LimitReachedBottomSheet.this.type;
             if (i9 == 19) {
                 str = LimitReachedBottomSheet.this.getBoostsDescriptionString();
@@ -1750,9 +1750,9 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
                 }
                 LimitReachedBottomSheet.this.updatePremiumButtonText();
             } else {
-                str = z3 ? LimitReachedBottomSheet.this.limitParams.descriptionStrLocked : (UserConfig.getInstance(((BottomSheet) LimitReachedBottomSheet.this).currentAccount).isPremium() || LimitReachedBottomSheet.this.isVeryLargeFile) ? LimitReachedBottomSheet.this.limitParams.descriptionStrPremium : LimitReachedBottomSheet.this.limitParams.descriptionStr;
+                str = premiumFeaturesBlocked ? LimitReachedBottomSheet.this.limitParams.descriptionStrLocked : (UserConfig.getInstance(((BottomSheet) LimitReachedBottomSheet.this).currentAccount).isPremium() || LimitReachedBottomSheet.this.isVeryLargeFile) ? LimitReachedBottomSheet.this.limitParams.descriptionStrPremium : LimitReachedBottomSheet.this.limitParams.descriptionStr;
             }
-            z = z3;
+            z = premiumFeaturesBlocked;
             str2 = str;
             LimitParams limitParams22 = LimitReachedBottomSheet.this.limitParams;
             int i102 = limitParams22.defaultLimit;

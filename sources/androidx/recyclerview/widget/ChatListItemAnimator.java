@@ -46,6 +46,7 @@ public class ChatListItemAnimator extends DefaultItemAnimator {
     private final Theme.ResourcesProvider resourcesProvider;
     private boolean reversePositions;
     private boolean shouldAnimateEnterFromBottom;
+    private Utilities.Callback0Return<Boolean> supportsThanosEffectContainer;
     private HashMap<Integer, MessageObject.GroupedMessages> willRemovedGroup = new HashMap<>();
     private ArrayList<MessageObject.GroupedMessages> willChangedGroups = new ArrayList<>();
     HashMap<RecyclerView.ViewHolder, Animator> animators = new HashMap<>();
@@ -131,11 +132,11 @@ public class ChatListItemAnimator extends DefaultItemAnimator {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:109:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:60:0x00fc  */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x011d  */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x0157  */
-    /* JADX WARN: Removed duplicated region for block: B:86:0x0189  */
+    /* JADX WARN: Removed duplicated region for block: B:111:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x0106  */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x0127  */
+    /* JADX WARN: Removed duplicated region for block: B:82:0x0161  */
+    /* JADX WARN: Removed duplicated region for block: B:88:0x0193  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -144,6 +145,7 @@ public class ChatListItemAnimator extends DefaultItemAnimator {
         Iterator<RecyclerView.ViewHolder> it;
         MessageObject.GroupedMessages currentMessagesGroup;
         MessageObject messageObject;
+        Utilities.Callback0Return<Boolean> callback0Return;
         boolean z2 = !this.mPendingRemovals.isEmpty();
         boolean z3 = !this.mPendingMoves.isEmpty();
         boolean z4 = !this.mPendingChanges.isEmpty();
@@ -151,8 +153,7 @@ public class ChatListItemAnimator extends DefaultItemAnimator {
         if (!z2 && !z3 && !z5 && !z4) {
             return;
         }
-        Utilities.Callback0Return<ThanosEffect> callback0Return = this.getThanosEffectContainer;
-        boolean z6 = (callback0Return == null || callback0Return.run() == null) ? false : true;
+        boolean z6 = (this.getThanosEffectContainer == null || (callback0Return = this.supportsThanosEffectContainer) == null || !callback0Return.run().booleanValue()) ? false : true;
         if (z6) {
             LongSparseArray longSparseArray = null;
             int i = 0;
@@ -1823,7 +1824,8 @@ public class ChatListItemAnimator extends DefaultItemAnimator {
         messageObject.deletedByThanos = true;
     }
 
-    public void setOnSnapMessage(Utilities.Callback0Return<ThanosEffect> callback0Return) {
-        this.getThanosEffectContainer = callback0Return;
+    public void setOnSnapMessage(Utilities.Callback0Return<Boolean> callback0Return, Utilities.Callback0Return<ThanosEffect> callback0Return2) {
+        this.supportsThanosEffectContainer = callback0Return;
+        this.getThanosEffectContainer = callback0Return2;
     }
 }

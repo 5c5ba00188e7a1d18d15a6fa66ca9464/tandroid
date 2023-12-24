@@ -21317,25 +21317,25 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         return this.animatePollAnswerAlpha;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:46:0x00a9, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:46:0x00ab, code lost:
         if (r3.voiceTranscriptionForce != false) goto L48;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:48:0x00b3, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:48:0x00b5, code lost:
         if (r0.getDuration() >= 60.0d) goto L48;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:52:0x00bf, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:52:0x00c1, code lost:
         if (r7.useSeekBarWaveform != false) goto L52;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:54:0x00c7, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:54:0x00c9, code lost:
         if (r7.currentMessageObject.isRoundVideo() != false) goto L52;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:55:0x00c9, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:55:0x00cb, code lost:
         r0 = r7.currentMessageObject.messageOwner;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:56:0x00cd, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:56:0x00cf, code lost:
         if (r0 == null) goto L60;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:58:0x00d5, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:58:0x00d7, code lost:
         if ((org.telegram.messenger.MessageObject.getMedia(r0) instanceof org.telegram.tgnet.TLRPC$TL_messageMediaWebPage) != false) goto L60;
      */
     /*
@@ -21362,7 +21362,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                 TranscribeButton.canTranscribeTrial(this.currentMessageObject);
                             }
                         } else if (MessagesController.getInstance(this.currentAccount).transcribeAudioTrialWeeklyNumber <= 0) {
-                            if (!MessagesController.getInstance(this.currentAccount).premiumLocked) {
+                            if (!MessagesController.getInstance(this.currentAccount).premiumFeaturesBlocked()) {
                                 if (!MessagesController.getInstance(this.currentAccount).didPressTranscribeButtonEnough()) {
                                     if (!this.currentMessageObject.isOutOwner()) {
                                         MessageObject messageObject3 = this.currentMessageObject;

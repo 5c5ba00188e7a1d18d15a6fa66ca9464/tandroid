@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
 import android.view.Choreographer;
 import android.view.TextureView;
 import android.view.View;
@@ -45,6 +46,12 @@ public class ThanosEffect extends TextureView {
     private DrawingThread drawThread;
     private final Choreographer.FrameCallback frameCallback;
     private final ArrayList<ToSet> toSet;
+    private Runnable whenDone;
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static /* synthetic */ void access$400(ThanosEffect thanosEffect) {
+        thanosEffect.destroy();
+    }
 
     public static boolean supports() {
         if (nothanos == null) {
@@ -92,7 +99,7 @@ public class ThanosEffect extends TextureView {
         }
     }
 
-    public ThanosEffect(Context context) {
+    public ThanosEffect(Context context, Runnable runnable) {
         super(context);
         this.frameCallback = new Choreographer.FrameCallback() { // from class: org.telegram.ui.Components.ThanosEffect.1
             @Override // android.view.Choreographer.FrameCallback
@@ -106,60 +113,90 @@ public class ThanosEffect extends TextureView {
             }
         };
         this.toSet = new ArrayList<>();
+        this.whenDone = runnable;
         setOpaque(false);
-        setSurfaceTextureListener(new TextureView.SurfaceTextureListener() { // from class: org.telegram.ui.Components.ThanosEffect.2
-            @Override // android.view.TextureView.SurfaceTextureListener
-            public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) {
-            }
+        setSurfaceTextureListener(new 2());
+    }
 
-            @Override // android.view.TextureView.SurfaceTextureListener
-            public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int i, int i2) {
-                if (ThanosEffect.this.drawThread != null) {
-                    ThanosEffect.this.drawThread.kill();
-                    ThanosEffect.this.drawThread = null;
-                }
-                ThanosEffect thanosEffect = ThanosEffect.this;
-                final ThanosEffect thanosEffect2 = ThanosEffect.this;
-                thanosEffect.drawThread = new DrawingThread(surfaceTexture, new Runnable() { // from class: org.telegram.ui.Components.ThanosEffect$2$$ExternalSyntheticLambda0
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        ThanosEffect.this.invalidate();
-                    }
-                }, i, i2);
-                if (ThanosEffect.this.toSet.isEmpty()) {
-                    return;
-                }
-                for (int i3 = 0; i3 < ThanosEffect.this.toSet.size(); i3++) {
-                    ToSet toSet = (ToSet) ThanosEffect.this.toSet.get(i3);
-                    if (toSet.bitmap != null) {
-                        ThanosEffect.this.drawThread.animate(toSet.matrix, toSet.bitmap, toSet.startCallback, toSet.doneCallback);
-                    } else if (toSet.views != null) {
-                        ThanosEffect.this.drawThread.animateGroup(toSet.views, toSet.doneCallback);
-                    } else {
-                        ThanosEffect.this.drawThread.animate(toSet.view, toSet.doneCallback);
-                    }
-                }
-                ThanosEffect.this.toSet.clear();
-                Choreographer.getInstance().postFrameCallback(ThanosEffect.this.frameCallback);
-            }
+    /* loaded from: classes4.dex */
+    class 2 implements TextureView.SurfaceTextureListener {
+        @Override // android.view.TextureView.SurfaceTextureListener
+        public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) {
+        }
 
-            @Override // android.view.TextureView.SurfaceTextureListener
-            public void onSurfaceTextureSizeChanged(SurfaceTexture surfaceTexture, int i, int i2) {
-                if (ThanosEffect.this.drawThread != null) {
-                    ThanosEffect.this.drawThread.resize(i, i2);
+        2() {
+        }
+
+        @Override // android.view.TextureView.SurfaceTextureListener
+        public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int i, int i2) {
+            Log.i("lolkek", "THANOS EFFECT START");
+            if (ThanosEffect.this.drawThread != null) {
+                ThanosEffect.this.drawThread.kill();
+                ThanosEffect.this.drawThread = null;
+            }
+            ThanosEffect thanosEffect = ThanosEffect.this;
+            final ThanosEffect thanosEffect2 = ThanosEffect.this;
+            Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.ThanosEffect$2$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ThanosEffect.this.invalidate();
+                }
+            };
+            final ThanosEffect thanosEffect3 = ThanosEffect.this;
+            thanosEffect.drawThread = new DrawingThread(surfaceTexture, runnable, new Runnable() { // from class: org.telegram.ui.Components.ThanosEffect$2$$ExternalSyntheticLambda1
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ThanosEffect.access$400(ThanosEffect.this);
+                }
+            }, i, i2);
+            if (ThanosEffect.this.toSet.isEmpty()) {
+                return;
+            }
+            for (int i3 = 0; i3 < ThanosEffect.this.toSet.size(); i3++) {
+                ToSet toSet = (ToSet) ThanosEffect.this.toSet.get(i3);
+                if (toSet.bitmap != null) {
+                    ThanosEffect.this.drawThread.animate(toSet.matrix, toSet.bitmap, toSet.startCallback, toSet.doneCallback);
+                } else if (toSet.views != null) {
+                    ThanosEffect.this.drawThread.animateGroup(toSet.views, toSet.doneCallback);
+                } else {
+                    ThanosEffect.this.drawThread.animate(toSet.view, toSet.doneCallback);
                 }
             }
+            ThanosEffect.this.toSet.clear();
+            Choreographer.getInstance().postFrameCallback(ThanosEffect.this.frameCallback);
+        }
 
-            @Override // android.view.TextureView.SurfaceTextureListener
-            public boolean onSurfaceTextureDestroyed(SurfaceTexture surfaceTexture) {
-                if (ThanosEffect.this.drawThread != null) {
-                    ThanosEffect.this.drawThread.kill();
-                    ThanosEffect.this.drawThread = null;
-                    return false;
-                }
+        @Override // android.view.TextureView.SurfaceTextureListener
+        public void onSurfaceTextureSizeChanged(SurfaceTexture surfaceTexture, int i, int i2) {
+            if (ThanosEffect.this.drawThread != null) {
+                ThanosEffect.this.drawThread.resize(i, i2);
+            }
+        }
+
+        @Override // android.view.TextureView.SurfaceTextureListener
+        public boolean onSurfaceTextureDestroyed(SurfaceTexture surfaceTexture) {
+            Log.i("lolkek", "THANOS EFFECT DESTROYED");
+            if (ThanosEffect.this.drawThread != null) {
+                ThanosEffect.this.drawThread.kill();
+                ThanosEffect.this.drawThread = null;
+            }
+            if (ThanosEffect.this.whenDone != null) {
+                Runnable runnable = ThanosEffect.this.whenDone;
+                ThanosEffect.this.whenDone = null;
+                runnable.run();
                 return false;
             }
-        });
+            return false;
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void destroy() {
+        Runnable runnable = this.whenDone;
+        if (runnable != null) {
+            this.whenDone = null;
+            runnable.run();
+        }
     }
 
     public void scroll(int i, int i2) {
@@ -205,7 +242,9 @@ public class ThanosEffect extends TextureView {
         private boolean alive;
         private int deltaTimeHandle;
         private int densityHandle;
+        private Runnable destroy;
         private int drawProgram;
+        private boolean drawnAnimations;
         private EGL10 egl;
         private EGLConfig eglConfig;
         private EGLContext eglContext;
@@ -232,14 +271,16 @@ public class ThanosEffect extends TextureView {
         private final ArrayList<Animation> toRunStartCallback;
         private int width;
 
-        public DrawingThread(SurfaceTexture surfaceTexture, Runnable runnable, int i, int i2) {
+        public DrawingThread(SurfaceTexture surfaceTexture, Runnable runnable, Runnable runnable2, int i, int i2) {
             super("ThanosEffect.DrawingThread", false);
             this.alive = true;
             this.pendingAnimations = new ArrayList<>();
             this.toRunStartCallback = new ArrayList<>();
+            this.drawnAnimations = false;
             this.toAddAnimations = new ArrayList<>();
             this.surfaceTexture = surfaceTexture;
             this.invalidate = runnable;
+            this.destroy = runnable2;
             this.width = i;
             this.height = i2;
             start();
@@ -341,6 +382,11 @@ public class ThanosEffect extends TextureView {
                 Looper myLooper = Looper.myLooper();
                 if (myLooper != null) {
                     myLooper.quit();
+                }
+                Runnable runnable = this.destroy;
+                if (runnable != null) {
+                    AndroidUtilities.runOnUIThread(runnable);
+                    this.destroy = null;
                 }
             }
         }
@@ -461,6 +507,7 @@ public class ThanosEffect extends TextureView {
                             this.toRunStartCallback.add(animation);
                         }
                     }
+                    this.drawnAnimations = true;
                     animation.draw();
                     if (animation.isDead()) {
                         animation.done(true);
@@ -477,6 +524,9 @@ public class ThanosEffect extends TextureView {
                         AndroidUtilities.runOnUIThread(this.toRunStartCallback.get(i2).startCallback);
                     }
                     this.toRunStartCallback.clear();
+                    if (this.pendingAnimations.isEmpty() && this.drawnAnimations) {
+                        killInternal();
+                    }
                 } catch (Exception unused) {
                     for (int i3 = 0; i3 < this.toRunStartCallback.size(); i3++) {
                         AndroidUtilities.runOnUIThread(this.toRunStartCallback.get(i3).startCallback);

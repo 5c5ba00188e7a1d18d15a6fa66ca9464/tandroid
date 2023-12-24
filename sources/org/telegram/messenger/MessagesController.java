@@ -1278,6 +1278,14 @@ public class MessagesController extends BaseController implements NotificationCe
         }
     }
 
+    public boolean premiumFeaturesBlocked() {
+        return this.premiumLocked && !getUserConfig().isPremium();
+    }
+
+    public boolean premiumPurchaseBlocked() {
+        return this.premiumLocked;
+    }
+
     public void getNextReactionMention(final long j, final int i, final int i2, final Consumer<Integer> consumer) {
         getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda62
             @Override // java.lang.Runnable
@@ -1454,7 +1462,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public boolean isPremiumUser(TLRPC$User tLRPC$User) {
-        return !this.premiumLocked && tLRPC$User.premium;
+        return !premiumFeaturesBlocked() && tLRPC$User.premium;
     }
 
     public boolean didPressTranscribeButtonEnough() {
@@ -1473,7 +1481,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public ArrayList<TLRPC$TL_messages_stickerSet> filterPremiumStickers(ArrayList<TLRPC$TL_messages_stickerSet> arrayList) {
-        if (this.premiumLocked) {
+        if (premiumFeaturesBlocked()) {
             int i = 0;
             while (i < arrayList.size()) {
                 TLRPC$TL_messages_stickerSet filterPremiumStickers = getInstance(this.currentAccount).filterPremiumStickers(arrayList.get(i));
@@ -1492,7 +1500,7 @@ public class MessagesController extends BaseController implements NotificationCe
 
     public TLRPC$TL_messages_stickerSet filterPremiumStickers(TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet) {
         boolean z;
-        if (!this.premiumLocked || tLRPC$TL_messages_stickerSet == null) {
+        if (!premiumFeaturesBlocked() || tLRPC$TL_messages_stickerSet == null) {
             return tLRPC$TL_messages_stickerSet;
         }
         int i = 0;

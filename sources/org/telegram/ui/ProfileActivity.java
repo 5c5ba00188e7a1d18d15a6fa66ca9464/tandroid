@@ -5626,7 +5626,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         if (this.avatarBig != null) {
             return;
         }
-        if (this.isTopic && !getMessagesController().premiumLocked) {
+        if (this.isTopic && !getMessagesController().premiumFeaturesBlocked()) {
             ArrayList<TLRPC$TL_forumTopic> topics = getMessagesController().getTopicsController().getTopics(this.chatId);
             if (topics != null) {
                 TLRPC$TL_forumTopic tLRPC$TL_forumTopic = null;
@@ -9405,18 +9405,22 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 this.languageRow = i24;
                 this.rowCount = i25 + 1;
                 this.devicesSectionRow = i25;
-                if (!getMessagesController().premiumLocked) {
+                if (!getMessagesController().premiumFeaturesBlocked()) {
                     int i26 = this.rowCount;
                     this.rowCount = i26 + 1;
                     this.premiumRow = i26;
                 }
-                int i27 = this.rowCount;
-                int i28 = i27 + 1;
-                this.rowCount = i28;
-                this.premiumGiftingRow = i27;
-                int i29 = i28 + 1;
-                this.rowCount = i29;
-                this.premiumSectionsRow = i28;
+                if (!getMessagesController().premiumPurchaseBlocked()) {
+                    int i27 = this.rowCount;
+                    this.rowCount = i27 + 1;
+                    this.premiumGiftingRow = i27;
+                }
+                if (this.premiumRow >= 0 || this.premiumGiftingRow >= 0) {
+                    int i28 = this.rowCount;
+                    this.rowCount = i28 + 1;
+                    this.premiumSectionsRow = i28;
+                }
+                int i29 = this.rowCount;
                 int i30 = i29 + 1;
                 this.rowCount = i30;
                 this.helpHeaderRow = i29;
@@ -10876,16 +10880,16 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         return i;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:231:0x0463  */
-    /* JADX WARN: Removed duplicated region for block: B:232:0x049e  */
-    /* JADX WARN: Removed duplicated region for block: B:235:0x04b7  */
-    /* JADX WARN: Removed duplicated region for block: B:237:0x04be  */
-    /* JADX WARN: Removed duplicated region for block: B:240:0x04d3  */
-    /* JADX WARN: Removed duplicated region for block: B:243:0x04f6  */
-    /* JADX WARN: Removed duplicated region for block: B:279:0x05ac  */
-    /* JADX WARN: Removed duplicated region for block: B:282:0x05c3  */
-    /* JADX WARN: Removed duplicated region for block: B:285:0x05da  */
-    /* JADX WARN: Removed duplicated region for block: B:288:0x05f1  */
+    /* JADX WARN: Removed duplicated region for block: B:231:0x0465  */
+    /* JADX WARN: Removed duplicated region for block: B:232:0x04a0  */
+    /* JADX WARN: Removed duplicated region for block: B:235:0x04b9  */
+    /* JADX WARN: Removed duplicated region for block: B:237:0x04c0  */
+    /* JADX WARN: Removed duplicated region for block: B:240:0x04d5  */
+    /* JADX WARN: Removed duplicated region for block: B:243:0x04f8  */
+    /* JADX WARN: Removed duplicated region for block: B:279:0x05ae  */
+    /* JADX WARN: Removed duplicated region for block: B:282:0x05c5  */
+    /* JADX WARN: Removed duplicated region for block: B:285:0x05dc  */
+    /* JADX WARN: Removed duplicated region for block: B:288:0x05f3  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -11069,7 +11073,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             if (!UserObject.isDeleted(user) && !this.isBot && this.currentEncryptedChat == null && !this.userBlocked) {
                 long j = this.userId;
                 if (j != 333000 && j != 777000 && j != 42777) {
-                    if (!user.premium && !BuildVars.IS_BILLING_UNAVAILABLE && !user.self && this.userInfo != null && !getMessagesController().premiumLocked && !this.userInfo.premium_gifts.isEmpty()) {
+                    if (!user.premium && !BuildVars.IS_BILLING_UNAVAILABLE && !user.self && this.userInfo != null && !getMessagesController().premiumFeaturesBlocked() && !this.userInfo.premium_gifts.isEmpty()) {
                         this.otherItem.addSubItem(38, R.drawable.msg_gift_premium, LocaleController.getString(R.string.GiftPremium));
                     }
                     this.otherItem.addSubItem(20, R.drawable.msg_secret, LocaleController.getString("StartEncryptedChat", R.string.StartEncryptedChat));
@@ -14717,7 +14721,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         }
 
         private boolean isPremiumFeatureAvailable(int i) {
-            if (!ProfileActivity.this.getMessagesController().premiumLocked || ProfileActivity.this.getUserConfig().isPremium()) {
+            if (!ProfileActivity.this.getMessagesController().premiumFeaturesBlocked() || ProfileActivity.this.getUserConfig().isPremium()) {
                 return i == -1 || ProfileActivity.this.getMessagesController().premiumFeaturesTypesToPosition.get(i, -1) != -1;
             }
             return false;

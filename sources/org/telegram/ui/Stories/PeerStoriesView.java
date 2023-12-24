@@ -1804,7 +1804,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                 PeerStoriesView peerStoriesView3 = PeerStoriesView.this;
                 if (!peerStoriesView3.unsupported && peerStoriesView3.allowShare) {
                     if (!UserConfig.getInstance(PeerStoriesView.this.currentAccount).isPremium()) {
-                        if (!MessagesController.getInstance(PeerStoriesView.this.currentAccount).premiumLocked) {
+                        if (!MessagesController.getInstance(PeerStoriesView.this.currentAccount).premiumFeaturesBlocked()) {
                             Drawable drawable = ContextCompat.getDrawable(this.val$context, R.drawable.msg_gallery_locked2);
                             drawable.setColorFilter(new PorterDuffColorFilter(ColorUtils.blendARGB(-1, -16777216, 0.5f), PorterDuff.Mode.MULTIPLY));
                             CombinedDrawable combinedDrawable = new CombinedDrawable(this, ContextCompat.getDrawable(this.val$context, R.drawable.msg_gallery_locked1), drawable) { // from class: org.telegram.ui.Stories.PeerStoriesView.8.2
@@ -1831,7 +1831,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                         });
                     }
                 }
-                if (!MessagesController.getInstance(PeerStoriesView.this.currentAccount).premiumLocked) {
+                if (!MessagesController.getInstance(PeerStoriesView.this.currentAccount).premiumFeaturesBlocked()) {
                     PeerStoriesView peerStoriesView4 = PeerStoriesView.this;
                     if (!peerStoriesView4.isChannel) {
                         peerStoriesView4.createStealthModeItem(actionBarPopupWindowLayout);
@@ -1983,7 +1983,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                         }
                     });
                 }
-                if (!MessagesController.getInstance(PeerStoriesView.this.currentAccount).premiumLocked) {
+                if (!MessagesController.getInstance(PeerStoriesView.this.currentAccount).premiumFeaturesBlocked()) {
                     PeerStoriesView peerStoriesView10 = PeerStoriesView.this;
                     if (!peerStoriesView10.isChannel) {
                         peerStoriesView10.createStealthModeItem(actionBarPopupWindowLayout);

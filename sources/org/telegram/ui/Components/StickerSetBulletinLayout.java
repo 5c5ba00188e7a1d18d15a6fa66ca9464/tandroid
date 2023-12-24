@@ -35,19 +35,19 @@ public class StickerSetBulletinLayout extends Bulletin.TwoLineLayout {
         this(context, tLObject, 1, i, tLRPC$Document, resourcesProvider);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:107:0x0375  */
-    /* JADX WARN: Removed duplicated region for block: B:139:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:105:0x036d  */
+    /* JADX WARN: Removed duplicated region for block: B:137:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:29:0x0075 A[ADDED_TO_REGION] */
     /* JADX WARN: Removed duplicated region for block: B:35:0x008c  */
     /* JADX WARN: Removed duplicated region for block: B:66:0x0114  */
     /* JADX WARN: Removed duplicated region for block: B:69:0x0126  */
     /* JADX WARN: Removed duplicated region for block: B:73:0x013a  */
-    /* JADX WARN: Removed duplicated region for block: B:79:0x01c1  */
-    /* JADX WARN: Removed duplicated region for block: B:85:0x0248  */
-    /* JADX WARN: Removed duplicated region for block: B:86:0x025c  */
-    /* JADX WARN: Removed duplicated region for block: B:87:0x0270  */
-    /* JADX WARN: Removed duplicated region for block: B:88:0x0284  */
-    /* JADX WARN: Removed duplicated region for block: B:99:0x0305  */
+    /* JADX WARN: Removed duplicated region for block: B:77:0x01b7  */
+    /* JADX WARN: Removed duplicated region for block: B:83:0x0240  */
+    /* JADX WARN: Removed duplicated region for block: B:84:0x0254  */
+    /* JADX WARN: Removed duplicated region for block: B:85:0x0268  */
+    /* JADX WARN: Removed duplicated region for block: B:86:0x027c  */
+    /* JADX WARN: Removed duplicated region for block: B:97:0x02fd  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -175,7 +175,7 @@ public class StickerSetBulletinLayout extends Bulletin.TwoLineLayout {
                         this.subtitleTextView.setVisibility(8);
                         return;
                     case 6:
-                        if (!UserConfig.getInstance(UserConfig.selectedAccount).isPremium() && !MessagesController.getInstance(UserConfig.selectedAccount).premiumLocked) {
+                        if (!UserConfig.getInstance(UserConfig.selectedAccount).isPremium() && !MessagesController.getInstance(UserConfig.selectedAccount).premiumFeaturesBlocked()) {
                             this.titleTextView.setText(LocaleController.formatString("LimitReachedFavoriteStickers", R.string.LimitReachedFavoriteStickers, Integer.valueOf(MessagesController.getInstance(UserConfig.selectedAccount).stickersFavedLimitDefault)));
                             this.subtitleTextView.setText(AndroidUtilities.premiumText(LocaleController.formatString("LimitReachedFavoriteStickersSubtitle", R.string.LimitReachedFavoriteStickersSubtitle, Integer.valueOf(MessagesController.getInstance(UserConfig.selectedAccount).stickersFavedLimitPremium)), new Runnable() { // from class: org.telegram.ui.Components.StickerSetBulletinLayout$$ExternalSyntheticLambda0
                                 @Override // java.lang.Runnable
@@ -189,7 +189,7 @@ public class StickerSetBulletinLayout extends Bulletin.TwoLineLayout {
                         this.subtitleTextView.setText(LocaleController.formatString("LimitReachedFavoriteStickersSubtitlePremium", R.string.LimitReachedFavoriteStickersSubtitlePremium, new Object[0]));
                         return;
                     case 7:
-                        if (!UserConfig.getInstance(UserConfig.selectedAccount).isPremium() && !MessagesController.getInstance(UserConfig.selectedAccount).premiumLocked) {
+                        if (!MessagesController.getInstance(UserConfig.selectedAccount).premiumFeaturesBlocked()) {
                             this.titleTextView.setText(LocaleController.formatString("LimitReachedFavoriteGifs", R.string.LimitReachedFavoriteGifs, Integer.valueOf(MessagesController.getInstance(UserConfig.selectedAccount).savedGifsLimitDefault)));
                             this.subtitleTextView.setText(AndroidUtilities.premiumText(LocaleController.formatString("LimitReachedFavoriteGifsSubtitle", R.string.LimitReachedFavoriteGifsSubtitle, Integer.valueOf(MessagesController.getInstance(UserConfig.selectedAccount).savedGifsLimitPremium)), new Runnable() { // from class: org.telegram.ui.Components.StickerSetBulletinLayout$$ExternalSyntheticLambda1
                                 @Override // java.lang.Runnable

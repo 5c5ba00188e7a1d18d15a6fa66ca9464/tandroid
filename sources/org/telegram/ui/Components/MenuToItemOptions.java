@@ -127,7 +127,7 @@ public class MenuToItemOptions implements Menu {
 
     @Override // android.view.Menu
     public MenuItem add(int i, final int i2, int i3, CharSequence charSequence) {
-        if (this.premiumLock != null && FloatingToolbar.premiumOptions.contains(Integer.valueOf(i2)) && MessagesController.getInstance(UserConfig.selectedAccount).premiumLocked) {
+        if (this.premiumLock != null && FloatingToolbar.premiumOptions.contains(Integer.valueOf(i2)) && MessagesController.getInstance(UserConfig.selectedAccount).premiumFeaturesBlocked()) {
             return null;
         }
         this.itemOptions.add(charSequence, new Runnable() { // from class: org.telegram.ui.Components.MenuToItemOptions$$ExternalSyntheticLambda0

@@ -8,6 +8,7 @@ import android.graphics.Point;
 import android.graphics.SurfaceTexture;
 import android.opengl.GLES31;
 import android.os.Build;
+import android.util.Log;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -246,6 +247,7 @@ public class SpoilerEffect2 {
 
             @Override // android.view.TextureView.SurfaceTextureListener
             public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int i4, int i5) {
+                Log.i("lolkek", "SPOILER EFFECT2 START");
                 if (SpoilerEffect2.this.thread == null) {
                     SpoilerEffect2 spoilerEffect2 = SpoilerEffect2.this;
                     final SpoilerEffect2 spoilerEffect22 = SpoilerEffect2.this;
@@ -268,6 +270,7 @@ public class SpoilerEffect2 {
 
             @Override // android.view.TextureView.SurfaceTextureListener
             public boolean onSurfaceTextureDestroyed(SurfaceTexture surfaceTexture) {
+                Log.i("lolkek", "SPOILER EFFECT2 DESTROYED");
                 if (SpoilerEffect2.this.thread != null) {
                     SpoilerEffect2.this.thread.halt();
                     SpoilerEffect2.this.thread = null;

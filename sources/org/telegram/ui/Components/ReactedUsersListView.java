@@ -150,7 +150,7 @@ public class ReactedUsersListView extends FrameLayout {
 
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
             public int getItemCount() {
-                return ReactedUsersListView.this.userReactions.size() + ((ReactedUsersListView.this.customReactionsEmoji.isEmpty() || MessagesController.getInstance(i).premiumLocked) ? 0 : 1);
+                return ReactedUsersListView.this.userReactions.size() + ((ReactedUsersListView.this.customReactionsEmoji.isEmpty() || MessagesController.getInstance(i).premiumFeaturesBlocked()) ? 0 : 1);
             }
 
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -194,7 +194,7 @@ public class ReactedUsersListView extends FrameLayout {
         this.loadingView.setIsSingleCell(true);
         this.loadingView.setItemsCount(this.predictiveCount);
         addView(this.loadingView, LayoutHelper.createFrame(-1, -1.0f));
-        if (!z && (tLRPC$Reaction = this.filter) != null && (tLRPC$Reaction instanceof TLRPC$TL_reactionCustomEmoji) && !MessagesController.getInstance(i).premiumLocked) {
+        if (!z && (tLRPC$Reaction = this.filter) != null && (tLRPC$Reaction instanceof TLRPC$TL_reactionCustomEmoji) && !MessagesController.getInstance(i).premiumFeaturesBlocked()) {
             this.customReactionsEmoji.clear();
             this.customReactionsEmoji.add(ReactionsLayoutInBubble.VisibleReaction.fromTLReaction(this.filter));
             updateCustomReactionsButton();
@@ -431,7 +431,7 @@ public class ReactedUsersListView extends FrameLayout {
                 hashSet.add(Long.valueOf(inputStickerSet.id));
             }
         }
-        if (MessagesController.getInstance(this.currentAccount).premiumLocked) {
+        if (MessagesController.getInstance(this.currentAccount).premiumFeaturesBlocked()) {
             return;
         }
         this.customEmojiStickerSets.addAll(arrayList);
