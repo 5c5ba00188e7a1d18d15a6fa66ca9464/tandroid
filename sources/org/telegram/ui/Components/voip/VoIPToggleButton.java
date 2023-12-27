@@ -49,6 +49,8 @@ public class VoIPToggleButton extends FrameLayout {
     private boolean drawCross;
     Drawable[] icon;
     private boolean iconChangeColor;
+    private float pressedScale;
+    private ValueAnimator pressedScaleAnimator;
     private float radius;
     ValueAnimator replaceAnimator;
     private int replaceColorFrom;
@@ -71,6 +73,7 @@ public class VoIPToggleButton extends FrameLayout {
         this.crossPaint = new Paint(1);
         this.xRefPaint = new Paint(1);
         this.bitmapPaint = new Paint(1);
+        this.pressedScale = 1.0f;
         this.radius = f;
         setWillNotDraw(false);
         FrameLayout frameLayout = new FrameLayout(context);
@@ -82,7 +85,7 @@ public class VoIPToggleButton extends FrameLayout {
             textView.setTextSize(1, 11.0f);
             textView.setTextColor(-1);
             textView.setImportantForAccessibility(2);
-            this.textLayoutContainer.addView(textView, LayoutHelper.createFrame(-1, -2.0f, 0, 0.0f, 4.0f + f, 0.0f, 0.0f));
+            this.textLayoutContainer.addView(textView, LayoutHelper.createFrame(-1, -2.0f, 0, 0.0f, 6.0f + f, 0.0f, 0.0f));
             this.textView[i] = textView;
         }
         this.textView[1].setVisibility(8);
@@ -104,22 +107,50 @@ public class VoIPToggleButton extends FrameLayout {
         this.drawBackground = z;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:10:0x0042  */
-    /* JADX WARN: Removed duplicated region for block: B:13:0x0054  */
-    /* JADX WARN: Removed duplicated region for block: B:16:0x007e  */
-    /* JADX WARN: Removed duplicated region for block: B:72:0x01c3  */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x0290  */
-    /* JADX WARN: Removed duplicated region for block: B:78:? A[RETURN, SYNTHETIC] */
+    public void setPressedBtn(boolean z) {
+        ValueAnimator valueAnimator = this.pressedScaleAnimator;
+        if (valueAnimator != null) {
+            valueAnimator.cancel();
+        }
+        float[] fArr = new float[2];
+        fArr[0] = this.pressedScale;
+        fArr[1] = z ? 0.8f : 1.0f;
+        ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
+        this.pressedScaleAnimator = ofFloat;
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIPToggleButton$$ExternalSyntheticLambda1
+            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+            public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                VoIPToggleButton.this.lambda$setPressedBtn$0(valueAnimator2);
+            }
+        });
+        this.pressedScaleAnimator.setDuration(150L);
+        this.pressedScaleAnimator.start();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$setPressedBtn$0(ValueAnimator valueAnimator) {
+        this.pressedScale = ((Float) valueAnimator.getAnimatedValue()).floatValue();
+        invalidate();
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:10:0x0056  */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x0068  */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x0092  */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x01d7  */
+    /* JADX WARN: Removed duplicated region for block: B:73:0x02a4  */
     @Override // android.view.View
     @SuppressLint({"DrawAllocation"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     protected void onDraw(Canvas canvas) {
+        canvas.save();
+        float f = this.pressedScale;
+        canvas.scale(f, f, getMeasuredWidth() / 2.0f, getMeasuredHeight() / 2.0f);
         if (this.animateBackground) {
-            float f = this.replaceProgress;
-            if (f != 0.0f) {
-                this.circlePaint.setColor(ColorUtils.blendARGB(this.backgroundColor, this.animateToBackgroundColor, f));
+            float f2 = this.replaceProgress;
+            if (f2 != 0.0f) {
+                this.circlePaint.setColor(ColorUtils.blendARGB(this.backgroundColor, this.animateToBackgroundColor, f2));
                 float width = getWidth() / 2.0f;
                 float dp = AndroidUtilities.dp(this.radius) / 2.0f;
                 float dp2 = AndroidUtilities.dp(this.radius) / 2.0f;
@@ -134,102 +165,101 @@ public class VoIPToggleButton extends FrameLayout {
                 this.rippleDrawable.setBounds((int) (width - dp2), (int) (dp - dp2), (int) (width + dp2), (int) (dp2 + dp));
                 this.rippleDrawable.draw(canvas);
                 if (this.currentIconRes != 0) {
-                    return;
-                }
-                if (this.drawCross || this.crossProgress != 0.0f) {
-                    if (this.iconChangeColor) {
-                        int blendARGB = ColorUtils.blendARGB(this.replaceColorFrom, this.currentIconColor, this.replaceProgress);
-                        this.icon[0].setColorFilter(new PorterDuffColorFilter(blendARGB, PorterDuff.Mode.MULTIPLY));
-                        this.crossPaint.setColor(blendARGB);
-                    }
-                    this.icon[0].setAlpha(255);
-                    float f2 = this.replaceProgress;
-                    if (f2 != 0.0f && this.iconChangeColor) {
-                        int blendARGB2 = ColorUtils.blendARGB(this.replaceColorFrom, this.currentIconColor, f2);
-                        this.icon[0].setColorFilter(new PorterDuffColorFilter(blendARGB2, PorterDuff.Mode.MULTIPLY));
-                        this.crossPaint.setColor(blendARGB2);
-                    }
-                    this.icon[0].setAlpha(255);
-                    boolean z = this.drawCross;
-                    if (z) {
-                        float f3 = this.crossProgress;
-                        if (f3 < 1.0f) {
-                            float f4 = f3 + 0.08f;
-                            this.crossProgress = f4;
-                            if (f4 > 1.0f) {
-                                this.crossProgress = 1.0f;
+                    if (!this.drawCross && this.crossProgress == 0.0f) {
+                        int i = 0;
+                        while (true) {
+                            if (i >= ((this.replaceProgress == 0.0f || this.iconChangeColor) ? 1 : 2)) {
+                                break;
+                            }
+                            if (this.icon[i] != null) {
+                                canvas.save();
+                                float f3 = this.replaceProgress;
+                                if (f3 != 0.0f && !this.iconChangeColor) {
+                                    Drawable[] drawableArr = this.icon;
+                                    if (drawableArr[0] != null && drawableArr[1] != null) {
+                                        if (i == 0) {
+                                            f3 = 1.0f - f3;
+                                        }
+                                        canvas.scale(f3, f3, width, dp);
+                                        this.icon[i].setAlpha((int) (f3 * 255.0f));
+                                        Drawable[] drawableArr2 = this.icon;
+                                        drawableArr2[i].setBounds((int) (width - (drawableArr2[i].getIntrinsicWidth() / 2.0f)), (int) (dp - (this.icon[i].getIntrinsicHeight() / 2)), (int) ((this.icon[i].getIntrinsicWidth() / 2) + width), (int) ((this.icon[i].getIntrinsicHeight() / 2) + dp));
+                                        this.icon[i].draw(canvas);
+                                        canvas.restore();
+                                    }
+                                }
+                                if (this.iconChangeColor) {
+                                    int blendARGB = ColorUtils.blendARGB(this.replaceColorFrom, this.currentIconColor, f3);
+                                    this.icon[i].setColorFilter(new PorterDuffColorFilter(blendARGB, PorterDuff.Mode.MULTIPLY));
+                                    this.crossPaint.setColor(blendARGB);
+                                }
+                                this.icon[i].setAlpha(255);
+                                Drawable[] drawableArr22 = this.icon;
+                                drawableArr22[i].setBounds((int) (width - (drawableArr22[i].getIntrinsicWidth() / 2.0f)), (int) (dp - (this.icon[i].getIntrinsicHeight() / 2)), (int) ((this.icon[i].getIntrinsicWidth() / 2) + width), (int) ((this.icon[i].getIntrinsicHeight() / 2) + dp));
+                                this.icon[i].draw(canvas);
+                                canvas.restore();
+                            }
+                            i++;
+                        }
+                    } else {
+                        if (this.iconChangeColor) {
+                            int blendARGB2 = ColorUtils.blendARGB(this.replaceColorFrom, this.currentIconColor, this.replaceProgress);
+                            this.icon[0].setColorFilter(new PorterDuffColorFilter(blendARGB2, PorterDuff.Mode.MULTIPLY));
+                            this.crossPaint.setColor(blendARGB2);
+                        }
+                        this.icon[0].setAlpha(255);
+                        float f4 = this.replaceProgress;
+                        if (f4 != 0.0f && this.iconChangeColor) {
+                            int blendARGB3 = ColorUtils.blendARGB(this.replaceColorFrom, this.currentIconColor, f4);
+                            this.icon[0].setColorFilter(new PorterDuffColorFilter(blendARGB3, PorterDuff.Mode.MULTIPLY));
+                            this.crossPaint.setColor(blendARGB3);
+                        }
+                        this.icon[0].setAlpha(255);
+                        boolean z = this.drawCross;
+                        if (z) {
+                            float f5 = this.crossProgress;
+                            if (f5 < 1.0f) {
+                                float f6 = f5 + 0.08f;
+                                this.crossProgress = f6;
+                                if (f6 > 1.0f) {
+                                    this.crossProgress = 1.0f;
+                                } else {
+                                    invalidate();
+                                }
+                                if (this.crossProgress <= 0.0f) {
+                                    float intrinsicWidth = ((int) (width - (this.icon[0].getIntrinsicWidth() / 2.0f))) + AndroidUtilities.dpf2(8.0f) + this.crossOffset;
+                                    float intrinsicHeight = ((int) (dp - (this.icon[0].getIntrinsicHeight() / 2))) + AndroidUtilities.dpf2(8.0f);
+                                    CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.DEFAULT;
+                                    float dp3 = (intrinsicWidth - AndroidUtilities.dp(1.0f)) + (AndroidUtilities.dp(17.0f) * cubicBezierInterpolator.getInterpolation(this.crossProgress));
+                                    float dp4 = intrinsicHeight + (AndroidUtilities.dp(17.0f) * cubicBezierInterpolator.getInterpolation(this.crossProgress));
+                                    canvas.saveLayerAlpha(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), 255, 31);
+                                    Drawable[] drawableArr3 = this.icon;
+                                    drawableArr3[0].setBounds((int) (width - (drawableArr3[0].getIntrinsicWidth() / 2.0f)), (int) (dp - (this.icon[0].getIntrinsicHeight() / 2)), (int) (width + (this.icon[0].getIntrinsicWidth() / 2)), (int) (dp + (this.icon[0].getIntrinsicHeight() / 2)));
+                                    this.icon[0].draw(canvas);
+                                    canvas.drawLine(intrinsicWidth, intrinsicHeight - AndroidUtilities.dp(2.0f), dp3, dp4 - AndroidUtilities.dp(2.0f), this.xRefPaint);
+                                    canvas.drawLine(intrinsicWidth, intrinsicHeight, dp3, dp4, this.crossPaint);
+                                    canvas.restore();
+                                } else {
+                                    Drawable[] drawableArr4 = this.icon;
+                                    drawableArr4[0].setBounds((int) (width - (drawableArr4[0].getIntrinsicWidth() / 2.0f)), (int) (dp - (this.icon[0].getIntrinsicHeight() / 2)), (int) (width + (this.icon[0].getIntrinsicWidth() / 2)), (int) (dp + (this.icon[0].getIntrinsicHeight() / 2)));
+                                    this.icon[0].draw(canvas);
+                                }
+                            }
+                        }
+                        if (!z) {
+                            float f7 = this.crossProgress - 0.08f;
+                            this.crossProgress = f7;
+                            if (f7 < 0.0f) {
+                                this.crossProgress = 0.0f;
                             } else {
                                 invalidate();
                             }
-                            if (this.crossProgress <= 0.0f) {
-                                float intrinsicWidth = ((int) (width - (this.icon[0].getIntrinsicWidth() / 2.0f))) + AndroidUtilities.dpf2(8.0f) + this.crossOffset;
-                                float intrinsicHeight = ((int) (dp - (this.icon[0].getIntrinsicHeight() / 2))) + AndroidUtilities.dpf2(8.0f);
-                                CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.DEFAULT;
-                                float dp3 = (intrinsicWidth - AndroidUtilities.dp(1.0f)) + (AndroidUtilities.dp(17.0f) * cubicBezierInterpolator.getInterpolation(this.crossProgress));
-                                float dp4 = intrinsicHeight + (AndroidUtilities.dp(17.0f) * cubicBezierInterpolator.getInterpolation(this.crossProgress));
-                                canvas.saveLayerAlpha(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), 255, 31);
-                                Drawable[] drawableArr = this.icon;
-                                drawableArr[0].setBounds((int) (width - (drawableArr[0].getIntrinsicWidth() / 2.0f)), (int) (dp - (this.icon[0].getIntrinsicHeight() / 2)), (int) (width + (this.icon[0].getIntrinsicWidth() / 2)), (int) (dp + (this.icon[0].getIntrinsicHeight() / 2)));
-                                this.icon[0].draw(canvas);
-                                canvas.drawLine(intrinsicWidth, intrinsicHeight - AndroidUtilities.dp(2.0f), dp3, dp4 - AndroidUtilities.dp(2.0f), this.xRefPaint);
-                                canvas.drawLine(intrinsicWidth, intrinsicHeight, dp3, dp4, this.crossPaint);
-                                canvas.restore();
-                                return;
-                            }
-                            Drawable[] drawableArr2 = this.icon;
-                            drawableArr2[0].setBounds((int) (width - (drawableArr2[0].getIntrinsicWidth() / 2.0f)), (int) (dp - (this.icon[0].getIntrinsicHeight() / 2)), (int) (width + (this.icon[0].getIntrinsicWidth() / 2)), (int) (dp + (this.icon[0].getIntrinsicHeight() / 2)));
-                            this.icon[0].draw(canvas);
-                            return;
                         }
-                    }
-                    if (!z) {
-                        float f5 = this.crossProgress - 0.08f;
-                        this.crossProgress = f5;
-                        if (f5 < 0.0f) {
-                            this.crossProgress = 0.0f;
-                        } else {
-                            invalidate();
+                        if (this.crossProgress <= 0.0f) {
                         }
-                    }
-                    if (this.crossProgress <= 0.0f) {
-                    }
-                } else {
-                    int i = 0;
-                    while (true) {
-                        if (i >= ((this.replaceProgress == 0.0f || this.iconChangeColor) ? 1 : 2)) {
-                            return;
-                        }
-                        if (this.icon[i] != null) {
-                            canvas.save();
-                            float f6 = this.replaceProgress;
-                            if (f6 != 0.0f && !this.iconChangeColor) {
-                                Drawable[] drawableArr3 = this.icon;
-                                if (drawableArr3[0] != null && drawableArr3[1] != null) {
-                                    if (i == 0) {
-                                        f6 = 1.0f - f6;
-                                    }
-                                    canvas.scale(f6, f6, width, dp);
-                                    this.icon[i].setAlpha((int) (f6 * 255.0f));
-                                    Drawable[] drawableArr4 = this.icon;
-                                    drawableArr4[i].setBounds((int) (width - (drawableArr4[i].getIntrinsicWidth() / 2.0f)), (int) (dp - (this.icon[i].getIntrinsicHeight() / 2)), (int) ((this.icon[i].getIntrinsicWidth() / 2) + width), (int) ((this.icon[i].getIntrinsicHeight() / 2) + dp));
-                                    this.icon[i].draw(canvas);
-                                    canvas.restore();
-                                }
-                            }
-                            if (this.iconChangeColor) {
-                                int blendARGB3 = ColorUtils.blendARGB(this.replaceColorFrom, this.currentIconColor, f6);
-                                this.icon[i].setColorFilter(new PorterDuffColorFilter(blendARGB3, PorterDuff.Mode.MULTIPLY));
-                                this.crossPaint.setColor(blendARGB3);
-                            }
-                            this.icon[i].setAlpha(255);
-                            Drawable[] drawableArr42 = this.icon;
-                            drawableArr42[i].setBounds((int) (width - (drawableArr42[i].getIntrinsicWidth() / 2.0f)), (int) (dp - (this.icon[i].getIntrinsicHeight() / 2)), (int) ((this.icon[i].getIntrinsicWidth() / 2) + width), (int) ((this.icon[i].getIntrinsicHeight() / 2) + dp));
-                            this.icon[i].draw(canvas);
-                            canvas.restore();
-                        }
-                        i++;
                     }
                 }
+                canvas.restore();
             }
         }
         this.circlePaint.setColor(this.backgroundColor);
@@ -244,6 +274,7 @@ public class VoIPToggleButton extends FrameLayout {
         this.rippleDrawable.draw(canvas);
         if (this.currentIconRes != 0) {
         }
+        canvas.restore();
     }
 
     public void setBackgroundColor(int i, int i2) {
@@ -337,10 +368,10 @@ public class VoIPToggleButton extends FrameLayout {
         }
         ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
         this.replaceAnimator = ofFloat;
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIPToggleButton$$ExternalSyntheticLambda1
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIPToggleButton$$ExternalSyntheticLambda2
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                VoIPToggleButton.this.lambda$setData$0(z5, valueAnimator2);
+                VoIPToggleButton.this.lambda$setData$1(z5, valueAnimator2);
             }
         });
         this.replaceAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.voip.VoIPToggleButton.1
@@ -377,7 +408,7 @@ public class VoIPToggleButton extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$setData$0(boolean z, ValueAnimator valueAnimator) {
+    public /* synthetic */ void lambda$setData$1(boolean z, ValueAnimator valueAnimator) {
         this.replaceProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         invalidate();
         if (z) {
@@ -445,7 +476,7 @@ public class VoIPToggleButton extends FrameLayout {
                 ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIPToggleButton$$ExternalSyntheticLambda0
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                        VoIPToggleButton.this.lambda$setChecked$1(valueAnimator2);
+                        VoIPToggleButton.this.lambda$setChecked$2(valueAnimator2);
                     }
                 });
                 this.checkAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.voip.VoIPToggleButton.2
@@ -467,7 +498,7 @@ public class VoIPToggleButton extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$setChecked$1(ValueAnimator valueAnimator) {
+    public /* synthetic */ void lambda$setChecked$2(ValueAnimator valueAnimator) {
         this.checkedProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         setBackgroundColor(this.backgroundCheck1, this.backgroundCheck2);
     }

@@ -29,39 +29,6 @@ public final class ColorUtils {
         return tempDouble3Array[1] / 100.0d;
     }
 
-    public static double calculateContrast(int i, int i2) {
-        if (Color.alpha(i2) != 255) {
-            throw new IllegalArgumentException("background can not be translucent: #" + Integer.toHexString(i2));
-        }
-        if (Color.alpha(i) < 255) {
-            i = compositeColors(i, i2);
-        }
-        double calculateLuminance = calculateLuminance(i) + 0.05d;
-        double calculateLuminance2 = calculateLuminance(i2) + 0.05d;
-        return Math.max(calculateLuminance, calculateLuminance2) / Math.min(calculateLuminance, calculateLuminance2);
-    }
-
-    public static int calculateMinimumAlpha(int i, int i2, float f) {
-        int i3 = 255;
-        if (Color.alpha(i2) != 255) {
-            throw new IllegalArgumentException("background can not be translucent: #" + Integer.toHexString(i2));
-        }
-        double d = f;
-        if (calculateContrast(setAlphaComponent(i, 255), i2) < d) {
-            return -1;
-        }
-        int i4 = 0;
-        for (int i5 = 0; i5 <= 10 && i3 - i4 > 1; i5++) {
-            int i6 = (i4 + i3) / 2;
-            if (calculateContrast(setAlphaComponent(i, i6), i2) < d) {
-                i4 = i6;
-            } else {
-                i3 = i6;
-            }
-        }
-        return i3;
-    }
-
     public static void RGBToHSL(int i, int i2, int i3, float[] fArr) {
         float f;
         float abs;

@@ -56,6 +56,7 @@ public class SharedConfig {
     public static int badPasscodeTries = 0;
     public static boolean bigCameraForRound = false;
     public static int bubbleRadius = 0;
+    public static int callEncryptionHintDisplayedCount = 0;
     public static boolean chatBubbles = false;
     private static int chatSwipeAction = 0;
     private static boolean configLoaded = false;
@@ -491,15 +492,15 @@ public class SharedConfig {
         return i;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:38:0x0182 A[Catch: Exception -> 0x01a6, all -> 0x0486, TryCatch #4 {Exception -> 0x01a6, blocks: (B:22:0x0131, B:24:0x0139, B:26:0x014b, B:27:0x015f, B:38:0x0182, B:40:0x0188, B:41:0x018a, B:43:0x018e, B:45:0x0194, B:47:0x019a, B:49:0x019e, B:36:0x017c), top: B:94:0x0131, outer: #2 }] */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x0188 A[Catch: Exception -> 0x01a6, all -> 0x0486, TryCatch #4 {Exception -> 0x01a6, blocks: (B:22:0x0131, B:24:0x0139, B:26:0x014b, B:27:0x015f, B:38:0x0182, B:40:0x0188, B:41:0x018a, B:43:0x018e, B:45:0x0194, B:47:0x019a, B:49:0x019e, B:36:0x017c), top: B:94:0x0131, outer: #2 }] */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x0182 A[Catch: Exception -> 0x01a6, all -> 0x048e, TryCatch #3 {Exception -> 0x01a6, blocks: (B:22:0x0131, B:24:0x0139, B:26:0x014b, B:27:0x015f, B:38:0x0182, B:40:0x0188, B:41:0x018a, B:43:0x018e, B:45:0x0194, B:47:0x019a, B:49:0x019e, B:36:0x017c), top: B:93:0x0131, outer: #4 }] */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x0188 A[Catch: Exception -> 0x01a6, all -> 0x048e, TryCatch #3 {Exception -> 0x01a6, blocks: (B:22:0x0131, B:24:0x0139, B:26:0x014b, B:27:0x015f, B:38:0x0182, B:40:0x0188, B:41:0x018a, B:43:0x018e, B:45:0x0194, B:47:0x019a, B:49:0x019e, B:36:0x017c), top: B:93:0x0131, outer: #4 }] */
     /* JADX WARN: Removed duplicated region for block: B:61:0x022f  */
     /* JADX WARN: Removed duplicated region for block: B:62:0x0232  */
     /* JADX WARN: Removed duplicated region for block: B:65:0x0242  */
     /* JADX WARN: Removed duplicated region for block: B:66:0x0244  */
     /* JADX WARN: Removed duplicated region for block: B:69:0x0431  */
     /* JADX WARN: Removed duplicated region for block: B:70:0x0433  */
-    /* JADX WARN: Removed duplicated region for block: B:87:0x0476 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:91:0x047e A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -659,6 +660,7 @@ public class SharedConfig {
                             photoViewerBlur = sharedPreferences2.getBoolean("photoViewerBlur", true);
                             multipleReactionsPromoShowed = sharedPreferences2.getBoolean("multipleReactionsPromoShowed", false);
                             forceLessData = sharedPreferences2.getBoolean("forceLessData", false);
+                            callEncryptionHintDisplayedCount = sharedPreferences2.getInt("callEncryptionHintDisplayedCount", 0);
                             loadDebugConfig(sharedPreferences2);
                             showNotificationsForAllAccounts = ApplicationLoader.applicationContext.getSharedPreferences("Notifications", 0).getBoolean("AllAccounts", true);
                             configLoaded = true;
@@ -758,6 +760,7 @@ public class SharedConfig {
                 photoViewerBlur = sharedPreferences22.getBoolean("photoViewerBlur", true);
                 multipleReactionsPromoShowed = sharedPreferences22.getBoolean("multipleReactionsPromoShowed", false);
                 forceLessData = sharedPreferences22.getBoolean("forceLessData", false);
+                callEncryptionHintDisplayedCount = sharedPreferences22.getInt("callEncryptionHintDisplayedCount", 0);
                 loadDebugConfig(sharedPreferences22);
                 showNotificationsForAllAccounts = ApplicationLoader.applicationContext.getSharedPreferences("Notifications", 0).getBoolean("AllAccounts", true);
                 configLoaded = true;
@@ -1198,6 +1201,13 @@ public class SharedConfig {
         }
         SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
         edit.putBoolean("debugWebView", debugWebView);
+        edit.apply();
+    }
+
+    public static void incrementCallEncryptionHintDisplayed(int i) {
+        callEncryptionHintDisplayedCount += i;
+        SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
+        edit.putInt("callEncryptionHintDisplayedCount", callEncryptionHintDisplayedCount);
         edit.apply();
     }
 

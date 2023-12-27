@@ -1,6 +1,6 @@
 package org.telegram.ui.ActionBar;
 /* loaded from: classes3.dex */
-public final /* synthetic */ class BottomSheet$$ExternalSyntheticLambda6 implements Runnable {
+public final /* synthetic */ class BottomSheet$$ExternalSyntheticLambda8 implements Runnable {
     public final /* synthetic */ BottomSheet f$0;
 
     @Override // java.lang.Runnable

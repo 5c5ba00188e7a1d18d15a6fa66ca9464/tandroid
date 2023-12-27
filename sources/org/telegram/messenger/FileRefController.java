@@ -1150,9 +1150,9 @@ public class FileRefController extends BaseController {
         getSendMessagesHelper().performSendMessageRequest((TLObject) objArr[0], (MessageObject) objArr[1], (String) objArr[2], (SendMessagesHelper.DelayedMessage) objArr[3], ((Boolean) objArr[4]).booleanValue(), (SendMessagesHelper.DelayedMessage) objArr[5], null, null, ((Boolean) objArr[6]).booleanValue());
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:328:0x0755  */
-    /* JADX WARN: Removed duplicated region for block: B:336:0x076d  */
-    /* JADX WARN: Removed duplicated region for block: B:358:0x01ac A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:331:0x0764  */
+    /* JADX WARN: Removed duplicated region for block: B:339:0x077c  */
+    /* JADX WARN: Removed duplicated region for block: B:361:0x01ac A[SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:43:0x00a1 A[RETURN] */
     /* JADX WARN: Removed duplicated region for block: B:44:0x00a2  */
     /* JADX WARN: Removed duplicated region for block: B:92:0x01bd A[LOOP:2: B:65:0x013b->B:92:0x01bd, LOOP_END] */
@@ -1630,6 +1630,10 @@ public class FileRefController extends BaseController {
                                                         TLRPC$Document tLRPC$Document4 = tL_stories$StoryItem.media.document;
                                                         if (tLRPC$Document4 != null) {
                                                             bArr = getFileReference(tLRPC$Document4, requester2.location, zArr2, tLRPC$InputFileLocationArr);
+                                                        }
+                                                        TLRPC$Document tLRPC$Document5 = tL_stories$StoryItem.media.alt_document;
+                                                        if (tLRPC$Document5 != null) {
+                                                            bArr = getFileReference(tLRPC$Document5, requester2.location, zArr2, tLRPC$InputFileLocationArr);
                                                         }
                                                     }
                                                     if (requester2.args[1] instanceof FileLoadOperation) {

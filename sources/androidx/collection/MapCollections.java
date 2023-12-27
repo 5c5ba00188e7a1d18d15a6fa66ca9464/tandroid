@@ -172,9 +172,8 @@ public abstract class MapCollections<K, V> {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    public final class EntrySet implements Set<Map.Entry<K, V>> {
+    final class EntrySet implements Set<Map.Entry<K, V>> {
         EntrySet() {
         }
 
@@ -282,9 +281,8 @@ public abstract class MapCollections<K, V> {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    public final class KeySet implements Set<K> {
+    final class KeySet implements Set<K> {
         KeySet() {
         }
 
@@ -374,9 +372,8 @@ public abstract class MapCollections<K, V> {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    public final class ValuesCollection implements Collection<V> {
+    final class ValuesCollection implements Collection<V> {
         ValuesCollection() {
         }
 

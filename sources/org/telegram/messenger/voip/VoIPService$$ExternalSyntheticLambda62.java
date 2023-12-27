@@ -8,6 +8,6 @@ public final /* synthetic */ class VoIPService$$ExternalSyntheticLambda62 implem
 
     @Override // java.lang.Runnable
     public final void run() {
-        VoIPService.lambda$configureDeviceForCall$77();
+        VoIPService.lambda$acceptIncomingCall$71();
     }
 }

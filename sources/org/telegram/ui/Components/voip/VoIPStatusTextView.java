@@ -3,7 +3,10 @@ package org.telegram.ui.Components.voip;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.RectF;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
@@ -14,21 +17,22 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.ui.Components.CubicBezierInterpolator;
-import org.telegram.ui.Components.EllipsizeSpanAnimator;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.voip.VoIPStatusTextView;
+@SuppressLint({"ViewConstructor"})
 /* loaded from: classes4.dex */
 public class VoIPStatusTextView extends FrameLayout {
     boolean animationInProgress;
     ValueAnimator animator;
-    EllipsizeSpanAnimator ellipsizeAnimator;
+    FrameLayout badConnectionLayer;
+    TextView badConnectionTextView;
     CharSequence nextTextToSet;
     TextView reconnectTextView;
     TextView[] textView;
     boolean timerShowing;
     VoIPTimerView timerView;
 
-    public VoIPStatusTextView(Context context) {
+    public VoIPStatusTextView(Context context, VoIPBackgroundProvider voIPBackgroundProvider) {
         super(context);
         this.textView = new TextView[2];
         for (int i = 0; i < 2; i++) {
@@ -39,17 +43,43 @@ public class VoIPStatusTextView extends FrameLayout {
             this.textView[i].setGravity(1);
             addView(this.textView[i]);
         }
-        TextView textView = new TextView(context);
-        this.reconnectTextView = textView;
+        this.badConnectionLayer = new FrameLayout(context);
+        TextView textView = new TextView(context, voIPBackgroundProvider) { // from class: org.telegram.ui.Components.voip.VoIPStatusTextView.1
+            private final RectF bgRect = new RectF();
+            final /* synthetic */ VoIPBackgroundProvider val$backgroundProvider;
+
+            {
+                this.val$backgroundProvider = voIPBackgroundProvider;
+                voIPBackgroundProvider.attach(this);
+            }
+
+            @Override // android.widget.TextView, android.view.View
+            protected void onDraw(Canvas canvas) {
+                this.bgRect.set(0.0f, 0.0f, getWidth(), getHeight());
+                this.val$backgroundProvider.setDarkTranslation(getX() + ((View) getParent()).getX() + VoIPStatusTextView.this.getX() + ((View) VoIPStatusTextView.this.getParent()).getX(), getY() + ((View) getParent()).getY() + VoIPStatusTextView.this.getY() + ((View) VoIPStatusTextView.this.getParent()).getY());
+                canvas.drawRoundRect(this.bgRect, AndroidUtilities.dp(16.0f), AndroidUtilities.dp(16.0f), this.val$backgroundProvider.getDarkPaint());
+                super.onDraw(canvas);
+            }
+        };
+        this.badConnectionTextView = textView;
         textView.setTextSize(1, 15.0f);
+        this.badConnectionTextView.setTextColor(-1);
+        this.badConnectionTextView.setGravity(1);
+        this.badConnectionTextView.setPadding(AndroidUtilities.dp(12.0f), AndroidUtilities.dp(2.0f), AndroidUtilities.dp(12.0f), AndroidUtilities.dp(2.0f));
+        this.badConnectionTextView.setText(LocaleController.getString("VoipWeakNetwork", R.string.VoipWeakNetwork));
+        this.badConnectionLayer.addView(this.badConnectionTextView, LayoutHelper.createFrame(-2, -2.0f, 1, 0.0f, 0.0f, 0.0f, 0.0f));
+        this.badConnectionLayer.setVisibility(8);
+        addView(this.badConnectionLayer, LayoutHelper.createFrame(-1, -2.0f, 0, 0.0f, 44.0f, 0.0f, 0.0f));
+        TextView textView2 = new TextView(context);
+        this.reconnectTextView = textView2;
+        textView2.setTextSize(1, 15.0f);
         this.reconnectTextView.setShadowLayer(AndroidUtilities.dp(3.0f), 0.0f, AndroidUtilities.dp(0.6666667f), 1275068416);
         this.reconnectTextView.setTextColor(-1);
         this.reconnectTextView.setGravity(1);
         addView(this.reconnectTextView, LayoutHelper.createFrame(-1, -2.0f, 0, 0.0f, 22.0f, 0.0f, 0.0f));
-        this.ellipsizeAnimator = new EllipsizeSpanAnimator(this);
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(LocaleController.getString("VoipReconnecting", R.string.VoipReconnecting));
-        SpannableString spannableString = new SpannableString("...");
-        this.ellipsizeAnimator.wrap(spannableString, 0);
+        SpannableString spannableString = new SpannableString(".");
+        spannableString.setSpan(new VoIPEllipsizeSpan(this.reconnectTextView), 0, 1, 33);
         spannableStringBuilder.append((CharSequence) spannableString);
         this.reconnectTextView.setText(spannableStringBuilder);
         this.reconnectTextView.setVisibility(8);
@@ -62,16 +92,10 @@ public class VoIPStatusTextView extends FrameLayout {
     public void setText(String str, boolean z, boolean z2) {
         if (z) {
             SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(str);
-            this.ellipsizeAnimator.reset();
-            SpannableString spannableString = new SpannableString("...");
-            this.ellipsizeAnimator.wrap(spannableString, 0);
+            SpannableString spannableString = new SpannableString(".");
+            spannableString.setSpan(new VoIPEllipsizeSpan(this.textView), 0, 1, 33);
             spannableStringBuilder.append((CharSequence) spannableString);
-            this.ellipsizeAnimator.addView(this.textView[0]);
-            this.ellipsizeAnimator.addView(this.textView[1]);
             str = spannableStringBuilder;
-        } else {
-            this.ellipsizeAnimator.removeView(this.textView[0]);
-            this.ellipsizeAnimator.removeView(this.textView[1]);
         }
         if (TextUtils.isEmpty(this.textView[0].getText())) {
             z2 = false;
@@ -132,13 +156,10 @@ public class VoIPStatusTextView extends FrameLayout {
             this.timerView.setVisibility(0);
         } else if (this.animationInProgress) {
             this.nextTextToSet = "timer";
-            return;
         } else {
             this.timerShowing = true;
             replaceViews(this.textView[0], this.timerView, null);
         }
-        this.ellipsizeAnimator.removeView(this.textView[0]);
-        this.ellipsizeAnimator.removeView(this.textView[1]);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -156,7 +177,7 @@ public class VoIPStatusTextView extends FrameLayout {
                 VoIPStatusTextView.lambda$replaceViews$1(view2, view, valueAnimator);
             }
         });
-        this.animator.addListener(new 1(view, view2, runnable));
+        this.animator.addListener(new 2(view, view2, runnable));
         this.animator.setDuration(250L).setInterpolator(CubicBezierInterpolator.DEFAULT);
         this.animator.start();
     }
@@ -164,27 +185,21 @@ public class VoIPStatusTextView extends FrameLayout {
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$replaceViews$1(View view, View view2, ValueAnimator valueAnimator) {
         float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
-        float f = (floatValue * 0.6f) + 0.4f;
-        float f2 = 1.0f - floatValue;
-        float f3 = (0.6f * f2) + 0.4f;
-        view.setTranslationY(AndroidUtilities.dp(10.0f) * f2);
+        float f = 1.0f - floatValue;
+        view.setTranslationY(AndroidUtilities.dp(8.0f) * f);
         view.setAlpha(floatValue);
-        view.setScaleX(f);
-        view.setScaleY(f);
-        view2.setTranslationY((-AndroidUtilities.dp(10.0f)) * floatValue);
-        view2.setAlpha(f2);
-        view2.setScaleX(f3);
-        view2.setScaleY(f3);
+        view2.setTranslationY((-AndroidUtilities.dp(6.0f)) * floatValue);
+        view2.setAlpha(f);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes4.dex */
-    public class 1 extends AnimatorListenerAdapter {
+    public class 2 extends AnimatorListenerAdapter {
         final /* synthetic */ View val$in;
         final /* synthetic */ Runnable val$onEnd;
         final /* synthetic */ View val$out;
 
-        1(View view, View view2, Runnable runnable) {
+        2(View view, View view2, Runnable runnable) {
             this.val$out = view;
             this.val$in = view2;
             this.val$onEnd = runnable;
@@ -217,10 +232,10 @@ public class VoIPStatusTextView extends FrameLayout {
                     voIPStatusTextView2.textView[1].setText(voIPStatusTextView2.nextTextToSet);
                     VoIPStatusTextView voIPStatusTextView3 = VoIPStatusTextView.this;
                     TextView[] textViewArr = voIPStatusTextView3.textView;
-                    voIPStatusTextView3.replaceViews(textViewArr[0], textViewArr[1], new Runnable() { // from class: org.telegram.ui.Components.voip.VoIPStatusTextView$1$$ExternalSyntheticLambda0
+                    voIPStatusTextView3.replaceViews(textViewArr[0], textViewArr[1], new Runnable() { // from class: org.telegram.ui.Components.voip.VoIPStatusTextView$2$$ExternalSyntheticLambda0
                         @Override // java.lang.Runnable
                         public final void run() {
-                            VoIPStatusTextView.1.this.lambda$onAnimationEnd$0();
+                            VoIPStatusTextView.2.this.lambda$onAnimationEnd$0();
                         }
                     });
                 }
@@ -253,29 +268,41 @@ public class VoIPStatusTextView extends FrameLayout {
             this.reconnectTextView.animate().setListener(null).cancel();
             this.reconnectTextView.animate().alpha(1.0f).setDuration(150L).start();
         } else {
-            this.reconnectTextView.animate().alpha(0.0f).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.voip.VoIPStatusTextView.2
+            this.reconnectTextView.animate().alpha(0.0f).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.voip.VoIPStatusTextView.3
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationEnd(Animator animator) {
                     VoIPStatusTextView.this.reconnectTextView.setVisibility(8);
                 }
             }).setDuration(150L).start();
         }
-        if (z) {
-            this.ellipsizeAnimator.addView(this.reconnectTextView);
+    }
+
+    public void showBadConnection(boolean z, boolean z2) {
+        if (!z2) {
+            this.badConnectionLayer.animate().setListener(null).cancel();
+            this.badConnectionLayer.setVisibility(z ? 0 : 8);
+        } else if (z) {
+            if (this.badConnectionLayer.getVisibility() == 0) {
+                return;
+            }
+            this.badConnectionLayer.setVisibility(0);
+            this.badConnectionLayer.setAlpha(0.0f);
+            this.badConnectionLayer.setScaleY(0.6f);
+            this.badConnectionLayer.setScaleX(0.6f);
+            this.badConnectionLayer.animate().setListener(null).cancel();
+            this.badConnectionLayer.animate().alpha(1.0f).scaleX(1.0f).scaleY(1.0f).setInterpolator(CubicBezierInterpolator.EASE_OUT_BACK).setDuration(300L).start();
+        } else if (this.badConnectionLayer.getVisibility() == 8) {
         } else {
-            this.ellipsizeAnimator.removeView(this.reconnectTextView);
+            this.badConnectionLayer.animate().alpha(0.0f).scaleX(0.6f).scaleY(0.6f).setInterpolator(CubicBezierInterpolator.DEFAULT).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.voip.VoIPStatusTextView.4
+                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                public void onAnimationEnd(Animator animator) {
+                    VoIPStatusTextView.this.badConnectionLayer.setVisibility(8);
+                }
+            }).setDuration(300L).start();
         }
     }
 
-    @Override // android.view.ViewGroup, android.view.View
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        this.ellipsizeAnimator.onAttachedToWindow();
-    }
-
-    @Override // android.view.ViewGroup, android.view.View
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        this.ellipsizeAnimator.onDetachedFromWindow();
+    public void setDrawCallIcon() {
+        this.timerView.setDrawCallIcon();
     }
 }

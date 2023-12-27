@@ -46,7 +46,7 @@ public class HintView2 extends View {
     private float arrowHeight;
     private float arrowX;
     private float arrowY;
-    private final Paint backgroundPaint;
+    protected final Paint backgroundPaint;
     private final ButtonBounce bounce;
     private ValueAnimator bounceAnimator;
     private float bounceT;
@@ -76,13 +76,13 @@ public class HintView2 extends View {
     private Runnable onHidden;
     private LinkSpanDrawable.LinksTextView.OnLinkPress onLongPressListener;
     private LinkSpanDrawable.LinksTextView.OnLinkPress onPressListener;
-    private final Path path;
+    protected final Path path;
     private float pathLastHeight;
     private float pathLastWidth;
     private boolean pathSet;
     private LinkSpanDrawable<ClickableSpan> pressedLink;
     private boolean repeatedBounce;
-    private float rounding;
+    protected float rounding;
     private Drawable selectorDrawable;
     private AnimatedFloat show;
     private boolean shown;
@@ -315,6 +315,11 @@ public class HintView2 extends View {
         return (int) Math.ceil(Math.max(f2, f3));
     }
 
+    public HintView2 useScale(boolean z) {
+        this.useScale = z;
+        return this;
+    }
+
     public HintView2 setDuration(long j) {
         this.duration = j;
         return this;
@@ -347,6 +352,11 @@ public class HintView2 extends View {
         return this;
     }
 
+    public HintView2 setHideByTouch(boolean z) {
+        this.hideByTouch = z;
+        return this;
+    }
+
     public HintView2 setSelectorColor(int i) {
         if (Build.VERSION.SDK_INT < 21) {
             return this;
@@ -371,7 +381,8 @@ public class HintView2 extends View {
             @Override // android.graphics.drawable.Drawable
             public void draw(Canvas canvas) {
                 canvas.save();
-                canvas.drawPath(HintView2.this.path, HintView2.this.cutSelectorPaint);
+                HintView2 hintView2 = HintView2.this;
+                canvas.drawPath(hintView2.path, hintView2.cutSelectorPaint);
                 canvas.restore();
             }
         });
@@ -569,8 +580,13 @@ public class HintView2 extends View {
         this.textLayoutLeft = f;
     }
 
+    protected void drawBgPath(Canvas canvas) {
+        canvas.drawPath(this.path, this.backgroundPaint);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.View
-    protected void dispatchDraw(Canvas canvas) {
+    public void dispatchDraw(Canvas canvas) {
         float f;
         float f2;
         if (this.multiline && this.textLayout == null) {
@@ -631,7 +647,7 @@ public class HintView2 extends View {
         float f7 = this.arrowHeight;
         rectF2.inset(-f7, -f7);
         this.backgroundPaint.setAlpha((int) (alpha * (drawBlur(canvas, rectF2, this.path, f6) ? 0.2f * f6 : f6)));
-        canvas.drawPath(this.path, this.backgroundPaint);
+        drawBgPath(canvas);
         this.backgroundPaint.setAlpha(alpha);
         Drawable drawable = this.selectorDrawable;
         if (drawable != null) {

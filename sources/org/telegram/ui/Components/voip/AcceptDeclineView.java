@@ -11,7 +11,6 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
@@ -31,6 +30,8 @@ import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.Components.RLottieDrawable;
+import org.telegram.ui.Components.voip.ImageWithWavesView;
 /* loaded from: classes4.dex */
 public class AcceptDeclineView extends View {
     private Paint acceptCirclePaint;
@@ -40,8 +41,11 @@ public class AcceptDeclineView extends View {
     private AcceptDeclineAccessibilityNodeProvider accessibilityNodeProvider;
     Drawable arrowDrawable;
     float arrowProgress;
+    private final ImageWithWavesView.AvatarWavesDrawable avatarWavesDrawable;
     float bigRadius;
     private int buttonWidth;
+    private RLottieDrawable callAcceptDrawable;
+    private ValueAnimator callAnimator;
     private Drawable callDrawable;
     private Drawable cancelDrawable;
     boolean captured;
@@ -64,7 +68,6 @@ public class AcceptDeclineView extends View {
     private boolean screenWasWakeup;
     float smallRadius;
     boolean startDrag;
-    float startX;
     float startY;
     float touchSlop;
 
@@ -83,6 +86,12 @@ public class AcceptDeclineView extends View {
         this.acceptRect = new Rect();
         this.declineRect = new Rect();
         this.linePaint = new Paint(1);
+        ImageWithWavesView.AvatarWavesDrawable avatarWavesDrawable = new ImageWithWavesView.AvatarWavesDrawable(AndroidUtilities.dp(45.0f), AndroidUtilities.dp(50.0f), AndroidUtilities.dp(8.0f), 4);
+        this.avatarWavesDrawable = avatarWavesDrawable;
+        avatarWavesDrawable.muteToStatic = true;
+        avatarWavesDrawable.muteToStaticProgress = 0.0f;
+        avatarWavesDrawable.wavesEnter = 0.0f;
+        avatarWavesDrawable.setAmplitude(0.0d);
         this.touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
         this.buttonWidth = AndroidUtilities.dp(60.0f);
         FabBackgroundDrawable fabBackgroundDrawable = new FabBackgroundDrawable();
@@ -110,7 +119,14 @@ public class AcceptDeclineView extends View {
         Drawable mutate = ContextCompat.getDrawable(context, R.drawable.ic_close_white).mutate();
         this.cancelDrawable = mutate;
         mutate.setColorFilter(new PorterDuffColorFilter(-16777216, PorterDuff.Mode.MULTIPLY));
-        this.acceptCirclePaint.setColor(1061534797);
+        int i3 = R.raw.call_accept;
+        RLottieDrawable rLottieDrawable = new RLottieDrawable(i3, "" + i3, AndroidUtilities.dp(48.0f), AndroidUtilities.dp(48.0f), true, null);
+        this.callAcceptDrawable = rLottieDrawable;
+        rLottieDrawable.setAutoRepeat(1);
+        this.callAcceptDrawable.setCustomEndFrame(90);
+        this.callAcceptDrawable.setMasterParent(this);
+        this.acceptCirclePaint.setColor(-1);
+        this.acceptCirclePaint.setAlpha(20);
         Drawable createSimpleSelectorCircleDrawable = Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(52.0f), 0, ColorUtils.setAlphaComponent(-1, 76));
         this.rippleDrawable = createSimpleSelectorCircleDrawable;
         createSimpleSelectorCircleDrawable.setCallback(this);
@@ -128,7 +144,7 @@ public class AcceptDeclineView extends View {
         this.linePaint.setColor(-1);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:11:0x0016, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:11:0x0015, code lost:
         if (r0 != 3) goto L12;
      */
     @Override // android.view.View
@@ -139,7 +155,7 @@ public class AcceptDeclineView extends View {
         if (isEnabled()) {
             int action = motionEvent.getAction();
             if (action == 0) {
-                this.startX = motionEvent.getX();
+                motionEvent.getX();
                 this.startY = motionEvent.getY();
                 if (this.leftAnimator == null && this.declineRect.contains((int) motionEvent.getX(), (int) motionEvent.getY())) {
                     this.rippleDrawable = Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(52.0f), 0, -51130);
@@ -162,44 +178,6 @@ public class AcceptDeclineView extends View {
                 if (action != 1) {
                     if (action == 2) {
                         if (this.captured) {
-                            float x = motionEvent.getX() - this.startX;
-                            if (!this.startDrag && Math.abs(x) > this.touchSlop) {
-                                if (!this.retryMod) {
-                                    this.startX = motionEvent.getX();
-                                    this.startDrag = true;
-                                    setPressed(false);
-                                    getParent().requestDisallowInterceptTouchEvent(true);
-                                    x = 0.0f;
-                                } else {
-                                    setPressed(false);
-                                    this.captured = false;
-                                }
-                            }
-                            if (this.startDrag) {
-                                if (this.leftDrag) {
-                                    this.leftOffsetX = x;
-                                    if (x < 0.0f) {
-                                        this.leftOffsetX = 0.0f;
-                                    } else {
-                                        float f = this.maxOffset;
-                                        if (x > f) {
-                                            this.leftOffsetX = f;
-                                            dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), 1, 0.0f, 0.0f, 0));
-                                        }
-                                    }
-                                } else {
-                                    this.rigthOffsetX = x;
-                                    if (x > 0.0f) {
-                                        this.rigthOffsetX = 0.0f;
-                                    } else {
-                                        float f2 = this.maxOffset;
-                                        if (x < (-f2)) {
-                                            this.rigthOffsetX = -f2;
-                                            dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), 1, 0.0f, 0.0f, 0));
-                                        }
-                                    }
-                                }
-                            }
                             return true;
                         }
                     }
@@ -208,7 +186,7 @@ public class AcceptDeclineView extends View {
                 if (this.captured) {
                     if (this.leftDrag) {
                         ValueAnimator ofFloat = ValueAnimator.ofFloat(this.leftOffsetX, 0.0f);
-                        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.AcceptDeclineView$$ExternalSyntheticLambda0
+                        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.AcceptDeclineView$$ExternalSyntheticLambda1
                             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                                 AcceptDeclineView.this.lambda$onTouchEvent$0(valueAnimator);
@@ -221,7 +199,7 @@ public class AcceptDeclineView extends View {
                         }
                     } else {
                         ValueAnimator ofFloat2 = ValueAnimator.ofFloat(this.rigthOffsetX, 0.0f);
-                        ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.AcceptDeclineView$$ExternalSyntheticLambda1
+                        ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.AcceptDeclineView$$ExternalSyntheticLambda2
                             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                                 AcceptDeclineView.this.lambda$onTouchEvent$1(valueAnimator);
@@ -350,12 +328,12 @@ public class AcceptDeclineView extends View {
         canvas.save();
         canvas.translate(0.0f, AndroidUtilities.dp(40.0f));
         canvas.save();
-        canvas.translate(this.leftOffsetX + AndroidUtilities.dp(46.0f), 0.0f);
+        canvas.translate(((this.rigthOffsetX + getMeasuredWidth()) - AndroidUtilities.dp(46.0f)) - this.buttonWidth, 0.0f);
         this.declineDrawable.draw(canvas);
         canvas.save();
-        canvas.translate((this.buttonWidth / 2.0f) - (this.declineLayout.getWidth() / 2.0f), this.buttonWidth + AndroidUtilities.dp(8.0f));
+        canvas.translate((this.buttonWidth / 2.0f) - (this.declineLayout.getWidth() / 2.0f), this.buttonWidth + AndroidUtilities.dp(4.0f));
         this.declineLayout.draw(canvas);
-        this.declineRect.set(AndroidUtilities.dp(46.0f), AndroidUtilities.dp(40.0f), AndroidUtilities.dp(46.0f) + this.buttonWidth, AndroidUtilities.dp(40.0f) + this.buttonWidth);
+        this.declineRect.set((getMeasuredWidth() - AndroidUtilities.dp(46.0f)) - this.buttonWidth, AndroidUtilities.dp(40.0f), getMeasuredWidth() - AndroidUtilities.dp(46.0f), AndroidUtilities.dp(40.0f) + this.buttonWidth);
         canvas.restore();
         if (this.retryMod) {
             this.cancelDrawable.draw(canvas);
@@ -368,30 +346,28 @@ public class AcceptDeclineView extends View {
         }
         canvas.restore();
         canvas.save();
-        canvas.translate(((this.rigthOffsetX + getMeasuredWidth()) - AndroidUtilities.dp(46.0f)) - this.buttonWidth, 0.0f);
+        canvas.translate(this.leftOffsetX + AndroidUtilities.dp(46.0f), 0.0f);
         if (!this.retryMod) {
-            int i3 = this.buttonWidth;
-            canvas.drawCircle(i3 / 2.0f, i3 / 2.0f, ((i3 / 2.0f) - AndroidUtilities.dp(4.0f)) + this.bigRadius, this.acceptCirclePaint);
-            int i4 = this.buttonWidth;
-            canvas.drawCircle(i4 / 2.0f, i4 / 2.0f, ((i4 / 2.0f) - AndroidUtilities.dp(4.0f)) + this.smallRadius, this.acceptCirclePaint);
+            this.avatarWavesDrawable.update();
+            float f11 = (int) (this.buttonWidth / 2.0f);
+            this.avatarWavesDrawable.draw(canvas, f11, f11, this);
         }
         this.acceptDrawable.draw(canvas);
-        this.acceptRect.set((getMeasuredWidth() - AndroidUtilities.dp(46.0f)) - this.buttonWidth, AndroidUtilities.dp(40.0f), getMeasuredWidth() - AndroidUtilities.dp(46.0f), AndroidUtilities.dp(40.0f) + this.buttonWidth);
+        this.acceptRect.set(AndroidUtilities.dp(46.0f), AndroidUtilities.dp(40.0f), AndroidUtilities.dp(46.0f) + this.buttonWidth, AndroidUtilities.dp(40.0f) + this.buttonWidth);
         if (this.retryMod) {
             canvas.save();
-            canvas.translate((this.buttonWidth / 2.0f) - (this.retryLayout.getWidth() / 2.0f), this.buttonWidth + AndroidUtilities.dp(8.0f));
+            canvas.translate((this.buttonWidth / 2.0f) - (this.retryLayout.getWidth() / 2.0f), this.buttonWidth + AndroidUtilities.dp(4.0f));
             this.retryLayout.draw(canvas);
             canvas.restore();
         } else {
             canvas.save();
-            canvas.translate((this.buttonWidth / 2.0f) - (this.acceptLayout.getWidth() / 2.0f), this.buttonWidth + AndroidUtilities.dp(8.0f));
+            canvas.translate((this.buttonWidth / 2.0f) - (this.acceptLayout.getWidth() / 2.0f), this.buttonWidth + AndroidUtilities.dp(4.0f));
             this.acceptLayout.draw(canvas);
             canvas.restore();
         }
         canvas.save();
-        canvas.translate(-AndroidUtilities.dp(1.0f), AndroidUtilities.dp(1.0f));
-        canvas.rotate(-135.0f, this.callDrawable.getBounds().centerX(), this.callDrawable.getBounds().centerY());
-        this.callDrawable.draw(canvas);
+        canvas.translate(AndroidUtilities.dp(6.0f), AndroidUtilities.dp(6.0f));
+        this.callAcceptDrawable.draw(canvas);
         canvas.restore();
         if (!this.leftDrag) {
             this.rippleDrawable.setBounds(AndroidUtilities.dp(4.0f), AndroidUtilities.dp(4.0f), this.buttonWidth - AndroidUtilities.dp(4.0f), this.buttonWidth - AndroidUtilities.dp(4.0f));
@@ -412,7 +388,41 @@ public class AcceptDeclineView extends View {
             this.screenWasWakeup = false;
             return;
         }
-        this.declineDrawable.setColor(-1696188);
+        this.callAcceptDrawable.start();
+        this.avatarWavesDrawable.setShowWaves(true, this);
+        this.declineDrawable.setColor(-1041108);
+        ValueAnimator ofInt = ValueAnimator.ofInt(0, 60, 0, 0, 60, 0, 0, 0, 0);
+        this.callAnimator = ofInt;
+        ofInt.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.AcceptDeclineView$$ExternalSyntheticLambda0
+            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+            public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                AcceptDeclineView.this.lambda$setRetryMod$2(valueAnimator);
+            }
+        });
+        this.callAnimator.setDuration(1500L);
+        this.callAnimator.setRepeatMode(1);
+        this.callAnimator.setRepeatCount(-1);
+        this.callAnimator.start();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$setRetryMod$2(ValueAnimator valueAnimator) {
+        this.avatarWavesDrawable.setAmplitude(((Integer) valueAnimator.getAnimatedValue()).intValue());
+    }
+
+    public void stopAnimations() {
+        ValueAnimator valueAnimator = this.callAnimator;
+        if (valueAnimator != null) {
+            valueAnimator.cancel();
+            this.callAnimator = null;
+            this.callAcceptDrawable.stop();
+        }
+    }
+
+    @Override // android.view.View
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        stopAnimations();
     }
 
     @Override // android.view.View

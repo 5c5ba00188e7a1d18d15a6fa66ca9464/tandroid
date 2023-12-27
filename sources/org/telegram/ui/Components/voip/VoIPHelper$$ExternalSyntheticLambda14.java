@@ -10,6 +10,6 @@ public final /* synthetic */ class VoIPHelper$$ExternalSyntheticLambda14 impleme
 
     @Override // android.view.View.OnClickListener
     public final void onClick(View view) {
-        VoIPHelper.lambda$showRateAlert$9(view);
+        VoIPHelper.lambda$showRateAlert$10(view);
     }
 }

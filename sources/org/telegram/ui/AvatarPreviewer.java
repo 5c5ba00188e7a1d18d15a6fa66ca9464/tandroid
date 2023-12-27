@@ -128,9 +128,12 @@ public class AvatarPreviewer {
     /* JADX WARN: Enum visitor error
     jadx.core.utils.exceptions.JadxRuntimeException: Init of enum OPEN_GROUP uses external variables
     	at jadx.core.dex.visitors.EnumVisitor.createEnumFieldByConstructor(EnumVisitor.java:444)
-    	at jadx.core.dex.visitors.EnumVisitor.processEnumFieldByRegister(EnumVisitor.java:391)
-    	at jadx.core.dex.visitors.EnumVisitor.extractEnumFieldsFromFilledArray(EnumVisitor.java:320)
+    	at jadx.core.dex.visitors.EnumVisitor.processEnumFieldByField(EnumVisitor.java:368)
+    	at jadx.core.dex.visitors.EnumVisitor.processEnumFieldByWrappedInsn(EnumVisitor.java:333)
+    	at jadx.core.dex.visitors.EnumVisitor.extractEnumFieldsFromFilledArray(EnumVisitor.java:318)
     	at jadx.core.dex.visitors.EnumVisitor.extractEnumFieldsFromInsn(EnumVisitor.java:258)
+    	at jadx.core.dex.visitors.EnumVisitor.extractEnumFieldsFromInvoke(EnumVisitor.java:289)
+    	at jadx.core.dex.visitors.EnumVisitor.extractEnumFieldsFromInsn(EnumVisitor.java:262)
     	at jadx.core.dex.visitors.EnumVisitor.convertToEnum(EnumVisitor.java:151)
     	at jadx.core.dex.visitors.EnumVisitor.visit(EnumVisitor.java:100)
      */
@@ -139,13 +142,17 @@ public class AvatarPreviewer {
     public static final class MenuItem {
         private static final /* synthetic */ MenuItem[] $VALUES;
         public static final MenuItem MENTION;
-        public static final MenuItem OPEN_CHANNEL;
         public static final MenuItem OPEN_GROUP;
-        public static final MenuItem OPEN_PROFILE;
         public static final MenuItem SEND_MESSAGE;
         private final int iconResId;
         private final String labelKey;
         private final int labelResId;
+        public static final MenuItem OPEN_PROFILE = new MenuItem("OPEN_PROFILE", 0, "OpenProfile", R.string.OpenProfile, R.drawable.msg_openprofile);
+        public static final MenuItem OPEN_CHANNEL = new MenuItem("OPEN_CHANNEL", 1, "OpenChannel2", R.string.OpenChannel2, R.drawable.msg_channel);
+
+        private static /* synthetic */ MenuItem[] $values() {
+            return new MenuItem[]{OPEN_PROFILE, OPEN_CHANNEL, OPEN_GROUP, SEND_MESSAGE, MENTION};
+        }
 
         public static MenuItem valueOf(String str) {
             return (MenuItem) Enum.valueOf(MenuItem.class, str);
@@ -156,19 +163,12 @@ public class AvatarPreviewer {
         }
 
         static {
-            MenuItem menuItem = new MenuItem("OPEN_PROFILE", 0, "OpenProfile", R.string.OpenProfile, R.drawable.msg_openprofile);
-            OPEN_PROFILE = menuItem;
-            MenuItem menuItem2 = new MenuItem("OPEN_CHANNEL", 1, "OpenChannel2", R.string.OpenChannel2, R.drawable.msg_channel);
-            OPEN_CHANNEL = menuItem2;
             int i = R.string.OpenGroup2;
             int i2 = R.drawable.msg_discussion;
-            MenuItem menuItem3 = new MenuItem("OPEN_GROUP", 2, "OpenGroup2", i, i2);
-            OPEN_GROUP = menuItem3;
-            MenuItem menuItem4 = new MenuItem("SEND_MESSAGE", 3, "SendMessage", R.string.SendMessage, i2);
-            SEND_MESSAGE = menuItem4;
-            MenuItem menuItem5 = new MenuItem("MENTION", 4, "Mention", R.string.Mention, R.drawable.msg_mention);
-            MENTION = menuItem5;
-            $VALUES = new MenuItem[]{menuItem, menuItem2, menuItem3, menuItem4, menuItem5};
+            OPEN_GROUP = new MenuItem("OPEN_GROUP", 2, "OpenGroup2", i, i2);
+            SEND_MESSAGE = new MenuItem("SEND_MESSAGE", 3, "SendMessage", R.string.SendMessage, i2);
+            MENTION = new MenuItem("MENTION", 4, "Mention", R.string.Mention, R.drawable.msg_mention);
+            $VALUES = $values();
         }
 
         private MenuItem(String str, int i, String str2, int i2, int i3) {

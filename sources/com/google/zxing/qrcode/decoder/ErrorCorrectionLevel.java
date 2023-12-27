@@ -10,10 +10,11 @@ public enum ErrorCorrectionLevel {
     private final int bits;
 
     static {
-        ErrorCorrectionLevel errorCorrectionLevel = L;
-        ErrorCorrectionLevel errorCorrectionLevel2 = M;
-        ErrorCorrectionLevel errorCorrectionLevel3 = Q;
-        FOR_BITS = new ErrorCorrectionLevel[]{errorCorrectionLevel2, errorCorrectionLevel, H, errorCorrectionLevel3};
+        ErrorCorrectionLevel errorCorrectionLevel;
+        ErrorCorrectionLevel errorCorrectionLevel2;
+        ErrorCorrectionLevel errorCorrectionLevel3;
+        ErrorCorrectionLevel errorCorrectionLevel4;
+        FOR_BITS = new ErrorCorrectionLevel[]{errorCorrectionLevel2, errorCorrectionLevel, errorCorrectionLevel4, errorCorrectionLevel3};
     }
 
     ErrorCorrectionLevel(int i) {

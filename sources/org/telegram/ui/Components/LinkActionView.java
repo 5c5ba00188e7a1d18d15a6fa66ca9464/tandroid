@@ -204,10 +204,6 @@ public class LinkActionView extends LinearLayout {
             }
         });
         frameLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.LinkActionView.4
-            {
-                LinkActionView.this = this;
-            }
-
             @Override // android.view.View.OnClickListener
             public void onClick(View view) {
                 LinkActionView.this.copyView.callOnClick();
@@ -216,6 +212,7 @@ public class LinkActionView extends LinearLayout {
         updateColors();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(BottomSheet bottomSheet, BaseFragment baseFragment, View view) {
         try {
             if (this.link == null) {
@@ -232,10 +229,12 @@ public class LinkActionView extends LinearLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(View view) {
         this.delegate.showUsersForPermanentLink();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$2(BaseFragment baseFragment, View view) {
         try {
             if (this.link == null) {
@@ -250,6 +249,7 @@ public class LinkActionView extends LinearLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$4(BaseFragment baseFragment, View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(baseFragment.getParentActivity());
         builder.setTitle(LocaleController.getString("DeleteLink", R.string.DeleteLink));
@@ -264,6 +264,7 @@ public class LinkActionView extends LinearLayout {
         baseFragment.showDialog(builder.create());
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$3(DialogInterface dialogInterface, int i) {
         Delegate delegate = this.delegate;
         if (delegate != null) {
@@ -271,6 +272,7 @@ public class LinkActionView extends LinearLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$9(Context context, BottomSheet bottomSheet, BaseFragment baseFragment, View view) {
         final FrameLayout container;
         if (this.actionBarPopupWindow != null) {
@@ -319,10 +321,6 @@ public class LinkActionView extends LinearLayout {
             getPointOnScreen(this.frameLayout, container, this.point);
             float f = this.point[1];
             final View view2 = new View(context) { // from class: org.telegram.ui.Components.LinkActionView.1
-                {
-                    LinkActionView.this = this;
-                }
-
                 @Override // android.view.View
                 protected void onDraw(Canvas canvas) {
                     canvas.drawColor(AndroidUtilities.DARK_STATUS_BAR_OVERLAY);
@@ -354,19 +352,11 @@ public class LinkActionView extends LinearLayout {
             ActionBarPopupWindow actionBarPopupWindow = new ActionBarPopupWindow(actionBarPopupWindowLayout, -2, -2);
             this.actionBarPopupWindow = actionBarPopupWindow;
             actionBarPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() { // from class: org.telegram.ui.Components.LinkActionView.3
-                {
-                    LinkActionView.this = this;
-                }
-
                 @Override // android.widget.PopupWindow.OnDismissListener
                 public void onDismiss() {
                     LinkActionView.this.actionBarPopupWindow = null;
                     view2.animate().cancel();
                     view2.animate().alpha(0.0f).setDuration(150L).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.LinkActionView.3.1
-                        {
-                            3.this = this;
-                        }
-
                         @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                         public void onAnimationEnd(Animator animator) {
                             if (view2.getParent() != null) {
@@ -398,6 +388,7 @@ public class LinkActionView extends LinearLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$5(View view) {
         ActionBarPopupWindow actionBarPopupWindow = this.actionBarPopupWindow;
         if (actionBarPopupWindow != null) {
@@ -406,10 +397,12 @@ public class LinkActionView extends LinearLayout {
         this.delegate.editLink();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$6(View view) {
         showQrCode();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$7(View view) {
         ActionBarPopupWindow actionBarPopupWindow = this.actionBarPopupWindow;
         if (actionBarPopupWindow != null) {
@@ -418,12 +411,14 @@ public class LinkActionView extends LinearLayout {
         revokeLink();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$8(KeyEvent keyEvent) {
         if (keyEvent.getKeyCode() == 4 && keyEvent.getRepeatCount() == 0 && this.actionBarPopupWindow.isShowing()) {
             this.actionBarPopupWindow.dismiss(true);
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r4v9, types: [android.view.View] */
     public void getPointOnScreen(FrameLayout frameLayout, FrameLayout frameLayout2, float[] fArr) {
@@ -472,10 +467,6 @@ public class LinkActionView extends LinearLayout {
             str3 = LocaleController.getString(str, i);
         }
         QRCodeBottomSheet qRCodeBottomSheet = new QRCodeBottomSheet(context, string, str2, str3, false) { // from class: org.telegram.ui.Components.LinkActionView.5
-            {
-                LinkActionView.this = this;
-            }
-
             @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface
             public void dismiss() {
                 super.dismiss();
@@ -559,20 +550,16 @@ public class LinkActionView extends LinearLayout {
         this.avatarsContainer.setVisibility(8);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes4.dex */
     public class AvatarsContainer extends FrameLayout {
         AvatarsImageView avatarsImageView;
         TextView countTextView;
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public AvatarsContainer(Context context) {
             super(context);
-            LinkActionView.this = r6;
-            this.avatarsImageView = new AvatarsImageView(context, false, r6) { // from class: org.telegram.ui.Components.LinkActionView.AvatarsContainer.1
-                {
-                    AvatarsContainer.this = this;
-                }
-
+            this.avatarsImageView = new AvatarsImageView(context, false, LinkActionView.this) { // from class: org.telegram.ui.Components.LinkActionView.AvatarsContainer.1
+                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.AvatarsImageView, android.view.View
                 public void onMeasure(int i, int i2) {
                     int min = Math.min(3, LinkActionView.this.usersCount);
@@ -614,6 +601,7 @@ public class LinkActionView extends LinearLayout {
         builder.show();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$revokeLink$10(DialogInterface dialogInterface, int i) {
         Delegate delegate = this.delegate;
         if (delegate != null) {
@@ -683,6 +671,7 @@ public class LinkActionView extends LinearLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadUsers$12(final TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.LinkActionView$$ExternalSyntheticLambda10
             @Override // java.lang.Runnable
@@ -692,6 +681,7 @@ public class LinkActionView extends LinearLayout {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadUsers$11(TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported, TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
         this.loadingImporters = false;
         this.loadedInviteLink = tLRPC$TL_chatInviteExported.link;
