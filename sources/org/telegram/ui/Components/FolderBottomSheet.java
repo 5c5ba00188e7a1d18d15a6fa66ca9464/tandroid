@@ -174,14 +174,17 @@ public class FolderBottomSheet extends BottomSheetWithRecyclerListView {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.FolderBottomSheet$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
-                FolderBottomSheet.lambda$showForDeletion$0(TLObject.this, baseFragment, i, callback);
+                FolderBottomSheet.lambda$showForDeletion$0(BaseFragment.this, tLObject, i, callback);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showForDeletion$0(TLObject tLObject, BaseFragment baseFragment, int i, Utilities.Callback callback) {
+    public static /* synthetic */ void lambda$showForDeletion$0(BaseFragment baseFragment, TLObject tLObject, int i, Utilities.Callback callback) {
         FolderBottomSheet folderBottomSheet;
+        if (baseFragment.getParentActivity() == null) {
+            return;
+        }
         if (tLObject instanceof TLRPC$Vector) {
             ArrayList arrayList = new ArrayList();
             for (int i2 = 0; i2 < ((TLRPC$Vector) tLObject).objects.size(); i2++) {

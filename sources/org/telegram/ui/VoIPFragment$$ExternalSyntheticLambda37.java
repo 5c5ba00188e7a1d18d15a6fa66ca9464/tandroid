@@ -8,6 +8,6 @@ public final /* synthetic */ class VoIPFragment$$ExternalSyntheticLambda37 imple
 
     @Override // java.lang.Runnable
     public final void run() {
-        VoIPFragment.lambda$onRequestPermissionsResultInternal$40();
+        VoIPFragment.lambda$onRequestPermissionsResultInternal$39();
     }
 }

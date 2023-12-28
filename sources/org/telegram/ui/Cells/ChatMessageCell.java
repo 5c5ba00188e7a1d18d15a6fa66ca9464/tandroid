@@ -22663,8 +22663,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     }
 
     public boolean needDelayRoundProgressDraw() {
+        MessageObject messageObject;
         int i = this.documentAttachType;
-        return (i == 7 || i == 4) && this.currentMessageObject.type != 5 && MediaController.getInstance().isPlayingMessage(this.currentMessageObject);
+        return (i == 7 || i == 4) && (messageObject = this.currentMessageObject) != null && messageObject.type != 5 && MediaController.getInstance().isPlayingMessage(this.currentMessageObject);
     }
 
     /* JADX WARN: Removed duplicated region for block: B:101:0x02df  */
@@ -27225,17 +27226,19 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
 
     @Override // android.view.View
     public void onProvideStructure(ViewStructure viewStructure) {
+        CharSequence charSequence;
+        CharSequence charSequence2;
         super.onProvideStructure(viewStructure);
         if (!this.allowAssistant || Build.VERSION.SDK_INT < 23) {
             return;
         }
-        CharSequence charSequence = this.currentMessageObject.messageText;
-        if (charSequence != null && charSequence.length() > 0) {
+        MessageObject messageObject = this.currentMessageObject;
+        if (messageObject != null && (charSequence2 = messageObject.messageText) != null && charSequence2.length() > 0) {
             viewStructure.setText(this.currentMessageObject.messageText);
             return;
         }
-        CharSequence charSequence2 = this.currentMessageObject.caption;
-        if (charSequence2 == null || charSequence2.length() <= 0) {
+        MessageObject messageObject2 = this.currentMessageObject;
+        if (messageObject2 == null || (charSequence = messageObject2.caption) == null || charSequence.length() <= 0) {
             return;
         }
         viewStructure.setText(this.currentMessageObject.caption);
@@ -30362,23 +30365,22 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
 
     public int getBackgroundDrawableLeft() {
         int dp;
-        MessageObject messageObject;
         int dp2;
         int i;
-        MessageObject messageObject2;
-        if (this.currentMessageObject.isOutOwner()) {
+        MessageObject messageObject = getMessageObject();
+        if (messageObject != null && messageObject.isOutOwner()) {
             if (this.isRoundVideo) {
                 return (this.layoutWidth - this.backgroundWidth) - ((int) ((1.0f - getVideoTranscriptionProgress()) * AndroidUtilities.dp(9.0f)));
             }
             return (this.layoutWidth - this.backgroundWidth) - (this.mediaBackground ? AndroidUtilities.dp(9.0f) : 0);
         }
         if (this.isRoundVideo) {
-            if ((this.isChat || ((messageObject2 = this.currentMessageObject) != null && (messageObject2.isRepostPreview || messageObject2.forceAvatar))) && this.isAvatarVisible) {
+            if ((this.isChat || (messageObject != null && (messageObject.isRepostPreview || messageObject.forceAvatar))) && this.isAvatarVisible) {
                 r1 = 48;
             }
             dp = AndroidUtilities.dp(r1 + 3) + ((int) (AndroidUtilities.dp(6.0f) * (1.0f - getVideoTranscriptionProgress())));
         } else {
-            if ((this.isChat || ((messageObject = this.currentMessageObject) != null && (messageObject.isRepostPreview || messageObject.forceAvatar))) && this.isAvatarVisible) {
+            if ((this.isChat || (messageObject != null && (messageObject.isRepostPreview || messageObject.forceAvatar))) && this.isAvatarVisible) {
                 r1 = 48;
             }
             dp = AndroidUtilities.dp(r1 + (this.mediaBackground ? 9 : 3));
@@ -31784,7 +31786,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         MessageObject.GroupedMessagePosition groupedMessagePosition;
         MessageObject.GroupedMessages groupedMessages;
         MessageObject messageObject = this.currentMessageObject;
-        return (messageObject.preview || ((groupedMessagePosition = this.currentPosition) != null && ((groupedMessages = this.currentMessagesGroup) == null || !groupedMessages.isDocuments || (groupedMessagePosition.flags & 8) != 0)) || this.transitionParams.animateBackgroundBoundsInner || (this.enterTransitionInProgress && messageObject.isVoice())) ? false : true;
+        return (messageObject == null || messageObject.preview || ((groupedMessagePosition = this.currentPosition) != null && ((groupedMessages = this.currentMessagesGroup) == null || !groupedMessages.isDocuments || (groupedMessagePosition.flags & 8) != 0)) || this.transitionParams.animateBackgroundBoundsInner || (this.enterTransitionInProgress && messageObject.isVoice())) ? false : true;
     }
 
     public void drawCaptionLayout(Canvas canvas, boolean z, float f) {

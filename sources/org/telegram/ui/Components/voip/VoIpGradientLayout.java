@@ -14,10 +14,12 @@ import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
 import java.util.Objects;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.LiteMode;
 import org.telegram.ui.Components.MotionBackgroundDrawable;
 @SuppressLint({"ViewConstructor"})
 /* loaded from: classes4.dex */
 public class VoIpGradientLayout extends FrameLayout {
+    private boolean allowAnimations;
     private int alphaBlueGreen;
     private int alphaBlueViolet;
     private int alphaGreen;
@@ -71,6 +73,7 @@ public class VoIpGradientLayout extends FrameLayout {
         this.isPaused = false;
         this.lockDrawing = false;
         this.backgroundProvider = voIPBackgroundProvider;
+        this.allowAnimations = LiteMode.isEnabled(LiteMode.FLAG_CALLS_ANIMATIONS);
         this.bgBlueViolet = new MotionBackgroundDrawable(-4958504, -8304404, -14637865, -12612630, 0, false, true);
         this.bgBlueGreen = new MotionBackgroundDrawable(-12224791, -12879119, -16207709, -15226140, 0, false, true);
         this.bgGreen = new MotionBackgroundDrawable(-16275028, -16270749, -5649306, -10833593, 0, false, true);
@@ -117,7 +120,9 @@ public class VoIpGradientLayout extends FrameLayout {
         animatorSet.setInterpolator(new LinearInterpolator());
         animatorSet.playTogether(ofInt);
         animatorSet.setDuration(12000L);
-        animatorSet.start();
+        if (this.allowAnimations) {
+            animatorSet.start();
+        }
         switchToCalling();
     }
 
@@ -172,7 +177,9 @@ public class VoIpGradientLayout extends FrameLayout {
         this.callingAnimator.setRepeatMode(1);
         this.callingAnimator.setInterpolator(new LinearInterpolator());
         this.callingAnimator.setDuration(12000L);
-        this.callingAnimator.start();
+        if (this.allowAnimations) {
+            this.callingAnimator.start();
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -223,7 +230,7 @@ public class VoIpGradientLayout extends FrameLayout {
             public void onAnimationEnd(Animator animator) {
                 VoIpGradientLayout.this.showClip = false;
                 VoIpGradientLayout.this.backgroundProvider.setReveal(false);
-                if (VoIpGradientLayout.this.defaultAnimatorSet != null) {
+                if (VoIpGradientLayout.this.allowAnimations && VoIpGradientLayout.this.defaultAnimatorSet != null) {
                     VoIpGradientLayout.this.defaultAnimatorSet.cancel();
                     VoIpGradientLayout.this.defaultAnimatorSet.start();
                 }
@@ -238,6 +245,7 @@ public class VoIpGradientLayout extends FrameLayout {
     public /* synthetic */ void lambda$switchToCallConnected$2(ValueAnimator valueAnimator) {
         this.clipRadius = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         invalidate();
+        this.backgroundProvider.invalidateViews();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -274,7 +282,12 @@ public class VoIpGradientLayout extends FrameLayout {
         this.connectedAnimatorSet.playTogether(ofInt2, ofInt);
         this.connectedAnimatorSet.setInterpolator(new LinearInterpolator());
         this.connectedAnimatorSet.setDuration(24000L);
-        this.connectedAnimatorSet.start();
+        if (this.allowAnimations) {
+            this.connectedAnimatorSet.start();
+        } else {
+            this.alphaBlueGreen = 0;
+            this.alphaBlueViolet = 0;
+        }
         invalidate();
     }
 

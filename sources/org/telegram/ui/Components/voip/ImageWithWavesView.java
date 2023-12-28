@@ -10,12 +10,14 @@ import android.view.View;
 import android.widget.FrameLayout;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ImageLocation;
+import org.telegram.messenger.LiteMode;
 import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.voip.ImageWithWavesView;
 /* loaded from: classes4.dex */
 public class ImageWithWavesView extends FrameLayout {
+    private final boolean allowAnimations;
     private AnimatorSet animatorSet;
     private final AvatarWavesDrawable avatarWavesDrawable;
     private final BackupImageView backupImageView;
@@ -37,7 +39,11 @@ public class ImageWithWavesView extends FrameLayout {
         animatorSet.playTogether(ObjectAnimator.ofFloat(this, View.SCALE_X, 1.0f, 1.05f, 1.0f, 1.05f, 1.0f), ObjectAnimator.ofFloat(this, View.SCALE_Y, 1.0f, 1.05f, 1.0f, 1.05f, 1.0f));
         this.animatorSet.setInterpolator(CubicBezierInterpolator.EASE_OUT);
         this.animatorSet.setDuration(3000L);
-        this.animatorSet.start();
+        boolean isEnabled = LiteMode.isEnabled(LiteMode.FLAG_CALLS_ANIMATIONS);
+        this.allowAnimations = isEnabled;
+        if (isEnabled) {
+            this.animatorSet.start();
+        }
         setClipChildren(false);
     }
 
@@ -59,7 +65,7 @@ public class ImageWithWavesView extends FrameLayout {
             if (z) {
                 this.avatarWavesDrawable.setAmplitude(3.0d);
             }
-            this.avatarWavesDrawable.setMuteToStatic(z, z2);
+            this.avatarWavesDrawable.setMuteToStatic(z, z2, this);
         }
     }
 
@@ -108,8 +114,10 @@ public class ImageWithWavesView extends FrameLayout {
 
     @Override // android.view.View
     protected void onDraw(Canvas canvas) {
-        this.avatarWavesDrawable.update();
-        this.avatarWavesDrawable.draw(canvas, getWidth() / 2, getHeight() / 2, this);
+        if (this.allowAnimations) {
+            this.avatarWavesDrawable.update();
+            this.avatarWavesDrawable.draw(canvas, getWidth() / 2, getHeight() / 2, this);
+        }
         super.onDraw(canvas);
     }
 
@@ -121,6 +129,7 @@ public class ImageWithWavesView extends FrameLayout {
         private ValueAnimator animator;
         private final VoipBlobDrawable blobDrawable;
         private final VoipBlobDrawable blobDrawable2;
+        private int muteToStaticInvalidationCount;
         boolean showWaves;
         float wavesEnter = 0.0f;
         public boolean muteToStatic = false;
@@ -197,6 +206,13 @@ public class ImageWithWavesView extends FrameLayout {
                 this.blobDrawable2.draw(f, f2, canvas, this.blobDrawable.paint);
                 canvas.restore();
             }
+            if (this.muteToStatic && this.muteToStaticInvalidationCount == 0) {
+                return;
+            }
+            int i = this.muteToStaticInvalidationCount;
+            if (i != 0) {
+                this.muteToStaticInvalidationCount = i - 1;
+            }
             if (this.wavesEnter != 0.0f) {
                 view.invalidate();
             }
@@ -224,7 +240,7 @@ public class ImageWithWavesView extends FrameLayout {
             this.animateAmplitudeDiff = (f2 - this.amplitude) / 200.0f;
         }
 
-        public void setMuteToStatic(boolean z, boolean z2) {
+        public void setMuteToStatic(boolean z, boolean z2, View view) {
             if (this.muteToStatic != z) {
                 this.muteToStatic = z;
                 ValueAnimator valueAnimator = this.animator;
@@ -234,7 +250,9 @@ public class ImageWithWavesView extends FrameLayout {
                 }
                 if (z) {
                     this.animator = ValueAnimator.ofFloat(this.muteToStaticProgress, 0.0f);
+                    this.muteToStaticInvalidationCount = (int) (2000.0f / AndroidUtilities.screenRefreshTime);
                 } else {
+                    this.muteToStaticInvalidationCount = 0;
                     this.animator = ValueAnimator.ofFloat(this.muteToStaticProgress, 1.0f);
                 }
                 this.animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.ImageWithWavesView$AvatarWavesDrawable$$ExternalSyntheticLambda0
@@ -249,6 +267,7 @@ public class ImageWithWavesView extends FrameLayout {
                     this.animator.setDuration(1000L);
                 }
                 this.animator.start();
+                view.invalidate();
             }
         }
 
