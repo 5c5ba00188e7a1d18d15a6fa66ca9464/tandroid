@@ -12,7 +12,6 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.util.Log;
 import android.view.Choreographer;
 import android.view.TextureView;
 import android.view.View;
@@ -129,7 +128,6 @@ public class ThanosEffect extends TextureView {
 
         @Override // android.view.TextureView.SurfaceTextureListener
         public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int i, int i2) {
-            Log.i("lolkek", "THANOS EFFECT START");
             if (ThanosEffect.this.drawThread != null) {
                 ThanosEffect.this.drawThread.kill();
                 ThanosEffect.this.drawThread = null;
@@ -175,7 +173,6 @@ public class ThanosEffect extends TextureView {
 
         @Override // android.view.TextureView.SurfaceTextureListener
         public boolean onSurfaceTextureDestroyed(SurfaceTexture surfaceTexture) {
-            Log.i("lolkek", "THANOS EFFECT DESTROYED");
             if (ThanosEffect.this.drawThread != null) {
                 ThanosEffect.this.drawThread.kill();
                 ThanosEffect.this.drawThread = null;
@@ -669,8 +666,8 @@ public class ThanosEffect extends TextureView {
                 this.bitmap = bitmap;
             }
 
-            /* JADX WARN: Code restructure failed: missing block: B:84:0x0212, code lost:
-                if (r0.messages.size() != 1) goto L88;
+            /* JADX WARN: Code restructure failed: missing block: B:86:0x021b, code lost:
+                if (r0.messages.size() != 1) goto L90;
              */
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
@@ -767,7 +764,7 @@ public class ThanosEffect extends TextureView {
                                     View view2 = arrayList.get(i11);
                                     if (view2 instanceof ChatMessageCell) {
                                         ChatMessageCell chatMessageCell = (ChatMessageCell) view2;
-                                        if (view2.getY() <= recyclerListView.getHeight() && view2.getY() + view2.getHeight() >= 0.0f && chatMessageCell.getVisibility() != 4) {
+                                        if (view2.getY() <= recyclerListView.getHeight() && view2.getY() + view2.getHeight() >= 0.0f && chatMessageCell.getVisibility() != 4 && chatMessageCell.getVisibility() != 8) {
                                             MessageObject.GroupedMessages currentMessagesGroup = chatMessageCell.getCurrentMessagesGroup();
                                             if (currentMessagesGroup == null || (hashMap = currentMessagesGroup.positions) == null) {
                                                 f3 = f4;
@@ -1031,7 +1028,7 @@ public class ThanosEffect extends TextureView {
             /* JADX INFO: Access modifiers changed from: private */
             public static /* synthetic */ void lambda$new$0(ArrayList arrayList) {
                 for (int i = 0; i < arrayList.size(); i++) {
-                    ((View) arrayList.get(i)).setVisibility(4);
+                    ((View) arrayList.get(i)).setVisibility(8);
                     if (arrayList.get(i) instanceof ChatMessageCell) {
                         ((ChatMessageCell) arrayList.get(i)).setCheckBoxVisible(false, false);
                         ((ChatMessageCell) arrayList.get(i)).setChecked(false, false, false);
@@ -1183,7 +1180,7 @@ public class ThanosEffect extends TextureView {
             /* JADX INFO: Access modifiers changed from: private */
             public /* synthetic */ void lambda$new$1() {
                 for (int i = 0; i < this.views.size(); i++) {
-                    this.views.get(i).setVisibility(4);
+                    this.views.get(i).setVisibility(8);
                     if (this.views.get(i) instanceof ChatMessageCell) {
                         ((ChatMessageCell) this.views.get(i)).setCheckBoxVisible(false, false);
                         ((ChatMessageCell) this.views.get(i)).setChecked(false, false, false);
@@ -1307,9 +1304,6 @@ public class ThanosEffect extends TextureView {
 
             /* JADX INFO: Access modifiers changed from: private */
             public /* synthetic */ void lambda$done$2() {
-                for (int i = 0; i < this.views.size(); i++) {
-                    this.views.get(i).setVisibility(0);
-                }
                 Runnable runnable = this.doneCallback;
                 if (runnable != null) {
                     runnable.run();

@@ -320,10 +320,10 @@ public class MessagePreviewView extends FrameLayout {
         }
 
         /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Removed duplicated region for block: B:83:0x06db  */
-        /* JADX WARN: Removed duplicated region for block: B:84:0x06e2  */
-        /* JADX WARN: Removed duplicated region for block: B:90:0x06ff  */
-        /* JADX WARN: Removed duplicated region for block: B:93:0x0713  */
+        /* JADX WARN: Removed duplicated region for block: B:87:0x06e3  */
+        /* JADX WARN: Removed duplicated region for block: B:88:0x06ea  */
+        /* JADX WARN: Removed duplicated region for block: B:94:0x0707  */
+        /* JADX WARN: Removed duplicated region for block: B:97:0x071b  */
         /* JADX WARN: Type inference failed for: r0v169, types: [org.telegram.ui.ActionBar.ActionBarPopupWindow$ActionBarPopupWindowLayout] */
         /* JADX WARN: Type inference failed for: r7v9, types: [android.view.View] */
         /*
@@ -533,7 +533,7 @@ public class MessagePreviewView extends FrameLayout {
                 }
 
                 /* JADX WARN: Type inference failed for: r3v0 */
-                /* JADX WARN: Type inference failed for: r3v1, types: [int, boolean] */
+                /* JADX WARN: Type inference failed for: r3v1, types: [boolean, int] */
                 /* JADX WARN: Type inference failed for: r3v9 */
                 private void drawChatBackgroundElements(Canvas canvas) {
                     boolean z2;
@@ -879,7 +879,8 @@ public class MessagePreviewView extends FrameLayout {
                     frameLayout.addView(this.clearQuoteButton, LayoutHelper.createFrame(-1, 48.0f));
                     this.menu.addView((View) frameLayout, LayoutHelper.createLinear(-1, 48));
                 }
-                if (!MessagePreviewView.this.messagePreviewParams.noforwards) {
+                MessagePreviewParams messagePreviewParams2 = MessagePreviewView.this.messagePreviewParams;
+                if (!messagePreviewParams2.noforwards && !messagePreviewParams2.hasSecretMessages) {
                     FrameLayout frameLayout2 = new FrameLayout(context);
                     ActionBarMenuSubItem actionBarMenuSubItem5 = new ActionBarMenuSubItem(context, true, false, false, (Theme.ResourcesProvider) MessagePreviewView.this.resourcesProvider);
                     this.replyAnotherChatButton = actionBarMenuSubItem5;
@@ -905,7 +906,8 @@ public class MessagePreviewView extends FrameLayout {
                     frameLayout2.addView(this.replyAnotherChatButton, LayoutHelper.createFrame(-1, f));
                     this.menu.addView((View) frameLayout2, LayoutHelper.createLinear(-1, 48));
                 }
-                if (!MessagePreviewView.this.messagePreviewParams.isSecret) {
+                MessagePreviewParams messagePreviewParams3 = MessagePreviewView.this.messagePreviewParams;
+                if (!messagePreviewParams3.noforwards && !messagePreviewParams3.hasSecretMessages) {
                     ActionBarPopupWindow.GapView gapView2 = new ActionBarPopupWindow.GapView(context, MessagePreviewView.this.resourcesProvider);
                     gapView2.setTag(R.id.fit_width_tag, 1);
                     this.menu.addView((View) gapView2, LayoutHelper.createLinear(-1, 8));
@@ -937,9 +939,9 @@ public class MessagePreviewView extends FrameLayout {
                 this.menu.addView((View) this.deleteReplyButton, LayoutHelper.createLinear(-1, 48));
             } else {
                 if (i == 1) {
-                    MessagePreviewParams messagePreviewParams2 = MessagePreviewView.this.messagePreviewParams;
-                    if (messagePreviewParams2.forwardMessages != null) {
-                        final ToggleButton toggleButton2 = new ToggleButton(MessagePreviewView.this, context, R.raw.name_hide, LocaleController.getString(messagePreviewParams2.multipleUsers ? R.string.ShowSenderNames : R.string.ShowSendersName), R.raw.name_show, LocaleController.getString(MessagePreviewView.this.messagePreviewParams.multipleUsers ? R.string.HideSenderNames : R.string.HideSendersName));
+                    MessagePreviewParams messagePreviewParams4 = MessagePreviewView.this.messagePreviewParams;
+                    if (messagePreviewParams4.forwardMessages != null) {
+                        final ToggleButton toggleButton2 = new ToggleButton(MessagePreviewView.this, context, R.raw.name_hide, LocaleController.getString(messagePreviewParams4.multipleUsers ? R.string.ShowSenderNames : R.string.ShowSendersName), R.raw.name_show, LocaleController.getString(MessagePreviewView.this.messagePreviewParams.multipleUsers ? R.string.HideSenderNames : R.string.HideSendersName));
                         this.menu.addView((View) toggleButton2, LayoutHelper.createLinear(-1, 48));
                         if (MessagePreviewView.this.messagePreviewParams.hasCaption) {
                             toggleButton = new ToggleButton(MessagePreviewView.this, context, R.raw.caption_hide, LocaleController.getString(R.string.ShowCaption), R.raw.caption_show, LocaleController.getString(R.string.HideCaption));
@@ -1026,8 +1028,8 @@ public class MessagePreviewView extends FrameLayout {
                     this.changeSizeBtnContainer.addView(this.videoChangeSizeBtn, LayoutHelper.createLinear(-1, 48));
                     this.menu.addView((View) this.changeSizeBtnContainer, LayoutHelper.createLinear(-1, 48));
                     FrameLayout frameLayout4 = this.changeSizeBtnContainer;
-                    MessagePreviewParams messagePreviewParams3 = MessagePreviewView.this.messagePreviewParams;
-                    frameLayout4.setVisibility((!messagePreviewParams3.singleLink || messagePreviewParams3.hasMedia) ? 0 : 8);
+                    MessagePreviewParams messagePreviewParams5 = MessagePreviewView.this.messagePreviewParams;
+                    frameLayout4.setVisibility((!messagePreviewParams5.singleLink || messagePreviewParams5.hasMedia) ? 0 : 8);
                     this.changeSizeBtn.setState(MessagePreviewView.this.messagePreviewParams.webpageSmall, false);
                     this.videoChangeSizeBtn.setState(MessagePreviewView.this.messagePreviewParams.webpageSmall, false);
                     ActionBarPopupWindow.GapView gapView4 = new ActionBarPopupWindow.GapView(context, MessagePreviewView.this.resourcesProvider);
@@ -2133,8 +2135,8 @@ public class MessagePreviewView extends FrameLayout {
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                    public /* synthetic */ boolean needPlayMessage(MessageObject messageObject, boolean z) {
-                        return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$needPlayMessage(this, messageObject, z);
+                    public /* synthetic */ boolean needPlayMessage(ChatMessageCell chatMessageCell2, MessageObject messageObject, boolean z) {
+                        return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$needPlayMessage(this, chatMessageCell2, messageObject, z);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
@@ -2506,8 +2508,8 @@ public class MessagePreviewView extends FrameLayout {
                         }
 
                         @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                        public /* synthetic */ boolean needPlayMessage(MessageObject messageObject, boolean z) {
-                            return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$needPlayMessage(this, messageObject, z);
+                        public /* synthetic */ boolean needPlayMessage(ChatMessageCell chatMessageCell2, MessageObject messageObject, boolean z) {
+                            return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$needPlayMessage(this, chatMessageCell2, messageObject, z);
                         }
 
                         @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate

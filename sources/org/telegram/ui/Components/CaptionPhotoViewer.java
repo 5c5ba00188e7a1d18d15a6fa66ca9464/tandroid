@@ -336,6 +336,6 @@ public class CaptionPhotoViewer extends CaptionContainerView {
     @Override // org.telegram.ui.Stories.recorder.CaptionContainerView
     public void updateColors(Theme.ResourcesProvider resourcesProvider) {
         super.updateColors(resourcesProvider);
-        this.timerDrawable.updateColors(-1, Theme.getColor(Theme.key_chat_editMediaButton, resourcesProvider));
+        this.timerDrawable.updateColors(-1, Theme.getColor(Theme.key_chat_editMediaButton, resourcesProvider), -1);
     }
 }

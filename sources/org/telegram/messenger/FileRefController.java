@@ -255,11 +255,11 @@ public class FileRefController extends BaseController {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:114:0x039c, code lost:
-        if ("update".equals(r1) != false) goto L33;
+    /* JADX WARN: Code restructure failed: missing block: B:118:0x03a0, code lost:
+        if ("update".equals(r1) != false) goto L37;
      */
-    /* JADX WARN: Removed duplicated region for block: B:119:0x03a9  */
-    /* JADX WARN: Removed duplicated region for block: B:123:0x03c0  */
+    /* JADX WARN: Removed duplicated region for block: B:123:0x03ad  */
+    /* JADX WARN: Removed duplicated region for block: B:127:0x03c4  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -276,6 +276,8 @@ public class FileRefController extends BaseController {
         TLRPC$TL_inputMediaPhoto tLRPC$TL_inputMediaPhoto3;
         TLRPC$TL_inputMediaDocument tLRPC$TL_inputMediaDocument3;
         CachedResult cachedResponse;
+        TLRPC$Message tLRPC$Message;
+        TLRPC$MessageMedia tLRPC$MessageMedia;
         Object obj2;
         int i = 0;
         if (BuildVars.LOGS_ENABLED) {
@@ -388,7 +390,7 @@ public class FileRefController extends BaseController {
         }
         if (obj instanceof MessageObject) {
             MessageObject messageObject = (MessageObject) obj;
-            if (messageObject.getRealId() < 0 && (obj2 = messageObject.messageOwner.media.webpage) != null) {
+            if (messageObject.getRealId() < 0 && (tLRPC$Message = messageObject.messageOwner) != null && (tLRPC$MessageMedia = tLRPC$Message.media) != null && (obj2 = tLRPC$MessageMedia.webpage) != null) {
                 obj = obj2;
             }
         }

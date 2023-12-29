@@ -1670,7 +1670,7 @@ public class ChatListItemAnimator extends DefaultItemAnimator {
             callback0Return.run().animate(view, new Runnable() { // from class: androidx.recyclerview.widget.ChatListItemAnimator$$ExternalSyntheticLambda7
                 @Override // java.lang.Runnable
                 public final void run() {
-                    ChatListItemAnimator.this.lambda$animateRemoveImpl$8(viewHolder);
+                    ChatListItemAnimator.this.lambda$animateRemoveImpl$8(view, viewHolder);
                 }
             });
         } else {
@@ -1699,7 +1699,8 @@ public class ChatListItemAnimator extends DefaultItemAnimator {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$animateRemoveImpl$8(RecyclerView.ViewHolder viewHolder) {
+    public /* synthetic */ void lambda$animateRemoveImpl$8(View view, RecyclerView.ViewHolder viewHolder) {
+        view.setVisibility(0);
         if (this.mRemoveAnimations.remove(viewHolder)) {
             dispatchRemoveFinished(viewHolder);
             dispatchFinishedWhenDone();
@@ -1715,24 +1716,27 @@ public class ChatListItemAnimator extends DefaultItemAnimator {
         for (int i = 0; i < arrayList.size(); i++) {
             dispatchRemoveStarting(arrayList.get(i));
         }
-        ArrayList<View> arrayList2 = new ArrayList<>();
+        final ArrayList<View> arrayList2 = new ArrayList<>();
         for (int i2 = 0; i2 < arrayList.size(); i2++) {
             arrayList2.add(arrayList.get(i2).itemView);
         }
         run.animateGroup(arrayList2, new Runnable() { // from class: androidx.recyclerview.widget.ChatListItemAnimator$$ExternalSyntheticLambda8
             @Override // java.lang.Runnable
             public final void run() {
-                ChatListItemAnimator.this.lambda$animateRemoveGroupImpl$9(arrayList);
+                ChatListItemAnimator.this.lambda$animateRemoveGroupImpl$9(arrayList2, arrayList);
             }
         });
         this.recyclerListView.stopScroll();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$animateRemoveGroupImpl$9(ArrayList arrayList) {
-        if (this.mRemoveAnimations.removeAll(arrayList)) {
-            for (int i = 0; i < arrayList.size(); i++) {
-                dispatchRemoveFinished((RecyclerView.ViewHolder) arrayList.get(i));
+    public /* synthetic */ void lambda$animateRemoveGroupImpl$9(ArrayList arrayList, ArrayList arrayList2) {
+        for (int i = 0; i < arrayList.size(); i++) {
+            ((View) arrayList.get(i)).setVisibility(0);
+        }
+        if (this.mRemoveAnimations.removeAll(arrayList2)) {
+            for (int i2 = 0; i2 < arrayList2.size(); i2++) {
+                dispatchRemoveFinished((RecyclerView.ViewHolder) arrayList2.get(i2));
             }
             dispatchFinishedWhenDone();
         }

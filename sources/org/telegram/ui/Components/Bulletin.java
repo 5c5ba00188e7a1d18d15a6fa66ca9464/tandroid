@@ -894,7 +894,11 @@ public class Bulletin {
         }
 
         protected void setBackground(int i) {
-            this.background = Theme.createRoundRectDrawable(AndroidUtilities.dp(10.0f), i);
+            setBackground(i, 10);
+        }
+
+        public void setBackground(int i, int i2) {
+            this.background = Theme.createRoundRectDrawable(AndroidUtilities.dp(i2), i);
         }
 
         @Override // android.view.View
@@ -1298,15 +1302,23 @@ public class Bulletin {
         private int childrenMeasuredWidth;
         Theme.ResourcesProvider resourcesProvider;
         public TimerView timerView;
+        private boolean wrapWidth;
 
         public ButtonLayout(Context context, Theme.ResourcesProvider resourcesProvider) {
             super(context, resourcesProvider);
             this.resourcesProvider = resourcesProvider;
         }
 
+        public void setWrapWidth() {
+            this.wrapWidth = true;
+        }
+
         @Override // android.widget.FrameLayout, android.view.View
         protected void onMeasure(int i, int i2) {
             this.childrenMeasuredWidth = 0;
+            if (this.wrapWidth) {
+                i = View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), Integer.MIN_VALUE);
+            }
             super.onMeasure(i, i2);
             if (this.button == null || View.MeasureSpec.getMode(i) != Integer.MIN_VALUE) {
                 return;

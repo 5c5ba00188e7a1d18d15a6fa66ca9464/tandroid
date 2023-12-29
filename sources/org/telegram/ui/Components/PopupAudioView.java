@@ -40,6 +40,11 @@ public class PopupAudioView extends BaseCell implements SeekBar.SeekBarDelegate,
     private int timeX;
     private boolean wasLayout;
 
+    @Override // org.telegram.ui.Components.SeekBar.SeekBarDelegate
+    public /* synthetic */ boolean isSeekBarDragAllowed() {
+        return SeekBar.SeekBarDelegate.-CC.$default$isSeekBarDragAllowed(this);
+    }
+
     @Override // org.telegram.messenger.DownloadController.FileDownloadProgressListener
     public void onProgressUpload(String str, long j, long j2, boolean z) {
     }
@@ -57,6 +62,11 @@ public class PopupAudioView extends BaseCell implements SeekBar.SeekBarDelegate,
     @Override // org.telegram.ui.Components.SeekBar.SeekBarDelegate
     public /* synthetic */ void onSeekBarReleased() {
         SeekBar.SeekBarDelegate.-CC.$default$onSeekBarReleased(this);
+    }
+
+    @Override // org.telegram.ui.Components.SeekBar.SeekBarDelegate
+    public /* synthetic */ boolean reverseWaveform() {
+        return SeekBar.SeekBarDelegate.-CC.$default$reverseWaveform(this);
     }
 
     public PopupAudioView(Context context) {

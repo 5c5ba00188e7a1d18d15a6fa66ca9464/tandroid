@@ -109,6 +109,7 @@ import org.telegram.ui.Components.voip.VoIPToggleButton;
 import org.telegram.ui.Components.voip.VoIPWindowView;
 import org.telegram.ui.Components.voip.VoIpGradientLayout;
 import org.telegram.ui.Components.voip.VoIpHintView;
+import org.telegram.ui.Components.voip.VoIpSnowView;
 import org.telegram.ui.Components.voip.VoIpSwitchLayout;
 import org.telegram.ui.Stories.recorder.HintView2;
 import org.telegram.ui.VoIPFragment;
@@ -197,6 +198,7 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
     View topShadow;
     float touchSlop;
     ValueAnimator uiVisibilityAnimator;
+    private VoIpSnowView voIpSnowView;
     private boolean wasEstablished;
     private VoIPWindowView windowView;
     ValueAnimator zoomBackAnimator;
@@ -785,6 +787,9 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
         this.callingUserTextureView.renderer.setRotateTextureWithScreen(true);
         this.callingUserTextureView.scaleType = VoIPTextureView.SCALE_TYPE_FIT;
         frameLayout.addView(this.gradientLayout, LayoutHelper.createFrame(-1, -1.0f));
+        VoIpSnowView voIpSnowView = new VoIpSnowView(context);
+        this.voIpSnowView = voIpSnowView;
+        frameLayout.addView(voIpSnowView, LayoutHelper.createFrame(-1, 220.0f));
         frameLayout.addView(this.callingUserTextureView);
         new BackgroundGradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{-14994098, -14328963}).startDithering(BackgroundGradientDrawable.Sizes.ofDeviceScreen(BackgroundGradientDrawable.Sizes.Orientation.PORTRAIT), new BackgroundGradientDrawable.ListenerAdapter() { // from class: org.telegram.ui.VoIPFragment.3
             @Override // org.telegram.ui.Components.BackgroundGradientDrawable.ListenerAdapter, org.telegram.ui.Components.BackgroundGradientDrawable.Listener
@@ -1004,7 +1009,6 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
         AcceptDeclineView acceptDeclineView = new AcceptDeclineView(context);
         this.acceptDeclineView = acceptDeclineView;
         acceptDeclineView.setListener(new 8());
-        this.acceptDeclineView.setScreenWasWakeup(false);
         this.acceptDeclineView.setScaleX(1.15f);
         this.acceptDeclineView.setScaleY(1.15f);
         frameLayout.addView(this.buttonsLayout, LayoutHelper.createFrame(-1, -2, 80));
@@ -1800,10 +1804,10 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
     /* JADX WARN: Removed duplicated region for block: B:107:0x0468 A[RETURN] */
     /* JADX WARN: Removed duplicated region for block: B:108:0x0469  */
     /* JADX WARN: Removed duplicated region for block: B:354:0x08d0  */
-    /* JADX WARN: Removed duplicated region for block: B:402:0x0a30  */
-    /* JADX WARN: Removed duplicated region for block: B:404:0x0a35  */
-    /* JADX WARN: Removed duplicated region for block: B:407:0x0a49  */
-    /* JADX WARN: Removed duplicated region for block: B:412:0x0a65  */
+    /* JADX WARN: Removed duplicated region for block: B:402:0x0a35  */
+    /* JADX WARN: Removed duplicated region for block: B:404:0x0a3a  */
+    /* JADX WARN: Removed duplicated region for block: B:407:0x0a4e  */
+    /* JADX WARN: Removed duplicated region for block: B:412:0x0a6a  */
     /* JADX WARN: Removed duplicated region for block: B:416:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -2276,6 +2280,7 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
                             this.callingUserPhotoViewMini.getLocationOnScreen(iArr2);
                             this.gradientLayout.switchToCallConnected(iArr2[0] + AndroidUtilities.dp(106.0f), iArr2[1] + AndroidUtilities.dp(106.0f), this.previousState != -1);
                             z5 = !this.currentUserIsVideo || this.callingUserIsVideo;
+                            this.voIpSnowView.setState(z5);
                             this.backgroundProvider.setHasVideo(z5);
                             if (this.callingUserIsVideo && !z8 && this.isNearEar) {
                                 this.isNearEar = false;
@@ -2302,6 +2307,7 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
                     }
                     if (this.currentUserIsVideo) {
                     }
+                    this.voIpSnowView.setState(z5);
                     this.backgroundProvider.setHasVideo(z5);
                     if (this.callingUserIsVideo) {
                         this.isNearEar = false;

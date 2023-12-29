@@ -7384,6 +7384,11 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             this.seekBar = seekBar;
             seekBar.setDelegate(new SeekBar.SeekBarDelegate() { // from class: org.telegram.ui.ArticleViewer$BlockAudioCell$$ExternalSyntheticLambda0
                 @Override // org.telegram.ui.Components.SeekBar.SeekBarDelegate
+                public /* synthetic */ boolean isSeekBarDragAllowed() {
+                    return SeekBar.SeekBarDelegate.-CC.$default$isSeekBarDragAllowed(this);
+                }
+
+                @Override // org.telegram.ui.Components.SeekBar.SeekBarDelegate
                 public /* synthetic */ void onSeekBarContinuousDrag(float f) {
                     SeekBar.SeekBarDelegate.-CC.$default$onSeekBarContinuousDrag(this, f);
                 }
@@ -7401,6 +7406,11 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 @Override // org.telegram.ui.Components.SeekBar.SeekBarDelegate
                 public /* synthetic */ void onSeekBarReleased() {
                     SeekBar.SeekBarDelegate.-CC.$default$onSeekBarReleased(this);
+                }
+
+                @Override // org.telegram.ui.Components.SeekBar.SeekBarDelegate
+                public /* synthetic */ boolean reverseWaveform() {
+                    return SeekBar.SeekBarDelegate.-CC.$default$reverseWaveform(this);
                 }
             });
         }

@@ -61,6 +61,10 @@ public class SeekBar {
 
         /* loaded from: classes4.dex */
         public final /* synthetic */ class -CC {
+            public static boolean $default$isSeekBarDragAllowed(SeekBarDelegate seekBarDelegate) {
+                return true;
+            }
+
             public static void $default$onSeekBarContinuousDrag(SeekBarDelegate seekBarDelegate, float f) {
             }
 
@@ -69,7 +73,13 @@ public class SeekBar {
 
             public static void $default$onSeekBarReleased(SeekBarDelegate seekBarDelegate) {
             }
+
+            public static boolean $default$reverseWaveform(SeekBarDelegate seekBarDelegate) {
+                return false;
+            }
         }
+
+        boolean isSeekBarDragAllowed();
 
         void onSeekBarContinuousDrag(float f);
 
@@ -78,6 +88,8 @@ public class SeekBar {
         void onSeekBarPressed();
 
         void onSeekBarReleased();
+
+        boolean reverseWaveform();
     }
 
     protected void onTimestampUpdate(URLSpanNoUnderline uRLSpanNoUnderline) {
