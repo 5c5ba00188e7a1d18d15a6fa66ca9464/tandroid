@@ -57,6 +57,7 @@ import org.telegram.tgnet.TLRPC$TL_payments_paymentReceipt;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.Components.LinkSpanDrawable;
 import org.telegram.ui.Components.Premium.boosts.BoostRepository;
 import org.telegram.ui.PaymentFormActivity;
 @Deprecated
@@ -78,7 +79,7 @@ public class UndoView extends FrameLayout {
     private boolean fromTop;
     private int hideAnimationType;
     private CharSequence infoText;
-    private TextView infoTextView;
+    private LinkSpanDrawable.LinksTextView infoTextView;
     private boolean isShown;
     private long lastUpdateTime;
     private RLottieImageView leftImageView;
@@ -166,20 +167,20 @@ public class UndoView extends FrameLayout {
         this.resourcesProvider = resourcesProvider;
         this.parentFragment = baseFragment;
         this.fromTop = z;
-        TextView textView = new TextView(context);
-        this.infoTextView = textView;
-        textView.setTextSize(1, 15.0f);
-        TextView textView2 = this.infoTextView;
+        LinkSpanDrawable.LinksTextView linksTextView = new LinkSpanDrawable.LinksTextView(context, resourcesProvider);
+        this.infoTextView = linksTextView;
+        linksTextView.setTextSize(1, 15.0f);
+        LinkSpanDrawable.LinksTextView linksTextView2 = this.infoTextView;
         int i = Theme.key_undo_infoColor;
-        textView2.setTextColor(getThemedColor(i));
-        TextView textView3 = this.infoTextView;
+        linksTextView2.setTextColor(getThemedColor(i));
+        LinkSpanDrawable.LinksTextView linksTextView3 = this.infoTextView;
         int i2 = Theme.key_undo_cancelColor;
-        textView3.setLinkTextColor(getThemedColor(i2));
+        linksTextView3.setLinkTextColor(getThemedColor(i2));
         this.infoTextView.setMovementMethod(new LinkMovementMethodMy());
         addView(this.infoTextView, LayoutHelper.createFrame(-2, -2.0f, 51, 45.0f, 13.0f, 0.0f, 0.0f));
-        TextView textView4 = new TextView(context);
-        this.subinfoTextView = textView4;
-        textView4.setTextSize(1, 13.0f);
+        TextView textView = new TextView(context);
+        this.subinfoTextView = textView;
+        textView.setTextSize(1, 13.0f);
         this.subinfoTextView.setTextColor(getThemedColor(i));
         this.subinfoTextView.setLinkTextColor(getThemedColor(i2));
         this.subinfoTextView.setHighlightColor(0);
@@ -228,9 +229,9 @@ public class UndoView extends FrameLayout {
         imageView.setImageResource(R.drawable.chats_undo);
         this.undoImageView.setColorFilter(new PorterDuffColorFilter(getThemedColor(i2), PorterDuff.Mode.MULTIPLY));
         this.undoButton.addView(this.undoImageView, LayoutHelper.createLinear(-2, -2, 19, 4, 4, 0, 4));
-        TextView textView5 = new TextView(context);
-        this.undoTextView = textView5;
-        textView5.setTextSize(1, 14.0f);
+        TextView textView2 = new TextView(context);
+        this.undoTextView = textView2;
+        textView2.setTextSize(1, 14.0f);
         this.undoTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.undoTextView.setTextColor(getThemedColor(i2));
         this.undoTextView.setText(LocaleController.getString("Undo", R.string.Undo));
@@ -379,11 +380,11 @@ public class UndoView extends FrameLayout {
         showWithAction(arrayList, i, obj, obj2, runnable, runnable2);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:621:0x1864  */
-    /* JADX WARN: Removed duplicated region for block: B:624:0x1884  */
-    /* JADX WARN: Removed duplicated region for block: B:627:0x18ab  */
-    /* JADX WARN: Removed duplicated region for block: B:631:0x18f0  */
-    /* JADX WARN: Removed duplicated region for block: B:662:0x19a2  */
+    /* JADX WARN: Removed duplicated region for block: B:621:0x1868  */
+    /* JADX WARN: Removed duplicated region for block: B:624:0x1888  */
+    /* JADX WARN: Removed duplicated region for block: B:627:0x18af  */
+    /* JADX WARN: Removed duplicated region for block: B:631:0x18f4  */
+    /* JADX WARN: Removed duplicated region for block: B:662:0x19a6  */
     /* JADX WARN: Removed duplicated region for block: B:688:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -890,9 +891,9 @@ public class UndoView extends FrameLayout {
                             if (obj2 == null || (obj2 instanceof TLRPC$TL_forumTopic)) {
                                 if (longValue == UserConfig.getInstance(this.currentAccount).clientUserId) {
                                     if (num.intValue() == 1) {
-                                        this.infoTextView.setText(AndroidUtilities.replaceTags(LocaleController.getString("FwdMessageToSavedMessages", R.string.FwdMessageToSavedMessages)));
+                                        this.infoTextView.setText(AndroidUtilities.replaceSingleTag(LocaleController.getString("FwdMessageToSavedMessages", R.string.FwdMessageToSavedMessages), BulletinFactory$$ExternalSyntheticLambda5.INSTANCE));
                                     } else {
-                                        this.infoTextView.setText(AndroidUtilities.replaceTags(LocaleController.getString("FwdMessagesToSavedMessages", R.string.FwdMessagesToSavedMessages)));
+                                        this.infoTextView.setText(AndroidUtilities.replaceSingleTag(LocaleController.getString("FwdMessagesToSavedMessages", R.string.FwdMessagesToSavedMessages), BulletinFactory$$ExternalSyntheticLambda5.INSTANCE));
                                     }
                                     this.leftImageView.setAnimation(R.raw.saved_messages, 30, 30);
                                     this.timeLeft = 3000L;
@@ -901,17 +902,17 @@ public class UndoView extends FrameLayout {
                                         TLRPC$Chat chat3 = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-longValue));
                                         TLRPC$TL_forumTopic tLRPC$TL_forumTopic = (TLRPC$TL_forumTopic) obj2;
                                         if (num.intValue() == 1) {
-                                            TextView textView = this.infoTextView;
+                                            LinkSpanDrawable.LinksTextView linksTextView = this.infoTextView;
                                             int i15 = R.string.FwdMessageToGroup;
                                             Object[] objArr = new Object[1];
                                             objArr[0] = tLRPC$TL_forumTopic != null ? tLRPC$TL_forumTopic.title : chat3.title;
-                                            textView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("FwdMessageToGroup", i15, objArr)));
+                                            linksTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("FwdMessageToGroup", i15, objArr)));
                                         } else {
-                                            TextView textView2 = this.infoTextView;
+                                            LinkSpanDrawable.LinksTextView linksTextView2 = this.infoTextView;
                                             int i16 = R.string.FwdMessagesToGroup;
                                             Object[] objArr2 = new Object[1];
                                             objArr2[0] = tLRPC$TL_forumTopic != null ? tLRPC$TL_forumTopic.title : chat3.title;
-                                            textView2.setText(AndroidUtilities.replaceTags(LocaleController.formatString("FwdMessagesToGroup", i16, objArr2)));
+                                            linksTextView2.setText(AndroidUtilities.replaceTags(LocaleController.formatString("FwdMessagesToGroup", i16, objArr2)));
                                         }
                                     } else {
                                         TLRPC$User user2 = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(longValue));
@@ -1155,8 +1156,8 @@ public class UndoView extends FrameLayout {
                     } else {
                         String serverString = LocaleController.getServerString("DiceEmojiInfo_" + str11);
                         if (!TextUtils.isEmpty(serverString)) {
-                            TextView textView3 = this.infoTextView;
-                            textView3.setText(Emoji.replaceEmoji((CharSequence) serverString, textView3.getPaint().getFontMetricsInt(), AndroidUtilities.dp(14.0f), false));
+                            LinkSpanDrawable.LinksTextView linksTextView3 = this.infoTextView;
+                            linksTextView3.setText(Emoji.replaceEmoji((CharSequence) serverString, linksTextView3.getPaint().getFontMetricsInt(), AndroidUtilities.dp(14.0f), false));
                         } else {
                             f = 14.0f;
                             this.infoTextView.setText(Emoji.replaceEmoji((CharSequence) LocaleController.formatString("DiceEmojiInfo", R.string.DiceEmojiInfo, str11), this.infoTextView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(14.0f), false));
@@ -1327,7 +1328,7 @@ public class UndoView extends FrameLayout {
             } else if (i == 82) {
                 layoutParams.leftMargin = AndroidUtilities.dp(58.0f);
                 MediaController.PhotoEntry photoEntry = (MediaController.PhotoEntry) obj;
-                TextView textView4 = this.infoTextView;
+                LinkSpanDrawable.LinksTextView linksTextView4 = this.infoTextView;
                 if (photoEntry.isVideo) {
                     i2 = R.string.AttachMediaVideoDeselected;
                     str = "AttachMediaVideoDeselected";
@@ -1335,7 +1336,7 @@ public class UndoView extends FrameLayout {
                     i2 = R.string.AttachMediaPhotoDeselected;
                     str = "AttachMediaPhotoDeselected";
                 }
-                textView4.setText(LocaleController.getString(str, i2));
+                linksTextView4.setText(LocaleController.getString(str, i2));
                 this.undoButton.setVisibility(0);
                 this.infoTextView.setTextSize(1, 15.0f);
                 this.infoTextView.setTypeface(Typeface.DEFAULT);
@@ -1382,14 +1383,14 @@ public class UndoView extends FrameLayout {
                         this.subinfoTextView.setText(LocaleController.formatPluralString("FolderLinkDeletedSubtitle", intValue5, new Object[0]));
                     } else {
                         this.infoTextView.setTypeface(Typeface.DEFAULT);
-                        TextView textView5 = this.infoTextView;
+                        LinkSpanDrawable.LinksTextView linksTextView5 = this.infoTextView;
                         int i22 = R.string.FolderLinkDeleted;
                         Object[] objArr3 = new Object[1];
                         if (str13 == null) {
                             str13 = "";
                         }
                         objArr3[0] = str13.replace('*', (char) 10033);
-                        textView5.setText(AndroidUtilities.replaceTags(LocaleController.formatString("FolderLinkDeleted", i22, objArr3)));
+                        linksTextView5.setText(AndroidUtilities.replaceTags(LocaleController.formatString("FolderLinkDeleted", i22, objArr3)));
                     }
                 } else if (i21 == 81 || i21 == 0 || i21 == 26) {
                     this.infoTextView.setText(LocaleController.getString("HistoryClearedUndo", R.string.HistoryClearedUndo));

@@ -895,8 +895,9 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
             @Override // android.view.View
             public void invalidate() {
                 super.invalidate();
-                if (((BaseFragment) ChatUsersActivity.this).fragmentView != null) {
-                    ((BaseFragment) ChatUsersActivity.this).fragmentView.invalidate();
+                View view = ChatUsersActivity.this.fragmentView;
+                if (view != null) {
+                    view.invalidate();
                 }
             }
 

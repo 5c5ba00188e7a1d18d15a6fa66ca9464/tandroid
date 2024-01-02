@@ -85,20 +85,20 @@ public class GridLayoutManagerFixed extends GridLayoutManager {
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:50:0x00d5, code lost:
-        r28.mFinished = r13;
+        r29.mFinished = r13;
      */
     /* JADX WARN: Code restructure failed: missing block: B:51:0x00d7, code lost:
         return;
      */
     /* JADX WARN: Code restructure failed: missing block: B:79:0x0187, code lost:
-        if (r27.mLayoutDirection != (-1)) goto L116;
+        if (r28.mLayoutDirection != (-1)) goto L116;
      */
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r12v0 */
-    /* JADX WARN: Type inference failed for: r12v1, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r12v1, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r12v5 */
     /* JADX WARN: Type inference failed for: r13v0 */
-    /* JADX WARN: Type inference failed for: r13v1, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r13v1, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r13v5 */
     @Override // androidx.recyclerview.widget.GridLayoutManager, androidx.recyclerview.widget.LinearLayoutManager
     /*
@@ -237,7 +237,7 @@ public class GridLayoutManagerFixed extends GridLayoutManager {
                     int i22 = i21 + decoratedMeasurementInOther2;
                     int i23 = i13;
                     layoutDecoratedWithMargins(view3, i21, i4, i22, i3);
-                    i5 = layoutState.mLayoutDirection != -1 ? i22 : i21;
+                    i5 = layoutState.mLayoutDirection == 1 ? i22 : i21;
                     if (layoutParams2.isItemRemoved() || layoutParams2.isItemChanged()) {
                         layoutChunkResult.mIgnoreConsumed = true;
                     }

@@ -1669,7 +1669,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r6v2 */
     /* JADX WARN: Type inference failed for: r6v22 */
-    /* JADX WARN: Type inference failed for: r6v3, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r6v3, types: [int, boolean] */
     public EmojiView(BaseFragment baseFragment, boolean z, boolean z2, boolean z3, Context context, boolean z4, TLRPC$ChatFull tLRPC$ChatFull, ViewGroup viewGroup, boolean z5, final Theme.ResourcesProvider resourcesProvider, boolean z6) {
         super(context);
         ?? r6;
@@ -9983,17 +9983,17 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
     public static abstract class ChooseStickerActionTracker {
         private final int currentAccount;
         private final long dialogId;
-        private final int threadId;
+        private final long threadId;
         boolean typingWasSent;
         boolean visible = false;
         long lastActionTime = -1;
 
         public abstract boolean isShown();
 
-        public ChooseStickerActionTracker(int i, long j, int i2) {
+        public ChooseStickerActionTracker(int i, long j, long j2) {
             this.currentAccount = i;
             this.dialogId = j;
-            this.threadId = i2;
+            this.threadId = j2;
         }
 
         public void doSomeAction() {

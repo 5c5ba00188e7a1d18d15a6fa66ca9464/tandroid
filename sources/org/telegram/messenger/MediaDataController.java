@@ -320,9 +320,9 @@ public class MediaDataController extends BaseController {
     private LongSparseArray<String> diceEmojiStickerSetsById;
     private HashMap<String, TLRPC$TL_messages_stickerSet> diceStickerSetsByEmoji;
     private String doubleTapReaction;
-    private LongSparseArray<SparseArray<TLRPC$Message>> draftMessages;
+    private LongSparseArray<LongSparseArray<TLRPC$Message>> draftMessages;
     private SharedPreferences draftPreferences;
-    private LongSparseArray<SparseArray<TLRPC$DraftMessage>> drafts;
+    private LongSparseArray<LongSparseArray<TLRPC$DraftMessage>> drafts;
     private LongSparseArray<Integer> draftsFolderIds;
     private ArrayList<TLRPC$EmojiStatus>[] emojiStatuses;
     private Long[] emojiStatusesFetchDate;
@@ -347,7 +347,7 @@ public class MediaDataController extends BaseController {
     private long lastDialogId;
     private int lastGuid;
     private long lastMergeDialogId;
-    private int lastReplyMessageId;
+    private long lastReplyMessageId;
     private int lastReqId;
     private int lastReturnedNum;
     private TLRPC$Chat lastSearchChat;
@@ -431,9 +431,9 @@ public class MediaDataController extends BaseController {
     }
 
     public static long calcHash(long j, long j2) {
-        long j3 = j ^ (j >> 21);
+        long j3 = j ^ (j >>> 21);
         long j4 = j3 ^ (j3 << 35);
-        return (j4 ^ (j4 >> 4)) + j2;
+        return (j4 ^ (j4 >>> 4)) + j2;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -573,12 +573,12 @@ public class MediaDataController extends BaseController {
                 if (!z) {
                     TLRPC$DraftMessage TLdeserialize = TLRPC$DraftMessage.TLdeserialize(serializedData, serializedData.readInt32(true), true);
                     if (TLdeserialize != null) {
-                        SparseArray<TLRPC$DraftMessage> sparseArray = this.drafts.get(longValue);
-                        if (sparseArray == null) {
-                            sparseArray = new SparseArray<>();
-                            this.drafts.put(longValue, sparseArray);
+                        LongSparseArray<TLRPC$DraftMessage> longSparseArray = this.drafts.get(longValue);
+                        if (longSparseArray == null) {
+                            longSparseArray = new LongSparseArray<>();
+                            this.drafts.put(longValue, longSparseArray);
                         }
-                        sparseArray.put(key.startsWith("t_") ? Utilities.parseInt((CharSequence) key.substring(key.lastIndexOf(95) + 1)).intValue() : 0, TLdeserialize);
+                        longSparseArray.put(key.startsWith("t_") ? Utilities.parseInt((CharSequence) key.substring(key.lastIndexOf(95) + 1)).intValue() : 0L, TLdeserialize);
                     }
                     serializedData.cleanup();
                 }
@@ -586,12 +586,12 @@ public class MediaDataController extends BaseController {
             TLRPC$Message TLdeserialize2 = TLRPC$Message.TLdeserialize(serializedData, serializedData.readInt32(true), true);
             if (TLdeserialize2 != null) {
                 TLdeserialize2.readAttachPath(serializedData, getUserConfig().clientUserId);
-                SparseArray<TLRPC$Message> sparseArray2 = this.draftMessages.get(longValue);
-                if (sparseArray2 == null) {
-                    sparseArray2 = new SparseArray<>();
-                    this.draftMessages.put(longValue, sparseArray2);
+                LongSparseArray<TLRPC$Message> longSparseArray2 = this.draftMessages.get(longValue);
+                if (longSparseArray2 == null) {
+                    longSparseArray2 = new LongSparseArray<>();
+                    this.draftMessages.put(longValue, longSparseArray2);
                 }
-                sparseArray2.put(z ? Utilities.parseInt((CharSequence) key.substring(key.lastIndexOf(95) + 1)).intValue() : 0, TLdeserialize2);
+                longSparseArray2.put(z ? Utilities.parseInt((CharSequence) key.substring(key.lastIndexOf(95) + 1)).intValue() : 0, TLdeserialize2);
                 if (TLdeserialize2.reply_to != null) {
                     arrayList.add(TLdeserialize2);
                 }
@@ -1718,7 +1718,7 @@ public class MediaDataController extends BaseController {
                         ArrayList<TLRPC$Document>[] arrayListArr = this.recentStickers;
                         remove = arrayListArr[i].remove(arrayListArr[i].size() - 1);
                     }
-                    getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda35
+                    getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda32
                         @Override // java.lang.Runnable
                         public final void run() {
                             MediaDataController.this.lambda$addRecentSticker$23(i, remove);
@@ -4041,7 +4041,7 @@ public class MediaDataController extends BaseController {
         TLRPC$TL_messages_getMaskStickers tLRPC$TL_messages_getMaskStickers;
         if (this.loadingStickers[i]) {
             if (z3) {
-                this.scheduledLoadStickers[i] = new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda37
+                this.scheduledLoadStickers[i] = new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda34
                     @Override // java.lang.Runnable
                     public final void run() {
                         MediaDataController.this.lambda$loadStickers$82(i, z2, callback);
@@ -4076,7 +4076,7 @@ public class MediaDataController extends BaseController {
         }
         this.loadingStickers[i] = true;
         if (z) {
-            getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda33
+            getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda30
                 @Override // java.lang.Runnable
                 public final void run() {
                     MediaDataController.this.lambda$loadStickers$84(i, callback);
@@ -4523,7 +4523,7 @@ public class MediaDataController extends BaseController {
             if (!z) {
                 putStickersToCache(i2, arrayList3, i, j);
             }
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda31
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda28
                 @Override // java.lang.Runnable
                 public final void run() {
                     MediaDataController.this.lambda$processLoadedStickers$96(i2, longSparseArray, hashMap, arrayList3, j, i, longSparseArray3, hashMap4, longSparseArray2, runnable);
@@ -5002,7 +5002,7 @@ public class MediaDataController extends BaseController {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$toggleStickerSets$110(final int i, final BaseFragment baseFragment, final boolean z, final int i2, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda34
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda31
             @Override // java.lang.Runnable
             public final void run() {
                 MediaDataController.this.lambda$toggleStickerSets$109(i, tLObject, baseFragment, z, i2);
@@ -5058,8 +5058,8 @@ public class MediaDataController extends BaseController {
         return this.searchResultMessagesMap[z ? 1 : 0].indexOfKey(i) >= 0;
     }
 
-    public void searchMessagesInChat(String str, long j, long j2, int i, int i2, int i3, TLRPC$User tLRPC$User, TLRPC$Chat tLRPC$Chat) {
-        searchMessagesInChat(str, j, j2, i, i2, i3, false, tLRPC$User, tLRPC$Chat, true);
+    public void searchMessagesInChat(String str, long j, long j2, int i, int i2, long j3, TLRPC$User tLRPC$User, TLRPC$Chat tLRPC$Chat, boolean z) {
+        searchMessagesInChat(str, j, j2, i, i2, j3, false, tLRPC$User, tLRPC$Chat, true);
     }
 
     public void jumpToSearchedMessage(int i, int i2) {
@@ -5089,22 +5089,26 @@ public class MediaDataController extends BaseController {
         this.loadingMoreSearchMessages = true;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:81:0x0259 A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:82:0x025a  */
+    /* JADX WARN: Removed duplicated region for block: B:88:0x029c A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:89:0x029d  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    private void searchMessagesInChat(String str, final long j, final long j2, final int i, final int i2, final int i3, boolean z, final TLRPC$User tLRPC$User, final TLRPC$Chat tLRPC$Chat, final boolean z2) {
+    private void searchMessagesInChat(String str, final long j, final long j2, final int i, final int i2, final long j3, boolean z, final TLRPC$User tLRPC$User, final TLRPC$Chat tLRPC$Chat, final boolean z2) {
+        char c;
         final String str2;
-        long j3;
-        int i4;
         long j4;
-        int i5;
+        int i3;
         long j5;
-        TLRPC$InputPeer inputPeer;
-        int id;
+        boolean z3;
         long j6;
-        boolean z3 = !z;
+        TLRPC$Chat tLRPC$Chat2;
+        int i4;
+        TLRPC$InputPeer inputPeer;
+        long j7;
+        int id;
+        long j8;
+        boolean z4 = !z;
         if (this.reqId != 0) {
             getConnectionsManager().cancelRequest(this.reqId, true);
             this.reqId = 0;
@@ -5114,8 +5118,9 @@ public class MediaDataController extends BaseController {
             this.mergeReqId = 0;
         }
         if (str != null) {
-            if (z3) {
+            if (z4) {
                 boolean[] zArr = this.messagesSearchEndReached;
+                c = 0;
                 zArr[1] = false;
                 zArr[0] = false;
                 int[] iArr = this.messagesSearchCount;
@@ -5125,41 +5130,43 @@ public class MediaDataController extends BaseController {
                 this.searchResultMessagesMap[0].clear();
                 this.searchResultMessagesMap[1].clear();
                 getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.chatSearchResultsLoading, Integer.valueOf(i));
+            } else {
+                c = 0;
             }
             str2 = str;
-            j3 = j;
-            i4 = 0;
+            j4 = j;
+            i3 = 0;
         } else if (this.searchResultMessages.isEmpty()) {
             return;
         } else {
             if (i2 != 1) {
                 if (i2 == 2) {
-                    int i6 = this.lastReturnedNum - 1;
-                    this.lastReturnedNum = i6;
-                    if (i6 < 0) {
+                    int i5 = this.lastReturnedNum - 1;
+                    this.lastReturnedNum = i5;
+                    if (i5 < 0) {
                         this.lastReturnedNum = 0;
                         return;
                     }
-                    if (i6 >= this.searchResultMessages.size()) {
+                    if (i5 >= this.searchResultMessages.size()) {
                         this.lastReturnedNum = this.searchResultMessages.size() - 1;
                     }
                     MessageObject messageObject = this.searchResultMessages.get(this.lastReturnedNum);
                     NotificationCenter notificationCenter = getNotificationCenter();
-                    int i7 = NotificationCenter.chatSearchResultsAvailable;
+                    int i6 = NotificationCenter.chatSearchResultsAvailable;
                     int[] iArr2 = this.messagesSearchCount;
-                    notificationCenter.lambda$postNotificationNameOnUIThread$1(i7, Integer.valueOf(i), Integer.valueOf(messageObject.getId()), Integer.valueOf(getMask()), Long.valueOf(messageObject.getDialogId()), Integer.valueOf(this.lastReturnedNum), Integer.valueOf(iArr2[0] + iArr2[1]), Boolean.valueOf(z2));
+                    notificationCenter.lambda$postNotificationNameOnUIThread$1(i6, Integer.valueOf(i), Integer.valueOf(messageObject.getId()), Integer.valueOf(getMask()), Long.valueOf(messageObject.getDialogId()), Integer.valueOf(this.lastReturnedNum), Integer.valueOf(iArr2[0] + iArr2[1]), Boolean.valueOf(z2));
                     return;
                 }
                 return;
             }
-            int i8 = this.lastReturnedNum + 1;
-            this.lastReturnedNum = i8;
-            if (i8 < this.searchResultMessages.size()) {
+            int i7 = this.lastReturnedNum + 1;
+            this.lastReturnedNum = i7;
+            if (i7 < this.searchResultMessages.size()) {
                 MessageObject messageObject2 = this.searchResultMessages.get(this.lastReturnedNum);
                 NotificationCenter notificationCenter2 = getNotificationCenter();
-                int i9 = NotificationCenter.chatSearchResultsAvailable;
+                int i8 = NotificationCenter.chatSearchResultsAvailable;
                 int[] iArr3 = this.messagesSearchCount;
-                notificationCenter2.lambda$postNotificationNameOnUIThread$1(i9, Integer.valueOf(i), Integer.valueOf(messageObject2.getId()), Integer.valueOf(getMask()), Long.valueOf(messageObject2.getDialogId()), Integer.valueOf(this.lastReturnedNum), Integer.valueOf(iArr3[0] + iArr3[1]), Boolean.valueOf(z2));
+                notificationCenter2.lambda$postNotificationNameOnUIThread$1(i8, Integer.valueOf(i), Integer.valueOf(messageObject2.getId()), Integer.valueOf(getMask()), Long.valueOf(messageObject2.getDialogId()), Integer.valueOf(this.lastReturnedNum), Integer.valueOf(iArr3[0] + iArr3[1]), Boolean.valueOf(z2));
                 return;
             }
             boolean[] zArr2 = this.messagesSearchEndReached;
@@ -5172,62 +5179,80 @@ public class MediaDataController extends BaseController {
             MessageObject messageObject3 = arrayList.get(arrayList.size() - 1);
             if (messageObject3.getDialogId() == j && !this.messagesSearchEndReached[0]) {
                 id = messageObject3.getId();
-                j6 = j;
+                j8 = j;
             } else {
                 id = messageObject3.getDialogId() == j2 ? messageObject3.getId() : 0;
                 this.messagesSearchEndReached[1] = false;
-                j6 = j2;
+                j8 = j2;
             }
-            j3 = j6;
-            i4 = id;
             str2 = str3;
-            z3 = false;
+            i3 = id;
+            j4 = j8;
+            z4 = false;
+            c = 0;
         }
         boolean[] zArr3 = this.messagesSearchEndReached;
-        if (!zArr3[0] || zArr3[1]) {
-            j4 = 0;
+        if (!zArr3[c] || zArr3[1]) {
+            j5 = 0;
         } else {
-            j4 = 0;
+            j5 = 0;
             if (j2 != 0) {
-                i5 = i4;
-                j5 = j2;
-                if (j5 != j && z3) {
-                    if (j2 != j4) {
-                        TLRPC$InputPeer inputPeer2 = getMessagesController().getInputPeer(j2);
-                        if (inputPeer2 == null) {
-                            return;
-                        }
-                        final TLRPC$TL_messages_search tLRPC$TL_messages_search = new TLRPC$TL_messages_search();
-                        tLRPC$TL_messages_search.peer = inputPeer2;
-                        this.lastMergeDialogId = j2;
-                        tLRPC$TL_messages_search.limit = 1;
-                        tLRPC$TL_messages_search.q = str2;
-                        if (tLRPC$User != null) {
-                            tLRPC$TL_messages_search.from_id = MessagesController.getInputPeer(tLRPC$User);
-                            tLRPC$TL_messages_search.flags = 1 | tLRPC$TL_messages_search.flags;
-                        } else if (tLRPC$Chat != null) {
-                            tLRPC$TL_messages_search.from_id = MessagesController.getInputPeer(tLRPC$Chat);
-                            tLRPC$TL_messages_search.flags = 1 | tLRPC$TL_messages_search.flags;
-                        }
-                        if (i3 != 0) {
-                            tLRPC$TL_messages_search.top_msg_id = i3;
-                            tLRPC$TL_messages_search.flags |= 2;
-                        }
-                        tLRPC$TL_messages_search.filter = new TLRPC$TL_inputMessagesFilterEmpty();
-                        this.mergeReqId = getConnectionsManager().sendRequest(tLRPC$TL_messages_search, new RequestDelegate() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda202
-                            @Override // org.telegram.tgnet.RequestDelegate
-                            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                                MediaDataController.this.lambda$searchMessagesInChat$112(j2, tLRPC$TL_messages_search, j, i, i2, i3, tLRPC$User, tLRPC$Chat, z2, tLObject, tLRPC$TL_error);
-                            }
-                        }, 2);
+                z3 = z4;
+                j6 = j2;
+                if (j6 == j || !z3) {
+                    tLRPC$Chat2 = tLRPC$Chat;
+                    i4 = 2;
+                } else if (j2 != j5) {
+                    TLRPC$InputPeer inputPeer2 = getMessagesController().getInputPeer(j2);
+                    if (inputPeer2 == null) {
                         return;
                     }
+                    final TLRPC$TL_messages_search tLRPC$TL_messages_search = new TLRPC$TL_messages_search();
+                    tLRPC$TL_messages_search.peer = inputPeer2;
+                    this.lastMergeDialogId = j2;
+                    tLRPC$TL_messages_search.limit = 1;
+                    tLRPC$TL_messages_search.q = str2;
+                    if (tLRPC$User != null) {
+                        tLRPC$TL_messages_search.from_id = MessagesController.getInputPeer(tLRPC$User);
+                        tLRPC$TL_messages_search.flags = 1 | tLRPC$TL_messages_search.flags;
+                    } else if (tLRPC$Chat != null) {
+                        tLRPC$TL_messages_search.from_id = MessagesController.getInputPeer(tLRPC$Chat);
+                        tLRPC$TL_messages_search.flags = 1 | tLRPC$TL_messages_search.flags;
+                    }
+                    if (j3 != 0) {
+                        if (j == getUserConfig().getClientUserId()) {
+                            tLRPC$TL_messages_search.saved_peer_id = getMessagesController().getInputPeer(j3);
+                            tLRPC$TL_messages_search.flags |= 4;
+                        } else {
+                            tLRPC$TL_messages_search.top_msg_id = (int) j3;
+                            tLRPC$TL_messages_search.flags |= 2;
+                            tLRPC$TL_messages_search.filter = new TLRPC$TL_inputMessagesFilterEmpty();
+                            this.mergeReqId = getConnectionsManager().sendRequest(tLRPC$TL_messages_search, new RequestDelegate() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda202
+                                @Override // org.telegram.tgnet.RequestDelegate
+                                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                                    MediaDataController.this.lambda$searchMessagesInChat$112(j2, tLRPC$TL_messages_search, j, i, i2, j3, tLRPC$User, tLRPC$Chat, z2, tLObject, tLRPC$TL_error);
+                                }
+                            }, 2);
+                            return;
+                        }
+                    }
+                    tLRPC$TL_messages_search.filter = new TLRPC$TL_inputMessagesFilterEmpty();
+                    this.mergeReqId = getConnectionsManager().sendRequest(tLRPC$TL_messages_search, new RequestDelegate() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda202
+                        @Override // org.telegram.tgnet.RequestDelegate
+                        public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                            MediaDataController.this.lambda$searchMessagesInChat$112(j2, tLRPC$TL_messages_search, j, i, i2, j3, tLRPC$User, tLRPC$Chat, z2, tLObject, tLRPC$TL_error);
+                        }
+                    }, 2);
+                    return;
+                } else {
+                    tLRPC$Chat2 = tLRPC$Chat;
+                    i4 = 2;
                     this.lastMergeDialogId = 0L;
                     zArr3[1] = true;
                     this.messagesSearchCount[1] = 0;
                 }
                 final TLRPC$TL_messages_search tLRPC$TL_messages_search2 = new TLRPC$TL_messages_search();
-                inputPeer = getMessagesController().getInputPeer(j5);
+                inputPeer = getMessagesController().getInputPeer(j6);
                 tLRPC$TL_messages_search2.peer = inputPeer;
                 if (inputPeer != null) {
                     return;
@@ -5235,97 +5260,105 @@ public class MediaDataController extends BaseController {
                 this.lastGuid = i;
                 this.lastDialogId = j;
                 this.lastSearchUser = tLRPC$User;
-                this.lastSearchChat = tLRPC$Chat;
-                this.lastReplyMessageId = i3;
+                this.lastSearchChat = tLRPC$Chat2;
+                this.lastReplyMessageId = j3;
                 tLRPC$TL_messages_search2.limit = 21;
                 tLRPC$TL_messages_search2.q = str2 != null ? str2 : "";
-                tLRPC$TL_messages_search2.offset_id = i5;
+                tLRPC$TL_messages_search2.offset_id = i3;
                 if (tLRPC$User != null) {
                     tLRPC$TL_messages_search2.from_id = MessagesController.getInputPeer(tLRPC$User);
                     tLRPC$TL_messages_search2.flags |= 1;
-                } else if (tLRPC$Chat != null) {
+                } else if (tLRPC$Chat2 != null) {
                     tLRPC$TL_messages_search2.from_id = MessagesController.getInputPeer(tLRPC$Chat);
                     tLRPC$TL_messages_search2.flags |= 1;
                 }
-                int i10 = this.lastReplyMessageId;
-                if (i10 != 0) {
-                    tLRPC$TL_messages_search2.top_msg_id = i10;
-                    tLRPC$TL_messages_search2.flags |= 2;
+                if (this.lastReplyMessageId == 0) {
+                    j7 = j6;
+                } else if (j6 == getUserConfig().getClientUserId()) {
+                    j7 = j6;
+                    tLRPC$TL_messages_search2.saved_peer_id = getMessagesController().getInputPeer(this.lastReplyMessageId);
+                    tLRPC$TL_messages_search2.flags |= 4;
+                } else {
+                    j7 = j6;
+                    tLRPC$TL_messages_search2.top_msg_id = (int) this.lastReplyMessageId;
+                    tLRPC$TL_messages_search2.flags |= i4;
                 }
                 tLRPC$TL_messages_search2.filter = new TLRPC$TL_inputMessagesFilterEmpty();
-                final int i11 = this.lastReqId + 1;
-                this.lastReqId = i11;
+                final int i9 = this.lastReqId + 1;
+                this.lastReqId = i9;
                 this.lastSearchQuery = str2;
-                final long j7 = j5;
+                final long j9 = j7;
                 this.reqId = getConnectionsManager().sendRequest(tLRPC$TL_messages_search2, new RequestDelegate() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda212
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                        MediaDataController.this.lambda$searchMessagesInChat$114(str2, i11, z2, tLRPC$TL_messages_search2, j7, j, i, j2, i3, tLRPC$User, tLRPC$Chat, tLObject, tLRPC$TL_error);
+                        MediaDataController.this.lambda$searchMessagesInChat$114(str2, i9, z2, tLRPC$TL_messages_search2, j9, j, i, j2, j3, tLRPC$User, tLRPC$Chat, tLObject, tLRPC$TL_error);
                     }
                 }, 2);
                 return;
             }
         }
-        i5 = i4;
-        j5 = j3;
-        if (j5 != j) {
+        z3 = z4;
+        j6 = j4;
+        if (j6 == j) {
         }
+        tLRPC$Chat2 = tLRPC$Chat;
+        i4 = 2;
         final TLRPC$TL_messages_search tLRPC$TL_messages_search22 = new TLRPC$TL_messages_search();
-        inputPeer = getMessagesController().getInputPeer(j5);
+        inputPeer = getMessagesController().getInputPeer(j6);
         tLRPC$TL_messages_search22.peer = inputPeer;
         if (inputPeer != null) {
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$searchMessagesInChat$112(final long j, final TLRPC$TL_messages_search tLRPC$TL_messages_search, final long j2, final int i, final int i2, final int i3, final TLRPC$User tLRPC$User, final TLRPC$Chat tLRPC$Chat, final boolean z, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$searchMessagesInChat$112(final long j, final TLRPC$TL_messages_search tLRPC$TL_messages_search, final long j2, final int i, final int i2, final long j3, final TLRPC$User tLRPC$User, final TLRPC$Chat tLRPC$Chat, final boolean z, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda54
             @Override // java.lang.Runnable
             public final void run() {
-                MediaDataController.this.lambda$searchMessagesInChat$111(j, tLObject, tLRPC$TL_messages_search, j2, i, i2, i3, tLRPC$User, tLRPC$Chat, z);
+                MediaDataController.this.lambda$searchMessagesInChat$111(j, tLObject, tLRPC$TL_messages_search, j2, i, i2, j3, tLRPC$User, tLRPC$Chat, z);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$searchMessagesInChat$111(long j, TLObject tLObject, TLRPC$TL_messages_search tLRPC$TL_messages_search, long j2, int i, int i2, int i3, TLRPC$User tLRPC$User, TLRPC$Chat tLRPC$Chat, boolean z) {
+    public /* synthetic */ void lambda$searchMessagesInChat$111(long j, TLObject tLObject, TLRPC$TL_messages_search tLRPC$TL_messages_search, long j2, int i, int i2, long j3, TLRPC$User tLRPC$User, TLRPC$Chat tLRPC$Chat, boolean z) {
         if (this.lastMergeDialogId == j) {
             this.mergeReqId = 0;
             if (tLObject != null) {
                 TLRPC$messages_Messages tLRPC$messages_Messages = (TLRPC$messages_Messages) tLObject;
                 this.messagesSearchEndReached[1] = tLRPC$messages_Messages.messages.isEmpty();
                 this.messagesSearchCount[1] = tLRPC$messages_Messages instanceof TLRPC$TL_messages_messagesSlice ? tLRPC$messages_Messages.count : tLRPC$messages_Messages.messages.size();
-                searchMessagesInChat(tLRPC$TL_messages_search.q, j2, j, i, i2, i3, true, tLRPC$User, tLRPC$Chat, z);
+                searchMessagesInChat(tLRPC$TL_messages_search.q, j2, j, i, i2, j3, true, tLRPC$User, tLRPC$Chat, z);
                 return;
             }
             this.messagesSearchEndReached[1] = true;
             this.messagesSearchCount[1] = 0;
-            searchMessagesInChat(tLRPC$TL_messages_search.q, j2, j, i, i2, i3, true, tLRPC$User, tLRPC$Chat, z);
+            searchMessagesInChat(tLRPC$TL_messages_search.q, j2, j, i, i2, j3, true, tLRPC$User, tLRPC$Chat, z);
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$searchMessagesInChat$114(String str, final int i, final boolean z, final TLRPC$TL_messages_search tLRPC$TL_messages_search, final long j, final long j2, final int i2, final long j3, final int i3, final TLRPC$User tLRPC$User, final TLRPC$Chat tLRPC$Chat, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$searchMessagesInChat$114(String str, final int i, final boolean z, final TLRPC$TL_messages_search tLRPC$TL_messages_search, final long j, final long j2, final int i2, final long j3, final long j4, final TLRPC$User tLRPC$User, final TLRPC$Chat tLRPC$Chat, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         final ArrayList arrayList = new ArrayList();
         if (tLRPC$TL_error == null) {
             TLRPC$messages_Messages tLRPC$messages_Messages = (TLRPC$messages_Messages) tLObject;
             int min = Math.min(tLRPC$messages_Messages.messages.size(), 20);
-            for (int i4 = 0; i4 < min; i4++) {
-                MessageObject messageObject = new MessageObject(this.currentAccount, tLRPC$messages_Messages.messages.get(i4), false, false);
+            for (int i3 = 0; i3 < min; i3++) {
+                MessageObject messageObject = new MessageObject(this.currentAccount, tLRPC$messages_Messages.messages.get(i3), false, false);
                 messageObject.setQuery(str);
                 arrayList.add(messageObject);
             }
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda38
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda35
             @Override // java.lang.Runnable
             public final void run() {
-                MediaDataController.this.lambda$searchMessagesInChat$113(i, z, tLObject, tLRPC$TL_messages_search, j, j2, i2, arrayList, j3, i3, tLRPC$User, tLRPC$Chat);
+                MediaDataController.this.lambda$searchMessagesInChat$113(i, z, tLObject, tLRPC$TL_messages_search, j, j2, i2, arrayList, j3, j4, tLRPC$User, tLRPC$Chat);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$searchMessagesInChat$113(int i, boolean z, TLObject tLObject, TLRPC$TL_messages_search tLRPC$TL_messages_search, long j, long j2, int i2, ArrayList arrayList, long j3, int i3, TLRPC$User tLRPC$User, TLRPC$Chat tLRPC$Chat) {
+    public /* synthetic */ void lambda$searchMessagesInChat$113(int i, boolean z, TLObject tLObject, TLRPC$TL_messages_search tLRPC$TL_messages_search, long j, long j2, int i2, ArrayList arrayList, long j3, long j4, TLRPC$User tLRPC$User, TLRPC$Chat tLRPC$Chat) {
         if (i == this.lastReqId) {
             this.reqId = 0;
             if (!z) {
@@ -5333,14 +5366,14 @@ public class MediaDataController extends BaseController {
             }
             if (tLObject != null) {
                 TLRPC$messages_Messages tLRPC$messages_Messages = (TLRPC$messages_Messages) tLObject;
-                int i4 = 0;
-                while (i4 < tLRPC$messages_Messages.messages.size()) {
-                    TLRPC$Message tLRPC$Message = tLRPC$messages_Messages.messages.get(i4);
+                int i3 = 0;
+                while (i3 < tLRPC$messages_Messages.messages.size()) {
+                    TLRPC$Message tLRPC$Message = tLRPC$messages_Messages.messages.get(i3);
                     if ((tLRPC$Message instanceof TLRPC$TL_messageEmpty) || (tLRPC$Message.action instanceof TLRPC$TL_messageActionHistoryClear)) {
-                        tLRPC$messages_Messages.messages.remove(i4);
-                        i4--;
+                        tLRPC$messages_Messages.messages.remove(i3);
+                        i3--;
                     }
-                    i4++;
+                    i3++;
                 }
                 getMessagesStorage().putUsersAndChats(tLRPC$messages_Messages.users, tLRPC$messages_Messages.chats, true, true);
                 getMessagesController().putUsers(tLRPC$messages_Messages.users, false);
@@ -5354,14 +5387,14 @@ public class MediaDataController extends BaseController {
                     getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.chatSearchResultsLoading, Integer.valueOf(i2));
                 }
                 int min = Math.min(tLRPC$messages_Messages.messages.size(), 20);
-                int i5 = 0;
+                int i4 = 0;
                 boolean z2 = false;
-                while (i5 < min) {
-                    tLRPC$messages_Messages.messages.get(i5);
-                    MessageObject messageObject = (MessageObject) arrayList.get(i5);
+                while (i4 < min) {
+                    tLRPC$messages_Messages.messages.get(i4);
+                    MessageObject messageObject = (MessageObject) arrayList.get(i4);
                     this.searchResultMessages.add(messageObject);
                     this.searchResultMessagesMap[j == j2 ? (char) 0 : (char) 1].put(messageObject.getId(), messageObject);
-                    i5++;
+                    i4++;
                     z2 = true;
                 }
                 this.messagesSearchEndReached[j == j2 ? (char) 0 : (char) 1] = tLRPC$messages_Messages.messages.size() < 21;
@@ -5374,16 +5407,16 @@ public class MediaDataController extends BaseController {
                     }
                     MessageObject messageObject2 = this.searchResultMessages.get(this.lastReturnedNum);
                     NotificationCenter notificationCenter = getNotificationCenter();
-                    int i6 = NotificationCenter.chatSearchResultsAvailable;
+                    int i5 = NotificationCenter.chatSearchResultsAvailable;
                     int[] iArr = this.messagesSearchCount;
-                    notificationCenter.lambda$postNotificationNameOnUIThread$1(i6, Integer.valueOf(i2), Integer.valueOf(messageObject2.getId()), Integer.valueOf(getMask()), Long.valueOf(messageObject2.getDialogId()), Integer.valueOf(this.lastReturnedNum), Integer.valueOf(iArr[0] + iArr[1]), Boolean.valueOf(z));
+                    notificationCenter.lambda$postNotificationNameOnUIThread$1(i5, Integer.valueOf(i2), Integer.valueOf(messageObject2.getId()), Integer.valueOf(getMask()), Long.valueOf(messageObject2.getDialogId()), Integer.valueOf(this.lastReturnedNum), Integer.valueOf(iArr[0] + iArr[1]), Boolean.valueOf(z));
                 }
                 if (j == j2) {
                     boolean[] zArr = this.messagesSearchEndReached;
                     if (!zArr[0] || j3 == 0 || zArr[1]) {
                         return;
                     }
-                    searchMessagesInChat(this.lastSearchQuery, j2, j3, i2, 0, i3, true, tLRPC$User, tLRPC$Chat, z);
+                    searchMessagesInChat(this.lastSearchQuery, j2, j3, i2, 0, j4, true, tLRPC$User, tLRPC$Chat, z);
                 }
             }
         }
@@ -5397,15 +5430,15 @@ public class MediaDataController extends BaseController {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void loadMedia(final long j, final int i, final int i2, final int i3, final int i4, final int i5, int i6, final int i7, final int i8) {
+    public void loadMedia(final long j, final int i, final int i2, final int i3, final int i4, final long j2, int i5, final int i6, final int i7) {
         boolean z;
         if (DialogObject.isChatDialog(j) && ChatObject.isChannel(-j, this.currentAccount)) {
             z = true;
             if (BuildVars.LOGS_ENABLED) {
-                FileLog.d("load media did " + j + " count = " + i + " max_id " + i2 + " type = " + i4 + " cache = " + i6 + " classGuid = " + i7);
+                FileLog.d("load media did " + j + " count = " + i + " max_id " + i2 + " type = " + i4 + " cache = " + i5 + " classGuid = " + i6);
             }
-            if (i6 == 0 || DialogObject.isEncryptedDialog(j)) {
-                loadMediaDatabase(j, i, i2, i3, i4, i5, i7, z, i6, i8);
+            if (i5 == 0 || DialogObject.isEncryptedDialog(j)) {
+                loadMediaDatabase(j, i, i2, i3, i4, j2, i6, z, i5, i7);
             }
             TLRPC$TL_messages_search tLRPC$TL_messages_search = new TLRPC$TL_messages_search();
             tLRPC$TL_messages_search.limit = i;
@@ -5433,34 +5466,38 @@ public class MediaDataController extends BaseController {
                 tLRPC$TL_messages_search.filter = new TLRPC$TL_inputMessagesFilterGif();
             }
             tLRPC$TL_messages_search.q = "";
-            TLRPC$InputPeer inputPeer = getMessagesController().getInputPeer(j);
-            tLRPC$TL_messages_search.peer = inputPeer;
-            if (i5 != 0) {
-                tLRPC$TL_messages_search.top_msg_id = i5;
-                tLRPC$TL_messages_search.flags = 2 | tLRPC$TL_messages_search.flags;
+            tLRPC$TL_messages_search.peer = getMessagesController().getInputPeer(j);
+            if (j2 != 0) {
+                if (j == getUserConfig().getClientUserId()) {
+                    tLRPC$TL_messages_search.saved_peer_id = getMessagesController().getInputPeer(j2);
+                    tLRPC$TL_messages_search.flags = 4 | tLRPC$TL_messages_search.flags;
+                } else {
+                    tLRPC$TL_messages_search.top_msg_id = (int) j2;
+                    tLRPC$TL_messages_search.flags |= 2;
+                }
             }
-            if (inputPeer == null) {
+            if (tLRPC$TL_messages_search.peer == null) {
                 return;
             }
             final boolean z2 = z;
-            getConnectionsManager().bindRequestToGuid(getConnectionsManager().sendRequest(tLRPC$TL_messages_search, new RequestDelegate() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda197
+            getConnectionsManager().bindRequestToGuid(getConnectionsManager().sendRequest(tLRPC$TL_messages_search, new RequestDelegate() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda194
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    MediaDataController.this.lambda$loadMedia$115(j, i3, i, i2, i4, i5, i7, z2, i8, tLObject, tLRPC$TL_error);
+                    MediaDataController.this.lambda$loadMedia$115(j, i3, i, i2, i4, j2, i6, z2, i7, tLObject, tLRPC$TL_error);
                 }
-            }), i7);
+            }), i6);
             return;
         }
         z = false;
         if (BuildVars.LOGS_ENABLED) {
         }
-        if (i6 == 0) {
+        if (i5 == 0) {
         }
-        loadMediaDatabase(j, i, i2, i3, i4, i5, i7, z, i6, i8);
+        loadMediaDatabase(j, i, i2, i3, i4, j2, i6, z, i5, i7);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadMedia$115(long j, int i, int i2, int i3, int i4, int i5, int i6, boolean z, int i7, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$loadMedia$115(long j, int i, int i2, int i3, int i4, long j2, int i5, boolean z, int i6, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLRPC$TL_error == null) {
             TLRPC$messages_Messages tLRPC$messages_Messages = (TLRPC$messages_Messages) tLObject;
             getMessagesController().removeDeletedMessagesFromArray(j, tLRPC$messages_Messages.messages);
@@ -5468,42 +5505,33 @@ public class MediaDataController extends BaseController {
             if (i == 0 ? tLRPC$messages_Messages.messages.size() == 0 : tLRPC$messages_Messages.messages.size() <= 1) {
                 z2 = true;
             }
-            processLoadedMedia(tLRPC$messages_Messages, j, i2, i3, i, i4, i5, 0, i6, z, z2, i7);
+            processLoadedMedia(tLRPC$messages_Messages, j, i2, i3, i, i4, j2, 0, i5, z, z2, i6);
         }
     }
 
-    public void getMediaCounts(final long j, final int i, final int i2) {
-        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda27
+    public void getMediaCounts(final long j, final long j2, final int i) {
+        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda42
             @Override // java.lang.Runnable
             public final void run() {
-                MediaDataController.this.lambda$getMediaCounts$120(i, j, i2);
+                MediaDataController.this.lambda$getMediaCounts$120(j2, j, i);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x01b0  */
-    /* JADX WARN: Removed duplicated region for block: B:60:0x01b3 A[Catch: Exception -> 0x01f9, TryCatch #0 {Exception -> 0x01f9, blocks: (B:3:0x0004, B:5:0x004d, B:7:0x0090, B:9:0x0096, B:12:0x009e, B:13:0x00ad, B:17:0x00b9, B:19:0x00bd, B:21:0x00e7, B:23:0x00f0, B:22:0x00ee, B:24:0x00ff, B:25:0x0102, B:26:0x0114, B:28:0x0127, B:31:0x0133, B:33:0x0137, B:63:0x01b9, B:35:0x013c, B:37:0x0140, B:40:0x0146, B:57:0x01ac, B:60:0x01b3, B:62:0x01b7, B:43:0x0154, B:45:0x0161, B:47:0x016e, B:49:0x017b, B:52:0x0189, B:55:0x0197, B:56:0x01a2, B:64:0x01c0, B:66:0x01c8, B:68:0x01e8, B:6:0x0072), top: B:73:0x0004 }] */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x01e4  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x01e7 A[Catch: Exception -> 0x0230, TryCatch #0 {Exception -> 0x0230, blocks: (B:3:0x0006, B:5:0x0057, B:7:0x009a, B:9:0x00a0, B:12:0x00aa, B:13:0x00b9, B:17:0x00c5, B:19:0x00ca, B:21:0x00f4, B:23:0x00fd, B:22:0x00fb, B:24:0x010e, B:25:0x0112, B:26:0x0124, B:28:0x0137, B:30:0x0143, B:31:0x0153, B:34:0x0160, B:36:0x0164, B:69:0x01ed, B:38:0x016b, B:40:0x0170, B:43:0x0176, B:63:0x01df, B:66:0x01e7, B:68:0x01eb, B:47:0x0185, B:50:0x0193, B:53:0x01a1, B:55:0x01ae, B:58:0x01bc, B:61:0x01ca, B:62:0x01d5, B:70:0x01f3, B:72:0x01fb, B:75:0x021f, B:6:0x007c), top: B:80:0x0006 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public /* synthetic */ void lambda$getMediaCounts$120(final int i, final long j, int i2) {
+    public /* synthetic */ void lambda$getMediaCounts$120(final long j, final long j2, int i) {
         SQLiteCursor queryFinalized;
+        int[] iArr;
         try {
-            final int[] iArr = new int[9];
-            iArr[0] = -1;
-            iArr[1] = -1;
-            iArr[2] = -1;
-            int i3 = 3;
-            iArr[3] = -1;
-            iArr[4] = -1;
-            iArr[5] = -1;
-            iArr[6] = -1;
-            iArr[7] = -1;
-            iArr[8] = -1;
             final int[] iArr2 = new int[9];
             iArr2[0] = -1;
             iArr2[1] = -1;
+            int i2 = 2;
             iArr2[2] = -1;
             iArr2[3] = -1;
             iArr2[4] = -1;
@@ -5512,112 +5540,139 @@ public class MediaDataController extends BaseController {
             iArr2[7] = -1;
             iArr2[8] = -1;
             int[] iArr3 = new int[9];
-            iArr3[0] = 0;
-            iArr3[1] = 0;
-            iArr3[2] = 0;
-            iArr3[3] = 0;
-            iArr3[4] = 0;
-            iArr3[5] = 0;
-            iArr3[6] = 0;
-            iArr3[7] = 0;
-            iArr3[8] = 0;
-            if (i != 0) {
-                queryFinalized = getMessagesStorage().getDatabase().queryFinalized(String.format(Locale.US, "SELECT type, count, old FROM media_counts_topics WHERE uid = %d AND topic_id = %d", Long.valueOf(j), Integer.valueOf(i)), new Object[0]);
+            iArr3[0] = -1;
+            iArr3[1] = -1;
+            iArr3[2] = -1;
+            iArr3[3] = -1;
+            iArr3[4] = -1;
+            iArr3[5] = -1;
+            iArr3[6] = -1;
+            iArr3[7] = -1;
+            iArr3[8] = -1;
+            int[] iArr4 = new int[9];
+            iArr4[0] = 0;
+            iArr4[1] = 0;
+            iArr4[2] = 0;
+            iArr4[3] = 0;
+            iArr4[4] = 0;
+            iArr4[5] = 0;
+            iArr4[6] = 0;
+            iArr4[7] = 0;
+            iArr4[8] = 0;
+            if (j != 0) {
+                queryFinalized = getMessagesStorage().getDatabase().queryFinalized(String.format(Locale.US, "SELECT type, count, old FROM media_counts_topics WHERE uid = %d AND topic_id = %d", Long.valueOf(j2), Long.valueOf(j)), new Object[0]);
             } else {
-                queryFinalized = getMessagesStorage().getDatabase().queryFinalized(String.format(Locale.US, "SELECT type, count, old FROM media_counts_v2 WHERE uid = %d", Long.valueOf(j)), new Object[0]);
+                queryFinalized = getMessagesStorage().getDatabase().queryFinalized(String.format(Locale.US, "SELECT type, count, old FROM media_counts_v2 WHERE uid = %d", Long.valueOf(j2)), new Object[0]);
             }
             while (queryFinalized.next()) {
                 int intValue = queryFinalized.intValue(0);
                 if (intValue >= 0 && intValue < 8) {
                     int intValue2 = queryFinalized.intValue(1);
-                    iArr[intValue] = intValue2;
                     iArr2[intValue] = intValue2;
-                    iArr3[intValue] = queryFinalized.intValue(2);
+                    iArr3[intValue] = intValue2;
+                    iArr4[intValue] = queryFinalized.intValue(2);
                 }
             }
             queryFinalized.dispose();
-            if (DialogObject.isEncryptedDialog(j)) {
-                for (int i4 = 0; i4 < 9; i4++) {
-                    if (iArr[i4] == -1) {
-                        SQLiteCursor queryFinalized2 = getMessagesStorage().getDatabase().queryFinalized(String.format(Locale.US, "SELECT COUNT(mid) FROM media_v4 WHERE uid = %d AND type = %d LIMIT 1", Long.valueOf(j), Integer.valueOf(i4)), new Object[0]);
+            if (DialogObject.isEncryptedDialog(j2)) {
+                int i3 = 0;
+                while (i3 < 9) {
+                    if (iArr2[i3] == -1) {
+                        SQLiteDatabase database = getMessagesStorage().getDatabase();
+                        Locale locale = Locale.US;
+                        Object[] objArr = new Object[i2];
+                        objArr[0] = Long.valueOf(j2);
+                        objArr[1] = Integer.valueOf(i3);
+                        SQLiteCursor queryFinalized2 = database.queryFinalized(String.format(locale, "SELECT COUNT(mid) FROM media_v4 WHERE uid = %d AND type = %d LIMIT 1", objArr), new Object[0]);
                         if (queryFinalized2.next()) {
-                            iArr[i4] = queryFinalized2.intValue(0);
+                            iArr2[i3] = queryFinalized2.intValue(0);
                         } else {
-                            iArr[i4] = 0;
+                            iArr2[i3] = 0;
                         }
                         queryFinalized2.dispose();
-                        putMediaCountDatabase(j, i, i4, iArr[i4]);
+                        putMediaCountDatabase(j2, j, i3, iArr2[i3]);
                     }
+                    i3++;
+                    i2 = 2;
                 }
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda48
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda50
                     @Override // java.lang.Runnable
                     public final void run() {
-                        MediaDataController.this.lambda$getMediaCounts$116(j, i, iArr);
+                        MediaDataController.this.lambda$getMediaCounts$116(j2, j, iArr2);
                     }
                 });
                 return;
             }
             TLRPC$TL_messages_getSearchCounters tLRPC$TL_messages_getSearchCounters = new TLRPC$TL_messages_getSearchCounters();
-            tLRPC$TL_messages_getSearchCounters.peer = getMessagesController().getInputPeer(j);
-            if (i != 0) {
-                tLRPC$TL_messages_getSearchCounters.top_msg_id = i;
-                tLRPC$TL_messages_getSearchCounters.flags |= 1;
+            tLRPC$TL_messages_getSearchCounters.peer = getMessagesController().getInputPeer(j2);
+            if (j != 0) {
+                if (j2 == getUserConfig().getClientUserId()) {
+                    tLRPC$TL_messages_getSearchCounters.saved_peer_id = getMessagesController().getInputPeer(j);
+                    tLRPC$TL_messages_getSearchCounters.flags |= 4;
+                } else {
+                    tLRPC$TL_messages_getSearchCounters.top_msg_id = (int) j;
+                    tLRPC$TL_messages_getSearchCounters.flags |= 1;
+                }
             }
-            int i5 = 0;
+            int i4 = 0;
             boolean z = false;
-            for (int i6 = 9; i5 < i6; i6 = 9) {
+            for (int i5 = 9; i4 < i5; i5 = 9) {
                 if (tLRPC$TL_messages_getSearchCounters.peer == null) {
-                    iArr[i5] = 0;
-                } else if (iArr[i5] == -1 || iArr3[i5] == 1) {
-                    if (i5 == 0) {
+                    iArr2[i4] = 0;
+                } else if (iArr2[i4] == -1 || iArr4[i4] == 1) {
+                    if (i4 == 0) {
                         tLRPC$TL_messages_getSearchCounters.filters.add(new TLRPC$TL_inputMessagesFilterPhotoVideo());
-                    } else if (i5 == 1) {
+                    } else if (i4 == 1) {
                         tLRPC$TL_messages_getSearchCounters.filters.add(new TLRPC$TL_inputMessagesFilterDocument());
-                    } else if (i5 == 2) {
+                    } else if (i4 == 2) {
                         tLRPC$TL_messages_getSearchCounters.filters.add(new TLRPC$TL_inputMessagesFilterRoundVoice());
-                    } else if (i5 == i3) {
-                        tLRPC$TL_messages_getSearchCounters.filters.add(new TLRPC$TL_inputMessagesFilterUrl());
-                    } else if (i5 == 4) {
-                        tLRPC$TL_messages_getSearchCounters.filters.add(new TLRPC$TL_inputMessagesFilterMusic());
+                        if (iArr2[i4] == -1) {
+                            z = true;
+                        } else if (iArr4[i4] == 1) {
+                            iArr2[i4] = -1;
+                        }
+                        i4++;
                     } else {
-                        if (i5 == 6) {
+                        if (i4 == 3) {
+                            tLRPC$TL_messages_getSearchCounters.filters.add(new TLRPC$TL_inputMessagesFilterUrl());
+                        } else if (i4 == 4) {
+                            tLRPC$TL_messages_getSearchCounters.filters.add(new TLRPC$TL_inputMessagesFilterMusic());
+                        } else if (i4 == 6) {
                             tLRPC$TL_messages_getSearchCounters.filters.add(new TLRPC$TL_inputMessagesFilterPhotos());
-                        } else if (i5 == 7) {
+                        } else if (i4 == 7) {
                             tLRPC$TL_messages_getSearchCounters.filters.add(new TLRPC$TL_inputMessagesFilterVideo());
                         } else {
                             tLRPC$TL_messages_getSearchCounters.filters.add(new TLRPC$TL_inputMessagesFilterGif());
                         }
-                        if (iArr[i5] != -1) {
-                            z = true;
-                        } else if (iArr3[i5] == 1) {
-                            iArr[i5] = -1;
+                        if (iArr2[i4] == -1) {
                         }
-                        i5++;
-                        i3 = 3;
+                        i4++;
                     }
-                    if (iArr[i5] != -1) {
+                    if (iArr2[i4] == -1) {
                     }
-                    i5++;
-                    i3 = 3;
+                    i4++;
                 }
-                i5++;
-                i3 = 3;
+                i4++;
             }
-            if (!tLRPC$TL_messages_getSearchCounters.filters.isEmpty()) {
+            if (tLRPC$TL_messages_getSearchCounters.filters.isEmpty()) {
+                iArr = iArr3;
+            } else {
+                iArr = iArr3;
                 getConnectionsManager().bindRequestToGuid(getConnectionsManager().sendRequest(tLRPC$TL_messages_getSearchCounters, new RequestDelegate() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda223
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                        MediaDataController.this.lambda$getMediaCounts$118(iArr, j, i, tLObject, tLRPC$TL_error);
+                        MediaDataController.this.lambda$getMediaCounts$118(iArr2, j2, j, tLObject, tLRPC$TL_error);
                     }
-                }), i2);
+                }), i);
             }
             if (z) {
                 return;
             }
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda47
+            final int[] iArr5 = iArr;
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda51
                 @Override // java.lang.Runnable
                 public final void run() {
-                    MediaDataController.this.lambda$getMediaCounts$119(j, i, iArr2);
+                    MediaDataController.this.lambda$getMediaCounts$119(j2, j, iArr5);
                 }
             });
         } catch (Exception e) {
@@ -5626,107 +5681,112 @@ public class MediaDataController extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$getMediaCounts$116(long j, int i, int[] iArr) {
-        getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.mediaCountsDidLoad, Long.valueOf(j), Integer.valueOf(i), iArr);
+    public /* synthetic */ void lambda$getMediaCounts$116(long j, long j2, int[] iArr) {
+        getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.mediaCountsDidLoad, Long.valueOf(j), Long.valueOf(j2), iArr);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$getMediaCounts$118(final int[] iArr, final long j, final int i, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        int i2;
-        for (int i3 = 0; i3 < iArr.length; i3++) {
-            if (iArr[i3] < 0) {
-                iArr[i3] = 0;
+    public /* synthetic */ void lambda$getMediaCounts$118(final int[] iArr, final long j, final long j2, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        int i;
+        for (int i2 = 0; i2 < iArr.length; i2++) {
+            if (iArr[i2] < 0) {
+                iArr[i2] = 0;
             }
         }
         if (tLObject != null) {
             TLRPC$Vector tLRPC$Vector = (TLRPC$Vector) tLObject;
             int size = tLRPC$Vector.objects.size();
-            for (int i4 = 0; i4 < size; i4++) {
-                TLRPC$TL_messages_searchCounter tLRPC$TL_messages_searchCounter = (TLRPC$TL_messages_searchCounter) tLRPC$Vector.objects.get(i4);
+            for (int i3 = 0; i3 < size; i3++) {
+                TLRPC$TL_messages_searchCounter tLRPC$TL_messages_searchCounter = (TLRPC$TL_messages_searchCounter) tLRPC$Vector.objects.get(i3);
                 TLRPC$MessagesFilter tLRPC$MessagesFilter = tLRPC$TL_messages_searchCounter.filter;
                 if (tLRPC$MessagesFilter instanceof TLRPC$TL_inputMessagesFilterPhotoVideo) {
-                    i2 = 0;
+                    i = 0;
                 } else if (tLRPC$MessagesFilter instanceof TLRPC$TL_inputMessagesFilterDocument) {
-                    i2 = 1;
+                    i = 1;
                 } else if (tLRPC$MessagesFilter instanceof TLRPC$TL_inputMessagesFilterRoundVoice) {
-                    i2 = 2;
+                    i = 2;
                 } else if (tLRPC$MessagesFilter instanceof TLRPC$TL_inputMessagesFilterUrl) {
-                    i2 = 3;
+                    i = 3;
                 } else if (tLRPC$MessagesFilter instanceof TLRPC$TL_inputMessagesFilterMusic) {
-                    i2 = 4;
+                    i = 4;
                 } else if (tLRPC$MessagesFilter instanceof TLRPC$TL_inputMessagesFilterGif) {
-                    i2 = 5;
+                    i = 5;
                 } else if (tLRPC$MessagesFilter instanceof TLRPC$TL_inputMessagesFilterPhotos) {
-                    i2 = 6;
+                    i = 6;
                 } else if (tLRPC$MessagesFilter instanceof TLRPC$TL_inputMessagesFilterVideo) {
-                    i2 = 7;
+                    i = 7;
                 }
-                iArr[i2] = tLRPC$TL_messages_searchCounter.count;
-                putMediaCountDatabase(j, i, i2, iArr[i2]);
+                iArr[i] = tLRPC$TL_messages_searchCounter.count;
+                putMediaCountDatabase(j, j2, i, iArr[i]);
             }
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda46
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda49
             @Override // java.lang.Runnable
             public final void run() {
-                MediaDataController.this.lambda$getMediaCounts$117(j, i, iArr);
+                MediaDataController.this.lambda$getMediaCounts$117(j, j2, iArr);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$getMediaCounts$117(long j, int i, int[] iArr) {
-        getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.mediaCountsDidLoad, Long.valueOf(j), Integer.valueOf(i), iArr);
+    public /* synthetic */ void lambda$getMediaCounts$117(long j, long j2, int[] iArr) {
+        getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.mediaCountsDidLoad, Long.valueOf(j), Long.valueOf(j2), iArr);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$getMediaCounts$119(long j, int i, int[] iArr) {
-        getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.mediaCountsDidLoad, Long.valueOf(j), Integer.valueOf(i), iArr);
+    public /* synthetic */ void lambda$getMediaCounts$119(long j, long j2, int[] iArr) {
+        getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.mediaCountsDidLoad, Long.valueOf(j), Long.valueOf(j2), iArr);
     }
 
-    public void getMediaCount(final long j, final int i, final int i2, final int i3, boolean z) {
+    public void getMediaCount(final long j, final long j2, final int i, final int i2, boolean z) {
         if (z || DialogObject.isEncryptedDialog(j)) {
-            getMediaCountDatabase(j, i, i2, i3);
+            getMediaCountDatabase(j, j2, i, i2);
             return;
         }
         TLRPC$TL_messages_getSearchCounters tLRPC$TL_messages_getSearchCounters = new TLRPC$TL_messages_getSearchCounters();
-        if (i2 == 0) {
+        if (i == 0) {
             tLRPC$TL_messages_getSearchCounters.filters.add(new TLRPC$TL_inputMessagesFilterPhotoVideo());
-        } else if (i2 == 1) {
+        } else if (i == 1) {
             tLRPC$TL_messages_getSearchCounters.filters.add(new TLRPC$TL_inputMessagesFilterDocument());
-        } else if (i2 == 2) {
+        } else if (i == 2) {
             tLRPC$TL_messages_getSearchCounters.filters.add(new TLRPC$TL_inputMessagesFilterRoundVoice());
-        } else if (i2 == 3) {
+        } else if (i == 3) {
             tLRPC$TL_messages_getSearchCounters.filters.add(new TLRPC$TL_inputMessagesFilterUrl());
-        } else if (i2 == 4) {
+        } else if (i == 4) {
             tLRPC$TL_messages_getSearchCounters.filters.add(new TLRPC$TL_inputMessagesFilterMusic());
-        } else if (i2 == 5) {
+        } else if (i == 5) {
             tLRPC$TL_messages_getSearchCounters.filters.add(new TLRPC$TL_inputMessagesFilterGif());
         }
-        if (i != 0) {
-            tLRPC$TL_messages_getSearchCounters.top_msg_id = i;
-            tLRPC$TL_messages_getSearchCounters.flags = 1 | tLRPC$TL_messages_getSearchCounters.flags;
+        if (j2 != 0) {
+            if (j == getUserConfig().getClientUserId()) {
+                tLRPC$TL_messages_getSearchCounters.saved_peer_id = getMessagesController().getInputPeer(j);
+                tLRPC$TL_messages_getSearchCounters.flags = 4 | tLRPC$TL_messages_getSearchCounters.flags;
+            } else {
+                tLRPC$TL_messages_getSearchCounters.top_msg_id = (int) j2;
+                tLRPC$TL_messages_getSearchCounters.flags |= 1;
+            }
         }
         TLRPC$InputPeer inputPeer = getMessagesController().getInputPeer(j);
         tLRPC$TL_messages_getSearchCounters.peer = inputPeer;
         if (inputPeer == null) {
             return;
         }
-        getConnectionsManager().bindRequestToGuid(getConnectionsManager().sendRequest(tLRPC$TL_messages_getSearchCounters, new RequestDelegate() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda196
+        getConnectionsManager().bindRequestToGuid(getConnectionsManager().sendRequest(tLRPC$TL_messages_getSearchCounters, new RequestDelegate() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda197
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                MediaDataController.this.lambda$getMediaCount$121(j, i, i2, i3, tLObject, tLRPC$TL_error);
+                MediaDataController.this.lambda$getMediaCount$121(j, j2, i, i2, tLObject, tLRPC$TL_error);
             }
-        }), i3);
+        }), i2);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$getMediaCount$121(long j, int i, int i2, int i3, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$getMediaCount$121(long j, long j2, int i, int i2, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLObject != null) {
             TLRPC$Vector tLRPC$Vector = (TLRPC$Vector) tLObject;
             if (tLRPC$Vector.objects.isEmpty()) {
                 return;
             }
-            processLoadedMediaCount(((TLRPC$TL_messages_searchCounter) tLRPC$Vector.objects.get(0)).count, j, i, i2, i3, false, 0);
+            processLoadedMediaCount(((TLRPC$TL_messages_searchCounter) tLRPC$Vector.objects.get(0)).count, j, j2, i, i2, false, 0);
         }
     }
 
@@ -5797,32 +5857,32 @@ public class MediaDataController extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public void processLoadedMedia(final TLRPC$messages_Messages tLRPC$messages_Messages, final long j, int i, int i2, final int i3, final int i4, int i5, final int i6, final int i7, boolean z, final boolean z2, final int i8) {
+    public void processLoadedMedia(final TLRPC$messages_Messages tLRPC$messages_Messages, final long j, int i, int i2, final int i3, final int i4, long j2, final int i5, final int i6, boolean z, final boolean z2, final int i7) {
         ArrayList<TLRPC$Message> arrayList;
         ArrayList<TLRPC$Message> arrayList2;
         if (BuildVars.LOGS_ENABLED) {
-            int i9 = 0;
+            int i8 = 0;
             if (tLRPC$messages_Messages != null && (arrayList2 = tLRPC$messages_Messages.messages) != null) {
-                i9 = arrayList2.size();
+                i8 = arrayList2.size();
             }
-            FileLog.d("process load media messagesCount " + i9 + " did " + j + " topicId " + i5 + " count = " + i + " max_id=" + i2 + " min_id=" + i3 + " type = " + i4 + " cache = " + i6 + " classGuid = " + i7);
+            FileLog.d("process load media messagesCount " + i8 + " did " + j + " topicId " + j2 + " count = " + i + " max_id=" + i2 + " min_id=" + i3 + " type = " + i4 + " cache = " + i5 + " classGuid = " + i6);
         }
-        if (i6 != 0 && tLRPC$messages_Messages != null && (arrayList = tLRPC$messages_Messages.messages) != null && (((arrayList.isEmpty() && i3 == 0) || (tLRPC$messages_Messages.messages.size() <= 1 && i3 != 0)) && !DialogObject.isEncryptedDialog(j))) {
-            if (i6 == 2) {
+        if (i5 != 0 && tLRPC$messages_Messages != null && (arrayList = tLRPC$messages_Messages.messages) != null && (((arrayList.isEmpty() && i3 == 0) || (tLRPC$messages_Messages.messages.size() <= 1 && i3 != 0)) && !DialogObject.isEncryptedDialog(j))) {
+            if (i5 == 2) {
                 return;
             }
-            loadMedia(j, i, i2, i3, i4, i5, 0, i7, i8);
+            loadMedia(j, i, i2, i3, i4, j2, 0, i6, i7);
             return;
         }
-        if (i6 == 0) {
+        if (i5 == 0) {
             ImageLoader.saveMessagesThumbs(tLRPC$messages_Messages.messages);
             getMessagesStorage().putUsersAndChats(tLRPC$messages_Messages.users, tLRPC$messages_Messages.chats, true, true);
-            putMediaDatabase(j, i5, i4, tLRPC$messages_Messages.messages, i2, i3, z2);
+            putMediaDatabase(j, j2, i4, tLRPC$messages_Messages.messages, i2, i3, z2);
         }
         Utilities.searchQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda126
             @Override // java.lang.Runnable
             public final void run() {
-                MediaDataController.this.lambda$processLoadedMedia$125(tLRPC$messages_Messages, i6, j, i7, i4, z2, i3, i8);
+                MediaDataController.this.lambda$processLoadedMedia$125(tLRPC$messages_Messages, i5, j, i6, i4, z2, i3, i7);
             }
         });
     }
@@ -5901,103 +5961,103 @@ public class MediaDataController extends BaseController {
         runnable.run();
     }
 
-    private void processLoadedMediaCount(final int i, final long j, final int i2, final int i3, final int i4, final boolean z, final int i5) {
+    private void processLoadedMediaCount(final int i, final long j, final long j2, final int i2, final int i3, final boolean z, final int i4) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda55
             @Override // java.lang.Runnable
             public final void run() {
-                MediaDataController.this.lambda$processLoadedMediaCount$126(j, z, i, i3, i5, i2, i4);
+                MediaDataController.this.lambda$processLoadedMediaCount$126(j, z, i, i2, i4, j2, i3);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Code restructure failed: missing block: B:7:0x0012, code lost:
-        if (r23 == 2) goto L24;
+        if (r25 == 2) goto L24;
      */
     /* JADX WARN: Removed duplicated region for block: B:15:0x0020  */
     /* JADX WARN: Removed duplicated region for block: B:20:0x0037  */
-    /* JADX WARN: Removed duplicated region for block: B:29:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:28:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public /* synthetic */ void lambda$processLoadedMediaCount$126(long j, boolean z, int i, int i2, int i3, int i4, int i5) {
+    public /* synthetic */ void lambda$processLoadedMediaCount$126(long j, boolean z, int i, int i2, int i3, long j2, int i4) {
         boolean z2;
+        int i5 = i;
         boolean isEncryptedDialog = DialogObject.isEncryptedDialog(j);
-        int i6 = 0;
         if (z) {
-            if (i != -1) {
-                if (i == 0) {
+            if (i5 != -1) {
+                if (i5 == 0) {
                 }
             }
             if (!isEncryptedDialog) {
                 z2 = true;
                 if (!z2 || (i3 == 1 && !isEncryptedDialog)) {
-                    getMediaCount(j, i4, i2, i5, false);
+                    getMediaCount(j, j2, i2, i4, false);
                 }
                 if (z2) {
                     return;
                 }
                 if (!z) {
-                    putMediaCountDatabase(j, i4, i2, i);
+                    putMediaCountDatabase(j, j2, i2, i);
                 }
                 NotificationCenter notificationCenter = getNotificationCenter();
-                int i7 = NotificationCenter.mediaCountDidLoad;
+                int i6 = NotificationCenter.mediaCountDidLoad;
                 Object[] objArr = new Object[5];
                 objArr[0] = Long.valueOf(j);
-                objArr[1] = Integer.valueOf(i4);
-                if (!z || i != -1) {
-                    i6 = i;
+                objArr[1] = Long.valueOf(j2);
+                if (z && i5 == -1) {
+                    i5 = 0;
                 }
-                objArr[2] = Integer.valueOf(i6);
+                objArr[2] = Integer.valueOf(i5);
                 objArr[3] = Boolean.valueOf(z);
                 objArr[4] = Integer.valueOf(i2);
-                notificationCenter.lambda$postNotificationNameOnUIThread$1(i7, objArr);
+                notificationCenter.lambda$postNotificationNameOnUIThread$1(i6, objArr);
                 return;
             }
             z2 = false;
             if (!z2) {
             }
-            getMediaCount(j, i4, i2, i5, false);
+            getMediaCount(j, j2, i2, i4, false);
             if (z2) {
             }
         }
         z2 = false;
         if (!z2) {
         }
-        getMediaCount(j, i4, i2, i5, false);
+        getMediaCount(j, j2, i2, i4, false);
         if (z2) {
         }
     }
 
-    private void putMediaCountDatabase(final long j, final int i, final int i2, final int i3) {
-        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda28
+    private void putMediaCountDatabase(final long j, final long j2, final int i, final int i2) {
+        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda45
             @Override // java.lang.Runnable
             public final void run() {
-                MediaDataController.this.lambda$putMediaCountDatabase$127(i, j, i2, i3);
+                MediaDataController.this.lambda$putMediaCountDatabase$127(j2, j, i, i2);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$putMediaCountDatabase$127(int i, long j, int i2, int i3) {
+    public /* synthetic */ void lambda$putMediaCountDatabase$127(long j, long j2, int i, int i2) {
         SQLitePreparedStatement executeFast;
         try {
-            if (i != 0) {
+            if (j != 0) {
                 executeFast = getMessagesStorage().getDatabase().executeFast("REPLACE INTO media_counts_topics VALUES(?, ?, ?, ?, ?)");
             } else {
                 executeFast = getMessagesStorage().getDatabase().executeFast("REPLACE INTO media_counts_v2 VALUES(?, ?, ?, ?)");
             }
             executeFast.requery();
-            int i4 = 2;
-            executeFast.bindLong(1, j);
-            if (i != 0) {
-                executeFast.bindInteger(2, i);
-                i4 = 3;
+            int i3 = 2;
+            executeFast.bindLong(1, j2);
+            if (j != 0) {
+                executeFast.bindLong(2, j);
+                i3 = 3;
             }
-            int i5 = i4 + 1;
+            int i4 = i3 + 1;
+            executeFast.bindInteger(i3, i);
             executeFast.bindInteger(i4, i2);
-            executeFast.bindInteger(i5, i3);
-            executeFast.bindInteger(i5 + 1, 0);
+            executeFast.bindInteger(i4 + 1, 0);
             executeFast.step();
             executeFast.dispose();
         } catch (Exception e) {
@@ -6005,47 +6065,45 @@ public class MediaDataController extends BaseController {
         }
     }
 
-    private void getMediaCountDatabase(final long j, final int i, final int i2, final int i3) {
-        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda29
+    private void getMediaCountDatabase(final long j, final long j2, final int i, final int i2) {
+        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda44
             @Override // java.lang.Runnable
             public final void run() {
-                MediaDataController.this.lambda$getMediaCountDatabase$128(i, j, i2, i3);
+                MediaDataController.this.lambda$getMediaCountDatabase$128(j2, j, i, i2);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$getMediaCountDatabase$128(int i, long j, int i2, int i3) {
+    public /* synthetic */ void lambda$getMediaCountDatabase$128(long j, long j2, int i, int i2) {
         SQLiteCursor queryFinalized;
+        int i3;
         int i4;
-        int i5;
         try {
-            if (i != 0) {
-                queryFinalized = getMessagesStorage().getDatabase().queryFinalized(String.format(Locale.US, "SELECT count, old FROM media_counts_topics WHERE uid = %d AND topic_id = %d AND type = %d LIMIT 1", Long.valueOf(j), Integer.valueOf(i), Integer.valueOf(i2)), new Object[0]);
+            if (j != 0) {
+                queryFinalized = getMessagesStorage().getDatabase().queryFinalized(String.format(Locale.US, "SELECT count, old FROM media_counts_topics WHERE uid = %d AND topic_id = %d AND type = %d LIMIT 1", Long.valueOf(j2), Long.valueOf(j), Integer.valueOf(i)), new Object[0]);
             } else {
-                queryFinalized = getMessagesStorage().getDatabase().queryFinalized(String.format(Locale.US, "SELECT count, old FROM media_counts_v2 WHERE uid = %d AND type = %d LIMIT 1", Long.valueOf(j), Integer.valueOf(i2)), new Object[0]);
+                queryFinalized = getMessagesStorage().getDatabase().queryFinalized(String.format(Locale.US, "SELECT count, old FROM media_counts_v2 WHERE uid = %d AND type = %d LIMIT 1", Long.valueOf(j2), Integer.valueOf(i)), new Object[0]);
             }
             if (queryFinalized.next()) {
-                i4 = queryFinalized.intValue(0);
-                i5 = queryFinalized.intValue(1);
+                i3 = queryFinalized.intValue(0);
+                i4 = queryFinalized.intValue(1);
             } else {
-                i4 = -1;
-                i5 = 0;
+                i3 = -1;
+                i4 = 0;
             }
             queryFinalized.dispose();
-            if (i4 == -1 && DialogObject.isEncryptedDialog(j)) {
-                SQLiteCursor queryFinalized2 = getMessagesStorage().getDatabase().queryFinalized(String.format(Locale.US, "SELECT COUNT(mid) FROM media_v4 WHERE uid = %d AND type = %d LIMIT 1", Long.valueOf(j), Integer.valueOf(i2)), new Object[0]);
+            if (i3 == -1 && DialogObject.isEncryptedDialog(j2)) {
+                SQLiteCursor queryFinalized2 = getMessagesStorage().getDatabase().queryFinalized(String.format(Locale.US, "SELECT COUNT(mid) FROM media_v4 WHERE uid = %d AND type = %d LIMIT 1", Long.valueOf(j2), Integer.valueOf(i)), new Object[0]);
                 if (queryFinalized2.next()) {
-                    i4 = queryFinalized2.intValue(0);
+                    i3 = queryFinalized2.intValue(0);
                 }
-                int i6 = i4;
                 queryFinalized2.dispose();
-                if (i6 != -1) {
-                    putMediaCountDatabase(j, i, i2, i6);
+                if (i3 != -1) {
+                    putMediaCountDatabase(j2, j, i, i3);
                 }
-                i4 = i6;
             }
-            processLoadedMediaCount(i4, j, i, i2, i3, true, i5);
+            processLoadedMediaCount(i3, j2, j, i, i2, true, i4);
         } catch (Exception e) {
             FileLog.e(e);
         }
@@ -6061,21 +6119,21 @@ public class MediaDataController extends BaseController {
         final /* synthetic */ int val$max_id;
         final /* synthetic */ int val$min_id;
         final /* synthetic */ int val$requestIndex;
-        final /* synthetic */ int val$topicId;
+        final /* synthetic */ long val$topicId;
         final /* synthetic */ int val$type;
         final /* synthetic */ long val$uid;
 
-        1(int i, long j, int i2, int i3, int i4, int i5, int i6, int i7, boolean z, int i8) {
+        1(int i, long j, int i2, long j2, int i3, int i4, int i5, int i6, boolean z, int i7) {
             this.val$count = i;
             this.val$uid = j;
             this.val$min_id = i2;
-            this.val$topicId = i3;
-            this.val$type = i4;
-            this.val$max_id = i5;
-            this.val$classGuid = i6;
-            this.val$fromCache = i7;
+            this.val$topicId = j2;
+            this.val$type = i3;
+            this.val$max_id = i4;
+            this.val$classGuid = i5;
+            this.val$fromCache = i6;
             this.val$isChannel = z;
-            this.val$requestIndex = i8;
+            this.val$requestIndex = i7;
         }
 
         @Override // java.lang.Runnable
@@ -6086,147 +6144,155 @@ public class MediaDataController extends BaseController {
             int i2;
             int i3;
             int i4;
+            long j2;
             int i5;
             int i6;
-            int i7;
             boolean z;
-            int i8;
+            int i7;
             boolean z2;
             SQLiteCursor queryFinalized;
             boolean z3;
             boolean z4;
-            boolean z5;
-            int i9;
             SQLiteDatabase sQLiteDatabase;
+            boolean z5;
+            int i8;
+            int i9;
             SQLiteCursor queryFinalized2;
-            int i10;
             int intValue;
             SQLitePreparedStatement executeFast;
-            int i11;
+            int i10;
             TLRPC$TL_messages_messages tLRPC$TL_messages_messages = new TLRPC$TL_messages_messages();
             try {
                 try {
                     ArrayList arrayList = new ArrayList();
                     ArrayList arrayList2 = new ArrayList();
-                    int i12 = this.val$count + 1;
+                    int i11 = this.val$count + 1;
                     SQLiteDatabase database = MediaDataController.this.getMessagesStorage().getDatabase();
+                    boolean z6 = false;
                     if (!DialogObject.isEncryptedDialog(this.val$uid)) {
                         if (this.val$min_id == 0) {
-                            SQLiteCursor queryFinalized3 = this.val$topicId != 0 ? database.queryFinalized(String.format(Locale.US, "SELECT start FROM media_holes_topics WHERE uid = %d AND topic_id = %d AND type = %d AND start IN (0, 1)", Long.valueOf(this.val$uid), Integer.valueOf(this.val$topicId), Integer.valueOf(this.val$type)), new Object[0]) : database.queryFinalized(String.format(Locale.US, "SELECT start FROM media_holes_v2 WHERE uid = %d AND type = %d AND start IN (0, 1)", Long.valueOf(this.val$uid), Integer.valueOf(this.val$type)), new Object[0]);
-                            if (queryFinalized3.next()) {
-                                if (queryFinalized3.intValue(0) == 1) {
+                            if (this.val$topicId != 0) {
+                                sQLiteDatabase = database;
+                                queryFinalized2 = sQLiteDatabase.queryFinalized(String.format(Locale.US, "SELECT start FROM media_holes_topics WHERE uid = %d AND topic_id = %d AND type = %d AND start IN (0, 1)", Long.valueOf(this.val$uid), Long.valueOf(this.val$topicId), Integer.valueOf(this.val$type)), new Object[0]);
+                            } else {
+                                sQLiteDatabase = database;
+                                queryFinalized2 = sQLiteDatabase.queryFinalized(String.format(Locale.US, "SELECT start FROM media_holes_v2 WHERE uid = %d AND type = %d AND start IN (0, 1)", Long.valueOf(this.val$uid), Integer.valueOf(this.val$type)), new Object[0]);
+                            }
+                            if (queryFinalized2.next()) {
+                                if (queryFinalized2.intValue(0) == 1) {
                                     z5 = true;
-                                    queryFinalized3.dispose();
+                                    queryFinalized2.dispose();
                                 }
                             } else {
-                                queryFinalized3.dispose();
-                                queryFinalized3 = this.val$topicId != 0 ? database.queryFinalized(String.format(Locale.US, "SELECT min(mid) FROM media_topics WHERE uid = %d AND topic_id = %d AND type = %d AND mid > 0", Long.valueOf(this.val$uid), Integer.valueOf(this.val$topicId), Integer.valueOf(this.val$type)), new Object[0]) : database.queryFinalized(String.format(Locale.US, "SELECT min(mid) FROM media_v4 WHERE uid = %d AND type = %d AND mid > 0", Long.valueOf(this.val$uid), Integer.valueOf(this.val$type)), new Object[0]);
-                                if (queryFinalized3.next() && (intValue = queryFinalized3.intValue(0)) != 0) {
+                                queryFinalized2.dispose();
+                                queryFinalized2 = this.val$topicId != 0 ? sQLiteDatabase.queryFinalized(String.format(Locale.US, "SELECT min(mid) FROM media_topics WHERE uid = %d AND topic_id = %d AND type = %d AND mid > 0", Long.valueOf(this.val$uid), Long.valueOf(this.val$topicId), Integer.valueOf(this.val$type)), new Object[0]) : sQLiteDatabase.queryFinalized(String.format(Locale.US, "SELECT min(mid) FROM media_v4 WHERE uid = %d AND type = %d AND mid > 0", Long.valueOf(this.val$uid), Integer.valueOf(this.val$type)), new Object[0]);
+                                if (queryFinalized2.next() && (intValue = queryFinalized2.intValue(0)) != 0) {
                                     if (this.val$topicId != 0) {
-                                        executeFast = database.executeFast("REPLACE INTO media_holes_topics VALUES(?, ?, ?, ?, ?)");
+                                        executeFast = sQLiteDatabase.executeFast("REPLACE INTO media_holes_topics VALUES(?, ?, ?, ?, ?)");
                                     } else {
-                                        executeFast = database.executeFast("REPLACE INTO media_holes_v2 VALUES(?, ?, ?, ?)");
+                                        executeFast = sQLiteDatabase.executeFast("REPLACE INTO media_holes_v2 VALUES(?, ?, ?, ?)");
                                     }
                                     executeFast.requery();
                                     executeFast.bindLong(1, this.val$uid);
-                                    int i13 = this.val$topicId;
-                                    if (i13 != 0) {
-                                        executeFast.bindInteger(2, i13);
-                                        i11 = 3;
+                                    long j3 = this.val$topicId;
+                                    if (j3 != 0) {
+                                        executeFast.bindLong(2, j3);
+                                        i10 = 3;
                                     } else {
-                                        i11 = 2;
+                                        i10 = 2;
                                     }
-                                    int i14 = i11 + 1;
-                                    executeFast.bindInteger(i11, this.val$type);
-                                    executeFast.bindInteger(i14, 0);
-                                    executeFast.bindInteger(i14 + 1, intValue);
+                                    int i12 = i10 + 1;
+                                    executeFast.bindInteger(i10, this.val$type);
+                                    executeFast.bindInteger(i12, 0);
+                                    executeFast.bindInteger(i12 + 1, intValue);
                                     executeFast.step();
                                     executeFast.dispose();
                                 }
                             }
                             z5 = false;
-                            queryFinalized3.dispose();
+                            queryFinalized2.dispose();
                         } else {
+                            sQLiteDatabase = database;
                             z5 = false;
                         }
                         if (this.val$max_id != 0) {
-                            if (this.val$topicId != 0) {
-                                queryFinalized2 = database.queryFinalized(String.format(Locale.US, "SELECT start, end FROM media_holes_topics WHERE uid = %d AND topic_id = %d AND type = %d AND start <= %d ORDER BY end DESC LIMIT 1", Long.valueOf(this.val$uid), Integer.valueOf(this.val$topicId), Integer.valueOf(this.val$type), Integer.valueOf(this.val$max_id)), new Object[0]);
-                                sQLiteDatabase = database;
-                            } else {
-                                sQLiteDatabase = database;
-                                queryFinalized2 = sQLiteDatabase.queryFinalized(String.format(Locale.US, "SELECT start, end FROM media_holes_v2 WHERE uid = %d AND type = %d AND start <= %d ORDER BY end DESC LIMIT 1", Long.valueOf(this.val$uid), Integer.valueOf(this.val$type), Integer.valueOf(this.val$max_id)), new Object[0]);
-                            }
-                            if (queryFinalized2.next()) {
-                                queryFinalized2.intValue(0);
-                                i10 = queryFinalized2.intValue(1);
-                            } else {
-                                i10 = 0;
-                            }
-                            queryFinalized2.dispose();
-                            if (this.val$topicId != 0) {
-                                if (i10 > 1) {
-                                    queryFinalized = sQLiteDatabase.queryFinalized(String.format(Locale.US, "SELECT data, mid FROM media_topics WHERE uid = %d AND topic_id = %d AND mid > 0 AND mid < %d AND mid >= %d AND type = %d ORDER BY date DESC, mid DESC LIMIT %d", Long.valueOf(this.val$uid), Integer.valueOf(this.val$topicId), Integer.valueOf(this.val$max_id), Integer.valueOf(i10), Integer.valueOf(this.val$type), Integer.valueOf(i12)), new Object[0]);
-                                    z5 = false;
-                                } else {
-                                    queryFinalized = sQLiteDatabase.queryFinalized(String.format(Locale.US, "SELECT data, mid FROM media_topics WHERE uid = %d AND topic_id = %d AND mid > 0 AND mid < %d AND type = %d ORDER BY date DESC, mid DESC LIMIT %d", Long.valueOf(this.val$uid), Integer.valueOf(this.val$topicId), Integer.valueOf(this.val$max_id), Integer.valueOf(this.val$type), Integer.valueOf(i12)), new Object[0]);
-                                }
-                            } else if (i10 > 1) {
-                                queryFinalized = sQLiteDatabase.queryFinalized(String.format(Locale.US, "SELECT data, mid FROM media_v4 WHERE uid = %d AND mid > 0 AND mid < %d AND mid >= %d AND type = %d ORDER BY date DESC, mid DESC LIMIT %d", Long.valueOf(this.val$uid), Integer.valueOf(this.val$max_id), Integer.valueOf(i10), Integer.valueOf(this.val$type), Integer.valueOf(i12)), new Object[0]);
-                                z5 = false;
-                            } else {
-                                queryFinalized = sQLiteDatabase.queryFinalized(String.format(Locale.US, "SELECT data, mid FROM media_v4 WHERE uid = %d AND mid > 0 AND mid < %d AND type = %d ORDER BY date DESC, mid DESC LIMIT %d", Long.valueOf(this.val$uid), Integer.valueOf(this.val$max_id), Integer.valueOf(this.val$type), Integer.valueOf(i12)), new Object[0]);
-                            }
-                            z4 = z5;
-                        } else if (this.val$min_id != 0) {
-                            SQLiteCursor queryFinalized4 = this.val$topicId != 0 ? database.queryFinalized(String.format(Locale.US, "SELECT start, end FROM media_holes_topics WHERE uid = %d AND topic_id = %d AND type = %d AND end >= %d ORDER BY end ASC LIMIT 1", Long.valueOf(this.val$uid), Integer.valueOf(this.val$topicId), Integer.valueOf(this.val$type), Integer.valueOf(this.val$min_id)), new Object[0]) : database.queryFinalized(String.format(Locale.US, "SELECT start, end FROM media_holes_v2 WHERE uid = %d AND type = %d AND end >= %d ORDER BY end ASC LIMIT 1", Long.valueOf(this.val$uid), Integer.valueOf(this.val$type), Integer.valueOf(this.val$min_id)), new Object[0]);
-                            if (queryFinalized4.next()) {
-                                i9 = queryFinalized4.intValue(0);
-                                queryFinalized4.intValue(1);
+                            SQLiteCursor queryFinalized3 = this.val$topicId != 0 ? sQLiteDatabase.queryFinalized(String.format(Locale.US, "SELECT start, end FROM media_holes_topics WHERE uid = %d AND topic_id = %d AND type = %d AND start <= %d ORDER BY end DESC LIMIT 1", Long.valueOf(this.val$uid), Long.valueOf(this.val$topicId), Integer.valueOf(this.val$type), Integer.valueOf(this.val$max_id)), new Object[0]) : sQLiteDatabase.queryFinalized(String.format(Locale.US, "SELECT start, end FROM media_holes_v2 WHERE uid = %d AND type = %d AND start <= %d ORDER BY end DESC LIMIT 1", Long.valueOf(this.val$uid), Integer.valueOf(this.val$type), Integer.valueOf(this.val$max_id)), new Object[0]);
+                            if (queryFinalized3.next()) {
+                                queryFinalized3.intValue(0);
+                                i9 = queryFinalized3.intValue(1);
                             } else {
                                 i9 = 0;
                             }
-                            queryFinalized4.dispose();
+                            queryFinalized3.dispose();
                             if (this.val$topicId != 0) {
                                 if (i9 > 1) {
-                                    queryFinalized = database.queryFinalized(String.format(Locale.US, "SELECT data, mid FROM media_topics WHERE uid = %d AND topic_id = %d AND mid > 0 AND mid >= %d AND mid <= %d AND type = %d ORDER BY date ASC, mid ASC LIMIT %d", Long.valueOf(this.val$uid), Integer.valueOf(this.val$topicId), Integer.valueOf(this.val$min_id), Integer.valueOf(i9), Integer.valueOf(this.val$type), Integer.valueOf(i12)), new Object[0]);
+                                    queryFinalized = sQLiteDatabase.queryFinalized(String.format(Locale.US, "SELECT data, mid FROM media_topics WHERE uid = %d AND topic_id = %d AND mid > 0 AND mid < %d AND mid >= %d AND type = %d ORDER BY date DESC, mid DESC LIMIT %d", Long.valueOf(this.val$uid), Long.valueOf(this.val$topicId), Integer.valueOf(this.val$max_id), Integer.valueOf(i9), Integer.valueOf(this.val$type), Integer.valueOf(i11)), new Object[0]);
+                                    z5 = false;
+                                } else {
+                                    queryFinalized = sQLiteDatabase.queryFinalized(String.format(Locale.US, "SELECT data, mid FROM media_topics WHERE uid = %d AND topic_id = %d AND mid > 0 AND mid < %d AND type = %d ORDER BY date DESC, mid DESC LIMIT %d", Long.valueOf(this.val$uid), Long.valueOf(this.val$topicId), Integer.valueOf(this.val$max_id), Integer.valueOf(this.val$type), Integer.valueOf(i11)), new Object[0]);
+                                }
+                            } else if (i9 > 1) {
+                                queryFinalized = sQLiteDatabase.queryFinalized(String.format(Locale.US, "SELECT data, mid FROM media_v4 WHERE uid = %d AND mid > 0 AND mid < %d AND mid >= %d AND type = %d ORDER BY date DESC, mid DESC LIMIT %d", Long.valueOf(this.val$uid), Integer.valueOf(this.val$max_id), Integer.valueOf(i9), Integer.valueOf(this.val$type), Integer.valueOf(i11)), new Object[0]);
+                                z5 = false;
+                            } else {
+                                queryFinalized = sQLiteDatabase.queryFinalized(String.format(Locale.US, "SELECT data, mid FROM media_v4 WHERE uid = %d AND mid > 0 AND mid < %d AND type = %d ORDER BY date DESC, mid DESC LIMIT %d", Long.valueOf(this.val$uid), Integer.valueOf(this.val$max_id), Integer.valueOf(this.val$type), Integer.valueOf(i11)), new Object[0]);
+                            }
+                            z4 = z5;
+                        } else if (this.val$min_id != 0) {
+                            SQLiteCursor queryFinalized4 = this.val$topicId != 0 ? sQLiteDatabase.queryFinalized(String.format(Locale.US, "SELECT start, end FROM media_holes_topics WHERE uid = %d AND topic_id = %d AND type = %d AND end >= %d ORDER BY end ASC LIMIT 1", Long.valueOf(this.val$uid), Long.valueOf(this.val$topicId), Integer.valueOf(this.val$type), Integer.valueOf(this.val$min_id)), new Object[0]) : sQLiteDatabase.queryFinalized(String.format(Locale.US, "SELECT start, end FROM media_holes_v2 WHERE uid = %d AND type = %d AND end >= %d ORDER BY end ASC LIMIT 1", Long.valueOf(this.val$uid), Integer.valueOf(this.val$type), Integer.valueOf(this.val$min_id)), new Object[0]);
+                            if (queryFinalized4.next()) {
+                                i8 = queryFinalized4.intValue(0);
+                                queryFinalized4.intValue(1);
+                            } else {
+                                i8 = 0;
+                            }
+                            queryFinalized4.dispose();
+                            if (this.val$topicId == 0) {
+                                int i13 = i8;
+                                if (i13 > 1) {
+                                    queryFinalized = sQLiteDatabase.queryFinalized(String.format(Locale.US, "SELECT data, mid FROM media_v4 WHERE uid = %d AND mid > 0 AND mid >= %d AND mid <= %d AND type = %d ORDER BY date ASC, mid ASC LIMIT %d", Long.valueOf(this.val$uid), Integer.valueOf(this.val$min_id), Integer.valueOf(i13), Integer.valueOf(this.val$type), Integer.valueOf(i11)), new Object[0]);
                                     z3 = true;
                                     z4 = z5;
                                 } else {
-                                    queryFinalized = database.queryFinalized(String.format(Locale.US, "SELECT data, mid FROM media_topics WHERE uid = %d AND topic_id = %d AND mid > 0 AND mid >= %d AND type = %d ORDER BY date ASC, mid ASC LIMIT %d", Long.valueOf(this.val$uid), Integer.valueOf(this.val$topicId), Integer.valueOf(this.val$min_id), Integer.valueOf(this.val$type), Integer.valueOf(i12)), new Object[0]);
+                                    queryFinalized = sQLiteDatabase.queryFinalized(String.format(Locale.US, "SELECT data, mid FROM media_v4 WHERE uid = %d AND mid > 0 AND mid >= %d AND type = %d ORDER BY date ASC, mid ASC LIMIT %d", Long.valueOf(this.val$uid), Integer.valueOf(this.val$min_id), Integer.valueOf(this.val$type), Integer.valueOf(i11)), new Object[0]);
                                     z5 = true;
                                     z3 = true;
                                     z4 = z5;
                                 }
-                            } else if (i9 > 1) {
-                                queryFinalized = database.queryFinalized(String.format(Locale.US, "SELECT data, mid FROM media_v4 WHERE uid = %d AND mid > 0 AND mid >= %d AND mid <= %d AND type = %d ORDER BY date ASC, mid ASC LIMIT %d", Long.valueOf(this.val$uid), Integer.valueOf(this.val$min_id), Integer.valueOf(i9), Integer.valueOf(this.val$type), Integer.valueOf(i12)), new Object[0]);
+                            } else if (i8 > 1) {
+                                queryFinalized = sQLiteDatabase.queryFinalized(String.format(Locale.US, "SELECT data, mid FROM media_topics WHERE uid = %d AND topic_id = %d AND mid > 0 AND mid >= %d AND mid <= %d AND type = %d ORDER BY date ASC, mid ASC LIMIT %d", Long.valueOf(this.val$uid), Long.valueOf(this.val$topicId), Integer.valueOf(this.val$min_id), Integer.valueOf(i8), Integer.valueOf(this.val$type), Integer.valueOf(i11)), new Object[0]);
                                 z3 = true;
                                 z4 = z5;
                             } else {
-                                queryFinalized = database.queryFinalized(String.format(Locale.US, "SELECT data, mid FROM media_v4 WHERE uid = %d AND mid > 0 AND mid >= %d AND type = %d ORDER BY date ASC, mid ASC LIMIT %d", Long.valueOf(this.val$uid), Integer.valueOf(this.val$min_id), Integer.valueOf(this.val$type), Integer.valueOf(i12)), new Object[0]);
+                                queryFinalized = sQLiteDatabase.queryFinalized(String.format(Locale.US, "SELECT data, mid FROM media_topics WHERE uid = %d AND topic_id = %d AND mid > 0 AND mid >= %d AND type = %d ORDER BY date ASC, mid ASC LIMIT %d", Long.valueOf(this.val$uid), Long.valueOf(this.val$topicId), Integer.valueOf(this.val$min_id), Integer.valueOf(this.val$type), Integer.valueOf(i11)), new Object[0]);
                                 z5 = true;
                                 z3 = true;
                                 z4 = z5;
                             }
                         } else {
-                            SQLiteCursor queryFinalized5 = this.val$topicId != 0 ? database.queryFinalized(String.format(Locale.US, "SELECT max(end) FROM media_holes_topics WHERE uid = %d AND topic_id = %d AND type = %d", Long.valueOf(this.val$uid), Integer.valueOf(this.val$topicId), Integer.valueOf(this.val$type)), new Object[0]) : database.queryFinalized(String.format(Locale.US, "SELECT max(end) FROM media_holes_v2 WHERE uid = %d AND type = %d", Long.valueOf(this.val$uid), Integer.valueOf(this.val$type)), new Object[0]);
+                            SQLiteCursor queryFinalized5 = this.val$topicId != 0 ? sQLiteDatabase.queryFinalized(String.format(Locale.US, "SELECT max(end) FROM media_holes_topics WHERE uid = %d AND topic_id = %d AND type = %d", Long.valueOf(this.val$uid), Long.valueOf(this.val$topicId), Integer.valueOf(this.val$type)), new Object[0]) : sQLiteDatabase.queryFinalized(String.format(Locale.US, "SELECT max(end) FROM media_holes_v2 WHERE uid = %d AND type = %d", Long.valueOf(this.val$uid), Integer.valueOf(this.val$type)), new Object[0]);
                             int intValue2 = queryFinalized5.next() ? queryFinalized5.intValue(0) : 0;
                             queryFinalized5.dispose();
-                            queryFinalized = this.val$topicId != 0 ? intValue2 > 1 ? database.queryFinalized(String.format(Locale.US, "SELECT data, mid FROM media_topics WHERE uid = %d AND topic_id = %d AND mid >= %d AND type = %d ORDER BY date DESC, mid DESC LIMIT %d", Long.valueOf(this.val$uid), Integer.valueOf(this.val$topicId), Integer.valueOf(intValue2), Integer.valueOf(this.val$type), Integer.valueOf(i12)), new Object[0]) : database.queryFinalized(String.format(Locale.US, "SELECT data, mid FROM media_topics WHERE uid = %d AND topic_id = %d AND mid > 0 AND type = %d ORDER BY date DESC, mid DESC LIMIT %d", Long.valueOf(this.val$uid), Integer.valueOf(this.val$topicId), Integer.valueOf(this.val$type), Integer.valueOf(i12)), new Object[0]) : intValue2 > 1 ? database.queryFinalized(String.format(Locale.US, "SELECT data, mid FROM media_v4 WHERE uid = %d AND mid >= %d AND type = %d ORDER BY date DESC, mid DESC LIMIT %d", Long.valueOf(this.val$uid), Integer.valueOf(intValue2), Integer.valueOf(this.val$type), Integer.valueOf(i12)), new Object[0]) : database.queryFinalized(String.format(Locale.US, "SELECT data, mid FROM media_v4 WHERE uid = %d AND mid > 0 AND type = %d ORDER BY date DESC, mid DESC LIMIT %d", Long.valueOf(this.val$uid), Integer.valueOf(this.val$type), Integer.valueOf(i12)), new Object[0]);
+                            if (this.val$topicId != 0) {
+                                queryFinalized = intValue2 > 1 ? sQLiteDatabase.queryFinalized(String.format(Locale.US, "SELECT data, mid FROM media_topics WHERE uid = %d AND topic_id = %d AND mid >= %d AND type = %d ORDER BY date DESC, mid DESC LIMIT %d", Long.valueOf(this.val$uid), Long.valueOf(this.val$topicId), Integer.valueOf(intValue2), Integer.valueOf(this.val$type), Integer.valueOf(i11)), new Object[0]) : sQLiteDatabase.queryFinalized(String.format(Locale.US, "SELECT data, mid FROM media_topics WHERE uid = %d AND topic_id = %d AND mid > 0 AND type = %d ORDER BY date DESC, mid DESC LIMIT %d", Long.valueOf(this.val$uid), Long.valueOf(this.val$topicId), Integer.valueOf(this.val$type), Integer.valueOf(i11)), new Object[0]);
+                            } else {
+                                int i14 = intValue2;
+                                queryFinalized = i14 > 1 ? sQLiteDatabase.queryFinalized(String.format(Locale.US, "SELECT data, mid FROM media_v4 WHERE uid = %d AND mid >= %d AND type = %d ORDER BY date DESC, mid DESC LIMIT %d", Long.valueOf(this.val$uid), Integer.valueOf(i14), Integer.valueOf(this.val$type), Integer.valueOf(i11)), new Object[0]) : sQLiteDatabase.queryFinalized(String.format(Locale.US, "SELECT data, mid FROM media_v4 WHERE uid = %d AND mid > 0 AND type = %d ORDER BY date DESC, mid DESC LIMIT %d", Long.valueOf(this.val$uid), Integer.valueOf(this.val$type), Integer.valueOf(i11)), new Object[0]);
+                            }
                         }
                         z3 = false;
                         z4 = z5;
                     } else {
                         if (this.val$topicId != 0) {
                             if (this.val$max_id != 0) {
-                                queryFinalized = database.queryFinalized(String.format(Locale.US, "SELECT m.data, m.mid, r.random_id FROM media_topics as m LEFT JOIN randoms_v2 as r ON r.mid = m.mid WHERE m.uid = %d AND m.topic_id = %d AND m.mid > %d AND type = %d ORDER BY m.mid ASC LIMIT %d", Long.valueOf(this.val$uid), Integer.valueOf(this.val$topicId), Integer.valueOf(this.val$max_id), Integer.valueOf(this.val$type), Integer.valueOf(i12)), new Object[0]);
+                                queryFinalized = database.queryFinalized(String.format(Locale.US, "SELECT m.data, m.mid, r.random_id FROM media_topics as m LEFT JOIN randoms_v2 as r ON r.mid = m.mid WHERE m.uid = %d AND m.topic_id = %d AND m.mid > %d AND type = %d ORDER BY m.mid ASC LIMIT %d", Long.valueOf(this.val$uid), Long.valueOf(this.val$topicId), Integer.valueOf(this.val$max_id), Integer.valueOf(this.val$type), Integer.valueOf(i11)), new Object[0]);
                             } else {
-                                queryFinalized = this.val$min_id != 0 ? database.queryFinalized(String.format(Locale.US, "SELECT m.data, m.mid, r.random_id FROM media_topics as m LEFT JOIN randoms_v2 as r ON r.mid = m.mid WHERE m.uid = %d AND m.topic_id = %d AND m.mid < %d AND type = %d ORDER BY m.mid DESC LIMIT %d", Long.valueOf(this.val$uid), Integer.valueOf(this.val$topicId), Integer.valueOf(this.val$min_id), Integer.valueOf(this.val$type), Integer.valueOf(i12)), new Object[0]) : database.queryFinalized(String.format(Locale.US, "SELECT m.data, m.mid, r.random_id FROM media_topics as m LEFT JOIN randoms_v2 as r ON r.mid = m.mid WHERE m.uid = %d AND m.topic_id = %d AND type = %d ORDER BY m.mid ASC LIMIT %d", Long.valueOf(this.val$uid), Integer.valueOf(this.val$topicId), Integer.valueOf(this.val$type), Integer.valueOf(i12)), new Object[0]);
+                                queryFinalized = this.val$min_id != 0 ? database.queryFinalized(String.format(Locale.US, "SELECT m.data, m.mid, r.random_id FROM media_topics as m LEFT JOIN randoms_v2 as r ON r.mid = m.mid WHERE m.uid = %d AND m.topic_id = %d AND m.mid < %d AND type = %d ORDER BY m.mid DESC LIMIT %d", Long.valueOf(this.val$uid), Long.valueOf(this.val$topicId), Integer.valueOf(this.val$min_id), Integer.valueOf(this.val$type), Integer.valueOf(i11)), new Object[0]) : database.queryFinalized(String.format(Locale.US, "SELECT m.data, m.mid, r.random_id FROM media_topics as m LEFT JOIN randoms_v2 as r ON r.mid = m.mid WHERE m.uid = %d AND m.topic_id = %d AND type = %d ORDER BY m.mid ASC LIMIT %d", Long.valueOf(this.val$uid), Long.valueOf(this.val$topicId), Integer.valueOf(this.val$type), Integer.valueOf(i11)), new Object[0]);
                             }
                         } else if (this.val$max_id != 0) {
-                            queryFinalized = database.queryFinalized(String.format(Locale.US, "SELECT m.data, m.mid, r.random_id FROM media_v4 as m LEFT JOIN randoms_v2 as r ON r.mid = m.mid WHERE m.uid = %d AND m.mid > %d AND type = %d ORDER BY m.mid ASC LIMIT %d", Long.valueOf(this.val$uid), Integer.valueOf(this.val$max_id), Integer.valueOf(this.val$type), Integer.valueOf(i12)), new Object[0]);
+                            queryFinalized = database.queryFinalized(String.format(Locale.US, "SELECT m.data, m.mid, r.random_id FROM media_v4 as m LEFT JOIN randoms_v2 as r ON r.mid = m.mid WHERE m.uid = %d AND m.mid > %d AND type = %d ORDER BY m.mid ASC LIMIT %d", Long.valueOf(this.val$uid), Integer.valueOf(this.val$max_id), Integer.valueOf(this.val$type), Integer.valueOf(i11)), new Object[0]);
                         } else {
-                            queryFinalized = this.val$min_id != 0 ? database.queryFinalized(String.format(Locale.US, "SELECT m.data, m.mid, r.random_id FROM media_v4 as m LEFT JOIN randoms_v2 as r ON r.mid = m.mid WHERE m.uid = %d AND m.mid < %d AND type = %d ORDER BY m.mid DESC LIMIT %d", Long.valueOf(this.val$uid), Integer.valueOf(this.val$min_id), Integer.valueOf(this.val$type), Integer.valueOf(i12)), new Object[0]) : database.queryFinalized(String.format(Locale.US, "SELECT m.data, m.mid, r.random_id FROM media_v4 as m LEFT JOIN randoms_v2 as r ON r.mid = m.mid WHERE m.uid = %d AND type = %d ORDER BY m.mid ASC LIMIT %d", Long.valueOf(this.val$uid), Integer.valueOf(this.val$type), Integer.valueOf(i12)), new Object[0]);
+                            queryFinalized = this.val$min_id != 0 ? database.queryFinalized(String.format(Locale.US, "SELECT m.data, m.mid, r.random_id FROM media_v4 as m LEFT JOIN randoms_v2 as r ON r.mid = m.mid WHERE m.uid = %d AND m.mid < %d AND type = %d ORDER BY m.mid DESC LIMIT %d", Long.valueOf(this.val$uid), Integer.valueOf(this.val$min_id), Integer.valueOf(this.val$type), Integer.valueOf(i11)), new Object[0]) : database.queryFinalized(String.format(Locale.US, "SELECT m.data, m.mid, r.random_id FROM media_v4 as m LEFT JOIN randoms_v2 as r ON r.mid = m.mid WHERE m.uid = %d AND type = %d ORDER BY m.mid ASC LIMIT %d", Long.valueOf(this.val$uid), Integer.valueOf(this.val$type), Integer.valueOf(i11)), new Object[0]);
                         }
                         z3 = false;
                         z4 = true;
@@ -6238,9 +6304,9 @@ public class MediaDataController extends BaseController {
                             TLdeserialize.readAttachPath(byteBufferValue, MediaDataController.this.getUserConfig().clientUserId);
                             byteBufferValue.reuse();
                             TLdeserialize.id = queryFinalized.intValue(1);
-                            long j2 = this.val$uid;
-                            TLdeserialize.dialog_id = j2;
-                            if (DialogObject.isEncryptedDialog(j2)) {
+                            long j4 = this.val$uid;
+                            TLdeserialize.dialog_id = j4;
+                            if (DialogObject.isEncryptedDialog(j4)) {
                                 TLdeserialize.random_id = queryFinalized.longValue(2);
                             }
                             if (z3) {
@@ -6258,11 +6324,13 @@ public class MediaDataController extends BaseController {
                     if (!arrayList2.isEmpty()) {
                         MediaDataController.this.getMessagesStorage().getChatsInternal(TextUtils.join(",", arrayList2), tLRPC$TL_messages_messages.chats);
                     }
-                } catch (Exception e) {
-                    tLRPC$TL_messages_messages.messages.clear();
-                    tLRPC$TL_messages_messages.chats.clear();
-                    tLRPC$TL_messages_messages.users.clear();
-                    FileLog.e(e);
+                    if (tLRPC$TL_messages_messages.messages.size() > this.val$count && this.val$min_id == 0) {
+                        ArrayList<TLRPC$Message> arrayList3 = tLRPC$TL_messages_messages.messages;
+                        arrayList3.remove(arrayList3.size() - 1);
+                        z6 = false;
+                    } else if (this.val$min_id == 0) {
+                        z6 = z4;
+                    }
                     final int i15 = this.val$classGuid;
                     AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaDataController$1$$ExternalSyntheticLambda0
                         @Override // java.lang.Runnable
@@ -6276,18 +6344,17 @@ public class MediaDataController extends BaseController {
                     i2 = this.val$max_id;
                     i3 = this.val$min_id;
                     i4 = this.val$type;
-                    i5 = this.val$topicId;
-                    i6 = this.val$fromCache;
-                    i7 = this.val$classGuid;
+                    j2 = this.val$topicId;
+                    i5 = this.val$fromCache;
+                    i6 = this.val$classGuid;
                     z = this.val$isChannel;
-                    i8 = this.val$requestIndex;
-                    z2 = false;
-                }
-                if (tLRPC$TL_messages_messages.messages.size() > this.val$count && this.val$min_id == 0) {
-                    ArrayList<TLRPC$Message> arrayList3 = tLRPC$TL_messages_messages.messages;
-                    arrayList3.remove(arrayList3.size() - 1);
-                } else if (this.val$min_id == 0) {
-                    z2 = z4;
+                    z2 = z6;
+                    i7 = this.val$requestIndex;
+                } catch (Exception e) {
+                    tLRPC$TL_messages_messages.messages.clear();
+                    tLRPC$TL_messages_messages.chats.clear();
+                    tLRPC$TL_messages_messages.users.clear();
+                    FileLog.e(e);
                     final int i16 = this.val$classGuid;
                     AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaDataController$1$$ExternalSyntheticLambda0
                         @Override // java.lang.Runnable
@@ -6301,33 +6368,14 @@ public class MediaDataController extends BaseController {
                     i2 = this.val$max_id;
                     i3 = this.val$min_id;
                     i4 = this.val$type;
-                    i5 = this.val$topicId;
-                    i6 = this.val$fromCache;
-                    i7 = this.val$classGuid;
+                    j2 = this.val$topicId;
+                    i5 = this.val$fromCache;
+                    i6 = this.val$classGuid;
                     z = this.val$isChannel;
-                    i8 = this.val$requestIndex;
-                    mediaDataController.processLoadedMedia(tLRPC$TL_messages_messages, j, i, i2, i3, i4, i5, i6, i7, z, z2, i8);
+                    i7 = this.val$requestIndex;
+                    z2 = false;
                 }
-                z2 = false;
-                final int i162 = this.val$classGuid;
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaDataController$1$$ExternalSyntheticLambda0
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        MediaDataController.1.this.lambda$run$0(this, i162);
-                    }
-                });
-                mediaDataController = MediaDataController.this;
-                j = this.val$uid;
-                i = this.val$count;
-                i2 = this.val$max_id;
-                i3 = this.val$min_id;
-                i4 = this.val$type;
-                i5 = this.val$topicId;
-                i6 = this.val$fromCache;
-                i7 = this.val$classGuid;
-                z = this.val$isChannel;
-                i8 = this.val$requestIndex;
-                mediaDataController.processLoadedMedia(tLRPC$TL_messages_messages, j, i, i2, i3, i4, i5, i6, i7, z, z2, i8);
+                mediaDataController.processLoadedMedia(tLRPC$TL_messages_messages, j, i, i2, i3, i4, j2, i5, i6, z, z2, i7);
             } catch (Throwable th) {
                 final int i17 = this.val$classGuid;
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaDataController$1$$ExternalSyntheticLambda0
@@ -6347,29 +6395,29 @@ public class MediaDataController extends BaseController {
         }
     }
 
-    private void loadMediaDatabase(long j, int i, int i2, int i3, int i4, int i5, int i6, boolean z, int i7, int i8) {
-        1 r13 = new 1(i, j, i3, i5, i4, i2, i6, i7, z, i8);
+    private void loadMediaDatabase(long j, int i, int i2, int i3, int i4, long j2, int i5, boolean z, int i6, int i7) {
+        1 r14 = new 1(i, j, i3, j2, i4, i2, i5, i6, z, i7);
         MessagesStorage messagesStorage = getMessagesStorage();
-        messagesStorage.getStorageQueue().postRunnable(r13);
-        messagesStorage.bindTaskToGuid(r13, i6);
+        messagesStorage.getStorageQueue().postRunnable(r14);
+        messagesStorage.bindTaskToGuid(r14, i5);
     }
 
-    private void putMediaDatabase(final long j, final int i, final int i2, final ArrayList<TLRPC$Message> arrayList, final int i3, final int i4, final boolean z) {
-        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda32
+    private void putMediaDatabase(final long j, final long j2, final int i, final ArrayList<TLRPC$Message> arrayList, final int i2, final int i3, final boolean z) {
+        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda29
             @Override // java.lang.Runnable
             public final void run() {
-                MediaDataController.this.lambda$putMediaDatabase$129(i4, arrayList, z, j, i3, i2, i);
+                MediaDataController.this.lambda$putMediaDatabase$129(i3, arrayList, z, j, i2, i, j2);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$putMediaDatabase$129(int i, ArrayList arrayList, boolean z, long j, int i2, int i3, int i4) {
+    public /* synthetic */ void lambda$putMediaDatabase$129(int i, ArrayList arrayList, boolean z, long j, int i2, int i3, long j2) {
         SQLitePreparedStatement executeFast;
         if (i == 0) {
             try {
                 if (arrayList.isEmpty() || z) {
-                    getMessagesStorage().doneHolesInMedia(j, i2, i3, i4);
+                    getMessagesStorage().doneHolesInMedia(j, i2, i3, j2);
                     if (arrayList.isEmpty()) {
                         return;
                     }
@@ -6380,7 +6428,7 @@ public class MediaDataController extends BaseController {
             }
         }
         getMessagesStorage().getDatabase().beginTransaction();
-        if (i4 != 0) {
+        if (j2 != 0) {
             executeFast = getMessagesStorage().getDatabase().executeFast("REPLACE INTO media_topics VALUES(?, ?, ?, ?, ?, ?)");
         } else {
             executeFast = getMessagesStorage().getDatabase().executeFast("REPLACE INTO media_v4 VALUES(?, ?, ?, ?, ?)");
@@ -6394,36 +6442,36 @@ public class MediaDataController extends BaseController {
                 NativeByteBuffer nativeByteBuffer = new NativeByteBuffer(tLRPC$Message.getObjectSize());
                 tLRPC$Message.serializeToStream(nativeByteBuffer);
                 executeFast.bindInteger(1, tLRPC$Message.id);
-                int i5 = 3;
+                int i4 = 3;
                 executeFast.bindLong(2, j);
-                if (i4 != 0) {
-                    executeFast.bindInteger(3, i4);
-                    i5 = 4;
+                if (j2 != 0) {
+                    executeFast.bindLong(3, j2);
+                    i4 = 4;
                 }
-                int i6 = i5 + 1;
-                executeFast.bindInteger(i5, tLRPC$Message.date);
-                executeFast.bindInteger(i6, i3);
-                executeFast.bindByteBuffer(i6 + 1, nativeByteBuffer);
+                int i5 = i4 + 1;
+                executeFast.bindInteger(i4, tLRPC$Message.date);
+                executeFast.bindInteger(i5, i3);
+                executeFast.bindByteBuffer(i5 + 1, nativeByteBuffer);
                 executeFast.step();
                 nativeByteBuffer.reuse();
             }
         }
         executeFast.dispose();
         if (!z || i2 != 0 || i != 0) {
-            int i7 = (z && i == 0) ? 1 : ((TLRPC$Message) arrayList.get(arrayList.size() - 1)).id;
+            int i6 = (z && i == 0) ? 1 : ((TLRPC$Message) arrayList.get(arrayList.size() - 1)).id;
             if (i != 0) {
-                getMessagesStorage().closeHolesInMedia(j, i7, ((TLRPC$Message) arrayList.get(0)).id, i3, i4);
+                getMessagesStorage().closeHolesInMedia(j, i6, ((TLRPC$Message) arrayList.get(0)).id, i3, j2);
             } else if (i2 != 0) {
-                getMessagesStorage().closeHolesInMedia(j, i7, i2, i3, i4);
+                getMessagesStorage().closeHolesInMedia(j, i6, i2, i3, j2);
             } else {
-                getMessagesStorage().closeHolesInMedia(j, i7, ConnectionsManager.DEFAULT_DATACENTER_ID, i3, i4);
+                getMessagesStorage().closeHolesInMedia(j, i6, ConnectionsManager.DEFAULT_DATACENTER_ID, i3, j2);
             }
         }
         getMessagesStorage().getDatabase().commitTransaction();
     }
 
     public void loadMusic(final long j, final long j2, final long j3) {
-        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda50
+        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda46
             @Override // java.lang.Runnable
             public final void run() {
                 MediaDataController.this.lambda$loadMusic$131(j, j2, j3);
@@ -7100,7 +7148,7 @@ public class MediaDataController extends BaseController {
         if (!getUserConfig().suggestContacts || !DialogObject.isUserDialog(j) || (user = getMessagesController().getUser(Long.valueOf(j))) == null || user.bot || user.self) {
             return;
         }
-        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda41
+        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda38
             @Override // java.lang.Runnable
             public final void run() {
                 MediaDataController.this.lambda$increasePeerRaiting$146(j);
@@ -7129,7 +7177,7 @@ public class MediaDataController extends BaseController {
             FileLog.e(e);
         }
         final double d2 = d;
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda42
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda39
             @Override // java.lang.Runnable
             public final void run() {
                 MediaDataController.this.lambda$increasePeerRaiting$145(j, d2);
@@ -7179,7 +7227,7 @@ public class MediaDataController extends BaseController {
     }
 
     private void savePeer(final long j, final int i, final double d) {
-        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda44
+        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda41
             @Override // java.lang.Runnable
             public final void run() {
                 MediaDataController.this.lambda$savePeer$147(j, i, d);
@@ -7204,7 +7252,7 @@ public class MediaDataController extends BaseController {
     }
 
     private void deletePeer(final long j, final int i) {
-        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda43
+        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda40
             @Override // java.lang.Runnable
             public final void run() {
                 MediaDataController.this.lambda$deletePeer$148(j, i);
@@ -7583,7 +7631,7 @@ public class MediaDataController extends BaseController {
             z = false;
         }
         getMessagesStorage().updatePinnedMessages(j, arrayList, true, i4, i2, z, hashMap);
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda39
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda36
             @Override // java.lang.Runnable
             public final void run() {
                 MediaDataController.this.lambda$loadPinnedMessages$150(j);
@@ -7603,7 +7651,7 @@ public class MediaDataController extends BaseController {
 
     public ArrayList<MessageObject> loadPinnedMessages(final long j, final long j2, final ArrayList<Integer> arrayList, boolean z) {
         if (z) {
-            getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda51
+            getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda47
                 @Override // java.lang.Runnable
                 public final void run() {
                     MediaDataController.this.lambda$loadPinnedMessages$152(j, j2, arrayList);
@@ -7621,7 +7669,7 @@ public class MediaDataController extends BaseController {
     /* JADX WARN: Type inference failed for: r3v1, types: [java.lang.Object[]] */
     /* JADX WARN: Type inference failed for: r4v1 */
     /* JADX WARN: Type inference failed for: r4v11 */
-    /* JADX WARN: Type inference failed for: r4v2, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r4v2, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r7v1, types: [java.lang.String] */
     /* JADX WARN: Type inference failed for: r7v13, types: [java.lang.StringBuilder] */
     /* JADX WARN: Type inference failed for: r7v2 */
@@ -7930,133 +7978,133 @@ public class MediaDataController extends BaseController {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:100:0x0194, code lost:
-        r2 = new java.util.ArrayList();
-        r0.put(r12, r2);
+    /* JADX WARN: Code restructure failed: missing block: B:100:0x01a1, code lost:
+        if (r1.contains(java.lang.Integer.valueOf(r12)) != false) goto L139;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:101:0x01a4, code lost:
-        if (r1.contains(java.lang.Integer.valueOf(r12)) != false) goto L140;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:102:0x01a6, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:101:0x01a3, code lost:
         r1.add(java.lang.Integer.valueOf(r12));
      */
-    /* JADX WARN: Code restructure failed: missing block: B:103:0x01ad, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:102:0x01aa, code lost:
         r2.add(r4);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:63:0x0117, code lost:
-        if (r2 != 0) goto L110;
+    /* JADX WARN: Code restructure failed: missing block: B:62:0x0114, code lost:
+        if (r2 != 0) goto L109;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:66:0x0122, code lost:
-        if (r2 != 0) goto L110;
+    /* JADX WARN: Code restructure failed: missing block: B:65:0x011f, code lost:
+        if (r2 != 0) goto L109;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:68:0x0125, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:67:0x0122, code lost:
         r2 = 0;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:69:0x0126, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:68:0x0123, code lost:
         r8 = r4.replyMessageObject;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:70:0x0128, code lost:
-        if (r8 == null) goto L122;
+    /* JADX WARN: Code restructure failed: missing block: B:69:0x0125, code lost:
+        if (r8 == null) goto L121;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:71:0x012a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:70:0x0127, code lost:
         r8 = r8.messageOwner;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:72:0x012c, code lost:
-        if (r8 == null) goto L121;
+    /* JADX WARN: Code restructure failed: missing block: B:71:0x0129, code lost:
+        if (r8 == null) goto L120;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:73:0x012e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:72:0x012b, code lost:
         r8 = r8.peer_id;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:74:0x0130, code lost:
-        if (r8 == null) goto L121;
+    /* JADX WARN: Code restructure failed: missing block: B:73:0x012d, code lost:
+        if (r8 == null) goto L120;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:76:0x0134, code lost:
-        if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageEmpty) == false) goto L118;
+    /* JADX WARN: Code restructure failed: missing block: B:75:0x0131, code lost:
+        if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageEmpty) == false) goto L117;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:79:0x013b, code lost:
-        if (r8.channel_id != r2) goto L120;
+    /* JADX WARN: Code restructure failed: missing block: B:78:0x0138, code lost:
+        if (r8.channel_id != r2) goto L119;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:80:0x013b, code lost:
+        r13 = 0;
      */
     /* JADX WARN: Code restructure failed: missing block: B:81:0x013e, code lost:
-        r14 = 0;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:82:0x0141, code lost:
         r5 = r1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:84:0x0145, code lost:
-        if (r2 == r14) goto L141;
+    /* JADX WARN: Code restructure failed: missing block: B:83:0x0142, code lost:
+        if (r2 == r13) goto L140;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:85:0x0147, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:84:0x0144, code lost:
         r5 = r1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:86:0x014f, code lost:
-        if (r4.getDialogId() == (-r2)) goto L130;
+    /* JADX WARN: Code restructure failed: missing block: B:85:0x014c, code lost:
+        if (r4.getDialogId() == (-r2)) goto L129;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:87:0x0151, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:86:0x014e, code lost:
         r0 = org.telegram.messenger.MessagesController.getInstance(r17.currentAccount).getChat(java.lang.Long.valueOf(r2));
      */
-    /* JADX WARN: Code restructure failed: missing block: B:88:0x015f, code lost:
-        if (r0 == null) goto L130;
+    /* JADX WARN: Code restructure failed: missing block: B:87:0x015c, code lost:
+        if (r0 == null) goto L129;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:90:0x0165, code lost:
-        if (org.telegram.messenger.ChatObject.isPublic(r0) != false) goto L130;
+    /* JADX WARN: Code restructure failed: missing block: B:89:0x0162, code lost:
+        if (org.telegram.messenger.ChatObject.isPublic(r0) != false) goto L129;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:92:0x016b, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:91:0x0168, code lost:
         r5 = r1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:93:0x016c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:92:0x0169, code lost:
         r0 = (android.util.SparseArray) r6.get(r19);
         r1 = (java.util.ArrayList) r7.get(r2);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:94:0x0178, code lost:
-        if (r0 != null) goto L133;
+    /* JADX WARN: Code restructure failed: missing block: B:93:0x0175, code lost:
+        if (r0 != null) goto L132;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:95:0x017a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:94:0x0177, code lost:
         r0 = new android.util.SparseArray();
         r6.put(r19, r0);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:96:0x0182, code lost:
-        if (r1 != null) goto L135;
+    /* JADX WARN: Code restructure failed: missing block: B:95:0x017f, code lost:
+        if (r1 != null) goto L134;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:97:0x0184, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:96:0x0181, code lost:
         r1 = new java.util.ArrayList();
         r7.put(r2, r1);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:98:0x018c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:97:0x0189, code lost:
         r2 = (java.util.ArrayList) r0.get(r12);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:99:0x0192, code lost:
-        if (r2 != null) goto L140;
+    /* JADX WARN: Code restructure failed: missing block: B:98:0x018f, code lost:
+        if (r2 != null) goto L139;
      */
-    /* JADX WARN: Removed duplicated region for block: B:119:0x0202  */
-    /* JADX WARN: Removed duplicated region for block: B:130:0x0221  */
-    /* JADX WARN: Removed duplicated region for block: B:160:0x026d A[ADDED_TO_REGION, SYNTHETIC] */
+    /* JADX WARN: Code restructure failed: missing block: B:99:0x0191, code lost:
+        r2 = new java.util.ArrayList();
+        r0.put(r12, r2);
+     */
+    /* JADX WARN: Removed duplicated region for block: B:118:0x01fb  */
+    /* JADX WARN: Removed duplicated region for block: B:129:0x021a  */
+    /* JADX WARN: Removed duplicated region for block: B:159:0x0266 A[ADDED_TO_REGION, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void loadReplyMessagesForMessages(ArrayList<MessageObject> arrayList, final long j, final boolean z, int i, final Runnable runnable, final int i2) {
-        int i3;
+    public void loadReplyMessagesForMessages(ArrayList<MessageObject> arrayList, final long j, final boolean z, long j2, final Runnable runnable, final int i) {
+        int i2;
         LongSparseArray longSparseArray;
         TLRPC$Message tLRPC$Message;
         TLRPC$MessageMedia tLRPC$MessageMedia;
         TLRPC$WebPage tLRPC$WebPage;
-        int i4;
-        long j2;
+        int i3;
+        long j3;
         ArrayList<MessageObject> arrayList2 = arrayList;
         if (DialogObject.isEncryptedDialog(j)) {
             final ArrayList arrayList3 = new ArrayList();
             final LongSparseArray longSparseArray2 = new LongSparseArray();
-            for (int i5 = 0; i5 < arrayList.size(); i5++) {
-                MessageObject messageObject = arrayList2.get(i5);
+            for (int i4 = 0; i4 < arrayList.size(); i4++) {
+                MessageObject messageObject = arrayList2.get(i4);
                 if (messageObject != null && messageObject.isReply() && messageObject.replyMessageObject == null) {
-                    long j3 = messageObject.messageOwner.reply_to.reply_to_random_id;
-                    ArrayList arrayList4 = (ArrayList) longSparseArray2.get(j3);
+                    long j4 = messageObject.messageOwner.reply_to.reply_to_random_id;
+                    ArrayList arrayList4 = (ArrayList) longSparseArray2.get(j4);
                     if (arrayList4 == null) {
                         arrayList4 = new ArrayList();
-                        longSparseArray2.put(j3, arrayList4);
+                        longSparseArray2.put(j4, arrayList4);
                     }
                     arrayList4.add(messageObject);
-                    if (!arrayList3.contains(Long.valueOf(j3))) {
-                        arrayList3.add(Long.valueOf(j3));
+                    if (!arrayList3.contains(Long.valueOf(j4))) {
+                        arrayList3.add(Long.valueOf(j4));
                     }
                 }
             }
@@ -8078,13 +8126,13 @@ public class MediaDataController extends BaseController {
         final LongSparseArray longSparseArray3 = new LongSparseArray();
         final LongSparseArray longSparseArray4 = new LongSparseArray();
         LongSparseArray longSparseArray5 = null;
-        int i6 = 0;
-        while (i6 < arrayList.size()) {
-            MessageObject messageObject2 = arrayList2.get(i6);
+        int i5 = 0;
+        while (i5 < arrayList.size()) {
+            MessageObject messageObject2 = arrayList2.get(i5);
             if (messageObject2 != null) {
-                int i7 = messageObject2.type;
-                if (i7 == 23 || i7 == 24) {
-                    i3 = i6;
+                int i6 = messageObject2.type;
+                if (i6 == 23 || i6 == 24) {
+                    i2 = i5;
                     longSparseArray = longSparseArray5;
                     TLRPC$MessageMedia tLRPC$MessageMedia2 = messageObject2.messageOwner.media;
                     if (tLRPC$MessageMedia2.storyItem == null) {
@@ -8097,8 +8145,8 @@ public class MediaDataController extends BaseController {
                         }
                         arrayList5.add(messageObject2);
                         if (messageObject2.type == 0 && (tLRPC$Message = messageObject2.messageOwner) != null && (tLRPC$MessageMedia = tLRPC$Message.media) != null && (tLRPC$WebPage = tLRPC$MessageMedia.webpage) != null && tLRPC$WebPage.attributes != null) {
-                            for (i4 = 0; i4 < messageObject2.messageOwner.media.webpage.attributes.size(); i4++) {
-                                TLRPC$WebPageAttribute tLRPC$WebPageAttribute = messageObject2.messageOwner.media.webpage.attributes.get(i4);
+                            for (i3 = 0; i3 < messageObject2.messageOwner.media.webpage.attributes.size(); i3++) {
+                                TLRPC$WebPageAttribute tLRPC$WebPageAttribute = messageObject2.messageOwner.media.webpage.attributes.get(i3);
                                 if (tLRPC$WebPageAttribute instanceof TLRPC$TL_webPageAttributeStory) {
                                     TLRPC$TL_webPageAttributeStory tLRPC$TL_webPageAttributeStory = (TLRPC$TL_webPageAttributeStory) tLRPC$WebPageAttribute;
                                     if (tLRPC$TL_webPageAttributeStory.storyItem == null) {
@@ -8124,7 +8172,7 @@ public class MediaDataController extends BaseController {
                         tLRPC$MessageMedia3.storyItem = StoriesStorage.checkExpiredStateLocal(this.currentAccount, peerDialogId3, tLRPC$MessageMedia3.storyItem);
                         longSparseArray5 = longSparseArray;
                         if (messageObject2.type == 0) {
-                            while (i4 < messageObject2.messageOwner.media.webpage.attributes.size()) {
+                            while (i3 < messageObject2.messageOwner.media.webpage.attributes.size()) {
                             }
                         }
                     }
@@ -8133,17 +8181,17 @@ public class MediaDataController extends BaseController {
                         TLRPC$Message tLRPC$Message2 = messageObject2.messageOwner;
                         TL_stories$StoryItem tL_stories$StoryItem = tLRPC$Message2.replyStory;
                         if (tL_stories$StoryItem == null) {
-                            long j4 = tLRPC$Message2.reply_to.user_id;
+                            long j5 = tLRPC$Message2.reply_to.user_id;
                             if (longSparseArray5 == null) {
                                 longSparseArray5 = new LongSparseArray();
                             }
-                            ArrayList arrayList7 = (ArrayList) longSparseArray5.get(j4);
+                            ArrayList arrayList7 = (ArrayList) longSparseArray5.get(j5);
                             if (arrayList7 == null) {
                                 arrayList7 = new ArrayList();
-                                longSparseArray5.put(j4, arrayList7);
+                                longSparseArray5.put(j5, arrayList7);
                             }
                             arrayList7.add(messageObject2);
-                            i3 = i6;
+                            i2 = i5;
                             if (messageObject2.type == 0) {
                             }
                         } else {
@@ -8152,32 +8200,32 @@ public class MediaDataController extends BaseController {
                     } else if (messageObject2.getId() > 0 && messageObject2.isReply()) {
                         TLRPC$Message tLRPC$Message3 = messageObject2.messageOwner;
                         TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader = tLRPC$Message3.reply_to;
-                        int i8 = tLRPC$MessageReplyHeader.reply_to_msg_id;
-                        if (i8 != i) {
+                        int i7 = tLRPC$MessageReplyHeader.reply_to_msg_id;
+                        if (i7 != j2) {
                             TLRPC$Peer tLRPC$Peer = tLRPC$MessageReplyHeader.reply_to_peer_id;
-                            long j5 = 0;
+                            long j6 = 0;
                             if (tLRPC$Peer != null) {
                                 longSparseArray = longSparseArray5;
-                                j2 = tLRPC$Peer.channel_id;
+                                j3 = tLRPC$Peer.channel_id;
                             } else {
                                 longSparseArray = longSparseArray5;
-                                j2 = tLRPC$Message3.peer_id.channel_id;
+                                j3 = tLRPC$Message3.peer_id.channel_id;
                             }
                         }
                     }
-                    i3 = i6;
+                    i2 = i5;
                     longSparseArray = longSparseArray5;
                     longSparseArray5 = longSparseArray;
                     if (messageObject2.type == 0) {
                     }
                 }
-                i6 = i3 + 1;
+                i5 = i2 + 1;
                 arrayList2 = arrayList;
             }
-            i3 = i6;
+            i2 = i5;
             longSparseArray = longSparseArray5;
             longSparseArray5 = longSparseArray;
-            i6 = i3 + 1;
+            i5 = i2 + 1;
             arrayList2 = arrayList;
         }
         final LongSparseArray longSparseArray6 = longSparseArray5;
@@ -8186,7 +8234,7 @@ public class MediaDataController extends BaseController {
             getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda56
                 @Override // java.lang.Runnable
                 public final void run() {
-                    MediaDataController.this.lambda$loadReplyMessagesForMessages$166(longSparseArray6, atomicInteger, runnable, i2, longSparseArray3, longSparseArray4, z, j);
+                    MediaDataController.this.lambda$loadReplyMessagesForMessages$166(longSparseArray6, atomicInteger, runnable, i, longSparseArray3, longSparseArray4, z, j);
                 }
             });
         } else if (runnable != null) {
@@ -8259,7 +8307,7 @@ public class MediaDataController extends BaseController {
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Type inference failed for: r15v4 */
-    /* JADX WARN: Type inference failed for: r15v5, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r15v5, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r15v9 */
     public /* synthetic */ void lambda$loadReplyMessagesForMessages$166(LongSparseArray longSparseArray, final AtomicInteger atomicInteger, final Runnable runnable, int i, final LongSparseArray longSparseArray2, LongSparseArray longSparseArray3, final boolean z, final long j) {
         int i2;
@@ -9399,42 +9447,42 @@ public class MediaDataController extends BaseController {
         this.draftsFolderIds.clear();
     }
 
-    public LongSparseArray<SparseArray<TLRPC$DraftMessage>> getDrafts() {
+    public LongSparseArray<LongSparseArray<TLRPC$DraftMessage>> getDrafts() {
         return this.drafts;
     }
 
-    public TLRPC$DraftMessage getDraft(long j, int i) {
-        SparseArray<TLRPC$DraftMessage> sparseArray = this.drafts.get(j);
-        if (sparseArray == null) {
+    public TLRPC$DraftMessage getDraft(long j, long j2) {
+        LongSparseArray<TLRPC$DraftMessage> longSparseArray = this.drafts.get(j);
+        if (longSparseArray == null) {
             return null;
         }
-        return sparseArray.get(i);
+        return longSparseArray.get(j2);
     }
 
     public Pair<Integer, TLRPC$DraftMessage> getOneThreadDraft(long j) {
-        SparseArray<TLRPC$DraftMessage> sparseArray = this.drafts.get(j);
-        if (sparseArray == null || sparseArray.size() <= 0) {
+        LongSparseArray<TLRPC$DraftMessage> longSparseArray = this.drafts.get(j);
+        if (longSparseArray == null || longSparseArray.size() <= 0) {
             return null;
         }
-        return new Pair<>(Integer.valueOf(sparseArray.keyAt(0)), sparseArray.valueAt(0));
+        return new Pair<>(Long.valueOf(longSparseArray.keyAt(0)), longSparseArray.valueAt(0));
     }
 
-    public TLRPC$Message getDraftMessage(long j, int i) {
-        SparseArray<TLRPC$Message> sparseArray = this.draftMessages.get(j);
-        if (sparseArray == null) {
+    public TLRPC$Message getDraftMessage(long j, long j2) {
+        LongSparseArray<TLRPC$Message> longSparseArray = this.draftMessages.get(j);
+        if (longSparseArray == null) {
             return null;
         }
-        return sparseArray.get(i);
+        return longSparseArray.get(j2);
     }
 
     public void saveDraft(long j, int i, CharSequence charSequence, ArrayList<TLRPC$MessageEntity> arrayList, TLRPC$Message tLRPC$Message, boolean z) {
         saveDraft(j, i, charSequence, arrayList, tLRPC$Message, null, z, false);
     }
 
-    public void saveDraft(long j, int i, CharSequence charSequence, ArrayList<TLRPC$MessageEntity> arrayList, TLRPC$Message tLRPC$Message, ChatActivity.ReplyQuote replyQuote, boolean z, boolean z2) {
+    public void saveDraft(long j, long j2, CharSequence charSequence, ArrayList<TLRPC$MessageEntity> arrayList, TLRPC$Message tLRPC$Message, ChatActivity.ReplyQuote replyQuote, boolean z, boolean z2) {
         TLRPC$DraftMessage tLRPC$TL_draftMessage;
         TLRPC$InputReplyTo tLRPC$InputReplyTo;
-        TLRPC$Message tLRPC$Message2 = (getMessagesController().isForum(j) && i == 0) ? null : tLRPC$Message;
+        TLRPC$Message tLRPC$Message2 = (getMessagesController().isForum(j) && j2 == 0) ? null : tLRPC$Message;
         if (!TextUtils.isEmpty(charSequence) || tLRPC$Message2 != null) {
             tLRPC$TL_draftMessage = new TLRPC$TL_draftMessage();
         } else {
@@ -9453,9 +9501,9 @@ public class MediaDataController extends BaseController {
                 tLRPC$TL_inputReplyToMessage.quote_text = replyQuote.getText();
                 TLRPC$InputReplyTo tLRPC$InputReplyTo2 = tLRPC$DraftMessage.reply_to;
                 if (tLRPC$InputReplyTo2.quote_text != null) {
-                    int i2 = tLRPC$InputReplyTo2.flags | 4;
-                    tLRPC$InputReplyTo2.flags = i2;
-                    tLRPC$InputReplyTo2.flags = i2 | 16;
+                    int i = tLRPC$InputReplyTo2.flags | 4;
+                    tLRPC$InputReplyTo2.flags = i;
+                    tLRPC$InputReplyTo2.flags = i | 16;
                     tLRPC$InputReplyTo2.quote_offset = replyQuote.start;
                 }
                 tLRPC$InputReplyTo2.quote_entities = replyQuote.getEntities();
@@ -9484,8 +9532,8 @@ public class MediaDataController extends BaseController {
             tLRPC$DraftMessage.entities = arrayList;
             tLRPC$DraftMessage.flags |= 8;
         }
-        SparseArray<TLRPC$DraftMessage> sparseArray = this.drafts.get(j);
-        TLRPC$DraftMessage tLRPC$DraftMessage2 = sparseArray == null ? null : sparseArray.get(i);
+        LongSparseArray<TLRPC$DraftMessage> longSparseArray = this.drafts.get(j);
+        TLRPC$DraftMessage tLRPC$DraftMessage2 = longSparseArray == null ? null : longSparseArray.get(j2);
         if (!z2) {
             boolean z3 = true;
             if (tLRPC$DraftMessage2 == null ? !TextUtils.isEmpty(tLRPC$DraftMessage.message) || ((tLRPC$InputReplyTo = tLRPC$DraftMessage.reply_to) != null && tLRPC$InputReplyTo.reply_to_msg_id != 0) : !tLRPC$DraftMessage2.message.equals(tLRPC$DraftMessage.message) || !replyToEquals(tLRPC$DraftMessage2.reply_to, tLRPC$DraftMessage.reply_to) || tLRPC$DraftMessage2.no_webpage != tLRPC$DraftMessage.no_webpage) {
@@ -9495,8 +9543,8 @@ public class MediaDataController extends BaseController {
                 return;
             }
         }
-        saveDraft(j, i, tLRPC$DraftMessage, tLRPC$Message2, false);
-        if (i == 0 || ChatObject.isForum(this.currentAccount, j)) {
+        saveDraft(j, j2, tLRPC$DraftMessage, tLRPC$Message2, false);
+        if (j2 == 0 || ChatObject.isForum(this.currentAccount, j)) {
             if (!DialogObject.isEncryptedDialog(j)) {
                 TLRPC$TL_messages_saveDraft tLRPC$TL_messages_saveDraft = new TLRPC$TL_messages_saveDraft();
                 TLRPC$InputPeer inputPeer = getMessagesController().getInputPeer(j);
@@ -9574,13 +9622,13 @@ public class MediaDataController extends BaseController {
         }
     }
 
-    public void saveDraft(final long j, final int i, TLRPC$DraftMessage tLRPC$DraftMessage, TLRPC$Message tLRPC$Message, boolean z) {
+    public void saveDraft(final long j, final long j2, TLRPC$DraftMessage tLRPC$DraftMessage, TLRPC$Message tLRPC$Message, boolean z) {
         TLRPC$Message tLRPC$Message2;
-        String str;
+        StringBuilder sb;
         TLRPC$InputReplyTo tLRPC$InputReplyTo;
         TLRPC$Chat chat;
-        String str2;
-        if (getMessagesController().isForum(j) && i == 0 && TextUtils.isEmpty(tLRPC$DraftMessage.message)) {
+        StringBuilder sb2;
+        if (getMessagesController().isForum(j) && j2 == 0 && TextUtils.isEmpty(tLRPC$DraftMessage.message)) {
             TLRPC$InputReplyTo tLRPC$InputReplyTo2 = tLRPC$DraftMessage.reply_to;
             if (tLRPC$InputReplyTo2 instanceof TLRPC$TL_inputReplyToMessage) {
                 ((TLRPC$TL_inputReplyToMessage) tLRPC$InputReplyTo2).reply_to_msg_id = 0;
@@ -9589,109 +9637,123 @@ public class MediaDataController extends BaseController {
         SharedPreferences.Editor edit = this.draftPreferences.edit();
         MessagesController messagesController = getMessagesController();
         if (tLRPC$DraftMessage == null || (tLRPC$DraftMessage instanceof TLRPC$TL_draftMessageEmpty)) {
-            SparseArray<TLRPC$DraftMessage> sparseArray = this.drafts.get(j);
-            if (sparseArray != null) {
-                sparseArray.remove(i);
-                if (sparseArray.size() == 0) {
+            LongSparseArray<TLRPC$DraftMessage> longSparseArray = this.drafts.get(j);
+            if (longSparseArray != null) {
+                longSparseArray.remove(j2);
+                if (longSparseArray.size() == 0) {
                     this.drafts.remove(j);
                 }
             }
-            SparseArray<TLRPC$Message> sparseArray2 = this.draftMessages.get(j);
-            if (sparseArray2 != null) {
-                sparseArray2.remove(i);
-                if (sparseArray2.size() == 0) {
+            LongSparseArray<TLRPC$Message> longSparseArray2 = this.draftMessages.get(j);
+            if (longSparseArray2 != null) {
+                longSparseArray2.remove(j2);
+                if (longSparseArray2.size() == 0) {
                     this.draftMessages.remove(j);
                 }
             }
-            if (i == 0) {
+            if (j2 == 0) {
                 this.draftPreferences.edit().remove("" + j).remove("r_" + j).commit();
             } else {
-                this.draftPreferences.edit().remove("t_" + j + "_" + i).remove("rt_" + j + "_" + i).commit();
+                this.draftPreferences.edit().remove("t_" + j + "_" + j2).remove("rt_" + j + "_" + j2).commit();
             }
             messagesController.removeDraftDialogIfNeed(j);
         } else {
-            SparseArray<TLRPC$DraftMessage> sparseArray3 = this.drafts.get(j);
-            if (sparseArray3 == null) {
-                sparseArray3 = new SparseArray<>();
-                this.drafts.put(j, sparseArray3);
+            LongSparseArray<TLRPC$DraftMessage> longSparseArray3 = this.drafts.get(j);
+            if (longSparseArray3 == null) {
+                longSparseArray3 = new LongSparseArray<>();
+                this.drafts.put(j, longSparseArray3);
             }
-            sparseArray3.put(i, tLRPC$DraftMessage);
-            if (i == 0) {
+            longSparseArray3.put(j2, tLRPC$DraftMessage);
+            if (j2 == 0) {
                 messagesController.putDraftDialogIfNeed(j, tLRPC$DraftMessage);
             }
             try {
                 SerializedData serializedData = new SerializedData(tLRPC$DraftMessage.getObjectSize());
                 tLRPC$DraftMessage.serializeToStream(serializedData);
-                if (i == 0) {
-                    str2 = "" + j;
+                if (j2 == 0) {
+                    sb2 = new StringBuilder();
+                    sb2.append("");
+                    sb2.append(j);
                 } else {
-                    str2 = "t_" + j + "_" + i;
+                    sb2 = new StringBuilder();
+                    sb2.append("t_");
+                    sb2.append(j);
+                    sb2.append("_");
+                    sb2.append(j2);
                 }
-                edit.putString(str2, Utilities.bytesToHex(serializedData.toByteArray()));
+                edit.putString(sb2.toString(), Utilities.bytesToHex(serializedData.toByteArray()));
                 serializedData.cleanup();
             } catch (Exception e) {
                 FileLog.e(e);
             }
         }
-        SparseArray<TLRPC$Message> sparseArray4 = this.draftMessages.get(j);
-        TLRPC$User tLRPC$User = null;
+        LongSparseArray<TLRPC$Message> longSparseArray4 = this.draftMessages.get(j);
+        TLRPC$Chat tLRPC$Chat = null;
         if (tLRPC$Message != null || tLRPC$DraftMessage == null || tLRPC$DraftMessage.reply_to == null) {
             if (tLRPC$DraftMessage != null && tLRPC$DraftMessage.reply_to == null) {
                 tLRPC$Message2 = null;
             }
             tLRPC$Message2 = tLRPC$Message;
         } else {
-            if (sparseArray4 != null) {
-                tLRPC$Message2 = sparseArray4.get(i);
+            if (longSparseArray4 != null) {
+                tLRPC$Message2 = longSparseArray4.get(j2);
             }
             tLRPC$Message2 = tLRPC$Message;
         }
         if (tLRPC$Message2 == null) {
-            if (sparseArray4 != null) {
-                sparseArray4.remove(i);
-                if (sparseArray4.size() == 0) {
+            if (longSparseArray4 != null) {
+                longSparseArray4.remove(j2);
+                if (longSparseArray4.size() == 0) {
                     this.draftMessages.remove(j);
                 }
             }
-            if (i == 0) {
+            if (j2 == 0) {
                 edit.remove("r_" + j);
             } else {
-                edit.remove("rt_" + j + "_" + i);
+                edit.remove("rt_" + j + "_" + j2);
             }
         } else {
-            if (sparseArray4 == null) {
-                sparseArray4 = new SparseArray<>();
-                this.draftMessages.put(j, sparseArray4);
+            if (longSparseArray4 == null) {
+                longSparseArray4 = new LongSparseArray<>();
+                this.draftMessages.put(j, longSparseArray4);
             }
-            sparseArray4.put(i, tLRPC$Message2);
+            longSparseArray4.put(j2, tLRPC$Message2);
             SerializedData serializedData2 = new SerializedData(tLRPC$Message2.getObjectSize());
             tLRPC$Message2.serializeToStream(serializedData2);
-            if (i == 0) {
-                str = "r_" + j;
+            if (j2 == 0) {
+                sb = new StringBuilder();
+                sb.append("r_");
+                sb.append(j);
             } else {
-                str = "rt_" + j + "_" + i;
+                sb = new StringBuilder();
+                sb.append("rt_");
+                sb.append(j);
+                sb.append("_");
+                sb.append(j2);
             }
-            edit.putString(str, Utilities.bytesToHex(serializedData2.toByteArray()));
+            edit.putString(sb.toString(), Utilities.bytesToHex(serializedData2.toByteArray()));
             serializedData2.cleanup();
         }
         edit.commit();
         if (z) {
-            if (i == 0 || getMessagesController().isForum(j)) {
+            if (j2 == 0 || getMessagesController().isForum(j)) {
                 if (tLRPC$DraftMessage != null && (tLRPC$InputReplyTo = tLRPC$DraftMessage.reply_to) != null && tLRPC$InputReplyTo.reply_to_msg_id != 0 && (tLRPC$Message2 == 0 || ((tLRPC$Message2.reply_to instanceof TLRPC$TL_messageReplyHeader) && tLRPC$Message2.replyMessage == null))) {
-                    final long peerDialogId = (tLRPC$InputReplyTo.flags & 2) != 0 ? DialogObject.getPeerDialogId(tLRPC$InputReplyTo.reply_to_peer_id) : j;
+                    long peerDialogId = (tLRPC$InputReplyTo.flags & 2) != 0 ? DialogObject.getPeerDialogId(tLRPC$InputReplyTo.reply_to_peer_id) : j;
                     if (DialogObject.isUserDialog(peerDialogId)) {
-                        tLRPC$User = getMessagesController().getUser(Long.valueOf(peerDialogId));
-                        chat = null;
+                        tLRPC$Chat = getMessagesController().getUser(Long.valueOf(peerDialogId));
+                        chat = tLRPC$Chat;
                     } else {
                         chat = getMessagesController().getChat(Long.valueOf(-peerDialogId));
                     }
-                    if (tLRPC$User != null || chat != null) {
-                        final long j2 = ChatObject.isChannel(chat) ? chat.id : 0L;
-                        final int i2 = tLRPC$DraftMessage.reply_to.reply_to_msg_id;
-                        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda30
+                    if (tLRPC$Chat != null || chat != null) {
+                        long j3 = ChatObject.isChannel(chat) ? chat.id : 0L;
+                        final int i = tLRPC$DraftMessage.reply_to.reply_to_msg_id;
+                        final long j4 = peerDialogId;
+                        final long j5 = j3;
+                        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda27
                             @Override // java.lang.Runnable
                             public final void run() {
-                                MediaDataController.this.lambda$saveDraft$180(i2, peerDialogId, j2, j, i);
+                                MediaDataController.this.lambda$saveDraft$180(i, j4, j5, j, j2);
                             }
                         });
                     }
@@ -9702,12 +9764,7 @@ public class MediaDataController extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:44:0x00d1  */
-    /* JADX WARN: Removed duplicated region for block: B:48:0x0117 A[Catch: Exception -> 0x011b, TRY_LEAVE, TryCatch #3 {Exception -> 0x011b, blocks: (B:3:0x0008, B:5:0x0035, B:7:0x003b, B:10:0x0053, B:39:0x00b8, B:42:0x00cc, B:46:0x00d7, B:47:0x00fc, B:48:0x0117, B:38:0x00b1), top: B:59:0x0008 }] */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
-    public /* synthetic */ void lambda$saveDraft$180(int i, long j, long j2, final long j3, final int i2) {
+    public /* synthetic */ void lambda$saveDraft$180(int i, long j, long j2, final long j3, final long j4) {
         TLRPC$Message tLRPC$Message;
         TLRPC$Message tLRPC$Message2;
         NativeByteBuffer byteBufferValue;
@@ -9716,159 +9773,127 @@ public class MediaDataController extends BaseController {
             if (queryFinalized.next()) {
                 NativeByteBuffer byteBufferValue2 = queryFinalized.byteBufferValue(0);
                 if (byteBufferValue2 != null) {
-                    tLRPC$Message = TLRPC$Message.TLdeserialize(byteBufferValue2, byteBufferValue2.readInt32(false), false);
-                    tLRPC$Message.readAttachPath(byteBufferValue2, getUserConfig().clientUserId);
+                    tLRPC$Message2 = TLRPC$Message.TLdeserialize(byteBufferValue2, byteBufferValue2.readInt32(false), false);
+                    tLRPC$Message2.readAttachPath(byteBufferValue2, getUserConfig().clientUserId);
                     byteBufferValue2.reuse();
                 } else {
-                    tLRPC$Message = null;
+                    tLRPC$Message2 = null;
                 }
-                if (tLRPC$Message != null) {
+                if (tLRPC$Message2 != null) {
                     ArrayList<Long> arrayList = new ArrayList<>();
                     ArrayList<Long> arrayList2 = new ArrayList<>();
                     LongSparseArray<SparseArray<ArrayList<TLRPC$Message>>> longSparseArray = new LongSparseArray<>();
                     LongSparseArray<ArrayList<Integer>> longSparseArray2 = new LongSparseArray<>();
                     try {
-                        TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader = tLRPC$Message.reply_to;
-                        if (tLRPC$MessageReplyHeader == null || tLRPC$MessageReplyHeader.reply_to_msg_id == 0) {
-                            tLRPC$Message2 = tLRPC$Message;
-                        } else {
-                            if (queryFinalized.isNull(1) || (byteBufferValue = queryFinalized.byteBufferValue(1)) == null) {
-                                tLRPC$Message2 = tLRPC$Message;
-                            } else {
+                        TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader = tLRPC$Message2.reply_to;
+                        if (tLRPC$MessageReplyHeader != null && tLRPC$MessageReplyHeader.reply_to_msg_id != 0) {
+                            if (!queryFinalized.isNull(1) && (byteBufferValue = queryFinalized.byteBufferValue(1)) != null) {
                                 TLRPC$Message TLdeserialize = TLRPC$Message.TLdeserialize(byteBufferValue, byteBufferValue.readInt32(false), false);
-                                tLRPC$Message.replyMessage = TLdeserialize;
-                                TLRPC$Message tLRPC$Message3 = tLRPC$Message;
-                                try {
-                                    TLdeserialize.readAttachPath(byteBufferValue, getUserConfig().clientUserId);
-                                    byteBufferValue.reuse();
-                                    tLRPC$Message2 = tLRPC$Message3;
-                                } catch (Exception e) {
-                                    e = e;
-                                    tLRPC$Message2 = tLRPC$Message3;
-                                    getMessagesStorage().checkSQLException(e);
-                                    getMessagesStorage().loadReplyMessages(longSparseArray, longSparseArray2, arrayList, arrayList2, false);
-                                    queryFinalized.dispose();
-                                    if (tLRPC$Message2 == null) {
-                                    }
-                                }
-                                try {
-                                    TLRPC$Message tLRPC$Message4 = tLRPC$Message2.replyMessage;
-                                    if (tLRPC$Message4 != null) {
-                                        MessagesStorage.addUsersAndChatsFromMessage(tLRPC$Message4, arrayList, arrayList2, null);
-                                    }
-                                } catch (Exception e2) {
-                                    e = e2;
-                                    getMessagesStorage().checkSQLException(e);
-                                    getMessagesStorage().loadReplyMessages(longSparseArray, longSparseArray2, arrayList, arrayList2, false);
-                                    queryFinalized.dispose();
-                                    if (tLRPC$Message2 == null) {
-                                    }
+                                tLRPC$Message2.replyMessage = TLdeserialize;
+                                TLdeserialize.readAttachPath(byteBufferValue, getUserConfig().clientUserId);
+                                byteBufferValue.reuse();
+                                TLRPC$Message tLRPC$Message3 = tLRPC$Message2.replyMessage;
+                                if (tLRPC$Message3 != null) {
+                                    MessagesStorage.addUsersAndChatsFromMessage(tLRPC$Message3, arrayList, arrayList2, null);
                                 }
                             }
                             if (tLRPC$Message2.replyMessage == null) {
                                 MessagesStorage.addReplyMessages(tLRPC$Message2, longSparseArray, longSparseArray2);
                             }
                         }
-                    } catch (Exception e3) {
-                        e = e3;
-                        tLRPC$Message2 = tLRPC$Message;
+                    } catch (Exception e) {
+                        getMessagesStorage().checkSQLException(e);
                     }
                     getMessagesStorage().loadReplyMessages(longSparseArray, longSparseArray2, arrayList, arrayList2, false);
-                    queryFinalized.dispose();
-                    if (tLRPC$Message2 == null) {
-                        saveDraftReplyMessage(j3, i2, tLRPC$Message2);
-                        return;
-                    } else if (j2 != 0) {
-                        TLRPC$TL_channels_getMessages tLRPC$TL_channels_getMessages = new TLRPC$TL_channels_getMessages();
-                        tLRPC$TL_channels_getMessages.channel = getMessagesController().getInputChannel(j2);
-                        tLRPC$TL_channels_getMessages.id.add(Integer.valueOf(i));
-                        getConnectionsManager().sendRequest(tLRPC$TL_channels_getMessages, new RequestDelegate() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda194
-                            @Override // org.telegram.tgnet.RequestDelegate
-                            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                                MediaDataController.this.lambda$saveDraft$178(j3, i2, tLObject, tLRPC$TL_error);
-                            }
-                        });
-                        return;
-                    } else {
-                        TLRPC$TL_messages_getMessages tLRPC$TL_messages_getMessages = new TLRPC$TL_messages_getMessages();
-                        tLRPC$TL_messages_getMessages.id.add(Integer.valueOf(i));
-                        getConnectionsManager().sendRequest(tLRPC$TL_messages_getMessages, new RequestDelegate() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda195
-                            @Override // org.telegram.tgnet.RequestDelegate
-                            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                                MediaDataController.this.lambda$saveDraft$179(j3, i2, tLObject, tLRPC$TL_error);
-                            }
-                        });
-                        return;
-                    }
                 }
+                tLRPC$Message = tLRPC$Message2;
             } else {
                 tLRPC$Message = null;
             }
-            tLRPC$Message2 = tLRPC$Message;
             queryFinalized.dispose();
-            if (tLRPC$Message2 == null) {
+            if (tLRPC$Message != null) {
+                saveDraftReplyMessage(j3, j4, tLRPC$Message);
+            } else if (j2 != 0) {
+                TLRPC$TL_channels_getMessages tLRPC$TL_channels_getMessages = new TLRPC$TL_channels_getMessages();
+                tLRPC$TL_channels_getMessages.channel = getMessagesController().getInputChannel(j2);
+                tLRPC$TL_channels_getMessages.id.add(Integer.valueOf(i));
+                getConnectionsManager().sendRequest(tLRPC$TL_channels_getMessages, new RequestDelegate() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda196
+                    @Override // org.telegram.tgnet.RequestDelegate
+                    public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                        MediaDataController.this.lambda$saveDraft$178(j3, j4, tLObject, tLRPC$TL_error);
+                    }
+                });
+            } else {
+                TLRPC$TL_messages_getMessages tLRPC$TL_messages_getMessages = new TLRPC$TL_messages_getMessages();
+                tLRPC$TL_messages_getMessages.id.add(Integer.valueOf(i));
+                getConnectionsManager().sendRequest(tLRPC$TL_messages_getMessages, new RequestDelegate() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda195
+                    @Override // org.telegram.tgnet.RequestDelegate
+                    public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                        MediaDataController.this.lambda$saveDraft$179(j3, j4, tLObject, tLRPC$TL_error);
+                    }
+                });
             }
-        } catch (Exception e4) {
-            FileLog.e(e4);
+        } catch (Exception e2) {
+            FileLog.e(e2);
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$saveDraft$178(long j, int i, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$saveDraft$178(long j, long j2, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLRPC$TL_error == null) {
             TLRPC$messages_Messages tLRPC$messages_Messages = (TLRPC$messages_Messages) tLObject;
             if (tLRPC$messages_Messages.messages.isEmpty()) {
                 return;
             }
-            saveDraftReplyMessage(j, i, tLRPC$messages_Messages.messages.get(0));
+            saveDraftReplyMessage(j, j2, tLRPC$messages_Messages.messages.get(0));
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$saveDraft$179(long j, int i, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$saveDraft$179(long j, long j2, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLRPC$TL_error == null) {
             TLRPC$messages_Messages tLRPC$messages_Messages = (TLRPC$messages_Messages) tLObject;
             if (tLRPC$messages_Messages.messages.isEmpty()) {
                 return;
             }
-            saveDraftReplyMessage(j, i, tLRPC$messages_Messages.messages.get(0));
+            saveDraftReplyMessage(j, j2, tLRPC$messages_Messages.messages.get(0));
         }
     }
 
-    private void saveDraftReplyMessage(final long j, final int i, final TLRPC$Message tLRPC$Message) {
+    private void saveDraftReplyMessage(final long j, final long j2, final TLRPC$Message tLRPC$Message) {
         if (tLRPC$Message == null) {
             return;
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda45
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda48
             @Override // java.lang.Runnable
             public final void run() {
-                MediaDataController.this.lambda$saveDraftReplyMessage$181(j, i, tLRPC$Message);
+                MediaDataController.this.lambda$saveDraftReplyMessage$181(j, j2, tLRPC$Message);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$saveDraftReplyMessage$181(long j, int i, TLRPC$Message tLRPC$Message) {
+    public /* synthetic */ void lambda$saveDraftReplyMessage$181(long j, long j2, TLRPC$Message tLRPC$Message) {
         TLRPC$InputReplyTo tLRPC$InputReplyTo;
         String str;
-        SparseArray<TLRPC$DraftMessage> sparseArray = this.drafts.get(j);
-        TLRPC$DraftMessage tLRPC$DraftMessage = sparseArray != null ? sparseArray.get(i) : null;
+        LongSparseArray<TLRPC$DraftMessage> longSparseArray = this.drafts.get(j);
+        TLRPC$DraftMessage tLRPC$DraftMessage = longSparseArray != null ? longSparseArray.get(j2) : null;
         if (tLRPC$DraftMessage == null || (tLRPC$InputReplyTo = tLRPC$DraftMessage.reply_to) == null || tLRPC$InputReplyTo.reply_to_msg_id != tLRPC$Message.id) {
             return;
         }
-        SparseArray<TLRPC$Message> sparseArray2 = this.draftMessages.get(j);
-        if (sparseArray2 == null) {
-            sparseArray2 = new SparseArray<>();
-            this.draftMessages.put(j, sparseArray2);
+        LongSparseArray<TLRPC$Message> longSparseArray2 = this.draftMessages.get(j);
+        if (longSparseArray2 == null) {
+            longSparseArray2 = new LongSparseArray<>();
+            this.draftMessages.put(j, longSparseArray2);
         }
-        sparseArray2.put(i, tLRPC$Message);
+        longSparseArray2.put(j2, tLRPC$Message);
         SerializedData serializedData = new SerializedData(tLRPC$Message.getObjectSize());
         tLRPC$Message.serializeToStream(serializedData);
         SharedPreferences.Editor edit = this.draftPreferences.edit();
-        if (i == 0) {
+        if (j2 == 0) {
             str = "r_" + j;
         } else {
-            str = "rt_" + j + "_" + i;
+            str = "rt_" + j + "_" + j2;
         }
         edit.putString(str, Utilities.bytesToHex(serializedData.toByteArray())).commit();
         getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.newDraftReceived, Long.valueOf(j));
@@ -9886,34 +9911,34 @@ public class MediaDataController extends BaseController {
         }
     }
 
-    public void cleanDraft(long j, int i, boolean z) {
-        SparseArray<TLRPC$DraftMessage> sparseArray = this.drafts.get(j);
-        TLRPC$DraftMessage tLRPC$DraftMessage = sparseArray != null ? sparseArray.get(i) : null;
+    public void cleanDraft(long j, long j2, boolean z) {
+        LongSparseArray<TLRPC$DraftMessage> longSparseArray = this.drafts.get(j);
+        TLRPC$DraftMessage tLRPC$DraftMessage = longSparseArray != null ? longSparseArray.get(j2) : null;
         if (tLRPC$DraftMessage == null) {
             return;
         }
         if (!z) {
-            SparseArray<TLRPC$DraftMessage> sparseArray2 = this.drafts.get(j);
-            if (sparseArray2 != null) {
-                sparseArray2.remove(i);
-                if (sparseArray2.size() == 0) {
+            LongSparseArray<TLRPC$DraftMessage> longSparseArray2 = this.drafts.get(j);
+            if (longSparseArray2 != null) {
+                longSparseArray2.remove(j2);
+                if (longSparseArray2.size() == 0) {
                     this.drafts.remove(j);
                 }
             }
-            SparseArray<TLRPC$Message> sparseArray3 = this.draftMessages.get(j);
-            if (sparseArray3 != null) {
-                sparseArray3.remove(i);
-                if (sparseArray3.size() == 0) {
+            LongSparseArray<TLRPC$Message> longSparseArray3 = this.draftMessages.get(j);
+            if (longSparseArray3 != null) {
+                longSparseArray3.remove(j2);
+                if (longSparseArray3.size() == 0) {
                     this.draftMessages.remove(j);
                 }
             }
-            if (i == 0) {
+            if (j2 == 0) {
                 this.draftPreferences.edit().remove("" + j).remove("r_" + j).commit();
                 getMessagesController().sortDialogs(null);
                 getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.dialogsNeedReload, new Object[0]);
                 return;
             }
-            this.draftPreferences.edit().remove("t_" + j + "_" + i).remove("rt_" + j + "_" + i).commit();
+            this.draftPreferences.edit().remove("t_" + j + "_" + j2).remove("rt_" + j + "_" + j2).commit();
             return;
         }
         TLRPC$InputReplyTo tLRPC$InputReplyTo = tLRPC$DraftMessage.reply_to;
@@ -9922,7 +9947,7 @@ public class MediaDataController extends BaseController {
                 tLRPC$InputReplyTo.reply_to_msg_id = 0;
             }
             tLRPC$DraftMessage.flags &= -2;
-            saveDraft(j, i, tLRPC$DraftMessage.message, tLRPC$DraftMessage.entities, null, null, tLRPC$DraftMessage.no_webpage, true);
+            saveDraft(j, j2, tLRPC$DraftMessage.message, tLRPC$DraftMessage.entities, null, null, tLRPC$DraftMessage.no_webpage, true);
         }
     }
 
@@ -9982,7 +10007,7 @@ public class MediaDataController extends BaseController {
     }
 
     public void clearBotKeyboard(final long j) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda40
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda37
             @Override // java.lang.Runnable
             public final void run() {
                 MediaDataController.this.lambda$clearBotKeyboard$183(j);
@@ -9995,7 +10020,8 @@ public class MediaDataController extends BaseController {
         ArrayList<TLRPC$Message> arrayList = this.botDialogKeyboards.get(j);
         if (arrayList != null) {
             for (int i = 0; i < arrayList.size(); i++) {
-                MessagesStorage.TopicKey of = MessagesStorage.TopicKey.of(j, MessageObject.getTopicId(arrayList.get(i), ChatObject.isForum(this.currentAccount, j)));
+                int i2 = this.currentAccount;
+                MessagesStorage.TopicKey of = MessagesStorage.TopicKey.of(j, MessageObject.getTopicId(i2, arrayList.get(i), ChatObject.isForum(i2, j)));
                 this.botKeyboards.remove(of);
                 getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.botKeyboardDidLoad, null, of);
             }
@@ -10024,7 +10050,7 @@ public class MediaDataController extends BaseController {
         final TLRPC$Message tLRPC$Message = null;
         try {
             if (topicKey.topicId != 0) {
-                queryFinalized = getMessagesStorage().getDatabase().queryFinalized(String.format(Locale.US, "SELECT info FROM bot_keyboard_topics WHERE uid = %d AND tid = %d", Long.valueOf(topicKey.dialogId), Integer.valueOf(topicKey.topicId)), new Object[0]);
+                queryFinalized = getMessagesStorage().getDatabase().queryFinalized(String.format(Locale.US, "SELECT info FROM bot_keyboard_topics WHERE uid = %d AND tid = %d", Long.valueOf(topicKey.dialogId), Long.valueOf(topicKey.topicId)), new Object[0]);
             } else {
                 queryFinalized = getMessagesStorage().getDatabase().queryFinalized(String.format(Locale.US, "SELECT info FROM bot_keyboard WHERE uid = %d", Long.valueOf(topicKey.dialogId)), new Object[0]);
             }
@@ -10074,7 +10100,7 @@ public class MediaDataController extends BaseController {
                 return;
             }
         }
-        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda49
+        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda43
             @Override // java.lang.Runnable
             public final void run() {
                 MediaDataController.this.lambda$loadBotInfo$187(j, j2, i);
@@ -10112,7 +10138,7 @@ public class MediaDataController extends BaseController {
         }
         try {
             if (topicKey.topicId != 0) {
-                queryFinalized = getMessagesStorage().getDatabase().queryFinalized(String.format(Locale.US, "SELECT mid FROM bot_keyboard_topics WHERE uid = %d AND tid = %d", Long.valueOf(topicKey.dialogId), Integer.valueOf(topicKey.topicId)), new Object[0]);
+                queryFinalized = getMessagesStorage().getDatabase().queryFinalized(String.format(Locale.US, "SELECT mid FROM bot_keyboard_topics WHERE uid = %d AND tid = %d", Long.valueOf(topicKey.dialogId), Long.valueOf(topicKey.topicId)), new Object[0]);
             } else {
                 queryFinalized = getMessagesStorage().getDatabase().queryFinalized(String.format(Locale.US, "SELECT mid FROM bot_keyboard WHERE uid = %d", Long.valueOf(topicKey.dialogId)), new Object[0]);
             }
@@ -10132,7 +10158,7 @@ public class MediaDataController extends BaseController {
             tLRPC$Message.serializeToStream(nativeByteBuffer);
             if (topicKey.topicId != 0) {
                 executeFast.bindLong(1, topicKey.dialogId);
-                executeFast.bindInteger(2, topicKey.topicId);
+                executeFast.bindLong(2, topicKey.topicId);
                 executeFast.bindInteger(3, tLRPC$Message.id);
                 executeFast.bindByteBuffer(4, nativeByteBuffer);
             } else {
@@ -11786,7 +11812,7 @@ public class MediaDataController extends BaseController {
     }
 
     private void updateEmojiStatuses(final int i, final TLRPC$TL_account_emojiStatuses tLRPC$TL_account_emojiStatuses) {
-        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda36
+        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda33
             @Override // java.lang.Runnable
             public final void run() {
                 MediaDataController.this.lambda$updateEmojiStatuses$219(i, tLRPC$TL_account_emojiStatuses);

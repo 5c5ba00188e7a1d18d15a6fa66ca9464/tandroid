@@ -103,7 +103,7 @@ class ChatsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         return this.dids.size() + 1;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:89:0x0255, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:88:0x0260, code lost:
         if ((r0 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChannelMigrateFrom) != false) goto L54;
      */
     @Override // android.widget.RemoteViewsService.RemoteViewsFactory
@@ -115,6 +115,7 @@ class ChatsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         String str;
         TLRPC$User tLRPC$User;
         TLRPC$FileLocation tLRPC$FileLocation;
+        TLRPC$FileLocation tLRPC$FileLocation2;
         Bitmap decodeFile;
         int i2;
         int i3;
@@ -134,7 +135,9 @@ class ChatsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         CharSequence charSequence3;
         CharSequence charSequence4;
         AvatarDrawable avatarDrawable;
+        String formatName;
         TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto;
+        TLRPC$FileLocation tLRPC$FileLocation3;
         if (this.deleted) {
             RemoteViews remoteViews = new RemoteViews(this.mContext.getPackageName(), R.layout.widget_deleted);
             remoteViews.setTextViewText(R.id.widget_deleted_text, LocaleController.getString("WidgetLoggedOff", R.string.WidgetLoggedOff));
@@ -157,39 +160,50 @@ class ChatsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
                 tLRPC$User = this.accountInstance.getMessagesController().getUser(l);
                 if (tLRPC$User != null) {
                     if (UserObject.isUserSelf(tLRPC$User)) {
-                        str = LocaleController.getString("SavedMessages", R.string.SavedMessages);
+                        formatName = LocaleController.getString("SavedMessages", R.string.SavedMessages);
                     } else if (UserObject.isReplyUser(tLRPC$User)) {
-                        str = LocaleController.getString("RepliesTitle", R.string.RepliesTitle);
+                        formatName = LocaleController.getString("RepliesTitle", R.string.RepliesTitle);
                     } else if (UserObject.isDeleted(tLRPC$User)) {
-                        str = LocaleController.getString("HiddenName", R.string.HiddenName);
+                        formatName = LocaleController.getString("HiddenName", R.string.HiddenName);
                     } else {
-                        str = ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name);
+                        formatName = ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name);
                     }
-                    if (!UserObject.isReplyUser(tLRPC$User) && !UserObject.isUserSelf(tLRPC$User) && (tLRPC$UserProfilePhoto = tLRPC$User.photo) != null && (tLRPC$FileLocation = tLRPC$UserProfilePhoto.photo_small) != null && tLRPC$FileLocation.volume_id != 0 && tLRPC$FileLocation.local_id != 0) {
+                    if (UserObject.isReplyUser(tLRPC$User) || UserObject.isUserSelf(tLRPC$User) || (tLRPC$UserProfilePhoto = tLRPC$User.photo) == null || (tLRPC$FileLocation3 = tLRPC$UserProfilePhoto.photo_small) == null || tLRPC$FileLocation3.volume_id == 0 || tLRPC$FileLocation3.local_id == 0) {
+                        tLRPC$FileLocation = null;
+                        str = formatName;
+                        tLRPC$Chat = null;
+                    } else {
+                        tLRPC$FileLocation = tLRPC$FileLocation3;
+                        str = formatName;
                         tLRPC$Chat = null;
                     }
                 } else {
                     str = "";
+                    tLRPC$Chat = null;
+                    tLRPC$FileLocation = null;
                 }
-                tLRPC$Chat = null;
-                tLRPC$FileLocation = null;
             } else {
                 TLRPC$Chat chat2 = this.accountInstance.getMessagesController().getChat(Long.valueOf(-l.longValue()));
                 if (chat2 != null) {
-                    str = chat2.title;
+                    String str2 = chat2.title;
                     TLRPC$ChatPhoto tLRPC$ChatPhoto = chat2.photo;
-                    if (tLRPC$ChatPhoto == null || (tLRPC$FileLocation = tLRPC$ChatPhoto.photo_small) == null || tLRPC$FileLocation.volume_id == 0 || tLRPC$FileLocation.local_id == 0) {
+                    if (tLRPC$ChatPhoto == null || (tLRPC$FileLocation2 = tLRPC$ChatPhoto.photo_small) == null || tLRPC$FileLocation2.volume_id == 0 || tLRPC$FileLocation2.local_id == 0) {
+                        tLRPC$FileLocation = null;
+                        str = str2;
                         tLRPC$Chat = chat2;
+                        tLRPC$User = null;
                     } else {
+                        tLRPC$FileLocation = tLRPC$FileLocation2;
+                        str = str2;
                         tLRPC$Chat = chat2;
                         tLRPC$User = null;
                     }
                 } else {
                     tLRPC$Chat = chat2;
                     str = "";
+                    tLRPC$User = null;
+                    tLRPC$FileLocation = null;
                 }
-                tLRPC$User = null;
-                tLRPC$FileLocation = null;
             }
             RemoteViews remoteViews3 = new RemoteViews(this.mContext.getPackageName(), R.layout.shortcut_widget_item);
             remoteViews3.setTextViewText(R.id.shortcut_widget_item_text, str);
@@ -263,14 +277,14 @@ class ChatsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
                     color = this.mContext.getResources().getColor(R.color.widget_action_text);
                     charSequence3 = charSequence4;
                 } else {
-                    String str2 = "🖼 ";
+                    String str3 = "🖼 ";
                     if (tLRPC$Chat != null && chat == null && (!ChatObject.isChannel(tLRPC$Chat) || ChatObject.isMegagroup(tLRPC$Chat))) {
                         if (messageObject.isOutOwner()) {
                             replace = LocaleController.getString("FromYou", R.string.FromYou);
                         } else {
                             replace = tLRPC$User2 != null ? UserObject.getFirstName(tLRPC$User2).replace("\n", "") : "DELETED";
                         }
-                        String str3 = replace;
+                        String str4 = replace;
                         CharSequence charSequence6 = messageObject.caption;
                         try {
                             if (charSequence6 != null) {
@@ -279,15 +293,15 @@ class ChatsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
                                     charSequence7 = charSequence7.substring(0, ImageReceiver.DEFAULT_CROSSFADE_DURATION);
                                 }
                                 if (messageObject.isVideo()) {
-                                    str2 = "📹 ";
+                                    str3 = "📹 ";
                                 } else if (messageObject.isVoice()) {
-                                    str2 = "🎤 ";
+                                    str3 = "🎤 ";
                                 } else if (messageObject.isMusic()) {
-                                    str2 = "🎧 ";
+                                    str3 = "🎧 ";
                                 } else if (!messageObject.isPhoto()) {
-                                    str2 = "📎 ";
+                                    str3 = "📎 ";
                                 }
-                                valueOf = SpannableStringBuilder.valueOf(String.format("%2$s: \u2068%1$s\u2069", str2 + charSequence7.replace('\n', ' '), str3));
+                                valueOf = SpannableStringBuilder.valueOf(String.format("%2$s: \u2068%1$s\u2069", str3 + charSequence7.replace('\n', ' '), str4));
                             } else if (messageObject.messageOwner.media != null && !messageObject.isMediaEmpty()) {
                                 int color2 = this.mContext.getResources().getColor(R.color.widget_action_text);
                                 TLRPC$MessageMedia tLRPC$MessageMedia = messageObject.messageOwner.media;
@@ -332,35 +346,35 @@ class ChatsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
                                 String replace2 = charSequence2.replace('\n', c4);
                                 Object[] objArr = new Object[i4];
                                 objArr[c2] = replace2;
-                                objArr[c3] = str3;
+                                objArr[c3] = str4;
                                 SpannableStringBuilder valueOf2 = SpannableStringBuilder.valueOf(String.format("%2$s: \u2068%1$s\u2069", objArr));
                                 try {
-                                    valueOf2.setSpan(new ForegroundColorSpanThemable(Theme.key_chats_attachMessage), str3.length() + 2, valueOf2.length(), 33);
+                                    valueOf2.setSpan(new ForegroundColorSpanThemable(Theme.key_chats_attachMessage), str4.length() + 2, valueOf2.length(), 33);
                                 } catch (Exception e) {
                                     FileLog.e(e);
                                 }
                                 color = color2;
                                 spannableStringBuilder = valueOf2;
-                                spannableStringBuilder.setSpan(new ForegroundColorSpanThemable(Theme.key_chats_nameMessage), 0, str3.length() + 1, 33);
+                                spannableStringBuilder.setSpan(new ForegroundColorSpanThemable(Theme.key_chats_nameMessage), 0, str4.length() + 1, 33);
                                 charSequence3 = spannableStringBuilder;
                             } else {
-                                String str4 = messageObject.messageOwner.message;
-                                if (str4 != null) {
-                                    if (str4.length() > 150) {
+                                String str5 = messageObject.messageOwner.message;
+                                if (str5 != null) {
+                                    if (str5.length() > 150) {
                                         c = 0;
-                                        str4 = str4.substring(0, ImageReceiver.DEFAULT_CROSSFADE_DURATION);
+                                        str5 = str5.substring(0, ImageReceiver.DEFAULT_CROSSFADE_DURATION);
                                     } else {
                                         c = 0;
                                     }
                                     Object[] objArr2 = new Object[2];
-                                    objArr2[c] = str4.replace('\n', ' ').trim();
-                                    objArr2[1] = str3;
+                                    objArr2[c] = str5.replace('\n', ' ').trim();
+                                    objArr2[1] = str4;
                                     valueOf = SpannableStringBuilder.valueOf(String.format("%2$s: \u2068%1$s\u2069", objArr2));
                                 } else {
                                     valueOf = SpannableStringBuilder.valueOf("");
                                 }
                             }
-                            spannableStringBuilder.setSpan(new ForegroundColorSpanThemable(Theme.key_chats_nameMessage), 0, str3.length() + 1, 33);
+                            spannableStringBuilder.setSpan(new ForegroundColorSpanThemable(Theme.key_chats_nameMessage), 0, str4.length() + 1, 33);
                             charSequence3 = spannableStringBuilder;
                         } catch (Exception e2) {
                             FileLog.e(e2);
@@ -375,15 +389,15 @@ class ChatsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
                             charSequence3 = LocaleController.getString("AttachVideoExpired", R.string.AttachVideoExpired);
                         } else if (messageObject.caption != null) {
                             if (messageObject.isVideo()) {
-                                str2 = "📹 ";
+                                str3 = "📹 ";
                             } else if (messageObject.isVoice()) {
-                                str2 = "🎤 ";
+                                str3 = "🎤 ";
                             } else if (messageObject.isMusic()) {
-                                str2 = "🎧 ";
+                                str3 = "🎧 ";
                             } else if (!messageObject.isPhoto()) {
-                                str2 = "📎 ";
+                                str3 = "📎 ";
                             }
-                            charSequence3 = str2 + ((Object) messageObject.caption);
+                            charSequence3 = str3 + ((Object) messageObject.caption);
                         } else {
                             if (tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaPoll) {
                                 charSequence = "📊 " + ((TLRPC$TL_messageMediaPoll) tLRPC$MessageMedia2).poll.question;
@@ -423,7 +437,7 @@ class ChatsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
                 int i6 = R.id.shortcut_widget_item_badge;
                 remoteViews3.setTextViewText(i6, String.format("%d", Integer.valueOf(i3)));
                 remoteViews3.setViewVisibility(i6, 0);
-                if (this.accountInstance.getMessagesController().isDialogMuted(tLRPC$Dialog.id, 0)) {
+                if (this.accountInstance.getMessagesController().isDialogMuted(tLRPC$Dialog.id, 0L)) {
                     remoteViews3.setBoolean(i6, "setEnabled", false);
                     remoteViews3.setInt(i6, "setBackgroundResource", R.drawable.widget_badge_muted_background);
                 } else {

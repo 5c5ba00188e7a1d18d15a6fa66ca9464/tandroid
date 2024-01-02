@@ -241,6 +241,10 @@ public class RecyclerListView extends RecyclerView {
         return true;
     }
 
+    public ViewParent getTouchParent() {
+        return null;
+    }
+
     @Override // android.view.View
     public boolean hasOverlappingRendering() {
         return false;
@@ -2195,7 +2199,7 @@ public class RecyclerListView extends RecyclerView {
     public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
         if (isEnabled()) {
             if (this.disallowInterceptTouchEvents) {
-                requestDisallowInterceptTouchEvent(true);
+                requestDisallowInterceptTouchEvent(this, true);
             }
             OnInterceptTouchListener onInterceptTouchListener = this.onInterceptTouchListener;
             return (onInterceptTouchListener != null && onInterceptTouchListener.onInterceptTouchEvent(motionEvent)) || super.onInterceptTouchEvent(motionEvent);
@@ -2785,6 +2789,19 @@ public class RecyclerListView extends RecyclerView {
         super.requestLayout();
     }
 
+    private void requestDisallowInterceptTouchEvent(View view, boolean z) {
+        ViewParent parent;
+        if (view == null || (parent = view.getParent()) == null) {
+            return;
+        }
+        parent.requestDisallowInterceptTouchEvent(z);
+        ViewParent touchParent = getTouchParent();
+        if (touchParent == null) {
+            return;
+        }
+        touchParent.requestDisallowInterceptTouchEvent(z);
+    }
+
     public void setAnimateEmptyView(boolean z, int i) {
         this.animateEmptyView = z;
         this.emptyViewAnimationType = i;
@@ -2837,7 +2854,7 @@ public class RecyclerListView extends RecyclerView {
         if (!this.multiSelectionGesture) {
             this.listPaddings = new int[2];
             new HashSet();
-            getParent().requestDisallowInterceptTouchEvent(true);
+            requestDisallowInterceptTouchEvent(this, true);
             this.multiSelectionListener = onmultiselectionchanged;
             this.multiSelectionGesture = true;
             this.currentSelectedPosition = i;
@@ -2857,7 +2874,7 @@ public class RecyclerListView extends RecyclerView {
                 }
                 if (!this.multiSelectionGestureStarted && Math.abs(motionEvent.getY() - this.lastY) > this.touchSlop) {
                     this.multiSelectionGestureStarted = true;
-                    getParent().requestDisallowInterceptTouchEvent(true);
+                    requestDisallowInterceptTouchEvent(this, true);
                 }
                 if (this.multiSelectionGestureStarted) {
                     chekMultiselect(motionEvent.getX(), motionEvent.getY());
@@ -2876,7 +2893,7 @@ public class RecyclerListView extends RecyclerView {
             this.lastY = Float.MAX_VALUE;
             this.multiSelectionGesture = false;
             this.multiSelectionGestureStarted = false;
-            getParent().requestDisallowInterceptTouchEvent(false);
+            requestDisallowInterceptTouchEvent(this, false);
             cancelMultiselectScroll();
             return super.onTouchEvent(motionEvent);
         }

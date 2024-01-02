@@ -997,7 +997,7 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
                     i2++;
                 }
                 String sb2 = sb.toString();
-                ShareAlert createShareAlert = ShareAlert.createShareAlert(((BaseFragment) StickersActivity.this).fragmentView.getContext(), null, sb2, false, sb2, false);
+                ShareAlert createShareAlert = ShareAlert.createShareAlert(StickersActivity.this.fragmentView.getContext(), null, sb2, false, sb2, false);
                 createShareAlert.setDelegate(new ShareAlert.ShareAlertDelegate() { // from class: org.telegram.ui.StickersActivity.ListAdapter.1
                     @Override // org.telegram.ui.Components.ShareAlert.ShareAlertDelegate
                     public void didShare() {

@@ -2739,11 +2739,11 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         boolean[] zArr = this.playlistEndReached;
         if (!zArr[0]) {
             this.loadingPlaylist = true;
-            AccountInstance.getInstance(this.playingMessageObject.currentAccount).getMediaDataController().loadMedia(this.playingMessageObject.getDialogId(), 50, this.playlistMaxId[0], 0, 4, 0, 1, this.playlistClassGuid, 0);
+            AccountInstance.getInstance(this.playingMessageObject.currentAccount).getMediaDataController().loadMedia(this.playingMessageObject.getDialogId(), 50, this.playlistMaxId[0], 0, 4, 0L, 1, this.playlistClassGuid, 0);
         } else if (this.playlistMergeDialogId == 0 || zArr[1]) {
         } else {
             this.loadingPlaylist = true;
-            AccountInstance.getInstance(this.playingMessageObject.currentAccount).getMediaDataController().loadMedia(this.playlistMergeDialogId, 50, this.playlistMaxId[0], 0, 4, 0, 1, this.playlistClassGuid, 0);
+            AccountInstance.getInstance(this.playingMessageObject.currentAccount).getMediaDataController().loadMedia(this.playlistMergeDialogId, 50, this.playlistMaxId[0], 0, 4, 0L, 1, this.playlistClassGuid, 0);
         }
     }
 
@@ -4755,7 +4755,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         }
         TLRPC$TL_messages_messages tLRPC$TL_messages_messages = new TLRPC$TL_messages_messages();
         tLRPC$TL_messages_messages.messages.add(remove.messageOwner);
-        MessagesStorage.getInstance(remove.currentAccount).putMessages((TLRPC$messages_Messages) tLRPC$TL_messages_messages, remove.getDialogId(), -1, 0, false, messageObject.scheduled, 0);
+        MessagesStorage.getInstance(remove.currentAccount).putMessages((TLRPC$messages_Messages) tLRPC$TL_messages_messages, remove.getDialogId(), -1, 0, false, messageObject.scheduled ? 1 : 0, 0L);
         ArrayList arrayList = new ArrayList();
         arrayList.add(remove);
         NotificationCenter.getInstance(remove.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.replaceMessagesObjects, Long.valueOf(remove.getDialogId()), arrayList);

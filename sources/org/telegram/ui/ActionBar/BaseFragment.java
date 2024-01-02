@@ -55,7 +55,7 @@ public abstract class BaseFragment {
     protected Bundle arguments;
     protected boolean finishing;
     protected boolean fragmentBeginToShow;
-    protected View fragmentView;
+    public View fragmentView;
     protected boolean inBubbleMode;
     protected boolean inMenuMode;
     protected boolean inPreviewMode;

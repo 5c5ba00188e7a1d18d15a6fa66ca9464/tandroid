@@ -41,7 +41,6 @@ import java.util.Map;
 import java.util.UUID;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.MediaController;
-import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.R;
 /* loaded from: classes.dex */
 public class MatroskaExtractor implements Extractor {
@@ -109,7 +108,7 @@ public class MatroskaExtractor implements Extractor {
     protected int getElementType(int i) {
         switch (i) {
             case 131:
-            case MessagesStorage.LAST_DB_VERSION /* 136 */:
+            case 136:
             case 155:
             case 159:
             case 176:
@@ -458,7 +457,7 @@ public class MatroskaExtractor implements Extractor {
                 case 131:
                     getCurrentTrack(i).type = (int) j;
                     return;
-                case MessagesStorage.LAST_DB_VERSION /* 136 */:
+                case 136:
                     getCurrentTrack(i).flagDefault = j == 1;
                     return;
                 case 155:

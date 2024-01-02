@@ -164,7 +164,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
     }
 
     private static boolean hasFixedSize(int i) {
-        return i == 0 || i == 3 || i == 4 || i == 6 || i == 7 || i == 12 || i == 13 || i == 14 || i == 15 || i == 16;
+        return i == 0 || i == 28 || i == 3 || i == 4 || i == 6 || i == 7 || i == 12 || i == 13 || i == 14 || i == 15 || i == 16;
     }
 
     public static String limitTypeToServerString(int i) {
@@ -1356,22 +1356,21 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
         TextView title;
         LinearLayout titleLinearLayout;
 
-        /* JADX WARN: Removed duplicated region for block: B:124:0x03ca  */
-        /* JADX WARN: Removed duplicated region for block: B:125:0x03cd  */
-        /* JADX WARN: Removed duplicated region for block: B:128:0x03f3  */
-        /* JADX WARN: Removed duplicated region for block: B:137:0x0414  */
-        /* JADX WARN: Removed duplicated region for block: B:151:0x046e  */
-        /* JADX WARN: Removed duplicated region for block: B:156:0x04a3  */
-        /* JADX WARN: Removed duplicated region for block: B:158:0x04b2  */
-        /* JADX WARN: Removed duplicated region for block: B:199:0x05b7  */
-        /* JADX WARN: Removed duplicated region for block: B:214:0x073f  */
-        /* JADX WARN: Removed duplicated region for block: B:221:0x078c  */
-        /* JADX WARN: Removed duplicated region for block: B:222:0x079c  */
-        /* JADX WARN: Removed duplicated region for block: B:225:0x07ad  */
-        /* JADX WARN: Removed duplicated region for block: B:226:0x07c1  */
+        /* JADX WARN: Removed duplicated region for block: B:123:0x03c9  */
+        /* JADX WARN: Removed duplicated region for block: B:124:0x03cc  */
+        /* JADX WARN: Removed duplicated region for block: B:127:0x03f2  */
+        /* JADX WARN: Removed duplicated region for block: B:136:0x0413  */
+        /* JADX WARN: Removed duplicated region for block: B:150:0x046d  */
+        /* JADX WARN: Removed duplicated region for block: B:155:0x04a2  */
+        /* JADX WARN: Removed duplicated region for block: B:157:0x04b1  */
+        /* JADX WARN: Removed duplicated region for block: B:198:0x05b6  */
+        /* JADX WARN: Removed duplicated region for block: B:213:0x073e  */
+        /* JADX WARN: Removed duplicated region for block: B:220:0x078b  */
+        /* JADX WARN: Removed duplicated region for block: B:221:0x079b  */
+        /* JADX WARN: Removed duplicated region for block: B:224:0x07ac  */
+        /* JADX WARN: Removed duplicated region for block: B:225:0x07c0  */
         /* JADX WARN: Removed duplicated region for block: B:69:0x0318  */
         /* JADX WARN: Removed duplicated region for block: B:70:0x0328  */
-        /* JADX WARN: Removed duplicated region for block: B:74:0x0332  */
         @SuppressLint({"SetTextI18n"})
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -1447,8 +1446,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
                     i2 = MessagesController.getInstance(((BottomSheet) LimitReachedBottomSheet.this).currentAccount).dialogFilters.size() - 1;
                 } else if (i3 == 7) {
                     i2 = UserConfig.getActivatedAccountsCount();
-                }
-                if (LimitReachedBottomSheet.this.type == 0) {
+                } else if (i3 == 0) {
                     ArrayList<TLRPC$Dialog> dialogs = MessagesController.getInstance(((BottomSheet) LimitReachedBottomSheet.this).currentAccount).getDialogs(0);
                     int size = dialogs.size();
                     int i11 = 0;
@@ -1761,8 +1759,6 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
             i3 = LimitReachedBottomSheet.this.type;
             if (i3 != 3) {
             }
-            if (LimitReachedBottomSheet.this.type == 0) {
-            }
             if (UserConfig.getInstance(((BottomSheet) LimitReachedBottomSheet.this).currentAccount).isPremium()) {
             }
             i2 = i;
@@ -1926,6 +1922,13 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
             limitParams.descriptionStr = LocaleController.formatString("LimitReachedPinDialogs", R.string.LimitReachedPinDialogs, Integer.valueOf(limitParams.defaultLimit), Integer.valueOf(limitParams.premiumLimit));
             limitParams.descriptionStrPremium = LocaleController.formatString("LimitReachedPinDialogsPremium", R.string.LimitReachedPinDialogsPremium, Integer.valueOf(limitParams.premiumLimit));
             limitParams.descriptionStrLocked = LocaleController.formatString("LimitReachedPinDialogsLocked", R.string.LimitReachedPinDialogsLocked, Integer.valueOf(limitParams.defaultLimit));
+        } else if (i == 28) {
+            limitParams.defaultLimit = MessagesController.getInstance(i2).savedDialogsPinnedLimitDefault;
+            limitParams.premiumLimit = MessagesController.getInstance(i2).savedDialogsPinnedLimitPremium;
+            limitParams.icon = R.drawable.msg_limit_pin;
+            limitParams.descriptionStr = LocaleController.formatString(R.string.LimitReachedPinSavedDialogs, Integer.valueOf(limitParams.defaultLimit), Integer.valueOf(limitParams.premiumLimit));
+            limitParams.descriptionStrPremium = LocaleController.formatString(R.string.LimitReachedPinSavedDialogsPremium, Integer.valueOf(limitParams.premiumLimit));
+            limitParams.descriptionStrLocked = LocaleController.formatString(R.string.LimitReachedPinSavedDialogsLocked, Integer.valueOf(limitParams.defaultLimit));
         } else if (i == 2) {
             limitParams.defaultLimit = MessagesController.getInstance(i2).publicLinksLimitDefault;
             limitParams.premiumLimit = MessagesController.getInstance(i2).publicLinksLimitPremium;

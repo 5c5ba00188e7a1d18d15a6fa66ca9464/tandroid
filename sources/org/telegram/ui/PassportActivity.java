@@ -8706,7 +8706,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
 
                 @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
                 public void onCameraOpened() {
-                    AndroidUtilities.hideKeyboard(((BaseFragment) PassportActivity.this).fragmentView.findFocus());
+                    AndroidUtilities.hideKeyboard(PassportActivity.this.fragmentView.findFocus());
                 }
             });
         }
@@ -9195,19 +9195,19 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             return true;
         }
 
-        static /* synthetic */ int access$10026(PhoneConfirmationView phoneConfirmationView, double d) {
-            double d2 = phoneConfirmationView.codeTime;
-            Double.isNaN(d2);
-            int i = (int) (d2 - d);
-            phoneConfirmationView.codeTime = i;
-            return i;
-        }
-
-        static /* synthetic */ int access$10626(PhoneConfirmationView phoneConfirmationView, double d) {
+        static /* synthetic */ int access$10526(PhoneConfirmationView phoneConfirmationView, double d) {
             double d2 = phoneConfirmationView.time;
             Double.isNaN(d2);
             int i = (int) (d2 - d);
             phoneConfirmationView.time = i;
+            return i;
+        }
+
+        static /* synthetic */ int access$9926(PhoneConfirmationView phoneConfirmationView, double d) {
+            double d2 = phoneConfirmationView.codeTime;
+            Double.isNaN(d2);
+            int i = (int) (d2 - d);
+            phoneConfirmationView.codeTime = i;
             return i;
         }
 
@@ -9688,7 +9688,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 double d = PhoneConfirmationView.this.lastCodeTime;
                 Double.isNaN(currentTimeMillis);
                 PhoneConfirmationView.this.lastCodeTime = currentTimeMillis;
-                PhoneConfirmationView.access$10026(PhoneConfirmationView.this, currentTimeMillis - d);
+                PhoneConfirmationView.access$9926(PhoneConfirmationView.this, currentTimeMillis - d);
                 if (PhoneConfirmationView.this.codeTime <= 1000) {
                     PhoneConfirmationView.this.problemText.setVisibility(0);
                     PhoneConfirmationView.this.timeText.setVisibility(8);
@@ -9735,7 +9735,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 double currentTimeMillis = System.currentTimeMillis();
                 double d = PhoneConfirmationView.this.lastCurrentTime;
                 Double.isNaN(currentTimeMillis);
-                PhoneConfirmationView.access$10626(PhoneConfirmationView.this, currentTimeMillis - d);
+                PhoneConfirmationView.access$10526(PhoneConfirmationView.this, currentTimeMillis - d);
                 PhoneConfirmationView.this.lastCurrentTime = currentTimeMillis;
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PassportActivity$PhoneConfirmationView$5$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable

@@ -477,6 +477,7 @@ public class MessageObject {
     public boolean isRepostVideoPreview;
     public boolean isRestrictedMessage;
     private int isRoundVideoCached;
+    public boolean isSaved;
     public boolean isSpoilersRevealed;
     public boolean isStoryMentionPush;
     public boolean isStoryPush;
@@ -623,22 +624,39 @@ public class MessageObject {
         return false;
     }
 
-    private static int getTopicId(TLRPC$Message tLRPC$Message) {
-        return getTopicId(tLRPC$Message, false);
+    private static long getTopicId(MessageObject messageObject) {
+        if (messageObject == null) {
+            return 0L;
+        }
+        return getTopicId(messageObject.currentAccount, messageObject.messageOwner, false);
     }
 
-    public static int getTopicId(TLRPC$Message tLRPC$Message, boolean z) {
+    private static long getTopicId(int i, TLRPC$Message tLRPC$Message) {
+        return getTopicId(i, tLRPC$Message, false);
+    }
+
+    public static long getTopicId(int i, TLRPC$Message tLRPC$Message, boolean z) {
         TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader;
+        long clientUserId = UserConfig.getInstance(i).getClientUserId();
+        if (!z && tLRPC$Message != null && i >= 0 && DialogObject.getPeerDialogId(tLRPC$Message.peer_id) == clientUserId) {
+            return getSavedDialogId(clientUserId, tLRPC$Message);
+        }
         if (tLRPC$Message == null || !(tLRPC$Message.action instanceof TLRPC$TL_messageActionTopicCreate)) {
             if (tLRPC$Message == null || (tLRPC$MessageReplyHeader = tLRPC$Message.reply_to) == null || !tLRPC$MessageReplyHeader.forum_topic) {
-                return z ? 1 : 0;
+                return z ? 1L : 0L;
+            } else if ((tLRPC$Message instanceof TLRPC$TL_messageService) && !(tLRPC$Message.action instanceof TLRPC$TL_messageActionPinMessage)) {
+                int i2 = tLRPC$MessageReplyHeader.reply_to_msg_id;
+                if (i2 == 0) {
+                    i2 = tLRPC$MessageReplyHeader.reply_to_top_id;
+                }
+                return i2;
+            } else {
+                int i3 = tLRPC$MessageReplyHeader.reply_to_top_id;
+                if (i3 == 0) {
+                    i3 = tLRPC$MessageReplyHeader.reply_to_msg_id;
+                }
+                return i3;
             }
-            if ((tLRPC$Message instanceof TLRPC$TL_messageService) && !(tLRPC$Message.action instanceof TLRPC$TL_messageActionPinMessage)) {
-                int i = tLRPC$MessageReplyHeader.reply_to_msg_id;
-                return i == 0 ? tLRPC$MessageReplyHeader.reply_to_top_id : i;
-            }
-            int i2 = tLRPC$MessageReplyHeader.reply_to_top_id;
-            return i2 == 0 ? tLRPC$MessageReplyHeader.reply_to_msg_id : i2;
         }
         return tLRPC$Message.id;
     }
@@ -759,7 +777,7 @@ public class MessageObject {
         if (z) {
             MessagesStorage messagesStorage = MessagesStorage.getInstance(this.currentAccount);
             TLRPC$Message tLRPC$Message = this.messageOwner;
-            messagesStorage.markMessageReactionsAsRead(tLRPC$Message.dialog_id, getTopicId(tLRPC$Message), this.messageOwner.id, true);
+            messagesStorage.markMessageReactionsAsRead(tLRPC$Message.dialog_id, getTopicId(this.currentAccount, tLRPC$Message), this.messageOwner.id, true);
         }
     }
 
@@ -1515,6 +1533,7 @@ public class MessageObject {
         public boolean hasCaption;
         public boolean hasSibling;
         public boolean isDocuments;
+        public boolean reversed;
         public ArrayList<MessageObject> messages = new ArrayList<>();
         public ArrayList<GroupedMessagePosition> posArray = new ArrayList<>();
         public HashMap<MessageObject, GroupedMessagePosition> positions = new HashMap<>();
@@ -1555,6 +1574,7 @@ public class MessageObject {
         /* JADX WARN: Code restructure failed: missing block: B:30:0x0086, code lost:
             if ((org.telegram.messenger.MessageObject.getMedia(r15.messageOwner) instanceof org.telegram.tgnet.TLRPC$TL_messageMediaInvoice) == false) goto L67;
          */
+        /* JADX WARN: Removed duplicated region for block: B:272:0x0810  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -1564,8 +1584,10 @@ public class MessageObject {
             int i2;
             float f;
             int i3;
-            float f2;
+            byte b2;
             int i4;
+            float f2;
+            int i5;
             this.posArray.clear();
             this.positions.clear();
             this.captionMessage = null;
@@ -1577,24 +1599,24 @@ public class MessageObject {
                 StringBuilder sb = new StringBuilder();
                 this.hasSibling = false;
                 this.hasCaption = false;
-                int i5 = 0;
+                int i6 = 0;
                 boolean z = false;
                 float f3 = 1.0f;
                 boolean z2 = false;
                 boolean z3 = false;
                 boolean z4 = true;
-                while (i5 < size) {
-                    MessageObject messageObject = this.messages.get(i5);
-                    if (i5 == 0) {
+                while (i6 < size) {
+                    MessageObject messageObject = this.messages.get(i6);
+                    if (i6 == 0) {
                         z3 = messageObject.isOutOwner();
                         if (!z3) {
                             TLRPC$Message tLRPC$Message = messageObject.messageOwner;
                             TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader = tLRPC$Message.fwd_from;
                             if (tLRPC$MessageFwdHeader != null && tLRPC$MessageFwdHeader.saved_from_peer != null) {
-                                i4 = i5;
+                                i5 = i6;
                             } else if (tLRPC$Message.from_id instanceof TLRPC$TL_peerUser) {
                                 TLRPC$Peer tLRPC$Peer = tLRPC$Message.peer_id;
-                                i4 = i5;
+                                i5 = i6;
                                 if (tLRPC$Peer.channel_id == 0) {
                                     if (tLRPC$Peer.chat_id == 0) {
                                         if (!(MessageObject.getMedia(tLRPC$Message) instanceof TLRPC$TL_messageMediaGame)) {
@@ -1607,18 +1629,18 @@ public class MessageObject {
                                 this.isDocuments = true;
                             }
                         }
-                        i4 = i5;
+                        i5 = i6;
                         z = false;
                         if (!messageObject.isMusic()) {
                         }
                         this.isDocuments = true;
                     } else {
-                        i4 = i5;
+                        i5 = i6;
                     }
                     TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(messageObject.photoThumbs, AndroidUtilities.getPhotoSize());
                     GroupedMessagePosition groupedMessagePosition = new GroupedMessagePosition();
-                    int i6 = i4;
-                    groupedMessagePosition.last = i6 == size + (-1);
+                    int i7 = i5;
+                    groupedMessagePosition.last = i7 == size + (-1);
                     float f4 = closestPhotoSizeWithSize == null ? 1.0f : closestPhotoSizeWithSize.w / closestPhotoSizeWithSize.h;
                     groupedMessagePosition.aspectRatio = f4;
                     if (f4 > 1.2f) {
@@ -1644,26 +1666,26 @@ public class MessageObject {
                         }
                         this.hasCaption = true;
                     }
-                    i5 = i6 + 1;
+                    i6 = i7 + 1;
                 }
                 if (this.isDocuments) {
-                    for (int i7 = 0; i7 < size; i7++) {
-                        GroupedMessagePosition groupedMessagePosition2 = this.posArray.get(i7);
-                        int i8 = groupedMessagePosition2.flags | 3;
-                        groupedMessagePosition2.flags = i8;
-                        if (i7 == 0) {
-                            groupedMessagePosition2.flags = i8 | 4;
-                        } else if (i7 == size - 1) {
-                            groupedMessagePosition2.flags = i8 | 8;
+                    for (int i8 = 0; i8 < size; i8++) {
+                        GroupedMessagePosition groupedMessagePosition2 = this.posArray.get(i8);
+                        groupedMessagePosition2.flags = 3;
+                        boolean z5 = this.reversed;
+                        if ((!z5 && i8 == 0) || (z5 && i8 == size - 1)) {
+                            groupedMessagePosition2.flags = 3 | 4;
+                            groupedMessagePosition2.last = false;
+                        } else if ((z5 && i8 == 0) || (!z5 && i8 == size - 1)) {
+                            groupedMessagePosition2.flags = 3 | 8;
                             groupedMessagePosition2.last = true;
                         }
                         groupedMessagePosition2.edge = true;
                         groupedMessagePosition2.aspectRatio = 1.0f;
                         groupedMessagePosition2.minX = (byte) 0;
                         groupedMessagePosition2.maxX = (byte) 0;
-                        byte b2 = (byte) i7;
-                        groupedMessagePosition2.minY = b2;
-                        groupedMessagePosition2.maxY = b2;
+                        groupedMessagePosition2.minY = (byte) (z5 ? (size - 1) - i8 : i8);
+                        groupedMessagePosition2.maxY = (byte) (z5 ? (size - 1) - i8 : i8);
                         groupedMessagePosition2.spanSize = 1000;
                         groupedMessagePosition2.pw = this.maxSizeWidth;
                         groupedMessagePosition2.ph = 100.0f;
@@ -1794,69 +1816,66 @@ public class MessageObject {
                     if (messageGroupedLayoutAttempt == null) {
                         return;
                     }
+                    b = 0;
                     int i28 = 0;
-                    byte b3 = 0;
                     int i29 = 0;
                     while (true) {
                         int[] iArr2 = messageGroupedLayoutAttempt.lineCounts;
-                        if (i28 >= iArr2.length) {
+                        if (i29 >= iArr2.length) {
                             break;
                         }
-                        int i30 = iArr2[i28];
-                        float f13 = messageGroupedLayoutAttempt.heights[i28];
+                        int i30 = iArr2[i29];
+                        float f13 = messageGroupedLayoutAttempt.heights[i29];
                         int i31 = this.maxSizeWidth;
                         int i32 = i30 - 1;
-                        int max = Math.max((int) b3, i32);
+                        int max = Math.max((int) b, i32);
                         int i33 = i31;
+                        int i34 = 0;
                         GroupedMessagePosition groupedMessagePosition3 = null;
-                        int i34 = i29;
-                        int i35 = 0;
-                        while (i35 < i30) {
-                            int i36 = max;
-                            int i37 = (int) (fArr[i34] * f13);
-                            i33 -= i37;
+                        while (i34 < i30) {
+                            int i35 = max;
+                            int i36 = (int) (fArr[i28] * f13);
+                            i33 -= i36;
                             float[] fArr3 = fArr;
-                            GroupedMessagePosition groupedMessagePosition4 = this.posArray.get(i34);
-                            int i38 = i30;
-                            int i39 = i28 == 0 ? 4 : 0;
-                            if (i28 == messageGroupedLayoutAttempt.lineCounts.length - 1) {
-                                i39 |= 8;
+                            GroupedMessagePosition groupedMessagePosition4 = this.posArray.get(i28);
+                            int i37 = i30;
+                            int i38 = i29 == 0 ? 4 : 0;
+                            if (i29 == messageGroupedLayoutAttempt.lineCounts.length - 1) {
+                                i38 |= 8;
                             }
-                            if (i35 == 0) {
-                                i39 |= 1;
+                            if (i34 == 0) {
+                                i38 |= 1;
                                 if (z3) {
                                     groupedMessagePosition3 = groupedMessagePosition4;
                                 }
                             }
-                            if (i35 == i32) {
-                                i39 |= 2;
+                            if (i34 == i32) {
+                                i38 |= 2;
                                 if (!z3) {
-                                    i2 = i39;
+                                    i2 = i38;
                                     groupedMessagePosition3 = groupedMessagePosition4;
-                                    groupedMessagePosition4.set(i35, i35, i28, i28, i37, Math.max(dp4, f13 / 814.0f), i2);
+                                    groupedMessagePosition4.set(i34, i34, i29, i29, i36, Math.max(dp4, f13 / 814.0f), i2);
+                                    i28++;
                                     i34++;
-                                    i35++;
                                     fArr = fArr3;
-                                    max = i36;
-                                    i30 = i38;
+                                    max = i35;
+                                    i30 = i37;
                                 }
                             }
-                            i2 = i39;
-                            groupedMessagePosition4.set(i35, i35, i28, i28, i37, Math.max(dp4, f13 / 814.0f), i2);
+                            i2 = i38;
+                            groupedMessagePosition4.set(i34, i34, i29, i29, i36, Math.max(dp4, f13 / 814.0f), i2);
+                            i28++;
                             i34++;
-                            i35++;
                             fArr = fArr3;
-                            max = i36;
-                            i30 = i38;
+                            max = i35;
+                            i30 = i37;
                         }
                         groupedMessagePosition3.pw += i33;
                         groupedMessagePosition3.spanSize += i33;
-                        i28++;
-                        i29 = i34;
+                        i29++;
                         fArr = fArr;
-                        b3 = max;
+                        b = max;
                     }
-                    b = b3;
                 } else if (size == 2) {
                     GroupedMessagePosition groupedMessagePosition5 = this.posArray.get(0);
                     GroupedMessagePosition groupedMessagePosition6 = this.posArray.get(1);
@@ -1868,8 +1887,8 @@ public class MessageObject {
                             float f14 = groupedMessagePosition5.aspectRatio;
                             float f15 = groupedMessagePosition6.aspectRatio;
                             if (f14 - f15 < 0.2d) {
-                                int i40 = this.maxSizeWidth;
-                                float round = Math.round(Math.min(i40 / f14, Math.min(i40 / f15, 407.0f))) / 814.0f;
+                                int i39 = this.maxSizeWidth;
+                                float round = Math.round(Math.min(i39 / f14, Math.min(i39 / f15, 407.0f))) / 814.0f;
                                 groupedMessagePosition5.set(0, 0, 0, 0, this.maxSizeWidth, round, 7);
                                 groupedMessagePosition6.set(0, 0, 1, 1, this.maxSizeWidth, round, 11);
                                 b = 0;
@@ -1877,161 +1896,163 @@ public class MessageObject {
                         }
                     }
                     if (sb2.equals("ww") || sb2.equals("qq")) {
-                        int i41 = this.maxSizeWidth / 2;
-                        float f16 = i41;
+                        int i40 = this.maxSizeWidth / 2;
+                        float f16 = i40;
                         float round2 = Math.round(Math.min(f16 / groupedMessagePosition5.aspectRatio, Math.min(f16 / groupedMessagePosition6.aspectRatio, 814.0f))) / 814.0f;
-                        groupedMessagePosition5.set(0, 0, 0, 0, i41, round2, 13);
-                        groupedMessagePosition6.set(1, 1, 0, 0, i41, round2, 14);
+                        groupedMessagePosition5.set(0, 0, 0, 0, i40, round2, 13);
+                        groupedMessagePosition6.set(1, 1, 0, 0, i40, round2, 14);
                     } else {
-                        int i42 = this.maxSizeWidth;
+                        int i41 = this.maxSizeWidth;
                         float f17 = groupedMessagePosition5.aspectRatio;
-                        int max2 = (int) Math.max(i42 * 0.4f, Math.round((i42 / f17) / ((1.0f / f17) + (1.0f / groupedMessagePosition6.aspectRatio))));
-                        int i43 = this.maxSizeWidth - max2;
-                        if (i43 < dp2) {
-                            max2 -= dp2 - i43;
+                        int max2 = (int) Math.max(i41 * 0.4f, Math.round((i41 / f17) / ((1.0f / f17) + (1.0f / groupedMessagePosition6.aspectRatio))));
+                        int i42 = this.maxSizeWidth - max2;
+                        if (i42 < dp2) {
+                            max2 -= dp2 - i42;
                         } else {
-                            dp2 = i43;
+                            dp2 = i42;
                         }
                         float min = Math.min(814.0f, Math.round(Math.min(dp2 / groupedMessagePosition5.aspectRatio, max2 / groupedMessagePosition6.aspectRatio))) / 814.0f;
                         groupedMessagePosition5.set(0, 0, 0, 0, dp2, min, 13);
                         groupedMessagePosition6.set(1, 1, 0, 0, max2, min, 14);
                     }
                     b = 1;
-                } else {
-                    if (size == 3) {
-                        GroupedMessagePosition groupedMessagePosition7 = this.posArray.get(0);
-                        GroupedMessagePosition groupedMessagePosition8 = this.posArray.get(1);
-                        GroupedMessagePosition groupedMessagePosition9 = this.posArray.get(2);
-                        if (sb.charAt(0) == 'n') {
-                            float f18 = groupedMessagePosition8.aspectRatio;
-                            float min2 = Math.min(407.0f, Math.round((this.maxSizeWidth * f18) / (groupedMessagePosition9.aspectRatio + f18)));
-                            int max3 = (int) Math.max(dp2, Math.min(this.maxSizeWidth * 0.5f, Math.round(Math.min(groupedMessagePosition9.aspectRatio * min2, groupedMessagePosition8.aspectRatio * f2))));
-                            int round3 = Math.round(Math.min((groupedMessagePosition7.aspectRatio * 814.0f) + dp3, this.maxSizeWidth - max3));
-                            groupedMessagePosition7.set(0, 0, 0, 1, round3, 1.0f, 13);
-                            float f19 = (814.0f - min2) / 814.0f;
-                            groupedMessagePosition8.set(1, 1, 0, 0, max3, f19, 6);
-                            float f20 = min2 / 814.0f;
-                            groupedMessagePosition9.set(0, 1, 1, 1, max3, f20, 10);
-                            int i44 = this.maxSizeWidth;
-                            groupedMessagePosition9.spanSize = i44;
-                            groupedMessagePosition7.siblingHeights = new float[]{f20, f19};
-                            if (z3) {
-                                groupedMessagePosition7.spanSize = i44 - max3;
-                            } else {
-                                groupedMessagePosition8.spanSize = i44 - round3;
-                                groupedMessagePosition9.leftSpanOffset = round3;
-                            }
-                            this.hasSibling = true;
+                } else if (size == 3) {
+                    GroupedMessagePosition groupedMessagePosition7 = this.posArray.get(0);
+                    GroupedMessagePosition groupedMessagePosition8 = this.posArray.get(1);
+                    GroupedMessagePosition groupedMessagePosition9 = this.posArray.get(2);
+                    if (sb.charAt(0) == 'n') {
+                        float f18 = groupedMessagePosition8.aspectRatio;
+                        float min2 = Math.min(407.0f, Math.round((this.maxSizeWidth * f18) / (groupedMessagePosition9.aspectRatio + f18)));
+                        int max3 = (int) Math.max(dp2, Math.min(this.maxSizeWidth * 0.5f, Math.round(Math.min(groupedMessagePosition9.aspectRatio * min2, groupedMessagePosition8.aspectRatio * f2))));
+                        int round3 = Math.round(Math.min((groupedMessagePosition7.aspectRatio * 814.0f) + dp3, this.maxSizeWidth - max3));
+                        groupedMessagePosition7.set(0, 0, 0, 1, round3, 1.0f, 13);
+                        float f19 = (814.0f - min2) / 814.0f;
+                        groupedMessagePosition8.set(1, 1, 0, 0, max3, f19, 6);
+                        float f20 = min2 / 814.0f;
+                        groupedMessagePosition9.set(0, 1, 1, 1, max3, f20, 10);
+                        int i43 = this.maxSizeWidth;
+                        groupedMessagePosition9.spanSize = i43;
+                        groupedMessagePosition7.siblingHeights = new float[]{f20, f19};
+                        if (z3) {
+                            groupedMessagePosition7.spanSize = i43 - max3;
                         } else {
-                            float round4 = Math.round(Math.min(this.maxSizeWidth / groupedMessagePosition7.aspectRatio, 537.24005f)) / 814.0f;
-                            groupedMessagePosition7.set(0, 1, 0, 0, this.maxSizeWidth, round4, 7);
-                            int i45 = this.maxSizeWidth / 2;
-                            float f21 = i45;
-                            float min3 = Math.min(814.0f - round4, Math.round(Math.min(f21 / groupedMessagePosition8.aspectRatio, f21 / groupedMessagePosition9.aspectRatio))) / 814.0f;
-                            if (min3 < dp4) {
-                                min3 = dp4;
-                            }
-                            float f22 = min3;
-                            groupedMessagePosition8.set(0, 0, 1, 1, i45, f22, 9);
-                            groupedMessagePosition9.set(1, 1, 1, 1, i45, f22, 10);
+                            groupedMessagePosition8.spanSize = i43 - round3;
+                            groupedMessagePosition9.leftSpanOffset = round3;
                         }
+                        this.hasSibling = true;
                     } else {
-                        GroupedMessagePosition groupedMessagePosition10 = this.posArray.get(0);
-                        GroupedMessagePosition groupedMessagePosition11 = this.posArray.get(1);
-                        GroupedMessagePosition groupedMessagePosition12 = this.posArray.get(2);
-                        GroupedMessagePosition groupedMessagePosition13 = this.posArray.get(3);
-                        if (sb.charAt(0) == 'w') {
-                            float round5 = Math.round(Math.min(this.maxSizeWidth / groupedMessagePosition10.aspectRatio, 537.24005f)) / 814.0f;
-                            groupedMessagePosition10.set(0, 2, 0, 0, this.maxSizeWidth, round5, 7);
-                            float round6 = Math.round(this.maxSizeWidth / ((groupedMessagePosition11.aspectRatio + groupedMessagePosition12.aspectRatio) + groupedMessagePosition13.aspectRatio));
-                            float f23 = dp2;
-                            int max4 = (int) Math.max(f23, Math.min(this.maxSizeWidth * 0.4f, groupedMessagePosition11.aspectRatio * round6));
-                            int max5 = (int) Math.max(Math.max(f23, this.maxSizeWidth * 0.33f), groupedMessagePosition13.aspectRatio * round6);
-                            int i46 = (this.maxSizeWidth - max4) - max5;
-                            if (i46 < AndroidUtilities.dp(58.0f)) {
-                                int dp5 = AndroidUtilities.dp(58.0f) - i46;
-                                i46 = AndroidUtilities.dp(58.0f);
-                                int i47 = dp5 / 2;
-                                max4 -= i47;
-                                max5 -= dp5 - i47;
+                        float round4 = Math.round(Math.min(this.maxSizeWidth / groupedMessagePosition7.aspectRatio, 537.24005f)) / 814.0f;
+                        groupedMessagePosition7.set(0, 1, 0, 0, this.maxSizeWidth, round4, 7);
+                        int i44 = this.maxSizeWidth / 2;
+                        float f21 = i44;
+                        float min3 = Math.min(814.0f - round4, Math.round(Math.min(f21 / groupedMessagePosition8.aspectRatio, f21 / groupedMessagePosition9.aspectRatio))) / 814.0f;
+                        if (min3 < dp4) {
+                            min3 = dp4;
+                        }
+                        float f22 = min3;
+                        groupedMessagePosition8.set(0, 0, 1, 1, i44, f22, 9);
+                        groupedMessagePosition9.set(1, 1, 1, 1, i44, f22, 10);
+                    }
+                    b2 = 1;
+                    for (i4 = 0; i4 < size; i4++) {
+                        GroupedMessagePosition groupedMessagePosition10 = this.posArray.get(i4);
+                        if (z3) {
+                            if (groupedMessagePosition10.minX == 0) {
+                                groupedMessagePosition10.spanSize += i;
                             }
-                            int i48 = max4;
-                            float min4 = Math.min(814.0f - round5, round6) / 814.0f;
-                            if (min4 >= dp4) {
-                                dp4 = min4;
+                            if ((groupedMessagePosition10.flags & 2) != 0) {
+                                groupedMessagePosition10.edge = true;
                             }
-                            float f24 = dp4;
-                            groupedMessagePosition11.set(0, 0, 1, 1, i48, f24, 9);
-                            groupedMessagePosition12.set(1, 1, 1, 1, i46, f24, 8);
-                            groupedMessagePosition13.set(2, 2, 1, 1, max5, f24, 10);
-                            b = 2;
                         } else {
-                            int max6 = Math.max(dp2, Math.round(814.0f / (((1.0f / groupedMessagePosition11.aspectRatio) + (1.0f / groupedMessagePosition12.aspectRatio)) + (1.0f / groupedMessagePosition13.aspectRatio))));
-                            float f25 = dp;
-                            float f26 = max6;
-                            float min5 = Math.min(0.33f, Math.max(f25, f26 / groupedMessagePosition11.aspectRatio) / 814.0f);
-                            float min6 = Math.min(0.33f, Math.max(f25, f26 / groupedMessagePosition12.aspectRatio) / 814.0f);
-                            float f27 = (1.0f - min5) - min6;
-                            int round7 = Math.round(Math.min((814.0f * groupedMessagePosition10.aspectRatio) + dp3, this.maxSizeWidth - max6));
-                            groupedMessagePosition10.set(0, 0, 0, 2, round7, min5 + min6 + f27, 13);
-                            groupedMessagePosition11.set(1, 1, 0, 0, max6, min5, 6);
-                            groupedMessagePosition12.set(0, 1, 1, 1, max6, min6, 2);
-                            groupedMessagePosition12.spanSize = this.maxSizeWidth;
-                            groupedMessagePosition13.set(0, 1, 2, 2, max6, f27, 10);
-                            int i49 = this.maxSizeWidth;
-                            groupedMessagePosition13.spanSize = i49;
-                            if (z3) {
-                                groupedMessagePosition10.spanSize = i49 - max6;
+                            if (groupedMessagePosition10.maxX == b2 || (groupedMessagePosition10.flags & 2) != 0) {
+                                groupedMessagePosition10.spanSize += i;
+                            }
+                            if ((groupedMessagePosition10.flags & 1) != 0) {
+                                groupedMessagePosition10.edge = true;
+                            }
+                        }
+                        MessageObject messageObject2 = this.messages.get(i4);
+                        if (!z3 && messageObject2.needDrawAvatarInternal()) {
+                            if (groupedMessagePosition10.edge) {
+                                int i45 = groupedMessagePosition10.spanSize;
+                                if (i45 != 1000) {
+                                    groupedMessagePosition10.spanSize = i45 + R.styleable.AppCompatTheme_textAppearanceSearchResultTitle;
+                                }
+                                groupedMessagePosition10.pw += R.styleable.AppCompatTheme_textAppearanceSearchResultTitle;
                             } else {
-                                groupedMessagePosition11.spanSize = i49 - round7;
-                                groupedMessagePosition12.leftSpanOffset = round7;
-                                groupedMessagePosition13.leftSpanOffset = round7;
-                            }
-                            groupedMessagePosition10.siblingHeights = new float[]{min5, min6, f27};
-                            this.hasSibling = true;
-                        }
-                    }
-                    b = 1;
-                }
-                for (int i50 = 0; i50 < size; i50++) {
-                    GroupedMessagePosition groupedMessagePosition14 = this.posArray.get(i50);
-                    if (z3) {
-                        if (groupedMessagePosition14.minX == 0) {
-                            groupedMessagePosition14.spanSize += i;
-                        }
-                        if ((groupedMessagePosition14.flags & 2) != 0) {
-                            groupedMessagePosition14.edge = true;
-                        }
-                    } else {
-                        if (groupedMessagePosition14.maxX == b || (groupedMessagePosition14.flags & 2) != 0) {
-                            groupedMessagePosition14.spanSize += i;
-                        }
-                        if ((groupedMessagePosition14.flags & 1) != 0) {
-                            groupedMessagePosition14.edge = true;
-                        }
-                    }
-                    MessageObject messageObject2 = this.messages.get(i50);
-                    if (!z3 && messageObject2.needDrawAvatarInternal()) {
-                        if (groupedMessagePosition14.edge) {
-                            int i51 = groupedMessagePosition14.spanSize;
-                            if (i51 != 1000) {
-                                groupedMessagePosition14.spanSize = i51 + R.styleable.AppCompatTheme_textAppearanceSearchResultTitle;
-                            }
-                            groupedMessagePosition14.pw += R.styleable.AppCompatTheme_textAppearanceSearchResultTitle;
-                        } else {
-                            if ((groupedMessagePosition14.flags & 2) != 0) {
-                                int i52 = groupedMessagePosition14.spanSize;
-                                if (i52 != 1000) {
-                                    groupedMessagePosition14.spanSize = i52 - 108;
-                                } else {
-                                    int i53 = groupedMessagePosition14.leftSpanOffset;
-                                    if (i53 != 0) {
-                                        groupedMessagePosition14.leftSpanOffset = i53 + R.styleable.AppCompatTheme_textAppearanceSearchResultTitle;
+                                if ((groupedMessagePosition10.flags & 2) != 0) {
+                                    int i46 = groupedMessagePosition10.spanSize;
+                                    if (i46 != 1000) {
+                                        groupedMessagePosition10.spanSize = i46 - 108;
+                                    } else {
+                                        int i47 = groupedMessagePosition10.leftSpanOffset;
+                                        if (i47 != 0) {
+                                            groupedMessagePosition10.leftSpanOffset = i47 + R.styleable.AppCompatTheme_textAppearanceSearchResultTitle;
+                                        }
                                     }
                                 }
                             }
                         }
                     }
+                } else {
+                    GroupedMessagePosition groupedMessagePosition11 = this.posArray.get(0);
+                    GroupedMessagePosition groupedMessagePosition12 = this.posArray.get(1);
+                    GroupedMessagePosition groupedMessagePosition13 = this.posArray.get(2);
+                    GroupedMessagePosition groupedMessagePosition14 = this.posArray.get(3);
+                    if (sb.charAt(0) == 'w') {
+                        float round5 = Math.round(Math.min(this.maxSizeWidth / groupedMessagePosition11.aspectRatio, 537.24005f)) / 814.0f;
+                        groupedMessagePosition11.set(0, 2, 0, 0, this.maxSizeWidth, round5, 7);
+                        float round6 = Math.round(this.maxSizeWidth / ((groupedMessagePosition12.aspectRatio + groupedMessagePosition13.aspectRatio) + groupedMessagePosition14.aspectRatio));
+                        float f23 = dp2;
+                        int max4 = (int) Math.max(f23, Math.min(this.maxSizeWidth * 0.4f, groupedMessagePosition12.aspectRatio * round6));
+                        int max5 = (int) Math.max(Math.max(f23, this.maxSizeWidth * 0.33f), groupedMessagePosition14.aspectRatio * round6);
+                        int i48 = (this.maxSizeWidth - max4) - max5;
+                        if (i48 < AndroidUtilities.dp(58.0f)) {
+                            int dp5 = AndroidUtilities.dp(58.0f) - i48;
+                            i48 = AndroidUtilities.dp(58.0f);
+                            int i49 = dp5 / 2;
+                            max4 -= i49;
+                            max5 -= dp5 - i49;
+                        }
+                        int i50 = max4;
+                        float min4 = Math.min(814.0f - round5, round6) / 814.0f;
+                        if (min4 < dp4) {
+                            min4 = dp4;
+                        }
+                        float f24 = min4;
+                        groupedMessagePosition12.set(0, 0, 1, 1, i50, f24, 9);
+                        groupedMessagePosition13.set(1, 1, 1, 1, i48, f24, 8);
+                        groupedMessagePosition14.set(2, 2, 1, 1, max5, f24, 10);
+                        b = 2;
+                    } else {
+                        int max6 = Math.max(dp2, Math.round(814.0f / (((1.0f / groupedMessagePosition12.aspectRatio) + (1.0f / groupedMessagePosition13.aspectRatio)) + (1.0f / groupedMessagePosition14.aspectRatio))));
+                        float f25 = dp;
+                        float f26 = max6;
+                        float min5 = Math.min(0.33f, Math.max(f25, f26 / groupedMessagePosition12.aspectRatio) / 814.0f);
+                        float min6 = Math.min(0.33f, Math.max(f25, f26 / groupedMessagePosition13.aspectRatio) / 814.0f);
+                        float f27 = (1.0f - min5) - min6;
+                        int round7 = Math.round(Math.min((814.0f * groupedMessagePosition11.aspectRatio) + dp3, this.maxSizeWidth - max6));
+                        groupedMessagePosition11.set(0, 0, 0, 2, round7, min5 + min6 + f27, 13);
+                        groupedMessagePosition12.set(1, 1, 0, 0, max6, min5, 6);
+                        groupedMessagePosition13.set(0, 1, 1, 1, max6, min6, 2);
+                        groupedMessagePosition13.spanSize = this.maxSizeWidth;
+                        groupedMessagePosition14.set(0, 1, 2, 2, max6, f27, 10);
+                        int i51 = this.maxSizeWidth;
+                        groupedMessagePosition14.spanSize = i51;
+                        if (z3) {
+                            groupedMessagePosition11.spanSize = i51 - max6;
+                        } else {
+                            groupedMessagePosition12.spanSize = i51 - round7;
+                            groupedMessagePosition13.leftSpanOffset = round7;
+                            groupedMessagePosition14.leftSpanOffset = round7;
+                        }
+                        groupedMessagePosition11.siblingHeights = new float[]{min5, min6, f27};
+                        this.hasSibling = true;
+                        b = 1;
+                    }
+                }
+                b2 = b;
+                while (i4 < size) {
                 }
             }
         }
@@ -2179,7 +2200,11 @@ public class MessageObject {
     }
 
     public MessageObject(int i, TLRPC$Message tLRPC$Message, LongSparseArray<TLRPC$User> longSparseArray, LongSparseArray<TLRPC$Chat> longSparseArray2, boolean z, boolean z2) {
-        this(i, tLRPC$Message, null, null, null, longSparseArray, longSparseArray2, z, z2, 0L);
+        this(i, tLRPC$Message, null, null, null, longSparseArray, longSparseArray2, z, z2, 0L, false, false, false);
+    }
+
+    public MessageObject(int i, TLRPC$Message tLRPC$Message, LongSparseArray<TLRPC$User> longSparseArray, LongSparseArray<TLRPC$Chat> longSparseArray2, boolean z, boolean z2, boolean z3) {
+        this(i, tLRPC$Message, null, null, null, longSparseArray, longSparseArray2, z, z2, 0L, false, false, z3);
     }
 
     public MessageObject(int i, TLRPC$Message tLRPC$Message, AbstractMap<Long, TLRPC$User> abstractMap, AbstractMap<Long, TLRPC$Chat> abstractMap2, boolean z, boolean z2, long j) {
@@ -2187,10 +2212,10 @@ public class MessageObject {
     }
 
     public MessageObject(int i, TLRPC$Message tLRPC$Message, MessageObject messageObject, AbstractMap<Long, TLRPC$User> abstractMap, AbstractMap<Long, TLRPC$Chat> abstractMap2, LongSparseArray<TLRPC$User> longSparseArray, LongSparseArray<TLRPC$Chat> longSparseArray2, boolean z, boolean z2, long j) {
-        this(i, tLRPC$Message, messageObject, abstractMap, abstractMap2, longSparseArray, longSparseArray2, z, z2, j, false, false);
+        this(i, tLRPC$Message, messageObject, abstractMap, abstractMap2, longSparseArray, longSparseArray2, z, z2, j, false, false, false);
     }
 
-    public MessageObject(int i, TLRPC$Message tLRPC$Message, MessageObject messageObject, AbstractMap<Long, TLRPC$User> abstractMap, AbstractMap<Long, TLRPC$Chat> abstractMap2, LongSparseArray<TLRPC$User> longSparseArray, LongSparseArray<TLRPC$Chat> longSparseArray2, boolean z, boolean z2, long j, boolean z3, boolean z4) {
+    public MessageObject(int i, TLRPC$Message tLRPC$Message, MessageObject messageObject, AbstractMap<Long, TLRPC$User> abstractMap, AbstractMap<Long, TLRPC$Chat> abstractMap2, LongSparseArray<TLRPC$User> longSparseArray, LongSparseArray<TLRPC$Chat> longSparseArray2, boolean z, boolean z2, long j, boolean z3, boolean z4, boolean z5) {
         TextPaint textPaint;
         this.type = 1000;
         this.forceSeekTo = -1.0f;
@@ -2202,6 +2227,7 @@ public class MessageObject {
         Theme.createCommonMessageResources();
         this.isRepostPreview = z3;
         this.isRepostVideoPreview = z4;
+        this.isSaved = z5;
         this.currentAccount = i;
         this.messageOwner = tLRPC$Message;
         this.replyMessageObject = messageObject;
@@ -4941,9 +4967,9 @@ public class MessageObject {
     /* JADX WARN: Removed duplicated region for block: B:324:0x0856  */
     /* JADX WARN: Removed duplicated region for block: B:412:0x0a5c  */
     /* JADX WARN: Removed duplicated region for block: B:433:0x0b07  */
-    /* JADX WARN: Removed duplicated region for block: B:747:0x1405  */
-    /* JADX WARN: Removed duplicated region for block: B:877:0x176d  */
-    /* JADX WARN: Removed duplicated region for block: B:903:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:750:0x1408  */
+    /* JADX WARN: Removed duplicated region for block: B:883:0x177f  */
+    /* JADX WARN: Removed duplicated region for block: B:909:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -5720,6 +5746,9 @@ public class MessageObject {
                                         this.messageText = LocaleController.getString(R.string.ActionBotAllowedWebapp);
                                     } else if (tLRPC$BotApp != null) {
                                         String str7 = tLRPC$BotApp.title;
+                                        if (str7 == null) {
+                                            str7 = str;
+                                        }
                                         String string2 = LocaleController.getString("ActionBotAllowedApp", R.string.ActionBotAllowedApp);
                                         int indexOf3 = string2.indexOf("%1$s");
                                         SpannableString spannableString4 = new SpannableString(String.format(string2, str7));
@@ -5868,7 +5897,11 @@ public class MessageObject {
                         }
                     } else if (isVideo() || ((getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaDocument) && (((getDocument() instanceof TLRPC$TL_documentEmpty) || getDocument() == null) && getMedia(this.messageOwner).ttl_seconds != 0))) {
                         if (getMedia(this.messageOwner).ttl_seconds != 0 && !(this.messageOwner instanceof TLRPC$TL_message_secret)) {
-                            this.messageText = LocaleController.getString("AttachDestructingVideo", R.string.AttachDestructingVideo);
+                            if (isVoiceOnce()) {
+                                this.messageText = LocaleController.getString(R.string.AttachDestructingVoice);
+                            } else {
+                                this.messageText = LocaleController.getString(R.string.AttachDestructingVideo);
+                            }
                         } else {
                             this.messageText = LocaleController.getString("AttachVideo", R.string.AttachVideo);
                         }
@@ -5950,11 +5983,11 @@ public class MessageObject {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:59:0x010a, code lost:
-        if (r0 != null) goto L69;
+    /* JADX WARN: Code restructure failed: missing block: B:59:0x0108, code lost:
+        if (r0 != null) goto L73;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:61:0x010e, code lost:
-        if (r6.ttl_seconds == 0) goto L69;
+    /* JADX WARN: Code restructure failed: missing block: B:61:0x010c, code lost:
+        if (r6.ttl_seconds == 0) goto L73;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -5976,7 +6009,7 @@ public class MessageObject {
                 }
                 if (str != null) {
                     SpannableString spannableString = new SpannableString(str);
-                    spannableString.setSpan(new URLSpanReplacement("https://" + str, new TextStyleSpan.TextStyleRun()), 0, this.messageText.length(), 33);
+                    spannableString.setSpan(new URLSpanReplacement("https://" + str, new TextStyleSpan.TextStyleRun()), 0, spannableString.length(), 33);
                     return spannableString;
                 }
                 return "";
@@ -6008,7 +6041,10 @@ public class MessageObject {
                         }
                     }
                     if (tLRPC$MessageMedia.ttl_seconds != 0 && !(this.messageOwner instanceof TLRPC$TL_message_secret)) {
-                        return LocaleController.getString("AttachDestructingVideo", R.string.AttachDestructingVideo);
+                        if (tLRPC$MessageMedia.voice) {
+                            return LocaleController.getString(R.string.AttachDestructingVoice);
+                        }
+                        return LocaleController.getString(R.string.AttachDestructingVideo);
                     }
                     return LocaleController.getString("AttachVideo", R.string.AttachVideo);
                 }
@@ -7685,61 +7721,69 @@ public class MessageObject {
 
     public boolean needDrawShareButton() {
         int i;
-        if (this.isRepostPreview || this.type == 27 || isSponsored() || this.hasCode || this.preview || this.scheduled || this.eventId != 0) {
+        if (this.isRepostPreview) {
             return false;
         }
-        TLRPC$Message tLRPC$Message = this.messageOwner;
-        if (tLRPC$Message.noforwards) {
+        if (this.isSaved) {
+            long j = UserConfig.getInstance(this.currentAccount).clientUserId;
+            long savedDialogId = getSavedDialogId(j, this.messageOwner);
+            return (savedDialogId == j || savedDialogId == UserObject.ANONYMOUS) ? false : true;
+        } else if (this.type == 27 || isSponsored() || this.hasCode || this.preview || this.scheduled || this.eventId != 0) {
             return false;
-        }
-        if (tLRPC$Message.fwd_from == null || isOutOwner() || this.messageOwner.fwd_from.saved_from_peer == null || getDialogId() != UserConfig.getInstance(this.currentAccount).getClientUserId()) {
-            int i2 = this.type;
-            if (i2 != 13 && i2 != 15 && i2 != 19) {
-                TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader = this.messageOwner.fwd_from;
-                if (tLRPC$MessageFwdHeader != null && (tLRPC$MessageFwdHeader.from_id instanceof TLRPC$TL_peerChannel) && !isOutOwner()) {
-                    return true;
-                }
-                if (isFromUser()) {
-                    if ((getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaEmpty) || getMedia(this.messageOwner) == null || ((getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaWebPage) && !(getMedia(this.messageOwner).webpage instanceof TLRPC$TL_webPage))) {
-                        return false;
-                    }
-                    TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(this.messageOwner.from_id.user_id));
-                    if (user != null && user.bot && !hasExtendedMedia()) {
+        } else {
+            TLRPC$Message tLRPC$Message = this.messageOwner;
+            if (tLRPC$Message.noforwards) {
+                return false;
+            }
+            if (tLRPC$Message.fwd_from == null || isOutOwner() || this.messageOwner.fwd_from.saved_from_peer == null || getDialogId() != UserConfig.getInstance(this.currentAccount).getClientUserId()) {
+                int i2 = this.type;
+                if (i2 != 13 && i2 != 15 && i2 != 19) {
+                    TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader = this.messageOwner.fwd_from;
+                    if (tLRPC$MessageFwdHeader != null && (tLRPC$MessageFwdHeader.from_id instanceof TLRPC$TL_peerChannel) && !isOutOwner()) {
                         return true;
                     }
-                    if (!isOut()) {
-                        if ((getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaGame) || (((getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaInvoice) && !hasExtendedMedia()) || (getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaWebPage))) {
-                            return true;
-                        }
-                        TLRPC$Peer tLRPC$Peer = this.messageOwner.peer_id;
-                        TLRPC$Chat tLRPC$Chat = null;
-                        if (tLRPC$Peer != null) {
-                            long j = tLRPC$Peer.channel_id;
-                            if (j != 0) {
-                                tLRPC$Chat = getChat(null, null, j);
-                            }
-                        }
-                        return ChatObject.isChannel(tLRPC$Chat) && tLRPC$Chat.megagroup && ChatObject.isPublic(tLRPC$Chat) && !(getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaContact) && !(getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaGeo);
-                    }
-                } else {
-                    TLRPC$Message tLRPC$Message2 = this.messageOwner;
-                    if ((tLRPC$Message2.from_id instanceof TLRPC$TL_peerChannel) || tLRPC$Message2.post) {
-                        if ((getMedia(tLRPC$Message2) instanceof TLRPC$TL_messageMediaWebPage) && !isOutOwner()) {
-                            return true;
-                        }
-                        if (isSupergroup()) {
+                    if (isFromUser()) {
+                        if ((getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaEmpty) || getMedia(this.messageOwner) == null || ((getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaWebPage) && !(getMedia(this.messageOwner).webpage instanceof TLRPC$TL_webPage))) {
                             return false;
                         }
-                        TLRPC$Message tLRPC$Message3 = this.messageOwner;
-                        if (tLRPC$Message3.peer_id.channel_id != 0 && ((tLRPC$Message3.via_bot_id == 0 && tLRPC$Message3.reply_to == null) || ((i = this.type) != 13 && i != 15))) {
+                        TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(this.messageOwner.from_id.user_id));
+                        if (user != null && user.bot && !hasExtendedMedia()) {
                             return true;
+                        }
+                        if (!isOut()) {
+                            if ((getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaGame) || (((getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaInvoice) && !hasExtendedMedia()) || (getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaWebPage))) {
+                                return true;
+                            }
+                            TLRPC$Peer tLRPC$Peer = this.messageOwner.peer_id;
+                            TLRPC$Chat tLRPC$Chat = null;
+                            if (tLRPC$Peer != null) {
+                                long j2 = tLRPC$Peer.channel_id;
+                                if (j2 != 0) {
+                                    tLRPC$Chat = getChat(null, null, j2);
+                                }
+                            }
+                            return ChatObject.isChannel(tLRPC$Chat) && tLRPC$Chat.megagroup && ChatObject.isPublic(tLRPC$Chat) && !(getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaContact) && !(getMedia(this.messageOwner) instanceof TLRPC$TL_messageMediaGeo);
+                        }
+                    } else {
+                        TLRPC$Message tLRPC$Message2 = this.messageOwner;
+                        if ((tLRPC$Message2.from_id instanceof TLRPC$TL_peerChannel) || tLRPC$Message2.post) {
+                            if ((getMedia(tLRPC$Message2) instanceof TLRPC$TL_messageMediaWebPage) && !isOutOwner()) {
+                                return true;
+                            }
+                            if (isSupergroup()) {
+                                return false;
+                            }
+                            TLRPC$Message tLRPC$Message3 = this.messageOwner;
+                            if (tLRPC$Message3.peer_id.channel_id != 0 && ((tLRPC$Message3.via_bot_id == 0 && tLRPC$Message3.reply_to == null) || ((i = this.type) != 13 && i != 15))) {
+                                return true;
+                            }
                         }
                     }
                 }
+                return false;
             }
-            return false;
+            return true;
         }
-        return true;
     }
 
     public boolean isYouTubeVideo() {
@@ -7754,7 +7798,7 @@ public class MessageObject {
         }
         this.generatedWithDensity = AndroidUtilities.density;
         int i = 0;
-        if (this.hasCode) {
+        if (this.hasCode && !this.isSaved) {
             i = this.generatedWithMinSize - AndroidUtilities.dp(60.0f);
             if (needDrawAvatarInternal() && !isOutOwner() && !this.messageOwner.isThreadMessage) {
                 i -= AndroidUtilities.dp(52.0f);
@@ -9477,6 +9521,7 @@ public class MessageObject {
     public boolean isOutOwner() {
         TLRPC$Peer tLRPC$Peer;
         TLRPC$Peer tLRPC$Peer2;
+        TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader;
         boolean z = true;
         if (this.previewForward) {
             return true;
@@ -9485,42 +9530,51 @@ public class MessageObject {
         if (bool != null) {
             return bool.booleanValue();
         }
-        TLRPC$Peer tLRPC$Peer3 = this.messageOwner.peer_id;
+        long clientUserId = UserConfig.getInstance(this.currentAccount).getClientUserId();
+        if (this.isSaved && (tLRPC$MessageFwdHeader = this.messageOwner.fwd_from) != null) {
+            TLRPC$Peer tLRPC$Peer3 = tLRPC$MessageFwdHeader.from_id;
+            if ((tLRPC$Peer3 == null || tLRPC$Peer3.user_id != clientUserId) && !tLRPC$MessageFwdHeader.saved_out) {
+                z = false;
+            }
+            Boolean valueOf = Boolean.valueOf(z);
+            this.isOutOwnerCached = valueOf;
+            return valueOf.booleanValue();
+        }
+        TLRPC$Peer tLRPC$Peer4 = this.messageOwner.peer_id;
         TLRPC$Chat tLRPC$Chat = null;
-        if (tLRPC$Peer3 != null) {
-            long j = tLRPC$Peer3.channel_id;
+        if (tLRPC$Peer4 != null) {
+            long j = tLRPC$Peer4.channel_id;
             if (j != 0) {
                 tLRPC$Chat = getChat(null, null, j);
             }
         }
         TLRPC$Message tLRPC$Message = this.messageOwner;
         if (tLRPC$Message.out) {
-            TLRPC$Peer tLRPC$Peer4 = tLRPC$Message.from_id;
-            if ((tLRPC$Peer4 instanceof TLRPC$TL_peerUser) || ((tLRPC$Peer4 instanceof TLRPC$TL_peerChannel) && (!ChatObject.isChannel(tLRPC$Chat) || tLRPC$Chat.megagroup))) {
+            TLRPC$Peer tLRPC$Peer5 = tLRPC$Message.from_id;
+            if ((tLRPC$Peer5 instanceof TLRPC$TL_peerUser) || ((tLRPC$Peer5 instanceof TLRPC$TL_peerChannel) && (!ChatObject.isChannel(tLRPC$Chat) || tLRPC$Chat.megagroup))) {
                 TLRPC$Message tLRPC$Message2 = this.messageOwner;
                 if (!tLRPC$Message2.post) {
                     if (tLRPC$Message2.fwd_from == null) {
                         this.isOutOwnerCached = Boolean.TRUE;
                         return true;
-                    }
-                    long clientUserId = UserConfig.getInstance(this.currentAccount).getClientUserId();
-                    if (getDialogId() == clientUserId) {
-                        TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader = this.messageOwner.fwd_from;
-                        TLRPC$Peer tLRPC$Peer5 = tLRPC$MessageFwdHeader.from_id;
-                        if ((!(tLRPC$Peer5 instanceof TLRPC$TL_peerUser) || tLRPC$Peer5.user_id != clientUserId || ((tLRPC$Peer2 = tLRPC$MessageFwdHeader.saved_from_peer) != null && tLRPC$Peer2.user_id != clientUserId)) && ((tLRPC$Peer = tLRPC$MessageFwdHeader.saved_from_peer) == null || tLRPC$Peer.user_id != clientUserId || (tLRPC$Peer5 != null && tLRPC$Peer5.user_id != clientUserId))) {
+                    } else if (getDialogId() == clientUserId) {
+                        TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader2 = this.messageOwner.fwd_from;
+                        TLRPC$Peer tLRPC$Peer6 = tLRPC$MessageFwdHeader2.from_id;
+                        if ((!(tLRPC$Peer6 instanceof TLRPC$TL_peerUser) || tLRPC$Peer6.user_id != clientUserId || ((tLRPC$Peer2 = tLRPC$MessageFwdHeader2.saved_from_peer) != null && tLRPC$Peer2.user_id != clientUserId)) && ((tLRPC$Peer = tLRPC$MessageFwdHeader2.saved_from_peer) == null || tLRPC$Peer.user_id != clientUserId || (tLRPC$Peer6 != null && tLRPC$Peer6.user_id != clientUserId))) {
                             z = false;
                         }
-                        Boolean valueOf = Boolean.valueOf(z);
-                        this.isOutOwnerCached = valueOf;
-                        return valueOf.booleanValue();
+                        Boolean valueOf2 = Boolean.valueOf(z);
+                        this.isOutOwnerCached = valueOf2;
+                        return valueOf2.booleanValue();
+                    } else {
+                        TLRPC$Peer tLRPC$Peer7 = this.messageOwner.fwd_from.saved_from_peer;
+                        if (tLRPC$Peer7 != null && tLRPC$Peer7.user_id != clientUserId) {
+                            z = false;
+                        }
+                        Boolean valueOf3 = Boolean.valueOf(z);
+                        this.isOutOwnerCached = valueOf3;
+                        return valueOf3.booleanValue();
                     }
-                    TLRPC$Peer tLRPC$Peer6 = this.messageOwner.fwd_from.saved_from_peer;
-                    if (tLRPC$Peer6 != null && tLRPC$Peer6.user_id != clientUserId) {
-                        z = false;
-                    }
-                    Boolean valueOf2 = Boolean.valueOf(z);
-                    this.isOutOwnerCached = valueOf2;
-                    return valueOf2.booleanValue();
                 }
             }
         }
@@ -9529,36 +9583,48 @@ public class MessageObject {
     }
 
     public boolean needDrawAvatar() {
-        if (this.isRepostPreview || this.forceAvatar || this.customAvatarDrawable != null) {
+        if (this.isRepostPreview) {
             return true;
         }
-        if (!isSponsored()) {
-            if (isFromUser() || isFromGroup() || this.eventId != 0) {
-                return true;
+        if (this.isSaved) {
+            return getSavedDialogId() < 0 || getSavedDialogId() == UserObject.ANONYMOUS;
+        } else if (this.forceAvatar || this.customAvatarDrawable != null) {
+            return true;
+        } else {
+            if (!isSponsored()) {
+                if (isFromUser() || isFromGroup() || this.eventId != 0) {
+                    return true;
+                }
+                TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader = this.messageOwner.fwd_from;
+                if (tLRPC$MessageFwdHeader != null && tLRPC$MessageFwdHeader.saved_from_peer != null) {
+                    return true;
+                }
             }
-            TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader = this.messageOwner.fwd_from;
-            if (tLRPC$MessageFwdHeader != null && tLRPC$MessageFwdHeader.saved_from_peer != null) {
-                return true;
-            }
+            return false;
         }
-        return false;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public boolean needDrawAvatarInternal() {
-        if (this.isRepostPreview || this.forceAvatar || this.customAvatarDrawable != null) {
+        if (this.isRepostPreview) {
             return true;
         }
-        if (!isSponsored()) {
-            if ((isFromChat() && isFromUser()) || isFromGroup() || this.eventId != 0) {
-                return true;
+        if (this.isSaved) {
+            return getSavedDialogId() < 0 || getSavedDialogId() == UserObject.ANONYMOUS;
+        } else if (this.forceAvatar || this.customAvatarDrawable != null) {
+            return true;
+        } else {
+            if (!isSponsored()) {
+                if ((isFromChat() && isFromUser()) || isFromGroup() || this.eventId != 0) {
+                    return true;
+                }
+                TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader = this.messageOwner.fwd_from;
+                if (tLRPC$MessageFwdHeader != null && tLRPC$MessageFwdHeader.saved_from_peer != null) {
+                    return true;
+                }
             }
-            TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader = this.messageOwner.fwd_from;
-            if (tLRPC$MessageFwdHeader != null && tLRPC$MessageFwdHeader.saved_from_peer != null) {
-                return true;
-            }
+            return false;
         }
-        return false;
     }
 
     public boolean isFromChat() {
@@ -9991,6 +10057,65 @@ public class MessageObject {
             }
         }
         return tLRPC$Message.dialog_id;
+    }
+
+    public long getSavedDialogId() {
+        return getSavedDialogId(UserConfig.getInstance(this.currentAccount).getClientUserId(), this.messageOwner);
+    }
+
+    public static long getSavedDialogId(long j, TLRPC$Message tLRPC$Message) {
+        TLRPC$Peer tLRPC$Peer;
+        TLRPC$Peer tLRPC$Peer2;
+        TLRPC$Peer tLRPC$Peer3 = tLRPC$Message.saved_peer_id;
+        if (tLRPC$Peer3 != null) {
+            long j2 = tLRPC$Peer3.chat_id;
+            if (j2 != 0) {
+                return -j2;
+            }
+            long j3 = tLRPC$Peer3.channel_id;
+            return j3 != 0 ? -j3 : tLRPC$Peer3.user_id;
+        } else if (tLRPC$Message.from_id.user_id == j) {
+            TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader = tLRPC$Message.fwd_from;
+            if (tLRPC$MessageFwdHeader == null || (tLRPC$Peer2 = tLRPC$MessageFwdHeader.saved_from_peer) == null) {
+                if (tLRPC$MessageFwdHeader == null || (tLRPC$Peer = tLRPC$MessageFwdHeader.from_id) == null) {
+                    return tLRPC$MessageFwdHeader != null ? UserObject.ANONYMOUS : j;
+                }
+                return DialogObject.getPeerDialogId(tLRPC$Peer);
+            }
+            return DialogObject.getPeerDialogId(tLRPC$Peer2);
+        } else {
+            return 0L;
+        }
+    }
+
+    public static TLRPC$Peer getSavedDialogPeer(long j, TLRPC$Message tLRPC$Message) {
+        TLRPC$Peer tLRPC$Peer;
+        TLRPC$Peer tLRPC$Peer2;
+        TLRPC$Peer tLRPC$Peer3 = tLRPC$Message.saved_peer_id;
+        if (tLRPC$Peer3 != null) {
+            return tLRPC$Peer3;
+        }
+        TLRPC$Peer tLRPC$Peer4 = tLRPC$Message.peer_id;
+        if (tLRPC$Peer4 == null || tLRPC$Peer4.user_id != j || (tLRPC$Peer = tLRPC$Message.from_id) == null || tLRPC$Peer.user_id != j) {
+            return null;
+        }
+        TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader = tLRPC$Message.fwd_from;
+        if (tLRPC$MessageFwdHeader == null || (tLRPC$Peer2 = tLRPC$MessageFwdHeader.saved_from_peer) == null) {
+            if (tLRPC$MessageFwdHeader != null && tLRPC$MessageFwdHeader.from_id != null) {
+                TLRPC$TL_peerUser tLRPC$TL_peerUser = new TLRPC$TL_peerUser();
+                tLRPC$TL_peerUser.user_id = j;
+                return tLRPC$TL_peerUser;
+            } else if (tLRPC$MessageFwdHeader != null) {
+                TLRPC$TL_peerUser tLRPC$TL_peerUser2 = new TLRPC$TL_peerUser();
+                tLRPC$TL_peerUser2.user_id = UserObject.ANONYMOUS;
+                return tLRPC$TL_peerUser2;
+            } else {
+                TLRPC$TL_peerUser tLRPC$TL_peerUser3 = new TLRPC$TL_peerUser();
+                tLRPC$TL_peerUser3.user_id = j;
+                return tLRPC$TL_peerUser3;
+            }
+        }
+        return tLRPC$Peer2;
     }
 
     public boolean isSending() {
@@ -11103,17 +11228,29 @@ public class MessageObject {
         return isForwardedMessage(this.messageOwner);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:18:0x002e, code lost:
-        if (r2.channel_id == r0.channel_id) goto L22;
+    /* JADX WARN: Code restructure failed: missing block: B:43:0x0080, code lost:
+        if (r3.channel_id == r0.channel_id) goto L44;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public boolean needDrawForwarded() {
         TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader;
-        if (this.type != 23 || isExpiredStory()) {
+        if (this.isSaved) {
             TLRPC$Message tLRPC$Message = this.messageOwner;
-            if ((tLRPC$Message.flags & 4) != 0 && (tLRPC$MessageFwdHeader = tLRPC$Message.fwd_from) != null && !tLRPC$MessageFwdHeader.imported) {
+            if (tLRPC$Message == null || tLRPC$Message.fwd_from == null) {
+                return false;
+            }
+            long clientUserId = UserConfig.getInstance(this.currentAccount).getClientUserId();
+            long savedDialogId = getSavedDialogId(clientUserId, this.messageOwner);
+            long peerDialogId = DialogObject.getPeerDialogId(this.messageOwner.fwd_from.saved_from_peer);
+            if (peerDialogId >= 0) {
+                peerDialogId = DialogObject.getPeerDialogId(this.messageOwner.fwd_from.from_id);
+            }
+            return peerDialogId == 0 ? savedDialogId != UserObject.ANONYMOUS : (savedDialogId == peerDialogId || peerDialogId == clientUserId) ? false : true;
+        } else if (this.type != 23 || isExpiredStory()) {
+            TLRPC$Message tLRPC$Message2 = this.messageOwner;
+            if ((tLRPC$Message2.flags & 4) != 0 && (tLRPC$MessageFwdHeader = tLRPC$Message2.fwd_from) != null && !tLRPC$MessageFwdHeader.imported) {
                 TLRPC$Peer tLRPC$Peer = tLRPC$MessageFwdHeader.saved_from_peer;
                 if (tLRPC$Peer != null) {
                     TLRPC$Peer tLRPC$Peer2 = tLRPC$MessageFwdHeader.from_id;
@@ -11125,8 +11262,9 @@ public class MessageObject {
                 }
             }
             return false;
+        } else {
+            return true;
         }
-        return true;
     }
 
     public static boolean isForwardedMessage(TLRPC$Message tLRPC$Message) {

@@ -1715,15 +1715,14 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
             TLRPC$Chat chat;
             TLRPC$User tLRPC$User2;
             String trim;
-            TLRPC$Chat tLRPC$Chat;
-            TLRPC$User tLRPC$User3;
+            long j;
             boolean z;
             boolean z2;
             PeerStoriesView peerStoriesView = PeerStoriesView.this;
             boolean z3 = peerStoriesView.isSelf || MessagesController.getInstance(peerStoriesView.currentAccount).getStoriesController().canEditStory(PeerStoriesView.this.currentStory.storyItem);
             PeerStoriesView peerStoriesView2 = PeerStoriesView.this;
             if (!(peerStoriesView2.isSelf || (peerStoriesView2.isChannel && z3)) && peerStoriesView2.currentStory.uploadingStory == null) {
-                final String sharedPrefKey = NotificationsController.getSharedPrefKey(peerStoriesView2.dialogId, 0);
+                final String sharedPrefKey = NotificationsController.getSharedPrefKey(peerStoriesView2.dialogId, 0L);
                 boolean z4 = !NotificationsCustomSettingsActivity.areStoriesNotMuted(PeerStoriesView.this.currentAccount, PeerStoriesView.this.dialogId);
                 if (PeerStoriesView.this.dialogId > 0) {
                     chat = null;
@@ -1748,38 +1747,36 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                     if (!z4) {
                         ActionBarMenuSubItem addItem = ActionBarMenuItem.addItem(actionBarPopupWindowLayout, R.drawable.msg_mute, LocaleController.getString("NotificationsStoryMute2", R.string.NotificationsStoryMute2), false, this.val$resourcesProvider);
                         final Theme.ResourcesProvider resourcesProvider = this.val$resourcesProvider;
-                        tLRPC$Chat = chat;
-                        final TLRPC$Chat tLRPC$Chat2 = tLRPC$User2;
-                        tLRPC$User3 = tLRPC$User;
+                        j = 0;
+                        final TLRPC$Chat tLRPC$Chat = tLRPC$User2;
                         addItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.PeerStoriesView$8$$ExternalSyntheticLambda12
                             @Override // android.view.View.OnClickListener
                             public final void onClick(View view) {
-                                PeerStoriesView.8.this.lambda$onCreate$15(sharedPrefKey, resourcesProvider, tLRPC$Chat2, str4, view);
+                                PeerStoriesView.8.this.lambda$onCreate$15(sharedPrefKey, resourcesProvider, tLRPC$Chat, str4, view);
                             }
                         });
                         addItem.setMultiline(false);
                     } else {
-                        tLRPC$Chat = chat;
-                        tLRPC$User3 = tLRPC$User;
+                        j = 0;
                         ActionBarMenuSubItem addItem2 = ActionBarMenuItem.addItem(actionBarPopupWindowLayout, R.drawable.msg_unmute, LocaleController.getString("NotificationsStoryUnmute2", R.string.NotificationsStoryUnmute2), false, this.val$resourcesProvider);
                         final Theme.ResourcesProvider resourcesProvider2 = this.val$resourcesProvider;
-                        final TLRPC$Chat tLRPC$Chat3 = tLRPC$User2;
+                        final TLRPC$Chat tLRPC$Chat2 = tLRPC$User2;
                         addItem2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.PeerStoriesView$8$$ExternalSyntheticLambda13
                             @Override // android.view.View.OnClickListener
                             public final void onClick(View view) {
-                                PeerStoriesView.8.this.lambda$onCreate$16(sharedPrefKey, resourcesProvider2, tLRPC$Chat3, str4, view);
+                                PeerStoriesView.8.this.lambda$onCreate$16(sharedPrefKey, resourcesProvider2, tLRPC$Chat2, str4, view);
                             }
                         });
                         addItem2.setMultiline(false);
                     }
-                    if (PeerStoriesView.this.dialogId > 0) {
-                        z = tLRPC$User3 != null && tLRPC$User3.contact;
-                        if (tLRPC$User3 != null) {
+                    if (PeerStoriesView.this.dialogId > j) {
+                        z = tLRPC$User != null && tLRPC$User.contact;
+                        if (tLRPC$User != null) {
                         }
                         z2 = false;
                     } else {
-                        z = (tLRPC$Chat == null || ChatObject.isNotInChat(tLRPC$Chat)) ? false : true;
-                        if (tLRPC$Chat != null) {
+                        z = (chat == null || ChatObject.isNotInChat(chat)) ? false : true;
+                        if (chat != null) {
                         }
                         z2 = false;
                     }
@@ -2275,7 +2272,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
         public /* synthetic */ void lambda$onCreate$15(String str, Theme.ResourcesProvider resourcesProvider, TLObject tLObject, String str2, View view) {
             SharedPreferences.Editor edit = MessagesController.getNotificationsSettings(PeerStoriesView.this.currentAccount).edit();
             edit.putBoolean(NotificationsSettingsFacade.PROPERTY_STORIES_NOTIFY + str, false).apply();
-            NotificationsController.getInstance(PeerStoriesView.this.currentAccount).updateServerNotificationsSettings(PeerStoriesView.this.dialogId, 0);
+            NotificationsController.getInstance(PeerStoriesView.this.currentAccount).updateServerNotificationsSettings(PeerStoriesView.this.dialogId, 0L);
             BulletinFactory.of(PeerStoriesView.this.storyContainer, resourcesProvider).createUsersBulletin(Arrays.asList(tLObject), AndroidUtilities.replaceTags(LocaleController.formatString("NotificationsStoryMutedHint", R.string.NotificationsStoryMutedHint, str2))).setTag(2).show();
             CustomPopupMenu customPopupMenu = PeerStoriesView.this.popupMenu;
             if (customPopupMenu != null) {
@@ -2287,7 +2284,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
         public /* synthetic */ void lambda$onCreate$16(String str, Theme.ResourcesProvider resourcesProvider, TLObject tLObject, String str2, View view) {
             SharedPreferences.Editor edit = MessagesController.getNotificationsSettings(PeerStoriesView.this.currentAccount).edit();
             edit.putBoolean(NotificationsSettingsFacade.PROPERTY_STORIES_NOTIFY + str, true).apply();
-            NotificationsController.getInstance(PeerStoriesView.this.currentAccount).updateServerNotificationsSettings(PeerStoriesView.this.dialogId, 0);
+            NotificationsController.getInstance(PeerStoriesView.this.currentAccount).updateServerNotificationsSettings(PeerStoriesView.this.dialogId, 0L);
             BulletinFactory.of(PeerStoriesView.this.storyContainer, resourcesProvider).createUsersBulletin(Arrays.asList(tLObject), AndroidUtilities.replaceTags(LocaleController.formatString("NotificationsStoryUnmutedHint", R.string.NotificationsStoryUnmutedHint, str2))).setTag(2).show();
             CustomPopupMenu customPopupMenu = PeerStoriesView.this.popupMenu;
             if (customPopupMenu != null) {
@@ -3325,7 +3322,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
 
     /* JADX INFO: Access modifiers changed from: private */
     public void createMentionsContainer() {
-        MentionsContainerView mentionsContainerView = new MentionsContainerView(getContext(), this.dialogId, 0, this.storyViewer.fragment, this, this.resourcesProvider) { // from class: org.telegram.ui.Stories.PeerStoriesView.17
+        MentionsContainerView mentionsContainerView = new MentionsContainerView(getContext(), this.dialogId, 0L, this.storyViewer.fragment, this, this.resourcesProvider) { // from class: org.telegram.ui.Stories.PeerStoriesView.17
             @Override // org.telegram.ui.Components.MentionsContainerView
             public void drawRoundRect(Canvas canvas, Rect rect, float f) {
                 PeerStoriesView.this.bitmapShaderTools.setBounds(getX(), -getY(), getX() + getMeasuredWidth(), (-getY()) + getMeasuredHeight());
@@ -4644,7 +4641,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
     /* JADX WARN: Removed duplicated region for block: B:340:0x0829  */
     /* JADX WARN: Removed duplicated region for block: B:341:0x082b  */
     /* JADX WARN: Type inference failed for: r2v4 */
-    /* JADX WARN: Type inference failed for: r2v5, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r2v5, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r2v71 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

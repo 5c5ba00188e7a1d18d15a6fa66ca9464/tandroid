@@ -3093,8 +3093,8 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         }
 
         /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Removed duplicated region for block: B:202:0x04a4  */
-        /* JADX WARN: Removed duplicated region for block: B:203:0x04ae  */
+        /* JADX WARN: Removed duplicated region for block: B:202:0x049c  */
+        /* JADX WARN: Removed duplicated region for block: B:203:0x04a6  */
         @Override // org.telegram.ui.Components.SlideView
         /* renamed from: onNextPressed */
         /*
@@ -3127,18 +3127,21 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             String str4 = "+" + ((Object) this.codeField.getText()) + " " + ((Object) this.phoneField.getText());
             if (!this.confirmedNumber) {
                 Point point = AndroidUtilities.displaySize;
-                if (point.x <= point.y || LoginActivity.this.isCustomKeyboardVisible() || LoginActivity.this.sizeNotifierFrameLayout.measureKeyboardHeight() <= AndroidUtilities.dp(20.0f)) {
-                    LoginActivity.this.phoneNumberConfirmView = new PhoneNumberConfirmView(((BaseFragment) LoginActivity.this).fragmentView.getContext(), (ViewGroup) ((BaseFragment) LoginActivity.this).fragmentView, LoginActivity.this.floatingButtonContainer, str4, new 6(str));
-                    LoginActivity.this.phoneNumberConfirmView.show();
+                if (point.x > point.y && !LoginActivity.this.isCustomKeyboardVisible() && LoginActivity.this.sizeNotifierFrameLayout.measureKeyboardHeight() > AndroidUtilities.dp(20.0f)) {
+                    LoginActivity.this.keyboardHideCallback = new Runnable() { // from class: org.telegram.ui.LoginActivity$PhoneView$$ExternalSyntheticLambda11
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            LoginActivity.PhoneView.this.lambda$onNextPressed$15(str);
+                        }
+                    };
+                    AndroidUtilities.hideKeyboard(LoginActivity.this.fragmentView);
                     return;
                 }
-                LoginActivity.this.keyboardHideCallback = new Runnable() { // from class: org.telegram.ui.LoginActivity$PhoneView$$ExternalSyntheticLambda11
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        LoginActivity.PhoneView.this.lambda$onNextPressed$15(str);
-                    }
-                };
-                AndroidUtilities.hideKeyboard(((BaseFragment) LoginActivity.this).fragmentView);
+                LoginActivity loginActivity = LoginActivity.this;
+                Context context = LoginActivity.this.fragmentView.getContext();
+                LoginActivity loginActivity2 = LoginActivity.this;
+                loginActivity.phoneNumberConfirmView = new PhoneNumberConfirmView(context, (ViewGroup) loginActivity2.fragmentView, loginActivity2.floatingButtonContainer, str4, new 6(str));
+                LoginActivity.this.phoneNumberConfirmView.show();
                 return;
             }
             this.confirmedNumber = false;
@@ -3203,8 +3206,8 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                             i2 = R.raw.incoming_calls;
                         }
                         builder.setTopAnimation(i2, 46, false, Theme.getColor(Theme.key_dialogTopBackground));
-                        LoginActivity loginActivity = LoginActivity.this;
-                        loginActivity.permissionsDialog = loginActivity.showDialog(builder.create());
+                        LoginActivity loginActivity3 = LoginActivity.this;
+                        loginActivity3.permissionsDialog = loginActivity3.showDialog(builder.create());
                         this.confirmedNumber = true;
                         return;
                     }
@@ -3917,7 +3920,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             return true;
         }
 
-        static /* synthetic */ int access$8626(LoginActivitySmsView loginActivitySmsView, double d) {
+        static /* synthetic */ int access$8326(LoginActivitySmsView loginActivitySmsView, double d) {
             double d2 = loginActivitySmsView.time;
             Double.isNaN(d2);
             int i = (int) (d2 - d);
@@ -3925,7 +3928,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             return i;
         }
 
-        static /* synthetic */ int access$9726(LoginActivitySmsView loginActivitySmsView, double d) {
+        static /* synthetic */ int access$9426(LoginActivitySmsView loginActivitySmsView, double d) {
             double d2 = loginActivitySmsView.codeTime;
             Double.isNaN(d2);
             int i = (int) (d2 - d);
@@ -5024,7 +5027,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                 double d = LoginActivitySmsView.this.lastCodeTime;
                 Double.isNaN(currentTimeMillis);
                 LoginActivitySmsView.this.lastCodeTime = currentTimeMillis;
-                LoginActivitySmsView.access$9726(LoginActivitySmsView.this, currentTimeMillis - d);
+                LoginActivitySmsView.access$9426(LoginActivitySmsView.this, currentTimeMillis - d);
                 if (LoginActivitySmsView.this.codeTime <= 1000) {
                     LoginActivitySmsView.this.setProblemTextVisible(true);
                     LoginActivitySmsView.this.timeText.setVisibility(8);
@@ -5089,7 +5092,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                 double d = LoginActivitySmsView.this.lastCurrentTime;
                 Double.isNaN(currentTimeMillis);
                 LoginActivitySmsView.this.lastCurrentTime = currentTimeMillis;
-                LoginActivitySmsView.access$8626(LoginActivitySmsView.this, currentTimeMillis - d);
+                LoginActivitySmsView.access$8326(LoginActivitySmsView.this, currentTimeMillis - d);
                 if (LoginActivitySmsView.this.time >= 1000) {
                     int i = (LoginActivitySmsView.this.time / 1000) / 60;
                     int i2 = (LoginActivitySmsView.this.time / 1000) - (i * 60);
@@ -5345,7 +5348,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onNextPressed$22() {
             try {
-                ((BaseFragment) LoginActivity.this).fragmentView.performHapticFeedback(3, 2);
+                LoginActivity.this.fragmentView.performHapticFeedback(3, 2);
             } catch (Exception unused) {
             }
             AlertDialog.Builder title = new AlertDialog.Builder(getContext()).setTitle(LocaleController.getString(R.string.YourPasswordSuccess));
@@ -10191,7 +10194,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onNextPressed$17(TLObject tLObject) {
             LoginActivity.this.needHideProgress(false, false);
-            AndroidUtilities.hideKeyboard(((BaseFragment) LoginActivity.this).fragmentView.findFocus());
+            AndroidUtilities.hideKeyboard(LoginActivity.this.fragmentView.findFocus());
             LoginActivity.this.onAuthSuccess((TLRPC$TL_auth_authorization) tLObject, true);
             final TLRPC$FileLocation tLRPC$FileLocation = this.avatarBig;
             if (tLRPC$FileLocation != null) {
@@ -10311,18 +10314,18 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             public void onAnimationStart(Animator animator) {
                 LoginActivity.this.floatingButtonContainer.setVisibility(4);
                 LoginActivity.this.keyboardLinearLayout.setAlpha(0.0f);
-                ((BaseFragment) LoginActivity.this).fragmentView.setBackgroundColor(0);
+                LoginActivity.this.fragmentView.setBackgroundColor(0);
                 LoginActivity.this.startMessagingButton.setVisibility(4);
-                ((FrameLayout) ((BaseFragment) LoginActivity.this).fragmentView).addView(transformableLoginButtonView);
+                ((FrameLayout) LoginActivity.this.fragmentView).addView(transformableLoginButtonView);
             }
 
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationEnd(Animator animator) {
                 LoginActivity.this.keyboardLinearLayout.setAlpha(1.0f);
                 LoginActivity.this.startMessagingButton.setVisibility(0);
-                ((BaseFragment) LoginActivity.this).fragmentView.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
+                LoginActivity.this.fragmentView.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
                 LoginActivity.this.floatingButtonContainer.setVisibility(0);
-                ((FrameLayout) ((BaseFragment) LoginActivity.this).fragmentView).removeView(transformableLoginButtonView);
+                ((FrameLayout) LoginActivity.this.fragmentView).removeView(transformableLoginButtonView);
                 if (LoginActivity.this.animationFinishCallback != null) {
                     AndroidUtilities.runOnUIThread(LoginActivity.this.animationFinishCallback);
                     LoginActivity.this.animationFinishCallback = null;

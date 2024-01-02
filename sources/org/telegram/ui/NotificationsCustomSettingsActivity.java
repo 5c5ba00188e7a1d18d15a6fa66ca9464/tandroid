@@ -205,7 +205,7 @@ public class NotificationsCustomSettingsActivity extends BaseFragment implements
     /* JADX INFO: Access modifiers changed from: private */
     /* renamed from: deleteException */
     public void lambda$createView$6(NotificationsSettingsActivity.NotificationException notificationException, View view, int i) {
-        String sharedPrefKey = NotificationsController.getSharedPrefKey(notificationException.did, 0);
+        String sharedPrefKey = NotificationsController.getSharedPrefKey(notificationException.did, 0L);
         SharedPreferences.Editor edit = getNotificationsSettings().edit();
         edit.remove(NotificationsSettingsFacade.PROPERTY_STORIES_NOTIFY + sharedPrefKey).commit();
         ArrayList<NotificationsSettingsActivity.NotificationException> arrayList = this.autoExceptions;
@@ -225,12 +225,12 @@ public class NotificationsCustomSettingsActivity extends BaseFragment implements
             UserCell userCell = (UserCell) view;
             userCell.setException(notificationException, null, userCell.needDivider);
         }
-        getNotificationsController().updateServerNotificationsSettings(notificationException.did, 0, false);
+        getNotificationsController().updateServerNotificationsSettings(notificationException.did, 0L, false);
         updateRows(true);
     }
 
     private void updateMute(NotificationsSettingsActivity.NotificationException notificationException, View view, int i, boolean z, boolean z2) {
-        String sharedPrefKey = NotificationsController.getSharedPrefKey(notificationException.did, 0);
+        String sharedPrefKey = NotificationsController.getSharedPrefKey(notificationException.did, 0L);
         SharedPreferences.Editor edit = getNotificationsSettings().edit();
         boolean isTop5Peer = isTop5Peer(this.currentAccount, notificationException.did);
         notificationException.notify = z2 ? ConnectionsManager.DEFAULT_DATACENTER_ID : 0;
@@ -259,7 +259,7 @@ public class NotificationsCustomSettingsActivity extends BaseFragment implements
             UserCell userCell = (UserCell) view;
             userCell.setException(notificationException, null, userCell.needDivider);
         }
-        getNotificationsController().updateServerNotificationsSettings(notificationException.did, 0, false);
+        getNotificationsController().updateServerNotificationsSettings(notificationException.did, 0L, false);
         updateRows(true);
     }
 
@@ -606,16 +606,16 @@ public class NotificationsCustomSettingsActivity extends BaseFragment implements
                             notificationException6.did = -((TLRPC$Chat) object2).id;
                         }
                         notificationException2 = notificationException6;
-                        r5 = true;
+                        r6 = true;
                     }
                     arrayList2 = this.exceptions;
                 } else {
                     arrayList2 = this.searchAdapter.searchResult;
                     notificationException2 = (NotificationsSettingsActivity.NotificationException) object2;
                 }
-                notificationException = notificationException2;
                 arrayList = arrayList2;
-                z = r5;
+                z = r6;
+                notificationException = notificationException2;
             } else {
                 NotificationsSettingsActivity.NotificationException notificationException7 = itemInner.exception;
                 if (notificationException7.auto) {
@@ -892,7 +892,7 @@ public class NotificationsCustomSettingsActivity extends BaseFragment implements
                     if (view.isEnabled()) {
                         int i8 = this.currentType;
                         final String str = i8 == 1 ? "vibrate_messages" : i8 == 0 ? "vibrate_group" : i8 == 3 ? "vibrate_stories" : "vibrate_channel";
-                        showDialog(AlertsCreator.createVibrationSelectDialog(getParentActivity(), 0L, 0, str, new Runnable() { // from class: org.telegram.ui.NotificationsCustomSettingsActivity$$ExternalSyntheticLambda4
+                        showDialog(AlertsCreator.createVibrationSelectDialog(getParentActivity(), 0L, 0L, str, new Runnable() { // from class: org.telegram.ui.NotificationsCustomSettingsActivity$$ExternalSyntheticLambda4
                             @Override // java.lang.Runnable
                             public final void run() {
                                 NotificationsCustomSettingsActivity.this.lambda$createView$13(view, str, i);

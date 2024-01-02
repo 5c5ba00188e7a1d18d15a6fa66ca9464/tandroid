@@ -604,7 +604,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
     /* JADX WARN: Type inference failed for: r10v239, types: [android.widget.EditText] */
     /* JADX WARN: Type inference failed for: r10v241, types: [android.widget.LinearLayout] */
     /* JADX WARN: Type inference failed for: r11v4 */
-    /* JADX WARN: Type inference failed for: r11v5, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r11v5, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r11v8 */
     /* JADX WARN: Type inference failed for: r1v106, types: [org.telegram.ui.Cells.TextDetailSettingsCell[]] */
     /* JADX WARN: Type inference failed for: r1v107, types: [android.widget.FrameLayout] */
@@ -625,7 +625,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
     /* JADX WARN: Type inference failed for: r3v234, types: [android.view.ViewGroup] */
     /* JADX WARN: Type inference failed for: r3v271, types: [android.widget.LinearLayout, android.view.View, android.view.ViewGroup] */
     /* JADX WARN: Type inference failed for: r5v0 */
-    /* JADX WARN: Type inference failed for: r5v218, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r5v218, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r5v219 */
     /* JADX WARN: Type inference failed for: r6v8, types: [java.lang.CharSequence, android.text.SpannableString, java.lang.Object] */
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -1310,7 +1310,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                 WebView webView = new WebView(context) { // from class: org.telegram.ui.PaymentFormActivity.5
                     @Override // android.webkit.WebView, android.view.View
                     public boolean onTouchEvent(MotionEvent motionEvent) {
-                        ((ViewGroup) ((BaseFragment) PaymentFormActivity.this).fragmentView).requestDisallowInterceptTouchEvent(true);
+                        ((ViewGroup) PaymentFormActivity.this.fragmentView).requestDisallowInterceptTouchEvent(true);
                         return super.onTouchEvent(motionEvent);
                     }
 

@@ -3,10 +3,10 @@ package org.telegram.ui;
 import android.view.MotionEvent;
 import org.telegram.ui.Components.RecyclerListView;
 /* loaded from: classes3.dex */
-public final /* synthetic */ class ChatActivity$$ExternalSyntheticLambda305 implements RecyclerListView.OnInterceptTouchListener {
-    public static final /* synthetic */ ChatActivity$$ExternalSyntheticLambda305 INSTANCE = new ChatActivity$$ExternalSyntheticLambda305();
+public final /* synthetic */ class ChatActivity$$ExternalSyntheticLambda307 implements RecyclerListView.OnInterceptTouchListener {
+    public static final /* synthetic */ ChatActivity$$ExternalSyntheticLambda307 INSTANCE = new ChatActivity$$ExternalSyntheticLambda307();
 
-    private /* synthetic */ ChatActivity$$ExternalSyntheticLambda305() {
+    private /* synthetic */ ChatActivity$$ExternalSyntheticLambda307() {
     }
 
     @Override // org.telegram.ui.Components.RecyclerListView.OnInterceptTouchListener

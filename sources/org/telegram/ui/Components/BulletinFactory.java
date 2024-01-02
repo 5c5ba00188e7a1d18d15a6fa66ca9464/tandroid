@@ -608,7 +608,7 @@ public final class BulletinFactory {
             if (loadingSpan != null && (createEmojiLoadingBulletin.getLayout() instanceof Bulletin.LoadingLottieLayout)) {
                 loadingSpan.setView(((Bulletin.LoadingLottieLayout) createEmojiLoadingBulletin.getLayout()).textLoadingView);
             }
-            MediaDataController.getInstance(UserConfig.selectedAccount).getStickerSet(inputStickerSet, null, false, new Utilities.Callback() { // from class: org.telegram.ui.Components.BulletinFactory$$ExternalSyntheticLambda5
+            MediaDataController.getInstance(UserConfig.selectedAccount).getStickerSet(inputStickerSet, null, false, new Utilities.Callback() { // from class: org.telegram.ui.Components.BulletinFactory$$ExternalSyntheticLambda6
                 @Override // org.telegram.messenger.Utilities.Callback
                 public final void run(Object obj) {
                     BulletinFactory.lambda$createContainsEmojiBulletin$2(i, createEmojiLoadingBulletin, currentTimeMillis, (TLRPC$TL_messages_stickerSet) obj);
@@ -1024,9 +1024,9 @@ public final class BulletinFactory {
         if (i <= 1) {
             if (j == UserConfig.getInstance(UserConfig.selectedAccount).clientUserId) {
                 if (i2 <= 1) {
-                    spannableStringBuilder = AndroidUtilities.replaceTags(LocaleController.getString("FwdMessageToSavedMessages", R.string.FwdMessageToSavedMessages));
+                    spannableStringBuilder = AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.FwdMessageToSavedMessages), BulletinFactory$$ExternalSyntheticLambda5.INSTANCE);
                 } else {
-                    spannableStringBuilder = AndroidUtilities.replaceTags(LocaleController.getString("FwdMessagesToSavedMessages", R.string.FwdMessagesToSavedMessages));
+                    spannableStringBuilder = AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.FwdMessagesToSavedMessages), BulletinFactory$$ExternalSyntheticLambda5.INSTANCE);
                 }
                 lottieLayout.setAnimation(R.raw.saved_messages, 30, 30, new String[0]);
                 i5 = -1;

@@ -34,6 +34,7 @@ import com.google.android.exoplayer2.analytics.AnalyticsListener;
 import java.io.File;
 import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
@@ -101,12 +102,16 @@ public class SecretVoicePlayer extends Dialog {
     private float ty;
     private FrameLayout windowView;
 
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$dismiss$7() {
+    }
+
     public SecretVoicePlayer(Context context) {
         super(context, R.style.TransparentDialog);
         this.insets = new Rect();
         this.clipTop = 0.0f;
         this.clipBottom = 0.0f;
-        this.checkTimeRunnable = new Runnable() { // from class: org.telegram.ui.SecretVoicePlayer$$ExternalSyntheticLambda7
+        this.checkTimeRunnable = new Runnable() { // from class: org.telegram.ui.SecretVoicePlayer$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
                 SecretVoicePlayer.this.checkTime();
@@ -203,7 +208,7 @@ public class SecretVoicePlayer extends Dialog {
         if (view != null) {
             view.setVisibility(4);
         }
-        AndroidUtilities.makeGlobalBlurBitmap(new Utilities.Callback() { // from class: org.telegram.ui.SecretVoicePlayer$$ExternalSyntheticLambda9
+        AndroidUtilities.makeGlobalBlurBitmap(new Utilities.Callback() { // from class: org.telegram.ui.SecretVoicePlayer$$ExternalSyntheticLambda10
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 SecretVoicePlayer.this.lambda$prepareBlur$1(view, (Bitmap) obj);
@@ -251,11 +256,12 @@ public class SecretVoicePlayer extends Dialog {
         if (i3 >= 21) {
             attributes.flags = i2 | (-2013200128);
         }
-        int i4 = attributes.flags | LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM;
+        if (!BuildVars.DEBUG_PRIVATE_VERSION) {
+            attributes.flags |= LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM;
+        }
+        int i4 = attributes.flags | 1024;
         attributes.flags = i4;
-        int i5 = i4 | 1024;
-        attributes.flags = i5;
-        attributes.flags = i5 | 128;
+        attributes.flags = i4 | 128;
         if (i3 >= 28) {
             attributes.layoutInDisplayCutoutMode = 1;
         }
@@ -335,7 +341,8 @@ public class SecretVoicePlayer extends Dialog {
                 }
             };
             this.myCell = chatMessageCell5;
-            chatMessageCell5.setDelegate(new ChatMessageCell.ChatMessageCellDelegate(this) { // from class: org.telegram.ui.SecretVoicePlayer.5
+            this.cell.copyVisiblePartTo(chatMessageCell5);
+            this.myCell.setDelegate(new ChatMessageCell.ChatMessageCellDelegate(this) { // from class: org.telegram.ui.SecretVoicePlayer.5
                 @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                 public /* synthetic */ boolean canDrawOutboundsContent() {
                     return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$canDrawOutboundsContent(this);
@@ -912,7 +919,7 @@ public class SecretVoicePlayer extends Dialog {
         }
         this.hasTranslation = false;
         setupTranslation();
-        animateOpenTo(false, new Runnable() { // from class: org.telegram.ui.SecretVoicePlayer$$ExternalSyntheticLambda8
+        animateOpenTo(false, new Runnable() { // from class: org.telegram.ui.SecretVoicePlayer$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
             public final void run() {
                 SecretVoicePlayer.this.lambda$dismiss$6();
@@ -923,13 +930,14 @@ public class SecretVoicePlayer extends Dialog {
         if (runnable != null) {
             AndroidUtilities.runOnUIThread(runnable);
             this.closeAction = null;
+            this.myCell.setInvalidateCallback(SecretVoicePlayer$$ExternalSyntheticLambda9.INSTANCE);
             ThanosEffect thanosEffect = new ThanosEffect(this.context, null);
             this.thanosEffect = thanosEffect;
             this.windowView.addView(thanosEffect, LayoutHelper.createFrame(-1, -1, 119));
-            this.thanosEffect.animate(this.myCell, new Runnable() { // from class: org.telegram.ui.SecretVoicePlayer$$ExternalSyntheticLambda6
+            this.thanosEffect.animate(this.myCell, new Runnable() { // from class: org.telegram.ui.SecretVoicePlayer$$ExternalSyntheticLambda8
                 @Override // java.lang.Runnable
                 public final void run() {
-                    SecretVoicePlayer.this.lambda$dismiss$7();
+                    SecretVoicePlayer.this.lambda$dismiss$8();
                 }
             });
             WindowManager.LayoutParams attributes = getWindow().getAttributes();
@@ -962,7 +970,7 @@ public class SecretVoicePlayer extends Dialog {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$dismiss$7() {
+    public /* synthetic */ void lambda$dismiss$8() {
         super.dismiss();
         ChatMessageCell chatMessageCell = this.cell;
         if (chatMessageCell != null) {
@@ -985,7 +993,7 @@ public class SecretVoicePlayer extends Dialog {
         ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.SecretVoicePlayer$$ExternalSyntheticLambda0
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                SecretVoicePlayer.this.lambda$animateOpenTo$8(z, valueAnimator2);
+                SecretVoicePlayer.this.lambda$animateOpenTo$9(z, valueAnimator2);
             }
         });
         this.openAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.SecretVoicePlayer.8
@@ -1013,7 +1021,7 @@ public class SecretVoicePlayer extends Dialog {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$animateOpenTo$8(boolean z, ValueAnimator valueAnimator) {
+    public /* synthetic */ void lambda$animateOpenTo$9(boolean z, ValueAnimator valueAnimator) {
         float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         this.openProgressLinear = floatValue;
         CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.EASE_OUT_QUINT;

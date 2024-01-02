@@ -569,7 +569,7 @@ public class AvatarConstructorFragment extends BaseFragment {
                 }
                 AvatarConstructorFragment.this.linearLayout.setTranslationY(lerp);
                 AvatarConstructorFragment.this.button.setTranslationY(lerp);
-                ((BaseFragment) AvatarConstructorFragment.this).fragmentView.invalidate();
+                AvatarConstructorFragment.this.fragmentView.invalidate();
                 ((BaseFragment) AvatarConstructorFragment.this).actionBar.invalidate();
             }
         });
@@ -931,7 +931,7 @@ public class AvatarConstructorFragment extends BaseFragment {
         @Override // android.view.View
         public void invalidate() {
             super.invalidate();
-            ((BaseFragment) AvatarConstructorFragment.this).fragmentView.invalidate();
+            AvatarConstructorFragment.this.fragmentView.invalidate();
         }
     }
 
@@ -1105,7 +1105,7 @@ public class AvatarConstructorFragment extends BaseFragment {
                 AvatarConstructorFragment.this.backgroundSelectView.selectGradient(AvatarConstructorFragment.this.colorPickerGradient);
                 AvatarConstructorFragment avatarConstructorFragment = AvatarConstructorFragment.this;
                 avatarConstructorFragment.colorPickerInAnimatoin = true;
-                ((BaseFragment) avatarConstructorFragment).fragmentView.invalidate();
+                avatarConstructorFragment.fragmentView.invalidate();
                 AvatarConstructorFragment.this.colorPickerPreviewView.animate().setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.AvatarConstructorFragment.11.1
                     @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                     public void onAnimationEnd(Animator animator) {

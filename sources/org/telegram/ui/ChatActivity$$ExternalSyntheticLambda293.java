@@ -4,10 +4,10 @@ import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$TL_error;
 /* loaded from: classes3.dex */
-public final /* synthetic */ class ChatActivity$$ExternalSyntheticLambda291 implements RequestDelegate {
-    public static final /* synthetic */ ChatActivity$$ExternalSyntheticLambda291 INSTANCE = new ChatActivity$$ExternalSyntheticLambda291();
+public final /* synthetic */ class ChatActivity$$ExternalSyntheticLambda293 implements RequestDelegate {
+    public static final /* synthetic */ ChatActivity$$ExternalSyntheticLambda293 INSTANCE = new ChatActivity$$ExternalSyntheticLambda293();
 
-    private /* synthetic */ ChatActivity$$ExternalSyntheticLambda291() {
+    private /* synthetic */ ChatActivity$$ExternalSyntheticLambda293() {
     }
 
     @Override // org.telegram.tgnet.RequestDelegate

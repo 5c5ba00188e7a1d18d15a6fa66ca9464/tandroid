@@ -7685,7 +7685,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     }
 
                     @Override // org.telegram.ui.Cells.ChatActionCell.ChatActionCellDelegate
-                    public /* synthetic */ int getTopicId() {
+                    public /* synthetic */ long getTopicId() {
                         return ChatActionCell.ChatActionCellDelegate.-CC.$default$getTopicId(this);
                     }
 

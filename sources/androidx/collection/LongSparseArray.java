@@ -142,13 +142,6 @@ public class LongSparseArray<E> implements Cloneable {
         this.mSize++;
     }
 
-    public void putAll(LongSparseArray<? extends E> longSparseArray) {
-        int size = longSparseArray.size();
-        for (int i = 0; i < size; i++) {
-            put(longSparseArray.keyAt(i), longSparseArray.valueAt(i));
-        }
-    }
-
     public int size() {
         if (this.mGarbage) {
             gc();

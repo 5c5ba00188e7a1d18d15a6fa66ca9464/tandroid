@@ -136,7 +136,6 @@ import org.telegram.messenger.BotWebViewVibrationEffect;
 import org.telegram.messenger.BringAppForegroundService;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.ChatObject;
-import org.telegram.messenger.ContactsController;
 import org.telegram.messenger.DialogObject;
 import org.telegram.messenger.DispatchQueue;
 import org.telegram.messenger.DownloadController;
@@ -677,7 +676,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     private LinearGradient topFancyShadow;
     private Matrix topFancyShadowMatrix;
     private Paint topFancyShadowPaint;
-    private int topicId;
+    private long topicId;
     private int totalImagesCount;
     private int totalImagesCountMerge;
     private int touchSlop;
@@ -4212,10 +4211,10 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:815:0x05a9, code lost:
-        if (r1.get(r1.size() - 1).getDialogId() != r27.mergeDialogId) goto L352;
+        if (r1.get(r1.size() - 1).getDialogId() != r28.mergeDialogId) goto L352;
      */
     /* JADX WARN: Code restructure failed: missing block: B:829:0x05ea, code lost:
-        if (r27.imagesArrTemp.get(0).getDialogId() != r27.mergeDialogId) goto L352;
+        if (r28.imagesArrTemp.get(0).getDialogId() != r28.mergeDialogId) goto L352;
      */
     /* JADX WARN: Code restructure failed: missing block: B:830:0x05ec, code lost:
         r1 = 1;
@@ -4444,8 +4443,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 }
             } else if (i == NotificationCenter.mediaCountDidLoad) {
                 long longValue = ((Long) objArr[0]).longValue();
-                int intValue = ((Integer) objArr[1]).intValue();
-                if (this.topicId == intValue) {
+                long longValue2 = ((Long) objArr[1]).longValue();
+                if (this.topicId == longValue2) {
                     if (longValue == this.currentDialogId || longValue == this.mergeDialogId) {
                         MessageObject messageObject2 = this.currentMessageObject;
                         if (messageObject2 == null || MediaDataController.getMediaType(messageObject2.messageOwner) == this.sharedMediaType) {
@@ -4457,7 +4456,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                             if (this.needSearchImageInArr && this.isFirstLoading) {
                                 this.isFirstLoading = false;
                                 this.loadingMoreImages = true;
-                                MediaDataController.getInstance(this.currentAccount).loadMedia(this.currentDialogId, 20, 0, 0, this.sharedMediaType, intValue, 1, this.classGuid, 0);
+                                MediaDataController.getInstance(this.currentAccount).loadMedia(this.currentDialogId, 20, 0, 0, this.sharedMediaType, longValue2, 1, this.classGuid, 0);
                             } else if (!this.imagesArr.isEmpty()) {
                                 setIsAboutToSwitchToIndex(this.switchingToIndex, true, true);
                             }
@@ -4465,12 +4464,12 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     }
                 }
             } else if (i == NotificationCenter.mediaDidLoad) {
-                long longValue2 = ((Long) objArr[0]).longValue();
-                int intValue2 = ((Integer) objArr[3]).intValue();
+                long longValue3 = ((Long) objArr[0]).longValue();
+                int intValue = ((Integer) objArr[3]).intValue();
                 long j = this.currentDialogId;
-                if ((longValue2 == j || longValue2 == this.mergeDialogId) && intValue2 == this.classGuid) {
+                if ((longValue3 == j || longValue3 == this.mergeDialogId) && intValue == this.classGuid) {
                     this.loadingMoreImages = false;
-                    char c = longValue2 == j ? (char) 0 : (char) 1;
+                    char c = longValue3 == j ? (char) 0 : (char) 1;
                     ArrayList arrayList4 = (ArrayList) objArr[2];
                     this.endReached[c] = ((Boolean) objArr[5]).booleanValue();
                     boolean booleanValue = ((Boolean) objArr[6]).booleanValue();
@@ -4610,9 +4609,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             } else if (i == NotificationCenter.fileNewChunkAvailable) {
                 if (((MessageObject) objArr[0]) == this.videoPreviewMessageObject) {
                     String str4 = (String) objArr[1];
-                    long longValue3 = ((Long) objArr[3]).longValue();
+                    long longValue4 = ((Long) objArr[3]).longValue();
                     this.photoProgressViews[0].setProgress(((Float) objArr[4]).floatValue(), true);
-                    if (longValue3 != 0) {
+                    if (longValue4 != 0) {
                         this.requestingPreview = false;
                         this.photoProgressViews[0].setProgress(1.0f, true);
                         this.photoProgressViews[0].setBackgroundState(3, true, true);
@@ -4624,7 +4623,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 if (((Boolean) objArr[2]).booleanValue()) {
                     return;
                 }
-                long longValue4 = ((Long) objArr[1]).longValue();
+                long longValue5 = ((Long) objArr[1]).longValue();
                 ArrayList arrayList7 = (ArrayList) objArr[0];
                 int i29 = 0;
                 boolean z2 = false;
@@ -4635,13 +4634,13 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     if (!arrayList8.isEmpty()) {
                         int i30 = 0;
                         while (i30 < 2) {
-                            if (sparseArrayArr[i30].size() > 0 && sparseArrayArr[i30].valueAt(i8).messageOwner.peer_id.channel_id == longValue4) {
+                            if (sparseArrayArr[i30].size() > 0 && sparseArrayArr[i30].valueAt(i8).messageOwner.peer_id.channel_id == longValue5) {
                                 int size = arrayList7.size();
                                 for (int i31 = 0; i31 < size; i31++) {
-                                    int intValue3 = ((Integer) arrayList7.get(i31)).intValue();
+                                    int intValue2 = ((Integer) arrayList7.get(i31)).intValue();
                                     MessageObject messageObject7 = sparseArrayArr[i30].get(((Integer) arrayList7.get(i31)).intValue());
                                     if (messageObject7 != null) {
-                                        sparseArrayArr[i30].remove(intValue3);
+                                        sparseArrayArr[i30].remove(intValue2);
                                         arrayList8.remove(messageObject7);
                                         if (i30 == 0) {
                                             this.totalImagesCount--;
@@ -5025,7 +5024,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         this.menuItem.getPopupLayout().setFitItems(true);
         this.menuItem.addSubItem(11, R.drawable.msg_openin, LocaleController.getString("OpenInExternalApp", R.string.OpenInExternalApp)).setColors(-328966, -328966);
         this.menuItem.setContentDescription(LocaleController.getString("AccDescrMoreOptions", R.string.AccDescrMoreOptions));
-        ActionBarMenuSubItem addSubItem = this.menuItem.addSubItem(2, R.drawable.msg_media, LocaleController.getString("ShowAllMedia", R.string.ShowAllMedia));
+        ActionBarMenuSubItem addSubItem = this.menuItem.addSubItem(2, R.drawable.msg_media, LocaleController.getString(R.string.ShowAllMedia));
         this.allMediaItem = addSubItem;
         addSubItem.setColors(-328966, -328966);
         this.menuItem.addSubItem(14, R.drawable.msg_gif, LocaleController.getString("SaveToGIFs", R.string.SaveToGIFs)).setColors(-328966, -328966);
@@ -6424,7 +6423,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         /* JADX WARN: Removed duplicated region for block: B:943:? A[RETURN, SYNTHETIC] */
         /* JADX WARN: Type inference failed for: r10v33 */
         /* JADX WARN: Type inference failed for: r10v34 */
-        /* JADX WARN: Type inference failed for: r10v35, types: [boolean, int] */
+        /* JADX WARN: Type inference failed for: r10v35, types: [int, boolean] */
         /* JADX WARN: Type inference failed for: r10v36 */
         @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
         /*
@@ -13799,9 +13798,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:840:0x0937  */
+    /* JADX WARN: Removed duplicated region for block: B:844:0x093a  */
     /* JADX WARN: Type inference failed for: r1v22, types: [org.telegram.tgnet.TLRPC$User] */
-    /* JADX WARN: Type inference failed for: r1v44 */
+    /* JADX WARN: Type inference failed for: r1v46 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -14069,7 +14068,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         this.needSearchImageInArr = true;
                         this.imagesByIds[0].put(messageObject.getId(), messageObject);
                         ChatActivity chatActivity3 = this.parentChatActivity;
-                        if (chatActivity3 == null || !chatActivity3.isThreadChat()) {
+                        if (chatActivity3 == null || (!chatActivity3.isThreadChat() && this.parentChatActivity.getChatMode() != 3)) {
                             this.menuItem.showSubItem(4);
                             this.menuItem.showSubItem(2);
                         }
@@ -14348,34 +14347,34 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:1018:0x05b1  */
-    /* JADX WARN: Removed duplicated region for block: B:1023:0x05c2  */
-    /* JADX WARN: Removed duplicated region for block: B:1044:0x060a  */
-    /* JADX WARN: Removed duplicated region for block: B:1050:0x0619  */
-    /* JADX WARN: Removed duplicated region for block: B:1095:0x072c  */
-    /* JADX WARN: Removed duplicated region for block: B:1096:0x0733  */
-    /* JADX WARN: Removed duplicated region for block: B:1263:0x0b10  */
-    /* JADX WARN: Removed duplicated region for block: B:1266:0x0b1f  */
-    /* JADX WARN: Removed duplicated region for block: B:1269:0x0b27  */
-    /* JADX WARN: Removed duplicated region for block: B:1272:0x0b37  */
-    /* JADX WARN: Removed duplicated region for block: B:1275:0x0b3c  */
-    /* JADX WARN: Removed duplicated region for block: B:1298:0x0bb5  */
-    /* JADX WARN: Removed duplicated region for block: B:1299:0x0bb7  */
-    /* JADX WARN: Removed duplicated region for block: B:1302:0x0bbf  */
-    /* JADX WARN: Removed duplicated region for block: B:1303:0x0bc1  */
-    /* JADX WARN: Removed duplicated region for block: B:1306:0x0bc9  */
-    /* JADX WARN: Removed duplicated region for block: B:1307:0x0bcb  */
-    /* JADX WARN: Removed duplicated region for block: B:1310:0x0bd3  */
+    /* JADX WARN: Removed duplicated region for block: B:1028:0x05af  */
+    /* JADX WARN: Removed duplicated region for block: B:1033:0x05c0  */
+    /* JADX WARN: Removed duplicated region for block: B:1054:0x0608  */
+    /* JADX WARN: Removed duplicated region for block: B:1060:0x0617  */
+    /* JADX WARN: Removed duplicated region for block: B:1105:0x0728  */
+    /* JADX WARN: Removed duplicated region for block: B:1106:0x072f  */
+    /* JADX WARN: Removed duplicated region for block: B:1273:0x0b06  */
+    /* JADX WARN: Removed duplicated region for block: B:1276:0x0b15  */
+    /* JADX WARN: Removed duplicated region for block: B:1279:0x0b1d  */
+    /* JADX WARN: Removed duplicated region for block: B:1282:0x0b2d  */
+    /* JADX WARN: Removed duplicated region for block: B:1285:0x0b32  */
+    /* JADX WARN: Removed duplicated region for block: B:1318:0x0be2  */
+    /* JADX WARN: Removed duplicated region for block: B:1319:0x0be4  */
     /* JADX WARN: Removed duplicated region for block: B:1322:0x0bec  */
-    /* JADX WARN: Removed duplicated region for block: B:1406:0x0d68  */
-    /* JADX WARN: Removed duplicated region for block: B:1412:0x0d75  */
-    /* JADX WARN: Removed duplicated region for block: B:1419:0x0d8e  */
-    /* JADX WARN: Removed duplicated region for block: B:1420:0x0d91  */
-    /* JADX WARN: Removed duplicated region for block: B:1423:0x0d97  */
-    /* JADX WARN: Removed duplicated region for block: B:899:0x0345  */
-    /* JADX WARN: Removed duplicated region for block: B:911:0x036b  */
+    /* JADX WARN: Removed duplicated region for block: B:1323:0x0bee  */
+    /* JADX WARN: Removed duplicated region for block: B:1326:0x0bf6  */
+    /* JADX WARN: Removed duplicated region for block: B:1327:0x0bf8  */
+    /* JADX WARN: Removed duplicated region for block: B:1330:0x0c00  */
+    /* JADX WARN: Removed duplicated region for block: B:1342:0x0c19  */
+    /* JADX WARN: Removed duplicated region for block: B:1426:0x0d95  */
+    /* JADX WARN: Removed duplicated region for block: B:1432:0x0da2  */
+    /* JADX WARN: Removed duplicated region for block: B:1439:0x0dbb  */
+    /* JADX WARN: Removed duplicated region for block: B:1440:0x0dbe  */
+    /* JADX WARN: Removed duplicated region for block: B:1443:0x0dc4  */
+    /* JADX WARN: Removed duplicated region for block: B:909:0x0347  */
+    /* JADX WARN: Removed duplicated region for block: B:921:0x036d  */
     /* JADX WARN: Type inference failed for: r2v123 */
-    /* JADX WARN: Type inference failed for: r2v124, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r2v124, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r2v139 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -14418,6 +14417,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         String str3;
         int i10;
         boolean z15;
+        TLRPC$User currentUser;
+        TLRPC$Chat currentChat;
         String str4;
         String str5;
         boolean z16;
@@ -15076,20 +15077,28 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         }
                         chatActivity = this.parentChatActivity;
                         if (chatActivity != null) {
-                            TLRPC$Chat currentChat = chatActivity.getCurrentChat();
-                            if (currentChat != null) {
-                                this.actionBarContainer.setTitle(currentChat.title);
-                            } else {
-                                TLRPC$User currentUser = this.parentChatActivity.getCurrentUser();
-                                if (currentUser != null) {
-                                    if (currentUser.self) {
-                                        this.actionBarContainer.setTitle(LocaleController.getString("SavedMessages", R.string.SavedMessages));
-                                    } else {
-                                        this.actionBarContainer.setTitle(ContactsController.formatName(currentUser.first_name, currentUser.last_name));
-                                    }
+                            if (chatActivity.getChatMode() == 3) {
+                                long savedDialogId = this.parentChatActivity.getSavedDialogId();
+                                if (savedDialogId >= 0) {
+                                    currentUser = this.parentChatActivity.getMessagesController().getUser(Long.valueOf(savedDialogId));
+                                    currentChat = null;
+                                } else {
+                                    currentChat = this.parentChatActivity.getMessagesController().getChat(Long.valueOf(-savedDialogId));
+                                    currentUser = null;
                                 }
+                            } else {
+                                currentUser = this.parentChatActivity.getCurrentUser();
+                                currentChat = this.parentChatActivity.getCurrentChat();
                             }
-                            str2 = null;
+                            if (currentChat != null) {
+                                str2 = currentChat.title;
+                            } else if (UserObject.isUserSelf(currentUser)) {
+                                str2 = LocaleController.getString(this.parentChatActivity.getChatMode() == 3 ? R.string.MyNotes : R.string.SavedMessages);
+                            } else if (UserObject.isAnonymous(currentUser)) {
+                                str2 = LocaleController.getString(R.string.AnonymousForward);
+                            } else {
+                                str2 = UserObject.getUserName(currentUser);
+                            }
                         }
                         i9 = this.sendPhotoType;
                         if (i9 != 0 || i9 == 4 || ((i9 == 2 || i9 == 5) && this.imagesArrLocals.size() > 1)) {
@@ -15425,7 +15434,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     /* JADX WARN: Removed duplicated region for block: B:489:0x04c2  */
     /* JADX WARN: Removed duplicated region for block: B:493:0x04d0  */
     /* JADX WARN: Type inference failed for: r5v5 */
-    /* JADX WARN: Type inference failed for: r5v6, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r5v6, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r5v7 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -17299,40 +17308,40 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         }
     }
 
-    public boolean openPhoto(MessageObject messageObject, ChatActivity chatActivity, long j, long j2, int i, PhotoViewerProvider photoViewerProvider) {
-        return openPhoto(messageObject, null, null, null, null, null, null, 0, photoViewerProvider, chatActivity, j, j2, i, true, null, null);
+    public boolean openPhoto(MessageObject messageObject, ChatActivity chatActivity, long j, long j2, long j3, PhotoViewerProvider photoViewerProvider) {
+        return openPhoto(messageObject, null, null, null, null, null, null, 0, photoViewerProvider, chatActivity, j, j2, j3, true, null, null);
     }
 
-    public boolean openPhoto(MessageObject messageObject, int i, ChatActivity chatActivity, long j, long j2, int i2, PhotoViewerProvider photoViewerProvider) {
-        return openPhoto(messageObject, null, null, null, null, null, null, 0, photoViewerProvider, chatActivity, j, j2, i2, true, null, Integer.valueOf(i));
+    public boolean openPhoto(MessageObject messageObject, int i, ChatActivity chatActivity, long j, long j2, long j3, PhotoViewerProvider photoViewerProvider) {
+        return openPhoto(messageObject, null, null, null, null, null, null, 0, photoViewerProvider, chatActivity, j, j2, j3, true, null, Integer.valueOf(i));
     }
 
-    public boolean openPhoto(MessageObject messageObject, long j, long j2, int i, PhotoViewerProvider photoViewerProvider, boolean z) {
-        return openPhoto(messageObject, null, null, null, null, null, null, 0, photoViewerProvider, null, j, j2, i, z, null, null);
+    public boolean openPhoto(MessageObject messageObject, long j, long j2, long j3, PhotoViewerProvider photoViewerProvider, boolean z) {
+        return openPhoto(messageObject, null, null, null, null, null, null, 0, photoViewerProvider, null, j, j2, j3, z, null, null);
     }
 
     public boolean openPhoto(TLRPC$FileLocation tLRPC$FileLocation, PhotoViewerProvider photoViewerProvider) {
-        return openPhoto(null, tLRPC$FileLocation, null, null, null, null, null, 0, photoViewerProvider, null, 0L, 0L, 0, true, null, null);
+        return openPhoto(null, tLRPC$FileLocation, null, null, null, null, null, 0, photoViewerProvider, null, 0L, 0L, 0L, true, null, null);
     }
 
     public boolean openPhotoWithVideo(TLRPC$FileLocation tLRPC$FileLocation, ImageLocation imageLocation, PhotoViewerProvider photoViewerProvider) {
-        return openPhoto(null, tLRPC$FileLocation, null, imageLocation, null, null, null, 0, photoViewerProvider, null, 0L, 0L, 0, true, null, null);
+        return openPhoto(null, tLRPC$FileLocation, null, imageLocation, null, null, null, 0, photoViewerProvider, null, 0L, 0L, 0L, true, null, null);
     }
 
     public boolean openPhoto(TLRPC$FileLocation tLRPC$FileLocation, ImageLocation imageLocation, PhotoViewerProvider photoViewerProvider) {
-        return openPhoto(null, tLRPC$FileLocation, imageLocation, null, null, null, null, 0, photoViewerProvider, null, 0L, 0L, 0, true, null, null);
+        return openPhoto(null, tLRPC$FileLocation, imageLocation, null, null, null, null, 0, photoViewerProvider, null, 0L, 0L, 0L, true, null, null);
     }
 
-    public boolean openPhoto(ArrayList<MessageObject> arrayList, int i, long j, long j2, int i2, PhotoViewerProvider photoViewerProvider) {
-        return openPhoto(arrayList.get(i), null, null, null, arrayList, null, null, i, photoViewerProvider, null, j, j2, i2, true, null, null);
+    public boolean openPhoto(ArrayList<MessageObject> arrayList, int i, long j, long j2, long j3, PhotoViewerProvider photoViewerProvider) {
+        return openPhoto(arrayList.get(i), null, null, null, arrayList, null, null, i, photoViewerProvider, null, j, j2, j3, true, null, null);
     }
 
     public boolean openPhoto(ArrayList<SecureDocument> arrayList, int i, PhotoViewerProvider photoViewerProvider) {
-        return openPhoto(null, null, null, null, null, arrayList, null, i, photoViewerProvider, null, 0L, 0L, 0, true, null, null);
+        return openPhoto(null, null, null, null, null, arrayList, null, i, photoViewerProvider, null, 0L, 0L, 0L, true, null, null);
     }
 
     public boolean openPhoto(int i, PageBlocksAdapter pageBlocksAdapter, PhotoViewerProvider photoViewerProvider) {
-        return openPhoto(null, null, null, null, null, null, null, i, photoViewerProvider, null, 0L, 0L, 0, true, pageBlocksAdapter, null);
+        return openPhoto(null, null, null, null, null, null, null, i, photoViewerProvider, null, 0L, 0L, 0L, true, pageBlocksAdapter, null);
     }
 
     public boolean openPhotoForSelect(ArrayList<Object> arrayList, int i, int i2, boolean z, PhotoViewerProvider photoViewerProvider, ChatActivity chatActivity) {
@@ -17388,7 +17397,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             return true;
         }
         this.sendPhotoType = i2;
-        return openPhoto(null, tLRPC$FileLocation, imageLocation, null, null, null, arrayList, i, photoViewerProvider, chatActivity, 0L, 0L, 0, true, null, null);
+        return openPhoto(null, tLRPC$FileLocation, imageLocation, null, null, null, arrayList, i, photoViewerProvider, chatActivity, 0L, 0L, 0L, true, null, null);
     }
 
     public void setTitle(CharSequence charSequence) {
@@ -17634,7 +17643,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         this.padImageForHorizontalInsets = true;
     }
 
-    public boolean openPhoto(MessageObject messageObject, TLRPC$FileLocation tLRPC$FileLocation, ImageLocation imageLocation, ImageLocation imageLocation2, ArrayList<MessageObject> arrayList, ArrayList<SecureDocument> arrayList2, ArrayList<Object> arrayList3, int i, final PhotoViewerProvider photoViewerProvider, ChatActivity chatActivity, long j, long j2, int i2, boolean z, PageBlocksAdapter pageBlocksAdapter, final Integer num) {
+    public boolean openPhoto(MessageObject messageObject, TLRPC$FileLocation tLRPC$FileLocation, ImageLocation imageLocation, ImageLocation imageLocation2, ArrayList<MessageObject> arrayList, ArrayList<SecureDocument> arrayList2, ArrayList<Object> arrayList3, int i, final PhotoViewerProvider photoViewerProvider, ChatActivity chatActivity, long j, long j2, long j3, boolean z, PageBlocksAdapter pageBlocksAdapter, final Integer num) {
         TLRPC$Message tLRPC$Message;
         boolean z2;
         PhotoViewerProvider photoViewerProvider2;
@@ -17701,7 +17710,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 this.placeProvider = photoViewerProvider;
                 this.mergeDialogId = j2;
                 this.currentDialogId = j;
-                this.topicId = i2;
+                this.topicId = j3;
                 this.selectedPhotosAdapter.notifyDataSetChanged();
                 this.pageBlocksAdapter = pageBlocksAdapter;
                 this.setAvatarFor = null;
@@ -17765,12 +17774,12 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     }
                     ClippingImageView[] animatingImageViews = getAnimatingImageViews(placeForPhoto);
                     this.clippingImageProgress = 1.0f;
-                    for (int i3 = 0; i3 < animatingImageViews.length; i3++) {
-                        animatingImageViews[i3].setAnimationValues(this.animationValues);
-                        animatingImageViews[i3].setVisibility(0);
-                        animatingImageViews[i3].setRadius(placeForPhoto.radius);
-                        animatingImageViews[i3].setOrientation(orientation, placeForPhoto.imageReceiver.getInvert());
-                        animatingImageViews[i3].setImageBitmap(placeForPhoto.thumb);
+                    for (int i2 = 0; i2 < animatingImageViews.length; i2++) {
+                        animatingImageViews[i2].setAnimationValues(this.animationValues);
+                        animatingImageViews[i2].setVisibility(0);
+                        animatingImageViews[i2].setRadius(placeForPhoto.radius);
+                        animatingImageViews[i2].setOrientation(orientation, placeForPhoto.imageReceiver.getInvert());
+                        animatingImageViews[i2].setImageBitmap(placeForPhoto.thumb);
                     }
                     initCropView();
                     if (this.sendPhotoType == 1) {
@@ -17786,21 +17795,21 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     if (height <= 0) {
                         layoutParams2.height = 100;
                     }
-                    for (int i4 = 0; i4 < animatingImageViews.length; i4++) {
+                    for (int i3 = 0; i3 < animatingImageViews.length; i3++) {
                         if (animatingImageViews.length > 1) {
                             f = 0.0f;
-                            animatingImageViews[i4].setAlpha(0.0f);
+                            animatingImageViews[i3].setAlpha(0.0f);
                         } else {
                             f = 0.0f;
-                            animatingImageViews[i4].setAlpha(1.0f);
+                            animatingImageViews[i3].setAlpha(1.0f);
                         }
-                        animatingImageViews[i4].setPivotX(f);
-                        animatingImageViews[i4].setPivotY(f);
-                        animatingImageViews[i4].setScaleX(placeForPhoto.scale);
-                        animatingImageViews[i4].setScaleY(placeForPhoto.scale);
-                        animatingImageViews[i4].setTranslationX(placeForPhoto.viewX + (drawRegion.left * placeForPhoto.scale));
-                        animatingImageViews[i4].setTranslationY(placeForPhoto.viewY + (drawRegion.top * placeForPhoto.scale));
-                        animatingImageViews[i4].setLayoutParams(layoutParams2);
+                        animatingImageViews[i3].setPivotX(f);
+                        animatingImageViews[i3].setPivotY(f);
+                        animatingImageViews[i3].setScaleX(placeForPhoto.scale);
+                        animatingImageViews[i3].setScaleY(placeForPhoto.scale);
+                        animatingImageViews[i3].setTranslationX(placeForPhoto.viewX + (drawRegion.left * placeForPhoto.scale));
+                        animatingImageViews[i3].setTranslationY(placeForPhoto.viewY + (drawRegion.top * placeForPhoto.scale));
+                        animatingImageViews[i3].setLayoutParams(layoutParams2);
                     }
                     this.windowView.getViewTreeObserver().addOnPreDrawListener(new 66(animatingImageViews, layoutParams2, f2, placeForPhoto, f3, pageBlocksAdapter, photoViewerProvider, arrayList3, num));
                 } else {
@@ -19829,7 +19838,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     /* JADX WARN: Type inference failed for: r14v3 */
     /* JADX WARN: Type inference failed for: r14v31 */
     /* JADX WARN: Type inference failed for: r14v34 */
-    /* JADX WARN: Type inference failed for: r14v4, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r14v4, types: [int, boolean] */
     @SuppressLint({"NewApi", "DrawAllocation"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.

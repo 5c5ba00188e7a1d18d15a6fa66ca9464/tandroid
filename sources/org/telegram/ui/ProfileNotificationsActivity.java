@@ -104,7 +104,7 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
     private int smartRow;
     private int soundRow;
     private int storiesRow;
-    private int topicId;
+    private long topicId;
     private int vibrateRow;
 
     /* loaded from: classes3.dex */
@@ -129,16 +129,16 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
         super(bundle);
         this.resourcesProvider = resourcesProvider;
         this.dialogId = bundle.getLong("dialog_id");
-        this.topicId = bundle.getInt("topic_id");
+        this.topicId = bundle.getLong("topic_id");
         this.addingException = bundle.getBoolean("exception", false);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:57:0x0121  */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x013c  */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x015c  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x0169  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x017d  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x0181  */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x0125  */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x0140  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x0160  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x016d  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x0181  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x0185  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -481,7 +481,7 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
             } else if (i == this.soundRow) {
                 Bundle bundle = new Bundle();
                 bundle.putLong("dialog_id", this.dialogId);
-                bundle.putInt("topic_id", this.topicId);
+                bundle.putLong("topic_id", this.topicId);
                 presentFragment(new NotificationsSoundActivity(bundle, this.resourcesProvider));
             } else if (i == this.ringtoneRow) {
                 try {

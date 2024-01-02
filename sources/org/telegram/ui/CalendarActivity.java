@@ -162,7 +162,7 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public boolean onFragmentCreate() {
         this.dialogId = getArguments().getLong("dialog_id");
-        getArguments().getInt("topic_id");
+        getArguments().getLong("topic_id");
         int i = getArguments().getInt("type");
         this.calendarType = i;
         if (i == 2) {
@@ -225,9 +225,9 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
                                 }
                                 transitionViewHolder.drawAbove = CalendarActivity.this.storiesPlaceDrawAbove;
                                 transitionViewHolder.view = monthView;
-                                transitionViewHolder.clipParent = ((BaseFragment) CalendarActivity.this).fragmentView;
+                                transitionViewHolder.clipParent = CalendarActivity.this.fragmentView;
                                 transitionViewHolder.clipTop = AndroidUtilities.dp(36.0f);
-                                transitionViewHolder.clipBottom = ((BaseFragment) CalendarActivity.this).fragmentView.getBottom();
+                                transitionViewHolder.clipBottom = CalendarActivity.this.fragmentView.getBottom();
                                 transitionViewHolder.avatarImage = null;
                                 return true;
                             }
@@ -1025,8 +1025,9 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
                         @Override // android.view.View
                         public void setAlpha(float f) {
                             super.setAlpha(f);
-                            if (((BaseFragment) CalendarActivity.this).fragmentView != null) {
-                                ((BaseFragment) CalendarActivity.this).fragmentView.invalidate();
+                            View view = CalendarActivity.this.fragmentView;
+                            if (view != null) {
+                                view.invalidate();
                             }
                         }
                     };

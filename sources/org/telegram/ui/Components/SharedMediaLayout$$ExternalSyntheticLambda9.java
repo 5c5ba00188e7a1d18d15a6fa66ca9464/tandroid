@@ -2,10 +2,10 @@ package org.telegram.ui.Components;
 
 import android.view.animation.Interpolator;
 /* loaded from: classes4.dex */
-public final /* synthetic */ class SharedMediaLayout$$ExternalSyntheticLambda6 implements Interpolator {
-    public static final /* synthetic */ SharedMediaLayout$$ExternalSyntheticLambda6 INSTANCE = new SharedMediaLayout$$ExternalSyntheticLambda6();
+public final /* synthetic */ class SharedMediaLayout$$ExternalSyntheticLambda9 implements Interpolator {
+    public static final /* synthetic */ SharedMediaLayout$$ExternalSyntheticLambda9 INSTANCE = new SharedMediaLayout$$ExternalSyntheticLambda9();
 
-    private /* synthetic */ SharedMediaLayout$$ExternalSyntheticLambda6() {
+    private /* synthetic */ SharedMediaLayout$$ExternalSyntheticLambda9() {
     }
 
     @Override // android.animation.TimeInterpolator

@@ -12,6 +12,6 @@ public final /* synthetic */ class MessagesController$$ExternalSyntheticLambda40
 
     @Override // org.telegram.tgnet.RequestDelegate
     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        MessagesController.lambda$deleteUserPhoto$106(tLObject, tLRPC$TL_error);
+        MessagesController.lambda$deleteParticipantFromChat$274(tLObject, tLRPC$TL_error);
     }
 }
