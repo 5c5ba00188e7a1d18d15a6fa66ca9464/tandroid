@@ -46,7 +46,7 @@ public class GridLayoutManagerFixed extends GridLayoutManager {
         if (!this.mShouldReverseLayout) {
             for (int i3 = 0; i3 < childCount; i3++) {
                 View childAt = getChildAt(i3);
-                if (this.mOrientationHelper.getDecoratedEnd(childAt) > i || this.mOrientationHelper.getTransformedEndWithDecoration(childAt) > i) {
+                if (childAt.getBottom() + ((ViewGroup.MarginLayoutParams) ((RecyclerView.LayoutParams) childAt.getLayoutParams())).bottomMargin > i || childAt.getTop() + childAt.getHeight() > i) {
                     recycleChildren(recycler, 0, i3);
                     return;
                 }
@@ -84,14 +84,14 @@ public class GridLayoutManagerFixed extends GridLayoutManager {
         measureChildWithDecorationsAndMargin(view, RecyclerView.LayoutManager.getChildMeasureSpec(this.mCachedBorders[layoutParams.mSpanSize], i, rect.left + rect.right + ((ViewGroup.MarginLayoutParams) layoutParams).leftMargin + ((ViewGroup.MarginLayoutParams) layoutParams).rightMargin, ((ViewGroup.MarginLayoutParams) layoutParams).width, false), RecyclerView.LayoutManager.getChildMeasureSpec(this.mOrientationHelper.getTotalSpace(), getHeightMode(), i2, ((ViewGroup.MarginLayoutParams) layoutParams).height, true), z);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:50:0x00d5, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:52:0x00d9, code lost:
         r29.mFinished = r13;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:51:0x00d7, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:53:0x00db, code lost:
         return;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:79:0x0187, code lost:
-        if (r28.mLayoutDirection != (-1)) goto L116;
+    /* JADX WARN: Code restructure failed: missing block: B:81:0x018b, code lost:
+        if (r28.mLayoutDirection != (-1)) goto L118;
      */
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r12v0 */
@@ -122,7 +122,7 @@ public class GridLayoutManagerFixed extends GridLayoutManager {
         layoutChunkResult.mConsumed = 0;
         int i8 = layoutState.mCurrentPosition;
         int i9 = -1;
-        if (layoutState.mLayoutDirection != -1 && hasSiblingChild(i8) && findViewByPosition(layoutState.mCurrentPosition + 1) == null) {
+        if (this.mShouldReverseLayout && layoutState.mLayoutDirection != -1 && hasSiblingChild(i8) && findViewByPosition(layoutState.mCurrentPosition + 1) == null) {
             if (hasSiblingChild(layoutState.mCurrentPosition + 1)) {
                 layoutState.mCurrentPosition += 3;
             } else {
