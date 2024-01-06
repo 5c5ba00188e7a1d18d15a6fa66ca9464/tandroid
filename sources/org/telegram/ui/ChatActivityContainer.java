@@ -12,7 +12,6 @@ public class ChatActivityContainer extends FrameLayout {
     public final ChatActivity chatActivity;
     private View fragmentView;
     private boolean isActive;
-    private Runnable onMessagesAvailableUpdateListener;
     private final INavigationLayout parentLayout;
 
     public ChatActivityContainer(Context context, INavigationLayout iNavigationLayout, Bundle bundle) {
@@ -22,10 +21,6 @@ public class ChatActivityContainer extends FrameLayout {
         ChatActivity chatActivity = new ChatActivity(bundle);
         this.chatActivity = chatActivity;
         chatActivity.isInsideContainer = true;
-    }
-
-    public void setOnMessagesAvailableUpdateListener(Runnable runnable) {
-        this.onMessagesAvailableUpdateListener = runnable;
     }
 
     @Override // android.view.ViewGroup, android.view.View

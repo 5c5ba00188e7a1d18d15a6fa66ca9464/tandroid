@@ -927,6 +927,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     private FrameLayout reactionsMentiondownButton;
     private CounterView reactionsMentiondownButtonCounter;
     private ImageView reactionsMentiondownButtonImage;
+    private boolean removingFromParent;
     private SparseArray<MessageObject> repliesMessagesDict;
     private TextView replyButton;
     private AnimatorSet replyButtonAnimation;
@@ -15031,6 +15032,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public void onRemoveFromParent() {
+        this.removingFromParent = true;
         MessageObject playingMessageObject = MediaController.getInstance().getPlayingMessageObject();
         if (playingMessageObject != null && playingMessageObject.isVideo()) {
             MediaController.getInstance().cleanupPlayer(true, true);
@@ -42412,11 +42414,12 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$getChatThanosEffect$306() {
-        ThanosEffect thanosEffect = this.chatListThanosEffect;
-        if (thanosEffect != null) {
-            this.chatListThanosEffect = null;
-            this.contentView.removeView(thanosEffect);
+        ThanosEffect thanosEffect;
+        if (this.removingFromParent || (thanosEffect = this.chatListThanosEffect) == null) {
+            return;
         }
+        this.chatListThanosEffect = null;
+        this.contentView.removeView(thanosEffect);
     }
 
     private void checkGroupMessagesOrder() {
