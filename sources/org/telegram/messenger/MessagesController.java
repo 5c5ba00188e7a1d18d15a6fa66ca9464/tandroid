@@ -19431,6 +19431,9 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public void addToViewsQueue(final MessageObject messageObject) {
+        if (messageObject == null) {
+            return;
+        }
         Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda158
             @Override // java.lang.Runnable
             public final void run() {

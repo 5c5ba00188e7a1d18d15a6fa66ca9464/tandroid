@@ -3181,17 +3181,17 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:321:0x0d1a  */
-    /* JADX WARN: Removed duplicated region for block: B:334:0x0d73  */
-    /* JADX WARN: Removed duplicated region for block: B:341:0x0db3  */
-    /* JADX WARN: Removed duplicated region for block: B:345:0x0e63  */
-    /* JADX WARN: Removed duplicated region for block: B:352:0x0ec0  */
-    /* JADX WARN: Removed duplicated region for block: B:356:0x0f09  */
-    /* JADX WARN: Removed duplicated region for block: B:357:0x0f0c  */
-    /* JADX WARN: Removed duplicated region for block: B:360:0x0f19  */
-    /* JADX WARN: Removed duplicated region for block: B:368:0x0fa0  */
-    /* JADX WARN: Removed duplicated region for block: B:369:0x0fab  */
-    /* JADX WARN: Removed duplicated region for block: B:377:0x0fd5  */
+    /* JADX WARN: Removed duplicated region for block: B:321:0x0d1c  */
+    /* JADX WARN: Removed duplicated region for block: B:334:0x0d75  */
+    /* JADX WARN: Removed duplicated region for block: B:341:0x0db5  */
+    /* JADX WARN: Removed duplicated region for block: B:345:0x0e65  */
+    /* JADX WARN: Removed duplicated region for block: B:352:0x0ec2  */
+    /* JADX WARN: Removed duplicated region for block: B:356:0x0f0b  */
+    /* JADX WARN: Removed duplicated region for block: B:357:0x0f0e  */
+    /* JADX WARN: Removed duplicated region for block: B:360:0x0f1b  */
+    /* JADX WARN: Removed duplicated region for block: B:368:0x0fa2  */
+    /* JADX WARN: Removed duplicated region for block: B:369:0x0fad  */
+    /* JADX WARN: Removed duplicated region for block: B:377:0x0fd7  */
     /* JADX WARN: Type inference failed for: r0v112, types: [org.telegram.ui.ActionBar.ActionBar] */
     /* JADX WARN: Type inference failed for: r0v17, types: [org.telegram.ui.ActionBar.ActionBar] */
     /* JADX WARN: Type inference failed for: r0v229, types: [org.telegram.ui.DialogsActivity$DialogsRecyclerView, org.telegram.ui.Components.RecyclerListView] */
@@ -3232,6 +3232,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         this.searchWas = false;
         this.wasDrawn = false;
         this.pacmanAnimation = null;
+        this.filterTabsView = null;
         this.selectedDialogs.clear();
         this.maximumVelocity = ViewConfiguration.get(context).getScaledMaximumFlingVelocity();
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda46
@@ -4503,7 +4504,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     showSearch(true, false, false);
                     this.actionBar.openSearchField(this.searchString, false);
                 } else if (this.initialSearchString != null) {
-                    showSearch(true, false, false);
+                    showSearch(true, false, false, true);
                     this.actionBar.openSearchField(this.initialSearchString, false);
                     this.initialSearchString = null;
                     FilterTabsView filterTabsView2 = this.filterTabsView;
@@ -8566,7 +8567,11 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public void showSearch(final boolean z, boolean z2, boolean z3) {
+    public void showSearch(boolean z, boolean z2, boolean z3) {
+        showSearch(z, z2, z3, false);
+    }
+
+    private void showSearch(final boolean z, boolean z2, boolean z3, boolean z4) {
         DialogStoriesCell dialogStoriesCell;
         FilterTabsView filterTabsView;
         RightSlidingDialogContainer rightSlidingDialogContainer;
@@ -8575,7 +8580,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             updateSpeedItem(false);
         }
         int i2 = this.initialDialogsType;
-        boolean z4 = (i2 == 0 || i2 == 3) ? z3 : false;
+        boolean z5 = (i2 == 0 || i2 == 3) ? z3 : false;
         AnimatorSet animatorSet = this.searchAnimator;
         if (animatorSet != null) {
             animatorSet.cancel();
@@ -8589,11 +8594,11 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         this.searchIsShowed = z;
         ((SizeNotifierFrameLayout) this.fragmentView).invalidateBlur();
         if (z) {
-            boolean onlyDialogsAdapter = this.searchFiltersWasShowed ? false : onlyDialogsAdapter();
+            boolean onlyDialogsAdapter = (this.searchFiltersWasShowed || z4) ? false : onlyDialogsAdapter();
             this.searchViewPager.showOnlyDialogsAdapter(onlyDialogsAdapter);
-            boolean z5 = !onlyDialogsAdapter || this.hasStories;
-            this.whiteActionBar = z5;
-            if (z5) {
+            boolean z6 = !onlyDialogsAdapter || this.hasStories;
+            this.whiteActionBar = z6;
+            if (z6) {
                 this.searchFiltersWasShowed = true;
             }
             ContentView contentView = (ContentView) this.fragmentView;
@@ -8642,7 +8647,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         } else {
             updateDrawerSwipeEnabled();
         }
-        if (z4 && this.searchViewPager.dialogsSearchAdapter.hasRecentSearch()) {
+        if (z5 && this.searchViewPager.dialogsSearchAdapter.hasRecentSearch()) {
             AndroidUtilities.setAdjustResizeToNothing(getParentActivity(), this.classGuid);
         } else {
             AndroidUtilities.requestAdjustResize(getParentActivity(), this.classGuid);
@@ -8653,8 +8658,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         if (!z && (dialogStoriesCell = this.dialogStoriesCell) != null && this.dialogStoriesCellVisible) {
             dialogStoriesCell.setVisibility(0);
         }
-        boolean z6 = SharedConfig.getDevicePerformanceClass() == 0 || !LiteMode.isEnabled(LiteMode.FLAG_CHAT_SCALE);
-        if (z4) {
+        boolean z7 = SharedConfig.getDevicePerformanceClass() == 0 || !LiteMode.isEnabled(LiteMode.FLAG_CHAT_SCALE);
+        if (z5) {
             if (z) {
                 this.searchViewPager.setVisibility(0);
                 this.searchViewPager.reset();
@@ -8680,7 +8685,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             float[] fArr = new float[1];
             fArr[0] = z ? 0.0f : 1.0f;
             arrayList.add(ObjectAnimator.ofFloat(viewPage, property, fArr));
-            if (!z6) {
+            if (!z7) {
                 ViewPage viewPage2 = this.viewPages[0];
                 Property property2 = View.SCALE_X;
                 float[] fArr2 = new float[1];
@@ -8720,7 +8725,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 fArr6[0] = dp;
                 arrayList.add(ObjectAnimator.ofFloat(searchViewPager3, (Property<SearchViewPager, Float>) property6, fArr6));
             }
-            if (!z6) {
+            if (!z7) {
                 SearchViewPager searchViewPager4 = this.searchViewPager;
                 Property property7 = View.SCALE_X;
                 float[] fArr7 = new float[1];
@@ -8885,7 +8890,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 this.viewPages[0].listView.show();
             }
             this.viewPages[0].setAlpha(z ? 0.0f : 1.0f);
-            if (!z6) {
+            if (!z7) {
                 this.viewPages[0].setScaleX(z ? 0.9f : 1.0f);
                 this.viewPages[0].setScaleY(z ? 0.9f : 1.0f);
             } else {
@@ -8894,7 +8899,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             }
             this.searchViewPager.setAlpha(z ? 1.0f : 0.0f);
             this.filtersView.setAlpha(z ? 1.0f : 0.0f);
-            if (!z6) {
+            if (!z7) {
                 this.searchViewPager.setScaleX(z ? 1.0f : 1.1f);
                 this.searchViewPager.setScaleY(z ? 1.0f : 1.1f);
             } else {

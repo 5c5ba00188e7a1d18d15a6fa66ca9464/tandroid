@@ -50,6 +50,7 @@ public class ChatListItemAnimator extends DefaultItemAnimator {
     private HashMap<Integer, MessageObject.GroupedMessages> willRemovedGroup = new HashMap<>();
     private ArrayList<MessageObject.GroupedMessages> willChangedGroups = new ArrayList<>();
     HashMap<RecyclerView.ViewHolder, Animator> animators = new HashMap<>();
+    ArrayList<View> thanosViews = new ArrayList<>();
     ArrayList<Runnable> runOnAnimationsEnd = new ArrayList<>();
     HashMap<Long, Long> groupIdToEnterDelay = new HashMap<>();
     private final ArrayList<RecyclerView.ViewHolder> toBeSnapped = new ArrayList<>();
@@ -1279,6 +1280,7 @@ public class ChatListItemAnimator extends DefaultItemAnimator {
     }
 
     private void cancelAnimators() {
+        ThanosEffect run;
         ArrayList arrayList = new ArrayList(this.animators.values());
         this.animators.clear();
         Iterator it = arrayList.iterator();
@@ -1288,13 +1290,21 @@ public class ChatListItemAnimator extends DefaultItemAnimator {
                 animator.cancel();
             }
         }
+        if (this.thanosViews.isEmpty() || (run = this.getThanosEffectContainer.run()) == null) {
+            return;
+        }
+        run.kill();
     }
 
     @Override // androidx.recyclerview.widget.DefaultItemAnimator, androidx.recyclerview.widget.RecyclerView.ItemAnimator
     public void endAnimation(RecyclerView.ViewHolder viewHolder) {
+        ThanosEffect run;
         Animator remove = this.animators.remove(viewHolder);
         if (remove != null) {
             remove.cancel();
+        }
+        if (this.thanosViews.contains(viewHolder.itemView) && (run = this.getThanosEffectContainer.run()) != null) {
+            run.cancel(viewHolder.itemView);
         }
         super.endAnimation(viewHolder);
         restoreTransitionParams(viewHolder.itemView);
@@ -1406,12 +1416,16 @@ public class ChatListItemAnimator extends DefaultItemAnimator {
 
     @Override // androidx.recyclerview.widget.DefaultItemAnimator
     protected boolean endChangeAnimationIfNecessary(DefaultItemAnimator.ChangeInfo changeInfo, RecyclerView.ViewHolder viewHolder) {
+        ThanosEffect run;
         if (BuildVars.LOGS_ENABLED) {
             FileLog.d("end change if necessary");
         }
         Animator remove = this.animators.remove(viewHolder);
         if (remove != null) {
             remove.cancel();
+        }
+        if (this.thanosViews.contains(viewHolder.itemView) && (run = this.getThanosEffectContainer.run()) != null) {
+            run.cancel(viewHolder.itemView);
         }
         boolean z = false;
         if (changeInfo.newHolder == viewHolder) {
@@ -1673,6 +1687,7 @@ public class ChatListItemAnimator extends DefaultItemAnimator {
                     ChatListItemAnimator.this.lambda$animateRemoveImpl$8(view, viewHolder);
                 }
             });
+            this.thanosViews.add(view);
         } else {
             ObjectAnimator ofFloat = ObjectAnimator.ofFloat(view, View.ALPHA, view.getAlpha(), 0.0f);
             dispatchRemoveStarting(viewHolder);
@@ -1705,6 +1720,7 @@ public class ChatListItemAnimator extends DefaultItemAnimator {
             dispatchRemoveFinished(viewHolder);
             dispatchFinishedWhenDone();
         }
+        this.thanosViews.remove(view);
     }
 
     private void animateRemoveGroupImpl(final ArrayList<RecyclerView.ViewHolder> arrayList) {
@@ -1726,6 +1742,7 @@ public class ChatListItemAnimator extends DefaultItemAnimator {
                 ChatListItemAnimator.this.lambda$animateRemoveGroupImpl$9(arrayList2, arrayList);
             }
         });
+        this.thanosViews.add(arrayList2.get(0));
         this.recyclerListView.stopScroll();
     }
 
@@ -1740,6 +1757,7 @@ public class ChatListItemAnimator extends DefaultItemAnimator {
             }
             dispatchFinishedWhenDone();
         }
+        this.thanosViews.removeAll(arrayList);
     }
 
     public void setShouldAnimateEnterFromBottom(boolean z) {
