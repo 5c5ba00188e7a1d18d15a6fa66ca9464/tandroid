@@ -7978,13 +7978,13 @@ public class MediaDataController extends BaseController {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:100:0x01a1, code lost:
-        if (r1.contains(java.lang.Integer.valueOf(r12)) != false) goto L139;
+    /* JADX WARN: Code restructure failed: missing block: B:100:0x01a6, code lost:
+        if (r1.contains(java.lang.Integer.valueOf(r12)) != false) goto L140;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:101:0x01a3, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:101:0x01a8, code lost:
         r1.add(java.lang.Integer.valueOf(r12));
      */
-    /* JADX WARN: Code restructure failed: missing block: B:102:0x01aa, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:102:0x01af, code lost:
         r2.add(r4);
      */
     /* JADX WARN: Code restructure failed: missing block: B:62:0x0114, code lost:
@@ -8000,84 +8000,84 @@ public class MediaDataController extends BaseController {
         r8 = r4.replyMessageObject;
      */
     /* JADX WARN: Code restructure failed: missing block: B:69:0x0125, code lost:
-        if (r8 == null) goto L121;
+        if (r8 == null) goto L120;
      */
     /* JADX WARN: Code restructure failed: missing block: B:70:0x0127, code lost:
         r8 = r8.messageOwner;
      */
     /* JADX WARN: Code restructure failed: missing block: B:71:0x0129, code lost:
-        if (r8 == null) goto L120;
+        if (r8 == null) goto L119;
      */
     /* JADX WARN: Code restructure failed: missing block: B:72:0x012b, code lost:
         r8 = r8.peer_id;
      */
     /* JADX WARN: Code restructure failed: missing block: B:73:0x012d, code lost:
-        if (r8 == null) goto L120;
+        if (r8 == null) goto L119;
      */
     /* JADX WARN: Code restructure failed: missing block: B:75:0x0131, code lost:
         if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageEmpty) == false) goto L117;
      */
     /* JADX WARN: Code restructure failed: missing block: B:78:0x0138, code lost:
-        if (r8.channel_id != r2) goto L119;
+        if (r8.channel_id != r2) goto L120;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:80:0x013b, code lost:
-        r13 = 0;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:81:0x013e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:79:0x013a, code lost:
         r5 = r1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:83:0x0142, code lost:
-        if (r2 == r13) goto L140;
+    /* JADX WARN: Code restructure failed: missing block: B:81:0x0141, code lost:
+        if (r19 == org.telegram.messenger.UserObject.REPLY_BOT) goto L141;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:84:0x0144, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:83:0x0147, code lost:
+        if (r2 == 0) goto L141;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:84:0x0149, code lost:
         r5 = r1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:85:0x014c, code lost:
-        if (r4.getDialogId() == (-r2)) goto L129;
+    /* JADX WARN: Code restructure failed: missing block: B:85:0x0151, code lost:
+        if (r4.getDialogId() == (-r2)) goto L130;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:86:0x014e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:86:0x0153, code lost:
         r0 = org.telegram.messenger.MessagesController.getInstance(r17.currentAccount).getChat(java.lang.Long.valueOf(r2));
      */
-    /* JADX WARN: Code restructure failed: missing block: B:87:0x015c, code lost:
-        if (r0 == null) goto L129;
+    /* JADX WARN: Code restructure failed: missing block: B:87:0x0161, code lost:
+        if (r0 == null) goto L130;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:89:0x0162, code lost:
-        if (org.telegram.messenger.ChatObject.isPublic(r0) != false) goto L129;
+    /* JADX WARN: Code restructure failed: missing block: B:89:0x0167, code lost:
+        if (org.telegram.messenger.ChatObject.isPublic(r0) != false) goto L130;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:91:0x0168, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:91:0x016d, code lost:
         r5 = r1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:92:0x0169, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:92:0x016e, code lost:
         r0 = (android.util.SparseArray) r6.get(r19);
         r1 = (java.util.ArrayList) r7.get(r2);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:93:0x0175, code lost:
-        if (r0 != null) goto L132;
+    /* JADX WARN: Code restructure failed: missing block: B:93:0x017a, code lost:
+        if (r0 != null) goto L133;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:94:0x0177, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:94:0x017c, code lost:
         r0 = new android.util.SparseArray();
         r6.put(r19, r0);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:95:0x017f, code lost:
-        if (r1 != null) goto L134;
+    /* JADX WARN: Code restructure failed: missing block: B:95:0x0184, code lost:
+        if (r1 != null) goto L135;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:96:0x0181, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:96:0x0186, code lost:
         r1 = new java.util.ArrayList();
         r7.put(r2, r1);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:97:0x0189, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:97:0x018e, code lost:
         r2 = (java.util.ArrayList) r0.get(r12);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:98:0x018f, code lost:
-        if (r2 != null) goto L139;
+    /* JADX WARN: Code restructure failed: missing block: B:98:0x0194, code lost:
+        if (r2 != null) goto L140;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:99:0x0191, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:99:0x0196, code lost:
         r2 = new java.util.ArrayList();
         r0.put(r12, r2);
      */
-    /* JADX WARN: Removed duplicated region for block: B:118:0x01fb  */
-    /* JADX WARN: Removed duplicated region for block: B:129:0x021a  */
-    /* JADX WARN: Removed duplicated region for block: B:159:0x0266 A[ADDED_TO_REGION, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:118:0x0201  */
+    /* JADX WARN: Removed duplicated region for block: B:129:0x0220  */
+    /* JADX WARN: Removed duplicated region for block: B:159:0x026c A[ADDED_TO_REGION, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -8203,7 +8203,6 @@ public class MediaDataController extends BaseController {
                         int i7 = tLRPC$MessageReplyHeader.reply_to_msg_id;
                         if (i7 != j2) {
                             TLRPC$Peer tLRPC$Peer = tLRPC$MessageReplyHeader.reply_to_peer_id;
-                            long j6 = 0;
                             if (tLRPC$Peer != null) {
                                 longSparseArray = longSparseArray5;
                                 j3 = tLRPC$Peer.channel_id;

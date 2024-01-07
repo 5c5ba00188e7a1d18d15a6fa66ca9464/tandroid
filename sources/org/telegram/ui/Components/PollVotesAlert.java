@@ -120,13 +120,13 @@ public class PollVotesAlert extends BottomSheet {
         return false;
     }
 
-    static /* synthetic */ float access$3016(PollVotesAlert pollVotesAlert, float f) {
+    static /* synthetic */ float access$3116(PollVotesAlert pollVotesAlert, float f) {
         float f2 = pollVotesAlert.totalTranslation + f;
         pollVotesAlert.totalTranslation = f2;
         return f2;
     }
 
-    static /* synthetic */ float access$3024(PollVotesAlert pollVotesAlert, float f) {
+    static /* synthetic */ float access$3124(PollVotesAlert pollVotesAlert, float f) {
         float f2 = pollVotesAlert.totalTranslation - f;
         pollVotesAlert.totalTranslation = f2;
         return f2;
@@ -294,7 +294,7 @@ public class PollVotesAlert extends BottomSheet {
         private TLRPC$User currentUser;
         private boolean drawPlaceholder;
         private TLRPC$FileLocation lastAvatar;
-        private String lastName;
+        private CharSequence lastName;
         private int lastStatus;
         private SimpleTextView nameTextView;
         private boolean needDivider;
@@ -324,11 +324,11 @@ public class PollVotesAlert extends BottomSheet {
             simpleTextView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
             this.nameTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
             this.nameTextView.setTextSize(16);
-            this.nameTextView.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
+            this.nameTextView.setGravity(16 | (LocaleController.isRTL ? 5 : 3));
             SimpleTextView simpleTextView2 = this.nameTextView;
             boolean z2 = LocaleController.isRTL;
-            addView(simpleTextView2, LayoutHelper.createFrame(-1, 20.0f, (z2 ? 5 : 3) | 48, z2 ? 28.0f : 65.0f, 14.0f, z2 ? 65.0f : 28.0f, 0.0f));
-            this.statusBadgeComponent = new StatusBadgeComponent(this.nameTextView);
+            addView(simpleTextView2, LayoutHelper.createFrame(-1, 24.0f, (z2 ? 5 : 3) | 48, z2 ? 28.0f : 65.0f, 12.0f, z2 ? 65.0f : 28.0f, 0.0f));
+            this.statusBadgeComponent = new StatusBadgeComponent(this.nameTextView, 20);
         }
 
         public void setData(TLObject tLObject, int i, boolean z) {
@@ -391,7 +391,7 @@ public class PollVotesAlert extends BottomSheet {
         }
 
         /* JADX WARN: Code restructure failed: missing block: B:52:0x0074, code lost:
-            if (r1.equals(r11.lastName) == false) goto L34;
+            if (android.text.TextUtils.equals(r1, r11.lastName) == false) goto L34;
          */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -454,16 +454,19 @@ public class PollVotesAlert extends BottomSheet {
                     str = UserObject.getUserName(tLRPC$User3);
                 }
                 this.lastName = str;
+                this.lastName = Emoji.replaceEmoji(str, this.nameTextView.getPaint().getFontMetricsInt(), false);
             } else {
                 TLRPC$Chat tLRPC$Chat4 = this.currentChat;
                 if (tLRPC$Chat4 != null) {
-                    this.lastName = tLRPC$Chat4.title;
+                    String str2 = tLRPC$Chat4.title;
+                    this.lastName = str2;
+                    this.lastName = Emoji.replaceEmoji(str2, this.nameTextView.getPaint().getFontMetricsInt(), false);
                 } else {
                     this.lastName = "";
                 }
             }
             this.nameTextView.setText(this.lastName);
-            this.nameTextView.setRightDrawable(this.statusBadgeComponent.updateDrawable(this.currentUser, this.currentChat, Theme.getColor(Theme.key_chats_verifiedBackground), false));
+            this.nameTextView.setRightDrawable(this.statusBadgeComponent.updateDrawable(this.currentUser, this.currentChat, Theme.getColor(Theme.key_chats_verifiedBackground, ((BottomSheet) PollVotesAlert.this).resourcesProvider), false));
             this.lastAvatar = tLRPC$FileLocation;
             TLRPC$Chat tLRPC$Chat5 = this.currentChat;
             if (tLRPC$Chat5 != null) {
@@ -537,13 +540,13 @@ public class PollVotesAlert extends BottomSheet {
         private Button() {
         }
 
-        static /* synthetic */ float access$3924(Button button, float f) {
+        static /* synthetic */ float access$4024(Button button, float f) {
             float f2 = button.decimal - f;
             button.decimal = f2;
             return f2;
         }
 
-        static /* synthetic */ int access$4012(Button button, int i) {
+        static /* synthetic */ int access$4112(Button button, int i) {
             int i2 = button.percent + i;
             button.percent = i2;
             return i2;
@@ -772,10 +775,10 @@ public class PollVotesAlert extends BottomSheet {
                     }
                     this.lastUpdateTime = elapsedRealtime;
                     PollVotesAlert pollVotesAlert = PollVotesAlert.this;
-                    PollVotesAlert.access$3016(pollVotesAlert, (((float) abs) * pollVotesAlert.gradientWidth) / 1800.0f);
+                    PollVotesAlert.access$3116(pollVotesAlert, (((float) abs) * pollVotesAlert.gradientWidth) / 1800.0f);
                     while (PollVotesAlert.this.totalTranslation >= PollVotesAlert.this.gradientWidth * 2.0f) {
                         PollVotesAlert pollVotesAlert2 = PollVotesAlert.this;
-                        PollVotesAlert.access$3024(pollVotesAlert2, pollVotesAlert2.gradientWidth * 2.0f);
+                        PollVotesAlert.access$3124(pollVotesAlert2, pollVotesAlert2.gradientWidth * 2.0f);
                     }
                     PollVotesAlert.this.placeholderMatrix.setTranslate(PollVotesAlert.this.totalTranslation, 0.0f);
                     PollVotesAlert.this.placeholderGradient.setLocalMatrix(PollVotesAlert.this.placeholderMatrix);
@@ -1093,7 +1096,7 @@ public class PollVotesAlert extends BottomSheet {
                             button.votesCount = tLRPC$TL_pollAnswerVoters.voters;
                             button.decimal = (tLRPC$TL_pollAnswerVoters.voters / tLRPC$TL_messageMediaPoll.results.total_voters) * 100.0f;
                             button.percent = (int) button.decimal;
-                            Button.access$3924(button, button.percent);
+                            Button.access$4024(button, button.percent);
                             if (i2 == 0) {
                                 i2 = button.percent;
                             } else if (button.percent != 0 && i2 != button.percent) {
@@ -1114,7 +1117,7 @@ public class PollVotesAlert extends BottomSheet {
         Collections.sort(arrayList, PollVotesAlert$$ExternalSyntheticLambda2.INSTANCE);
         int min = Math.min(i, arrayList.size());
         for (int i6 = 0; i6 < min; i6++) {
-            Button.access$4012((Button) arrayList.get(i6), 1);
+            Button.access$4112((Button) arrayList.get(i6), 1);
         }
     }
 

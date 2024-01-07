@@ -4136,37 +4136,37 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
     /* JADX WARN: Removed duplicated region for block: B:283:0x09e8  */
     /* JADX WARN: Removed duplicated region for block: B:345:0x0bf8  */
     /* JADX WARN: Removed duplicated region for block: B:348:0x0bff  */
-    /* JADX WARN: Removed duplicated region for block: B:385:0x0dd6  */
-    /* JADX WARN: Removed duplicated region for block: B:445:0x0ea0  */
-    /* JADX WARN: Removed duplicated region for block: B:487:0x0f0f  */
-    /* JADX WARN: Removed duplicated region for block: B:488:0x0f12  */
-    /* JADX WARN: Removed duplicated region for block: B:491:0x0f29  */
-    /* JADX WARN: Removed duplicated region for block: B:496:0x0f7d  */
-    /* JADX WARN: Removed duplicated region for block: B:502:0x0f93  */
-    /* JADX WARN: Removed duplicated region for block: B:517:0x0fdb  */
-    /* JADX WARN: Removed duplicated region for block: B:568:0x10c0  */
-    /* JADX WARN: Removed duplicated region for block: B:570:0x110f  */
-    /* JADX WARN: Removed duplicated region for block: B:626:0x12bb  */
-    /* JADX WARN: Removed duplicated region for block: B:662:0x144d  */
-    /* JADX WARN: Removed duplicated region for block: B:666:0x145d  */
-    /* JADX WARN: Removed duplicated region for block: B:681:0x1499  */
-    /* JADX WARN: Removed duplicated region for block: B:682:0x149b  */
-    /* JADX WARN: Removed duplicated region for block: B:686:0x14a9  */
-    /* JADX WARN: Removed duplicated region for block: B:698:0x14ca  */
+    /* JADX WARN: Removed duplicated region for block: B:387:0x0dda  */
+    /* JADX WARN: Removed duplicated region for block: B:447:0x0ea4  */
+    /* JADX WARN: Removed duplicated region for block: B:489:0x0f13  */
+    /* JADX WARN: Removed duplicated region for block: B:490:0x0f16  */
+    /* JADX WARN: Removed duplicated region for block: B:493:0x0f2d  */
+    /* JADX WARN: Removed duplicated region for block: B:498:0x0f81  */
+    /* JADX WARN: Removed duplicated region for block: B:504:0x0f97  */
+    /* JADX WARN: Removed duplicated region for block: B:519:0x0fdf  */
+    /* JADX WARN: Removed duplicated region for block: B:570:0x10c4  */
+    /* JADX WARN: Removed duplicated region for block: B:572:0x1113  */
+    /* JADX WARN: Removed duplicated region for block: B:628:0x12bf  */
+    /* JADX WARN: Removed duplicated region for block: B:664:0x1451  */
+    /* JADX WARN: Removed duplicated region for block: B:668:0x1461  */
+    /* JADX WARN: Removed duplicated region for block: B:683:0x149d  */
+    /* JADX WARN: Removed duplicated region for block: B:684:0x149f  */
+    /* JADX WARN: Removed duplicated region for block: B:688:0x14ad  */
     /* JADX WARN: Removed duplicated region for block: B:700:0x14ce  */
-    /* JADX WARN: Removed duplicated region for block: B:714:0x1539  */
-    /* JADX WARN: Removed duplicated region for block: B:717:0x1542  */
-    /* JADX WARN: Removed duplicated region for block: B:735:0x158c  */
-    /* JADX WARN: Removed duplicated region for block: B:764:0x160c  */
-    /* JADX WARN: Removed duplicated region for block: B:773:0x1666  */
-    /* JADX WARN: Removed duplicated region for block: B:778:0x1676  */
-    /* JADX WARN: Removed duplicated region for block: B:786:0x168b  */
-    /* JADX WARN: Removed duplicated region for block: B:794:0x16b4  */
-    /* JADX WARN: Removed duplicated region for block: B:805:0x16e2  */
-    /* JADX WARN: Removed duplicated region for block: B:811:0x16f7  */
-    /* JADX WARN: Removed duplicated region for block: B:821:0x171b  */
-    /* JADX WARN: Removed duplicated region for block: B:831:0x173c  */
-    /* JADX WARN: Removed duplicated region for block: B:848:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:702:0x14d2  */
+    /* JADX WARN: Removed duplicated region for block: B:716:0x153d  */
+    /* JADX WARN: Removed duplicated region for block: B:719:0x1546  */
+    /* JADX WARN: Removed duplicated region for block: B:737:0x1590  */
+    /* JADX WARN: Removed duplicated region for block: B:766:0x1610  */
+    /* JADX WARN: Removed duplicated region for block: B:775:0x166a  */
+    /* JADX WARN: Removed duplicated region for block: B:780:0x167a  */
+    /* JADX WARN: Removed duplicated region for block: B:788:0x168f  */
+    /* JADX WARN: Removed duplicated region for block: B:796:0x16b8  */
+    /* JADX WARN: Removed duplicated region for block: B:807:0x16e6  */
+    /* JADX WARN: Removed duplicated region for block: B:813:0x16fb  */
+    /* JADX WARN: Removed duplicated region for block: B:823:0x171f  */
+    /* JADX WARN: Removed duplicated region for block: B:833:0x1740  */
+    /* JADX WARN: Removed duplicated region for block: B:850:? A[RETURN, SYNTHETIC] */
     @Override // android.view.View
     @SuppressLint({"DrawAllocation"})
     /*
@@ -4859,7 +4859,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                         }
                     });
                 }
-                if (this.lastTopicMessageUnread && this.topMessageTopicEndIndex != this.topMessageTopicStartIndex) {
+                if (this.lastTopicMessageUnread && this.topMessageTopicEndIndex != this.topMessageTopicStartIndex && this.dialogsType == 0) {
                     this.canvasButton.setColor(ColorUtils.setAlphaComponent(this.currentMessagePaint.getColor(), Theme.isCurrentThemeDark() ? 36 : 26));
                     if (!this.buttonCreated) {
                         this.canvasButton.rewind();
@@ -6542,7 +6542,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
             return true;
         }
         DialogCellDelegate dialogCellDelegate = this.delegate;
-        if ((dialogCellDelegate == null || dialogCellDelegate.canClickButtonInside()) && this.lastTopicMessageUnread && (canvasButton = this.canvasButton) != null && this.buttonLayout != null && canvasButton.checkTouchEvent(motionEvent)) {
+        if ((dialogCellDelegate == null || dialogCellDelegate.canClickButtonInside()) && this.lastTopicMessageUnread && (canvasButton = this.canvasButton) != null && this.buttonLayout != null && this.dialogsType == 0 && canvasButton.checkTouchEvent(motionEvent)) {
             return true;
         }
         return super.onTouchEvent(motionEvent);

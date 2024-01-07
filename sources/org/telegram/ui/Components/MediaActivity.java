@@ -176,18 +176,18 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:101:0x05c1  */
-    /* JADX WARN: Removed duplicated region for block: B:102:0x05cf  */
-    /* JADX WARN: Removed duplicated region for block: B:126:0x06bc  */
-    /* JADX WARN: Removed duplicated region for block: B:129:0x06d3  */
-    /* JADX WARN: Removed duplicated region for block: B:134:0x06e8  */
-    /* JADX WARN: Removed duplicated region for block: B:140:0x0710  */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x055b  */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x0563  */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x0568  */
-    /* JADX WARN: Removed duplicated region for block: B:94:0x05a4  */
-    /* JADX WARN: Removed duplicated region for block: B:95:0x05ae  */
-    /* JADX WARN: Removed duplicated region for block: B:98:0x05b3  */
+    /* JADX WARN: Removed duplicated region for block: B:100:0x05c1  */
+    /* JADX WARN: Removed duplicated region for block: B:103:0x05cf  */
+    /* JADX WARN: Removed duplicated region for block: B:104:0x05dd  */
+    /* JADX WARN: Removed duplicated region for block: B:128:0x06ca  */
+    /* JADX WARN: Removed duplicated region for block: B:131:0x06e1  */
+    /* JADX WARN: Removed duplicated region for block: B:136:0x06f6  */
+    /* JADX WARN: Removed duplicated region for block: B:142:0x071e  */
+    /* JADX WARN: Removed duplicated region for block: B:71:0x0569  */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x0571  */
+    /* JADX WARN: Removed duplicated region for block: B:75:0x0576  */
+    /* JADX WARN: Removed duplicated region for block: B:96:0x05b2  */
+    /* JADX WARN: Removed duplicated region for block: B:97:0x05bc  */
     /* JADX WARN: Type inference failed for: r6v18 */
     /* JADX WARN: Type inference failed for: r6v19, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r6v20 */
@@ -504,7 +504,7 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
             }
             hideFloatingButton(true, z);
         }
-        if (this.type == 0 && !getMessagesController().getSavedMessagesController().unsupported && getMessagesController().getSavedMessagesController().getAllCount() > 0) {
+        if (this.type == 0 && this.dialogId == getUserConfig().getClientUserId() && !getMessagesController().getSavedMessagesController().unsupported && getMessagesController().getSavedMessagesController().getAllCount() > 0) {
             this.initialTab = 11;
         }
         SharedMediaLayout sharedMediaLayout = new SharedMediaLayout(context, this.dialogId, this.sharedMediaPreloader, 0, null, this.currentChatInfo, this.currentUserInfo, this.initialTab, this, new SharedMediaLayout.Delegate() { // from class: org.telegram.ui.Components.MediaActivity.5
@@ -584,7 +584,7 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
 
             @Override // org.telegram.ui.Components.SharedMediaLayout
             protected boolean includeSavedDialogs() {
-                return MediaActivity.this.type == 0;
+                return MediaActivity.this.type == 0 && MediaActivity.this.dialogId == MediaActivity.this.getUserConfig().getClientUserId();
             }
 
             @Override // org.telegram.ui.Components.SharedMediaLayout

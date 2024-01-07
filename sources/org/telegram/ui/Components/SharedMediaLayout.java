@@ -780,6 +780,14 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                 } else {
                     this.dialogId = profileActivity.getDialogId();
                     this.topicId = profileActivity.getTopicId();
+                    if (this.dialogId != baseFragment.getUserConfig().getClientUserId()) {
+                        baseFragment.getMessagesController().getSavedMessagesController().hasSavedMessages(this.dialogId, new Utilities.Callback() { // from class: org.telegram.ui.Components.SharedMediaLayout$SharedMediaPreloader$$ExternalSyntheticLambda1
+                            @Override // org.telegram.messenger.Utilities.Callback
+                            public final void run(Object obj) {
+                                SharedMediaLayout.SharedMediaPreloader.this.lambda$new$1((Boolean) obj);
+                            }
+                        });
+                    }
                 }
             } else if (baseFragment instanceof MediaActivity) {
                 this.dialogId = ((MediaActivity) baseFragment).getDialogId();
@@ -813,6 +821,19 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$0(Boolean bool) {
+            boolean booleanValue = bool.booleanValue();
+            this.hasSavedMessages = booleanValue;
+            this.checkedHasSavedMessages = true;
+            if (booleanValue) {
+                int size = this.delegates.size();
+                for (int i = 0; i < size; i++) {
+                    this.delegates.get(i).mediaCountUpdated();
+                }
+            }
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$new$1(Boolean bool) {
             boolean booleanValue = bool.booleanValue();
             this.hasSavedMessages = booleanValue;
             this.checkedHasSavedMessages = true;

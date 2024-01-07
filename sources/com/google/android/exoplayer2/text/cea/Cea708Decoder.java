@@ -271,14 +271,14 @@ public final class Cea708Decoder extends CeaDecoder {
                     i2++;
                 }
                 return;
-            case MessagesStorage.LAST_DB_VERSION /* 137 */:
+            case 137:
                 for (int i4 = 1; i4 <= 8; i4++) {
                     if (this.captionChannelPacketData.readBit()) {
                         this.cueInfoBuilders[8 - i4].setVisibility(true);
                     }
                 }
                 return;
-            case 138:
+            case MessagesStorage.LAST_DB_VERSION /* 138 */:
                 while (i2 <= 8) {
                     if (this.captionChannelPacketData.readBit()) {
                         this.cueInfoBuilders[8 - i2].setVisibility(false);

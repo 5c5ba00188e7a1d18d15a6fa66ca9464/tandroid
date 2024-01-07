@@ -159,7 +159,7 @@ import org.telegram.ui.Adapters.DialogsSearchAdapter;
 /* loaded from: classes.dex */
 public class MessagesStorage extends BaseController {
     public static final String[] DATABASE_TABLES;
-    public static final int LAST_DB_VERSION = 137;
+    public static final int LAST_DB_VERSION = 138;
     private int archiveUnreadCount;
     private int[][] bots;
     private File cacheFile;
@@ -501,7 +501,7 @@ public class MessagesStorage extends BaseController {
                         FileLog.e(e3);
                     }
                 }
-                if (intValue < 137) {
+                if (intValue < 138) {
                     try {
                         updateDbToLastVersion(intValue);
                     } catch (Exception e4) {
@@ -699,7 +699,7 @@ public class MessagesStorage extends BaseController {
         sQLiteDatabase.executeFast("CREATE TABLE emoji_keywords_info_v2(lang TEXT PRIMARY KEY, alias TEXT, version INTEGER, date INTEGER);").stepThis().dispose();
         sQLiteDatabase.executeFast("CREATE TABLE wallpapers2(uid INTEGER PRIMARY KEY, data BLOB, num INTEGER)").stepThis().dispose();
         sQLiteDatabase.executeFast("CREATE INDEX IF NOT EXISTS wallpapers_num ON wallpapers2(num);").stepThis().dispose();
-        sQLiteDatabase.executeFast("CREATE TABLE unread_push_messages(uid INTEGER, mid INTEGER, random INTEGER, date INTEGER, data BLOB, fm TEXT, name TEXT, uname TEXT, flags INTEGER, topicId INTEGER, PRIMARY KEY(uid, mid))").stepThis().dispose();
+        sQLiteDatabase.executeFast("CREATE TABLE unread_push_messages(uid INTEGER, mid INTEGER, random INTEGER, date INTEGER, data BLOB, fm TEXT, name TEXT, uname TEXT, flags INTEGER, topicId INTEGER, is_reaction INTEGER, PRIMARY KEY(uid, mid))").stepThis().dispose();
         sQLiteDatabase.executeFast("CREATE INDEX IF NOT EXISTS unread_push_messages_idx_date ON unread_push_messages(date);").stepThis().dispose();
         sQLiteDatabase.executeFast("CREATE INDEX IF NOT EXISTS unread_push_messages_idx_random ON unread_push_messages(random);").stepThis().dispose();
         sQLiteDatabase.executeFast("CREATE TABLE polls_v2(mid INTEGER, uid INTEGER, id INTEGER, PRIMARY KEY (mid, uid));").stepThis().dispose();
@@ -746,7 +746,7 @@ public class MessagesStorage extends BaseController {
         sQLiteDatabase.executeFast("CREATE TABLE story_drafts (id INTEGER PRIMARY KEY, date INTEGER, data BLOB, type INTEGER);").stepThis().dispose();
         sQLiteDatabase.executeFast("CREATE TABLE story_pushes (uid INTEGER, sid INTEGER, date INTEGER, localName TEXT, flags INTEGER, expire_date INTEGER, PRIMARY KEY(uid, sid));").stepThis().dispose();
         sQLiteDatabase.executeFast("CREATE TABLE unconfirmed_auth (data BLOB);").stepThis().dispose();
-        sQLiteDatabase.executeFast("PRAGMA user_version = 137").stepThis().dispose();
+        sQLiteDatabase.executeFast("PRAGMA user_version = 138").stepThis().dispose();
     }
 
     public boolean isDatabaseMigrationInProgress() {
@@ -1644,11 +1644,12 @@ public class MessagesStorage extends BaseController {
         try {
             NativeByteBuffer nativeByteBuffer = new NativeByteBuffer(messageObject.messageOwner.getObjectSize());
             messageObject.messageOwner.serializeToStream(nativeByteBuffer);
-            int i = messageObject.localType == 2 ? 1 : 0;
+            int i = 1;
+            int i2 = messageObject.localType == 2 ? 1 : 0;
             if (messageObject.localChannel) {
-                i |= 2;
+                i2 |= 2;
             }
-            SQLitePreparedStatement executeFast = this.database.executeFast("REPLACE INTO unread_push_messages VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            SQLitePreparedStatement executeFast = this.database.executeFast("REPLACE INTO unread_push_messages VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             executeFast.requery();
             executeFast.bindLong(1, messageObject.getDialogId());
             executeFast.bindInteger(2, messageObject.getId());
@@ -1673,8 +1674,12 @@ public class MessagesStorage extends BaseController {
             } else {
                 executeFast.bindString(8, str2);
             }
-            executeFast.bindInteger(9, i);
+            executeFast.bindInteger(9, i2);
             executeFast.bindLong(10, MessageObject.getTopicId(this.currentAccount, messageObject.messageOwner, false));
+            if (!messageObject.isReactionPush) {
+                i = 0;
+            }
+            executeFast.bindInteger(11, i);
             executeFast.step();
             nativeByteBuffer.reuse();
             executeFast.dispose();
@@ -5624,7 +5629,7 @@ public class MessagesStorage extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:233:0x0577  */
+    /* JADX WARN: Removed duplicated region for block: B:237:0x0584  */
     /* JADX WARN: Type inference failed for: r6v15 */
     /* JADX WARN: Type inference failed for: r6v6 */
     /* JADX WARN: Type inference failed for: r6v7, types: [int, boolean] */
@@ -5636,381 +5641,388 @@ public class MessagesStorage extends BaseController {
         SQLiteCursor sQLiteCursor;
         Exception exc;
         Throwable th2;
-        SQLiteCursor sQLiteCursor2;
-        SQLiteCursor sQLiteCursor3;
-        ArrayList arrayList;
-        ArrayList<TLRPC$EncryptedChat> arrayList2;
+        ArrayList<Long> arrayList;
+        ArrayList<Long> arrayList2;
         ArrayList arrayList3;
         LongSparseArray longSparseArray;
-        final ArrayList<TLRPC$User> arrayList4;
-        ArrayList<TLRPC$Chat> arrayList5;
-        CharSequence charSequence;
-        LongSparseArray longSparseArray2;
+        SQLiteCursor queryFinalized;
+        SQLiteCursor sQLiteCursor2;
+        SQLiteCursor sQLiteCursor3;
+        ArrayList arrayList4;
+        ArrayList<TLRPC$EncryptedChat> arrayList5;
         ArrayList arrayList6;
+        LongSparseArray longSparseArray2;
+        final ArrayList<TLRPC$User> arrayList7;
+        ArrayList<TLRPC$Chat> arrayList8;
+        CharSequence charSequence;
+        LongSparseArray longSparseArray3;
+        ArrayList arrayList9;
         SQLiteCursor sQLiteCursor4;
         SQLiteCursor sQLiteCursor5;
-        ArrayList<TLRPC$EncryptedChat> arrayList7;
-        LongSparseArray longSparseArray3;
-        ArrayList arrayList8;
+        ArrayList<TLRPC$EncryptedChat> arrayList10;
+        LongSparseArray longSparseArray4;
+        ArrayList arrayList11;
         String stringValue;
         int i;
-        LongSparseArray longSparseArray4;
-        ArrayList<TLRPC$User> arrayList9;
-        ArrayList<TLRPC$Chat> arrayList10;
-        ArrayList arrayList11;
+        LongSparseArray longSparseArray5;
+        ArrayList<TLRPC$User> arrayList12;
+        ArrayList<TLRPC$Chat> arrayList13;
+        ArrayList arrayList14;
         int i2;
         TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader;
         NativeByteBuffer byteBufferValue;
         try {
-            ArrayList<Long> arrayList12 = new ArrayList<>();
-            ArrayList<Long> arrayList13 = new ArrayList<>();
-            ArrayList arrayList14 = new ArrayList();
-            LongSparseArray longSparseArray5 = new LongSparseArray();
-            SQLiteCursor queryFinalized = this.database.queryFinalized("SELECT d.did, d.unread_count, s.flags FROM dialogs as d LEFT JOIN dialog_settings as s ON d.did = s.did WHERE d.unread_count > 0", new Object[0]);
-            try {
-                StringBuilder sb = new StringBuilder();
-                int currentTime = getConnectionsManager().getCurrentTime();
-                while (queryFinalized.next()) {
-                    long longValue = queryFinalized.longValue(2);
-                    boolean z = (longValue & 1) != 0;
-                    int i3 = (int) (longValue >> 32);
-                    if (queryFinalized.isNull(2) || !z || (i3 != 0 && i3 < currentTime)) {
-                        long longValue2 = queryFinalized.longValue(0);
-                        if (!DialogObject.isFolderDialogId(longValue2)) {
-                            longSparseArray5.put(longValue2, Integer.valueOf(queryFinalized.intValue(1)));
-                            if (sb.length() != 0) {
-                                sb.append(",");
+            arrayList = new ArrayList<>();
+            arrayList2 = new ArrayList<>();
+            arrayList3 = new ArrayList();
+            longSparseArray = new LongSparseArray();
+            queryFinalized = this.database.queryFinalized("SELECT d.did, d.unread_count, s.flags FROM dialogs as d LEFT JOIN dialog_settings as s ON d.did = s.did WHERE d.unread_count > 0", new Object[0]);
+        } catch (Exception e) {
+            exc = e;
+            sQLiteCursor = null;
+        } catch (Throwable th3) {
+            th = th3;
+            sQLiteCursor = null;
+        }
+        try {
+            StringBuilder sb = new StringBuilder();
+            int currentTime = getConnectionsManager().getCurrentTime();
+            while (queryFinalized.next()) {
+                long longValue = queryFinalized.longValue(2);
+                boolean z = (longValue & 1) != 0;
+                int i3 = (int) (longValue >> 32);
+                if (queryFinalized.isNull(2) || !z || (i3 != 0 && i3 < currentTime)) {
+                    long longValue2 = queryFinalized.longValue(0);
+                    if (!DialogObject.isFolderDialogId(longValue2)) {
+                        longSparseArray.put(longValue2, Integer.valueOf(queryFinalized.intValue(1)));
+                        if (sb.length() != 0) {
+                            sb.append(",");
+                        }
+                        sb.append(longValue2);
+                        if (DialogObject.isEncryptedDialog(longValue2)) {
+                            int encryptedChatId = DialogObject.getEncryptedChatId(longValue2);
+                            if (!arrayList3.contains(Integer.valueOf(encryptedChatId))) {
+                                arrayList3.add(Integer.valueOf(encryptedChatId));
                             }
-                            sb.append(longValue2);
-                            if (DialogObject.isEncryptedDialog(longValue2)) {
-                                int encryptedChatId = DialogObject.getEncryptedChatId(longValue2);
-                                if (!arrayList14.contains(Integer.valueOf(encryptedChatId))) {
-                                    arrayList14.add(Integer.valueOf(encryptedChatId));
-                                }
-                            } else if (DialogObject.isUserDialog(longValue2)) {
-                                if (!arrayList12.contains(Long.valueOf(longValue2))) {
-                                    arrayList12.add(Long.valueOf(longValue2));
-                                }
-                            } else {
-                                long j = -longValue2;
-                                if (!arrayList13.contains(Long.valueOf(j))) {
-                                    arrayList13.add(Long.valueOf(j));
-                                }
+                        } else if (DialogObject.isUserDialog(longValue2)) {
+                            if (!arrayList.contains(Long.valueOf(longValue2))) {
+                                arrayList.add(Long.valueOf(longValue2));
+                            }
+                        } else {
+                            long j = -longValue2;
+                            if (!arrayList2.contains(Long.valueOf(j))) {
+                                arrayList2.add(Long.valueOf(j));
                             }
                         }
                     }
                 }
-                queryFinalized.dispose();
-                LongSparseArray<SparseArray<ArrayList<TLRPC$Message>>> longSparseArray6 = new LongSparseArray<>();
-                LongSparseArray<ArrayList<Integer>> longSparseArray7 = new LongSparseArray<>();
-                ArrayList arrayList15 = new ArrayList();
-                ArrayList arrayList16 = new ArrayList();
-                ArrayList<TLRPC$User> arrayList17 = new ArrayList<>();
-                ArrayList<TLRPC$Chat> arrayList18 = new ArrayList<>();
-                ArrayList<TLRPC$EncryptedChat> arrayList19 = new ArrayList<>();
-                if (sb.length() > 0) {
-                    SQLiteCursor queryFinalized2 = this.database.queryFinalized("SELECT read_state, data, send_state, mid, date, uid, replydata FROM messages_v2 WHERE uid IN (" + sb.toString() + ") AND out = 0 AND read_state IN(0,2) ORDER BY date DESC LIMIT 50", new Object[0]);
-                    int i4 = 0;
-                    while (queryFinalized2.next()) {
+            }
+            queryFinalized.dispose();
+            LongSparseArray<SparseArray<ArrayList<TLRPC$Message>>> longSparseArray6 = new LongSparseArray<>();
+            LongSparseArray<ArrayList<Integer>> longSparseArray7 = new LongSparseArray<>();
+            ArrayList arrayList15 = new ArrayList();
+            ArrayList arrayList16 = new ArrayList();
+            ArrayList<TLRPC$User> arrayList17 = new ArrayList<>();
+            ArrayList<TLRPC$Chat> arrayList18 = new ArrayList<>();
+            ArrayList<TLRPC$EncryptedChat> arrayList19 = new ArrayList<>();
+            if (sb.length() > 0) {
+                SQLiteCursor queryFinalized2 = this.database.queryFinalized("SELECT read_state, data, send_state, mid, date, uid, replydata FROM messages_v2 WHERE uid IN (" + sb.toString() + ") AND out = 0 AND read_state IN(0,2) ORDER BY date DESC LIMIT 50", new Object[0]);
+                int i4 = 0;
+                while (queryFinalized2.next()) {
+                    try {
                         try {
-                            try {
-                                NativeByteBuffer byteBufferValue2 = queryFinalized2.byteBufferValue(1);
-                                if (byteBufferValue2 != null) {
-                                    longSparseArray4 = longSparseArray5;
-                                    TLRPC$Message TLdeserialize = TLRPC$Message.TLdeserialize(byteBufferValue2, byteBufferValue2.readInt32(false), false);
-                                    arrayList9 = arrayList17;
-                                    arrayList10 = arrayList18;
-                                    TLdeserialize.readAttachPath(byteBufferValue2, getUserConfig().clientUserId);
-                                    byteBufferValue2.reuse();
-                                    MessageObject.setUnreadFlags(TLdeserialize, queryFinalized2.intValue(0));
-                                    TLdeserialize.id = queryFinalized2.intValue(3);
-                                    TLdeserialize.date = queryFinalized2.intValue(4);
-                                    TLdeserialize.dialog_id = queryFinalized2.longValue(5);
-                                    arrayList15.add(TLdeserialize);
-                                    int max = Math.max(i4, TLdeserialize.date);
-                                    addUsersAndChatsFromMessage(TLdeserialize, arrayList12, arrayList13, null);
-                                    TLdeserialize.send_state = queryFinalized2.intValue(2);
-                                    if ((TLdeserialize.peer_id.channel_id == 0 && !MessageObject.isUnread(TLdeserialize) && !DialogObject.isEncryptedDialog(TLdeserialize.dialog_id)) || TLdeserialize.id > 0) {
-                                        TLdeserialize.send_state = 0;
-                                    }
-                                    if (DialogObject.isEncryptedDialog(TLdeserialize.dialog_id) && !queryFinalized2.isNull(5)) {
-                                        TLdeserialize.random_id = queryFinalized2.longValue(5);
-                                    }
-                                    try {
-                                        tLRPC$MessageReplyHeader = TLdeserialize.reply_to;
-                                    } catch (Exception e) {
-                                        e = e;
-                                        i2 = max;
-                                        arrayList11 = arrayList16;
-                                    }
-                                    if (tLRPC$MessageReplyHeader != null && tLRPC$MessageReplyHeader.reply_to_msg_id != 0) {
-                                        TLRPC$MessageAction tLRPC$MessageAction = TLdeserialize.action;
-                                        if ((tLRPC$MessageAction instanceof TLRPC$TL_messageActionPinMessage) || (tLRPC$MessageAction instanceof TLRPC$TL_messageActionPaymentSent) || (tLRPC$MessageAction instanceof TLRPC$TL_messageActionGameScore)) {
-                                            if (queryFinalized2.isNull(6) || (byteBufferValue = queryFinalized2.byteBufferValue(6)) == null) {
-                                                i2 = max;
-                                                arrayList11 = arrayList16;
-                                            } else {
-                                                TLRPC$Message TLdeserialize2 = TLRPC$Message.TLdeserialize(byteBufferValue, byteBufferValue.readInt32(false), false);
-                                                TLdeserialize.replyMessage = TLdeserialize2;
-                                                i2 = max;
-                                                arrayList11 = arrayList16;
-                                                try {
-                                                    TLdeserialize2.readAttachPath(byteBufferValue, getUserConfig().clientUserId);
-                                                    byteBufferValue.reuse();
-                                                    TLRPC$Message tLRPC$Message = TLdeserialize.replyMessage;
-                                                    if (tLRPC$Message != null) {
-                                                        addUsersAndChatsFromMessage(tLRPC$Message, arrayList12, arrayList13, null);
-                                                    }
-                                                } catch (Exception e2) {
-                                                    e = e2;
-                                                    checkSQLException(e);
-                                                    i4 = i2;
-                                                    arrayList16 = arrayList11;
-                                                    longSparseArray5 = longSparseArray4;
-                                                    arrayList17 = arrayList9;
-                                                    arrayList18 = arrayList10;
-                                                }
-                                            }
-                                            if (TLdeserialize.replyMessage == null) {
-                                                addReplyMessages(TLdeserialize, longSparseArray6, longSparseArray7);
-                                            }
-                                            i4 = i2;
-                                        }
-                                    }
+                            NativeByteBuffer byteBufferValue2 = queryFinalized2.byteBufferValue(1);
+                            if (byteBufferValue2 != null) {
+                                longSparseArray5 = longSparseArray;
+                                TLRPC$Message TLdeserialize = TLRPC$Message.TLdeserialize(byteBufferValue2, byteBufferValue2.readInt32(false), false);
+                                arrayList12 = arrayList17;
+                                arrayList13 = arrayList18;
+                                TLdeserialize.readAttachPath(byteBufferValue2, getUserConfig().clientUserId);
+                                byteBufferValue2.reuse();
+                                MessageObject.setUnreadFlags(TLdeserialize, queryFinalized2.intValue(0));
+                                TLdeserialize.id = queryFinalized2.intValue(3);
+                                TLdeserialize.date = queryFinalized2.intValue(4);
+                                TLdeserialize.dialog_id = queryFinalized2.longValue(5);
+                                arrayList15.add(TLdeserialize);
+                                int max = Math.max(i4, TLdeserialize.date);
+                                addUsersAndChatsFromMessage(TLdeserialize, arrayList, arrayList2, null);
+                                TLdeserialize.send_state = queryFinalized2.intValue(2);
+                                if ((TLdeserialize.peer_id.channel_id == 0 && !MessageObject.isUnread(TLdeserialize) && !DialogObject.isEncryptedDialog(TLdeserialize.dialog_id)) || TLdeserialize.id > 0) {
+                                    TLdeserialize.send_state = 0;
+                                }
+                                if (DialogObject.isEncryptedDialog(TLdeserialize.dialog_id) && !queryFinalized2.isNull(5)) {
+                                    TLdeserialize.random_id = queryFinalized2.longValue(5);
+                                }
+                                try {
+                                    tLRPC$MessageReplyHeader = TLdeserialize.reply_to;
+                                } catch (Exception e2) {
+                                    e = e2;
                                     i2 = max;
-                                    arrayList11 = arrayList16;
-                                    i4 = i2;
-                                } else {
-                                    longSparseArray4 = longSparseArray5;
-                                    arrayList9 = arrayList17;
-                                    arrayList10 = arrayList18;
-                                    arrayList11 = arrayList16;
+                                    arrayList14 = arrayList16;
                                 }
-                                arrayList16 = arrayList11;
-                                longSparseArray5 = longSparseArray4;
-                                arrayList17 = arrayList9;
-                                arrayList18 = arrayList10;
-                            } catch (Throwable th3) {
-                                th = th3;
-                                sQLiteCursor = sQLiteCursor5;
-                                if (sQLiteCursor != null) {
-                                }
-                                throw th;
-                            }
-                        } catch (Exception e3) {
-                            exc = e3;
-                            sQLiteCursor = sQLiteCursor4;
-                            try {
-                                checkSQLException(exc);
-                                if (sQLiteCursor != null) {
-                                    sQLiteCursor.dispose();
-                                    return;
-                                }
-                                return;
-                            } catch (Throwable th4) {
-                                th2 = th4;
-                                th = th2;
-                                if (sQLiteCursor != null) {
-                                    sQLiteCursor.dispose();
-                                }
-                                throw th;
-                            }
-                        }
-                    }
-                    LongSparseArray longSparseArray8 = longSparseArray5;
-                    ArrayList<TLRPC$User> arrayList20 = arrayList17;
-                    ArrayList<TLRPC$Chat> arrayList21 = arrayList18;
-                    ArrayList arrayList22 = arrayList16;
-                    queryFinalized2.dispose();
-                    this.database.executeFast("DELETE FROM unread_push_messages WHERE date <= " + i4).stepThis().dispose();
-                    ?? r6 = 0;
-                    SQLiteCursor queryFinalized3 = this.database.queryFinalized("SELECT data, mid, date, uid, random, fm, name, uname, flags, topicId FROM unread_push_messages WHERE 1 ORDER BY date DESC LIMIT 50", new Object[0]);
-                    while (queryFinalized3.next()) {
-                        NativeByteBuffer byteBufferValue3 = queryFinalized3.byteBufferValue(r6);
-                        if (byteBufferValue3 != null) {
-                            TLRPC$Message TLdeserialize3 = TLRPC$Message.TLdeserialize(byteBufferValue3, byteBufferValue3.readInt32(r6), r6);
-                            byteBufferValue3.reuse();
-                            TLdeserialize3.id = queryFinalized3.intValue(1);
-                            TLdeserialize3.date = queryFinalized3.intValue(2);
-                            TLdeserialize3.dialog_id = queryFinalized3.longValue(3);
-                            TLdeserialize3.random_id = queryFinalized3.longValue(4);
-                            if (queryFinalized3.isNull(5)) {
-                                i = 6;
-                                stringValue = null;
-                            } else {
-                                stringValue = queryFinalized3.stringValue(5);
-                                i = 6;
-                            }
-                            String stringValue2 = queryFinalized3.isNull(i) ? null : queryFinalized3.stringValue(i);
-                            String stringValue3 = queryFinalized3.isNull(7) ? null : queryFinalized3.stringValue(7);
-                            int intValue = queryFinalized3.intValue(8);
-                            int intValue2 = queryFinalized3.intValue(9);
-                            if (MessageObject.getFromChatId(TLdeserialize3) == 0 && DialogObject.isUserDialog(TLdeserialize3.dialog_id)) {
-                                TLRPC$TL_peerUser tLRPC$TL_peerUser = new TLRPC$TL_peerUser();
-                                TLdeserialize3.from_id = tLRPC$TL_peerUser;
-                                arrayList8 = arrayList22;
-                                tLRPC$TL_peerUser.user_id = TLdeserialize3.dialog_id;
-                            } else {
-                                arrayList8 = arrayList22;
-                            }
-                            if (DialogObject.isUserDialog(TLdeserialize3.dialog_id)) {
-                                if (!arrayList12.contains(Long.valueOf(TLdeserialize3.dialog_id))) {
-                                    arrayList12.add(Long.valueOf(TLdeserialize3.dialog_id));
-                                }
-                            } else if (DialogObject.isChatDialog(TLdeserialize3.dialog_id) && !arrayList13.contains(Long.valueOf(-TLdeserialize3.dialog_id))) {
-                                arrayList13.add(Long.valueOf(-TLdeserialize3.dialog_id));
-                            }
-                            if (intValue2 != 0) {
-                                TLRPC$TL_messageReplyHeader tLRPC$TL_messageReplyHeader = new TLRPC$TL_messageReplyHeader();
-                                TLdeserialize3.reply_to = tLRPC$TL_messageReplyHeader;
-                                tLRPC$TL_messageReplyHeader.forum_topic = true;
-                                tLRPC$TL_messageReplyHeader.reply_to_top_id = intValue2;
-                            }
-                            arrayList8.add(new MessageObject(this.currentAccount, TLdeserialize3, stringValue, stringValue2, stringValue3, (intValue & 1) != 0, (intValue & 2) != 0, (TLdeserialize3.flags & Integer.MIN_VALUE) != 0, false));
-                            addUsersAndChatsFromMessage(TLdeserialize3, arrayList12, arrayList13, null);
-                        } else {
-                            arrayList8 = arrayList22;
-                        }
-                        arrayList22 = arrayList8;
-                        r6 = 0;
-                    }
-                    ArrayList arrayList23 = arrayList22;
-                    queryFinalized3.dispose();
-                    arrayList = arrayList15;
-                    ArrayList<TLRPC$EncryptedChat> arrayList24 = arrayList19;
-                    arrayList3 = arrayList23;
-                    charSequence = ",";
-                    loadReplyMessages(longSparseArray6, longSparseArray7, arrayList12, arrayList13, false);
-                    if (!arrayList14.isEmpty()) {
-                        getEncryptedChatsInternal(TextUtils.join(charSequence, arrayList14), arrayList24, arrayList12);
-                    }
-                    if (arrayList12.isEmpty()) {
-                        arrayList4 = arrayList20;
-                    } else {
-                        arrayList4 = arrayList20;
-                        getUsersInternal(TextUtils.join(charSequence, arrayList12), arrayList4);
-                    }
-                    if (arrayList13.isEmpty()) {
-                        arrayList2 = arrayList24;
-                        longSparseArray = longSparseArray8;
-                        arrayList5 = arrayList21;
-                    } else {
-                        arrayList5 = arrayList21;
-                        getChatsInternal(TextUtils.join(charSequence, arrayList13), arrayList5);
-                        int i5 = 0;
-                        while (i5 < arrayList5.size()) {
-                            TLRPC$Chat tLRPC$Chat = arrayList5.get(i5);
-                            if (tLRPC$Chat == null || !(ChatObject.isNotInChat(tLRPC$Chat) || tLRPC$Chat.min || tLRPC$Chat.migrated_to != null)) {
-                                arrayList7 = arrayList24;
-                                longSparseArray3 = longSparseArray8;
-                            } else {
-                                long j2 = -tLRPC$Chat.id;
-                                this.database.executeFast("UPDATE dialogs SET unread_count = 0 WHERE did = " + j2).stepThis().dispose();
-                                arrayList7 = arrayList24;
-                                this.database.executeFast(String.format(Locale.US, "UPDATE messages_v2 SET read_state = 3 WHERE uid = %d AND mid > 0 AND read_state IN(0,2) AND out = 0", Long.valueOf(j2))).stepThis().dispose();
-                                arrayList5.remove(i5);
-                                i5--;
-                                longSparseArray3 = longSparseArray8;
-                                longSparseArray3.remove(j2);
-                                int i6 = 0;
-                                while (i6 < arrayList.size()) {
-                                    if (((TLRPC$Message) arrayList.get(i6)).dialog_id == j2) {
-                                        arrayList.remove(i6);
-                                        i6--;
+                                if (tLRPC$MessageReplyHeader != null && tLRPC$MessageReplyHeader.reply_to_msg_id != 0) {
+                                    TLRPC$MessageAction tLRPC$MessageAction = TLdeserialize.action;
+                                    if ((tLRPC$MessageAction instanceof TLRPC$TL_messageActionPinMessage) || (tLRPC$MessageAction instanceof TLRPC$TL_messageActionPaymentSent) || (tLRPC$MessageAction instanceof TLRPC$TL_messageActionGameScore)) {
+                                        if (queryFinalized2.isNull(6) || (byteBufferValue = queryFinalized2.byteBufferValue(6)) == null) {
+                                            i2 = max;
+                                            arrayList14 = arrayList16;
+                                        } else {
+                                            TLRPC$Message TLdeserialize2 = TLRPC$Message.TLdeserialize(byteBufferValue, byteBufferValue.readInt32(false), false);
+                                            TLdeserialize.replyMessage = TLdeserialize2;
+                                            i2 = max;
+                                            arrayList14 = arrayList16;
+                                            try {
+                                                TLdeserialize2.readAttachPath(byteBufferValue, getUserConfig().clientUserId);
+                                                byteBufferValue.reuse();
+                                                TLRPC$Message tLRPC$Message = TLdeserialize.replyMessage;
+                                                if (tLRPC$Message != null) {
+                                                    addUsersAndChatsFromMessage(tLRPC$Message, arrayList, arrayList2, null);
+                                                }
+                                            } catch (Exception e3) {
+                                                e = e3;
+                                                checkSQLException(e);
+                                                i4 = i2;
+                                                arrayList16 = arrayList14;
+                                                longSparseArray = longSparseArray5;
+                                                arrayList17 = arrayList12;
+                                                arrayList18 = arrayList13;
+                                            }
+                                        }
+                                        if (TLdeserialize.replyMessage == null) {
+                                            addReplyMessages(TLdeserialize, longSparseArray6, longSparseArray7);
+                                        }
+                                        i4 = i2;
                                     }
-                                    i6++;
                                 }
+                                i2 = max;
+                                arrayList14 = arrayList16;
+                                i4 = i2;
+                            } else {
+                                longSparseArray5 = longSparseArray;
+                                arrayList12 = arrayList17;
+                                arrayList13 = arrayList18;
+                                arrayList14 = arrayList16;
                             }
-                            i5++;
-                            longSparseArray8 = longSparseArray3;
-                            arrayList24 = arrayList7;
+                            arrayList16 = arrayList14;
+                            longSparseArray = longSparseArray5;
+                            arrayList17 = arrayList12;
+                            arrayList18 = arrayList13;
+                        } catch (Throwable th4) {
+                            th = th4;
+                            sQLiteCursor = sQLiteCursor5;
+                            if (sQLiteCursor != null) {
+                            }
+                            throw th;
                         }
-                        arrayList2 = arrayList24;
-                        longSparseArray = longSparseArray8;
+                    } catch (Exception e4) {
+                        exc = e4;
+                        sQLiteCursor = sQLiteCursor4;
+                        try {
+                            checkSQLException(exc);
+                            if (sQLiteCursor != null) {
+                                sQLiteCursor.dispose();
+                                return;
+                            }
+                            return;
+                        } catch (Throwable th5) {
+                            th2 = th5;
+                            th = th2;
+                            if (sQLiteCursor != null) {
+                                sQLiteCursor.dispose();
+                            }
+                            throw th;
+                        }
+                    }
+                }
+                LongSparseArray longSparseArray8 = longSparseArray;
+                ArrayList<TLRPC$User> arrayList20 = arrayList17;
+                ArrayList<TLRPC$Chat> arrayList21 = arrayList18;
+                ArrayList arrayList22 = arrayList16;
+                queryFinalized2.dispose();
+                this.database.executeFast("DELETE FROM unread_push_messages WHERE date <= " + i4).stepThis().dispose();
+                ?? r6 = 0;
+                SQLiteCursor queryFinalized3 = this.database.queryFinalized("SELECT data, mid, date, uid, random, fm, name, uname, flags, topicId, is_reaction FROM unread_push_messages WHERE 1 ORDER BY date DESC LIMIT 50", new Object[0]);
+                while (queryFinalized3.next()) {
+                    NativeByteBuffer byteBufferValue3 = queryFinalized3.byteBufferValue(r6);
+                    if (byteBufferValue3 != null) {
+                        TLRPC$Message TLdeserialize3 = TLRPC$Message.TLdeserialize(byteBufferValue3, byteBufferValue3.readInt32(r6), r6);
+                        byteBufferValue3.reuse();
+                        TLdeserialize3.id = queryFinalized3.intValue(1);
+                        TLdeserialize3.date = queryFinalized3.intValue(2);
+                        TLdeserialize3.dialog_id = queryFinalized3.longValue(3);
+                        TLdeserialize3.random_id = queryFinalized3.longValue(4);
+                        if (queryFinalized3.isNull(5)) {
+                            i = 6;
+                            stringValue = null;
+                        } else {
+                            stringValue = queryFinalized3.stringValue(5);
+                            i = 6;
+                        }
+                        String stringValue2 = queryFinalized3.isNull(i) ? null : queryFinalized3.stringValue(i);
+                        String stringValue3 = queryFinalized3.isNull(7) ? null : queryFinalized3.stringValue(7);
+                        int intValue = queryFinalized3.intValue(8);
+                        int intValue2 = queryFinalized3.intValue(9);
+                        if (MessageObject.getFromChatId(TLdeserialize3) == 0 && DialogObject.isUserDialog(TLdeserialize3.dialog_id)) {
+                            TLRPC$TL_peerUser tLRPC$TL_peerUser = new TLRPC$TL_peerUser();
+                            TLdeserialize3.from_id = tLRPC$TL_peerUser;
+                            arrayList11 = arrayList22;
+                            tLRPC$TL_peerUser.user_id = TLdeserialize3.dialog_id;
+                        } else {
+                            arrayList11 = arrayList22;
+                        }
+                        if (DialogObject.isUserDialog(TLdeserialize3.dialog_id)) {
+                            if (!arrayList.contains(Long.valueOf(TLdeserialize3.dialog_id))) {
+                                arrayList.add(Long.valueOf(TLdeserialize3.dialog_id));
+                            }
+                        } else if (DialogObject.isChatDialog(TLdeserialize3.dialog_id) && !arrayList2.contains(Long.valueOf(-TLdeserialize3.dialog_id))) {
+                            arrayList2.add(Long.valueOf(-TLdeserialize3.dialog_id));
+                        }
+                        if (intValue2 != 0) {
+                            TLRPC$TL_messageReplyHeader tLRPC$TL_messageReplyHeader = new TLRPC$TL_messageReplyHeader();
+                            TLdeserialize3.reply_to = tLRPC$TL_messageReplyHeader;
+                            tLRPC$TL_messageReplyHeader.forum_topic = true;
+                            tLRPC$TL_messageReplyHeader.reply_to_top_id = intValue2;
+                        }
+                        MessageObject messageObject = new MessageObject(this.currentAccount, TLdeserialize3, stringValue, stringValue2, stringValue3, (intValue & 1) != 0, (intValue & 2) != 0, (TLdeserialize3.flags & Integer.MIN_VALUE) != 0, false);
+                        messageObject.isReactionPush = queryFinalized3.intValue(10) != 0;
+                        arrayList11.add(messageObject);
+                        addUsersAndChatsFromMessage(TLdeserialize3, arrayList, arrayList2, null);
+                    } else {
+                        arrayList11 = arrayList22;
+                    }
+                    arrayList22 = arrayList11;
+                    r6 = 0;
+                }
+                ArrayList arrayList23 = arrayList22;
+                queryFinalized3.dispose();
+                arrayList4 = arrayList15;
+                ArrayList<TLRPC$EncryptedChat> arrayList24 = arrayList19;
+                arrayList6 = arrayList23;
+                charSequence = ",";
+                loadReplyMessages(longSparseArray6, longSparseArray7, arrayList, arrayList2, false);
+                if (!arrayList3.isEmpty()) {
+                    getEncryptedChatsInternal(TextUtils.join(charSequence, arrayList3), arrayList24, arrayList);
+                }
+                if (arrayList.isEmpty()) {
+                    arrayList7 = arrayList20;
+                } else {
+                    arrayList7 = arrayList20;
+                    getUsersInternal(TextUtils.join(charSequence, arrayList), arrayList7);
+                }
+                if (arrayList2.isEmpty()) {
+                    arrayList5 = arrayList24;
+                    longSparseArray2 = longSparseArray8;
+                    arrayList8 = arrayList21;
+                } else {
+                    arrayList8 = arrayList21;
+                    getChatsInternal(TextUtils.join(charSequence, arrayList2), arrayList8);
+                    int i5 = 0;
+                    while (i5 < arrayList8.size()) {
+                        TLRPC$Chat tLRPC$Chat = arrayList8.get(i5);
+                        if (tLRPC$Chat == null || !(ChatObject.isNotInChat(tLRPC$Chat) || tLRPC$Chat.min || tLRPC$Chat.migrated_to != null)) {
+                            arrayList10 = arrayList24;
+                            longSparseArray4 = longSparseArray8;
+                        } else {
+                            long j2 = -tLRPC$Chat.id;
+                            this.database.executeFast("UPDATE dialogs SET unread_count = 0 WHERE did = " + j2).stepThis().dispose();
+                            arrayList10 = arrayList24;
+                            this.database.executeFast(String.format(Locale.US, "UPDATE messages_v2 SET read_state = 3 WHERE uid = %d AND mid > 0 AND read_state IN(0,2) AND out = 0", Long.valueOf(j2))).stepThis().dispose();
+                            arrayList8.remove(i5);
+                            i5--;
+                            longSparseArray4 = longSparseArray8;
+                            longSparseArray4.remove(j2);
+                            int i6 = 0;
+                            while (i6 < arrayList4.size()) {
+                                if (((TLRPC$Message) arrayList4.get(i6)).dialog_id == j2) {
+                                    arrayList4.remove(i6);
+                                    i6--;
+                                }
+                                i6++;
+                            }
+                        }
+                        i5++;
+                        longSparseArray8 = longSparseArray4;
+                        arrayList24 = arrayList10;
+                    }
+                    arrayList5 = arrayList24;
+                    longSparseArray2 = longSparseArray8;
+                }
+            } else {
+                arrayList4 = arrayList15;
+                arrayList5 = arrayList19;
+                arrayList6 = arrayList16;
+                longSparseArray2 = longSparseArray;
+                arrayList7 = arrayList17;
+                arrayList8 = arrayList18;
+                charSequence = ",";
+            }
+            Collections.reverse(arrayList4);
+            arrayList.clear();
+            arrayList2.clear();
+            SQLiteCursor queryFinalized4 = this.database.queryFinalized("SELECT uid, sid, date, expire_date, localName, flags FROM story_pushes", new Object[0]);
+            final HashMap hashMap = new HashMap();
+            while (queryFinalized4.next()) {
+                long longValue3 = queryFinalized4.longValue(0);
+                if (longValue3 >= 0) {
+                    if (!arrayList.contains(Long.valueOf(longValue3))) {
+                        arrayList.add(Long.valueOf(longValue3));
+                    }
+                } else if (!arrayList2.contains(Long.valueOf(longValue3))) {
+                    arrayList2.add(Long.valueOf(longValue3));
+                }
+                int intValue3 = queryFinalized4.intValue(1);
+                long longValue4 = queryFinalized4.longValue(2);
+                long longValue5 = queryFinalized4.longValue(3);
+                String stringValue4 = queryFinalized4.stringValue(4);
+                int intValue4 = queryFinalized4.intValue(5);
+                NotificationsController.StoryNotification storyNotification = (NotificationsController.StoryNotification) hashMap.get(Long.valueOf(longValue3));
+                if (storyNotification != null) {
+                    arrayList9 = arrayList4;
+                    longSparseArray3 = longSparseArray2;
+                    storyNotification.dateByIds.put(Integer.valueOf(intValue3), new Pair<>(Long.valueOf(longValue4), Long.valueOf(longValue5)));
+                    storyNotification.date = storyNotification.getLeastDate();
+                    storyNotification.hidden |= (intValue4 & 1) != 0;
+                    if (!TextUtils.isEmpty(stringValue4)) {
+                        storyNotification.localName = stringValue4;
                     }
                 } else {
-                    arrayList = arrayList15;
-                    arrayList2 = arrayList19;
-                    arrayList3 = arrayList16;
-                    longSparseArray = longSparseArray5;
-                    arrayList4 = arrayList17;
-                    arrayList5 = arrayList18;
-                    charSequence = ",";
+                    longSparseArray3 = longSparseArray2;
+                    arrayList9 = arrayList4;
+                    NotificationsController.StoryNotification storyNotification2 = new NotificationsController.StoryNotification(longValue3, stringValue4, intValue3, longValue4, longValue5);
+                    storyNotification2.hidden = (intValue4 & 1) != 0;
+                    hashMap.put(Long.valueOf(longValue3), storyNotification2);
                 }
-                Collections.reverse(arrayList);
-                arrayList12.clear();
-                arrayList13.clear();
-                SQLiteCursor queryFinalized4 = this.database.queryFinalized("SELECT uid, sid, date, expire_date, localName, flags FROM story_pushes", new Object[0]);
-                final HashMap hashMap = new HashMap();
-                while (queryFinalized4.next()) {
-                    long longValue3 = queryFinalized4.longValue(0);
-                    if (longValue3 >= 0) {
-                        if (!arrayList12.contains(Long.valueOf(longValue3))) {
-                            arrayList12.add(Long.valueOf(longValue3));
-                        }
-                    } else if (!arrayList13.contains(Long.valueOf(longValue3))) {
-                        arrayList13.add(Long.valueOf(longValue3));
-                    }
-                    int intValue3 = queryFinalized4.intValue(1);
-                    long longValue4 = queryFinalized4.longValue(2);
-                    long longValue5 = queryFinalized4.longValue(3);
-                    String stringValue4 = queryFinalized4.stringValue(4);
-                    int intValue4 = queryFinalized4.intValue(5);
-                    NotificationsController.StoryNotification storyNotification = (NotificationsController.StoryNotification) hashMap.get(Long.valueOf(longValue3));
-                    if (storyNotification != null) {
-                        arrayList6 = arrayList;
-                        longSparseArray2 = longSparseArray;
-                        storyNotification.dateByIds.put(Integer.valueOf(intValue3), new Pair<>(Long.valueOf(longValue4), Long.valueOf(longValue5)));
-                        storyNotification.date = storyNotification.getLeastDate();
-                        storyNotification.hidden |= (intValue4 & 1) != 0;
-                        if (!TextUtils.isEmpty(stringValue4)) {
-                            storyNotification.localName = stringValue4;
-                        }
-                    } else {
-                        longSparseArray2 = longSparseArray;
-                        arrayList6 = arrayList;
-                        NotificationsController.StoryNotification storyNotification2 = new NotificationsController.StoryNotification(longValue3, stringValue4, intValue3, longValue4, longValue5);
-                        storyNotification2.hidden = (intValue4 & 1) != 0;
-                        hashMap.put(Long.valueOf(longValue3), storyNotification2);
-                    }
-                    arrayList = arrayList6;
-                    longSparseArray = longSparseArray2;
-                }
-                final LongSparseArray longSparseArray9 = longSparseArray;
-                final ArrayList arrayList25 = arrayList;
-                queryFinalized4.dispose();
-                if (!arrayList12.isEmpty()) {
-                    getUsersInternal(TextUtils.join(charSequence, arrayList12), arrayList4);
-                }
-                if (!arrayList13.isEmpty()) {
-                    getChatsInternal(TextUtils.join(charSequence, arrayList13), arrayList5);
-                }
-                final ArrayList arrayList26 = arrayList3;
-                final ArrayList<TLRPC$Chat> arrayList27 = arrayList5;
-                final ArrayList<TLRPC$EncryptedChat> arrayList28 = arrayList2;
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda142
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        MessagesStorage.this.lambda$loadUnreadMessages$70(longSparseArray9, arrayList25, arrayList26, arrayList4, arrayList27, arrayList28, hashMap);
-                    }
-                });
-            } catch (Exception e4) {
-                sQLiteCursor = sQLiteCursor3;
-                exc = e4;
-            } catch (Throwable th5) {
-                th2 = th5;
-                sQLiteCursor = sQLiteCursor2;
-                th = th2;
-                if (sQLiteCursor != null) {
-                }
-                throw th;
+                arrayList4 = arrayList9;
+                longSparseArray2 = longSparseArray3;
             }
+            final LongSparseArray longSparseArray9 = longSparseArray2;
+            final ArrayList arrayList25 = arrayList4;
+            queryFinalized4.dispose();
+            if (!arrayList.isEmpty()) {
+                getUsersInternal(TextUtils.join(charSequence, arrayList), arrayList7);
+            }
+            if (!arrayList2.isEmpty()) {
+                getChatsInternal(TextUtils.join(charSequence, arrayList2), arrayList8);
+            }
+            final ArrayList arrayList26 = arrayList6;
+            final ArrayList<TLRPC$Chat> arrayList27 = arrayList8;
+            final ArrayList<TLRPC$EncryptedChat> arrayList28 = arrayList5;
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda142
+                @Override // java.lang.Runnable
+                public final void run() {
+                    MessagesStorage.this.lambda$loadUnreadMessages$70(longSparseArray9, arrayList25, arrayList26, arrayList7, arrayList27, arrayList28, hashMap);
+                }
+            });
         } catch (Exception e5) {
+            sQLiteCursor = sQLiteCursor3;
             exc = e5;
-            sQLiteCursor = null;
         } catch (Throwable th6) {
-            th = th6;
-            sQLiteCursor = null;
+            th2 = th6;
+            sQLiteCursor = sQLiteCursor2;
+            th = th2;
+            if (sQLiteCursor != null) {
+            }
+            throw th;
         }
     }
 
@@ -17167,85 +17179,91 @@ public class MessagesStorage extends BaseController {
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Code restructure failed: missing block: B:442:0x0b7b, code lost:
-        if (r3.id <= r11) goto L561;
+        if (r3.id <= r11) goto L562;
      */
     /* JADX WARN: Code restructure failed: missing block: B:460:0x0bb5, code lost:
-        if (r3.id <= r2) goto L577;
+        if (r3.id <= r2) goto L578;
      */
     /* JADX WARN: Code restructure failed: missing block: B:676:0x0f4c, code lost:
-        if (r3.post != false) goto L752;
+        if (r3.post != false) goto L753;
      */
-    /* JADX WARN: Removed duplicated region for block: B:1078:0x18eb  */
-    /* JADX WARN: Removed duplicated region for block: B:1080:0x18f0  */
-    /* JADX WARN: Removed duplicated region for block: B:1082:0x18f5  */
-    /* JADX WARN: Removed duplicated region for block: B:1084:0x18fa  */
-    /* JADX WARN: Removed duplicated region for block: B:1232:0x1b77  */
-    /* JADX WARN: Removed duplicated region for block: B:1236:0x1b80  */
-    /* JADX WARN: Removed duplicated region for block: B:1238:0x1b85  */
-    /* JADX WARN: Removed duplicated region for block: B:1240:0x1b8a  */
-    /* JADX WARN: Removed duplicated region for block: B:1242:0x1b8f  */
-    /* JADX WARN: Removed duplicated region for block: B:1244:0x1b94  */
-    /* JADX WARN: Removed duplicated region for block: B:1246:0x1b99  */
-    /* JADX WARN: Removed duplicated region for block: B:1248:0x1b9e  */
-    /* JADX WARN: Removed duplicated region for block: B:1250:0x1ba3  */
-    /* JADX WARN: Removed duplicated region for block: B:1252:0x1ba8  */
-    /* JADX WARN: Removed duplicated region for block: B:1254:0x1bad  */
-    /* JADX WARN: Removed duplicated region for block: B:1256:0x1bb2  */
-    /* JADX WARN: Removed duplicated region for block: B:1258:0x1bb7  */
-    /* JADX WARN: Removed duplicated region for block: B:1263:0x1bbf  */
-    /* JADX WARN: Removed duplicated region for block: B:1267:0x1bc8  */
-    /* JADX WARN: Removed duplicated region for block: B:1269:0x1bcd  */
-    /* JADX WARN: Removed duplicated region for block: B:1271:0x1bd2  */
-    /* JADX WARN: Removed duplicated region for block: B:1273:0x1bd7  */
-    /* JADX WARN: Removed duplicated region for block: B:1275:0x1bdc  */
-    /* JADX WARN: Removed duplicated region for block: B:1277:0x1be1  */
-    /* JADX WARN: Removed duplicated region for block: B:1279:0x1be6  */
-    /* JADX WARN: Removed duplicated region for block: B:1281:0x1beb  */
-    /* JADX WARN: Removed duplicated region for block: B:1283:0x1bf0  */
-    /* JADX WARN: Removed duplicated region for block: B:1285:0x1bf5  */
-    /* JADX WARN: Removed duplicated region for block: B:1287:0x1bfa  */
-    /* JADX WARN: Removed duplicated region for block: B:1289:0x1bff  */
-    /* JADX WARN: Removed duplicated region for block: B:1319:0x0db7 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1489:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1491:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:161:0x03ef A[Catch: all -> 0x05b7, Exception -> 0x05c3, TryCatch #70 {Exception -> 0x05c3, all -> 0x05b7, blocks: (B:102:0x0279, B:104:0x029a, B:106:0x029e, B:108:0x02aa, B:110:0x02b9, B:112:0x02c6, B:114:0x02f0, B:115:0x02f8, B:117:0x0304, B:119:0x030a, B:121:0x0310, B:125:0x031a, B:127:0x031e, B:129:0x0324, B:133:0x0332, B:135:0x033d, B:137:0x0361, B:139:0x0367, B:141:0x0373, B:161:0x03ef, B:167:0x0406, B:169:0x0435, B:171:0x043b, B:173:0x044a, B:175:0x044e, B:177:0x0452, B:179:0x0456, B:181:0x0460, B:182:0x0465, B:184:0x0475, B:186:0x0479, B:188:0x0481, B:189:0x0486, B:192:0x04a4, B:195:0x04ac, B:197:0x04c4, B:199:0x04ce, B:201:0x04e1, B:203:0x04e7, B:204:0x04ea, B:206:0x04f7, B:207:0x0501, B:209:0x0514, B:211:0x0523, B:213:0x0530, B:215:0x0540, B:216:0x0548, B:218:0x054e, B:219:0x0551, B:221:0x055e, B:222:0x0566, B:226:0x0581, B:228:0x0587, B:230:0x0597, B:232:0x059d, B:164:0x03ff, B:147:0x03a0, B:149:0x03ac, B:151:0x03bb, B:153:0x03c3, B:154:0x03c6, B:156:0x03d4, B:158:0x03e3, B:243:0x05e4, B:244:0x05ec, B:246:0x05f2, B:248:0x0608, B:250:0x0611, B:251:0x066a, B:253:0x0670, B:255:0x067f, B:258:0x068b, B:260:0x0693, B:262:0x069b, B:264:0x06a6, B:266:0x06ab, B:268:0x06b0, B:269:0x06b5, B:271:0x06bc, B:273:0x06d4, B:277:0x06f1, B:279:0x06f8, B:281:0x06ff, B:283:0x0707, B:288:0x071f, B:284:0x0713, B:274:0x06e2, B:296:0x0771, B:297:0x07b3, B:299:0x07b9, B:301:0x07d3, B:304:0x07e0, B:305:0x07e5, B:307:0x07f0, B:309:0x07fc, B:311:0x0803, B:313:0x0815, B:315:0x0833, B:321:0x084d, B:323:0x0858, B:325:0x085f, B:327:0x0867, B:335:0x0886, B:328:0x0871, B:332:0x087e, B:316:0x083c, B:320:0x0848, B:341:0x08a7, B:343:0x08ae, B:344:0x08f4, B:346:0x08fa, B:348:0x0904, B:350:0x0909, B:352:0x090e, B:355:0x091b, B:357:0x0925, B:360:0x092f, B:367:0x094e, B:368:0x0956, B:370:0x095c, B:371:0x09a0, B:373:0x09a6, B:374:0x09b3, B:378:0x0a07, B:380:0x0a0d, B:381:0x0a1d, B:383:0x0a23, B:385:0x0a2d, B:386:0x0a32, B:387:0x0a38), top: B:1416:0x0279 }] */
+    /* JADX WARN: Code restructure failed: missing block: B:845:0x1336, code lost:
+        if (r2 != 0) goto L1005;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:871:0x137e, code lost:
+        if (r9.id < r11) goto L1023;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:1102:0x1953  */
+    /* JADX WARN: Removed duplicated region for block: B:1104:0x1958  */
+    /* JADX WARN: Removed duplicated region for block: B:1106:0x195d  */
+    /* JADX WARN: Removed duplicated region for block: B:1108:0x1962  */
+    /* JADX WARN: Removed duplicated region for block: B:1256:0x1be5  */
+    /* JADX WARN: Removed duplicated region for block: B:1260:0x1bee  */
+    /* JADX WARN: Removed duplicated region for block: B:1262:0x1bf3  */
+    /* JADX WARN: Removed duplicated region for block: B:1264:0x1bf8  */
+    /* JADX WARN: Removed duplicated region for block: B:1266:0x1bfd  */
+    /* JADX WARN: Removed duplicated region for block: B:1268:0x1c02  */
+    /* JADX WARN: Removed duplicated region for block: B:1270:0x1c07  */
+    /* JADX WARN: Removed duplicated region for block: B:1272:0x1c0c  */
+    /* JADX WARN: Removed duplicated region for block: B:1274:0x1c11  */
+    /* JADX WARN: Removed duplicated region for block: B:1276:0x1c16  */
+    /* JADX WARN: Removed duplicated region for block: B:1278:0x1c1b  */
+    /* JADX WARN: Removed duplicated region for block: B:1280:0x1c20  */
+    /* JADX WARN: Removed duplicated region for block: B:1282:0x1c25  */
+    /* JADX WARN: Removed duplicated region for block: B:1287:0x1c2d  */
+    /* JADX WARN: Removed duplicated region for block: B:1291:0x1c36  */
+    /* JADX WARN: Removed duplicated region for block: B:1293:0x1c3b  */
+    /* JADX WARN: Removed duplicated region for block: B:1295:0x1c40  */
+    /* JADX WARN: Removed duplicated region for block: B:1297:0x1c45  */
+    /* JADX WARN: Removed duplicated region for block: B:1299:0x1c4a  */
+    /* JADX WARN: Removed duplicated region for block: B:1301:0x1c4f  */
+    /* JADX WARN: Removed duplicated region for block: B:1303:0x1c54  */
+    /* JADX WARN: Removed duplicated region for block: B:1305:0x1c59  */
+    /* JADX WARN: Removed duplicated region for block: B:1307:0x1c5e  */
+    /* JADX WARN: Removed duplicated region for block: B:1309:0x1c63  */
+    /* JADX WARN: Removed duplicated region for block: B:1311:0x1c68  */
+    /* JADX WARN: Removed duplicated region for block: B:1313:0x1c6d  */
+    /* JADX WARN: Removed duplicated region for block: B:1351:0x0db7 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1518:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1520:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:161:0x03ef A[Catch: all -> 0x05b7, Exception -> 0x05c3, TryCatch #73 {Exception -> 0x05c3, all -> 0x05b7, blocks: (B:102:0x0279, B:104:0x029a, B:106:0x029e, B:108:0x02aa, B:110:0x02b9, B:112:0x02c6, B:114:0x02f0, B:115:0x02f8, B:117:0x0304, B:119:0x030a, B:121:0x0310, B:125:0x031a, B:127:0x031e, B:129:0x0324, B:133:0x0332, B:135:0x033d, B:137:0x0361, B:139:0x0367, B:141:0x0373, B:161:0x03ef, B:167:0x0406, B:169:0x0435, B:171:0x043b, B:173:0x044a, B:175:0x044e, B:177:0x0452, B:179:0x0456, B:181:0x0460, B:182:0x0465, B:184:0x0475, B:186:0x0479, B:188:0x0481, B:189:0x0486, B:192:0x04a4, B:195:0x04ac, B:197:0x04c4, B:199:0x04ce, B:201:0x04e1, B:203:0x04e7, B:204:0x04ea, B:206:0x04f7, B:207:0x0501, B:209:0x0514, B:211:0x0523, B:213:0x0530, B:215:0x0540, B:216:0x0548, B:218:0x054e, B:219:0x0551, B:221:0x055e, B:222:0x0566, B:226:0x0581, B:228:0x0587, B:230:0x0597, B:232:0x059d, B:164:0x03ff, B:147:0x03a0, B:149:0x03ac, B:151:0x03bb, B:153:0x03c3, B:154:0x03c6, B:156:0x03d4, B:158:0x03e3, B:243:0x05e4, B:244:0x05ec, B:246:0x05f2, B:248:0x0608, B:250:0x0611, B:251:0x066a, B:253:0x0670, B:255:0x067f, B:258:0x068b, B:260:0x0693, B:262:0x069b, B:264:0x06a6, B:266:0x06ab, B:268:0x06b0, B:269:0x06b5, B:271:0x06bc, B:273:0x06d4, B:277:0x06f1, B:279:0x06f8, B:281:0x06ff, B:283:0x0707, B:288:0x071f, B:284:0x0713, B:274:0x06e2, B:296:0x0771, B:297:0x07b3, B:299:0x07b9, B:301:0x07d3, B:304:0x07e0, B:305:0x07e5, B:307:0x07f0, B:309:0x07fc, B:311:0x0803, B:313:0x0815, B:315:0x0833, B:321:0x084d, B:323:0x0858, B:325:0x085f, B:327:0x0867, B:335:0x0886, B:328:0x0871, B:332:0x087e, B:316:0x083c, B:320:0x0848, B:341:0x08a7, B:343:0x08ae, B:344:0x08f4, B:346:0x08fa, B:348:0x0904, B:350:0x0909, B:352:0x090e, B:355:0x091b, B:357:0x0925, B:360:0x092f, B:367:0x094e, B:368:0x0956, B:370:0x095c, B:371:0x09a0, B:373:0x09a6, B:374:0x09b3, B:378:0x0a07, B:380:0x0a0d, B:381:0x0a1d, B:383:0x0a23, B:385:0x0a2d, B:386:0x0a32, B:387:0x0a38), top: B:1446:0x0279 }] */
     /* JADX WARN: Removed duplicated region for block: B:190:0x0494  */
-    /* JADX WARN: Removed duplicated region for block: B:327:0x0867 A[Catch: all -> 0x05b7, Exception -> 0x05c3, TryCatch #70 {Exception -> 0x05c3, all -> 0x05b7, blocks: (B:102:0x0279, B:104:0x029a, B:106:0x029e, B:108:0x02aa, B:110:0x02b9, B:112:0x02c6, B:114:0x02f0, B:115:0x02f8, B:117:0x0304, B:119:0x030a, B:121:0x0310, B:125:0x031a, B:127:0x031e, B:129:0x0324, B:133:0x0332, B:135:0x033d, B:137:0x0361, B:139:0x0367, B:141:0x0373, B:161:0x03ef, B:167:0x0406, B:169:0x0435, B:171:0x043b, B:173:0x044a, B:175:0x044e, B:177:0x0452, B:179:0x0456, B:181:0x0460, B:182:0x0465, B:184:0x0475, B:186:0x0479, B:188:0x0481, B:189:0x0486, B:192:0x04a4, B:195:0x04ac, B:197:0x04c4, B:199:0x04ce, B:201:0x04e1, B:203:0x04e7, B:204:0x04ea, B:206:0x04f7, B:207:0x0501, B:209:0x0514, B:211:0x0523, B:213:0x0530, B:215:0x0540, B:216:0x0548, B:218:0x054e, B:219:0x0551, B:221:0x055e, B:222:0x0566, B:226:0x0581, B:228:0x0587, B:230:0x0597, B:232:0x059d, B:164:0x03ff, B:147:0x03a0, B:149:0x03ac, B:151:0x03bb, B:153:0x03c3, B:154:0x03c6, B:156:0x03d4, B:158:0x03e3, B:243:0x05e4, B:244:0x05ec, B:246:0x05f2, B:248:0x0608, B:250:0x0611, B:251:0x066a, B:253:0x0670, B:255:0x067f, B:258:0x068b, B:260:0x0693, B:262:0x069b, B:264:0x06a6, B:266:0x06ab, B:268:0x06b0, B:269:0x06b5, B:271:0x06bc, B:273:0x06d4, B:277:0x06f1, B:279:0x06f8, B:281:0x06ff, B:283:0x0707, B:288:0x071f, B:284:0x0713, B:274:0x06e2, B:296:0x0771, B:297:0x07b3, B:299:0x07b9, B:301:0x07d3, B:304:0x07e0, B:305:0x07e5, B:307:0x07f0, B:309:0x07fc, B:311:0x0803, B:313:0x0815, B:315:0x0833, B:321:0x084d, B:323:0x0858, B:325:0x085f, B:327:0x0867, B:335:0x0886, B:328:0x0871, B:332:0x087e, B:316:0x083c, B:320:0x0848, B:341:0x08a7, B:343:0x08ae, B:344:0x08f4, B:346:0x08fa, B:348:0x0904, B:350:0x0909, B:352:0x090e, B:355:0x091b, B:357:0x0925, B:360:0x092f, B:367:0x094e, B:368:0x0956, B:370:0x095c, B:371:0x09a0, B:373:0x09a6, B:374:0x09b3, B:378:0x0a07, B:380:0x0a0d, B:381:0x0a1d, B:383:0x0a23, B:385:0x0a2d, B:386:0x0a32, B:387:0x0a38), top: B:1416:0x0279 }] */
-    /* JADX WARN: Removed duplicated region for block: B:328:0x0871 A[Catch: all -> 0x05b7, Exception -> 0x05c3, TryCatch #70 {Exception -> 0x05c3, all -> 0x05b7, blocks: (B:102:0x0279, B:104:0x029a, B:106:0x029e, B:108:0x02aa, B:110:0x02b9, B:112:0x02c6, B:114:0x02f0, B:115:0x02f8, B:117:0x0304, B:119:0x030a, B:121:0x0310, B:125:0x031a, B:127:0x031e, B:129:0x0324, B:133:0x0332, B:135:0x033d, B:137:0x0361, B:139:0x0367, B:141:0x0373, B:161:0x03ef, B:167:0x0406, B:169:0x0435, B:171:0x043b, B:173:0x044a, B:175:0x044e, B:177:0x0452, B:179:0x0456, B:181:0x0460, B:182:0x0465, B:184:0x0475, B:186:0x0479, B:188:0x0481, B:189:0x0486, B:192:0x04a4, B:195:0x04ac, B:197:0x04c4, B:199:0x04ce, B:201:0x04e1, B:203:0x04e7, B:204:0x04ea, B:206:0x04f7, B:207:0x0501, B:209:0x0514, B:211:0x0523, B:213:0x0530, B:215:0x0540, B:216:0x0548, B:218:0x054e, B:219:0x0551, B:221:0x055e, B:222:0x0566, B:226:0x0581, B:228:0x0587, B:230:0x0597, B:232:0x059d, B:164:0x03ff, B:147:0x03a0, B:149:0x03ac, B:151:0x03bb, B:153:0x03c3, B:154:0x03c6, B:156:0x03d4, B:158:0x03e3, B:243:0x05e4, B:244:0x05ec, B:246:0x05f2, B:248:0x0608, B:250:0x0611, B:251:0x066a, B:253:0x0670, B:255:0x067f, B:258:0x068b, B:260:0x0693, B:262:0x069b, B:264:0x06a6, B:266:0x06ab, B:268:0x06b0, B:269:0x06b5, B:271:0x06bc, B:273:0x06d4, B:277:0x06f1, B:279:0x06f8, B:281:0x06ff, B:283:0x0707, B:288:0x071f, B:284:0x0713, B:274:0x06e2, B:296:0x0771, B:297:0x07b3, B:299:0x07b9, B:301:0x07d3, B:304:0x07e0, B:305:0x07e5, B:307:0x07f0, B:309:0x07fc, B:311:0x0803, B:313:0x0815, B:315:0x0833, B:321:0x084d, B:323:0x0858, B:325:0x085f, B:327:0x0867, B:335:0x0886, B:328:0x0871, B:332:0x087e, B:316:0x083c, B:320:0x0848, B:341:0x08a7, B:343:0x08ae, B:344:0x08f4, B:346:0x08fa, B:348:0x0904, B:350:0x0909, B:352:0x090e, B:355:0x091b, B:357:0x0925, B:360:0x092f, B:367:0x094e, B:368:0x0956, B:370:0x095c, B:371:0x09a0, B:373:0x09a6, B:374:0x09b3, B:378:0x0a07, B:380:0x0a0d, B:381:0x0a1d, B:383:0x0a23, B:385:0x0a2d, B:386:0x0a32, B:387:0x0a38), top: B:1416:0x0279 }] */
+    /* JADX WARN: Removed duplicated region for block: B:327:0x0867 A[Catch: all -> 0x05b7, Exception -> 0x05c3, TryCatch #73 {Exception -> 0x05c3, all -> 0x05b7, blocks: (B:102:0x0279, B:104:0x029a, B:106:0x029e, B:108:0x02aa, B:110:0x02b9, B:112:0x02c6, B:114:0x02f0, B:115:0x02f8, B:117:0x0304, B:119:0x030a, B:121:0x0310, B:125:0x031a, B:127:0x031e, B:129:0x0324, B:133:0x0332, B:135:0x033d, B:137:0x0361, B:139:0x0367, B:141:0x0373, B:161:0x03ef, B:167:0x0406, B:169:0x0435, B:171:0x043b, B:173:0x044a, B:175:0x044e, B:177:0x0452, B:179:0x0456, B:181:0x0460, B:182:0x0465, B:184:0x0475, B:186:0x0479, B:188:0x0481, B:189:0x0486, B:192:0x04a4, B:195:0x04ac, B:197:0x04c4, B:199:0x04ce, B:201:0x04e1, B:203:0x04e7, B:204:0x04ea, B:206:0x04f7, B:207:0x0501, B:209:0x0514, B:211:0x0523, B:213:0x0530, B:215:0x0540, B:216:0x0548, B:218:0x054e, B:219:0x0551, B:221:0x055e, B:222:0x0566, B:226:0x0581, B:228:0x0587, B:230:0x0597, B:232:0x059d, B:164:0x03ff, B:147:0x03a0, B:149:0x03ac, B:151:0x03bb, B:153:0x03c3, B:154:0x03c6, B:156:0x03d4, B:158:0x03e3, B:243:0x05e4, B:244:0x05ec, B:246:0x05f2, B:248:0x0608, B:250:0x0611, B:251:0x066a, B:253:0x0670, B:255:0x067f, B:258:0x068b, B:260:0x0693, B:262:0x069b, B:264:0x06a6, B:266:0x06ab, B:268:0x06b0, B:269:0x06b5, B:271:0x06bc, B:273:0x06d4, B:277:0x06f1, B:279:0x06f8, B:281:0x06ff, B:283:0x0707, B:288:0x071f, B:284:0x0713, B:274:0x06e2, B:296:0x0771, B:297:0x07b3, B:299:0x07b9, B:301:0x07d3, B:304:0x07e0, B:305:0x07e5, B:307:0x07f0, B:309:0x07fc, B:311:0x0803, B:313:0x0815, B:315:0x0833, B:321:0x084d, B:323:0x0858, B:325:0x085f, B:327:0x0867, B:335:0x0886, B:328:0x0871, B:332:0x087e, B:316:0x083c, B:320:0x0848, B:341:0x08a7, B:343:0x08ae, B:344:0x08f4, B:346:0x08fa, B:348:0x0904, B:350:0x0909, B:352:0x090e, B:355:0x091b, B:357:0x0925, B:360:0x092f, B:367:0x094e, B:368:0x0956, B:370:0x095c, B:371:0x09a0, B:373:0x09a6, B:374:0x09b3, B:378:0x0a07, B:380:0x0a0d, B:381:0x0a1d, B:383:0x0a23, B:385:0x0a2d, B:386:0x0a32, B:387:0x0a38), top: B:1446:0x0279 }] */
+    /* JADX WARN: Removed duplicated region for block: B:328:0x0871 A[Catch: all -> 0x05b7, Exception -> 0x05c3, TryCatch #73 {Exception -> 0x05c3, all -> 0x05b7, blocks: (B:102:0x0279, B:104:0x029a, B:106:0x029e, B:108:0x02aa, B:110:0x02b9, B:112:0x02c6, B:114:0x02f0, B:115:0x02f8, B:117:0x0304, B:119:0x030a, B:121:0x0310, B:125:0x031a, B:127:0x031e, B:129:0x0324, B:133:0x0332, B:135:0x033d, B:137:0x0361, B:139:0x0367, B:141:0x0373, B:161:0x03ef, B:167:0x0406, B:169:0x0435, B:171:0x043b, B:173:0x044a, B:175:0x044e, B:177:0x0452, B:179:0x0456, B:181:0x0460, B:182:0x0465, B:184:0x0475, B:186:0x0479, B:188:0x0481, B:189:0x0486, B:192:0x04a4, B:195:0x04ac, B:197:0x04c4, B:199:0x04ce, B:201:0x04e1, B:203:0x04e7, B:204:0x04ea, B:206:0x04f7, B:207:0x0501, B:209:0x0514, B:211:0x0523, B:213:0x0530, B:215:0x0540, B:216:0x0548, B:218:0x054e, B:219:0x0551, B:221:0x055e, B:222:0x0566, B:226:0x0581, B:228:0x0587, B:230:0x0597, B:232:0x059d, B:164:0x03ff, B:147:0x03a0, B:149:0x03ac, B:151:0x03bb, B:153:0x03c3, B:154:0x03c6, B:156:0x03d4, B:158:0x03e3, B:243:0x05e4, B:244:0x05ec, B:246:0x05f2, B:248:0x0608, B:250:0x0611, B:251:0x066a, B:253:0x0670, B:255:0x067f, B:258:0x068b, B:260:0x0693, B:262:0x069b, B:264:0x06a6, B:266:0x06ab, B:268:0x06b0, B:269:0x06b5, B:271:0x06bc, B:273:0x06d4, B:277:0x06f1, B:279:0x06f8, B:281:0x06ff, B:283:0x0707, B:288:0x071f, B:284:0x0713, B:274:0x06e2, B:296:0x0771, B:297:0x07b3, B:299:0x07b9, B:301:0x07d3, B:304:0x07e0, B:305:0x07e5, B:307:0x07f0, B:309:0x07fc, B:311:0x0803, B:313:0x0815, B:315:0x0833, B:321:0x084d, B:323:0x0858, B:325:0x085f, B:327:0x0867, B:335:0x0886, B:328:0x0871, B:332:0x087e, B:316:0x083c, B:320:0x0848, B:341:0x08a7, B:343:0x08ae, B:344:0x08f4, B:346:0x08fa, B:348:0x0904, B:350:0x0909, B:352:0x090e, B:355:0x091b, B:357:0x0925, B:360:0x092f, B:367:0x094e, B:368:0x0956, B:370:0x095c, B:371:0x09a0, B:373:0x09a6, B:374:0x09b3, B:378:0x0a07, B:380:0x0a0d, B:381:0x0a1d, B:383:0x0a23, B:385:0x0a2d, B:386:0x0a32, B:387:0x0a38), top: B:1446:0x0279 }] */
     /* JADX WARN: Removed duplicated region for block: B:334:0x0885  */
-    /* JADX WARN: Removed duplicated region for block: B:425:0x0b38 A[Catch: all -> 0x0b09, Exception -> 0x0b19, TryCatch #67 {Exception -> 0x0b19, all -> 0x0b09, blocks: (B:403:0x0afb, B:405:0x0b03, B:422:0x0b30, B:425:0x0b38, B:426:0x0b3e, B:430:0x0b49, B:431:0x0b4e), top: B:1422:0x0afb }] */
+    /* JADX WARN: Removed duplicated region for block: B:425:0x0b38 A[Catch: all -> 0x0b09, Exception -> 0x0b19, TryCatch #71 {Exception -> 0x0b19, all -> 0x0b09, blocks: (B:403:0x0afb, B:405:0x0b03, B:422:0x0b30, B:425:0x0b38, B:426:0x0b3e, B:430:0x0b49, B:431:0x0b4e), top: B:1450:0x0afb }] */
     /* JADX WARN: Removed duplicated region for block: B:429:0x0b47  */
     /* JADX WARN: Removed duplicated region for block: B:434:0x0b5e  */
-    /* JADX WARN: Removed duplicated region for block: B:451:0x0b91 A[Catch: all -> 0x0bcd, Exception -> 0x0bd4, TryCatch #74 {Exception -> 0x0bd4, all -> 0x0bcd, blocks: (B:435:0x0b5f, B:437:0x0b6d, B:439:0x0b75, B:441:0x0b79, B:444:0x0b7f, B:451:0x0b91, B:453:0x0b97, B:455:0x0ba5, B:457:0x0baf, B:459:0x0bb3, B:462:0x0bb9, B:493:0x0c25, B:496:0x0c2f, B:497:0x0c34, B:503:0x0c4e, B:510:0x0c7c, B:520:0x0c98, B:526:0x0cab, B:543:0x0cef, B:550:0x0d13, B:554:0x0d1a, B:553:0x0d18, B:466:0x0bc2, B:448:0x0b86), top: B:1408:0x0b5f }] */
+    /* JADX WARN: Removed duplicated region for block: B:451:0x0b91 A[Catch: all -> 0x0bcd, Exception -> 0x0bd4, TryCatch #81 {Exception -> 0x0bd4, all -> 0x0bcd, blocks: (B:435:0x0b5f, B:437:0x0b6d, B:439:0x0b75, B:441:0x0b79, B:444:0x0b7f, B:451:0x0b91, B:453:0x0b97, B:455:0x0ba5, B:457:0x0baf, B:459:0x0bb3, B:462:0x0bb9, B:493:0x0c25, B:496:0x0c2f, B:497:0x0c34, B:503:0x0c4e, B:510:0x0c7c, B:520:0x0c98, B:526:0x0cab, B:543:0x0cef, B:550:0x0d13, B:554:0x0d1a, B:553:0x0d18, B:466:0x0bc2, B:448:0x0b86), top: B:1430:0x0b5f }] */
     /* JADX WARN: Removed duplicated region for block: B:473:0x0bdb  */
     /* JADX WARN: Removed duplicated region for block: B:477:0x0bec  */
     /* JADX WARN: Removed duplicated region for block: B:519:0x0c96  */
     /* JADX WARN: Removed duplicated region for block: B:522:0x0c9e  */
-    /* JADX WARN: Removed duplicated region for block: B:526:0x0cab A[Catch: all -> 0x0bcd, Exception -> 0x0bd4, TRY_ENTER, TRY_LEAVE, TryCatch #74 {Exception -> 0x0bd4, all -> 0x0bcd, blocks: (B:435:0x0b5f, B:437:0x0b6d, B:439:0x0b75, B:441:0x0b79, B:444:0x0b7f, B:451:0x0b91, B:453:0x0b97, B:455:0x0ba5, B:457:0x0baf, B:459:0x0bb3, B:462:0x0bb9, B:493:0x0c25, B:496:0x0c2f, B:497:0x0c34, B:503:0x0c4e, B:510:0x0c7c, B:520:0x0c98, B:526:0x0cab, B:543:0x0cef, B:550:0x0d13, B:554:0x0d1a, B:553:0x0d18, B:466:0x0bc2, B:448:0x0b86), top: B:1408:0x0b5f }] */
+    /* JADX WARN: Removed duplicated region for block: B:526:0x0cab A[Catch: all -> 0x0bcd, Exception -> 0x0bd4, TRY_ENTER, TRY_LEAVE, TryCatch #81 {Exception -> 0x0bd4, all -> 0x0bcd, blocks: (B:435:0x0b5f, B:437:0x0b6d, B:439:0x0b75, B:441:0x0b79, B:444:0x0b7f, B:451:0x0b91, B:453:0x0b97, B:455:0x0ba5, B:457:0x0baf, B:459:0x0bb3, B:462:0x0bb9, B:493:0x0c25, B:496:0x0c2f, B:497:0x0c34, B:503:0x0c4e, B:510:0x0c7c, B:520:0x0c98, B:526:0x0cab, B:543:0x0cef, B:550:0x0d13, B:554:0x0d1a, B:553:0x0d18, B:466:0x0bc2, B:448:0x0b86), top: B:1430:0x0b5f }] */
     /* JADX WARN: Removed duplicated region for block: B:528:0x0cc1  */
     /* JADX WARN: Removed duplicated region for block: B:532:0x0ccb  */
     /* JADX WARN: Removed duplicated region for block: B:533:0x0ccd  */
     /* JADX WARN: Removed duplicated region for block: B:539:0x0cde  */
     /* JADX WARN: Removed duplicated region for block: B:540:0x0ce0  */
-    /* JADX WARN: Removed duplicated region for block: B:543:0x0cef A[Catch: all -> 0x0bcd, Exception -> 0x0bd4, TRY_ENTER, TRY_LEAVE, TryCatch #74 {Exception -> 0x0bd4, all -> 0x0bcd, blocks: (B:435:0x0b5f, B:437:0x0b6d, B:439:0x0b75, B:441:0x0b79, B:444:0x0b7f, B:451:0x0b91, B:453:0x0b97, B:455:0x0ba5, B:457:0x0baf, B:459:0x0bb3, B:462:0x0bb9, B:493:0x0c25, B:496:0x0c2f, B:497:0x0c34, B:503:0x0c4e, B:510:0x0c7c, B:520:0x0c98, B:526:0x0cab, B:543:0x0cef, B:550:0x0d13, B:554:0x0d1a, B:553:0x0d18, B:466:0x0bc2, B:448:0x0b86), top: B:1408:0x0b5f }] */
+    /* JADX WARN: Removed duplicated region for block: B:543:0x0cef A[Catch: all -> 0x0bcd, Exception -> 0x0bd4, TRY_ENTER, TRY_LEAVE, TryCatch #81 {Exception -> 0x0bd4, all -> 0x0bcd, blocks: (B:435:0x0b5f, B:437:0x0b6d, B:439:0x0b75, B:441:0x0b79, B:444:0x0b7f, B:451:0x0b91, B:453:0x0b97, B:455:0x0ba5, B:457:0x0baf, B:459:0x0bb3, B:462:0x0bb9, B:493:0x0c25, B:496:0x0c2f, B:497:0x0c34, B:503:0x0c4e, B:510:0x0c7c, B:520:0x0c98, B:526:0x0cab, B:543:0x0cef, B:550:0x0d13, B:554:0x0d1a, B:553:0x0d18, B:466:0x0bc2, B:448:0x0b86), top: B:1430:0x0b5f }] */
     /* JADX WARN: Removed duplicated region for block: B:545:0x0d05  */
     /* JADX WARN: Removed duplicated region for block: B:549:0x0d0f  */
     /* JADX WARN: Removed duplicated region for block: B:556:0x0d1e  */
-    /* JADX WARN: Removed duplicated region for block: B:561:0x0d3b A[Catch: all -> 0x0d95, Exception -> 0x0d97, TryCatch #72 {Exception -> 0x0d97, all -> 0x0d95, blocks: (B:559:0x0d2e, B:561:0x0d3b, B:564:0x0d48, B:566:0x0d4e, B:570:0x0d63, B:572:0x0d67, B:574:0x0d71, B:576:0x0d76, B:578:0x0d7b, B:580:0x0d80, B:573:0x0d6d, B:567:0x0d58, B:562:0x0d41), top: B:1412:0x0d2e }] */
-    /* JADX WARN: Removed duplicated region for block: B:562:0x0d41 A[Catch: all -> 0x0d95, Exception -> 0x0d97, TryCatch #72 {Exception -> 0x0d97, all -> 0x0d95, blocks: (B:559:0x0d2e, B:561:0x0d3b, B:564:0x0d48, B:566:0x0d4e, B:570:0x0d63, B:572:0x0d67, B:574:0x0d71, B:576:0x0d76, B:578:0x0d7b, B:580:0x0d80, B:573:0x0d6d, B:567:0x0d58, B:562:0x0d41), top: B:1412:0x0d2e }] */
-    /* JADX WARN: Removed duplicated region for block: B:564:0x0d48 A[Catch: all -> 0x0d95, Exception -> 0x0d97, TryCatch #72 {Exception -> 0x0d97, all -> 0x0d95, blocks: (B:559:0x0d2e, B:561:0x0d3b, B:564:0x0d48, B:566:0x0d4e, B:570:0x0d63, B:572:0x0d67, B:574:0x0d71, B:576:0x0d76, B:578:0x0d7b, B:580:0x0d80, B:573:0x0d6d, B:567:0x0d58, B:562:0x0d41), top: B:1412:0x0d2e }] */
+    /* JADX WARN: Removed duplicated region for block: B:561:0x0d3b A[Catch: all -> 0x0d95, Exception -> 0x0d97, TryCatch #75 {Exception -> 0x0d97, all -> 0x0d95, blocks: (B:559:0x0d2e, B:561:0x0d3b, B:564:0x0d48, B:566:0x0d4e, B:570:0x0d63, B:572:0x0d67, B:574:0x0d71, B:576:0x0d76, B:578:0x0d7b, B:580:0x0d80, B:573:0x0d6d, B:567:0x0d58, B:562:0x0d41), top: B:1442:0x0d2e }] */
+    /* JADX WARN: Removed duplicated region for block: B:562:0x0d41 A[Catch: all -> 0x0d95, Exception -> 0x0d97, TryCatch #75 {Exception -> 0x0d97, all -> 0x0d95, blocks: (B:559:0x0d2e, B:561:0x0d3b, B:564:0x0d48, B:566:0x0d4e, B:570:0x0d63, B:572:0x0d67, B:574:0x0d71, B:576:0x0d76, B:578:0x0d7b, B:580:0x0d80, B:573:0x0d6d, B:567:0x0d58, B:562:0x0d41), top: B:1442:0x0d2e }] */
+    /* JADX WARN: Removed duplicated region for block: B:564:0x0d48 A[Catch: all -> 0x0d95, Exception -> 0x0d97, TryCatch #75 {Exception -> 0x0d97, all -> 0x0d95, blocks: (B:559:0x0d2e, B:561:0x0d3b, B:564:0x0d48, B:566:0x0d4e, B:570:0x0d63, B:572:0x0d67, B:574:0x0d71, B:576:0x0d76, B:578:0x0d7b, B:580:0x0d80, B:573:0x0d6d, B:567:0x0d58, B:562:0x0d41), top: B:1442:0x0d2e }] */
     /* JADX WARN: Removed duplicated region for block: B:569:0x0d61  */
-    /* JADX WARN: Removed duplicated region for block: B:572:0x0d67 A[Catch: all -> 0x0d95, Exception -> 0x0d97, TryCatch #72 {Exception -> 0x0d97, all -> 0x0d95, blocks: (B:559:0x0d2e, B:561:0x0d3b, B:564:0x0d48, B:566:0x0d4e, B:570:0x0d63, B:572:0x0d67, B:574:0x0d71, B:576:0x0d76, B:578:0x0d7b, B:580:0x0d80, B:573:0x0d6d, B:567:0x0d58, B:562:0x0d41), top: B:1412:0x0d2e }] */
-    /* JADX WARN: Removed duplicated region for block: B:573:0x0d6d A[Catch: all -> 0x0d95, Exception -> 0x0d97, TryCatch #72 {Exception -> 0x0d97, all -> 0x0d95, blocks: (B:559:0x0d2e, B:561:0x0d3b, B:564:0x0d48, B:566:0x0d4e, B:570:0x0d63, B:572:0x0d67, B:574:0x0d71, B:576:0x0d76, B:578:0x0d7b, B:580:0x0d80, B:573:0x0d6d, B:567:0x0d58, B:562:0x0d41), top: B:1412:0x0d2e }] */
-    /* JADX WARN: Removed duplicated region for block: B:576:0x0d76 A[Catch: all -> 0x0d95, Exception -> 0x0d97, TryCatch #72 {Exception -> 0x0d97, all -> 0x0d95, blocks: (B:559:0x0d2e, B:561:0x0d3b, B:564:0x0d48, B:566:0x0d4e, B:570:0x0d63, B:572:0x0d67, B:574:0x0d71, B:576:0x0d76, B:578:0x0d7b, B:580:0x0d80, B:573:0x0d6d, B:567:0x0d58, B:562:0x0d41), top: B:1412:0x0d2e }] */
-    /* JADX WARN: Removed duplicated region for block: B:578:0x0d7b A[Catch: all -> 0x0d95, Exception -> 0x0d97, TryCatch #72 {Exception -> 0x0d97, all -> 0x0d95, blocks: (B:559:0x0d2e, B:561:0x0d3b, B:564:0x0d48, B:566:0x0d4e, B:570:0x0d63, B:572:0x0d67, B:574:0x0d71, B:576:0x0d76, B:578:0x0d7b, B:580:0x0d80, B:573:0x0d6d, B:567:0x0d58, B:562:0x0d41), top: B:1412:0x0d2e }] */
-    /* JADX WARN: Removed duplicated region for block: B:580:0x0d80 A[Catch: all -> 0x0d95, Exception -> 0x0d97, TRY_LEAVE, TryCatch #72 {Exception -> 0x0d97, all -> 0x0d95, blocks: (B:559:0x0d2e, B:561:0x0d3b, B:564:0x0d48, B:566:0x0d4e, B:570:0x0d63, B:572:0x0d67, B:574:0x0d71, B:576:0x0d76, B:578:0x0d7b, B:580:0x0d80, B:573:0x0d6d, B:567:0x0d58, B:562:0x0d41), top: B:1412:0x0d2e }] */
+    /* JADX WARN: Removed duplicated region for block: B:572:0x0d67 A[Catch: all -> 0x0d95, Exception -> 0x0d97, TryCatch #75 {Exception -> 0x0d97, all -> 0x0d95, blocks: (B:559:0x0d2e, B:561:0x0d3b, B:564:0x0d48, B:566:0x0d4e, B:570:0x0d63, B:572:0x0d67, B:574:0x0d71, B:576:0x0d76, B:578:0x0d7b, B:580:0x0d80, B:573:0x0d6d, B:567:0x0d58, B:562:0x0d41), top: B:1442:0x0d2e }] */
+    /* JADX WARN: Removed duplicated region for block: B:573:0x0d6d A[Catch: all -> 0x0d95, Exception -> 0x0d97, TryCatch #75 {Exception -> 0x0d97, all -> 0x0d95, blocks: (B:559:0x0d2e, B:561:0x0d3b, B:564:0x0d48, B:566:0x0d4e, B:570:0x0d63, B:572:0x0d67, B:574:0x0d71, B:576:0x0d76, B:578:0x0d7b, B:580:0x0d80, B:573:0x0d6d, B:567:0x0d58, B:562:0x0d41), top: B:1442:0x0d2e }] */
+    /* JADX WARN: Removed duplicated region for block: B:576:0x0d76 A[Catch: all -> 0x0d95, Exception -> 0x0d97, TryCatch #75 {Exception -> 0x0d97, all -> 0x0d95, blocks: (B:559:0x0d2e, B:561:0x0d3b, B:564:0x0d48, B:566:0x0d4e, B:570:0x0d63, B:572:0x0d67, B:574:0x0d71, B:576:0x0d76, B:578:0x0d7b, B:580:0x0d80, B:573:0x0d6d, B:567:0x0d58, B:562:0x0d41), top: B:1442:0x0d2e }] */
+    /* JADX WARN: Removed duplicated region for block: B:578:0x0d7b A[Catch: all -> 0x0d95, Exception -> 0x0d97, TryCatch #75 {Exception -> 0x0d97, all -> 0x0d95, blocks: (B:559:0x0d2e, B:561:0x0d3b, B:564:0x0d48, B:566:0x0d4e, B:570:0x0d63, B:572:0x0d67, B:574:0x0d71, B:576:0x0d76, B:578:0x0d7b, B:580:0x0d80, B:573:0x0d6d, B:567:0x0d58, B:562:0x0d41), top: B:1442:0x0d2e }] */
+    /* JADX WARN: Removed duplicated region for block: B:580:0x0d80 A[Catch: all -> 0x0d95, Exception -> 0x0d97, TRY_LEAVE, TryCatch #75 {Exception -> 0x0d97, all -> 0x0d95, blocks: (B:559:0x0d2e, B:561:0x0d3b, B:564:0x0d48, B:566:0x0d4e, B:570:0x0d63, B:572:0x0d67, B:574:0x0d71, B:576:0x0d76, B:578:0x0d7b, B:580:0x0d80, B:573:0x0d6d, B:567:0x0d58, B:562:0x0d41), top: B:1442:0x0d2e }] */
     /* JADX WARN: Removed duplicated region for block: B:609:0x0de8  */
-    /* JADX WARN: Removed duplicated region for block: B:612:0x0df0 A[Catch: all -> 0x0dd0, Exception -> 0x0dd6, TRY_ENTER, TRY_LEAVE, TryCatch #75 {Exception -> 0x0dd6, all -> 0x0dd0, blocks: (B:597:0x0dbf, B:612:0x0df0, B:617:0x0e24, B:619:0x0e2f, B:627:0x0e74, B:630:0x0e7a), top: B:1406:0x0dbf }] */
+    /* JADX WARN: Removed duplicated region for block: B:612:0x0df0 A[Catch: all -> 0x0dd0, Exception -> 0x0dd6, TRY_ENTER, TRY_LEAVE, TryCatch #82 {Exception -> 0x0dd6, all -> 0x0dd0, blocks: (B:597:0x0dbf, B:612:0x0df0, B:617:0x0e24, B:619:0x0e2f, B:627:0x0e74, B:630:0x0e7a), top: B:1428:0x0dbf }] */
     /* JADX WARN: Removed duplicated region for block: B:644:0x0ec6  */
-    /* JADX WARN: Removed duplicated region for block: B:654:0x0eff A[Catch: all -> 0x1124, Exception -> 0x112f, TRY_ENTER, TRY_LEAVE, TryCatch #128 {Exception -> 0x112f, all -> 0x1124, blocks: (B:642:0x0ec0, B:654:0x0eff), top: B:1301:0x0ec0 }] */
-    /* JADX WARN: Removed duplicated region for block: B:672:0x0f40 A[Catch: all -> 0x110a, Exception -> 0x1117, TRY_LEAVE, TryCatch #111 {Exception -> 0x1117, all -> 0x110a, blocks: (B:670:0x0f3b, B:672:0x0f40, B:682:0x0f5f, B:684:0x0f6d, B:686:0x0f78, B:692:0x0f86, B:726:0x1038, B:729:0x1048, B:697:0x0fa8, B:723:0x1026), top: B:1335:0x0f3b }] */
-    /* JADX WARN: Removed duplicated region for block: B:726:0x1038 A[Catch: all -> 0x110a, Exception -> 0x1117, TRY_LEAVE, TryCatch #111 {Exception -> 0x1117, all -> 0x110a, blocks: (B:670:0x0f3b, B:672:0x0f40, B:682:0x0f5f, B:684:0x0f6d, B:686:0x0f78, B:692:0x0f86, B:726:0x1038, B:729:0x1048, B:697:0x0fa8, B:723:0x1026), top: B:1335:0x0f3b }] */
+    /* JADX WARN: Removed duplicated region for block: B:654:0x0eff A[Catch: all -> 0x1124, Exception -> 0x112f, TRY_ENTER, TRY_LEAVE, TryCatch #134 {Exception -> 0x112f, all -> 0x1124, blocks: (B:642:0x0ec0, B:654:0x0eff), top: B:1325:0x0ec0 }] */
+    /* JADX WARN: Removed duplicated region for block: B:672:0x0f40 A[Catch: all -> 0x110a, Exception -> 0x1117, TRY_LEAVE, TryCatch #117 {Exception -> 0x1117, all -> 0x110a, blocks: (B:670:0x0f3b, B:672:0x0f40, B:682:0x0f5f, B:684:0x0f6d, B:686:0x0f78, B:692:0x0f86, B:726:0x1038, B:729:0x1048, B:697:0x0fa8, B:723:0x1026), top: B:1359:0x0f3b }] */
+    /* JADX WARN: Removed duplicated region for block: B:726:0x1038 A[Catch: all -> 0x110a, Exception -> 0x1117, TRY_LEAVE, TryCatch #117 {Exception -> 0x1117, all -> 0x110a, blocks: (B:670:0x0f3b, B:672:0x0f40, B:682:0x0f5f, B:684:0x0f6d, B:686:0x0f78, B:692:0x0f86, B:726:0x1038, B:729:0x1048, B:697:0x0fa8, B:723:0x1026), top: B:1359:0x0f3b }] */
     /* renamed from: putMessagesInternal */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -17269,149 +17287,194 @@ public class MessagesStorage extends BaseController {
         SQLiteDatabase sQLiteDatabase;
         Throwable th3;
         SQLiteDatabase sQLiteDatabase2;
-        SQLitePreparedStatement sQLitePreparedStatement13;
-        HashMap hashMap;
-        HashMap hashMap2;
         LongSparseArray longSparseArray;
-        String str;
-        HashMap hashMap3;
-        String str2;
-        CharSequence charSequence;
-        HashMap hashMap4;
-        HashMap hashMap5;
-        String str3;
+        LongSparseIntArray longSparseIntArray;
         LongSparseArray longSparseArray2;
         LongSparseArray longSparseArray3;
+        HashMap hashMap;
+        LongSparseIntArray longSparseIntArray2;
+        HashMap hashMap2;
+        LongSparseIntArray longSparseIntArray3;
+        HashMap hashMap3;
+        String str;
+        HashMap hashMap4;
+        HashMap hashMap5;
+        LongSparseArray longSparseArray4;
+        HashMap hashMap6;
+        LongSparseIntArray longSparseIntArray4;
+        HashMap hashMap7;
+        LongSparseIntArray longSparseIntArray5;
+        HashMap hashMap8;
         SparseArray sparseArray;
+        HashMap hashMap9;
+        SQLitePreparedStatement sQLitePreparedStatement13;
+        HashMap hashMap10;
+        HashMap hashMap11;
+        LongSparseArray longSparseArray5;
+        String str2;
+        HashMap hashMap12;
+        String str3;
+        CharSequence charSequence;
+        HashMap hashMap13;
+        HashMap hashMap14;
+        String str4;
+        LongSparseArray longSparseArray6;
+        LongSparseArray longSparseArray7;
+        SparseArray sparseArray2;
+        SparseArray sparseArray3;
+        LongSparseIntArray longSparseIntArray6;
+        ArrayList arrayList2;
+        final int i3;
+        LongSparseIntArray longSparseIntArray7;
+        String str5;
+        SparseArray sparseArray4;
+        HashMap hashMap15;
+        final ArrayList arrayList3;
+        HashMap hashMap16;
+        LongSparseArray longSparseArray8;
         SQLitePreparedStatement sQLitePreparedStatement14;
         SQLitePreparedStatement sQLitePreparedStatement15;
-        SQLitePreparedStatement executeFast;
         SQLitePreparedStatement sQLitePreparedStatement16;
-        ArrayList<TopicsController.TopicUpdate> arrayList2;
-        ArrayList<Long> arrayList3;
-        int i3;
-        int i4;
-        Throwable th4;
-        Throwable e;
-        SQLitePreparedStatement executeFast2;
         SQLitePreparedStatement sQLitePreparedStatement17;
         SQLitePreparedStatement sQLitePreparedStatement18;
-        boolean z5;
+        SQLitePreparedStatement executeFast;
+        SQLitePreparedStatement executeFast2;
+        SQLitePreparedStatement executeFast3;
+        SQLitePreparedStatement executeFast4;
+        SQLitePreparedStatement sQLitePreparedStatement19;
+        SQLitePreparedStatement sQLitePreparedStatement20;
+        ArrayList<Long> arrayList4;
+        SQLitePreparedStatement sQLitePreparedStatement21;
+        LongSparseIntArray longSparseIntArray8;
+        SQLitePreparedStatement sQLitePreparedStatement22;
+        ArrayList<TopicsController.TopicUpdate> arrayList5;
+        ArrayList<Long> arrayList6;
+        int i4;
         int i5;
+        Throwable th4;
+        Throwable e;
+        SQLitePreparedStatement executeFast5;
+        SQLitePreparedStatement sQLitePreparedStatement23;
+        SQLitePreparedStatement sQLitePreparedStatement24;
+        boolean z5;
         int i6;
-        LongSparseIntArray longSparseIntArray;
-        LongSparseIntArray longSparseIntArray2;
+        int i7;
+        LongSparseIntArray longSparseIntArray9;
+        LongSparseIntArray longSparseIntArray10;
         Iterator it;
-        HashMap hashMap6;
-        HashMap hashMap7;
-        String str4;
+        HashMap hashMap17;
+        HashMap hashMap18;
+        String str6;
         int intValue;
         int intValue2;
         int intValue3;
         int intValue4;
         boolean z6;
-        int i7;
-        LongSparseIntArray longSparseIntArray3;
-        SQLitePreparedStatement sQLitePreparedStatement19;
-        SQLitePreparedStatement sQLitePreparedStatement20;
         int i8;
-        LongSparseArray longSparseArray4;
+        LongSparseIntArray longSparseIntArray11;
+        SQLitePreparedStatement sQLitePreparedStatement25;
+        SQLitePreparedStatement sQLitePreparedStatement26;
+        int i9;
+        LongSparseArray longSparseArray9;
         TLRPC$Message tLRPC$Message;
         long j2;
         int max;
-        int intValue5;
         int max2;
-        int i9;
         int i10;
-        TLRPC$Message tLRPC$Message2;
         int i11;
-        LongSparseIntArray longSparseIntArray4;
-        SparseArray sparseArray2;
-        HashMap hashMap8;
-        String str5;
-        boolean z7;
+        TLRPC$Message tLRPC$Message2;
+        LongSparseIntArray longSparseIntArray12;
         int i12;
         int i13;
-        SQLitePreparedStatement sQLitePreparedStatement21;
-        LongSparseIntArray longSparseIntArray5;
-        HashMap hashMap9;
-        LongSparseArray longSparseArray5;
-        ArrayList arrayList4;
         int i14;
-        HashMap hashMap10;
-        SQLitePreparedStatement sQLitePreparedStatement22;
+        int i15;
+        LongSparseIntArray longSparseIntArray13;
+        SparseArray sparseArray5;
+        HashMap hashMap19;
+        String str7;
+        boolean z7;
+        int i16;
+        int i17;
+        SQLitePreparedStatement sQLitePreparedStatement27;
+        LongSparseIntArray longSparseIntArray14;
+        HashMap hashMap20;
+        LongSparseArray longSparseArray10;
+        ArrayList arrayList7;
+        int i18;
+        HashMap hashMap21;
+        SQLitePreparedStatement sQLitePreparedStatement28;
         Throwable th5;
         Throwable e2;
         TLRPC$MessageMedia tLRPC$MessageMedia;
-        SQLitePreparedStatement sQLitePreparedStatement23;
-        String str6;
-        SQLitePreparedStatement sQLitePreparedStatement24;
-        int i15;
+        SQLitePreparedStatement sQLitePreparedStatement29;
+        String str8;
+        SQLitePreparedStatement sQLitePreparedStatement30;
+        int i19;
         long j3;
         TLRPC$MessageMedia tLRPC$TL_messageMediaDocument;
-        int i16;
-        int i17;
+        int i20;
+        int i21;
         long j4;
         boolean z8;
         NativeByteBuffer nativeByteBuffer;
-        SQLitePreparedStatement sQLitePreparedStatement25;
+        SQLitePreparedStatement sQLitePreparedStatement31;
         long j5;
-        SQLitePreparedStatement sQLitePreparedStatement26;
-        int i18;
-        int i19;
-        int i20;
-        long j6;
-        int i21;
+        SQLitePreparedStatement sQLitePreparedStatement32;
         int i22;
         int i23;
-        NativeByteBuffer nativeByteBuffer2;
         int i24;
+        long j6;
+        int i25;
+        int i26;
+        int i27;
+        NativeByteBuffer nativeByteBuffer2;
+        int i28;
         NativeByteBuffer nativeByteBuffer3;
         TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader;
-        ArrayList arrayList5;
-        int i25;
-        NativeByteBuffer writeLocalParams;
-        int i26;
-        HashMap hashMap11;
-        TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader2;
-        int i27;
-        LongSparseIntArray longSparseIntArray6;
-        int intValue6;
-        int i28;
-        HashMap hashMap12;
-        int intValue7;
-        HashMap hashMap13;
+        ArrayList arrayList8;
         int i29;
+        NativeByteBuffer writeLocalParams;
         int i30;
+        HashMap hashMap22;
+        TLRPC$MessageReplyHeader tLRPC$MessageReplyHeader2;
         int i31;
+        LongSparseIntArray longSparseIntArray15;
+        int intValue5;
         int i32;
+        HashMap hashMap23;
+        int intValue6;
+        HashMap hashMap24;
         int i33;
         int i34;
         int i35;
-        LongSparseArray longSparseArray6;
-        LongSparseIntArray longSparseIntArray7;
-        LongSparseArray longSparseArray7;
-        HashMap hashMap14;
-        String str7;
-        LongSparseIntArray longSparseIntArray8;
-        LongSparseArray longSparseArray8;
-        HashMap hashMap15;
-        LongSparseIntArray longSparseIntArray9;
-        HashMap hashMap16;
-        HashMap hashMap17;
-        LongSparseArray longSparseArray9;
-        LongSparseArray longSparseArray10;
+        int i36;
+        int i37;
+        int i38;
+        int i39;
         LongSparseArray longSparseArray11;
+        LongSparseIntArray longSparseIntArray16;
         LongSparseArray longSparseArray12;
-        LongSparseIntArray longSparseIntArray10;
-        String str8;
+        HashMap hashMap25;
         String str9;
+        LongSparseIntArray longSparseIntArray17;
+        LongSparseArray longSparseArray13;
+        HashMap hashMap26;
+        LongSparseIntArray longSparseIntArray18;
+        HashMap hashMap27;
+        HashMap hashMap28;
+        LongSparseArray longSparseArray14;
+        LongSparseArray longSparseArray15;
+        LongSparseArray longSparseArray16;
+        LongSparseArray longSparseArray17;
+        LongSparseIntArray longSparseIntArray19;
+        String str10;
+        String str11;
         SQLiteDatabase sQLiteDatabase3;
         boolean z9;
-        int i36;
-        ArrayList<TLRPC$Message> arrayList6 = arrayList;
-        int i37 = 1;
-        int i38 = 2;
+        int i40;
+        ArrayList<TLRPC$Message> arrayList9 = arrayList;
+        int i41 = 1;
+        int i42 = 2;
         try {
             if (i2 == 1) {
                 if (z) {
@@ -17421,79 +17484,79 @@ public class MessagesStorage extends BaseController {
                     z9 = false;
                 }
                 try {
-                    SQLitePreparedStatement executeFast3 = this.database.executeFast("REPLACE INTO scheduled_messages_v2 VALUES(?, ?, ?, ?, ?, ?, NULL, 0)");
+                    SQLitePreparedStatement executeFast6 = this.database.executeFast("REPLACE INTO scheduled_messages_v2 VALUES(?, ?, ?, ?, ?, ?, NULL, 0)");
                     try {
-                        SQLitePreparedStatement executeFast4 = this.database.executeFast("REPLACE INTO randoms_v2 VALUES(?, ?, ?)");
+                        SQLitePreparedStatement executeFast7 = this.database.executeFast("REPLACE INTO randoms_v2 VALUES(?, ?, ?)");
                         try {
-                            ArrayList arrayList7 = new ArrayList();
-                            int i39 = 0;
-                            while (i39 < arrayList.size()) {
-                                TLRPC$Message tLRPC$Message3 = arrayList6.get(i39);
+                            ArrayList arrayList10 = new ArrayList();
+                            int i43 = 0;
+                            while (i43 < arrayList.size()) {
+                                TLRPC$Message tLRPC$Message3 = arrayList9.get(i43);
                                 if (tLRPC$Message3 instanceof TLRPC$TL_messageEmpty) {
-                                    i36 = i39;
+                                    i40 = i43;
                                 } else {
                                     fixUnsupportedMedia(tLRPC$Message3);
-                                    executeFast3.requery();
-                                    int i40 = tLRPC$Message3.id;
-                                    int i41 = tLRPC$Message3.local_id;
-                                    if (i41 != 0) {
-                                        i40 = i41;
+                                    executeFast6.requery();
+                                    int i44 = tLRPC$Message3.id;
+                                    int i45 = tLRPC$Message3.local_id;
+                                    if (i45 != 0) {
+                                        i44 = i45;
                                     }
                                     MessageObject.normalizeFlags(tLRPC$Message3);
                                     NativeByteBuffer nativeByteBuffer4 = new NativeByteBuffer(tLRPC$Message3.getObjectSize());
                                     tLRPC$Message3.serializeToStream(nativeByteBuffer4);
                                     long dialogId = MessageObject.getDialogId(tLRPC$Message3);
-                                    executeFast3.bindInteger(i37, i40);
-                                    executeFast3.bindLong(i38, dialogId);
-                                    executeFast3.bindInteger(3, tLRPC$Message3.send_state);
-                                    executeFast3.bindInteger(4, tLRPC$Message3.date);
-                                    executeFast3.bindByteBuffer(5, nativeByteBuffer4);
-                                    executeFast3.bindInteger(6, tLRPC$Message3.ttl);
-                                    executeFast3.step();
-                                    i36 = i39;
+                                    executeFast6.bindInteger(i41, i44);
+                                    executeFast6.bindLong(i42, dialogId);
+                                    executeFast6.bindInteger(3, tLRPC$Message3.send_state);
+                                    executeFast6.bindInteger(4, tLRPC$Message3.date);
+                                    executeFast6.bindByteBuffer(5, nativeByteBuffer4);
+                                    executeFast6.bindInteger(6, tLRPC$Message3.ttl);
+                                    executeFast6.step();
+                                    i40 = i43;
                                     if (tLRPC$Message3.random_id != 0) {
-                                        executeFast4.requery();
-                                        executeFast4.bindLong(1, tLRPC$Message3.random_id);
-                                        executeFast4.bindInteger(2, i40);
-                                        executeFast4.bindLong(3, tLRPC$Message3.dialog_id);
-                                        executeFast4.step();
+                                        executeFast7.requery();
+                                        executeFast7.bindLong(1, tLRPC$Message3.random_id);
+                                        executeFast7.bindInteger(2, i44);
+                                        executeFast7.bindLong(3, tLRPC$Message3.dialog_id);
+                                        executeFast7.step();
                                     }
                                     nativeByteBuffer4.reuse();
-                                    if (!arrayList7.contains(Long.valueOf(dialogId))) {
-                                        arrayList7.add(Long.valueOf(dialogId));
+                                    if (!arrayList10.contains(Long.valueOf(dialogId))) {
+                                        arrayList10.add(Long.valueOf(dialogId));
                                     }
                                 }
-                                i39 = i36 + 1;
-                                i37 = 1;
-                                i38 = 2;
+                                i43 = i40 + 1;
+                                i41 = 1;
+                                i42 = 2;
                             }
-                            executeFast3.dispose();
+                            executeFast6.dispose();
                             try {
-                                executeFast4.dispose();
+                                executeFast7.dispose();
                                 if (z) {
                                     this.database.commitTransaction();
                                     z9 = false;
                                 }
-                                int size = arrayList7.size();
-                                for (int i42 = 0; i42 < size; i42++) {
-                                    broadcastScheduledMessagesChange((Long) arrayList7.get(i42));
+                                int size = arrayList10.size();
+                                for (int i46 = 0; i46 < size; i46++) {
+                                    broadcastScheduledMessagesChange((Long) arrayList10.get(i46));
                                 }
                                 z5 = z9;
-                                sQLitePreparedStatement17 = null;
-                                sQLitePreparedStatement18 = null;
+                                sQLitePreparedStatement23 = null;
+                                sQLitePreparedStatement24 = null;
                                 sQLitePreparedStatement7 = null;
                                 sQLitePreparedStatement11 = null;
                                 if (z5 && (sQLiteDatabase3 = this.database) != null) {
                                     sQLiteDatabase3.commitTransaction();
                                 }
-                                if (sQLitePreparedStatement18 != null) {
-                                    sQLitePreparedStatement18.dispose();
+                                if (sQLitePreparedStatement24 != null) {
+                                    sQLitePreparedStatement24.dispose();
                                 }
                                 if (sQLitePreparedStatement7 != null) {
                                     sQLitePreparedStatement7.dispose();
                                 }
-                                if (sQLitePreparedStatement17 != null) {
-                                    sQLitePreparedStatement17.dispose();
+                                if (sQLitePreparedStatement23 != null) {
+                                    sQLitePreparedStatement23.dispose();
                                 }
                                 if (sQLitePreparedStatement11 == null) {
                                     sQLitePreparedStatement11.dispose();
@@ -17501,7 +17564,7 @@ public class MessagesStorage extends BaseController {
                             } catch (Exception e3) {
                                 th2 = e3;
                                 z4 = z9;
-                                sQLitePreparedStatement10 = executeFast4;
+                                sQLitePreparedStatement10 = executeFast7;
                                 sQLitePreparedStatement = null;
                                 sQLitePreparedStatement2 = null;
                                 sQLitePreparedStatement3 = null;
@@ -17535,11 +17598,11 @@ public class MessagesStorage extends BaseController {
                                     }
                                     if (sQLitePreparedStatement5 != null) {
                                     }
-                                    if (sQLitePreparedStatement3 != null) {
+                                    if (sQLitePreparedStatement2 != null) {
                                     }
                                     if (sQLitePreparedStatement != null) {
                                     }
-                                    if (sQLitePreparedStatement2 != null) {
+                                    if (sQLitePreparedStatement3 == null) {
                                     }
                                 } catch (Throwable th6) {
                                     th3 = th6;
@@ -17574,21 +17637,21 @@ public class MessagesStorage extends BaseController {
                                     if (sQLitePreparedStatement5 != null) {
                                         sQLitePreparedStatement5.dispose();
                                     }
-                                    if (sQLitePreparedStatement3 != null) {
-                                        sQLitePreparedStatement3.dispose();
+                                    if (sQLitePreparedStatement2 != null) {
+                                        sQLitePreparedStatement2.dispose();
                                     }
                                     if (sQLitePreparedStatement != null) {
                                         sQLitePreparedStatement.dispose();
                                     }
-                                    if (sQLitePreparedStatement2 != null) {
-                                        sQLitePreparedStatement2.dispose();
+                                    if (sQLitePreparedStatement3 != null) {
+                                        sQLitePreparedStatement3.dispose();
                                     }
                                     throw th;
                                 }
                             } catch (Throwable th7) {
                                 th = th7;
                                 z4 = z9;
-                                sQLitePreparedStatement10 = executeFast4;
+                                sQLitePreparedStatement10 = executeFast7;
                                 sQLitePreparedStatement = null;
                                 sQLitePreparedStatement2 = null;
                                 sQLitePreparedStatement3 = null;
@@ -17620,19 +17683,19 @@ public class MessagesStorage extends BaseController {
                                 }
                                 if (sQLitePreparedStatement5 != null) {
                                 }
-                                if (sQLitePreparedStatement3 != null) {
+                                if (sQLitePreparedStatement2 != null) {
                                 }
                                 if (sQLitePreparedStatement != null) {
                                 }
-                                if (sQLitePreparedStatement2 != null) {
+                                if (sQLitePreparedStatement3 != null) {
                                 }
                                 throw th;
                             }
                         } catch (Exception e4) {
                             th2 = e4;
                             z4 = z9;
-                            sQLitePreparedStatement6 = executeFast3;
-                            sQLitePreparedStatement10 = executeFast4;
+                            sQLitePreparedStatement6 = executeFast6;
+                            sQLitePreparedStatement10 = executeFast7;
                             sQLitePreparedStatement = null;
                             sQLitePreparedStatement2 = null;
                             sQLitePreparedStatement3 = null;
@@ -17641,8 +17704,8 @@ public class MessagesStorage extends BaseController {
                         } catch (Throwable th8) {
                             th = th8;
                             z4 = z9;
-                            sQLitePreparedStatement6 = executeFast3;
-                            sQLitePreparedStatement10 = executeFast4;
+                            sQLitePreparedStatement6 = executeFast6;
+                            sQLitePreparedStatement10 = executeFast7;
                             sQLitePreparedStatement = null;
                             sQLitePreparedStatement2 = null;
                             sQLitePreparedStatement3 = null;
@@ -17652,7 +17715,7 @@ public class MessagesStorage extends BaseController {
                     } catch (Exception e5) {
                         th2 = e5;
                         z4 = z9;
-                        sQLitePreparedStatement6 = executeFast3;
+                        sQLitePreparedStatement6 = executeFast6;
                         sQLitePreparedStatement = null;
                         sQLitePreparedStatement2 = null;
                         sQLitePreparedStatement3 = null;
@@ -17686,16 +17749,16 @@ public class MessagesStorage extends BaseController {
                         }
                         if (sQLitePreparedStatement5 != null) {
                         }
-                        if (sQLitePreparedStatement3 != null) {
+                        if (sQLitePreparedStatement2 != null) {
                         }
                         if (sQLitePreparedStatement != null) {
                         }
-                        if (sQLitePreparedStatement2 != null) {
+                        if (sQLitePreparedStatement3 == null) {
                         }
                     } catch (Throwable th9) {
                         th = th9;
                         z4 = z9;
-                        sQLitePreparedStatement6 = executeFast3;
+                        sQLitePreparedStatement6 = executeFast6;
                         sQLitePreparedStatement = null;
                         sQLitePreparedStatement2 = null;
                         sQLitePreparedStatement3 = null;
@@ -17727,11 +17790,11 @@ public class MessagesStorage extends BaseController {
                         }
                         if (sQLitePreparedStatement5 != null) {
                         }
-                        if (sQLitePreparedStatement3 != null) {
+                        if (sQLitePreparedStatement2 != null) {
                         }
                         if (sQLitePreparedStatement != null) {
                         }
-                        if (sQLitePreparedStatement2 != null) {
+                        if (sQLitePreparedStatement3 != null) {
                         }
                         throw th;
                     }
@@ -17771,11 +17834,11 @@ public class MessagesStorage extends BaseController {
                     }
                     if (sQLitePreparedStatement5 != null) {
                     }
-                    if (sQLitePreparedStatement3 != null) {
+                    if (sQLitePreparedStatement2 != null) {
                     }
                     if (sQLitePreparedStatement != null) {
                     }
-                    if (sQLitePreparedStatement2 != null) {
+                    if (sQLitePreparedStatement3 == null) {
                     }
                 } catch (Throwable th10) {
                     th = th10;
@@ -17812,24 +17875,24 @@ public class MessagesStorage extends BaseController {
                     }
                     if (sQLitePreparedStatement5 != null) {
                     }
-                    if (sQLitePreparedStatement3 != null) {
+                    if (sQLitePreparedStatement2 != null) {
                     }
                     if (sQLitePreparedStatement != null) {
                     }
-                    if (sQLitePreparedStatement2 != null) {
+                    if (sQLitePreparedStatement3 != null) {
                     }
                     throw th;
                 }
             } else {
                 if (z3) {
-                    TLRPC$Message tLRPC$Message4 = arrayList6.get(0);
+                    TLRPC$Message tLRPC$Message4 = arrayList9.get(0);
                     if (tLRPC$Message4.dialog_id == 0) {
                         MessageObject.getDialogId(tLRPC$Message4);
                     }
                     SQLiteCursor queryFinalized = this.database.queryFinalized("SELECT last_mid FROM dialogs WHERE did = " + tLRPC$Message4.dialog_id, new Object[0]);
-                    int intValue8 = queryFinalized.next() ? queryFinalized.intValue(0) : -1;
+                    int intValue7 = queryFinalized.next() ? queryFinalized.intValue(0) : -1;
                     queryFinalized.dispose();
-                    if (intValue8 != 0) {
+                    if (intValue7 != 0) {
                         return;
                     }
                 }
@@ -17837,386 +17900,386 @@ public class MessagesStorage extends BaseController {
                     this.database.beginTransaction();
                 }
                 try {
-                    LongSparseArray longSparseArray13 = new LongSparseArray();
-                    LongSparseIntArray longSparseIntArray11 = new LongSparseIntArray();
-                    LongSparseIntArray longSparseIntArray12 = new LongSparseIntArray();
-                    LongSparseIntArray longSparseIntArray13 = new LongSparseIntArray();
-                    LongSparseIntArray longSparseIntArray14 = new LongSparseIntArray();
-                    HashMap hashMap18 = new HashMap();
-                    LongSparseArray longSparseArray14 = new LongSparseArray();
-                    LongSparseIntArray longSparseIntArray15 = new LongSparseIntArray();
-                    LongSparseArray longSparseArray15 = new LongSparseArray();
-                    LongSparseArray longSparseArray16 = new LongSparseArray();
-                    HashMap hashMap19 = new HashMap();
-                    LongSparseIntArray longSparseIntArray16 = longSparseIntArray13;
-                    HashMap hashMap20 = new HashMap();
-                    LongSparseIntArray longSparseIntArray17 = longSparseIntArray12;
-                    HashMap hashMap21 = new HashMap();
-                    String str10 = "_";
-                    HashMap hashMap22 = new HashMap();
-                    HashMap hashMap23 = new HashMap();
-                    LongSparseArray longSparseArray17 = longSparseArray13;
-                    HashMap hashMap24 = new HashMap();
-                    SparseArray sparseArray3 = new SparseArray();
-                    LongSparseIntArray longSparseIntArray18 = longSparseIntArray14;
-                    HashMap hashMap25 = new HashMap();
-                    LongSparseIntArray longSparseIntArray19 = longSparseIntArray11;
-                    HashMap hashMap26 = new HashMap();
-                    SparseArray sparseArray4 = sparseArray3;
-                    HashMap hashMap27 = hashMap18;
-                    SQLitePreparedStatement executeFast5 = this.database.executeFast("REPLACE INTO messages_v2 VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?, ?, ?)");
+                    LongSparseArray longSparseArray18 = new LongSparseArray();
+                    LongSparseIntArray longSparseIntArray20 = new LongSparseIntArray();
+                    LongSparseIntArray longSparseIntArray21 = new LongSparseIntArray();
+                    LongSparseIntArray longSparseIntArray22 = new LongSparseIntArray();
+                    LongSparseIntArray longSparseIntArray23 = new LongSparseIntArray();
+                    HashMap hashMap29 = new HashMap();
+                    longSparseArray = new LongSparseArray();
+                    longSparseIntArray = new LongSparseIntArray();
+                    longSparseArray2 = new LongSparseArray();
+                    longSparseArray3 = new LongSparseArray();
+                    hashMap = new HashMap();
+                    longSparseIntArray2 = longSparseIntArray22;
+                    hashMap2 = new HashMap();
+                    longSparseIntArray3 = longSparseIntArray21;
+                    hashMap3 = new HashMap();
+                    str = "_";
+                    hashMap4 = new HashMap();
+                    hashMap5 = new HashMap();
+                    longSparseArray4 = longSparseArray18;
+                    hashMap6 = new HashMap();
+                    SparseArray sparseArray6 = new SparseArray();
+                    longSparseIntArray4 = longSparseIntArray23;
+                    hashMap7 = new HashMap();
+                    longSparseIntArray5 = longSparseIntArray20;
+                    hashMap8 = new HashMap();
+                    sparseArray = sparseArray6;
+                    hashMap9 = hashMap29;
+                    SQLitePreparedStatement executeFast8 = this.database.executeFast("REPLACE INTO messages_v2 VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?, ?, ?)");
                     try {
-                        sQLitePreparedStatement13 = executeFast5;
+                        sQLitePreparedStatement13 = executeFast8;
+                    } catch (Exception e7) {
+                        e = e7;
+                        sQLitePreparedStatement13 = executeFast8;
+                    } catch (Throwable th11) {
+                        th = th11;
+                        sQLitePreparedStatement13 = executeFast8;
+                    }
+                } catch (Exception e8) {
+                    e = e8;
+                    th2 = e;
+                    sQLitePreparedStatement = null;
+                    sQLitePreparedStatement2 = null;
+                    sQLitePreparedStatement3 = null;
+                    z4 = false;
+                    sQLitePreparedStatement4 = null;
+                    sQLitePreparedStatement5 = null;
+                    sQLitePreparedStatement6 = null;
+                    sQLitePreparedStatement7 = null;
+                    sQLitePreparedStatement8 = null;
+                    sQLitePreparedStatement9 = null;
+                    sQLitePreparedStatement10 = null;
+                    sQLitePreparedStatement11 = null;
+                    sQLitePreparedStatement12 = null;
+                    checkSQLException(th2);
+                    if (z4) {
+                    }
+                    if (sQLitePreparedStatement6 != null) {
+                    }
+                    if (sQLitePreparedStatement7 != null) {
+                    }
+                    if (sQLitePreparedStatement10 != null) {
+                    }
+                    if (sQLitePreparedStatement8 != null) {
+                    }
+                    if (sQLitePreparedStatement9 != null) {
+                    }
+                    if (sQLitePreparedStatement4 != null) {
+                    }
+                    if (sQLitePreparedStatement12 != null) {
+                    }
+                    if (sQLitePreparedStatement11 != null) {
+                    }
+                    if (sQLitePreparedStatement5 != null) {
+                    }
+                    if (sQLitePreparedStatement2 != null) {
+                    }
+                    if (sQLitePreparedStatement != null) {
+                    }
+                    if (sQLitePreparedStatement3 == null) {
+                    }
+                } catch (Throwable th12) {
+                    th = th12;
+                    th = th;
+                    sQLitePreparedStatement = null;
+                    sQLitePreparedStatement2 = null;
+                    sQLitePreparedStatement3 = null;
+                    z4 = false;
+                    sQLitePreparedStatement4 = null;
+                    sQLitePreparedStatement5 = null;
+                    sQLitePreparedStatement6 = null;
+                    sQLitePreparedStatement7 = null;
+                    sQLitePreparedStatement8 = null;
+                    sQLitePreparedStatement9 = null;
+                    sQLitePreparedStatement10 = null;
+                    sQLitePreparedStatement11 = null;
+                    sQLitePreparedStatement12 = null;
+                    if (z4) {
+                    }
+                    if (sQLitePreparedStatement6 != null) {
+                    }
+                    if (sQLitePreparedStatement7 != null) {
+                    }
+                    if (sQLitePreparedStatement10 != null) {
+                    }
+                    if (sQLitePreparedStatement8 != null) {
+                    }
+                    if (sQLitePreparedStatement9 != null) {
+                    }
+                    if (sQLitePreparedStatement4 != null) {
+                    }
+                    if (sQLitePreparedStatement12 != null) {
+                    }
+                    if (sQLitePreparedStatement11 != null) {
+                    }
+                    if (sQLitePreparedStatement5 != null) {
+                    }
+                    if (sQLitePreparedStatement2 != null) {
+                    }
+                    if (sQLitePreparedStatement != null) {
+                    }
+                    if (sQLitePreparedStatement3 != null) {
+                    }
+                    throw th;
+                }
+                try {
+                    SQLitePreparedStatement executeFast9 = this.database.executeFast("REPLACE INTO messages_topics VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?, ?)");
+                    try {
+                        SQLitePreparedStatement executeFast10 = this.database.executeFast("REPLACE INTO randoms_v2 VALUES(?, ?, ?)");
                         try {
-                            SQLitePreparedStatement executeFast6 = this.database.executeFast("REPLACE INTO messages_topics VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?, ?)");
+                            sQLitePreparedStatement7 = executeFast9;
                             try {
-                                SQLitePreparedStatement executeFast7 = this.database.executeFast("REPLACE INTO randoms_v2 VALUES(?, ?, ?)");
+                                SQLitePreparedStatement executeFast11 = this.database.executeFast("REPLACE INTO download_queue VALUES(?, ?, ?, ?, ?)");
                                 try {
-                                    sQLitePreparedStatement7 = executeFast6;
-                                    try {
-                                        SQLitePreparedStatement executeFast8 = this.database.executeFast("REPLACE INTO download_queue VALUES(?, ?, ?, ?, ?)");
-                                        try {
-                                            sQLitePreparedStatement8 = executeFast8;
-                                        } catch (Exception e7) {
-                                            e = e7;
-                                            sQLitePreparedStatement10 = executeFast7;
-                                            sQLitePreparedStatement8 = executeFast8;
-                                        } catch (Throwable th11) {
-                                            th3 = th11;
-                                            sQLitePreparedStatement10 = executeFast7;
-                                            sQLitePreparedStatement8 = executeFast8;
-                                        }
-                                    } catch (Exception e8) {
-                                        e = e8;
-                                        th2 = e;
-                                        sQLitePreparedStatement10 = executeFast7;
-                                        sQLitePreparedStatement6 = sQLitePreparedStatement13;
-                                        sQLitePreparedStatement = null;
-                                        sQLitePreparedStatement2 = null;
-                                        sQLitePreparedStatement3 = null;
-                                        z4 = false;
-                                        sQLitePreparedStatement4 = null;
-                                        sQLitePreparedStatement5 = null;
-                                        sQLitePreparedStatement8 = null;
-                                        sQLitePreparedStatement9 = null;
-                                        sQLitePreparedStatement11 = null;
-                                        sQLitePreparedStatement12 = null;
-                                        checkSQLException(th2);
-                                        if (z4) {
-                                        }
-                                        if (sQLitePreparedStatement6 != null) {
-                                        }
-                                        if (sQLitePreparedStatement7 != null) {
-                                        }
-                                        if (sQLitePreparedStatement10 != null) {
-                                        }
-                                        if (sQLitePreparedStatement8 != null) {
-                                        }
-                                        if (sQLitePreparedStatement9 != null) {
-                                        }
-                                        if (sQLitePreparedStatement4 != null) {
-                                        }
-                                        if (sQLitePreparedStatement12 != null) {
-                                        }
-                                        if (sQLitePreparedStatement11 != null) {
-                                        }
-                                        if (sQLitePreparedStatement5 != null) {
-                                        }
-                                        if (sQLitePreparedStatement3 != null) {
-                                        }
-                                        if (sQLitePreparedStatement != null) {
-                                        }
-                                        if (sQLitePreparedStatement2 != null) {
-                                        }
-                                    } catch (Throwable th12) {
-                                        th = th12;
-                                        th = th;
-                                        sQLitePreparedStatement10 = executeFast7;
-                                        sQLitePreparedStatement6 = sQLitePreparedStatement13;
-                                        sQLitePreparedStatement = null;
-                                        sQLitePreparedStatement2 = null;
-                                        sQLitePreparedStatement3 = null;
-                                        z4 = false;
-                                        sQLitePreparedStatement4 = null;
-                                        sQLitePreparedStatement5 = null;
-                                        sQLitePreparedStatement8 = null;
-                                        sQLitePreparedStatement9 = null;
-                                        sQLitePreparedStatement11 = null;
-                                        sQLitePreparedStatement12 = null;
-                                        if (z4) {
-                                        }
-                                        if (sQLitePreparedStatement6 != null) {
-                                        }
-                                        if (sQLitePreparedStatement7 != null) {
-                                        }
-                                        if (sQLitePreparedStatement10 != null) {
-                                        }
-                                        if (sQLitePreparedStatement8 != null) {
-                                        }
-                                        if (sQLitePreparedStatement9 != null) {
-                                        }
-                                        if (sQLitePreparedStatement4 != null) {
-                                        }
-                                        if (sQLitePreparedStatement12 != null) {
-                                        }
-                                        if (sQLitePreparedStatement11 != null) {
-                                        }
-                                        if (sQLitePreparedStatement5 != null) {
-                                        }
-                                        if (sQLitePreparedStatement3 != null) {
-                                        }
-                                        if (sQLitePreparedStatement != null) {
-                                        }
-                                        if (sQLitePreparedStatement2 != null) {
-                                        }
-                                        throw th;
-                                    }
+                                    sQLitePreparedStatement8 = executeFast11;
                                     try {
                                         sQLitePreparedStatement9 = this.database.executeFast("REPLACE INTO webpage_pending_v2 VALUES(?, ?, ?)");
-                                        sQLitePreparedStatement10 = executeFast7;
-                                        LongSparseArray longSparseArray18 = null;
-                                        int i43 = 0;
+                                        sQLitePreparedStatement10 = executeFast10;
                                         LongSparseArray longSparseArray19 = null;
+                                        int i47 = 0;
                                         LongSparseArray longSparseArray20 = null;
+                                        LongSparseArray longSparseArray21 = null;
                                         while (true) {
                                             try {
-                                                hashMap = hashMap26;
-                                                hashMap2 = hashMap25;
-                                                longSparseArray = longSparseArray18;
-                                                str = " ";
-                                                if (i43 >= arrayList.size()) {
+                                                hashMap10 = hashMap8;
+                                                hashMap11 = hashMap7;
+                                                longSparseArray5 = longSparseArray19;
+                                                str2 = " ";
+                                                if (i47 >= arrayList.size()) {
                                                     break;
                                                 }
                                                 try {
-                                                    TLRPC$Message tLRPC$Message5 = arrayList6.get(i43);
-                                                    int i44 = tLRPC$Message5.id;
+                                                    TLRPC$Message tLRPC$Message5 = arrayList9.get(i47);
+                                                    int i48 = tLRPC$Message5.id;
                                                     MessageObject.getDialogId(tLRPC$Message5);
-                                                    int i45 = i43;
-                                                    HashMap hashMap28 = hashMap20;
+                                                    int i49 = i47;
+                                                    HashMap hashMap30 = hashMap2;
                                                     long topicId = MessageObject.getTopicId(this.currentAccount, tLRPC$Message5, isForum(tLRPC$Message5.dialog_id));
                                                     if (tLRPC$Message5.mentioned && tLRPC$Message5.media_unread) {
-                                                        longSparseArray6 = longSparseArray14;
-                                                        ArrayList arrayList8 = (ArrayList) longSparseArray16.get(tLRPC$Message5.dialog_id);
-                                                        if (arrayList8 == null) {
-                                                            arrayList8 = new ArrayList();
-                                                            longSparseIntArray7 = longSparseIntArray15;
-                                                            longSparseArray16.put(tLRPC$Message5.dialog_id, arrayList8);
+                                                        longSparseArray11 = longSparseArray;
+                                                        ArrayList arrayList11 = (ArrayList) longSparseArray3.get(tLRPC$Message5.dialog_id);
+                                                        if (arrayList11 == null) {
+                                                            arrayList11 = new ArrayList();
+                                                            longSparseIntArray16 = longSparseIntArray;
+                                                            longSparseArray3.put(tLRPC$Message5.dialog_id, arrayList11);
                                                         } else {
-                                                            longSparseIntArray7 = longSparseIntArray15;
+                                                            longSparseIntArray16 = longSparseIntArray;
                                                         }
-                                                        arrayList8.add(Integer.valueOf(i44));
+                                                        arrayList11.add(Integer.valueOf(i48));
                                                         if (topicId != 0) {
                                                             FileLog.d("add message with message to " + tLRPC$Message5.dialog_id + " " + topicId);
                                                             TopicKey of = TopicKey.of(tLRPC$Message5.dialog_id, topicId);
-                                                            ArrayList arrayList9 = (ArrayList) hashMap23.get(of);
-                                                            if (arrayList9 == null) {
-                                                                arrayList9 = new ArrayList();
-                                                                hashMap23.put(of, arrayList9);
+                                                            ArrayList arrayList12 = (ArrayList) hashMap5.get(of);
+                                                            if (arrayList12 == null) {
+                                                                arrayList12 = new ArrayList();
+                                                                hashMap5.put(of, arrayList12);
                                                             }
-                                                            arrayList9.add(Integer.valueOf(i44));
+                                                            arrayList12.add(Integer.valueOf(i48));
                                                         }
                                                     } else {
-                                                        longSparseArray6 = longSparseArray14;
-                                                        longSparseIntArray7 = longSparseIntArray15;
+                                                        longSparseArray11 = longSparseArray;
+                                                        longSparseIntArray16 = longSparseIntArray;
                                                     }
                                                     if ((tLRPC$Message5.action instanceof TLRPC$TL_messageActionHistoryClear) || ((MessageObject.isOut(tLRPC$Message5) && !tLRPC$Message5.from_scheduled && topicId == 0) || ((tLRPC$Message5.id <= 0 && !MessageObject.isUnread(tLRPC$Message5)) || (isForum(tLRPC$Message5.dialog_id) && topicId == 0)))) {
-                                                        longSparseArray7 = longSparseArray15;
-                                                        hashMap14 = hashMap28;
-                                                        str7 = ",";
-                                                        longSparseIntArray8 = longSparseIntArray7;
-                                                        longSparseArray8 = longSparseArray16;
+                                                        longSparseArray12 = longSparseArray2;
+                                                        hashMap25 = hashMap30;
+                                                        str9 = ",";
+                                                        longSparseIntArray17 = longSparseIntArray16;
+                                                        longSparseArray13 = longSparseArray3;
                                                     } else {
-                                                        LongSparseIntArray longSparseIntArray20 = longSparseIntArray7;
-                                                        int i46 = longSparseIntArray20.get(tLRPC$Message5.dialog_id, -1);
-                                                        if (i46 == -1) {
+                                                        LongSparseIntArray longSparseIntArray24 = longSparseIntArray16;
+                                                        int i50 = longSparseIntArray24.get(tLRPC$Message5.dialog_id, -1);
+                                                        if (i50 == -1) {
                                                             SQLiteDatabase sQLiteDatabase4 = this.database;
                                                             StringBuilder sb = new StringBuilder();
                                                             sb.append("SELECT inbox_max FROM dialogs WHERE did = ");
-                                                            longSparseArray8 = longSparseArray16;
+                                                            longSparseArray13 = longSparseArray3;
                                                             sb.append(tLRPC$Message5.dialog_id);
                                                             SQLiteCursor queryFinalized2 = sQLiteDatabase4.queryFinalized(sb.toString(), new Object[0]);
-                                                            int intValue9 = queryFinalized2.next() ? queryFinalized2.intValue(0) : 0;
+                                                            int intValue8 = queryFinalized2.next() ? queryFinalized2.intValue(0) : 0;
                                                             queryFinalized2.dispose();
-                                                            longSparseIntArray20.put(tLRPC$Message5.dialog_id, intValue9);
-                                                            i46 = intValue9;
+                                                            longSparseIntArray24.put(tLRPC$Message5.dialog_id, intValue8);
+                                                            i50 = intValue8;
                                                         } else {
-                                                            longSparseArray8 = longSparseArray16;
+                                                            longSparseArray13 = longSparseArray3;
                                                         }
-                                                        FileLog.d("update messageRead currentMaxId = " + i46 + " dialogId = " + tLRPC$Message5.dialog_id);
-                                                        int i47 = tLRPC$Message5.id;
-                                                        if (i47 >= 0 && i46 >= i47) {
-                                                            longSparseIntArray10 = longSparseIntArray20;
-                                                            str9 = " AND topic_id = ";
-                                                            str7 = ",";
+                                                        FileLog.d("update messageRead currentMaxId = " + i50 + " dialogId = " + tLRPC$Message5.dialog_id);
+                                                        int i51 = tLRPC$Message5.id;
+                                                        if (i51 >= 0 && i50 >= i51) {
+                                                            longSparseIntArray19 = longSparseIntArray24;
+                                                            str11 = " AND topic_id = ";
+                                                            str9 = ",";
                                                             if (topicId == 0) {
                                                                 TopicKey of2 = TopicKey.of(tLRPC$Message5.dialog_id, topicId);
-                                                                Integer num = (Integer) hashMap19.get(of2);
-                                                                int intValue10 = num == null ? -1 : num.intValue();
-                                                                if (intValue10 == -1) {
+                                                                Integer num = (Integer) hashMap.get(of2);
+                                                                int intValue9 = num == null ? -1 : num.intValue();
+                                                                if (intValue9 == -1) {
                                                                     SQLiteDatabase sQLiteDatabase5 = this.database;
                                                                     StringBuilder sb2 = new StringBuilder();
-                                                                    String str11 = str9;
+                                                                    String str12 = str11;
                                                                     sb2.append("SELECT top_message FROM topics WHERE did = ");
-                                                                    longSparseIntArray8 = longSparseIntArray10;
-                                                                    longSparseArray7 = longSparseArray15;
+                                                                    longSparseIntArray17 = longSparseIntArray19;
+                                                                    longSparseArray12 = longSparseArray2;
                                                                     sb2.append(tLRPC$Message5.dialog_id);
-                                                                    sb2.append(str11);
+                                                                    sb2.append(str12);
                                                                     sb2.append(topicId);
                                                                     SQLiteCursor queryFinalized3 = sQLiteDatabase5.queryFinalized(sb2.toString(), new Object[0]);
-                                                                    int intValue11 = queryFinalized3.next() ? queryFinalized3.intValue(0) : 0;
+                                                                    int intValue10 = queryFinalized3.next() ? queryFinalized3.intValue(0) : 0;
                                                                     queryFinalized3.dispose();
-                                                                    hashMap19.put(of2, Integer.valueOf(intValue11));
-                                                                    intValue10 = intValue11;
+                                                                    hashMap.put(of2, Integer.valueOf(intValue10));
+                                                                    intValue9 = intValue10;
                                                                 } else {
-                                                                    longSparseIntArray8 = longSparseIntArray10;
-                                                                    longSparseArray7 = longSparseArray15;
+                                                                    longSparseIntArray17 = longSparseIntArray19;
+                                                                    longSparseArray12 = longSparseArray2;
                                                                 }
-                                                                if (intValue10 >= tLRPC$Message5.id || !tLRPC$Message5.unread || tLRPC$Message5.out) {
-                                                                    hashMap14 = hashMap28;
+                                                                if (intValue9 >= tLRPC$Message5.id || !tLRPC$Message5.unread || tLRPC$Message5.out) {
+                                                                    hashMap25 = hashMap30;
                                                                 } else {
-                                                                    hashMap14 = hashMap28;
-                                                                    Integer num2 = (Integer) hashMap14.get(of2);
+                                                                    hashMap25 = hashMap30;
+                                                                    Integer num2 = (Integer) hashMap25.get(of2);
                                                                     if (num2 == null) {
                                                                         num2 = 0;
                                                                     }
-                                                                    hashMap14.put(of2, Integer.valueOf(num2.intValue() + 1));
+                                                                    hashMap25.put(of2, Integer.valueOf(num2.intValue() + 1));
                                                                 }
-                                                                if (intValue10 < tLRPC$Message5.id) {
-                                                                    Integer num3 = (Integer) hashMap21.get(of2);
+                                                                if (intValue9 < tLRPC$Message5.id) {
+                                                                    Integer num3 = (Integer) hashMap3.get(of2);
                                                                     if (num3 == null) {
                                                                         num3 = 0;
                                                                     }
-                                                                    hashMap21.put(of2, Integer.valueOf(num3.intValue() + 1));
+                                                                    hashMap3.put(of2, Integer.valueOf(num3.intValue() + 1));
                                                                 }
                                                             } else {
-                                                                longSparseIntArray8 = longSparseIntArray10;
-                                                                longSparseArray7 = longSparseArray15;
-                                                                hashMap14 = hashMap28;
+                                                                longSparseIntArray17 = longSparseIntArray19;
+                                                                longSparseArray12 = longSparseArray2;
+                                                                hashMap25 = hashMap30;
                                                             }
                                                         }
-                                                        LongSparseArray longSparseArray21 = longSparseArray6;
-                                                        StringBuilder sb3 = (StringBuilder) longSparseArray21.get(tLRPC$Message5.dialog_id);
+                                                        LongSparseArray longSparseArray22 = longSparseArray11;
+                                                        StringBuilder sb3 = (StringBuilder) longSparseArray22.get(tLRPC$Message5.dialog_id);
                                                         if (sb3 == null) {
                                                             sb3 = new StringBuilder();
-                                                            longSparseIntArray10 = longSparseIntArray20;
-                                                            str8 = " AND topic_id = ";
-                                                            longSparseArray21.put(tLRPC$Message5.dialog_id, sb3);
+                                                            longSparseIntArray19 = longSparseIntArray24;
+                                                            str10 = " AND topic_id = ";
+                                                            longSparseArray22.put(tLRPC$Message5.dialog_id, sb3);
                                                         } else {
-                                                            longSparseIntArray10 = longSparseIntArray20;
-                                                            str8 = " AND topic_id = ";
+                                                            longSparseIntArray19 = longSparseIntArray24;
+                                                            str10 = " AND topic_id = ";
                                                         }
-                                                        str7 = ",";
+                                                        str9 = ",";
                                                         if (sb3.length() > 0) {
-                                                            sb3.append(str7);
+                                                            sb3.append(str9);
                                                         }
-                                                        sb3.append(i44);
-                                                        str9 = str8;
-                                                        ArrayList arrayList10 = (ArrayList) longSparseArray15.get(tLRPC$Message5.dialog_id);
-                                                        if (arrayList10 == null) {
-                                                            arrayList10 = new ArrayList();
-                                                            longSparseArray6 = longSparseArray21;
-                                                            longSparseArray15.put(tLRPC$Message5.dialog_id, arrayList10);
+                                                        sb3.append(i48);
+                                                        str11 = str10;
+                                                        ArrayList arrayList13 = (ArrayList) longSparseArray2.get(tLRPC$Message5.dialog_id);
+                                                        if (arrayList13 == null) {
+                                                            arrayList13 = new ArrayList();
+                                                            longSparseArray11 = longSparseArray22;
+                                                            longSparseArray2.put(tLRPC$Message5.dialog_id, arrayList13);
                                                         } else {
-                                                            longSparseArray6 = longSparseArray21;
+                                                            longSparseArray11 = longSparseArray22;
                                                         }
-                                                        arrayList10.add(Integer.valueOf(i44));
+                                                        arrayList13.add(Integer.valueOf(i48));
                                                         if (topicId == 0) {
                                                         }
                                                     }
                                                     if (MediaDataController.canAddMessageToMedia(tLRPC$Message5)) {
-                                                        if (longSparseArray == null) {
-                                                            longSparseArray11 = new LongSparseArray();
-                                                            longSparseArray9 = new LongSparseArray();
-                                                            longSparseArray10 = new LongSparseArray();
+                                                        if (longSparseArray5 == null) {
+                                                            longSparseArray16 = new LongSparseArray();
+                                                            longSparseArray14 = new LongSparseArray();
+                                                            longSparseArray15 = new LongSparseArray();
                                                         } else {
-                                                            longSparseArray9 = longSparseArray19;
-                                                            longSparseArray10 = longSparseArray20;
-                                                            longSparseArray11 = longSparseArray;
+                                                            longSparseArray14 = longSparseArray20;
+                                                            longSparseArray15 = longSparseArray21;
+                                                            longSparseArray16 = longSparseArray5;
                                                         }
-                                                        StringBuilder sb4 = (StringBuilder) longSparseArray11.get(tLRPC$Message5.dialog_id);
+                                                        StringBuilder sb4 = (StringBuilder) longSparseArray16.get(tLRPC$Message5.dialog_id);
                                                         if (sb4 == null) {
                                                             sb4 = new StringBuilder();
-                                                            hashMap15 = hashMap19;
-                                                            longSparseIntArray9 = longSparseIntArray8;
-                                                            longSparseArray11.put(tLRPC$Message5.dialog_id, sb4);
+                                                            hashMap26 = hashMap;
+                                                            longSparseIntArray18 = longSparseIntArray17;
+                                                            longSparseArray16.put(tLRPC$Message5.dialog_id, sb4);
                                                         } else {
-                                                            hashMap15 = hashMap19;
-                                                            longSparseIntArray9 = longSparseIntArray8;
+                                                            hashMap26 = hashMap;
+                                                            longSparseIntArray18 = longSparseIntArray17;
                                                         }
                                                         if (sb4.length() > 0) {
-                                                            sb4.append(str7);
+                                                            sb4.append(str9);
                                                         }
-                                                        sb4.append(i44);
-                                                        ArrayList arrayList11 = (ArrayList) longSparseArray9.get(tLRPC$Message5.dialog_id);
-                                                        if (arrayList11 == null) {
-                                                            arrayList11 = new ArrayList();
-                                                            longSparseArray9.put(tLRPC$Message5.dialog_id, arrayList11);
+                                                        sb4.append(i48);
+                                                        ArrayList arrayList14 = (ArrayList) longSparseArray14.get(tLRPC$Message5.dialog_id);
+                                                        if (arrayList14 == null) {
+                                                            arrayList14 = new ArrayList();
+                                                            longSparseArray14.put(tLRPC$Message5.dialog_id, arrayList14);
                                                         }
-                                                        arrayList11.add(Integer.valueOf(i44));
-                                                        LongSparseArray longSparseArray22 = longSparseArray10;
-                                                        SparseIntArray sparseIntArray = (SparseIntArray) longSparseArray22.get(tLRPC$Message5.dialog_id);
+                                                        arrayList14.add(Integer.valueOf(i48));
+                                                        LongSparseArray longSparseArray23 = longSparseArray15;
+                                                        SparseIntArray sparseIntArray = (SparseIntArray) longSparseArray23.get(tLRPC$Message5.dialog_id);
                                                         if (sparseIntArray == null) {
                                                             sparseIntArray = new SparseIntArray();
-                                                            longSparseArray18 = longSparseArray11;
-                                                            longSparseArray12 = longSparseArray9;
-                                                            longSparseArray22.put(tLRPC$Message5.dialog_id, sparseIntArray);
+                                                            longSparseArray19 = longSparseArray16;
+                                                            longSparseArray17 = longSparseArray14;
+                                                            longSparseArray23.put(tLRPC$Message5.dialog_id, sparseIntArray);
                                                         } else {
-                                                            longSparseArray18 = longSparseArray11;
-                                                            longSparseArray12 = longSparseArray9;
+                                                            longSparseArray19 = longSparseArray16;
+                                                            longSparseArray17 = longSparseArray14;
                                                         }
-                                                        sparseIntArray.put(i44, MediaDataController.getMediaType(tLRPC$Message5));
+                                                        sparseIntArray.put(i48, MediaDataController.getMediaType(tLRPC$Message5));
                                                         if (topicId != 0) {
                                                             TopicKey of3 = TopicKey.of(tLRPC$Message5.dialog_id, topicId);
-                                                            hashMap25 = hashMap2;
-                                                            StringBuilder sb5 = (StringBuilder) hashMap25.get(of3);
+                                                            hashMap7 = hashMap11;
+                                                            StringBuilder sb5 = (StringBuilder) hashMap7.get(of3);
                                                             if (sb5 == null) {
                                                                 sb5 = new StringBuilder();
-                                                                hashMap25.put(of3, sb5);
+                                                                hashMap7.put(of3, sb5);
                                                             }
                                                             if (sb5.length() > 0) {
-                                                                sb5.append(str7);
+                                                                sb5.append(str9);
                                                             }
-                                                            sb5.append(i44);
-                                                            hashMap16 = hashMap;
-                                                            ArrayList arrayList12 = (ArrayList) hashMap16.get(of3);
-                                                            if (arrayList12 == null) {
-                                                                arrayList12 = new ArrayList();
-                                                                hashMap16.put(of3, arrayList12);
+                                                            sb5.append(i48);
+                                                            hashMap27 = hashMap10;
+                                                            ArrayList arrayList15 = (ArrayList) hashMap27.get(of3);
+                                                            if (arrayList15 == null) {
+                                                                arrayList15 = new ArrayList();
+                                                                hashMap27.put(of3, arrayList15);
                                                             }
-                                                            arrayList12.add(Integer.valueOf(i44));
+                                                            arrayList15.add(Integer.valueOf(i48));
                                                         } else {
-                                                            hashMap16 = hashMap;
-                                                            hashMap25 = hashMap2;
+                                                            hashMap27 = hashMap10;
+                                                            hashMap7 = hashMap11;
                                                         }
-                                                        longSparseArray19 = longSparseArray12;
-                                                        longSparseArray20 = longSparseArray22;
+                                                        longSparseArray20 = longSparseArray17;
+                                                        longSparseArray21 = longSparseArray23;
                                                     } else {
-                                                        hashMap15 = hashMap19;
-                                                        longSparseIntArray9 = longSparseIntArray8;
-                                                        hashMap16 = hashMap;
-                                                        hashMap25 = hashMap2;
-                                                        longSparseArray18 = longSparseArray;
+                                                        hashMap26 = hashMap;
+                                                        longSparseIntArray18 = longSparseIntArray17;
+                                                        hashMap27 = hashMap10;
+                                                        hashMap7 = hashMap11;
+                                                        longSparseArray19 = longSparseArray5;
                                                     }
                                                     if (isValidKeyboardToSave(tLRPC$Message5)) {
                                                         TopicKey of4 = TopicKey.of(tLRPC$Message5.dialog_id, topicId);
-                                                        hashMap17 = hashMap27;
-                                                        TLRPC$Message tLRPC$Message6 = (TLRPC$Message) hashMap17.get(of4);
+                                                        hashMap28 = hashMap9;
+                                                        TLRPC$Message tLRPC$Message6 = (TLRPC$Message) hashMap28.get(of4);
                                                         if (tLRPC$Message6 == null || tLRPC$Message6.id < tLRPC$Message5.id) {
-                                                            hashMap17.put(of4, tLRPC$Message5);
+                                                            hashMap28.put(of4, tLRPC$Message5);
                                                         }
                                                     } else {
-                                                        hashMap17 = hashMap27;
+                                                        hashMap28 = hashMap9;
                                                     }
-                                                    i43 = i45 + 1;
-                                                    arrayList6 = arrayList;
-                                                    hashMap27 = hashMap17;
-                                                    hashMap26 = hashMap16;
-                                                    hashMap20 = hashMap14;
-                                                    hashMap19 = hashMap15;
-                                                    longSparseIntArray15 = longSparseIntArray9;
-                                                    longSparseArray14 = longSparseArray6;
-                                                    longSparseArray16 = longSparseArray8;
-                                                    longSparseArray15 = longSparseArray7;
+                                                    i47 = i49 + 1;
+                                                    arrayList9 = arrayList;
+                                                    hashMap9 = hashMap28;
+                                                    hashMap8 = hashMap27;
+                                                    hashMap2 = hashMap25;
+                                                    hashMap = hashMap26;
+                                                    longSparseIntArray = longSparseIntArray18;
+                                                    longSparseArray = longSparseArray11;
+                                                    longSparseArray3 = longSparseArray13;
+                                                    longSparseArray2 = longSparseArray12;
                                                 } catch (Exception e9) {
                                                     th2 = e9;
                                                     sQLitePreparedStatement6 = sQLitePreparedStatement13;
@@ -18249,11 +18312,11 @@ public class MessagesStorage extends BaseController {
                                                     }
                                                     if (sQLitePreparedStatement5 != null) {
                                                     }
-                                                    if (sQLitePreparedStatement3 != null) {
+                                                    if (sQLitePreparedStatement2 != null) {
                                                     }
                                                     if (sQLitePreparedStatement != null) {
                                                     }
-                                                    if (sQLitePreparedStatement2 != null) {
+                                                    if (sQLitePreparedStatement3 == null) {
                                                     }
                                                 } catch (Throwable th13) {
                                                     th = th13;
@@ -18286,11 +18349,11 @@ public class MessagesStorage extends BaseController {
                                                     }
                                                     if (sQLitePreparedStatement5 != null) {
                                                     }
-                                                    if (sQLitePreparedStatement3 != null) {
+                                                    if (sQLitePreparedStatement2 != null) {
                                                     }
                                                     if (sQLitePreparedStatement != null) {
                                                     }
-                                                    if (sQLitePreparedStatement2 != null) {
+                                                    if (sQLitePreparedStatement3 != null) {
                                                     }
                                                     throw th;
                                                 }
@@ -18327,11 +18390,11 @@ public class MessagesStorage extends BaseController {
                                                 }
                                                 if (sQLitePreparedStatement5 != null) {
                                                 }
-                                                if (sQLitePreparedStatement3 != null) {
+                                                if (sQLitePreparedStatement2 != null) {
                                                 }
                                                 if (sQLitePreparedStatement != null) {
                                                 }
-                                                if (sQLitePreparedStatement2 != null) {
+                                                if (sQLitePreparedStatement3 == null) {
                                                 }
                                             } catch (Throwable th14) {
                                                 th3 = th14;
@@ -18365,340 +18428,340 @@ public class MessagesStorage extends BaseController {
                                                 }
                                                 if (sQLitePreparedStatement5 != null) {
                                                 }
-                                                if (sQLitePreparedStatement3 != null) {
+                                                if (sQLitePreparedStatement2 != null) {
                                                 }
                                                 if (sQLitePreparedStatement != null) {
                                                 }
-                                                if (sQLitePreparedStatement2 != null) {
+                                                if (sQLitePreparedStatement3 != null) {
                                                 }
                                                 throw th;
                                             }
                                         }
-                                        HashMap hashMap29 = hashMap20;
-                                        LongSparseArray longSparseArray23 = longSparseArray14;
-                                        LongSparseArray longSparseArray24 = longSparseArray16;
-                                        LongSparseArray longSparseArray25 = longSparseArray15;
-                                        HashMap hashMap30 = hashMap27;
-                                        HashMap hashMap31 = hashMap;
-                                        String str12 = " AND topic_id = ";
+                                        HashMap hashMap31 = hashMap2;
+                                        LongSparseArray longSparseArray24 = longSparseArray;
+                                        LongSparseArray longSparseArray25 = longSparseArray3;
+                                        LongSparseArray longSparseArray26 = longSparseArray2;
+                                        HashMap hashMap32 = hashMap9;
+                                        HashMap hashMap33 = hashMap10;
+                                        String str13 = " AND topic_id = ";
                                         CharSequence charSequence2 = ",";
-                                        HashMap hashMap32 = hashMap2;
-                                        if (!hashMap30.isEmpty()) {
-                                            for (TopicKey topicKey : hashMap30.keySet()) {
-                                                getMediaDataController().putBotKeyboard(topicKey, (TLRPC$Message) hashMap30.get(topicKey));
+                                        HashMap hashMap34 = hashMap11;
+                                        if (!hashMap32.isEmpty()) {
+                                            for (TopicKey topicKey : hashMap32.keySet()) {
+                                                getMediaDataController().putBotKeyboard(topicKey, (TLRPC$Message) hashMap32.get(topicKey));
                                             }
                                         }
-                                        if (longSparseArray != null) {
-                                            int size2 = longSparseArray.size();
-                                            int i48 = 0;
-                                            longSparseArray3 = null;
-                                            sparseArray = null;
-                                            while (i48 < size2) {
-                                                HashMap hashMap33 = hashMap23;
-                                                LongSparseArray longSparseArray26 = longSparseArray;
-                                                long keyAt = longSparseArray26.keyAt(i48);
-                                                int i49 = size2;
-                                                LongSparseArray longSparseArray27 = longSparseArray20;
-                                                LongSparseArray longSparseArray28 = longSparseArray3;
-                                                SparseIntArray sparseIntArray2 = (SparseIntArray) longSparseArray27.get(keyAt);
-                                                LongSparseArray longSparseArray29 = longSparseArray19;
-                                                ArrayList arrayList13 = (ArrayList) longSparseArray29.get(keyAt);
-                                                HashMap hashMap34 = hashMap21;
-                                                HashMap hashMap35 = hashMap29;
-                                                String str13 = str12;
-                                                String str14 = str;
+                                        if (longSparseArray5 != null) {
+                                            int size2 = longSparseArray5.size();
+                                            int i52 = 0;
+                                            longSparseArray7 = null;
+                                            sparseArray2 = null;
+                                            while (i52 < size2) {
+                                                HashMap hashMap35 = hashMap5;
+                                                LongSparseArray longSparseArray27 = longSparseArray5;
+                                                long keyAt = longSparseArray27.keyAt(i52);
+                                                int i53 = size2;
+                                                LongSparseArray longSparseArray28 = longSparseArray21;
+                                                LongSparseArray longSparseArray29 = longSparseArray7;
+                                                SparseIntArray sparseIntArray2 = (SparseIntArray) longSparseArray28.get(keyAt);
+                                                LongSparseArray longSparseArray30 = longSparseArray20;
+                                                ArrayList arrayList16 = (ArrayList) longSparseArray30.get(keyAt);
+                                                HashMap hashMap36 = hashMap3;
+                                                HashMap hashMap37 = hashMap31;
+                                                String str14 = str13;
+                                                String str15 = str2;
                                                 CharSequence charSequence3 = charSequence2;
-                                                int i50 = 0;
-                                                SQLiteCursor queryFinalized4 = this.database.queryFinalized(String.format(Locale.US, "SELECT mid, type FROM media_v4 WHERE mid IN(%s) AND uid = %d", ((StringBuilder) longSparseArray26.valueAt(i48)).toString(), Long.valueOf(keyAt)), new Object[0]);
+                                                int i54 = 0;
+                                                SQLiteCursor queryFinalized4 = this.database.queryFinalized(String.format(Locale.US, "SELECT mid, type FROM media_v4 WHERE mid IN(%s) AND uid = %d", ((StringBuilder) longSparseArray27.valueAt(i52)).toString(), Long.valueOf(keyAt)), new Object[0]);
                                                 SparseIntArray sparseIntArray3 = null;
                                                 while (queryFinalized4.next()) {
-                                                    int intValue12 = queryFinalized4.intValue(i50);
-                                                    int intValue13 = queryFinalized4.intValue(1);
-                                                    if (intValue13 == sparseIntArray2.get(intValue12)) {
-                                                        arrayList13.remove(Integer.valueOf(intValue12));
+                                                    int intValue11 = queryFinalized4.intValue(i54);
+                                                    int intValue12 = queryFinalized4.intValue(1);
+                                                    if (intValue12 == sparseIntArray2.get(intValue11)) {
+                                                        arrayList16.remove(Integer.valueOf(intValue11));
                                                     } else {
                                                         if (sparseIntArray3 == null) {
-                                                            LongSparseArray longSparseArray30 = longSparseArray28 == null ? new LongSparseArray() : longSparseArray28;
-                                                            SparseIntArray sparseIntArray4 = (SparseIntArray) longSparseArray30.get(keyAt);
+                                                            LongSparseArray longSparseArray31 = longSparseArray29 == null ? new LongSparseArray() : longSparseArray29;
+                                                            SparseIntArray sparseIntArray4 = (SparseIntArray) longSparseArray31.get(keyAt);
                                                             if (sparseIntArray4 == null) {
                                                                 sparseIntArray4 = new SparseIntArray();
-                                                                longSparseArray30.put(keyAt, sparseIntArray4);
+                                                                longSparseArray31.put(keyAt, sparseIntArray4);
                                                             }
-                                                            longSparseArray28 = longSparseArray30;
+                                                            longSparseArray29 = longSparseArray31;
                                                             sparseIntArray3 = sparseIntArray4;
                                                         }
-                                                        sparseIntArray3.put(intValue12, intValue13);
+                                                        sparseIntArray3.put(intValue11, intValue12);
                                                     }
-                                                    i50 = 0;
+                                                    i54 = 0;
                                                 }
                                                 queryFinalized4.dispose();
-                                                if (sparseArray == null) {
-                                                    sparseArray = new SparseArray();
+                                                if (sparseArray2 == null) {
+                                                    sparseArray2 = new SparseArray();
                                                 }
-                                                int size3 = arrayList13.size();
-                                                int i51 = 0;
-                                                while (i51 < size3) {
-                                                    int intValue14 = ((Integer) arrayList13.get(i51)).intValue();
-                                                    int i52 = sparseIntArray2.get(intValue14);
-                                                    LongSparseIntArray longSparseIntArray21 = (LongSparseIntArray) sparseArray.get(i52);
-                                                    if (longSparseIntArray21 == null) {
-                                                        longSparseIntArray21 = new LongSparseIntArray();
-                                                        sparseArray.put(i52, longSparseIntArray21);
-                                                        i30 = size3;
-                                                        i31 = 0;
-                                                        i29 = Integer.MIN_VALUE;
+                                                int size3 = arrayList16.size();
+                                                int i55 = 0;
+                                                while (i55 < size3) {
+                                                    int intValue13 = ((Integer) arrayList16.get(i55)).intValue();
+                                                    int i56 = sparseIntArray2.get(intValue13);
+                                                    LongSparseIntArray longSparseIntArray25 = (LongSparseIntArray) sparseArray2.get(i56);
+                                                    if (longSparseIntArray25 == null) {
+                                                        longSparseIntArray25 = new LongSparseIntArray();
+                                                        sparseArray2.put(i56, longSparseIntArray25);
+                                                        i34 = size3;
+                                                        i35 = 0;
+                                                        i33 = Integer.MIN_VALUE;
                                                     } else {
-                                                        i29 = Integer.MIN_VALUE;
-                                                        i30 = size3;
-                                                        i31 = longSparseIntArray21.get(keyAt, Integer.MIN_VALUE);
+                                                        i33 = Integer.MIN_VALUE;
+                                                        i34 = size3;
+                                                        i35 = longSparseIntArray25.get(keyAt, Integer.MIN_VALUE);
                                                     }
-                                                    if (i31 == i29) {
-                                                        i31 = 0;
+                                                    if (i35 == i33) {
+                                                        i35 = 0;
                                                     }
-                                                    longSparseIntArray21.put(keyAt, i31 + 1);
-                                                    if (sparseIntArray3 != null && (i32 = sparseIntArray3.get(intValue14, -1)) >= 0) {
-                                                        LongSparseIntArray longSparseIntArray22 = (LongSparseIntArray) sparseArray.get(i32);
-                                                        if (longSparseIntArray22 == null) {
-                                                            longSparseIntArray22 = new LongSparseIntArray();
-                                                            sparseArray.put(i32, longSparseIntArray22);
-                                                            i33 = Integer.MIN_VALUE;
-                                                            i34 = 0;
+                                                    longSparseIntArray25.put(keyAt, i35 + 1);
+                                                    if (sparseIntArray3 != null && (i36 = sparseIntArray3.get(intValue13, -1)) >= 0) {
+                                                        LongSparseIntArray longSparseIntArray26 = (LongSparseIntArray) sparseArray2.get(i36);
+                                                        if (longSparseIntArray26 == null) {
+                                                            longSparseIntArray26 = new LongSparseIntArray();
+                                                            sparseArray2.put(i36, longSparseIntArray26);
+                                                            i37 = Integer.MIN_VALUE;
+                                                            i38 = 0;
                                                         } else {
-                                                            i33 = Integer.MIN_VALUE;
-                                                            i34 = longSparseIntArray22.get(keyAt, Integer.MIN_VALUE);
+                                                            i37 = Integer.MIN_VALUE;
+                                                            i38 = longSparseIntArray26.get(keyAt, Integer.MIN_VALUE);
                                                         }
-                                                        if (i34 == i33) {
-                                                            i35 = -1;
-                                                            i34 = 0;
+                                                        if (i38 == i37) {
+                                                            i39 = -1;
+                                                            i38 = 0;
                                                         } else {
-                                                            i35 = -1;
+                                                            i39 = -1;
                                                         }
-                                                        longSparseIntArray22.put(keyAt, i34 + i35);
+                                                        longSparseIntArray26.put(keyAt, i38 + i39);
                                                     }
-                                                    i51++;
-                                                    size3 = i30;
+                                                    i55++;
+                                                    size3 = i34;
                                                 }
-                                                i48++;
-                                                hashMap23 = hashMap33;
-                                                hashMap21 = hashMap34;
-                                                size2 = i49;
-                                                longSparseArray3 = longSparseArray28;
-                                                longSparseArray19 = longSparseArray29;
-                                                hashMap29 = hashMap35;
-                                                str12 = str13;
-                                                str = str14;
+                                                i52++;
+                                                hashMap5 = hashMap35;
+                                                hashMap3 = hashMap36;
+                                                size2 = i53;
+                                                longSparseArray7 = longSparseArray29;
+                                                longSparseArray20 = longSparseArray30;
+                                                hashMap31 = hashMap37;
+                                                str13 = str14;
+                                                str2 = str15;
                                                 charSequence2 = charSequence3;
-                                                longSparseArray = longSparseArray26;
-                                                longSparseArray20 = longSparseArray27;
+                                                longSparseArray5 = longSparseArray27;
+                                                longSparseArray21 = longSparseArray28;
                                             }
-                                            hashMap3 = hashMap23;
-                                            str2 = str;
+                                            hashMap12 = hashMap5;
+                                            str3 = str2;
                                             charSequence = charSequence2;
-                                            hashMap4 = hashMap21;
-                                            hashMap5 = hashMap29;
-                                            str3 = str12;
-                                            longSparseArray2 = longSparseArray20;
+                                            hashMap13 = hashMap3;
+                                            hashMap14 = hashMap31;
+                                            str4 = str13;
+                                            longSparseArray6 = longSparseArray21;
                                         } else {
-                                            hashMap3 = hashMap23;
-                                            str2 = " ";
+                                            hashMap12 = hashMap5;
+                                            str3 = " ";
                                             charSequence = charSequence2;
-                                            hashMap4 = hashMap21;
-                                            hashMap5 = hashMap29;
-                                            str3 = str12;
-                                            longSparseArray2 = longSparseArray20;
-                                            longSparseArray3 = null;
-                                            sparseArray = null;
+                                            hashMap13 = hashMap3;
+                                            hashMap14 = hashMap31;
+                                            str4 = str13;
+                                            longSparseArray6 = longSparseArray21;
+                                            longSparseArray7 = null;
+                                            sparseArray2 = null;
                                         }
-                                        Iterator it2 = hashMap32.keySet().iterator();
+                                        Iterator it2 = hashMap34.keySet().iterator();
                                         while (it2.hasNext()) {
                                             TopicKey topicKey2 = (TopicKey) it2.next();
-                                            ArrayList arrayList14 = (ArrayList) hashMap31.get(topicKey2);
-                                            HashMap hashMap36 = hashMap32;
-                                            HashMap hashMap37 = hashMap31;
-                                            SQLiteCursor queryFinalized5 = this.database.queryFinalized(String.format(Locale.US, "SELECT mid, type FROM media_topics WHERE mid IN(%s) AND uid = %d AND topic_id = %d", ((StringBuilder) hashMap32.get(topicKey2)).toString(), Long.valueOf(topicKey2.dialogId), Long.valueOf(topicKey2.topicId)), new Object[0]);
+                                            ArrayList arrayList17 = (ArrayList) hashMap33.get(topicKey2);
+                                            HashMap hashMap38 = hashMap34;
+                                            HashMap hashMap39 = hashMap33;
+                                            SQLiteCursor queryFinalized5 = this.database.queryFinalized(String.format(Locale.US, "SELECT mid, type FROM media_topics WHERE mid IN(%s) AND uid = %d AND topic_id = %d", ((StringBuilder) hashMap34.get(topicKey2)).toString(), Long.valueOf(topicKey2.dialogId), Long.valueOf(topicKey2.topicId)), new Object[0]);
                                             SparseIntArray sparseIntArray5 = null;
                                             while (queryFinalized5.next()) {
-                                                LongSparseArray longSparseArray31 = longSparseArray2;
-                                                int intValue15 = queryFinalized5.intValue(0);
-                                                int intValue16 = queryFinalized5.intValue(1);
-                                                if (intValue16 == ((SparseIntArray) longSparseArray31.get(topicKey2.dialogId)).get(intValue15)) {
-                                                    arrayList14.remove(Integer.valueOf(intValue15));
-                                                    hashMap13 = hashMap37;
+                                                LongSparseArray longSparseArray32 = longSparseArray6;
+                                                int intValue14 = queryFinalized5.intValue(0);
+                                                int intValue15 = queryFinalized5.intValue(1);
+                                                if (intValue15 == ((SparseIntArray) longSparseArray32.get(topicKey2.dialogId)).get(intValue14)) {
+                                                    arrayList17.remove(Integer.valueOf(intValue14));
+                                                    hashMap24 = hashMap39;
                                                 } else {
                                                     if (sparseIntArray5 == null) {
-                                                        if (longSparseArray3 == null) {
-                                                            longSparseArray3 = new LongSparseArray();
+                                                        if (longSparseArray7 == null) {
+                                                            longSparseArray7 = new LongSparseArray();
                                                         }
-                                                        hashMap13 = hashMap37;
-                                                        sparseIntArray5 = (SparseIntArray) longSparseArray3.get(topicKey2.dialogId);
+                                                        hashMap24 = hashMap39;
+                                                        sparseIntArray5 = (SparseIntArray) longSparseArray7.get(topicKey2.dialogId);
                                                         if (sparseIntArray5 == null) {
                                                             sparseIntArray5 = new SparseIntArray();
-                                                            longSparseArray3.put(topicKey2.dialogId, sparseIntArray5);
+                                                            longSparseArray7.put(topicKey2.dialogId, sparseIntArray5);
                                                         }
                                                     } else {
-                                                        hashMap13 = hashMap37;
+                                                        hashMap24 = hashMap39;
                                                     }
-                                                    sparseIntArray5.put(intValue15, intValue16);
+                                                    sparseIntArray5.put(intValue14, intValue15);
                                                 }
-                                                longSparseArray2 = longSparseArray31;
-                                                hashMap37 = hashMap13;
+                                                longSparseArray6 = longSparseArray32;
+                                                hashMap39 = hashMap24;
                                             }
-                                            HashMap hashMap38 = hashMap37;
-                                            LongSparseArray longSparseArray32 = longSparseArray2;
-                                            SparseIntArray sparseIntArray6 = (SparseIntArray) longSparseArray32.get(topicKey2.dialogId);
-                                            int size4 = arrayList14.size();
-                                            int i53 = 0;
-                                            while (i53 < size4) {
-                                                int intValue17 = ((Integer) arrayList14.get(i53)).intValue();
-                                                int i54 = sparseIntArray6.get(intValue17);
+                                            HashMap hashMap40 = hashMap39;
+                                            LongSparseArray longSparseArray33 = longSparseArray6;
+                                            SparseIntArray sparseIntArray6 = (SparseIntArray) longSparseArray33.get(topicKey2.dialogId);
+                                            int size4 = arrayList17.size();
+                                            int i57 = 0;
+                                            while (i57 < size4) {
+                                                int intValue16 = ((Integer) arrayList17.get(i57)).intValue();
+                                                int i58 = sparseIntArray6.get(intValue16);
                                                 Iterator it3 = it2;
-                                                SparseArray sparseArray5 = sparseArray4;
-                                                ArrayList arrayList15 = arrayList14;
-                                                HashMap hashMap39 = (HashMap) sparseArray5.get(i54);
-                                                if (hashMap39 == null) {
-                                                    hashMap39 = new HashMap();
-                                                    sparseArray5.put(i54, hashMap39);
+                                                SparseArray sparseArray7 = sparseArray;
+                                                ArrayList arrayList18 = arrayList17;
+                                                HashMap hashMap41 = (HashMap) sparseArray7.get(i58);
+                                                if (hashMap41 == null) {
+                                                    hashMap41 = new HashMap();
+                                                    sparseArray7.put(i58, hashMap41);
                                                 } else {
-                                                    Integer num4 = (Integer) hashMap39.get(topicKey2);
+                                                    Integer num4 = (Integer) hashMap41.get(topicKey2);
                                                     if (num4 != null) {
-                                                        intValue6 = num4.intValue();
-                                                        hashMap39.put(topicKey2, Integer.valueOf(intValue6 + 1));
-                                                        if (sparseIntArray5 != null && (i28 = sparseIntArray5.get(intValue17, -1)) >= 0) {
-                                                            hashMap12 = (HashMap) sparseArray5.get(i28);
-                                                            if (hashMap12 != null) {
-                                                                hashMap12 = new HashMap();
-                                                                sparseArray5.put(i28, hashMap12);
-                                                                intValue7 = 0;
+                                                        intValue5 = num4.intValue();
+                                                        hashMap41.put(topicKey2, Integer.valueOf(intValue5 + 1));
+                                                        if (sparseIntArray5 != null && (i32 = sparseIntArray5.get(intValue16, -1)) >= 0) {
+                                                            hashMap23 = (HashMap) sparseArray7.get(i32);
+                                                            if (hashMap23 != null) {
+                                                                hashMap23 = new HashMap();
+                                                                sparseArray7.put(i32, hashMap23);
+                                                                intValue6 = 0;
                                                             } else {
-                                                                Integer num5 = (Integer) hashMap12.get(topicKey2);
-                                                                intValue7 = num5 == null ? Integer.MIN_VALUE : num5.intValue();
+                                                                Integer num5 = (Integer) hashMap23.get(topicKey2);
+                                                                intValue6 = num5 == null ? Integer.MIN_VALUE : num5.intValue();
                                                             }
-                                                            if (intValue7 == Integer.MIN_VALUE) {
-                                                                intValue7 = 0;
+                                                            if (intValue6 == Integer.MIN_VALUE) {
+                                                                intValue6 = 0;
                                                             }
-                                                            hashMap12.put(topicKey2, Integer.valueOf(intValue7 - 1));
+                                                            hashMap23.put(topicKey2, Integer.valueOf(intValue6 - 1));
                                                         }
-                                                        i53++;
-                                                        sparseArray4 = sparseArray5;
+                                                        i57++;
+                                                        sparseArray = sparseArray7;
                                                         it2 = it3;
-                                                        arrayList14 = arrayList15;
+                                                        arrayList17 = arrayList18;
                                                     }
                                                 }
-                                                intValue6 = 0;
-                                                hashMap39.put(topicKey2, Integer.valueOf(intValue6 + 1));
+                                                intValue5 = 0;
+                                                hashMap41.put(topicKey2, Integer.valueOf(intValue5 + 1));
                                                 if (sparseIntArray5 != null) {
-                                                    hashMap12 = (HashMap) sparseArray5.get(i28);
-                                                    if (hashMap12 != null) {
+                                                    hashMap23 = (HashMap) sparseArray7.get(i32);
+                                                    if (hashMap23 != null) {
                                                     }
-                                                    if (intValue7 == Integer.MIN_VALUE) {
+                                                    if (intValue6 == Integer.MIN_VALUE) {
                                                     }
-                                                    hashMap12.put(topicKey2, Integer.valueOf(intValue7 - 1));
+                                                    hashMap23.put(topicKey2, Integer.valueOf(intValue6 - 1));
                                                 }
-                                                i53++;
-                                                sparseArray4 = sparseArray5;
+                                                i57++;
+                                                sparseArray = sparseArray7;
                                                 it2 = it3;
-                                                arrayList14 = arrayList15;
+                                                arrayList17 = arrayList18;
                                             }
-                                            longSparseArray2 = longSparseArray32;
-                                            hashMap31 = hashMap38;
-                                            hashMap32 = hashMap36;
+                                            longSparseArray6 = longSparseArray33;
+                                            hashMap33 = hashMap40;
+                                            hashMap34 = hashMap38;
                                         }
-                                        SparseArray sparseArray6 = sparseArray4;
-                                        if (!longSparseArray23.isEmpty()) {
-                                            int size5 = longSparseArray23.size();
-                                            int i55 = 0;
-                                            while (i55 < size5) {
-                                                LongSparseArray longSparseArray33 = longSparseArray23;
-                                                long keyAt2 = longSparseArray33.keyAt(i55);
-                                                LongSparseArray longSparseArray34 = longSparseArray25;
-                                                ArrayList arrayList16 = (ArrayList) longSparseArray34.get(keyAt2);
-                                                LongSparseArray longSparseArray35 = longSparseArray24;
-                                                ArrayList arrayList17 = (ArrayList) longSparseArray35.get(keyAt2);
-                                                int i56 = size5;
-                                                longSparseArray23 = longSparseArray33;
-                                                longSparseArray25 = longSparseArray34;
-                                                longSparseArray24 = longSparseArray35;
-                                                int i57 = 0;
-                                                SQLiteCursor queryFinalized6 = this.database.queryFinalized(String.format(Locale.US, "SELECT mid FROM messages_v2 WHERE mid IN(%s) AND uid = %d", ((StringBuilder) longSparseArray33.valueAt(i55)).toString(), Long.valueOf(keyAt2)), new Object[0]);
+                                        SparseArray sparseArray8 = sparseArray;
+                                        if (!longSparseArray24.isEmpty()) {
+                                            int size5 = longSparseArray24.size();
+                                            int i59 = 0;
+                                            while (i59 < size5) {
+                                                LongSparseArray longSparseArray34 = longSparseArray24;
+                                                long keyAt2 = longSparseArray34.keyAt(i59);
+                                                LongSparseArray longSparseArray35 = longSparseArray26;
+                                                ArrayList arrayList19 = (ArrayList) longSparseArray35.get(keyAt2);
+                                                LongSparseArray longSparseArray36 = longSparseArray25;
+                                                ArrayList arrayList20 = (ArrayList) longSparseArray36.get(keyAt2);
+                                                int i60 = size5;
+                                                longSparseArray24 = longSparseArray34;
+                                                longSparseArray26 = longSparseArray35;
+                                                longSparseArray25 = longSparseArray36;
+                                                int i61 = 0;
+                                                SQLiteCursor queryFinalized6 = this.database.queryFinalized(String.format(Locale.US, "SELECT mid FROM messages_v2 WHERE mid IN(%s) AND uid = %d", ((StringBuilder) longSparseArray34.valueAt(i59)).toString(), Long.valueOf(keyAt2)), new Object[0]);
                                                 while (queryFinalized6.next()) {
-                                                    Integer valueOf = Integer.valueOf(queryFinalized6.intValue(i57));
-                                                    if (arrayList16 != null) {
-                                                        arrayList16.remove(valueOf);
+                                                    Integer valueOf = Integer.valueOf(queryFinalized6.intValue(i61));
+                                                    if (arrayList19 != null) {
+                                                        arrayList19.remove(valueOf);
                                                     }
-                                                    if (arrayList17 != null) {
-                                                        arrayList17.remove(valueOf);
+                                                    if (arrayList20 != null) {
+                                                        arrayList20.remove(valueOf);
                                                     }
-                                                    i57 = 0;
+                                                    i61 = 0;
                                                 }
                                                 queryFinalized6.dispose();
-                                                LongSparseIntArray longSparseIntArray23 = longSparseIntArray19;
-                                                int i58 = longSparseIntArray23.get(keyAt2, -1);
-                                                if (i58 < 0) {
-                                                    i58 = 0;
+                                                LongSparseIntArray longSparseIntArray27 = longSparseIntArray5;
+                                                int i62 = longSparseIntArray27.get(keyAt2, -1);
+                                                if (i62 < 0) {
+                                                    i62 = 0;
                                                 }
-                                                longSparseIntArray23.put(keyAt2, i58 + arrayList16.size());
-                                                if (arrayList17 != null) {
-                                                    longSparseIntArray6 = longSparseIntArray18;
-                                                    int i59 = longSparseIntArray6.get(keyAt2, -1);
-                                                    if (i59 < 0) {
-                                                        i59 = 0;
+                                                longSparseIntArray27.put(keyAt2, i62 + arrayList19.size());
+                                                if (arrayList20 != null) {
+                                                    longSparseIntArray15 = longSparseIntArray4;
+                                                    int i63 = longSparseIntArray15.get(keyAt2, -1);
+                                                    if (i63 < 0) {
+                                                        i63 = 0;
                                                     }
-                                                    longSparseIntArray6.put(keyAt2, i59 + arrayList17.size());
+                                                    longSparseIntArray15.put(keyAt2, i63 + arrayList20.size());
                                                 } else {
-                                                    longSparseIntArray6 = longSparseIntArray18;
+                                                    longSparseIntArray15 = longSparseIntArray4;
                                                 }
-                                                i55++;
-                                                longSparseIntArray19 = longSparseIntArray23;
-                                                longSparseIntArray18 = longSparseIntArray6;
-                                                size5 = i56;
+                                                i59++;
+                                                longSparseIntArray5 = longSparseIntArray27;
+                                                longSparseIntArray4 = longSparseIntArray15;
+                                                size5 = i60;
                                             }
                                         }
-                                        LongSparseIntArray longSparseIntArray24 = longSparseIntArray18;
-                                        LongSparseIntArray longSparseIntArray25 = longSparseIntArray19;
-                                        if (!hashMap3.isEmpty()) {
-                                            for (TopicKey topicKey3 : hashMap3.keySet()) {
-                                                HashMap hashMap40 = hashMap3;
-                                                ArrayList arrayList18 = (ArrayList) hashMap40.get(topicKey3);
+                                        LongSparseIntArray longSparseIntArray28 = longSparseIntArray4;
+                                        LongSparseIntArray longSparseIntArray29 = longSparseIntArray5;
+                                        if (!hashMap12.isEmpty()) {
+                                            for (TopicKey topicKey3 : hashMap12.keySet()) {
+                                                HashMap hashMap42 = hashMap12;
+                                                ArrayList arrayList21 = (ArrayList) hashMap42.get(topicKey3);
                                                 CharSequence charSequence4 = charSequence;
-                                                SparseArray sparseArray7 = sparseArray6;
-                                                LongSparseIntArray longSparseIntArray26 = longSparseIntArray25;
-                                                int i60 = 0;
-                                                SQLiteCursor queryFinalized7 = this.database.queryFinalized(String.format(Locale.US, "SELECT mid FROM messages_topics WHERE mid IN(%s) AND uid = %d AND topic_id = %d", TextUtils.join(charSequence4, arrayList18), Long.valueOf(topicKey3.dialogId), Long.valueOf(topicKey3.topicId)), new Object[0]);
+                                                SparseArray sparseArray9 = sparseArray8;
+                                                LongSparseIntArray longSparseIntArray30 = longSparseIntArray29;
+                                                int i64 = 0;
+                                                SQLiteCursor queryFinalized7 = this.database.queryFinalized(String.format(Locale.US, "SELECT mid FROM messages_topics WHERE mid IN(%s) AND uid = %d AND topic_id = %d", TextUtils.join(charSequence4, arrayList21), Long.valueOf(topicKey3.dialogId), Long.valueOf(topicKey3.topicId)), new Object[0]);
                                                 while (queryFinalized7.next()) {
-                                                    arrayList18.remove(Integer.valueOf(queryFinalized7.intValue(i60)));
-                                                    i60 = 0;
+                                                    arrayList21.remove(Integer.valueOf(queryFinalized7.intValue(i64)));
+                                                    i64 = 0;
                                                 }
                                                 queryFinalized7.dispose();
                                                 StringBuilder sb6 = new StringBuilder();
                                                 sb6.append("new unread mentions ");
                                                 sb6.append(topicKey3.dialogId);
-                                                String str15 = str2;
-                                                sb6.append(str15);
+                                                String str16 = str3;
+                                                sb6.append(str16);
                                                 sb6.append(topicKey3.topicId);
-                                                sb6.append(str15);
-                                                sb6.append(arrayList18.size());
+                                                sb6.append(str16);
+                                                sb6.append(arrayList21.size());
                                                 FileLog.d(sb6.toString());
-                                                HashMap hashMap41 = hashMap24;
-                                                hashMap41.put(topicKey3, Integer.valueOf(arrayList18.size()));
+                                                HashMap hashMap43 = hashMap6;
+                                                hashMap43.put(topicKey3, Integer.valueOf(arrayList21.size()));
                                                 charSequence = charSequence4;
-                                                hashMap3 = hashMap40;
-                                                str2 = str15;
-                                                hashMap24 = hashMap41;
-                                                longSparseIntArray25 = longSparseIntArray26;
-                                                sparseArray6 = sparseArray7;
+                                                hashMap12 = hashMap42;
+                                                str3 = str16;
+                                                hashMap6 = hashMap43;
+                                                longSparseIntArray29 = longSparseIntArray30;
+                                                sparseArray8 = sparseArray9;
                                             }
                                         }
-                                        SparseArray sparseArray8 = sparseArray6;
-                                        LongSparseIntArray longSparseIntArray27 = longSparseIntArray25;
-                                        HashMap hashMap42 = hashMap24;
-                                        String str16 = str2;
-                                        if (longSparseArray3 != null) {
-                                            for (int i61 = 0; i61 < longSparseArray3.size(); i61++) {
-                                                long keyAt3 = longSparseArray3.keyAt(i61);
-                                                SparseIntArray sparseIntArray7 = (SparseIntArray) longSparseArray3.valueAt(i61);
+                                        sparseArray3 = sparseArray8;
+                                        longSparseIntArray6 = longSparseIntArray29;
+                                        HashMap hashMap44 = hashMap6;
+                                        String str17 = str3;
+                                        if (longSparseArray7 != null) {
+                                            for (int i65 = 0; i65 < longSparseArray7.size(); i65++) {
+                                                long keyAt3 = longSparseArray7.keyAt(i65);
+                                                SparseIntArray sparseIntArray7 = (SparseIntArray) longSparseArray7.valueAt(i65);
                                                 StringBuilder sb7 = new StringBuilder();
-                                                for (int i62 = 0; i62 < longSparseArray3.size(); i62++) {
-                                                    int keyAt4 = sparseIntArray7.keyAt(i62);
+                                                for (int i66 = 0; i66 < longSparseArray7.size(); i66++) {
+                                                    int keyAt4 = sparseIntArray7.keyAt(i66);
                                                     if (sb7.length() != 0) {
                                                         sb7.append(", ");
                                                     }
@@ -18710,49 +18773,49 @@ public class MessagesStorage extends BaseController {
                                                 this.database.executeFast(String.format(locale, "DELETE FROM media_topics WHERE mid IN(%s) AND uid = %d", sb7.toString(), Long.valueOf(keyAt3))).stepThis().dispose();
                                             }
                                         }
-                                        int i63 = 0;
-                                        int i64 = ConnectionsManager.DEFAULT_DATACENTER_ID;
-                                        int i65 = 0;
-                                        SQLitePreparedStatement sQLitePreparedStatement27 = null;
-                                        SQLitePreparedStatement sQLitePreparedStatement28 = null;
-                                        ArrayList arrayList19 = null;
-                                        ArrayList arrayList20 = null;
-                                        SQLitePreparedStatement sQLitePreparedStatement29 = null;
-                                        while (i65 < arrayList.size()) {
+                                        int i67 = 0;
+                                        int i68 = ConnectionsManager.DEFAULT_DATACENTER_ID;
+                                        int i69 = 0;
+                                        SQLitePreparedStatement sQLitePreparedStatement33 = null;
+                                        SQLitePreparedStatement sQLitePreparedStatement34 = null;
+                                        arrayList2 = null;
+                                        ArrayList arrayList22 = null;
+                                        SQLitePreparedStatement sQLitePreparedStatement35 = null;
+                                        while (i69 < arrayList.size()) {
                                             try {
                                                 try {
-                                                    TLRPC$Message tLRPC$Message7 = arrayList.get(i65);
+                                                    TLRPC$Message tLRPC$Message7 = arrayList.get(i69);
                                                     if (tLRPC$Message7 == null) {
-                                                        longSparseIntArray5 = longSparseIntArray24;
-                                                        i12 = i65;
-                                                        str5 = str16;
-                                                        sparseArray2 = sparseArray;
-                                                        hashMap8 = hashMap42;
-                                                        str6 = str10;
-                                                        hashMap10 = hashMap22;
-                                                        longSparseArray5 = longSparseArray17;
-                                                        sQLitePreparedStatement24 = sQLitePreparedStatement8;
-                                                        sQLitePreparedStatement23 = sQLitePreparedStatement9;
-                                                        arrayList4 = arrayList19;
-                                                        i15 = i63;
-                                                        sQLitePreparedStatement22 = sQLitePreparedStatement10;
+                                                        longSparseIntArray14 = longSparseIntArray28;
+                                                        i16 = i69;
+                                                        str7 = str17;
+                                                        sparseArray5 = sparseArray2;
+                                                        hashMap19 = hashMap44;
+                                                        str8 = str;
+                                                        hashMap21 = hashMap4;
+                                                        longSparseArray10 = longSparseArray4;
+                                                        sQLitePreparedStatement30 = sQLitePreparedStatement8;
+                                                        sQLitePreparedStatement29 = sQLitePreparedStatement9;
+                                                        arrayList7 = arrayList2;
+                                                        i19 = i67;
+                                                        sQLitePreparedStatement28 = sQLitePreparedStatement10;
                                                     } else {
                                                         fixUnsupportedMedia(tLRPC$Message7);
-                                                        sparseArray2 = sparseArray;
+                                                        sparseArray5 = sparseArray2;
                                                         long topicId2 = MessageObject.getTopicId(this.currentAccount, tLRPC$Message7, isForum(tLRPC$Message7.dialog_id));
                                                         sQLitePreparedStatement13.requery();
-                                                        int i66 = tLRPC$Message7.id;
-                                                        int i67 = tLRPC$Message7.local_id;
-                                                        if (i67 == 0) {
-                                                            i67 = i66;
+                                                        int i70 = tLRPC$Message7.id;
+                                                        int i71 = tLRPC$Message7.local_id;
+                                                        if (i71 == 0) {
+                                                            i71 = i70;
                                                         }
                                                         MessageObject.normalizeFlags(tLRPC$Message7);
-                                                        int i68 = i67;
-                                                        ArrayList arrayList21 = arrayList20;
+                                                        int i72 = i71;
+                                                        ArrayList arrayList23 = arrayList22;
                                                         NativeByteBuffer nativeByteBuffer5 = new NativeByteBuffer(tLRPC$Message7.getObjectSize());
                                                         tLRPC$Message7.serializeToStream(nativeByteBuffer5);
                                                         TLRPC$MessageAction tLRPC$MessageAction = tLRPC$Message7.action;
-                                                        hashMap8 = hashMap42;
+                                                        hashMap19 = hashMap44;
                                                         try {
                                                             try {
                                                                 try {
@@ -18760,85 +18823,85 @@ public class MessagesStorage extends BaseController {
                                                                         if (tLRPC$MessageAction instanceof TLRPC$TL_messageEncryptedAction) {
                                                                             try {
                                                                                 TLRPC$DecryptedMessageAction tLRPC$DecryptedMessageAction = tLRPC$MessageAction.encryptedAction;
-                                                                                str5 = str16;
+                                                                                str7 = str17;
                                                                                 if (!(tLRPC$DecryptedMessageAction instanceof TLRPC$TL_decryptedMessageActionSetMessageTTL) && !(tLRPC$DecryptedMessageAction instanceof TLRPC$TL_decryptedMessageActionScreenshotMessages)) {
                                                                                     z7 = false;
                                                                                     if ((tLRPC$MessageAction instanceof TLRPC$TL_messageActionTopicCreate) && !MessageObject.isOut(tLRPC$Message7)) {
-                                                                                        if (arrayList19 == null) {
-                                                                                            arrayList19 = new ArrayList();
+                                                                                        if (arrayList2 == null) {
+                                                                                            arrayList2 = new ArrayList();
                                                                                         }
-                                                                                        arrayList19.add(tLRPC$Message7);
+                                                                                        arrayList2.add(tLRPC$Message7);
                                                                                     }
                                                                                     if (tLRPC$Message7.action instanceof TLRPC$TL_messageActionTopicEdit) {
-                                                                                        if (arrayList19 == null) {
-                                                                                            arrayList19 = new ArrayList();
+                                                                                        if (arrayList2 == null) {
+                                                                                            arrayList2 = new ArrayList();
                                                                                         }
-                                                                                        arrayList19.add(tLRPC$Message7);
+                                                                                        arrayList2.add(tLRPC$Message7);
                                                                                     }
-                                                                                    LongSparseIntArray longSparseIntArray28 = longSparseIntArray24;
-                                                                                    i12 = i65;
+                                                                                    LongSparseIntArray longSparseIntArray31 = longSparseIntArray28;
+                                                                                    i16 = i69;
                                                                                     long clientUserId = getUserConfig().getClientUserId();
                                                                                     if (z7) {
-                                                                                        i13 = i63;
-                                                                                        sQLitePreparedStatement21 = sQLitePreparedStatement28;
-                                                                                        longSparseIntArray5 = longSparseIntArray28;
-                                                                                        hashMap9 = hashMap22;
-                                                                                        longSparseArray5 = longSparseArray17;
-                                                                                        arrayList4 = arrayList19;
+                                                                                        i17 = i67;
+                                                                                        sQLitePreparedStatement27 = sQLitePreparedStatement34;
+                                                                                        longSparseIntArray14 = longSparseIntArray31;
+                                                                                        hashMap20 = hashMap4;
+                                                                                        longSparseArray10 = longSparseArray4;
+                                                                                        arrayList7 = arrayList2;
                                                                                     } else {
-                                                                                        sQLitePreparedStatement21 = sQLitePreparedStatement28;
+                                                                                        sQLitePreparedStatement27 = sQLitePreparedStatement34;
                                                                                         try {
-                                                                                            longSparseIntArray5 = longSparseIntArray28;
-                                                                                            LongSparseArray longSparseArray36 = longSparseArray17;
-                                                                                            TLRPC$Message tLRPC$Message8 = (TLRPC$Message) longSparseArray36.get(tLRPC$Message7.dialog_id);
+                                                                                            longSparseIntArray14 = longSparseIntArray31;
+                                                                                            LongSparseArray longSparseArray37 = longSparseArray4;
+                                                                                            TLRPC$Message tLRPC$Message8 = (TLRPC$Message) longSparseArray37.get(tLRPC$Message7.dialog_id);
                                                                                             if (tLRPC$Message8 != null) {
-                                                                                                arrayList4 = arrayList19;
+                                                                                                arrayList7 = arrayList2;
                                                                                                 if (tLRPC$Message7.date <= tLRPC$Message8.date) {
-                                                                                                    int i69 = tLRPC$Message8.id;
-                                                                                                    if (i69 > 0) {
+                                                                                                    int i73 = tLRPC$Message8.id;
+                                                                                                    if (i73 > 0) {
                                                                                                     }
-                                                                                                    if (i69 < 0 && tLRPC$Message7.id < i69) {
+                                                                                                    if (i73 < 0 && tLRPC$Message7.id < i73) {
                                                                                                     }
                                                                                                     if (topicId2 != 0) {
                                                                                                         long j7 = tLRPC$Message7.dialog_id;
                                                                                                         if (j7 != clientUserId) {
                                                                                                             TopicKey of5 = TopicKey.of(j7, topicId2);
-                                                                                                            hashMap9 = hashMap22;
-                                                                                                            TLRPC$Message tLRPC$Message9 = (TLRPC$Message) hashMap9.get(of5);
+                                                                                                            hashMap20 = hashMap4;
+                                                                                                            TLRPC$Message tLRPC$Message9 = (TLRPC$Message) hashMap20.get(of5);
                                                                                                             if (tLRPC$Message9 != null) {
-                                                                                                                longSparseArray5 = longSparseArray36;
-                                                                                                                i13 = i63;
+                                                                                                                longSparseArray10 = longSparseArray37;
+                                                                                                                i17 = i67;
                                                                                                                 if (tLRPC$Message7.date <= tLRPC$Message9.date) {
-                                                                                                                    int i70 = tLRPC$Message9.id;
-                                                                                                                    if (i70 > 0) {
+                                                                                                                    int i74 = tLRPC$Message9.id;
+                                                                                                                    if (i74 > 0) {
                                                                                                                     }
-                                                                                                                    if (i70 < 0 && tLRPC$Message7.id < i70) {
+                                                                                                                    if (i74 < 0 && tLRPC$Message7.id < i74) {
                                                                                                                     }
                                                                                                                 }
                                                                                                             } else {
-                                                                                                                i13 = i63;
-                                                                                                                longSparseArray5 = longSparseArray36;
+                                                                                                                i17 = i67;
+                                                                                                                longSparseArray10 = longSparseArray37;
                                                                                                             }
-                                                                                                            hashMap9.put(of5, tLRPC$Message7);
+                                                                                                            hashMap20.put(of5, tLRPC$Message7);
                                                                                                         }
                                                                                                     }
-                                                                                                    i13 = i63;
-                                                                                                    hashMap9 = hashMap22;
-                                                                                                    longSparseArray5 = longSparseArray36;
+                                                                                                    i17 = i67;
+                                                                                                    hashMap20 = hashMap4;
+                                                                                                    longSparseArray10 = longSparseArray37;
                                                                                                 }
                                                                                             } else {
-                                                                                                arrayList4 = arrayList19;
+                                                                                                arrayList7 = arrayList2;
                                                                                             }
-                                                                                            longSparseArray36.put(tLRPC$Message7.dialog_id, tLRPC$Message7);
+                                                                                            longSparseArray37.put(tLRPC$Message7.dialog_id, tLRPC$Message7);
                                                                                             if (topicId2 != 0) {
                                                                                             }
-                                                                                            i13 = i63;
-                                                                                            hashMap9 = hashMap22;
-                                                                                            longSparseArray5 = longSparseArray36;
+                                                                                            i17 = i67;
+                                                                                            hashMap20 = hashMap4;
+                                                                                            longSparseArray10 = longSparseArray37;
                                                                                         } catch (Exception e11) {
                                                                                             e = e11;
-                                                                                            sQLitePreparedStatement11 = sQLitePreparedStatement27;
-                                                                                            sQLitePreparedStatement12 = sQLitePreparedStatement21;
+                                                                                            sQLitePreparedStatement11 = sQLitePreparedStatement33;
+                                                                                            sQLitePreparedStatement12 = sQLitePreparedStatement27;
                                                                                             sQLitePreparedStatement6 = sQLitePreparedStatement13;
                                                                                             sQLitePreparedStatement = null;
                                                                                             sQLitePreparedStatement2 = null;
@@ -18868,16 +18931,16 @@ public class MessagesStorage extends BaseController {
                                                                                             }
                                                                                             if (sQLitePreparedStatement5 != null) {
                                                                                             }
-                                                                                            if (sQLitePreparedStatement3 != null) {
+                                                                                            if (sQLitePreparedStatement2 != null) {
                                                                                             }
                                                                                             if (sQLitePreparedStatement != null) {
                                                                                             }
-                                                                                            if (sQLitePreparedStatement2 != null) {
+                                                                                            if (sQLitePreparedStatement3 == null) {
                                                                                             }
                                                                                         } catch (Throwable th15) {
                                                                                             th3 = th15;
-                                                                                            sQLitePreparedStatement11 = sQLitePreparedStatement27;
-                                                                                            sQLitePreparedStatement12 = sQLitePreparedStatement21;
+                                                                                            sQLitePreparedStatement11 = sQLitePreparedStatement33;
+                                                                                            sQLitePreparedStatement12 = sQLitePreparedStatement27;
                                                                                             sQLitePreparedStatement6 = sQLitePreparedStatement13;
                                                                                             sQLitePreparedStatement = null;
                                                                                             sQLitePreparedStatement2 = null;
@@ -18906,24 +18969,24 @@ public class MessagesStorage extends BaseController {
                                                                                             }
                                                                                             if (sQLitePreparedStatement5 != null) {
                                                                                             }
-                                                                                            if (sQLitePreparedStatement3 != null) {
+                                                                                            if (sQLitePreparedStatement2 != null) {
                                                                                             }
                                                                                             if (sQLitePreparedStatement != null) {
                                                                                             }
-                                                                                            if (sQLitePreparedStatement2 != null) {
+                                                                                            if (sQLitePreparedStatement3 != null) {
                                                                                             }
                                                                                             throw th;
                                                                                         }
                                                                                     }
-                                                                                    ArrayList arrayList22 = arrayList21;
-                                                                                    i14 = 0;
-                                                                                    while (i14 < 2) {
-                                                                                        if (i14 == 1) {
-                                                                                            i17 = i68;
+                                                                                    ArrayList arrayList24 = arrayList23;
+                                                                                    i18 = 0;
+                                                                                    while (i18 < 2) {
+                                                                                        if (i18 == 1) {
+                                                                                            i21 = i72;
                                                                                             j4 = 0;
                                                                                             z8 = true;
                                                                                         } else {
-                                                                                            i17 = i68;
+                                                                                            i21 = i72;
                                                                                             j4 = 0;
                                                                                             z8 = false;
                                                                                         }
@@ -18932,45 +18995,45 @@ public class MessagesStorage extends BaseController {
                                                                                             try {
                                                                                                 long j8 = tLRPC$Message7.dialog_id;
                                                                                                 if (!z8) {
-                                                                                                    sQLitePreparedStatement25 = sQLitePreparedStatement13;
+                                                                                                    sQLitePreparedStatement31 = sQLitePreparedStatement13;
                                                                                                 } else if (topicId2 != j4) {
                                                                                                     if (clientUserId == j8 && MessageObject.getSavedDialogId(clientUserId, tLRPC$Message7) != j4) {
-                                                                                                        if (arrayList22 == null) {
-                                                                                                            arrayList22 = new ArrayList();
+                                                                                                        if (arrayList24 == null) {
+                                                                                                            arrayList24 = new ArrayList();
                                                                                                         }
-                                                                                                        arrayList22.add(tLRPC$Message7);
+                                                                                                        arrayList24.add(tLRPC$Message7);
                                                                                                     }
-                                                                                                    sQLitePreparedStatement25 = sQLitePreparedStatement7;
+                                                                                                    sQLitePreparedStatement31 = sQLitePreparedStatement7;
                                                                                                 }
-                                                                                                sQLitePreparedStatement25.requery();
+                                                                                                sQLitePreparedStatement31.requery();
                                                                                                 j5 = clientUserId;
-                                                                                                sQLitePreparedStatement26 = sQLitePreparedStatement25;
-                                                                                                sQLitePreparedStatement26.bindInteger(1, i17);
-                                                                                                sQLitePreparedStatement26.bindLong(2, j8);
+                                                                                                sQLitePreparedStatement32 = sQLitePreparedStatement31;
+                                                                                                sQLitePreparedStatement32.bindInteger(1, i21);
+                                                                                                sQLitePreparedStatement32.bindLong(2, j8);
                                                                                                 if (z8) {
-                                                                                                    sQLitePreparedStatement26.bindLong(3, topicId2);
-                                                                                                    i18 = 4;
+                                                                                                    sQLitePreparedStatement32.bindLong(3, topicId2);
+                                                                                                    i22 = 4;
                                                                                                 } else {
-                                                                                                    i18 = 3;
+                                                                                                    i22 = 3;
                                                                                                 }
-                                                                                                int i71 = i18 + 1;
-                                                                                                sQLitePreparedStatement26.bindInteger(i18, MessageObject.getUnreadFlags(tLRPC$Message7));
-                                                                                                int i72 = i71 + 1;
-                                                                                                sQLitePreparedStatement26.bindInteger(i71, tLRPC$Message7.send_state);
-                                                                                                int i73 = i72 + 1;
-                                                                                                sQLitePreparedStatement26.bindInteger(i72, tLRPC$Message7.date);
-                                                                                                i19 = i73 + 1;
+                                                                                                int i75 = i22 + 1;
+                                                                                                sQLitePreparedStatement32.bindInteger(i22, MessageObject.getUnreadFlags(tLRPC$Message7));
+                                                                                                int i76 = i75 + 1;
+                                                                                                sQLitePreparedStatement32.bindInteger(i75, tLRPC$Message7.send_state);
+                                                                                                int i77 = i76 + 1;
+                                                                                                sQLitePreparedStatement32.bindInteger(i76, tLRPC$Message7.date);
+                                                                                                i23 = i77 + 1;
                                                                                                 nativeByteBuffer5 = nativeByteBuffer;
-                                                                                                sQLitePreparedStatement26.bindByteBuffer(i73, nativeByteBuffer5);
-                                                                                                i20 = i19 + 1;
+                                                                                                sQLitePreparedStatement32.bindByteBuffer(i77, nativeByteBuffer5);
+                                                                                                i24 = i23 + 1;
                                                                                             } catch (Exception e12) {
                                                                                                 e = e12;
-                                                                                                sQLitePreparedStatement11 = sQLitePreparedStatement27;
-                                                                                                sQLitePreparedStatement12 = sQLitePreparedStatement21;
+                                                                                                sQLitePreparedStatement11 = sQLitePreparedStatement33;
+                                                                                                sQLitePreparedStatement12 = sQLitePreparedStatement27;
                                                                                             } catch (Throwable th16) {
                                                                                                 th = th16;
-                                                                                                sQLitePreparedStatement11 = sQLitePreparedStatement27;
-                                                                                                sQLitePreparedStatement12 = sQLitePreparedStatement21;
+                                                                                                sQLitePreparedStatement11 = sQLitePreparedStatement33;
+                                                                                                sQLitePreparedStatement12 = sQLitePreparedStatement27;
                                                                                             }
                                                                                             try {
                                                                                                 if (MessageObject.isOut(tLRPC$Message7)) {
@@ -18978,92 +19041,92 @@ public class MessagesStorage extends BaseController {
                                                                                                 } else {
                                                                                                     j6 = topicId2;
                                                                                                     if (!tLRPC$Message7.from_scheduled) {
-                                                                                                        i21 = 0;
-                                                                                                        sQLitePreparedStatement26.bindInteger(i19, i21);
-                                                                                                        int i74 = i20 + 1;
-                                                                                                        sQLitePreparedStatement26.bindInteger(i20, tLRPC$Message7.ttl);
+                                                                                                        i25 = 0;
+                                                                                                        sQLitePreparedStatement32.bindInteger(i23, i25);
+                                                                                                        int i78 = i24 + 1;
+                                                                                                        sQLitePreparedStatement32.bindInteger(i24, tLRPC$Message7.ttl);
                                                                                                         if ((tLRPC$Message7.flags & 1024) == 0) {
-                                                                                                            i22 = i74 + 1;
-                                                                                                            sQLitePreparedStatement26.bindInteger(i74, tLRPC$Message7.views);
+                                                                                                            i26 = i78 + 1;
+                                                                                                            sQLitePreparedStatement32.bindInteger(i78, tLRPC$Message7.views);
                                                                                                         } else {
-                                                                                                            i22 = i74 + 1;
-                                                                                                            sQLitePreparedStatement26.bindInteger(i74, getMessageMediaType(tLRPC$Message7));
+                                                                                                            i26 = i78 + 1;
+                                                                                                            sQLitePreparedStatement32.bindInteger(i78, getMessageMediaType(tLRPC$Message7));
                                                                                                         }
                                                                                                         if (tLRPC$Message7.replyStory == null) {
                                                                                                             nativeByteBuffer2 = new NativeByteBuffer(tLRPC$Message7.replyStory.getObjectSize());
                                                                                                             tLRPC$Message7.replyStory.serializeToStream(nativeByteBuffer2);
-                                                                                                            i23 = i22 + 1;
-                                                                                                            sQLitePreparedStatement26.bindByteBuffer(i22, nativeByteBuffer2);
+                                                                                                            i27 = i26 + 1;
+                                                                                                            sQLitePreparedStatement32.bindByteBuffer(i26, nativeByteBuffer2);
                                                                                                         } else {
-                                                                                                            i23 = i22 + 1;
-                                                                                                            sQLitePreparedStatement26.bindNull(i22);
+                                                                                                            i27 = i26 + 1;
+                                                                                                            sQLitePreparedStatement32.bindNull(i26);
                                                                                                             nativeByteBuffer2 = null;
                                                                                                         }
-                                                                                                        int i75 = tLRPC$Message7.stickerVerified;
-                                                                                                        int i76 = i23 + 1;
-                                                                                                        sQLitePreparedStatement26.bindInteger(i23, i75 != 0 ? 1 : i75 == 2 ? 2 : 0);
-                                                                                                        int i77 = i76 + 1;
-                                                                                                        sQLitePreparedStatement26.bindInteger(i76, !tLRPC$Message7.mentioned ? 1 : 0);
-                                                                                                        int i78 = i77 + 1;
-                                                                                                        sQLitePreparedStatement26.bindInteger(i77, tLRPC$Message7.forwards);
+                                                                                                        int i79 = tLRPC$Message7.stickerVerified;
+                                                                                                        int i80 = i27 + 1;
+                                                                                                        sQLitePreparedStatement32.bindInteger(i27, i79 != 0 ? 1 : i79 == 2 ? 2 : 0);
+                                                                                                        int i81 = i80 + 1;
+                                                                                                        sQLitePreparedStatement32.bindInteger(i80, !tLRPC$Message7.mentioned ? 1 : 0);
+                                                                                                        int i82 = i81 + 1;
+                                                                                                        sQLitePreparedStatement32.bindInteger(i81, tLRPC$Message7.forwards);
                                                                                                         if (tLRPC$Message7.replies == null) {
                                                                                                             nativeByteBuffer3 = new NativeByteBuffer(tLRPC$Message7.replies.getObjectSize());
                                                                                                             tLRPC$Message7.replies.serializeToStream(nativeByteBuffer3);
-                                                                                                            i24 = i78 + 1;
-                                                                                                            sQLitePreparedStatement26.bindByteBuffer(i78, nativeByteBuffer3);
+                                                                                                            i28 = i82 + 1;
+                                                                                                            sQLitePreparedStatement32.bindByteBuffer(i82, nativeByteBuffer3);
                                                                                                         } else {
-                                                                                                            i24 = i78 + 1;
-                                                                                                            sQLitePreparedStatement26.bindNull(i78);
+                                                                                                            i28 = i82 + 1;
+                                                                                                            sQLitePreparedStatement32.bindNull(i82);
                                                                                                             nativeByteBuffer3 = null;
                                                                                                         }
                                                                                                         tLRPC$MessageReplyHeader = tLRPC$Message7.reply_to;
                                                                                                         if (tLRPC$MessageReplyHeader == null) {
-                                                                                                            i25 = i24 + 1;
-                                                                                                            arrayList5 = arrayList22;
-                                                                                                            int i79 = tLRPC$MessageReplyHeader.reply_to_top_id;
-                                                                                                            if (i79 == 0) {
-                                                                                                                i79 = tLRPC$MessageReplyHeader.reply_to_msg_id;
+                                                                                                            i29 = i28 + 1;
+                                                                                                            arrayList8 = arrayList24;
+                                                                                                            int i83 = tLRPC$MessageReplyHeader.reply_to_top_id;
+                                                                                                            if (i83 == 0) {
+                                                                                                                i83 = tLRPC$MessageReplyHeader.reply_to_msg_id;
                                                                                                             }
-                                                                                                            sQLitePreparedStatement26.bindInteger(i24, i79);
+                                                                                                            sQLitePreparedStatement32.bindInteger(i28, i83);
                                                                                                         } else {
-                                                                                                            arrayList5 = arrayList22;
-                                                                                                            i25 = i24 + 1;
-                                                                                                            sQLitePreparedStatement26.bindInteger(i24, 0);
+                                                                                                            arrayList8 = arrayList24;
+                                                                                                            i29 = i28 + 1;
+                                                                                                            sQLitePreparedStatement32.bindInteger(i28, 0);
                                                                                                         }
-                                                                                                        int i80 = i25;
-                                                                                                        int i81 = i80 + 1;
-                                                                                                        sQLitePreparedStatement11 = sQLitePreparedStatement27;
-                                                                                                        sQLitePreparedStatement12 = sQLitePreparedStatement21;
-                                                                                                        sQLitePreparedStatement26.bindLong(i80, MessageObject.getChannelId(tLRPC$Message7));
+                                                                                                        int i84 = i29;
+                                                                                                        int i85 = i84 + 1;
+                                                                                                        sQLitePreparedStatement11 = sQLitePreparedStatement33;
+                                                                                                        sQLitePreparedStatement12 = sQLitePreparedStatement27;
+                                                                                                        sQLitePreparedStatement32.bindLong(i84, MessageObject.getChannelId(tLRPC$Message7));
                                                                                                         writeLocalParams = MessageCustomParamsHelper.writeLocalParams(tLRPC$Message7);
                                                                                                         if (writeLocalParams == null) {
-                                                                                                            i26 = i81 + 1;
-                                                                                                            sQLitePreparedStatement26.bindByteBuffer(i81, writeLocalParams);
+                                                                                                            i30 = i85 + 1;
+                                                                                                            sQLitePreparedStatement32.bindByteBuffer(i85, writeLocalParams);
                                                                                                         } else {
-                                                                                                            i26 = i81 + 1;
-                                                                                                            sQLitePreparedStatement26.bindNull(i81);
+                                                                                                            i30 = i85 + 1;
+                                                                                                            sQLitePreparedStatement32.bindNull(i85);
                                                                                                         }
                                                                                                         if (z8) {
                                                                                                             if ((tLRPC$Message7.flags & 131072) != 0) {
-                                                                                                                i27 = i26 + 1;
-                                                                                                                hashMap11 = hashMap9;
-                                                                                                                sQLitePreparedStatement26.bindLong(i26, tLRPC$Message7.grouped_id);
+                                                                                                                i31 = i30 + 1;
+                                                                                                                hashMap22 = hashMap20;
+                                                                                                                sQLitePreparedStatement32.bindLong(i30, tLRPC$Message7.grouped_id);
                                                                                                             } else {
-                                                                                                                hashMap11 = hashMap9;
-                                                                                                                i27 = i26 + 1;
-                                                                                                                sQLitePreparedStatement26.bindNull(i26);
+                                                                                                                hashMap22 = hashMap20;
+                                                                                                                i31 = i30 + 1;
+                                                                                                                sQLitePreparedStatement32.bindNull(i30);
                                                                                                             }
-                                                                                                            i26 = i27;
+                                                                                                            i30 = i31;
                                                                                                         } else {
-                                                                                                            hashMap11 = hashMap9;
+                                                                                                            hashMap22 = hashMap20;
                                                                                                         }
                                                                                                         tLRPC$MessageReplyHeader2 = tLRPC$Message7.reply_to;
                                                                                                         if (tLRPC$MessageReplyHeader2 == null) {
-                                                                                                            sQLitePreparedStatement26.bindInteger(i26, tLRPC$MessageReplyHeader2.story_id);
+                                                                                                            sQLitePreparedStatement32.bindInteger(i30, tLRPC$MessageReplyHeader2.story_id);
                                                                                                         } else {
-                                                                                                            sQLitePreparedStatement26.bindInteger(i26, 0);
+                                                                                                            sQLitePreparedStatement32.bindInteger(i30, 0);
                                                                                                         }
-                                                                                                        sQLitePreparedStatement26.step();
+                                                                                                        sQLitePreparedStatement32.step();
                                                                                                         if (nativeByteBuffer3 != null) {
                                                                                                             nativeByteBuffer3.reuse();
                                                                                                         }
@@ -19073,17 +19136,17 @@ public class MessagesStorage extends BaseController {
                                                                                                         if (nativeByteBuffer2 != null) {
                                                                                                             nativeByteBuffer2.reuse();
                                                                                                         }
-                                                                                                        arrayList22 = arrayList5;
-                                                                                                        i14++;
-                                                                                                        hashMap9 = hashMap11;
+                                                                                                        arrayList24 = arrayList8;
+                                                                                                        i18++;
+                                                                                                        hashMap20 = hashMap22;
                                                                                                         topicId2 = j6;
-                                                                                                        sQLitePreparedStatement27 = sQLitePreparedStatement11;
+                                                                                                        sQLitePreparedStatement33 = sQLitePreparedStatement11;
                                                                                                         clientUserId = j5;
-                                                                                                        sQLitePreparedStatement21 = sQLitePreparedStatement12;
-                                                                                                        i68 = i17;
+                                                                                                        sQLitePreparedStatement27 = sQLitePreparedStatement12;
+                                                                                                        i72 = i21;
                                                                                                     }
                                                                                                 }
-                                                                                                sQLitePreparedStatement26.bindLong(i80, MessageObject.getChannelId(tLRPC$Message7));
+                                                                                                sQLitePreparedStatement32.bindLong(i84, MessageObject.getChannelId(tLRPC$Message7));
                                                                                                 writeLocalParams = MessageCustomParamsHelper.writeLocalParams(tLRPC$Message7);
                                                                                                 if (writeLocalParams == null) {
                                                                                                 }
@@ -19092,21 +19155,21 @@ public class MessagesStorage extends BaseController {
                                                                                                 tLRPC$MessageReplyHeader2 = tLRPC$Message7.reply_to;
                                                                                                 if (tLRPC$MessageReplyHeader2 == null) {
                                                                                                 }
-                                                                                                sQLitePreparedStatement26.step();
+                                                                                                sQLitePreparedStatement32.step();
                                                                                                 if (nativeByteBuffer3 != null) {
                                                                                                 }
                                                                                                 if (writeLocalParams != null) {
                                                                                                 }
                                                                                                 if (nativeByteBuffer2 != null) {
                                                                                                 }
-                                                                                                arrayList22 = arrayList5;
-                                                                                                i14++;
-                                                                                                hashMap9 = hashMap11;
+                                                                                                arrayList24 = arrayList8;
+                                                                                                i18++;
+                                                                                                hashMap20 = hashMap22;
                                                                                                 topicId2 = j6;
-                                                                                                sQLitePreparedStatement27 = sQLitePreparedStatement11;
+                                                                                                sQLitePreparedStatement33 = sQLitePreparedStatement11;
                                                                                                 clientUserId = j5;
-                                                                                                sQLitePreparedStatement21 = sQLitePreparedStatement12;
-                                                                                                i68 = i17;
+                                                                                                sQLitePreparedStatement27 = sQLitePreparedStatement12;
+                                                                                                i72 = i21;
                                                                                             } catch (Exception e13) {
                                                                                                 e = e13;
                                                                                                 th2 = e;
@@ -19138,11 +19201,11 @@ public class MessagesStorage extends BaseController {
                                                                                                 }
                                                                                                 if (sQLitePreparedStatement5 != null) {
                                                                                                 }
-                                                                                                if (sQLitePreparedStatement3 != null) {
+                                                                                                if (sQLitePreparedStatement2 != null) {
                                                                                                 }
                                                                                                 if (sQLitePreparedStatement != null) {
                                                                                                 }
-                                                                                                if (sQLitePreparedStatement2 != null) {
+                                                                                                if (sQLitePreparedStatement3 == null) {
                                                                                                 }
                                                                                             } catch (Throwable th17) {
                                                                                                 th = th17;
@@ -19174,64 +19237,64 @@ public class MessagesStorage extends BaseController {
                                                                                                 }
                                                                                                 if (sQLitePreparedStatement5 != null) {
                                                                                                 }
-                                                                                                if (sQLitePreparedStatement3 != null) {
+                                                                                                if (sQLitePreparedStatement2 != null) {
                                                                                                 }
                                                                                                 if (sQLitePreparedStatement != null) {
                                                                                                 }
-                                                                                                if (sQLitePreparedStatement2 != null) {
+                                                                                                if (sQLitePreparedStatement3 != null) {
                                                                                                 }
                                                                                                 throw th;
                                                                                             }
-                                                                                            i21 = 1;
-                                                                                            sQLitePreparedStatement26.bindInteger(i19, i21);
-                                                                                            int i742 = i20 + 1;
-                                                                                            sQLitePreparedStatement26.bindInteger(i20, tLRPC$Message7.ttl);
+                                                                                            i25 = 1;
+                                                                                            sQLitePreparedStatement32.bindInteger(i23, i25);
+                                                                                            int i782 = i24 + 1;
+                                                                                            sQLitePreparedStatement32.bindInteger(i24, tLRPC$Message7.ttl);
                                                                                             if ((tLRPC$Message7.flags & 1024) == 0) {
                                                                                             }
                                                                                             if (tLRPC$Message7.replyStory == null) {
                                                                                             }
-                                                                                            int i752 = tLRPC$Message7.stickerVerified;
-                                                                                            int i762 = i23 + 1;
-                                                                                            sQLitePreparedStatement26.bindInteger(i23, i752 != 0 ? 1 : i752 == 2 ? 2 : 0);
-                                                                                            int i772 = i762 + 1;
-                                                                                            sQLitePreparedStatement26.bindInteger(i762, !tLRPC$Message7.mentioned ? 1 : 0);
-                                                                                            int i782 = i772 + 1;
-                                                                                            sQLitePreparedStatement26.bindInteger(i772, tLRPC$Message7.forwards);
+                                                                                            int i792 = tLRPC$Message7.stickerVerified;
+                                                                                            int i802 = i27 + 1;
+                                                                                            sQLitePreparedStatement32.bindInteger(i27, i792 != 0 ? 1 : i792 == 2 ? 2 : 0);
+                                                                                            int i812 = i802 + 1;
+                                                                                            sQLitePreparedStatement32.bindInteger(i802, !tLRPC$Message7.mentioned ? 1 : 0);
+                                                                                            int i822 = i812 + 1;
+                                                                                            sQLitePreparedStatement32.bindInteger(i812, tLRPC$Message7.forwards);
                                                                                             if (tLRPC$Message7.replies == null) {
                                                                                             }
                                                                                             tLRPC$MessageReplyHeader = tLRPC$Message7.reply_to;
                                                                                             if (tLRPC$MessageReplyHeader == null) {
                                                                                             }
-                                                                                            int i802 = i25;
-                                                                                            int i812 = i802 + 1;
-                                                                                            sQLitePreparedStatement11 = sQLitePreparedStatement27;
-                                                                                            sQLitePreparedStatement12 = sQLitePreparedStatement21;
+                                                                                            int i842 = i29;
+                                                                                            int i852 = i842 + 1;
+                                                                                            sQLitePreparedStatement11 = sQLitePreparedStatement33;
+                                                                                            sQLitePreparedStatement12 = sQLitePreparedStatement27;
                                                                                         } else {
                                                                                             nativeByteBuffer = nativeByteBuffer5;
                                                                                         }
                                                                                         j5 = clientUserId;
-                                                                                        sQLitePreparedStatement11 = sQLitePreparedStatement27;
-                                                                                        sQLitePreparedStatement12 = sQLitePreparedStatement21;
-                                                                                        hashMap11 = hashMap9;
+                                                                                        sQLitePreparedStatement11 = sQLitePreparedStatement33;
+                                                                                        sQLitePreparedStatement12 = sQLitePreparedStatement27;
+                                                                                        hashMap22 = hashMap20;
                                                                                         nativeByteBuffer5 = nativeByteBuffer;
                                                                                         j6 = topicId2;
-                                                                                        i14++;
-                                                                                        hashMap9 = hashMap11;
+                                                                                        i18++;
+                                                                                        hashMap20 = hashMap22;
                                                                                         topicId2 = j6;
-                                                                                        sQLitePreparedStatement27 = sQLitePreparedStatement11;
+                                                                                        sQLitePreparedStatement33 = sQLitePreparedStatement11;
                                                                                         clientUserId = j5;
-                                                                                        sQLitePreparedStatement21 = sQLitePreparedStatement12;
-                                                                                        i68 = i17;
+                                                                                        sQLitePreparedStatement27 = sQLitePreparedStatement12;
+                                                                                        i72 = i21;
                                                                                     }
-                                                                                    sQLitePreparedStatement11 = sQLitePreparedStatement27;
-                                                                                    sQLitePreparedStatement12 = sQLitePreparedStatement21;
+                                                                                    sQLitePreparedStatement11 = sQLitePreparedStatement33;
+                                                                                    sQLitePreparedStatement12 = sQLitePreparedStatement27;
                                                                                     long j9 = topicId2;
-                                                                                    int i82 = i68;
-                                                                                    hashMap10 = hashMap9;
+                                                                                    int i86 = i72;
+                                                                                    hashMap21 = hashMap20;
                                                                                     if (tLRPC$Message7.random_id == 0) {
                                                                                         try {
                                                                                             sQLitePreparedStatement10.requery();
-                                                                                            sQLitePreparedStatement22 = sQLitePreparedStatement10;
+                                                                                            sQLitePreparedStatement28 = sQLitePreparedStatement10;
                                                                                         } catch (Exception e14) {
                                                                                             e = e14;
                                                                                             th2 = e;
@@ -19263,11 +19326,11 @@ public class MessagesStorage extends BaseController {
                                                                                             }
                                                                                             if (sQLitePreparedStatement5 != null) {
                                                                                             }
-                                                                                            if (sQLitePreparedStatement3 != null) {
+                                                                                            if (sQLitePreparedStatement2 != null) {
                                                                                             }
                                                                                             if (sQLitePreparedStatement != null) {
                                                                                             }
-                                                                                            if (sQLitePreparedStatement2 != null) {
+                                                                                            if (sQLitePreparedStatement3 == null) {
                                                                                             }
                                                                                         } catch (Throwable th18) {
                                                                                             th = th18;
@@ -19299,22 +19362,22 @@ public class MessagesStorage extends BaseController {
                                                                                             }
                                                                                             if (sQLitePreparedStatement5 != null) {
                                                                                             }
-                                                                                            if (sQLitePreparedStatement3 != null) {
+                                                                                            if (sQLitePreparedStatement2 != null) {
                                                                                             }
                                                                                             if (sQLitePreparedStatement != null) {
                                                                                             }
-                                                                                            if (sQLitePreparedStatement2 != null) {
+                                                                                            if (sQLitePreparedStatement3 != null) {
                                                                                             }
                                                                                             throw th;
                                                                                         }
                                                                                         try {
-                                                                                            sQLitePreparedStatement22.bindLong(1, tLRPC$Message7.random_id);
-                                                                                            sQLitePreparedStatement22.bindInteger(2, i82);
-                                                                                            sQLitePreparedStatement22.bindLong(3, tLRPC$Message7.dialog_id);
-                                                                                            sQLitePreparedStatement22.step();
+                                                                                            sQLitePreparedStatement28.bindLong(1, tLRPC$Message7.random_id);
+                                                                                            sQLitePreparedStatement28.bindInteger(2, i86);
+                                                                                            sQLitePreparedStatement28.bindLong(3, tLRPC$Message7.dialog_id);
+                                                                                            sQLitePreparedStatement28.step();
                                                                                         } catch (Exception e15) {
                                                                                             th2 = e15;
-                                                                                            sQLitePreparedStatement10 = sQLitePreparedStatement22;
+                                                                                            sQLitePreparedStatement10 = sQLitePreparedStatement28;
                                                                                             sQLitePreparedStatement6 = sQLitePreparedStatement13;
                                                                                             sQLitePreparedStatement = null;
                                                                                             sQLitePreparedStatement2 = null;
@@ -19343,15 +19406,15 @@ public class MessagesStorage extends BaseController {
                                                                                             }
                                                                                             if (sQLitePreparedStatement5 != null) {
                                                                                             }
-                                                                                            if (sQLitePreparedStatement3 != null) {
+                                                                                            if (sQLitePreparedStatement2 != null) {
                                                                                             }
                                                                                             if (sQLitePreparedStatement != null) {
                                                                                             }
-                                                                                            if (sQLitePreparedStatement2 != null) {
+                                                                                            if (sQLitePreparedStatement3 == null) {
                                                                                             }
                                                                                         } catch (Throwable th19) {
                                                                                             th = th19;
-                                                                                            sQLitePreparedStatement10 = sQLitePreparedStatement22;
+                                                                                            sQLitePreparedStatement10 = sQLitePreparedStatement28;
                                                                                             sQLitePreparedStatement6 = sQLitePreparedStatement13;
                                                                                             sQLitePreparedStatement = null;
                                                                                             sQLitePreparedStatement2 = null;
@@ -19379,42 +19442,42 @@ public class MessagesStorage extends BaseController {
                                                                                             }
                                                                                             if (sQLitePreparedStatement5 != null) {
                                                                                             }
-                                                                                            if (sQLitePreparedStatement3 != null) {
+                                                                                            if (sQLitePreparedStatement2 != null) {
                                                                                             }
                                                                                             if (sQLitePreparedStatement != null) {
                                                                                             }
-                                                                                            if (sQLitePreparedStatement2 != null) {
+                                                                                            if (sQLitePreparedStatement3 != null) {
                                                                                             }
                                                                                             throw th;
                                                                                         }
                                                                                     } else {
-                                                                                        sQLitePreparedStatement22 = sQLitePreparedStatement10;
+                                                                                        sQLitePreparedStatement28 = sQLitePreparedStatement10;
                                                                                     }
                                                                                     if (MediaDataController.canAddMessageToMedia(tLRPC$Message7)) {
                                                                                         sQLitePreparedStatement4 = this.database.executeFast("REPLACE INTO media_v4 VALUES(?, ?, ?, ?, ?)");
                                                                                         try {
                                                                                             sQLitePreparedStatement4.requery();
-                                                                                            sQLitePreparedStatement4.bindInteger(1, i82);
+                                                                                            sQLitePreparedStatement4.bindInteger(1, i86);
                                                                                             sQLitePreparedStatement4.bindLong(2, tLRPC$Message7.dialog_id);
                                                                                             sQLitePreparedStatement4.bindInteger(3, tLRPC$Message7.date);
                                                                                             sQLitePreparedStatement4.bindInteger(4, MediaDataController.getMediaType(tLRPC$Message7));
                                                                                             sQLitePreparedStatement4.bindByteBuffer(5, nativeByteBuffer5);
                                                                                             sQLitePreparedStatement4.step();
                                                                                             if (j9 != 0) {
-                                                                                                SQLitePreparedStatement executeFast9 = sQLitePreparedStatement29 == null ? this.database.executeFast("REPLACE INTO media_topics VALUES(?, ?, ?, ?, ?, ?)") : sQLitePreparedStatement29;
-                                                                                                executeFast9.requery();
-                                                                                                executeFast9.bindInteger(1, i82);
-                                                                                                executeFast9.bindLong(2, tLRPC$Message7.dialog_id);
-                                                                                                executeFast9.bindLong(3, j9);
-                                                                                                executeFast9.bindInteger(4, tLRPC$Message7.date);
-                                                                                                executeFast9.bindInteger(5, MediaDataController.getMediaType(tLRPC$Message7));
-                                                                                                executeFast9.bindByteBuffer(6, nativeByteBuffer5);
-                                                                                                executeFast9.step();
-                                                                                                sQLitePreparedStatement29 = executeFast9;
+                                                                                                SQLitePreparedStatement executeFast12 = sQLitePreparedStatement35 == null ? this.database.executeFast("REPLACE INTO media_topics VALUES(?, ?, ?, ?, ?, ?)") : sQLitePreparedStatement35;
+                                                                                                executeFast12.requery();
+                                                                                                executeFast12.bindInteger(1, i86);
+                                                                                                executeFast12.bindLong(2, tLRPC$Message7.dialog_id);
+                                                                                                executeFast12.bindLong(3, j9);
+                                                                                                executeFast12.bindInteger(4, tLRPC$Message7.date);
+                                                                                                executeFast12.bindInteger(5, MediaDataController.getMediaType(tLRPC$Message7));
+                                                                                                executeFast12.bindByteBuffer(6, nativeByteBuffer5);
+                                                                                                executeFast12.step();
+                                                                                                sQLitePreparedStatement35 = executeFast12;
                                                                                             }
                                                                                         } catch (Exception e16) {
                                                                                             th2 = e16;
-                                                                                            sQLitePreparedStatement10 = sQLitePreparedStatement22;
+                                                                                            sQLitePreparedStatement10 = sQLitePreparedStatement28;
                                                                                             sQLitePreparedStatement6 = sQLitePreparedStatement13;
                                                                                             sQLitePreparedStatement = null;
                                                                                             sQLitePreparedStatement2 = null;
@@ -19442,15 +19505,15 @@ public class MessagesStorage extends BaseController {
                                                                                             }
                                                                                             if (sQLitePreparedStatement5 != null) {
                                                                                             }
-                                                                                            if (sQLitePreparedStatement3 != null) {
+                                                                                            if (sQLitePreparedStatement2 != null) {
                                                                                             }
                                                                                             if (sQLitePreparedStatement != null) {
                                                                                             }
-                                                                                            if (sQLitePreparedStatement2 != null) {
+                                                                                            if (sQLitePreparedStatement3 == null) {
                                                                                             }
                                                                                         } catch (Throwable th20) {
                                                                                             th = th20;
-                                                                                            sQLitePreparedStatement10 = sQLitePreparedStatement22;
+                                                                                            sQLitePreparedStatement10 = sQLitePreparedStatement28;
                                                                                             sQLitePreparedStatement6 = sQLitePreparedStatement13;
                                                                                             sQLitePreparedStatement = null;
                                                                                             sQLitePreparedStatement2 = null;
@@ -19477,32 +19540,32 @@ public class MessagesStorage extends BaseController {
                                                                                             }
                                                                                             if (sQLitePreparedStatement5 != null) {
                                                                                             }
-                                                                                            if (sQLitePreparedStatement3 != null) {
+                                                                                            if (sQLitePreparedStatement2 != null) {
                                                                                             }
                                                                                             if (sQLitePreparedStatement != null) {
                                                                                             }
-                                                                                            if (sQLitePreparedStatement2 != null) {
+                                                                                            if (sQLitePreparedStatement3 != null) {
                                                                                             }
                                                                                             throw th;
                                                                                         }
                                                                                     }
                                                                                     if (tLRPC$Message7.ttl_period != 0 || tLRPC$Message7.id <= 0) {
-                                                                                        sQLitePreparedStatement27 = sQLitePreparedStatement11;
+                                                                                        sQLitePreparedStatement33 = sQLitePreparedStatement11;
                                                                                     } else {
-                                                                                        sQLitePreparedStatement27 = sQLitePreparedStatement11 == null ? this.database.executeFast("REPLACE INTO enc_tasks_v4 VALUES(?, ?, ?, ?)") : sQLitePreparedStatement11;
+                                                                                        sQLitePreparedStatement33 = sQLitePreparedStatement11 == null ? this.database.executeFast("REPLACE INTO enc_tasks_v4 VALUES(?, ?, ?, ?)") : sQLitePreparedStatement11;
                                                                                         try {
-                                                                                            sQLitePreparedStatement27.requery();
-                                                                                            sQLitePreparedStatement27.bindInteger(1, i82);
-                                                                                            sQLitePreparedStatement27.bindLong(2, tLRPC$Message7.dialog_id);
-                                                                                            sQLitePreparedStatement27.bindInteger(3, tLRPC$Message7.date + tLRPC$Message7.ttl_period);
-                                                                                            sQLitePreparedStatement27.bindInteger(4, 0);
-                                                                                            sQLitePreparedStatement27.step();
-                                                                                            i64 = Math.min(i64, tLRPC$Message7.date + tLRPC$Message7.ttl_period);
+                                                                                            sQLitePreparedStatement33.requery();
+                                                                                            sQLitePreparedStatement33.bindInteger(1, i86);
+                                                                                            sQLitePreparedStatement33.bindLong(2, tLRPC$Message7.dialog_id);
+                                                                                            sQLitePreparedStatement33.bindInteger(3, tLRPC$Message7.date + tLRPC$Message7.ttl_period);
+                                                                                            sQLitePreparedStatement33.bindInteger(4, 0);
+                                                                                            sQLitePreparedStatement33.step();
+                                                                                            i68 = Math.min(i68, tLRPC$Message7.date + tLRPC$Message7.ttl_period);
                                                                                         } catch (Exception e17) {
                                                                                             e2 = e17;
                                                                                             th2 = e2;
-                                                                                            sQLitePreparedStatement10 = sQLitePreparedStatement22;
-                                                                                            sQLitePreparedStatement11 = sQLitePreparedStatement27;
+                                                                                            sQLitePreparedStatement10 = sQLitePreparedStatement28;
+                                                                                            sQLitePreparedStatement11 = sQLitePreparedStatement33;
                                                                                             sQLitePreparedStatement6 = sQLitePreparedStatement13;
                                                                                             sQLitePreparedStatement = null;
                                                                                             sQLitePreparedStatement2 = null;
@@ -19531,17 +19594,17 @@ public class MessagesStorage extends BaseController {
                                                                                             }
                                                                                             if (sQLitePreparedStatement5 != null) {
                                                                                             }
-                                                                                            if (sQLitePreparedStatement3 != null) {
+                                                                                            if (sQLitePreparedStatement2 != null) {
                                                                                             }
                                                                                             if (sQLitePreparedStatement != null) {
                                                                                             }
-                                                                                            if (sQLitePreparedStatement2 != null) {
+                                                                                            if (sQLitePreparedStatement3 == null) {
                                                                                             }
                                                                                         } catch (Throwable th21) {
                                                                                             th5 = th21;
                                                                                             th = th5;
-                                                                                            sQLitePreparedStatement10 = sQLitePreparedStatement22;
-                                                                                            sQLitePreparedStatement11 = sQLitePreparedStatement27;
+                                                                                            sQLitePreparedStatement10 = sQLitePreparedStatement28;
+                                                                                            sQLitePreparedStatement11 = sQLitePreparedStatement33;
                                                                                             sQLitePreparedStatement6 = sQLitePreparedStatement13;
                                                                                             sQLitePreparedStatement = null;
                                                                                             sQLitePreparedStatement2 = null;
@@ -19569,30 +19632,30 @@ public class MessagesStorage extends BaseController {
                                                                                             }
                                                                                             if (sQLitePreparedStatement5 != null) {
                                                                                             }
-                                                                                            if (sQLitePreparedStatement3 != null) {
+                                                                                            if (sQLitePreparedStatement2 != null) {
                                                                                             }
                                                                                             if (sQLitePreparedStatement != null) {
                                                                                             }
-                                                                                            if (sQLitePreparedStatement2 != null) {
+                                                                                            if (sQLitePreparedStatement3 != null) {
                                                                                             }
                                                                                             throw th;
                                                                                         }
                                                                                     }
                                                                                     tLRPC$MessageMedia = tLRPC$Message7.media;
                                                                                     if (!(tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaPoll)) {
-                                                                                        sQLitePreparedStatement28 = sQLitePreparedStatement12 == null ? this.database.executeFast("REPLACE INTO polls_v2 VALUES(?, ?, ?)") : sQLitePreparedStatement12;
+                                                                                        sQLitePreparedStatement34 = sQLitePreparedStatement12 == null ? this.database.executeFast("REPLACE INTO polls_v2 VALUES(?, ?, ?)") : sQLitePreparedStatement12;
                                                                                         try {
-                                                                                            sQLitePreparedStatement28.requery();
-                                                                                            sQLitePreparedStatement28.bindInteger(1, i82);
-                                                                                            sQLitePreparedStatement28.bindLong(2, tLRPC$Message7.dialog_id);
-                                                                                            sQLitePreparedStatement28.bindLong(3, ((TLRPC$TL_messageMediaPoll) tLRPC$Message7.media).poll.id);
-                                                                                            sQLitePreparedStatement28.step();
-                                                                                            sQLitePreparedStatement23 = sQLitePreparedStatement9;
+                                                                                            sQLitePreparedStatement34.requery();
+                                                                                            sQLitePreparedStatement34.bindInteger(1, i86);
+                                                                                            sQLitePreparedStatement34.bindLong(2, tLRPC$Message7.dialog_id);
+                                                                                            sQLitePreparedStatement34.bindLong(3, ((TLRPC$TL_messageMediaPoll) tLRPC$Message7.media).poll.id);
+                                                                                            sQLitePreparedStatement34.step();
+                                                                                            sQLitePreparedStatement29 = sQLitePreparedStatement9;
                                                                                         } catch (Exception e18) {
                                                                                             th2 = e18;
-                                                                                            sQLitePreparedStatement10 = sQLitePreparedStatement22;
-                                                                                            sQLitePreparedStatement11 = sQLitePreparedStatement27;
-                                                                                            sQLitePreparedStatement12 = sQLitePreparedStatement28;
+                                                                                            sQLitePreparedStatement10 = sQLitePreparedStatement28;
+                                                                                            sQLitePreparedStatement11 = sQLitePreparedStatement33;
+                                                                                            sQLitePreparedStatement12 = sQLitePreparedStatement34;
                                                                                             sQLitePreparedStatement6 = sQLitePreparedStatement13;
                                                                                             sQLitePreparedStatement = null;
                                                                                             sQLitePreparedStatement2 = null;
@@ -19621,17 +19684,17 @@ public class MessagesStorage extends BaseController {
                                                                                             }
                                                                                             if (sQLitePreparedStatement5 != null) {
                                                                                             }
-                                                                                            if (sQLitePreparedStatement3 != null) {
+                                                                                            if (sQLitePreparedStatement2 != null) {
                                                                                             }
                                                                                             if (sQLitePreparedStatement != null) {
                                                                                             }
-                                                                                            if (sQLitePreparedStatement2 != null) {
+                                                                                            if (sQLitePreparedStatement3 == null) {
                                                                                             }
                                                                                         } catch (Throwable th22) {
                                                                                             th = th22;
-                                                                                            sQLitePreparedStatement10 = sQLitePreparedStatement22;
-                                                                                            sQLitePreparedStatement11 = sQLitePreparedStatement27;
-                                                                                            sQLitePreparedStatement12 = sQLitePreparedStatement28;
+                                                                                            sQLitePreparedStatement10 = sQLitePreparedStatement28;
+                                                                                            sQLitePreparedStatement11 = sQLitePreparedStatement33;
+                                                                                            sQLitePreparedStatement12 = sQLitePreparedStatement34;
                                                                                             sQLitePreparedStatement6 = sQLitePreparedStatement13;
                                                                                             sQLitePreparedStatement = null;
                                                                                             sQLitePreparedStatement2 = null;
@@ -19659,11 +19722,11 @@ public class MessagesStorage extends BaseController {
                                                                                             }
                                                                                             if (sQLitePreparedStatement5 != null) {
                                                                                             }
-                                                                                            if (sQLitePreparedStatement3 != null) {
+                                                                                            if (sQLitePreparedStatement2 != null) {
                                                                                             }
                                                                                             if (sQLitePreparedStatement != null) {
                                                                                             }
-                                                                                            if (sQLitePreparedStatement2 != null) {
+                                                                                            if (sQLitePreparedStatement3 != null) {
                                                                                             }
                                                                                             throw th;
                                                                                         }
@@ -19671,17 +19734,17 @@ public class MessagesStorage extends BaseController {
                                                                                         if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaWebPage) {
                                                                                             try {
                                                                                                 sQLitePreparedStatement9.requery();
-                                                                                                sQLitePreparedStatement23 = sQLitePreparedStatement9;
+                                                                                                sQLitePreparedStatement29 = sQLitePreparedStatement9;
                                                                                                 try {
-                                                                                                    sQLitePreparedStatement23.bindLong(1, tLRPC$Message7.media.webpage.id);
-                                                                                                    sQLitePreparedStatement23.bindInteger(2, i82);
-                                                                                                    sQLitePreparedStatement23.bindLong(3, tLRPC$Message7.dialog_id);
-                                                                                                    sQLitePreparedStatement23.step();
+                                                                                                    sQLitePreparedStatement29.bindLong(1, tLRPC$Message7.media.webpage.id);
+                                                                                                    sQLitePreparedStatement29.bindInteger(2, i86);
+                                                                                                    sQLitePreparedStatement29.bindLong(3, tLRPC$Message7.dialog_id);
+                                                                                                    sQLitePreparedStatement29.step();
                                                                                                 } catch (Exception e19) {
                                                                                                     th2 = e19;
-                                                                                                    sQLitePreparedStatement10 = sQLitePreparedStatement22;
-                                                                                                    sQLitePreparedStatement9 = sQLitePreparedStatement23;
-                                                                                                    sQLitePreparedStatement11 = sQLitePreparedStatement27;
+                                                                                                    sQLitePreparedStatement10 = sQLitePreparedStatement28;
+                                                                                                    sQLitePreparedStatement9 = sQLitePreparedStatement29;
+                                                                                                    sQLitePreparedStatement11 = sQLitePreparedStatement33;
                                                                                                     sQLitePreparedStatement6 = sQLitePreparedStatement13;
                                                                                                     sQLitePreparedStatement = null;
                                                                                                     sQLitePreparedStatement2 = null;
@@ -19720,22 +19783,22 @@ public class MessagesStorage extends BaseController {
                                                                                                     if (sQLitePreparedStatement5 != null) {
                                                                                                         sQLitePreparedStatement5.dispose();
                                                                                                     }
-                                                                                                    if (sQLitePreparedStatement3 != null) {
-                                                                                                        sQLitePreparedStatement3.dispose();
+                                                                                                    if (sQLitePreparedStatement2 != null) {
+                                                                                                        sQLitePreparedStatement2.dispose();
                                                                                                     }
                                                                                                     if (sQLitePreparedStatement != null) {
                                                                                                         sQLitePreparedStatement.dispose();
                                                                                                     }
-                                                                                                    if (sQLitePreparedStatement2 != null) {
-                                                                                                        sQLitePreparedStatement2.dispose();
+                                                                                                    if (sQLitePreparedStatement3 == null) {
+                                                                                                        sQLitePreparedStatement3.dispose();
                                                                                                         return;
                                                                                                     }
                                                                                                     return;
                                                                                                 } catch (Throwable th23) {
                                                                                                     th = th23;
-                                                                                                    sQLitePreparedStatement10 = sQLitePreparedStatement22;
-                                                                                                    sQLitePreparedStatement9 = sQLitePreparedStatement23;
-                                                                                                    sQLitePreparedStatement11 = sQLitePreparedStatement27;
+                                                                                                    sQLitePreparedStatement10 = sQLitePreparedStatement28;
+                                                                                                    sQLitePreparedStatement9 = sQLitePreparedStatement29;
+                                                                                                    sQLitePreparedStatement11 = sQLitePreparedStatement33;
                                                                                                     sQLitePreparedStatement6 = sQLitePreparedStatement13;
                                                                                                     sQLitePreparedStatement = null;
                                                                                                     sQLitePreparedStatement2 = null;
@@ -19764,19 +19827,19 @@ public class MessagesStorage extends BaseController {
                                                                                                     }
                                                                                                     if (sQLitePreparedStatement5 != null) {
                                                                                                     }
-                                                                                                    if (sQLitePreparedStatement3 != null) {
+                                                                                                    if (sQLitePreparedStatement2 != null) {
                                                                                                     }
                                                                                                     if (sQLitePreparedStatement != null) {
                                                                                                     }
-                                                                                                    if (sQLitePreparedStatement2 != null) {
+                                                                                                    if (sQLitePreparedStatement3 != null) {
                                                                                                     }
                                                                                                     throw th;
                                                                                                 }
                                                                                             } catch (Exception e20) {
                                                                                                 e2 = e20;
                                                                                                 th2 = e2;
-                                                                                                sQLitePreparedStatement10 = sQLitePreparedStatement22;
-                                                                                                sQLitePreparedStatement11 = sQLitePreparedStatement27;
+                                                                                                sQLitePreparedStatement10 = sQLitePreparedStatement28;
+                                                                                                sQLitePreparedStatement11 = sQLitePreparedStatement33;
                                                                                                 sQLitePreparedStatement6 = sQLitePreparedStatement13;
                                                                                                 sQLitePreparedStatement = null;
                                                                                                 sQLitePreparedStatement2 = null;
@@ -19805,17 +19868,17 @@ public class MessagesStorage extends BaseController {
                                                                                                 }
                                                                                                 if (sQLitePreparedStatement5 != null) {
                                                                                                 }
-                                                                                                if (sQLitePreparedStatement3 != null) {
+                                                                                                if (sQLitePreparedStatement2 != null) {
                                                                                                 }
                                                                                                 if (sQLitePreparedStatement != null) {
                                                                                                 }
-                                                                                                if (sQLitePreparedStatement2 != null) {
+                                                                                                if (sQLitePreparedStatement3 == null) {
                                                                                                 }
                                                                                             } catch (Throwable th24) {
                                                                                                 th5 = th24;
                                                                                                 th = th5;
-                                                                                                sQLitePreparedStatement10 = sQLitePreparedStatement22;
-                                                                                                sQLitePreparedStatement11 = sQLitePreparedStatement27;
+                                                                                                sQLitePreparedStatement10 = sQLitePreparedStatement28;
+                                                                                                sQLitePreparedStatement11 = sQLitePreparedStatement33;
                                                                                                 sQLitePreparedStatement6 = sQLitePreparedStatement13;
                                                                                                 sQLitePreparedStatement = null;
                                                                                                 sQLitePreparedStatement2 = null;
@@ -19843,18 +19906,18 @@ public class MessagesStorage extends BaseController {
                                                                                                 }
                                                                                                 if (sQLitePreparedStatement5 != null) {
                                                                                                 }
-                                                                                                if (sQLitePreparedStatement3 != null) {
+                                                                                                if (sQLitePreparedStatement2 != null) {
                                                                                                 }
                                                                                                 if (sQLitePreparedStatement != null) {
                                                                                                 }
-                                                                                                if (sQLitePreparedStatement2 != null) {
+                                                                                                if (sQLitePreparedStatement3 != null) {
                                                                                                 }
                                                                                                 throw th;
                                                                                             }
                                                                                         } else {
-                                                                                            sQLitePreparedStatement23 = sQLitePreparedStatement9;
+                                                                                            sQLitePreparedStatement29 = sQLitePreparedStatement9;
                                                                                         }
-                                                                                        sQLitePreparedStatement28 = sQLitePreparedStatement12;
+                                                                                        sQLitePreparedStatement34 = sQLitePreparedStatement12;
                                                                                     }
                                                                                     nativeByteBuffer5.reuse();
                                                                                     if (i != 0) {
@@ -19862,10 +19925,10 @@ public class MessagesStorage extends BaseController {
                                                                                             try {
                                                                                             } catch (Exception e21) {
                                                                                                 th2 = e21;
-                                                                                                sQLitePreparedStatement10 = sQLitePreparedStatement22;
-                                                                                                sQLitePreparedStatement9 = sQLitePreparedStatement23;
-                                                                                                sQLitePreparedStatement11 = sQLitePreparedStatement27;
-                                                                                                sQLitePreparedStatement12 = sQLitePreparedStatement28;
+                                                                                                sQLitePreparedStatement10 = sQLitePreparedStatement28;
+                                                                                                sQLitePreparedStatement9 = sQLitePreparedStatement29;
+                                                                                                sQLitePreparedStatement11 = sQLitePreparedStatement33;
+                                                                                                sQLitePreparedStatement12 = sQLitePreparedStatement34;
                                                                                                 sQLitePreparedStatement6 = sQLitePreparedStatement13;
                                                                                                 sQLitePreparedStatement = null;
                                                                                                 sQLitePreparedStatement2 = null;
@@ -19894,18 +19957,18 @@ public class MessagesStorage extends BaseController {
                                                                                                 }
                                                                                                 if (sQLitePreparedStatement5 != null) {
                                                                                                 }
-                                                                                                if (sQLitePreparedStatement3 != null) {
+                                                                                                if (sQLitePreparedStatement2 != null) {
                                                                                                 }
                                                                                                 if (sQLitePreparedStatement != null) {
                                                                                                 }
-                                                                                                if (sQLitePreparedStatement2 != null) {
+                                                                                                if (sQLitePreparedStatement3 == null) {
                                                                                                 }
                                                                                             } catch (Throwable th25) {
                                                                                                 th = th25;
-                                                                                                sQLitePreparedStatement10 = sQLitePreparedStatement22;
-                                                                                                sQLitePreparedStatement9 = sQLitePreparedStatement23;
-                                                                                                sQLitePreparedStatement11 = sQLitePreparedStatement27;
-                                                                                                sQLitePreparedStatement12 = sQLitePreparedStatement28;
+                                                                                                sQLitePreparedStatement10 = sQLitePreparedStatement28;
+                                                                                                sQLitePreparedStatement9 = sQLitePreparedStatement29;
+                                                                                                sQLitePreparedStatement11 = sQLitePreparedStatement33;
+                                                                                                sQLitePreparedStatement12 = sQLitePreparedStatement34;
                                                                                                 sQLitePreparedStatement6 = sQLitePreparedStatement13;
                                                                                                 sQLitePreparedStatement = null;
                                                                                                 sQLitePreparedStatement2 = null;
@@ -19933,11 +19996,11 @@ public class MessagesStorage extends BaseController {
                                                                                                 }
                                                                                                 if (sQLitePreparedStatement5 != null) {
                                                                                                 }
-                                                                                                if (sQLitePreparedStatement3 != null) {
+                                                                                                if (sQLitePreparedStatement2 != null) {
                                                                                                 }
                                                                                                 if (sQLitePreparedStatement != null) {
                                                                                                 }
-                                                                                                if (sQLitePreparedStatement2 != null) {
+                                                                                                if (sQLitePreparedStatement3 != null) {
                                                                                                 }
                                                                                                 throw th;
                                                                                             }
@@ -19952,7 +20015,7 @@ public class MessagesStorage extends BaseController {
                                                                                                     tLRPC$TL_messageMediaDocument = new TLRPC$TL_messageMediaDocument();
                                                                                                     tLRPC$TL_messageMediaDocument.document = document;
                                                                                                     tLRPC$TL_messageMediaDocument.flags |= 1;
-                                                                                                    i16 = 2;
+                                                                                                    i20 = 2;
                                                                                                 } else {
                                                                                                     if (!MessageObject.isStickerMessage(tLRPC$Message7) && !MessageObject.isAnimatedStickerMessage(tLRPC$Message7)) {
                                                                                                         if (!MessageObject.isVideoMessage(tLRPC$Message7) && !MessageObject.isRoundVideoMessage(tLRPC$Message7) && !MessageObject.isGifMessage(tLRPC$Message7)) {
@@ -19961,55 +20024,55 @@ public class MessagesStorage extends BaseController {
                                                                                                                 tLRPC$TL_messageMediaDocument = new TLRPC$TL_messageMediaDocument();
                                                                                                                 tLRPC$TL_messageMediaDocument.document = document;
                                                                                                                 tLRPC$TL_messageMediaDocument.flags |= 1;
-                                                                                                                i16 = 8;
+                                                                                                                i20 = 8;
                                                                                                             } else if (photo == null || FileLoader.getClosestPhotoSizeWithSize(photo.sizes, AndroidUtilities.getPhotoSize()) == null) {
-                                                                                                                i16 = 0;
+                                                                                                                i20 = 0;
                                                                                                                 tLRPC$TL_messageMediaDocument = null;
                                                                                                                 j3 = 0;
                                                                                                                 if (tLRPC$TL_messageMediaDocument != null) {
-                                                                                                                    int i83 = tLRPC$Message7.media.ttl_seconds;
-                                                                                                                    if (i83 != 0) {
-                                                                                                                        tLRPC$TL_messageMediaDocument.ttl_seconds = i83;
+                                                                                                                    int i87 = tLRPC$Message7.media.ttl_seconds;
+                                                                                                                    if (i87 != 0) {
+                                                                                                                        tLRPC$TL_messageMediaDocument.ttl_seconds = i87;
                                                                                                                         tLRPC$TL_messageMediaDocument.flags |= 4;
                                                                                                                     }
                                                                                                                     MessageObject messageObject = new MessageObject(this.currentAccount, tLRPC$Message7, false, false);
-                                                                                                                    i15 = i13 | i16;
+                                                                                                                    i19 = i17 | i20;
                                                                                                                     sQLitePreparedStatement8.requery();
-                                                                                                                    int i84 = i64;
+                                                                                                                    int i88 = i68;
                                                                                                                     NativeByteBuffer nativeByteBuffer6 = new NativeByteBuffer(tLRPC$TL_messageMediaDocument.getObjectSize());
                                                                                                                     tLRPC$TL_messageMediaDocument.serializeToStream(nativeByteBuffer6);
-                                                                                                                    sQLitePreparedStatement24 = sQLitePreparedStatement8;
+                                                                                                                    sQLitePreparedStatement30 = sQLitePreparedStatement8;
                                                                                                                     try {
-                                                                                                                        sQLitePreparedStatement24.bindLong(1, j3);
-                                                                                                                        sQLitePreparedStatement24.bindInteger(2, i16);
-                                                                                                                        sQLitePreparedStatement24.bindInteger(3, tLRPC$Message7.date);
-                                                                                                                        sQLitePreparedStatement24.bindByteBuffer(4, nativeByteBuffer6);
+                                                                                                                        sQLitePreparedStatement30.bindLong(1, j3);
+                                                                                                                        sQLitePreparedStatement30.bindInteger(2, i20);
+                                                                                                                        sQLitePreparedStatement30.bindInteger(3, tLRPC$Message7.date);
+                                                                                                                        sQLitePreparedStatement30.bindByteBuffer(4, nativeByteBuffer6);
                                                                                                                         StringBuilder sb8 = new StringBuilder();
                                                                                                                         sb8.append("sent_");
                                                                                                                         TLRPC$Peer tLRPC$Peer = tLRPC$Message7.peer_id;
-                                                                                                                        ArrayList arrayList23 = arrayList22;
+                                                                                                                        ArrayList arrayList25 = arrayList24;
                                                                                                                         sb8.append(tLRPC$Peer != null ? tLRPC$Peer.channel_id : 0L);
-                                                                                                                        str6 = str10;
-                                                                                                                        sb8.append(str6);
+                                                                                                                        str8 = str;
+                                                                                                                        sb8.append(str8);
                                                                                                                         sb8.append(tLRPC$Message7.id);
-                                                                                                                        sb8.append(str6);
+                                                                                                                        sb8.append(str8);
                                                                                                                         sb8.append(DialogObject.getPeerDialogId(tLRPC$Message7.peer_id));
-                                                                                                                        sb8.append(str6);
+                                                                                                                        sb8.append(str8);
                                                                                                                         sb8.append(messageObject.type);
-                                                                                                                        sb8.append(str6);
+                                                                                                                        sb8.append(str8);
                                                                                                                         sb8.append(messageObject.getSize());
-                                                                                                                        sQLitePreparedStatement24.bindString(5, sb8.toString());
-                                                                                                                        sQLitePreparedStatement24.step();
+                                                                                                                        sQLitePreparedStatement30.bindString(5, sb8.toString());
+                                                                                                                        sQLitePreparedStatement30.step();
                                                                                                                         nativeByteBuffer6.reuse();
-                                                                                                                        i64 = i84;
-                                                                                                                        arrayList20 = arrayList23;
+                                                                                                                        i68 = i88;
+                                                                                                                        arrayList22 = arrayList25;
                                                                                                                     } catch (Exception e22) {
                                                                                                                         e = e22;
-                                                                                                                        sQLitePreparedStatement10 = sQLitePreparedStatement22;
-                                                                                                                        sQLitePreparedStatement9 = sQLitePreparedStatement23;
-                                                                                                                        sQLitePreparedStatement11 = sQLitePreparedStatement27;
-                                                                                                                        sQLitePreparedStatement8 = sQLitePreparedStatement24;
-                                                                                                                        sQLitePreparedStatement12 = sQLitePreparedStatement28;
+                                                                                                                        sQLitePreparedStatement10 = sQLitePreparedStatement28;
+                                                                                                                        sQLitePreparedStatement9 = sQLitePreparedStatement29;
+                                                                                                                        sQLitePreparedStatement11 = sQLitePreparedStatement33;
+                                                                                                                        sQLitePreparedStatement8 = sQLitePreparedStatement30;
+                                                                                                                        sQLitePreparedStatement12 = sQLitePreparedStatement34;
                                                                                                                         sQLitePreparedStatement6 = sQLitePreparedStatement13;
                                                                                                                         sQLitePreparedStatement = null;
                                                                                                                         sQLitePreparedStatement2 = null;
@@ -20039,19 +20102,19 @@ public class MessagesStorage extends BaseController {
                                                                                                                         }
                                                                                                                         if (sQLitePreparedStatement5 != null) {
                                                                                                                         }
-                                                                                                                        if (sQLitePreparedStatement3 != null) {
+                                                                                                                        if (sQLitePreparedStatement2 != null) {
                                                                                                                         }
                                                                                                                         if (sQLitePreparedStatement != null) {
                                                                                                                         }
-                                                                                                                        if (sQLitePreparedStatement2 != null) {
+                                                                                                                        if (sQLitePreparedStatement3 == null) {
                                                                                                                         }
                                                                                                                     } catch (Throwable th26) {
                                                                                                                         th3 = th26;
-                                                                                                                        sQLitePreparedStatement10 = sQLitePreparedStatement22;
-                                                                                                                        sQLitePreparedStatement9 = sQLitePreparedStatement23;
-                                                                                                                        sQLitePreparedStatement11 = sQLitePreparedStatement27;
-                                                                                                                        sQLitePreparedStatement8 = sQLitePreparedStatement24;
-                                                                                                                        sQLitePreparedStatement12 = sQLitePreparedStatement28;
+                                                                                                                        sQLitePreparedStatement10 = sQLitePreparedStatement28;
+                                                                                                                        sQLitePreparedStatement9 = sQLitePreparedStatement29;
+                                                                                                                        sQLitePreparedStatement11 = sQLitePreparedStatement33;
+                                                                                                                        sQLitePreparedStatement8 = sQLitePreparedStatement30;
+                                                                                                                        sQLitePreparedStatement12 = sQLitePreparedStatement34;
                                                                                                                         sQLitePreparedStatement6 = sQLitePreparedStatement13;
                                                                                                                         sQLitePreparedStatement = null;
                                                                                                                         sQLitePreparedStatement2 = null;
@@ -20080,26 +20143,26 @@ public class MessagesStorage extends BaseController {
                                                                                                                         }
                                                                                                                         if (sQLitePreparedStatement5 != null) {
                                                                                                                         }
-                                                                                                                        if (sQLitePreparedStatement3 != null) {
+                                                                                                                        if (sQLitePreparedStatement2 != null) {
                                                                                                                         }
                                                                                                                         if (sQLitePreparedStatement != null) {
                                                                                                                         }
-                                                                                                                        if (sQLitePreparedStatement2 != null) {
+                                                                                                                        if (sQLitePreparedStatement3 != null) {
                                                                                                                         }
                                                                                                                         throw th;
                                                                                                                     }
                                                                                                                 }
                                                                                                             } else {
                                                                                                                 j3 = photo.id;
-                                                                                                                TLRPC$MessageMedia tLRPC$TL_messageMediaPhoto = new TLRPC$TL_messageMediaPhoto();
+                                                                                                                TLRPC$TL_messageMediaPhoto tLRPC$TL_messageMediaPhoto = new TLRPC$TL_messageMediaPhoto();
                                                                                                                 tLRPC$TL_messageMediaPhoto.photo = photo;
-                                                                                                                int i85 = tLRPC$TL_messageMediaPhoto.flags | 1;
-                                                                                                                tLRPC$TL_messageMediaPhoto.flags = i85;
+                                                                                                                int i89 = tLRPC$TL_messageMediaPhoto.flags | 1;
+                                                                                                                tLRPC$TL_messageMediaPhoto.flags = i89;
                                                                                                                 if (tLRPC$Message7.media instanceof TLRPC$TL_messageMediaWebPage) {
-                                                                                                                    tLRPC$TL_messageMediaPhoto.flags = i85 | Integer.MIN_VALUE;
+                                                                                                                    tLRPC$TL_messageMediaPhoto.flags = i89 | Integer.MIN_VALUE;
                                                                                                                 }
                                                                                                                 tLRPC$TL_messageMediaDocument = tLRPC$TL_messageMediaPhoto;
-                                                                                                                i16 = 1;
+                                                                                                                i20 = 1;
                                                                                                                 if (tLRPC$TL_messageMediaDocument != null) {
                                                                                                                 }
                                                                                                             }
@@ -20108,7 +20171,7 @@ public class MessagesStorage extends BaseController {
                                                                                                         tLRPC$TL_messageMediaDocument = new TLRPC$TL_messageMediaDocument();
                                                                                                         tLRPC$TL_messageMediaDocument.document = document;
                                                                                                         tLRPC$TL_messageMediaDocument.flags |= 1;
-                                                                                                        i16 = 4;
+                                                                                                        i20 = 4;
                                                                                                         if (tLRPC$TL_messageMediaDocument != null) {
                                                                                                         }
                                                                                                     }
@@ -20116,7 +20179,7 @@ public class MessagesStorage extends BaseController {
                                                                                                     tLRPC$TL_messageMediaDocument = new TLRPC$TL_messageMediaDocument();
                                                                                                     tLRPC$TL_messageMediaDocument.document = document;
                                                                                                     tLRPC$TL_messageMediaDocument.flags |= 1;
-                                                                                                    i16 = 1;
+                                                                                                    i20 = 1;
                                                                                                     if (tLRPC$TL_messageMediaDocument != null) {
                                                                                                     }
                                                                                                 }
@@ -20125,16 +20188,16 @@ public class MessagesStorage extends BaseController {
                                                                                             }
                                                                                         }
                                                                                     }
-                                                                                    str6 = str10;
-                                                                                    sQLitePreparedStatement24 = sQLitePreparedStatement8;
-                                                                                    i64 = i64;
-                                                                                    arrayList20 = arrayList22;
-                                                                                    i15 = i13;
+                                                                                    str8 = str;
+                                                                                    sQLitePreparedStatement30 = sQLitePreparedStatement8;
+                                                                                    i68 = i68;
+                                                                                    arrayList22 = arrayList24;
+                                                                                    i19 = i17;
                                                                                 }
                                                                             } catch (Exception e23) {
                                                                                 th2 = e23;
-                                                                                sQLitePreparedStatement11 = sQLitePreparedStatement27;
-                                                                                sQLitePreparedStatement12 = sQLitePreparedStatement28;
+                                                                                sQLitePreparedStatement11 = sQLitePreparedStatement33;
+                                                                                sQLitePreparedStatement12 = sQLitePreparedStatement34;
                                                                                 sQLitePreparedStatement6 = sQLitePreparedStatement13;
                                                                                 sQLitePreparedStatement = null;
                                                                                 sQLitePreparedStatement2 = null;
@@ -20163,16 +20226,16 @@ public class MessagesStorage extends BaseController {
                                                                                 }
                                                                                 if (sQLitePreparedStatement5 != null) {
                                                                                 }
-                                                                                if (sQLitePreparedStatement3 != null) {
+                                                                                if (sQLitePreparedStatement2 != null) {
                                                                                 }
                                                                                 if (sQLitePreparedStatement != null) {
                                                                                 }
-                                                                                if (sQLitePreparedStatement2 != null) {
+                                                                                if (sQLitePreparedStatement3 == null) {
                                                                                 }
                                                                             } catch (Throwable th27) {
                                                                                 th = th27;
-                                                                                sQLitePreparedStatement11 = sQLitePreparedStatement27;
-                                                                                sQLitePreparedStatement12 = sQLitePreparedStatement28;
+                                                                                sQLitePreparedStatement11 = sQLitePreparedStatement33;
+                                                                                sQLitePreparedStatement12 = sQLitePreparedStatement34;
                                                                                 sQLitePreparedStatement6 = sQLitePreparedStatement13;
                                                                                 sQLitePreparedStatement = null;
                                                                                 sQLitePreparedStatement2 = null;
@@ -20200,59 +20263,59 @@ public class MessagesStorage extends BaseController {
                                                                                 }
                                                                                 if (sQLitePreparedStatement5 != null) {
                                                                                 }
-                                                                                if (sQLitePreparedStatement3 != null) {
+                                                                                if (sQLitePreparedStatement2 != null) {
                                                                                 }
                                                                                 if (sQLitePreparedStatement != null) {
                                                                                 }
-                                                                                if (sQLitePreparedStatement2 != null) {
+                                                                                if (sQLitePreparedStatement3 != null) {
                                                                                 }
                                                                                 throw th;
                                                                             }
                                                                         } else {
-                                                                            str5 = str16;
+                                                                            str7 = str17;
                                                                         }
                                                                         nativeByteBuffer5.reuse();
                                                                         if (i != 0) {
                                                                         }
-                                                                        str6 = str10;
-                                                                        sQLitePreparedStatement24 = sQLitePreparedStatement8;
-                                                                        i64 = i64;
-                                                                        arrayList20 = arrayList22;
-                                                                        i15 = i13;
+                                                                        str8 = str;
+                                                                        sQLitePreparedStatement30 = sQLitePreparedStatement8;
+                                                                        i68 = i68;
+                                                                        arrayList22 = arrayList24;
+                                                                        i19 = i17;
                                                                     } catch (Exception e24) {
                                                                         e = e24;
-                                                                        sQLitePreparedStatement10 = sQLitePreparedStatement22;
-                                                                        sQLitePreparedStatement9 = sQLitePreparedStatement23;
-                                                                        sQLitePreparedStatement11 = sQLitePreparedStatement27;
+                                                                        sQLitePreparedStatement10 = sQLitePreparedStatement28;
+                                                                        sQLitePreparedStatement9 = sQLitePreparedStatement29;
+                                                                        sQLitePreparedStatement11 = sQLitePreparedStatement33;
                                                                     } catch (Throwable th28) {
                                                                         th3 = th28;
-                                                                        sQLitePreparedStatement10 = sQLitePreparedStatement22;
-                                                                        sQLitePreparedStatement9 = sQLitePreparedStatement23;
-                                                                        sQLitePreparedStatement11 = sQLitePreparedStatement27;
+                                                                        sQLitePreparedStatement10 = sQLitePreparedStatement28;
+                                                                        sQLitePreparedStatement9 = sQLitePreparedStatement29;
+                                                                        sQLitePreparedStatement11 = sQLitePreparedStatement33;
                                                                     }
                                                                     tLRPC$MessageMedia = tLRPC$Message7.media;
                                                                     if (!(tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaPoll)) {
                                                                     }
                                                                 } catch (Exception e25) {
                                                                     e = e25;
-                                                                    sQLitePreparedStatement10 = sQLitePreparedStatement22;
-                                                                    sQLitePreparedStatement11 = sQLitePreparedStatement27;
+                                                                    sQLitePreparedStatement10 = sQLitePreparedStatement28;
+                                                                    sQLitePreparedStatement11 = sQLitePreparedStatement33;
                                                                 } catch (Throwable th29) {
                                                                     th3 = th29;
-                                                                    sQLitePreparedStatement10 = sQLitePreparedStatement22;
-                                                                    sQLitePreparedStatement11 = sQLitePreparedStatement27;
+                                                                    sQLitePreparedStatement10 = sQLitePreparedStatement28;
+                                                                    sQLitePreparedStatement11 = sQLitePreparedStatement33;
                                                                 }
                                                                 if (MediaDataController.canAddMessageToMedia(tLRPC$Message7)) {
                                                                 }
                                                                 if (tLRPC$Message7.ttl_period != 0) {
                                                                 }
-                                                                sQLitePreparedStatement27 = sQLitePreparedStatement11;
+                                                                sQLitePreparedStatement33 = sQLitePreparedStatement11;
                                                             } catch (Exception e26) {
                                                                 e = e26;
-                                                                sQLitePreparedStatement10 = sQLitePreparedStatement22;
+                                                                sQLitePreparedStatement10 = sQLitePreparedStatement28;
                                                             } catch (Throwable th30) {
                                                                 th3 = th30;
-                                                                sQLitePreparedStatement10 = sQLitePreparedStatement22;
+                                                                sQLitePreparedStatement10 = sQLitePreparedStatement28;
                                                             }
                                                             if (tLRPC$Message7.random_id == 0) {
                                                             }
@@ -20287,11 +20350,11 @@ public class MessagesStorage extends BaseController {
                                                             }
                                                             if (sQLitePreparedStatement5 != null) {
                                                             }
-                                                            if (sQLitePreparedStatement3 != null) {
+                                                            if (sQLitePreparedStatement2 != null) {
                                                             }
                                                             if (sQLitePreparedStatement != null) {
                                                             }
-                                                            if (sQLitePreparedStatement2 != null) {
+                                                            if (sQLitePreparedStatement3 == null) {
                                                             }
                                                         } catch (Throwable th31) {
                                                             th3 = th31;
@@ -20323,82 +20386,82 @@ public class MessagesStorage extends BaseController {
                                                             }
                                                             if (sQLitePreparedStatement5 != null) {
                                                             }
-                                                            if (sQLitePreparedStatement3 != null) {
+                                                            if (sQLitePreparedStatement2 != null) {
                                                             }
                                                             if (sQLitePreparedStatement != null) {
                                                             }
-                                                            if (sQLitePreparedStatement2 != null) {
+                                                            if (sQLitePreparedStatement3 != null) {
                                                             }
                                                             throw th;
                                                         }
                                                         z7 = true;
                                                         if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionTopicCreate) {
-                                                            if (arrayList19 == null) {
+                                                            if (arrayList2 == null) {
                                                             }
-                                                            arrayList19.add(tLRPC$Message7);
+                                                            arrayList2.add(tLRPC$Message7);
                                                         }
                                                         if (tLRPC$Message7.action instanceof TLRPC$TL_messageActionTopicEdit) {
                                                         }
-                                                        LongSparseIntArray longSparseIntArray282 = longSparseIntArray24;
-                                                        i12 = i65;
+                                                        LongSparseIntArray longSparseIntArray312 = longSparseIntArray28;
+                                                        i16 = i69;
                                                         long clientUserId2 = getUserConfig().getClientUserId();
                                                         if (z7) {
                                                         }
-                                                        ArrayList arrayList222 = arrayList21;
-                                                        i14 = 0;
-                                                        while (i14 < 2) {
+                                                        ArrayList arrayList242 = arrayList23;
+                                                        i18 = 0;
+                                                        while (i18 < 2) {
                                                         }
-                                                        sQLitePreparedStatement11 = sQLitePreparedStatement27;
-                                                        sQLitePreparedStatement12 = sQLitePreparedStatement21;
+                                                        sQLitePreparedStatement11 = sQLitePreparedStatement33;
+                                                        sQLitePreparedStatement12 = sQLitePreparedStatement27;
                                                         long j92 = topicId2;
-                                                        int i822 = i68;
-                                                        hashMap10 = hashMap9;
+                                                        int i862 = i72;
+                                                        hashMap21 = hashMap20;
                                                     }
-                                                    i65 = i12 + 1;
-                                                    sQLitePreparedStatement10 = sQLitePreparedStatement22;
-                                                    sQLitePreparedStatement9 = sQLitePreparedStatement23;
-                                                    sQLitePreparedStatement8 = sQLitePreparedStatement24;
-                                                    str10 = str6;
-                                                    i63 = i15;
-                                                    arrayList19 = arrayList4;
-                                                    sparseArray = sparseArray2;
-                                                    hashMap42 = hashMap8;
-                                                    longSparseIntArray24 = longSparseIntArray5;
-                                                    str16 = str5;
-                                                    longSparseArray17 = longSparseArray5;
-                                                    hashMap22 = hashMap10;
+                                                    i69 = i16 + 1;
+                                                    sQLitePreparedStatement10 = sQLitePreparedStatement28;
+                                                    sQLitePreparedStatement9 = sQLitePreparedStatement29;
+                                                    sQLitePreparedStatement8 = sQLitePreparedStatement30;
+                                                    str = str8;
+                                                    i67 = i19;
+                                                    arrayList2 = arrayList7;
+                                                    sparseArray2 = sparseArray5;
+                                                    hashMap44 = hashMap19;
+                                                    longSparseIntArray28 = longSparseIntArray14;
+                                                    str17 = str7;
+                                                    longSparseArray4 = longSparseArray10;
+                                                    hashMap4 = hashMap21;
                                                 } catch (Exception e28) {
                                                     e = e28;
-                                                    sQLitePreparedStatement11 = sQLitePreparedStatement27;
-                                                    sQLitePreparedStatement12 = sQLitePreparedStatement28;
+                                                    sQLitePreparedStatement11 = sQLitePreparedStatement33;
+                                                    sQLitePreparedStatement12 = sQLitePreparedStatement34;
                                                 } catch (Throwable th32) {
                                                     th3 = th32;
-                                                    sQLitePreparedStatement11 = sQLitePreparedStatement27;
-                                                    sQLitePreparedStatement12 = sQLitePreparedStatement28;
+                                                    sQLitePreparedStatement11 = sQLitePreparedStatement33;
+                                                    sQLitePreparedStatement12 = sQLitePreparedStatement34;
                                                 }
                                             } catch (Exception e29) {
                                                 e = e29;
-                                                sQLitePreparedStatement11 = sQLitePreparedStatement27;
-                                                sQLitePreparedStatement12 = sQLitePreparedStatement28;
+                                                sQLitePreparedStatement11 = sQLitePreparedStatement33;
+                                                sQLitePreparedStatement12 = sQLitePreparedStatement34;
                                             } catch (Throwable th33) {
                                                 th3 = th33;
-                                                sQLitePreparedStatement11 = sQLitePreparedStatement27;
-                                                sQLitePreparedStatement12 = sQLitePreparedStatement28;
+                                                sQLitePreparedStatement11 = sQLitePreparedStatement33;
+                                                sQLitePreparedStatement12 = sQLitePreparedStatement34;
                                             }
                                         }
-                                        final int i86 = i63;
-                                        LongSparseIntArray longSparseIntArray29 = longSparseIntArray24;
-                                        sQLitePreparedStatement11 = sQLitePreparedStatement27;
-                                        String str17 = str16;
-                                        SparseArray sparseArray9 = sparseArray;
-                                        HashMap hashMap43 = hashMap42;
-                                        sQLitePreparedStatement12 = sQLitePreparedStatement28;
-                                        final ArrayList arrayList24 = arrayList20;
-                                        HashMap hashMap44 = hashMap22;
-                                        LongSparseArray longSparseArray37 = longSparseArray17;
-                                        SQLitePreparedStatement sQLitePreparedStatement30 = sQLitePreparedStatement8;
-                                        SQLitePreparedStatement sQLitePreparedStatement31 = sQLitePreparedStatement9;
-                                        SQLitePreparedStatement sQLitePreparedStatement32 = sQLitePreparedStatement10;
+                                        i3 = i67;
+                                        longSparseIntArray7 = longSparseIntArray28;
+                                        sQLitePreparedStatement11 = sQLitePreparedStatement33;
+                                        str5 = str17;
+                                        sparseArray4 = sparseArray2;
+                                        hashMap15 = hashMap44;
+                                        sQLitePreparedStatement12 = sQLitePreparedStatement34;
+                                        arrayList3 = arrayList22;
+                                        hashMap16 = hashMap4;
+                                        longSparseArray8 = longSparseArray4;
+                                        sQLitePreparedStatement14 = sQLitePreparedStatement8;
+                                        sQLitePreparedStatement15 = sQLitePreparedStatement9;
+                                        sQLitePreparedStatement16 = sQLitePreparedStatement10;
                                         try {
                                             sQLitePreparedStatement13.dispose();
                                             sQLitePreparedStatement7.dispose();
@@ -20406,16 +20469,18 @@ public class MessagesStorage extends BaseController {
                                                 try {
                                                     sQLitePreparedStatement11.dispose();
                                                     sQLitePreparedStatement5 = null;
+                                                    sQLitePreparedStatement5 = null;
+                                                    sQLitePreparedStatement5 = null;
                                                 } catch (Exception e30) {
                                                     e = e30;
                                                     sQLitePreparedStatement5 = null;
-                                                    sQLitePreparedStatement10 = sQLitePreparedStatement32;
-                                                    sQLitePreparedStatement9 = sQLitePreparedStatement31;
+                                                    sQLitePreparedStatement10 = sQLitePreparedStatement16;
+                                                    sQLitePreparedStatement9 = sQLitePreparedStatement15;
                                                     sQLitePreparedStatement = sQLitePreparedStatement5;
                                                     sQLitePreparedStatement2 = sQLitePreparedStatement;
                                                     sQLitePreparedStatement3 = sQLitePreparedStatement2;
                                                     sQLitePreparedStatement4 = sQLitePreparedStatement3;
-                                                    sQLitePreparedStatement8 = sQLitePreparedStatement30;
+                                                    sQLitePreparedStatement8 = sQLitePreparedStatement14;
                                                     sQLitePreparedStatement6 = sQLitePreparedStatement13;
                                                     z4 = false;
                                                     th2 = e;
@@ -20440,22 +20505,22 @@ public class MessagesStorage extends BaseController {
                                                     }
                                                     if (sQLitePreparedStatement5 != null) {
                                                     }
-                                                    if (sQLitePreparedStatement3 != null) {
+                                                    if (sQLitePreparedStatement2 != null) {
                                                     }
                                                     if (sQLitePreparedStatement != null) {
                                                     }
-                                                    if (sQLitePreparedStatement2 != null) {
+                                                    if (sQLitePreparedStatement3 == null) {
                                                     }
                                                 } catch (Throwable th34) {
                                                     th3 = th34;
                                                     sQLitePreparedStatement5 = null;
-                                                    sQLitePreparedStatement10 = sQLitePreparedStatement32;
-                                                    sQLitePreparedStatement9 = sQLitePreparedStatement31;
+                                                    sQLitePreparedStatement10 = sQLitePreparedStatement16;
+                                                    sQLitePreparedStatement9 = sQLitePreparedStatement15;
                                                     sQLitePreparedStatement = sQLitePreparedStatement5;
                                                     sQLitePreparedStatement2 = sQLitePreparedStatement;
                                                     sQLitePreparedStatement3 = sQLitePreparedStatement2;
                                                     sQLitePreparedStatement4 = sQLitePreparedStatement3;
-                                                    sQLitePreparedStatement8 = sQLitePreparedStatement30;
+                                                    sQLitePreparedStatement8 = sQLitePreparedStatement14;
                                                     sQLitePreparedStatement6 = sQLitePreparedStatement13;
                                                     z4 = false;
                                                     th = th3;
@@ -20479,26 +20544,26 @@ public class MessagesStorage extends BaseController {
                                                     }
                                                     if (sQLitePreparedStatement5 != null) {
                                                     }
-                                                    if (sQLitePreparedStatement3 != null) {
+                                                    if (sQLitePreparedStatement2 != null) {
                                                     }
                                                     if (sQLitePreparedStatement != null) {
                                                     }
-                                                    if (sQLitePreparedStatement2 != null) {
+                                                    if (sQLitePreparedStatement3 != null) {
                                                     }
                                                     throw th;
                                                 }
                                                 try {
-                                                    getMessagesController().didAddedNewTask(i64, 0L, null);
+                                                    getMessagesController().didAddedNewTask(i68, 0L, null);
                                                     sQLitePreparedStatement11 = null;
                                                 } catch (Exception e31) {
                                                     e = e31;
-                                                    sQLitePreparedStatement10 = sQLitePreparedStatement32;
-                                                    sQLitePreparedStatement9 = sQLitePreparedStatement31;
+                                                    sQLitePreparedStatement10 = sQLitePreparedStatement16;
+                                                    sQLitePreparedStatement9 = sQLitePreparedStatement15;
                                                     sQLitePreparedStatement = sQLitePreparedStatement5;
                                                     sQLitePreparedStatement2 = sQLitePreparedStatement;
                                                     sQLitePreparedStatement3 = sQLitePreparedStatement2;
                                                     sQLitePreparedStatement4 = sQLitePreparedStatement3;
-                                                    sQLitePreparedStatement8 = sQLitePreparedStatement30;
+                                                    sQLitePreparedStatement8 = sQLitePreparedStatement14;
                                                     sQLitePreparedStatement6 = sQLitePreparedStatement13;
                                                     z4 = false;
                                                     th2 = e;
@@ -20523,21 +20588,21 @@ public class MessagesStorage extends BaseController {
                                                     }
                                                     if (sQLitePreparedStatement5 != null) {
                                                     }
-                                                    if (sQLitePreparedStatement3 != null) {
+                                                    if (sQLitePreparedStatement2 != null) {
                                                     }
                                                     if (sQLitePreparedStatement != null) {
                                                     }
-                                                    if (sQLitePreparedStatement2 != null) {
+                                                    if (sQLitePreparedStatement3 == null) {
                                                     }
                                                 } catch (Throwable th35) {
                                                     th3 = th35;
-                                                    sQLitePreparedStatement10 = sQLitePreparedStatement32;
-                                                    sQLitePreparedStatement9 = sQLitePreparedStatement31;
+                                                    sQLitePreparedStatement10 = sQLitePreparedStatement16;
+                                                    sQLitePreparedStatement9 = sQLitePreparedStatement15;
                                                     sQLitePreparedStatement = sQLitePreparedStatement5;
                                                     sQLitePreparedStatement2 = sQLitePreparedStatement;
                                                     sQLitePreparedStatement3 = sQLitePreparedStatement2;
                                                     sQLitePreparedStatement4 = sQLitePreparedStatement3;
-                                                    sQLitePreparedStatement8 = sQLitePreparedStatement30;
+                                                    sQLitePreparedStatement8 = sQLitePreparedStatement14;
                                                     sQLitePreparedStatement6 = sQLitePreparedStatement13;
                                                     z4 = false;
                                                     th = th3;
@@ -20561,11 +20626,11 @@ public class MessagesStorage extends BaseController {
                                                     }
                                                     if (sQLitePreparedStatement5 != null) {
                                                     }
-                                                    if (sQLitePreparedStatement3 != null) {
+                                                    if (sQLitePreparedStatement2 != null) {
                                                     }
                                                     if (sQLitePreparedStatement != null) {
                                                     }
-                                                    if (sQLitePreparedStatement2 != null) {
+                                                    if (sQLitePreparedStatement3 != null) {
                                                     }
                                                     throw th;
                                                 }
@@ -20574,1967 +20639,18 @@ public class MessagesStorage extends BaseController {
                                             }
                                             if (sQLitePreparedStatement12 != null) {
                                                 sQLitePreparedStatement12.dispose();
-                                                sQLitePreparedStatement14 = sQLitePreparedStatement5;
+                                                sQLitePreparedStatement17 = sQLitePreparedStatement5;
                                             } else {
-                                                sQLitePreparedStatement14 = sQLitePreparedStatement12;
+                                                sQLitePreparedStatement17 = sQLitePreparedStatement12;
                                             }
-                                            try {
-                                                sQLitePreparedStatement32.dispose();
-                                                try {
-                                                    sQLitePreparedStatement30.dispose();
-                                                    try {
-                                                        sQLitePreparedStatement31.dispose();
-                                                        if (arrayList19 != null) {
-                                                            for (int i87 = 0; i87 < arrayList19.size(); i87++) {
-                                                                try {
-                                                                    TLRPC$Message tLRPC$Message10 = (TLRPC$Message) arrayList19.get(i87);
-                                                                    createOrEditTopic(tLRPC$Message10.dialog_id, tLRPC$Message10);
-                                                                } catch (Exception e32) {
-                                                                    th2 = e32;
-                                                                    sQLitePreparedStatement = sQLitePreparedStatement5;
-                                                                    sQLitePreparedStatement2 = sQLitePreparedStatement;
-                                                                    sQLitePreparedStatement3 = sQLitePreparedStatement2;
-                                                                    sQLitePreparedStatement4 = sQLitePreparedStatement3;
-                                                                    sQLitePreparedStatement8 = sQLitePreparedStatement4;
-                                                                    sQLitePreparedStatement9 = sQLitePreparedStatement8;
-                                                                    sQLitePreparedStatement10 = sQLitePreparedStatement9;
-                                                                    sQLitePreparedStatement12 = sQLitePreparedStatement14;
-                                                                    sQLitePreparedStatement6 = sQLitePreparedStatement13;
-                                                                    z4 = false;
-                                                                    checkSQLException(th2);
-                                                                    if (z4) {
-                                                                    }
-                                                                    if (sQLitePreparedStatement6 != null) {
-                                                                    }
-                                                                    if (sQLitePreparedStatement7 != null) {
-                                                                    }
-                                                                    if (sQLitePreparedStatement10 != null) {
-                                                                    }
-                                                                    if (sQLitePreparedStatement8 != null) {
-                                                                    }
-                                                                    if (sQLitePreparedStatement9 != null) {
-                                                                    }
-                                                                    if (sQLitePreparedStatement4 != null) {
-                                                                    }
-                                                                    if (sQLitePreparedStatement12 != null) {
-                                                                    }
-                                                                    if (sQLitePreparedStatement11 != null) {
-                                                                    }
-                                                                    if (sQLitePreparedStatement5 != null) {
-                                                                    }
-                                                                    if (sQLitePreparedStatement3 != null) {
-                                                                    }
-                                                                    if (sQLitePreparedStatement != null) {
-                                                                    }
-                                                                    if (sQLitePreparedStatement2 != null) {
-                                                                    }
-                                                                } catch (Throwable th36) {
-                                                                    th = th36;
-                                                                    sQLitePreparedStatement = sQLitePreparedStatement5;
-                                                                    sQLitePreparedStatement2 = sQLitePreparedStatement;
-                                                                    sQLitePreparedStatement3 = sQLitePreparedStatement2;
-                                                                    sQLitePreparedStatement4 = sQLitePreparedStatement3;
-                                                                    sQLitePreparedStatement8 = sQLitePreparedStatement4;
-                                                                    sQLitePreparedStatement9 = sQLitePreparedStatement8;
-                                                                    sQLitePreparedStatement10 = sQLitePreparedStatement9;
-                                                                    sQLitePreparedStatement12 = sQLitePreparedStatement14;
-                                                                    sQLitePreparedStatement6 = sQLitePreparedStatement13;
-                                                                    z4 = false;
-                                                                    if (z4) {
-                                                                    }
-                                                                    if (sQLitePreparedStatement6 != null) {
-                                                                    }
-                                                                    if (sQLitePreparedStatement7 != null) {
-                                                                    }
-                                                                    if (sQLitePreparedStatement10 != null) {
-                                                                    }
-                                                                    if (sQLitePreparedStatement8 != null) {
-                                                                    }
-                                                                    if (sQLitePreparedStatement9 != null) {
-                                                                    }
-                                                                    if (sQLitePreparedStatement4 != null) {
-                                                                    }
-                                                                    if (sQLitePreparedStatement12 != null) {
-                                                                    }
-                                                                    if (sQLitePreparedStatement11 != null) {
-                                                                    }
-                                                                    if (sQLitePreparedStatement5 != null) {
-                                                                    }
-                                                                    if (sQLitePreparedStatement3 != null) {
-                                                                    }
-                                                                    if (sQLitePreparedStatement != null) {
-                                                                    }
-                                                                    if (sQLitePreparedStatement2 != null) {
-                                                                    }
-                                                                    throw th;
-                                                                }
-                                                            }
-                                                        }
-                                                        try {
-                                                            SQLitePreparedStatement executeFast10 = this.database.executeFast("REPLACE INTO dialogs VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                                                            try {
-                                                                sQLitePreparedStatement3 = this.database.executeFast("UPDATE dialogs SET date = ?, unread_count = ?, last_mid = ?, last_mid_group = ?, unread_count_i = ? WHERE did = ?");
-                                                                try {
-                                                                    executeFast = this.database.executeFast("UPDATE dialogs SET unread_count = ?, unread_count_i = ? WHERE did = ?");
-                                                                } catch (Exception e33) {
-                                                                    sQLitePreparedStatement5 = executeFast10;
-                                                                    sQLitePreparedStatement12 = sQLitePreparedStatement14;
-                                                                    th2 = e33;
-                                                                    sQLitePreparedStatement6 = sQLitePreparedStatement13;
-                                                                    sQLitePreparedStatement = null;
-                                                                } catch (Throwable th37) {
-                                                                    sQLitePreparedStatement5 = executeFast10;
-                                                                    sQLitePreparedStatement12 = sQLitePreparedStatement14;
-                                                                    th = th37;
-                                                                    sQLitePreparedStatement6 = sQLitePreparedStatement13;
-                                                                    sQLitePreparedStatement = null;
-                                                                }
-                                                                try {
-                                                                    SQLitePreparedStatement executeFast11 = this.database.executeFast("UPDATE topics SET unread_count = ?, top_message = ?, unread_mentions = ?, total_messages_count = ? WHERE did = ? AND topic_id = ?");
-                                                                    try {
-                                                                        ArrayList<Long> arrayList25 = new ArrayList<>();
-                                                                        int i88 = 0;
-                                                                        while (i88 < longSparseArray37.size()) {
-                                                                            LongSparseArray longSparseArray38 = longSparseArray37;
-                                                                            try {
-                                                                                long keyAt5 = longSparseArray38.keyAt(i88);
-                                                                                if (keyAt5 == 0) {
-                                                                                    sQLitePreparedStatement5 = executeFast10;
-                                                                                    sQLitePreparedStatement19 = executeFast11;
-                                                                                    i8 = i88;
-                                                                                    longSparseArray4 = longSparseArray38;
-                                                                                    sQLitePreparedStatement20 = sQLitePreparedStatement14;
-                                                                                } else {
-                                                                                    TLRPC$Message tLRPC$Message11 = (TLRPC$Message) longSparseArray38.valueAt(i88);
-                                                                                    i8 = i88;
-                                                                                    long channelId = MessageObject.getChannelId(tLRPC$Message11);
-                                                                                    SQLiteDatabase sQLiteDatabase7 = this.database;
-                                                                                    StringBuilder sb9 = new StringBuilder();
-                                                                                    longSparseArray4 = longSparseArray38;
-                                                                                    sb9.append("SELECT date, unread_count, last_mid, unread_count_i FROM dialogs WHERE did = ");
-                                                                                    sb9.append(keyAt5);
-                                                                                    sQLitePreparedStatement20 = sQLitePreparedStatement14;
-                                                                                    try {
-                                                                                        SQLiteCursor queryFinalized8 = sQLiteDatabase7.queryFinalized(sb9.toString(), new Object[0]);
-                                                                                        boolean next = queryFinalized8.next();
-                                                                                        if (next) {
-                                                                                            try {
-                                                                                                int intValue18 = queryFinalized8.intValue(0);
-                                                                                                tLRPC$Message = tLRPC$Message11;
-                                                                                                j2 = keyAt5;
-                                                                                                max = Math.max(0, queryFinalized8.intValue(1));
-                                                                                                intValue5 = queryFinalized8.intValue(2);
-                                                                                                max2 = Math.max(0, queryFinalized8.intValue(3));
-                                                                                                i9 = intValue18;
-                                                                                            } catch (Exception e34) {
-                                                                                                sQLitePreparedStatement12 = sQLitePreparedStatement20;
-                                                                                                th2 = e34;
-                                                                                                sQLitePreparedStatement5 = executeFast10;
-                                                                                                sQLitePreparedStatement = executeFast;
-                                                                                                sQLitePreparedStatement2 = executeFast11;
-                                                                                                sQLitePreparedStatement6 = sQLitePreparedStatement13;
-                                                                                                z4 = false;
-                                                                                                sQLitePreparedStatement4 = null;
-                                                                                                sQLitePreparedStatement8 = null;
-                                                                                                sQLitePreparedStatement9 = null;
-                                                                                                sQLitePreparedStatement10 = null;
-                                                                                                checkSQLException(th2);
-                                                                                                if (z4) {
-                                                                                                }
-                                                                                                if (sQLitePreparedStatement6 != null) {
-                                                                                                }
-                                                                                                if (sQLitePreparedStatement7 != null) {
-                                                                                                }
-                                                                                                if (sQLitePreparedStatement10 != null) {
-                                                                                                }
-                                                                                                if (sQLitePreparedStatement8 != null) {
-                                                                                                }
-                                                                                                if (sQLitePreparedStatement9 != null) {
-                                                                                                }
-                                                                                                if (sQLitePreparedStatement4 != null) {
-                                                                                                }
-                                                                                                if (sQLitePreparedStatement12 != null) {
-                                                                                                }
-                                                                                                if (sQLitePreparedStatement11 != null) {
-                                                                                                }
-                                                                                                if (sQLitePreparedStatement5 != null) {
-                                                                                                }
-                                                                                                if (sQLitePreparedStatement3 != null) {
-                                                                                                }
-                                                                                                if (sQLitePreparedStatement != null) {
-                                                                                                }
-                                                                                                if (sQLitePreparedStatement2 != null) {
-                                                                                                }
-                                                                                            } catch (Throwable th38) {
-                                                                                                sQLitePreparedStatement12 = sQLitePreparedStatement20;
-                                                                                                th = th38;
-                                                                                                sQLitePreparedStatement5 = executeFast10;
-                                                                                                sQLitePreparedStatement = executeFast;
-                                                                                                sQLitePreparedStatement2 = executeFast11;
-                                                                                                sQLitePreparedStatement6 = sQLitePreparedStatement13;
-                                                                                                z4 = false;
-                                                                                                sQLitePreparedStatement4 = null;
-                                                                                                sQLitePreparedStatement8 = null;
-                                                                                                sQLitePreparedStatement9 = null;
-                                                                                                sQLitePreparedStatement10 = null;
-                                                                                                if (z4) {
-                                                                                                }
-                                                                                                if (sQLitePreparedStatement6 != null) {
-                                                                                                }
-                                                                                                if (sQLitePreparedStatement7 != null) {
-                                                                                                }
-                                                                                                if (sQLitePreparedStatement10 != null) {
-                                                                                                }
-                                                                                                if (sQLitePreparedStatement8 != null) {
-                                                                                                }
-                                                                                                if (sQLitePreparedStatement9 != null) {
-                                                                                                }
-                                                                                                if (sQLitePreparedStatement4 != null) {
-                                                                                                }
-                                                                                                if (sQLitePreparedStatement12 != null) {
-                                                                                                }
-                                                                                                if (sQLitePreparedStatement11 != null) {
-                                                                                                }
-                                                                                                if (sQLitePreparedStatement5 != null) {
-                                                                                                }
-                                                                                                if (sQLitePreparedStatement3 != null) {
-                                                                                                }
-                                                                                                if (sQLitePreparedStatement != null) {
-                                                                                                }
-                                                                                                if (sQLitePreparedStatement2 != null) {
-                                                                                                }
-                                                                                                throw th;
-                                                                                            }
-                                                                                        } else {
-                                                                                            tLRPC$Message = tLRPC$Message11;
-                                                                                            j2 = keyAt5;
-                                                                                            if (channelId != 0) {
-                                                                                                getMessagesController().checkChatInviter(channelId, true);
-                                                                                            }
-                                                                                            i9 = 0;
-                                                                                            max = 0;
-                                                                                            max2 = 0;
-                                                                                            intValue5 = 0;
-                                                                                        }
-                                                                                        queryFinalized8.dispose();
-                                                                                        sQLitePreparedStatement19 = executeFast11;
-                                                                                        LongSparseIntArray longSparseIntArray30 = longSparseIntArray29;
-                                                                                        int i89 = -1;
-                                                                                        try {
-                                                                                            int i90 = longSparseIntArray30.get(j2, -1);
-                                                                                            SQLitePreparedStatement sQLitePreparedStatement33 = executeFast10;
-                                                                                            LongSparseIntArray longSparseIntArray31 = longSparseIntArray27;
-                                                                                            try {
-                                                                                                int i91 = longSparseIntArray31.get(j2, -1);
-                                                                                                if (i91 == -1) {
-                                                                                                    i91 = 0;
-                                                                                                } else {
-                                                                                                    longSparseIntArray31.put(j2, i91 + max);
-                                                                                                    i89 = -1;
-                                                                                                }
-                                                                                                if (i90 == i89) {
-                                                                                                    i10 = 0;
-                                                                                                } else {
-                                                                                                    longSparseIntArray30.put(j2, i90 + max2);
-                                                                                                    i10 = i90;
-                                                                                                }
-                                                                                                if (tLRPC$Message != null) {
-                                                                                                    tLRPC$Message2 = tLRPC$Message;
-                                                                                                    longSparseIntArray29 = longSparseIntArray30;
-                                                                                                    try {
-                                                                                                        intValue5 = tLRPC$Message2.id;
-                                                                                                    } catch (Exception e35) {
-                                                                                                        e = e35;
-                                                                                                        sQLitePreparedStatement12 = sQLitePreparedStatement20;
-                                                                                                        sQLitePreparedStatement2 = sQLitePreparedStatement19;
-                                                                                                        sQLitePreparedStatement5 = sQLitePreparedStatement33;
-                                                                                                        th2 = e;
-                                                                                                        sQLitePreparedStatement = executeFast;
-                                                                                                        sQLitePreparedStatement6 = sQLitePreparedStatement13;
-                                                                                                        z4 = false;
-                                                                                                        sQLitePreparedStatement4 = null;
-                                                                                                        sQLitePreparedStatement8 = null;
-                                                                                                        sQLitePreparedStatement9 = null;
-                                                                                                        sQLitePreparedStatement10 = null;
-                                                                                                        checkSQLException(th2);
-                                                                                                        if (z4) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement6 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement7 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement10 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement8 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement9 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement4 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement12 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement11 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement5 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement3 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement2 != null) {
-                                                                                                        }
-                                                                                                    } catch (Throwable th39) {
-                                                                                                        th = th39;
-                                                                                                        sQLitePreparedStatement12 = sQLitePreparedStatement20;
-                                                                                                        sQLitePreparedStatement2 = sQLitePreparedStatement19;
-                                                                                                        sQLitePreparedStatement5 = sQLitePreparedStatement33;
-                                                                                                        th = th;
-                                                                                                        sQLitePreparedStatement = executeFast;
-                                                                                                        sQLitePreparedStatement6 = sQLitePreparedStatement13;
-                                                                                                        z4 = false;
-                                                                                                        sQLitePreparedStatement4 = null;
-                                                                                                        sQLitePreparedStatement8 = null;
-                                                                                                        sQLitePreparedStatement9 = null;
-                                                                                                        sQLitePreparedStatement10 = null;
-                                                                                                        if (z4) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement6 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement7 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement10 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement8 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement9 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement4 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement12 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement11 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement5 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement3 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement2 != null) {
-                                                                                                        }
-                                                                                                        throw th;
-                                                                                                    }
-                                                                                                } else {
-                                                                                                    tLRPC$Message2 = tLRPC$Message;
-                                                                                                    longSparseIntArray29 = longSparseIntArray30;
-                                                                                                }
-                                                                                                if (tLRPC$Message2 == null || (i11 = tLRPC$Message2.local_id) == 0) {
-                                                                                                    i11 = intValue5;
-                                                                                                }
-                                                                                                if (isForum(j2)) {
-                                                                                                    longSparseIntArray27 = longSparseIntArray31;
-                                                                                                } else {
-                                                                                                    if (max != 0 || i91 == 0) {
-                                                                                                        longSparseIntArray27 = longSparseIntArray31;
-                                                                                                        longSparseIntArray4 = longSparseIntArray17;
-                                                                                                    } else {
-                                                                                                        longSparseIntArray27 = longSparseIntArray31;
-                                                                                                        longSparseIntArray4 = longSparseIntArray17;
-                                                                                                        longSparseIntArray4.put(j2, i91);
-                                                                                                    }
-                                                                                                    if (max2 != 0 || i10 == 0) {
-                                                                                                        longSparseIntArray17 = longSparseIntArray4;
-                                                                                                    } else {
-                                                                                                        longSparseIntArray17 = longSparseIntArray4;
-                                                                                                        LongSparseIntArray longSparseIntArray32 = longSparseIntArray16;
-                                                                                                        longSparseIntArray32.put(j2, i10);
-                                                                                                        longSparseIntArray16 = longSparseIntArray32;
-                                                                                                    }
-                                                                                                }
-                                                                                                arrayList25.add(Long.valueOf(j2));
-                                                                                                if (next) {
-                                                                                                    if (tLRPC$Message2 != null && tLRPC$Message2.date <= i9 && !DialogObject.isEncryptedDialog(j2)) {
-                                                                                                        executeFast.requery();
-                                                                                                        executeFast.bindInteger(1, max + i91);
-                                                                                                        executeFast.bindInteger(2, max2 + i10);
-                                                                                                        executeFast.bindLong(3, j2);
-                                                                                                        executeFast.step();
-                                                                                                        sQLitePreparedStatement5 = sQLitePreparedStatement33;
-                                                                                                    }
-                                                                                                    sQLitePreparedStatement3.requery();
-                                                                                                    if (tLRPC$Message2 != null && (!z2 || i9 == 0)) {
-                                                                                                        i9 = tLRPC$Message2.date;
-                                                                                                    }
-                                                                                                    sQLitePreparedStatement3.bindInteger(1, i9);
-                                                                                                    sQLitePreparedStatement3.bindInteger(2, max + i91);
-                                                                                                    sQLitePreparedStatement3.bindInteger(3, i11);
-                                                                                                    if (tLRPC$Message2 != null && (tLRPC$Message2.flags & 131072) != 0) {
-                                                                                                        sQLitePreparedStatement3.bindLong(4, tLRPC$Message2.grouped_id);
-                                                                                                    } else {
-                                                                                                        sQLitePreparedStatement3.bindNull(4);
-                                                                                                    }
-                                                                                                    sQLitePreparedStatement3.bindInteger(5, max2 + i10);
-                                                                                                    sQLitePreparedStatement3.bindLong(6, j2);
-                                                                                                    sQLitePreparedStatement3.step();
-                                                                                                    sQLitePreparedStatement5 = sQLitePreparedStatement33;
-                                                                                                } else {
-                                                                                                    sQLitePreparedStatement33.requery();
-                                                                                                    sQLitePreparedStatement5 = sQLitePreparedStatement33;
-                                                                                                    try {
-                                                                                                        sQLitePreparedStatement5.bindLong(1, j2);
-                                                                                                        if (tLRPC$Message2 != null && (!z2 || i9 == 0)) {
-                                                                                                            i9 = tLRPC$Message2.date;
-                                                                                                        }
-                                                                                                        sQLitePreparedStatement5.bindInteger(2, i9);
-                                                                                                        sQLitePreparedStatement5.bindInteger(3, max + i91);
-                                                                                                        sQLitePreparedStatement5.bindInteger(4, i11);
-                                                                                                        sQLitePreparedStatement5.bindInteger(5, 0);
-                                                                                                        sQLitePreparedStatement5.bindInteger(6, 0);
-                                                                                                        sQLitePreparedStatement5.bindLong(7, 0L);
-                                                                                                        sQLitePreparedStatement5.bindInteger(8, max2 + i10);
-                                                                                                        sQLitePreparedStatement5.bindInteger(9, channelId != 0 ? 1 : 0);
-                                                                                                        sQLitePreparedStatement5.bindInteger(10, 0);
-                                                                                                        sQLitePreparedStatement5.bindInteger(11, 0);
-                                                                                                        sQLitePreparedStatement5.bindInteger(12, 0);
-                                                                                                        sQLitePreparedStatement5.bindInteger(13, 0);
-                                                                                                        sQLitePreparedStatement5.bindNull(14);
-                                                                                                        sQLitePreparedStatement5.bindInteger(15, 0);
-                                                                                                        if (tLRPC$Message2 != null && (tLRPC$Message2.flags & 131072) != 0) {
-                                                                                                            sQLitePreparedStatement5.bindLong(16, tLRPC$Message2.grouped_id);
-                                                                                                        } else {
-                                                                                                            sQLitePreparedStatement5.bindNull(16);
-                                                                                                        }
-                                                                                                        sQLitePreparedStatement5.bindInteger(17, 0);
-                                                                                                        sQLitePreparedStatement5.step();
-                                                                                                        this.unknownDialogsIds.put(j2, Boolean.TRUE);
-                                                                                                    } catch (Exception e36) {
-                                                                                                        e = e36;
-                                                                                                        sQLitePreparedStatement12 = sQLitePreparedStatement20;
-                                                                                                        sQLitePreparedStatement2 = sQLitePreparedStatement19;
-                                                                                                        th2 = e;
-                                                                                                        sQLitePreparedStatement = executeFast;
-                                                                                                        sQLitePreparedStatement6 = sQLitePreparedStatement13;
-                                                                                                        z4 = false;
-                                                                                                        sQLitePreparedStatement4 = null;
-                                                                                                        sQLitePreparedStatement8 = null;
-                                                                                                        sQLitePreparedStatement9 = null;
-                                                                                                        sQLitePreparedStatement10 = null;
-                                                                                                        checkSQLException(th2);
-                                                                                                        if (z4) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement6 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement7 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement10 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement8 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement9 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement4 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement12 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement11 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement5 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement3 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement2 != null) {
-                                                                                                        }
-                                                                                                    } catch (Throwable th40) {
-                                                                                                        th = th40;
-                                                                                                        sQLitePreparedStatement12 = sQLitePreparedStatement20;
-                                                                                                        sQLitePreparedStatement2 = sQLitePreparedStatement19;
-                                                                                                        th = th;
-                                                                                                        sQLitePreparedStatement = executeFast;
-                                                                                                        sQLitePreparedStatement6 = sQLitePreparedStatement13;
-                                                                                                        z4 = false;
-                                                                                                        sQLitePreparedStatement4 = null;
-                                                                                                        sQLitePreparedStatement8 = null;
-                                                                                                        sQLitePreparedStatement9 = null;
-                                                                                                        sQLitePreparedStatement10 = null;
-                                                                                                        if (z4) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement6 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement7 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement10 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement8 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement9 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement4 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement12 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement11 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement5 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement3 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement2 != null) {
-                                                                                                        }
-                                                                                                        throw th;
-                                                                                                    }
-                                                                                                }
-                                                                                            } catch (Exception e37) {
-                                                                                                e = e37;
-                                                                                                sQLitePreparedStatement5 = sQLitePreparedStatement33;
-                                                                                            } catch (Throwable th41) {
-                                                                                                th = th41;
-                                                                                                sQLitePreparedStatement5 = sQLitePreparedStatement33;
-                                                                                            }
-                                                                                        } catch (Exception e38) {
-                                                                                            e = e38;
-                                                                                            sQLitePreparedStatement5 = executeFast10;
-                                                                                        } catch (Throwable th42) {
-                                                                                            th = th42;
-                                                                                            sQLitePreparedStatement5 = executeFast10;
-                                                                                        }
-                                                                                    } catch (Exception e39) {
-                                                                                        e = e39;
-                                                                                        sQLitePreparedStatement5 = executeFast10;
-                                                                                        sQLitePreparedStatement19 = executeFast11;
-                                                                                    } catch (Throwable th43) {
-                                                                                        th = th43;
-                                                                                        sQLitePreparedStatement5 = executeFast10;
-                                                                                        sQLitePreparedStatement19 = executeFast11;
-                                                                                    }
-                                                                                }
-                                                                                i88 = i8 + 1;
-                                                                                sQLitePreparedStatement14 = sQLitePreparedStatement20;
-                                                                                executeFast11 = sQLitePreparedStatement19;
-                                                                                executeFast10 = sQLitePreparedStatement5;
-                                                                                longSparseArray37 = longSparseArray4;
-                                                                            } catch (Exception e40) {
-                                                                                e = e40;
-                                                                                sQLitePreparedStatement5 = executeFast10;
-                                                                                sQLitePreparedStatement19 = executeFast11;
-                                                                                sQLitePreparedStatement20 = sQLitePreparedStatement14;
-                                                                            } catch (Throwable th44) {
-                                                                                th = th44;
-                                                                                sQLitePreparedStatement5 = executeFast10;
-                                                                                sQLitePreparedStatement19 = executeFast11;
-                                                                                sQLitePreparedStatement20 = sQLitePreparedStatement14;
-                                                                            }
-                                                                        }
-                                                                        sQLitePreparedStatement5 = executeFast10;
-                                                                        SQLitePreparedStatement sQLitePreparedStatement34 = executeFast11;
-                                                                        sQLitePreparedStatement15 = sQLitePreparedStatement14;
-                                                                        try {
-                                                                            sQLitePreparedStatement3.dispose();
-                                                                            try {
-                                                                                executeFast.dispose();
-                                                                                try {
-                                                                                    sQLitePreparedStatement5.dispose();
-                                                                                    try {
-                                                                                        ArrayList<TopicsController.TopicUpdate> arrayList26 = new ArrayList<>();
-                                                                                        Iterator it4 = hashMap44.keySet().iterator();
-                                                                                        while (it4.hasNext()) {
-                                                                                            try {
-                                                                                                TopicKey topicKey4 = (TopicKey) it4.next();
-                                                                                                if (topicKey4.dialogId != 0 && topicKey4.topicId != 0) {
-                                                                                                    HashMap hashMap45 = hashMap44;
-                                                                                                    TLRPC$Message tLRPC$Message12 = (TLRPC$Message) hashMap45.get(topicKey4);
-                                                                                                    SQLiteDatabase sQLiteDatabase8 = this.database;
-                                                                                                    StringBuilder sb10 = new StringBuilder();
-                                                                                                    sb10.append("SELECT unread_count, top_message, unread_mentions, total_messages_count FROM topics WHERE did = ");
-                                                                                                    sb10.append(topicKey4.dialogId);
-                                                                                                    String str18 = str3;
-                                                                                                    sb10.append(str18);
-                                                                                                    sb10.append(topicKey4.topicId);
-                                                                                                    SQLiteCursor queryFinalized9 = sQLiteDatabase8.queryFinalized(sb10.toString(), new Object[0]);
-                                                                                                    if (queryFinalized9.next()) {
-                                                                                                        try {
-                                                                                                            intValue = queryFinalized9.intValue(0);
-                                                                                                            intValue2 = queryFinalized9.intValue(1);
-                                                                                                            intValue3 = queryFinalized9.intValue(2);
-                                                                                                            intValue4 = queryFinalized9.intValue(3);
-                                                                                                            z6 = true;
-                                                                                                        } catch (Exception e41) {
-                                                                                                            sQLitePreparedStatement12 = sQLitePreparedStatement15;
-                                                                                                            sQLitePreparedStatement2 = sQLitePreparedStatement34;
-                                                                                                            th2 = e41;
-                                                                                                            sQLitePreparedStatement6 = sQLitePreparedStatement13;
-                                                                                                            sQLitePreparedStatement = null;
-                                                                                                            sQLitePreparedStatement3 = null;
-                                                                                                            z4 = false;
-                                                                                                            sQLitePreparedStatement4 = null;
-                                                                                                            sQLitePreparedStatement5 = null;
-                                                                                                            sQLitePreparedStatement8 = null;
-                                                                                                            sQLitePreparedStatement9 = null;
-                                                                                                            sQLitePreparedStatement10 = null;
-                                                                                                            checkSQLException(th2);
-                                                                                                            if (z4) {
-                                                                                                            }
-                                                                                                            if (sQLitePreparedStatement6 != null) {
-                                                                                                            }
-                                                                                                            if (sQLitePreparedStatement7 != null) {
-                                                                                                            }
-                                                                                                            if (sQLitePreparedStatement10 != null) {
-                                                                                                            }
-                                                                                                            if (sQLitePreparedStatement8 != null) {
-                                                                                                            }
-                                                                                                            if (sQLitePreparedStatement9 != null) {
-                                                                                                            }
-                                                                                                            if (sQLitePreparedStatement4 != null) {
-                                                                                                            }
-                                                                                                            if (sQLitePreparedStatement12 != null) {
-                                                                                                            }
-                                                                                                            if (sQLitePreparedStatement11 != null) {
-                                                                                                            }
-                                                                                                            if (sQLitePreparedStatement5 != null) {
-                                                                                                            }
-                                                                                                            if (sQLitePreparedStatement3 != null) {
-                                                                                                            }
-                                                                                                            if (sQLitePreparedStatement != null) {
-                                                                                                            }
-                                                                                                            if (sQLitePreparedStatement2 != null) {
-                                                                                                            }
-                                                                                                        } catch (Throwable th45) {
-                                                                                                            sQLitePreparedStatement12 = sQLitePreparedStatement15;
-                                                                                                            sQLitePreparedStatement2 = sQLitePreparedStatement34;
-                                                                                                            th = th45;
-                                                                                                            sQLitePreparedStatement6 = sQLitePreparedStatement13;
-                                                                                                            sQLitePreparedStatement = null;
-                                                                                                            sQLitePreparedStatement3 = null;
-                                                                                                            z4 = false;
-                                                                                                            sQLitePreparedStatement4 = null;
-                                                                                                            sQLitePreparedStatement5 = null;
-                                                                                                            sQLitePreparedStatement8 = null;
-                                                                                                            sQLitePreparedStatement9 = null;
-                                                                                                            sQLitePreparedStatement10 = null;
-                                                                                                            if (z4) {
-                                                                                                            }
-                                                                                                            if (sQLitePreparedStatement6 != null) {
-                                                                                                            }
-                                                                                                            if (sQLitePreparedStatement7 != null) {
-                                                                                                            }
-                                                                                                            if (sQLitePreparedStatement10 != null) {
-                                                                                                            }
-                                                                                                            if (sQLitePreparedStatement8 != null) {
-                                                                                                            }
-                                                                                                            if (sQLitePreparedStatement9 != null) {
-                                                                                                            }
-                                                                                                            if (sQLitePreparedStatement4 != null) {
-                                                                                                            }
-                                                                                                            if (sQLitePreparedStatement12 != null) {
-                                                                                                            }
-                                                                                                            if (sQLitePreparedStatement11 != null) {
-                                                                                                            }
-                                                                                                            if (sQLitePreparedStatement5 != null) {
-                                                                                                            }
-                                                                                                            if (sQLitePreparedStatement3 != null) {
-                                                                                                            }
-                                                                                                            if (sQLitePreparedStatement != null) {
-                                                                                                            }
-                                                                                                            if (sQLitePreparedStatement2 != null) {
-                                                                                                            }
-                                                                                                            throw th;
-                                                                                                        }
-                                                                                                    } else {
-                                                                                                        z6 = false;
-                                                                                                        intValue = 0;
-                                                                                                        intValue2 = 0;
-                                                                                                        intValue3 = 0;
-                                                                                                        intValue4 = 0;
-                                                                                                    }
-                                                                                                    queryFinalized9.dispose();
-                                                                                                    if (!z6) {
-                                                                                                        TopicsController.TopicUpdate topicUpdate = new TopicsController.TopicUpdate();
-                                                                                                        topicUpdate.dialogId = topicKey4.dialogId;
-                                                                                                        topicUpdate.topicId = topicKey4.topicId;
-                                                                                                        topicUpdate.reloadTopic = true;
-                                                                                                        arrayList26.add(topicUpdate);
-                                                                                                        StringBuilder sb11 = new StringBuilder();
-                                                                                                        sb11.append("unknown topic need reload ");
-                                                                                                        sb11.append(topicKey4.dialogId);
-                                                                                                        String str19 = str17;
-                                                                                                        sb11.append(str19);
-                                                                                                        sb11.append(topicKey4.topicId);
-                                                                                                        FileLog.d(sb11.toString());
-                                                                                                        hashMap44 = hashMap45;
-                                                                                                        str17 = str19;
-                                                                                                        str3 = str18;
-                                                                                                    } else {
-                                                                                                        HashMap hashMap46 = hashMap5;
-                                                                                                        String str20 = str17;
-                                                                                                        Integer num6 = (Integer) hashMap46.get(topicKey4);
-                                                                                                        HashMap hashMap47 = hashMap43;
-                                                                                                        Integer num7 = (Integer) hashMap47.get(topicKey4);
-                                                                                                        HashMap hashMap48 = hashMap4;
-                                                                                                        Integer num8 = (Integer) hashMap48.get(topicKey4);
-                                                                                                        if (tLRPC$Message12 != null) {
-                                                                                                            intValue2 = tLRPC$Message12.id;
-                                                                                                        }
-                                                                                                        if (tLRPC$Message12 != null) {
-                                                                                                            hashMap5 = hashMap46;
-                                                                                                            int i92 = tLRPC$Message12.local_id;
-                                                                                                            if (i92 != 0) {
-                                                                                                                intValue2 = i92;
-                                                                                                            }
-                                                                                                        } else {
-                                                                                                            hashMap5 = hashMap46;
-                                                                                                        }
-                                                                                                        int intValue19 = num6 != null ? num6.intValue() : 0;
-                                                                                                        int intValue20 = num7 != null ? num7.intValue() : 0;
-                                                                                                        int intValue21 = num8 != null ? num8.intValue() : 0;
-                                                                                                        int i93 = intValue19 + intValue;
-                                                                                                        int i94 = intValue3 + intValue20;
-                                                                                                        if (intValue4 == 0) {
-                                                                                                            it = it4;
-                                                                                                            i7 = 0;
-                                                                                                        } else {
-                                                                                                            it = it4;
-                                                                                                            i7 = intValue4 + intValue21;
-                                                                                                        }
-                                                                                                        if (!BuildVars.DEBUG_PRIVATE_VERSION || i94 <= 0) {
-                                                                                                            hashMap6 = hashMap45;
-                                                                                                            hashMap7 = hashMap47;
-                                                                                                            str3 = str18;
-                                                                                                            hashMap4 = hashMap48;
-                                                                                                        } else {
-                                                                                                            hashMap6 = hashMap45;
-                                                                                                            StringBuilder sb12 = new StringBuilder();
-                                                                                                            hashMap7 = hashMap47;
-                                                                                                            sb12.append("(putMessagesInternal) new unread mentions ");
-                                                                                                            sb12.append(i94);
-                                                                                                            sb12.append(" for dialog_id=");
-                                                                                                            str3 = str18;
-                                                                                                            hashMap4 = hashMap48;
-                                                                                                            sb12.append(topicKey4.dialogId);
-                                                                                                            sb12.append(" topic_id=");
-                                                                                                            sb12.append(topicKey4.topicId);
-                                                                                                            FileLog.d(sb12.toString());
-                                                                                                        }
-                                                                                                        sQLitePreparedStatement34.requery();
-                                                                                                        sQLitePreparedStatement16 = sQLitePreparedStatement34;
-                                                                                                        try {
-                                                                                                            sQLitePreparedStatement16.bindInteger(1, i93);
-                                                                                                            sQLitePreparedStatement16.bindInteger(2, intValue2);
-                                                                                                            sQLitePreparedStatement16.bindInteger(3, i94);
-                                                                                                            sQLitePreparedStatement16.bindInteger(4, i7);
-                                                                                                            sQLitePreparedStatement16.bindLong(5, topicKey4.dialogId);
-                                                                                                            sQLitePreparedStatement16.bindLong(6, topicKey4.topicId);
-                                                                                                            sQLitePreparedStatement16.step();
-                                                                                                            if (isForum(topicKey4.dialogId)) {
-                                                                                                                if (intValue != 0 || i93 == 0) {
-                                                                                                                    longSparseIntArray3 = longSparseIntArray17;
-                                                                                                                } else {
-                                                                                                                    longSparseIntArray3 = longSparseIntArray17;
-                                                                                                                    longSparseIntArray3.put(topicKey4.dialogId, 1);
-                                                                                                                }
-                                                                                                                if (intValue3 != 0 || i94 == 0) {
-                                                                                                                    longSparseIntArray2 = longSparseIntArray16;
-                                                                                                                } else {
-                                                                                                                    longSparseIntArray2 = longSparseIntArray16;
-                                                                                                                    longSparseIntArray2.put(topicKey4.dialogId, i94);
-                                                                                                                }
-                                                                                                            } else {
-                                                                                                                longSparseIntArray2 = longSparseIntArray16;
-                                                                                                                longSparseIntArray3 = longSparseIntArray17;
-                                                                                                            }
-                                                                                                            StringBuilder sb13 = new StringBuilder();
-                                                                                                            sb13.append("update topic ");
-                                                                                                            int i95 = intValue2;
-                                                                                                            sb13.append(topicKey4.dialogId);
-                                                                                                            str4 = str20;
-                                                                                                            sb13.append(str4);
-                                                                                                            longSparseIntArray17 = longSparseIntArray3;
-                                                                                                            sb13.append(topicKey4.topicId);
-                                                                                                            sb13.append(str4);
-                                                                                                            sb13.append(i93);
-                                                                                                            sb13.append(str4);
-                                                                                                            sb13.append(i94);
-                                                                                                            FileLog.d(sb13.toString());
-                                                                                                            if (tLRPC$Message12 != null) {
-                                                                                                                TopicsController.TopicUpdate topicUpdate2 = new TopicsController.TopicUpdate();
-                                                                                                                topicUpdate2.dialogId = topicKey4.dialogId;
-                                                                                                                topicUpdate2.topicId = topicKey4.topicId;
-                                                                                                                topicUpdate2.topMessage = tLRPC$Message12;
-                                                                                                                topicUpdate2.unreadMentions = i94;
-                                                                                                                topicUpdate2.topMessageId = i95;
-                                                                                                                topicUpdate2.unreadCount = i93;
-                                                                                                                topicUpdate2.totalMessagesCount = i7;
-                                                                                                                arrayList26.add(topicUpdate2);
-                                                                                                            }
-                                                                                                            it4 = it;
-                                                                                                            sQLitePreparedStatement34 = sQLitePreparedStatement16;
-                                                                                                            longSparseIntArray16 = longSparseIntArray2;
-                                                                                                            str17 = str4;
-                                                                                                            hashMap44 = hashMap6;
-                                                                                                            hashMap43 = hashMap7;
-                                                                                                        } catch (Exception e42) {
-                                                                                                            e = e42;
-                                                                                                            sQLitePreparedStatement12 = sQLitePreparedStatement15;
-                                                                                                            th2 = e;
-                                                                                                            sQLitePreparedStatement2 = sQLitePreparedStatement16;
-                                                                                                            sQLitePreparedStatement6 = sQLitePreparedStatement13;
-                                                                                                            sQLitePreparedStatement = null;
-                                                                                                            sQLitePreparedStatement3 = null;
-                                                                                                            z4 = false;
-                                                                                                            sQLitePreparedStatement4 = null;
-                                                                                                            sQLitePreparedStatement5 = null;
-                                                                                                            sQLitePreparedStatement8 = null;
-                                                                                                            sQLitePreparedStatement9 = null;
-                                                                                                            sQLitePreparedStatement10 = null;
-                                                                                                            checkSQLException(th2);
-                                                                                                            if (z4) {
-                                                                                                            }
-                                                                                                            if (sQLitePreparedStatement6 != null) {
-                                                                                                            }
-                                                                                                            if (sQLitePreparedStatement7 != null) {
-                                                                                                            }
-                                                                                                            if (sQLitePreparedStatement10 != null) {
-                                                                                                            }
-                                                                                                            if (sQLitePreparedStatement8 != null) {
-                                                                                                            }
-                                                                                                            if (sQLitePreparedStatement9 != null) {
-                                                                                                            }
-                                                                                                            if (sQLitePreparedStatement4 != null) {
-                                                                                                            }
-                                                                                                            if (sQLitePreparedStatement12 != null) {
-                                                                                                            }
-                                                                                                            if (sQLitePreparedStatement11 != null) {
-                                                                                                            }
-                                                                                                            if (sQLitePreparedStatement5 != null) {
-                                                                                                            }
-                                                                                                            if (sQLitePreparedStatement3 != null) {
-                                                                                                            }
-                                                                                                            if (sQLitePreparedStatement != null) {
-                                                                                                            }
-                                                                                                            if (sQLitePreparedStatement2 != null) {
-                                                                                                            }
-                                                                                                        } catch (Throwable th46) {
-                                                                                                            th = th46;
-                                                                                                            sQLitePreparedStatement12 = sQLitePreparedStatement15;
-                                                                                                            th = th;
-                                                                                                            sQLitePreparedStatement2 = sQLitePreparedStatement16;
-                                                                                                            sQLitePreparedStatement6 = sQLitePreparedStatement13;
-                                                                                                            sQLitePreparedStatement = null;
-                                                                                                            sQLitePreparedStatement3 = null;
-                                                                                                            z4 = false;
-                                                                                                            sQLitePreparedStatement4 = null;
-                                                                                                            sQLitePreparedStatement5 = null;
-                                                                                                            sQLitePreparedStatement8 = null;
-                                                                                                            sQLitePreparedStatement9 = null;
-                                                                                                            sQLitePreparedStatement10 = null;
-                                                                                                            if (z4) {
-                                                                                                            }
-                                                                                                            if (sQLitePreparedStatement6 != null) {
-                                                                                                            }
-                                                                                                            if (sQLitePreparedStatement7 != null) {
-                                                                                                            }
-                                                                                                            if (sQLitePreparedStatement10 != null) {
-                                                                                                            }
-                                                                                                            if (sQLitePreparedStatement8 != null) {
-                                                                                                            }
-                                                                                                            if (sQLitePreparedStatement9 != null) {
-                                                                                                            }
-                                                                                                            if (sQLitePreparedStatement4 != null) {
-                                                                                                            }
-                                                                                                            if (sQLitePreparedStatement12 != null) {
-                                                                                                            }
-                                                                                                            if (sQLitePreparedStatement11 != null) {
-                                                                                                            }
-                                                                                                            if (sQLitePreparedStatement5 != null) {
-                                                                                                            }
-                                                                                                            if (sQLitePreparedStatement3 != null) {
-                                                                                                            }
-                                                                                                            if (sQLitePreparedStatement != null) {
-                                                                                                            }
-                                                                                                            if (sQLitePreparedStatement2 != null) {
-                                                                                                            }
-                                                                                                            throw th;
-                                                                                                        }
-                                                                                                    }
-                                                                                                }
-                                                                                                sQLitePreparedStatement16 = sQLitePreparedStatement34;
-                                                                                                longSparseIntArray2 = longSparseIntArray16;
-                                                                                                it = it4;
-                                                                                                hashMap6 = hashMap44;
-                                                                                                hashMap7 = hashMap43;
-                                                                                                str4 = str17;
-                                                                                                it4 = it;
-                                                                                                sQLitePreparedStatement34 = sQLitePreparedStatement16;
-                                                                                                longSparseIntArray16 = longSparseIntArray2;
-                                                                                                str17 = str4;
-                                                                                                hashMap44 = hashMap6;
-                                                                                                hashMap43 = hashMap7;
-                                                                                            } catch (Exception e43) {
-                                                                                                e = e43;
-                                                                                                sQLitePreparedStatement16 = sQLitePreparedStatement34;
-                                                                                            } catch (Throwable th47) {
-                                                                                                th = th47;
-                                                                                                sQLitePreparedStatement16 = sQLitePreparedStatement34;
-                                                                                            }
-                                                                                        }
-                                                                                        sQLitePreparedStatement16 = sQLitePreparedStatement34;
-                                                                                        LongSparseIntArray longSparseIntArray33 = longSparseIntArray16;
-                                                                                        String str21 = str17;
-                                                                                        try {
-                                                                                            sQLitePreparedStatement16.dispose();
-                                                                                            if (sparseArray9 != null) {
-                                                                                                try {
-                                                                                                    SQLitePreparedStatement executeFast12 = this.database.executeFast("REPLACE INTO media_counts_v2 VALUES(?, ?, ?, ?)");
-                                                                                                    try {
-                                                                                                        int size6 = sparseArray9.size();
-                                                                                                        for (int i96 = 0; i96 < size6; i96++) {
-                                                                                                            SparseArray sparseArray10 = sparseArray9;
-                                                                                                            int keyAt6 = sparseArray10.keyAt(i96);
-                                                                                                            LongSparseIntArray longSparseIntArray34 = (LongSparseIntArray) sparseArray10.valueAt(i96);
-                                                                                                            int size7 = longSparseIntArray34.size();
-                                                                                                            int i97 = 0;
-                                                                                                            while (i97 < size7) {
-                                                                                                                SparseArray sparseArray11 = sparseArray10;
-                                                                                                                long keyAt7 = longSparseIntArray34.keyAt(i97);
-                                                                                                                int i98 = size6;
-                                                                                                                int i99 = size7;
-                                                                                                                ArrayList<Long> arrayList27 = arrayList25;
-                                                                                                                ArrayList<TopicsController.TopicUpdate> arrayList28 = arrayList26;
-                                                                                                                SQLiteCursor queryFinalized10 = this.database.queryFinalized(String.format(Locale.US, "SELECT count, old FROM media_counts_v2 WHERE uid = %d AND type = %d LIMIT 1", Long.valueOf(keyAt7), Integer.valueOf(keyAt6)), new Object[0]);
-                                                                                                                if (queryFinalized10.next()) {
-                                                                                                                    i3 = queryFinalized10.intValue(0);
-                                                                                                                    i4 = queryFinalized10.intValue(1);
-                                                                                                                } else {
-                                                                                                                    i3 = -1;
-                                                                                                                    i4 = 0;
-                                                                                                                }
-                                                                                                                queryFinalized10.dispose();
-                                                                                                                if (i3 != -1) {
-                                                                                                                    executeFast12.requery();
-                                                                                                                    executeFast12.bindLong(1, keyAt7);
-                                                                                                                    executeFast12.bindInteger(2, keyAt6);
-                                                                                                                    executeFast12.bindInteger(3, Math.max(0, i3 + longSparseIntArray34.valueAt(i97)));
-                                                                                                                    executeFast12.bindInteger(4, i4);
-                                                                                                                    executeFast12.step();
-                                                                                                                }
-                                                                                                                i97++;
-                                                                                                                size6 = i98;
-                                                                                                                size7 = i99;
-                                                                                                                arrayList25 = arrayList27;
-                                                                                                                arrayList26 = arrayList28;
-                                                                                                                sparseArray10 = sparseArray11;
-                                                                                                            }
-                                                                                                            sparseArray9 = sparseArray10;
-                                                                                                        }
-                                                                                                        arrayList2 = arrayList26;
-                                                                                                        arrayList3 = arrayList25;
-                                                                                                        executeFast12.dispose();
-                                                                                                    } catch (Exception e44) {
-                                                                                                        e = e44;
-                                                                                                        sQLitePreparedStatement12 = sQLitePreparedStatement15;
-                                                                                                        th2 = e;
-                                                                                                        sQLitePreparedStatement10 = executeFast2;
-                                                                                                        sQLitePreparedStatement6 = sQLitePreparedStatement13;
-                                                                                                        sQLitePreparedStatement = null;
-                                                                                                        sQLitePreparedStatement2 = null;
-                                                                                                        sQLitePreparedStatement3 = null;
-                                                                                                        z4 = false;
-                                                                                                        sQLitePreparedStatement4 = null;
-                                                                                                        sQLitePreparedStatement5 = null;
-                                                                                                        sQLitePreparedStatement8 = null;
-                                                                                                        sQLitePreparedStatement9 = null;
-                                                                                                        checkSQLException(th2);
-                                                                                                        if (z4) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement6 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement7 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement10 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement8 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement9 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement4 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement12 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement11 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement5 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement3 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement2 != null) {
-                                                                                                        }
-                                                                                                    } catch (Throwable th48) {
-                                                                                                        th4 = th48;
-                                                                                                        sQLitePreparedStatement12 = sQLitePreparedStatement15;
-                                                                                                        th = th4;
-                                                                                                        sQLitePreparedStatement10 = executeFast2;
-                                                                                                        sQLitePreparedStatement6 = sQLitePreparedStatement13;
-                                                                                                        sQLitePreparedStatement = null;
-                                                                                                        sQLitePreparedStatement2 = null;
-                                                                                                        sQLitePreparedStatement3 = null;
-                                                                                                        z4 = false;
-                                                                                                        sQLitePreparedStatement4 = null;
-                                                                                                        sQLitePreparedStatement5 = null;
-                                                                                                        sQLitePreparedStatement8 = null;
-                                                                                                        sQLitePreparedStatement9 = null;
-                                                                                                        if (z4) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement6 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement7 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement10 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement8 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement9 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement4 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement12 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement11 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement5 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement3 != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement != null) {
-                                                                                                        }
-                                                                                                        if (sQLitePreparedStatement2 != null) {
-                                                                                                        }
-                                                                                                        throw th;
-                                                                                                    }
-                                                                                                } catch (Exception e45) {
-                                                                                                    e = e45;
-                                                                                                    sQLitePreparedStatement12 = sQLitePreparedStatement15;
-                                                                                                    th2 = e;
-                                                                                                    sQLitePreparedStatement6 = sQLitePreparedStatement13;
-                                                                                                    sQLitePreparedStatement = null;
-                                                                                                    sQLitePreparedStatement2 = null;
-                                                                                                    sQLitePreparedStatement3 = null;
-                                                                                                    z4 = false;
-                                                                                                    sQLitePreparedStatement4 = null;
-                                                                                                    sQLitePreparedStatement5 = null;
-                                                                                                    sQLitePreparedStatement8 = null;
-                                                                                                    sQLitePreparedStatement9 = null;
-                                                                                                    sQLitePreparedStatement10 = null;
-                                                                                                    checkSQLException(th2);
-                                                                                                    if (z4) {
-                                                                                                    }
-                                                                                                    if (sQLitePreparedStatement6 != null) {
-                                                                                                    }
-                                                                                                    if (sQLitePreparedStatement7 != null) {
-                                                                                                    }
-                                                                                                    if (sQLitePreparedStatement10 != null) {
-                                                                                                    }
-                                                                                                    if (sQLitePreparedStatement8 != null) {
-                                                                                                    }
-                                                                                                    if (sQLitePreparedStatement9 != null) {
-                                                                                                    }
-                                                                                                    if (sQLitePreparedStatement4 != null) {
-                                                                                                    }
-                                                                                                    if (sQLitePreparedStatement12 != null) {
-                                                                                                    }
-                                                                                                    if (sQLitePreparedStatement11 != null) {
-                                                                                                    }
-                                                                                                    if (sQLitePreparedStatement5 != null) {
-                                                                                                    }
-                                                                                                    if (sQLitePreparedStatement3 != null) {
-                                                                                                    }
-                                                                                                    if (sQLitePreparedStatement != null) {
-                                                                                                    }
-                                                                                                    if (sQLitePreparedStatement2 != null) {
-                                                                                                    }
-                                                                                                } catch (Throwable th49) {
-                                                                                                    th = th49;
-                                                                                                    sQLitePreparedStatement12 = sQLitePreparedStatement15;
-                                                                                                    th = th;
-                                                                                                    sQLitePreparedStatement6 = sQLitePreparedStatement13;
-                                                                                                    sQLitePreparedStatement = null;
-                                                                                                    sQLitePreparedStatement2 = null;
-                                                                                                    sQLitePreparedStatement3 = null;
-                                                                                                    z4 = false;
-                                                                                                    sQLitePreparedStatement4 = null;
-                                                                                                    sQLitePreparedStatement5 = null;
-                                                                                                    sQLitePreparedStatement8 = null;
-                                                                                                    sQLitePreparedStatement9 = null;
-                                                                                                    sQLitePreparedStatement10 = null;
-                                                                                                    if (z4) {
-                                                                                                    }
-                                                                                                    if (sQLitePreparedStatement6 != null) {
-                                                                                                    }
-                                                                                                    if (sQLitePreparedStatement7 != null) {
-                                                                                                    }
-                                                                                                    if (sQLitePreparedStatement10 != null) {
-                                                                                                    }
-                                                                                                    if (sQLitePreparedStatement8 != null) {
-                                                                                                    }
-                                                                                                    if (sQLitePreparedStatement9 != null) {
-                                                                                                    }
-                                                                                                    if (sQLitePreparedStatement4 != null) {
-                                                                                                    }
-                                                                                                    if (sQLitePreparedStatement12 != null) {
-                                                                                                    }
-                                                                                                    if (sQLitePreparedStatement11 != null) {
-                                                                                                    }
-                                                                                                    if (sQLitePreparedStatement5 != null) {
-                                                                                                    }
-                                                                                                    if (sQLitePreparedStatement3 != null) {
-                                                                                                    }
-                                                                                                    if (sQLitePreparedStatement != null) {
-                                                                                                    }
-                                                                                                    if (sQLitePreparedStatement2 != null) {
-                                                                                                    }
-                                                                                                    throw th;
-                                                                                                }
-                                                                                            } else {
-                                                                                                arrayList2 = arrayList26;
-                                                                                                arrayList3 = arrayList25;
-                                                                                            }
-                                                                                        } catch (Exception e46) {
-                                                                                            e = e46;
-                                                                                            sQLitePreparedStatement12 = sQLitePreparedStatement15;
-                                                                                            th2 = e;
-                                                                                            sQLitePreparedStatement2 = sQLitePreparedStatement16;
-                                                                                            sQLitePreparedStatement6 = sQLitePreparedStatement13;
-                                                                                            sQLitePreparedStatement = null;
-                                                                                            sQLitePreparedStatement3 = null;
-                                                                                            z4 = false;
-                                                                                            sQLitePreparedStatement4 = null;
-                                                                                            sQLitePreparedStatement5 = null;
-                                                                                            sQLitePreparedStatement8 = null;
-                                                                                            sQLitePreparedStatement9 = null;
-                                                                                            sQLitePreparedStatement10 = null;
-                                                                                            checkSQLException(th2);
-                                                                                            if (z4) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement6 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement7 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement10 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement8 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement9 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement4 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement12 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement11 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement5 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement3 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement2 != null) {
-                                                                                            }
-                                                                                        } catch (Throwable th50) {
-                                                                                            th = th50;
-                                                                                            sQLitePreparedStatement12 = sQLitePreparedStatement15;
-                                                                                            th = th;
-                                                                                            sQLitePreparedStatement2 = sQLitePreparedStatement16;
-                                                                                            sQLitePreparedStatement6 = sQLitePreparedStatement13;
-                                                                                            sQLitePreparedStatement = null;
-                                                                                            sQLitePreparedStatement3 = null;
-                                                                                            z4 = false;
-                                                                                            sQLitePreparedStatement4 = null;
-                                                                                            sQLitePreparedStatement5 = null;
-                                                                                            sQLitePreparedStatement8 = null;
-                                                                                            sQLitePreparedStatement9 = null;
-                                                                                            sQLitePreparedStatement10 = null;
-                                                                                            if (z4) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement6 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement7 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement10 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement8 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement9 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement4 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement12 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement11 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement5 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement3 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement2 != null) {
-                                                                                            }
-                                                                                            throw th;
-                                                                                        }
-                                                                                        try {
-                                                                                            executeFast2 = this.database.executeFast("REPLACE INTO media_counts_topics VALUES(?, ?, ?, ?, ?)");
-                                                                                        } catch (Exception e47) {
-                                                                                            e = e47;
-                                                                                            sQLitePreparedStatement12 = sQLitePreparedStatement15;
-                                                                                            th2 = e;
-                                                                                            sQLitePreparedStatement6 = sQLitePreparedStatement13;
-                                                                                            sQLitePreparedStatement = null;
-                                                                                            sQLitePreparedStatement2 = null;
-                                                                                            sQLitePreparedStatement3 = null;
-                                                                                            z4 = false;
-                                                                                            sQLitePreparedStatement4 = null;
-                                                                                            sQLitePreparedStatement5 = null;
-                                                                                            sQLitePreparedStatement8 = null;
-                                                                                            sQLitePreparedStatement9 = null;
-                                                                                            sQLitePreparedStatement10 = null;
-                                                                                            checkSQLException(th2);
-                                                                                            if (z4) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement6 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement7 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement10 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement8 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement9 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement4 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement12 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement11 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement5 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement3 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement2 != null) {
-                                                                                            }
-                                                                                        } catch (Throwable th51) {
-                                                                                            th = th51;
-                                                                                            sQLitePreparedStatement12 = sQLitePreparedStatement15;
-                                                                                            th = th;
-                                                                                            sQLitePreparedStatement6 = sQLitePreparedStatement13;
-                                                                                            sQLitePreparedStatement = null;
-                                                                                            sQLitePreparedStatement2 = null;
-                                                                                            sQLitePreparedStatement3 = null;
-                                                                                            z4 = false;
-                                                                                            sQLitePreparedStatement4 = null;
-                                                                                            sQLitePreparedStatement5 = null;
-                                                                                            sQLitePreparedStatement8 = null;
-                                                                                            sQLitePreparedStatement9 = null;
-                                                                                            sQLitePreparedStatement10 = null;
-                                                                                            if (z4) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement6 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement7 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement10 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement8 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement9 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement4 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement12 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement11 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement5 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement3 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement2 != null) {
-                                                                                            }
-                                                                                            throw th;
-                                                                                        }
-                                                                                        try {
-                                                                                            int size8 = sparseArray8.size();
-                                                                                            int i100 = 0;
-                                                                                            while (i100 < size8) {
-                                                                                                SparseArray sparseArray12 = sparseArray8;
-                                                                                                int keyAt8 = sparseArray12.keyAt(i100);
-                                                                                                HashMap hashMap49 = (HashMap) sparseArray12.valueAt(i100);
-                                                                                                for (TopicKey topicKey5 : hashMap49.keySet()) {
-                                                                                                    int i101 = size8;
-                                                                                                    SparseArray sparseArray13 = sparseArray12;
-                                                                                                    int i102 = i100;
-                                                                                                    SQLiteCursor queryFinalized11 = this.database.queryFinalized(String.format(Locale.US, "SELECT count, old FROM media_counts_topics WHERE uid = %d AND topic_id = %d AND type = %d LIMIT 1", Long.valueOf(topicKey5.dialogId), Long.valueOf(topicKey5.topicId), Integer.valueOf(keyAt8)), new Object[0]);
-                                                                                                    if (queryFinalized11.next()) {
-                                                                                                        i6 = queryFinalized11.intValue(0);
-                                                                                                        i5 = queryFinalized11.intValue(1);
-                                                                                                    } else {
-                                                                                                        i5 = 0;
-                                                                                                        i6 = -1;
-                                                                                                    }
-                                                                                                    queryFinalized11.dispose();
-                                                                                                    if (i6 != -1) {
-                                                                                                        executeFast2.requery();
-                                                                                                        i6 += ((Integer) hashMap49.get(topicKey5)).intValue();
-                                                                                                        executeFast2.bindLong(1, topicKey5.dialogId);
-                                                                                                        executeFast2.bindLong(2, topicKey5.topicId);
-                                                                                                        executeFast2.bindInteger(3, keyAt8);
-                                                                                                        executeFast2.bindInteger(4, Math.max(0, i6));
-                                                                                                        executeFast2.bindInteger(5, i5);
-                                                                                                        executeFast2.step();
-                                                                                                    }
-                                                                                                    if (BuildVars.DEBUG_PRIVATE_VERSION) {
-                                                                                                        StringBuilder sb14 = new StringBuilder();
-                                                                                                        sb14.append("update");
-                                                                                                        longSparseIntArray = longSparseIntArray33;
-                                                                                                        sb14.append(topicKey5.dialogId);
-                                                                                                        sb14.append(topicKey5.topicId);
-                                                                                                        sb14.append(str21);
-                                                                                                        sb14.append(keyAt8);
-                                                                                                        sb14.append(str21);
-                                                                                                        sb14.append(i6);
-                                                                                                        FileLog.d(sb14.toString());
-                                                                                                    } else {
-                                                                                                        longSparseIntArray = longSparseIntArray33;
-                                                                                                    }
-                                                                                                    longSparseIntArray33 = longSparseIntArray;
-                                                                                                    i100 = i102;
-                                                                                                    sparseArray12 = sparseArray13;
-                                                                                                    size8 = i101;
-                                                                                                }
-                                                                                                sparseArray8 = sparseArray12;
-                                                                                                i100++;
-                                                                                                size8 = size8;
-                                                                                            }
-                                                                                            LongSparseIntArray longSparseIntArray35 = longSparseIntArray33;
-                                                                                            executeFast2.dispose();
-                                                                                            if (z) {
-                                                                                                this.database.commitTransaction();
-                                                                                            }
-                                                                                            updateFiltersReadCounter(longSparseIntArray17, longSparseIntArray35, false);
-                                                                                            ArrayList<TopicsController.TopicUpdate> arrayList29 = arrayList2;
-                                                                                            loadGroupedMessagesForTopicUpdates(arrayList29);
-                                                                                            getMessagesController().processDialogsUpdateRead(longSparseIntArray27, longSparseIntArray29);
-                                                                                            getMessagesController().getTopicsController().processUpdate(arrayList29);
-                                                                                            if (i86 != 0) {
-                                                                                                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda37
-                                                                                                    @Override // java.lang.Runnable
-                                                                                                    public final void run() {
-                                                                                                        MessagesStorage.this.lambda$putMessagesInternal$180(i86);
-                                                                                                    }
-                                                                                                });
-                                                                                            }
-                                                                                            updateWidgets(arrayList3);
-                                                                                            if (arrayList24 != null) {
-                                                                                                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda151
-                                                                                                    @Override // java.lang.Runnable
-                                                                                                    public final void run() {
-                                                                                                        MessagesStorage.this.lambda$putMessagesInternal$181(arrayList24);
-                                                                                                    }
-                                                                                                });
-                                                                                            }
-                                                                                            sQLitePreparedStatement17 = sQLitePreparedStatement15;
-                                                                                            sQLitePreparedStatement18 = sQLitePreparedStatement13;
-                                                                                            z5 = false;
-                                                                                            if (z5) {
-                                                                                                sQLiteDatabase3.commitTransaction();
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement18 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement7 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement17 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement11 == null) {
-                                                                                            }
-                                                                                        } catch (Exception e48) {
-                                                                                            e = e48;
-                                                                                            sQLitePreparedStatement12 = sQLitePreparedStatement15;
-                                                                                            th2 = e;
-                                                                                            sQLitePreparedStatement10 = executeFast2;
-                                                                                            sQLitePreparedStatement6 = sQLitePreparedStatement13;
-                                                                                            sQLitePreparedStatement = null;
-                                                                                            sQLitePreparedStatement2 = null;
-                                                                                            sQLitePreparedStatement3 = null;
-                                                                                            z4 = false;
-                                                                                            sQLitePreparedStatement4 = null;
-                                                                                            sQLitePreparedStatement5 = null;
-                                                                                            sQLitePreparedStatement8 = null;
-                                                                                            sQLitePreparedStatement9 = null;
-                                                                                            checkSQLException(th2);
-                                                                                            if (z4) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement6 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement7 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement10 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement8 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement9 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement4 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement12 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement11 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement5 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement3 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement2 != null) {
-                                                                                            }
-                                                                                        } catch (Throwable th52) {
-                                                                                            th4 = th52;
-                                                                                            sQLitePreparedStatement12 = sQLitePreparedStatement15;
-                                                                                            th = th4;
-                                                                                            sQLitePreparedStatement10 = executeFast2;
-                                                                                            sQLitePreparedStatement6 = sQLitePreparedStatement13;
-                                                                                            sQLitePreparedStatement = null;
-                                                                                            sQLitePreparedStatement2 = null;
-                                                                                            sQLitePreparedStatement3 = null;
-                                                                                            z4 = false;
-                                                                                            sQLitePreparedStatement4 = null;
-                                                                                            sQLitePreparedStatement5 = null;
-                                                                                            sQLitePreparedStatement8 = null;
-                                                                                            sQLitePreparedStatement9 = null;
-                                                                                            if (z4) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement6 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement7 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement10 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement8 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement9 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement4 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement12 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement11 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement5 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement3 != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement2 != null) {
-                                                                                            }
-                                                                                            throw th;
-                                                                                        }
-                                                                                    } catch (Exception e49) {
-                                                                                        e = e49;
-                                                                                        sQLitePreparedStatement16 = sQLitePreparedStatement34;
-                                                                                    } catch (Throwable th53) {
-                                                                                        th = th53;
-                                                                                        sQLitePreparedStatement16 = sQLitePreparedStatement34;
-                                                                                    }
-                                                                                } catch (Exception e50) {
-                                                                                    sQLitePreparedStatement12 = sQLitePreparedStatement15;
-                                                                                    th2 = e50;
-                                                                                    sQLitePreparedStatement2 = sQLitePreparedStatement34;
-                                                                                    sQLitePreparedStatement6 = sQLitePreparedStatement13;
-                                                                                    sQLitePreparedStatement = null;
-                                                                                    sQLitePreparedStatement3 = null;
-                                                                                    z4 = false;
-                                                                                    sQLitePreparedStatement4 = null;
-                                                                                    sQLitePreparedStatement8 = null;
-                                                                                    sQLitePreparedStatement9 = null;
-                                                                                    sQLitePreparedStatement10 = null;
-                                                                                    checkSQLException(th2);
-                                                                                    if (z4) {
-                                                                                    }
-                                                                                    if (sQLitePreparedStatement6 != null) {
-                                                                                    }
-                                                                                    if (sQLitePreparedStatement7 != null) {
-                                                                                    }
-                                                                                    if (sQLitePreparedStatement10 != null) {
-                                                                                    }
-                                                                                    if (sQLitePreparedStatement8 != null) {
-                                                                                    }
-                                                                                    if (sQLitePreparedStatement9 != null) {
-                                                                                    }
-                                                                                    if (sQLitePreparedStatement4 != null) {
-                                                                                    }
-                                                                                    if (sQLitePreparedStatement12 != null) {
-                                                                                    }
-                                                                                    if (sQLitePreparedStatement11 != null) {
-                                                                                    }
-                                                                                    if (sQLitePreparedStatement5 != null) {
-                                                                                    }
-                                                                                    if (sQLitePreparedStatement3 != null) {
-                                                                                    }
-                                                                                    if (sQLitePreparedStatement != null) {
-                                                                                    }
-                                                                                    if (sQLitePreparedStatement2 != null) {
-                                                                                    }
-                                                                                } catch (Throwable th54) {
-                                                                                    sQLitePreparedStatement12 = sQLitePreparedStatement15;
-                                                                                    th = th54;
-                                                                                    sQLitePreparedStatement2 = sQLitePreparedStatement34;
-                                                                                    sQLitePreparedStatement6 = sQLitePreparedStatement13;
-                                                                                    sQLitePreparedStatement = null;
-                                                                                    sQLitePreparedStatement3 = null;
-                                                                                    z4 = false;
-                                                                                    sQLitePreparedStatement4 = null;
-                                                                                    sQLitePreparedStatement8 = null;
-                                                                                    sQLitePreparedStatement9 = null;
-                                                                                    sQLitePreparedStatement10 = null;
-                                                                                    if (z4) {
-                                                                                    }
-                                                                                    if (sQLitePreparedStatement6 != null) {
-                                                                                    }
-                                                                                    if (sQLitePreparedStatement7 != null) {
-                                                                                    }
-                                                                                    if (sQLitePreparedStatement10 != null) {
-                                                                                    }
-                                                                                    if (sQLitePreparedStatement8 != null) {
-                                                                                    }
-                                                                                    if (sQLitePreparedStatement9 != null) {
-                                                                                    }
-                                                                                    if (sQLitePreparedStatement4 != null) {
-                                                                                    }
-                                                                                    if (sQLitePreparedStatement12 != null) {
-                                                                                    }
-                                                                                    if (sQLitePreparedStatement11 != null) {
-                                                                                    }
-                                                                                    if (sQLitePreparedStatement5 != null) {
-                                                                                    }
-                                                                                    if (sQLitePreparedStatement3 != null) {
-                                                                                    }
-                                                                                    if (sQLitePreparedStatement != null) {
-                                                                                    }
-                                                                                    if (sQLitePreparedStatement2 != null) {
-                                                                                    }
-                                                                                    throw th;
-                                                                                }
-                                                                            } catch (Exception e51) {
-                                                                                sQLitePreparedStatement12 = sQLitePreparedStatement15;
-                                                                                th2 = e51;
-                                                                                sQLitePreparedStatement = executeFast;
-                                                                                sQLitePreparedStatement2 = sQLitePreparedStatement34;
-                                                                                sQLitePreparedStatement6 = sQLitePreparedStatement13;
-                                                                            } catch (Throwable th55) {
-                                                                                sQLitePreparedStatement12 = sQLitePreparedStatement15;
-                                                                                th = th55;
-                                                                                sQLitePreparedStatement = executeFast;
-                                                                                sQLitePreparedStatement2 = sQLitePreparedStatement34;
-                                                                                sQLitePreparedStatement6 = sQLitePreparedStatement13;
-                                                                            }
-                                                                        } catch (Exception e52) {
-                                                                            e = e52;
-                                                                            executeFast11 = sQLitePreparedStatement34;
-                                                                            sQLitePreparedStatement12 = sQLitePreparedStatement15;
-                                                                            th2 = e;
-                                                                            sQLitePreparedStatement = executeFast;
-                                                                            sQLitePreparedStatement2 = executeFast11;
-                                                                            sQLitePreparedStatement6 = sQLitePreparedStatement13;
-                                                                            z4 = false;
-                                                                            sQLitePreparedStatement4 = null;
-                                                                            sQLitePreparedStatement8 = null;
-                                                                            sQLitePreparedStatement9 = null;
-                                                                            sQLitePreparedStatement10 = null;
-                                                                            checkSQLException(th2);
-                                                                            if (z4) {
-                                                                            }
-                                                                            if (sQLitePreparedStatement6 != null) {
-                                                                            }
-                                                                            if (sQLitePreparedStatement7 != null) {
-                                                                            }
-                                                                            if (sQLitePreparedStatement10 != null) {
-                                                                            }
-                                                                            if (sQLitePreparedStatement8 != null) {
-                                                                            }
-                                                                            if (sQLitePreparedStatement9 != null) {
-                                                                            }
-                                                                            if (sQLitePreparedStatement4 != null) {
-                                                                            }
-                                                                            if (sQLitePreparedStatement12 != null) {
-                                                                            }
-                                                                            if (sQLitePreparedStatement11 != null) {
-                                                                            }
-                                                                            if (sQLitePreparedStatement5 != null) {
-                                                                            }
-                                                                            if (sQLitePreparedStatement3 != null) {
-                                                                            }
-                                                                            if (sQLitePreparedStatement != null) {
-                                                                            }
-                                                                            if (sQLitePreparedStatement2 != null) {
-                                                                            }
-                                                                        } catch (Throwable th56) {
-                                                                            th = th56;
-                                                                            executeFast11 = sQLitePreparedStatement34;
-                                                                            sQLitePreparedStatement12 = sQLitePreparedStatement15;
-                                                                            th = th;
-                                                                            sQLitePreparedStatement = executeFast;
-                                                                            sQLitePreparedStatement2 = executeFast11;
-                                                                            sQLitePreparedStatement6 = sQLitePreparedStatement13;
-                                                                            z4 = false;
-                                                                            sQLitePreparedStatement4 = null;
-                                                                            sQLitePreparedStatement8 = null;
-                                                                            sQLitePreparedStatement9 = null;
-                                                                            sQLitePreparedStatement10 = null;
-                                                                            if (z4) {
-                                                                            }
-                                                                            if (sQLitePreparedStatement6 != null) {
-                                                                            }
-                                                                            if (sQLitePreparedStatement7 != null) {
-                                                                            }
-                                                                            if (sQLitePreparedStatement10 != null) {
-                                                                            }
-                                                                            if (sQLitePreparedStatement8 != null) {
-                                                                            }
-                                                                            if (sQLitePreparedStatement9 != null) {
-                                                                            }
-                                                                            if (sQLitePreparedStatement4 != null) {
-                                                                            }
-                                                                            if (sQLitePreparedStatement12 != null) {
-                                                                            }
-                                                                            if (sQLitePreparedStatement11 != null) {
-                                                                            }
-                                                                            if (sQLitePreparedStatement5 != null) {
-                                                                            }
-                                                                            if (sQLitePreparedStatement3 != null) {
-                                                                            }
-                                                                            if (sQLitePreparedStatement != null) {
-                                                                            }
-                                                                            if (sQLitePreparedStatement2 != null) {
-                                                                            }
-                                                                            throw th;
-                                                                        }
-                                                                    } catch (Exception e53) {
-                                                                        e = e53;
-                                                                        sQLitePreparedStatement5 = executeFast10;
-                                                                        sQLitePreparedStatement15 = sQLitePreparedStatement14;
-                                                                    } catch (Throwable th57) {
-                                                                        th = th57;
-                                                                        sQLitePreparedStatement5 = executeFast10;
-                                                                        sQLitePreparedStatement15 = sQLitePreparedStatement14;
-                                                                    }
-                                                                } catch (Exception e54) {
-                                                                    sQLitePreparedStatement5 = executeFast10;
-                                                                    sQLitePreparedStatement12 = sQLitePreparedStatement14;
-                                                                    th2 = e54;
-                                                                    sQLitePreparedStatement = executeFast;
-                                                                    sQLitePreparedStatement6 = sQLitePreparedStatement13;
-                                                                    sQLitePreparedStatement2 = null;
-                                                                    z4 = false;
-                                                                    sQLitePreparedStatement4 = null;
-                                                                    sQLitePreparedStatement8 = null;
-                                                                    sQLitePreparedStatement9 = null;
-                                                                    sQLitePreparedStatement10 = null;
-                                                                    checkSQLException(th2);
-                                                                    if (z4) {
-                                                                    }
-                                                                    if (sQLitePreparedStatement6 != null) {
-                                                                    }
-                                                                    if (sQLitePreparedStatement7 != null) {
-                                                                    }
-                                                                    if (sQLitePreparedStatement10 != null) {
-                                                                    }
-                                                                    if (sQLitePreparedStatement8 != null) {
-                                                                    }
-                                                                    if (sQLitePreparedStatement9 != null) {
-                                                                    }
-                                                                    if (sQLitePreparedStatement4 != null) {
-                                                                    }
-                                                                    if (sQLitePreparedStatement12 != null) {
-                                                                    }
-                                                                    if (sQLitePreparedStatement11 != null) {
-                                                                    }
-                                                                    if (sQLitePreparedStatement5 != null) {
-                                                                    }
-                                                                    if (sQLitePreparedStatement3 != null) {
-                                                                    }
-                                                                    if (sQLitePreparedStatement != null) {
-                                                                    }
-                                                                    if (sQLitePreparedStatement2 != null) {
-                                                                    }
-                                                                } catch (Throwable th58) {
-                                                                    sQLitePreparedStatement5 = executeFast10;
-                                                                    sQLitePreparedStatement12 = sQLitePreparedStatement14;
-                                                                    th = th58;
-                                                                    sQLitePreparedStatement = executeFast;
-                                                                    sQLitePreparedStatement6 = sQLitePreparedStatement13;
-                                                                    sQLitePreparedStatement2 = null;
-                                                                    z4 = false;
-                                                                    sQLitePreparedStatement4 = null;
-                                                                    sQLitePreparedStatement8 = null;
-                                                                    sQLitePreparedStatement9 = null;
-                                                                    sQLitePreparedStatement10 = null;
-                                                                    if (z4) {
-                                                                    }
-                                                                    if (sQLitePreparedStatement6 != null) {
-                                                                    }
-                                                                    if (sQLitePreparedStatement7 != null) {
-                                                                    }
-                                                                    if (sQLitePreparedStatement10 != null) {
-                                                                    }
-                                                                    if (sQLitePreparedStatement8 != null) {
-                                                                    }
-                                                                    if (sQLitePreparedStatement9 != null) {
-                                                                    }
-                                                                    if (sQLitePreparedStatement4 != null) {
-                                                                    }
-                                                                    if (sQLitePreparedStatement12 != null) {
-                                                                    }
-                                                                    if (sQLitePreparedStatement11 != null) {
-                                                                    }
-                                                                    if (sQLitePreparedStatement5 != null) {
-                                                                    }
-                                                                    if (sQLitePreparedStatement3 != null) {
-                                                                    }
-                                                                    if (sQLitePreparedStatement != null) {
-                                                                    }
-                                                                    if (sQLitePreparedStatement2 != null) {
-                                                                    }
-                                                                    throw th;
-                                                                }
-                                                            } catch (Exception e55) {
-                                                                sQLitePreparedStatement5 = executeFast10;
-                                                                sQLitePreparedStatement12 = sQLitePreparedStatement14;
-                                                                th2 = e55;
-                                                                sQLitePreparedStatement6 = sQLitePreparedStatement13;
-                                                                sQLitePreparedStatement = null;
-                                                                sQLitePreparedStatement2 = null;
-                                                            } catch (Throwable th59) {
-                                                                sQLitePreparedStatement5 = executeFast10;
-                                                                sQLitePreparedStatement12 = sQLitePreparedStatement14;
-                                                                th = th59;
-                                                                sQLitePreparedStatement6 = sQLitePreparedStatement13;
-                                                                sQLitePreparedStatement = null;
-                                                                sQLitePreparedStatement2 = null;
-                                                            }
-                                                        } catch (Exception e56) {
-                                                            e = e56;
-                                                            sQLitePreparedStatement15 = sQLitePreparedStatement14;
-                                                        } catch (Throwable th60) {
-                                                            th = th60;
-                                                            sQLitePreparedStatement15 = sQLitePreparedStatement14;
-                                                        }
-                                                    } catch (Exception e57) {
-                                                        sQLitePreparedStatement12 = sQLitePreparedStatement14;
-                                                        th2 = e57;
-                                                        sQLitePreparedStatement9 = sQLitePreparedStatement31;
-                                                        sQLitePreparedStatement6 = sQLitePreparedStatement13;
-                                                        sQLitePreparedStatement = null;
-                                                        sQLitePreparedStatement2 = null;
-                                                        sQLitePreparedStatement3 = null;
-                                                        z4 = false;
-                                                        sQLitePreparedStatement4 = null;
-                                                        sQLitePreparedStatement5 = null;
-                                                        sQLitePreparedStatement8 = null;
-                                                    } catch (Throwable th61) {
-                                                        sQLitePreparedStatement12 = sQLitePreparedStatement14;
-                                                        th = th61;
-                                                        sQLitePreparedStatement9 = sQLitePreparedStatement31;
-                                                        sQLitePreparedStatement6 = sQLitePreparedStatement13;
-                                                        sQLitePreparedStatement = null;
-                                                        sQLitePreparedStatement2 = null;
-                                                        sQLitePreparedStatement3 = null;
-                                                        z4 = false;
-                                                        sQLitePreparedStatement4 = null;
-                                                        sQLitePreparedStatement5 = null;
-                                                        sQLitePreparedStatement8 = null;
-                                                    }
-                                                } catch (Exception e58) {
-                                                    e = e58;
-                                                    sQLitePreparedStatement12 = sQLitePreparedStatement14;
-                                                    sQLitePreparedStatement9 = sQLitePreparedStatement31;
-                                                    sQLitePreparedStatement8 = sQLitePreparedStatement30;
-                                                    sQLitePreparedStatement6 = sQLitePreparedStatement13;
-                                                    sQLitePreparedStatement = null;
-                                                    sQLitePreparedStatement2 = null;
-                                                    sQLitePreparedStatement3 = null;
-                                                    z4 = false;
-                                                    sQLitePreparedStatement4 = null;
-                                                    sQLitePreparedStatement5 = null;
-                                                    sQLitePreparedStatement10 = null;
-                                                    th2 = e;
-                                                    checkSQLException(th2);
-                                                    if (z4) {
-                                                    }
-                                                    if (sQLitePreparedStatement6 != null) {
-                                                    }
-                                                    if (sQLitePreparedStatement7 != null) {
-                                                    }
-                                                    if (sQLitePreparedStatement10 != null) {
-                                                    }
-                                                    if (sQLitePreparedStatement8 != null) {
-                                                    }
-                                                    if (sQLitePreparedStatement9 != null) {
-                                                    }
-                                                    if (sQLitePreparedStatement4 != null) {
-                                                    }
-                                                    if (sQLitePreparedStatement12 != null) {
-                                                    }
-                                                    if (sQLitePreparedStatement11 != null) {
-                                                    }
-                                                    if (sQLitePreparedStatement5 != null) {
-                                                    }
-                                                    if (sQLitePreparedStatement3 != null) {
-                                                    }
-                                                    if (sQLitePreparedStatement != null) {
-                                                    }
-                                                    if (sQLitePreparedStatement2 != null) {
-                                                    }
-                                                } catch (Throwable th62) {
-                                                    th3 = th62;
-                                                    sQLitePreparedStatement12 = sQLitePreparedStatement14;
-                                                    sQLitePreparedStatement9 = sQLitePreparedStatement31;
-                                                    sQLitePreparedStatement8 = sQLitePreparedStatement30;
-                                                    sQLitePreparedStatement6 = sQLitePreparedStatement13;
-                                                    sQLitePreparedStatement = null;
-                                                    sQLitePreparedStatement2 = null;
-                                                    sQLitePreparedStatement3 = null;
-                                                    z4 = false;
-                                                    sQLitePreparedStatement4 = null;
-                                                    sQLitePreparedStatement5 = null;
-                                                    sQLitePreparedStatement10 = null;
-                                                    th = th3;
-                                                    if (z4) {
-                                                    }
-                                                    if (sQLitePreparedStatement6 != null) {
-                                                    }
-                                                    if (sQLitePreparedStatement7 != null) {
-                                                    }
-                                                    if (sQLitePreparedStatement10 != null) {
-                                                    }
-                                                    if (sQLitePreparedStatement8 != null) {
-                                                    }
-                                                    if (sQLitePreparedStatement9 != null) {
-                                                    }
-                                                    if (sQLitePreparedStatement4 != null) {
-                                                    }
-                                                    if (sQLitePreparedStatement12 != null) {
-                                                    }
-                                                    if (sQLitePreparedStatement11 != null) {
-                                                    }
-                                                    if (sQLitePreparedStatement5 != null) {
-                                                    }
-                                                    if (sQLitePreparedStatement3 != null) {
-                                                    }
-                                                    if (sQLitePreparedStatement != null) {
-                                                    }
-                                                    if (sQLitePreparedStatement2 != null) {
-                                                    }
-                                                    throw th;
-                                                }
-                                            } catch (Exception e59) {
-                                                e = e59;
-                                                sQLitePreparedStatement12 = sQLitePreparedStatement14;
-                                                sQLitePreparedStatement10 = sQLitePreparedStatement32;
-                                                sQLitePreparedStatement9 = sQLitePreparedStatement31;
-                                                sQLitePreparedStatement8 = sQLitePreparedStatement30;
-                                                sQLitePreparedStatement6 = sQLitePreparedStatement13;
-                                                sQLitePreparedStatement = null;
-                                                sQLitePreparedStatement2 = null;
-                                                sQLitePreparedStatement3 = null;
-                                                z4 = false;
-                                                sQLitePreparedStatement4 = null;
-                                                sQLitePreparedStatement5 = null;
-                                                th2 = e;
-                                                checkSQLException(th2);
-                                                if (z4) {
-                                                }
-                                                if (sQLitePreparedStatement6 != null) {
-                                                }
-                                                if (sQLitePreparedStatement7 != null) {
-                                                }
-                                                if (sQLitePreparedStatement10 != null) {
-                                                }
-                                                if (sQLitePreparedStatement8 != null) {
-                                                }
-                                                if (sQLitePreparedStatement9 != null) {
-                                                }
-                                                if (sQLitePreparedStatement4 != null) {
-                                                }
-                                                if (sQLitePreparedStatement12 != null) {
-                                                }
-                                                if (sQLitePreparedStatement11 != null) {
-                                                }
-                                                if (sQLitePreparedStatement5 != null) {
-                                                }
-                                                if (sQLitePreparedStatement3 != null) {
-                                                }
-                                                if (sQLitePreparedStatement != null) {
-                                                }
-                                                if (sQLitePreparedStatement2 != null) {
-                                                }
-                                            } catch (Throwable th63) {
-                                                th3 = th63;
-                                                sQLitePreparedStatement12 = sQLitePreparedStatement14;
-                                                sQLitePreparedStatement10 = sQLitePreparedStatement32;
-                                                sQLitePreparedStatement9 = sQLitePreparedStatement31;
-                                                sQLitePreparedStatement8 = sQLitePreparedStatement30;
-                                                sQLitePreparedStatement6 = sQLitePreparedStatement13;
-                                                sQLitePreparedStatement = null;
-                                                sQLitePreparedStatement2 = null;
-                                                sQLitePreparedStatement3 = null;
-                                                z4 = false;
-                                                sQLitePreparedStatement4 = null;
-                                                sQLitePreparedStatement5 = null;
-                                                th = th3;
-                                                if (z4) {
-                                                }
-                                                if (sQLitePreparedStatement6 != null) {
-                                                }
-                                                if (sQLitePreparedStatement7 != null) {
-                                                }
-                                                if (sQLitePreparedStatement10 != null) {
-                                                }
-                                                if (sQLitePreparedStatement8 != null) {
-                                                }
-                                                if (sQLitePreparedStatement9 != null) {
-                                                }
-                                                if (sQLitePreparedStatement4 != null) {
-                                                }
-                                                if (sQLitePreparedStatement12 != null) {
-                                                }
-                                                if (sQLitePreparedStatement11 != null) {
-                                                }
-                                                if (sQLitePreparedStatement5 != null) {
-                                                }
-                                                if (sQLitePreparedStatement3 != null) {
-                                                }
-                                                if (sQLitePreparedStatement != null) {
-                                                }
-                                                if (sQLitePreparedStatement2 != null) {
-                                                }
-                                                throw th;
-                                            }
-                                        } catch (Exception e60) {
-                                            e = e60;
-                                        } catch (Throwable th64) {
-                                            th3 = th64;
+                                        } catch (Exception e32) {
+                                            e = e32;
+                                        } catch (Throwable th36) {
+                                            th3 = th36;
                                         }
-                                    } catch (Exception e61) {
-                                        e = e61;
-                                        sQLitePreparedStatement10 = executeFast7;
+                                    } catch (Exception e33) {
+                                        e = e33;
+                                        sQLitePreparedStatement10 = executeFast10;
                                         sQLitePreparedStatement6 = sQLitePreparedStatement13;
                                         sQLitePreparedStatement = null;
                                         sQLitePreparedStatement2 = null;
@@ -22567,15 +20683,15 @@ public class MessagesStorage extends BaseController {
                                         }
                                         if (sQLitePreparedStatement5 != null) {
                                         }
-                                        if (sQLitePreparedStatement3 != null) {
+                                        if (sQLitePreparedStatement2 != null) {
                                         }
                                         if (sQLitePreparedStatement != null) {
                                         }
-                                        if (sQLitePreparedStatement2 != null) {
+                                        if (sQLitePreparedStatement3 == null) {
                                         }
-                                    } catch (Throwable th65) {
-                                        th3 = th65;
-                                        sQLitePreparedStatement10 = executeFast7;
+                                    } catch (Throwable th37) {
+                                        th3 = th37;
+                                        sQLitePreparedStatement10 = executeFast10;
                                         sQLitePreparedStatement6 = sQLitePreparedStatement13;
                                         sQLitePreparedStatement = null;
                                         sQLitePreparedStatement2 = null;
@@ -22607,24 +20723,27 @@ public class MessagesStorage extends BaseController {
                                         }
                                         if (sQLitePreparedStatement5 != null) {
                                         }
-                                        if (sQLitePreparedStatement3 != null) {
+                                        if (sQLitePreparedStatement2 != null) {
                                         }
                                         if (sQLitePreparedStatement != null) {
                                         }
-                                        if (sQLitePreparedStatement2 != null) {
+                                        if (sQLitePreparedStatement3 != null) {
                                         }
                                         throw th;
                                     }
-                                } catch (Exception e62) {
-                                    e = e62;
-                                    sQLitePreparedStatement7 = executeFast6;
-                                } catch (Throwable th66) {
-                                    th = th66;
-                                    sQLitePreparedStatement7 = executeFast6;
+                                } catch (Exception e34) {
+                                    e = e34;
+                                    sQLitePreparedStatement10 = executeFast10;
+                                    sQLitePreparedStatement8 = executeFast11;
+                                } catch (Throwable th38) {
+                                    th3 = th38;
+                                    sQLitePreparedStatement10 = executeFast10;
+                                    sQLitePreparedStatement8 = executeFast11;
                                 }
-                            } catch (Exception e63) {
-                                sQLitePreparedStatement7 = executeFast6;
-                                th2 = e63;
+                            } catch (Exception e35) {
+                                e = e35;
+                                th2 = e;
+                                sQLitePreparedStatement10 = executeFast10;
                                 sQLitePreparedStatement6 = sQLitePreparedStatement13;
                                 sQLitePreparedStatement = null;
                                 sQLitePreparedStatement2 = null;
@@ -22634,7 +20753,6 @@ public class MessagesStorage extends BaseController {
                                 sQLitePreparedStatement5 = null;
                                 sQLitePreparedStatement8 = null;
                                 sQLitePreparedStatement9 = null;
-                                sQLitePreparedStatement10 = null;
                                 sQLitePreparedStatement11 = null;
                                 sQLitePreparedStatement12 = null;
                                 checkSQLException(th2);
@@ -22658,15 +20776,16 @@ public class MessagesStorage extends BaseController {
                                 }
                                 if (sQLitePreparedStatement5 != null) {
                                 }
-                                if (sQLitePreparedStatement3 != null) {
+                                if (sQLitePreparedStatement2 != null) {
                                 }
                                 if (sQLitePreparedStatement != null) {
                                 }
-                                if (sQLitePreparedStatement2 != null) {
+                                if (sQLitePreparedStatement3 == null) {
                                 }
-                            } catch (Throwable th67) {
-                                sQLitePreparedStatement7 = executeFast6;
-                                th = th67;
+                            } catch (Throwable th39) {
+                                th = th39;
+                                th = th;
+                                sQLitePreparedStatement10 = executeFast10;
                                 sQLitePreparedStatement6 = sQLitePreparedStatement13;
                                 sQLitePreparedStatement = null;
                                 sQLitePreparedStatement2 = null;
@@ -22676,7 +20795,6 @@ public class MessagesStorage extends BaseController {
                                 sQLitePreparedStatement5 = null;
                                 sQLitePreparedStatement8 = null;
                                 sQLitePreparedStatement9 = null;
-                                sQLitePreparedStatement10 = null;
                                 sQLitePreparedStatement11 = null;
                                 sQLitePreparedStatement12 = null;
                                 if (z4) {
@@ -22699,17 +20817,959 @@ public class MessagesStorage extends BaseController {
                                 }
                                 if (sQLitePreparedStatement5 != null) {
                                 }
-                                if (sQLitePreparedStatement3 != null) {
+                                if (sQLitePreparedStatement2 != null) {
                                 }
                                 if (sQLitePreparedStatement != null) {
                                 }
-                                if (sQLitePreparedStatement2 != null) {
+                                if (sQLitePreparedStatement3 != null) {
                                 }
                                 throw th;
                             }
-                        } catch (Exception e64) {
-                            e = e64;
-                            th2 = e;
+                        } catch (Exception e36) {
+                            e = e36;
+                            sQLitePreparedStatement7 = executeFast9;
+                        } catch (Throwable th40) {
+                            th = th40;
+                            sQLitePreparedStatement7 = executeFast9;
+                        }
+                    } catch (Exception e37) {
+                        sQLitePreparedStatement7 = executeFast9;
+                        th2 = e37;
+                        sQLitePreparedStatement6 = sQLitePreparedStatement13;
+                        sQLitePreparedStatement = null;
+                        sQLitePreparedStatement2 = null;
+                        sQLitePreparedStatement3 = null;
+                        z4 = false;
+                        sQLitePreparedStatement4 = null;
+                        sQLitePreparedStatement5 = null;
+                        sQLitePreparedStatement8 = null;
+                        sQLitePreparedStatement9 = null;
+                        sQLitePreparedStatement10 = null;
+                        sQLitePreparedStatement11 = null;
+                        sQLitePreparedStatement12 = null;
+                        checkSQLException(th2);
+                        if (z4) {
+                        }
+                        if (sQLitePreparedStatement6 != null) {
+                        }
+                        if (sQLitePreparedStatement7 != null) {
+                        }
+                        if (sQLitePreparedStatement10 != null) {
+                        }
+                        if (sQLitePreparedStatement8 != null) {
+                        }
+                        if (sQLitePreparedStatement9 != null) {
+                        }
+                        if (sQLitePreparedStatement4 != null) {
+                        }
+                        if (sQLitePreparedStatement12 != null) {
+                        }
+                        if (sQLitePreparedStatement11 != null) {
+                        }
+                        if (sQLitePreparedStatement5 != null) {
+                        }
+                        if (sQLitePreparedStatement2 != null) {
+                        }
+                        if (sQLitePreparedStatement != null) {
+                        }
+                        if (sQLitePreparedStatement3 == null) {
+                        }
+                    } catch (Throwable th41) {
+                        sQLitePreparedStatement7 = executeFast9;
+                        th = th41;
+                        sQLitePreparedStatement6 = sQLitePreparedStatement13;
+                        sQLitePreparedStatement = null;
+                        sQLitePreparedStatement2 = null;
+                        sQLitePreparedStatement3 = null;
+                        z4 = false;
+                        sQLitePreparedStatement4 = null;
+                        sQLitePreparedStatement5 = null;
+                        sQLitePreparedStatement8 = null;
+                        sQLitePreparedStatement9 = null;
+                        sQLitePreparedStatement10 = null;
+                        sQLitePreparedStatement11 = null;
+                        sQLitePreparedStatement12 = null;
+                        if (z4) {
+                        }
+                        if (sQLitePreparedStatement6 != null) {
+                        }
+                        if (sQLitePreparedStatement7 != null) {
+                        }
+                        if (sQLitePreparedStatement10 != null) {
+                        }
+                        if (sQLitePreparedStatement8 != null) {
+                        }
+                        if (sQLitePreparedStatement9 != null) {
+                        }
+                        if (sQLitePreparedStatement4 != null) {
+                        }
+                        if (sQLitePreparedStatement12 != null) {
+                        }
+                        if (sQLitePreparedStatement11 != null) {
+                        }
+                        if (sQLitePreparedStatement5 != null) {
+                        }
+                        if (sQLitePreparedStatement2 != null) {
+                        }
+                        if (sQLitePreparedStatement != null) {
+                        }
+                        if (sQLitePreparedStatement3 != null) {
+                        }
+                        throw th;
+                    }
+                    try {
+                        sQLitePreparedStatement16.dispose();
+                        try {
+                            sQLitePreparedStatement14.dispose();
+                            try {
+                                sQLitePreparedStatement15.dispose();
+                                if (arrayList2 != null) {
+                                    for (int i90 = 0; i90 < arrayList2.size(); i90++) {
+                                        try {
+                                            TLRPC$Message tLRPC$Message10 = (TLRPC$Message) arrayList2.get(i90);
+                                            createOrEditTopic(tLRPC$Message10.dialog_id, tLRPC$Message10);
+                                        } catch (Exception e38) {
+                                            th2 = e38;
+                                            sQLitePreparedStatement = sQLitePreparedStatement5;
+                                            sQLitePreparedStatement2 = sQLitePreparedStatement;
+                                            sQLitePreparedStatement3 = sQLitePreparedStatement2;
+                                            sQLitePreparedStatement4 = sQLitePreparedStatement3;
+                                            sQLitePreparedStatement8 = sQLitePreparedStatement4;
+                                            sQLitePreparedStatement9 = sQLitePreparedStatement8;
+                                            sQLitePreparedStatement10 = sQLitePreparedStatement9;
+                                            sQLitePreparedStatement12 = sQLitePreparedStatement17;
+                                            sQLitePreparedStatement6 = sQLitePreparedStatement13;
+                                            z4 = false;
+                                            checkSQLException(th2);
+                                            if (z4) {
+                                            }
+                                            if (sQLitePreparedStatement6 != null) {
+                                            }
+                                            if (sQLitePreparedStatement7 != null) {
+                                            }
+                                            if (sQLitePreparedStatement10 != null) {
+                                            }
+                                            if (sQLitePreparedStatement8 != null) {
+                                            }
+                                            if (sQLitePreparedStatement9 != null) {
+                                            }
+                                            if (sQLitePreparedStatement4 != null) {
+                                            }
+                                            if (sQLitePreparedStatement12 != null) {
+                                            }
+                                            if (sQLitePreparedStatement11 != null) {
+                                            }
+                                            if (sQLitePreparedStatement5 != null) {
+                                            }
+                                            if (sQLitePreparedStatement2 != null) {
+                                            }
+                                            if (sQLitePreparedStatement != null) {
+                                            }
+                                            if (sQLitePreparedStatement3 == null) {
+                                            }
+                                        } catch (Throwable th42) {
+                                            th = th42;
+                                            sQLitePreparedStatement = sQLitePreparedStatement5;
+                                            sQLitePreparedStatement2 = sQLitePreparedStatement;
+                                            sQLitePreparedStatement3 = sQLitePreparedStatement2;
+                                            sQLitePreparedStatement4 = sQLitePreparedStatement3;
+                                            sQLitePreparedStatement8 = sQLitePreparedStatement4;
+                                            sQLitePreparedStatement9 = sQLitePreparedStatement8;
+                                            sQLitePreparedStatement10 = sQLitePreparedStatement9;
+                                            sQLitePreparedStatement12 = sQLitePreparedStatement17;
+                                            sQLitePreparedStatement6 = sQLitePreparedStatement13;
+                                            z4 = false;
+                                            if (z4) {
+                                            }
+                                            if (sQLitePreparedStatement6 != null) {
+                                            }
+                                            if (sQLitePreparedStatement7 != null) {
+                                            }
+                                            if (sQLitePreparedStatement10 != null) {
+                                            }
+                                            if (sQLitePreparedStatement8 != null) {
+                                            }
+                                            if (sQLitePreparedStatement9 != null) {
+                                            }
+                                            if (sQLitePreparedStatement4 != null) {
+                                            }
+                                            if (sQLitePreparedStatement12 != null) {
+                                            }
+                                            if (sQLitePreparedStatement11 != null) {
+                                            }
+                                            if (sQLitePreparedStatement5 != null) {
+                                            }
+                                            if (sQLitePreparedStatement2 != null) {
+                                            }
+                                            if (sQLitePreparedStatement != null) {
+                                            }
+                                            if (sQLitePreparedStatement3 != null) {
+                                            }
+                                            throw th;
+                                        }
+                                    }
+                                }
+                                try {
+                                    executeFast = this.database.executeFast("REPLACE INTO dialogs VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                                    try {
+                                        executeFast2 = this.database.executeFast("UPDATE dialogs SET date = ?, unread_count = ?, last_mid = ?, last_mid_group = ?, unread_count_i = ? WHERE did = ?");
+                                        try {
+                                            executeFast3 = this.database.executeFast("UPDATE dialogs SET unread_count = ?, unread_count_i = ? WHERE did = ?");
+                                        } catch (Exception e39) {
+                                            sQLitePreparedStatement5 = executeFast;
+                                            sQLitePreparedStatement2 = executeFast2;
+                                            sQLitePreparedStatement12 = sQLitePreparedStatement17;
+                                            th2 = e39;
+                                            sQLitePreparedStatement6 = sQLitePreparedStatement13;
+                                            sQLitePreparedStatement = null;
+                                        } catch (Throwable th43) {
+                                            sQLitePreparedStatement5 = executeFast;
+                                            sQLitePreparedStatement2 = executeFast2;
+                                            sQLitePreparedStatement12 = sQLitePreparedStatement17;
+                                            th = th43;
+                                            sQLitePreparedStatement6 = sQLitePreparedStatement13;
+                                            sQLitePreparedStatement = null;
+                                        }
+                                    } catch (Exception e40) {
+                                        sQLitePreparedStatement5 = executeFast;
+                                        sQLitePreparedStatement12 = sQLitePreparedStatement17;
+                                        th2 = e40;
+                                        sQLitePreparedStatement6 = sQLitePreparedStatement13;
+                                        sQLitePreparedStatement = null;
+                                        sQLitePreparedStatement2 = null;
+                                    } catch (Throwable th44) {
+                                        sQLitePreparedStatement5 = executeFast;
+                                        sQLitePreparedStatement12 = sQLitePreparedStatement17;
+                                        th = th44;
+                                        sQLitePreparedStatement6 = sQLitePreparedStatement13;
+                                        sQLitePreparedStatement = null;
+                                        sQLitePreparedStatement2 = null;
+                                    }
+                                } catch (Exception e41) {
+                                    e = e41;
+                                    sQLitePreparedStatement18 = sQLitePreparedStatement17;
+                                } catch (Throwable th45) {
+                                    th = th45;
+                                    sQLitePreparedStatement18 = sQLitePreparedStatement17;
+                                }
+                                try {
+                                    executeFast4 = this.database.executeFast("UPDATE topics SET unread_count = ?, top_message = ?, unread_mentions = ?, total_messages_count = ? WHERE did = ? AND topic_id = ?");
+                                    try {
+                                        arrayList4 = new ArrayList<>();
+                                        int i91 = 0;
+                                        while (i91 < longSparseArray8.size()) {
+                                            LongSparseArray longSparseArray38 = longSparseArray8;
+                                            try {
+                                                long keyAt5 = longSparseArray38.keyAt(i91);
+                                                if (keyAt5 == 0) {
+                                                    sQLitePreparedStatement5 = executeFast;
+                                                    sQLitePreparedStatement2 = executeFast2;
+                                                    sQLitePreparedStatement25 = executeFast4;
+                                                    i9 = i91;
+                                                    longSparseArray9 = longSparseArray38;
+                                                    sQLitePreparedStatement26 = sQLitePreparedStatement17;
+                                                    longSparseIntArray12 = longSparseIntArray6;
+                                                } else {
+                                                    TLRPC$Message tLRPC$Message11 = (TLRPC$Message) longSparseArray38.valueAt(i91);
+                                                    i9 = i91;
+                                                    long channelId = MessageObject.getChannelId(tLRPC$Message11);
+                                                    SQLiteDatabase sQLiteDatabase7 = this.database;
+                                                    StringBuilder sb9 = new StringBuilder();
+                                                    longSparseArray9 = longSparseArray38;
+                                                    sb9.append("SELECT date, unread_count, last_mid, unread_count_i FROM dialogs WHERE did = ");
+                                                    sb9.append(keyAt5);
+                                                    sQLitePreparedStatement26 = sQLitePreparedStatement17;
+                                                    try {
+                                                        SQLiteCursor queryFinalized8 = sQLiteDatabase7.queryFinalized(sb9.toString(), new Object[0]);
+                                                        boolean next = queryFinalized8.next();
+                                                        if (next) {
+                                                            try {
+                                                                int intValue17 = queryFinalized8.intValue(0);
+                                                                tLRPC$Message = tLRPC$Message11;
+                                                                j2 = keyAt5;
+                                                                max = Math.max(0, queryFinalized8.intValue(1));
+                                                                int intValue18 = queryFinalized8.intValue(2);
+                                                                max2 = Math.max(0, queryFinalized8.intValue(3));
+                                                                i10 = intValue18;
+                                                                SQLitePreparedStatement sQLitePreparedStatement36 = executeFast4;
+                                                                executeFast4 = intValue17;
+                                                                sQLitePreparedStatement25 = sQLitePreparedStatement36;
+                                                                i11 = executeFast4;
+                                                            } catch (Exception e42) {
+                                                                sQLitePreparedStatement12 = sQLitePreparedStatement26;
+                                                                th2 = e42;
+                                                                sQLitePreparedStatement5 = executeFast;
+                                                                sQLitePreparedStatement20 = executeFast2;
+                                                                sQLitePreparedStatement = executeFast3;
+                                                                sQLitePreparedStatement3 = executeFast4;
+                                                                sQLitePreparedStatement2 = sQLitePreparedStatement20;
+                                                                sQLitePreparedStatement6 = sQLitePreparedStatement13;
+                                                                z4 = false;
+                                                                sQLitePreparedStatement4 = null;
+                                                                sQLitePreparedStatement8 = null;
+                                                                sQLitePreparedStatement9 = null;
+                                                                sQLitePreparedStatement10 = null;
+                                                                checkSQLException(th2);
+                                                                if (z4) {
+                                                                }
+                                                                if (sQLitePreparedStatement6 != null) {
+                                                                }
+                                                                if (sQLitePreparedStatement7 != null) {
+                                                                }
+                                                                if (sQLitePreparedStatement10 != null) {
+                                                                }
+                                                                if (sQLitePreparedStatement8 != null) {
+                                                                }
+                                                                if (sQLitePreparedStatement9 != null) {
+                                                                }
+                                                                if (sQLitePreparedStatement4 != null) {
+                                                                }
+                                                                if (sQLitePreparedStatement12 != null) {
+                                                                }
+                                                                if (sQLitePreparedStatement11 != null) {
+                                                                }
+                                                                if (sQLitePreparedStatement5 != null) {
+                                                                }
+                                                                if (sQLitePreparedStatement2 != null) {
+                                                                }
+                                                                if (sQLitePreparedStatement != null) {
+                                                                }
+                                                                if (sQLitePreparedStatement3 == null) {
+                                                                }
+                                                            } catch (Throwable th46) {
+                                                                sQLitePreparedStatement12 = sQLitePreparedStatement26;
+                                                                th = th46;
+                                                                sQLitePreparedStatement5 = executeFast;
+                                                                sQLitePreparedStatement2 = executeFast2;
+                                                                sQLitePreparedStatement19 = executeFast4;
+                                                                sQLitePreparedStatement = executeFast3;
+                                                                sQLitePreparedStatement3 = sQLitePreparedStatement19;
+                                                                sQLitePreparedStatement6 = sQLitePreparedStatement13;
+                                                                z4 = false;
+                                                                sQLitePreparedStatement4 = null;
+                                                                sQLitePreparedStatement8 = null;
+                                                                sQLitePreparedStatement9 = null;
+                                                                sQLitePreparedStatement10 = null;
+                                                                if (z4) {
+                                                                }
+                                                                if (sQLitePreparedStatement6 != null) {
+                                                                }
+                                                                if (sQLitePreparedStatement7 != null) {
+                                                                }
+                                                                if (sQLitePreparedStatement10 != null) {
+                                                                }
+                                                                if (sQLitePreparedStatement8 != null) {
+                                                                }
+                                                                if (sQLitePreparedStatement9 != null) {
+                                                                }
+                                                                if (sQLitePreparedStatement4 != null) {
+                                                                }
+                                                                if (sQLitePreparedStatement12 != null) {
+                                                                }
+                                                                if (sQLitePreparedStatement11 != null) {
+                                                                }
+                                                                if (sQLitePreparedStatement5 != null) {
+                                                                }
+                                                                if (sQLitePreparedStatement2 != null) {
+                                                                }
+                                                                if (sQLitePreparedStatement != null) {
+                                                                }
+                                                                if (sQLitePreparedStatement3 != null) {
+                                                                }
+                                                                throw th;
+                                                            }
+                                                        } else {
+                                                            tLRPC$Message = tLRPC$Message11;
+                                                            j2 = keyAt5;
+                                                            if (channelId != 0) {
+                                                                getMessagesController().checkChatInviter(channelId, true);
+                                                            }
+                                                            sQLitePreparedStatement25 = executeFast4;
+                                                            i11 = 0;
+                                                            i10 = 0;
+                                                            max = 0;
+                                                            max2 = 0;
+                                                        }
+                                                        try {
+                                                            queryFinalized8.dispose();
+                                                            LongSparseIntArray longSparseIntArray32 = longSparseIntArray7;
+                                                            int i92 = -1;
+                                                            int i93 = longSparseIntArray32.get(j2, -1);
+                                                            SQLitePreparedStatement sQLitePreparedStatement37 = executeFast;
+                                                            LongSparseIntArray longSparseIntArray33 = longSparseIntArray6;
+                                                            SQLitePreparedStatement sQLitePreparedStatement38 = executeFast2;
+                                                            try {
+                                                                int i94 = longSparseIntArray33.get(j2, -1);
+                                                                if (i94 == -1) {
+                                                                    i94 = 0;
+                                                                } else {
+                                                                    longSparseIntArray33.put(j2, i94 + max);
+                                                                    i92 = -1;
+                                                                }
+                                                                if (i93 == i92) {
+                                                                    i93 = 0;
+                                                                } else {
+                                                                    longSparseIntArray32.put(j2, i93 + max2);
+                                                                }
+                                                                if (tLRPC$Message != null) {
+                                                                    tLRPC$Message2 = tLRPC$Message;
+                                                                    longSparseIntArray12 = longSparseIntArray33;
+                                                                    try {
+                                                                        i12 = tLRPC$Message2.id;
+                                                                    } catch (Exception e43) {
+                                                                        sQLitePreparedStatement12 = sQLitePreparedStatement26;
+                                                                        sQLitePreparedStatement3 = sQLitePreparedStatement25;
+                                                                        sQLitePreparedStatement5 = sQLitePreparedStatement37;
+                                                                        th2 = e43;
+                                                                        sQLitePreparedStatement = executeFast3;
+                                                                        sQLitePreparedStatement2 = sQLitePreparedStatement38;
+                                                                        sQLitePreparedStatement6 = sQLitePreparedStatement13;
+                                                                        z4 = false;
+                                                                        sQLitePreparedStatement4 = null;
+                                                                        sQLitePreparedStatement8 = null;
+                                                                        sQLitePreparedStatement9 = null;
+                                                                        sQLitePreparedStatement10 = null;
+                                                                        checkSQLException(th2);
+                                                                        if (z4) {
+                                                                        }
+                                                                        if (sQLitePreparedStatement6 != null) {
+                                                                        }
+                                                                        if (sQLitePreparedStatement7 != null) {
+                                                                        }
+                                                                        if (sQLitePreparedStatement10 != null) {
+                                                                        }
+                                                                        if (sQLitePreparedStatement8 != null) {
+                                                                        }
+                                                                        if (sQLitePreparedStatement9 != null) {
+                                                                        }
+                                                                        if (sQLitePreparedStatement4 != null) {
+                                                                        }
+                                                                        if (sQLitePreparedStatement12 != null) {
+                                                                        }
+                                                                        if (sQLitePreparedStatement11 != null) {
+                                                                        }
+                                                                        if (sQLitePreparedStatement5 != null) {
+                                                                        }
+                                                                        if (sQLitePreparedStatement2 != null) {
+                                                                        }
+                                                                        if (sQLitePreparedStatement != null) {
+                                                                        }
+                                                                        if (sQLitePreparedStatement3 == null) {
+                                                                        }
+                                                                    } catch (Throwable th47) {
+                                                                        sQLitePreparedStatement12 = sQLitePreparedStatement26;
+                                                                        sQLitePreparedStatement3 = sQLitePreparedStatement25;
+                                                                        sQLitePreparedStatement5 = sQLitePreparedStatement37;
+                                                                        th = th47;
+                                                                        sQLitePreparedStatement = executeFast3;
+                                                                        sQLitePreparedStatement2 = sQLitePreparedStatement38;
+                                                                        sQLitePreparedStatement6 = sQLitePreparedStatement13;
+                                                                        z4 = false;
+                                                                        sQLitePreparedStatement4 = null;
+                                                                        sQLitePreparedStatement8 = null;
+                                                                        sQLitePreparedStatement9 = null;
+                                                                        sQLitePreparedStatement10 = null;
+                                                                        if (z4) {
+                                                                        }
+                                                                        if (sQLitePreparedStatement6 != null) {
+                                                                        }
+                                                                        if (sQLitePreparedStatement7 != null) {
+                                                                        }
+                                                                        if (sQLitePreparedStatement10 != null) {
+                                                                        }
+                                                                        if (sQLitePreparedStatement8 != null) {
+                                                                        }
+                                                                        if (sQLitePreparedStatement9 != null) {
+                                                                        }
+                                                                        if (sQLitePreparedStatement4 != null) {
+                                                                        }
+                                                                        if (sQLitePreparedStatement12 != null) {
+                                                                        }
+                                                                        if (sQLitePreparedStatement11 != null) {
+                                                                        }
+                                                                        if (sQLitePreparedStatement5 != null) {
+                                                                        }
+                                                                        if (sQLitePreparedStatement2 != null) {
+                                                                        }
+                                                                        if (sQLitePreparedStatement != null) {
+                                                                        }
+                                                                        if (sQLitePreparedStatement3 != null) {
+                                                                        }
+                                                                        throw th;
+                                                                    }
+                                                                } else {
+                                                                    tLRPC$Message2 = tLRPC$Message;
+                                                                    longSparseIntArray12 = longSparseIntArray33;
+                                                                    i12 = i10;
+                                                                }
+                                                                if (tLRPC$Message2 != null) {
+                                                                    i13 = i12;
+                                                                    i14 = tLRPC$Message2.local_id;
+                                                                } else {
+                                                                    i13 = i12;
+                                                                }
+                                                                i14 = i13;
+                                                                if (isForum(j2)) {
+                                                                    longSparseIntArray7 = longSparseIntArray32;
+                                                                } else {
+                                                                    if (max != 0 || i94 == 0) {
+                                                                        longSparseIntArray7 = longSparseIntArray32;
+                                                                        longSparseIntArray13 = longSparseIntArray3;
+                                                                    } else {
+                                                                        longSparseIntArray7 = longSparseIntArray32;
+                                                                        longSparseIntArray13 = longSparseIntArray3;
+                                                                        longSparseIntArray13.put(j2, i94);
+                                                                    }
+                                                                    if (max2 != 0 || i93 == 0) {
+                                                                        longSparseIntArray3 = longSparseIntArray13;
+                                                                    } else {
+                                                                        longSparseIntArray3 = longSparseIntArray13;
+                                                                        LongSparseIntArray longSparseIntArray34 = longSparseIntArray2;
+                                                                        longSparseIntArray34.put(j2, i93);
+                                                                        longSparseIntArray2 = longSparseIntArray34;
+                                                                    }
+                                                                }
+                                                                arrayList4.add(Long.valueOf(j2));
+                                                                if (next) {
+                                                                    try {
+                                                                        try {
+                                                                            if (tLRPC$Message2 != null) {
+                                                                                if (DialogObject.isEncryptedDialog(j2)) {
+                                                                                    if (tLRPC$Message2.date > i11) {
+                                                                                    }
+                                                                                    if (tLRPC$Message2.send_state == 0 || ((tLRPC$Message2.flags & LiteMode.FLAG_CHAT_SCALE) != 0 && tLRPC$Message2.id < i10)) {
+                                                                                        executeFast3.requery();
+                                                                                        executeFast3.bindInteger(1, max + i94);
+                                                                                        executeFast3.bindInteger(2, max2 + i93);
+                                                                                        executeFast3.bindLong(3, j2);
+                                                                                        executeFast3.step();
+                                                                                        sQLitePreparedStatement5 = sQLitePreparedStatement37;
+                                                                                        sQLitePreparedStatement2 = sQLitePreparedStatement38;
+                                                                                    }
+                                                                                }
+                                                                                i91 = i9 + 1;
+                                                                                sQLitePreparedStatement17 = sQLitePreparedStatement26;
+                                                                                executeFast4 = sQLitePreparedStatement25;
+                                                                                executeFast2 = sQLitePreparedStatement2;
+                                                                                executeFast = sQLitePreparedStatement5;
+                                                                                longSparseArray8 = longSparseArray9;
+                                                                                longSparseIntArray6 = longSparseIntArray12;
+                                                                            }
+                                                                            sQLitePreparedStatement2.bindInteger(1, i15);
+                                                                            sQLitePreparedStatement2.bindInteger(2, max + i94);
+                                                                            sQLitePreparedStatement2.bindInteger(3, i14);
+                                                                            if (tLRPC$Message2 != null && (tLRPC$Message2.flags & 131072) != 0) {
+                                                                                sQLitePreparedStatement2.bindLong(4, tLRPC$Message2.grouped_id);
+                                                                            } else {
+                                                                                sQLitePreparedStatement2.bindNull(4);
+                                                                            }
+                                                                            sQLitePreparedStatement2.bindInteger(5, max2 + i93);
+                                                                            sQLitePreparedStatement2.bindLong(6, j2);
+                                                                            sQLitePreparedStatement2.step();
+                                                                            sQLitePreparedStatement5 = sQLitePreparedStatement37;
+                                                                        } catch (Exception e44) {
+                                                                            e = e44;
+                                                                            sQLitePreparedStatement12 = sQLitePreparedStatement26;
+                                                                            sQLitePreparedStatement3 = sQLitePreparedStatement25;
+                                                                            sQLitePreparedStatement5 = sQLitePreparedStatement37;
+                                                                            th2 = e;
+                                                                            sQLitePreparedStatement = executeFast3;
+                                                                            sQLitePreparedStatement2 = sQLitePreparedStatement2;
+                                                                            sQLitePreparedStatement6 = sQLitePreparedStatement13;
+                                                                            z4 = false;
+                                                                            sQLitePreparedStatement4 = null;
+                                                                            sQLitePreparedStatement8 = null;
+                                                                            sQLitePreparedStatement9 = null;
+                                                                            sQLitePreparedStatement10 = null;
+                                                                            checkSQLException(th2);
+                                                                            if (z4) {
+                                                                            }
+                                                                            if (sQLitePreparedStatement6 != null) {
+                                                                            }
+                                                                            if (sQLitePreparedStatement7 != null) {
+                                                                            }
+                                                                            if (sQLitePreparedStatement10 != null) {
+                                                                            }
+                                                                            if (sQLitePreparedStatement8 != null) {
+                                                                            }
+                                                                            if (sQLitePreparedStatement9 != null) {
+                                                                            }
+                                                                            if (sQLitePreparedStatement4 != null) {
+                                                                            }
+                                                                            if (sQLitePreparedStatement12 != null) {
+                                                                            }
+                                                                            if (sQLitePreparedStatement11 != null) {
+                                                                            }
+                                                                            if (sQLitePreparedStatement5 != null) {
+                                                                            }
+                                                                            if (sQLitePreparedStatement2 != null) {
+                                                                            }
+                                                                            if (sQLitePreparedStatement != null) {
+                                                                            }
+                                                                            if (sQLitePreparedStatement3 == null) {
+                                                                            }
+                                                                        } catch (Throwable th48) {
+                                                                            th = th48;
+                                                                            sQLitePreparedStatement12 = sQLitePreparedStatement26;
+                                                                            sQLitePreparedStatement3 = sQLitePreparedStatement25;
+                                                                            sQLitePreparedStatement5 = sQLitePreparedStatement37;
+                                                                            th = th;
+                                                                            sQLitePreparedStatement = executeFast3;
+                                                                            sQLitePreparedStatement6 = sQLitePreparedStatement13;
+                                                                            z4 = false;
+                                                                            sQLitePreparedStatement4 = null;
+                                                                            sQLitePreparedStatement8 = null;
+                                                                            sQLitePreparedStatement9 = null;
+                                                                            sQLitePreparedStatement10 = null;
+                                                                            if (z4) {
+                                                                            }
+                                                                            if (sQLitePreparedStatement6 != null) {
+                                                                            }
+                                                                            if (sQLitePreparedStatement7 != null) {
+                                                                            }
+                                                                            if (sQLitePreparedStatement10 != null) {
+                                                                            }
+                                                                            if (sQLitePreparedStatement8 != null) {
+                                                                            }
+                                                                            if (sQLitePreparedStatement9 != null) {
+                                                                            }
+                                                                            if (sQLitePreparedStatement4 != null) {
+                                                                            }
+                                                                            if (sQLitePreparedStatement12 != null) {
+                                                                            }
+                                                                            if (sQLitePreparedStatement11 != null) {
+                                                                            }
+                                                                            if (sQLitePreparedStatement5 != null) {
+                                                                            }
+                                                                            if (sQLitePreparedStatement2 != null) {
+                                                                            }
+                                                                            if (sQLitePreparedStatement != null) {
+                                                                            }
+                                                                            if (sQLitePreparedStatement3 != null) {
+                                                                            }
+                                                                            throw th;
+                                                                        }
+                                                                        sQLitePreparedStatement38.requery();
+                                                                        i15 = i11;
+                                                                        i15 = i11;
+                                                                        if (tLRPC$Message2 != null && (!z2 || i11 == 0)) {
+                                                                            i15 = tLRPC$Message2.date;
+                                                                        }
+                                                                        sQLitePreparedStatement2 = sQLitePreparedStatement38;
+                                                                    } catch (Exception e45) {
+                                                                        e = e45;
+                                                                        sQLitePreparedStatement2 = sQLitePreparedStatement38;
+                                                                    } catch (Throwable th49) {
+                                                                        th = th49;
+                                                                        sQLitePreparedStatement2 = sQLitePreparedStatement38;
+                                                                    }
+                                                                } else {
+                                                                    sQLitePreparedStatement2 = sQLitePreparedStatement38;
+                                                                    try {
+                                                                        sQLitePreparedStatement37.requery();
+                                                                        sQLitePreparedStatement5 = sQLitePreparedStatement37;
+                                                                    } catch (Exception e46) {
+                                                                        e = e46;
+                                                                        sQLitePreparedStatement5 = sQLitePreparedStatement37;
+                                                                    } catch (Throwable th50) {
+                                                                        th = th50;
+                                                                        sQLitePreparedStatement5 = sQLitePreparedStatement37;
+                                                                    }
+                                                                    try {
+                                                                        sQLitePreparedStatement5.bindLong(1, j2);
+                                                                        int i95 = i11;
+                                                                        i95 = i11;
+                                                                        if (tLRPC$Message2 != null && (!z2 || i11 == 0)) {
+                                                                            i95 = tLRPC$Message2.date;
+                                                                        }
+                                                                        sQLitePreparedStatement5.bindInteger(2, i95);
+                                                                        sQLitePreparedStatement5.bindInteger(3, max + i94);
+                                                                        sQLitePreparedStatement5.bindInteger(4, i14);
+                                                                        sQLitePreparedStatement5.bindInteger(5, 0);
+                                                                        sQLitePreparedStatement5.bindInteger(6, 0);
+                                                                        sQLitePreparedStatement5.bindLong(7, 0L);
+                                                                        sQLitePreparedStatement5.bindInteger(8, max2 + i93);
+                                                                        sQLitePreparedStatement5.bindInteger(9, channelId != 0 ? 1 : 0);
+                                                                        sQLitePreparedStatement5.bindInteger(10, 0);
+                                                                        sQLitePreparedStatement5.bindInteger(11, 0);
+                                                                        sQLitePreparedStatement5.bindInteger(12, 0);
+                                                                        sQLitePreparedStatement5.bindInteger(13, 0);
+                                                                        sQLitePreparedStatement5.bindNull(14);
+                                                                        sQLitePreparedStatement5.bindInteger(15, 0);
+                                                                        if (tLRPC$Message2 != null && (tLRPC$Message2.flags & 131072) != 0) {
+                                                                            sQLitePreparedStatement5.bindLong(16, tLRPC$Message2.grouped_id);
+                                                                        } else {
+                                                                            sQLitePreparedStatement5.bindNull(16);
+                                                                        }
+                                                                        sQLitePreparedStatement5.bindInteger(17, 0);
+                                                                        sQLitePreparedStatement5.step();
+                                                                        this.unknownDialogsIds.put(j2, Boolean.TRUE);
+                                                                        i91 = i9 + 1;
+                                                                        sQLitePreparedStatement17 = sQLitePreparedStatement26;
+                                                                        executeFast4 = sQLitePreparedStatement25;
+                                                                        executeFast2 = sQLitePreparedStatement2;
+                                                                        executeFast = sQLitePreparedStatement5;
+                                                                        longSparseArray8 = longSparseArray9;
+                                                                        longSparseIntArray6 = longSparseIntArray12;
+                                                                    } catch (Exception e47) {
+                                                                        e = e47;
+                                                                        sQLitePreparedStatement12 = sQLitePreparedStatement26;
+                                                                        sQLitePreparedStatement3 = sQLitePreparedStatement25;
+                                                                        th2 = e;
+                                                                        sQLitePreparedStatement = executeFast3;
+                                                                        sQLitePreparedStatement2 = sQLitePreparedStatement2;
+                                                                        sQLitePreparedStatement6 = sQLitePreparedStatement13;
+                                                                        z4 = false;
+                                                                        sQLitePreparedStatement4 = null;
+                                                                        sQLitePreparedStatement8 = null;
+                                                                        sQLitePreparedStatement9 = null;
+                                                                        sQLitePreparedStatement10 = null;
+                                                                        checkSQLException(th2);
+                                                                        if (z4) {
+                                                                        }
+                                                                        if (sQLitePreparedStatement6 != null) {
+                                                                        }
+                                                                        if (sQLitePreparedStatement7 != null) {
+                                                                        }
+                                                                        if (sQLitePreparedStatement10 != null) {
+                                                                        }
+                                                                        if (sQLitePreparedStatement8 != null) {
+                                                                        }
+                                                                        if (sQLitePreparedStatement9 != null) {
+                                                                        }
+                                                                        if (sQLitePreparedStatement4 != null) {
+                                                                        }
+                                                                        if (sQLitePreparedStatement12 != null) {
+                                                                        }
+                                                                        if (sQLitePreparedStatement11 != null) {
+                                                                        }
+                                                                        if (sQLitePreparedStatement5 != null) {
+                                                                        }
+                                                                        if (sQLitePreparedStatement2 != null) {
+                                                                        }
+                                                                        if (sQLitePreparedStatement != null) {
+                                                                        }
+                                                                        if (sQLitePreparedStatement3 == null) {
+                                                                        }
+                                                                    } catch (Throwable th51) {
+                                                                        th = th51;
+                                                                        sQLitePreparedStatement12 = sQLitePreparedStatement26;
+                                                                        sQLitePreparedStatement3 = sQLitePreparedStatement25;
+                                                                        th = th;
+                                                                        sQLitePreparedStatement = executeFast3;
+                                                                        sQLitePreparedStatement6 = sQLitePreparedStatement13;
+                                                                        z4 = false;
+                                                                        sQLitePreparedStatement4 = null;
+                                                                        sQLitePreparedStatement8 = null;
+                                                                        sQLitePreparedStatement9 = null;
+                                                                        sQLitePreparedStatement10 = null;
+                                                                        if (z4) {
+                                                                        }
+                                                                        if (sQLitePreparedStatement6 != null) {
+                                                                        }
+                                                                        if (sQLitePreparedStatement7 != null) {
+                                                                        }
+                                                                        if (sQLitePreparedStatement10 != null) {
+                                                                        }
+                                                                        if (sQLitePreparedStatement8 != null) {
+                                                                        }
+                                                                        if (sQLitePreparedStatement9 != null) {
+                                                                        }
+                                                                        if (sQLitePreparedStatement4 != null) {
+                                                                        }
+                                                                        if (sQLitePreparedStatement12 != null) {
+                                                                        }
+                                                                        if (sQLitePreparedStatement11 != null) {
+                                                                        }
+                                                                        if (sQLitePreparedStatement5 != null) {
+                                                                        }
+                                                                        if (sQLitePreparedStatement2 != null) {
+                                                                        }
+                                                                        if (sQLitePreparedStatement != null) {
+                                                                        }
+                                                                        if (sQLitePreparedStatement3 != null) {
+                                                                        }
+                                                                        throw th;
+                                                                    }
+                                                                }
+                                                            } catch (Exception e48) {
+                                                                e = e48;
+                                                                sQLitePreparedStatement5 = sQLitePreparedStatement37;
+                                                                sQLitePreparedStatement2 = sQLitePreparedStatement38;
+                                                            } catch (Throwable th52) {
+                                                                th = th52;
+                                                                sQLitePreparedStatement5 = sQLitePreparedStatement37;
+                                                                sQLitePreparedStatement2 = sQLitePreparedStatement38;
+                                                            }
+                                                        } catch (Exception e49) {
+                                                            e = e49;
+                                                            sQLitePreparedStatement5 = executeFast;
+                                                            sQLitePreparedStatement2 = executeFast2;
+                                                        } catch (Throwable th53) {
+                                                            th = th53;
+                                                            sQLitePreparedStatement5 = executeFast;
+                                                            sQLitePreparedStatement2 = executeFast2;
+                                                        }
+                                                    } catch (Exception e50) {
+                                                        e = e50;
+                                                        sQLitePreparedStatement5 = executeFast;
+                                                        sQLitePreparedStatement2 = executeFast2;
+                                                        sQLitePreparedStatement25 = executeFast4;
+                                                    } catch (Throwable th54) {
+                                                        th = th54;
+                                                        sQLitePreparedStatement5 = executeFast;
+                                                        sQLitePreparedStatement2 = executeFast2;
+                                                        sQLitePreparedStatement25 = executeFast4;
+                                                    }
+                                                }
+                                                i91 = i9 + 1;
+                                                sQLitePreparedStatement17 = sQLitePreparedStatement26;
+                                                executeFast4 = sQLitePreparedStatement25;
+                                                executeFast2 = sQLitePreparedStatement2;
+                                                executeFast = sQLitePreparedStatement5;
+                                                longSparseArray8 = longSparseArray9;
+                                                longSparseIntArray6 = longSparseIntArray12;
+                                            } catch (Exception e51) {
+                                                e = e51;
+                                                sQLitePreparedStatement5 = executeFast;
+                                                sQLitePreparedStatement2 = executeFast2;
+                                                sQLitePreparedStatement25 = executeFast4;
+                                                sQLitePreparedStatement26 = sQLitePreparedStatement17;
+                                            } catch (Throwable th55) {
+                                                th = th55;
+                                                sQLitePreparedStatement5 = executeFast;
+                                                sQLitePreparedStatement2 = executeFast2;
+                                                sQLitePreparedStatement25 = executeFast4;
+                                                sQLitePreparedStatement26 = sQLitePreparedStatement17;
+                                            }
+                                        }
+                                        sQLitePreparedStatement5 = executeFast;
+                                        sQLitePreparedStatement2 = executeFast2;
+                                        sQLitePreparedStatement21 = executeFast4;
+                                        sQLitePreparedStatement18 = sQLitePreparedStatement17;
+                                        longSparseIntArray8 = longSparseIntArray6;
+                                    } catch (Exception e52) {
+                                        e = e52;
+                                        sQLitePreparedStatement5 = executeFast;
+                                        sQLitePreparedStatement2 = executeFast2;
+                                        sQLitePreparedStatement18 = sQLitePreparedStatement17;
+                                    } catch (Throwable th56) {
+                                        th = th56;
+                                        sQLitePreparedStatement5 = executeFast;
+                                        sQLitePreparedStatement2 = executeFast2;
+                                        sQLitePreparedStatement18 = sQLitePreparedStatement17;
+                                    }
+                                } catch (Exception e53) {
+                                    sQLitePreparedStatement5 = executeFast;
+                                    sQLitePreparedStatement2 = executeFast2;
+                                    sQLitePreparedStatement12 = sQLitePreparedStatement17;
+                                    th2 = e53;
+                                    sQLitePreparedStatement = executeFast3;
+                                    sQLitePreparedStatement6 = sQLitePreparedStatement13;
+                                    sQLitePreparedStatement3 = null;
+                                    z4 = false;
+                                    sQLitePreparedStatement4 = null;
+                                    sQLitePreparedStatement8 = null;
+                                    sQLitePreparedStatement9 = null;
+                                    sQLitePreparedStatement10 = null;
+                                    checkSQLException(th2);
+                                    if (z4) {
+                                    }
+                                    if (sQLitePreparedStatement6 != null) {
+                                    }
+                                    if (sQLitePreparedStatement7 != null) {
+                                    }
+                                    if (sQLitePreparedStatement10 != null) {
+                                    }
+                                    if (sQLitePreparedStatement8 != null) {
+                                    }
+                                    if (sQLitePreparedStatement9 != null) {
+                                    }
+                                    if (sQLitePreparedStatement4 != null) {
+                                    }
+                                    if (sQLitePreparedStatement12 != null) {
+                                    }
+                                    if (sQLitePreparedStatement11 != null) {
+                                    }
+                                    if (sQLitePreparedStatement5 != null) {
+                                    }
+                                    if (sQLitePreparedStatement2 != null) {
+                                    }
+                                    if (sQLitePreparedStatement != null) {
+                                    }
+                                    if (sQLitePreparedStatement3 == null) {
+                                    }
+                                } catch (Throwable th57) {
+                                    sQLitePreparedStatement5 = executeFast;
+                                    sQLitePreparedStatement2 = executeFast2;
+                                    sQLitePreparedStatement12 = sQLitePreparedStatement17;
+                                    th = th57;
+                                    sQLitePreparedStatement = executeFast3;
+                                    sQLitePreparedStatement6 = sQLitePreparedStatement13;
+                                    sQLitePreparedStatement3 = null;
+                                    z4 = false;
+                                    sQLitePreparedStatement4 = null;
+                                    sQLitePreparedStatement8 = null;
+                                    sQLitePreparedStatement9 = null;
+                                    sQLitePreparedStatement10 = null;
+                                    if (z4) {
+                                    }
+                                    if (sQLitePreparedStatement6 != null) {
+                                    }
+                                    if (sQLitePreparedStatement7 != null) {
+                                    }
+                                    if (sQLitePreparedStatement10 != null) {
+                                    }
+                                    if (sQLitePreparedStatement8 != null) {
+                                    }
+                                    if (sQLitePreparedStatement9 != null) {
+                                    }
+                                    if (sQLitePreparedStatement4 != null) {
+                                    }
+                                    if (sQLitePreparedStatement12 != null) {
+                                    }
+                                    if (sQLitePreparedStatement11 != null) {
+                                    }
+                                    if (sQLitePreparedStatement5 != null) {
+                                    }
+                                    if (sQLitePreparedStatement2 != null) {
+                                    }
+                                    if (sQLitePreparedStatement != null) {
+                                    }
+                                    if (sQLitePreparedStatement3 != null) {
+                                    }
+                                    throw th;
+                                }
+                            } catch (Exception e54) {
+                                sQLitePreparedStatement12 = sQLitePreparedStatement17;
+                                th2 = e54;
+                                sQLitePreparedStatement9 = sQLitePreparedStatement15;
+                                sQLitePreparedStatement6 = sQLitePreparedStatement13;
+                                sQLitePreparedStatement = null;
+                                sQLitePreparedStatement2 = null;
+                                sQLitePreparedStatement3 = null;
+                                z4 = false;
+                                sQLitePreparedStatement4 = null;
+                                sQLitePreparedStatement5 = null;
+                                sQLitePreparedStatement8 = null;
+                            } catch (Throwable th58) {
+                                sQLitePreparedStatement12 = sQLitePreparedStatement17;
+                                th = th58;
+                                sQLitePreparedStatement9 = sQLitePreparedStatement15;
+                                sQLitePreparedStatement6 = sQLitePreparedStatement13;
+                                sQLitePreparedStatement = null;
+                                sQLitePreparedStatement2 = null;
+                                sQLitePreparedStatement3 = null;
+                                z4 = false;
+                                sQLitePreparedStatement4 = null;
+                                sQLitePreparedStatement5 = null;
+                                sQLitePreparedStatement8 = null;
+                            }
+                        } catch (Exception e55) {
+                            e = e55;
+                            sQLitePreparedStatement12 = sQLitePreparedStatement17;
+                            sQLitePreparedStatement9 = sQLitePreparedStatement15;
+                            sQLitePreparedStatement8 = sQLitePreparedStatement14;
                             sQLitePreparedStatement6 = sQLitePreparedStatement13;
                             sQLitePreparedStatement = null;
                             sQLitePreparedStatement2 = null;
@@ -22717,12 +21777,8 @@ public class MessagesStorage extends BaseController {
                             z4 = false;
                             sQLitePreparedStatement4 = null;
                             sQLitePreparedStatement5 = null;
-                            sQLitePreparedStatement7 = null;
-                            sQLitePreparedStatement8 = null;
-                            sQLitePreparedStatement9 = null;
                             sQLitePreparedStatement10 = null;
-                            sQLitePreparedStatement11 = null;
-                            sQLitePreparedStatement12 = null;
+                            th2 = e;
                             checkSQLException(th2);
                             if (z4) {
                             }
@@ -22744,15 +21800,17 @@ public class MessagesStorage extends BaseController {
                             }
                             if (sQLitePreparedStatement5 != null) {
                             }
-                            if (sQLitePreparedStatement3 != null) {
+                            if (sQLitePreparedStatement2 != null) {
                             }
                             if (sQLitePreparedStatement != null) {
                             }
-                            if (sQLitePreparedStatement2 != null) {
+                            if (sQLitePreparedStatement3 == null) {
                             }
-                        } catch (Throwable th68) {
-                            th = th68;
-                            th = th;
+                        } catch (Throwable th59) {
+                            th3 = th59;
+                            sQLitePreparedStatement12 = sQLitePreparedStatement17;
+                            sQLitePreparedStatement9 = sQLitePreparedStatement15;
+                            sQLitePreparedStatement8 = sQLitePreparedStatement14;
                             sQLitePreparedStatement6 = sQLitePreparedStatement13;
                             sQLitePreparedStatement = null;
                             sQLitePreparedStatement2 = null;
@@ -22760,12 +21818,8 @@ public class MessagesStorage extends BaseController {
                             z4 = false;
                             sQLitePreparedStatement4 = null;
                             sQLitePreparedStatement5 = null;
-                            sQLitePreparedStatement7 = null;
-                            sQLitePreparedStatement8 = null;
-                            sQLitePreparedStatement9 = null;
                             sQLitePreparedStatement10 = null;
-                            sQLitePreparedStatement11 = null;
-                            sQLitePreparedStatement12 = null;
+                            th = th3;
                             if (z4) {
                             }
                             if (sQLitePreparedStatement6 != null) {
@@ -22786,31 +21840,1205 @@ public class MessagesStorage extends BaseController {
                             }
                             if (sQLitePreparedStatement5 != null) {
                             }
-                            if (sQLitePreparedStatement3 != null) {
+                            if (sQLitePreparedStatement2 != null) {
                             }
                             if (sQLitePreparedStatement != null) {
                             }
-                            if (sQLitePreparedStatement2 != null) {
+                            if (sQLitePreparedStatement3 != null) {
                             }
                             throw th;
                         }
-                    } catch (Exception e65) {
-                        e = e65;
-                        sQLitePreparedStatement13 = executeFast5;
-                    } catch (Throwable th69) {
-                        th = th69;
-                        sQLitePreparedStatement13 = executeFast5;
+                        try {
+                            sQLitePreparedStatement2.dispose();
+                            try {
+                                executeFast3.dispose();
+                                try {
+                                    sQLitePreparedStatement5.dispose();
+                                    try {
+                                        ArrayList<TopicsController.TopicUpdate> arrayList26 = new ArrayList<>();
+                                        Iterator it4 = hashMap16.keySet().iterator();
+                                        while (it4.hasNext()) {
+                                            try {
+                                                TopicKey topicKey4 = (TopicKey) it4.next();
+                                                if (topicKey4.dialogId != 0 && topicKey4.topicId != 0) {
+                                                    HashMap hashMap45 = hashMap16;
+                                                    TLRPC$Message tLRPC$Message12 = (TLRPC$Message) hashMap45.get(topicKey4);
+                                                    SQLiteDatabase sQLiteDatabase8 = this.database;
+                                                    StringBuilder sb10 = new StringBuilder();
+                                                    sb10.append("SELECT unread_count, top_message, unread_mentions, total_messages_count FROM topics WHERE did = ");
+                                                    sb10.append(topicKey4.dialogId);
+                                                    String str18 = str4;
+                                                    sb10.append(str18);
+                                                    sb10.append(topicKey4.topicId);
+                                                    SQLiteCursor queryFinalized9 = sQLiteDatabase8.queryFinalized(sb10.toString(), new Object[0]);
+                                                    if (queryFinalized9.next()) {
+                                                        try {
+                                                            intValue = queryFinalized9.intValue(0);
+                                                            intValue2 = queryFinalized9.intValue(1);
+                                                            intValue3 = queryFinalized9.intValue(2);
+                                                            intValue4 = queryFinalized9.intValue(3);
+                                                            z6 = true;
+                                                        } catch (Exception e56) {
+                                                            sQLitePreparedStatement12 = sQLitePreparedStatement18;
+                                                            sQLitePreparedStatement3 = sQLitePreparedStatement21;
+                                                            th2 = e56;
+                                                            sQLitePreparedStatement6 = sQLitePreparedStatement13;
+                                                            sQLitePreparedStatement = null;
+                                                            sQLitePreparedStatement2 = null;
+                                                            z4 = false;
+                                                            sQLitePreparedStatement4 = null;
+                                                            sQLitePreparedStatement5 = null;
+                                                            sQLitePreparedStatement8 = null;
+                                                            sQLitePreparedStatement9 = null;
+                                                            sQLitePreparedStatement10 = null;
+                                                            checkSQLException(th2);
+                                                            if (z4) {
+                                                            }
+                                                            if (sQLitePreparedStatement6 != null) {
+                                                            }
+                                                            if (sQLitePreparedStatement7 != null) {
+                                                            }
+                                                            if (sQLitePreparedStatement10 != null) {
+                                                            }
+                                                            if (sQLitePreparedStatement8 != null) {
+                                                            }
+                                                            if (sQLitePreparedStatement9 != null) {
+                                                            }
+                                                            if (sQLitePreparedStatement4 != null) {
+                                                            }
+                                                            if (sQLitePreparedStatement12 != null) {
+                                                            }
+                                                            if (sQLitePreparedStatement11 != null) {
+                                                            }
+                                                            if (sQLitePreparedStatement5 != null) {
+                                                            }
+                                                            if (sQLitePreparedStatement2 != null) {
+                                                            }
+                                                            if (sQLitePreparedStatement != null) {
+                                                            }
+                                                            if (sQLitePreparedStatement3 == null) {
+                                                            }
+                                                        } catch (Throwable th60) {
+                                                            sQLitePreparedStatement12 = sQLitePreparedStatement18;
+                                                            sQLitePreparedStatement3 = sQLitePreparedStatement21;
+                                                            th = th60;
+                                                            sQLitePreparedStatement6 = sQLitePreparedStatement13;
+                                                            sQLitePreparedStatement = null;
+                                                            sQLitePreparedStatement2 = null;
+                                                            z4 = false;
+                                                            sQLitePreparedStatement4 = null;
+                                                            sQLitePreparedStatement5 = null;
+                                                            sQLitePreparedStatement8 = null;
+                                                            sQLitePreparedStatement9 = null;
+                                                            sQLitePreparedStatement10 = null;
+                                                            if (z4) {
+                                                            }
+                                                            if (sQLitePreparedStatement6 != null) {
+                                                            }
+                                                            if (sQLitePreparedStatement7 != null) {
+                                                            }
+                                                            if (sQLitePreparedStatement10 != null) {
+                                                            }
+                                                            if (sQLitePreparedStatement8 != null) {
+                                                            }
+                                                            if (sQLitePreparedStatement9 != null) {
+                                                            }
+                                                            if (sQLitePreparedStatement4 != null) {
+                                                            }
+                                                            if (sQLitePreparedStatement12 != null) {
+                                                            }
+                                                            if (sQLitePreparedStatement11 != null) {
+                                                            }
+                                                            if (sQLitePreparedStatement5 != null) {
+                                                            }
+                                                            if (sQLitePreparedStatement2 != null) {
+                                                            }
+                                                            if (sQLitePreparedStatement != null) {
+                                                            }
+                                                            if (sQLitePreparedStatement3 != null) {
+                                                            }
+                                                            throw th;
+                                                        }
+                                                    } else {
+                                                        z6 = false;
+                                                        intValue = 0;
+                                                        intValue2 = 0;
+                                                        intValue3 = 0;
+                                                        intValue4 = 0;
+                                                    }
+                                                    queryFinalized9.dispose();
+                                                    if (!z6) {
+                                                        TopicsController.TopicUpdate topicUpdate = new TopicsController.TopicUpdate();
+                                                        topicUpdate.dialogId = topicKey4.dialogId;
+                                                        topicUpdate.topicId = topicKey4.topicId;
+                                                        topicUpdate.reloadTopic = true;
+                                                        arrayList26.add(topicUpdate);
+                                                        StringBuilder sb11 = new StringBuilder();
+                                                        sb11.append("unknown topic need reload ");
+                                                        sb11.append(topicKey4.dialogId);
+                                                        String str19 = str5;
+                                                        sb11.append(str19);
+                                                        sb11.append(topicKey4.topicId);
+                                                        FileLog.d(sb11.toString());
+                                                        hashMap16 = hashMap45;
+                                                        str5 = str19;
+                                                        str4 = str18;
+                                                    } else {
+                                                        HashMap hashMap46 = hashMap14;
+                                                        String str20 = str5;
+                                                        Integer num6 = (Integer) hashMap46.get(topicKey4);
+                                                        HashMap hashMap47 = hashMap15;
+                                                        Integer num7 = (Integer) hashMap47.get(topicKey4);
+                                                        HashMap hashMap48 = hashMap13;
+                                                        Integer num8 = (Integer) hashMap48.get(topicKey4);
+                                                        if (tLRPC$Message12 != null) {
+                                                            intValue2 = tLRPC$Message12.id;
+                                                        }
+                                                        if (tLRPC$Message12 != null) {
+                                                            hashMap14 = hashMap46;
+                                                            int i96 = tLRPC$Message12.local_id;
+                                                            if (i96 != 0) {
+                                                                intValue2 = i96;
+                                                            }
+                                                        } else {
+                                                            hashMap14 = hashMap46;
+                                                        }
+                                                        int intValue19 = num6 != null ? num6.intValue() : 0;
+                                                        int intValue20 = num7 != null ? num7.intValue() : 0;
+                                                        int intValue21 = num8 != null ? num8.intValue() : 0;
+                                                        int i97 = intValue19 + intValue;
+                                                        int i98 = intValue3 + intValue20;
+                                                        if (intValue4 == 0) {
+                                                            it = it4;
+                                                            i8 = 0;
+                                                        } else {
+                                                            it = it4;
+                                                            i8 = intValue4 + intValue21;
+                                                        }
+                                                        if (!BuildVars.DEBUG_PRIVATE_VERSION || i98 <= 0) {
+                                                            hashMap17 = hashMap45;
+                                                            hashMap18 = hashMap47;
+                                                            str4 = str18;
+                                                            hashMap13 = hashMap48;
+                                                        } else {
+                                                            hashMap17 = hashMap45;
+                                                            StringBuilder sb12 = new StringBuilder();
+                                                            hashMap18 = hashMap47;
+                                                            sb12.append("(putMessagesInternal) new unread mentions ");
+                                                            sb12.append(i98);
+                                                            sb12.append(" for dialog_id=");
+                                                            str4 = str18;
+                                                            hashMap13 = hashMap48;
+                                                            sb12.append(topicKey4.dialogId);
+                                                            sb12.append(" topic_id=");
+                                                            sb12.append(topicKey4.topicId);
+                                                            FileLog.d(sb12.toString());
+                                                        }
+                                                        sQLitePreparedStatement21.requery();
+                                                        sQLitePreparedStatement22 = sQLitePreparedStatement21;
+                                                        try {
+                                                            sQLitePreparedStatement22.bindInteger(1, i97);
+                                                            sQLitePreparedStatement22.bindInteger(2, intValue2);
+                                                            sQLitePreparedStatement22.bindInteger(3, i98);
+                                                            sQLitePreparedStatement22.bindInteger(4, i8);
+                                                            sQLitePreparedStatement22.bindLong(5, topicKey4.dialogId);
+                                                            sQLitePreparedStatement22.bindLong(6, topicKey4.topicId);
+                                                            sQLitePreparedStatement22.step();
+                                                            if (isForum(topicKey4.dialogId)) {
+                                                                if (intValue != 0 || i97 == 0) {
+                                                                    longSparseIntArray11 = longSparseIntArray3;
+                                                                } else {
+                                                                    longSparseIntArray11 = longSparseIntArray3;
+                                                                    longSparseIntArray11.put(topicKey4.dialogId, 1);
+                                                                }
+                                                                if (intValue3 != 0 || i98 == 0) {
+                                                                    longSparseIntArray10 = longSparseIntArray2;
+                                                                } else {
+                                                                    longSparseIntArray10 = longSparseIntArray2;
+                                                                    longSparseIntArray10.put(topicKey4.dialogId, i98);
+                                                                }
+                                                            } else {
+                                                                longSparseIntArray10 = longSparseIntArray2;
+                                                                longSparseIntArray11 = longSparseIntArray3;
+                                                            }
+                                                            StringBuilder sb13 = new StringBuilder();
+                                                            sb13.append("update topic ");
+                                                            int i99 = intValue2;
+                                                            sb13.append(topicKey4.dialogId);
+                                                            str6 = str20;
+                                                            sb13.append(str6);
+                                                            longSparseIntArray3 = longSparseIntArray11;
+                                                            sb13.append(topicKey4.topicId);
+                                                            sb13.append(str6);
+                                                            sb13.append(i97);
+                                                            sb13.append(str6);
+                                                            sb13.append(i98);
+                                                            FileLog.d(sb13.toString());
+                                                            if (tLRPC$Message12 != null) {
+                                                                TopicsController.TopicUpdate topicUpdate2 = new TopicsController.TopicUpdate();
+                                                                topicUpdate2.dialogId = topicKey4.dialogId;
+                                                                topicUpdate2.topicId = topicKey4.topicId;
+                                                                topicUpdate2.topMessage = tLRPC$Message12;
+                                                                topicUpdate2.unreadMentions = i98;
+                                                                topicUpdate2.topMessageId = i99;
+                                                                topicUpdate2.unreadCount = i97;
+                                                                topicUpdate2.totalMessagesCount = i8;
+                                                                arrayList26.add(topicUpdate2);
+                                                            }
+                                                            it4 = it;
+                                                            sQLitePreparedStatement21 = sQLitePreparedStatement22;
+                                                            longSparseIntArray2 = longSparseIntArray10;
+                                                            str5 = str6;
+                                                            hashMap16 = hashMap17;
+                                                            hashMap15 = hashMap18;
+                                                        } catch (Exception e57) {
+                                                            e = e57;
+                                                            sQLitePreparedStatement12 = sQLitePreparedStatement18;
+                                                            th2 = e;
+                                                            sQLitePreparedStatement3 = sQLitePreparedStatement22;
+                                                            sQLitePreparedStatement6 = sQLitePreparedStatement13;
+                                                            sQLitePreparedStatement = null;
+                                                            sQLitePreparedStatement2 = null;
+                                                            z4 = false;
+                                                            sQLitePreparedStatement4 = null;
+                                                            sQLitePreparedStatement5 = null;
+                                                            sQLitePreparedStatement8 = null;
+                                                            sQLitePreparedStatement9 = null;
+                                                            sQLitePreparedStatement10 = null;
+                                                            checkSQLException(th2);
+                                                            if (z4) {
+                                                            }
+                                                            if (sQLitePreparedStatement6 != null) {
+                                                            }
+                                                            if (sQLitePreparedStatement7 != null) {
+                                                            }
+                                                            if (sQLitePreparedStatement10 != null) {
+                                                            }
+                                                            if (sQLitePreparedStatement8 != null) {
+                                                            }
+                                                            if (sQLitePreparedStatement9 != null) {
+                                                            }
+                                                            if (sQLitePreparedStatement4 != null) {
+                                                            }
+                                                            if (sQLitePreparedStatement12 != null) {
+                                                            }
+                                                            if (sQLitePreparedStatement11 != null) {
+                                                            }
+                                                            if (sQLitePreparedStatement5 != null) {
+                                                            }
+                                                            if (sQLitePreparedStatement2 != null) {
+                                                            }
+                                                            if (sQLitePreparedStatement != null) {
+                                                            }
+                                                            if (sQLitePreparedStatement3 == null) {
+                                                            }
+                                                        } catch (Throwable th61) {
+                                                            th = th61;
+                                                            sQLitePreparedStatement12 = sQLitePreparedStatement18;
+                                                            th = th;
+                                                            sQLitePreparedStatement3 = sQLitePreparedStatement22;
+                                                            sQLitePreparedStatement6 = sQLitePreparedStatement13;
+                                                            sQLitePreparedStatement = null;
+                                                            sQLitePreparedStatement2 = null;
+                                                            z4 = false;
+                                                            sQLitePreparedStatement4 = null;
+                                                            sQLitePreparedStatement5 = null;
+                                                            sQLitePreparedStatement8 = null;
+                                                            sQLitePreparedStatement9 = null;
+                                                            sQLitePreparedStatement10 = null;
+                                                            if (z4) {
+                                                            }
+                                                            if (sQLitePreparedStatement6 != null) {
+                                                            }
+                                                            if (sQLitePreparedStatement7 != null) {
+                                                            }
+                                                            if (sQLitePreparedStatement10 != null) {
+                                                            }
+                                                            if (sQLitePreparedStatement8 != null) {
+                                                            }
+                                                            if (sQLitePreparedStatement9 != null) {
+                                                            }
+                                                            if (sQLitePreparedStatement4 != null) {
+                                                            }
+                                                            if (sQLitePreparedStatement12 != null) {
+                                                            }
+                                                            if (sQLitePreparedStatement11 != null) {
+                                                            }
+                                                            if (sQLitePreparedStatement5 != null) {
+                                                            }
+                                                            if (sQLitePreparedStatement2 != null) {
+                                                            }
+                                                            if (sQLitePreparedStatement != null) {
+                                                            }
+                                                            if (sQLitePreparedStatement3 != null) {
+                                                            }
+                                                            throw th;
+                                                        }
+                                                    }
+                                                }
+                                                sQLitePreparedStatement22 = sQLitePreparedStatement21;
+                                                longSparseIntArray10 = longSparseIntArray2;
+                                                it = it4;
+                                                hashMap17 = hashMap16;
+                                                hashMap18 = hashMap15;
+                                                str6 = str5;
+                                                it4 = it;
+                                                sQLitePreparedStatement21 = sQLitePreparedStatement22;
+                                                longSparseIntArray2 = longSparseIntArray10;
+                                                str5 = str6;
+                                                hashMap16 = hashMap17;
+                                                hashMap15 = hashMap18;
+                                            } catch (Exception e58) {
+                                                e = e58;
+                                                sQLitePreparedStatement22 = sQLitePreparedStatement21;
+                                            } catch (Throwable th62) {
+                                                th = th62;
+                                                sQLitePreparedStatement22 = sQLitePreparedStatement21;
+                                            }
+                                        }
+                                        sQLitePreparedStatement22 = sQLitePreparedStatement21;
+                                        LongSparseIntArray longSparseIntArray35 = longSparseIntArray2;
+                                        String str21 = str5;
+                                        try {
+                                            sQLitePreparedStatement22.dispose();
+                                            if (sparseArray4 != null) {
+                                                try {
+                                                    SQLitePreparedStatement executeFast13 = this.database.executeFast("REPLACE INTO media_counts_v2 VALUES(?, ?, ?, ?)");
+                                                    try {
+                                                        int size6 = sparseArray4.size();
+                                                        for (int i100 = 0; i100 < size6; i100++) {
+                                                            SparseArray sparseArray10 = sparseArray4;
+                                                            int keyAt6 = sparseArray10.keyAt(i100);
+                                                            LongSparseIntArray longSparseIntArray36 = (LongSparseIntArray) sparseArray10.valueAt(i100);
+                                                            int size7 = longSparseIntArray36.size();
+                                                            int i101 = 0;
+                                                            while (i101 < size7) {
+                                                                SparseArray sparseArray11 = sparseArray10;
+                                                                long keyAt7 = longSparseIntArray36.keyAt(i101);
+                                                                int i102 = size6;
+                                                                int i103 = size7;
+                                                                ArrayList<Long> arrayList27 = arrayList4;
+                                                                ArrayList<TopicsController.TopicUpdate> arrayList28 = arrayList26;
+                                                                SQLiteCursor queryFinalized10 = this.database.queryFinalized(String.format(Locale.US, "SELECT count, old FROM media_counts_v2 WHERE uid = %d AND type = %d LIMIT 1", Long.valueOf(keyAt7), Integer.valueOf(keyAt6)), new Object[0]);
+                                                                if (queryFinalized10.next()) {
+                                                                    i4 = queryFinalized10.intValue(0);
+                                                                    i5 = queryFinalized10.intValue(1);
+                                                                } else {
+                                                                    i4 = -1;
+                                                                    i5 = 0;
+                                                                }
+                                                                queryFinalized10.dispose();
+                                                                if (i4 != -1) {
+                                                                    executeFast13.requery();
+                                                                    executeFast13.bindLong(1, keyAt7);
+                                                                    executeFast13.bindInteger(2, keyAt6);
+                                                                    executeFast13.bindInteger(3, Math.max(0, i4 + longSparseIntArray36.valueAt(i101)));
+                                                                    executeFast13.bindInteger(4, i5);
+                                                                    executeFast13.step();
+                                                                }
+                                                                i101++;
+                                                                size6 = i102;
+                                                                size7 = i103;
+                                                                arrayList4 = arrayList27;
+                                                                arrayList26 = arrayList28;
+                                                                sparseArray10 = sparseArray11;
+                                                            }
+                                                            sparseArray4 = sparseArray10;
+                                                        }
+                                                        arrayList5 = arrayList26;
+                                                        arrayList6 = arrayList4;
+                                                        executeFast13.dispose();
+                                                    } catch (Exception e59) {
+                                                        e = e59;
+                                                        sQLitePreparedStatement12 = sQLitePreparedStatement18;
+                                                        th2 = e;
+                                                        sQLitePreparedStatement10 = executeFast5;
+                                                        sQLitePreparedStatement6 = sQLitePreparedStatement13;
+                                                        sQLitePreparedStatement = null;
+                                                        sQLitePreparedStatement2 = null;
+                                                        sQLitePreparedStatement3 = null;
+                                                        z4 = false;
+                                                        sQLitePreparedStatement4 = null;
+                                                        sQLitePreparedStatement5 = null;
+                                                        sQLitePreparedStatement8 = null;
+                                                        sQLitePreparedStatement9 = null;
+                                                        checkSQLException(th2);
+                                                        if (z4) {
+                                                        }
+                                                        if (sQLitePreparedStatement6 != null) {
+                                                        }
+                                                        if (sQLitePreparedStatement7 != null) {
+                                                        }
+                                                        if (sQLitePreparedStatement10 != null) {
+                                                        }
+                                                        if (sQLitePreparedStatement8 != null) {
+                                                        }
+                                                        if (sQLitePreparedStatement9 != null) {
+                                                        }
+                                                        if (sQLitePreparedStatement4 != null) {
+                                                        }
+                                                        if (sQLitePreparedStatement12 != null) {
+                                                        }
+                                                        if (sQLitePreparedStatement11 != null) {
+                                                        }
+                                                        if (sQLitePreparedStatement5 != null) {
+                                                        }
+                                                        if (sQLitePreparedStatement2 != null) {
+                                                        }
+                                                        if (sQLitePreparedStatement != null) {
+                                                        }
+                                                        if (sQLitePreparedStatement3 == null) {
+                                                        }
+                                                    } catch (Throwable th63) {
+                                                        th4 = th63;
+                                                        sQLitePreparedStatement12 = sQLitePreparedStatement18;
+                                                        th = th4;
+                                                        sQLitePreparedStatement10 = executeFast5;
+                                                        sQLitePreparedStatement6 = sQLitePreparedStatement13;
+                                                        sQLitePreparedStatement = null;
+                                                        sQLitePreparedStatement2 = null;
+                                                        sQLitePreparedStatement3 = null;
+                                                        z4 = false;
+                                                        sQLitePreparedStatement4 = null;
+                                                        sQLitePreparedStatement5 = null;
+                                                        sQLitePreparedStatement8 = null;
+                                                        sQLitePreparedStatement9 = null;
+                                                        if (z4) {
+                                                        }
+                                                        if (sQLitePreparedStatement6 != null) {
+                                                        }
+                                                        if (sQLitePreparedStatement7 != null) {
+                                                        }
+                                                        if (sQLitePreparedStatement10 != null) {
+                                                        }
+                                                        if (sQLitePreparedStatement8 != null) {
+                                                        }
+                                                        if (sQLitePreparedStatement9 != null) {
+                                                        }
+                                                        if (sQLitePreparedStatement4 != null) {
+                                                        }
+                                                        if (sQLitePreparedStatement12 != null) {
+                                                        }
+                                                        if (sQLitePreparedStatement11 != null) {
+                                                        }
+                                                        if (sQLitePreparedStatement5 != null) {
+                                                        }
+                                                        if (sQLitePreparedStatement2 != null) {
+                                                        }
+                                                        if (sQLitePreparedStatement != null) {
+                                                        }
+                                                        if (sQLitePreparedStatement3 != null) {
+                                                        }
+                                                        throw th;
+                                                    }
+                                                } catch (Exception e60) {
+                                                    e = e60;
+                                                    sQLitePreparedStatement12 = sQLitePreparedStatement18;
+                                                    th2 = e;
+                                                    sQLitePreparedStatement6 = sQLitePreparedStatement13;
+                                                    sQLitePreparedStatement = null;
+                                                    sQLitePreparedStatement2 = null;
+                                                    sQLitePreparedStatement3 = null;
+                                                    z4 = false;
+                                                    sQLitePreparedStatement4 = null;
+                                                    sQLitePreparedStatement5 = null;
+                                                    sQLitePreparedStatement8 = null;
+                                                    sQLitePreparedStatement9 = null;
+                                                    sQLitePreparedStatement10 = null;
+                                                    checkSQLException(th2);
+                                                    if (z4) {
+                                                    }
+                                                    if (sQLitePreparedStatement6 != null) {
+                                                    }
+                                                    if (sQLitePreparedStatement7 != null) {
+                                                    }
+                                                    if (sQLitePreparedStatement10 != null) {
+                                                    }
+                                                    if (sQLitePreparedStatement8 != null) {
+                                                    }
+                                                    if (sQLitePreparedStatement9 != null) {
+                                                    }
+                                                    if (sQLitePreparedStatement4 != null) {
+                                                    }
+                                                    if (sQLitePreparedStatement12 != null) {
+                                                    }
+                                                    if (sQLitePreparedStatement11 != null) {
+                                                    }
+                                                    if (sQLitePreparedStatement5 != null) {
+                                                    }
+                                                    if (sQLitePreparedStatement2 != null) {
+                                                    }
+                                                    if (sQLitePreparedStatement != null) {
+                                                    }
+                                                    if (sQLitePreparedStatement3 == null) {
+                                                    }
+                                                } catch (Throwable th64) {
+                                                    th = th64;
+                                                    sQLitePreparedStatement12 = sQLitePreparedStatement18;
+                                                    th = th;
+                                                    sQLitePreparedStatement6 = sQLitePreparedStatement13;
+                                                    sQLitePreparedStatement = null;
+                                                    sQLitePreparedStatement2 = null;
+                                                    sQLitePreparedStatement3 = null;
+                                                    z4 = false;
+                                                    sQLitePreparedStatement4 = null;
+                                                    sQLitePreparedStatement5 = null;
+                                                    sQLitePreparedStatement8 = null;
+                                                    sQLitePreparedStatement9 = null;
+                                                    sQLitePreparedStatement10 = null;
+                                                    if (z4) {
+                                                    }
+                                                    if (sQLitePreparedStatement6 != null) {
+                                                    }
+                                                    if (sQLitePreparedStatement7 != null) {
+                                                    }
+                                                    if (sQLitePreparedStatement10 != null) {
+                                                    }
+                                                    if (sQLitePreparedStatement8 != null) {
+                                                    }
+                                                    if (sQLitePreparedStatement9 != null) {
+                                                    }
+                                                    if (sQLitePreparedStatement4 != null) {
+                                                    }
+                                                    if (sQLitePreparedStatement12 != null) {
+                                                    }
+                                                    if (sQLitePreparedStatement11 != null) {
+                                                    }
+                                                    if (sQLitePreparedStatement5 != null) {
+                                                    }
+                                                    if (sQLitePreparedStatement2 != null) {
+                                                    }
+                                                    if (sQLitePreparedStatement != null) {
+                                                    }
+                                                    if (sQLitePreparedStatement3 != null) {
+                                                    }
+                                                    throw th;
+                                                }
+                                            } else {
+                                                arrayList5 = arrayList26;
+                                                arrayList6 = arrayList4;
+                                            }
+                                            try {
+                                                executeFast5 = this.database.executeFast("REPLACE INTO media_counts_topics VALUES(?, ?, ?, ?, ?)");
+                                                try {
+                                                    int size8 = sparseArray3.size();
+                                                    int i104 = 0;
+                                                    while (i104 < size8) {
+                                                        SparseArray sparseArray12 = sparseArray3;
+                                                        int keyAt8 = sparseArray12.keyAt(i104);
+                                                        HashMap hashMap49 = (HashMap) sparseArray12.valueAt(i104);
+                                                        for (TopicKey topicKey5 : hashMap49.keySet()) {
+                                                            int i105 = size8;
+                                                            SparseArray sparseArray13 = sparseArray12;
+                                                            int i106 = i104;
+                                                            SQLiteCursor queryFinalized11 = this.database.queryFinalized(String.format(Locale.US, "SELECT count, old FROM media_counts_topics WHERE uid = %d AND topic_id = %d AND type = %d LIMIT 1", Long.valueOf(topicKey5.dialogId), Long.valueOf(topicKey5.topicId), Integer.valueOf(keyAt8)), new Object[0]);
+                                                            if (queryFinalized11.next()) {
+                                                                i7 = queryFinalized11.intValue(0);
+                                                                i6 = queryFinalized11.intValue(1);
+                                                            } else {
+                                                                i6 = 0;
+                                                                i7 = -1;
+                                                            }
+                                                            queryFinalized11.dispose();
+                                                            if (i7 != -1) {
+                                                                executeFast5.requery();
+                                                                i7 += ((Integer) hashMap49.get(topicKey5)).intValue();
+                                                                executeFast5.bindLong(1, topicKey5.dialogId);
+                                                                executeFast5.bindLong(2, topicKey5.topicId);
+                                                                executeFast5.bindInteger(3, keyAt8);
+                                                                executeFast5.bindInteger(4, Math.max(0, i7));
+                                                                executeFast5.bindInteger(5, i6);
+                                                                executeFast5.step();
+                                                            }
+                                                            if (BuildVars.DEBUG_PRIVATE_VERSION) {
+                                                                StringBuilder sb14 = new StringBuilder();
+                                                                sb14.append("update");
+                                                                longSparseIntArray9 = longSparseIntArray35;
+                                                                sb14.append(topicKey5.dialogId);
+                                                                sb14.append(topicKey5.topicId);
+                                                                sb14.append(str21);
+                                                                sb14.append(keyAt8);
+                                                                sb14.append(str21);
+                                                                sb14.append(i7);
+                                                                FileLog.d(sb14.toString());
+                                                            } else {
+                                                                longSparseIntArray9 = longSparseIntArray35;
+                                                            }
+                                                            longSparseIntArray35 = longSparseIntArray9;
+                                                            i104 = i106;
+                                                            sparseArray12 = sparseArray13;
+                                                            size8 = i105;
+                                                        }
+                                                        sparseArray3 = sparseArray12;
+                                                        i104++;
+                                                        size8 = size8;
+                                                    }
+                                                    LongSparseIntArray longSparseIntArray37 = longSparseIntArray35;
+                                                    executeFast5.dispose();
+                                                    if (z) {
+                                                        this.database.commitTransaction();
+                                                    }
+                                                    updateFiltersReadCounter(longSparseIntArray3, longSparseIntArray37, false);
+                                                    ArrayList<TopicsController.TopicUpdate> arrayList29 = arrayList5;
+                                                    loadGroupedMessagesForTopicUpdates(arrayList29);
+                                                    getMessagesController().processDialogsUpdateRead(longSparseIntArray8, longSparseIntArray7);
+                                                    getMessagesController().getTopicsController().processUpdate(arrayList29);
+                                                    if (i3 != 0) {
+                                                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda37
+                                                            @Override // java.lang.Runnable
+                                                            public final void run() {
+                                                                MessagesStorage.this.lambda$putMessagesInternal$180(i3);
+                                                            }
+                                                        });
+                                                    }
+                                                    updateWidgets(arrayList6);
+                                                    if (arrayList3 != null) {
+                                                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda151
+                                                            @Override // java.lang.Runnable
+                                                            public final void run() {
+                                                                MessagesStorage.this.lambda$putMessagesInternal$181(arrayList3);
+                                                            }
+                                                        });
+                                                    }
+                                                    sQLitePreparedStatement23 = sQLitePreparedStatement18;
+                                                    sQLitePreparedStatement24 = sQLitePreparedStatement13;
+                                                    z5 = false;
+                                                    if (z5) {
+                                                        sQLiteDatabase3.commitTransaction();
+                                                    }
+                                                    if (sQLitePreparedStatement24 != null) {
+                                                    }
+                                                    if (sQLitePreparedStatement7 != null) {
+                                                    }
+                                                    if (sQLitePreparedStatement23 != null) {
+                                                    }
+                                                    if (sQLitePreparedStatement11 == null) {
+                                                    }
+                                                } catch (Exception e61) {
+                                                    e = e61;
+                                                    sQLitePreparedStatement12 = sQLitePreparedStatement18;
+                                                    th2 = e;
+                                                    sQLitePreparedStatement10 = executeFast5;
+                                                    sQLitePreparedStatement6 = sQLitePreparedStatement13;
+                                                    sQLitePreparedStatement = null;
+                                                    sQLitePreparedStatement2 = null;
+                                                    sQLitePreparedStatement3 = null;
+                                                    z4 = false;
+                                                    sQLitePreparedStatement4 = null;
+                                                    sQLitePreparedStatement5 = null;
+                                                    sQLitePreparedStatement8 = null;
+                                                    sQLitePreparedStatement9 = null;
+                                                    checkSQLException(th2);
+                                                    if (z4) {
+                                                    }
+                                                    if (sQLitePreparedStatement6 != null) {
+                                                    }
+                                                    if (sQLitePreparedStatement7 != null) {
+                                                    }
+                                                    if (sQLitePreparedStatement10 != null) {
+                                                    }
+                                                    if (sQLitePreparedStatement8 != null) {
+                                                    }
+                                                    if (sQLitePreparedStatement9 != null) {
+                                                    }
+                                                    if (sQLitePreparedStatement4 != null) {
+                                                    }
+                                                    if (sQLitePreparedStatement12 != null) {
+                                                    }
+                                                    if (sQLitePreparedStatement11 != null) {
+                                                    }
+                                                    if (sQLitePreparedStatement5 != null) {
+                                                    }
+                                                    if (sQLitePreparedStatement2 != null) {
+                                                    }
+                                                    if (sQLitePreparedStatement != null) {
+                                                    }
+                                                    if (sQLitePreparedStatement3 == null) {
+                                                    }
+                                                } catch (Throwable th65) {
+                                                    th4 = th65;
+                                                    sQLitePreparedStatement12 = sQLitePreparedStatement18;
+                                                    th = th4;
+                                                    sQLitePreparedStatement10 = executeFast5;
+                                                    sQLitePreparedStatement6 = sQLitePreparedStatement13;
+                                                    sQLitePreparedStatement = null;
+                                                    sQLitePreparedStatement2 = null;
+                                                    sQLitePreparedStatement3 = null;
+                                                    z4 = false;
+                                                    sQLitePreparedStatement4 = null;
+                                                    sQLitePreparedStatement5 = null;
+                                                    sQLitePreparedStatement8 = null;
+                                                    sQLitePreparedStatement9 = null;
+                                                    if (z4) {
+                                                    }
+                                                    if (sQLitePreparedStatement6 != null) {
+                                                    }
+                                                    if (sQLitePreparedStatement7 != null) {
+                                                    }
+                                                    if (sQLitePreparedStatement10 != null) {
+                                                    }
+                                                    if (sQLitePreparedStatement8 != null) {
+                                                    }
+                                                    if (sQLitePreparedStatement9 != null) {
+                                                    }
+                                                    if (sQLitePreparedStatement4 != null) {
+                                                    }
+                                                    if (sQLitePreparedStatement12 != null) {
+                                                    }
+                                                    if (sQLitePreparedStatement11 != null) {
+                                                    }
+                                                    if (sQLitePreparedStatement5 != null) {
+                                                    }
+                                                    if (sQLitePreparedStatement2 != null) {
+                                                    }
+                                                    if (sQLitePreparedStatement != null) {
+                                                    }
+                                                    if (sQLitePreparedStatement3 != null) {
+                                                    }
+                                                    throw th;
+                                                }
+                                            } catch (Exception e62) {
+                                                e = e62;
+                                                sQLitePreparedStatement12 = sQLitePreparedStatement18;
+                                                th2 = e;
+                                                sQLitePreparedStatement6 = sQLitePreparedStatement13;
+                                                sQLitePreparedStatement = null;
+                                                sQLitePreparedStatement2 = null;
+                                                sQLitePreparedStatement3 = null;
+                                                z4 = false;
+                                                sQLitePreparedStatement4 = null;
+                                                sQLitePreparedStatement5 = null;
+                                                sQLitePreparedStatement8 = null;
+                                                sQLitePreparedStatement9 = null;
+                                                sQLitePreparedStatement10 = null;
+                                                checkSQLException(th2);
+                                                if (z4) {
+                                                }
+                                                if (sQLitePreparedStatement6 != null) {
+                                                }
+                                                if (sQLitePreparedStatement7 != null) {
+                                                }
+                                                if (sQLitePreparedStatement10 != null) {
+                                                }
+                                                if (sQLitePreparedStatement8 != null) {
+                                                }
+                                                if (sQLitePreparedStatement9 != null) {
+                                                }
+                                                if (sQLitePreparedStatement4 != null) {
+                                                }
+                                                if (sQLitePreparedStatement12 != null) {
+                                                }
+                                                if (sQLitePreparedStatement11 != null) {
+                                                }
+                                                if (sQLitePreparedStatement5 != null) {
+                                                }
+                                                if (sQLitePreparedStatement2 != null) {
+                                                }
+                                                if (sQLitePreparedStatement != null) {
+                                                }
+                                                if (sQLitePreparedStatement3 == null) {
+                                                }
+                                            } catch (Throwable th66) {
+                                                th = th66;
+                                                sQLitePreparedStatement12 = sQLitePreparedStatement18;
+                                                th = th;
+                                                sQLitePreparedStatement6 = sQLitePreparedStatement13;
+                                                sQLitePreparedStatement = null;
+                                                sQLitePreparedStatement2 = null;
+                                                sQLitePreparedStatement3 = null;
+                                                z4 = false;
+                                                sQLitePreparedStatement4 = null;
+                                                sQLitePreparedStatement5 = null;
+                                                sQLitePreparedStatement8 = null;
+                                                sQLitePreparedStatement9 = null;
+                                                sQLitePreparedStatement10 = null;
+                                                if (z4) {
+                                                }
+                                                if (sQLitePreparedStatement6 != null) {
+                                                }
+                                                if (sQLitePreparedStatement7 != null) {
+                                                }
+                                                if (sQLitePreparedStatement10 != null) {
+                                                }
+                                                if (sQLitePreparedStatement8 != null) {
+                                                }
+                                                if (sQLitePreparedStatement9 != null) {
+                                                }
+                                                if (sQLitePreparedStatement4 != null) {
+                                                }
+                                                if (sQLitePreparedStatement12 != null) {
+                                                }
+                                                if (sQLitePreparedStatement11 != null) {
+                                                }
+                                                if (sQLitePreparedStatement5 != null) {
+                                                }
+                                                if (sQLitePreparedStatement2 != null) {
+                                                }
+                                                if (sQLitePreparedStatement != null) {
+                                                }
+                                                if (sQLitePreparedStatement3 != null) {
+                                                }
+                                                throw th;
+                                            }
+                                        } catch (Exception e63) {
+                                            e = e63;
+                                            sQLitePreparedStatement12 = sQLitePreparedStatement18;
+                                            th2 = e;
+                                            sQLitePreparedStatement3 = sQLitePreparedStatement22;
+                                            sQLitePreparedStatement6 = sQLitePreparedStatement13;
+                                            sQLitePreparedStatement = null;
+                                            sQLitePreparedStatement2 = null;
+                                            z4 = false;
+                                            sQLitePreparedStatement4 = null;
+                                            sQLitePreparedStatement5 = null;
+                                            sQLitePreparedStatement8 = null;
+                                            sQLitePreparedStatement9 = null;
+                                            sQLitePreparedStatement10 = null;
+                                            checkSQLException(th2);
+                                            if (z4) {
+                                            }
+                                            if (sQLitePreparedStatement6 != null) {
+                                            }
+                                            if (sQLitePreparedStatement7 != null) {
+                                            }
+                                            if (sQLitePreparedStatement10 != null) {
+                                            }
+                                            if (sQLitePreparedStatement8 != null) {
+                                            }
+                                            if (sQLitePreparedStatement9 != null) {
+                                            }
+                                            if (sQLitePreparedStatement4 != null) {
+                                            }
+                                            if (sQLitePreparedStatement12 != null) {
+                                            }
+                                            if (sQLitePreparedStatement11 != null) {
+                                            }
+                                            if (sQLitePreparedStatement5 != null) {
+                                            }
+                                            if (sQLitePreparedStatement2 != null) {
+                                            }
+                                            if (sQLitePreparedStatement != null) {
+                                            }
+                                            if (sQLitePreparedStatement3 == null) {
+                                            }
+                                        } catch (Throwable th67) {
+                                            th = th67;
+                                            sQLitePreparedStatement12 = sQLitePreparedStatement18;
+                                            th = th;
+                                            sQLitePreparedStatement3 = sQLitePreparedStatement22;
+                                            sQLitePreparedStatement6 = sQLitePreparedStatement13;
+                                            sQLitePreparedStatement = null;
+                                            sQLitePreparedStatement2 = null;
+                                            z4 = false;
+                                            sQLitePreparedStatement4 = null;
+                                            sQLitePreparedStatement5 = null;
+                                            sQLitePreparedStatement8 = null;
+                                            sQLitePreparedStatement9 = null;
+                                            sQLitePreparedStatement10 = null;
+                                            if (z4) {
+                                            }
+                                            if (sQLitePreparedStatement6 != null) {
+                                            }
+                                            if (sQLitePreparedStatement7 != null) {
+                                            }
+                                            if (sQLitePreparedStatement10 != null) {
+                                            }
+                                            if (sQLitePreparedStatement8 != null) {
+                                            }
+                                            if (sQLitePreparedStatement9 != null) {
+                                            }
+                                            if (sQLitePreparedStatement4 != null) {
+                                            }
+                                            if (sQLitePreparedStatement12 != null) {
+                                            }
+                                            if (sQLitePreparedStatement11 != null) {
+                                            }
+                                            if (sQLitePreparedStatement5 != null) {
+                                            }
+                                            if (sQLitePreparedStatement2 != null) {
+                                            }
+                                            if (sQLitePreparedStatement != null) {
+                                            }
+                                            if (sQLitePreparedStatement3 != null) {
+                                            }
+                                            throw th;
+                                        }
+                                    } catch (Exception e64) {
+                                        e = e64;
+                                        sQLitePreparedStatement22 = sQLitePreparedStatement21;
+                                    } catch (Throwable th68) {
+                                        th = th68;
+                                        sQLitePreparedStatement22 = sQLitePreparedStatement21;
+                                    }
+                                } catch (Exception e65) {
+                                    sQLitePreparedStatement12 = sQLitePreparedStatement18;
+                                    th2 = e65;
+                                    sQLitePreparedStatement3 = sQLitePreparedStatement21;
+                                    sQLitePreparedStatement6 = sQLitePreparedStatement13;
+                                    sQLitePreparedStatement = null;
+                                    sQLitePreparedStatement2 = null;
+                                    z4 = false;
+                                    sQLitePreparedStatement4 = null;
+                                    sQLitePreparedStatement8 = null;
+                                    sQLitePreparedStatement9 = null;
+                                    sQLitePreparedStatement10 = null;
+                                    checkSQLException(th2);
+                                    if (z4) {
+                                    }
+                                    if (sQLitePreparedStatement6 != null) {
+                                    }
+                                    if (sQLitePreparedStatement7 != null) {
+                                    }
+                                    if (sQLitePreparedStatement10 != null) {
+                                    }
+                                    if (sQLitePreparedStatement8 != null) {
+                                    }
+                                    if (sQLitePreparedStatement9 != null) {
+                                    }
+                                    if (sQLitePreparedStatement4 != null) {
+                                    }
+                                    if (sQLitePreparedStatement12 != null) {
+                                    }
+                                    if (sQLitePreparedStatement11 != null) {
+                                    }
+                                    if (sQLitePreparedStatement5 != null) {
+                                    }
+                                    if (sQLitePreparedStatement2 != null) {
+                                    }
+                                    if (sQLitePreparedStatement != null) {
+                                    }
+                                    if (sQLitePreparedStatement3 == null) {
+                                    }
+                                } catch (Throwable th69) {
+                                    sQLitePreparedStatement12 = sQLitePreparedStatement18;
+                                    th = th69;
+                                    sQLitePreparedStatement3 = sQLitePreparedStatement21;
+                                    sQLitePreparedStatement6 = sQLitePreparedStatement13;
+                                    sQLitePreparedStatement = null;
+                                    sQLitePreparedStatement2 = null;
+                                    z4 = false;
+                                    sQLitePreparedStatement4 = null;
+                                    sQLitePreparedStatement8 = null;
+                                    sQLitePreparedStatement9 = null;
+                                    sQLitePreparedStatement10 = null;
+                                    if (z4) {
+                                    }
+                                    if (sQLitePreparedStatement6 != null) {
+                                    }
+                                    if (sQLitePreparedStatement7 != null) {
+                                    }
+                                    if (sQLitePreparedStatement10 != null) {
+                                    }
+                                    if (sQLitePreparedStatement8 != null) {
+                                    }
+                                    if (sQLitePreparedStatement9 != null) {
+                                    }
+                                    if (sQLitePreparedStatement4 != null) {
+                                    }
+                                    if (sQLitePreparedStatement12 != null) {
+                                    }
+                                    if (sQLitePreparedStatement11 != null) {
+                                    }
+                                    if (sQLitePreparedStatement5 != null) {
+                                    }
+                                    if (sQLitePreparedStatement2 != null) {
+                                    }
+                                    if (sQLitePreparedStatement != null) {
+                                    }
+                                    if (sQLitePreparedStatement3 != null) {
+                                    }
+                                    throw th;
+                                }
+                            } catch (Exception e66) {
+                                sQLitePreparedStatement12 = sQLitePreparedStatement18;
+                                th2 = e66;
+                                sQLitePreparedStatement = executeFast3;
+                                sQLitePreparedStatement3 = sQLitePreparedStatement21;
+                                sQLitePreparedStatement6 = sQLitePreparedStatement13;
+                            } catch (Throwable th70) {
+                                sQLitePreparedStatement12 = sQLitePreparedStatement18;
+                                th = th70;
+                                sQLitePreparedStatement = executeFast3;
+                                sQLitePreparedStatement3 = sQLitePreparedStatement21;
+                                sQLitePreparedStatement6 = sQLitePreparedStatement13;
+                            }
+                        } catch (Exception e67) {
+                            e = e67;
+                            executeFast4 = sQLitePreparedStatement21;
+                            sQLitePreparedStatement12 = sQLitePreparedStatement18;
+                            th2 = e;
+                            sQLitePreparedStatement20 = sQLitePreparedStatement2;
+                            sQLitePreparedStatement = executeFast3;
+                            sQLitePreparedStatement3 = executeFast4;
+                            sQLitePreparedStatement2 = sQLitePreparedStatement20;
+                            sQLitePreparedStatement6 = sQLitePreparedStatement13;
+                            z4 = false;
+                            sQLitePreparedStatement4 = null;
+                            sQLitePreparedStatement8 = null;
+                            sQLitePreparedStatement9 = null;
+                            sQLitePreparedStatement10 = null;
+                            checkSQLException(th2);
+                            if (z4) {
+                            }
+                            if (sQLitePreparedStatement6 != null) {
+                            }
+                            if (sQLitePreparedStatement7 != null) {
+                            }
+                            if (sQLitePreparedStatement10 != null) {
+                            }
+                            if (sQLitePreparedStatement8 != null) {
+                            }
+                            if (sQLitePreparedStatement9 != null) {
+                            }
+                            if (sQLitePreparedStatement4 != null) {
+                            }
+                            if (sQLitePreparedStatement12 != null) {
+                            }
+                            if (sQLitePreparedStatement11 != null) {
+                            }
+                            if (sQLitePreparedStatement5 != null) {
+                            }
+                            if (sQLitePreparedStatement2 != null) {
+                            }
+                            if (sQLitePreparedStatement != null) {
+                            }
+                            if (sQLitePreparedStatement3 == null) {
+                            }
+                        } catch (Throwable th71) {
+                            th = th71;
+                            executeFast4 = sQLitePreparedStatement21;
+                            sQLitePreparedStatement12 = sQLitePreparedStatement18;
+                            th = th;
+                            sQLitePreparedStatement19 = executeFast4;
+                            sQLitePreparedStatement = executeFast3;
+                            sQLitePreparedStatement3 = sQLitePreparedStatement19;
+                            sQLitePreparedStatement6 = sQLitePreparedStatement13;
+                            z4 = false;
+                            sQLitePreparedStatement4 = null;
+                            sQLitePreparedStatement8 = null;
+                            sQLitePreparedStatement9 = null;
+                            sQLitePreparedStatement10 = null;
+                            if (z4) {
+                            }
+                            if (sQLitePreparedStatement6 != null) {
+                            }
+                            if (sQLitePreparedStatement7 != null) {
+                            }
+                            if (sQLitePreparedStatement10 != null) {
+                            }
+                            if (sQLitePreparedStatement8 != null) {
+                            }
+                            if (sQLitePreparedStatement9 != null) {
+                            }
+                            if (sQLitePreparedStatement4 != null) {
+                            }
+                            if (sQLitePreparedStatement12 != null) {
+                            }
+                            if (sQLitePreparedStatement11 != null) {
+                            }
+                            if (sQLitePreparedStatement5 != null) {
+                            }
+                            if (sQLitePreparedStatement2 != null) {
+                            }
+                            if (sQLitePreparedStatement != null) {
+                            }
+                            if (sQLitePreparedStatement3 != null) {
+                            }
+                            throw th;
+                        }
+                    } catch (Exception e68) {
+                        e = e68;
+                        sQLitePreparedStatement12 = sQLitePreparedStatement17;
+                        sQLitePreparedStatement10 = sQLitePreparedStatement16;
+                        sQLitePreparedStatement9 = sQLitePreparedStatement15;
+                        sQLitePreparedStatement8 = sQLitePreparedStatement14;
+                        sQLitePreparedStatement6 = sQLitePreparedStatement13;
+                        sQLitePreparedStatement = null;
+                        sQLitePreparedStatement2 = null;
+                        sQLitePreparedStatement3 = null;
+                        z4 = false;
+                        sQLitePreparedStatement4 = null;
+                        sQLitePreparedStatement5 = null;
+                        th2 = e;
+                        checkSQLException(th2);
+                        if (z4) {
+                        }
+                        if (sQLitePreparedStatement6 != null) {
+                        }
+                        if (sQLitePreparedStatement7 != null) {
+                        }
+                        if (sQLitePreparedStatement10 != null) {
+                        }
+                        if (sQLitePreparedStatement8 != null) {
+                        }
+                        if (sQLitePreparedStatement9 != null) {
+                        }
+                        if (sQLitePreparedStatement4 != null) {
+                        }
+                        if (sQLitePreparedStatement12 != null) {
+                        }
+                        if (sQLitePreparedStatement11 != null) {
+                        }
+                        if (sQLitePreparedStatement5 != null) {
+                        }
+                        if (sQLitePreparedStatement2 != null) {
+                        }
+                        if (sQLitePreparedStatement != null) {
+                        }
+                        if (sQLitePreparedStatement3 == null) {
+                        }
+                    } catch (Throwable th72) {
+                        th3 = th72;
+                        sQLitePreparedStatement12 = sQLitePreparedStatement17;
+                        sQLitePreparedStatement10 = sQLitePreparedStatement16;
+                        sQLitePreparedStatement9 = sQLitePreparedStatement15;
+                        sQLitePreparedStatement8 = sQLitePreparedStatement14;
+                        sQLitePreparedStatement6 = sQLitePreparedStatement13;
+                        sQLitePreparedStatement = null;
+                        sQLitePreparedStatement2 = null;
+                        sQLitePreparedStatement3 = null;
+                        z4 = false;
+                        sQLitePreparedStatement4 = null;
+                        sQLitePreparedStatement5 = null;
+                        th = th3;
+                        if (z4) {
+                        }
+                        if (sQLitePreparedStatement6 != null) {
+                        }
+                        if (sQLitePreparedStatement7 != null) {
+                        }
+                        if (sQLitePreparedStatement10 != null) {
+                        }
+                        if (sQLitePreparedStatement8 != null) {
+                        }
+                        if (sQLitePreparedStatement9 != null) {
+                        }
+                        if (sQLitePreparedStatement4 != null) {
+                        }
+                        if (sQLitePreparedStatement12 != null) {
+                        }
+                        if (sQLitePreparedStatement11 != null) {
+                        }
+                        if (sQLitePreparedStatement5 != null) {
+                        }
+                        if (sQLitePreparedStatement2 != null) {
+                        }
+                        if (sQLitePreparedStatement != null) {
+                        }
+                        if (sQLitePreparedStatement3 != null) {
+                        }
+                        throw th;
                     }
-                } catch (Exception e66) {
-                    e = e66;
+                } catch (Exception e69) {
+                    e = e69;
                     th2 = e;
+                    sQLitePreparedStatement6 = sQLitePreparedStatement13;
                     sQLitePreparedStatement = null;
                     sQLitePreparedStatement2 = null;
                     sQLitePreparedStatement3 = null;
                     z4 = false;
                     sQLitePreparedStatement4 = null;
                     sQLitePreparedStatement5 = null;
-                    sQLitePreparedStatement6 = null;
                     sQLitePreparedStatement7 = null;
                     sQLitePreparedStatement8 = null;
                     sQLitePreparedStatement9 = null;
@@ -22838,22 +23066,22 @@ public class MessagesStorage extends BaseController {
                     }
                     if (sQLitePreparedStatement5 != null) {
                     }
-                    if (sQLitePreparedStatement3 != null) {
+                    if (sQLitePreparedStatement2 != null) {
                     }
                     if (sQLitePreparedStatement != null) {
                     }
-                    if (sQLitePreparedStatement2 != null) {
+                    if (sQLitePreparedStatement3 == null) {
                     }
-                } catch (Throwable th70) {
-                    th = th70;
+                } catch (Throwable th73) {
+                    th = th73;
                     th = th;
+                    sQLitePreparedStatement6 = sQLitePreparedStatement13;
                     sQLitePreparedStatement = null;
                     sQLitePreparedStatement2 = null;
                     sQLitePreparedStatement3 = null;
                     z4 = false;
                     sQLitePreparedStatement4 = null;
                     sQLitePreparedStatement5 = null;
-                    sQLitePreparedStatement6 = null;
                     sQLitePreparedStatement7 = null;
                     sQLitePreparedStatement8 = null;
                     sQLitePreparedStatement9 = null;
@@ -22880,19 +23108,19 @@ public class MessagesStorage extends BaseController {
                     }
                     if (sQLitePreparedStatement5 != null) {
                     }
-                    if (sQLitePreparedStatement3 != null) {
+                    if (sQLitePreparedStatement2 != null) {
                     }
                     if (sQLitePreparedStatement != null) {
                     }
-                    if (sQLitePreparedStatement2 != null) {
+                    if (sQLitePreparedStatement3 != null) {
                     }
                     throw th;
                 }
             }
-        } catch (Exception e67) {
-            e = e67;
-        } catch (Throwable th71) {
-            th = th71;
+        } catch (Exception e70) {
+            e = e70;
+        } catch (Throwable th74) {
+            th = th74;
         }
     }
 
