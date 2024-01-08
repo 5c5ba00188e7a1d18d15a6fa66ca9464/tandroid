@@ -4136,37 +4136,37 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
     /* JADX WARN: Removed duplicated region for block: B:283:0x09e8  */
     /* JADX WARN: Removed duplicated region for block: B:345:0x0bf8  */
     /* JADX WARN: Removed duplicated region for block: B:348:0x0bff  */
-    /* JADX WARN: Removed duplicated region for block: B:387:0x0dda  */
-    /* JADX WARN: Removed duplicated region for block: B:447:0x0ea4  */
-    /* JADX WARN: Removed duplicated region for block: B:489:0x0f13  */
-    /* JADX WARN: Removed duplicated region for block: B:490:0x0f16  */
-    /* JADX WARN: Removed duplicated region for block: B:493:0x0f2d  */
-    /* JADX WARN: Removed duplicated region for block: B:498:0x0f81  */
-    /* JADX WARN: Removed duplicated region for block: B:504:0x0f97  */
-    /* JADX WARN: Removed duplicated region for block: B:519:0x0fdf  */
-    /* JADX WARN: Removed duplicated region for block: B:570:0x10c4  */
-    /* JADX WARN: Removed duplicated region for block: B:572:0x1113  */
-    /* JADX WARN: Removed duplicated region for block: B:628:0x12bf  */
-    /* JADX WARN: Removed duplicated region for block: B:664:0x1451  */
-    /* JADX WARN: Removed duplicated region for block: B:668:0x1461  */
-    /* JADX WARN: Removed duplicated region for block: B:683:0x149d  */
-    /* JADX WARN: Removed duplicated region for block: B:684:0x149f  */
-    /* JADX WARN: Removed duplicated region for block: B:688:0x14ad  */
-    /* JADX WARN: Removed duplicated region for block: B:700:0x14ce  */
-    /* JADX WARN: Removed duplicated region for block: B:702:0x14d2  */
-    /* JADX WARN: Removed duplicated region for block: B:716:0x153d  */
-    /* JADX WARN: Removed duplicated region for block: B:719:0x1546  */
-    /* JADX WARN: Removed duplicated region for block: B:737:0x1590  */
-    /* JADX WARN: Removed duplicated region for block: B:766:0x1610  */
-    /* JADX WARN: Removed duplicated region for block: B:775:0x166a  */
-    /* JADX WARN: Removed duplicated region for block: B:780:0x167a  */
-    /* JADX WARN: Removed duplicated region for block: B:788:0x168f  */
-    /* JADX WARN: Removed duplicated region for block: B:796:0x16b8  */
-    /* JADX WARN: Removed duplicated region for block: B:807:0x16e6  */
-    /* JADX WARN: Removed duplicated region for block: B:813:0x16fb  */
-    /* JADX WARN: Removed duplicated region for block: B:823:0x171f  */
-    /* JADX WARN: Removed duplicated region for block: B:833:0x1740  */
-    /* JADX WARN: Removed duplicated region for block: B:850:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:391:0x0de1  */
+    /* JADX WARN: Removed duplicated region for block: B:451:0x0eab  */
+    /* JADX WARN: Removed duplicated region for block: B:493:0x0f1a  */
+    /* JADX WARN: Removed duplicated region for block: B:494:0x0f1d  */
+    /* JADX WARN: Removed duplicated region for block: B:497:0x0f34  */
+    /* JADX WARN: Removed duplicated region for block: B:502:0x0f88  */
+    /* JADX WARN: Removed duplicated region for block: B:508:0x0f9e  */
+    /* JADX WARN: Removed duplicated region for block: B:523:0x0fe6  */
+    /* JADX WARN: Removed duplicated region for block: B:574:0x10cb  */
+    /* JADX WARN: Removed duplicated region for block: B:576:0x111a  */
+    /* JADX WARN: Removed duplicated region for block: B:632:0x12c6  */
+    /* JADX WARN: Removed duplicated region for block: B:668:0x1458  */
+    /* JADX WARN: Removed duplicated region for block: B:672:0x1468  */
+    /* JADX WARN: Removed duplicated region for block: B:687:0x14a4  */
+    /* JADX WARN: Removed duplicated region for block: B:688:0x14a6  */
+    /* JADX WARN: Removed duplicated region for block: B:692:0x14b4  */
+    /* JADX WARN: Removed duplicated region for block: B:704:0x14d5  */
+    /* JADX WARN: Removed duplicated region for block: B:706:0x14d9  */
+    /* JADX WARN: Removed duplicated region for block: B:720:0x1544  */
+    /* JADX WARN: Removed duplicated region for block: B:723:0x154d  */
+    /* JADX WARN: Removed duplicated region for block: B:741:0x1597  */
+    /* JADX WARN: Removed duplicated region for block: B:770:0x1617  */
+    /* JADX WARN: Removed duplicated region for block: B:779:0x1671  */
+    /* JADX WARN: Removed duplicated region for block: B:784:0x1681  */
+    /* JADX WARN: Removed duplicated region for block: B:792:0x1696  */
+    /* JADX WARN: Removed duplicated region for block: B:800:0x16bf  */
+    /* JADX WARN: Removed duplicated region for block: B:811:0x16ed  */
+    /* JADX WARN: Removed duplicated region for block: B:817:0x1702  */
+    /* JADX WARN: Removed duplicated region for block: B:827:0x1726  */
+    /* JADX WARN: Removed duplicated region for block: B:837:0x1747  */
+    /* JADX WARN: Removed duplicated region for block: B:854:? A[RETURN, SYNTHETIC] */
     @Override // android.view.View
     @SuppressLint({"DrawAllocation"})
     /*
@@ -4212,13 +4212,14 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
         float dp3;
         float f6;
         int i15;
+        int i16;
         float f7;
         float f8;
         int color3;
         float f9;
         StaticLayout staticLayout;
         CustomDialog customDialog;
-        int i16;
+        int i17;
         Paint paint4;
         PullForegroundDrawable pullForegroundDrawable2;
         TLRPC$TL_forumTopic tLRPC$TL_forumTopic3;
@@ -4228,7 +4229,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
         if (!this.visibleOnScreen && !this.drawingForBlur) {
             return;
         }
-        int i17 = 1;
+        int i18 = 1;
         if (this.drawArchive && ((this.currentDialogFolderId != 0 || (this.isTopic && (tLRPC$TL_forumTopic3 = this.forumTopic) != null && tLRPC$TL_forumTopic3.id == 1)) && (pullForegroundDrawable2 = this.archivedChatsDrawable) != null && pullForegroundDrawable2.outProgress == 0.0f && this.translationX == 0.0f)) {
             if (this.drawingForBlur) {
                 return;
@@ -4324,7 +4325,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                 string = LocaleController.getString("Unarchive", i);
                 this.translationDrawable = Theme.dialogs_unarchiveDrawable;
             }
-            int i18 = color2;
+            int i19 = color2;
             String str3 = string;
             if (this.swipeCanceled && (rLottieDrawable = this.lastDrawTranslationDrawable) != null) {
                 this.translationDrawable = rLottieDrawable;
@@ -4333,7 +4334,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                 this.lastDrawTranslationDrawable = this.translationDrawable;
                 this.lastDrawSwipeMessageStringId = i;
             }
-            int i19 = i;
+            int i20 = i;
             if (!this.translationAnimationStarted && Math.abs(this.translationX) > AndroidUtilities.dp(43.0f)) {
                 this.translationAnimationStarted = true;
                 this.translationDrawable.setProgress(0.0f);
@@ -4344,9 +4345,9 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
             if (this.currentRevealProgress < 1.0f) {
                 Theme.dialogs_pinnedPaint.setColor(color);
                 f = measuredWidth;
-                i2 = i19;
+                i2 = i20;
                 str = str3;
-                i3 = i18;
+                i3 = i19;
                 canvas.drawRect(measuredWidth - AndroidUtilities.dp(8.0f), 0.0f, getMeasuredWidth(), getMeasuredHeight(), Theme.dialogs_pinnedPaint);
                 if (this.currentRevealProgress == 0.0f) {
                     if (Theme.dialogs_archiveDrawableRecolored) {
@@ -4356,19 +4357,19 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                     if (Theme.dialogs_hidePsaDrawableRecolored) {
                         Theme.dialogs_hidePsaDrawable.beginApplyLayerColors();
                         RLottieDrawable rLottieDrawable2 = Theme.dialogs_hidePsaDrawable;
-                        int i20 = Theme.key_chats_archiveBackground;
-                        rLottieDrawable2.setLayerColor("Line 1.**", Theme.getNonAnimatedColor(i20));
-                        Theme.dialogs_hidePsaDrawable.setLayerColor("Line 2.**", Theme.getNonAnimatedColor(i20));
-                        Theme.dialogs_hidePsaDrawable.setLayerColor("Line 3.**", Theme.getNonAnimatedColor(i20));
+                        int i21 = Theme.key_chats_archiveBackground;
+                        rLottieDrawable2.setLayerColor("Line 1.**", Theme.getNonAnimatedColor(i21));
+                        Theme.dialogs_hidePsaDrawable.setLayerColor("Line 2.**", Theme.getNonAnimatedColor(i21));
+                        Theme.dialogs_hidePsaDrawable.setLayerColor("Line 3.**", Theme.getNonAnimatedColor(i21));
                         Theme.dialogs_hidePsaDrawable.commitApplyLayerColors();
                         Theme.dialogs_hidePsaDrawableRecolored = false;
                     }
                 }
             } else {
                 f = measuredWidth;
-                i2 = i19;
+                i2 = i20;
                 str = str3;
-                i3 = i18;
+                i3 = i19;
             }
             int measuredWidth2 = (getMeasuredWidth() - AndroidUtilities.dp(43.0f)) - (this.translationDrawable.getIntrinsicWidth() / 2);
             int measuredHeight = (getMeasuredHeight() - AndroidUtilities.dp(54.0f)) / 2;
@@ -4387,10 +4388,10 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                 if (!Theme.dialogs_hidePsaDrawableRecolored) {
                     Theme.dialogs_hidePsaDrawable.beginApplyLayerColors();
                     RLottieDrawable rLottieDrawable3 = Theme.dialogs_hidePsaDrawable;
-                    int i21 = Theme.key_chats_archivePinBackground;
-                    rLottieDrawable3.setLayerColor("Line 1.**", Theme.getNonAnimatedColor(i21));
-                    Theme.dialogs_hidePsaDrawable.setLayerColor("Line 2.**", Theme.getNonAnimatedColor(i21));
-                    Theme.dialogs_hidePsaDrawable.setLayerColor("Line 3.**", Theme.getNonAnimatedColor(i21));
+                    int i22 = Theme.key_chats_archivePinBackground;
+                    rLottieDrawable3.setLayerColor("Line 1.**", Theme.getNonAnimatedColor(i22));
+                    Theme.dialogs_hidePsaDrawable.setLayerColor("Line 2.**", Theme.getNonAnimatedColor(i22));
+                    Theme.dialogs_hidePsaDrawable.setLayerColor("Line 3.**", Theme.getNonAnimatedColor(i22));
                     Theme.dialogs_hidePsaDrawable.commitApplyLayerColors();
                     Theme.dialogs_hidePsaDrawableRecolored = true;
                 }
@@ -4467,15 +4468,15 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                 float clamp = Utilities.clamp(f11 / 0.4f, 1.0f, 0.0f);
                 if (SharedConfig.getDevicePerformanceClass() >= 2) {
                     f4 = 1.0f;
-                    i16 = canvas.saveLayerAlpha(AndroidUtilities.dp(RightSlidingDialogContainer.getRightPaddingSize() + 1) - (AndroidUtilities.dp(8.0f) * (1.0f - clamp)), 0.0f, getMeasuredWidth(), getMeasuredHeight(), (int) ((1.0f - this.rightFragmentOpenedProgress) * 255.0f), 31);
+                    i17 = canvas.saveLayerAlpha(AndroidUtilities.dp(RightSlidingDialogContainer.getRightPaddingSize() + 1) - (AndroidUtilities.dp(8.0f) * (1.0f - clamp)), 0.0f, getMeasuredWidth(), getMeasuredHeight(), (int) ((1.0f - this.rightFragmentOpenedProgress) * 255.0f), 31);
                 } else {
                     f4 = 1.0f;
                     int save = canvas.save();
                     canvas.clipRect(AndroidUtilities.dp(RightSlidingDialogContainer.getRightPaddingSize() + 1) - (AndroidUtilities.dp(8.0f) * (1.0f - clamp)), 0.0f, getMeasuredWidth(), getMeasuredHeight());
-                    i16 = save;
+                    i17 = save;
                 }
                 canvas.translate((-(getMeasuredWidth() - AndroidUtilities.dp(74.0f))) * 0.7f * this.rightFragmentOpenedProgress, 0.0f);
-                i5 = i16;
+                i5 = i17;
             } else {
                 f4 = 1.0f;
                 i5 = -1;
@@ -4541,30 +4542,30 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                         this.fadePaintBack.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
                     }
                     canvas.saveLayerAlpha(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), 255, 31);
-                    int i22 = this.nameLeft;
-                    canvas.clipRect(i22, 0, this.nameWidth + i22, getMeasuredHeight());
+                    int i23 = this.nameLeft;
+                    canvas.clipRect(i23, 0, this.nameWidth + i23, getMeasuredHeight());
                 }
                 if (this.currentDialogFolderId != 0) {
                     TextPaint[] textPaintArr = Theme.dialogs_namePaint;
-                    int i23 = this.paintIndex;
-                    TextPaint textPaint = textPaintArr[i23];
-                    TextPaint textPaint2 = textPaintArr[i23];
+                    int i24 = this.paintIndex;
+                    TextPaint textPaint = textPaintArr[i24];
+                    TextPaint textPaint2 = textPaintArr[i24];
                     int color4 = Theme.getColor(Theme.key_chats_nameArchived, this.resourcesProvider);
                     textPaint2.linkColor = color4;
                     textPaint.setColor(color4);
                 } else if (this.encryptedChat != null || ((customDialog = this.customDialog) != null && customDialog.type == 2)) {
                     TextPaint[] textPaintArr2 = Theme.dialogs_namePaint;
-                    int i24 = this.paintIndex;
-                    TextPaint textPaint3 = textPaintArr2[i24];
-                    TextPaint textPaint4 = textPaintArr2[i24];
+                    int i25 = this.paintIndex;
+                    TextPaint textPaint3 = textPaintArr2[i25];
+                    TextPaint textPaint4 = textPaintArr2[i25];
                     int color5 = Theme.getColor(Theme.key_chats_secretName, this.resourcesProvider);
                     textPaint4.linkColor = color5;
                     textPaint3.setColor(color5);
                 } else {
                     TextPaint[] textPaintArr3 = Theme.dialogs_namePaint;
-                    int i25 = this.paintIndex;
-                    TextPaint textPaint5 = textPaintArr3[i25];
-                    TextPaint textPaint6 = textPaintArr3[i25];
+                    int i26 = this.paintIndex;
+                    TextPaint textPaint5 = textPaintArr3[i26];
+                    TextPaint textPaint6 = textPaintArr3[i26];
                     int color6 = Theme.getColor(Theme.key_chats_name, this.resourcesProvider);
                     textPaint6.linkColor = color6;
                     textPaint5.setColor(color6);
@@ -4578,15 +4579,15 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                 AnimatedEmojiSpan.drawAnimatedEmojis(canvas, staticLayout3, this.animatedEmojiStackName, -0.075f, null, 0.0f, 0.0f, 0.0f, 1.0f, getAdaptiveEmojiColorFilter(0, staticLayout3.getPaint().getColor()));
                 canvas.restore();
                 if (!this.nameLayoutEllipsizeByGradient || this.nameLayoutFits) {
-                    i17 = 1;
+                    i18 = 1;
                 } else {
                     canvas.save();
                     if (this.nameLayoutEllipsizeLeft) {
                         canvas.translate(this.nameLeft, 0.0f);
-                        i17 = 1;
+                        i18 = 1;
                         canvas.drawRect(0.0f, 0.0f, AndroidUtilities.dp(24.0f), getMeasuredHeight(), this.fadePaint);
                     } else {
-                        i17 = 1;
+                        i18 = 1;
                         canvas.translate((this.nameLeft + this.nameWidth) - AndroidUtilities.dp(24.0f), 0.0f);
                         canvas.drawRect(0.0f, 0.0f, AndroidUtilities.dp(24.0f), getMeasuredHeight(), this.fadePaintBack);
                     }
@@ -4646,7 +4647,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                     i10 = 0;
                 }
                 try {
-                    AnimatedEmojiSpan.drawAnimatedEmojis(canvas, staticLayout, this.animatedEmojiStack2, -0.075f, null, 0.0f, 0.0f, 0.0f, 1.0f, getAdaptiveEmojiColorFilter(i17, staticLayout.getPaint().getColor()));
+                    AnimatedEmojiSpan.drawAnimatedEmojis(canvas, staticLayout, this.animatedEmojiStack2, -0.075f, null, 0.0f, 0.0f, 0.0f, 1.0f, getAdaptiveEmojiColorFilter(i18, staticLayout.getPaint().getColor()));
                 } catch (Exception e2) {
                     e = e2;
                     FileLog.e(e);
@@ -4727,26 +4728,26 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                 if (this.currentDialogFolderId != 0) {
                     if (this.chat != null) {
                         TextPaint[] textPaintArr4 = Theme.dialogs_messagePaint;
-                        int i26 = this.paintIndex;
-                        TextPaint textPaint10 = textPaintArr4[i26];
-                        TextPaint textPaint11 = textPaintArr4[i26];
+                        int i27 = this.paintIndex;
+                        TextPaint textPaint10 = textPaintArr4[i27];
+                        TextPaint textPaint11 = textPaintArr4[i27];
                         int color10 = Theme.getColor(Theme.key_chats_nameMessageArchived, this.resourcesProvider);
                         textPaint11.linkColor = color10;
                         textPaint10.setColor(color10);
                     } else {
                         TextPaint[] textPaintArr5 = Theme.dialogs_messagePaint;
-                        int i27 = this.paintIndex;
-                        TextPaint textPaint12 = textPaintArr5[i27];
-                        TextPaint textPaint13 = textPaintArr5[i27];
+                        int i28 = this.paintIndex;
+                        TextPaint textPaint12 = textPaintArr5[i28];
+                        TextPaint textPaint13 = textPaintArr5[i28];
                         int color11 = Theme.getColor(Theme.key_chats_messageArchived, this.resourcesProvider);
                         textPaint13.linkColor = color11;
                         textPaint12.setColor(color11);
                     }
                 } else {
                     TextPaint[] textPaintArr6 = Theme.dialogs_messagePaint;
-                    int i28 = this.paintIndex;
-                    TextPaint textPaint14 = textPaintArr6[i28];
-                    TextPaint textPaint15 = textPaintArr6[i28];
+                    int i29 = this.paintIndex;
+                    TextPaint textPaint14 = textPaintArr6[i29];
+                    TextPaint textPaint15 = textPaintArr6[i29];
                     int color12 = Theme.getColor(Theme.key_chats_message, this.resourcesProvider);
                     textPaint15.linkColor = color12;
                     textPaint14.setColor(color12);
@@ -4771,8 +4772,8 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                             StaticLayout staticLayout4 = this.messageLayout;
                             AnimatedEmojiSpan.drawAnimatedEmojis(canvas, staticLayout4, this.animatedEmojiStack, -0.075f, this.spoilers, 0.0f, 0.0f, 0.0f, 1.0f, getAdaptiveEmojiColorFilter(i8, staticLayout4.getPaint().getColor()));
                             canvas.restore();
-                            for (int i29 = 0; i29 < this.spoilers.size(); i29++) {
-                                SpoilerEffect spoilerEffect = this.spoilers.get(i29);
+                            for (int i30 = 0; i30 < this.spoilers.size(); i30++) {
+                                SpoilerEffect spoilerEffect = this.spoilers.get(i30);
                                 spoilerEffect.setColor(this.messageLayout.getPaint().getColor());
                                 spoilerEffect.draw(canvas);
                             }
@@ -4804,16 +4805,16 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                 }
                 canvas.restore();
                 if (this.typingLayout != null) {
-                    int i30 = this.printingStringType;
-                    if (i30 < 0) {
+                    int i31 = this.printingStringType;
+                    if (i31 < 0) {
                         DialogUpdateHelper dialogUpdateHelper3 = this.updateHelper;
                         if (dialogUpdateHelper3.typingProgres > f5) {
                         }
                     }
-                    if (i30 < 0) {
-                        i30 = this.updateHelper.lastKnownTypingType;
+                    if (i31 < 0) {
+                        i31 = this.updateHelper.lastKnownTypingType;
                     }
-                    StatusDrawable chatStatusDrawable = Theme.getChatStatusDrawable(i30);
+                    StatusDrawable chatStatusDrawable = Theme.getChatStatusDrawable(i31);
                     if (chatStatusDrawable != null) {
                         canvas.save();
                         chatStatusDrawable.setColor(ColorUtils.setAlphaComponent(Theme.getColor(Theme.key_chats_actionMessage), (int) (Color.alpha(color3) * this.updateHelper.typingProgres)));
@@ -4824,8 +4825,8 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                             f9 = this.messageTop - (dp5 * (1.0f - dialogUpdateHelper4.typingProgres));
                         }
                         i11 = 4;
-                        if (i30 == i9 || i30 == 4) {
-                            canvas.translate(this.statusDrawableLeft, f9 + (i30 == i9 ? AndroidUtilities.dp(1.0f) : 0));
+                        if (i31 == i9 || i31 == 4) {
+                            canvas.translate(this.statusDrawableLeft, f9 + (i31 == i9 ? AndroidUtilities.dp(1.0f) : 0));
                         } else {
                             canvas.translate(this.statusDrawableLeft, f9 + ((AndroidUtilities.dp(18.0f) - chatStatusDrawable.getIntrinsicHeight()) / 2.0f));
                         }
@@ -4859,12 +4860,12 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                         }
                     });
                 }
-                if (this.lastTopicMessageUnread && this.topMessageTopicEndIndex != this.topMessageTopicStartIndex && this.dialogsType == 0) {
+                if (this.lastTopicMessageUnread && this.topMessageTopicEndIndex != this.topMessageTopicStartIndex && ((i16 = this.dialogsType) == 0 || i16 == 7 || i16 == 8)) {
                     this.canvasButton.setColor(ColorUtils.setAlphaComponent(this.currentMessagePaint.getColor(), Theme.isCurrentThemeDark() ? 36 : 26));
                     if (!this.buttonCreated) {
                         this.canvasButton.rewind();
-                        int i31 = this.topMessageTopicEndIndex;
-                        if (i31 != this.topMessageTopicStartIndex && i31 > 0) {
+                        int i32 = this.topMessageTopicEndIndex;
+                        if (i32 != this.topMessageTopicStartIndex && i32 > 0) {
                             RectF rectF3 = AndroidUtilities.rectTmp;
                             StaticLayout staticLayout7 = this.messageLayout;
                             rectF3.set(this.messageLeft + AndroidUtilities.dp(2.0f) + this.messageLayout.getPrimaryHorizontal(i10), this.messageTop, (this.messageLeft + staticLayout7.getPrimaryHorizontal(Math.min(staticLayout7.getText().length(), this.topMessageTopicEndIndex))) - AndroidUtilities.dp(3.0f), this.buttonTop - AndroidUtilities.dp(4.0f));
@@ -4895,8 +4896,8 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                         StaticLayout staticLayout8 = this.buttonLayout;
                         AnimatedEmojiSpan.drawAnimatedEmojis(canvas, staticLayout8, this.animatedEmojiStack3, -0.075f, this.spoilers2, 0.0f, 0.0f, 0.0f, 1.0f, getAdaptiveEmojiColorFilter(3, staticLayout8.getPaint().getColor()));
                         canvas.restore();
-                        for (int i32 = 0; i32 < this.spoilers2.size(); i32++) {
-                            SpoilerEffect spoilerEffect2 = this.spoilers2.get(i32);
+                        for (int i33 = 0; i33 < this.spoilers2.size(); i33++) {
+                            SpoilerEffect spoilerEffect2 = this.spoilers2.get(i33);
                             spoilerEffect2.setColor(this.buttonLayout.getPaint().getColor());
                             spoilerEffect2.draw(canvas);
                         }
@@ -4911,28 +4912,28 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                 canvas.restore();
             }
             if (this.currentDialogFolderId != 0) {
-                int i33 = (this.drawClock ? 1 : 0) + (this.drawCheck1 ? 2 : 0) + (this.drawCheck2 ? 4 : 0);
-                int i34 = this.lastStatusDrawableParams;
-                if (i34 >= 0 && i34 != i33 && !this.statusDrawableAnimationInProgress) {
-                    createStatusDrawableAnimator(i34, i33);
+                int i34 = (this.drawClock ? 1 : 0) + (this.drawCheck1 ? 2 : 0) + (this.drawCheck2 ? 4 : 0);
+                int i35 = this.lastStatusDrawableParams;
+                if (i35 >= 0 && i35 != i34 && !this.statusDrawableAnimationInProgress) {
+                    createStatusDrawableAnimator(i35, i34);
                 }
                 boolean z5 = this.statusDrawableAnimationInProgress;
                 if (z5) {
-                    i33 = this.animateToStatusDrawableParams;
+                    i34 = this.animateToStatusDrawableParams;
                 }
-                boolean z6 = (i33 & 1) != 0;
-                boolean z7 = (i33 & 2) != 0;
-                boolean z8 = (i33 & i11) != 0;
+                boolean z6 = (i34 & 1) != 0;
+                boolean z7 = (i34 & 2) != 0;
+                boolean z8 = (i34 & i11) != 0;
                 if (z5) {
-                    int i35 = this.animateFromStatusDrawableParams;
-                    boolean z9 = (i35 & 1) != 0;
-                    boolean z10 = (i35 & 2) != 0;
-                    boolean z11 = (i35 & i11) != 0;
+                    int i36 = this.animateFromStatusDrawableParams;
+                    boolean z9 = (i36 & 1) != 0;
+                    boolean z10 = (i36 & 2) != 0;
+                    boolean z11 = (i36 & i11) != 0;
                     if (!z6 && !z9 && z11 && !z10 && z7 && z8) {
                         drawCheckStatus(canvas, z6, z7, z8, true, this.statusDrawableProgress);
                         f2 = 0.0f;
                         f3 = 1.0f;
-                        i17 = 1;
+                        i18 = 1;
                         i12 = 2;
                     } else {
                         boolean z12 = z9;
@@ -4940,7 +4941,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                         boolean z13 = z10;
                         f3 = 1.0f;
                         boolean z14 = z11;
-                        i17 = 1;
+                        i18 = 1;
                         i12 = 2;
                         drawCheckStatus(canvas, z12, z13, z14, false, 1.0f - this.statusDrawableProgress);
                         drawCheckStatus(canvas, z6, z7, z8, false, this.statusDrawableProgress);
@@ -4948,7 +4949,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                 } else {
                     f2 = 0.0f;
                     f3 = 1.0f;
-                    i17 = 1;
+                    i18 = 1;
                     i12 = 2;
                     drawCheckStatus(canvas, z6, z7, z8, false, 1.0f);
                 }
@@ -4956,7 +4957,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
             } else {
                 f2 = 0.0f;
                 f3 = 1.0f;
-                i17 = 1;
+                i18 = 1;
                 i12 = 2;
             }
             boolean z15 = !this.drawUnmute || this.dialogMuted;
@@ -5031,10 +5032,10 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                     drawable2.draw(canvas);
                 }
             } else {
-                int i36 = this.drawScam;
-                if (i36 != 0) {
-                    BaseCell.setDrawableBounds((Drawable) (i36 == i17 ? Theme.dialogs_scamDrawable : Theme.dialogs_fakeDrawable), this.nameMuteLeft, AndroidUtilities.dp((this.useForceThreeLines || SharedConfig.useThreeLinesLayout) ? 12.0f : 15.0f));
-                    (this.drawScam == i17 ? Theme.dialogs_scamDrawable : Theme.dialogs_fakeDrawable).draw(canvas);
+                int i37 = this.drawScam;
+                if (i37 != 0) {
+                    BaseCell.setDrawableBounds((Drawable) (i37 == i18 ? Theme.dialogs_scamDrawable : Theme.dialogs_fakeDrawable), this.nameMuteLeft, AndroidUtilities.dp((this.useForceThreeLines || SharedConfig.useThreeLinesLayout) ? 12.0f : 15.0f));
+                    (this.drawScam == i18 ? Theme.dialogs_scamDrawable : Theme.dialogs_fakeDrawable).draw(canvas);
                 }
             }
             if (!this.drawReorder || this.reorderIconProgress != f2) {
@@ -5112,41 +5113,41 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                             }
                             canvas2.translate(f2, dp3 * f6);
                         }
-                        int i37 = 0;
-                        while (i37 < this.thumbsCount) {
-                            if (this.thumbImageSeen[i37]) {
+                        int i38 = 0;
+                        while (i38 < this.thumbsCount) {
+                            if (this.thumbImageSeen[i38]) {
                                 if (this.thumbBackgroundPaint == null) {
-                                    Paint paint9 = new Paint(i17);
+                                    Paint paint9 = new Paint(i18);
                                     this.thumbBackgroundPaint = paint9;
                                     paint9.setShadowLayer(AndroidUtilities.dp(1.34f), f2, AndroidUtilities.dp(0.34f), 402653184);
                                     this.thumbBackgroundPaint.setColor(0);
                                 }
                                 RectF rectF9 = AndroidUtilities.rectTmp;
-                                rectF9.set(this.thumbImage[i37].getImageX(), this.thumbImage[i37].getImageY(), this.thumbImage[i37].getImageX2(), this.thumbImage[i37].getImageY2());
-                                canvas2.drawRoundRect(rectF9, this.thumbImage[i37].getRoundRadius()[0], this.thumbImage[i37].getRoundRadius()[i17], this.thumbBackgroundPaint);
-                                this.thumbImage[i37].draw(canvas2);
-                                if (this.drawSpoiler[i37]) {
+                                rectF9.set(this.thumbImage[i38].getImageX(), this.thumbImage[i38].getImageY(), this.thumbImage[i38].getImageX2(), this.thumbImage[i38].getImageY2());
+                                canvas2.drawRoundRect(rectF9, this.thumbImage[i38].getRoundRadius()[0], this.thumbImage[i38].getRoundRadius()[i18], this.thumbBackgroundPaint);
+                                this.thumbImage[i38].draw(canvas2);
+                                if (this.drawSpoiler[i38]) {
                                     Path path = this.thumbPath;
                                     if (path == null) {
                                         this.thumbPath = new Path();
                                     } else {
                                         path.rewind();
                                     }
-                                    this.thumbPath.addRoundRect(rectF9, this.thumbImage[i37].getRoundRadius()[0], this.thumbImage[i37].getRoundRadius()[i17], Path.Direction.CW);
+                                    this.thumbPath.addRoundRect(rectF9, this.thumbImage[i38].getRoundRadius()[0], this.thumbImage[i38].getRoundRadius()[i18], Path.Direction.CW);
                                     canvas.save();
                                     canvas2.clipPath(this.thumbPath);
                                     this.thumbSpoiler.setColor(ColorUtils.setAlphaComponent(-1, (int) (Color.alpha(i7) * 0.325f)));
-                                    this.thumbSpoiler.setBounds((int) this.thumbImage[i37].getImageX(), (int) this.thumbImage[i37].getImageY(), (int) this.thumbImage[i37].getImageX2(), (int) this.thumbImage[i37].getImageY2());
+                                    this.thumbSpoiler.setBounds((int) this.thumbImage[i38].getImageX(), (int) this.thumbImage[i38].getImageY(), (int) this.thumbImage[i38].getImageX2(), (int) this.thumbImage[i38].getImageY2());
                                     this.thumbSpoiler.draw(canvas2);
                                     invalidate();
                                     canvas.restore();
                                 }
-                                if (this.drawPlay[i37]) {
-                                    BaseCell.setDrawableBounds(Theme.dialogs_playDrawable, (int) (this.thumbImage[i37].getCenterX() - (Theme.dialogs_playDrawable.getIntrinsicWidth() / 2)), (int) (this.thumbImage[i37].getCenterY() - (Theme.dialogs_playDrawable.getIntrinsicHeight() / 2)));
+                                if (this.drawPlay[i38]) {
+                                    BaseCell.setDrawableBounds(Theme.dialogs_playDrawable, (int) (this.thumbImage[i38].getCenterX() - (Theme.dialogs_playDrawable.getIntrinsicWidth() / 2)), (int) (this.thumbImage[i38].getCenterY() - (Theme.dialogs_playDrawable.getIntrinsicHeight() / 2)));
                                     Theme.dialogs_playDrawable.draw(canvas2);
                                 }
                             }
-                            i37++;
+                            i38++;
                             i7 = -1;
                         }
                         i13 = -1;
@@ -5186,7 +5187,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
             float interpolation2 = this.interpolator.getInterpolation(this.animatingArchiveAvatarProgress / 170.0f) + f3;
             canvas2.scale(interpolation2, interpolation2, this.avatarImage.getCenterX(), this.avatarImage.getCenterY());
         }
-        if (this.drawAvatar && (!this.isTopic || (tLRPC$TL_forumTopic2 = this.forumTopic) == null || tLRPC$TL_forumTopic2.id != i17 || (pullForegroundDrawable = this.archivedChatsDrawable) == null || !pullForegroundDrawable.isDraw())) {
+        if (this.drawAvatar && (!this.isTopic || (tLRPC$TL_forumTopic2 = this.forumTopic) == null || tLRPC$TL_forumTopic2.id != i18 || (pullForegroundDrawable = this.archivedChatsDrawable) == null || !pullForegroundDrawable.isDraw())) {
             StoriesUtilities.AvatarStoryParams avatarStoryParams2 = this.storyParams;
             avatarStoryParams2.drawHiddenStoriesAsSegments = this.currentDialogFolderId == 0;
             StoriesUtilities.drawAvatarWithStory(this.currentDialogId, canvas2, this.avatarImage, avatarStoryParams2);
@@ -5216,7 +5217,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
         if (this.translationX != f2) {
             canvas.restore();
         }
-        if (this.drawArchive && ((this.currentDialogFolderId != 0 || (this.isTopic && (tLRPC$TL_forumTopic = this.forumTopic) != null && tLRPC$TL_forumTopic.id == i17)) && this.translationX == f2 && this.archivedChatsDrawable != null)) {
+        if (this.drawArchive && ((this.currentDialogFolderId != 0 || (this.isTopic && (tLRPC$TL_forumTopic = this.forumTopic) != null && tLRPC$TL_forumTopic.id == i18)) && this.translationX == f2 && this.archivedChatsDrawable != null)) {
             canvas.save();
             canvas2.translate(f2, (-this.translateY) - (this.rightFragmentOffset * this.rightFragmentOpenedProgress));
             canvas2.clipRect(0, 0, getMeasuredWidth(), getMeasuredHeight());
@@ -5231,7 +5232,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                 if (f26 != f2) {
                     Theme.dividerPaint.setAlpha((int) (alpha3 * (f3 - f26)));
                 }
-                float measuredHeight2 = (getMeasuredHeight() - i17) - (this.rightFragmentOffset * this.rightFragmentOpenedProgress);
+                float measuredHeight2 = (getMeasuredHeight() - i18) - (this.rightFragmentOffset * this.rightFragmentOpenedProgress);
                 if (LocaleController.isRTL) {
                     canvas.drawLine(0.0f, measuredHeight2, getMeasuredWidth() - dp8, measuredHeight2, Theme.dividerPaint);
                 } else {
@@ -5315,7 +5316,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                         this.currentRevealProgress = f3;
                     }
                 }
-                i17 = i4;
+                i18 = i4;
             } else {
                 if (this.currentRevealBounceProgress == f3) {
                     this.currentRevealBounceProgress = f2;
@@ -5329,9 +5330,9 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                         this.currentRevealProgress = f2;
                     }
                 }
-                i17 = i4;
+                i18 = i4;
             }
-            if (i17 == 0) {
+            if (i18 == 0) {
                 invalidate();
                 return;
             }
@@ -5353,7 +5354,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
         }
         if (!this.drawRevealBackground) {
         }
-        if (i17 == 0) {
+        if (i18 == 0) {
         }
     }
 
