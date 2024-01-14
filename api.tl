@@ -615,7 +615,7 @@ messagePeerReaction#8c79b63c flags:# big:flags.0?true unread:flags.1?true peer_i
 messagePeerVote#b6cc2d5c peer:Peer option:bytes date:int = MessagePeerVote;
 messagePeerVoteInputOption#74cda504 peer:Peer date:int = MessagePeerVote;
 messagePeerVoteMultiple#4628f6e6 peer:Peer options:Vector<bytes> date:int = MessagePeerVote;
-messageReactions#4f2b9479 flags:# min:flags.0?true can_see_list:flags.2?true results:Vector<ReactionCount> recent_reactions:flags.1?Vector<MessagePeerReaction> = MessageReactions;
+messageReactions#4f2b9479 flags:# min:flags.0?true can_see_list:flags.2?true reactions_as_tags:flags.3?true results:Vector<ReactionCount> recent_reactions:flags.1?Vector<MessagePeerReaction> = MessageReactions;
 messageReactionsOld#87b6e36 flags:# min:flags.0?true can_see_list:flags.2?true results:Vector<ReactionCount> recent_reactions:flags.1?Vector<MessagePeerReaction> = MessageReactions;
 messageReplies#83d60fc2 flags:# comments:flags.0?true replies:int replies_pts:int recent_repliers:flags.1?Vector<Peer> channel_id:flags.0?long max_id:flags.2?int read_max_id:flags.3?int = MessageReplies;
 messageReplyHeader#afbc09db flags:# reply_to_scheduled:flags.2?true forum_topic:flags.3?true quote:flags.9?true reply_to_msg_id:flags.4?int reply_to_peer_id:flags.0?Peer reply_from:flags.5?MessageFwdHeader reply_media:flags.8?MessageMedia reply_to_top_id:flags.1?int quote_text:flags.6?string quote_entities:flags.7?Vector<MessageEntity> quote_offset:flags.10?int = MessageReplyHeader;
@@ -679,6 +679,8 @@ messages.savedDialogsNotModified#c01f6fe8 count:int = messages.SavedDialogs;
 messages.savedDialogsSlice#44ba9dd9 count:int dialogs:Vector<SavedDialog> messages:Vector<Message> users:Vector<User> chats:Vector<Chat> = messages.SavedDialogs;
 messages.savedGifs#84a02a0d hash:long gifs:Vector<Document> = messages.SavedGifs;
 messages.savedGifsNotModified#e8025ca2 = messages.SavedGifs;
+messages.savedReactionsTags#3259950a tags:Vector<SavedReactionTag> hash:long = messages.SavedReactionTags;
+messages.savedReactionsTagsNotModified#889b59ef = messages.SavedReactionTags;
 messages.searchCounter#e844ebff flags:# inexact:flags.1?true filter:MessagesFilter count:int = messages.SearchCounter;
 messages.searchResultsCalendar#147ee23c flags:# inexact:flags.0?true count:int min_date:int min_msg_id:int offset_id_offset:flags.1?int periods:Vector<SearchResultsCalendarPeriod> messages:Vector<Message> chats:Vector<Chat> users:Vector<User> = messages.SearchResultsCalendar;
 messages.searchResultsPositions#53b22baf count:int positions:Vector<SearchResultPosition> = messages.SearchResultsPositions;
@@ -850,6 +852,7 @@ requestPeerTypeChat#c9f06e1b flags:# creator:flags.0?true bot_participant:flags.
 requestPeerTypeUser#5f3b8a00 flags:# bot:flags.0?Vector<Bool> premium:flags.1?Vector<Bool> = RequestPeerType;
 restrictionReason#d072acb4 platform:string reason:string text:string = RestrictionReason;
 savedDialog#bd87cb6c flags:# pinned:flags.2?true peer:Peer top_message:int = SavedDialog;
+savedReactionTag#cb6ff828 flags:# reaction:Reaction title:flags.0?string count:int = SavedReactionTag;
 searchResultPosition#7f648b67 msg_id:int date:int offset:int = SearchResultPosition;
 searchResultsCalendarPeriod#c9b0539f date:int min_msg_id:int max_msg_id:int count:int = SearchResultsCalendarPeriod;
 secureCredentialsEncrypted#33f0ea47 data:bytes hash:bytes secret:bytes = SecureCredentialsEncrypted;
@@ -1061,6 +1064,7 @@ updateRecentReactions#6f7863f4 = Update;
 updateRecentStickers#9a422c20 = Update;
 updateSavedDialogPinned#aeaf9e74 flags:# pinned:flags.0?true peer:DialogPeer = Update;
 updateSavedGifs#9375341e = Update;
+updateSavedReactionTags#39c67432 = Update;
 updateSavedRingtones#74d8be99 = Update;
 updateSentStoryReaction#7d627683 peer:Peer story_id:int reaction:Reaction = Update;
 updateServiceNotification#ebe46819 flags:# popup:flags.0?true invert_media:flags.2?true inbox_date:flags.1?int type:string message:string media:MessageMedia entities:Vector<MessageEntity> = Update;
@@ -1432,6 +1436,7 @@ messages.getChats#49e9528f id:Vector<long> = messages.Chats;
 messages.getCommonChats#e40ca104 user_id:InputUser max_id:long limit:int = messages.Chats;
 messages.getCustomEmojiDocuments#d9ab0f54 document_id:Vector<long> = Vector<Document>;
 messages.getDefaultHistoryTTL#658b7188 = DefaultHistoryTTL;
+messages.getDefaultTagReactions#bdf93428 hash:long = messages.Reactions;
 messages.getDhConfig#26cf8950 version:int random_length:int = messages.DhConfig;
 messages.getDialogFilters#f19ed96d = Vector<DialogFilter>;
 messages.getDialogUnreadMarks#22e24e22 = Vector<DialogPeer>;
@@ -1474,6 +1479,7 @@ messages.getReplies#22ddd30c peer:InputPeer msg_id:int offset_id:int offset_date
 messages.getSavedDialogs#5381d21a flags:# exclude_pinned:flags.0?true offset_date:int offset_id:int offset_peer:InputPeer limit:int hash:long = messages.SavedDialogs;
 messages.getSavedGifs#5cf09635 hash:long = messages.SavedGifs;
 messages.getSavedHistory#3d9a414d peer:InputPeer offset_id:int offset_date:int add_offset:int limit:int max_id:int min_id:int hash:long = messages.Messages;
+messages.getSavedReactionTags#761ddacf hash:long = messages.SavedReactionTags;
 messages.getScheduledHistory#f516760b peer:InputPeer hash:long = messages.Messages;
 messages.getScheduledMessages#bdbb0464 peer:InputPeer id:Vector<int> = messages.Messages;
 messages.getSearchCounters#1bbcf300 flags:# peer:InputPeer saved_peer_id:flags.1?InputPeer top_msg_id:flags.0?int filters:Vector<MessagesFilter> = Vector<messages.SearchCounter>;
@@ -1521,7 +1527,7 @@ messages.saveDefaultSendAs#ccfddf96 peer:InputPeer send_as:InputPeer = Bool;
 messages.saveDraft#7ff3b806 flags:# no_webpage:flags.1?true invert_media:flags.6?true reply_to:flags.4?InputReplyTo peer:InputPeer message:string entities:flags.3?Vector<MessageEntity> media:flags.5?InputMedia = Bool;
 messages.saveGif#327a30cb id:InputDocument unsave:Bool = Bool;
 messages.saveRecentSticker#392718f8 flags:# attached:flags.0?true id:InputDocument unsave:Bool = Bool;
-messages.search#a7b4e929 flags:# peer:InputPeer q:string from_id:flags.0?InputPeer saved_peer_id:flags.2?InputPeer top_msg_id:flags.1?int filter:MessagesFilter min_date:int max_date:int offset_id:int add_offset:int limit:int max_id:int min_id:int hash:long = messages.Messages;
+messages.search#29ee847a flags:# peer:InputPeer q:string from_id:flags.0?InputPeer saved_peer_id:flags.2?InputPeer saved_reaction:flags.3?Vector<Reaction> top_msg_id:flags.1?int filter:MessagesFilter min_date:int max_date:int offset_id:int add_offset:int limit:int max_id:int min_id:int hash:long = messages.Messages;
 messages.searchCustomEmoji#2c11c0d7 emoticon:string hash:long = EmojiList;
 messages.searchGlobal#4bc6589a flags:# folder_id:flags.0?int q:string filter:MessagesFilter min_date:int max_date:int offset_rate:int offset_peer:InputPeer offset_id:int limit:int = messages.Messages;
 messages.searchStickerSets#35705b8a flags:# exclude_featured:flags.0?true q:string hash:long = messages.FoundStickerSets;
@@ -1669,4 +1675,4 @@ stories.sendStory#e4e6694b flags:# pinned:flags.2?true noforwards:flags.4?true f
 stories.togglePeerStoriesHidden#bd0415c4 peer:InputPeer hidden:Bool = Bool;
 stories.togglePinned#9a75a1ef peer:InputPeer id:Vector<int> pinned:Bool = Vector<int>;
 
-// Layer 170
+// Layer 171
