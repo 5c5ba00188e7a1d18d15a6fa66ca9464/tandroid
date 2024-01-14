@@ -4651,7 +4651,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
     /* JADX WARN: Removed duplicated region for block: B:346:0x0839  */
     /* JADX WARN: Removed duplicated region for block: B:347:0x083b  */
     /* JADX WARN: Type inference failed for: r2v4 */
-    /* JADX WARN: Type inference failed for: r2v5, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r2v5, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r2v74 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

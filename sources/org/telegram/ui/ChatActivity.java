@@ -8823,7 +8823,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         }
 
         /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Type inference failed for: r13v23, types: [int, boolean] */
+        /* JADX WARN: Type inference failed for: r13v23, types: [boolean, int] */
         /* JADX WARN: Type inference failed for: r13v24 */
         /* JADX WARN: Type inference failed for: r13v25 */
         private void drawChatBackgroundElements(Canvas canvas) {
@@ -23056,7 +23056,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Type inference failed for: r3v4 */
     /* JADX WARN: Type inference failed for: r3v6 */
     /* JADX WARN: Type inference failed for: r3v62 */
-    /* JADX WARN: Type inference failed for: r3v63, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r3v63, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r3v7 */
     /* JADX WARN: Type inference failed for: r3v70 */
     /* JADX WARN: Type inference failed for: r3v71 */
@@ -24168,7 +24168,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Type inference failed for: r9v20 */
     /* JADX WARN: Type inference failed for: r9v21 */
     /* JADX WARN: Type inference failed for: r9v7 */
-    /* JADX WARN: Type inference failed for: r9v8, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r9v8, types: [boolean, int] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -29402,7 +29402,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Removed duplicated region for block: B:943:0x1690  */
     /* JADX WARN: Type inference failed for: r0v747 */
     /* JADX WARN: Type inference failed for: r12v10 */
-    /* JADX WARN: Type inference failed for: r12v11, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r12v11, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r12v43 */
     /* JADX WARN: Type inference failed for: r17v2 */
     /* JADX WARN: Type inference failed for: r17v3, types: [java.lang.String] */

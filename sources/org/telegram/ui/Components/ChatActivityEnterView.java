@@ -8399,8 +8399,8 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         return this.moveToSendStateRunnable != null;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:437:0x03b8 A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:438:0x03b9  */
+    /* JADX WARN: Removed duplicated region for block: B:443:0x03b8 A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:444:0x03b9  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -8756,6 +8756,18 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                         isRecordingStateChanged();
                     }
                 }
+                this.sendButtonVisible = true;
+                this.snapAnimationProgress = 1.0f;
+                this.lockAnimatedTranslation = this.startTranslation;
+                this.slideToCancelProgress = 1.0f;
+                SlideTextView slideTextView2 = this.slideText;
+                if (slideTextView2 != null) {
+                    slideTextView2.setCancelToProgress(1.0f);
+                }
+                ControlsView controlsView5 = this.controlsView;
+                if (controlsView5 != null) {
+                    controlsView5.invalidate();
+                }
                 RLottieImageView rLottieImageView2 = this.recordDeleteImageView;
                 if (rLottieImageView2 != null) {
                     rLottieImageView2.setAlpha(0.0f);
@@ -8890,9 +8902,9 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                 animatorArr2[2] = ObjectAnimator.ofFloat(this.recordDot, View.SCALE_Y, 0.0f);
                 animatorArr2[3] = ObjectAnimator.ofFloat(this.recordDot, View.SCALE_X, 0.0f);
                 animatorSet10.playTogether(animatorArr2);
-                ControlsView controlsView5 = this.controlsView;
-                if (controlsView5 != null) {
-                    animatorSet10.playTogether(ObjectAnimator.ofFloat(controlsView5, View.ALPHA, 0.0f));
+                ControlsView controlsView6 = this.controlsView;
+                if (controlsView6 != null) {
+                    animatorSet10.playTogether(ObjectAnimator.ofFloat(controlsView6, View.ALPHA, 0.0f));
                     this.controlsView.hideHintView();
                 }
                 BotCommandsMenuView botCommandsMenuView4 = this.botCommandsMenuButton;
@@ -9016,9 +9028,9 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                 animatorArr3[3] = ObjectAnimator.ofFloat(this.recordDot, View.SCALE_X, 0.0f);
                 animatorArr3[4] = ObjectAnimator.ofFloat(this.audioVideoButtonContainer, View.ALPHA, 1.0f);
                 animatorSet13.playTogether(animatorArr3);
-                ControlsView controlsView6 = this.controlsView;
-                if (controlsView6 != null) {
-                    animatorSet13.playTogether(ObjectAnimator.ofFloat(controlsView6, View.ALPHA, 0.0f));
+                ControlsView controlsView7 = this.controlsView;
+                if (controlsView7 != null) {
+                    animatorSet13.playTogether(ObjectAnimator.ofFloat(controlsView7, View.ALPHA, 0.0f));
                     this.controlsView.hideHintView();
                 }
                 BotCommandsMenuView botCommandsMenuView5 = this.botCommandsMenuButton;
