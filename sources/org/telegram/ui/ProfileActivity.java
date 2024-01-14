@@ -2365,11 +2365,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r11v2 */
-    /* JADX WARN: Type inference failed for: r11v3, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r11v3, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r11v5 */
     /* JADX WARN: Type inference failed for: r11v6 */
     /* JADX WARN: Type inference failed for: r13v3 */
-    /* JADX WARN: Type inference failed for: r13v4, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r13v4, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r13v6 */
     /* JADX WARN: Type inference failed for: r13v7 */
     @Override // org.telegram.ui.ActionBar.BaseFragment

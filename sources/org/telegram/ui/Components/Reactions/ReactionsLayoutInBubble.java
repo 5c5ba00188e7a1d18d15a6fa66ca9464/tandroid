@@ -142,7 +142,7 @@ public class ReactionsLayoutInBubble {
     /* JADX WARN: Removed duplicated region for block: B:70:0x01c7  */
     /* JADX WARN: Removed duplicated region for block: B:93:0x01ca A[SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r4v1 */
-    /* JADX WARN: Type inference failed for: r4v10, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r4v10, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r4v12 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -690,8 +690,7 @@ public class ReactionsLayoutInBubble {
         }
 
         protected boolean drawCounter() {
-            int i = this.count;
-            return ((i == 0 || i == 1) && this.counterDrawable.countChangeProgress == 1.0f) ? false : true;
+            return (this.count == 0 && this.counterDrawable.countChangeProgress == 1.0f) ? false : true;
         }
 
         public void draw(Canvas canvas, float f, float f2, float f3, float f4, boolean z) {

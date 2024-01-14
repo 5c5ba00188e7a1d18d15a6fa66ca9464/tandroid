@@ -7,6 +7,7 @@ import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -60,13 +61,20 @@ public class PipRoundVideoView implements NotificationCenter.NotificationCenterD
     private WindowManager windowManager;
     private FrameLayout windowView;
 
+    /* loaded from: classes4.dex */
+    public class PipFrameLayout extends FrameLayout {
+        public PipFrameLayout(PipRoundVideoView pipRoundVideoView, Context context) {
+            super(context);
+        }
+    }
+
     public void show(Activity activity, Runnable runnable) {
         if (activity == null) {
             return;
         }
         instance = this;
         this.onCloseRunnable = runnable;
-        FrameLayout frameLayout = new FrameLayout(activity) { // from class: org.telegram.ui.Components.PipRoundVideoView.1
+        PipFrameLayout pipFrameLayout = new PipFrameLayout(activity) { // from class: org.telegram.ui.Components.PipRoundVideoView.1
             private boolean dragging;
             private boolean startDragging;
             private float startX;
@@ -161,8 +169,8 @@ public class PipRoundVideoView implements NotificationCenter.NotificationCenterD
                 }
             }
         };
-        this.windowView = frameLayout;
-        frameLayout.setWillNotDraw(false);
+        this.windowView = pipFrameLayout;
+        pipFrameLayout.setWillNotDraw(false);
         this.videoWidth = AndroidUtilities.dp(126.0f);
         this.videoHeight = AndroidUtilities.dp(126.0f);
         if (Build.VERSION.SDK_INT >= 21) {
