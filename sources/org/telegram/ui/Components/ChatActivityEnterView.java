@@ -6883,6 +6883,10 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         this.audioToSend = null;
         this.audioToSendMessageObject = null;
         this.videoToSendMessageObject = null;
+        VideoTimelineView videoTimelineView = this.videoTimelineView;
+        if (videoTimelineView != null) {
+            videoTimelineView.destroy();
+        }
         SeekBarWaveformView seekBarWaveformView = this.recordedAudioSeekBar;
         if (seekBarWaveformView != null) {
             seekBarWaveformView.setAlpha(1.0f);
@@ -6903,9 +6907,9 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             textView.setAlpha(1.0f);
             this.recordedAudioTimeTextView.setTranslationX(0.0f);
         }
-        VideoTimelineView videoTimelineView = this.videoTimelineView;
-        if (videoTimelineView != null) {
-            videoTimelineView.setAlpha(1.0f);
+        VideoTimelineView videoTimelineView2 = this.videoTimelineView;
+        if (videoTimelineView2 != null) {
+            videoTimelineView2.setAlpha(1.0f);
             this.videoTimelineView.setTranslationX(0.0f);
         }
         EditTextCaption editTextCaption = this.messageEditText;
