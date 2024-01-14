@@ -204,8 +204,8 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:23:0x00ba  */
-    /* JADX WARN: Removed duplicated region for block: B:25:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x00c3  */
+    /* JADX WARN: Removed duplicated region for block: B:28:? A[RETURN, SYNTHETIC] */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -250,10 +250,12 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
             if (z5 != z6) {
                 globalPrivacySettings.archive_and_mute_new_noncontact_peers = z6;
                 TLRPC$TL_account_setGlobalPrivacySettings tLRPC$TL_account_setGlobalPrivacySettings = new TLRPC$TL_account_setGlobalPrivacySettings();
-                TLRPC$TL_globalPrivacySettings tLRPC$TL_globalPrivacySettings = new TLRPC$TL_globalPrivacySettings();
-                tLRPC$TL_account_setGlobalPrivacySettings.settings = tLRPC$TL_globalPrivacySettings;
-                tLRPC$TL_globalPrivacySettings.flags |= 1;
-                tLRPC$TL_globalPrivacySettings.archive_and_mute_new_noncontact_peers = this.archiveChats;
+                TLRPC$TL_globalPrivacySettings globalPrivacySettings2 = getContactsController().getGlobalPrivacySettings();
+                tLRPC$TL_account_setGlobalPrivacySettings.settings = globalPrivacySettings2;
+                if (globalPrivacySettings2 == null) {
+                    tLRPC$TL_account_setGlobalPrivacySettings.settings = new TLRPC$TL_globalPrivacySettings();
+                }
+                tLRPC$TL_account_setGlobalPrivacySettings.settings.archive_and_mute_new_noncontact_peers = this.archiveChats;
                 getConnectionsManager().sendRequest(tLRPC$TL_account_setGlobalPrivacySettings, PrivacySettingsActivity$$ExternalSyntheticLambda17.INSTANCE);
                 if (z2) {
                     return;

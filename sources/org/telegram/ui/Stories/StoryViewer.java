@@ -1028,9 +1028,9 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
             StoryViewer.this.allowIntercept = false;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:100:0x01e2  */
+        /* JADX WARN: Removed duplicated region for block: B:101:0x01e9 A[RETURN] */
+        /* JADX WARN: Removed duplicated region for block: B:102:0x01ea  */
         /* JADX WARN: Removed duplicated region for block: B:79:0x016e  */
-        /* JADX WARN: Removed duplicated region for block: B:99:0x01e1 A[RETURN] */
         @Override // android.view.ViewGroup, android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -1112,7 +1112,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                     z2 = true;
                     if (currentPeerView != null) {
                         StoryViewer storyViewer8 = StoryViewer.this;
-                        if (storyViewer8.selfStoriesViewsOffset == 0.0f && !storyViewer8.inSwipeToDissmissMode && !storyViewer8.isCaption) {
+                        if (storyViewer8.selfStoriesViewsOffset == 0.0f && !storyViewer8.inSwipeToDissmissMode && !storyViewer8.isCaption && !StoryViewer.this.isRecording) {
                             StoryViewer storyViewer9 = StoryViewer.this;
                             if (storyViewer9.storiesViewPager.currentState != 1) {
                                 AndroidUtilities.getViewPositionInParent(currentPeerView.storyContainer, this, storyViewer9.pointPosition);
@@ -1174,7 +1174,14 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
             StoryViewer.this.updateProgressToDismiss();
         }
 
+        /* JADX WARN: Removed duplicated region for block: B:14:0x0049  */
+        /* JADX WARN: Removed duplicated region for block: B:20:0x0066  */
+        /* JADX WARN: Removed duplicated region for block: B:26:0x0078  */
+        /* JADX WARN: Removed duplicated region for block: B:33:0x00a1  */
         @Override // android.view.ViewGroup
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+        */
         public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
             VideoPlayerHolder videoPlayerHolder;
             PeerStoriesView.VideoPlayerSharedScope videoPlayerSharedScope;
@@ -1183,39 +1190,89 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
             TL_stories$StoryItem tL_stories$StoryItem;
             TLRPC$MessageMedia tLRPC$MessageMedia;
             TLRPC$Document tLRPC$Document;
+            boolean z;
+            StoryViewer storyViewer;
+            boolean z2;
+            StoryViewer storyViewer2;
+            StoryViewer storyViewer3;
             if (motionEvent.getAction() == 0 && StoryViewer.this.progressToOpen == 1.0f) {
                 float x = motionEvent.getX();
                 this.lastTouchX = x;
                 this.startX = x;
                 this.startY = motionEvent.getY();
-                StoryViewer storyViewer = StoryViewer.this;
-                storyViewer.verticalScrollDetected = false;
-                storyViewer.allowIntercept = !storyViewer.findClickableView(storyViewer.windowView, motionEvent.getX(), motionEvent.getY(), false);
-                StoryViewer storyViewer2 = StoryViewer.this;
-                storyViewer2.allowSwipeToDissmiss = !storyViewer2.findClickableView(storyViewer2.windowView, motionEvent.getX(), motionEvent.getY(), true);
-                StoryViewer storyViewer3 = StoryViewer.this;
-                storyViewer3.setInTouchMode(storyViewer3.allowIntercept && !storyViewer3.isCaptionPartVisible);
                 StoryViewer storyViewer4 = StoryViewer.this;
-                if (storyViewer4.allowIntercept && storyViewer4.isCaptionPartVisible) {
-                    StoryViewer.this.delayedTapRunnable = new Runnable() { // from class: org.telegram.ui.Stories.StoryViewer$2$$ExternalSyntheticLambda2
-                        @Override // java.lang.Runnable
-                        public final void run() {
-                            StoryViewer.2.this.lambda$onInterceptTouchEvent$1();
+                storyViewer4.verticalScrollDetected = false;
+                if (!storyViewer4.isRecording) {
+                    StoryViewer storyViewer5 = StoryViewer.this;
+                    if (!storyViewer5.findClickableView(storyViewer5.windowView, motionEvent.getX(), motionEvent.getY(), false)) {
+                        z = true;
+                        storyViewer4.allowIntercept = z;
+                        storyViewer = StoryViewer.this;
+                        if (!storyViewer.isRecording) {
+                            StoryViewer storyViewer6 = StoryViewer.this;
+                            if (!storyViewer6.findClickableView(storyViewer6.windowView, motionEvent.getX(), motionEvent.getY(), true)) {
+                                z2 = true;
+                                storyViewer.allowSwipeToDissmiss = z2;
+                                StoryViewer storyViewer7 = StoryViewer.this;
+                                storyViewer7.setInTouchMode((storyViewer7.allowIntercept || storyViewer7.isCaptionPartVisible) ? false : true);
+                                storyViewer2 = StoryViewer.this;
+                                if (storyViewer2.allowIntercept && !storyViewer2.isRecording && StoryViewer.this.isCaptionPartVisible) {
+                                    StoryViewer.this.delayedTapRunnable = new Runnable() { // from class: org.telegram.ui.Stories.StoryViewer$2$$ExternalSyntheticLambda2
+                                        @Override // java.lang.Runnable
+                                        public final void run() {
+                                            StoryViewer.2.this.lambda$onInterceptTouchEvent$1();
+                                        }
+                                    };
+                                    AndroidUtilities.runOnUIThread(StoryViewer.this.delayedTapRunnable, 150L);
+                                }
+                                storyViewer3 = StoryViewer.this;
+                                if (storyViewer3.allowIntercept && !storyViewer3.keyboardVisible && !storyViewer3.isRecording && !StoryViewer.this.isInTextSelectionMode) {
+                                    AndroidUtilities.runOnUIThread(StoryViewer.this.longPressRunnable, 400L);
+                                }
+                            }
                         }
-                    };
-                    AndroidUtilities.runOnUIThread(StoryViewer.this.delayedTapRunnable, 150L);
+                        z2 = false;
+                        storyViewer.allowSwipeToDissmiss = z2;
+                        StoryViewer storyViewer72 = StoryViewer.this;
+                        storyViewer72.setInTouchMode((storyViewer72.allowIntercept || storyViewer72.isCaptionPartVisible) ? false : true);
+                        storyViewer2 = StoryViewer.this;
+                        if (storyViewer2.allowIntercept) {
+                            StoryViewer.this.delayedTapRunnable = new Runnable() { // from class: org.telegram.ui.Stories.StoryViewer$2$$ExternalSyntheticLambda2
+                                @Override // java.lang.Runnable
+                                public final void run() {
+                                    StoryViewer.2.this.lambda$onInterceptTouchEvent$1();
+                                }
+                            };
+                            AndroidUtilities.runOnUIThread(StoryViewer.this.delayedTapRunnable, 150L);
+                        }
+                        storyViewer3 = StoryViewer.this;
+                        if (storyViewer3.allowIntercept) {
+                            AndroidUtilities.runOnUIThread(StoryViewer.this.longPressRunnable, 400L);
+                        }
+                    }
                 }
-                StoryViewer storyViewer5 = StoryViewer.this;
-                if (storyViewer5.allowIntercept && !storyViewer5.keyboardVisible && !storyViewer5.isInTextSelectionMode) {
-                    AndroidUtilities.runOnUIThread(StoryViewer.this.longPressRunnable, 400L);
+                z = false;
+                storyViewer4.allowIntercept = z;
+                storyViewer = StoryViewer.this;
+                if (!storyViewer.isRecording) {
+                }
+                z2 = false;
+                storyViewer.allowSwipeToDissmiss = z2;
+                StoryViewer storyViewer722 = StoryViewer.this;
+                storyViewer722.setInTouchMode((storyViewer722.allowIntercept || storyViewer722.isCaptionPartVisible) ? false : true);
+                storyViewer2 = StoryViewer.this;
+                if (storyViewer2.allowIntercept) {
+                }
+                storyViewer3 = StoryViewer.this;
+                if (storyViewer3.allowIntercept) {
                 }
             } else if (motionEvent.getAction() == 2) {
                 float abs = Math.abs(this.startY - motionEvent.getY());
                 float abs2 = Math.abs(this.startX - motionEvent.getX());
-                StoryViewer storyViewer6 = StoryViewer.this;
-                if (storyViewer6.isLongpressed && storyViewer6.inSeekingMode && !storyViewer6.isInPinchToZoom) {
-                    StoryViewer storyViewer7 = StoryViewer.this;
-                    if (!storyViewer7.inSwipeToDissmissMode && (videoPlayerSharedScope = storyViewer7.currentPlayerScope) != null && videoPlayerSharedScope.player != null && (currentPeerView = storyViewer7.storiesViewPager.getCurrentPeerView()) != null && (storyItemHolder = currentPeerView.currentStory) != null && storyItemHolder.uploadingStory == null && storyItemHolder.isVideo()) {
+                StoryViewer storyViewer8 = StoryViewer.this;
+                if (storyViewer8.isLongpressed && storyViewer8.inSeekingMode && !storyViewer8.isInPinchToZoom) {
+                    StoryViewer storyViewer9 = StoryViewer.this;
+                    if (!storyViewer9.inSwipeToDissmissMode && (videoPlayerSharedScope = storyViewer9.currentPlayerScope) != null && videoPlayerSharedScope.player != null && (currentPeerView = storyViewer9.storiesViewPager.getCurrentPeerView()) != null && (storyItemHolder = currentPeerView.currentStory) != null && storyItemHolder.uploadingStory == null && storyItemHolder.isVideo()) {
                         long j = currentPeerView.videoDuration;
                         if (j <= 0 && (tL_stories$StoryItem = currentPeerView.currentStory.storyItem) != null && (tLRPC$MessageMedia = tL_stories$StoryItem.media) != null && (tLRPC$Document = tLRPC$MessageMedia.document) != null) {
                             j = (long) (MessageObject.getDocumentDuration(tLRPC$Document) * 1000.0d);
@@ -1235,34 +1292,34 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                     }
                 }
                 if (abs > abs2) {
-                    StoryViewer storyViewer8 = StoryViewer.this;
-                    if (!storyViewer8.inSeekingMode && !storyViewer8.verticalScrollDetected && abs > AndroidUtilities.touchSlop * 2.0f) {
-                        storyViewer8.verticalScrollDetected = true;
+                    StoryViewer storyViewer10 = StoryViewer.this;
+                    if (!storyViewer10.inSeekingMode && !storyViewer10.verticalScrollDetected && abs > AndroidUtilities.touchSlop * 2.0f) {
+                        storyViewer10.verticalScrollDetected = true;
                     }
                 }
-                StoryViewer storyViewer9 = StoryViewer.this;
-                if (!storyViewer9.inSwipeToDissmissMode && !storyViewer9.inSeekingMode && !storyViewer9.keyboardVisible && storyViewer9.allowSwipeToDissmiss) {
+                StoryViewer storyViewer11 = StoryViewer.this;
+                if (!storyViewer11.inSwipeToDissmissMode && !storyViewer11.inSeekingMode && !storyViewer11.keyboardVisible && storyViewer11.allowSwipeToDissmiss) {
                     if (abs > abs2 && abs > AndroidUtilities.touchSlop * 2.0f) {
-                        storyViewer9.inSwipeToDissmissMode = true;
-                        PeerStoriesView currentPeerView2 = storyViewer9.storiesViewPager.getCurrentPeerView();
+                        storyViewer11.inSwipeToDissmissMode = true;
+                        PeerStoriesView currentPeerView2 = storyViewer11.storiesViewPager.getCurrentPeerView();
                         if (currentPeerView2 != null) {
                             currentPeerView2.cancelTextSelection();
                         }
-                        boolean z = currentPeerView2 != null && currentPeerView2.viewsAllowed();
-                        StoryViewer storyViewer10 = StoryViewer.this;
-                        storyViewer10.allowSwipeToReply = (z || currentPeerView2 == null || currentPeerView2.isChannel || storyViewer10.storiesIntro != null) ? false : true;
-                        StoryViewer storyViewer11 = StoryViewer.this;
-                        storyViewer11.allowSelfStoriesView = z && !currentPeerView2.unsupported && currentPeerView2.currentStory.storyItem != null && storyViewer11.storiesIntro == null;
+                        boolean z3 = currentPeerView2 != null && currentPeerView2.viewsAllowed();
                         StoryViewer storyViewer12 = StoryViewer.this;
-                        if (storyViewer12.allowSelfStoriesView && this.keyboardHeight != 0) {
-                            storyViewer12.allowSelfStoriesView = false;
-                        }
-                        if (storyViewer12.allowSelfStoriesView) {
-                            storyViewer12.checkSelfStoriesView();
-                        }
+                        storyViewer12.allowSwipeToReply = (z3 || currentPeerView2 == null || currentPeerView2.isChannel || storyViewer12.storiesIntro != null) ? false : true;
                         StoryViewer storyViewer13 = StoryViewer.this;
-                        storyViewer13.swipeToReplyOffset = 0.0f;
-                        if (storyViewer13.delayedTapRunnable != null) {
+                        storyViewer13.allowSelfStoriesView = z3 && !currentPeerView2.unsupported && currentPeerView2.currentStory.storyItem != null && storyViewer13.storiesIntro == null;
+                        StoryViewer storyViewer14 = StoryViewer.this;
+                        if (storyViewer14.allowSelfStoriesView && this.keyboardHeight != 0) {
+                            storyViewer14.allowSelfStoriesView = false;
+                        }
+                        if (storyViewer14.allowSelfStoriesView) {
+                            storyViewer14.checkSelfStoriesView();
+                        }
+                        StoryViewer storyViewer15 = StoryViewer.this;
+                        storyViewer15.swipeToReplyOffset = 0.0f;
+                        if (storyViewer15.delayedTapRunnable != null) {
                             AndroidUtilities.cancelRunOnUIThread(StoryViewer.this.delayedTapRunnable);
                             StoryViewer.this.delayedTapRunnable.run();
                             StoryViewer.this.delayedTapRunnable = null;
@@ -1278,19 +1335,19 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                     StoryViewer.this.delayedTapRunnable = null;
                 }
                 StoryViewer.this.setInTouchMode(false);
-                StoryViewer storyViewer14 = StoryViewer.this;
-                storyViewer14.verticalScrollDetected = false;
-                storyViewer14.inSeekingMode = false;
-                PeerStoriesView.VideoPlayerSharedScope videoPlayerSharedScope2 = storyViewer14.currentPlayerScope;
+                StoryViewer storyViewer16 = StoryViewer.this;
+                storyViewer16.verticalScrollDetected = false;
+                storyViewer16.inSeekingMode = false;
+                PeerStoriesView.VideoPlayerSharedScope videoPlayerSharedScope2 = storyViewer16.currentPlayerScope;
                 if (videoPlayerSharedScope2 != null && (videoPlayerHolder = videoPlayerSharedScope2.player) != null) {
                     videoPlayerHolder.setSeeking(false);
                 }
             }
-            StoryViewer storyViewer15 = StoryViewer.this;
-            SelfStoryViewsView selfStoryViewsView = storyViewer15.selfStoryViewsView;
-            boolean z2 = selfStoryViewsView != null && selfStoryViewsView.progressToOpen == 1.0f;
-            if (!storyViewer15.inSwipeToDissmissMode && !z2) {
-                storyViewer15.gestureDetector.onTouchEvent(motionEvent);
+            StoryViewer storyViewer17 = StoryViewer.this;
+            SelfStoryViewsView selfStoryViewsView = storyViewer17.selfStoryViewsView;
+            boolean z4 = selfStoryViewsView != null && selfStoryViewsView.progressToOpen == 1.0f;
+            if (!storyViewer17.inSwipeToDissmissMode && !z4) {
+                storyViewer17.gestureDetector.onTouchEvent(motionEvent);
             }
             return StoryViewer.this.inSwipeToDissmissMode || super.onInterceptTouchEvent(motionEvent);
         }

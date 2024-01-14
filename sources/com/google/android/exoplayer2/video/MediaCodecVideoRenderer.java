@@ -2447,8 +2447,8 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
                             case 135:
                             case 136:
                             case 137:
-                            case MessagesStorage.LAST_DB_VERSION /* 138 */:
-                            case 139:
+                            case 138:
+                            case MessagesStorage.LAST_DB_VERSION /* 139 */:
                                 break;
                             default:
                                 str2.hashCode();

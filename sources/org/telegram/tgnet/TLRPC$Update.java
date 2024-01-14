@@ -516,6 +516,14 @@ public abstract class TLRPC$Update extends TLObject {
             case 967122427:
                 tLRPC$TL_updateTheme = new TLRPC$TL_updateNewScheduledMessage();
                 break;
+            case 969307186:
+                tLRPC$TL_updateTheme = new TLRPC$Update() { // from class: org.telegram.tgnet.TLRPC$TL_updateSavedReactionTags
+                    @Override // org.telegram.tgnet.TLObject
+                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
+                        abstractSerializedData2.writeInt32(969307186);
+                    }
+                };
+                break;
             case 1037718609:
                 tLRPC$TL_updateTheme = new TLRPC$TL_updateChatParticipantAdd();
                 break;

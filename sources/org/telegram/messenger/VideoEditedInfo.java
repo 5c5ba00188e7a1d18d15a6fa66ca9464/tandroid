@@ -54,6 +54,7 @@ public class VideoEditedInfo {
     public String messagePath;
     public String messageVideoMaskPath;
     public boolean muted;
+    public boolean notReadyYet;
     public int originalBitrate;
     public long originalDuration;
     public int originalHeight;
@@ -66,6 +67,7 @@ public class VideoEditedInfo {
     public boolean roundVideo;
     public float start;
     public long startTime;
+    public Bitmap thumb;
     public boolean videoConvertFirstWrite;
     public long avatarStartTime = -1;
     public int framerate = 24;

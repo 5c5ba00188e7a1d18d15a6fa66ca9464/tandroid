@@ -309,6 +309,7 @@ public class Track {
 
     public void prepare() {
         int i;
+        this.duration = 0L;
         ArrayList arrayList = new ArrayList(this.samplePresentationTimes);
         Collections.sort(this.samplePresentationTimes, Track$$ExternalSyntheticLambda0.INSTANCE);
         this.sampleDurations = new long[this.samplePresentationTimes.size()];

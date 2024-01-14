@@ -851,11 +851,19 @@ public class ChatListItemAnimator extends DefaultItemAnimator {
 
                     @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                     public void onAnimationEnd(Animator animator) {
-                        MessageObject.GroupedMessages currentMessagesGroup;
                         animator.removeAllListeners();
                         ChatListItemAnimator.this.restoreTransitionParams(viewHolder2.itemView);
-                        if ((viewHolder2.itemView instanceof ChatMessageCell) && (currentMessagesGroup = ((ChatMessageCell) view4).getCurrentMessagesGroup()) != null) {
-                            currentMessagesGroup.transitionParams.reset();
+                        View view5 = viewHolder2.itemView;
+                        if (view5 instanceof ChatMessageCell) {
+                            ChatMessageCell chatMessageCell3 = (ChatMessageCell) view5;
+                            if (chatMessageCell3.makeVisibleAfterChange) {
+                                chatMessageCell3.makeVisibleAfterChange = false;
+                                chatMessageCell3.setVisibility(0);
+                            }
+                            MessageObject.GroupedMessages currentMessagesGroup = chatMessageCell3.getCurrentMessagesGroup();
+                            if (currentMessagesGroup != null) {
+                                currentMessagesGroup.transitionParams.reset();
+                            }
                         }
                         if (ChatListItemAnimator.this.mMoveAnimations.remove(viewHolder2)) {
                             ChatListItemAnimator.this.dispatchMoveFinished(viewHolder2);
@@ -1017,11 +1025,19 @@ public class ChatListItemAnimator extends DefaultItemAnimator {
 
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationEnd(Animator animator) {
-                    MessageObject.GroupedMessages currentMessagesGroup2;
                     animator.removeAllListeners();
                     ChatListItemAnimator.this.restoreTransitionParams(viewHolder2.itemView);
-                    if ((viewHolder2.itemView instanceof ChatMessageCell) && (currentMessagesGroup2 = ((ChatMessageCell) view42).getCurrentMessagesGroup()) != null) {
-                        currentMessagesGroup2.transitionParams.reset();
+                    View view52 = viewHolder2.itemView;
+                    if (view52 instanceof ChatMessageCell) {
+                        ChatMessageCell chatMessageCell32 = (ChatMessageCell) view52;
+                        if (chatMessageCell32.makeVisibleAfterChange) {
+                            chatMessageCell32.makeVisibleAfterChange = false;
+                            chatMessageCell32.setVisibility(0);
+                        }
+                        MessageObject.GroupedMessages currentMessagesGroup2 = chatMessageCell32.getCurrentMessagesGroup();
+                        if (currentMessagesGroup2 != null) {
+                            currentMessagesGroup2.transitionParams.reset();
+                        }
                     }
                     if (ChatListItemAnimator.this.mMoveAnimations.remove(viewHolder2)) {
                         ChatListItemAnimator.this.dispatchMoveFinished(viewHolder2);
@@ -1055,11 +1071,19 @@ public class ChatListItemAnimator extends DefaultItemAnimator {
 
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationEnd(Animator animator) {
-                MessageObject.GroupedMessages currentMessagesGroup2;
                 animator.removeAllListeners();
                 ChatListItemAnimator.this.restoreTransitionParams(viewHolder2.itemView);
-                if ((viewHolder2.itemView instanceof ChatMessageCell) && (currentMessagesGroup2 = ((ChatMessageCell) view422).getCurrentMessagesGroup()) != null) {
-                    currentMessagesGroup2.transitionParams.reset();
+                View view52 = viewHolder2.itemView;
+                if (view52 instanceof ChatMessageCell) {
+                    ChatMessageCell chatMessageCell32 = (ChatMessageCell) view52;
+                    if (chatMessageCell32.makeVisibleAfterChange) {
+                        chatMessageCell32.makeVisibleAfterChange = false;
+                        chatMessageCell32.setVisibility(0);
+                    }
+                    MessageObject.GroupedMessages currentMessagesGroup2 = chatMessageCell32.getCurrentMessagesGroup();
+                    if (currentMessagesGroup2 != null) {
+                        currentMessagesGroup2.transitionParams.reset();
+                    }
                 }
                 if (ChatListItemAnimator.this.mMoveAnimations.remove(viewHolder2)) {
                     ChatListItemAnimator.this.dispatchMoveFinished(viewHolder2);

@@ -100,6 +100,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
     private int rawBackgroundBitmapFrame;
     protected volatile Bitmap renderingBitmap;
     private boolean resetVibrationAfterRestart;
+    public boolean scaleByCanvas;
     private float scaleX;
     private float scaleY;
     protected int secondFramesCount;
@@ -109,6 +110,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
     private boolean shouldLimitFps;
     private boolean singleFrameDecoded;
     public boolean skipFrameUpdate;
+    public android.graphics.Rect srcRect;
     protected int timeBetweenFrames;
     protected Runnable uiRunnable;
     private Runnable uiRunnableCacheFinished;
@@ -604,6 +606,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
                 RLottieDrawable.uiHandler.post(RLottieDrawable.this.uiRunnableNoFrame);
             }
         };
+        this.srcRect = new android.graphics.Rect();
         this.rawBackgroundBitmapFrame = -1;
         this.width = i;
         this.height = i2;
@@ -942,6 +945,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
                 RLottieDrawable.uiHandler.post(RLottieDrawable.this.uiRunnableNoFrame);
             }
         };
+        this.srcRect = new android.graphics.Rect();
         this.rawBackgroundBitmapFrame = -1;
         this.width = i;
         this.height = i2;
@@ -1312,6 +1316,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
                 RLottieDrawable.uiHandler.post(RLottieDrawable.this.uiRunnableNoFrame);
             }
         };
+        this.srcRect = new android.graphics.Rect();
         this.rawBackgroundBitmapFrame = -1;
         this.width = i;
         this.height = i2;
@@ -1743,6 +1748,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
                 RLottieDrawable.uiHandler.post(RLottieDrawable.this.uiRunnableNoFrame);
             }
         };
+        this.srcRect = new android.graphics.Rect();
         this.rawBackgroundBitmapFrame = -1;
         this.width = i2;
         this.height = i3;
@@ -2229,11 +2235,11 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
 
     public void drawInternal(Canvas canvas, Paint paint, boolean z, long j, int i) {
         float f;
+        boolean z2;
         float f2;
         if (!canLoadFrames() || this.destroyWhenDone) {
             return;
         }
-        boolean z2 = false;
         if (!z) {
             updateCurrentFrame(j, false);
         }
@@ -2244,30 +2250,40 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
         if (paint.getAlpha() == 0 || this.isInvalid || this.renderingBitmap == null) {
             return;
         }
+        boolean z3 = true;
         if (!z) {
             rectF.set(getBounds());
             if (this.applyTransformation) {
                 this.scaleX = rectF.width() / this.width;
                 this.scaleY = rectF.height() / this.height;
                 this.applyTransformation = false;
-                this.needScale = (Math.abs(rectF.width() - ((float) this.width)) >= ((float) AndroidUtilities.dp(1.0f)) || Math.abs(rectF.height() - ((float) this.height)) >= ((float) AndroidUtilities.dp(1.0f))) ? true : true;
+                if (Math.abs(rectF.width() - this.width) < AndroidUtilities.dp(1.0f) && Math.abs(rectF.height() - this.height) < AndroidUtilities.dp(1.0f)) {
+                    z3 = false;
+                }
+                this.needScale = z3;
             }
-            f = this.scaleX;
-            f2 = this.scaleY;
+            f2 = this.scaleX;
+            f = this.scaleY;
             z2 = this.needScale;
         } else {
             float width = rectF.width() / this.width;
             float height = rectF.height() / this.height;
-            z2 = (Math.abs(rectF.width() - ((float) this.width)) >= ((float) AndroidUtilities.dp(1.0f)) || Math.abs(rectF.height() - ((float) this.height)) >= ((float) AndroidUtilities.dp(1.0f))) ? true : true;
-            f = width;
-            f2 = height;
+            if (Math.abs(rectF.width() - this.width) < AndroidUtilities.dp(1.0f) && Math.abs(rectF.height() - this.height) < AndroidUtilities.dp(1.0f)) {
+                z3 = false;
+            }
+            f = height;
+            z2 = z3;
+            f2 = width;
         }
         if (!z2) {
             canvas.drawBitmap(this.renderingBitmap, rectF.left, rectF.top, paint);
+        } else if (this.scaleByCanvas) {
+            this.srcRect.set(0, 0, this.renderingBitmap.getWidth(), this.renderingBitmap.getHeight());
+            canvas.drawBitmap(this.renderingBitmap, this.srcRect, rectF, paint);
         } else {
             canvas.save();
             canvas.translate(rectF.left, rectF.top);
-            canvas.scale(f, f2);
+            canvas.scale(f2, f);
             canvas.drawBitmap(this.renderingBitmap, 0.0f, 0.0f, paint);
             canvas.restore();
         }

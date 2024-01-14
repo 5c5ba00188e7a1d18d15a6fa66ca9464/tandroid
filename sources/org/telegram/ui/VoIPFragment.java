@@ -107,6 +107,7 @@ import org.telegram.ui.Components.voip.VoIPStatusTextView;
 import org.telegram.ui.Components.voip.VoIPTextureView;
 import org.telegram.ui.Components.voip.VoIPToggleButton;
 import org.telegram.ui.Components.voip.VoIPWindowView;
+import org.telegram.ui.Components.voip.VoIpCoverView;
 import org.telegram.ui.Components.voip.VoIpGradientLayout;
 import org.telegram.ui.Components.voip.VoIpHintView;
 import org.telegram.ui.Components.voip.VoIpSnowView;
@@ -198,6 +199,7 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
     View topShadow;
     float touchSlop;
     ValueAnimator uiVisibilityAnimator;
+    private VoIpCoverView voIpCoverView;
     private VoIpSnowView voIpSnowView;
     private boolean wasEstablished;
     private VoIPWindowView windowView;
@@ -787,6 +789,9 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
         this.callingUserTextureView.renderer.setRotateTextureWithScreen(true);
         this.callingUserTextureView.scaleType = VoIPTextureView.SCALE_TYPE_FIT;
         frameLayout.addView(this.gradientLayout, LayoutHelper.createFrame(-1, -1.0f));
+        VoIpCoverView voIpCoverView = new VoIpCoverView(context, this.callingUser, this.backgroundProvider);
+        this.voIpCoverView = voIpCoverView;
+        frameLayout.addView(voIpCoverView, LayoutHelper.createFrame(-1, -1.0f));
         VoIpSnowView voIpSnowView = new VoIpSnowView(context);
         this.voIpSnowView = voIpSnowView;
         frameLayout.addView(voIpSnowView, LayoutHelper.createFrame(-1, 220.0f));
@@ -859,6 +864,7 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
         linearLayout.setOrientation(0);
         this.emojiLayout.setPadding(0, 0, 0, AndroidUtilities.dp(30.0f));
         this.emojiLayout.setClipToPadding(false);
+        this.emojiLayout.setContentDescription(LocaleController.getString("VoipHintEncryptionKey", R.string.VoipHintEncryptionKey));
         this.emojiLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.VoIPFragment$$ExternalSyntheticLambda13
             @Override // android.view.View.OnClickListener
             public final void onClick(View view3) {
@@ -952,7 +958,6 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
         this.callingUserTitle.setText(Emoji.replaceEmoji((CharSequence) ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name), this.callingUserTitle.getPaint().getFontMetricsInt(), AndroidUtilities.dp(20.0f), false));
         this.callingUserTitle.setMaxLines(2);
         this.callingUserTitle.setEllipsize(TextUtils.TruncateAt.END);
-        this.callingUserTitle.setShadowLayer(AndroidUtilities.dp(3.0f), 0.0f, AndroidUtilities.dp(0.6666667f), 1275068416);
         this.callingUserTitle.setTextColor(-1);
         this.callingUserTitle.setGravity(1);
         this.callingUserTitle.setImportantForAccessibility(2);
@@ -1718,6 +1723,7 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
     public void expandEmoji(boolean z) {
         if (this.emojiLoaded && this.emojiExpanded != z && this.uiVisible) {
             this.emojiExpanded = z;
+            this.voIpCoverView.onEmojiExpanded(z);
             if (z) {
                 if (SharedConfig.callEncryptionHintDisplayedCount < 2) {
                     SharedConfig.incrementCallEncryptionHintDisplayed(2);
@@ -1804,10 +1810,10 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
     /* JADX WARN: Removed duplicated region for block: B:107:0x0468 A[RETURN] */
     /* JADX WARN: Removed duplicated region for block: B:108:0x0469  */
     /* JADX WARN: Removed duplicated region for block: B:354:0x08d0  */
-    /* JADX WARN: Removed duplicated region for block: B:402:0x0a35  */
-    /* JADX WARN: Removed duplicated region for block: B:404:0x0a3a  */
-    /* JADX WARN: Removed duplicated region for block: B:407:0x0a4e  */
-    /* JADX WARN: Removed duplicated region for block: B:412:0x0a6a  */
+    /* JADX WARN: Removed duplicated region for block: B:402:0x0a3f  */
+    /* JADX WARN: Removed duplicated region for block: B:404:0x0a44  */
+    /* JADX WARN: Removed duplicated region for block: B:407:0x0a58  */
+    /* JADX WARN: Removed duplicated region for block: B:412:0x0a74  */
     /* JADX WARN: Removed duplicated region for block: B:416:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -2274,6 +2280,7 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
                     this.callingUserMiniFloatingLayout.restoreRelativePosition();
                     updateSpeakerPhoneIcon();
                     if (this.currentState == 3) {
+                        this.voIpCoverView.onConnected();
                         this.callingUserPhotoViewMini.onConnected();
                         if (!this.gradientLayout.isConnectedCalled()) {
                             int[] iArr2 = new int[2];
@@ -2281,6 +2288,7 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
                             this.gradientLayout.switchToCallConnected(iArr2[0] + AndroidUtilities.dp(106.0f), iArr2[1] + AndroidUtilities.dp(106.0f), this.previousState != -1);
                             z5 = !this.currentUserIsVideo || this.callingUserIsVideo;
                             this.voIpSnowView.setState(z5);
+                            this.voIpCoverView.setState(z5);
                             this.backgroundProvider.setHasVideo(z5);
                             if (this.callingUserIsVideo && !z8 && this.isNearEar) {
                                 this.isNearEar = false;
@@ -2308,6 +2316,7 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
                     if (this.currentUserIsVideo) {
                     }
                     this.voIpSnowView.setState(z5);
+                    this.voIpCoverView.setState(z5);
                     this.backgroundProvider.setHasVideo(z5);
                     if (this.callingUserIsVideo) {
                         this.isNearEar = false;

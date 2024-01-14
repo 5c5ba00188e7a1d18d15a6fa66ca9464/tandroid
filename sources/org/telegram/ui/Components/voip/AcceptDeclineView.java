@@ -161,7 +161,7 @@ public class AcceptDeclineView extends View {
                 motionEvent.getX();
                 this.startY = motionEvent.getY();
                 if (this.leftAnimator == null && this.declineRect.contains((int) motionEvent.getX(), (int) motionEvent.getY())) {
-                    this.rippleDrawable = Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(52.0f), 0, this.retryMod ? -1 : -51130);
+                    this.rippleDrawable = Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(52.0f), 0, this.retryMod ? Theme.getColor(Theme.key_listSelector) : -51130);
                     this.captured = true;
                     this.leftDrag = true;
                     setPressed(true);

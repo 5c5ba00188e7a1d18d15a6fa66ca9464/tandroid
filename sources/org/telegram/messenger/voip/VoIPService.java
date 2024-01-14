@@ -4601,10 +4601,10 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:44:0x00f3 A[Catch: all -> 0x014f, TryCatch #1 {, blocks: (B:12:0x0023, B:14:0x0027, B:16:0x0029, B:18:0x0042, B:23:0x0055, B:25:0x006c, B:28:0x008a, B:36:0x00a8, B:42:0x00dc, B:44:0x00f3, B:49:0x0114, B:51:0x011a, B:56:0x0128, B:61:0x013e, B:62:0x014d, B:54:0x0122, B:45:0x0109, B:30:0x0090, B:32:0x0094, B:34:0x009e, B:35:0x00a3, B:26:0x0082, B:39:0x00d0, B:41:0x00d7, B:19:0x0048, B:21:0x0051), top: B:70:0x0023, inners: #0 }] */
-    /* JADX WARN: Removed duplicated region for block: B:45:0x0109 A[Catch: all -> 0x014f, TryCatch #1 {, blocks: (B:12:0x0023, B:14:0x0027, B:16:0x0029, B:18:0x0042, B:23:0x0055, B:25:0x006c, B:28:0x008a, B:36:0x00a8, B:42:0x00dc, B:44:0x00f3, B:49:0x0114, B:51:0x011a, B:56:0x0128, B:61:0x013e, B:62:0x014d, B:54:0x0122, B:45:0x0109, B:30:0x0090, B:32:0x0094, B:34:0x009e, B:35:0x00a3, B:26:0x0082, B:39:0x00d0, B:41:0x00d7, B:19:0x0048, B:21:0x0051), top: B:70:0x0023, inners: #0 }] */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x0137  */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x013a  */
+    /* JADX WARN: Removed duplicated region for block: B:48:0x00fb A[Catch: all -> 0x0157, TryCatch #0 {, blocks: (B:12:0x0023, B:14:0x0027, B:16:0x0029, B:18:0x0042, B:27:0x005d, B:29:0x0074, B:32:0x0092, B:40:0x00b0, B:46:0x00e4, B:48:0x00fb, B:53:0x011c, B:55:0x0122, B:60:0x0130, B:65:0x0146, B:66:0x0155, B:58:0x012a, B:49:0x0111, B:34:0x0098, B:36:0x009c, B:38:0x00a6, B:39:0x00ab, B:30:0x008a, B:43:0x00d8, B:45:0x00df, B:19:0x0048, B:21:0x0051, B:25:0x005a), top: B:72:0x0023, inners: #1 }] */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x0111 A[Catch: all -> 0x0157, TryCatch #0 {, blocks: (B:12:0x0023, B:14:0x0027, B:16:0x0029, B:18:0x0042, B:27:0x005d, B:29:0x0074, B:32:0x0092, B:40:0x00b0, B:46:0x00e4, B:48:0x00fb, B:53:0x011c, B:55:0x0122, B:60:0x0130, B:65:0x0146, B:66:0x0155, B:58:0x012a, B:49:0x0111, B:34:0x0098, B:36:0x009c, B:38:0x00a6, B:39:0x00ab, B:30:0x008a, B:43:0x00d8, B:45:0x00df, B:19:0x0048, B:21:0x0051, B:25:0x005a), top: B:72:0x0023, inners: #1 }] */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x013f  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x0142  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -4634,7 +4634,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
                 } else {
                     this.ringtonePlayer.setAudioStreamType(2);
                     if (!USE_CONNECTION_SERVICE) {
-                        audioManager.requestAudioFocus(this, 2, 1);
+                        this.hasAudioFocus = audioManager.requestAudioFocus(this, 2, 2) == 1;
                     }
                 }
                 try {
@@ -4800,8 +4800,8 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
             i++;
         }
         this.cpuWakelock.release();
+        final AudioManager audioManager = (AudioManager) getSystemService(MediaStreamTrack.AUDIO_TRACK_KIND);
         if (!this.playingSound) {
-            final AudioManager audioManager = (AudioManager) getSystemService(MediaStreamTrack.AUDIO_TRACK_KIND);
             VoipAudioManager voipAudioManager = VoipAudioManager.get();
             if (!USE_CONNECTION_SERVICE) {
                 if (this.isBtHeadsetConnected || this.bluetoothScoActive || this.bluetoothScoConnecting) {
@@ -4833,15 +4833,15 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
             if (audioDeviceCallback != null) {
                 audioManager.unregisterAudioDeviceCallback(audioDeviceCallback);
             }
-            if (this.hasAudioFocus) {
-                audioManager.abandonAudioFocus(this);
-            }
             Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.voip.VoIPService$$ExternalSyntheticLambda22
                 @Override // java.lang.Runnable
                 public final void run() {
                     VoIPService.this.lambda$onDestroy$70();
                 }
             });
+        }
+        if (this.hasAudioFocus) {
+            audioManager.abandonAudioFocus(this);
         }
         if (USE_CONNECTION_SERVICE) {
             if (!this.didDeleteConnectionServiceContact) {
@@ -5322,7 +5322,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         }
         try {
             AudioManager audioManager = (AudioManager) getSystemService(MediaStreamTrack.AUDIO_TRACK_KIND);
-            if (Build.VERSION.SDK_INT >= 17 && audioManager.getProperty("android.media.property.OUTPUT_FRAMES_PER_BUFFER") != null) {
+            if (audioManager.getProperty("android.media.property.OUTPUT_FRAMES_PER_BUFFER") != null) {
                 Instance.setBufferSize(Integer.parseInt(audioManager.getProperty("android.media.property.OUTPUT_FRAMES_PER_BUFFER")));
             } else {
                 Instance.setBufferSize(AudioTrack.getMinBufferSize(48000, 4, 2) / 2);
@@ -5549,7 +5549,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$configureDeviceForCall$82(AudioManager audioManager) {
-        audioManager.requestAudioFocus(this, 0, 1);
+        this.hasAudioFocus = audioManager.requestAudioFocus(this, 0, 2) == 1;
         VoipAudioManager voipAudioManager = VoipAudioManager.get();
         if (isBluetoothHeadsetConnected() && hasEarpiece()) {
             int i = this.audioRouteToSet;

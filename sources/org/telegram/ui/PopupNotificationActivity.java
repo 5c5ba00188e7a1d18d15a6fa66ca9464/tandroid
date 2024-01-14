@@ -474,6 +474,10 @@ public class PopupNotificationActivity extends Activity implements NotificationC
             }
 
             @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
+            public void toggleVideoRecordingPause() {
+            }
+
+            @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
             public void onMessageSend(CharSequence charSequence, boolean z, int i2) {
                 if (PopupNotificationActivity.this.currentMessageObject == null) {
                     return;
