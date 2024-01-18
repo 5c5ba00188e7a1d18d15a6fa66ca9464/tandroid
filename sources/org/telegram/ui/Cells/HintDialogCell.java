@@ -2,7 +2,10 @@ package org.telegram.ui.Cells;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.RectF;
+import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -12,20 +15,25 @@ import org.telegram.messenger.DialogObject;
 import org.telegram.messenger.Emoji;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
+import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
+import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$Dialog;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.tgnet.TLRPC$UserStatus;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.Components.AnimatedFloat;
 import org.telegram.ui.Components.AvatarDrawable;
 import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.CheckBox2;
 import org.telegram.ui.Components.CheckBoxBase;
 import org.telegram.ui.Components.CounterView;
+import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
+import org.telegram.ui.Components.Premium.PremiumGradient;
 /* loaded from: classes3.dex */
 public class HintDialogCell extends FrameLayout {
     private AvatarDrawable avatarDrawable;
@@ -38,16 +46,26 @@ public class HintDialogCell extends FrameLayout {
     private final boolean drawCheckbox;
     private BackupImageView imageView;
     private int lastUnreadCount;
+    private Drawable lockDrawable;
     private TextView nameTextView;
+    private boolean premiumBlocked;
+    private final AnimatedFloat premiumBlockedT;
+    private PremiumGradient.PremiumGradientTools premiumGradient;
     private Theme.ResourcesProvider resourcesProvider;
     float showOnlineProgress;
+    private boolean showPremiumBlocked;
     boolean wasDraw;
+
+    public boolean isBlocked() {
+        return this.premiumBlocked;
+    }
 
     public HintDialogCell(Context context, boolean z, Theme.ResourcesProvider resourcesProvider) {
         super(context);
         this.avatarDrawable = new AvatarDrawable();
         new RectF();
         this.currentAccount = UserConfig.selectedAccount;
+        this.premiumBlockedT = new AnimatedFloat(this, 0L, 350L, CubicBezierInterpolator.EASE_OUT_QUINT);
         this.backgroundColorKey = Theme.key_windowBackgroundWhite;
         this.drawCheckbox = z;
         BackupImageView backupImageView = new BackupImageView(context);
@@ -80,7 +98,7 @@ public class HintDialogCell extends FrameLayout {
             checkBox2.setColor(Theme.key_dialogRoundCheckBox, Theme.key_dialogBackground, Theme.key_dialogRoundCheckBoxCheck);
             this.checkBox.setDrawUnchecked(false);
             this.checkBox.setDrawBackgroundAsArc(4);
-            this.checkBox.setProgressDelegate(new CheckBoxBase.ProgressDelegate() { // from class: org.telegram.ui.Cells.HintDialogCell$$ExternalSyntheticLambda0
+            this.checkBox.setProgressDelegate(new CheckBoxBase.ProgressDelegate() { // from class: org.telegram.ui.Cells.HintDialogCell$$ExternalSyntheticLambda1
                 @Override // org.telegram.ui.Components.CheckBoxBase.ProgressDelegate
                 public final void setProgress(float f) {
                     HintDialogCell.this.lambda$new$0(f);
@@ -98,6 +116,36 @@ public class HintDialogCell extends FrameLayout {
         this.imageView.setScaleX(progress);
         this.imageView.setScaleY(progress);
         invalidate();
+    }
+
+    public void showPremiumBlocked() {
+        if (this.showPremiumBlocked) {
+            return;
+        }
+        this.showPremiumBlocked = true;
+        NotificationCenter.getInstance(this.currentAccount).listen(this, NotificationCenter.userIsPremiumBlockedUpadted, new Utilities.Callback() { // from class: org.telegram.ui.Cells.HintDialogCell$$ExternalSyntheticLambda0
+            @Override // org.telegram.messenger.Utilities.Callback
+            public final void run(Object obj) {
+                HintDialogCell.this.lambda$showPremiumBlocked$1((Object[]) obj);
+            }
+        });
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$showPremiumBlocked$1(Object[] objArr) {
+        updatePremiumBlocked(true);
+    }
+
+    private void updatePremiumBlocked(boolean z) {
+        boolean z2 = this.premiumBlocked;
+        boolean z3 = this.showPremiumBlocked && this.currentUser != null && MessagesController.getInstance(this.currentAccount).isUserPremiumBlocked(this.currentUser.id);
+        this.premiumBlocked = z3;
+        if (z2 != z3) {
+            if (!z) {
+                this.premiumBlockedT.set(z3, true);
+            }
+            invalidate();
+        }
     }
 
     @Override // android.widget.FrameLayout, android.view.View
@@ -134,10 +182,11 @@ public class HintDialogCell extends FrameLayout {
             TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(this.dialogId));
             this.currentUser = user;
             this.avatarDrawable.setInfo(this.currentAccount, user);
-            return;
+        } else {
+            this.avatarDrawable.setInfo(this.currentAccount, MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-this.dialogId)));
+            this.currentUser = null;
         }
-        this.avatarDrawable.setInfo(this.currentAccount, MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-this.dialogId)));
-        this.currentUser = null;
+        updatePremiumBlocked(true);
     }
 
     public void setColors(int i, int i2) {
@@ -177,63 +226,89 @@ public class HintDialogCell extends FrameLayout {
             this.currentUser = null;
             this.imageView.setForUserOrChat(chat, this.avatarDrawable);
         }
+        updatePremiumBlocked(false);
         if (z) {
             update(0);
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:39:0x007d  */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x008d  */
+    /* JADX WARN: Removed duplicated region for block: B:48:0x019f  */
     @Override // android.view.ViewGroup
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     protected boolean drawChild(Canvas canvas, View view, long j) {
+        float f;
+        Drawable drawable;
+        TLRPC$User tLRPC$User;
         TLRPC$UserStatus tLRPC$UserStatus;
         boolean drawChild = super.drawChild(canvas, view, j);
         if (view == this.imageView) {
-            TLRPC$User tLRPC$User = this.currentUser;
-            boolean z = (tLRPC$User == null || tLRPC$User.bot || (((tLRPC$UserStatus = tLRPC$User.status) == null || tLRPC$UserStatus.expires <= ConnectionsManager.getInstance(this.currentAccount).getCurrentTime()) && !MessagesController.getInstance(this.currentAccount).onlinePrivacy.containsKey(Long.valueOf(this.currentUser.id)))) ? false : true;
+            boolean z = (this.premiumBlocked || (tLRPC$User = this.currentUser) == null || tLRPC$User.bot || (((tLRPC$UserStatus = tLRPC$User.status) == null || tLRPC$UserStatus.expires <= ConnectionsManager.getInstance(this.currentAccount).getCurrentTime()) && !MessagesController.getInstance(this.currentAccount).onlinePrivacy.containsKey(Long.valueOf(this.currentUser.id)))) ? false : true;
             if (!this.wasDraw) {
                 this.showOnlineProgress = z ? 1.0f : 0.0f;
             }
             if (z) {
-                float f = this.showOnlineProgress;
-                if (f != 1.0f) {
-                    float f2 = f + 0.10666667f;
-                    this.showOnlineProgress = f2;
-                    if (f2 > 1.0f) {
+                float f2 = this.showOnlineProgress;
+                if (f2 != 1.0f) {
+                    float f3 = f2 + 0.10666667f;
+                    this.showOnlineProgress = f3;
+                    if (f3 > 1.0f) {
                         this.showOnlineProgress = 1.0f;
                     }
                     invalidate();
-                    if (this.showOnlineProgress != 0.0f) {
+                    f = this.premiumBlockedT.set(this.premiumBlocked);
+                    if (f <= 0.0f) {
+                        float y = view.getY() + (view.getHeight() / 2.0f) + AndroidUtilities.dp(18.0f);
+                        float x = view.getX() + (view.getWidth() / 2.0f) + AndroidUtilities.dp(18.0f);
+                        canvas.save();
+                        Theme.dialogs_onlineCirclePaint.setColor(Theme.getColor(this.backgroundColorKey, this.resourcesProvider));
+                        canvas.drawCircle(x, y, AndroidUtilities.dp(11.33f) * f, Theme.dialogs_onlineCirclePaint);
+                        if (this.premiumGradient == null) {
+                            this.premiumGradient = new PremiumGradient.PremiumGradientTools(Theme.key_premiumGradient1, Theme.key_premiumGradient2, -1, -1, -1, this.resourcesProvider);
+                        }
+                        this.premiumGradient.gradientMatrix((int) (x - AndroidUtilities.dp(10.0f)), (int) (y - AndroidUtilities.dp(10.0f)), (int) (AndroidUtilities.dp(10.0f) + x), (int) (AndroidUtilities.dp(10.0f) + y), 0.0f, 0.0f);
+                        canvas.drawCircle(x, y, AndroidUtilities.dp(10.0f) * f, this.premiumGradient.paint);
+                        if (this.lockDrawable == null) {
+                            Drawable mutate = getContext().getResources().getDrawable(R.drawable.msg_mini_lock2).mutate();
+                            this.lockDrawable = mutate;
+                            mutate.setColorFilter(new PorterDuffColorFilter(-1, PorterDuff.Mode.SRC_IN));
+                        }
+                        this.lockDrawable.setBounds((int) (x - (((drawable.getIntrinsicWidth() / 2.0f) * 0.875f) * f)), (int) (y - (((this.lockDrawable.getIntrinsicHeight() / 2.0f) * 0.875f) * f)), (int) (x + ((this.lockDrawable.getIntrinsicWidth() / 2.0f) * 0.875f * f)), (int) (y + ((this.lockDrawable.getIntrinsicHeight() / 2.0f) * 0.875f * f)));
+                        this.lockDrawable.setAlpha((int) (f * 255.0f));
+                        this.lockDrawable.draw(canvas);
+                        canvas.restore();
+                    } else if (this.showOnlineProgress != 0.0f) {
                         int dp = AndroidUtilities.dp(53.0f);
                         int dp2 = AndroidUtilities.dp(59.0f);
                         canvas.save();
-                        float f3 = this.showOnlineProgress;
-                        float f4 = dp2;
-                        float f5 = dp;
-                        canvas.scale(f3, f3, f4, f5);
+                        float f4 = this.showOnlineProgress;
+                        float f5 = dp2;
+                        float f6 = dp;
+                        canvas.scale(f4, f4, f5, f6);
                         Theme.dialogs_onlineCirclePaint.setColor(Theme.getColor(this.backgroundColorKey));
-                        canvas.drawCircle(f4, f5, AndroidUtilities.dp(7.0f), Theme.dialogs_onlineCirclePaint);
+                        canvas.drawCircle(f5, f6, AndroidUtilities.dp(7.0f), Theme.dialogs_onlineCirclePaint);
                         Theme.dialogs_onlineCirclePaint.setColor(Theme.getColor(Theme.key_chats_onlineCircle));
-                        canvas.drawCircle(f4, f5, AndroidUtilities.dp(5.0f), Theme.dialogs_onlineCirclePaint);
+                        canvas.drawCircle(f5, f6, AndroidUtilities.dp(5.0f), Theme.dialogs_onlineCirclePaint);
                         canvas.restore();
                     }
                     this.wasDraw = true;
                 }
             }
             if (!z) {
-                float f6 = this.showOnlineProgress;
-                if (f6 != 0.0f) {
-                    float f7 = f6 - 0.10666667f;
-                    this.showOnlineProgress = f7;
-                    if (f7 < 0.0f) {
+                float f7 = this.showOnlineProgress;
+                if (f7 != 0.0f) {
+                    float f8 = f7 - 0.10666667f;
+                    this.showOnlineProgress = f8;
+                    if (f8 < 0.0f) {
                         this.showOnlineProgress = 0.0f;
                     }
                     invalidate();
                 }
             }
-            if (this.showOnlineProgress != 0.0f) {
+            f = this.premiumBlockedT.set(this.premiumBlocked);
+            if (f <= 0.0f) {
             }
             this.wasDraw = true;
         }

@@ -1,9 +1,9 @@
 package org.telegram.messenger;
 /* loaded from: classes.dex */
-public final /* synthetic */ class NotificationCenter$$ExternalSyntheticLambda1 implements Runnable {
+public final /* synthetic */ class NotificationCenter$$ExternalSyntheticLambda2 implements Runnable {
     public final /* synthetic */ NotificationCenter f$0;
 
-    public /* synthetic */ NotificationCenter$$ExternalSyntheticLambda1(NotificationCenter notificationCenter) {
+    public /* synthetic */ NotificationCenter$$ExternalSyntheticLambda2(NotificationCenter notificationCenter) {
         this.f$0 = notificationCenter;
     }
 

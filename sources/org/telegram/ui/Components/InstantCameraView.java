@@ -1671,6 +1671,10 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                 if (this.recording) {
                     z = false;
                 } else {
+                    if (InstantCameraView.this.videoEncoder == null) {
+                        InstantCameraView instantCameraView = InstantCameraView.this;
+                        instantCameraView.videoEncoder = new VideoRecorder();
+                    }
                     if (InstantCameraView.this.videoEncoder.started) {
                         if (!InstantCameraView.this.cameraReady) {
                             InstantCameraView.this.cameraReady = true;
@@ -1689,8 +1693,8 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                     int currentOrientation = this.currentSession.getCurrentOrientation();
                     if (currentOrientation == 90 || currentOrientation == 270) {
                         float f = InstantCameraView.this.scaleX;
-                        InstantCameraView instantCameraView = InstantCameraView.this;
-                        instantCameraView.scaleX = instantCameraView.scaleY;
+                        InstantCameraView instantCameraView2 = InstantCameraView.this;
+                        instantCameraView2.scaleX = instantCameraView2.scaleY;
                         InstantCameraView.this.scaleY = f;
                     }
                     this.recording = true;

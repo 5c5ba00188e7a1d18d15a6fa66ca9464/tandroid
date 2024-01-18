@@ -14,6 +14,7 @@ public abstract class TLRPC$UserFull extends TLObject {
     public TLRPC$BotInfo bot_info;
     public boolean can_pin_message;
     public int common_chats_count;
+    public boolean contact_require_premium;
     public TLRPC$Photo fallback_photo;
     public int flags;
     public int folder_id;
@@ -28,6 +29,7 @@ public abstract class TLRPC$UserFull extends TLObject {
     public ArrayList<TLRPC$TL_premiumGiftOption> premium_gifts = new ArrayList<>();
     public String private_forward_name;
     public TLRPC$Photo profile_photo;
+    public boolean read_dates_private;
     public TLRPC$TL_peerSettings settings;
     public TL_stories$PeerStories stories;
     public boolean stories_pinned_available;

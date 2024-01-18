@@ -237,7 +237,7 @@ public class TopicsController extends BaseController {
      */
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r4v3 */
-    /* JADX WARN: Type inference failed for: r4v4, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r4v4, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r4v5 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -421,7 +421,7 @@ public class TopicsController extends BaseController {
             return;
         }
         final long j2 = -j;
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda7
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
                 TopicsController.this.lambda$updateTopicsWithDeletedMessages$9(j, arrayList, j2);
@@ -431,7 +431,7 @@ public class TopicsController extends BaseController {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$updateTopicsWithDeletedMessages$9(final long j, final ArrayList arrayList, final long j2) {
-        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda6
+        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
                 TopicsController.this.lambda$updateTopicsWithDeletedMessages$8(j, arrayList, j2);
@@ -1234,11 +1234,11 @@ public class TopicsController extends BaseController {
         }
     }
 
-    public void loadTopic(final long j, final int i, final Runnable runnable) {
+    public void loadTopic(final long j, final long j2, final Runnable runnable) {
         getMessagesStorage().loadTopics(-j, new Consumer() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda20
             @Override // j$.util.function.Consumer
             public final void accept(Object obj) {
-                TopicsController.this.lambda$loadTopic$25(j, i, runnable, (ArrayList) obj);
+                TopicsController.this.lambda$loadTopic$25(j, j2, runnable, (ArrayList) obj);
             }
 
             @Override // j$.util.function.Consumer
@@ -1249,17 +1249,17 @@ public class TopicsController extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadTopic$25(final long j, final int i, final Runnable runnable, final ArrayList arrayList) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda5
+    public /* synthetic */ void lambda$loadTopic$25(final long j, final long j2, final Runnable runnable, final ArrayList arrayList) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
             public final void run() {
-                TopicsController.this.lambda$loadTopic$24(j, arrayList, i, runnable);
+                TopicsController.this.lambda$loadTopic$24(j, arrayList, j2, runnable);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadTopic$24(long j, ArrayList arrayList, int i, Runnable runnable) {
+    public /* synthetic */ void lambda$loadTopic$24(long j, ArrayList arrayList, long j2, Runnable runnable) {
         if (BuildVars.LOGS_ENABLED) {
             StringBuilder sb = new StringBuilder();
             sb.append("loaded from cache ");
@@ -1270,12 +1270,12 @@ public class TopicsController extends BaseController {
         }
         processTopics(j, arrayList, null, true, 0, -1);
         sortTopics(j);
-        if (findTopic(j, i) != null) {
+        if (findTopic(j, j2) != null) {
             runnable.run();
             return;
         }
         ArrayList<TLRPC$TL_forumTopic> arrayList2 = new ArrayList<>();
-        new TLRPC$TL_forumTopic().id = i;
+        new TLRPC$TL_forumTopic().id = (int) j2;
         reloadTopics(j, arrayList2, runnable);
     }
 

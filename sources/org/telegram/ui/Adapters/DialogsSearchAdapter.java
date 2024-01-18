@@ -134,6 +134,8 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
 
     /* loaded from: classes3.dex */
     public interface DialogsSearchAdapterDelegate {
+        void didPressedBlockedDialog(View view, long j);
+
         void didPressedOnSubDialog(long j);
 
         long getSearchForumDialogId();
@@ -180,16 +182,18 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         private boolean drawChecked;
         private final Context mContext;
         private Theme.ResourcesProvider resourcesProvider;
+        private boolean showPremiumBlock;
 
         @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
         public boolean isEnabled(RecyclerView.ViewHolder viewHolder) {
             return true;
         }
 
-        public CategoryAdapterRecycler(Context context, int i, boolean z, Theme.ResourcesProvider resourcesProvider) {
+        public CategoryAdapterRecycler(Context context, int i, boolean z, boolean z2, Theme.ResourcesProvider resourcesProvider) {
             this.drawChecked = z;
             this.mContext = context;
             this.currentAccount = i;
+            this.showPremiumBlock = z2;
             this.resourcesProvider = resourcesProvider;
         }
 
@@ -200,6 +204,9 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             HintDialogCell hintDialogCell = new HintDialogCell(this.mContext, this.drawChecked, this.resourcesProvider);
+            if (this.showPremiumBlock) {
+                hintDialogCell.showPremiumBlocked();
+            }
             hintDialogCell.setLayoutParams(new RecyclerView.LayoutParams(AndroidUtilities.dp(80.0f), AndroidUtilities.dp(86.0f)));
             return new RecyclerListView.Holder(hintDialogCell);
         }
@@ -1497,9 +1504,20 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onCreateViewHolder$17(View view, int i) {
-        DialogsSearchAdapterDelegate dialogsSearchAdapterDelegate = this.delegate;
-        if (dialogsSearchAdapterDelegate != null) {
-            dialogsSearchAdapterDelegate.didPressedOnSubDialog(((Long) view.getTag()).longValue());
+        if (view instanceof HintDialogCell) {
+            HintDialogCell hintDialogCell = (HintDialogCell) view;
+            if (hintDialogCell.isBlocked()) {
+                DialogsSearchAdapterDelegate dialogsSearchAdapterDelegate = this.delegate;
+                if (dialogsSearchAdapterDelegate != null) {
+                    dialogsSearchAdapterDelegate.didPressedBlockedDialog(view, hintDialogCell.getDialogId());
+                    return;
+                }
+                return;
+            }
+        }
+        DialogsSearchAdapterDelegate dialogsSearchAdapterDelegate2 = this.delegate;
+        if (dialogsSearchAdapterDelegate2 != null) {
+            dialogsSearchAdapterDelegate2.didPressedOnSubDialog(((Long) view.getTag()).longValue());
         }
     }
 
@@ -1515,17 +1533,16 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
 
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        FlickerLoadingView flickerLoadingView;
         RecyclerListView recyclerListView;
         switch (i) {
             case 0:
-                flickerLoadingView = new ProfileSearchCell(this.mContext);
+                recyclerListView = new ProfileSearchCell(this.mContext).showPremiumBlock(this.dialogsType == 3);
                 break;
             case 1:
-                flickerLoadingView = new GraySectionCell(this.mContext);
+                recyclerListView = new GraySectionCell(this.mContext);
                 break;
             case 2:
-                flickerLoadingView = new DialogCell(this, null, this.mContext, false, true) { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter.3
+                recyclerListView = new DialogCell(this, null, this.mContext, false, true) { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter.3
                     @Override // org.telegram.ui.Cells.DialogCell
                     public boolean isForumCell() {
                         return false;
@@ -1533,16 +1550,16 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                 };
                 break;
             case 3:
-                flickerLoadingView = new TopicSearchCell(this.mContext);
+                recyclerListView = new TopicSearchCell(this.mContext);
                 break;
             case 4:
-                FlickerLoadingView flickerLoadingView2 = new FlickerLoadingView(this.mContext);
-                flickerLoadingView2.setViewType(1);
-                flickerLoadingView2.setIsSingleCell(true);
-                flickerLoadingView = flickerLoadingView2;
+                FlickerLoadingView flickerLoadingView = new FlickerLoadingView(this.mContext);
+                flickerLoadingView.setViewType(1);
+                flickerLoadingView.setIsSingleCell(true);
+                recyclerListView = flickerLoadingView;
                 break;
             case 5:
-                flickerLoadingView = new HashtagSearchCell(this.mContext);
+                recyclerListView = new HashtagSearchCell(this.mContext);
                 break;
             case 6:
                 RecyclerListView recyclerListView2 = new RecyclerListView(this, this.mContext) { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter.4
@@ -1571,7 +1588,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                 };
                 linearLayoutManager.setOrientation(0);
                 recyclerListView2.setLayoutManager(linearLayoutManager);
-                recyclerListView2.setAdapter(new CategoryAdapterRecycler(this.mContext, this.currentAccount, false, this.resourcesProvider));
+                recyclerListView2.setAdapter(new CategoryAdapterRecycler(this.mContext, this.currentAccount, false, this.dialogsType == 3, this.resourcesProvider));
                 recyclerListView2.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda25
                     @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
                     public final void onItemClick(View view, int i2) {
@@ -1588,23 +1605,21 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                 });
                 this.innerListView = recyclerListView2;
                 recyclerListView = recyclerListView2;
-                flickerLoadingView = recyclerListView;
                 break;
             case 7:
             default:
                 recyclerListView = new TextCell(this.mContext, 16, false);
-                flickerLoadingView = recyclerListView;
                 break;
             case 8:
-                flickerLoadingView = new ProfileSearchCell(this.mContext);
+                recyclerListView = new ProfileSearchCell(this.mContext);
                 break;
         }
         if (i == 5) {
-            flickerLoadingView.setLayoutParams(new RecyclerView.LayoutParams(-1, AndroidUtilities.dp(86.0f)));
+            recyclerListView.setLayoutParams(new RecyclerView.LayoutParams(-1, AndroidUtilities.dp(86.0f)));
         } else {
-            flickerLoadingView.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
+            recyclerListView.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
         }
-        return new RecyclerListView.Holder(flickerLoadingView);
+        return new RecyclerListView.Holder(recyclerListView);
     }
 
     private boolean hasHints() {

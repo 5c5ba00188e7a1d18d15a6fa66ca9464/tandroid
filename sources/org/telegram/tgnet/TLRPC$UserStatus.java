@@ -1,14 +1,32 @@
 package org.telegram.tgnet;
 /* loaded from: classes3.dex */
 public abstract class TLRPC$UserStatus extends TLObject {
+    public boolean by_me;
     public int expires;
+    public int flags;
 
     public static TLRPC$UserStatus TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
         TLRPC$UserStatus tLRPC$UserStatus;
         switch (i) {
-            case -496024847:
-                tLRPC$UserStatus = new TLRPC$UserStatus() { // from class: org.telegram.tgnet.TLRPC$TL_userStatusRecently
+            case -813865807:
+                tLRPC$UserStatus = new TLRPC$UserStatus() { // from class: org.telegram.tgnet.TLRPC$TL_userStatusHidden
                     @Override // org.telegram.tgnet.TLObject
+                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
+                    }
+
+                    @Override // org.telegram.tgnet.TLObject
+                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
+                        abstractSerializedData2.writeInt32(-813865807);
+                    }
+                };
+                break;
+            case -496024847:
+                tLRPC$UserStatus = new TLRPC$TL_userStatusRecently() { // from class: org.telegram.tgnet.TLRPC$TL_userStatusRecently_layer171
+                    @Override // org.telegram.tgnet.TLRPC$TL_userStatusRecently, org.telegram.tgnet.TLObject
+                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
+                    }
+
+                    @Override // org.telegram.tgnet.TLRPC$TL_userStatusRecently, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
                         abstractSerializedData2.writeInt32(-496024847);
                     }
@@ -43,8 +61,12 @@ public abstract class TLRPC$UserStatus extends TLObject {
                 };
                 break;
             case 129960444:
-                tLRPC$UserStatus = new TLRPC$UserStatus() { // from class: org.telegram.tgnet.TLRPC$TL_userStatusLastWeek
-                    @Override // org.telegram.tgnet.TLObject
+                tLRPC$UserStatus = new TLRPC$TL_userStatusLastWeek() { // from class: org.telegram.tgnet.TLRPC$TL_userStatusLastWeek_layer171
+                    @Override // org.telegram.tgnet.TLRPC$TL_userStatusLastWeek, org.telegram.tgnet.TLObject
+                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
+                    }
+
+                    @Override // org.telegram.tgnet.TLRPC$TL_userStatusLastWeek, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
                         abstractSerializedData2.writeInt32(129960444);
                     }
@@ -58,13 +80,26 @@ public abstract class TLRPC$UserStatus extends TLObject {
                     }
                 };
                 break;
+            case 1410997530:
+                tLRPC$UserStatus = new TLRPC$TL_userStatusLastWeek();
+                break;
+            case 1703516023:
+                tLRPC$UserStatus = new TLRPC$TL_userStatusLastMonth();
+                break;
             case 2011940674:
-                tLRPC$UserStatus = new TLRPC$UserStatus() { // from class: org.telegram.tgnet.TLRPC$TL_userStatusLastMonth
-                    @Override // org.telegram.tgnet.TLObject
+                tLRPC$UserStatus = new TLRPC$TL_userStatusLastMonth() { // from class: org.telegram.tgnet.TLRPC$TL_userStatusLastMonth_layer171
+                    @Override // org.telegram.tgnet.TLRPC$TL_userStatusLastMonth, org.telegram.tgnet.TLObject
+                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
+                    }
+
+                    @Override // org.telegram.tgnet.TLRPC$TL_userStatusLastMonth, org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
                         abstractSerializedData2.writeInt32(2011940674);
                     }
                 };
+                break;
+            case 2065268168:
+                tLRPC$UserStatus = new TLRPC$TL_userStatusRecently();
                 break;
             default:
                 tLRPC$UserStatus = null;

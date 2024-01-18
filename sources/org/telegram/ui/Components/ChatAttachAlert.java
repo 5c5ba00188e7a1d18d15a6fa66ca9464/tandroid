@@ -4854,21 +4854,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:166:0x0055, code lost:
-        if (((org.telegram.ui.ChatActivity) r10.baseFragment).allowSendPhotos() != false) goto L24;
-     */
-    /* JADX WARN: Removed duplicated region for block: B:185:0x007d  */
-    /* JADX WARN: Removed duplicated region for block: B:187:0x0081  */
-    /* JADX WARN: Removed duplicated region for block: B:191:0x0090  */
-    /* JADX WARN: Removed duplicated region for block: B:201:0x00ad  */
-    /* JADX WARN: Removed duplicated region for block: B:202:0x00b9  */
-    /* JADX WARN: Removed duplicated region for block: B:205:0x00cb  */
-    /* JADX WARN: Removed duplicated region for block: B:231:0x0169  */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
     private void updateActionBarVisibility(final boolean z, boolean z2) {
-        boolean z3;
         AttachAlertLayout attachAlertLayout;
         if (!(z && this.actionBar.getTag() == null) && (z || this.actionBar.getTag() == null)) {
             return;
@@ -4879,147 +4865,123 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             animatorSet.cancel();
             this.actionBarAnimation = null;
         }
-        if (this.searchItem != null) {
-            if (!this.avatarSearch) {
-                if (this.currentAttachLayout == this.photoLayout && !this.menuShowed) {
-                    BaseFragment baseFragment = this.baseFragment;
-                    if (baseFragment instanceof ChatActivity) {
-                        if (((ChatActivity) baseFragment).allowSendGifs()) {
-                        }
-                    }
-                }
+        ActionBarMenuItem actionBarMenuItem = this.searchItem;
+        boolean z3 = actionBarMenuItem != null && this.avatarSearch;
+        boolean z4 = !this.isPhotoPicker && !(this.avatarPicker == 0 && this.menuShowed) && this.currentAttachLayout == this.photoLayout && (this.photosEnabled || this.videosEnabled);
+        if (this.currentAttachLayout == this.restrictedLayout) {
+            z3 = false;
+            z4 = false;
+        }
+        if (z) {
+            if (z3) {
+                actionBarMenuItem.setVisibility(0);
             }
-            z3 = true;
-            boolean z4 = this.isPhotoPicker && !(this.avatarPicker == 0 && this.menuShowed) && this.currentAttachLayout == this.photoLayout && (this.photosEnabled || this.videosEnabled);
-            if (this.currentAttachLayout == this.restrictedLayout) {
-                z3 = false;
-                z4 = false;
+            if (z4) {
+                this.selectedMenuItem.setVisibility(0);
             }
-            if (!z) {
-                if (z3) {
-                    this.searchItem.setVisibility(0);
-                }
-                if (z4) {
-                    this.selectedMenuItem.setVisibility(0);
-                }
-            } else if (this.typeButtonsAvailable && this.frameLayout2.getTag() == null) {
-                this.buttonsRecyclerView.setVisibility(0);
+        } else if (this.typeButtonsAvailable && this.frameLayout2.getTag() == null) {
+            this.buttonsRecyclerView.setVisibility(0);
+        }
+        if (getWindow() != null && this.baseFragment != null) {
+            if (z) {
+                AndroidUtilities.setLightStatusBar(getWindow(), isLightStatusBar());
+            } else {
+                AndroidUtilities.setLightStatusBar(getWindow(), this.baseFragment.isLightStatusBar());
             }
-            if (getWindow() != null && this.baseFragment != null) {
-                if (!z) {
-                    AndroidUtilities.setLightStatusBar(getWindow(), isLightStatusBar());
-                } else {
-                    AndroidUtilities.setLightStatusBar(getWindow(), this.baseFragment.isLightStatusBar());
-                }
+        }
+        if (z2) {
+            AnimatorSet animatorSet2 = new AnimatorSet();
+            this.actionBarAnimation = animatorSet2;
+            animatorSet2.setDuration(Math.abs((z ? 1.0f : 0.0f) - this.actionBar.getAlpha()) * 180.0f);
+            ArrayList arrayList = new ArrayList();
+            ActionBar actionBar = this.actionBar;
+            Property property = View.ALPHA;
+            float[] fArr = new float[1];
+            fArr[0] = z ? 1.0f : 0.0f;
+            arrayList.add(ObjectAnimator.ofFloat(actionBar, property, fArr));
+            View view = this.actionBarShadow;
+            Property property2 = View.ALPHA;
+            float[] fArr2 = new float[1];
+            fArr2[0] = z ? 1.0f : 0.0f;
+            arrayList.add(ObjectAnimator.ofFloat(view, property2, fArr2));
+            if (z3) {
+                ActionBarMenuItem actionBarMenuItem2 = this.searchItem;
+                Property property3 = View.ALPHA;
+                float[] fArr3 = new float[1];
+                fArr3[0] = z ? 1.0f : 0.0f;
+                arrayList.add(ObjectAnimator.ofFloat(actionBarMenuItem2, property3, fArr3));
             }
-            if (!z2) {
-                AnimatorSet animatorSet2 = new AnimatorSet();
-                this.actionBarAnimation = animatorSet2;
-                animatorSet2.setDuration(Math.abs((z ? 1.0f : 0.0f) - this.actionBar.getAlpha()) * 180.0f);
-                ArrayList arrayList = new ArrayList();
-                ActionBar actionBar = this.actionBar;
-                Property property = View.ALPHA;
-                float[] fArr = new float[1];
-                fArr[0] = z ? 1.0f : 0.0f;
-                arrayList.add(ObjectAnimator.ofFloat(actionBar, property, fArr));
-                View view = this.actionBarShadow;
-                Property property2 = View.ALPHA;
-                float[] fArr2 = new float[1];
-                fArr2[0] = z ? 1.0f : 0.0f;
-                arrayList.add(ObjectAnimator.ofFloat(view, property2, fArr2));
-                if (z3) {
-                    ActionBarMenuItem actionBarMenuItem = this.searchItem;
-                    Property property3 = View.ALPHA;
-                    float[] fArr3 = new float[1];
-                    fArr3[0] = z ? 1.0f : 0.0f;
-                    arrayList.add(ObjectAnimator.ofFloat(actionBarMenuItem, property3, fArr3));
+            if (z4) {
+                ActionBarMenuItem actionBarMenuItem3 = this.selectedMenuItem;
+                Property property4 = View.ALPHA;
+                float[] fArr4 = new float[1];
+                fArr4[0] = z ? 1.0f : 0.0f;
+                arrayList.add(ObjectAnimator.ofFloat(actionBarMenuItem3, property4, fArr4));
+            }
+            this.actionBarAnimation.playTogether(arrayList);
+            this.actionBarAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ChatAttachAlert.22
+                {
+                    ChatAttachAlert.this = this;
                 }
-                if (z4) {
-                    ActionBarMenuItem actionBarMenuItem2 = this.selectedMenuItem;
-                    Property property4 = View.ALPHA;
-                    float[] fArr4 = new float[1];
-                    fArr4[0] = z ? 1.0f : 0.0f;
-                    arrayList.add(ObjectAnimator.ofFloat(actionBarMenuItem2, property4, fArr4));
-                }
-                this.actionBarAnimation.playTogether(arrayList);
-                this.actionBarAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ChatAttachAlert.22
-                    {
-                        ChatAttachAlert.this = this;
-                    }
 
-                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                    public void onAnimationEnd(Animator animator) {
-                        if (ChatAttachAlert.this.actionBarAnimation != null) {
-                            if (z) {
-                                ChatAttachAlert chatAttachAlert = ChatAttachAlert.this;
-                                if (chatAttachAlert.typeButtonsAvailable) {
-                                    if (chatAttachAlert.currentAttachLayout == null || ChatAttachAlert.this.currentAttachLayout.shouldHideBottomButtons()) {
-                                        ChatAttachAlert.this.buttonsRecyclerView.setVisibility(4);
-                                        return;
-                                    }
+                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                public void onAnimationEnd(Animator animator) {
+                    if (ChatAttachAlert.this.actionBarAnimation != null) {
+                        if (z) {
+                            ChatAttachAlert chatAttachAlert = ChatAttachAlert.this;
+                            if (chatAttachAlert.typeButtonsAvailable) {
+                                if (chatAttachAlert.currentAttachLayout == null || ChatAttachAlert.this.currentAttachLayout.shouldHideBottomButtons()) {
+                                    ChatAttachAlert.this.buttonsRecyclerView.setVisibility(4);
                                     return;
                                 }
                                 return;
                             }
-                            ActionBarMenuItem actionBarMenuItem3 = ChatAttachAlert.this.searchItem;
-                            if (actionBarMenuItem3 != null) {
-                                actionBarMenuItem3.setVisibility(4);
-                            }
-                            ChatAttachAlert chatAttachAlert2 = ChatAttachAlert.this;
-                            if (chatAttachAlert2.avatarPicker == 0 && chatAttachAlert2.menuShowed) {
-                                return;
-                            }
-                            ChatAttachAlert.this.selectedMenuItem.setVisibility(4);
+                            return;
                         }
+                        ActionBarMenuItem actionBarMenuItem4 = ChatAttachAlert.this.searchItem;
+                        if (actionBarMenuItem4 != null) {
+                            actionBarMenuItem4.setVisibility(4);
+                        }
+                        ChatAttachAlert chatAttachAlert2 = ChatAttachAlert.this;
+                        if (chatAttachAlert2.avatarPicker == 0 && chatAttachAlert2.menuShowed) {
+                            return;
+                        }
+                        ChatAttachAlert.this.selectedMenuItem.setVisibility(4);
                     }
+                }
 
-                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                    public void onAnimationCancel(Animator animator) {
-                        ChatAttachAlert.this.actionBarAnimation = null;
-                    }
-                });
-                this.actionBarAnimation.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
-                this.actionBarAnimation.setDuration(380L);
-                this.actionBarAnimation.start();
-                return;
-            }
-            if (z && this.typeButtonsAvailable && ((attachAlertLayout = this.currentAttachLayout) == null || attachAlertLayout.shouldHideBottomButtons())) {
-                this.buttonsRecyclerView.setVisibility(4);
-            }
-            this.actionBar.setAlpha(z ? 1.0f : 0.0f);
-            this.actionBarShadow.setAlpha(z ? 1.0f : 0.0f);
-            if (z3) {
-                this.searchItem.setAlpha(z ? 1.0f : 0.0f);
-            }
-            if (z4) {
-                this.selectedMenuItem.setAlpha(z ? 1.0f : 0.0f);
-            }
-            if (z) {
-                return;
-            }
-            ActionBarMenuItem actionBarMenuItem3 = this.searchItem;
-            if (actionBarMenuItem3 != null) {
-                actionBarMenuItem3.setVisibility(4);
-            }
-            if (this.avatarPicker == 0 && this.menuShowed) {
-                return;
-            }
-            this.selectedMenuItem.setVisibility(4);
+                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                public void onAnimationCancel(Animator animator) {
+                    ChatAttachAlert.this.actionBarAnimation = null;
+                }
+            });
+            this.actionBarAnimation.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
+            this.actionBarAnimation.setDuration(380L);
+            this.actionBarAnimation.start();
             return;
         }
-        z3 = false;
-        if (this.isPhotoPicker) {
+        if (z && this.typeButtonsAvailable && ((attachAlertLayout = this.currentAttachLayout) == null || attachAlertLayout.shouldHideBottomButtons())) {
+            this.buttonsRecyclerView.setVisibility(4);
         }
-        if (this.currentAttachLayout == this.restrictedLayout) {
+        this.actionBar.setAlpha(z ? 1.0f : 0.0f);
+        this.actionBarShadow.setAlpha(z ? 1.0f : 0.0f);
+        if (z3) {
+            this.searchItem.setAlpha(z ? 1.0f : 0.0f);
         }
-        if (!z) {
+        if (z4) {
+            this.selectedMenuItem.setAlpha(z ? 1.0f : 0.0f);
         }
-        if (getWindow() != null) {
-            if (!z) {
-            }
+        if (z) {
+            return;
         }
-        if (!z2) {
+        ActionBarMenuItem actionBarMenuItem4 = this.searchItem;
+        if (actionBarMenuItem4 != null) {
+            actionBarMenuItem4.setVisibility(4);
         }
+        if (this.avatarPicker == 0 && this.menuShowed) {
+            return;
+        }
+        this.selectedMenuItem.setVisibility(4);
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:85:0x0062, code lost:
@@ -5068,10 +5030,10 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         this.containerView.invalidate();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:190:0x010b  */
-    /* JADX WARN: Removed duplicated region for block: B:194:0x011a  */
-    /* JADX WARN: Removed duplicated region for block: B:200:0x012b  */
-    /* JADX WARN: Removed duplicated region for block: B:224:0x016b  */
+    /* JADX WARN: Removed duplicated region for block: B:194:0x010f  */
+    /* JADX WARN: Removed duplicated region for block: B:198:0x011e  */
+    /* JADX WARN: Removed duplicated region for block: B:204:0x012f  */
+    /* JADX WARN: Removed duplicated region for block: B:228:0x016f  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -5131,7 +5093,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             animatorSet2.cancel();
             this.menuAnimator = null;
         }
-        if (this.searchItem != null && this.actionBar.getTag() != null) {
+        if (this.avatarPicker != 0 && this.searchItem != null && this.actionBar.getTag() != null) {
             BaseFragment baseFragment = this.baseFragment;
             if ((baseFragment instanceof ChatActivity) && ((ChatActivity) baseFragment).allowSendGifs()) {
                 z = true;

@@ -10,6 +10,6 @@ public final /* synthetic */ class ShareAlert$$ExternalSyntheticLambda16 impleme
 
     @Override // org.telegram.messenger.GenericProvider
     public final Object provide(Object obj) {
-        return ShareAlert.$r8$lambda$ye5xd1h77f0HMFf3cns-Mj6wC_g((Integer) obj);
+        return ShareAlert.$r8$lambda$jLy3Cqoj4KvBZTCeS-HrOnXpKW4((Integer) obj);
     }
 }

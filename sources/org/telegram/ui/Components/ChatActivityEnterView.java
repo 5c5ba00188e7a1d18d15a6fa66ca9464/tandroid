@@ -8403,8 +8403,8 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         return this.moveToSendStateRunnable != null;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:443:0x03b8 A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:444:0x03b9  */
+    /* JADX WARN: Removed duplicated region for block: B:446:0x03ba  */
+    /* JADX WARN: Removed duplicated region for block: B:448:0x03bd  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -8428,6 +8428,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         }
         if (this.recordingAudioVideo) {
             if (this.recordInterfaceState == 1) {
+                this.lastRecordState = i;
                 return;
             }
             final boolean z2 = this.lastRecordState == 3;
@@ -8609,6 +8610,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             AndroidUtilities.unlockOrientation(this.parentActivity);
             this.wasSendTyping = false;
             if (this.recordInterfaceState != 0) {
+                this.lastRecordState = i;
                 return;
             }
             this.accountInstance.getMessagesController().sendTyping(this.dialog_id, getThreadMessageId(), 2, 0);

@@ -6,6 +6,9 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +24,7 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
+import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Chat;
@@ -31,11 +35,13 @@ import org.telegram.tgnet.TLRPC$UserProfilePhoto;
 import org.telegram.tgnet.TLRPC$UserStatus;
 import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.Components.AnimatedFloat;
 import org.telegram.ui.Components.AvatarDrawable;
 import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.CheckBox2;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
+import org.telegram.ui.Components.Premium.PremiumGradient;
 /* loaded from: classes3.dex */
 public class GroupCreateUserCell extends FrameLayout {
     private ValueAnimator animator;
@@ -54,16 +60,56 @@ public class GroupCreateUserCell extends FrameLayout {
     private TLRPC$FileLocation lastAvatar;
     private String lastName;
     private int lastStatus;
+    private Drawable lockDrawable;
     private SimpleTextView nameTextView;
     private int padding;
     private Paint paint;
+    private boolean premiumBlocked;
+    private final AnimatedFloat premiumBlockedT;
+    private PremiumGradient.PremiumGradientTools premiumGradient;
     Theme.ResourcesProvider resourcesProvider;
+    private boolean showPremiumBlocked;
     private boolean showSelfAsSaved;
     private SimpleTextView statusTextView;
 
     @Override // android.view.View
     public boolean hasOverlappingRendering() {
         return false;
+    }
+
+    public boolean isBlocked() {
+        return this.premiumBlocked;
+    }
+
+    public GroupCreateUserCell showPremiumBlocked() {
+        if (this.showPremiumBlocked) {
+            return this;
+        }
+        this.showPremiumBlocked = true;
+        NotificationCenter.getInstance(this.currentAccount).listen(this, NotificationCenter.userIsPremiumBlockedUpadted, new Utilities.Callback() { // from class: org.telegram.ui.Cells.GroupCreateUserCell$$ExternalSyntheticLambda1
+            @Override // org.telegram.messenger.Utilities.Callback
+            public final void run(Object obj) {
+                GroupCreateUserCell.this.lambda$showPremiumBlocked$0((Object[]) obj);
+            }
+        });
+        return this;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$showPremiumBlocked$0(Object[] objArr) {
+        updatePremiumBlocked(true);
+    }
+
+    private void updatePremiumBlocked(boolean z) {
+        boolean z2 = this.premiumBlocked;
+        boolean z3 = this.showPremiumBlocked && (this.currentObject instanceof TLRPC$User) && MessagesController.getInstance(this.currentAccount).isUserPremiumBlocked(((TLRPC$User) this.currentObject).id);
+        this.premiumBlocked = z3;
+        if (z2 != z3) {
+            if (!z) {
+                this.premiumBlockedT.set(z3, true);
+            }
+            invalidate();
+        }
     }
 
     public GroupCreateUserCell(Context context, int i, int i2, boolean z) {
@@ -73,6 +119,7 @@ public class GroupCreateUserCell extends FrameLayout {
     public GroupCreateUserCell(Context context, int i, int i2, boolean z, boolean z2, Theme.ResourcesProvider resourcesProvider) {
         super(context);
         this.currentAccount = UserConfig.selectedAccount;
+        this.premiumBlockedT = new AnimatedFloat(this, 0L, 350L, CubicBezierInterpolator.EASE_OUT_QUINT);
         this.resourcesProvider = resourcesProvider;
         this.checkBoxType = i;
         this.forceDarkTheme = z2;
@@ -170,7 +217,7 @@ public class GroupCreateUserCell extends FrameLayout {
                 ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Cells.GroupCreateUserCell$$ExternalSyntheticLambda0
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                        GroupCreateUserCell.this.lambda$setChecked$0(valueAnimator2);
+                        GroupCreateUserCell.this.lambda$setChecked$1(valueAnimator2);
                     }
                 });
                 this.animator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.GroupCreateUserCell.2
@@ -192,7 +239,7 @@ public class GroupCreateUserCell extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$setChecked$0(ValueAnimator valueAnimator) {
+    public /* synthetic */ void lambda$setChecked$1(ValueAnimator valueAnimator) {
         float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         float f = this.isChecked ? 1.0f - (0.18f * floatValue) : 0.82f + (0.18f * floatValue);
         this.avatarImageView.setScaleX(f);
@@ -237,13 +284,6 @@ public class GroupCreateUserCell extends FrameLayout {
         this.avatarImageView.getImageReceiver().cancelLoadImage();
     }
 
-    /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:45:0x00d3, code lost:
-        if (r12.equals("archived") == false) goto L15;
-     */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
     public void update(int i) {
         String str;
         String str2;
@@ -274,63 +314,58 @@ public class GroupCreateUserCell extends FrameLayout {
             }
             String str4 = (String) this.currentObject;
             str4.hashCode();
+            char c = 65535;
             switch (str4.hashCode()) {
                 case -1716307998:
+                    if (str4.equals("archived")) {
+                        c = 0;
+                        break;
+                    }
                     break;
                 case -1237460524:
                     if (str4.equals("groups")) {
-                        r2 = 1;
+                        c = 1;
                         break;
                     }
-                    r2 = -1;
                     break;
                 case -1197490811:
                     if (str4.equals("non_contacts")) {
-                        r2 = 2;
+                        c = 2;
                         break;
                     }
-                    r2 = -1;
                     break;
                 case -567451565:
                     if (str4.equals("contacts")) {
-                        r2 = 3;
+                        c = 3;
                         break;
                     }
-                    r2 = -1;
                     break;
                 case 3029900:
                     if (str4.equals("bots")) {
-                        r2 = 4;
+                        c = 4;
                         break;
                     }
-                    r2 = -1;
                     break;
                 case 3496342:
                     if (str4.equals("read")) {
-                        r2 = 5;
+                        c = 5;
                         break;
                     }
-                    r2 = -1;
                     break;
                 case 104264043:
                     if (str4.equals("muted")) {
-                        r2 = 6;
+                        c = 6;
                         break;
                     }
-                    r2 = -1;
                     break;
                 case 1432626128:
                     if (str4.equals("channels")) {
-                        r2 = 7;
+                        c = 7;
                         break;
                     }
-                    r2 = -1;
-                    break;
-                default:
-                    r2 = -1;
                     break;
             }
-            switch (r2) {
+            switch (c) {
                 case 0:
                     this.avatarDrawable.setAvatarType(11);
                     break;
@@ -542,12 +577,13 @@ public class GroupCreateUserCell extends FrameLayout {
             }
             simpleTextView10.setTextColor(Theme.getColor(i6, this.resourcesProvider));
         }
+        updatePremiumBlocked(false);
     }
 
     @Override // android.view.View
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        if (this.checkBoxType == 2 && (this.isChecked || this.checkProgress > 0.0f)) {
+        if (this.premiumBlockedT.set(this.premiumBlocked) <= 0.0f && this.checkBoxType == 2 && (this.isChecked || this.checkProgress > 0.0f)) {
             this.paint.setColor(Theme.getColor(Theme.key_checkboxSquareBackground, this.resourcesProvider));
             canvas.drawCircle(this.avatarImageView.getLeft() + (this.avatarImageView.getMeasuredWidth() / 2), this.avatarImageView.getTop() + (this.avatarImageView.getMeasuredHeight() / 2), AndroidUtilities.dp(18.0f) + (AndroidUtilities.dp(4.0f) * this.checkProgress), this.paint);
         }
@@ -560,6 +596,34 @@ public class GroupCreateUserCell extends FrameLayout {
                 return;
             }
             canvas.drawRect(dp, getMeasuredHeight() - 1, measuredWidth, getMeasuredHeight(), Theme.dividerPaint);
+        }
+    }
+
+    @Override // android.view.ViewGroup, android.view.View
+    protected void dispatchDraw(Canvas canvas) {
+        super.dispatchDraw(canvas);
+        float f = this.premiumBlockedT.set(this.premiumBlocked);
+        if (f > 0.0f) {
+            float y = this.avatarImageView.getY() + (this.avatarImageView.getHeight() / 2.0f) + AndroidUtilities.dp(18.0f);
+            float x = this.avatarImageView.getX() + (this.avatarImageView.getWidth() / 2.0f) + AndroidUtilities.dp(18.0f);
+            canvas.save();
+            Theme.dialogs_onlineCirclePaint.setColor(Theme.getColor(Theme.key_windowBackgroundWhite, this.resourcesProvider));
+            canvas.drawCircle(x, y, AndroidUtilities.dp(11.33f) * f, Theme.dialogs_onlineCirclePaint);
+            if (this.premiumGradient == null) {
+                this.premiumGradient = new PremiumGradient.PremiumGradientTools(Theme.key_premiumGradient1, Theme.key_premiumGradient2, -1, -1, -1, this.resourcesProvider);
+            }
+            this.premiumGradient.gradientMatrix((int) (x - AndroidUtilities.dp(10.0f)), (int) (y - AndroidUtilities.dp(10.0f)), (int) (AndroidUtilities.dp(10.0f) + x), (int) (AndroidUtilities.dp(10.0f) + y), 0.0f, 0.0f);
+            canvas.drawCircle(x, y, AndroidUtilities.dp(10.0f) * f, this.premiumGradient.paint);
+            if (this.lockDrawable == null) {
+                Drawable mutate = getContext().getResources().getDrawable(R.drawable.msg_mini_lock2).mutate();
+                this.lockDrawable = mutate;
+                mutate.setColorFilter(new PorterDuffColorFilter(-1, PorterDuff.Mode.SRC_IN));
+            }
+            Drawable drawable = this.lockDrawable;
+            drawable.setBounds((int) (x - (((drawable.getIntrinsicWidth() / 2.0f) * 0.875f) * f)), (int) (y - (((this.lockDrawable.getIntrinsicHeight() / 2.0f) * 0.875f) * f)), (int) (x + ((this.lockDrawable.getIntrinsicWidth() / 2.0f) * 0.875f * f)), (int) (y + ((this.lockDrawable.getIntrinsicHeight() / 2.0f) * 0.875f * f)));
+            this.lockDrawable.setAlpha((int) (f * 255.0f));
+            this.lockDrawable.draw(canvas);
+            canvas.restore();
         }
     }
 
