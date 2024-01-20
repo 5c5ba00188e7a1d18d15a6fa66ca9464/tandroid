@@ -7400,7 +7400,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 f7 -= this.dialogsHintCell.getMeasuredHeight() * this.rightSlidingDialogContainer.openedProgress;
             }
             this.dialogsHintCell.setTranslationY(f7);
-            f7 += this.dialogsHintCell.getMeasuredHeight();
+            f7 += this.dialogsHintCell.getMeasuredHeight() * (1.0f - this.searchAnimationProgress);
         }
         UnconfirmedAuthHintCell unconfirmedAuthHintCell = this.authHintCell;
         if (unconfirmedAuthHintCell != null && unconfirmedAuthHintCell.getVisibility() == 0) {
@@ -8873,9 +8873,16 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     }
                 }
             }
+            FragmentContextView fragmentContextView = this.fragmentContextView;
+            if (fragmentContextView != null && Build.VERSION.SDK_INT >= 21) {
+                fragmentContextView.setTranslationZ(1.0f);
+            }
             this.searchAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.DialogsActivity.43
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationEnd(Animator animator3) {
+                    if (DialogsActivity.this.fragmentContextView != null && Build.VERSION.SDK_INT >= 21) {
+                        DialogsActivity.this.fragmentContextView.setTranslationZ(0.0f);
+                    }
                     DialogsActivity.this.notificationsLocker.unlock();
                     if (DialogsActivity.this.searchAnimator != animator3) {
                         return;

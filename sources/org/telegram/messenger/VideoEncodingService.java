@@ -76,11 +76,7 @@ public class VideoEncodingService extends Service implements NotificationCenter.
                 Boolean bool = (Boolean) objArr[3];
                 int i3 = (int) (min * 100.0f);
                 this.builder.setProgress(100, i3, i3 == 0);
-                try {
-                    NotificationManagerCompat.from(ApplicationLoader.applicationContext).notify(4, this.builder.build());
-                } catch (Throwable th) {
-                    FileLog.e(th);
-                }
+                updateNotification();
             }
         } else if (i == NotificationCenter.fileUploaded || i == NotificationCenter.fileUploadFailed) {
             String str4 = (String) objArr[0];
@@ -105,13 +101,25 @@ public class VideoEncodingService extends Service implements NotificationCenter.
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
+    public void updateNotification() {
+        try {
+            if (MediaController.getInstance().getCurrentForegroundConverMessage() == null) {
+                return;
+            }
+            NotificationManagerCompat.from(ApplicationLoader.applicationContext).notify(4, this.builder.build());
+        } catch (Throwable th) {
+            FileLog.e(th);
+        }
+    }
+
     @Override // android.app.Service
     public int onStartCommand(Intent intent, int i, int i2) {
-        if (isRunning()) {
+        MediaController.VideoConvertMessage currentForegroundConverMessage;
+        if (isRunning() || (currentForegroundConverMessage = MediaController.getInstance().getCurrentForegroundConverMessage()) == null) {
             return 2;
         }
         instance = this;
-        MediaController.VideoConvertMessage currentForegroundConverMessage = MediaController.getInstance().getCurrentForegroundConverMessage();
         if (this.builder == null) {
             NotificationsController.checkOtherNotificationsChannel();
             NotificationCompat.Builder builder = new NotificationCompat.Builder(ApplicationLoader.applicationContext, NotificationsController.OTHER_NOTIFICATIONS_CHANNEL);
@@ -130,15 +138,10 @@ public class VideoEncodingService extends Service implements NotificationCenter.
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.VideoEncodingService$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
-                VideoEncodingService.this.lambda$onStartCommand$1();
+                VideoEncodingService.this.updateNotification();
             }
         });
         return 2;
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onStartCommand$1() {
-        NotificationManagerCompat.from(ApplicationLoader.applicationContext).notify(4, this.builder.build());
     }
 
     private void updateBuilderForMessage(MediaController.VideoConvertMessage videoConvertMessage) {
@@ -179,7 +182,7 @@ public class VideoEncodingService extends Service implements NotificationCenter.
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.fileUploadFailed);
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.fileUploaded);
         if (isRunning()) {
-            NotificationManagerCompat.from(ApplicationLoader.applicationContext).notify(4, this.builder.build());
+            updateNotification();
         }
     }
 

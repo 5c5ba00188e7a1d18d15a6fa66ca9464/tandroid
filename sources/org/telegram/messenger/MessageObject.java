@@ -2564,16 +2564,16 @@ public class MessageObject {
         this.totalAnimatedEmojiCount = 0;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:1001:0x04fa A[EDGE_INSN: B:1001:0x04fa->B:195:0x04fa ?: BREAK  , SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1011:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1013:0x04fa A[EDGE_INSN: B:1013:0x04fa->B:195:0x04fa ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1023:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:186:0x04d4  */
     /* JADX WARN: Removed duplicated region for block: B:193:0x04e4 A[LOOP:0: B:170:0x04a0->B:193:0x04e4, LOOP_END] */
     /* JADX WARN: Removed duplicated region for block: B:474:0x0ce4  */
-    /* JADX WARN: Removed duplicated region for block: B:955:0x1af5  */
-    /* JADX WARN: Removed duplicated region for block: B:958:0x1b46  */
-    /* JADX WARN: Removed duplicated region for block: B:960:0x1b49  */
-    /* JADX WARN: Removed duplicated region for block: B:972:0x1bcb  */
-    /* JADX WARN: Removed duplicated region for block: B:976:0x1bd2  */
+    /* JADX WARN: Removed duplicated region for block: B:967:0x1b2c  */
+    /* JADX WARN: Removed duplicated region for block: B:970:0x1b7d  */
+    /* JADX WARN: Removed duplicated region for block: B:972:0x1b80  */
+    /* JADX WARN: Removed duplicated region for block: B:984:0x1c02  */
+    /* JADX WARN: Removed duplicated region for block: B:988:0x1c09  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -3727,18 +3727,28 @@ public class MessageObject {
                                             messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogSendMessages", R.string.EventLogSendMessages), "un1", user2);
                                         } else if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionChangeAvailableReactions) {
                                             TLRPC$TL_channelAdminLogEventActionChangeAvailableReactions tLRPC$TL_channelAdminLogEventActionChangeAvailableReactions = (TLRPC$TL_channelAdminLogEventActionChangeAvailableReactions) tLRPC$ChannelAdminLogEventAction;
-                                            CharSequence stringFrom = messageObject.getStringFrom(tLRPC$TL_channelAdminLogEventActionChangeAvailableReactions.prev_value);
-                                            CharSequence stringFrom2 = messageObject.getStringFrom(tLRPC$TL_channelAdminLogEventActionChangeAvailableReactions.new_value);
-                                            SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(replaceWithLink(LocaleController.formatString("ActionReactionsChanged", R.string.ActionReactionsChanged, "**old**", "**new**"), "un1", user2));
-                                            int indexOf = spannableStringBuilder.toString().indexOf("**old**");
-                                            if (indexOf > 0) {
-                                                spannableStringBuilder.replace(indexOf, indexOf + 7, stringFrom);
+                                            boolean z7 = (tLRPC$TL_channelAdminLogEventActionChangeAvailableReactions.prev_value instanceof TLRPC$TL_chatReactionsSome) && (tLRPC$TL_channelAdminLogEventActionChangeAvailableReactions.new_value instanceof TLRPC$TL_chatReactionsSome);
+                                            CharSequence stringFrom = messageObject.getStringFrom(tLRPC$TL_channelAdminLogEventActionChangeAvailableReactions.new_value);
+                                            if (z7) {
+                                                SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(replaceWithLink(LocaleController.formatString("ActionReactionsChangedList", R.string.ActionReactionsChangedList, "**new**"), "un1", user2));
+                                                int indexOf = spannableStringBuilder.toString().indexOf("**new**");
+                                                if (indexOf > 0) {
+                                                    spannableStringBuilder.replace(indexOf, indexOf + 7, stringFrom);
+                                                }
+                                                messageObject.messageText = spannableStringBuilder;
+                                            } else {
+                                                CharSequence stringFrom2 = messageObject.getStringFrom(tLRPC$TL_channelAdminLogEventActionChangeAvailableReactions.prev_value);
+                                                SpannableStringBuilder spannableStringBuilder2 = new SpannableStringBuilder(replaceWithLink(LocaleController.formatString("ActionReactionsChanged", R.string.ActionReactionsChanged, "**old**", "**new**"), "un1", user2));
+                                                int indexOf2 = spannableStringBuilder2.toString().indexOf("**old**");
+                                                if (indexOf2 > 0) {
+                                                    spannableStringBuilder2.replace(indexOf2, indexOf2 + 7, stringFrom2);
+                                                }
+                                                int indexOf3 = spannableStringBuilder2.toString().indexOf("**new**");
+                                                if (indexOf3 > 0) {
+                                                    spannableStringBuilder2.replace(indexOf3, indexOf3 + 7, stringFrom);
+                                                }
+                                                messageObject.messageText = spannableStringBuilder2;
                                             }
-                                            int indexOf2 = spannableStringBuilder.toString().indexOf("**new**");
-                                            if (indexOf2 > 0) {
-                                                spannableStringBuilder.replace(indexOf2, indexOf2 + 7, stringFrom2);
-                                            }
-                                            messageObject.messageText = spannableStringBuilder;
                                         } else if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionChangeUsernames) {
                                             TLRPC$TL_channelAdminLogEventActionChangeUsernames tLRPC$TL_channelAdminLogEventActionChangeUsernames = (TLRPC$TL_channelAdminLogEventActionChangeUsernames) tLRPC$ChannelAdminLogEventAction;
                                             ArrayList<String> arrayList5 = tLRPC$TL_channelAdminLogEventActionChangeUsernames.prev_value;
@@ -3849,77 +3859,77 @@ public class MessageObject {
                                             messageObject.messageText = replaceWithLink(LocaleController.formatString(R.string.EventLogChangedColor, AvatarDrawable.colorName(tLRPC$TL_channelAdminLogEventActionChangeColor.prev_value).toLowerCase(), AvatarDrawable.colorName(tLRPC$TL_channelAdminLogEventActionChangeColor.new_value).toLowerCase()), "un1", user2);
                                         } else if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionChangePeerColor) {
                                             TLRPC$TL_channelAdminLogEventActionChangePeerColor tLRPC$TL_channelAdminLogEventActionChangePeerColor = (TLRPC$TL_channelAdminLogEventActionChangePeerColor) tLRPC$ChannelAdminLogEventAction;
-                                            SpannableStringBuilder spannableStringBuilder2 = new SpannableStringBuilder(LocaleController.getString(R.string.EventLogChangedPeerColorIcon));
-                                            SpannableStringBuilder spannableStringBuilder3 = new SpannableStringBuilder();
+                                            SpannableStringBuilder spannableStringBuilder3 = new SpannableStringBuilder(LocaleController.getString(R.string.EventLogChangedPeerColorIcon));
+                                            SpannableStringBuilder spannableStringBuilder4 = new SpannableStringBuilder();
                                             if ((tLRPC$TL_channelAdminLogEventActionChangePeerColor.prev_value.flags & 1) != 0) {
-                                                spannableStringBuilder3.append((CharSequence) "c");
+                                                spannableStringBuilder4.append((CharSequence) "c");
                                                 str = str3;
-                                                spannableStringBuilder3.setSpan(new PeerColorActivity.PeerColorSpan(false, messageObject.currentAccount, tLRPC$TL_channelAdminLogEventActionChangePeerColor.prev_value.color).setSize(AndroidUtilities.dp(18.0f)), spannableStringBuilder3.length() - 1, spannableStringBuilder3.length(), 33);
+                                                spannableStringBuilder4.setSpan(new PeerColorActivity.PeerColorSpan(false, messageObject.currentAccount, tLRPC$TL_channelAdminLogEventActionChangePeerColor.prev_value.color).setSize(AndroidUtilities.dp(18.0f)), spannableStringBuilder4.length() - 1, spannableStringBuilder4.length(), 33);
                                             } else {
                                                 str = str3;
                                             }
                                             if ((tLRPC$TL_channelAdminLogEventActionChangePeerColor.prev_value.flags & 2) != 0) {
-                                                if (spannableStringBuilder3.length() > 0) {
-                                                    spannableStringBuilder3.append((CharSequence) ", ");
-                                                }
-                                                spannableStringBuilder3.append((CharSequence) "e");
-                                                spannableStringBuilder3.setSpan(new AnimatedEmojiSpan(tLRPC$TL_channelAdminLogEventActionChangePeerColor.prev_value.background_emoji_id, Theme.chat_actionTextPaint.getFontMetricsInt()), spannableStringBuilder3.length() - 1, spannableStringBuilder3.length(), 33);
-                                            }
-                                            if (spannableStringBuilder3.length() == 0) {
-                                                spannableStringBuilder3.append((CharSequence) LocaleController.getString(R.string.EventLogEmojiNone));
-                                            }
-                                            SpannableStringBuilder spannableStringBuilder4 = new SpannableStringBuilder();
-                                            if ((tLRPC$TL_channelAdminLogEventActionChangePeerColor.new_value.flags & 1) != 0) {
-                                                spannableStringBuilder4.append((CharSequence) "c");
-                                                spannableStringBuilder4.setSpan(new PeerColorActivity.PeerColorSpan(false, messageObject.currentAccount, tLRPC$TL_channelAdminLogEventActionChangePeerColor.new_value.color).setSize(AndroidUtilities.dp(18.0f)), spannableStringBuilder4.length() - 1, spannableStringBuilder4.length(), 33);
-                                            }
-                                            if ((tLRPC$TL_channelAdminLogEventActionChangePeerColor.new_value.flags & 2) != 0) {
                                                 if (spannableStringBuilder4.length() > 0) {
                                                     spannableStringBuilder4.append((CharSequence) ", ");
                                                 }
                                                 spannableStringBuilder4.append((CharSequence) "e");
-                                                spannableStringBuilder4.setSpan(new AnimatedEmojiSpan(tLRPC$TL_channelAdminLogEventActionChangePeerColor.new_value.background_emoji_id, Theme.chat_actionTextPaint.getFontMetricsInt()), spannableStringBuilder4.length() - 1, spannableStringBuilder4.length(), 33);
+                                                spannableStringBuilder4.setSpan(new AnimatedEmojiSpan(tLRPC$TL_channelAdminLogEventActionChangePeerColor.prev_value.background_emoji_id, Theme.chat_actionTextPaint.getFontMetricsInt()), spannableStringBuilder4.length() - 1, spannableStringBuilder4.length(), 33);
                                             }
                                             if (spannableStringBuilder4.length() == 0) {
                                                 spannableStringBuilder4.append((CharSequence) LocaleController.getString(R.string.EventLogEmojiNone));
                                             }
-                                            messageObject.messageText = replaceWithLink(AndroidUtilities.replaceCharSequence("%2$s", AndroidUtilities.replaceCharSequence("%1$s", spannableStringBuilder2, spannableStringBuilder3), spannableStringBuilder4), "un1", user2);
+                                            SpannableStringBuilder spannableStringBuilder5 = new SpannableStringBuilder();
+                                            if ((tLRPC$TL_channelAdminLogEventActionChangePeerColor.new_value.flags & 1) != 0) {
+                                                spannableStringBuilder5.append((CharSequence) "c");
+                                                spannableStringBuilder5.setSpan(new PeerColorActivity.PeerColorSpan(false, messageObject.currentAccount, tLRPC$TL_channelAdminLogEventActionChangePeerColor.new_value.color).setSize(AndroidUtilities.dp(18.0f)), spannableStringBuilder5.length() - 1, spannableStringBuilder5.length(), 33);
+                                            }
+                                            if ((tLRPC$TL_channelAdminLogEventActionChangePeerColor.new_value.flags & 2) != 0) {
+                                                if (spannableStringBuilder5.length() > 0) {
+                                                    spannableStringBuilder5.append((CharSequence) ", ");
+                                                }
+                                                spannableStringBuilder5.append((CharSequence) "e");
+                                                spannableStringBuilder5.setSpan(new AnimatedEmojiSpan(tLRPC$TL_channelAdminLogEventActionChangePeerColor.new_value.background_emoji_id, Theme.chat_actionTextPaint.getFontMetricsInt()), spannableStringBuilder5.length() - 1, spannableStringBuilder5.length(), 33);
+                                            }
+                                            if (spannableStringBuilder5.length() == 0) {
+                                                spannableStringBuilder5.append((CharSequence) LocaleController.getString(R.string.EventLogEmojiNone));
+                                            }
+                                            messageObject.messageText = replaceWithLink(AndroidUtilities.replaceCharSequence("%2$s", AndroidUtilities.replaceCharSequence("%1$s", spannableStringBuilder3, spannableStringBuilder4), spannableStringBuilder5), "un1", user2);
                                         } else {
                                             str = str3;
                                             if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionChangeProfilePeerColor) {
                                                 TLRPC$TL_channelAdminLogEventActionChangeProfilePeerColor tLRPC$TL_channelAdminLogEventActionChangeProfilePeerColor = (TLRPC$TL_channelAdminLogEventActionChangeProfilePeerColor) tLRPC$ChannelAdminLogEventAction;
-                                                SpannableStringBuilder spannableStringBuilder5 = new SpannableStringBuilder(LocaleController.getString(R.string.EventLogChangedProfileColorIcon));
-                                                SpannableStringBuilder spannableStringBuilder6 = new SpannableStringBuilder();
+                                                SpannableStringBuilder spannableStringBuilder6 = new SpannableStringBuilder(LocaleController.getString(R.string.EventLogChangedProfileColorIcon));
+                                                SpannableStringBuilder spannableStringBuilder7 = new SpannableStringBuilder();
                                                 if ((tLRPC$TL_channelAdminLogEventActionChangeProfilePeerColor.prev_value.flags & 1) != 0) {
-                                                    spannableStringBuilder6.append((CharSequence) "c");
-                                                    spannableStringBuilder6.setSpan(new PeerColorActivity.PeerColorSpan(true, messageObject.currentAccount, tLRPC$TL_channelAdminLogEventActionChangeProfilePeerColor.prev_value.color).setSize(AndroidUtilities.dp(18.0f)), spannableStringBuilder6.length() - 1, spannableStringBuilder6.length(), 33);
+                                                    spannableStringBuilder7.append((CharSequence) "c");
+                                                    spannableStringBuilder7.setSpan(new PeerColorActivity.PeerColorSpan(true, messageObject.currentAccount, tLRPC$TL_channelAdminLogEventActionChangeProfilePeerColor.prev_value.color).setSize(AndroidUtilities.dp(18.0f)), spannableStringBuilder7.length() - 1, spannableStringBuilder7.length(), 33);
                                                 }
                                                 if ((tLRPC$TL_channelAdminLogEventActionChangeProfilePeerColor.prev_value.flags & 2) != 0) {
-                                                    if (spannableStringBuilder6.length() > 0) {
-                                                        spannableStringBuilder6.append((CharSequence) ", ");
-                                                    }
-                                                    spannableStringBuilder6.append((CharSequence) "e");
-                                                    spannableStringBuilder6.setSpan(new AnimatedEmojiSpan(tLRPC$TL_channelAdminLogEventActionChangeProfilePeerColor.prev_value.background_emoji_id, Theme.chat_actionTextPaint.getFontMetricsInt()), spannableStringBuilder6.length() - 1, spannableStringBuilder6.length(), 33);
-                                                }
-                                                if (spannableStringBuilder6.length() == 0) {
-                                                    spannableStringBuilder6.append((CharSequence) LocaleController.getString(R.string.EventLogEmojiNone));
-                                                }
-                                                SpannableStringBuilder spannableStringBuilder7 = new SpannableStringBuilder();
-                                                if ((tLRPC$TL_channelAdminLogEventActionChangeProfilePeerColor.new_value.flags & 1) != 0) {
-                                                    spannableStringBuilder7.append((CharSequence) "c");
-                                                    spannableStringBuilder7.setSpan(new PeerColorActivity.PeerColorSpan(true, messageObject.currentAccount, tLRPC$TL_channelAdminLogEventActionChangeProfilePeerColor.new_value.color).setSize(AndroidUtilities.dp(18.0f)), spannableStringBuilder7.length() - 1, spannableStringBuilder7.length(), 33);
-                                                }
-                                                if ((tLRPC$TL_channelAdminLogEventActionChangeProfilePeerColor.new_value.flags & 2) != 0) {
                                                     if (spannableStringBuilder7.length() > 0) {
                                                         spannableStringBuilder7.append((CharSequence) ", ");
                                                     }
                                                     spannableStringBuilder7.append((CharSequence) "e");
-                                                    spannableStringBuilder7.setSpan(new AnimatedEmojiSpan(tLRPC$TL_channelAdminLogEventActionChangeProfilePeerColor.new_value.background_emoji_id, Theme.chat_actionTextPaint.getFontMetricsInt()), spannableStringBuilder7.length() - 1, spannableStringBuilder7.length(), 33);
+                                                    spannableStringBuilder7.setSpan(new AnimatedEmojiSpan(tLRPC$TL_channelAdminLogEventActionChangeProfilePeerColor.prev_value.background_emoji_id, Theme.chat_actionTextPaint.getFontMetricsInt()), spannableStringBuilder7.length() - 1, spannableStringBuilder7.length(), 33);
                                                 }
                                                 if (spannableStringBuilder7.length() == 0) {
                                                     spannableStringBuilder7.append((CharSequence) LocaleController.getString(R.string.EventLogEmojiNone));
                                                 }
-                                                messageObject.messageText = replaceWithLink(AndroidUtilities.replaceCharSequence("%2$s", AndroidUtilities.replaceCharSequence("%1$s", spannableStringBuilder5, spannableStringBuilder6), spannableStringBuilder7), "un1", user2);
+                                                SpannableStringBuilder spannableStringBuilder8 = new SpannableStringBuilder();
+                                                if ((tLRPC$TL_channelAdminLogEventActionChangeProfilePeerColor.new_value.flags & 1) != 0) {
+                                                    spannableStringBuilder8.append((CharSequence) "c");
+                                                    spannableStringBuilder8.setSpan(new PeerColorActivity.PeerColorSpan(true, messageObject.currentAccount, tLRPC$TL_channelAdminLogEventActionChangeProfilePeerColor.new_value.color).setSize(AndroidUtilities.dp(18.0f)), spannableStringBuilder8.length() - 1, spannableStringBuilder8.length(), 33);
+                                                }
+                                                if ((tLRPC$TL_channelAdminLogEventActionChangeProfilePeerColor.new_value.flags & 2) != 0) {
+                                                    if (spannableStringBuilder8.length() > 0) {
+                                                        spannableStringBuilder8.append((CharSequence) ", ");
+                                                    }
+                                                    spannableStringBuilder8.append((CharSequence) "e");
+                                                    spannableStringBuilder8.setSpan(new AnimatedEmojiSpan(tLRPC$TL_channelAdminLogEventActionChangeProfilePeerColor.new_value.background_emoji_id, Theme.chat_actionTextPaint.getFontMetricsInt()), spannableStringBuilder8.length() - 1, spannableStringBuilder8.length(), 33);
+                                                }
+                                                if (spannableStringBuilder8.length() == 0) {
+                                                    spannableStringBuilder8.append((CharSequence) LocaleController.getString(R.string.EventLogEmojiNone));
+                                                }
+                                                messageObject.messageText = replaceWithLink(AndroidUtilities.replaceCharSequence("%2$s", AndroidUtilities.replaceCharSequence("%1$s", spannableStringBuilder6, spannableStringBuilder7), spannableStringBuilder8), "un1", user2);
                                             } else {
                                                 if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionChangeEmojiStatus) {
                                                     TLRPC$TL_channelAdminLogEventActionChangeEmojiStatus tLRPC$TL_channelAdminLogEventActionChangeEmojiStatus = (TLRPC$TL_channelAdminLogEventActionChangeEmojiStatus) tLRPC$ChannelAdminLogEventAction;
@@ -3932,7 +3942,7 @@ public class MessageObject {
                                                         z2 = false;
                                                     }
                                                     TLRPC$EmojiStatus tLRPC$EmojiStatus = tLRPC$TL_channelAdminLogEventActionChangeEmojiStatus.new_value;
-                                                    boolean z7 = tLRPC$EmojiStatus instanceof TLRPC$TL_emojiStatusUntil;
+                                                    boolean z8 = tLRPC$EmojiStatus instanceof TLRPC$TL_emojiStatusUntil;
                                                     if (tLRPC$EmojiStatus instanceof TLRPC$TL_emojiStatusEmpty) {
                                                         spannableString4 = new SpannableString(LocaleController.getString(R.string.EventLogEmojiNone));
                                                     } else {
@@ -3940,12 +3950,12 @@ public class MessageObject {
                                                         spannableString4.setSpan(new AnimatedEmojiSpan(DialogObject.getEmojiStatusDocumentId(tLRPC$TL_channelAdminLogEventActionChangeEmojiStatus.new_value), Theme.chat_actionTextPaint.getFontMetricsInt()), 0, 1, 33);
                                                     }
                                                     if (z2) {
-                                                        i3 = z7 ? R.string.EventLogChangedEmojiStatusFor : R.string.EventLogChangedEmojiStatus;
+                                                        i3 = z8 ? R.string.EventLogChangedEmojiStatusFor : R.string.EventLogChangedEmojiStatus;
                                                     } else {
-                                                        i3 = z7 ? R.string.EventLogChangedEmojiStatusFromFor : R.string.EventLogChangedEmojiStatusFrom;
+                                                        i3 = z8 ? R.string.EventLogChangedEmojiStatusFromFor : R.string.EventLogChangedEmojiStatusFrom;
                                                     }
                                                     SpannableStringBuilder replaceCharSequence = AndroidUtilities.replaceCharSequence("%2$s", AndroidUtilities.replaceCharSequence("%1$s", new SpannableStringBuilder(LocaleController.getString(i3)), spannableString3), spannableString4);
-                                                    if (z7) {
+                                                    if (z8) {
                                                         tLRPC$TL_channelAdminLogEvent2 = tLRPC$TL_channelAdminLogEvent;
                                                         replaceCharSequence = AndroidUtilities.replaceCharSequence("%3$s", replaceCharSequence, LocaleController.formatTTLString((int) ((DialogObject.getEmojiStatusUntil(tLRPC$TL_channelAdminLogEventActionChangeEmojiStatus.new_value) - tLRPC$TL_channelAdminLogEvent2.date) * 1.05f)));
                                                     } else {
@@ -4159,10 +4169,11 @@ public class MessageObject {
             SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
             for (int i = 0; i < tLRPC$TL_chatReactionsSome.reactions.size(); i++) {
                 if (i != 0) {
-                    spannableStringBuilder.append((CharSequence) ", ");
+                    spannableStringBuilder.append((CharSequence) " ");
                 }
-                spannableStringBuilder.append(ReactionsUtils.reactionToCharSequence(tLRPC$TL_chatReactionsSome.reactions.get(i)));
+                spannableStringBuilder.append(Emoji.replaceEmoji(ReactionsUtils.reactionToCharSequence(tLRPC$TL_chatReactionsSome.reactions.get(i)), null, false));
             }
+            return spannableStringBuilder;
         }
         return LocaleController.getString("NoReactions", R.string.NoReactions);
     }

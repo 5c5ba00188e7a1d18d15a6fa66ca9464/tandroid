@@ -1584,7 +1584,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     /* loaded from: classes3.dex */
     public static class InstantViewButton {
         private ButtonBounce buttonBounce;
-        private int buttonWidth;
+        private float buttonWidth;
         private StaticLayout layout;
         private final RectF rect;
         private Drawable selectorDrawable;
@@ -22444,7 +22444,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             if (z != this.drawnContactButtonsFlag) {
                 this.drawnContactButtonsFlag = 0;
                 int dp = (this.backgroundWidth - AndroidUtilities.dp(75.0f)) / i;
-                int dp2 = (this.backgroundWidth - AndroidUtilities.dp(37.0f)) / i;
+                float dpf2 = (this.backgroundWidth - AndroidUtilities.dpf2(37.0f)) / i;
                 ArrayList<InstantViewButton> arrayList = this.contactButtons;
                 if (arrayList == null) {
                     this.contactButtons = new ArrayList<>(i);
@@ -22453,25 +22453,25 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 }
                 if (this.drawContactView) {
                     this.drawnContactButtonsFlag = 1 | this.drawnContactButtonsFlag;
-                    this.contactButtons.add(createInstantViewButton(5, LocaleController.getString("ViewContact", R.string.ViewContact), dp, dp2));
+                    this.contactButtons.add(createInstantViewButton(5, LocaleController.getString("ViewContact", R.string.ViewContact), dp, dpf2));
                 }
                 if (this.drawContactSendMessage) {
                     this.drawnContactButtonsFlag |= 2;
-                    this.contactButtons.add(createInstantViewButton(30, LocaleController.getString("SharedContactMessage", R.string.SharedContactMessage), dp, dp2));
+                    this.contactButtons.add(createInstantViewButton(30, LocaleController.getString("SharedContactMessage", R.string.SharedContactMessage), dp, dpf2));
                 }
                 if (this.drawContactAdd) {
                     this.drawnContactButtonsFlag |= 4;
-                    this.contactButtons.add(createInstantViewButton(31, LocaleController.getString("SharedContactAdd", R.string.SharedContactAdd), dp, dp2));
+                    this.contactButtons.add(createInstantViewButton(31, LocaleController.getString("SharedContactAdd", R.string.SharedContactAdd), dp, dpf2));
                 }
             }
         }
     }
 
-    private InstantViewButton createInstantViewButton(int i, String str, int i2, int i3) {
+    private InstantViewButton createInstantViewButton(int i, String str, int i2, float f) {
         InstantViewButton instantViewButton = new InstantViewButton();
         instantViewButton.type = i;
         instantViewButton.layout = new StaticLayout(TextUtils.ellipsize(str, Theme.chat_instantViewPaint, i2, TextUtils.TruncateAt.END), Theme.chat_instantViewPaint, i2 + AndroidUtilities.dp(2.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
-        instantViewButton.buttonWidth = i3;
+        instantViewButton.buttonWidth = f;
         if (instantViewButton.layout.getLineCount() > 0) {
             double d = instantViewButton.buttonWidth;
             double ceil = Math.ceil(instantViewButton.layout.getLineWidth(0));
@@ -25383,16 +25383,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         return (this.currentMessagesGroup == null || (this.currentPosition.flags & 4) != 0) && !this.hasLinkPreview && ((messageObject = this.currentMessageObject) == null || !messageObject.isRepostPreview);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:87:0x02d3  */
-    /* JADX WARN: Removed duplicated region for block: B:90:0x02ef  */
-    /* JADX WARN: Removed duplicated region for block: B:92:0x030e  */
-    /* JADX WARN: Removed duplicated region for block: B:99:0x0311 A[SYNTHETIC] */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
     private void drawContact(Canvas canvas) {
-        float f;
         boolean z;
+        float f;
         if (this.contactLine == null) {
             this.contactLine = new ReplyMessageLine(this);
         }
@@ -25461,52 +25454,42 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             canvas.drawRect(AndroidUtilities.dp(10.0f) + this.contactRect.left, AndroidUtilities.dp(2.0f) + i, this.contactRect.right - AndroidUtilities.dp(7.0f), AndroidUtilities.dp(2.0f) + i + Math.max(1, AndroidUtilities.dp(0.66f)), Theme.chat_instantViewPaint);
             Theme.chat_instantViewPaint.setAlpha(alpha);
             int dp2 = i + AndroidUtilities.dp(2.0f);
-            int dp3 = imageX + AndroidUtilities.dp(3.0f);
+            float dp3 = imageX + AndroidUtilities.dp(3.0f);
             ArrayList<InstantViewButton> arrayList2 = this.contactButtons;
             boolean z3 = arrayList2 != null && arrayList2.size() > 1;
             int backgroundColor = this.contactLine.getBackgroundColor();
             int i3 = 0;
             while (i3 < this.contactButtons.size()) {
                 InstantViewButton instantViewButton = this.contactButtons.get(i3);
-                float f2 = dp3;
-                instantViewButton.rect.set(f2, dp2, instantViewButton.buttonWidth + dp3, AndroidUtilities.dp(36.0f) + dp2);
+                float min = Math.min(instantViewButton.buttonWidth + dp3, this.contactRect.right);
+                instantViewButton.rect.set(dp3, dp2, min, AndroidUtilities.dp(36.0f) + dp2);
                 if (z3 && instantViewButton.selectorDrawable == null) {
                     this.linkPreviewSelectorColor = backgroundColor;
                     instantViewButton.selectorDrawable = Theme.createRadSelectorDrawable(backgroundColor, 0, 0, i3 == this.contactButtons.size() - 1 ? i2 : 0, 0);
                 }
                 if (instantViewButton.selectorDrawable != null) {
-                    instantViewButton.selectorDrawable.setBounds(dp3, dp2, instantViewButton.buttonWidth + dp3, AndroidUtilities.dp(36.0f) + dp2);
+                    instantViewButton.selectorDrawable.setBounds((int) dp3, dp2, (int) min, AndroidUtilities.dp(36.0f) + dp2);
                     instantViewButton.selectorDrawable.draw(canvas);
                 }
                 if (z2 || instantViewButton.buttonBounce == null) {
+                    z = false;
                     f = 1.0f;
                 } else {
                     f = instantViewButton.buttonBounce.getScale(0.02f);
-                    if (f != 1.0f) {
-                        z = true;
-                        if (z) {
-                            canvas.save();
-                            canvas.scale(f, f, instantViewButton.rect.centerX(), instantViewButton.rect.centerY());
-                        }
-                        if (instantViewButton.layout != null) {
-                            canvas.save();
-                            canvas.translate(f2 + instantViewButton.textX, AndroidUtilities.dp(10.5f) + dp2);
-                            instantViewButton.layout.draw(canvas);
-                            canvas.restore();
-                        }
-                        if (!z) {
-                            canvas.restore();
-                        }
-                        dp3 += instantViewButton.buttonWidth;
-                        i3++;
-                    }
+                    z = f != 1.0f;
                 }
-                z = false;
                 if (z) {
+                    canvas.save();
+                    canvas.scale(f, f, instantViewButton.rect.centerX(), instantViewButton.rect.centerY());
                 }
                 if (instantViewButton.layout != null) {
+                    canvas.save();
+                    canvas.translate(instantViewButton.textX + dp3, AndroidUtilities.dp(10.5f) + dp2);
+                    instantViewButton.layout.draw(canvas);
+                    canvas.restore();
                 }
-                if (!z) {
+                if (z) {
+                    canvas.restore();
                 }
                 dp3 += instantViewButton.buttonWidth;
                 i3++;
@@ -36494,7 +36477,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 if (ChatMessageCell.this.drawInstantView && !ChatMessageCell.this.instantButtonRect.isEmpty()) {
                     obtain.addChild(ChatMessageCell.this, 499);
                 }
-                if (ChatMessageCell.this.drawContact && !ChatMessageCell.this.contactRect.isEmpty()) {
+                if (ChatMessageCell.this.drawContact && ChatMessageCell.this.contactRect != null && !ChatMessageCell.this.contactRect.isEmpty()) {
                     obtain.addChild(ChatMessageCell.this, 492);
                     if (ChatMessageCell.this.contactButtons != null && ChatMessageCell.this.contactButtons.size() > 1) {
                         Iterator it3 = ChatMessageCell.this.contactButtons.iterator();
