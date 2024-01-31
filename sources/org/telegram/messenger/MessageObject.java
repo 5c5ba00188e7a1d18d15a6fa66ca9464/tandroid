@@ -11166,19 +11166,20 @@ public class MessageObject {
     */
     public boolean needDrawForwarded() {
         TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader;
-        if (this.isSaved) {
-            TLRPC$Message tLRPC$Message = this.messageOwner;
-            if (tLRPC$Message == null || tLRPC$Message.fwd_from == null) {
-                return false;
+        if (this.type != 23 || isExpiredStory()) {
+            if (this.isSaved) {
+                TLRPC$Message tLRPC$Message = this.messageOwner;
+                if (tLRPC$Message == null || tLRPC$Message.fwd_from == null) {
+                    return false;
+                }
+                long clientUserId = UserConfig.getInstance(this.currentAccount).getClientUserId();
+                long savedDialogId = getSavedDialogId(clientUserId, this.messageOwner);
+                long peerDialogId = DialogObject.getPeerDialogId(this.messageOwner.fwd_from.saved_from_peer);
+                if (peerDialogId >= 0) {
+                    peerDialogId = DialogObject.getPeerDialogId(this.messageOwner.fwd_from.from_id);
+                }
+                return peerDialogId == 0 ? savedDialogId != UserObject.ANONYMOUS : (savedDialogId == peerDialogId || peerDialogId == clientUserId) ? false : true;
             }
-            long clientUserId = UserConfig.getInstance(this.currentAccount).getClientUserId();
-            long savedDialogId = getSavedDialogId(clientUserId, this.messageOwner);
-            long peerDialogId = DialogObject.getPeerDialogId(this.messageOwner.fwd_from.saved_from_peer);
-            if (peerDialogId >= 0) {
-                peerDialogId = DialogObject.getPeerDialogId(this.messageOwner.fwd_from.from_id);
-            }
-            return peerDialogId == 0 ? savedDialogId != UserObject.ANONYMOUS : (savedDialogId == peerDialogId || peerDialogId == clientUserId) ? false : true;
-        } else if (this.type != 23 || isExpiredStory()) {
             TLRPC$Message tLRPC$Message2 = this.messageOwner;
             if ((tLRPC$Message2.flags & 4) != 0 && (tLRPC$MessageFwdHeader = tLRPC$Message2.fwd_from) != null && !tLRPC$MessageFwdHeader.imported) {
                 TLRPC$Peer tLRPC$Peer = tLRPC$MessageFwdHeader.saved_from_peer;
@@ -11192,9 +11193,8 @@ public class MessageObject {
                 }
             }
             return false;
-        } else {
-            return true;
         }
+        return true;
     }
 
     public static boolean isForwardedMessage(TLRPC$Message tLRPC$Message) {

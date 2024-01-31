@@ -400,19 +400,31 @@ public class SearchTagsList extends BlurredFrameLayout implements NotificationCe
         return false;
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
+    /* JADX WARN: Type inference failed for: r0v14, types: [android.app.Dialog] */
+    /* JADX WARN: Type inference failed for: r0v15, types: [android.app.Dialog] */
+    /* JADX WARN: Type inference failed for: r0v16, types: [org.telegram.ui.ActionBar.AlertDialog] */
+    /* JADX WARN: Type inference failed for: r0v17, types: [org.telegram.ui.ActionBar.AlertDialog] */
+    /* JADX WARN: Type inference failed for: r14v0, types: [org.telegram.ui.ActionBar.AlertDialog[]] */
+    /* JADX WARN: Type inference failed for: r15v0, types: [org.telegram.ui.ActionBar.AlertDialog$Builder] */
+    /* JADX WARN: Type inference failed for: r1v16 */
+    /* JADX WARN: Type inference failed for: r1v17, types: [boolean] */
+    /* JADX WARN: Type inference failed for: r1v22 */
     public static void openRenameTagAlert(Context context, final int i, final TLRPC$Reaction tLRPC$Reaction, final Theme.ResourcesProvider resourcesProvider, boolean z) {
-        AlertDialog.Builder builder;
-        AlertDialog create;
+        Object builder;
+        ?? r1;
         Activity findActivity = AndroidUtilities.findActivity(context);
         final View currentFocus = findActivity != null ? findActivity.getCurrentFocus() : null;
         boolean z2 = (currentFocus instanceof EditText) && !z;
+        final ?? r14 = new AlertDialog[1];
         if (z2) {
             builder = new AlertDialogDecor.Builder(context, resourcesProvider);
         } else {
             builder = new AlertDialog.Builder(context, resourcesProvider);
         }
+        ?? r15 = builder;
         String savedTagName = MessagesController.getInstance(i).getSavedTagName(tLRPC$Reaction);
-        builder.setTitle(new SpannableStringBuilder(ReactionsLayoutInBubble.VisibleReaction.fromTLReaction(tLRPC$Reaction).toCharSequence(20)).append((CharSequence) "  ").append((CharSequence) LocaleController.getString(TextUtils.isEmpty(savedTagName) ? R.string.SavedTagLabelTag : R.string.SavedTagRenameTag)));
+        r15.setTitle(new SpannableStringBuilder(ReactionsLayoutInBubble.VisibleReaction.fromTLReaction(tLRPC$Reaction).toCharSequence(20)).append((CharSequence) "  ").append((CharSequence) LocaleController.getString(TextUtils.isEmpty(savedTagName) ? R.string.SavedTagLabelTag : R.string.SavedTagRenameTag)));
         final EditTextBoldCursor editTextBoldCursor = new EditTextBoldCursor(context) { // from class: org.telegram.ui.Components.SearchTagsList.4
             AnimatedTextView.AnimatedTextDrawable limit;
             AnimatedColor limitColor = new AnimatedColor(this);
@@ -462,6 +474,7 @@ public class SearchTagsList extends BlurredFrameLayout implements NotificationCe
                 super.onMeasure(i2, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(36.0f), 1073741824));
             }
         };
+        final View view = currentFocus;
         editTextBoldCursor.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.Components.SearchTagsList.5
             @Override // android.widget.TextView.OnEditorActionListener
             public boolean onEditorAction(TextView textView, int i2, KeyEvent keyEvent) {
@@ -472,11 +485,16 @@ public class SearchTagsList extends BlurredFrameLayout implements NotificationCe
                         return true;
                     }
                     MessagesController.getInstance(i).renameSavedReactionTag(ReactionsLayoutInBubble.VisibleReaction.fromTLReaction(tLRPC$Reaction), obj);
-                    SearchTagsList.currentDialog.dismiss();
-                    AlertDialog unused = SearchTagsList.currentDialog = null;
-                    View view = currentFocus;
-                    if (view != null) {
-                        view.requestFocus();
+                    AlertDialog[] alertDialogArr = r14;
+                    if (alertDialogArr[0] != null) {
+                        alertDialogArr[0].dismiss();
+                    }
+                    if (r14[0] == SearchTagsList.currentDialog) {
+                        AlertDialog unused = SearchTagsList.currentDialog = null;
+                    }
+                    View view2 = view;
+                    if (view2 != null) {
+                        view2.requestFocus();
                     }
                     return true;
                 }
@@ -508,18 +526,19 @@ public class SearchTagsList extends BlurredFrameLayout implements NotificationCe
         textView.setText(LocaleController.getString(R.string.SavedTagLabelTagText));
         linearLayout.addView(textView, LayoutHelper.createLinear(-1, -2, 24.0f, 5.0f, 24.0f, 12.0f));
         linearLayout.addView(editTextBoldCursor, LayoutHelper.createLinear(-1, -2, 24.0f, 0.0f, 24.0f, 10.0f));
-        builder.setView(linearLayout);
-        builder.setWidth(AndroidUtilities.dp(292.0f));
-        builder.setPositiveButton(LocaleController.getString(R.string.Save), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.SearchTagsList$$ExternalSyntheticLambda1
+        r15.setView(linearLayout);
+        r15.setWidth(AndroidUtilities.dp(292.0f));
+        r15.setPositiveButton(LocaleController.getString(R.string.Save), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.SearchTagsList$$ExternalSyntheticLambda1
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i3) {
                 SearchTagsList.lambda$openRenameTagAlert$5(EditTextBoldCursor.this, i, tLRPC$Reaction, dialogInterface, i3);
             }
         });
-        builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), SearchTagsList$$ExternalSyntheticLambda2.INSTANCE);
+        r15.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), SearchTagsList$$ExternalSyntheticLambda2.INSTANCE);
         if (z2) {
-            create = builder.create();
+            AlertDialog create = r15.create();
             currentDialog = create;
+            r14[0] = create;
             create.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Components.SearchTagsList$$ExternalSyntheticLambda3
                 @Override // android.content.DialogInterface.OnDismissListener
                 public final void onDismiss(DialogInterface dialogInterface) {
@@ -533,23 +552,25 @@ public class SearchTagsList extends BlurredFrameLayout implements NotificationCe
                 }
             });
             currentDialog.showDelayed(250L);
+            r1 = 0;
         } else {
-            create = builder.create();
-            create.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Components.SearchTagsList$$ExternalSyntheticLambda4
+            r1 = 0;
+            r14[0] = r15.create();
+            r14[0].setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Components.SearchTagsList$$ExternalSyntheticLambda4
                 @Override // android.content.DialogInterface.OnDismissListener
                 public final void onDismiss(DialogInterface dialogInterface) {
                     AndroidUtilities.hideKeyboard(EditTextBoldCursor.this);
                 }
             });
-            create.setOnShowListener(new DialogInterface.OnShowListener() { // from class: org.telegram.ui.Components.SearchTagsList$$ExternalSyntheticLambda5
+            r14[0].setOnShowListener(new DialogInterface.OnShowListener() { // from class: org.telegram.ui.Components.SearchTagsList$$ExternalSyntheticLambda5
                 @Override // android.content.DialogInterface.OnShowListener
                 public final void onShow(DialogInterface dialogInterface) {
                     SearchTagsList.lambda$openRenameTagAlert$10(EditTextBoldCursor.this, dialogInterface);
                 }
             });
-            create.show();
+            r14[0].show();
         }
-        create.setDismissDialogByButtons(false);
+        r14[r1].setDismissDialogByButtons(r1);
         editTextBoldCursor.setSelection(editTextBoldCursor.getText().length());
     }
 
@@ -939,7 +960,7 @@ public class SearchTagsList extends BlurredFrameLayout implements NotificationCe
             ReactionsLayoutInBubble.ReactionButton reactionButton4 = this.reactionButton;
             CounterView.CounterDrawable counterDrawable = reactionButton4.counterDrawable;
             if (counterDrawable != null && (reactionButton4.count > 0 || reactionButton4.hasName)) {
-                reactionButton4.width = (int) (reactionButton4.width + counterDrawable.textPaint.measureText(counterDrawable.currentText.toString()) + AndroidUtilities.dp(this.reactionButton.hasName ? 4.0f : 0.0f) + this.reactionButton.textDrawable.getAnimateToWidth());
+                reactionButton4.width = (int) (reactionButton4.width + counterDrawable.getCurrentWidth() + AndroidUtilities.dp(this.reactionButton.hasName ? 4.0f : 0.0f) + this.reactionButton.textDrawable.getAnimateToWidth());
             }
             if (z) {
                 ReactionsLayoutInBubble.ReactionButton reactionButton5 = this.reactionButton;

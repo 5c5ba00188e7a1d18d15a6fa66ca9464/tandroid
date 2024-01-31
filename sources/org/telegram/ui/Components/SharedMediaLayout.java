@@ -1762,6 +1762,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         this.profileActivity.getNotificationCenter().addObserver(this, NotificationCenter.storiesUpdated);
         this.profileActivity.getNotificationCenter().addObserver(this, NotificationCenter.channelRecommendationsLoaded);
         this.profileActivity.getNotificationCenter().addObserver(this, NotificationCenter.savedMessagesDialogsUpdate);
+        this.profileActivity.getNotificationCenter().addObserver(this, NotificationCenter.dialogsNeedReload);
         for (int i9 = 0; i9 < 10; i9++) {
             if (i2 == 4) {
                 SharedAudioCell sharedAudioCell = new SharedAudioCell(context) { // from class: org.telegram.ui.Components.SharedMediaLayout.2
@@ -4636,6 +4637,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         this.profileActivity.getNotificationCenter().removeObserver(this, NotificationCenter.storiesUpdated);
         this.profileActivity.getNotificationCenter().removeObserver(this, NotificationCenter.channelRecommendationsLoaded);
         this.profileActivity.getNotificationCenter().removeObserver(this, NotificationCenter.savedMessagesDialogsUpdate);
+        this.profileActivity.getNotificationCenter().removeObserver(this, NotificationCenter.dialogsNeedReload);
         SearchTagsList searchTagsList = this.searchTagsList;
         if (searchTagsList != null) {
             searchTagsList.detach();
@@ -5529,7 +5531,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     /* JADX WARN: Removed duplicated region for block: B:182:0x037a  */
     /* JADX WARN: Removed duplicated region for block: B:191:0x039c  */
     /* JADX WARN: Removed duplicated region for block: B:272:0x04ae  */
-    /* JADX WARN: Removed duplicated region for block: B:428:0x04cf A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:431:0x04cf A[SYNTHETIC] */
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -5988,6 +5990,8 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                 checkCurrentTabValid();
                 onSelectedTabChanged();
             }
+        } else if (i == NotificationCenter.dialogsNeedReload) {
+            this.savedDialogsAdapter.update(true);
         }
     }
 
@@ -8747,6 +8751,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                 DialogCell dialogCell = (DialogCell) view;
                 SavedMessagesController.SavedDialog savedDialog = this.dialogs.get(i);
                 dialogCell.setDialog(savedDialog.dialogId, savedDialog.message, savedDialog.getDate(), false, false);
+                dialogCell.isSavedDialogCell = true;
                 dialogCell.setChecked(this.selectedDialogs.contains(Long.valueOf(savedDialog.dialogId)), false);
                 dialogCell.useSeparator = i + 1 < getItemCount();
             }

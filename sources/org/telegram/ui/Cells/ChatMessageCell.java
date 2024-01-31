@@ -27758,20 +27758,20 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         this.allowAssistant = z;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:106:0x021a  */
-    /* JADX WARN: Removed duplicated region for block: B:112:0x0248  */
-    /* JADX WARN: Removed duplicated region for block: B:115:0x0250  */
-    /* JADX WARN: Removed duplicated region for block: B:116:0x0252  */
-    /* JADX WARN: Removed duplicated region for block: B:119:0x026a  */
-    /* JADX WARN: Removed duplicated region for block: B:124:0x028a  */
-    /* JADX WARN: Removed duplicated region for block: B:127:0x02e0  */
-    /* JADX WARN: Removed duplicated region for block: B:131:0x0339  */
-    /* JADX WARN: Removed duplicated region for block: B:134:0x033f  */
-    /* JADX WARN: Removed duplicated region for block: B:143:0x03a2  */
-    /* JADX WARN: Removed duplicated region for block: B:146:0x03b8  */
-    /* JADX WARN: Removed duplicated region for block: B:158:0x03f3  */
-    /* JADX WARN: Removed duplicated region for block: B:162:0x040b  */
-    /* JADX WARN: Removed duplicated region for block: B:183:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:108:0x021e  */
+    /* JADX WARN: Removed duplicated region for block: B:114:0x024c  */
+    /* JADX WARN: Removed duplicated region for block: B:117:0x0254  */
+    /* JADX WARN: Removed duplicated region for block: B:118:0x0256  */
+    /* JADX WARN: Removed duplicated region for block: B:121:0x026e  */
+    /* JADX WARN: Removed duplicated region for block: B:126:0x028e  */
+    /* JADX WARN: Removed duplicated region for block: B:129:0x02e4  */
+    /* JADX WARN: Removed duplicated region for block: B:133:0x033d  */
+    /* JADX WARN: Removed duplicated region for block: B:136:0x0343  */
+    /* JADX WARN: Removed duplicated region for block: B:145:0x03a6  */
+    /* JADX WARN: Removed duplicated region for block: B:148:0x03bc  */
+    /* JADX WARN: Removed duplicated region for block: B:160:0x03f7  */
+    /* JADX WARN: Removed duplicated region for block: B:164:0x040f  */
+    /* JADX WARN: Removed duplicated region for block: B:185:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:36:0x00b7  */
     /* JADX WARN: Removed duplicated region for block: B:37:0x00c6  */
     /* JADX WARN: Removed duplicated region for block: B:84:0x017f  */
@@ -27783,6 +27783,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         String replace;
         String str;
         String format;
+        TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader;
         int i;
         CharSequence charSequence;
         int ceil;
@@ -27804,11 +27805,11 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                     replace = messageObject.messageOwner.post_author.replace("\n", "");
                 }
             } else {
-                TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader = tLRPC$Message3.fwd_from;
-                if (tLRPC$MessageFwdHeader != null && (str = tLRPC$MessageFwdHeader.post_author) != null) {
+                TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader2 = tLRPC$Message3.fwd_from;
+                if (tLRPC$MessageFwdHeader2 != null && (str = tLRPC$MessageFwdHeader2.post_author) != null) {
                     replace = str.replace("\n", "");
-                } else if (tLRPC$MessageFwdHeader != null && tLRPC$MessageFwdHeader.imported) {
-                    replace = tLRPC$MessageFwdHeader.date == tLRPC$Message3.date ? LocaleController.getString("ImportedMessage", R.string.ImportedMessage) : LocaleController.formatImportedDate(messageObject.messageOwner.fwd_from.date) + " " + LocaleController.getString("ImportedMessage", R.string.ImportedMessage);
+                } else if (tLRPC$MessageFwdHeader2 != null && tLRPC$MessageFwdHeader2.imported) {
+                    replace = tLRPC$MessageFwdHeader2.date == tLRPC$Message3.date ? LocaleController.getString("ImportedMessage", R.string.ImportedMessage) : LocaleController.formatImportedDate(messageObject.messageOwner.fwd_from.date) + " " + LocaleController.getString("ImportedMessage", R.string.ImportedMessage);
                 } else if (!messageObject.isOutOwner() && fromChatId > 0 && messageObject.messageOwner.post && (user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(fromChatId))) != null) {
                     replace = ContactsController.formatName(user.first_name, user.last_name).replace('\n', ' ');
                 }
@@ -27842,16 +27843,13 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                 format = LocaleController.formatSmallDateChat(messageObject.messageOwner.date) + ", " + LocaleController.getInstance().formatterDay.format(messageObject.messageOwner.date * 1000);
                             } else if (this.edited) {
                                 format = LocaleController.getString("EditedMessage", R.string.EditedMessage) + " " + LocaleController.getInstance().formatterDay.format(messageObject.messageOwner.date * 1000);
-                            } else {
-                                TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader2 = messageObject4.messageOwner.fwd_from;
-                                if (tLRPC$MessageFwdHeader2 != null && ((i = tLRPC$MessageFwdHeader2.date) != 0 || tLRPC$MessageFwdHeader2.saved_date != 0)) {
-                                    if (i == 0) {
-                                        i = tLRPC$MessageFwdHeader2.saved_date;
-                                    }
-                                    format = LocaleController.formatSeenDate(i);
-                                } else {
-                                    format = LocaleController.getInstance().formatterDay.format(messageObject.messageOwner.date * 1000);
+                            } else if (messageObject4.isSaved && (tLRPC$MessageFwdHeader = messageObject4.messageOwner.fwd_from) != null && ((i = tLRPC$MessageFwdHeader.date) != 0 || tLRPC$MessageFwdHeader.saved_date != 0)) {
+                                if (i == 0) {
+                                    i = tLRPC$MessageFwdHeader.saved_date;
                                 }
+                                format = LocaleController.formatSeenDate(i);
+                            } else {
+                                format = LocaleController.getInstance().formatterDay.format(messageObject.messageOwner.date * 1000);
                             }
                             if (replace != null) {
                                 TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader3 = messageObject.messageOwner.fwd_from;

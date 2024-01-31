@@ -1256,13 +1256,6 @@ public class ActionBar extends FrameLayout {
         }
     }
 
-    public void clearSearchFilters() {
-        ActionBarMenu actionBarMenu = this.menu;
-        if (actionBarMenu != null) {
-            actionBarMenu.clearSearchFilters();
-        }
-    }
-
     public void setSearchFieldText(String str) {
         this.menu.setSearchFieldText(str);
     }
